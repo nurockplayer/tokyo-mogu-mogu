@@ -39,6 +39,12 @@ export const strings = {
     back: '戻る',
     byArea: 'エリア',
     byCategory: 'カテゴリ',
+    pokedexSub: '多摩の食文化を集めて、図鑑を完成させよう。',
+    catProduce: '食材',
+    catSeafood: '魚介',
+    catSweets: '菓子',
+    catProcessedFood: '加工品',
+    catCraft: '工芸',
   },
   en: {
     appName: 'Tokyo Mogu Mogu',
@@ -70,6 +76,12 @@ export const strings = {
     back: 'Back',
     byArea: 'Area',
     byCategory: 'Category',
+    pokedexSub: 'Collect Tama\'s food cultures and complete your field guide.',
+    catProduce: 'Produce',
+    catSeafood: 'Fish',
+    catSweets: 'Sweets',
+    catProcessedFood: 'Processed',
+    catCraft: 'Craft',
   },
 } as const;
 
