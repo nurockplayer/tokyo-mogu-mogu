@@ -1,0 +1,99 @@
+/* ============================================================
+   CheckInPanel — location-based check-in (#6)
+   Reuses design tokens and shared classes from src/styles.css
+   (.checkin-card, .checkin-status, .btn-vermillion, .muted).
+   ============================================================ */
+
+.checkin-btn {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.checkin-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+}
+
+.checkin-seal-big {
+  display: inline-grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: var(--vermillion);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.35rem;
+  letter-spacing: 0.04em;
+  box-shadow: 0 4px 14px rgb(196 74 44 / 0.45);
+  transform: rotate(-6deg);
+  animation: checkin-seal-pop 0.45s var(--ease) both;
+}
+
+@keyframes checkin-seal-pop {
+  from {
+    transform: rotate(-12deg) scale(0.4);
+    opacity: 0;
+  }
+  60% {
+    transform: rotate(0deg) scale(1.12);
+    opacity: 1;
+  }
+  to {
+    transform: rotate(-6deg) scale(1);
+    opacity: 1;
+  }
+}
+
+.checkin-success .checkin-status.success-text {
+  color: var(--forest-deep);
+  font-weight: 700;
+  text-align: center;
+}
+
+.checkin-already {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.checkin-seal-done {
+  display: inline-grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--forest);
+  color: var(--card);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  box-shadow: var(--shadow-card);
+  transform: rotate(6deg);
+}
+
+.checkin-already-text {
+  margin: 2px 0 0;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.checkin-already .muted {
+  margin: 0;
+}
+
+.checkin-demo-hint {
+  margin: 10px 0 0;
+  text-align: center;
+}
+
+.checkin-demo-hint::before {
+  content: '🧭 ';
+}
