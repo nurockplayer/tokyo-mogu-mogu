@@ -2,6 +2,7 @@ import { foodCultures } from '../data';
 import { useCollection } from '../store/collection';
 import { useI18n } from '../i18n';
 import { FoodCultureCard } from '../components/FoodCultureCard';
+import { ProgressBreakdown } from '../components/ProgressBreakdown';
 import './PokedexPage.css';
 
 export function PokedexPage() {
@@ -40,6 +41,8 @@ export function PokedexPage() {
           </li>
         ))}
       </ul>
+
+      <ProgressBreakdown />
     </section>
   );
 }

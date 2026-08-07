@@ -1,0 +1,64 @@
+/* NextDiscovery — next collectible suggestions (#8). */
+.nd {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin: 18px 0;
+}
+
+.nd h2 {
+  font-size: 1.05rem;
+  color: var(--forest-deep);
+  margin: 0 0 10px;
+}
+
+.nd h2::before {
+  content: '◆ ';
+  color: var(--wasabi);
+  font-size: 0.8em;
+}
+
+.nd-list {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+}
+
+.nd-item {
+  border-top: 1px dashed var(--line);
+}
+
+.nd-item:first-child {
+  border-top: none;
+}
+
+.nd-link {
+  display: block;
+  padding: 10px 0;
+}
+
+.nd-link:active {
+  transform: scale(0.99);
+}
+
+.nd-name {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.nd-hint {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--stream);
+  margin-top: 2px;
+}
+
+.nd-locate {
+  width: 100%;
+  padding: 10px;
+  font-size: 0.85rem;
+}

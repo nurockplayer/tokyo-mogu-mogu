@@ -1,0 +1,64 @@
+/* ProgressBreakdown — per-area and per-category collection progress (#8). */
+.pb {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 18px 0;
+}
+
+.pb-section {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+}
+
+.pb-section h2 {
+  font-size: 0.95rem;
+  color: var(--forest-deep);
+  margin: 0 0 10px;
+}
+
+.pb-section h2::before {
+  content: '◆ ';
+  color: var(--wasabi);
+  font-size: 0.8em;
+}
+
+.pb-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 64px 40px;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 0;
+  font-size: 0.82rem;
+}
+
+.pb-label {
+  color: var(--ink-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pb-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--card-locked);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.pb-fill {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--wasabi), var(--forest));
+  border-radius: 999px;
+  transition: width 0.4s var(--ease);
+}
+
+.pb-count {
+  text-align: right;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}

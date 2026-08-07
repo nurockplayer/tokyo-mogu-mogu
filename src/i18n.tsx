@@ -69,6 +69,13 @@ export const strings = {
     originSource: '出典データ',
     originEditorial: '編集部作成',
     originDemo: 'デモデータ',
+    areaOkutama: '奥多摩',
+    areaOme: '青梅',
+    areaHamura: '羽村',
+    areaAkiruno: 'あきる野',
+    areaHinode: '日の出',
+    nextDiscoveryComplete: 'すべての食文化を集めました！おめでとうございます。',
+    locateNearby: '近くの未発見を表示',
   },
   en: {
     appName: 'Tokyo Mogu Mogu',
@@ -130,6 +137,13 @@ export const strings = {
     originSource: 'Source data',
     originEditorial: 'Editorial',
     originDemo: 'Demo data',
+    areaOkutama: 'Okutama',
+    areaOme: 'Ome',
+    areaHamura: 'Hamura',
+    areaAkiruno: 'Akiruno',
+    areaHinode: 'Hinode',
+    nextDiscoveryComplete: 'You collected every food culture. Congratulations!',
+    locateNearby: 'Show nearby undiscovered',
   },
 } as const;
 
