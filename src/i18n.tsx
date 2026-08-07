@@ -44,7 +44,6 @@ export const strings = {
     back: '戻る',
     byArea: 'エリア',
     byCategory: 'カテゴリ',
-<<<<<<< HEAD
     pokedexSub: '多摩の食文化を集めて、図鑑を完成させよう。',
     catProduce: '食材',
     catSeafood: '魚介',
@@ -120,7 +119,6 @@ export const strings = {
     back: 'Back',
     byArea: 'Area',
     byCategory: 'Category',
-<<<<<<< HEAD
     pokedexSub: 'Collect Tama\'s food cultures and complete your field guide.',
     catProduce: 'Produce',
     catSeafood: 'Fish',
