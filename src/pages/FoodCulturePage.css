@@ -122,3 +122,18 @@
   color: var(--ink-faint);
   font-size: 0.76rem;
 }
+
+/* Place rows with an embedded check-in panel (Issue #6 integration). */
+.fcp-place {
+  padding-bottom: 4px;
+}
+
+.fcp-place .checkin-card {
+  margin-top: 0;
+  margin-bottom: 14px;
+  border-left: 3px solid var(--forest);
+}
+
+.fcp-place .checkin-card.checked {
+  border-left-color: var(--vermillion);
+}

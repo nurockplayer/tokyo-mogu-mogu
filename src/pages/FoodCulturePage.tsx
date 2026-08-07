@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import { FoodCultureImage } from '../components/FoodCultureImage';
+import { CheckInPanel } from '../components/CheckInPanel';
 import { getFoodCultureById, getRelatedPlaces } from '../data';
 import type { DataOrigin, FoodCultureCategory } from '../data';
 import { useI18n, type LocaleKey } from '../i18n';
@@ -104,16 +105,19 @@ export function FoodCulturePage() {
         ) : (
           <div className="fcp-places">
             {relatedPlaces.map((place) => (
-              <Link key={place.id} to="/map" className="place-row fcp-place-row">
-                <div className="fcp-place-main">
-                  <span className="place-name">{pick(place.nameJa, place.nameEn)}</span>
-                  <span className="place-address">{place.address}</span>
-                  <span className={`badge fcp-origin fcp-origin--${place.origin}`}>
-                    {t(ORIGIN_LABEL_KEY[place.origin])}
-                  </span>
-                </div>
-                <span className="btn btn-secondary fcp-place-cta">{t('detailVisitOnMap')}</span>
-              </Link>
+              <div key={place.id} className="fcp-place">
+                <Link to={`/map?place=${place.id}`} className="place-row fcp-place-row">
+                  <div className="fcp-place-main">
+                    <span className="place-name">{pick(place.nameJa, place.nameEn)}</span>
+                    <span className="place-address">{place.address}</span>
+                    <span className={`badge fcp-origin fcp-origin--${place.origin}`}>
+                      {t(ORIGIN_LABEL_KEY[place.origin])}
+                    </span>
+                  </div>
+                  <span className="btn btn-secondary fcp-place-cta">{t('detailVisitOnMap')}</span>
+                </Link>
+                <CheckInPanel place={place} />
+              </div>
             ))}
           </div>
         )}
