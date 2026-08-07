@@ -1,0 +1,29 @@
+/* PokedexPage — grid container and progress header.
+   Reuses .page-title / .page-sub / .progress-bar / .progress-fill / .fc-grid from styles.css. */
+
+.pokedex-page {
+  padding-top: 4px;
+}
+
+.pokedex-count {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--forest-deep);
+  white-space: nowrap;
+}
+
+.pokedex-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pokedex-grid-item {
+  display: block;
+  min-width: 0;
+}
+
+.pokedex-grid-item .fc-card {
+  height: 100%;
+}

@@ -1,0 +1,23 @@
+/* FoodCultureCard — locked-state hint presentation.
+   Reuses global .fc-card / .fc-card-media / .badge / .get-seal from styles.css. */
+
+.fc-card-hint {
+  /* Neutralize the base .fc-card-hint emoji glyph; the localized label
+     ("ヒント: " / "Hint: ") is rendered inline instead. */
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.fc-card-hint::before {
+  content: none;
+}
+
+.fc-card-hint-label {
+  color: var(--forest-deep);
+  font-weight: 700;
+}
+
+/* Keep the GET seal above the card media on unlocked cards. */
+.fc-card .get-seal {
+  z-index: 2;
+}
