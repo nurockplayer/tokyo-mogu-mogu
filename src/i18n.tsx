@@ -44,6 +44,7 @@ export const strings = {
     back: '戻る',
     byArea: 'エリア',
     byCategory: 'カテゴリ',
+<<<<<<< HEAD
     pokedexSub: '多摩の食文化を集めて、図鑑を完成させよう。',
     catProduce: '食材',
     catSeafood: '魚介',
@@ -76,6 +77,13 @@ export const strings = {
     areaHinode: '日の出',
     nextDiscoveryComplete: 'すべての食文化を集めました！おめでとうございます。',
     locateNearby: '近くの未発見を表示',
+    mapSubtitle: '体験できる場所を探して、地図アプリで現地へ。',
+    showMyLocation: '現在地を表示',
+    mapHint: 'ピンをタップすると場所の詳細が表示されます',
+    mapLegend: '体験スポット',
+    relatedFoodCultures: '関連する食文化',
+    openInGoogleMaps: 'Google マップで開く',
+    openInAppleMaps: 'Apple マップで開く',
   },
   en: {
     appName: 'Tokyo Mogu Mogu',
@@ -112,6 +120,7 @@ export const strings = {
     back: 'Back',
     byArea: 'Area',
     byCategory: 'Category',
+<<<<<<< HEAD
     pokedexSub: 'Collect Tama\'s food cultures and complete your field guide.',
     catProduce: 'Produce',
     catSeafood: 'Fish',
@@ -144,6 +153,13 @@ export const strings = {
     areaHinode: 'Hinode',
     nextDiscoveryComplete: 'You collected every food culture. Congratulations!',
     locateNearby: 'Show nearby undiscovered',
+    mapSubtitle: 'Find places to experience it, then navigate there with a map app.',
+    showMyLocation: 'Show my location',
+    mapHint: 'Tap a pin to see place details',
+    mapLegend: 'Experience spots',
+    relatedFoodCultures: 'Related food cultures',
+    openInGoogleMaps: 'Open in Google Maps',
+    openInAppleMaps: 'Open in Apple Maps',
   },
 } as const;
 
