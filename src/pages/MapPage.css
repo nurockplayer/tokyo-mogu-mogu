@@ -1,0 +1,95 @@
+/* ============================================================
+   MapPage — map layout, location button, selected place card
+   ============================================================ */
+
+.map-page-map {
+  margin-bottom: 12px;
+}
+
+/* The map frame needs an explicit height for Leaflet to render. */
+.map-page-map .map-frame {
+  min-height: 380px;
+  border-radius: var(--radius);
+}
+
+.map-locate-btn {
+  width: 100%;
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  margin-top: 2px;
+}
+
+.map-error {
+  color: var(--vermillion);
+  font-size: 0.85rem;
+  margin: 8px 0 0;
+}
+
+.map-place-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-top: 14px;
+  box-shadow: var(--shadow-card);
+  animation: page-in 0.3s var(--ease) both;
+}
+
+.map-place-name {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--forest-deep);
+}
+
+.map-place-address {
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  margin: 4px 0 12px;
+}
+
+.map-fc-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.map-fc-label {
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  width: 100%;
+}
+
+.map-fc-link {
+  cursor: pointer;
+}
+
+.map-fc-link:hover {
+  background: rgb(47 111 79 / 0.2);
+}
+
+.map-place-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.map-place-actions .btn {
+  width: 100%;
+}
+
+.map-place-links {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 0.82rem;
+}
+
+.map-place-links a {
+  color: var(--stream);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  flex: 1;
+  text-align: center;
+}
