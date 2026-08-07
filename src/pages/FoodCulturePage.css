@@ -1,0 +1,124 @@
+/* ============================================================
+   Food culture detail page (Issue #4).
+   Reuses shared classes from src/styles.css; adds page-specific
+   styles only. Mobile-first, 480px container.
+   ============================================================ */
+
+/* Hero media banner */
+.fcp-hero-media {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-lift);
+}
+
+/* Locked hero: mute the image so locked items read as undiscovered. */
+.fcp-hero--locked .fcp-hero-media .fc-image {
+  filter: grayscale(0.9) contrast(0.85) brightness(0.85);
+}
+
+.fcp-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+/* Locked notice */
+.fcp-locked-notice {
+  background:
+    linear-gradient(160deg, rgb(159 184 63 / 0.08), transparent 60%),
+    var(--card);
+  border: 1px dashed var(--line-strong);
+}
+
+.fcp-locked-notice p {
+  color: var(--ink-soft);
+}
+
+/* Back link */
+.fcp-back {
+  margin-top: 14px;
+  padding: 10px 18px;
+  font-size: 0.88rem;
+}
+
+/* Related places — the whole row is tappable */
+.fcp-place-row {
+  text-decoration: none;
+  cursor: pointer;
+  align-items: center;
+  border-radius: var(--radius-sm);
+  padding-left: 6px;
+  padding-right: 6px;
+  transition: background 0.15s var(--ease), transform 0.1s var(--ease);
+}
+
+.fcp-place-row:active {
+  background: rgb(159 184 63 / 0.12);
+  transform: scale(0.99);
+}
+
+.fcp-place-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.fcp-place-cta {
+  flex-shrink: 0;
+}
+
+/* Origin / provenance badges (outside the hero, where .badge is green) */
+.fcp-origin--source {
+  background: rgb(47 111 79 / 0.14);
+  color: var(--forest-deep);
+}
+
+.fcp-origin--editorial {
+  background: rgb(200 162 74 / 0.18);
+  color: #7a5c1e;
+}
+
+.fcp-origin--demo {
+  background: rgb(196 74 44 / 0.12);
+  color: var(--vermillion-deep);
+}
+
+/* Sources section */
+.fcp-sources-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.fcp-sources-header h2 {
+  margin-bottom: 0;
+}
+
+.fcp-sources-header .badge {
+  align-self: center;
+  flex-shrink: 0;
+}
+
+.fcp-source-name {
+  display: block;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.fcp-source-name + a {
+  margin-left: 6px;
+}
+
+.fcp-source-meta {
+  display: block;
+  margin-top: 2px;
+  color: var(--ink-faint);
+  font-size: 0.76rem;
+}
