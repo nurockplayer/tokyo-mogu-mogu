@@ -1,6 +1,7 @@
 import { Routes, Route, Link, NavLink } from 'react-router-dom';
 import { useI18n } from './i18n';
 import { DemoResetButton } from './components/DemoResetButton';
+import { LocaleToggle } from './components/LocaleToggle';
 import { HomePage } from './pages/HomePage';
 import { PokedexPage } from './pages/PokedexPage';
 import { MapPage } from './pages/MapPage';
@@ -11,7 +12,10 @@ function Shell() {
   return (
     <div className="app-shell">
       <header className="app-header">
-        <Link to="/" className="app-logo">{t('appName')}</Link>
+        <div className="app-header-top">
+          <Link to="/" className="app-logo">{t('appName')}</Link>
+          <LocaleToggle />
+        </div>
         <span className="app-tagline">{t('appTagline')}</span>
         <div className="app-header-actions">
           <DemoResetButton />
