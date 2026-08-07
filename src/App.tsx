@@ -1,5 +1,6 @@
 import { Routes, Route, Link, NavLink } from 'react-router-dom';
 import { useI18n } from './i18n';
+import { DemoResetButton } from './components/DemoResetButton';
 import { HomePage } from './pages/HomePage';
 import { PokedexPage } from './pages/PokedexPage';
 import { MapPage } from './pages/MapPage';
@@ -12,6 +13,9 @@ function Shell() {
       <header className="app-header">
         <Link to="/" className="app-logo">{t('appName')}</Link>
         <span className="app-tagline">{t('appTagline')}</span>
+        <div className="app-header-actions">
+          <DemoResetButton />
+        </div>
       </header>
       <main className="app-main">
         <Routes>

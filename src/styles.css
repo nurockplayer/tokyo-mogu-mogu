@@ -116,6 +116,11 @@ button {
   text-align: center;
 }
 
+.app-header-actions {
+  display: flex;
+  justify-content: center;
+}
+
 .app-logo {
   font-family: var(--font-display);
   font-size: 1.5rem;
@@ -645,6 +650,25 @@ button {
 }
 
 /* ============ Utility ============ */
+
+.demo-reset {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+  background: transparent;
+  border: 1px dashed var(--line-strong);
+  border-radius: 999px;
+  padding: 4px 12px;
+  margin-top: 10px;
+  transition: color 0.2s var(--ease), border-color 0.2s var(--ease), background 0.2s var(--ease);
+}
+
+.demo-reset.confirming {
+  color: var(--vermillion);
+  border-color: var(--vermillion);
+  border-style: solid;
+  background: rgb(196 74 44 / 0.08);
+}
 
 .muted {
   color: var(--ink-faint);
