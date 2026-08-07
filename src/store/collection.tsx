@@ -2,9 +2,10 @@
  * Client-side collection state store.
  *
  * Holds which food cultures are collected and which places have been visited.
- * This is a thin, dependency-free module; persistence (Issue #7) plugs in here.
+ * State is persisted to localStorage (Issue #7) and restored on load.
  */
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { clearCollection, loadCollection, saveCollection } from './persistence';
 
 export interface CollectedFoodCulture {
   foodCultureId: string;
@@ -42,7 +43,13 @@ interface CollectionContextValue extends CollectionState {
 const CollectionContext = createContext<CollectionContextValue | null>(null);
 
 export function CollectionProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<CollectionState>(emptyCollection);
+  // Restore persisted progress once on first render (Issue #7).
+  const [state, setState] = useState<CollectionState>(() => loadCollection() ?? emptyCollection);
+
+  // Persist on every change (Issue #7).
+  useEffect(() => {
+    saveCollection(state);
+  }, [state]);
 
   const isCollected = useCallback(
     (foodCultureId: string) =>
@@ -82,7 +89,10 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  const reset = useCallback(() => setState(emptyCollection), []);
+  const reset = useCallback(() => {
+    clearCollection();
+    setState(emptyCollection);
+  }, []);
 
   const value = useMemo(
     () => ({ ...state, isCollected, isVisited, collect, visitPlace, reset }),
