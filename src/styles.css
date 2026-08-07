@@ -1,0 +1,662 @@
+/* ============================================================
+   Tokyo Mogu Mogu — design system
+   Aesthetic: washi paper × sumi ink × mountain green.
+   Washi paper base, deep green primary, wasabi green accent,
+   azure stream accent, vermilion "GET" seal.
+   ============================================================ */
+
+:root {
+  /* Color — paper & ink */
+  --paper: #f6f1e6;
+  --paper-deep: #ece3d0;
+  --ink: #2c2a24;
+  --ink-soft: #5b5749;
+  --ink-faint: #8d876f;
+
+  /* Color — Tama greens & accents */
+  --forest: #2f6f4f;
+  --forest-deep: #1f4f38;
+  --wasabi: #9fb83f;
+  --stream: #4a8fb0;
+  --vermillion: #c44a2c;
+  --vermillion-deep: #a03a22;
+  --gold: #c8a24a;
+
+  /* Surfaces */
+  --card: #fffdf6;
+  --card-locked: #f0ead9;
+  --line: #dcd3bd;
+  --line-strong: #b9ad8f;
+
+  /* Typography */
+  --font-display: 'Shippori Mincho', 'Hiragino Mincho ProN', serif;
+  --font-body: 'Zen Kaku Gothic New', 'Hiragino Sans', system-ui, sans-serif;
+
+  /* Shadows */
+  --shadow-card: 0 2px 10px rgb(44 42 36 / 0.08);
+  --shadow-lift: 0 6px 22px rgb(44 42 36 / 0.16);
+
+  /* Layout */
+  --radius: 14px;
+  --radius-sm: 8px;
+  --nav-h: 60px;
+  --max-w: 480px;
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgb(159 184 63 / 0.10), transparent 60%),
+    radial-gradient(900px 500px at -10% 30%, rgb(74 143 176 / 0.08), transparent 55%),
+    var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* Subtle washi grain overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(rgb(44 42 36 / 0.035) 1px, transparent 1px);
+  background-size: 3px 3px;
+  z-index: 0;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* ============ App shell ============ */
+
+.app-shell {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom));
+}
+
+.app-header {
+  padding: 22px 20px 10px;
+  text-align: center;
+}
+
+.app-logo {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--forest-deep);
+  display: inline-block;
+}
+
+.app-tagline {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.03em;
+}
+
+.app-main {
+  flex: 1;
+  padding: 8px 16px 24px;
+}
+
+.app-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: var(--max-w);
+  height: calc(var(--nav-h) + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: rgb(253 251 243 / 0.92);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--line);
+}
+
+.app-nav a {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  color: var(--ink-faint);
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  transition: color 0.2s var(--ease), background 0.2s var(--ease);
+}
+
+.app-nav a.active {
+  color: var(--forest);
+  background: rgb(47 111 79 / 0.1);
+  font-weight: 700;
+}
+
+/* ============ Page primitives ============ */
+
+.page {
+  animation: page-in 0.4s var(--ease) both;
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.page-title {
+  font-size: 1.35rem;
+  margin-bottom: 4px;
+}
+
+.page-sub {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  margin: 0 0 18px;
+}
+
+/* ============ Buttons ============ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 14px 22px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: transform 0.15s var(--ease), box-shadow 0.2s var(--ease), background 0.2s var(--ease);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: var(--forest);
+  color: var(--card);
+  box-shadow: var(--shadow-card);
+}
+
+.btn-primary:hover {
+  background: var(--forest-deep);
+  box-shadow: var(--shadow-lift);
+}
+
+.btn-secondary {
+  background: transparent;
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+.btn-secondary:hover {
+  border-color: var(--forest);
+  color: var(--forest);
+}
+
+.btn-vermillion {
+  background: var(--vermillion);
+  color: #fff;
+  box-shadow: var(--shadow-card);
+}
+
+.btn-vermillion:hover {
+  background: var(--vermillion-deep);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ============ Home ============ */
+
+.home-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-top: 8vh;
+}
+
+.home-mark {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, rgb(159 184 63 / 0.5), transparent 55%),
+    var(--forest);
+  color: var(--card);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  font-weight: 700;
+  margin-bottom: 22px;
+  box-shadow: var(--shadow-lift);
+}
+
+.home-page h1 {
+  font-size: 2rem;
+  letter-spacing: 0.05em;
+  color: var(--forest-deep);
+}
+
+.home-tagline {
+  max-width: 300px;
+  color: var(--ink-soft);
+  margin: 10px 0 28px;
+}
+
+.home-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 260px;
+}
+
+/* ============ Pokédex ============ */
+
+.pokedex-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.progress-bar {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--card-locked);
+  overflow: hidden;
+  margin: 10px 0 18px;
+  border: 1px solid var(--line);
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--wasabi), var(--forest));
+  border-radius: 999px;
+  transition: width 0.5s var(--ease);
+}
+
+.fc-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.fc-card {
+  position: relative;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  display: flex;
+  flex-direction: column;
+}
+
+.fc-card:active {
+  transform: scale(0.98);
+}
+
+.fc-card.unlocked {
+  border-color: rgb(47 111 79 / 0.5);
+}
+
+.fc-card.locked {
+  background: var(--card-locked);
+}
+
+.fc-card-media {
+  aspect-ratio: 4 / 3;
+  position: relative;
+  overflow: hidden;
+}
+
+.fc-image {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.fc-image-mark {
+  font-family: var(--font-display);
+  font-size: 3.4rem;
+  font-weight: 700;
+  color: rgb(255 253 246 / 0.9);
+  text-shadow: 0 2px 8px rgb(0 0 0 / 0.25);
+  transform: rotate(-6deg);
+}
+
+.fc-image-name {
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: rgb(255 253 246 / 0.85);
+  letter-spacing: 0.05em;
+}
+
+.fc-card.locked .fc-image {
+  filter: grayscale(0.9) contrast(0.85) brightness(0.85);
+}
+
+.fc-card.locked .fc-image-mark {
+  font-size: 2.6rem;
+}
+
+.fc-card-body {
+  padding: 10px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.fc-card-name {
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.fc-card.locked .fc-card-name {
+  color: var(--ink-faint);
+}
+
+.fc-card-desc {
+  font-size: 0.76rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.fc-card-hint {
+  margin-top: auto;
+  font-size: 0.72rem;
+  color: var(--stream);
+  border-top: 1px dashed var(--line-strong);
+  padding-top: 6px;
+}
+
+.fc-card-hint::before {
+  content: '🔍 ';
+}
+
+/* Category badge */
+.badge {
+  display: inline-block;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: rgb(47 111 79 / 0.12);
+  color: var(--forest-deep);
+  align-self: flex-start;
+}
+
+/* GET seal */
+.get-seal {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--vermillion);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.72rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+  box-shadow: 0 2px 6px rgb(196 74 44 / 0.4);
+  transform: rotate(4deg);
+  animation: seal-pop 0.4s var(--ease) both;
+}
+
+@keyframes seal-pop {
+  from {
+    transform: rotate(4deg) scale(0.5);
+    opacity: 0;
+  }
+  to {
+    transform: rotate(4deg) scale(1);
+    opacity: 1;
+  }
+}
+
+/* ============ Detail page ============ */
+
+.detail-hero {
+  margin: -8px -16px 0;
+  padding: 26px 20px 20px;
+  background:
+    radial-gradient(600px 200px at 80% -20%, rgb(159 184 63 / 0.16), transparent 60%),
+    linear-gradient(160deg, var(--forest), var(--forest-deep));
+  color: var(--card);
+  border-bottom: 3px solid var(--wasabi);
+}
+
+.detail-hero h1 {
+  font-size: 1.7rem;
+  letter-spacing: 0.03em;
+}
+
+.detail-hero .detail-sub {
+  color: rgb(255 253 246 / 0.75);
+  font-size: 0.9rem;
+  margin: 6px 0 12px;
+}
+
+.detail-hero .badge {
+  background: rgb(255 253 246 / 0.16);
+  color: #fff;
+}
+
+.detail-section {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-top: 14px;
+}
+
+.detail-section h2 {
+  font-size: 1.05rem;
+  color: var(--forest-deep);
+  margin-bottom: 8px;
+}
+
+.detail-section h2::before {
+  content: '◆ ';
+  color: var(--wasabi);
+  font-size: 0.8em;
+}
+
+.detail-section p {
+  margin: 6px 0;
+  font-size: 0.95rem;
+}
+
+.source-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+
+.source-list li {
+  padding: 6px 0;
+  border-top: 1px dashed var(--line);
+}
+
+.source-list a {
+  color: var(--stream);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ============ Check-in / place ============ */
+
+.checkin-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-top: 14px;
+}
+
+.checkin-card.checked {
+  border-color: rgb(47 111 79 / 0.6);
+  background: linear-gradient(160deg, rgb(159 184 63 / 0.1), transparent 60%), var(--card);
+}
+
+.checkin-status {
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  margin-bottom: 10px;
+  min-height: 1.4em;
+}
+
+.checkin-status.error {
+  color: var(--vermillion);
+}
+
+.place-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--line);
+}
+
+.place-row:last-child {
+  border-bottom: none;
+}
+
+.place-row .place-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.98rem;
+}
+
+.place-row .place-address {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  margin: 2px 0 6px;
+}
+
+.place-row .btn {
+  padding: 8px 14px;
+  font-size: 0.82rem;
+}
+
+/* ============ Map ============ */
+
+.map-container {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+  background: var(--paper-deep);
+}
+
+.map-frame {
+  width: 100%;
+  border: 0;
+  display: block;
+}
+
+.map-legend {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgb(255 253 246 / 0.92);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  font-size: 0.74rem;
+  color: var(--ink-soft);
+  box-shadow: var(--shadow-card);
+}
+
+.map-legend span::before {
+  content: '● ';
+  color: var(--vermillion);
+}
+
+/* ============ Utility ============ */
+
+.muted {
+  color: var(--ink-faint);
+  font-size: 0.85rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
