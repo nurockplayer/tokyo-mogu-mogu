@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { PLACES } from '../data/seed-places';
 import { UNLOCK_RADIUS_METERS } from '../data/model';
-import { checkInAtPlace } from './checkin';
+import { checkInAtPlace, parseDemoLocationOverride } from './checkin';
 import type { CheckInResult } from './checkin';
 
 /** A real seed place used across the check-in tests. */
@@ -77,5 +77,37 @@ describe('checkInAtPlace (#6)', () => {
     if (first.ok && second.ok) {
       expect(second.collected).toEqual(first.collected);
     }
+  });
+});
+
+describe('demo location override parsing (#6)', () => {
+  it('is disabled when no override params are present', () => {
+    const override = parseDemoLocationOverride(new URLSearchParams(''));
+    expect(override.enabled).toBe(false);
+  });
+
+  it('is disabled with only one of demoLat/demoLng', () => {
+    const override = parseDemoLocationOverride(new URLSearchParams('demoLat=35.8'));
+    expect(override.enabled).toBe(false);
+  });
+
+  it('is enabled with both demoLat and demoLng', () => {
+    const override = parseDemoLocationOverride(new URLSearchParams('demoLat=35.8&demoLng=139.1'));
+    expect(override).toEqual({ enabled: true, latitude: 35.8, longitude: 139.1 });
+  });
+
+  it('enables at a seed place via at=place:<id>', () => {
+    expect(wasabiField).toBeDefined();
+    const override = parseDemoLocationOverride(
+      new URLSearchParams(`at=place:${wasabiField!.id}`),
+    );
+    expect(override.enabled).toBe(true);
+    expect(override.latitude).toBe(wasabiField!.latitude);
+    expect(override.longitude).toBe(wasabiField!.longitude);
+  });
+
+  it('ignores an unknown at=place:<id>', () => {
+    const override = parseDemoLocationOverride(new URLSearchParams('at=place:nope'));
+    expect(override.enabled).toBe(false);
   });
 });

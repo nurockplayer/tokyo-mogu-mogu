@@ -127,12 +127,24 @@ export function readDemoLocationOverride(): DemoLocationOverride {
   if (typeof window === 'undefined') {
     return { enabled: false, latitude: 0, longitude: 0 };
   }
-  const params = new URLSearchParams(window.location.search);
+  return parseDemoLocationOverride(new URLSearchParams(window.location.search));
+}
 
-  const lat = Number(params.get('demoLat'));
-  const lng = Number(params.get('demoLng'));
-  if (Number.isFinite(lat) && Number.isFinite(lng)) {
-    return { enabled: true, latitude: lat, longitude: lng };
+/**
+ * Pure parser for the demo location override — separate from the window read
+ * so the parsing rules are unit-testable. Presence checks come first because
+ * `Number(null)` is `0`, which would otherwise look like a valid coordinate
+ * and silently enable demo mode.
+ */
+export function parseDemoLocationOverride(params: URLSearchParams): DemoLocationOverride {
+  const latParam = params.get('demoLat');
+  const lngParam = params.get('demoLng');
+  if (latParam !== null && lngParam !== null) {
+    const lat = Number(latParam);
+    const lng = Number(lngParam);
+    if (Number.isFinite(lat) && Number.isFinite(lng)) {
+      return { enabled: true, latitude: lat, longitude: lng };
+    }
   }
 
   const at = params.get('at');
