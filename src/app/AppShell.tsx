@@ -12,6 +12,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { useI18n } from '../i18n';
 import { DemoResetButton } from '../components/DemoResetButton';
 import { LocaleToggle } from '../components/LocaleToggle';
+import { AuthControl } from '../components/AuthControl';
 import { ErrorBoundary } from './ErrorBoundary';
 
 export function AppShell({ children }: { children: ReactNode }) {
@@ -25,6 +26,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
         <span className="app-tagline">{t('appTagline')}</span>
         <div className="app-header-actions">
+          <AuthControl />
           <DemoResetButton />
         </div>
       </header>

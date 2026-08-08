@@ -1,0 +1,31 @@
+/* AuthControl — header auth UI (#11 auth sequence integration). */
+.auth-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.auth-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  object-fit: cover;
+}
+
+.auth-name {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.auth-signin {
+  padding: 8px 18px;
+  font-size: 0.82rem;
+}
