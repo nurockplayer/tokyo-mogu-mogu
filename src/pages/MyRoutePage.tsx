@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { EmptyState, Card } from '../ui';
 import { useI18n, type Locale } from '../i18n';
+import { routeNameKey } from '../i18n/data-content';
 import { getRouteById, type ModelRoute } from '../data';
 import { loadSavedRoutes, unsaveRoute, type SavedRouteEntry } from '../lib/saved-routes';
 import './MyRoutePage.css';
@@ -75,11 +76,10 @@ export function MyRoutePage() {
       <p className="page-sub">{t('s8PageSub')}</p>
       <div className="tmm-stack s8-list">
         {entries.map(({ entry, route }) => {
-          const pick = (ja: string, en: string) => (locale === 'ja' ? ja : en);
           return (
             <Card key={entry.routeId} button className="s8-card">
               <div className="s8-card__body">
-                <div className="s8-card__title">{pick(route.nameJa, route.nameEn)}</div>
+                <div className="s8-card__title">{t(routeNameKey(route.id))}</div>
                 <div className="s8-card__meta">
                   <span>
                     {t('s8Duration')}: {durationLabel(route, locale)}

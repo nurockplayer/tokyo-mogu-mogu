@@ -1,8 +1,13 @@
 /**
  * Locale resources for the supported locales (ja / en / zh-TW).
  *
- * The string keys below are UI chrome and navigation labels. Food culture and
- * place content lives on the data records themselves as {Ja, En} fields.
+ * The string keys below are UI chrome / navigation labels plus the S0–S8 demo
+ * data content (`data.*` keys, Issue #67). Food culture, place and route
+ * display strings previously lived on the data records as {Ja, En} and were
+ * picked per-page with `locale === 'ja' ? ja : en`, which fell back to English
+ * for zh-TW. They now live in this shared bundle so zh-TW resolves through the
+ * same t()/fallback mechanism as chrome; see `src/i18n/data-content.ts` for the
+ * record id → key mapping.
  *
  * The locale blocks are kept structurally equivalent (same key set) so a
  * missing key in one locale is always resolvable from the other. Every key that
@@ -302,6 +307,62 @@ export const strings = {
     s8OpenRoute: 'ルートを見る',
     s8Remove: '保存を外す',
     s8NavLabel: 'マイルート',
+    // S0–S8 demo data content (Issue #67). Keyed by record id → field so the
+    // zh-TW bundle resolves through the same t()/fallback mechanism as chrome
+    // instead of the old per-page `pick(ja, en)`. Kept structurally equivalent
+    // across the three locales; see src/i18n/data-content.ts for the mapping.
+    dataWasabiName: '東京わさび',
+    dataYamameName: '奥多摩やまめ',
+    dataOkutamaSobaName: '奥多摩そば',
+    dataOkutamaKonnyakuName: '奥多摩こんにゃく',
+    dataWasabiDescription: '多摩川上流域の清流で育つ、東京都の特産わさび。',
+    dataWasabiStory:
+      'わさびは清らかな冷水でしか育ちません。奥多摩のわさび田は谷の沢水を引き込んだ棚田状で、急流を利用した伝統的な「畳流し」や水掛け栽培が今も続いています。',
+    dataWasabiHistory:
+      '東京都のわさび栽培は江戸時代から続き、明治期には「東京わさび」として名を馳せました。多摩地域は都内で最もわさび生産が盛んなエリアです。',
+    dataWasabiMaker:
+      '奥多摩のわさび農家は、渓流を守りながら少量・高品質のわさびを育てています。収穫は秋から冬が中心です。',
+    dataWasabiHowToEnjoy: '新鮮なわさびはおろしたてを刺身やそばに。葉わさびは漬け物で楽しめます。',
+    dataStoryLead:
+      '清らかな冷水でしか育たない、東京都奥多摩の特別なわさび。その物語を、読み物としてたどってみましょう。',
+    dataStoryMakerName: '奥多摩のわさび農家',
+    dataStoryMakerRole: '渓流を守りながら、少量・高品質のわさびを育てる作り手たち。収穫は秋から冬が中心です。',
+    dataStoryCraft:
+      'わさびは清らかな冷水でしか育ちません。奥多摩のわさび田は谷の沢水を引き込んだ棚田状で、急流を利用した伝統的な「畳流し」や水掛け栽培が今も続いています。',
+    dataStoryChallenge:
+      '渓流沿いのわさび田は、山の地形と水に寄り添う小規模な営みです。こうした産業では、後継者や担い手の減少が共通の課題になっています。そのため、食べること、買うこと、訪ねること——そのひとつひとつが、作り手の営みを支えることにつながります。',
+    dataStorySupport:
+      'あなたが味わうこと自体が、このわさびの次の世代を支えることになります。ぜひ、食べて、買って、そして奥多摩へ。',
+    dataRouteName: '奥多摩わさび紀行',
+    dataRouteTransport: 'JR青梅線・西東京バス',
+    dataRouteStopRoleTourismOffice: '出発点。わさび田への行き方と地域の情報を集めます。',
+    dataRouteStopRoleWasabiField: '谷の清流が育てる東京わさびの栽培現場を見学します。',
+    dataRouteStopRoleSobaLunch: 'おろしたてのわさびをのせた手打ちそばで昼食を。',
+    dataRouteStopRoleMichiNoEki: 'わさび加工品やこんにゃくなど、お土産を選びます。',
+    dataRouteStopRoleFishingCenter: '渓流魚やまめの釣り体験。わさびの恵みとともにある川の味わいへ。',
+    dataRouteStopRoleWasabiFieldFullDay: '谷の清流が育てる東京わさびの栽培現場をゆっくり見学。',
+    dataRouteMobilityWalkStream: '徒歩（沢沿い）',
+    dataRouteMobilityBus: '西東京バス',
+    dataRouteMobilityWalk: '徒歩',
+    dataPlaceWasabiFieldName: '奥多摩わさび田',
+    dataPlaceTourismOfficeName: '奥多摩観光案内所',
+    dataPlaceSobaShopName: '奥多摩そば処',
+    dataPlaceMichiNoEkiName: '奥多摩駅前 道の駅',
+    dataPlaceFishingCenterName: '奥多摩フィッシングセンター',
+    dataWasabiFieldAccess: '奥多摩駅からバスまたは徒歩（デモ表記）',
+    dataFishingCenterAccess: '奥多摩駅からバス（デモ表記）',
+    dataWasabiFieldDemoNote: '見学条件は時期により異なります。事前に現地へご確認ください（デモ）',
+    dataFishingCenterDemoNote: '釣り体験は料金・予約条件が異なります。現地へご確認ください（デモ）',
+    dataWasabiFieldRole:
+      'わさびは清らかな冷水でしか育ちません。奥多摩のわさび田は谷の沢水を引き込んだ棚田状で、急流を利用した伝統的な水掛け栽培が今も続いています。この地を訪れると、東京わさびが「作られる」場所を自分の目で確かめられます。',
+    dataTourismOfficeRole:
+      '奥多摩の玄関口となる案内所。わさび田への行き方や周辺の観光情報を集めて、旅程を組み立てる出発点です。',
+    dataFishingCenterRole:
+      '清流の恵みはわさびだけではありません。多摩川の支流でやまめを釣り、その場で味わえる施設です。わさびの「生産」から、川魚という「消費」まで、奥多摩の水の物語を続けて体感できます。',
+    dataSobaShopRole:
+      'おろしたてのわさびをのせた手打ちそば。わさびは薬味ではなく、奥多摩の水が生んだ「主役」です。生産者の仕事が食卓に届く、物語の味わいの場。',
+    dataMichiNoEkiRole:
+      '奥多摩駅前に広がる道の駅。わさび加工品やこんにゃくなど、地域の恵みを土産に選べます。訪れた人が「持ち帰る」ことで、文化の継承が支えられます。',
   },
   en: {
     appName: 'Tokyo Mogu Mogu',
@@ -587,6 +648,67 @@ export const strings = {
     s8OpenRoute: 'View route',
     s8Remove: 'Remove',
     s8NavLabel: 'My Route',
+    // S0–S8 demo data content (Issue #67). See the ja block for the mapping.
+    dataWasabiName: 'Tokyo Wasabi',
+    dataYamameName: 'Okutama Yamame Trout',
+    dataOkutamaSobaName: 'Okutama Soba',
+    dataOkutamaKonnyakuName: 'Okutama Konnyaku',
+    dataWasabiDescription:
+      'Tokyo\'s signature wasabi, grown in the clear streams of the Tama river headwaters.',
+    dataWasabiStory:
+      'Wasabi only grows in clean cold water. Okutama\'s wasabi fields are terraced paddies fed by mountain stream water, still cultivated using traditional stone-laden and water-flush methods.',
+    dataWasabiHistory:
+      'Wasabi cultivation in Tokyo dates back to the Edo period and became famous as "Tokyo Wasabi" in the Meiji era. Tama remains Tokyo\'s leading wasabi-producing area.',
+    dataWasabiMaker:
+      'Okutama\'s wasabi farmers grow small-batch, high-quality wasabi while protecting the mountain streams. Harvest runs mainly from autumn to winter.',
+    dataWasabiHowToEnjoy: 'Grate fresh wasabi for sashimi or soba; enjoy leaf wasabi as a pickle.',
+    dataStoryLead:
+      'A special wasabi that grows only in clear, cold water — raised in Okutama, Tokyo. Follow its story as a read.',
+    dataStoryMakerName: 'The wasabi farmers of Okutama',
+    dataStoryMakerRole:
+      'Growers raising small-batch, high-quality wasabi while protecting the mountain streams. Harvest runs mainly from autumn to winter.',
+    dataStoryCraft:
+      'Wasabi only grows in clean cold water. Okutama\'s wasabi fields are terraced paddies fed by mountain stream water, still cultivated using traditional stone-laden and water-flush methods.',
+    dataStoryChallenge:
+      'Stream-side wasabi paddies are a small, gentle craft that follows the mountain\'s shape and water. Like many such industries, passing the work on to the next generation is a common challenge. That is why eating it, buying it, and visiting it — each single act helps keep the growers\' work alive.',
+    dataStorySupport:
+      'Your tasting alone helps carry this wasabi to the next generation. Eat it, buy it — and visit Okutama.',
+    dataRouteName: 'Okutama Wasabi Journey',
+    dataRouteTransport: 'JR Ome Line & Nishi Tokyo Bus',
+    dataRouteStopRoleTourismOffice:
+      'Start here to pick up maps and local guidance for the wasabi fields.',
+    dataRouteStopRoleWasabiField:
+      'See the terraced wasabi paddies fed by clear mountain stream water.',
+    dataRouteStopRoleSobaLunch: 'Lunch: hand-made soba topped with freshly grated wasabi.',
+    dataRouteStopRoleMichiNoEki: 'Pick up wasabi products and konnyaku as souvenirs.',
+    dataRouteStopRoleFishingCenter:
+      'Try river fishing for yamame trout — the other taste of Okutama\'s waters.',
+    dataRouteStopRoleWasabiFieldFullDay:
+      'Spend more time among the terraced wasabi paddies and clear streams.',
+    dataRouteMobilityWalkStream: 'Walk (along the stream)',
+    dataRouteMobilityBus: 'Nishi Tokyo Bus',
+    dataRouteMobilityWalk: 'Walk',
+    dataPlaceWasabiFieldName: 'Okutama Wasabi Field',
+    dataPlaceTourismOfficeName: 'Okutama Tourist Information Center',
+    dataPlaceSobaShopName: 'Okutama Soba Shop',
+    dataPlaceMichiNoEkiName: 'Okutama Station Roadside Station',
+    dataPlaceFishingCenterName: 'Okutama Fishing Center',
+    dataWasabiFieldAccess: 'Bus or walk from Okutama Station (demo)',
+    dataFishingCenterAccess: 'Bus from Okutama Station (demo)',
+    dataWasabiFieldDemoNote:
+      'Visiting conditions vary by season. Please confirm on site in advance (demo)',
+    dataFishingCenterDemoNote:
+      'Fishing experience prices and booking rules vary. Please confirm on site (demo)',
+    dataWasabiFieldRole:
+      'Wasabi only grows in clean cold water. Okutama\'s wasabi paddies are terraced fields fed by valley streams, still cultivated with traditional water-flush methods. Visiting here lets you see where Tokyo Wasabi is actually grown.',
+    dataTourismOfficeRole:
+      'The gateway to Okutama. Gather route guidance and local information here before heading to the wasabi fields.',
+    dataFishingCenterRole:
+      'The clear streams feed more than wasabi. At this riverside facility you can fish for yamame trout and taste it on the spot — from wasabi to river fish, one story of Okutama\'s water.',
+    dataSobaShopRole:
+      'Hand-made soba topped with freshly grated wasabi — where wasabi becomes the star, not just a garnish. The moment the grower\'s craft reaches your table.',
+    dataMichiNoEkiRole:
+      'A roadside station by Okutama Station. Pick up wasabi products and konnyaku — taking a little of the region home supports its cultural succession.',
   },
   'zh-TW': {
     appName: '東京もぐもぐ',
@@ -872,6 +994,59 @@ export const strings = {
     s8OpenRoute: '查看路線',
     s8Remove: '取消儲存',
     s8NavLabel: '我的路線',
+    // S0–S8 資料內容（Issue #67）。與 ja/en 區塊結構對等，讓 zh-TW 透過既有
+    // t()/fallback 機制解析資料字串；id→key 對應見 src/i18n/data-content.ts。
+    dataWasabiName: '東京山葵',
+    dataYamameName: '奧多摩山女魚',
+    dataOkutamaSobaName: '奧多摩蕎麥麵',
+    dataOkutamaKonnyakuName: '奧多摩蒟蒻',
+    dataWasabiDescription: '在多摩川上游清澈溪流中生長的東京特產山葵。',
+    dataWasabiStory:
+      '山葵只在清澈冷水中生長。奧多摩的山葵田是利用山谷泉水引入的梯田，至今仍沿用湍急水流與水掛栽培的傳統農法。',
+    dataWasabiHistory:
+      '東京的山葵栽培始於江戶時代，明治時期以「東京山葵」之名打響名號。多摩地區至今仍是東京都內山葵生產最興盛的地區。',
+    dataWasabiMaker:
+      '奧多摩的山葵農家一面守護山間溪流，一面種植少量高品質的山葵。收成主要集中在秋季到冬季。',
+    dataWasabiHowToEnjoy: '新鮮山葵現磨後搭配生魚片或蕎麥麵；葉山葵則適合做成漬物享用。',
+    dataStoryLead: '這種特別的山葵，只有在清澈冷水中才能生長，產自東京都奧多摩。就讓我們用閱讀的方式，走進它的故事。',
+    dataStoryMakerName: '奧多摩的山葵農家',
+    dataStoryMakerRole: '一面守護山間溪流，一面種植少量高品質山葵的生產者們。收成主要集中在秋季到冬季。',
+    dataStoryCraft:
+      '山葵只在清澈冷水中生長。奧多摩的山葵田是利用山谷泉水引入的梯田，至今仍沿用湍急水流與水掛栽培的傳統農法。',
+    dataStoryChallenge:
+      '溪流畔的山葵田，是依循山勢與水源展開的小規模農事。這樣的行業，普遍面臨後繼者與人手減少的課題。正因如此，每一次品嚐、每一次購買、每一次到訪——都會成為支持生產者繼續耕耘的力量。',
+    dataStorySupport:
+      '你的每一次品嚐，都在支撐山葵的下一個世代。歡迎你來品嚐、購買，親自造訪奧多摩。',
+    dataRouteName: '奧多摩山葵紀行',
+    dataRouteTransport: 'JR青梅線・西東京巴士',
+    dataRouteStopRoleTourismOffice: '出發點。在這裡收集前往山葵田的交通方式與當地資訊。',
+    dataRouteStopRoleWasabiField: '參觀以清澈溪流培育的東京山葵栽培現場。',
+    dataRouteStopRoleSobaLunch: '午餐：現磨山葵鋪在手工蕎麥麵上。',
+    dataRouteStopRoleMichiNoEki: '挑選山葵加工品與蒟蒻等伴手禮。',
+    dataRouteStopRoleFishingCenter: '體驗溪流魚山女魚的釣魚樂趣，感受與山葵同源的水之美味。',
+    dataRouteStopRoleWasabiFieldFullDay: '細細走訪清澈溪流孕育的東京山葵栽培現場。',
+    dataRouteMobilityWalkStream: '步行（沿溪）',
+    dataRouteMobilityBus: '西東京巴士',
+    dataRouteMobilityWalk: '步行',
+    dataPlaceWasabiFieldName: '奧多摩山葵田',
+    dataPlaceTourismOfficeName: '奧多摩觀光服務中心',
+    dataPlaceSobaShopName: '奧多摩蕎麥麵店',
+    dataPlaceMichiNoEkiName: '奧多摩站前 道之驛',
+    dataPlaceFishingCenterName: '奧多摩釣魚中心',
+    dataWasabiFieldAccess: '從奧多摩站搭巴士或步行（示範標示）',
+    dataFishingCenterAccess: '從奧多摩站搭巴士（示範標示）',
+    dataWasabiFieldDemoNote: '參觀條件依季節而異，請事先向當地確認（示範）',
+    dataFishingCenterDemoNote: '釣魚體驗的費用與預約條件各有不同，請向當地確認（示範）',
+    dataWasabiFieldRole:
+      '山葵只在清澈冷水中生長。奧多摩的山葵田是利用山谷泉水引入的梯田，至今仍沿用湍急水流與水掛栽培的傳統農法。造訪此地，你將親眼看到東京山葵實際「生長」的場所。',
+    dataTourismOfficeRole:
+      '奧多摩的門戶服務中心。出發前往山葵田前，先在這裡收集交通方式與周邊旅遊資訊。',
+    dataFishingCenterRole:
+      '清澈溪流的恩賜不只是山葵。在這裡，你可以在多摩川支流釣山女魚並當場品嚐——從山葵的「生產」到河魚的「品嚐」，完整感受奧多摩的水之故事。',
+    dataSobaShopRole:
+      '現磨山葵鋪在手工蕎麥麵上——在這裡，山葵不是配角，而是奧多摩之水孕育的「主角」。生產者的心血，就在這一碗麵裡送到你的餐桌。',
+    dataMichiNoEkiRole:
+      '奧多摩站前的道之驛。可以在這裡挑選山葵加工品與蒟蒻等當地物產作為伴手禮。訪客把這些帶回家，就是對文化傳承的實際支持。',
   },
 } as const;
 

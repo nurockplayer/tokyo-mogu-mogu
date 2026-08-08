@@ -26,6 +26,13 @@ import { PlaceVisual } from '../components/PlaceVisual';
 import { getPlaceById, getRelatedFoodCultures, getSpotDetail } from '../data';
 import type { PlaceType } from '../data';
 import { useI18n, type LocaleKey } from '../i18n';
+import {
+  placeNameKey,
+  spotAccessKey,
+  spotDemoNoteKey,
+  spotRoleKey,
+  foodCultureKey,
+} from '../i18n/data-content';
 import { googleMapsDirectionsUrl, appleMapsDirectionsUrl } from '../lib/map-links';
 
 /** Maps a place type to its i18n label key. */
@@ -59,7 +66,13 @@ export function SpotPage() {
     );
   }
 
-  const pick = (ja: string, en: string) => (locale === 'ja' ? ja : en);
+  // Reserved for record fields that are never populated in the current demo
+  // seed (hours / closed days / price). Only the `ja` variant exists as data;
+  // non-Japanese locales keep the record's English variant when present. The
+  // callers guard on the `ja` value, so the fallback string is never rendered.
+  const recordField = (ja?: string, en?: string): string =>
+    locale === 'ja' ? ja ?? '' : en ?? ja ?? '';
+
   const practical = detail?.practical;
   const relatedCultures = getRelatedFoodCultures(place);
 
@@ -70,17 +83,18 @@ export function SpotPage() {
   // Info list built only from data that actually exists.
   const infoItems: { label: string; value: string }[] = [];
   infoItems.push({ label: t('s6InfoAddress'), value: place.address });
-  if (practical?.accessJa) {
-    infoItems.push({ label: t('s6InfoAccess'), value: pick(practical.accessJa, practical.accessEn ?? practical.accessJa) });
+  const accessKey = spotAccessKey(place.id);
+  if (practical?.accessJa && accessKey) {
+    infoItems.push({ label: t('s6InfoAccess'), value: t(accessKey) });
   }
   if (practical?.hoursJa) {
-    infoItems.push({ label: t('s6InfoHours'), value: pick(practical.hoursJa, practical.hoursEn ?? practical.hoursJa) });
+    infoItems.push({ label: t('s6InfoHours'), value: recordField(practical.hoursJa, practical.hoursEn) });
   }
   if (practical?.closedDaysJa) {
-    infoItems.push({ label: t('s6InfoClosedDays'), value: pick(practical.closedDaysJa, practical.closedDaysEn ?? practical.closedDaysJa) });
+    infoItems.push({ label: t('s6InfoClosedDays'), value: recordField(practical.closedDaysJa, practical.closedDaysEn) });
   }
   if (practical?.priceJa) {
-    infoItems.push({ label: t('s6InfoPrice'), value: pick(practical.priceJa, practical.priceEn ?? practical.priceJa) });
+    infoItems.push({ label: t('s6InfoPrice'), value: recordField(practical.priceJa, practical.priceEn) });
   }
 
   // Tags — only rendered when the source data supports them.
@@ -106,11 +120,18 @@ export function SpotPage() {
     <div className="tmm-page">
       {/* Hero: photo placeholder + local name + romanization + category */}
       <div className="s6-visual-wrap">
-        <PlaceVisual nameJa={place.nameJa} type={place.type} alt={pick(place.nameJa, place.nameEn)} />
+        <PlaceVisual
+          name={t(placeNameKey(place.id))}
+          nameJa={place.nameJa}
+          type={place.type}
+          alt={t(placeNameKey(place.id))}
+        />
       </div>
       <div className="s6-title-row">
-        <h1>{place.nameJa}</h1>
-        <span className="s6-roman">{place.nameEn}</span>
+        <h1>{t(placeNameKey(place.id))}</h1>
+        {place.nameEn !== t(placeNameKey(place.id)) ? (
+          <span className="s6-roman">{place.nameEn}</span>
+        ) : null}
         <span className="tmm-tag tmm-tag--info">{t(PLACE_TYPE_LABEL[place.type])}</span>
       </div>
 
@@ -120,7 +141,7 @@ export function SpotPage() {
       {/* Story excerpt — the spot's role in the wasabi journey (editorial) */}
       <StorySection kicker={t('s6StoryKicker')} title={t('s6StoryTitle')}>
         {detail?.roleJa ? (
-          <p>{pick(detail.roleJa, detail.roleEn ?? detail.roleJa)}</p>
+          <p>{t(spotRoleKey(place.id) ?? 'dataWasabiFieldRole')}</p>
         ) : (
           <p>{t('s6StoryUnavailable')}</p>
         )}
@@ -139,7 +160,7 @@ export function SpotPage() {
       {detail?.demoNote ? (
         <div className="tmm-section">
           <Tag tone={detail.demoNote.tone === 'warning' ? 'warning' : 'info'}>
-            {pick(detail.demoNote.noteJa, detail.demoNote.noteEn)}
+            {t(spotDemoNoteKey(place.id) ?? 'dataWasabiFieldDemoNote')}
           </Tag>
         </div>
       ) : null}
@@ -152,7 +173,7 @@ export function SpotPage() {
               <li key={fc.id} className="tmm-info-list__item">
                 <span className="tmm-info-list__label">{t('s6RelatedFoodCulture')}</span>
                 <span className="tmm-info-list__value">
-                  {pick(fc.nameJa, fc.nameEn)}
+                  {t(foodCultureKey(fc.id, 'name') ?? 'dataWasabiName')}
                 </span>
               </li>
             ))}

@@ -32,6 +32,12 @@ import {
 } from '../data';
 import type { RouteDuration } from '../data';
 import { useI18n, type Locale } from '../i18n';
+import {
+  routeNameKey,
+  placeNameKey,
+  stepRoleKey,
+  mobilityLabelKey,
+} from '../i18n/data-content';
 import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
 import './route-spot.css';
 
@@ -60,8 +66,6 @@ export function RoutePage() {
   );
   const [saved, setSaved] = useState<boolean>(() => isRouteSaved(DEFAULT_ROUTE_ID));
   const [toast, setToast] = useState<null | { message: string; saved: boolean }>(null);
-
-  const pick = (ja: string, en: string) => (locale === 'ja' ? ja : en);
 
   if (!route) {
     return (
@@ -102,13 +106,13 @@ export function RoutePage() {
       {/* Course header */}
       <div className="s5-hero">
         <p className="s5-hero__kicker">{t('s5Kicker')}</p>
-        <h1 className="s5-hero__title">{pick(route.nameJa, route.nameEn)}</h1>
+        <h1 className="s5-hero__title">{t(routeNameKey(route.id))}</h1>
         <div className="s5-hero__meta">
           <span className="s5-hero__meta-item">
             {t(duration === 'half-day' ? 's5DurationHalfDay' : 's5DurationFullDay')}
           </span>
           <span className="s5-hero__meta-item">
-            🚌 {pick(variant.transportJa, variant.transportEn)}
+            🚌 {t('dataRouteTransport')}
           </span>
           <span className="s5-hero__meta-item">
             ⏱ {formatTotalMinutes(variant.totalMinutes, locale)}
@@ -182,17 +186,18 @@ export function RoutePage() {
             const mobility = variant.mobility.find(
               (seg) => seg.fromStep === step.stepNumber,
             );
+            const placeName = t(placeNameKey(place.id));
             return (
               <div key={step.placeId}>
                 <Link
                   to={`/spot/${step.placeId}`}
                   className="s5-timeline__pin-link"
-                  aria-label={`${t('s5PinLabel')} ${step.stepNumber}: ${pick(place.nameJa, place.nameEn)}`}
+                  aria-label={`${t('s5PinLabel')} ${step.stepNumber}: ${placeName}`}
                 >
                   <RouteStep
                     number={step.stepNumber}
-                    name={pick(place.nameJa, place.nameEn)}
-                    role={pick(step.roleJa, step.roleEn)}
+                    name={placeName}
+                    role={t(stepRoleKey(route.id, step.placeId, duration))}
                   >
                     <span className="s5-timeline__stay">
                       ⏱ {t('s5Stay')}: {step.stayMinutes}min
@@ -207,7 +212,7 @@ export function RoutePage() {
                     <Mobility
                       mode={mobility.mode}
                       duration={`${mobility.durationMinutes}min`}
-                      label={pick(mobility.labelJa, mobility.labelEn)}
+                      label={t(mobilityLabelKey(route.id, mobility.fromStep, mobility.toStep))}
                     />
                   </div>
                 ) : null}

@@ -5,6 +5,10 @@
  * it), so spots render a tinted placeholder with a type mark and the local
  * name — the same pattern as `FoodCultureImage` for food cultures. Place type
  * drives the tint; nothing here is claimed as a real photograph.
+ *
+ * The watermark renders the localized display `name` when the caller passes one
+ * (S0–S8 screens resolve it through the i18n bundle, Issue #67); legacy callers
+ * fall back to `nameJa`.
  */
 import type { PlaceType } from '../data/model';
 
@@ -27,10 +31,14 @@ const TYPE_TINT: Record<PlaceType, string> = {
 };
 
 export function PlaceVisual({
+  name,
   nameJa,
   type,
   alt,
 }: {
+  /** Localized display name (preferred for the watermark; Issue #67). */
+  name?: string;
+  /** Fallback / legacy local name when no localized `name` is provided. */
   nameJa: string;
   type: PlaceType;
   alt?: string;
@@ -39,13 +47,13 @@ export function PlaceVisual({
     <div
       className="pv-visual"
       role="img"
-      aria-label={alt ?? nameJa}
+      aria-label={alt ?? name ?? nameJa}
       style={{ background: TYPE_TINT[type] ?? TYPE_TINT.other }}
     >
       <span className="pv-visual__mark" aria-hidden="true">
         {TYPE_MARK[type] ?? TYPE_MARK.other}
       </span>
-      <span className="pv-visual__name">{nameJa}</span>
+      <span className="pv-visual__name">{name ?? nameJa}</span>
     </div>
   );
 }
