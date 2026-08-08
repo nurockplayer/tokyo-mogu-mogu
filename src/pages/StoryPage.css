@@ -1,0 +1,267 @@
+/* ============================================================
+   S4 Food Culture Story — editorial article (Issue #44).
+   Page-local styles layered on the shared tmm-* foundation.
+   Mobile-first (375px). Long English lines wrap cleanly.
+   ============================================================ */
+
+.s4-page {
+  max-width: var(--tmm-content-max);
+  margin: 0 auto;
+  padding: 0 var(--tmm-gutter) calc(var(--nav-h, 60px) + var(--tmm-space-6) + env(safe-area-inset-bottom));
+}
+
+/* ---------- Hero (section 1) ---------- */
+
+.s4-hero {
+  padding-top: var(--tmm-space-5);
+}
+
+.s4-hero__kicker {
+  font-family: var(--tmm-font-display);
+  font-size: var(--tmm-text-caption);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--tmm-color-forest-deep);
+  text-align: center;
+  margin-bottom: var(--tmm-space-2);
+}
+
+.s4-hero__title {
+  font-family: var(--tmm-font-display);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--tmm-color-forest-deep);
+  text-align: center;
+  line-height: 1.25;
+  margin-bottom: var(--tmm-space-3);
+  overflow-wrap: break-word;
+  word-break: keep-all;
+}
+
+.s4-hero__lead {
+  font-size: var(--tmm-text-body);
+  color: var(--tmm-color-ink-soft);
+  line-height: 1.9;
+  text-align: center;
+  max-width: 34em;
+  margin: 0 auto var(--tmm-space-3);
+  overflow-wrap: break-word;
+}
+
+.s4-hero__meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--tmm-space-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--tmm-space-4);
+}
+
+.s4-read-time {
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+  white-space: nowrap;
+}
+
+.s4-hero__media {
+  position: relative;
+  border-radius: var(--tmm-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--tmm-shadow-card);
+  aspect-ratio: 16 / 9;
+}
+
+.s4-hero__media .fc-image {
+  height: 100%;
+}
+
+.s4-media-caption {
+  display: block;
+  margin-top: var(--tmm-space-1);
+  font-size: 0.7rem;
+  color: var(--tmm-color-ink-faint);
+  text-align: right;
+}
+
+/* ---------- Editorial body ---------- */
+
+.s4-story {
+  padding-top: var(--tmm-space-1);
+}
+
+.s4-p {
+  margin: 0 0 var(--tmm-space-3);
+  overflow-wrap: break-word;
+}
+
+/* Small provenance / editorial markers, kept visually quiet. */
+.s4-note {
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-faint);
+  line-height: 1.6;
+  margin-top: var(--tmm-space-2);
+}
+
+.s4-note--editorial {
+  border-top: 1px dashed var(--tmm-color-line);
+  padding-top: var(--tmm-space-2);
+}
+
+/* ---------- Maker section (section 3 — the maker is the visual lead) ---------- */
+
+.s4-maker-card {
+  padding: var(--tmm-space-2);
+  margin-bottom: var(--tmm-space-3);
+}
+
+.s4-maker-media {
+  border-radius: var(--tmm-radius-md);
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+}
+
+.s4-maker-media .fc-image {
+  height: 100%;
+}
+
+.s4-maker-body {
+  padding: var(--tmm-space-3) var(--tmm-space-2) var(--tmm-space-2);
+}
+
+.s4-maker-name {
+  font-family: var(--tmm-font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--tmm-color-ink);
+  margin-bottom: var(--tmm-space-1);
+}
+
+.s4-maker-role {
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+  line-height: 1.7;
+}
+
+/* ---------- Support card (section 6) ---------- */
+
+.s4-support-card {
+  border-left: 4px solid var(--tmm-color-leaf);
+  background: var(--tmm-color-warm);
+}
+
+.s4-support-card .s4-p {
+  margin-bottom: 0;
+}
+
+/* ---------- CTA (section 7) ---------- */
+
+.s4-cta {
+  margin-top: var(--tmm-space-6);
+  padding-top: var(--tmm-space-5);
+  border-top: 1px solid var(--tmm-color-line);
+  text-align: center;
+}
+
+.s4-cta__sub {
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+  line-height: 1.7;
+  margin-top: var(--tmm-space-3);
+  max-width: 30em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.s4-cta__back {
+  display: inline-block;
+  margin-top: var(--tmm-space-3);
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-forest-deep);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---------- Compact provenance (Sources) ---------- */
+
+.s4-sources {
+  margin-top: var(--tmm-space-6);
+  padding: var(--tmm-space-3) var(--tmm-space-4);
+  border: var(--tmm-border);
+  border-radius: var(--tmm-radius-md);
+  background: var(--tmm-color-warm);
+}
+
+.s4-sources__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--tmm-space-2);
+  font-family: var(--tmm-font-display);
+  font-weight: 700;
+  color: var(--tmm-color-ink);
+  cursor: pointer;
+  min-height: var(--tmm-tap-min);
+  list-style: none;
+}
+
+.s4-sources__summary::-webkit-details-marker {
+  display: none;
+}
+
+.s4-sources__list {
+  list-style: none;
+  margin: var(--tmm-space-2) 0 0;
+  padding: 0;
+  border-top: 1px dashed var(--tmm-color-line);
+  padding-top: var(--tmm-space-2);
+}
+
+.s4-sources__item {
+  padding: var(--tmm-space-2) 0;
+  font-size: var(--tmm-text-caption);
+  line-height: 1.6;
+  color: var(--tmm-color-ink-soft);
+}
+
+.s4-sources__name {
+  font-weight: 700;
+  color: var(--tmm-color-ink);
+}
+
+.s4-sources__link {
+  margin-left: var(--tmm-space-2);
+  color: var(--tmm-color-forest-deep);
+  text-underline-offset: 2px;
+}
+
+.s4-sources__meta {
+  display: block;
+  color: var(--tmm-color-ink-faint);
+  font-size: 0.72rem;
+  margin-top: 2px;
+}
+
+/* ---------- Mobile sticky/following CTA ---------- */
+
+.s4-sticky-cta {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--nav-h, 60px) + env(safe-area-inset-bottom));
+  margin: 0 auto;
+  max-width: var(--tmm-content-max);
+  padding: var(--tmm-space-2) var(--tmm-gutter) var(--tmm-space-2);
+  background: linear-gradient(to bottom, rgb(253 251 243 / 0), var(--tmm-color-warm) 45%);
+  z-index: 500;
+}
+
+.s4-sticky-cta .tmm-btn {
+  box-shadow: var(--tmm-shadow-lift);
+}
+
+/* On taller screens the sticky CTA can be quieter; it still reads as the next step. */
+@media (min-width: 768px) {
+  .s4-sticky-cta {
+    bottom: calc(var(--nav-h, 60px) + env(safe-area-inset-bottom) + var(--tmm-space-2));
+  }
+}
