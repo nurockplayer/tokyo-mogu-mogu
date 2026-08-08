@@ -18,21 +18,35 @@ it. This skill does not restate that policy; read the policy before invoking.
 Sol is consulted via the local Codex CLI with the `gpt-5.6-sol` model. This is
 the mechanism currently verified in this environment, not a permanently
 exclusive one — if it becomes unavailable, treat that as an environment
-capability gap and surface it rather than assuming it is permanent:
+capability gap and surface it rather than assuming it is permanent.
+
+Pass the escalation packet through quoted stdin so repository text, Markdown,
+backticks, `$()`, and shell metacharacters are never interpolated by the shell:
 
 ```bash
-codex exec -s read-only -m gpt-5.6-sol "<escalation packet>"
+codex exec -s read-only -m gpt-5.6-sol - <<'SOL_PACKET'
+Context: <issue goal and relevant acceptance criteria>
+Constraint: <repository / Spec constraints>
+Inspected: <files or areas already inspected>
+Evidence: <current understanding and what was tried>
+Question: <exact uncertainty or blocking decision>
+Options: <candidate approaches, if known>
+Answer: <requested answer type>
+SOL_PACKET
 ```
 
 - `-s read-only` is **mandatory**: Sol must never modify files, commit, or push.
 - `-m gpt-5.6-sol` selects the Sol model. Do not invent another model id.
+- The positional `-` tells `codex exec` to read the prompt from stdin.
+- Use a **single-quoted heredoc delimiter** as shown above. Do not place an
+  escalation packet inside a double-quoted shell argument.
 - Run from the repository root so Sol has the same working directory context.
 - `--ephemeral` is optional; use it for throwaway consultations you will not
   resume. Without it the session is persisted under `~/.codex/` for tracing.
 - Use `codex exec -h` to confirm the exact flags supported by the installed CLI
   before invoking; do not assume flag availability.
-- `codex exec` prints hook/deprecation noise before Sol's answer; Sol's actual
-  consultation reply is the final text block of the output.
+- `codex exec` may print hook/deprecation noise before Sol's answer; use the
+  final consultation text as Sol's response.
 
 If `codex` is not installed, or authentication is missing or expired, stop and
 report the exact missing capability and the smallest authentication recovery
@@ -53,7 +67,7 @@ fabricate a Sol response.
 
 ## Escalation packet
 
-Send the smallest useful context, per CLAUDE.md. Suggested shape:
+Send the smallest useful context, per CLAUDE.md. Suggested fields:
 
 ```text
 Context: <issue goal and relevant acceptance criteria, one or two lines>
