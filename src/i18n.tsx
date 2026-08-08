@@ -83,6 +83,11 @@ export const strings = {
     relatedFoodCultures: '関連する食文化',
     openInGoogleMaps: 'Google マップで開く',
     openInAppleMaps: 'Apple マップで開く',
+    loading: '読み込み中…',
+    errorTitle: 'エラーが発生しました',
+    errorBody: '問題が発生しました。もう一度お試しください。',
+    notFoundTitle: 'ページが見つかりません',
+    notFoundBody: 'このページは存在しないか、移動した可能性があります。',
   },
   en: {
     appName: 'Tokyo Mogu Mogu',
@@ -158,6 +163,11 @@ export const strings = {
     relatedFoodCultures: 'Related food cultures',
     openInGoogleMaps: 'Open in Google Maps',
     openInAppleMaps: 'Open in Apple Maps',
+    loading: 'Loading…',
+    errorTitle: 'Something went wrong',
+    errorBody: 'An unexpected error occurred. Please try again.',
+    notFoundTitle: 'Page not found',
+    notFoundBody: 'This page does not exist or may have been moved.',
   },
 } as const;
 
