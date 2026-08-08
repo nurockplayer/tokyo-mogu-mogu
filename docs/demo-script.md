@@ -61,7 +61,7 @@ the layout.
 
 ## Save → My Route
 
-Saving the itinerary (S5 CTA or S7 保存する) writes the shared
-`tmm:savedRoutes` localStorage contract. The saved route then appears in
+Saving the itinerary (S5 CTA, S6 旅程に追加する, or S7 保存する) writes the
+shared `tmm:savedRoutes` localStorage contract. The saved route then appears in
 **マイルート** (S8), where it can be reopened or removed. A demo reset clears
 both collection and saved-route state.

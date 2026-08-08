@@ -7,7 +7,7 @@
  */
 import { FOOD_CULTURES } from './seed-food-cultures';
 import { PLACES } from './seed-places';
-import { getRouteById as _getRouteById, getSpotDetail as _getSpotDetail, MODEL_ROUTES, projectRoutePins as _projectRoutePins } from './seed-routes';
+import { getRouteById as _getRouteById, getRouteIdForPlace as _getRouteIdForPlace, getSpotDetail as _getSpotDetail, MODEL_ROUTES, projectRoutePins as _projectRoutePins } from './seed-routes';
 import type { FoodCulture, Place } from './model';
 import type { ModelRoute, SpotDetail } from './seed-routes';
 
@@ -36,13 +36,19 @@ export function getSpotDetail(placeId: string): SpotDetail | undefined {
 
 /**
  * Project route stops onto a [0,100] × [0,100] map canvas (Issue #45).
- * Pin number == step number.
+ * Pin number == step number. Pins are de-overlapped for the 375px baseline so
+ * each stays individually tappable (Issue #69).
  */
 export function projectRoutePins(
   steps: Array<{ stepNumber: number; placeId: string }>,
   placesList: ReadonlyArray<Place>,
 ): Array<{ stepNumber: number; x: number; y: number }> {
   return _projectRoutePins(steps, placesList);
+}
+
+/** Resolve the model route that contains a place, if any (Issue #69, S6 save). */
+export function getRouteIdForPlace(placeId: string): string | undefined {
+  return _getRouteIdForPlace(placeId);
 }
 
 export function getFoodCultureById(id: string): FoodCulture | undefined {
