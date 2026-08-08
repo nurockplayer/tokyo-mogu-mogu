@@ -129,9 +129,30 @@
   outline-offset: 2px;
 }
 
+.tmm-chip:hover {
+  border-color: var(--tmm-color-forest);
+  color: var(--tmm-color-forest);
+}
+
+.tmm-chip:active {
+  transform: scale(0.97);
+}
+
+.tmm-chip:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .tmm-chip[aria-pressed='true'] {
   background: var(--tmm-color-forest);
   border-color: var(--tmm-color-forest);
+  color: var(--tmm-color-card);
+}
+
+.tmm-chip[aria-pressed='true']:hover {
+  background: var(--tmm-color-forest-deep);
+  border-color: var(--tmm-color-forest-deep);
   color: var(--tmm-color-card);
 }
 
@@ -212,6 +233,35 @@
   border-left: 4px solid var(--tmm-color-leaf);
 }
 
+/* Clickable card (navigation to detail / route) */
+.tmm-card--button {
+  cursor: pointer;
+  transition:
+    border-color 0.2s var(--tmm-ease),
+    box-shadow 0.2s var(--tmm-ease),
+    transform 0.15s var(--tmm-ease);
+}
+
+.tmm-card--button:hover {
+  border-color: var(--tmm-color-forest);
+  box-shadow: var(--tmm-shadow-lift);
+}
+
+.tmm-card--button:active {
+  transform: scale(0.98);
+}
+
+.tmm-card--button:focus-visible {
+  outline: 3px solid var(--tmm-color-orange);
+  outline-offset: 2px;
+}
+
+.tmm-card--button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
 /* Result / food-culture card primitive */
 .tmm-result-card {
   background: var(--tmm-color-card);
@@ -261,7 +311,7 @@
   font-size: var(--tmm-text-caption);
   font-weight: 700;
   letter-spacing: 0.08em;
-  color: var(--tmm-color-leaf);
+  color: var(--tmm-color-forest-deep);
   margin-bottom: var(--tmm-space-1);
 }
 

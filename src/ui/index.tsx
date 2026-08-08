@@ -109,13 +109,16 @@ export function ProgressBar({
 export function StepDots({
   total,
   current,
+  label,
 }: {
   total: number;
   /** 0-indexed current step. */
   current: number;
+  /** Accessible label for the progress group; pass the localized string. */
+  label?: string;
 }) {
   return (
-    <div className="tmm-steps" role="group" aria-label="progress">
+    <div className="tmm-steps" role={label ? 'group' : undefined} aria-label={label}>
       {Array.from({ length: total }, (_, i) => (
         <span
           key={i}
@@ -133,11 +136,14 @@ export function StepDots({
 export function Card({
   flat = false,
   feature = false,
+  button = false,
   className = '',
   children,
 }: {
   flat?: boolean;
   feature?: boolean;
+  /** Clickable card variant (e.g. navigating to a detail screen). */
+  button?: boolean;
   className?: string;
   children: ReactNode;
 }) {
@@ -145,6 +151,7 @@ export function Card({
     'tmm-card',
     flat ? 'tmm-card--flat' : '',
     feature ? 'tmm-card--feature' : '',
+    button ? 'tmm-card--button' : '',
     className,
   ]
     .filter(Boolean)
@@ -265,7 +272,11 @@ export function SupportAction({
       <div className="tmm-support__body">
         <div className="tmm-support__title">{title}</div>
         <p className="tmm-support__desc">{description}</p>
-        {disabled ? null : href ? (
+        {disabled ? (
+          <span className="tmm-btn tmm-btn--sm tmm-btn--secondary" aria-disabled="true">
+            {children}
+          </span>
+        ) : href ? (
           <a href={href} target="_blank" rel="noreferrer" className="tmm-btn tmm-btn--sm tmm-btn--secondary">
             {children}
           </a>
@@ -290,15 +301,23 @@ export function Tag({ tone = 'info', children }: { tone?: TagTone; children: Rea
 export function Toast({
   message,
   onClose,
+  closeLabel,
 }: {
   message: string;
   onClose?: () => void;
+  /** Accessible label for the close button; pass the localized string. */
+  closeLabel?: string;
 }) {
   return (
     <div className="tmm-toast" role="status">
       <span>{message}</span>
       {onClose ? (
-        <button type="button" className="tmm-toast__close" onClick={onClose} aria-label="Close">
+        <button
+          type="button"
+          className="tmm-toast__close"
+          onClick={onClose}
+          aria-label={closeLabel}
+        >
           ✕
         </button>
       ) : null}
