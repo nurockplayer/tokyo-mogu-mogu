@@ -32,6 +32,7 @@ import {
   type ReactNode,
 } from 'react';
 import { findOrCreateUser, signInWithGoogle, type AppUser, type UserStore } from '../auth';
+import { signOut as runSignOut } from './signout';
 import { clearSession, loadSession, saveSession } from './session';
 
 /** Module-level in-memory user store: one app user per Google identity (#21). */
@@ -80,10 +81,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setStatus('unauthenticated');
   }, []);
 
-  const signOut = useCallback(() => {
-    // Seam for #23: the full Google sign-out lifecycle (provider teardown,
-    // failure recovery) slots in here. #22 only performs the local clear.
-    clearSession();
+  const signOut = useCallback(async () => {
+    // Full sign-out lifecycle (#23): clears the persisted session via the
+    // injected seam and performs the best-effort Google-side teardown, then
+    // returns the app to unauthenticated. Never throws.
+    await runSignOut({ clearSession });
     setUser(null);
     setStatus('unauthenticated');
   }, []);
