@@ -36,15 +36,18 @@ codex exec -s read-only -m gpt-5.6-sol "<escalation packet>"
 
 If `codex` is not installed, or authentication is missing or expired, stop and
 report the exact missing capability and the smallest authentication recovery
-step (see `codex --help` / `/codex:setup`). Do not assume a fixed authentication
-lifetime, and do not fabricate a Sol response.
+step. For ChatGPT-managed authentication, start with `codex login` (or
+`codex login --device-auth` when appropriate) and confirm current options with
+`codex --help`. Do not assume a fixed authentication lifetime, and do not
+fabricate a Sol response.
 
 ## Advisory contract
 
 - Sol returns reasoning, a plan, or debugging guidance only. It does not
   implement.
 - Sol must not create, edit, or delete any file, and must not run git
-  write commands. The `read-only` sandbox enforces this at the OS level.
+  write commands. The mandatory `read-only` sandbox constrains repository
+  writes during the consultation.
 - After Sol answers, the implementing model (`deepseek-v4-flash`) resumes
   implementation and verification. Control always returns to the implementer.
 
