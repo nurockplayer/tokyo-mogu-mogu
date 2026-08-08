@@ -9,7 +9,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { EmptyState, Card } from '../ui';
-import { useI18n } from '../i18n';
+import { useI18n, type Locale } from '../i18n';
 import { getRouteById, type ModelRoute } from '../data';
 import { loadSavedRoutes, unsaveRoute, type SavedRouteEntry } from '../lib/saved-routes';
 import './MyRoutePage.css';
@@ -28,7 +28,7 @@ export function buildEntries(saved: SavedRouteEntry[]): SavedEntry[] {
 }
 
 /** Total duration label for a route's default variant (editorial minutes). */
-export function durationLabel(route: ModelRoute, locale: 'ja' | 'en'): string {
+export function durationLabel(route: ModelRoute, locale: Locale): string {
   const total = route.variants[route.defaultDuration].totalMinutes;
   const h = Math.floor(total / 60);
   const m = total % 60;

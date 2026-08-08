@@ -31,7 +31,7 @@ import {
   projectRoutePins,
 } from '../data';
 import type { RouteDuration } from '../data';
-import { useI18n } from '../i18n';
+import { useI18n, type Locale } from '../i18n';
 import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
 import './route-spot.css';
 
@@ -41,7 +41,7 @@ const DURATIONS: RouteDuration[] = ['half-day', '1-day'];
 const DEFAULT_ROUTE_ID = 'okutama-wasabi-journey';
 
 /** Formats a minute total as "3h 10m" (kept locale-agnostic for the header). */
-function formatTotalMinutes(total: number, locale: 'ja' | 'en'): string {
+function formatTotalMinutes(total: number, locale: Locale): string {
   const h = Math.floor(total / 60);
   const m = total % 60;
   if (h === 0) return `${m}min`;

@@ -27,7 +27,7 @@ import { getFoodCultureById } from '../data';
 import type { FoodCulture } from '../data';
 import { FoodCultureImage } from '../components/FoodCultureImage';
 import { Card, StorySection, Tag } from '../ui';
-import { useI18n } from '../i18n';
+import { useI18n, type Locale } from '../i18n';
 import { readingMinutes } from './story-reading';
 import './StoryPage.css';
 
@@ -84,7 +84,7 @@ const WASABI_COPY: StoryCopy = {
     'Your tasting alone helps carry this wasabi to the next generation. Eat it, buy it — and visit Okutama.',
 };
 
-function pick(locale: 'ja' | 'en', ja: string, en: string): string {
+function pick(locale: Locale, ja: string, en: string): string {
   return locale === 'ja' ? ja : en;
 }
 
@@ -92,7 +92,7 @@ function pick(locale: 'ja' | 'en', ja: string, en: string): string {
 function bodyReadingMinutes(
   record: FoodCulture | undefined,
   copy: StoryCopy,
-  locale: 'ja' | 'en',
+  locale: Locale,
 ): number {
   const sources: Array<string | undefined> =
     locale === 'ja'

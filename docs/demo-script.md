@@ -45,6 +45,23 @@ stored in `localStorage` only.
 
 ## Languages
 
-Japanese is the demo default. Switch to **EN** in the header for English. The
-i18n architecture is designed for Traditional Chinese as well; the 繁中
-locale lands with Issue #48. Long English strings must not break the layout.
+Japanese is the demo default (judging language). Switch in the header:
+**EN** for English, **繁中** for Traditional Chinese — the same S0–S8 flow
+works in all three locales. Long English strings are handled without breaking
+the layout.
+
+## S5 route data (for the pitch)
+
+- Course: 奥多摩わさび紀行 (Okutama Wasabi Journey), half-day default
+  (~3h10m), toggle to 1-day.
+- 4 numbered stops: 奥多摩観光案内所 → 奥多摩わさび田 → 奥多摩そば処 →
+  奥多摩駅前 道の駅, connected by 徒歩 / 西東京バス segments.
+- Route data is deterministic editorial demo content (not a verified schedule).
+  Practical spot details are shown as unverified where no source exists.
+
+## Save → My Route
+
+Saving the itinerary (S5 CTA or S7 保存する) writes the shared
+`tmm:savedRoutes` localStorage contract. The saved route then appears in
+**マイルート** (S8), where it can be reopened or removed. A demo reset clears
+both collection and saved-route state.
