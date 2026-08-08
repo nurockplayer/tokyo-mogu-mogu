@@ -1,90 +1,121 @@
 # MVP Scope and Demo Journey
 
-Status: Draft for MVP implementation (Issue #1)
-
-Tokyo Mogu Mogu の MVP 範囲を定義します。このドキュメントは Issue #1 の Acceptance Criteria を満たし、実装 (Issue #2-#9) の共通コンテキストとして使われます。
+Status: Realigned to current product direction (Issue #41, approved S0–S9 UI).
 
 ## 1. Primary Persona / 主要ペルソナ
 
-**Tokyo Taster** — a Japanese deep-travel or international visitor in Tokyo who wants to experience Tama's local food culture beyond the usual tourist spots.
+**Inbound traveler** — an international visitor planning a Tokyo trip who wants
+to experience local food culture beyond the usual tourist spots.
 
 | Attribute | Detail |
 |---|---|
-| Type | Primary persona for the MVP demo |
-| Who | Japanese deep-travel resident (20s-40s) or international visitor with smartphone |
-| Motivations | Wants authentic local food experiences; enjoys collecting (goshuin, stamps, stamps-rally) |
-| Pain point | Tama's food culture is fragmented; hard to find where to experience it and hard to turn interest into a real visit |
-| Core need | Discover a food culture → understand its story → know exactly where to experience it → collect it as proof of the visit |
-| Success moment | Unlocks a collectible after a real in-area check-in and wants to collect the next one |
+| Type | Primary persona for the hackathon demo |
+| Who | Inbound international traveler (rep. persona: Taiwanese, 30s, based in Shinjuku, seeking local life / nature / maker interaction in day-trip range) |
+| Motivations | Wants to understand the story behind Tokyo food culture and act on it — eat, buy, visit, support |
+| Pain point | Local food culture is fragmented and hard to turn interest into a real visit or meaningful support |
+| Core need | Discover a food culture → understand its story → follow a model route → support the culture through real actions |
+| Success moment | Feels the food culture is worth passing on and knows exactly what to do about it |
 
-Secondary: international visitor who needs clear English copy and map navigation. Both personas are in scope; copy ships in Japanese and English.
+Japanese deep-travel users are a secondary / future audience.
 
-## 2. MVP Scope / 機能スコープ
+## 2. Product Scope / 機能スコープ
 
-### In Scope (MVP)
+### Core Journey (S0–S8)
 
-- **Discovery**: Food culture Pokédex (grid of cards, locked/unlocked states, completion progress, hints for undiscovered items).
-- **Story**: Food culture detail page with overview, region/history, maker story, how to enjoy, related places, and source/provenance.
-- **Experience**: Map view of places + nearby discovery; FoodCulture ↔ Place navigation; link out to Google Maps / Apple Maps.
-- **Collection**: Location-based check-in (browser geolocation + distance check against configurable radius) that unlocks food cultures; duplicate check-in handled safely.
-- **Persistence**: Local-only collection progress (collected food cultures, visited places, collected_at) via localStorage/IndexedDB, with a demo reset.
-- **Progression**: Area/category completion, next-collectible suggestions, nearby undiscovered highlights.
-- **Languages**: Japanese and English user-facing copy.
-- **Data**: MVP seed dataset of Tama/Okutama food cultures and places with source/provenance traceability.
+- **S0 Landing**: value proposition at a glance, diagnosis CTA.
+- **S1 Dietary Restrictions**: optional multi-select + skip; used only for
+  recommendation / match reasons (no safety claims — see product contract).
+- **S2 Preference Diagnosis**: 5-question wizard with progress + back.
+- **S3 Diagnosis Result**: 東京わさび result card + match reason tags.
+- **S4 Food Culture Story**: editorial long-form story (geography/history,
+  maker, craft, challenge → support transition).
+- **S5 Model Route**: half-day / 1-day 奥多摩わさび route with numbered stops,
+  mobility segments, and map pins.
+- **S6 Spot Detail**: practical info (access, hours, price, reservation) where
+  source data exists.
+- **S7 Support Actions**: 買う / 訪れる / 予約する / 寄付する / 共有する /
+  保存する with cultural-continuation meaning.
+- **S8 My Route**: saved itineraries via local persistence.
+- **S9 Badge Collection**: stretch / time permitting.
 
-### Out of Scope (Explicitly excluded from MVP)
+### In Scope (current MVP)
 
-- AI itinerary generation
-- Accounts / OAuth / server-side user profile
-- Merchant CMS / admin panel
+- Deterministic 東京わさび diagnosis → story → route → support flow.
+- Shared UI foundation (Issue #42) used by all screens.
+- Local persistence for S8 saved itineraries; demo reset.
+- Japanese-first copy with English / Traditional Chinese i18n architecture.
+- Source-backed 奥多摩 × 東京わさび demo content; data traceability preserved.
+
+### Reusable Infrastructure (legacy, not the primary journey)
+
+- Food Culture Pokédex, Locked/Unlocked gating, geolocation check-in, `GET!`
+  success moment, GTFS transit-aware next discovery, map view, Google Auth.
+- These may remain as supplementary implementation but must not block or
+  overwrite the S0–S9 core journey.
+
+### Out of Scope (current MVP)
+
+- Full AI itinerary generation / route-planning algorithm
+- Accounts / OAuth as a required demo step; server-side profile; cross-device sync
+- Payments / coupons / real booking / donation backends
 - Leaderboards / social graphs
-- Payments / coupons
-- QR-code check-in operation
-- Cross-device sync
-- Route-planning algorithm (navigation is delegated to external map apps)
+- Production-grade reward / redemption backend
+- S0–S9 all-screen implementation in a single ticket (child Issues #43–#49)
 
-## 3. Initial Collectibles / 初期コレクティブル
+## 3. Demo Content / デモデータ
 
-The MVP seed focuses on 4 food cultures, anchored in Okutama and western Tama. The data model (Issue #2) is designed to expand across Tama later.
+The current demo focuses on **奥多摩 × 東京わさび** as the single core food
+culture. Other cultures appear only as S9 badge dummies / future expansion.
 
-| # | Collectible | Category | Area | Note |
-|---|---|---|---|---|
-| 1 | Tokyo Wasabi (東京わさび) | Produce / wasabi | Okutama | Signature entry point for the demo |
-| 2 | Okutama Yamame Trout (奥多摩やまめ) | Produce / river fish | Okutama | Second collectible for the next-discovery loop |
-| 3 | Tama sweets / wagashi (多摩のお菓子) | Sweets / wagashi | Tama area | Represents the sweets category |
-| 4 | (Fieldwork addition, 1-2 more) | TBD | Okutama | To be added from Issue #10 fieldwork |
+Data provenance follows `AGENTS.md`: verified source data, team editorial
+content, and demo fixtures are distinguished explicitly. Until fieldwork
+(Issue #10) supplies stronger data, demo content uses verified existing data,
+clearly identified demo/editorial fixtures, or explicit unknown/unverified
+states. No local facts are invented.
 
-The demo journey primarily walks through #1 → #2.
+## 4. Demo Journey / 60–90秒デモの流れ
 
-## 4. Demo Journey / 60-90秒デモの流れ
+The core loop is **Diagnose → Know → Route → Support** (S0–S8). See
+[docs/demo-script.md](demo-script.md) for the current walkthrough.
 
-The core loop is **Discover → Understand → Visit → Collect → Continue**.
+1. **S0 Landing**: the value — eating Tokyo connects its culture — is understood
+   at a glance (~10 s).
+2. **S1 Dietary Restrictions**: enter or skip dietary restrictions (~5 s).
+3. **S2 Diagnosis**: answer 5 preference questions (~20 s).
+4. **S3 Result**: meet 東京わさび with match reasons (~10 s).
+5. **S4 Story**: maker, history, craft, and the succession challenge (~15 s).
+6. **S5 Route**: half-day 奥多摩わさび model route with stops and mobility.
+7. **S6 Spot Detail**: practical information for a representative spot.
+8. **S7 Support**: purchase / visit / reserve / share — what the action means
+   for cultural succession.
+9. **S8 My Route**: save the route and confirm it locally.
 
-1. **Top page**: concept is understood at a glance (30 seconds).
-2. **Pokédex**: browse Tama food cultures; see locked/unlocked states and progress.
-3. **Pick "Tokyo Wasabi"** (locked): read the story, maker, and history.
-4. **Where to experience it**: view related places on the map; tap to start navigation.
-5. **Check-in**: at the place, run geolocation check-in within the unlock radius.
-6. **"Tokyo Wasabi GET!"**: card unlocks; Pokédex progress updates instantly.
-7. **Story & maker**: read the detail page now fully unlocked.
-8. **Next discovery**: guided to "Okutama Yamame" as the next collectible.
-
-Target: a judge can complete this end-to-end on a phone in 60-90 seconds, and it can be reset and replayed for repeated demos.
+Target: a judge can complete S0–S3 in ~60–90 seconds and understand the
+differentiated story → route → support arc in that window. The demo runs
+without login, without geolocation (real or overridden), and is replayable
+from a deterministic reset.
 
 ## 5. Success Metrics / 成功指標
 
 For the hackathon demo and post-demo learning:
 
-- **Demo completion**: the 8-step journey above can be completed on a phone in ≤90 seconds.
-- **Check-in success rate**: ≥90% of demo check-ins unlock correctly on the first attempt (including demo/overridden-location mode).
-- **Collection engagement**: ≥2 collectibles unlocked during a single demo session by ≥50% of demo users.
-- **Story consumption**: detail page viewed for ≥80% of unlocked collectibles in demo sessions.
-- **Data quality**: 100% of seed items carry a traceable source (source name + URL/dataset + last-verified date).
+- **Demo completion**: S0–S8 core journey completes on a phone in ≤90 seconds
+  without login or location.
+- **Journey completion**: ≥50% of demo users reach S4 story from S3 result.
+- **Story consumption**: S4 full story viewed for ≥80% of demo sessions.
+- **Support clarity**: story → route → support differentiation explainable in
+  60–90 seconds.
+- **Data quality**: 100% of seed items carry a traceable source or are clearly
+  marked as demo/editorial data.
 
 These are demo-stage metrics, not production targets.
 
 ## 6. Out-of-scope guardrails (reminder for implementers)
 
-- Do not add accounts, payment, leaderboards, or itinerary AI for the MVP.
-- Do not invent local facts: every shop, product, story, or public data point must be traceable or clearly marked as demo/editorial data.
-- Prefer the smallest reversible implementation that satisfies each issue's acceptance criteria.
+- Do not add accounts, payment, leaderboards, or itinerary AI as required MVP
+  features.
+- Do not invent local facts: every shop, product, story, or public data point
+  must be traceable or clearly marked as demo/editorial data.
+- Dietary input must never be presented as a verified safety guarantee.
+- Prefer the smallest reversible implementation that satisfies each issue's
+  acceptance criteria, reusing the shared UI foundation.

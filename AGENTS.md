@@ -2,11 +2,20 @@
 
 ## Purpose / 目的
 
-Tokyo Mogu Mogu is a discovery and collection experience for Tokyo's Tama area, starting with local food, products, makers, and regional culture such as wasabi and sweets.
+Tokyo Mogu Mogu は、東京の食文化を「おいしい」を入口に、旅行者と未来に残したい食文化をつなぐ mobile-first なプロジェクトです。
 
-The product should make exploring Tama feel like building a field guide or collecting goshuin: users discover places, learn the story behind them, visit or purchase locally, and gradually complete their collection.
+**Current product direction (Issue #41, approved S0-S9 UI)**: the hackathon
+core journey is S0 Landing → S1 Dietary Restrictions → S2 Preference Diagnosis
+→ S3 Diagnosis Result → S4 Food Culture Story → S5 Model Route → S6 Spot
+Detail → S7 Support Actions → S8 My Route, scoped to **奥多摩 × 東京わさび**,
+with inbound international travelers as the primary persona and an accountless,
+deterministic, Japanese-default demo. See
+`docs/specs/product/hackathon-product-contract.md` — it is the product source
+of truth.
 
-Tokyo Mogu Mogu は、多摩地域の食・特産品・作り手・地域文化を「集めながら発見する」体験にするプロジェクトです。わさびやお菓子などを入口に、図鑑や御朱印集めのように現地を巡りたくなるサービスを目指します。
+**Legacy framing**: the earlier "discovery and collection / field guide /
+goshuin" framing (collection-first Pokédex, geolocation check-in, `GET!`) is
+reusable infrastructure, not the current product direction.
 
 ## Language / 言語
 
@@ -23,23 +32,41 @@ This repository is developed with Japanese and international collaborators.
 
 ## Product Principles / プロダクト原則
 
-1. **Collection before recommendation.** The core experience is discovering and completing a collection, not building another generic tourism search app.
+> The principles below are the standing, current-principles unless the product
+> contract (Issue #41 / S0-S9) says otherwise. Where they conflict, the product
+> contract wins — it is the current product source of truth.
+
+1. **Story and support before collection.** The core experience is leading
+   users from knowing a food culture to acting on it (eat / buy / visit /
+   reserve / share); collection (S9 Badge) is stretch work, not the primary
+   journey.
 2. **Local story before catalog size.** A smaller set of meaningful places, foods, makers, and stories is better than a large shallow directory.
 3. **Drive real-world action.** Features should encourage users to visit, learn, taste, buy, or explore in Tama.
 4. **Data must matter.** Open data and other legitimate data sources should support the product itself, not exist only for presentation slides.
-5. **Start narrow, design to expand.** MVP content may focus on Okutama or selected Tama areas, while the data model should allow future expansion across Tama.
-6. **Japanese residents and international visitors are both valid users.** Do not design the product as foreign-tourist-only unless a ticket explicitly requires it.
+5. **Start narrow, design to expand.** MVP content focuses on 奥多摩 × 東京わさび, while the data model should allow future expansion across Tama.
+6. **Primary persona is the inbound traveler.** The hackathon UI targets the
+   inbound international traveler (rep. persona: Taiwanese, 30s, Shinjuku
+   base). Japanese deep-travel users are a secondary / future audience and do
+   not replace the primary persona.
 7. **Never invent local facts.** Shops, products, stories, opening hours, access information, and public data must be traceable to a source or clearly marked as demo/editorial data.
+8. **Dietary input is recommendation-only.** S1 dietary-restriction input is
+   used only for recommendation / match reasons and must never be presented as
+   a verified safety guarantee (see the product contract's safety boundary).
 
 ## MVP Priorities / MVP優先順位
 
 For the hackathon MVP, prioritize work in this order unless an issue states otherwise:
 
-1. A clear discover → visit/experience → collect loop.
-2. A simple, reliable data model for places, items, stories, routes, and collection state.
-3. A small set of high-quality Tama/Okutama demo content backed by real sources.
-4. Mobile-first Japanese/English UX.
-5. A convincing end-to-end demo that can be explained with real user and regional value.
+1. The S0-S8 core journey: diagnosis → story → model route → support action →
+   saved route (奥多摩 × 東京わさび).
+2. A simple, reliable data model for places, items, stories, routes, and (local)
+   saved-itinerary state.
+3. A small set of high-quality 奥多摩 × 東京わさび demo content backed by real
+   sources or clearly marked as demo/editorial.
+4. Mobile-first UX with Japanese primary copy and a ja/en/zh-TW i18n
+   architecture.
+5. A convincing end-to-end demo that can be explained with real user and
+   regional value — accountless, deterministic, and geolocation-independent.
 
 Avoid adding authentication, payments, social graphs, complex recommendation systems, or infrastructure that is not required for the end-to-end MVP.
 
@@ -142,6 +169,9 @@ When product intent conflicts with implementation convenience, protect the produ
 When an Issue references a Spec under `docs/specs/`:
 
 - Read the referenced Spec before implementing.
+- The current hackathon product contract is
+  `docs/specs/product/hackathon-product-contract.md` (Issue #41). Child Issues
+  #42–#49 and any S0–S9 work reference it as the product source of truth.
 - Do not implement behavior that contradicts the Spec.
 - Do not fill in unresolved product behavior on your own; surface it instead.
 - If a Spec change is needed, call it out explicitly as its own change rather than mixing it into implementation scope.

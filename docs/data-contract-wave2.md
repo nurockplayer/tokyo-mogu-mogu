@@ -1,5 +1,10 @@
 # Shared Data Contract — Wave 2 (Issues #15, #16, #17, #18, #20)
 
+> **Status note (Issue #41)**: This contract documents legacy MVP foundations
+> (CI, Okutama facilities, GTFS, tourism baseline, SDD/Auth). These remain
+> **reusable infrastructure**. The current hackathon product contract is S0–S9
+> and lives at `docs/specs/product/hackathon-product-contract.md`.
+
 Contract for the parallel first-wave implementation. Read before writing code.
 
 ## Repo state

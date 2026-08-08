@@ -1,5 +1,11 @@
 # Shared Data Contract — Issue #8 transit-aware extension
 
+> **Status note (Issue #41)**: This contract documents the legacy transit-aware
+> "next discovery" implementation. It remains **reusable infrastructure** but is
+> not the current hackathon core journey (S0–S9). The current product contract
+> lives at `docs/specs/product/hackathon-product-contract.md`. GTFS data may
+> enrich S5/S6 mobility information but must not dictate a different screen flow.
+
 Extends the existing progression implementation with GTFS-based transit-aware
 "next discovery" (#8 current scope, after #17 merged). Builds on the existing
 MVP progression code — do NOT rebuild it.

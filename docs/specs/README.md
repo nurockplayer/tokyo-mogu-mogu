@@ -45,5 +45,8 @@ generates requirements / design / tasks artifacts.
 
 ## Spec list / 仕様一覧
 
+- `docs/specs/product/hackathon-product-contract.md` — current hackathon product
+  contract (S0–S9, 奥多摩 × 東京わさび, accountless demo, dietary safety
+  boundary). Source of truth per Issue #41; child Issues #42–#49 reference this.
 - `docs/specs/authentication/google-login.md` — Google authentication and user
-  identity contract (SDD foundation for #11).
+  identity contract (SDD foundation for #11, reusable infrastructure).
