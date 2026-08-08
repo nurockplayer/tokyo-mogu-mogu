@@ -1,0 +1,82 @@
+/* ============================================================
+   Tokyo Mogu Mogu — shared UI foundation design tokens (Issue #42)
+   ------------------------------------------------------------------
+   Namespace: `--tmm-*` so this foundation never collides with the
+   legacy design system in `src/styles.css` (`--forest`, `--wasabi`, ...).
+   Child Issues S0–S9 import these tokens (and the components in
+   `src/ui/`) instead of inventing their own visual system.
+
+   Contrast (WCAG AA) validated at authoring time:
+   - ink / warm           12.74 : 1
+   - ink-soft / warm       6.42 : 1   (large text AA, body text AA)
+   - forest-deep / warm    8.35 : 1
+   - white / forest        5.99 : 1
+   - white / forest-deep   9.40 : 1
+   - white / orange        4.81 : 1   (orange only as a surface with
+                                        white text, never body text)
+   ============================================================ */
+
+:root {
+  /* Color — palette (deep green / leaf green / warm neutral / orange) */
+  --tmm-color-forest: #2f6f4f;
+  --tmm-color-forest-deep: #1f4f38;
+  --tmm-color-forest-tint: rgb(47 111 79 / 0.1);
+  --tmm-color-leaf: #9fb83f;
+  --tmm-color-leaf-tint: rgb(159 184 63 / 0.14);
+  --tmm-color-warm: #f6f1e6;
+  --tmm-color-warm-deep: #ece3d0;
+  --tmm-color-card: #fffdf6;
+  --tmm-color-ink: #2c2a24;
+  --tmm-color-ink-soft: #5b5749;
+  --tmm-color-ink-faint: #8d876f;
+  --tmm-color-orange: #c44a2c;
+  --tmm-color-orange-deep: #a03a22;
+  --tmm-color-line: #dcd3bd;
+  --tmm-color-line-strong: #b9ad8f;
+
+  /* Status tones (paired with icons/labels, never color alone) */
+  --tmm-color-success: #2f6f4f;
+  --tmm-color-warning: #8f5d12;
+  --tmm-color-danger: #c44a2c;
+  --tmm-color-info: #4a5f9f;
+
+  /* Typography */
+  --tmm-font-display: 'Shippori Mincho', 'Hiragino Mincho ProN', 'Noto Serif TC', serif;
+  --tmm-font-body: 'Zen Kaku Gothic New', 'Hiragino Sans', 'Noto Sans TC', system-ui, sans-serif;
+
+  /* Type scale */
+  --tmm-text-display-lg: 2rem;
+  --tmm-text-display: 1.6rem;
+  --tmm-text-title: 1.3rem;
+  --tmm-text-body: 0.98rem;
+  --tmm-text-caption: 0.82rem;
+
+  /* Spacing scale */
+  --tmm-space-1: 4px;
+  --tmm-space-2: 8px;
+  --tmm-space-3: 12px;
+  --tmm-space-4: 16px;
+  --tmm-space-5: 20px;
+  --tmm-space-6: 28px;
+
+  /* Radius */
+  --tmm-radius-sm: 8px;
+  --tmm-radius-md: 14px;
+  --tmm-radius-lg: 20px;
+  --tmm-radius-pill: 999px;
+
+  /* Layout */
+  --tmm-content-max: 480px;
+  --tmm-gutter: 16px;
+  --tmm-tap-min: 44px;
+
+  /* Borders */
+  --tmm-border: 1px solid var(--tmm-color-line);
+  --tmm-border-strong: 1px solid var(--tmm-color-line-strong);
+
+  /* Elevation */
+  --tmm-shadow-card: 0 2px 10px rgb(44 42 36 / 0.08);
+  --tmm-shadow-lift: 0 6px 22px rgb(44 42 36 / 0.16);
+
+  --tmm-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
