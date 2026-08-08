@@ -12,6 +12,7 @@
  * 「詳細は現地・店舗に直接確認してください」 and clearly marks demo/editorial
  * data. Accountless and geolocation-free.
  */
+import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import type { ReactNode } from 'react';
 import {
@@ -21,9 +22,10 @@ import {
   InfoList,
   StorySection,
   Tag,
+  Toast,
 } from '../ui';
 import { PlaceVisual } from '../components/PlaceVisual';
-import { getPlaceById, getRelatedFoodCultures, getSpotDetail } from '../data';
+import { getPlaceById, getRelatedFoodCultures, getRouteIdForPlace, getSpotDetail } from '../data';
 import type { PlaceType } from '../data';
 import { useI18n, type LocaleKey } from '../i18n';
 import {
@@ -34,6 +36,7 @@ import {
   foodCultureKey,
 } from '../i18n/data-content';
 import { googleMapsDirectionsUrl, appleMapsDirectionsUrl } from '../lib/map-links';
+import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
 
 /** Maps a place type to its i18n label key. */
 const PLACE_TYPE_LABEL: Record<PlaceType, LocaleKey> = {
@@ -51,6 +54,16 @@ export function SpotPage() {
 
   const place = placeId ? getPlaceById(placeId) : undefined;
   const detail = placeId ? getSpotDetail(placeId) : undefined;
+
+  // The S6 "add to itinerary" CTA saves the spot's parent model route into the
+  // shared `tmm:savedRoutes` contract — the same itinerary the S5 save button
+  // writes and S8 My Route reads (Issue #69). The route is derived from the
+  // place id, so the saved entry always matches what the route map links to.
+  const routeId = placeId ? getRouteIdForPlace(placeId) : undefined;
+  const [saved, setSaved] = useState<boolean>(() =>
+    routeId !== undefined ? isRouteSaved(routeId) : false,
+  );
+  const [toast, setToast] = useState<string | null>(null);
 
   if (!place) {
     return (
@@ -115,6 +128,21 @@ export function SpotPage() {
   // Open / closed / reservation-needed state — only when reliable data exists.
   // Today no spot detail carries verified hours/closed-day data, so an
   // explicit unverified state is shown instead (never a fabricated claim).
+
+  const handleToggleItinerary = () => {
+    if (routeId === undefined) {
+      return;
+    }
+    if (saved) {
+      unsaveRoute(routeId);
+      setSaved(false);
+      setToast(t('s6AddToItineraryRemovedToast'));
+    } else {
+      saveRoute(routeId);
+      setSaved(true);
+      setToast(t('s6AddToItineraryToast'));
+    }
+  };
 
   return (
     <div className="tmm-page">
@@ -201,9 +229,19 @@ export function SpotPage() {
         >
           🧭 {t('s6DirectionsApple')}
         </ButtonLink>
-        <Link to="/route" className="tmm-btn tmm-btn--secondary tmm-btn--block">
-          ➕ {t('s6AddToItinerary')}
-        </Link>
+        {routeId !== undefined ? (
+          <>
+            <Button
+              variant={saved ? 'secondary' : 'primary'}
+              className="tmm-btn--block"
+              onClick={handleToggleItinerary}
+              aria-pressed={saved}
+            >
+              {saved ? `✓ ${t('s6AddToItinerarySaved')}` : `➕ ${t('s6AddToItinerary')}`}
+            </Button>
+            <p className="s6-info-unverified">{t('s6AddToItineraryHint')}</p>
+          </>
+        ) : null}
         {detail?.practical?.reservationAvailable ? (
           <Button variant="secondary" className="tmm-btn--block">
             📅 {t('s6ReserveCta')}
@@ -221,6 +259,10 @@ export function SpotPage() {
       <Link to="/route" className="tmm-btn tmm-btn--secondary s6-back">
         ← {t('s6BackToRoute')}
       </Link>
+
+      {toast ? (
+        <Toast message={toast} onClose={() => setToast(null)} closeLabel={t('close')} />
+      ) : null}
     </div>
   );
 }

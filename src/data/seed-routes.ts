@@ -373,14 +373,154 @@ export function getSpotDetail(placeId: string): SpotDetail | undefined {
 }
 
 /**
+ * Layout constants for the S5 route map (Issue #69).
+ *
+ * They mirror the mobile-first 375px contract and the S5 stylesheet
+ * (`.s5-map__canvas` aspect-ratio in `route-spot.css`, `.tmm-page` gutter in
+ * `ui.css`) so `projectRoutePins` can guarantee pins never visually overlap and
+ * stay individually tappable at the 375px baseline.
+ */
+export const PIN_LAYOUT = {
+  /** Projected canvas is [0, canvasSize] × [0, canvasSize]. */
+  canvasSize: 100,
+  /** Keep pins off the very edge of the canvas. */
+  pad: 12,
+  /** Mobile-first baseline viewport width (px). */
+  baselineViewportWidth: 375,
+  /** `.tmm-page` horizontal gutter, per side (px). */
+  baselineGutter: 16,
+  /** `.s5-map__canvas` aspect-ratio (width / height). */
+  mapAspect: 1.45,
+  /** Minimum center-to-center pin separation (px) — the tappable-target bar. */
+  minSeparationPx: 44,
+} as const;
+
+/**
+ * Deterministically push overlapping pins apart so that at the 375px baseline
+ * every pin is individually tappable (≥ `minSeparationPx` center-to-center).
+ *
+ * Nearby pins are pushed apart along the line joining them, then clamped back
+ * inside the padded canvas. Direction and magnitude are pure functions of the
+ * input (no randomness), so the result is deterministic and replayable — the
+ * same projection always yields the same pins.
+ */
+function deoverlapPins(
+  pins: Array<{ stepNumber: number; x: number; y: number }>,
+): Array<{ stepNumber: number; x: number; y: number }> {
+  const {
+    canvasSize,
+    pad,
+    baselineViewportWidth,
+    baselineGutter,
+    mapAspect,
+    minSeparationPx,
+  } = PIN_LAYOUT;
+
+  // Convert to baseline pixel space so the separation guarantee is in px.
+  const mapWidth = baselineViewportWidth - 2 * baselineGutter;
+  const mapHeight = mapWidth / mapAspect;
+  const scaleX = mapWidth / canvasSize;
+  const scaleY = mapHeight / canvasSize;
+  const minX = pad * scaleX;
+  const minY = pad * scaleY;
+  const maxX = (canvasSize - pad) * scaleX;
+  const maxY = (canvasSize - pad) * scaleY;
+  const clamp = (v: number, lo: number, hi: number): number => Math.max(lo, Math.min(hi, v));
+
+  // How far `p` can move along `(dx, dy)` before leaving the padded canvas.
+  // The distance is capped by each axis (Infinity when the movement does not
+  // push against a boundary).
+  const moveCap = (p: { x: number; y: number }, dx: number, dy: number): number => {
+    const xCap = dx > 0 ? (maxX - p.x) / dx : dx < 0 ? (p.x - minX) / -dx : Infinity;
+    const yCap = dy > 0 ? (maxY - p.y) / dy : dy < 0 ? (p.y - minY) / -dy : Infinity;
+    return Math.max(0, Math.min(xCap, yCap));
+  };
+
+  const pts = pins.map((p) => ({ ...p, x: p.x * scaleX, y: p.y * scaleY }));
+
+  // Iterative relaxation. For every pair closer than the minimum separation we
+  // move the two pins apart along the line joining them. Each pin may only move
+  // as far as the padded canvas allows (`moveCap`): a pin already flush against
+  // a boundary is "pinned", and the free pin absorbs the full remaining gap —
+  // so the pair reaches ≥ `minSeparationPx` in a single pass instead of
+  // converging asymptotically. The demo configurations resolve in one pass; the
+  // pass cap is only a safety bound.
+  const MAX_PASSES = 12;
+  for (let pass = 0; pass < MAX_PASSES; pass++) {
+    let moved = false;
+    for (let i = 0; i < pts.length; i++) {
+      for (let j = i + 1; j < pts.length; j++) {
+        const a = pts[i];
+        const b = pts[j];
+        let dx = b.x - a.x;
+        let dy = b.y - a.y;
+        let dist = Math.hypot(dx, dy);
+        if (dist >= minSeparationPx) {
+          continue;
+        }
+        // Deterministic tie-break when two pins project to the exact same spot.
+        if (dist === 0) {
+          dx = j % 2 === 0 ? 1 : -1;
+          dy = i % 2 === 0 ? 1 : -1;
+          dist = Math.sqrt(2);
+        }
+        const gap = minSeparationPx - dist;
+        const ux = dx / dist;
+        const uy = dy / dist;
+        const capA = moveCap(a, -ux, -uy);
+        const capB = moveCap(b, ux, uy);
+        let moveA: number;
+        let moveB: number;
+        if (capA + capB < gap) {
+          // Both pins hit a boundary before the gap closes — move each to its
+          // cap (the physical maximum for this pair in the canvas).
+          moveA = capA;
+          moveB = capB;
+        } else {
+          // Prefer an equal split; if one pin cannot take its half, the other
+          // absorbs the remainder so the pair closes the gap in one pass.
+          moveA = Math.max(gap - capB, Math.min(gap / 2, capA));
+          moveB = gap - moveA;
+        }
+        a.x -= ux * moveA;
+        a.y -= uy * moveA;
+        b.x += ux * moveB;
+        b.y += uy * moveB;
+        if (moveA > 0 || moveB > 0) {
+          moved = true;
+        }
+      }
+    }
+    for (const p of pts) {
+      p.x = clamp(p.x, minX, maxX);
+      p.y = clamp(p.y, minY, maxY);
+    }
+    if (!moved) {
+      break;
+    }
+  }
+
+  return pts.map((p) => ({
+    stepNumber: p.stepNumber,
+    x: p.x / scaleX,
+    y: p.y / scaleY,
+  }));
+}
+
+/**
  * Project route stops onto a [0,100] × [0,100] map canvas so pins can be laid
  * out deterministically. x grows with longitude, y grows with latitude
  * (inverted when rendered so north is up). Pin number == step number.
+ *
+ * The raw linear projection is post-processed so that at the 375px baseline no
+ * two pins overlap (≥44px apart, individually tappable) — see `deoverlapPins`.
  */
 export function projectRoutePins(
   steps: Array<{ stepNumber: number; placeId: string }>,
   places: ReadonlyArray<Place>,
 ): Array<{ stepNumber: number; x: number; y: number }> {
+  const { canvasSize, pad } = PIN_LAYOUT;
+
   const resolve = (placeId: string): { latitude: number; longitude: number } | undefined => {
     const place = places.find((p) => p.id === placeId);
     return place ? { latitude: place.latitude, longitude: place.longitude } : undefined;
@@ -407,13 +547,29 @@ export function projectRoutePins(
   const maxLat = Math.max(...lats);
   const lngSpan = maxLng - minLng || 1;
   const latSpan = maxLat - minLat || 1;
-  // Keep pins off the very edge of the canvas.
-  const PAD = 12;
 
-  return coords.map(({ step, coord }) => ({
+  const projected = coords.map(({ step, coord }) => ({
     stepNumber: step.stepNumber,
-    x: PAD + ((coord.longitude - minLng) / lngSpan) * (100 - 2 * PAD),
+    x: pad + ((coord.longitude - minLng) / lngSpan) * (canvasSize - 2 * pad),
     // Normalize so the smallest latitude (south) is at the bottom.
-    y: 100 - (PAD + ((coord.latitude - minLat) / latSpan) * (100 - 2 * PAD)),
+    y: canvasSize - (pad + ((coord.latitude - minLat) / latSpan) * (canvasSize - 2 * pad)),
   }));
+
+  return deoverlapPins(projected);
+}
+
+/**
+ * The route id whose variants include the given place. Spots in the S6 page
+ * belong to exactly one model route in the current demo, so this resolves the
+ * shared `tmm:savedRoutes` entry for a spot-level "save" action.
+ */
+export function getRouteIdForPlace(placeId: string): string | undefined {
+  for (const route of MODEL_ROUTES) {
+    for (const variant of Object.values(route.variants)) {
+      if (variant.steps.some((s) => s.placeId === placeId)) {
+        return route.id;
+      }
+    }
+  }
+  return undefined;
 }

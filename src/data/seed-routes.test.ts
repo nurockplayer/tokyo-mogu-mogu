@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import {
   getRouteById,
+  getRouteIdForPlace,
   MODEL_ROUTES,
+  PIN_LAYOUT,
   projectRoutePins,
   SPOT_DETAILS,
   type RouteDuration,
@@ -129,5 +131,85 @@ describe('pin projection (#45)', () => {
       places,
     );
     expect(pins).toEqual([]);
+  });
+});
+
+describe('pin de-overlap (#69)', () => {
+  /** Convert a projected canvas point to 375px-baseline pixel coordinates. */
+  function toPixels(pin: { x: number; y: number }): { x: number; y: number } {
+    const mapWidth =
+      PIN_LAYOUT.baselineViewportWidth - 2 * PIN_LAYOUT.baselineGutter;
+    const mapHeight = mapWidth / PIN_LAYOUT.mapAspect;
+    return {
+      x: (pin.x / PIN_LAYOUT.canvasSize) * mapWidth,
+      y: (pin.y / PIN_LAYOUT.canvasSize) * mapHeight,
+    };
+  }
+
+  // The de-overlap reaches the target exactly; only a float epsilon is allowed.
+  const EPSILON = 1e-6;
+
+  it('keeps every pair of pins ≥44px apart at the 375px baseline, for both variants', () => {
+    const route = getRouteById('okutama-wasabi-journey');
+    for (const duration of ['half-day', '1-day'] as RouteDuration[]) {
+      const pins = projectRoutePins(route!.variants[duration].steps, places);
+      for (let i = 0; i < pins.length; i++) {
+        for (let j = i + 1; j < pins.length; j++) {
+          const a = toPixels(pins[i]);
+          const b = toPixels(pins[j]);
+          const dist = Math.hypot(a.x - b.x, a.y - b.y);
+          expect(
+            dist,
+            `${duration} pins ${pins[i].stepNumber}-${pins[j].stepNumber} overlap (${dist.toFixed(4)}px)`,
+          ).toBeGreaterThanOrEqual(PIN_LAYOUT.minSeparationPx - EPSILON);
+        }
+      }
+    }
+  });
+
+  it('keeps every pin inside the padded [0,100] canvas after de-overlap', () => {
+    const route = getRouteById('okutama-wasabi-journey');
+    for (const duration of ['half-day', '1-day'] as RouteDuration[]) {
+      const pins = projectRoutePins(route!.variants[duration].steps, places);
+      for (const pin of pins) {
+        expect(pin.x).toBeGreaterThanOrEqual(PIN_LAYOUT.pad - EPSILON);
+        expect(pin.x).toBeLessThanOrEqual(PIN_LAYOUT.canvasSize - PIN_LAYOUT.pad + EPSILON);
+        expect(pin.y).toBeGreaterThanOrEqual(PIN_LAYOUT.pad - EPSILON);
+        expect(pin.y).toBeLessThanOrEqual(PIN_LAYOUT.canvasSize - PIN_LAYOUT.pad + EPSILON);
+      }
+    }
+  });
+
+  it('is deterministic — the same input always yields the same pins', () => {
+    const route = getRouteById('okutama-wasabi-journey');
+    for (const duration of ['half-day', '1-day'] as RouteDuration[]) {
+      const steps = route!.variants[duration].steps;
+      const first = projectRoutePins(steps, places);
+      const second = projectRoutePins(steps, places);
+      expect(second).toEqual(first);
+    }
+  });
+
+  it('separates the nearly-coincident soba shop and roadside station pins (#69)', () => {
+    // The roadside station projects exactly onto the padded-canvas top-right
+    // corner, so the free soba-shop pin must absorb the full separation — the
+    // pair reaches the target in a single pass (no asymptotic convergence).
+    const route = getRouteById('okutama-wasabi-journey');
+    const pins = projectRoutePins(route!.variants['half-day'].steps, places);
+    const soba = toPixels(pins.find((p) => p.stepNumber === 3)!);
+    const station = toPixels(pins.find((p) => p.stepNumber === 4)!);
+    const dist = Math.hypot(soba.x - station.x, soba.y - station.y);
+    expect(dist).toBeGreaterThanOrEqual(PIN_LAYOUT.minSeparationPx - EPSILON);
+  });
+});
+
+describe('route-id lookup for a place (#69)', () => {
+  it('resolves the model route that contains a spot', () => {
+    const routeId = getRouteIdForPlace('okutama-soba-shop');
+    expect(routeId).toBe('okutama-wasabi-journey');
+  });
+
+  it('returns undefined for a place outside every model route', () => {
+    expect(getRouteIdForPlace('does-not-exist')).toBeUndefined();
   });
 });
