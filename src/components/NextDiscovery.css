@@ -57,6 +57,26 @@
   margin-top: 2px;
 }
 
+.nd-transit {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+  margin: 4px 0 8px;
+}
+
+.nd-transit-none {
+  color: var(--ink-faint);
+}
+
+.nd-demo-note {
+  font-size: 0.68rem;
+  color: var(--ink-faint);
+  margin: 0 0 10px;
+}
+
 .nd-locate {
   width: 100%;
   padding: 10px;
