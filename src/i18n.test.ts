@@ -59,6 +59,30 @@ describe('i18n fallback (#12)', () => {
     expect(strings['zh-TW'].s1Skip).toBe('沒有飲食限制');
   });
 
+  it('frames the header tagline around the #41 journey, not collection (#66)', () => {
+    for (const locale of ['ja', 'en', 'zh-TW'] as const) {
+      const tagline = strings[locale].appTagline;
+      expect(tagline.length).toBeGreaterThan(0);
+      // Legacy collection framing must not leak into the header tagline.
+      expect(tagline.toLowerCase()).not.toMatch(/collect|集め|集齊|図鑑|圖鑑/);
+      // New journey nav keys exist in every locale.
+      expect(strings[locale].navDiagnosis.length).toBeGreaterThan(0);
+      expect(strings[locale].navSupport.length).toBeGreaterThan(0);
+    }
+    // The journey framing (know / visit / support) is expressed in each locale.
+    expect(strings.ja.appTagline).toMatch(/知って/);
+    expect(strings.en.appTagline.toLowerCase()).toMatch(/know/);
+    expect(strings['zh-TW'].appTagline).toMatch(/認識/);
+  });
+
+  it('uses neutral demo copy for the reset confirmation in every locale (#66)', () => {
+    for (const locale of ['ja', 'en', 'zh-TW'] as const) {
+      expect(strings[locale].resetConfirm.length).toBeGreaterThan(0);
+      // No collection-specific framing in the reset prompt.
+      expect(strings[locale].resetConfirm.toLowerCase()).not.toMatch(/collect|収集|收藏/);
+    }
+  });
+
   it('exports a defined default locale', () => {
     expect(DEFAULT_LOCALE).toBe('ja');
   });
