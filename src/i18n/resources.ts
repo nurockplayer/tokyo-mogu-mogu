@@ -288,8 +288,17 @@ export const strings = {
     s7SaveRemove: '保存済み',
     s7SavedStatus: 'モデルルートを保存しました',
     s7Note: '各アクションの詳細は順次対応予定です',
-
-
+    // S8 My Route (Issue #47)
+    s8PageTitle: 'マイルート',
+    s8PageSub: '保存したモデルルートを、いつでも見返せます。',
+    s8EmptyTitle: 'まだ旅程がありません',
+    s8EmptyBody: '診断から始めて、あなたに合ったルートを保存してみましょう。',
+    s8EmptyCta: '診断から始める',
+    s8Duration: '所要時間',
+    s8Area: 'エリア',
+    s8AreaOkutama: '奥多摩',
+    s8OpenRoute: 'ルートを見る',
+    s8Remove: '保存を外す',
   },
   en: {
     appName: 'Tokyo Mogu Mogu',
@@ -561,8 +570,17 @@ export const strings = {
     s7SaveRemove: 'Saved',
     s7SavedStatus: 'Model route saved',
     s7Note: 'More details for each action are on the way',
-
-
+    // S8 My Route (Issue #47)
+    s8PageTitle: 'My Route',
+    s8PageSub: 'Review the model routes you saved, anytime.',
+    s8EmptyTitle: 'No saved journeys yet',
+    s8EmptyBody: 'Start with a diagnosis, then save a route that fits you.',
+    s8EmptyCta: 'Start the diagnosis',
+    s8Duration: 'Duration',
+    s8Area: 'Area',
+    s8AreaOkutama: 'Okutama',
+    s8OpenRoute: 'View route',
+    s8Remove: 'Remove',
   },
 } as const;
 
