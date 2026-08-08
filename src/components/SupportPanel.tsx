@@ -6,9 +6,15 @@
  * "興味を、力に変える。" narrative. Each card reuses the shared `SupportAction`
  * primitive from `src/ui`.
  *
- * Reusable: S4 / S5 / S6 screens can render this panel to show how a reader can
- * act on their interest. The deterministic action list lives in
- * `support-actions.ts`; the saved-route persistence lives in `saved-routes.ts`.
+ * Reusable: S4 embeds the panel right after the "味わうことが、継承になる" story
+ * beat so the reader sees the concrete ways to act (Issue #68); the standalone
+ * `/support` page (SupportPage) shows the same block with its page framing.
+ * The deterministic action list lives in `support-actions.ts`; the saved-route
+ * persistence lives in `saved-routes.ts`.
+ *
+ * Locale: action titles/meanings resolve in ja / en / zh-TW via the
+ * `actionTitle` / `actionMeaning` helpers (Issue #68), so zh-TW never falls
+ * back to English.
  *
  * State: the `save` action toggles the local saved-route contract
  * (`tmm:savedRoutes`, see `saved-routes.ts`) owned by this issue. No network,
@@ -18,7 +24,7 @@
 import { useState } from 'react';
 import { SupportAction, Tag } from '../ui';
 import { useI18n } from '../i18n';
-import { SUPPORT_ACTIONS } from './support-actions';
+import { SUPPORT_ACTIONS, actionMeaning, actionTitle } from './support-actions';
 import { MODEL_ROUTE_ID, isRouteSaved, saveRoute, unsaveRoute } from './saved-routes';
 import './SupportPanel.css';
 
@@ -46,8 +52,8 @@ export function SupportPanel() {
 
       <div className="s7-panel__actions">
         {SUPPORT_ACTIONS.map((item) => {
-          const title = locale === 'ja' ? item.titleJa : item.titleEn;
-          const meaning = locale === 'ja' ? item.meaningJa : item.meaningEn;
+          const title = actionTitle(item, locale);
+          const meaning = actionMeaning(item, locale);
           return (
             <SupportAction
               key={item.id}

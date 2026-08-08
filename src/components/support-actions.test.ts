@@ -1,8 +1,8 @@
 /**
- * S7 support-action list contract tests (Issue #46).
+ * S7 support-action list contract tests (Issue #46, #68).
  *
  * Guards the deterministic action list that the SupportPanel renders:
- *   - all six actions exist with both-language meaning copy
+ *   - all six actions exist with three-locale title/meaning copy (ja/en/zh-TW)
  *   - every available action is genuinely actionable (external action has a
  *     real, traceable URL; save action maps to the shared storage key)
  *   - disabled actions never fake a destination
@@ -11,6 +11,8 @@ import { describe, expect, it } from 'vitest';
 import {
   CONFIRMED_VISIT_URL,
   SUPPORT_ACTIONS,
+  actionMeaning,
+  actionTitle,
   type SupportActionItem,
 } from './support-actions';
 import { MODEL_ROUTE_ID } from './saved-routes';
@@ -28,6 +30,39 @@ describe('support actions (#46)', () => {
       expect(action.titleEn, action.id).toBeTruthy();
       expect(action.meaningJa, action.id).toBeTruthy();
       expect(action.meaningEn, action.id).toBeTruthy();
+    }
+  });
+
+  it('gives every action a zh-TW title and meaning (Issue #68)', () => {
+    for (const action of SUPPORT_ACTIONS) {
+      expect(action.titleZh, action.id).toBeTruthy();
+      expect(action.meaningZh, action.id).toBeTruthy();
+    }
+  });
+
+  it('resolves title and meaning for every action in all three locales', () => {
+    for (const action of SUPPORT_ACTIONS) {
+      for (const locale of ['ja', 'en', 'zh-TW'] as const) {
+        const title = actionTitle(action, locale);
+        const meaning = actionMeaning(action, locale);
+        expect(title, `${action.id} ${locale}`).toBeTruthy();
+        expect(meaning, `${action.id} ${locale}`).toBeTruthy();
+      }
+    }
+  });
+
+  it('does not let zh-TW fall back to English copy (Issue #68)', () => {
+    // zh-TW must resolve its own title/meaning, not the en fallback.
+    for (const action of SUPPORT_ACTIONS) {
+      expect(actionTitle(action, 'zh-TW'), action.id).not.toBe(action.titleEn);
+      expect(actionMeaning(action, 'zh-TW'), action.id).not.toBe(action.meaningEn);
+    }
+  });
+
+  it('keeps ja title/meaning equal to the canonical ja fields', () => {
+    for (const action of SUPPORT_ACTIONS) {
+      expect(actionTitle(action, 'ja'), action.id).toBe(action.titleJa);
+      expect(actionMeaning(action, 'ja'), action.id).toBe(action.meaningJa);
     }
   });
 
