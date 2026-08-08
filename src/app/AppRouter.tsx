@@ -18,6 +18,9 @@ const MapPage = lazy(() => import('../pages/MapPage').then((m) => ({ default: m.
 const FoodCulturePage = lazy(() =>
   import('../pages/FoodCulturePage').then((m) => ({ default: m.FoodCulturePage })),
 );
+const UiShowcasePage = lazy(() =>
+  import('../pages/UiShowcasePage').then((m) => ({ default: m.UiShowcasePage })),
+);
 
 function withBoundary(element: ReactNode) {
   return <LoadingBoundary>{element}</LoadingBoundary>;
@@ -30,6 +33,7 @@ export function AppRouter() {
       <Route path="/pokedex" element={withBoundary(<PokedexPage />)} />
       <Route path="/map" element={withBoundary(<MapPage />)} />
       <Route path="/food-cultures/:id" element={withBoundary(<FoodCulturePage />)} />
+      <Route path="/_ui" element={withBoundary(<UiShowcasePage />)} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
