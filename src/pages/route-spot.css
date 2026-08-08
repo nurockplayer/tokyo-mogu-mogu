@@ -1,0 +1,341 @@
+/* ============================================================
+   S5 model route + S6 spot detail — page-local styles (Issue #45).
+   Built on the shared tmm-* primitives from src/ui. Only small,
+   page-specific layout additions live here — no competing visual
+   system. Mobile-first, 375px baseline.
+   ============================================================ */
+
+/* ---------- Stylized spot "photo" placeholder ---------- */
+
+.pv-visual {
+  aspect-ratio: 16 / 9;
+  border-radius: var(--tmm-radius-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #fffdf6;
+  overflow: hidden;
+}
+
+.pv-visual--hero {
+  aspect-ratio: 16 / 10;
+  border-radius: var(--tmm-radius-lg);
+  box-shadow: var(--tmm-shadow-card);
+}
+
+.pv-visual__mark {
+  font-family: var(--tmm-font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.pv-visual__name {
+  font-family: var(--tmm-font-body);
+  font-size: var(--tmm-text-caption);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 0.35);
+}
+
+/* ---------- S5 course header ---------- */
+
+.s5-hero {
+  padding-top: 4px;
+}
+
+.s5-hero__kicker {
+  font-size: var(--tmm-text-caption);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--tmm-color-forest-deep);
+  margin-bottom: 4px;
+}
+
+.s5-hero__title {
+  font-family: var(--tmm-font-display);
+  font-size: var(--tmm-text-display);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--tmm-color-ink);
+  margin-bottom: 8px;
+  overflow-wrap: anywhere;
+}
+
+.s5-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.s5-hero__meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--tmm-text-caption);
+  font-weight: 600;
+  color: var(--tmm-color-ink-soft);
+  padding: 3px 10px;
+  border-radius: var(--tmm-radius-pill);
+  background: var(--tmm-color-warm-deep);
+  border: var(--tmm-border);
+  overflow-wrap: anywhere;
+}
+
+.s5-hero__duration {
+  font-size: var(--tmm-text-body);
+  font-weight: 700;
+  color: var(--tmm-color-ink);
+  margin-bottom: 2px;
+}
+
+/* Half-day / 1-day toggle — segmented control from the tmm-chip primitive */
+.s5-duration-switch {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0 4px;
+}
+
+.s5-duration-switch .tmm-chip {
+  flex: 1;
+}
+
+/* ---------- Route map with numbered pins ---------- */
+
+.s5-map {
+  border: var(--tmm-border);
+  border-radius: var(--tmm-radius-lg);
+  overflow: hidden;
+  background: var(--tmm-color-warm);
+}
+
+.s5-map__canvas {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.45 / 1;
+  background:
+    linear-gradient(0deg, rgb(159 184 63 / 0.1), rgb(159 184 63 / 0.1)),
+    linear-gradient(180deg, #eef4e2, #dde8cc);
+}
+
+/* Stylized river + contour hints — decorative only, not to scale. */
+.s5-map__deco {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.s5-map__river {
+  fill: none;
+  stroke: rgb(74 95 159 / 0.45);
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+
+.s5-map__path {
+  fill: none;
+  stroke: var(--tmm-color-forest);
+  stroke-width: 3;
+  stroke-dasharray: 7 6;
+  stroke-linecap: round;
+  opacity: 0.75;
+}
+
+.s5-map__pin {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--tmm-color-forest);
+  color: var(--tmm-color-card);
+  border: 2px solid #fffdf6;
+  box-shadow: var(--tmm-shadow-card);
+  display: grid;
+  place-items: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.15s var(--tmm-ease);
+}
+
+.s5-map__pin:active {
+  transform: translate(-50%, -50%) scale(0.94);
+}
+
+.s5-map__pin:focus-visible {
+  outline: 3px solid var(--tmm-color-orange);
+  outline-offset: 2px;
+}
+
+.s5-map__pin--current {
+  background: var(--tmm-color-orange);
+}
+
+.s5-map__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 12px;
+  border-top: var(--tmm-border);
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+  background: var(--tmm-color-card);
+}
+
+.s5-map__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.s5-map__legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--tmm-color-forest);
+}
+
+.s5-map__legend-dot--orange {
+  background: var(--tmm-color-orange);
+}
+
+/* ---------- S5 timeline ---------- */
+
+.s5-timeline {
+  display: grid;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.s5-timeline .tmm-route-step {
+  width: 100%;
+}
+
+.s5-timeline__pin-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.s5-timeline__pin-link:focus-visible {
+  outline: 3px solid var(--tmm-color-orange);
+  outline-offset: 2px;
+  border-radius: var(--tmm-radius-md);
+}
+
+.s5-timeline__stay {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 6px;
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+}
+
+.s5-step-card {
+  background: var(--tmm-color-card);
+  border: var(--tmm-border);
+  border-radius: var(--tmm-radius-md);
+  padding: 12px;
+  display: grid;
+  gap: 10px;
+}
+
+.s5-step-card .pv-visual {
+  aspect-ratio: 16 / 7;
+}
+
+.s5-mobility {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 2px;
+  color: var(--tmm-color-ink-soft);
+  font-size: var(--tmm-text-caption);
+}
+
+.s5-mobility__line {
+  flex: 1;
+  height: 1px;
+  background: var(--tmm-color-line-strong);
+  position: relative;
+}
+
+.s5-mobility__arrow {
+  flex: 0 0 auto;
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+/* ---------- S6 spot detail ---------- */
+
+.s6-visual-wrap {
+  margin-bottom: 14px;
+}
+
+.s6-title-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.s6-title-row h1 {
+  font-family: var(--tmm-font-display);
+  font-size: var(--tmm-text-display);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--tmm-color-ink);
+  overflow-wrap: anywhere;
+}
+
+.s6-roman {
+  font-size: var(--tmm-text-body);
+  color: var(--tmm-color-ink-soft);
+  letter-spacing: 0.02em;
+  overflow-wrap: anywhere;
+}
+
+.s6-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 4px;
+}
+
+.s6-actions {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.s6-actions .tmm-btn {
+  width: 100%;
+}
+
+.s6-info-unverified {
+  margin-top: 2px;
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-faint);
+  line-height: 1.5;
+}
+
+.s6-back {
+  margin-top: 18px;
+  width: 100%;
+}
+
+/* Editorial provenance note (clearly marks demo/editorial data) */
+.s6-provenance {
+  margin-top: 18px;
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+  line-height: 1.6;
+  border-top: var(--tmm-border);
+  padding-top: 12px;
+}
