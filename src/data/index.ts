@@ -7,9 +7,12 @@
  */
 import { FOOD_CULTURES } from './seed-food-cultures';
 import { PLACES } from './seed-places';
+import { getRouteById as _getRouteById, getSpotDetail as _getSpotDetail, MODEL_ROUTES, projectRoutePins as _projectRoutePins } from './seed-routes';
 import type { FoodCulture, Place } from './model';
+import type { ModelRoute, SpotDetail } from './seed-routes';
 
 export type { FoodCulture, Place, DataSource, DataOrigin, UnlockMethod, FoodCultureCategory, PlaceType, TamaArea } from './model';
+export type { ModelRoute, RouteDuration, RouteMobilityMode, RouteStepData, RouteMobilitySegment, RouteVariant, SpotDetail, SpotPracticalInfo, SpotTags } from './seed-routes';
 export { UNLOCK_RADIUS_METERS } from './model';
 
 /** All food cultures in the seed dataset. */
@@ -17,6 +20,30 @@ export const foodCultures: FoodCulture[] = FOOD_CULTURES;
 
 /** All places in the seed dataset. */
 export const places: Place[] = PLACES;
+
+/** All deterministic model routes (Issue #45, S5). */
+export const modelRoutes: ModelRoute[] = MODEL_ROUTES;
+
+/** Look up a deterministic model route by id (Issue #45). */
+export function getRouteById(id: string): ModelRoute | undefined {
+  return _getRouteById(id);
+}
+
+/** Look up editorial spot detail by place id (Issue #45, S6). */
+export function getSpotDetail(placeId: string): SpotDetail | undefined {
+  return _getSpotDetail(placeId);
+}
+
+/**
+ * Project route stops onto a [0,100] × [0,100] map canvas (Issue #45).
+ * Pin number == step number.
+ */
+export function projectRoutePins(
+  steps: Array<{ stepNumber: number; placeId: string }>,
+  placesList: ReadonlyArray<Place>,
+): Array<{ stepNumber: number; x: number; y: number }> {
+  return _projectRoutePins(steps, placesList);
+}
 
 export function getFoodCultureById(id: string): FoodCulture | undefined {
   return FOOD_CULTURES.find((fc) => fc.id === id);

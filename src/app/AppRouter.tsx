@@ -27,6 +27,12 @@ const MapPage = lazy(() => import('../pages/MapPage').then((m) => ({ default: m.
 const FoodCulturePage = lazy(() =>
   import('../pages/FoodCulturePage').then((m) => ({ default: m.FoodCulturePage })),
 );
+const RoutePage = lazy(() =>
+  import('../pages/RoutePage').then((m) => ({ default: m.RoutePage })),
+);
+const SpotPage = lazy(() =>
+  import('../pages/SpotPage').then((m) => ({ default: m.SpotPage })),
+);
 const StoryPage = lazy(() => import('../pages/StoryPage').then((m) => ({ default: m.StoryPage })));
 // S7 support actions demo page (Issue #46). Other feature pages register their
 // routes here; keep the `*` NotFound catch-all last.
@@ -53,6 +59,8 @@ export function AppRouter() {
       <Route path="/pokedex" element={withBoundary(<PokedexPage />)} />
       <Route path="/map" element={withBoundary(<MapPage />)} />
       <Route path="/food-cultures/:id" element={withBoundary(<FoodCulturePage />)} />
+      <Route path="/route" element={withBoundary(<RoutePage />)} />
+      <Route path="/spot/:placeId" element={withBoundary(<SpotPage />)} />
       <Route path="/story/:foodCultureId" element={withBoundary(<StoryPage />)} />
       <Route path="/story" element={withBoundary(<StoryPage />)} />
       <Route path="/support" element={withBoundary(<SupportPage />)} />
