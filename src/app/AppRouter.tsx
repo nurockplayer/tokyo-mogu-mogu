@@ -11,6 +11,15 @@ import { LoadingBoundary } from './LoadingBoundary';
 import { NotFoundPage } from './NotFoundPage';
 
 const HomePage = lazy(() => import('../pages/HomePage').then((m) => ({ default: m.HomePage })));
+const LandingPage = lazy(() =>
+  import('../pages/s0s3/LandingPage').then((m) => ({ default: m.LandingPage })),
+);
+const DiagnosisWizardPage = lazy(() =>
+  import('../pages/s0s3/DiagnosisWizardPage').then((m) => ({ default: m.DiagnosisWizardPage })),
+);
+const DiagnosisResultPage = lazy(() =>
+  import('../pages/s0s3/DiagnosisResultPage').then((m) => ({ default: m.DiagnosisResultPage })),
+);
 const PokedexPage = lazy(() =>
   import('../pages/PokedexPage').then((m) => ({ default: m.PokedexPage })),
 );
@@ -36,7 +45,10 @@ function withBoundary(element: ReactNode) {
 export function AppRouter() {
   return (
     <Routes>
-      <Route path="/" element={withBoundary(<HomePage />)} />
+      <Route path="/" element={withBoundary(<LandingPage />)} />
+      <Route path="/home" element={withBoundary(<HomePage />)} />
+      <Route path="/diagnosis" element={withBoundary(<DiagnosisWizardPage />)} />
+      <Route path="/diagnosis/result" element={withBoundary(<DiagnosisResultPage />)} />
       <Route path="/pokedex" element={withBoundary(<PokedexPage />)} />
       <Route path="/map" element={withBoundary(<MapPage />)} />
       <Route path="/food-cultures/:id" element={withBoundary(<FoodCulturePage />)} />
