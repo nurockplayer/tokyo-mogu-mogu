@@ -1,12 +1,21 @@
 /**
- * Minimal two-locale i18n (ja / en).
+ * Locale resources for the two supported locales (ja / en).
  *
  * The string keys below are UI chrome and navigation labels. Food culture and
  * place content lives on the data records themselves as {Ja, En} fields.
+ *
+ * The `ja` and `en` blocks are kept structurally equivalent (same key set) so a
+ * missing key in one locale is always resolvable from the other. Every key that
+ * is added here must be added to both blocks.
  */
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
-
 export type Locale = 'ja' | 'en';
+
+/**
+ * Default locale. Used as the initial in-app locale, when the user's browser
+ * locale is not supported, and as the fallback bundle consulted before
+ * rendering a `missing:` placeholder (see `fallback.ts`).
+ */
+export const DEFAULT_LOCALE: Locale = 'ja';
 
 export const strings = {
   ja: {
@@ -163,31 +172,10 @@ export const strings = {
 
 export type LocaleKey = keyof (typeof strings)['ja'];
 
-interface I18nContextValue {
-  locale: Locale;
-  setLocale: (locale: Locale) => void;
-  t: (key: LocaleKey) => string;
-}
+/**
+ * A single locale's translation bundle. `Partial` so a bundle missing a key
+ * (e.g. a stale locale block) can still be passed to the fallback resolver.
+ */
+export type StringBundle = Readonly<Partial<Record<LocaleKey, string>>>;
 
-const I18nContext = createContext<I18nContextValue | null>(null);
-
-export function I18nProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocale] = useState<Locale>('ja');
-
-  const t = useCallback((key: LocaleKey) => strings[locale][key], [locale]);
-
-  const value = useMemo(
-    () => ({ locale, setLocale, t }),
-    [locale, t],
-  );
-
-  return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
-}
-
-export function useI18n(): I18nContextValue {
-  const ctx = useContext(I18nContext);
-  if (!ctx) {
-    throw new Error('useI18n must be used within I18nProvider');
-  }
-  return ctx;
-}
+export type StringBundles = Record<Locale, StringBundle>;
