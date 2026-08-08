@@ -1,11 +1,14 @@
+import type { Locale } from '../i18n';
+
 /**
  * Reading-time estimate for the S4 editorial story (Issue #44).
  *
  * Uses the heuristics common in editorial products: English ~200 words per
  * minute, Japanese ~400 characters per minute. Lower-bounded at 1 minute so the
- * "n min read" indicator never renders "0 min".
+ * "n min read" indicator never renders "0 min". Non-Japanese locales (en,
+ * zh-TW) use the word-based estimate.
  */
-export function readingMinutes(text: string, locale: 'ja' | 'en'): number {
+export function readingMinutes(text: string, locale: Locale): number {
   if (locale === 'ja') {
     return Math.max(1, Math.ceil(text.length / 400));
   }
