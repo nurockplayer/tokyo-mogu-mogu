@@ -7,6 +7,7 @@ describe('i18n fallback (#12)', () => {
   it('resolves a key present in the active locale', () => {
     expect(resolveKey(strings, 'ja', 'appName')).toBe('東京もぐもぐ');
     expect(resolveKey(strings, 'en', 'appName')).toBe('Tokyo Mogu Mogu');
+    expect(resolveKey(strings, 'zh-TW', 'appName')).toBe('東京もぐもぐ');
   });
 
   it('resolves a key from the other locale when the active one lacks it', () => {
@@ -19,14 +20,23 @@ describe('i18n fallback (#12)', () => {
   });
 
   it('falls back to a placeholder when the key is missing everywhere', () => {
-    const empty = { ja: {}, en: {} };
+    const empty = { ja: {}, en: {}, 'zh-TW': {} };
     expect(resolveKey(empty, 'ja', 'appName')).toBe('missing:appName');
     expect(resolveKey(empty, 'en', 'appName')).toBe('missing:appName');
+    expect(resolveKey(empty, 'zh-TW', 'appName')).toBe('missing:appName');
   });
 
-  it('never returns undefined for any key in either locale', () => {
+  it('falls back from zh-TW to en for an untranslated key', () => {
+    // Simulate a zh-TW bundle that is missing `s0Cta`.
+    const staleZh: Partial<Record<LocaleKey, string>> = { ...strings['zh-TW'] };
+    delete staleZh.s0Cta;
+    const bundles = { ...strings, 'zh-TW': staleZh };
+    expect(resolveKey(bundles, 'zh-TW', 's0Cta')).toBe(strings.en.s0Cta);
+  });
+
+  it('never returns undefined for any key in every locale', () => {
     const keys = Object.keys(strings.ja) as Array<keyof typeof strings.ja>;
-    for (const locale of ['ja', 'en'] as const) {
+    for (const locale of ['ja', 'en', 'zh-TW'] as const) {
       for (const key of keys) {
         const value = resolveKey(strings, locale, key);
         expect(value).toBeTypeOf('string');
@@ -35,8 +45,18 @@ describe('i18n fallback (#12)', () => {
     }
   });
 
-  it('keeps the two locale blocks structurally equivalent', () => {
-    expect(Object.keys(strings.ja).sort()).toEqual(Object.keys(strings.en).sort());
+  it('keeps all locale blocks structurally equivalent', () => {
+    const jaKeys = Object.keys(strings.ja).sort();
+    expect(jaKeys).toEqual(Object.keys(strings.en).sort());
+    expect(jaKeys).toEqual(Object.keys(strings['zh-TW']).sort());
+  });
+
+  it('ships real zh-TW translations for the S0-S8 journey chrome', () => {
+    // Spot-check that zh-TW is not just an empty placeholder block.
+    expect(strings['zh-TW'].s0Cta).toBe('開始飲食文化之旅');
+    expect(strings['zh-TW'].s8PageTitle).toBe('我的路線');
+    expect(strings['zh-TW'].s3PrimaryCta).toContain('東京山葵');
+    expect(strings['zh-TW'].s1Skip).toBe('沒有飲食限制');
   });
 
   it('exports a defined default locale', () => {

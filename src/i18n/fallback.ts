@@ -13,18 +13,22 @@
  */
 import type { Locale, LocaleKey, StringBundles } from './resources';
 
-/** The other locale — the default fallback for a given active locale. */
-const OTHER_LOCALE: Record<Locale, Locale> = { ja: 'en', en: 'ja' };
+/** The fallback locale for a given active locale (zh-TW falls back to en). */
+const FALLBACK_LOCALE: Record<Locale, Locale> = {
+  ja: 'en',
+  en: 'ja',
+  'zh-TW': 'en',
+};
 
 /**
  * Resolve `key` against `bundles[locale]`, then `bundles[fallbackLocale]`
- * (defaults to the other locale), then a placeholder. Never returns `undefined`.
+ * (defaults to FALLBACK_LOCALE), then a placeholder. Never returns `undefined`.
  */
 export function resolveKey(
   bundles: StringBundles,
   locale: Locale,
   key: LocaleKey,
-  fallbackLocale: Locale = OTHER_LOCALE[locale],
+  fallbackLocale: Locale = FALLBACK_LOCALE[locale],
 ): string {
   const direct = bundles[locale]?.[key];
   if (direct !== undefined) {
