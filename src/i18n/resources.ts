@@ -101,6 +101,11 @@ export const strings = {
     errorBody: '問題が発生しました。もう一度お試しください。',
     notFoundTitle: 'ページが見つかりません',
     notFoundBody: 'このページは存在しないか、移動した可能性があります。',
+    signOut: 'サインアウト',
+    signOutConfirm: '本当にサインアウトしますか？',
+    signingOut: 'サインアウト中…',
+    authErrorRecoverable: 'サインインに失敗しました。もう一度お試しください。',
+    authRetry: 'もう一度試す',
   },
   en: {
     appName: 'Tokyo Mogu Mogu',
@@ -185,6 +190,11 @@ export const strings = {
     errorBody: 'An unexpected error occurred. Please try again.',
     notFoundTitle: 'Page not found',
     notFoundBody: 'This page does not exist or may have been moved.',
+    signOut: 'Sign out',
+    signOutConfirm: 'Sign out now?',
+    signingOut: 'Signing out…',
+    authErrorRecoverable: 'Sign-in failed. Please try again.',
+    authRetry: 'Try again',
   },
 } as const;
 
