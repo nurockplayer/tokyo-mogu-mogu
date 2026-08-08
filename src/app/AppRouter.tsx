@@ -18,6 +18,7 @@ const MapPage = lazy(() => import('../pages/MapPage').then((m) => ({ default: m.
 const FoodCulturePage = lazy(() =>
   import('../pages/FoodCulturePage').then((m) => ({ default: m.FoodCulturePage })),
 );
+const StoryPage = lazy(() => import('../pages/StoryPage').then((m) => ({ default: m.StoryPage })));
 // Dev-only route: renders the shared UI foundation showcase. Not bundled in
 // production builds (import.meta.env.DEV is statically replaced by Vite).
 const UiShowcasePage = import.meta.env.DEV
@@ -35,6 +36,8 @@ export function AppRouter() {
       <Route path="/pokedex" element={withBoundary(<PokedexPage />)} />
       <Route path="/map" element={withBoundary(<MapPage />)} />
       <Route path="/food-cultures/:id" element={withBoundary(<FoodCulturePage />)} />
+      <Route path="/story/:foodCultureId" element={withBoundary(<StoryPage />)} />
+      <Route path="/story" element={withBoundary(<StoryPage />)} />
       {UiShowcasePage ? (
         <Route path="/_ui" element={withBoundary(<UiShowcasePage />)} />
       ) : null}
