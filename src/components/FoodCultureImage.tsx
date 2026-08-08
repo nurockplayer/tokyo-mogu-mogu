@@ -4,6 +4,10 @@
  * The MVP has no real photography yet (Issue #10 fieldwork will collect it),
  * so food cultures render a stylized card with a category mark. When real
  * images land, this component is swapped for an <img> without touching callers.
+ *
+ * The watermark renders the localized display `name` when the caller passes one
+ * (S0–S8 screens resolve it through the i18n bundle, Issue #67); legacy callers
+ * fall back to `nameJa`.
  */
 import type { FoodCultureCategory } from '../data/model';
 
@@ -25,11 +29,15 @@ const CATEGORY_TINT: Record<FoodCultureCategory, string> = {
 
 export function FoodCultureImage({
   image,
+  name,
   nameJa,
   category,
   alt,
 }: {
   image: string;
+  /** Localized display name (preferred for the watermark; Issue #67). */
+  name?: string;
+  /** Fallback / legacy local name when no localized `name` is provided. */
   nameJa: string;
   category: FoodCultureCategory;
   alt?: string;
@@ -39,12 +47,12 @@ export function FoodCultureImage({
     <div
       className="fc-image"
       role="img"
-      aria-label={alt ?? nameJa}
+      aria-label={alt ?? name ?? nameJa}
       style={{ background: CATEGORY_TINT[category] ?? CATEGORY_TINT.produce }}
       data-image={image}
     >
       <span className="fc-image-mark">{mark.ja}</span>
-      <span className="fc-image-name">{nameJa}</span>
+      <span className="fc-image-name">{name ?? nameJa}</span>
     </div>
   );
 }

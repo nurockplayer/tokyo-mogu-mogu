@@ -88,6 +88,51 @@ describe('i18n fallback (#12)', () => {
   });
 });
 
+describe('S0–S8 data content localization (#67)', () => {
+  const dataKeys = Object.keys(strings.ja).filter((k) => k.startsWith('data'));
+
+  it('ships a three-locale bundle for every data content key', () => {
+    expect(dataKeys.length).toBeGreaterThan(0);
+    for (const locale of ['ja', 'en', 'zh-TW'] as const) {
+      for (const key of dataKeys) {
+        const value = resolveKey(strings, locale, key as LocaleKey);
+        expect(value, `${locale} ${key}`).toBeTypeOf('string');
+        expect(value.length, `${locale} ${key}`).toBeGreaterThan(0);
+        expect(value.startsWith('missing:'), `${locale} ${key}`).toBe(false);
+      }
+    }
+  });
+
+  it('does not let zh-TW fall back to English for the demo data content', () => {
+    // Every data.* key must resolve to a real zh-TW value, not the en fallback.
+    for (const key of dataKeys) {
+      const zh = strings['zh-TW'][key as LocaleKey];
+      const en = strings.en[key as LocaleKey];
+      expect(zh, `zh-TW ${key}`).toBeDefined();
+      expect(zh, `zh-TW ${key}`).not.toBe(en);
+      expect(zh?.length, `zh-TW ${key}`).toBeGreaterThan(0);
+    }
+  });
+
+  it('ships real Traditional Chinese for the visible S3–S8 content keys', () => {
+    // Spot-check the key journey content that must not be English under zh-TW.
+    expect(strings['zh-TW'].dataWasabiName).toBe('東京山葵');
+    expect(strings['zh-TW'].dataStoryLead).toContain('奧多摩');
+    expect(strings['zh-TW'].dataRouteName).toBe('奧多摩山葵紀行');
+    expect(strings['zh-TW'].dataRouteTransport).toContain('巴士');
+    expect(strings['zh-TW'].dataRouteStopRoleSobaLunch).toContain('蕎麥麵');
+    expect(strings['zh-TW'].dataPlaceSobaShopName).toBe('奧多摩蕎麥麵店');
+    expect(strings['zh-TW'].dataWasabiFieldRole).toContain('山葵');
+    expect(strings['zh-TW'].dataStorySupport).toContain('品嚐');
+  });
+
+  it('keeps the added data content keys structurally equivalent across locales', () => {
+    const jaKeys = Object.keys(strings.ja).sort();
+    expect(jaKeys).toEqual(Object.keys(strings.en).sort());
+    expect(jaKeys).toEqual(Object.keys(strings['zh-TW']).sort());
+  });
+});
+
 describe('formatDate / formatNumber (#12)', () => {
   it('formats a date-only ISO string for ja', () => {
     expect(formatDate('2026-08-08', 'ja')).toMatch(/2026年/);

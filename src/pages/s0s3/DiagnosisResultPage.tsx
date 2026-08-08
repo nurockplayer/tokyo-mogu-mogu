@@ -20,6 +20,7 @@ import {
 } from '../../lib/diagnosis';
 import { loadDiagnosisAnswers } from './session';
 import { type LocaleKey } from '../../i18n/resources';
+import { foodCultureKey } from '../../i18n/data-content';
 import './onboarding.css';
 
 /** Match-tag key → i18n copy key + tone. */
@@ -37,8 +38,7 @@ const TAG_COPY: Record<MatchTagKey, { labelKey: LocaleKey; tone: TagTone }> = {
 };
 
 export function DiagnosisResultPage() {
-  const { locale, t } = useI18n();
-  const pick = (ja: string, en: string) => (locale === 'ja' ? ja : en);
+  const { t } = useI18n();
 
   const wasabi = getFoodCultureById('wasabi-okutama');
 
@@ -63,8 +63,8 @@ export function DiagnosisResultPage() {
       {wasabi ? (
         <>
           <Card feature>
-            <div className="tmm-result-card__title">{pick(wasabi.nameJa, wasabi.nameEn)}</div>
-            <p className="tmm-result-card__desc">{pick(wasabi.descriptionJa, wasabi.descriptionEn)}</p>
+            <div className="tmm-result-card__title">{t(foodCultureKey('wasabi-okutama', 'name') ?? 'dataWasabiName')}</div>
+            <p className="tmm-result-card__desc">{t(foodCultureKey('wasabi-okutama', 'description') ?? 'dataWasabiDescription')}</p>
 
             <div className="tmm-result__tags">
               {tags.length > 0
