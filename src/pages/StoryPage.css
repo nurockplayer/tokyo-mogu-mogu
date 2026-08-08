@@ -153,6 +153,15 @@
   margin-bottom: 0;
 }
 
+/* ---------- Embedded S7 support panel (Issue #68) ----------
+   The panel lands right after the "tasting is succession" section, before the
+   route CTA. It shares the S5 section rhythm so it reads as one more story
+   step, not a separate page. */
+
+.s4-support-actions {
+  margin-top: var(--tmm-space-6);
+}
+
 /* ---------- CTA (section 7) ---------- */
 
 .s4-cta {

@@ -24,13 +24,17 @@ Replaces the legacy Pokédex / check-in / next-collectible demo.
 4. **S3 Result** — 「東京わさび」result card with match-reason tags derived
    from the answers and the dietary-consideration state. (10 s)
 5. **S4 Story** — full editorial story: why 奥多摩 wasabi, the maker, the craft,
-   and the succession challenge → `味わうことが、継承になる`. (15 s)
+   and the succession challenge → `味わうことが、継承になる`. The six support
+   actions (買う / 訪れる / 予約する / 寄付する / 共有する / 保存する) are embedded
+   right after this beat, each explaining what the action means for cultural
+   succession, before the route CTA. (15 s)
 6. **S5 Model Route** — half-day / 1-day 奥多摩わさび route: numbered stops,
    mobility segments (train / bus / walk), map pins matching the timeline. (10 s)
 7. **S6 Spot Detail** — representative spot: address, access, hours, price,
    reservation, and practical warnings where source data exists. (5 s)
-8. **S7 Support Actions** — 買う / 訪れる / 予約する / 寄付する / 共有する /
-   保存する, each explaining what the action means for cultural succession. (10 s)
+8. **S7 Support Actions** — the same six actions are also reachable on the
+   standalone **応援** (`/support`) page from the bottom nav as a recap/deep-dive
+   of the full panel. (10 s)
 9. **S8 My Route** — save the route locally and confirm it appears in
    `マイルート`; reload restores it. (5 s)
 
@@ -58,6 +62,18 @@ the layout.
   奥多摩駅前 道の駅, connected by 徒歩 / 西東京バス segments.
 - Route data is deterministic editorial demo content (not a verified schedule).
   Practical spot details are shown as unverified where no source exists.
+
+## Support actions (where they appear)
+
+- **S4 Story** — the six actions (買う / 訪れる / 予約する / 寄付する / 共有する /
+  保存する) are embedded right after the `味わうことが、継承になる` beat, before
+  the route CTA, so the story's succession message becomes concrete actions.
+- **応援 (`/support`)** — the standalone page (bottom-nav **応援** tab) is the
+  full recap/deep-dive of the same panel.
+- Each action keeps its cultural-succession meaning; unverified actions show
+  **準備中** (coming soon) and never fake a destination. **保存する** and the S5
+  CTA / S6 旅程に追加する all write the same `tmm:savedRoutes` contract (see
+  below), so the panel's save state stays in sync with S8.
 
 ## Save → My Route
 

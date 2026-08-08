@@ -25,6 +25,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { getFoodCultureById } from '../data';
 import { FoodCultureImage } from '../components/FoodCultureImage';
+import { SupportPanel } from '../components/SupportPanel';
 import { Card, StorySection, Tag } from '../ui';
 import { useI18n, type Locale } from '../i18n';
 import { foodCultureKey } from '../i18n/data-content';
@@ -164,6 +165,12 @@ export function StoryPage() {
             <p className="s4-p">{t('dataStorySupport')}</p>
           </Card>
         </StorySection>
+      </div>
+
+      {/* Support actions (Issue #68) — the story's "tasting is succession"
+          beat made concrete: how to actually act on that interest. */}
+      <div className="s4-support-actions">
+        <SupportPanel />
       </div>
 
       {/* Section 7 — CTA to S5 route */}
