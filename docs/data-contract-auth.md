@@ -72,21 +72,30 @@ NEVER touch: `src/app/*` (owned by #22 for auth), `src/i18n/*`, `src/store/*`,
 - OAuth cancel/failure returns a typed result — no partial user created
   (provisioning only happens AFTER a successful OAuth response).
 
-## #22 file ownership (planned, after #21 merges)
+## #22 file ownership (dispatch AFTER #21 merged)
 
 - `src/auth/session.ts` — session persistence (localStorage), restore logic.
-- `src/auth/AuthProvider.tsx` — real auth state provider (replaces the identity
-  slot in `src/app/AppProviders.tsx`); exposes `useAuth()` → `{ status,
-  user, signIn, signOut }`.
-- `src/app/AppProviders.tsx` — mount `AuthProvider`.
+- `src/auth/AuthProvider.tsx` — real auth state provider; exposes `useAuth()`
+  → `{ status, user, signIn, signOut }`. signOut delegate may be a stub that
+  calls into #23's API if present, or a minimal local clear — do NOT implement
+  the full sign-out lifecycle here.
+- `src/app/AppProviders.tsx` — mount `AuthProvider` (replaces the identity slot).
+- You may READ `src/auth/oauth.ts` but must NOT edit it (owned by #23).
 - Do NOT create a second app root/router.
+- Requires #21's `src/auth/index.ts` public entry: `signInWithGoogle`,
+  `deriveUserId`, `findOrCreateUser`, `findUser`, `UserStore`, `AppUser`,
+  `GoogleIdentity`.
 
-## #23 file ownership (planned, after #21 merges)
+## #23 file ownership (dispatch AFTER #21 merged; may run parallel with #22)
 
 - `src/auth/signout.ts` — sign-out logic + state teardown.
-- `src/auth/oauth.ts` — extend with cancellation/failure recovery helpers.
+- `src/auth/oauth.ts` — EXTEND (you own it alongside #21's base) with
+  cancellation/failure recovery helpers; keep existing exports intact.
 - `src/auth/signout.test.ts` — sign-out / cancel / partial-user-prevention tests.
-- Sign-out button UI may live in a new `src/components/SignOutButton.tsx`.
+- `src/components/SignOutButton.tsx` + `.css` — sign-out UI (new).
+- `src/i18n/resources.ts` — append sign-out / auth-error keys to both blocks.
+- Do NOT touch `src/auth/session.ts` or `src/auth/AuthProvider.tsx` (owned by #22).
+- Requires #21's `src/auth/index.ts` public entry (same as above).
 
 ## i18n
 
