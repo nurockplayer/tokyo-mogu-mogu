@@ -12,7 +12,7 @@ export function NotFoundPage() {
     <section className="page">
       <h1 className="page-title">{t('notFoundTitle')}</h1>
       <p className="page-sub">{t('notFoundBody')}</p>
-      <Link to="/pokedex" className="btn btn-secondary">{t('navPokedex')}</Link>
+      <Link to="/" className="btn btn-secondary">{t('navHome')}</Link>
     </section>
   );
 }

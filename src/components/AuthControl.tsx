@@ -37,7 +37,7 @@ export function AuthControl() {
     <div className="auth-control">
       <button
         type="button"
-        className="btn btn-secondary auth-signin"
+        className="auth-signin"
         onClick={() => {
           setSigningIn(true);
           void signIn().finally(() => setSigningIn(false));
