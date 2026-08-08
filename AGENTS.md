@@ -142,6 +142,9 @@ When product intent conflicts with implementation convenience, protect the produ
 When an Issue references a Spec under `docs/specs/`:
 
 - Read the referenced Spec before implementing.
+- The current hackathon product contract is
+  `docs/specs/product/hackathon-product-contract.md` (Issue #41). Child Issues
+  #42–#49 and any S0–S9 work reference it as the product source of truth.
 - Do not implement behavior that contradicts the Spec.
 - Do not fill in unresolved product behavior on your own; surface it instead.
 - If a Spec change is needed, call it out explicitly as its own change rather than mixing it into implementation scope.

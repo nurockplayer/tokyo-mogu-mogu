@@ -1,42 +1,50 @@
 # Demo Script (60–90 seconds)
 
-For Issue #9. This is the hackathon demo walkthrough. All steps are verified working in the browser.
+Hackathon walkthrough for the S0–S8 journey (Issue #41 + approved UI).
+Replaces the legacy Pokédex / check-in / next-collectible demo.
 
-## Demo location (important)
+## Demo constraints
 
-The app uses real geolocation by default. For a repeatable demo, open the app with a **demo location override** so check-in works without traveling to Okutama:
-
-```
-http://localhost:5173/food-cultures/wasabi-okutama?at=place:okutama-wasabi-field
-```
-
-- `?at=place:<id>` pretends the user is at that seed place.
-- `?demoLat=<lat>&demoLng=<lng>` pretends the user is at explicit coordinates.
-- `?demoRadius=<meters>` widens the unlock radius (default 500 m).
-
-The check-in panel shows a "Demo location mode" hint when an override is active.
+- **Accountless**: no sign-in is required at any step. Google Auth remains as
+  supplementary infrastructure but is not part of the main pitch journey.
+- **No geolocation**: the walkthrough does not require real geolocation, a fake
+  geolocation override, or a `?at=place:` demo URL.
+- **Deterministic**: the diagnosis deterministically recommends 東京わさび; the
+  model route is a fixed editorial fixture. The flow is replayable from a reset.
 
 ## Steps (target: ≤90 seconds)
 
-1. **Top page** — the concept is readable in one glance: tagline + "next discovery" suggestions, each showing its nearest bus stop and next departure (transit-aware, demo GTFS). (5 s)
-2. **Pokédex** (`/pokedex`) — 7 food cultures; locked cards show muted art + a hint; top bar shows `0 / 7` and a progress bar. (10 s)
-3. **Pick "Tokyo Wasabi"** — tap the wasabi card → detail page. Locked: shows the overview, a "not yet discovered" notice, and the places where you can experience it. (10 s)
-4. **Check in** — with the demo override URL, tap **チェックイン** on the wasabi field panel. (5 s)
-5. **"GET!"** — the vermilion GET seal appears; the full story, history, maker, how-to-enjoy, and sources sections unlock instantly. (5 s)
-6. **Sources** — the "Sources" section lists 奥多摩観光協会 / 東京都産業労働局 with links and a last-verified date — provenance is explicit. (5 s)
-7. **Progress updates** — back to the Pokédex: `1 / 7`, progress bar at 14%, wasabi card now shows the GET seal + full description. (5 s)
-8. **Next discovery** — the home page suggests the next collectible (e.g. 奥多摩やまめ) with its nearest bus stop + next departure; tap through to its detail. (5 s)
+1. **S0 Landing** — hero + tagline + 3-step value explanation
+   (`好みを診断 → 物語を知る → 巡って応援`) + `食文化の旅をはじめる` CTA. (5 s)
+2. **S1 Dietary Restrictions** — enter dietary restrictions (multi-select) or
+   skip. Trust copy states the input is used for recommendations only. (5 s)
+3. **S2 Diagnosis** — answer 5 preference questions (taste, experience type,
+   base area + travel time, interests, half-day/1-day) with progress + back.
+   (20 s)
+4. **S3 Result** — 「東京わさび」result card with match-reason tags derived
+   from the answers and the dietary-consideration state. (10 s)
+5. **S4 Story** — full editorial story: why 奥多摩 wasabi, the maker, the craft,
+   and the succession challenge → `味わうことが、継承になる`. (15 s)
+6. **S5 Model Route** — half-day / 1-day 奥多摩わさび route: numbered stops,
+   mobility segments (train / bus / walk), map pins matching the timeline. (10 s)
+7. **S6 Spot Detail** — representative spot: address, access, hours, price,
+   reservation, and practical warnings where source data exists. (5 s)
+8. **S7 Support Actions** — 買う / 訪れる / 予約する / 寄付する / 共有する /
+   保存する, each explaining what the action means for cultural succession. (10 s)
+9. **S8 My Route** — save the route locally and confirm it appears in
+   `マイルート`; reload restores it. (5 s)
 
-Total walkthrough: ~50 s of presenter time; leaves room to mention the JA/EN toggle, the map (`/map`), and demo reset.
-
-### Optional: Google sign-in (auth is integrated but optional for the demo)
-
-The header shows **ログイン / Sign in** when unauthenticated. Signing in provisions a user (canonical `userId`), persists the session, and shows the avatar + **サインアウト / Sign out** in the header. A reload restores the session without a second login. Skip this for a pure 60–90 s demo; it needs `VITE_GOOGLE_CLIENT_ID` set (see `.env.example`).
+Total walkthrough: ~90 s of presenter time. S9 Badge Collection is an optional
+stretch reveal after the core flow.
 
 ## Reset for repeat demos
 
-Tap **デモデータをリセット** in the header twice (confirmation), or open a fresh browser profile / private window. Collection state is stored in `localStorage` only.
+Tap the demo reset control in the header (confirmation), or open a fresh
+browser profile / private window. Saved routes and other local demo state are
+stored in `localStorage` only.
 
-## English version
+## Languages
 
-Tap **EN** in the header to switch the whole app to English — the same flow works.
+Japanese is the demo default. Switch to **EN** in the header for English, and
+**繁中** for Traditional Chinese (Issue #48). The same flow works in each
+locale; long English strings must not break the layout.
