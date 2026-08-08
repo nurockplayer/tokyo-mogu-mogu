@@ -1,0 +1,88 @@
+/* ============================================================
+   S7 Support Panel (Issue #46)
+   ------------------------------------------------------------------
+   Page-local layout for the reusable support block. All visual
+   primitives (cards, buttons, tags) come from the shared tmm-*
+   foundation; this file only composes them and keeps the
+   "興味を、力に変える。" framing readable at 375px.
+   ============================================================ */
+
+/* Demo page title/sub (rendered by SupportPage on /support). */
+
+.s7-page-title {
+  font-family: var(--tmm-font-display);
+  font-size: var(--tmm-text-display);
+  font-weight: 700;
+  color: var(--tmm-color-ink);
+  margin-bottom: var(--tmm-space-1);
+}
+
+.s7-page-sub {
+  font-size: var(--tmm-text-body);
+  color: var(--tmm-color-ink-soft);
+  line-height: 1.6;
+  margin-bottom: var(--tmm-space-5);
+}
+
+.s7-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tmm-space-5);
+}
+
+/* --- Narrative framing (not a plain icon menu) --- */
+
+.s7-panel__framing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tmm-space-1);
+}
+
+.s7-panel__kicker {
+  font-size: var(--tmm-text-caption);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--tmm-color-forest-deep);
+}
+
+.s7-panel__title {
+  font-family: var(--tmm-font-display);
+  font-size: var(--tmm-text-display);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--tmm-color-ink);
+}
+
+.s7-panel__lead {
+  font-size: var(--tmm-text-body);
+  color: var(--tmm-color-ink-soft);
+  line-height: 1.7;
+}
+
+/* --- Action cards --- */
+
+.s7-panel__actions {
+  display: grid;
+  gap: var(--tmm-space-3);
+}
+
+/* --- Note / status footer --- */
+
+.s7-panel__note {
+  display: flex;
+  align-items: center;
+  gap: var(--tmm-space-2);
+  flex-wrap: wrap;
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+}
+
+.s7-panel__saved {
+  font-weight: 700;
+  color: var(--tmm-color-forest-deep);
+}
+
+/* Long English descriptions must not break the card layout. */
+.s7-panel__actions .tmm-support__desc {
+  overflow-wrap: anywhere;
+}
