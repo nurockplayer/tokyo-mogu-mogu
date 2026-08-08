@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   getRouteById,
   getRouteIdForPlace,
+  mapCanvasWidthPx,
   MODEL_ROUTES,
   PIN_LAYOUT,
   projectRoutePins,
@@ -134,11 +135,12 @@ describe('pin projection (#45)', () => {
   });
 });
 
-describe('pin de-overlap (#69)', () => {
-  /** Convert a projected canvas point to 375px-baseline pixel coordinates. */
+describe('pin de-overlap (#69, #74)', () => {
+  /** Convert a projected canvas point to 375px-baseline pixel coordinates.
+   *  Uses the same `mapCanvasWidthPx()` source as the de-overlap so the test
+   *  models the real rendered canvas width (Issue #74). */
   function toPixels(pin: { x: number; y: number }): { x: number; y: number } {
-    const mapWidth =
-      PIN_LAYOUT.baselineViewportWidth - 2 * PIN_LAYOUT.baselineGutter;
+    const mapWidth = mapCanvasWidthPx();
     const mapHeight = mapWidth / PIN_LAYOUT.mapAspect;
     return {
       x: (pin.x / PIN_LAYOUT.canvasSize) * mapWidth,
@@ -148,6 +150,17 @@ describe('pin de-overlap (#69)', () => {
 
   // The de-overlap reaches the target exactly; only a float epsilon is allowed.
   const EPSILON = 1e-6;
+
+  it('models the real rendered canvas width (375 − app-main − tmm-page − borders)', () => {
+    // At a 375px viewport the real `.s5-map__canvas` is ~309px wide: 375 minus
+    // 16×2 (`.app-main`) minus 16×2 (`.tmm-page`) minus 1×2 (`.s5-map` border).
+    // This guards against regressing to the old incorrect 343px assumption
+    // (Issue #74).
+    expect(mapCanvasWidthPx()).toBe(
+      375 - 2 * 16 - 2 * 16 - 2 * 1,
+    );
+    expect(mapCanvasWidthPx()).toBeLessThan(375 - 2 * PIN_LAYOUT.baselineGutter);
+  });
 
   it('keeps every pair of pins ≥44px apart at the 375px baseline, for both variants', () => {
     const route = getRouteById('okutama-wasabi-journey');

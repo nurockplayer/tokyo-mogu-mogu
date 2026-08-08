@@ -373,12 +373,18 @@ export function getSpotDetail(placeId: string): SpotDetail | undefined {
 }
 
 /**
- * Layout constants for the S5 route map (Issue #69).
+ * Layout constants for the S5 route map (Issue #69, #74).
  *
- * They mirror the mobile-first 375px contract and the S5 stylesheet
- * (`.s5-map__canvas` aspect-ratio in `route-spot.css`, `.tmm-page` gutter in
- * `ui.css`) so `projectRoutePins` can guarantee pins never visually overlap and
- * stay individually tappable at the 375px baseline.
+ * They mirror the real 375px render chain so `projectRoutePins` can guarantee
+ * pins never visually overlap and stay individually tappable at the actual
+ * rendered canvas width (Issue #74). The chain at a 375px viewport is:
+ *
+ *   viewport → `.app-main` (styles.css, `padding: 8px 16px 24px`) →
+ *   `.tmm-page` (ui.css, `padding: ... 16px ...`) →
+ *   `.s5-map` (1px `--tmm-border` each side) → `.s5-map__canvas`
+ *
+ * `mapCanvasWidthPx()` sums those into the real canvas width; it is the single
+ * source of truth used both by the de-overlap and by the tests.
  */
 export const PIN_LAYOUT = {
   /** Projected canvas is [0, canvasSize] × [0, canvasSize]. */
@@ -387,13 +393,33 @@ export const PIN_LAYOUT = {
   pad: 12,
   /** Mobile-first baseline viewport width (px). */
   baselineViewportWidth: 375,
-  /** `.tmm-page` horizontal gutter, per side (px). */
+  /** `.app-main` horizontal padding (styles.css), per side (px). */
+  appMainGutter: 16,
+  /** `.tmm-page` horizontal padding (ui.css), per side (px). */
   baselineGutter: 16,
+  /** `.s5-map` border width (`--tmm-border`), per side (px). */
+  mapBorderPx: 1,
   /** `.s5-map__canvas` aspect-ratio (width / height). */
   mapAspect: 1.45,
   /** Minimum center-to-center pin separation (px) — the tappable-target bar. */
   minSeparationPx: 44,
 } as const;
+
+/**
+ * The real rendered `.s5-map__canvas` width (px) at the 375px baseline.
+ *
+ * Single source of truth for the de-overlap and the tests, so the geometry the
+ * pins are separated in matches what a browser actually lays out.
+ */
+export function mapCanvasWidthPx(): number {
+  const { baselineViewportWidth, appMainGutter, baselineGutter, mapBorderPx } = PIN_LAYOUT;
+  return (
+    baselineViewportWidth -
+    2 * appMainGutter -
+    2 * baselineGutter -
+    2 * mapBorderPx
+  );
+}
 
 /**
  * Deterministically push overlapping pins apart so that at the 375px baseline
@@ -410,14 +436,14 @@ function deoverlapPins(
   const {
     canvasSize,
     pad,
-    baselineViewportWidth,
-    baselineGutter,
     mapAspect,
     minSeparationPx,
   } = PIN_LAYOUT;
 
-  // Convert to baseline pixel space so the separation guarantee is in px.
-  const mapWidth = baselineViewportWidth - 2 * baselineGutter;
+  // Convert to baseline pixel space so the separation guarantee is in px. The
+  // canvas width comes from `mapCanvasWidthPx()` (the same real geometry the
+  // tests model) so the pins are separated in the actual rendered space.
+  const mapWidth = mapCanvasWidthPx();
   const mapHeight = mapWidth / mapAspect;
   const scaleX = mapWidth / canvasSize;
   const scaleY = mapHeight / canvasSize;
