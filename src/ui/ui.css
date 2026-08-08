@@ -501,8 +501,8 @@
 }
 
 .tmm-tag--warning {
-  background: rgb(160 106 31 / 0.12);
-  border-color: rgb(160 106 31 / 0.4);
+  background: rgb(143 93 18 / 0.12);
+  border-color: rgb(143 93 18 / 0.4);
   color: var(--tmm-color-warning);
 }
 
