@@ -197,6 +197,18 @@ export const strings = {
     s3TagDaily: '地域の日常を体感',
     s3TagHalfDay: '半日で巡れる',
     s3TagFullDay: '1日でゆったり',
+    // S7 support actions (Issue #46)
+    s7PageTitle: '応援する',
+    s7PageSub: '興味を、次の一歩につなげましょう。',
+    s7Kicker: 'SUPPORT',
+    s7Framing: '興味を、力に変える。',
+    s7Lead: 'あなたの行動が、作り手と文化の継承につながります。',
+    s7ComingSoon: '準備中',
+    s7VisitMore: '詳しく見る',
+    s7SaveToRoute: '旅程に保存',
+    s7SaveRemove: '保存済み',
+    s7SavedStatus: 'モデルルートを保存しました',
+    s7Note: '各アクションの詳細は順次対応予定です',
   },
   en: {
     appName: 'Tokyo Mogu Mogu',
@@ -377,6 +389,18 @@ export const strings = {
     s3TagDaily: 'Local everyday life',
     s3TagHalfDay: 'Half-day trip',
     s3TagFullDay: 'Full-day trip',
+    // S7 support actions (Issue #46)
+    s7PageTitle: 'Support',
+    s7PageSub: 'Turn your interest into your next step.',
+    s7Kicker: 'SUPPORT',
+    s7Framing: 'Turn interest into power.',
+    s7Lead: 'Your action keeps the makers and their craft alive.',
+    s7ComingSoon: 'Coming soon',
+    s7VisitMore: 'Learn more',
+    s7SaveToRoute: 'Save to route',
+    s7SaveRemove: 'Saved',
+    s7SavedStatus: 'Model route saved',
+    s7Note: 'More details for each action are on the way',
   },
 } as const;
 

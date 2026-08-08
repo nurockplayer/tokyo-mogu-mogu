@@ -27,6 +27,11 @@ const MapPage = lazy(() => import('../pages/MapPage').then((m) => ({ default: m.
 const FoodCulturePage = lazy(() =>
   import('../pages/FoodCulturePage').then((m) => ({ default: m.FoodCulturePage })),
 );
+// S7 support actions demo page (Issue #46). Other feature pages register their
+// routes here; keep the `*` NotFound catch-all last.
+const SupportPage = lazy(() =>
+  import('../pages/SupportPage').then((m) => ({ default: m.SupportPage })),
+);
 // Dev-only route: renders the shared UI foundation showcase. Not bundled in
 // production builds (import.meta.env.DEV is statically replaced by Vite).
 const UiShowcasePage = import.meta.env.DEV
@@ -47,6 +52,7 @@ export function AppRouter() {
       <Route path="/pokedex" element={withBoundary(<PokedexPage />)} />
       <Route path="/map" element={withBoundary(<MapPage />)} />
       <Route path="/food-cultures/:id" element={withBoundary(<FoodCulturePage />)} />
+      <Route path="/support" element={withBoundary(<SupportPage />)} />
       {UiShowcasePage ? (
         <Route path="/_ui" element={withBoundary(<UiShowcasePage />)} />
       ) : null}
