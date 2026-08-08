@@ -47,11 +47,17 @@ export const FOOD_CULTURES: FoodCulture[] = [
         name: '奥多摩観光協会',
         url: 'https://www.okutokanko.jp/',
         lastVerified: '2026-08-08',
+        sourceType: 'official_web',
+        retrievedAt: '2026-08-08',
+        originalId: 'seed-1'
       },
       {
         name: '東京都産業労働局 特産品情報',
         url: 'https://www.sangyo-rodo.metro.tokyo.lg.jp/',
         lastVerified: '2026-08-08',
+        sourceType: 'official_web',
+        retrievedAt: '2026-08-08',
+        originalId: 'seed-2'
       },
     ],
     origin: 'editorial',
@@ -87,6 +93,9 @@ export const FOOD_CULTURES: FoodCulture[] = [
         name: '奥多摩観光協会',
         url: 'https://www.okutokanko.jp/',
         lastVerified: '2026-08-08',
+        sourceType: 'official_web',
+        retrievedAt: '2026-08-08',
+        originalId: 'seed-3'
       },
     ],
     origin: 'editorial',
@@ -121,6 +130,9 @@ export const FOOD_CULTURES: FoodCulture[] = [
         name: '青梅市',
         url: 'https://www.city.ome.tokyo.jp/',
         lastVerified: '2026-08-08',
+        sourceType: 'official_web',
+        retrievedAt: '2026-08-08',
+        originalId: 'seed-4'
       },
     ],
     origin: 'editorial',
@@ -154,6 +166,9 @@ export const FOOD_CULTURES: FoodCulture[] = [
         name: '青梅市観光協会',
         url: 'https://www.city.ome.tokyo.jp/',
         lastVerified: '2026-08-08',
+        sourceType: 'official_web',
+        retrievedAt: '2026-08-08',
+        originalId: 'seed-5'
       },
     ],
     origin: 'editorial',
@@ -188,6 +203,9 @@ export const FOOD_CULTURES: FoodCulture[] = [
         name: '奥多摩観光協会',
         url: 'https://www.okutokanko.jp/',
         lastVerified: '2026-08-08',
+        sourceType: 'official_web',
+        retrievedAt: '2026-08-08',
+        originalId: 'seed-6'
       },
     ],
     origin: 'editorial',
@@ -221,6 +239,9 @@ export const FOOD_CULTURES: FoodCulture[] = [
         name: '奥多摩観光協会',
         url: 'https://www.okutokanko.jp/',
         lastVerified: '2026-08-08',
+        sourceType: 'official_web',
+        retrievedAt: '2026-08-08',
+        originalId: 'seed-7'
       },
     ],
     origin: 'editorial',
@@ -254,6 +275,9 @@ export const FOOD_CULTURES: FoodCulture[] = [
         name: '日の出町',
         url: 'https://www.town.hinode.tokyo.jp/',
         lastVerified: '2026-08-08',
+        sourceType: 'official_web',
+        retrievedAt: '2026-08-08',
+        originalId: 'seed-8'
       },
     ],
     origin: 'editorial',

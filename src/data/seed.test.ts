@@ -53,6 +53,21 @@ describe('seed data contract (#2)', () => {
     }
   });
 
+  it('every seed record tracks sourceType / retrievedAt / originalId (#2 provenance AC)', () => {
+    for (const fc of foodCultures) {
+      for (const s of fc.sources) {
+        expect(s.sourceType, `${fc.id} source missing sourceType`).toBeDefined();
+        expect(s.retrievedAt, `${fc.id} source missing retrievedAt`).toBeDefined();
+        expect(s.originalId, `${fc.id} source missing originalId`).toBeDefined();
+      }
+    }
+    for (const p of places) {
+      expect(p.source.sourceType, `${p.id} source missing sourceType`).toBeDefined();
+      expect(p.source.retrievedAt, `${p.id} source missing retrievedAt`).toBeDefined();
+      expect(p.source.originalId, `${p.id} source missing originalId`).toBeDefined();
+    }
+  });
+
   it('relation helpers return the linked records', () => {
     const wasabi = getFoodCultureById('wasabi-okutama');
     expect(wasabi).toBeDefined();
