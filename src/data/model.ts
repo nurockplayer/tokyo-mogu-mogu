@@ -16,6 +16,14 @@ export interface DataSource {
   license?: string;
   /** Retrieval or last-verified date (ISO 8601, e.g. "2026-08-08"). */
   lastVerified?: string;
+  /** How the data was obtained: an open-data portal, fieldwork, an official website, or manual entry. */
+  sourceType?: 'open_data' | 'fieldwork' | 'official_web' | 'manual';
+  /** Identifier of the source dataset (e.g. a CKAN dataset id) when applicable. */
+  sourceDatasetId?: string;
+  /** Retrieval date (ISO 8601, e.g. "2026-08-08"). */
+  retrievedAt?: string;
+  /** Identifier of the record within its original source dataset. */
+  originalId?: string;
 }
 
 export type DataOrigin =
