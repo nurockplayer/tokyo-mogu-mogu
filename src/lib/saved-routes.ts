@@ -50,6 +50,15 @@ export function saveSavedRoutes(entries: SavedRouteEntry[]): void {
   }
 }
 
+/** Removes all saved routes (demo reset). */
+export function clearSavedRoutes(): void {
+  try {
+    localStorage.removeItem(SAVED_ROUTES_KEY);
+  } catch {
+    // Storage unavailable — nothing to do.
+  }
+}
+
 /** True when the given route is already saved. */
 export function isRouteSaved(routeId: string): boolean {
   return loadSavedRoutes().some((entry) => entry.routeId === routeId);

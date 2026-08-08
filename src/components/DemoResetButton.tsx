@@ -8,6 +8,7 @@
 import { useState } from 'react';
 import { useCollection } from '../store/collection';
 import { useI18n } from '../i18n';
+import { clearSavedRoutes } from '../lib/saved-routes';
 
 export function DemoResetButton() {
   const { t } = useI18n();
@@ -19,7 +20,9 @@ export function DemoResetButton() {
       setConfirming(true);
       return;
     }
+    // Reset collection + saved-route state so a demo can be replayed cleanly.
     reset();
+    clearSavedRoutes();
     setConfirming(false);
   };
 

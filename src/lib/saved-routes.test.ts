@@ -1,5 +1,6 @@
 import { afterAll, beforeEach, describe, expect, it } from 'vitest';
 import {
+  clearSavedRoutes,
   isRouteSaved,
   loadSavedRoutes,
   SAVED_ROUTES_KEY,
@@ -101,5 +102,14 @@ describe('saved-routes persistence (#45)', () => {
       { routeId: 'route-b', savedAt: '2026-08-08T00:00:00.000Z' },
     ]);
     expect(loadSavedRoutes()).toHaveLength(2);
+  });
+
+  it('clearSavedRoutes removes the whole list (demo reset)', () => {
+    saveRoute('route-a');
+    saveRoute('route-b');
+    expect(loadSavedRoutes()).toHaveLength(2);
+    clearSavedRoutes();
+    expect(loadSavedRoutes()).toEqual([]);
+    expect(localStorage.getItem(SAVED_ROUTES_KEY)).toBeNull();
   });
 });

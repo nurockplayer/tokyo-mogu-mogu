@@ -39,6 +39,9 @@ const StoryPage = lazy(() => import('../pages/StoryPage').then((m) => ({ default
 const SupportPage = lazy(() =>
   import('../pages/SupportPage').then((m) => ({ default: m.SupportPage })),
 );
+const MyRoutePage = lazy(() =>
+  import('../pages/MyRoutePage').then((m) => ({ default: m.MyRoutePage })),
+);
 // Dev-only route: renders the shared UI foundation showcase. Not bundled in
 // production builds (import.meta.env.DEV is statically replaced by Vite).
 const UiShowcasePage = import.meta.env.DEV
@@ -64,6 +67,7 @@ export function AppRouter() {
       <Route path="/story/:foodCultureId" element={withBoundary(<StoryPage />)} />
       <Route path="/story" element={withBoundary(<StoryPage />)} />
       <Route path="/support" element={withBoundary(<SupportPage />)} />
+      <Route path="/my-route" element={withBoundary(<MyRoutePage />)} />
       {UiShowcasePage ? (
         <Route path="/_ui" element={withBoundary(<UiShowcasePage />)} />
       ) : null}

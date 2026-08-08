@@ -37,6 +37,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <NavLink to="/" end>{t('navHome')}</NavLink>
         <NavLink to="/pokedex">{t('navPokedex')}</NavLink>
         <NavLink to="/map">{t('navMap')}</NavLink>
+        <NavLink to="/my-route">{t('s8NavLabel')}</NavLink>
       </nav>
     </div>
   );
