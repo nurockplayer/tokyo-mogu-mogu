@@ -28,11 +28,13 @@ export function buildEntries(saved: SavedRouteEntry[]): SavedEntry[] {
 }
 
 /** Total duration label for a route's default variant (editorial minutes). */
-export function durationLabel(route: ModelRoute): string {
-  const minutes = route.variants[route.defaultDuration].totalMinutes;
-  const hours = Math.floor(minutes / 60);
-  const mins = minutes % 60;
-  return hours > 0 ? `${hours}時間${mins > 0 ? `${mins}分` : ''}` : `${mins}分`;
+export function durationLabel(route: ModelRoute, locale: 'ja' | 'en'): string {
+  const total = route.variants[route.defaultDuration].totalMinutes;
+  const h = Math.floor(total / 60);
+  const m = total % 60;
+  if (h === 0) return `${m}min`;
+  if (m === 0) return `${h}h`;
+  return locale === 'ja' ? `${h}時間${m}分` : `${h}h ${m}m`;
 }
 
 export function MyRoutePage() {
@@ -80,7 +82,7 @@ export function MyRoutePage() {
                 <div className="s8-card__title">{pick(route.nameJa, route.nameEn)}</div>
                 <div className="s8-card__meta">
                   <span>
-                    {t('s8Duration')}: {durationLabel(route)}
+                    {t('s8Duration')}: {durationLabel(route, locale)}
                   </span>
                   <span>{t('s8Area')}: {t('s8AreaOkutama')}</span>
                 </div>

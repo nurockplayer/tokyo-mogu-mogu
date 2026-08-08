@@ -68,7 +68,9 @@ describe('support actions (#46)', () => {
   });
 
   it('keeps the model route id consistent with the shared persistence contract', () => {
-    expect(MODEL_ROUTE_ID).toBe('wasabi-okutama');
+    // The save action must reference the model route id that S8 can resolve
+    // (okutama-wasabi-journey), not a food culture id.
+    expect(MODEL_ROUTE_ID).toBe('okutama-wasabi-journey');
     const save = SUPPORT_ACTIONS.find((a) => a.kind === 'save');
     // The save action is persisted under the model route id the demo journey uses.
     expect(save).toBeDefined();

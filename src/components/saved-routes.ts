@@ -18,7 +18,7 @@ export interface SavedRoute {
 }
 
 /** The model route id users save from the S7 support panel. */
-export const MODEL_ROUTE_ID = 'wasabi-okutama';
+export const MODEL_ROUTE_ID = 'okutama-wasabi-journey';
 
 const isSavedRoute = (value: unknown): value is SavedRoute => {
   if (typeof value !== 'object' || value === null) return false;

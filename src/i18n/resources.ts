@@ -299,6 +299,7 @@ export const strings = {
     s8AreaOkutama: '奥多摩',
     s8OpenRoute: 'ルートを見る',
     s8Remove: '保存を外す',
+    s8NavLabel: 'マイルート',
   },
   en: {
     appName: 'Tokyo Mogu Mogu',
@@ -581,6 +582,7 @@ export const strings = {
     s8AreaOkutama: 'Okutama',
     s8OpenRoute: 'View route',
     s8Remove: 'Remove',
+    s8NavLabel: 'My Route',
   },
 } as const;
 

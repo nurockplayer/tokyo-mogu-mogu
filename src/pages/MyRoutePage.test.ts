@@ -35,10 +35,12 @@ describe('S8 My Route helpers (#47)', () => {
     expect(buildEntries([])).toHaveLength(0);
   });
 
-  it('formats the default variant duration label', () => {
-    const label = durationLabel(wasabiRoute);
-    // totalMinutes is editorial; assert a sane non-empty human label exists.
-    expect(label).toMatch(/\d/);
-    expect(label).toMatch(/(分|時間)/);
+  it('formats the default variant duration label in each locale', () => {
+    const ja = durationLabel(wasabiRoute, 'ja');
+    const en = durationLabel(wasabiRoute, 'en');
+    expect(ja).toMatch(/\d/);
+    expect(ja).toMatch(/時間|分/);
+    expect(en).toMatch(/\d/);
+    expect(en).toMatch(/h|min/);
   });
 });
