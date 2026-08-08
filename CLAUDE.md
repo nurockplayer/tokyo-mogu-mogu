@@ -79,3 +79,12 @@ Avoid long implementation diaries. The diff, tests, and linked issue should carr
 If a requirement is ambiguous but implementation can proceed safely, choose the smallest reversible assumption consistent with `AGENTS.md`, document it, and continue.
 
 If ambiguity could change the product contract, data meaning, security/privacy behavior, or create significant rework, stop implementation and surface the decision clearly instead of inventing a requirement.
+
+## Spec-aware Execution / Spec準拠の実行
+
+When an Issue references a Spec under `docs/specs/`:
+
+- Read the referenced Spec before implementing.
+- Do not implement behavior that contradicts the Spec.
+- Do not fill in unresolved product behavior on your own; surface it instead.
+- If a Spec change is needed, call it out explicitly as its own change rather than mixing it into implementation scope.

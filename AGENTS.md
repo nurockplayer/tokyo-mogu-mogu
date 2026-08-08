@@ -136,3 +136,12 @@ A ticket is done when:
 When requirements are incomplete, choose the **smallest reversible assumption that preserves the product goal**, document the assumption, and avoid creating unnecessary infrastructure.
 
 When product intent conflicts with implementation convenience, protect the product intent first.
+
+## Spec-aware Execution / Spec準拠の実行
+
+When an Issue references a Spec under `docs/specs/`:
+
+- Read the referenced Spec before implementing.
+- Do not implement behavior that contradicts the Spec.
+- Do not fill in unresolved product behavior on your own; surface it instead.
+- If a Spec change is needed, call it out explicitly as its own change rather than mixing it into implementation scope.
