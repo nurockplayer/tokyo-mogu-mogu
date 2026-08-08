@@ -45,6 +45,6 @@ stored in `localStorage` only.
 
 ## Languages
 
-Japanese is the demo default. Switch to **EN** in the header for English, and
-**繁中** for Traditional Chinese (Issue #48). The same flow works in each
-locale; long English strings must not break the layout.
+Japanese is the demo default. Switch to **EN** in the header for English. The
+i18n architecture is designed for Traditional Chinese as well; the 繁中
+locale lands with Issue #48. Long English strings must not break the layout.
