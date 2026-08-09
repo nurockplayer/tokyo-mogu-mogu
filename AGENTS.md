@@ -84,6 +84,12 @@ Avoid adding authentication, payments, social graphs, complex recommendation sys
 - Optimize for merged value and parallel progress. Do not over-split work into tickets that repeatedly require the same repository context.
 - Keep solutions simple and reversible. Hackathon speed does not justify opaque or fragile code.
 - Follow existing project conventions before introducing new frameworks, libraries, folders, or abstractions.
+- **Shared-contract impact check**: before changing shared shell/layout, global
+  CSS/tokens, common primitives, routing, persistence, schemas/types, geometry
+  constants, or shared APIs, identify downstream assumptions — search relevant
+  consumers, tests, duplicated constants/magic numbers, calculations, and
+  documented contracts. Principle: before changing a shared assumption, identify
+  who depends on it.
 - Do not perform unrelated refactors while implementing a ticket.
 - Do not commit secrets, private credentials, personal data, or generated local environment files.
 - Never force-push shared branches.
@@ -94,9 +100,21 @@ Avoid adding authentication, payments, social graphs, complex recommendation sys
 Before implementation:
 
 1. Read this file and the relevant issue.
-2. Inspect related code, data, docs, and open PRs before changing anything.
-3. Confirm the ticket is independently implementable and not already covered elsewhere.
-4. Identify dependencies and potential file overlap before parallelizing work.
+2. **Live-state preflight**: verify the current Issue/spec/dependency/open-PR
+   state and `origin/main`. Route execution based on the CURRENT contract state,
+   not the Issue title or an earlier session's assumption.
+3. Inspect related code, data, docs, and open PRs before changing anything.
+4. Confirm the ticket is independently implementable and not already covered elsewhere.
+5. **Dependency hard gate**: if a required dependency is not yet present on the
+   intended base branch, STOP before implementation and report the task as
+   blocked. Do NOT merge a prerequisite PR merely to unblock your own task
+   unless this task explicitly grants merge authority.
+6. Identify dependencies and potential file overlap before parallelizing work.
+
+A bounded implementation whose contract is established can use the routine
+implementation path. Escalate when the contract is unresolved or the task
+requires a materially irreversible architecture / schema / security / privacy /
+shared-API decision.
 
 Recommended branch naming:
 
@@ -153,6 +171,15 @@ Before declaring work complete:
 - Check that no unrelated files, secrets, debug output, or local artifacts were included.
 
 If a validation step cannot be run, state exactly what was not verified and why.
+
+## Focused Review / レビュー範囲
+
+Review only the diff, the Issue acceptance criteria, referenced contracts/specs,
+and regressions plausibly introduced by the diff. Do not perform a broad
+unrelated repository audit. Blocking findings require concrete evidence. The
+final verdict must be either blocking findings or exactly
+`No blocking findings.` Do not spend review budget investigating unrelated
+pre-existing issues.
 
 ## Definition of Done / 完了条件
 

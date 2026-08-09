@@ -68,7 +68,10 @@ Do not claim a check passed if it was not executed. If something cannot be verif
 Keep the final handoff concise and concrete. Include:
 
 - **Summary**: what changed and why.
+- **Dependency / preflight status**: current Issue/spec/dependency/open-PR state checked, and any dependency reported as blocked.
+- **Shared-impact checks**: downstream consumers/invariants searched for any shared contract change.
 - **Validation**: commands/checks actually run and their result.
+- **Reviewer verdict**: exactly `No blocking findings.` or the blocking findings.
 - **Risks / Follow-up**: only unresolved items that materially matter.
 - **日本語要約**: a short Japanese summary when the handoff is meant for the shared team.
 
