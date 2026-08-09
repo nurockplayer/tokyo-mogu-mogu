@@ -166,8 +166,9 @@ screens import these primitives instead of building their own visual system.
   lead, read-time, origin tag, media) → why (geography/history) → maker →
   craft & wisdom → challenge today → tasting-is-succession → support actions →
   route CTA.
-- Sections use the shared `StorySection` primitive: uppercase kicker, display
-  title, body paragraphs at relaxed line-height (1.8).
+- Sections use the shared `StorySection` primitive: a letter-spaced kicker
+  (the English copy is authored in all-caps, e.g. `GEOGRAPHY & HISTORY`),
+  display title, and body paragraphs at relaxed line-height (1.8).
 - The maker block uses a **feature card with media + name + role**.
 - Support actions are embedded after the succession beat (shared `SupportPanel`,
   see S7). Provenance is preserved in a compact `details/summary` Sources block;
@@ -224,7 +225,10 @@ screens import these primitives instead of building their own visual system.
 - **Saved-route list**: each saved model route renders as a **continuation
   card** — title, duration / area meta, and actions (open route / remove) —
   navigating back to S5. Newest first.
-- Empty state uses the shared `EmptyState` with a diagnosis CTA.
+- Empty state uses the shared `EmptyState` with a CTA that starts the
+  diagnosis journey. The current implementation links that CTA to the landing
+  screen (copy: 「診断から始める」); confirm the intended target in the S8
+  child issue.
 - Area meta may name 奥多摩 as the current pilot but must not make the page
   read as an Okutama-only product.
 
