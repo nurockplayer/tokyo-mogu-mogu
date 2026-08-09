@@ -1,11 +1,28 @@
 # Hackathon Product Contract (S0–S9)
 
-Durable behavior and product contract for the 2026 hackathon prototype.
+Durable Product positioning and behavior contract for the 2026 hackathon
+prototype.
 
-- **Source of truth**: Issue #41 + the approved S0–S9 UI / Design Spec v1.0.
-- **Status**: Current product direction. Supersedes the legacy Pokédex / check-in
-  journey described in the earlier MVP docs and closed Issues #1–#9.
-- **Scope**: 1 region × 1 food culture — **奥多摩 × 東京わさび**.
+- **Product positioning source of truth**: Issue #85.
+- **Hackathon UX source of truth**: Issue #41 + the approved S0–S9 UI / Design
+  Spec v1.0.
+- **Status**: Current contract. Issue #85 adds the durable Product positioning
+  without rewriting the historical decision recorded in Issue #41.
+- **Hackathon scope**: 1 region × 1 food culture — **奥多摩 × 東京わさび**.
+
+## Product Vision
+
+Tokyo Mogu Mogu creates reasons for travelers concentrated in Tokyo's 23 wards
+to discover destinations across outer Tokyo. It connects travelers with
+regional food culture, people, nature, and experiences, so the traveler chooses
+to make the trip rather than being told simply to disperse.
+
+> 東京23区に集中する観光の流れを、地域ならではの「行きたい理由」によって
+> 東京全体へ広げる。
+
+Food culture is the primary entry point for creating that reason to visit; its
+inheritance remains an important value, while tourism dispersion and regional
+discovery are the top-level problem the Product addresses.
 
 ## Product
 
@@ -15,8 +32,9 @@ shown as one continuous story — the maker, the place, the history — and the
 journey leads from "knowing" to acting: eating, buying, visiting, making,
 reserving, and sharing.
 
-The core loop is **Discover → Understand → Visit → Act**, where the action's
-meaning for cultural succession is made visible.
+The durable loop is **Discover → Understand → Visit → Act → Discover next
+region**, where the action's meaning for cultural succession is made visible
+and any continuation feature motivates another regional discovery.
 
 ## Primary Persona
 
@@ -29,6 +47,8 @@ meaning for cultural succession is made visible.
 ## Hackathon Scope
 
 - **1 region × 1 food culture**: 奥多摩 × 東京わさび.
+- This is the first MVP pilot and the only required real content for the
+  2026-08-23 submission, not the Product's permanent geographic scope.
 - Other food cultures appear only as S9 unearned Badge dummies or future
   expansion, never as a core-demo premise.
 
@@ -48,6 +68,28 @@ S0 Landing
 
 - S9 Badge Collection is **stretch / time permitting**.
 - S0–S8 approved UI takes priority.
+
+## Architecture / Data Boundary
+
+- `Region`, `FoodCulture`, `Place`, and `Route` are durable domains that must be
+  able to represent future outer-Tokyo regions.
+- Okutama / Tokyo Wasabi hard-coding belongs only in demo fixtures or seed
+  content, not in shared UI, routing, persistence, i18n, or provenance
+  contracts.
+- Shared contracts should remain reusable when a verified future region is
+  added.
+- This extensibility does **not** authorize a generic platform, CMS, nationwide
+  route engine, speculative production records, or a second implemented region
+  for the Hackathon MVP.
+
+## Badge / Next Discovery Boundary
+
+- S9 Badge remains stretch work and must not block S0–S8.
+- If Badge or another continuation feature is implemented, its Product role is
+  to preserve the traveler's connection and create motivation to discover a
+  next region; collection is not the top-level Product goal.
+- Future-region slots may be clearly labeled dummy / locked fixtures. They must
+  not imply that routes, places, or stories for those regions are implemented.
 
 ## Language / Device
 
@@ -114,6 +156,8 @@ These must not block or overwrite the S0–S9 implementation.
 
 ## Out of Scope
 
+- A second implemented region or unverified production content for 2026-08-23
+- A generic multi-region platform, CMS, marketplace, or nationwide route engine
 - Full AI itinerary generation
 - Production-grade reward / redemption backend
 - Real payment / booking / donation backends (S7 actions may link out or be

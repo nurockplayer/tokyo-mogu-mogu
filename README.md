@@ -2,12 +2,15 @@
 
 東京を食べる。文化をつなぐ。— Eat Tokyo. Connect its culture.
 
-Discover and experience Tokyo's food culture through story — a mobile-first
-journey from **diagnosis → story → route → support action** around one region ×
-one food culture: **奥多摩 × 東京わさび**.
+Tokyo Mogu Mogu creates reasons for travelers concentrated in Tokyo's 23 wards
+to discover destinations across outer Tokyo. Regional food culture, people,
+nature, and experiences become a mobile-first journey from **discovery → story
+→ route → support action → next regional discovery**.
 
-The current product direction is defined by Issue #41 and the approved S0–S9
-design. The core journey is:
+Issue #85 defines this durable Product Vision. For the 2026-08-23 hackathon,
+**奥多摩 × 東京わさび** is the first pilot and the only required real content;
+it is not the Product's permanent geographic scope. Issue #41 and the approved
+S0–S9 design continue to define the Hackathon MVP journey:
 
 ```
 S0 Landing → S1 Dietary Restrictions → S2 Preference Diagnosis →
@@ -21,8 +24,9 @@ runs without geolocation. S9 Badge Collection is stretch work.
 ## Product contract
 
 - See [docs/specs/product/hackathon-product-contract.md](docs/specs/product/hackathon-product-contract.md)
-  for the current product contract (source of truth, Issue #41).
-- See [docs/mvp-scope.md](docs/mvp-scope.md) for product scope and the demo journey.
+  for the Product Vision (#85) and Hackathon MVP contract (#41).
+- See [docs/mvp-scope.md](docs/mvp-scope.md) for the boundary between durable
+  Product scope and the first-pilot demo journey.
 - See `AGENTS.md` for the repository policy.
 
 The legacy Pokédex / geolocation check-in / next-collectible journey

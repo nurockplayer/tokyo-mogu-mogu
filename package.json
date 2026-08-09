@@ -2,7 +2,7 @@
   "name": "tokyo-mogu-mogu",
   "private": true,
   "version": "0.1.0",
-  "description": "Discover and experience Tokyo's Tama food culture through open data.",
+  "description": "Create reasons to discover outer Tokyo through regional food culture.",
   "type": "module",
   "packageManager": "pnpm@11.13.0",
   "scripts": {
