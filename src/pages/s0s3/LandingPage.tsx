@@ -1,17 +1,30 @@
 /**
- * S0 Landing page (Issue #43).
+ * S0 Landing page (Issue #43, reframed by Issue #78).
  *
  * Entry of the S0–S8 journey: hero + service name + tagline, a 3-step value
- * explanation (好みを診断 → 物語を知る → 巡って応援), a primary CTA into the
- * diagnosis, and a short "why now" section. Accountless and geolocation-free.
+ * explanation, and a short "why now" section. The main CTA communicates
+ * starting a personalized food-culture journey (not a one-time quiz) and routes
+ * by flow contract:
+ *
+ *   - First-time user (no Food Profile) → Food Profile setup, then Exploration
+ *   - Returning user (valid Food Profile) → Exploration 5 questions directly
+ *
+ * Home is the start-new-recommendation destination from #92; recent-result
+ * history is NOT duplicated here (MOGU owns Recent). Accountless and
+ * geolocation-free.
  */
 import { Link } from 'react-router-dom';
 import { useI18n } from '../../i18n';
 import { StorySection } from '../../ui';
+import { hasFoodProfile } from '../../lib/food-profile-storage';
+import { beginNewExploration } from './exploration-session';
 import './onboarding.css';
 
 export function LandingPage() {
   const { t } = useI18n();
+
+  // Returning users skip the Food Profile re-ask and start a new Exploration.
+  const journeyTarget = hasFoodProfile() ? '/explore' : '/food-profile';
 
   const steps = [
     { id: 's0Step1', title: t('s0Step1Title'), desc: t('s0Step1Desc') },
@@ -26,7 +39,11 @@ export function LandingPage() {
         <h1 className="tmm-landing-hero__title">{t('s0Title')}</h1>
         <p className="tmm-landing-hero__tagline">{t('s0Tagline')}</p>
         <div className="tmm-landing-hero__cta">
-          <Link to="/diagnosis" className="tmm-btn tmm-btn--primary tmm-btn--block">
+          <Link
+            to={journeyTarget}
+            className="tmm-btn tmm-btn--primary tmm-btn--block"
+            onClick={beginNewExploration}
+          >
             {t('s0Cta')}
           </Link>
         </div>

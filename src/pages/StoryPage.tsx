@@ -179,7 +179,7 @@ export function StoryPage() {
           {t('s4CtaLabel')}
         </Link>
         <p className="s4-cta__sub">{t('s4CtaSub')}</p>
-        <Link to="/" className="s4-cta__back">{t('s4BackToResult')}</Link>
+        <Link to="/explore/result" className="s4-cta__back">{t('s4BackToResult')}</Link>
       </footer>
 
       {/* Compact provenance — preserves the record's sources without breaking the editorial UI */}

@@ -53,10 +53,10 @@ describe('i18n fallback (#12)', () => {
 
   it('ships real zh-TW translations for the S0-S8 journey chrome', () => {
     // Spot-check that zh-TW is not just an empty placeholder block.
-    expect(strings['zh-TW'].s0Cta).toBe('開始飲食文化之旅');
+    expect(strings['zh-TW'].s0Cta).toBe('開始我的飲食文化之旅');
     expect(strings['zh-TW'].s8PageTitle).toBe('我的路線');
     expect(strings['zh-TW'].s3PrimaryCta).toContain('東京山葵');
-    expect(strings['zh-TW'].s1Skip).toBe('沒有飲食限制');
+    expect(strings['zh-TW'].fpNoRestrictions).toBe('沒有飲食限制');
   });
 
   it('frames the header tagline around the #41 journey, not collection (#66)', () => {
@@ -66,7 +66,7 @@ describe('i18n fallback (#12)', () => {
       // Legacy collection framing must not leak into the header tagline.
       expect(tagline.toLowerCase()).not.toMatch(/collect|集め|集齊|図鑑|圖鑑/);
       // New journey nav keys exist in every locale.
-      expect(strings[locale].navDiagnosis.length).toBeGreaterThan(0);
+      expect(strings[locale].navExplore.length).toBeGreaterThan(0);
       expect(strings[locale].navSupport.length).toBeGreaterThan(0);
       // Current primary nav is Home / Discover / MOGU / My (#95 / #92 IA).
       expect(strings[locale].navHome.length).toBeGreaterThan(0);
