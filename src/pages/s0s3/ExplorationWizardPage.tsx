@@ -1,34 +1,35 @@
 /**
- * S1 Dietary Restrictions + S2 Preference Diagnosis wizard (Issue #43).
+ * Exploration Conditions wizard (Issue #78 reframe of S2).
  *
- * One screen / one question. The whole flow keeps a single `DiagnosisAnswers`
- * object in state (seeded from sessionStorage) and writes it back on every
- * change, so Back/Next never lose prior answers and `/diagnosis/result` can
- * read the same payload. The final step navigates to `/diagnosis/result`.
+ * Five questions about how the user wants to experience this trip
+ * (「今回どう体験したいか」), one screen / one question. The whole flow keeps a
+ * single `ExplorationAnswers` object in state (seeded from sessionStorage) and
+ * writes it back on every change, so Back/Next never lose prior answers and the
+ * Result can read the same payload. The final step navigates to the Result.
  *
- * S1 dietary input is used only for recommendation / match reasons — the
- * trust copy on this screen states that explicitly and no safety claim is
- * ever derived from it.
+ * Exploration state is current-session / per-trip data — it is NOT the durable
+ * Food Profile (which holds the stable dietary data separately and is asked
+ * only on first use). Visual choice-card treatment from the approved UI remains
+ * applicable via the shared `tmm-chip` foundation.
  */
 import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useI18n } from '../../i18n';
 import { Button, Chip, ProgressBar, StepDots } from '../../ui';
 import {
-  S2_FIRST_STEP,
   WIZARD_STEP_COUNT,
-  createDefaultAnswers,
+  createDefaultExplorationAnswers,
   fillTemplate,
-  type BaseArea,
-  type DiagnosisAnswers,
-  type DietaryRestriction,
+  type ExplorationAnswers,
   type Experience,
   type Interest,
   type Taste,
   type TravelTime,
   type TripDuration,
-} from '../../lib/diagnosis';
-import { loadDiagnosisAnswers, saveDiagnosisAnswers } from './session';
+  type BaseArea,
+} from '../../lib/exploration';
+import { loadExplorationAnswers, saveExplorationAnswers } from './exploration-session';
+import { hasFoodProfile } from '../../lib/food-profile-storage';
 import './onboarding.css';
 
 /** A chip option rendered for a wizard step. */
@@ -47,115 +48,97 @@ function toggleValue<V extends string>(values: V[], value: V): V[] {
     : [...values, value];
 }
 
-/** S2 copy keys for the current step's question title / hint. */
-const S2_TITLES = ['s2Q1Title', 's2Q2Title', 's2Q3Title', 's2Q4Title', 's2Q5Title'] as const;
-const S2_HINTS = ['s2Q1Hint', 's2Q2Hint', 's2Q3Hint', 's2Q4Hint', 's2Q5Hint'] as const;
+/** Exploration copy keys for the current step's question title / hint. */
+const S2_TITLES = ['exQ1Title', 'exQ2Title', 'exQ3Title', 'exQ4Title', 'exQ5Title'] as const;
+const S2_HINTS = ['exQ1Hint', 'exQ2Hint', 'exQ3Hint', 'exQ4Hint', 'exQ5Hint'] as const;
 
-export function DiagnosisWizardPage() {
+export function ExplorationWizardPage() {
+  // First-time flow asks for the Food Profile before Exploration. Any entry
+  // point (Landing, Home, bottom-nav Explore) is routed to profile setup when
+  // no durable profile exists; returning users skip it entirely.
+  if (!hasFoodProfile()) {
+    return <Navigate to="/food-profile" replace />;
+  }
+  return <ExplorationWizardInner />;
+}
+
+function ExplorationWizardInner() {
   const { t } = useI18n();
   const navigate = useNavigate();
 
-  const [answers, setAnswers] = useState<DiagnosisAnswers>(() => {
-    const saved = loadDiagnosisAnswers();
-    return saved ? { ...createDefaultAnswers(), ...saved } : createDefaultAnswers();
+  const [answers, setAnswers] = useState<ExplorationAnswers>(() => {
+    const saved = loadExplorationAnswers();
+    return saved
+      ? { ...createDefaultExplorationAnswers(), ...saved }
+      : createDefaultExplorationAnswers();
   });
   const [step, setStep] = useState(0);
 
-  /** Update answers and mirror them to sessionStorage for the result screen. */
-  function persist(next: DiagnosisAnswers) {
+  /** Update answers and mirror them to sessionStorage for the Result screen. */
+  function persist(next: ExplorationAnswers) {
     setAnswers(next);
-    saveDiagnosisAnswers(next);
+    saveExplorationAnswers(next);
   }
 
-  const dietaryChoices: Choice<DietaryRestriction>[] = [
-    { value: 'allergy', label: t('s1Allergy') },
-    { value: 'vegetarian-vegan', label: t('s1Vegan') },
-    { value: 'religious', label: t('s1Religious') },
-    { value: 'dislike', label: t('s1Dislike') },
-  ];
-
   const tasteChoices: Choice<Taste>[] = [
-    { value: 'refreshing', label: t('s2TasteRefreshing') },
-    { value: 'rich', label: t('s2TasteRich') },
-    { value: 'spicy', label: t('s2TasteSpicy') },
-    { value: 'sweet', label: t('s2TasteSweet') },
+    { value: 'refreshing', label: t('exTasteRefreshing') },
+    { value: 'rich', label: t('exTasteRich') },
+    { value: 'spicy', label: t('exTasteSpicy') },
+    { value: 'sweet', label: t('exTasteSweet') },
   ];
 
   const experienceChoices: Choice<Experience>[] = [
-    { value: 'eat', label: t('s2ExpEat') },
-    { value: 'make', label: t('s2ExpMake') },
-    { value: 'buy', label: t('s2ExpBuy') },
-    { value: 'meet', label: t('s2ExpMeet') },
+    { value: 'eat', label: t('exExpEat') },
+    { value: 'make', label: t('exExpMake') },
+    { value: 'buy', label: t('exExpBuy') },
+    { value: 'meet', label: t('exExpMeet') },
   ];
 
   const areaChoices: Choice<BaseArea>[] = [
-    { value: 'okutama', label: t('s2AreaOkutama') },
-    { value: 'tama-center', label: t('s2AreaTama') },
-    { value: 'tokyo-west', label: t('s2AreaTokyoWest') },
+    { value: 'okutama', label: t('exAreaOkutama') },
+    { value: 'tama-center', label: t('exAreaTama') },
+    { value: 'tokyo-west', label: t('exAreaTokyoWest') },
   ];
 
   const travelChoices: Choice<TravelTime>[] = [
-    { value: 'within-30', label: t('s2TravelWithin30') },
-    { value: 'within-60', label: t('s2TravelWithin60') },
-    { value: 'over-60', label: t('s2TravelOver60') },
+    { value: 'within-30', label: t('exTravelWithin30') },
+    { value: 'within-60', label: t('exTravelWithin60') },
+    { value: 'over-60', label: t('exTravelOver60') },
   ];
 
   const interestChoices: Choice<Interest>[] = [
-    { value: 'tradition', label: t('s2InterestTradition') },
-    { value: 'nature', label: t('s2InterestNature') },
-    { value: 'daily-life', label: t('s2InterestDaily') },
+    { value: 'nature', label: t('exInterestNature') },
+    { value: 'tradition', label: t('exInterestTradition') },
+    { value: 'craft', label: t('exInterestCraft') },
+    { value: 'daily-life', label: t('exInterestDaily') },
   ];
 
   const durationChoices: Choice<TripDuration>[] = [
-    { value: 'half-day', label: t('s2DurationHalf') },
-    { value: 'full-day', label: t('s2DurationFull') },
+    { value: 'half-day', label: t('exDurationHalf') },
+    { value: 'full-day', label: t('exDurationFull') },
   ];
 
-  const isS1 = step === 0;
-  const s2Index = step - S2_FIRST_STEP;
   const stepCount = WIZARD_STEP_COUNT;
 
   /** Whether the current step has enough input to continue. */
   const canProceed = useMemo(() => {
-    if (isS1) return true; // dietary input is optional / skippable
     switch (step) {
-      case 1:
+      case 0:
         return answers.tastes.length > 0;
-      case 2:
+      case 1:
         return true; // multi-select, optional
-      case 3:
+      case 2:
         return answers.baseArea !== null && answers.travelTime !== null;
-      case 4:
+      case 3:
         return answers.interests.length > 0;
-      case 5:
+      case 4:
         return answers.duration !== null;
       default:
         return true;
     }
-  }, [isS1, step, answers]);
+  }, [step, answers]);
 
   // --- Field mutations (each persists immediately so Back never loses input) ---
-
-  function toggleDietary(value: DietaryRestriction) {
-    persist({
-      ...answers,
-      hasNoRestrictions: false,
-      dietary: toggleValue(answers.dietary, value),
-    });
-  }
-
-  function toggleNoRestrictions() {
-    persist({ ...answers, hasNoRestrictions: true, dietary: [], dietaryOther: '' });
-  }
-
-  function setDietaryOther(value: string) {
-    const trimmed = value.trim();
-    persist({
-      ...answers,
-      dietaryOther: value,
-      hasNoRestrictions: trimmed.length === 0 && answers.dietary.length === 0,
-    });
-  }
 
   function toggleTaste(value: Taste) {
     persist({ ...answers, tastes: toggleValue(answers.tastes, value) });
@@ -195,7 +178,7 @@ export function DiagnosisWizardPage() {
     if (step < stepCount - 1) {
       setStep(step + 1);
     } else {
-      navigate('/diagnosis/result');
+      navigate('/explore/result');
     }
   }
 
@@ -245,34 +228,34 @@ export function DiagnosisWizardPage() {
 
   function renderStepBody() {
     switch (step) {
-      case 1:
+      case 0:
         return renderMulti(tasteChoices, answers.tastes, toggleTaste);
-      case 2:
+      case 1:
         return renderMulti(experienceChoices, answers.experiences, toggleExperience);
-      case 3:
+      case 2:
         return (
           <>
-            <p className="tmm-wizard__hint">{t('s2Q3AreaLabel')}</p>
+            <p className="tmm-wizard__hint">{t('exQ3AreaLabel')}</p>
             {renderSingle(areaChoices, answers.baseArea, setBaseArea)}
-            <p className="tmm-wizard__hint">{t('s2Q3TravelLabel')}</p>
+            <p className="tmm-wizard__hint">{t('exQ3TravelLabel')}</p>
             {renderSingle(travelChoices, answers.travelTime, setTravelTime)}
           </>
         );
-      case 4:
+      case 3:
         return renderMulti(interestChoices, answers.interests, toggleInterest);
-      case 5:
+      case 4:
         return renderSingle(durationChoices, answers.duration, setDuration);
       default:
         return null;
     }
   }
 
-  const progressLabel = fillTemplate(t('wizardStepOf'), {
+  const progressLabel = fillTemplate(t('explorationStepOf'), {
     n: String(step + 1),
     total: String(stepCount),
   });
 
-  const ariaProgress = fillTemplate(t('wizardProgressAria'), {
+  const ariaProgress = fillTemplate(t('explorationProgressAria'), {
     n: String(step + 1),
     total: String(stepCount),
   });
@@ -296,41 +279,9 @@ export function DiagnosisWizardPage() {
 
         <StepDots total={stepCount} current={step} label={ariaProgress} />
 
-        {isS1 ? (
-          <>
-            <h1 className="tmm-wizard__question">{t('s1Title')}</h1>
-            <p className="tmm-wizard__hint">{t('s1Hint')}</p>
-
-            {renderMulti(dietaryChoices, answers.dietary, toggleDietary)}
-
-            <div className="tmm-wizard__options">
-              <Chip selected={answers.hasNoRestrictions} onClick={toggleNoRestrictions}>
-                {t('s1Skip')}
-              </Chip>
-            </div>
-
-            <label htmlFor="s1-other" className="tmm-wizard__hint">
-              {t('s1OtherLabel')}
-            </label>
-            <input
-              id="s1-other"
-              className="tmm-wizard__text"
-              type="text"
-              value={answers.dietaryOther}
-              onChange={(e) => setDietaryOther(e.target.value)}
-              placeholder={t('s1OtherPlaceholder')}
-              disabled={answers.hasNoRestrictions}
-            />
-
-            <p className="tmm-wizard__trust">{t('s1Trust')}</p>
-          </>
-        ) : (
-          <>
-            <h1 className="tmm-wizard__question">{t(S2_TITLES[s2Index] ?? 's2Q1Title')}</h1>
-            <p className="tmm-wizard__hint">{t(S2_HINTS[s2Index] ?? 's2Q1Hint')}</p>
-            {renderStepBody()}
-          </>
-        )}
+        <h1 className="tmm-wizard__question">{t(S2_TITLES[step] ?? 'exQ1Title')}</h1>
+        <p className="tmm-wizard__hint">{t(S2_HINTS[step] ?? 'exQ1Hint')}</p>
+        {renderStepBody()}
 
         <div className="tmm-wizard__actions">
           <Button
@@ -339,7 +290,7 @@ export function DiagnosisWizardPage() {
             onClick={goNext}
             disabled={!canProceed}
           >
-            {step === stepCount - 1 ? t('s2Done') : t('s2Next')}
+            {step === stepCount - 1 ? t('exDone') : t('exNext')}
           </Button>
         </div>
       </div>

@@ -32,20 +32,18 @@
  *
  * Entry contexts (#79): the Story is a reusable component reached from the
  * personalized Result (#78/#94) or from Discover (#93). Back behavior is
- * caller-context-aware via a `backTo` query parameter (default: the diagnosis
- * result). MOGU/Discover callers that cannot yet be implemented keep the
- * existing default back behavior working. The Route CTA never silently creates
- * Saved Route state (it navigates to the route page, which owns saving).
+ * caller-context-aware via a `backTo` query parameter (default: the current
+ * Exploration result). The Route CTA carries that context forward and never
+ * silently creates Saved Route state (the route page owns saving).
  */
 import { Link, useParams, useSearchParams } from 'react-router-dom';
-import type { ReactNode } from 'react';
 import { getFoodCultureById } from '../data';
 import { FoodCultureImage } from '../components/FoodCultureImage';
 import { SupportPanel } from '../components/SupportPanel';
-import { Card, Tag } from '../ui';
+import { Card, StorySection, Tag } from '../ui';
 import { useI18n, type Locale } from '../i18n';
 import { foodCultureKey } from '../i18n/data-content';
-import { readingMinutes, resolveBackTo } from './story-reading';
+import { readingMinutes, resolveBackTo, storyRouteHref } from './story-reading';
 import './StoryPage.css';
 
 /** The recommended food culture rendered by this screen (MVP scope: 東京わさび). */
@@ -66,32 +64,6 @@ function bodyReadingMinutes(body: string[], locale: Locale): number {
   return readingMinutes(body.filter(Boolean).join(' '), locale);
 }
 
-/** Numbered editorial section: kicker + display title + body (S4, #79). */
-function NumberedSection({
-  number,
-  kicker,
-  title,
-  children,
-}: {
-  number: number;
-  kicker: string;
-  title: string;
-  children: ReactNode;
-}) {
-  return (
-    <section className="s4-section">
-      <p className="s4-section__kicker">{kicker}</p>
-      <h2 className="s4-section__title">
-        <span className="s4-section__num" aria-hidden="true">
-          {number}
-        </span>
-        {title}
-      </h2>
-      <div className="s4-section__body">{children}</div>
-    </section>
-  );
-}
-
 export function StoryPage() {
   const { locale, t } = useI18n();
   const { id } = useParams<{ id: string }>();
@@ -100,9 +72,10 @@ export function StoryPage() {
   // Entry-context-aware back (#79). The Story is a reusable component reached
   // from the personalized Result (default) or from Discover (#93). Callers that
   // know their origin pass `?backTo=/discover`; anything else keeps the default
-  // Result back behavior. A relative path is validated against the app router so
-  // a crafted query cannot navigate outside the SPA.
-  const backTo = resolveBackTo(searchParams.get('backTo'), '/diagnosis/result');
+  // Result back behavior. An allowlist prevents crafted values from becoming
+  // arbitrary or protocol-relative destinations.
+  const backTo = resolveBackTo(searchParams.get('backTo'), '/explore/result');
+  const routeHref = storyRouteHref(backTo);
 
   // No id defaults to the recommended 東京わさび story. Any other id — whether
   // it names a different seed culture or an unknown value — renders the graceful
@@ -182,13 +155,13 @@ export function StoryPage() {
 
       <div className="s4-story">
         {/* Section 2 — Why Okutama (geography / history) */}
-        <NumberedSection number={1} kicker={t('s4KickerWhy')} title={format(t('s4TitleWhy'), { area: areaName })}>
+        <StorySection number={1} kicker={t('s4KickerWhy')} title={format(t('s4TitleWhy'), { area: areaName })}>
           <p className="s4-p">{t(fcKey('history'))}</p>
           <p className="s4-p">{t(fcKey('story'))}</p>
-        </NumberedSection>
+        </StorySection>
 
         {/* Section 3 — The maker (the maker is the visual lead of the section) */}
-        <NumberedSection number={2} kicker={t('s4KickerMaker')} title={t('s4TitleMaker')}>
+        <StorySection number={2} kicker={t('s4KickerMaker')} title={t('s4TitleMaker')}>
           <Card feature className="s4-maker-card">
             <div className="s4-maker-media">
               <FoodCultureImage
@@ -206,10 +179,10 @@ export function StoryPage() {
           </Card>
           <p className="s4-p">{t(fcKey('maker'))}</p>
           <p className="s4-note">{t('s4MakerNote')}</p>
-        </NumberedSection>
+        </StorySection>
 
         {/* Section 4 — Craft & wisdom (story + how to enjoy) */}
-        <NumberedSection number={3} kicker={t('s4KickerCraft')} title={t('s4TitleCraft')}>
+        <StorySection number={3} kicker={t('s4KickerCraft')} title={t('s4TitleCraft')}>
           <p className="s4-p">{t('dataStoryCraft')}</p>
           <div className="s4-inline-media">
             <FoodCultureImage
@@ -222,20 +195,20 @@ export function StoryPage() {
             <span className="s4-media-caption">{t('s4MediaCaption')}</span>
           </div>
           <p className="s4-p">{t(fcKey('howToEnjoy'))}</p>
-        </NumberedSection>
+        </StorySection>
 
         {/* Section 5 — The challenge today (never ends on pessimism) */}
-        <NumberedSection number={4} kicker={t('s4KickerChallenge')} title={t('s4TitleChallenge')}>
+        <StorySection number={4} kicker={t('s4KickerChallenge')} title={t('s4TitleChallenge')}>
           <p className="s4-p">{t('dataStoryChallenge')}</p>
           <p className="s4-note s4-note--editorial">{t('s4EditorialNote')}</p>
-        </NumberedSection>
+        </StorySection>
 
         {/* Section 6 — Tasting is passing it on */}
-        <NumberedSection number={5} kicker={t('s4KickerSupport')} title={t('s4TitleSupport')}>
+        <StorySection number={5} kicker={t('s4KickerSupport')} title={t('s4TitleSupport')}>
           <Card className="s4-support-card">
             <p className="s4-p">{t('dataStorySupport')}</p>
           </Card>
-        </NumberedSection>
+        </StorySection>
       </div>
 
       {/* Support actions (Issues #68/#79) — the story's "tasting is succession"
@@ -247,7 +220,7 @@ export function StoryPage() {
 
       {/* Section 7 — CTA to S5 route */}
       <footer className="s4-cta">
-        <Link to="/route" className="tmm-btn tmm-btn--primary tmm-btn--block">
+        <Link to={routeHref} className="tmm-btn tmm-btn--primary tmm-btn--block">
           {t('s4CtaLabel')}
         </Link>
         <p className="s4-cta__sub">{t('s4CtaSub')}</p>
@@ -281,7 +254,7 @@ export function StoryPage() {
 
       {/* Mobile sticky/following CTA — does not conflict with the approved editorial layout */}
       <div className="s4-sticky-cta">
-        <Link to="/route" className="tmm-btn tmm-btn--orange tmm-btn--block">
+        <Link to={routeHref} className="tmm-btn tmm-btn--orange tmm-btn--block">
           {t('s4StickyCta')}
         </Link>
       </div>

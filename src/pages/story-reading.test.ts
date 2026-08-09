@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { readingMinutes, resolveBackTo } from './story-reading';
+import { readingMinutes, resolveBackTo, storyRouteHref } from './story-reading';
 
 describe('readingMinutes (#44)', () => {
   it('never returns less than 1 minute', () => {
@@ -24,15 +24,27 @@ describe('readingMinutes (#44)', () => {
 
 describe('resolveBackTo (#79)', () => {
   it('uses the caller-supplied relative path when present', () => {
-    expect(resolveBackTo('/discover', '/diagnosis/result')).toBe('/discover');
+    expect(resolveBackTo('/discover', '/explore/result')).toBe('/discover');
+    expect(resolveBackTo('/mogu', '/explore/result')).toBe('/mogu');
   });
 
   it('keeps the default Result back target when no query is given', () => {
-    expect(resolveBackTo(null, '/diagnosis/result')).toBe('/diagnosis/result');
+    expect(resolveBackTo(null, '/explore/result')).toBe('/explore/result');
   });
 
-  it('rejects a non-relative caller value (no SPA-external navigation)', () => {
-    expect(resolveBackTo('https://example.com', '/diagnosis/result')).toBe('/diagnosis/result');
-    expect(resolveBackTo('discover', '/diagnosis/result')).toBe('/diagnosis/result');
+  it('rejects external, protocol-relative, and arbitrary app paths', () => {
+    expect(resolveBackTo('https://example.com', '/explore/result')).toBe('/explore/result');
+    expect(resolveBackTo('//example.com', '/explore/result')).toBe('/explore/result');
+    expect(resolveBackTo('/support', '/explore/result')).toBe('/explore/result');
+    expect(resolveBackTo('discover', '/explore/result')).toBe('/explore/result');
+  });
+});
+
+describe('storyRouteHref (#79)', () => {
+  it('carries the Story caller context into Route', () => {
+    expect(storyRouteHref('/discover')).toBe('/route?from=story&backTo=%2Fdiscover');
+    expect(storyRouteHref('/explore/result')).toBe(
+      '/route?from=story&backTo=%2Fexplore%2Fresult',
+    );
   });
 });

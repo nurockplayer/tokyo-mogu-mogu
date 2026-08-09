@@ -116,11 +116,11 @@
 
 /* Numbered editorial section (#79): the number sits left of the display title
    as a leaf square so the numbering reads consistently across all sections. */
-.s4-section {
+.s4-story .tmm-story-section {
   margin-top: var(--tmm-space-6);
 }
 
-.s4-section__kicker {
+.s4-story .tmm-story-section__kicker {
   font-size: var(--tmm-text-caption);
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -128,7 +128,7 @@
   margin-bottom: var(--tmm-space-1);
 }
 
-.s4-section__title {
+.s4-story .tmm-story-section__title {
   display: flex;
   align-items: flex-start;
   gap: var(--tmm-space-3);
@@ -141,21 +141,11 @@
   overflow-wrap: break-word;
 }
 
-.s4-section__num {
-  flex: 0 0 30px;
-  width: 30px;
-  height: 30px;
-  border-radius: var(--tmm-radius-sm);
-  background: var(--tmm-color-forest);
-  color: var(--tmm-color-card);
-  display: grid;
-  place-items: center;
-  font-size: 0.9rem;
-  font-weight: 700;
+.s4-story .tmm-story-section__num {
   margin-top: 2px;
 }
 
-.s4-section__body {
+.s4-story .tmm-story-section__body {
   font-size: var(--tmm-text-body);
   color: var(--tmm-color-ink);
   line-height: 1.8;

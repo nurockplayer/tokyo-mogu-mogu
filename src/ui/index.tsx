@@ -164,16 +164,28 @@ export function Card({
 export function StorySection({
   kicker,
   title,
+  number,
   children,
 }: {
   kicker?: string;
   title?: string;
+  /** Optional editorial sequence marker (for numbered long-form stories). */
+  number?: number;
   children: ReactNode;
 }) {
   return (
     <section className="tmm-story-section">
       {kicker ? <p className="tmm-story-section__kicker">{kicker}</p> : null}
-      {title ? <h2 className="tmm-story-section__title">{title}</h2> : null}
+      {title ? (
+        <h2 className="tmm-story-section__title">
+          {number !== undefined ? (
+            <span className="tmm-story-section__num" aria-hidden="true">
+              {number}
+            </span>
+          ) : null}
+          {title}
+        </h2>
+      ) : null}
       <div className="tmm-story-section__body">{children}</div>
     </section>
   );
