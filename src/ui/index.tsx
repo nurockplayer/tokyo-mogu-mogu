@@ -392,26 +392,62 @@ export function EmptyState({
 export function Header({
   logo,
   onLogoClick,
+  tagline,
   children,
+  demoControls,
 }: {
   logo: string;
   onLogoClick?: () => void;
-  /** Language switch and any demo controls. */
+  /** Optional tagline line shown under the brand row (approved header hierarchy). */
+  tagline?: string;
+  /** Language switch and any header controls (right slot of the brand row). */
   children?: ReactNode;
+  /** Demo controls row (reset etc.), kept below the brand row. */
+  demoControls?: ReactNode;
 }) {
   return (
     <header className="tmm-header">
-      <a
-        className="tmm-header__logo"
-        href="#/"
-        onClick={(e) => {
-          e.preventDefault();
-          onLogoClick?.();
-        }}
-      >
-        {logo}
-      </a>
-      <div className="tmm-header__actions">{children}</div>
+      <div className="tmm-header__top">
+        <a
+          className="tmm-header__logo"
+          href="#/"
+          onClick={(e) => {
+            e.preventDefault();
+            onLogoClick?.();
+          }}
+        >
+          {logo}
+        </a>
+        <div className="tmm-header__actions">{children}</div>
+      </div>
+      {tagline ? <p className="tmm-header__tagline">{tagline}</p> : null}
+      {demoControls ? <div className="tmm-header__demo">{demoControls}</div> : null}
     </header>
+  );
+}
+
+/* ---------- Segmented control (from the tmm-chip primitive) ---------- */
+
+export function Segmented({
+  label,
+  selected,
+  onChange,
+  options,
+}: {
+  /** Accessible label for the group; pass the localized string. */
+  label: string;
+  /** Index of the currently selected option. */
+  selected: number;
+  onChange: (index: number) => void;
+  options: { key: string; label: string }[];
+}) {
+  return (
+    <div className="tmm-segmented" role="group" aria-label={label}>
+      {options.map((option, i) => (
+        <Chip key={option.key} selected={i === selected} onClick={() => onChange(i)}>
+          {option.label}
+        </Chip>
+      ))}
+    </div>
   );
 }

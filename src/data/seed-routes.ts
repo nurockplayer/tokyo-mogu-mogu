@@ -379,9 +379,10 @@ export function getSpotDetail(placeId: string): SpotDetail | undefined {
  * pins never visually overlap and stay individually tappable at the actual
  * rendered canvas width (Issue #74). The chain at a 375px viewport is:
  *
- *   viewport → `.app-main` (styles.css, `padding: 8px 16px 24px`) →
- *   `.tmm-page` (ui.css, `padding: ... 16px ...`) →
- *   `.s5-map` (1px `--tmm-border` each side) → `.s5-map__canvas`
+ *   viewport → `.tmm-main` (ui.css, `padding: 8px 16px 24px`) →
+ *   `.tmm-page` (ui.css, `padding: 16px 0 24px`; horizontal gutter owned by the
+ *   shell, Issue #77) → `.s5-map` (1px `--tmm-border` each side) →
+ *   `.s5-map__canvas`
  *
  * `mapCanvasWidthPx()` sums those into the real canvas width; it is the single
  * source of truth used both by the de-overlap and by the tests.
@@ -393,10 +394,10 @@ export const PIN_LAYOUT = {
   pad: 12,
   /** Mobile-first baseline viewport width (px). */
   baselineViewportWidth: 375,
-  /** `.app-main` horizontal padding (styles.css), per side (px). */
+  /** `.tmm-main` horizontal padding (ui.css, the shared shell gutter), per side (px). */
   appMainGutter: 16,
-  /** `.tmm-page` horizontal padding (ui.css), per side (px). */
-  baselineGutter: 16,
+  /** `.tmm-page` horizontal padding (ui.css), per side (px). 0 since Issue #77. */
+  baselineGutter: 0,
   /** `.s5-map` border width (`--tmm-border`), per side (px). */
   mapBorderPx: 1,
   /** `.s5-map__canvas` aspect-ratio (width / height). */
@@ -413,6 +414,8 @@ export const PIN_LAYOUT = {
  */
 export function mapCanvasWidthPx(): number {
   const { baselineViewportWidth, appMainGutter, baselineGutter, mapBorderPx } = PIN_LAYOUT;
+  // baselineGutter is 0 since Issue #77: the shared shell owns the gutter, so
+  // the S5 map no longer re-applies horizontal padding.
   return (
     baselineViewportWidth -
     2 * appMainGutter -

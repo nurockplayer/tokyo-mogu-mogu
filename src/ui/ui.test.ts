@@ -76,6 +76,11 @@ describe('shared UI classes (#42)', () => {
     for (const cls of [
       '.tmm-header',
       '.tmm-header__logo',
+      '.tmm-header__tagline',
+      '.tmm-header__demo',
+      '.tmm-locale-toggle',
+      '.tmm-nav__link',
+      '.tmm-segmented',
       '.tmm-btn',
       '.tmm-chip',
       '.tmm-progress__bar',
@@ -111,6 +116,7 @@ describe('component surface (#42)', () => {
       'Modal',
       'EmptyState',
       'Header',
+      'Segmented',
     ];
     for (const name of expected) {
       expect(ui, `missing export ${name}`).toHaveProperty(name);

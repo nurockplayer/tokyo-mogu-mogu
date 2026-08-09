@@ -151,15 +151,16 @@ describe('pin de-overlap (#69, #74)', () => {
   // The de-overlap reaches the target exactly; only a float epsilon is allowed.
   const EPSILON = 1e-6;
 
-  it('models the real rendered canvas width (375 − app-main − tmm-page − borders)', () => {
-    // At a 375px viewport the real `.s5-map__canvas` is ~309px wide: 375 minus
-    // 16×2 (`.app-main`) minus 16×2 (`.tmm-page`) minus 1×2 (`.s5-map` border).
-    // This guards against regressing to the old incorrect 343px assumption
-    // (Issue #74).
+  it('models the real rendered canvas width (375 − main − borders)', () => {
+    // At a 375px viewport the real `.s5-map__canvas` is ~341px wide: 375 minus
+    // 16×2 (`.tmm-main` shell gutter) minus 0×2 (`.tmm-page`, gutter owned by
+    // the shell since Issue #77) minus 1×2 (`.s5-map` border). This guards the
+    // model against regressing to a stale padding assumption (Issues #74/#77).
     expect(mapCanvasWidthPx()).toBe(
-      375 - 2 * 16 - 2 * 16 - 2 * 1,
+      375 - 2 * 16 - 2 * PIN_LAYOUT.baselineGutter - 2 * 1,
     );
-    expect(mapCanvasWidthPx()).toBeLessThan(375 - 2 * PIN_LAYOUT.baselineGutter);
+    // The canvas still sits inside the single shared gutter (never bleeds into it).
+    expect(mapCanvasWidthPx()).toBeLessThan(375 - 2 * PIN_LAYOUT.appMainGutter);
   });
 
   it('keeps every pair of pins ≥44px apart at the 375px baseline, for both variants', () => {
