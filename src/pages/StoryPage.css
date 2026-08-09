@@ -1,5 +1,5 @@
 /* ============================================================
-   S4 Food Culture Story — editorial article (Issue #44).
+   S4 Food Culture Story — editorial article (Issues #44, #79).
    Page-local styles layered on the shared tmm-* foundation.
    Mobile-first (375px). Long English lines wrap cleanly.
    ============================================================ */
@@ -13,10 +13,30 @@
   padding: 0 0 calc(var(--nav-h, 60px) + var(--tmm-space-6) + env(safe-area-inset-bottom));
 }
 
-/* ---------- Hero (section 1) ---------- */
+/* ---------- Hero (section 1) — dark-green / media-forward (#79) ----------
+   The media sits on top, edge-to-edge within the content canvas, and the text
+   block sits on the deep-green surface beneath it so the hero reads as one
+   dark, media-forward unit. */
 
 .s4-hero {
-  padding-top: var(--tmm-space-5);
+  margin-left: calc(var(--tmm-gutter) * -1);
+  margin-right: calc(var(--tmm-gutter) * -1);
+  background: var(--tmm-color-forest-deep);
+  color: var(--tmm-color-warm);
+  overflow: hidden;
+}
+
+.s4-hero__media {
+  aspect-ratio: 16 / 9;
+}
+
+.s4-hero__media .fc-image {
+  height: 100%;
+  border-radius: 0;
+}
+
+.s4-hero__body {
+  padding: var(--tmm-space-4) var(--tmm-gutter) var(--tmm-space-5);
 }
 
 .s4-hero__kicker {
@@ -24,8 +44,7 @@
   font-size: var(--tmm-text-caption);
   font-weight: 700;
   letter-spacing: 0.14em;
-  color: var(--tmm-color-forest-deep);
-  text-align: center;
+  color: var(--tmm-color-leaf);
   margin-bottom: var(--tmm-space-2);
 }
 
@@ -33,8 +52,7 @@
   font-family: var(--tmm-font-display);
   font-size: 2.2rem;
   font-weight: 700;
-  color: var(--tmm-color-forest-deep);
-  text-align: center;
+  color: var(--tmm-color-warm);
   line-height: 1.25;
   margin-bottom: var(--tmm-space-3);
   overflow-wrap: break-word;
@@ -43,58 +61,126 @@
 
 .s4-hero__lead {
   font-size: var(--tmm-text-body);
-  color: var(--tmm-color-ink-soft);
+  color: rgb(246 241 230 / 0.85);
   line-height: 1.9;
-  text-align: center;
   max-width: 34em;
-  margin: 0 auto var(--tmm-space-3);
+  margin-bottom: var(--tmm-space-2);
   overflow-wrap: break-word;
+}
+
+/* Placeholder/provenance caption on the dark hero — keeps the media slot
+   clearly illustrative, never a fabricated photo. */
+.s4-hero__caption {
+  font-size: 0.7rem;
+  color: rgb(246 241 230 / 0.6);
+  margin-bottom: var(--tmm-space-3);
 }
 
 .s4-hero__meta {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: var(--tmm-space-3);
   flex-wrap: wrap;
-  margin-bottom: var(--tmm-space-4);
 }
 
-.s4-read-time {
+.s4-hero__meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-size: var(--tmm-text-caption);
-  color: var(--tmm-color-ink-soft);
-  white-space: nowrap;
+  color: var(--tmm-color-warm);
+  font-weight: 600;
 }
 
-.s4-hero__media {
-  position: relative;
-  border-radius: var(--tmm-radius-lg);
-  overflow: hidden;
-  box-shadow: var(--tmm-shadow-card);
-  aspect-ratio: 16 / 9;
+.s4-hero__meta-icon {
+  line-height: 1;
 }
 
-.s4-hero__media .fc-image {
-  height: 100%;
+.s4-hero__meta-item--tag {
+  display: inline-flex;
 }
 
-.s4-media-caption {
-  display: block;
-  margin-top: var(--tmm-space-1);
-  font-size: 0.7rem;
-  color: var(--tmm-color-ink-faint);
-  text-align: right;
+/* The origin tag uses the shared Tag component; on the dark hero surface the
+   success tone's pale green still reads against the deep green. */
+.s4-hero__meta-item--tag .tmm-tag {
+  background: rgb(246 241 230 / 0.12);
+  border-color: rgb(246 241 230 / 0.3);
+  color: var(--tmm-color-warm);
 }
 
 /* ---------- Editorial body ---------- */
 
 .s4-story {
-  padding-top: var(--tmm-space-1);
+  padding-top: var(--tmm-space-2);
+}
+
+/* Numbered editorial section (#79): the number sits left of the display title
+   as a leaf square so the numbering reads consistently across all sections. */
+.s4-section {
+  margin-top: var(--tmm-space-6);
+}
+
+.s4-section__kicker {
+  font-size: var(--tmm-text-caption);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--tmm-color-forest-deep);
+  margin-bottom: var(--tmm-space-1);
+}
+
+.s4-section__title {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--tmm-space-3);
+  font-family: var(--tmm-font-display);
+  font-size: var(--tmm-text-title);
+  font-weight: 700;
+  color: var(--tmm-color-forest-deep);
+  margin-bottom: var(--tmm-space-2);
+  line-height: 1.35;
+  overflow-wrap: break-word;
+}
+
+.s4-section__num {
+  flex: 0 0 30px;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--tmm-radius-sm);
+  background: var(--tmm-color-forest);
+  color: var(--tmm-color-card);
+  display: grid;
+  place-items: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+.s4-section__body {
+  font-size: var(--tmm-text-body);
+  color: var(--tmm-color-ink);
+  line-height: 1.8;
 }
 
 .s4-p {
   margin: 0 0 var(--tmm-space-3);
   overflow-wrap: break-word;
+}
+
+/* Inline media slot interleaved with story text (#79). */
+.s4-inline-media {
+  margin: 0 0 var(--tmm-space-3);
+  border-radius: var(--tmm-radius-md);
+  overflow: hidden;
+  box-shadow: var(--tmm-shadow-card);
+  aspect-ratio: 16 / 9;
+}
+
+.s4-inline-media .fc-image {
+  height: 100%;
+}
+
+.s4-inline-media .s4-media-caption {
+  margin-top: var(--tmm-space-1);
 }
 
 /* Small provenance / editorial markers, kept visually quiet. */
@@ -110,7 +196,7 @@
   padding-top: var(--tmm-space-2);
 }
 
-/* ---------- Maker section (section 3 — the maker is the visual lead) ---------- */
+/* ---------- Maker section (the maker is the visual lead) ---------- */
 
 .s4-maker-card {
   padding: var(--tmm-space-2);
@@ -137,6 +223,7 @@
   font-weight: 700;
   color: var(--tmm-color-ink);
   margin-bottom: var(--tmm-space-1);
+  overflow-wrap: break-word;
 }
 
 .s4-maker-role {
@@ -156,10 +243,10 @@
   margin-bottom: 0;
 }
 
-/* ---------- Embedded S7 support panel (Issue #68) ----------
+/* ---------- Embedded S7 support panel (Issues #68/#79) ----------
    The panel lands right after the "tasting is succession" section, before the
    route CTA. It shares the S5 section rhythm so it reads as one more story
-   step, not a separate page. */
+   step, not a separate page. No standalone S7 destination is required. */
 
 .s4-support-actions {
   margin-top: var(--tmm-space-6);
@@ -275,5 +362,11 @@
 @media (min-width: 768px) {
   .s4-sticky-cta {
     bottom: calc(var(--nav-h, 60px) + env(safe-area-inset-bottom) + var(--tmm-space-2));
+  }
+
+  .s4-hero {
+    border-radius: var(--tmm-radius-lg);
+    margin-left: 0;
+    margin-right: 0;
   }
 }
