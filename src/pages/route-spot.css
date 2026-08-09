@@ -272,6 +272,63 @@
   line-height: 1;
 }
 
+/* ---------- S5 route-local support meaning (#80) ---------- */
+
+.s5-support__lead {
+  font-size: var(--tmm-text-body);
+  color: var(--tmm-color-ink);
+  line-height: 1.7;
+  margin-bottom: var(--tmm-space-3);
+  overflow-wrap: anywhere;
+}
+
+.s5-support__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--tmm-space-2);
+}
+
+.s5-support__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--tmm-space-3);
+  background: var(--tmm-color-card);
+  border: var(--tmm-border);
+  border-radius: var(--tmm-radius-md);
+  padding: var(--tmm-space-3) var(--tmm-space-4);
+}
+
+.s5-support__icon {
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--tmm-color-leaf-tint);
+  color: var(--tmm-color-forest-deep);
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+}
+
+.s5-support__item strong {
+  display: block;
+  font-family: var(--tmm-font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--tmm-color-ink);
+}
+
+.s5-support__desc {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
 /* ---------- S6 spot detail ---------- */
 
 .s6-visual-wrap {
@@ -316,6 +373,21 @@
 
 .s6-actions .tmm-btn {
   width: 100%;
+}
+
+/* Spot primary action regional-impact note (#80) */
+.s6-action-impact {
+  margin-top: -6px;
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+/* Disabled spot primary action (coming-soon fallback, never fake success) */
+.s6-action-disabled {
+  display: grid;
+  gap: 4px;
 }
 
 .s6-info-unverified {
