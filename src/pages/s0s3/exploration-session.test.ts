@@ -1,6 +1,10 @@
 import { afterAll, beforeEach, describe, expect, it } from 'vitest';
-import { clearDiagnosisAnswers, loadDiagnosisAnswers, saveDiagnosisAnswers } from './session';
-import { createDefaultAnswers } from '../../lib/diagnosis';
+import {
+  clearExplorationAnswers,
+  loadExplorationAnswers,
+  saveExplorationAnswers,
+} from './exploration-session';
+import { createDefaultExplorationAnswers } from '../../lib/exploration';
 
 /** Minimal in-memory sessionStorage shim (vitest env is node). */
 class MemorySessionStorage implements Storage {
@@ -35,27 +39,27 @@ afterAll(() => {
   globalThis.sessionStorage = originalSessionStorage;
 });
 
-describe('diagnosis session persistence (#43)', () => {
+describe('exploration session persistence (#78)', () => {
   it('round-trips saved answers through sessionStorage', () => {
-    const answers = createDefaultAnswers();
-    saveDiagnosisAnswers(answers);
-    expect(loadDiagnosisAnswers()).toEqual(answers);
+    const answers = createDefaultExplorationAnswers();
+    saveExplorationAnswers(answers);
+    expect(loadExplorationAnswers()).toEqual(answers);
   });
 
   it('returns null when nothing is stored', () => {
-    expect(loadDiagnosisAnswers()).toBeNull();
+    expect(loadExplorationAnswers()).toBeNull();
   });
 
   it('returns null for corrupted data', () => {
-    sessionStorage.setItem('tmm:diagnosis:v1', '{not json');
-    expect(loadDiagnosisAnswers()).toBeNull();
+    sessionStorage.setItem('tmm:exploration:v1', '{not json');
+    expect(loadExplorationAnswers()).toBeNull();
   });
 
-  it('clearDiagnosisAnswers removes the persisted diagnosis (demo reset)', () => {
-    saveDiagnosisAnswers(createDefaultAnswers());
-    expect(loadDiagnosisAnswers()).not.toBeNull();
-    clearDiagnosisAnswers();
-    expect(loadDiagnosisAnswers()).toBeNull();
-    expect(sessionStorage.getItem('tmm:diagnosis:v1')).toBeNull();
+  it('clearExplorationAnswers removes the persisted exploration (demo reset)', () => {
+    saveExplorationAnswers(createDefaultExplorationAnswers());
+    expect(loadExplorationAnswers()).not.toBeNull();
+    clearExplorationAnswers();
+    expect(loadExplorationAnswers()).toBeNull();
+    expect(sessionStorage.getItem('tmm:exploration:v1')).toBeNull();
   });
 });

@@ -14,11 +14,14 @@ const HomePage = lazy(() => import('../pages/HomePage').then((m) => ({ default: 
 const LandingPage = lazy(() =>
   import('../pages/s0s3/LandingPage').then((m) => ({ default: m.LandingPage })),
 );
-const DiagnosisWizardPage = lazy(() =>
-  import('../pages/s0s3/DiagnosisWizardPage').then((m) => ({ default: m.DiagnosisWizardPage })),
+const ExplorationWizardPage = lazy(() =>
+  import('../pages/s0s3/ExplorationWizardPage').then((m) => ({ default: m.ExplorationWizardPage })),
 );
-const DiagnosisResultPage = lazy(() =>
-  import('../pages/s0s3/DiagnosisResultPage').then((m) => ({ default: m.DiagnosisResultPage })),
+const ResultPage = lazy(() =>
+  import('../pages/s0s3/ResultPage').then((m) => ({ default: m.ResultPage })),
+);
+const FoodProfilePage = lazy(() =>
+  import('../pages/s0s3/FoodProfilePage').then((m) => ({ default: m.FoodProfilePage })),
 );
 const PokedexPage = lazy(() =>
   import('../pages/PokedexPage').then((m) => ({ default: m.PokedexPage })),
@@ -57,8 +60,10 @@ export function AppRouter() {
     <Routes>
       <Route path="/" element={withBoundary(<LandingPage />)} />
       <Route path="/home" element={withBoundary(<HomePage />)} />
-      <Route path="/diagnosis" element={withBoundary(<DiagnosisWizardPage />)} />
-      <Route path="/diagnosis/result" element={withBoundary(<DiagnosisResultPage />)} />
+      <Route path="/explore" element={withBoundary(<ExplorationWizardPage />)} />
+      <Route path="/explore/result" element={withBoundary(<ResultPage />)} />
+      <Route path="/food-profile" element={withBoundary(<FoodProfilePage mode="view" />)} />
+      <Route path="/food-profile/edit" element={withBoundary(<FoodProfilePage mode="edit" />)} />
       <Route path="/pokedex" element={withBoundary(<PokedexPage />)} />
       <Route path="/map" element={withBoundary(<MapPage />)} />
       <Route path="/food-cultures/:id" element={withBoundary(<FoodCulturePage />)} />

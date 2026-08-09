@@ -1,0 +1,167 @@
+/**
+ * Result page (Issue #78 reframe of S3).
+ *
+ * Deterministically reveals 東京わさび (from the `wasabi-okutama` FoodCulture
+ * record) — a deterministic first-pilot fixture that does not make the Product
+ * permanently single-region. The result reflects the durable Food Profile
+ * (dietary-consideration state) + the current-trip Exploration answers
+ * (match-reason tags). On successful result creation it hands off to the MOGU
+ * Recent contract (#94) to auto-record the entry.
+ *
+ * The primary CTA routes to the S4 story (/story/wasabi-okutama) and the
+ * secondary CTA lets the user re-run the current Exploration. The dietary
+ * disclaimer states that details must be confirmed with the venue —
+ * recommendation-only, never a safety guarantee. No fabricated match-score is
+ * shown (approved-ui-fidelity: the S3 "92%" meaning is unresolved).
+ */
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Link, Navigate } from 'react-router-dom';
+import { getFoodCultureById } from '../../data';
+import { useI18n } from '../../i18n';
+import { EmptyState, Card, Tag, type TagTone } from '../../ui';
+import { deriveMatchTags, type MatchTagKey } from '../../lib/exploration';
+import { loadExplorationAnswers } from './exploration-session';
+import { loadFoodProfile, hasFoodProfile } from '../../lib/food-profile-storage';
+import { recordMoguRecent } from '../../lib/mogu-recent';
+import { type LocaleKey } from '../../i18n/resources';
+import { foodCultureKey } from '../../i18n/data-content';
+import './onboarding.css';
+
+/** Match-tag key → i18n copy key + tone. */
+const TAG_COPY: Record<MatchTagKey, { labelKey: LocaleKey; tone: TagTone }> = {
+  'grate-fresh': { labelKey: 's3TagGrateFresh', tone: 'success' },
+  'stream-fresh': { labelKey: 's3TagStreamFresh', tone: 'info' },
+  'meet-maker': { labelKey: 's3TagMeetMaker', tone: 'info' },
+  'buy-gift': { labelKey: 's3TagBuyGift', tone: 'info' },
+  'make-craft': { labelKey: 's3TagMakeCraft', tone: 'info' },
+  'nature-valley': { labelKey: 's3TagNature', tone: 'info' },
+  'tradition-edo': { labelKey: 's3TagTradition', tone: 'info' },
+  'daily-life': { labelKey: 's3TagDaily', tone: 'info' },
+  'half-day': { labelKey: 's3TagHalfDay', tone: 'info' },
+  'full-day': { labelKey: 's3TagFullDay', tone: 'info' },
+};
+
+/** Title key used for the MOGU Recent entry of this result. */
+const RESULT_TITLE_KEY: LocaleKey = 'dataWasabiName';
+
+export function ResultPage() {
+  const { t } = useI18n();
+
+  const wasabi = getFoodCultureById('wasabi-okutama');
+
+  const answers = useMemo(() => loadExplorationAnswers(), []);
+  const tags = useMemo(() => (answers ? deriveMatchTags(answers) : []), [answers]);
+
+  // Dietary-consideration state comes from the durable Food Profile, which the
+  // returning flow preserves; missing profile → "no restrictions".
+  const dietary = useMemo(() => {
+    const profile = loadFoodProfile();
+    return profile !== null && (profile.dietary.length > 0 || profile.dietaryOther.trim().length > 0);
+  }, []);
+
+  // First-time flow must set up the Food Profile before Exploration. A direct
+  // visit with no durable profile redirects to setup instead of recommending.
+  if (!hasFoodProfile()) {
+    return <Navigate to="/food-profile" replace />;
+  }
+
+  return (
+    <div className="tmm-page">
+      <section className="tmm-result__summary">
+        <h1 className="tmm-result__summary-title">{t('s3Title')}</h1>
+        <p className="tmm-result__summary-desc">{t('s3Subtitle')}</p>
+      </section>
+
+      {wasabi ? (
+        <>
+          <Card feature>
+            <div className="tmm-result-card__title">{t(foodCultureKey('wasabi-okutama', 'name') ?? 'dataWasabiName')}</div>
+            <p className="tmm-result-card__desc">{t(foodCultureKey('wasabi-okutama', 'description') ?? 'dataWasabiDescription')}</p>
+
+            <div className="tmm-result__tags">
+              {tags.length > 0
+                ? tags.map((key) => (
+                    <Tag key={key} tone={TAG_COPY[key].tone}>
+                      {t(TAG_COPY[key].labelKey)}
+                    </Tag>
+                  ))
+                : null}
+            </div>
+
+            <div className="tmm-result__section">
+              <h2 className="tmm-result__section-title">{t('s3DietaryTitle')}</h2>
+              <Tag tone={dietary ? 'warning' : 'info'}>
+                {dietary ? t('s3DietaryKnown') : t('s3DietaryUnknown')}
+              </Tag>
+            </div>
+
+            <p className="tmm-result__disclaimer">{t('s3Disclaimer')}</p>
+          </Card>
+
+          <div className="tmm-result__actions">
+            <Link to="/story/wasabi-okutama" className="tmm-btn tmm-btn--primary tmm-btn--block">
+              {t('s3PrimaryCta')}
+            </Link>
+            <Link to="/explore" className="tmm-btn tmm-btn--secondary tmm-btn--block">
+              {t('s3EditCta')}
+            </Link>
+          </div>
+
+          <ResultRecorder answers={answers} tags={tags} />
+        </>
+      ) : (
+        <EmptyFallback />
+      )}
+    </div>
+  );
+}
+
+/**
+ * Hands a successful Result off to the MOGU Recent contract (#94): records the
+ * entry once per Result mount. Idempotent for the same resultId, so a dev-mode
+ * double mount simply refreshes the timestamp.
+ */
+function ResultRecorder({
+  answers,
+  tags,
+}: {
+  answers: ReturnType<typeof loadExplorationAnswers>;
+  tags: MatchTagKey[];
+}) {
+  const { t } = useI18n();
+  const [recorded, setRecorded] = useState(false);
+  const done = useRef(false);
+
+  useEffect(() => {
+    if (done.current) return;
+    if (!answers) return;
+    done.current = true;
+    recordMoguRecent({
+      resultId: 'wasabi-okutama',
+      titleKey: RESULT_TITLE_KEY,
+      summary: tags,
+      exploration: answers,
+    });
+    setRecorded(true);
+  }, [answers, tags]);
+
+  if (!recorded) return null;
+  return <p className="tmm-result__mogu-note">{t('s3MoguNote')}</p>;
+}
+
+/** Fallback when the seed record is missing (should not happen with seed data). */
+function EmptyFallback() {
+  const { t } = useI18n();
+  return (
+    <EmptyState
+      icon="🍽️"
+      title={t('s3MissingTitle')}
+      description={t('s3Missing')}
+      action={
+        <Link to="/explore" className="tmm-btn tmm-btn--secondary tmm-btn--sm">
+          {t('back')}
+        </Link>
+      }
+    />
+  );
+}
