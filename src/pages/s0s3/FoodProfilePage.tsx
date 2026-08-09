@@ -14,7 +14,7 @@
  * the schema and trust copy stay identical. Input is recommendation-only, never
  * a safety guarantee (product contract "Safety Boundary").
  */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useI18n } from '../../i18n';
 import { Button, Chip } from '../../ui';
@@ -46,15 +46,37 @@ function draft(profile: FoodProfile, patch: Partial<FoodProfile>): FoodProfile {
   return { ...profile, ...patch };
 }
 
+/**
+ * Whether the page should render first-use setup, edit mode, or the summary.
+ * Derived directly from the persisted-profile presence and the route `mode`
+ * (Issue #78 P1 fix) — never from duplicated local state.
+ */
+export function foodProfileView(mode: 'view' | 'edit', hasExisting: boolean) {
+  if (!hasExisting) return 'setup';
+  return mode === 'edit' ? 'edit' : 'summary';
+}
+
 export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   const { t } = useI18n();
   const navigate = useNavigate();
 
-  const [existing] = useState(() => loadFoodProfile());
+  // `existing` is re-read whenever the route/mode changes so navigating
+  // between /food-profile and /food-profile/edit always reflects the latest
+  // persisted profile (Issue #78 P1 fix). Edit mode is derived directly from
+  // the `mode` prop, never duplicated in local state.
+  const [existing, setExisting] = useState<FoodProfile | null>(() => loadFoodProfile());
   const [draftState, setDraftState] = useState<FoodProfile>(
     () => existing ?? createDefaultFoodProfile(),
   );
-  const [editing, setEditing] = useState(mode === 'edit');
+
+  const editing = mode === 'edit';
+
+  useEffect(() => {
+    // Route navigation (view ⇄ edit) can reuse the same component instance, so
+    // the `mode` prop changes without remounting. Re-read storage so the
+    // summary/edit draft always reflect the current persisted profile.
+    setExisting(loadFoodProfile());
+  }, [mode]);
 
   const choices: Choice[] = [
     { value: 'allergy', label: t('fpAllergy') },
@@ -91,6 +113,9 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   function handleSave() {
     const profile = draft(draftState, { savedAt: new Date().toISOString() });
     saveFoodProfile(profile);
+    // Keep the summary fresh with the just-saved profile so returning to the
+    // summary route never renders a stale profile (Issue #78 P1 fix).
+    setExisting(profile);
     // First-use setup → continue straight into the current Exploration; edit →
     // return to the profile summary.
     navigate(existing ? '/food-profile' : '/explore');
@@ -98,16 +123,22 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
 
   function handleCancel() {
     if (editing) {
-      setDraftState(existing ?? createDefaultFoodProfile());
-      setEditing(false);
+      // Cancel from edit mode: discard the draft and return to the summary,
+      // re-reading the persisted profile (which is unchanged by cancel).
+      setExisting(loadFoodProfile());
+      setDraftState(loadFoodProfile() ?? createDefaultFoodProfile());
       navigate('/food-profile');
     } else {
       navigate('/');
     }
   }
 
+  // Single source of truth for which view renders (Issue #78 P1 fix): derived
+  // from the route `mode` + persisted-profile presence, never duplicated state.
+  const view = foodProfileView(mode, existing !== null);
+
   // First-use setup: no profile exists yet.
-  if (!existing) {
+  if (view === 'setup') {
     return (
       <div className="tmm-page">
         <h1 className="page-title">{t('fpSetupTitle')}</h1>
@@ -156,7 +187,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   }
 
   // Edit mode (My → Food Profile → edit).
-  if (editing) {
+  if (view === 'edit') {
     return (
       <div className="tmm-page">
         <h1 className="page-title">{t('fpEditTitle')}</h1>
@@ -208,6 +239,10 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   }
 
   // Display mode: show the current durable profile with an edit entry.
+  // `view === 'summary'` only when a profile exists; the guard satisfies TS.
+  if (!existing) {
+    return null;
+  }
   return (
     <div className="tmm-page">
       <h1 className="page-title">{t('fpTitle')}</h1>
