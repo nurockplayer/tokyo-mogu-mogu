@@ -49,5 +49,11 @@ generates requirements / design / tasks artifacts.
   contract: durable Product positioning per Issue #85 plus the S0–S9 first
   pilot (奥多摩 × 東京わさび), accountless demo, and dietary safety boundary
   per Issue #41. Child Issues #42–#49 reference this.
+- `docs/specs/product/approved-ui-fidelity.md` — approved S0–S9 UI fidelity
+  contract: durable cross-Issue presentation rules (reference canvas, shared
+  header/locale, visual language, component/state hierarchy, per-screen
+  presentation, placeholder policy, accessibility). Owns presentation only;
+  behavior stays with the hackathon product contract. Child Issues #77–#82
+  reference this.
 - `docs/specs/authentication/google-login.md` — Google authentication and user
   identity contract (SDD foundation for #11, reusable infrastructure).
