@@ -5,7 +5,10 @@
 > infrastructure. The current hackathon product contract is S0–S9 and lives at
 > `docs/specs/product/hackathon-product-contract.md`. The modules below remain
 > valid shared infrastructure and may be reused by the S0–S9 child Issues
-> (#43–#49) where compatible.
+> (#43–#49) where compatible. Its `TamaArea` enum and Okutama fixtures describe
+> the legacy implementation, not the durable #85 geographic boundary; future
+> `Region` / `FoodCulture` / `Place` / `Route` work must remain extensible
+> without requiring a multi-region platform for the 2026-08-23 pilot.
 
 This is the contract for the parallel implementation of Issues #3, #4, #5, and #6.
 Sub-agents MUST read this file and the modules it references before writing code.

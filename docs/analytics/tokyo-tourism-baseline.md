@@ -1,6 +1,10 @@
 # Tokyo Tourism Impact Baseline — 東京観光インパクト・ベースライン
 
-Status: Research baseline (Issue #18). Backs the Tokyo Mogu Mogu MVP problem statement, KPIs, and pitch with Tokyo Open Data. This is **not** an in-app analytics dashboard.
+Status: Research baseline (Issue #18). Backs the #85 tourism-dispersion problem
+statement and first-pilot pitch with Tokyo Open Data. The available comparison
+focuses on Tama / Okutama evidence; that evidence scope is not Tokyo Mogu
+Mogu's permanent geographic boundary. This is **not** an in-app analytics
+dashboard.
 
 Last retrieved / verified: 2026-08-08. All figures below are tied to dataset + year + source. Where a desired number is **not publicly available**, it is stated explicitly rather than estimated.
 
@@ -8,7 +12,7 @@ Last retrieved / verified: 2026-08-08. All figures below are tied to dataset + y
 
 ## 1. Problem statement / 問題設定
 
-Tourism demand, spend, and visitor flows within Tokyo are heavily concentrated in the central wards (23区). In 令和5年 (2023), the single most-visited area among foreign visitors to Tokyo was 渋谷 at 67.1%, followed by 新宿・大久保 57.4% and 銀座 50.1% — while no single Tama area exceeded 3.5% (吉祥寺・三鷹), and 奥多摩 was visited by only 0.7% of foreign visitors [Source B]. The same visitors account for 38–42% of Tokyo's total tourism spend (¥2.76tn of ¥7.24tn in 2023; ¥3.96tn of ¥9.48tn in 2024) [Source A]. Tama's rich local food culture — wasabi, sweets, river fish, makers — is a "last-mile" tourism asset that central-flow visitors never reach. Tokyo Mogu Mogu addresses this gap: converting interest in Tama's food culture into real, check-in-verified visits, and giving a thin weekend/seasonal visitor base a reason to make multi-spot journeys.
+Tourism demand, spend, and visitor flows within Tokyo are heavily concentrated in the central wards (23区). In 令和5年 (2023), the single most-visited area among foreign visitors to Tokyo was 渋谷 at 67.1%, followed by 新宿・大久保 57.4% and 銀座 50.1% — while no single Tama area exceeded 3.5% (吉祥寺・三鷹), and 奥多摩 was visited by only 0.7% of foreign visitors [Source B]. The same visitors account for 38–42% of Tokyo's total tourism spend (¥2.76tn of ¥7.24tn in 2023; ¥3.96tn of ¥9.48tn in 2024) [Source A]. Regional food culture, people, nature, and experiences can create reasons to discover destinations outside the 23 wards. Tokyo Mogu Mogu tests that Product Vision first through an 奥多摩 × 東京わさび story-to-route pilot; the evidence here does not limit future discovery to Tama.
 
 ---
 
@@ -81,7 +85,7 @@ TCVB's GPS-based monitoring reports show Tama differs structurally from the cent
 - 高尾山 area (八王子) functions as a **Kanto-specific destination**: most visitors originate within ~100 km, and 高尾山周辺 spots' 2023→2024 change was flat-to-modest (高尾山口駅 −7.3%, TAKAO599 MUSEUM +4.4%, 高尾山駅 +9.8%, 清滝駅 +6.6%, もみじ台 −5.8%, 陣馬山 −2.7%) (Vol.2).
 - Events in Tama (八王子まつり, 八王子花火大会) are classified as **近隣集客型** (nearby-catchment) events (Vol.3) — strong on the day, weak at pulling distance visitors or spilling to surrounding spots.
 
-**Interpretation:** Tama already receives *some* domestic demand, but it is weekend/seasonal, short-distance, and single-anchor (e.g. 高尾山 alone), with weak multi-spot spillover — exactly the pattern Tokyo Mogu Mogu's collect-and-roam loop targets.
+**Interpretation:** Tama already receives *some* domestic demand, but it is weekend/seasonal, short-distance, and single-anchor (e.g. 高尾山 alone), with weak multi-spot spillover — a pattern the first pilot tests by turning regional food-culture interest into a coherent reason to visit and support the region.
 
 ### 3.5 Hard 区部/多摩/島しょ split — availability note
 
@@ -94,17 +98,24 @@ The Tokyo-wide totals in dataset A are **not publicly broken out by 区部 / 多
 Three metrics that quantify the problem, each traceable and re-checkable:
 
 **M1 — Visit concentration (訪問集中): foreign visitors' Tama reach is ≤3.5% vs ≥45% for top central areas.**
-渋谷 67.1%, 新宿・大久保 57.4%, 銀座 50.1%, 浅草 47.4% (dataset B, 2023, 図表14) vs 吉祥寺・三鷹 3.5%, 八王子・高尾山 2.6%, 立川 1.7%, 奥多摩 0.7%, 青梅・御岳山 0.6%. *Why it matters:* it quantifies the "geographic skew" Tokyo Mogu Mogu exists to fix, and sets a huge, nearly-untapped demand pool (24.8M foreign visitors in 2024, dataset A) with near-zero Tama food-culture contact.
+渋谷 67.1%, 新宿・大久保 57.4%, 銀座 50.1%, 浅草 47.4% (dataset B, 2023, 図表14) vs 吉祥寺・三鷹 3.5%, 八王子・高尾山 2.6%, 立川 1.7%, 奥多摩 0.7%, 青梅・御岳山 0.6%. *Why it matters:* it quantifies one outer-Tokyo example of the geographic skew behind #85 and identifies the demand pool against which the first pilot is tested (24.8M foreign visitors in 2024, dataset A).
 
 **M2 — Spend-to-visit gap (消費と訪問の乖離): the biggest spenders barely reach Tama.**
 Foreign visitors = 38.1% of Tokyo's ¥7.24tn spend (2023) and 41.8% of ¥9.48tn (2024) (dataset A) while staying 5.2 nights and spending ¥179,154/person (dataset B). Against that, every Tama visit rate is <3.6%. *Why it matters:* the gap is the commercial upside — spend exists, but its geographic distribution leaves Tama's local economy out of it.
 
 **M3 — Fragile, single-anchor demand in Tama (多摩の需要構造): thin, weekend/seasonal, short-distance.**
-TCVB GPS data show Tama peaks concentrate on weekends/holidays and specific seasons, events are 近隣集客型 (nearby-catchment), and 高尾山 dominates as a stand-alone anchor with modest YoY change (Vol.1–Vol.3, 2023–2024 data). *Why it matters:* it defines the *behavioral* problem — Tama has no "multi-spot journey" habit, which is the exact habit Tokyo Mogu Mogu's collection loop builds.
+TCVB GPS data show Tama peaks concentrate on weekends/holidays and specific seasons, events are 近隣集客型 (nearby-catchment), and 高尾山 dominates as a stand-alone anchor with modest YoY change (Vol.1–Vol.3, 2023–2024 data). *Why it matters:* it defines the first-pilot behavioral hypothesis — can a food-culture story create a reason to visit, follow a regional route, and take a support action beyond a single famous anchor?
 
 ---
 
-## 5. KPIs Tokyo Mogu Mogu aims to improve / 改善目標 KPI
+## 5. Historical KPI candidates / 旧実装の KPI 候補
+
+> **Reclassified by Issues #85 and #41:** the table below documents Issue #18's
+> legacy Pokédex / geolocation-check-in measurement proposal. It is preserved
+> as implementation history, not the current S0–S8 success contract. Current
+> demo metrics live in `docs/mvp-scope.md`; Badge / next-discovery, if built,
+> is stretch and motivates another region rather than making collection the
+> Product goal.
 
 Definitions reuse the Issue #18 KPI candidates. Each KPI states the external baseline (from this document) it improves on and the MVP in-app counter.
 
@@ -115,17 +126,17 @@ Definitions reuse the Issue #18 KPI candidates. Each KPI states the external bas
 | **journey regional-stay/roaming proxy** (地域滞在・周遊 proxy) | Share of journeys containing ≥2 Tama municipalities/areas (in-app journey log) | Tama visit = weekend/seasonal, single-anchor, ≤100 km catchment (dataset C); avg places/person 1.5–4.6 (dataset A) | Shift single-spot Tama trips to multi-spot Tama journeys (e.g. 奥多摩 + 青梅). |
 | **merchant / experience visits** (地域消費接点) | # of visits to local merchants/experiences (place `type` = merchant/experience) | 奥多摩 0.7% foreign visit rate; Tama events 近隣集客型 (dataset B, C) | Increase on-the-ground local-business touchpoints, converting foreign + domestic demand into Tama spend (M2 gap). |
 
-These are **MVP demo-stage KPIs** (consistent with `docs/mvp-scope.md` §5), not production targets.
+These were legacy MVP candidates, not current production targets.
 
 ---
 
 ## 6. Pitch-ready summary / ピッチ用サマリー
 
 **English (≈110 words):**
-> Tokyo's tourism boom is geographically lopsided. In 2023 the most-visited areas among foreign visitors — Shibuya 67%, Shinjuku 57%, Ginza 50% — captured the crowds, while no single Tama area reached 3.5%; Okutama saw just 0.7%. Yet those same visitors spent ¥7.24tn in Tokyo in 2023 and stayed 5.2 nights, and by 2024 Tokyo's total tourism spend hit ¥9.48tn. Tama's food culture — wasabi, sweets, river fish, makers — sits inside a demand wave it never touches. Tama demand today is weekend-only, nearby, and single-anchor. Tokyo Mogu Mogu converts curiosity about Tama's food culture into real, check-in-verified, multi-stop visits — turning a thin local flow into the region's fair share of Tokyo's tourism spend.
+> Tokyo's tourism boom is geographically lopsided. In 2023 the most-visited areas among foreign visitors — Shibuya 67%, Shinjuku 57%, Ginza 50% — captured the crowds, while no single Tama area reached 3.5%; Okutama saw just 0.7%. Yet those visitors stayed 5.2 nights and spent ¥179,154 per trip in Tokyo. Tokyo Mogu Mogu creates reasons to discover destinations beyond the 23 wards through regional food culture, people, nature, and experiences. The 2026 hackathon tests that vision first with Okutama × Tokyo Wasabi: turning an unfamiliar local culture into a story travelers understand, a route they want to take, and actions that support the region.
 
 **日本語 (≈110字):**
-> 東京の観光需要は都心に偏っています。2023年、訪都外国人が最も訪れたのは渋谷67.1%・新宿・大久保57.4%・銀座50.1%で、多摩の各エリアは3.5%未満、奥多摩は0.7%でした。一方、その旅行者は東京で5.2泊・約18万円を消費し、2024年の都内観光消費額は9兆4,761億円に達しました。多摩の食文化（わさび・お菓子・やまめ・作り手）はこの需要の波にほとんど触れていません。Tokyo Mogu Moguは多摩の食文化への関心を、チェックインで裏付けられた「実際に現地へ足を運ぶ・複数地点を巡る」体験へ変え、偏った観光消費を多摩にも取り戻します。
+> 東京の観光需要は23区の著名地域に偏っています。2023年、訪都外国人が最も訪れたのは渋谷67.1%・新宿・大久保57.4%・銀座50.1%で、多摩の各エリアは3.5%未満、奥多摩は0.7%でした。Tokyo Mogu Moguは、地域の食文化・人・自然・体験を入口に、旅行者が23区外へ「わざわざ行きたい」と思える理由をつくります。2026年のHackathonでは、その仮説を奥多摩 × 東京わさびから検証し、物語への理解を訪問ルートと地域を支える行動につなげます。
 
 ---
 

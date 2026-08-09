@@ -1,8 +1,23 @@
 # MVP Scope and Demo Journey
 
-Status: Realigned to current product direction (Issue #41, approved S0–S9 UI).
+Status: Product positioning aligned to Issue #85; Hackathon UX aligned to Issue
+#41 and the approved S0–S9 UI.
 
-## 1. Primary Persona / 主要ペルソナ
+## 1. Product Vision / プロダクトビジョン
+
+Tokyo Mogu Mogu creates reasons for travelers concentrated in Tokyo's 23 wards
+to discover destinations across outer Tokyo. Regional food culture is the
+primary entry point: a traveler discovers it, understands the people, history,
+nature, and craft around it, turns that interest into a visit and support
+action, and can later discover another region.
+
+`Discover → Understand → Visit → Act → Discover next region`
+
+The Product's permanent geographic scope is not Okutama or Tama alone. The
+Hackathon validates this vision through one deliberately narrow first pilot;
+it does not implement a multi-region platform.
+
+## 2. Primary Persona / 主要ペルソナ
 
 **Inbound traveler** — an international visitor planning a Tokyo trip who wants
 to experience local food culture beyond the usual tourist spots.
@@ -18,7 +33,10 @@ to experience local food culture beyond the usual tourist spots.
 
 Japanese deep-travel users are a secondary / future audience.
 
-## 2. Product Scope / 機能スコープ
+## 3. Hackathon MVP Scope / Hackathon 機能スコープ
+
+The 2026-08-23 MVP is **奥多摩 × 東京わさび**. It is the first pilot and the
+only required real content, not the Product's permanent geographic boundary.
 
 ### Core Journey (S0–S8)
 
@@ -46,6 +64,16 @@ Japanese deep-travel users are a secondary / future audience.
 - Japanese-first copy with English / Traditional Chinese i18n architecture.
 - Source-backed 奥多摩 × 東京わさび demo content; data traceability preserved.
 
+### Durable domain boundary (not additional MVP scope)
+
+- `Region`, `FoodCulture`, `Place`, and `Route` can represent a verified future
+  outer-Tokyo region without treating Okutama-specific fixtures as shared
+  Product rules.
+- Shared UI, routing, persistence, i18n, and provenance contracts remain
+  reusable across regions.
+- No second region, speculative production data, CMS, marketplace, or generic
+  route platform is required for 2026-08-23.
+
 ### Reusable Infrastructure (legacy, not the primary journey)
 
 - Food Culture Pokédex, Locked/Unlocked gating, geolocation check-in, `GET!`
@@ -62,10 +90,11 @@ Japanese deep-travel users are a secondary / future audience.
 - Production-grade reward / redemption backend
 - S0–S9 all-screen implementation in a single ticket (child Issues #43–#49)
 
-## 3. Demo Content / デモデータ
+## 4. Demo Content / デモデータ
 
-The current demo focuses on **奥多摩 × 東京わさび** as the single core food
-culture. Other cultures appear only as S9 badge dummies / future expansion.
+The current demo uses **奥多摩 × 東京わさび** as its first-pilot fixture and
+single core food culture. Other cultures appear only as S9 badge dummies /
+future expansion and do not imply another implemented region.
 
 Data provenance follows `AGENTS.md`: verified source data, team editorial
 content, and demo fixtures are distinguished explicitly. Until fieldwork
@@ -73,7 +102,7 @@ content, and demo fixtures are distinguished explicitly. Until fieldwork
 clearly identified demo/editorial fixtures, or explicit unknown/unverified
 states. No local facts are invented.
 
-## 4. Demo Journey / 60–90秒デモの流れ
+## 5. Demo Journey / 60–90秒デモの流れ
 
 The core loop is **Diagnose → Know → Route → Support** (S0–S8). See
 [docs/demo-script.md](demo-script.md) for the current walkthrough.
@@ -95,7 +124,7 @@ differentiated story → route → support arc in that window. The demo runs
 without login, without geolocation (real or overridden), and is replayable
 from a deterministic reset.
 
-## 5. Success Metrics / 成功指標
+## 6. Success Metrics / 成功指標
 
 For the hackathon demo and post-demo learning:
 
@@ -110,7 +139,7 @@ For the hackathon demo and post-demo learning:
 
 These are demo-stage metrics, not production targets.
 
-## 6. Out-of-scope guardrails (reminder for implementers)
+## 7. Out-of-scope guardrails (reminder for implementers)
 
 - Do not add accounts, payment, leaderboards, or itinerary AI as required MVP
   features.
@@ -119,3 +148,5 @@ These are demo-stage metrics, not production targets.
 - Dietary input must never be presented as a verified safety guarantee.
 - Prefer the smallest reversible implementation that satisfies each issue's
   acceptance criteria, reusing the shared UI foundation.
+- Do not implement another region or introduce generic multi-region
+  infrastructure solely to demonstrate future extensibility.

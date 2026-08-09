@@ -1,7 +1,15 @@
 # Demo Script (60–90 seconds)
 
-Hackathon walkthrough for the S0–S8 journey (Issue #41 + approved UI).
-Replaces the legacy Pokédex / check-in / next-collectible demo.
+Tokyo Mogu Mogu's Product Vision is to create reasons for travelers
+concentrated in Tokyo's 23 wards to discover outer-Tokyo regions. This
+Hackathon walkthrough tests that vision through the first pilot,
+**奥多摩 × 東京わさび**, using the S0–S8 journey (Issue #85 positioning + Issue
+#41 approved UI). Okutama is the only required real content for 2026-08-23,
+not the Product's permanent geographic scope.
+
+The pitch arc is **Discover → Understand → Visit → Act**. S9 may extend it to
+**Discover next region**, but remains optional stretch work. This walkthrough
+replaces the legacy Pokédex / check-in / next-collectible demo.
 
 ## Demo constraints
 
@@ -39,7 +47,8 @@ Replaces the legacy Pokédex / check-in / next-collectible demo.
    `マイルート`; reload restores it. (5 s)
 
 Total walkthrough: ~90 s of presenter time. S9 Badge Collection is an optional
-stretch reveal after the core flow.
+stretch reveal after the core flow; if shown, explain it as motivation to
+discover a next Tokyo region, not as the Product's primary collection goal.
 
 ## Reset for repeat demos
 
