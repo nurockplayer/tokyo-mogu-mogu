@@ -29,3 +29,8 @@ export function loadExplorationAnswers(): ExplorationAnswers | null {
 export function clearExplorationAnswers(): void {
   sessionStorage.removeItem(STORAGE_KEY);
 }
+
+/** Starts a genuinely new per-trip Exploration instead of reusing prior answers. */
+export function beginNewExploration(): void {
+  clearExplorationAnswers();
+}

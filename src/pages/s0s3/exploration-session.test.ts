@@ -1,5 +1,6 @@
 import { afterAll, beforeEach, describe, expect, it } from 'vitest';
 import {
+  beginNewExploration,
   clearExplorationAnswers,
   loadExplorationAnswers,
   saveExplorationAnswers,
@@ -61,5 +62,15 @@ describe('exploration session persistence (#78)', () => {
     clearExplorationAnswers();
     expect(loadExplorationAnswers()).toBeNull();
     expect(sessionStorage.getItem('tmm:exploration:v1')).toBeNull();
+  });
+
+  it('beginNewExploration clears answers from the previous trip', () => {
+    saveExplorationAnswers({
+      ...createDefaultExplorationAnswers(),
+      tastes: ['refreshing'],
+      duration: 'half-day',
+    });
+    beginNewExploration();
+    expect(loadExplorationAnswers()).toBeNull();
   });
 });

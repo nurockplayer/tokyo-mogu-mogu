@@ -10,6 +10,7 @@
 import { Link } from 'react-router-dom';
 import { useI18n } from '../i18n';
 import { hasFoodProfile } from '../lib/food-profile-storage';
+import { beginNewExploration } from './s0s3/exploration-session';
 
 export function HomePage() {
   const { t } = useI18n();
@@ -19,7 +20,9 @@ export function HomePage() {
       <h1>{t('appName')}</h1>
       <p className="home-tagline">{t('appTagline')}</p>
       <div className="home-actions">
-        <Link to={journeyTarget} className="btn btn-primary">{t('s0Cta')}</Link>
+        <Link to={journeyTarget} className="btn btn-primary" onClick={beginNewExploration}>
+          {t('s0Cta')}
+        </Link>
         <Link to="/my-route" className="btn btn-secondary">{t('s8NavLabel')}</Link>
       </div>
     </section>

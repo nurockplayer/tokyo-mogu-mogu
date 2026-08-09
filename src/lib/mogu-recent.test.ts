@@ -47,6 +47,7 @@ const baseEntry = {
   titleKey: 'dataWasabiName',
   summary: ['grate-fresh'],
   exploration: createDefaultExplorationAnswers(),
+  hasDietaryConsiderations: false,
 };
 
 describe('MOGU Recent (#78 → #94)', () => {
@@ -93,6 +94,11 @@ describe('MOGU Recent (#78 → #94)', () => {
     recordMoguRecent(baseEntry);
     expect(localStorage.getItem(MOGU_RECENT_KEY)).not.toBeNull();
     expect(localStorage.getItem('tmm:savedRoutes')).toBeNull();
+  });
+
+  it('preserves the dietary-context snapshot for historical results', () => {
+    recordMoguRecent({ ...baseEntry, hasDietaryConsiderations: true });
+    expect(loadMoguRecent()[0].hasDietaryConsiderations).toBe(true);
   });
 
   it('clearMoguRecent removes the Recent history (demo reset)', () => {

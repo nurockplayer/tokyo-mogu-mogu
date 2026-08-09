@@ -85,6 +85,17 @@ describe('isFoodProfile (#78)', () => {
     expect(isFoodProfile({ ...createDefaultFoodProfile(), version: 2 })).toBe(false);
     expect(isFoodProfile({ ...createDefaultFoodProfile(), savedAt: '' })).toBe(false);
   });
+
+  it('rejects unknown restriction values and contradictory no-restriction state', () => {
+    expect(isFoodProfile({ ...createDefaultFoodProfile(), dietary: ['unknown'] })).toBe(false);
+    expect(
+      isFoodProfile({
+        ...createDefaultFoodProfile(),
+        dietary: ['allergy'],
+        hasNoRestrictions: true,
+      }),
+    ).toBe(false);
+  });
 });
 
 describe('Food Profile persistence (#78)', () => {

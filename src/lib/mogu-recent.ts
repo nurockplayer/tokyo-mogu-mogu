@@ -32,6 +32,8 @@ export interface MoguRecentEntry {
   createdAt: string;
   /** Enough context to reopen the same Result → Story → Route experience. */
   exploration: ExplorationAnswers;
+  /** Snapshot of the dietary-context state shown for this historical result. */
+  hasDietaryConsiderations: boolean;
 }
 
 const isMoguRecentEntry = (value: unknown): value is MoguRecentEntry => {
@@ -43,7 +45,8 @@ const isMoguRecentEntry = (value: unknown): value is MoguRecentEntry => {
     Array.isArray(v.summary) &&
     v.summary.every((s) => typeof s === 'string') &&
     typeof v.createdAt === 'string' &&
-    isExplorationAnswers(v.exploration)
+    isExplorationAnswers(v.exploration) &&
+    typeof v.hasDietaryConsiderations === 'boolean'
   );
 };
 

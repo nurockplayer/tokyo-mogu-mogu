@@ -24,6 +24,7 @@ import {
   type FoodProfile,
 } from '../../lib/food-profile';
 import { loadFoodProfile, saveFoodProfile } from '../../lib/food-profile-storage';
+import { beginNewExploration } from './exploration-session';
 import './onboarding.css';
 
 interface Choice {
@@ -118,7 +119,12 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
     setExisting(profile);
     // First-use setup → continue straight into the current Exploration; edit →
     // return to the profile summary.
-    navigate(existing ? '/food-profile' : '/explore');
+    if (existing) {
+      navigate('/food-profile');
+    } else {
+      beginNewExploration();
+      navigate('/explore');
+    }
   }
 
   function handleCancel() {
@@ -269,7 +275,11 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
         <Link to="/food-profile/edit" className="tmm-btn tmm-btn--secondary tmm-btn--block">
           {t('fpEditCta')}
         </Link>
-        <Link to="/explore" className="tmm-btn tmm-btn--primary tmm-btn--block">
+        <Link
+          to="/explore"
+          className="tmm-btn tmm-btn--primary tmm-btn--block"
+          onClick={beginNewExploration}
+        >
           {t('fpStartExplorationCta')}
         </Link>
       </div>

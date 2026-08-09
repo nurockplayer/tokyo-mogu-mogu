@@ -18,6 +18,21 @@ export type TravelTime = 'within-30' | 'within-60' | 'over-60';
 export type Interest = 'tradition' | 'nature' | 'daily-life' | 'craft';
 export type TripDuration = 'half-day' | 'full-day';
 
+const TASTES: ReadonlySet<Taste> = new Set(['refreshing', 'rich', 'spicy', 'sweet']);
+const EXPERIENCES: ReadonlySet<Experience> = new Set(['eat', 'make', 'buy', 'meet']);
+const BASE_AREAS: ReadonlySet<BaseArea> = new Set(['okutama', 'tama-center', 'tokyo-west']);
+const TRAVEL_TIMES: ReadonlySet<TravelTime> = new Set(['within-30', 'within-60', 'over-60']);
+const INTERESTS: ReadonlySet<Interest> = new Set(['tradition', 'nature', 'daily-life', 'craft']);
+const TRIP_DURATIONS: ReadonlySet<TripDuration> = new Set(['half-day', 'full-day']);
+
+function isNullableMember<T extends string>(value: unknown, allowed: ReadonlySet<T>): value is T | null {
+  return value === null || (typeof value === 'string' && allowed.has(value as T));
+}
+
+function isMemberArray<T extends string>(value: unknown, allowed: ReadonlySet<T>): value is T[] {
+  return Array.isArray(value) && value.every((item) => typeof item === 'string' && allowed.has(item as T));
+}
+
 /**
  * Everything collected for the current Exploration (the five S2 questions).
  * The wizard keeps a single instance in component state so Back/Next never lose
@@ -99,12 +114,14 @@ export function fillTemplate(template: string, values: Record<string, string>): 
 
 /** Runtime guard for answers arriving through router state. */
 export function isExplorationAnswers(value: unknown): value is ExplorationAnswers {
+  if (typeof value !== 'object' || value === null) return false;
+  const v = value as Record<string, unknown>;
   return (
-    typeof value === 'object' &&
-    value !== null &&
-    Array.isArray((value as Record<string, unknown>).tastes) &&
-    Array.isArray((value as Record<string, unknown>).experiences) &&
-    Array.isArray((value as Record<string, unknown>).interests) &&
-    'duration' in value
+    isMemberArray(v.tastes, TASTES) &&
+    isMemberArray(v.experiences, EXPERIENCES) &&
+    isNullableMember(v.baseArea, BASE_AREAS) &&
+    isNullableMember(v.travelTime, TRAVEL_TIMES) &&
+    isMemberArray(v.interests, INTERESTS) &&
+    isNullableMember(v.duration, TRIP_DURATIONS)
   );
 }

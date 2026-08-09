@@ -114,4 +114,12 @@ describe('isExplorationAnswers (#78 reframe of #43)', () => {
     expect(isExplorationAnswers('answers')).toBe(false);
     expect(isExplorationAnswers({ tastes: [] })).toBe(false);
   });
+
+  it('rejects unknown enum values and malformed nullable fields', () => {
+    const valid = createDefaultExplorationAnswers();
+    expect(isExplorationAnswers({ ...valid, tastes: ['unknown'] })).toBe(false);
+    expect(isExplorationAnswers({ ...valid, baseArea: 'outside-tokyo' })).toBe(false);
+    expect(isExplorationAnswers({ ...valid, travelTime: 60 })).toBe(false);
+    expect(isExplorationAnswers({ ...valid, duration: 'weekend' })).toBe(false);
+  });
 });

@@ -18,6 +18,13 @@
 
 export type DietaryRestriction = 'allergy' | 'vegetarian-vegan' | 'religious' | 'dislike';
 
+const DIETARY_RESTRICTIONS: ReadonlySet<DietaryRestriction> = new Set([
+  'allergy',
+  'vegetarian-vegan',
+  'religious',
+  'dislike',
+]);
+
 /** A valid persisted Food Profile (schema version `1`). */
 export interface FoodProfile {
   /** Multi-select restrictions (allergy / vegetarian-vegan / religious / dislike). */
@@ -55,7 +62,16 @@ export function isFoodProfile(value: unknown): value is FoodProfile {
   if (typeof v.savedAt !== 'string' || v.savedAt.length === 0) return false;
   if (typeof v.hasNoRestrictions !== 'boolean') return false;
   if (typeof v.dietaryOther !== 'string') return false;
-  if (!Array.isArray(v.dietary) || !v.dietary.every((d) => typeof d === 'string')) {
+  if (
+    !Array.isArray(v.dietary) ||
+    !v.dietary.every(
+      (d): d is DietaryRestriction =>
+        typeof d === 'string' && DIETARY_RESTRICTIONS.has(d as DietaryRestriction),
+    )
+  ) {
+    return false;
+  }
+  if (v.hasNoRestrictions && (v.dietary.length > 0 || v.dietaryOther.trim().length > 0)) {
     return false;
   }
   return true;

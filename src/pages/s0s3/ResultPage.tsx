@@ -65,6 +65,12 @@ export function ResultPage() {
     return <Navigate to="/food-profile" replace />;
   }
 
+  // A Result is only valid after the current-trip Exploration is complete.
+  // Direct/stale URLs must not present a recommendation without that context.
+  if (!answers) {
+    return <Navigate to="/explore" replace />;
+  }
+
   return (
     <div className="tmm-page">
       <section className="tmm-result__summary">
@@ -107,7 +113,7 @@ export function ResultPage() {
             </Link>
           </div>
 
-          <ResultRecorder answers={answers} tags={tags} />
+          <ResultRecorder answers={answers} tags={tags} hasDietaryConsiderations={dietary} />
         </>
       ) : (
         <EmptyFallback />
@@ -124,9 +130,11 @@ export function ResultPage() {
 function ResultRecorder({
   answers,
   tags,
+  hasDietaryConsiderations,
 }: {
   answers: ReturnType<typeof loadExplorationAnswers>;
   tags: MatchTagKey[];
+  hasDietaryConsiderations: boolean;
 }) {
   const { t } = useI18n();
   const [recorded, setRecorded] = useState(false);
@@ -141,9 +149,10 @@ function ResultRecorder({
       titleKey: RESULT_TITLE_KEY,
       summary: tags,
       exploration: answers,
+      hasDietaryConsiderations,
     });
     setRecorded(true);
-  }, [answers, tags]);
+  }, [answers, hasDietaryConsiderations, tags]);
 
   if (!recorded) return null;
   return <p className="tmm-result__mogu-note">{t('s3MoguNote')}</p>;

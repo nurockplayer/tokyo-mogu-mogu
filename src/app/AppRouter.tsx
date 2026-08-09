@@ -45,6 +45,17 @@ const SupportPage = lazy(() =>
 const MyRoutePage = lazy(() =>
   import('../pages/MyRoutePage').then((m) => ({ default: m.MyRoutePage })),
 );
+// #95 primary-nav destination shells. Placeholder scaffolds only; the content
+// is owned by #93 (Discover) / #94 (MOGU) / #81 (My).
+const DiscoverPage = lazy(() =>
+  import('../pages/DiscoverPage').then((m) => ({ default: m.DiscoverPage })),
+);
+const MoguPage = lazy(() =>
+  import('../pages/MoguPage').then((m) => ({ default: m.MoguPage })),
+);
+const MyPage = lazy(() =>
+  import('../pages/MyPage').then((m) => ({ default: m.MyPage })),
+);
 // Dev-only route: renders the shared UI foundation showcase. Not bundled in
 // production builds (import.meta.env.DEV is statically replaced by Vite).
 const UiShowcasePage = import.meta.env.DEV
@@ -73,6 +84,10 @@ export function AppRouter() {
       <Route path="/story" element={withBoundary(<StoryPage />)} />
       <Route path="/support" element={withBoundary(<SupportPage />)} />
       <Route path="/my-route" element={withBoundary(<MyRoutePage />)} />
+      {/* #95 primary-nav destination shells (content owned by #93 / #94 / #81) */}
+      <Route path="/discover" element={withBoundary(<DiscoverPage />)} />
+      <Route path="/mogu" element={withBoundary(<MoguPage />)} />
+      <Route path="/my" element={withBoundary(<MyPage />)} />
       {UiShowcasePage ? (
         <Route path="/_ui" element={withBoundary(<UiShowcasePage />)} />
       ) : null}

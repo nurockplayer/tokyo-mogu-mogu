@@ -17,6 +17,7 @@ import { Link } from 'react-router-dom';
 import { useI18n } from '../../i18n';
 import { StorySection } from '../../ui';
 import { hasFoodProfile } from '../../lib/food-profile-storage';
+import { beginNewExploration } from './exploration-session';
 import './onboarding.css';
 
 export function LandingPage() {
@@ -38,7 +39,11 @@ export function LandingPage() {
         <h1 className="tmm-landing-hero__title">{t('s0Title')}</h1>
         <p className="tmm-landing-hero__tagline">{t('s0Tagline')}</p>
         <div className="tmm-landing-hero__cta">
-          <Link to={journeyTarget} className="tmm-btn tmm-btn--primary tmm-btn--block">
+          <Link
+            to={journeyTarget}
+            className="tmm-btn tmm-btn--primary tmm-btn--block"
+            onClick={beginNewExploration}
+          >
             {t('s0Cta')}
           </Link>
         </div>
