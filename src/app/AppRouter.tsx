@@ -14,11 +14,14 @@ const HomePage = lazy(() => import('../pages/HomePage').then((m) => ({ default: 
 const LandingPage = lazy(() =>
   import('../pages/s0s3/LandingPage').then((m) => ({ default: m.LandingPage })),
 );
-const DiagnosisWizardPage = lazy(() =>
-  import('../pages/s0s3/DiagnosisWizardPage').then((m) => ({ default: m.DiagnosisWizardPage })),
+const ExplorationWizardPage = lazy(() =>
+  import('../pages/s0s3/ExplorationWizardPage').then((m) => ({ default: m.ExplorationWizardPage })),
 );
-const DiagnosisResultPage = lazy(() =>
-  import('../pages/s0s3/DiagnosisResultPage').then((m) => ({ default: m.DiagnosisResultPage })),
+const ResultPage = lazy(() =>
+  import('../pages/s0s3/ResultPage').then((m) => ({ default: m.ResultPage })),
+);
+const FoodProfilePage = lazy(() =>
+  import('../pages/s0s3/FoodProfilePage').then((m) => ({ default: m.FoodProfilePage })),
 );
 const PokedexPage = lazy(() =>
   import('../pages/PokedexPage').then((m) => ({ default: m.PokedexPage })),
@@ -42,6 +45,17 @@ const SupportPage = lazy(() =>
 const MyRoutePage = lazy(() =>
   import('../pages/MyRoutePage').then((m) => ({ default: m.MyRoutePage })),
 );
+// #95 primary-nav destination shells. Placeholder scaffolds only; the content
+// is owned by #93 (Discover) / #94 (MOGU) / #81 (My).
+const DiscoverPage = lazy(() =>
+  import('../pages/DiscoverPage').then((m) => ({ default: m.DiscoverPage })),
+);
+const MoguPage = lazy(() =>
+  import('../pages/MoguPage').then((m) => ({ default: m.MoguPage })),
+);
+const MyPage = lazy(() =>
+  import('../pages/MyPage').then((m) => ({ default: m.MyPage })),
+);
 // Dev-only route: renders the shared UI foundation showcase. Not bundled in
 // production builds (import.meta.env.DEV is statically replaced by Vite).
 const UiShowcasePage = import.meta.env.DEV
@@ -57,8 +71,10 @@ export function AppRouter() {
     <Routes>
       <Route path="/" element={withBoundary(<LandingPage />)} />
       <Route path="/home" element={withBoundary(<HomePage />)} />
-      <Route path="/diagnosis" element={withBoundary(<DiagnosisWizardPage />)} />
-      <Route path="/diagnosis/result" element={withBoundary(<DiagnosisResultPage />)} />
+      <Route path="/explore" element={withBoundary(<ExplorationWizardPage />)} />
+      <Route path="/explore/result" element={withBoundary(<ResultPage />)} />
+      <Route path="/food-profile" element={withBoundary(<FoodProfilePage mode="view" />)} />
+      <Route path="/food-profile/edit" element={withBoundary(<FoodProfilePage mode="edit" />)} />
       <Route path="/pokedex" element={withBoundary(<PokedexPage />)} />
       <Route path="/map" element={withBoundary(<MapPage />)} />
       <Route path="/food-cultures/:id" element={withBoundary(<FoodCulturePage />)} />
@@ -68,6 +84,10 @@ export function AppRouter() {
       <Route path="/story" element={withBoundary(<StoryPage />)} />
       <Route path="/support" element={withBoundary(<SupportPage />)} />
       <Route path="/my-route" element={withBoundary(<MyRoutePage />)} />
+      {/* #95 primary-nav destination shells (content owned by #93 / #94 / #81) */}
+      <Route path="/discover" element={withBoundary(<DiscoverPage />)} />
+      <Route path="/mogu" element={withBoundary(<MoguPage />)} />
+      <Route path="/my" element={withBoundary(<MyPage />)} />
       {UiShowcasePage ? (
         <Route path="/_ui" element={withBoundary(<UiShowcasePage />)} />
       ) : null}

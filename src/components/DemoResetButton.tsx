@@ -1,15 +1,18 @@
 /**
- * Demo reset control (Issues #7 / #9, #66).
+ * Demo reset control (Issues #7 / #9, #66, #78).
  *
  * Clears all locally persisted demo state so a demo can be replayed cleanly:
- * collection state (localStorage), saved routes (localStorage), and the S1–S3
- * diagnosis answers (sessionStorage). Mounted in the app header.
+ * collection state (localStorage), saved routes (localStorage), the durable
+ * Food Profile (localStorage), the current Exploration answers (sessionStorage),
+ * and MOGU Recent (localStorage). Mounted in the app header.
  */
 import { useState } from 'react';
 import { useCollection } from '../store/collection';
 import { useI18n } from '../i18n';
 import { clearSavedRoutes } from '../lib/saved-routes';
-import { clearDiagnosisAnswers } from '../pages/s0s3/session';
+import { clearExplorationAnswers } from '../pages/s0s3/exploration-session';
+import { clearFoodProfile } from '../lib/food-profile-storage';
+import { clearMoguRecent } from '../lib/mogu-recent';
 
 export function DemoResetButton() {
   const { t } = useI18n();
@@ -21,11 +24,13 @@ export function DemoResetButton() {
       setConfirming(true);
       return;
     }
-    // Reset collection + saved-route + diagnosis state so a demo can be
-    // replayed cleanly.
+    // Reset collection + saved-route + Food Profile + current Exploration +
+    // MOGU Recent state so a demo can be replayed cleanly (first-use flow).
     reset();
     clearSavedRoutes();
-    clearDiagnosisAnswers();
+    clearExplorationAnswers();
+    clearFoodProfile();
+    clearMoguRecent();
     setConfirming(false);
   };
 

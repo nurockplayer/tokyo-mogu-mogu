@@ -3,8 +3,9 @@
  *
  * Accountless saved-route list. Reads the shared `tmm:savedRoutes` local
  * persistence contract (owned by #45/#46) and renders each saved model route
- * with a summary card that navigates back to S5. Shows an empty state with a
- * diagnosis CTA when nothing is saved yet.
+ * with a summary card that navigates back to S5. Shows an empty state with an
+ * exploration CTA when nothing is saved yet, plus the durable Food Profile
+ * entry (My → Food Profile, Issue #78/#81).
  */
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -66,6 +67,7 @@ export function MyRoutePage() {
             </Link>
           }
         />
+        <FoodProfileEntry />
       </div>
     );
   }
@@ -106,6 +108,30 @@ export function MyRoutePage() {
           );
         })}
       </div>
+      <FoodProfileEntry />
     </div>
+  );
+}
+
+/**
+ * My → Food Profile entry (Issue #78 / #81). The My page owns user-managed
+ * permanent content; the Food Profile is its durable, editable settings area.
+ * Rendered on My Route today because that is the current My destination until
+ * #81 lands a dedicated My page.
+ */
+function FoodProfileEntry() {
+  const { t } = useI18n();
+  return (
+    <Card className="s8-card">
+      <div className="s8-card__body">
+        <div className="s8-card__title">{t('fpTitle')}</div>
+        <p className="page-sub">{t('fpSub')}</p>
+        <div className="s8-card__actions">
+          <Link to="/food-profile" className="tmm-btn tmm-btn--sm tmm-btn--secondary">
+            {t('fpEditCta')}
+          </Link>
+        </div>
+      </div>
+    </Card>
   );
 }

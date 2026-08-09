@@ -9,7 +9,9 @@
  * controls row below. The optional Google Auth entry stays in the secondary
  * demo controls row, out of the approved brand + locale core header (product
  * contract "Account / Persistence"); the persistent bottom nav is
- * Home / Diagnosis / Support / My Route.
+ * Home / Discover / MOGU / My (Issue #95 / current #92 App IA). The older
+ * Diagnosis / Support / My Route screens stay registered as routes and remain
+ * reachable by direct URL, but they are no longer primary-nav destinations.
  *
  * This shell is built entirely on the shared `tmm-*` foundation
  * (`src/ui/tokens.css`, `src/ui/ui.css`) so every screen shares one visual
@@ -46,9 +48,9 @@ export function AppShell({ children }: { children: ReactNode }) {
       </main>
       <nav className="tmm-nav">
         <NavLink to="/" end className="tmm-nav__link">{t('navHome')}</NavLink>
-        <NavLink to="/diagnosis" className="tmm-nav__link">{t('navDiagnosis')}</NavLink>
-        <NavLink to="/support" className="tmm-nav__link">{t('navSupport')}</NavLink>
-        <NavLink to="/my-route" className="tmm-nav__link">{t('s8NavLabel')}</NavLink>
+        <NavLink to="/discover" className="tmm-nav__link">{t('navDiscover')}</NavLink>
+        <NavLink to="/mogu" className="tmm-nav__link">{t('navMogu')}</NavLink>
+        <NavLink to="/my" className="tmm-nav__link">{t('navMy')}</NavLink>
       </nav>
     </div>
   );

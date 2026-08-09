@@ -1,5 +1,5 @@
 /**
- * S4 Food Culture Story screen (Issue #44).
+ * S4 Food Culture Story screen (Issues #44, #79).
  *
  * A vertical-scroll editorial article for the recommended food culture
  * (東京わさび / wasabi-okutama). No legacy Locked/Unlocked gating: the full
@@ -9,9 +9,17 @@
  * when no id is given, and any other / unknown id renders a graceful empty
  * state instead of a 404 or a mislabeled article.
  *
- * Structure follows the approved S4 editorial rhythm:
- *   hero -> why (geography/history) -> maker -> craft -> challenge -> tasting
- *   as succession -> route CTA.
+ * Structure follows the approved S4 editorial rhythm (#79):
+ *   hero (kicker, title, lead, read-time, origin tag, media)
+ *   -> why (geography/history)
+ *   -> maker (feature card with media + name + role)
+ *   -> craft & wisdom
+ *   -> challenge today
+ *   -> tasting is succession
+ *   -> support actions (shared SupportPanel — no standalone S7 page)
+ *   -> route CTA.
+ * Numbered editorial sections reuse the shared `StorySection` primitive with a
+ * `number` label so the numbering stays consistent and reusable.
  *
  * Content provenance:
  *   - Geography/history, maker, craft and how-to-enjoy sections draw on the
@@ -21,15 +29,21 @@
  *     names the succession challenge generically without fabricating specific
  *     statistics, and always resolves toward the user's action.
  *   - The compact Sources block preserves the record's provenance.
+ *
+ * Entry contexts (#79): the Story is a reusable component reached from the
+ * personalized Result (#78/#94) or from Discover (#93). Back behavior is
+ * caller-context-aware via a `backTo` query parameter (default: the current
+ * Exploration result). The Route CTA carries that context forward and never
+ * silently creates Saved Route state (the route page owns saving).
  */
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { getFoodCultureById } from '../data';
 import { FoodCultureImage } from '../components/FoodCultureImage';
 import { SupportPanel } from '../components/SupportPanel';
 import { Card, StorySection, Tag } from '../ui';
 import { useI18n, type Locale } from '../i18n';
 import { foodCultureKey } from '../i18n/data-content';
-import { readingMinutes } from './story-reading';
+import { readingMinutes, resolveBackTo, storyRouteHref } from './story-reading';
 import './StoryPage.css';
 
 /** The recommended food culture rendered by this screen (MVP scope: 東京わさび). */
@@ -53,6 +67,15 @@ function bodyReadingMinutes(body: string[], locale: Locale): number {
 export function StoryPage() {
   const { locale, t } = useI18n();
   const { id } = useParams<{ id: string }>();
+  const [searchParams] = useSearchParams();
+
+  // Entry-context-aware back (#79). The Story is a reusable component reached
+  // from the personalized Result (default) or from Discover (#93). Callers that
+  // know their origin pass `?backTo=/discover`; anything else keeps the default
+  // Result back behavior. An allowlist prevents crafted values from becoming
+  // arbitrary or protocol-relative destinations.
+  const backTo = resolveBackTo(searchParams.get('backTo'), '/explore/result');
+  const routeHref = storyRouteHref(backTo);
 
   // No id defaults to the recommended 東京わさび story. Any other id — whether
   // it names a different seed culture or an unknown value — renders the graceful
@@ -68,7 +91,7 @@ export function StoryPage() {
           <div className="tmm-empty__title">{t('s4EmptyTitle')}</div>
           <p className="tmm-empty__desc">{t('s4EmptyBody')}</p>
           <div className="tmm-empty__action">
-            <Link to="/" className="tmm-btn tmm-btn--secondary">
+            <Link to={backTo} className="tmm-btn tmm-btn--secondary">
               {t('s4EmptyBack')}
             </Link>
           </div>
@@ -98,15 +121,8 @@ export function StoryPage() {
 
   return (
     <article className="s4-page">
-      {/* Section 1 — Hero */}
+      {/* Section 1 — Hero (dark-green / media-forward) */}
       <header className="s4-hero">
-        <p className="s4-hero__kicker">{t('s4HeroKicker')}</p>
-        <h1 className="s4-hero__title">{heroName}</h1>
-        <p className="s4-hero__lead">{lead}</p>
-        <div className="s4-hero__meta">
-          <Tag tone="success">{t('originEditorial')}</Tag>
-          <span className="s4-read-time">{format(t('s4ReadTime'), { n: readTime })}</span>
-        </div>
         <div className="s4-hero__media">
           <FoodCultureImage
             image={record.image}
@@ -115,19 +131,37 @@ export function StoryPage() {
             category={record.category}
             alt={heroName}
           />
-          <span className="s4-media-caption">{t('s4MediaCaption')}</span>
+        </div>
+        <div className="s4-hero__body">
+          <p className="s4-hero__kicker">{t('s4HeroKicker')}</p>
+          <h1 className="s4-hero__title">{heroName}</h1>
+          <p className="s4-hero__lead">{lead}</p>
+          <p className="s4-hero__caption">{t('s4MediaCaption')}</p>
+          <div className="s4-hero__meta">
+            <span className="s4-hero__meta-item">
+              <span className="s4-hero__meta-icon" aria-hidden="true">📍</span>
+              {areaName}
+            </span>
+            <span className="s4-hero__meta-item">
+              <span className="s4-hero__meta-icon" aria-hidden="true">⏱</span>
+              {format(t('s4ReadTime'), { n: readTime })}
+            </span>
+            <span className="s4-hero__meta-item s4-hero__meta-item--tag">
+              <Tag tone="success">{t('originEditorial')}</Tag>
+            </span>
+          </div>
         </div>
       </header>
 
       <div className="s4-story">
         {/* Section 2 — Why Okutama (geography / history) */}
-        <StorySection kicker={t('s4KickerWhy')} title={format(t('s4TitleWhy'), { area: areaName })}>
+        <StorySection number={1} kicker={t('s4KickerWhy')} title={format(t('s4TitleWhy'), { area: areaName })}>
           <p className="s4-p">{t(fcKey('history'))}</p>
           <p className="s4-p">{t(fcKey('story'))}</p>
         </StorySection>
 
         {/* Section 3 — The maker (the maker is the visual lead of the section) */}
-        <StorySection kicker={t('s4KickerMaker')} title={t('s4TitleMaker')}>
+        <StorySection number={2} kicker={t('s4KickerMaker')} title={t('s4TitleMaker')}>
           <Card feature className="s4-maker-card">
             <div className="s4-maker-media">
               <FoodCultureImage
@@ -148,38 +182,49 @@ export function StoryPage() {
         </StorySection>
 
         {/* Section 4 — Craft & wisdom (story + how to enjoy) */}
-        <StorySection kicker={t('s4KickerCraft')} title={t('s4TitleCraft')}>
+        <StorySection number={3} kicker={t('s4KickerCraft')} title={t('s4TitleCraft')}>
           <p className="s4-p">{t('dataStoryCraft')}</p>
+          <div className="s4-inline-media">
+            <FoodCultureImage
+              image={record.image}
+              name={t('dataStoryCraft')}
+              nameJa={record.nameJa}
+              category={record.category}
+              alt={t('s4CraftMediaAlt')}
+            />
+            <span className="s4-media-caption">{t('s4MediaCaption')}</span>
+          </div>
           <p className="s4-p">{t(fcKey('howToEnjoy'))}</p>
         </StorySection>
 
         {/* Section 5 — The challenge today (never ends on pessimism) */}
-        <StorySection kicker={t('s4KickerChallenge')} title={t('s4TitleChallenge')}>
+        <StorySection number={4} kicker={t('s4KickerChallenge')} title={t('s4TitleChallenge')}>
           <p className="s4-p">{t('dataStoryChallenge')}</p>
           <p className="s4-note s4-note--editorial">{t('s4EditorialNote')}</p>
         </StorySection>
 
         {/* Section 6 — Tasting is passing it on */}
-        <StorySection kicker={t('s4KickerSupport')} title={t('s4TitleSupport')}>
+        <StorySection number={5} kicker={t('s4KickerSupport')} title={t('s4TitleSupport')}>
           <Card className="s4-support-card">
             <p className="s4-p">{t('dataStorySupport')}</p>
           </Card>
         </StorySection>
       </div>
 
-      {/* Support actions (Issue #68) — the story's "tasting is succession"
-          beat made concrete: how to actually act on that interest. */}
+      {/* Support actions (Issues #68/#79) — the story's "tasting is succession"
+          beat made concrete: how to actually act on that interest. Shared
+          SupportPanel; no standalone S7 destination is required. */}
       <div className="s4-support-actions">
         <SupportPanel />
       </div>
 
       {/* Section 7 — CTA to S5 route */}
       <footer className="s4-cta">
-        <Link to="/route" className="tmm-btn tmm-btn--primary tmm-btn--block">
+        <Link to={routeHref} className="tmm-btn tmm-btn--primary tmm-btn--block">
           {t('s4CtaLabel')}
         </Link>
         <p className="s4-cta__sub">{t('s4CtaSub')}</p>
-        <Link to="/" className="s4-cta__back">{t('s4BackToResult')}</Link>
+        <Link to={backTo} className="s4-cta__back">{t('s4BackToResult')}</Link>
       </footer>
 
       {/* Compact provenance — preserves the record's sources without breaking the editorial UI */}
@@ -209,7 +254,7 @@ export function StoryPage() {
 
       {/* Mobile sticky/following CTA — does not conflict with the approved editorial layout */}
       <div className="s4-sticky-cta">
-        <Link to="/route" className="tmm-btn tmm-btn--orange tmm-btn--block">
+        <Link to={routeHref} className="tmm-btn tmm-btn--orange tmm-btn--block">
           {t('s4StickyCta')}
         </Link>
       </div>
