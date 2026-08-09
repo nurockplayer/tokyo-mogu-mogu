@@ -68,6 +68,17 @@ describe('i18n fallback (#12)', () => {
       // New journey nav keys exist in every locale.
       expect(strings[locale].navDiagnosis.length).toBeGreaterThan(0);
       expect(strings[locale].navSupport.length).toBeGreaterThan(0);
+      // Current primary nav is Home / Discover / MOGU / My (#95 / #92 IA).
+      expect(strings[locale].navHome.length).toBeGreaterThan(0);
+      expect(strings[locale].navDiscover.length).toBeGreaterThan(0);
+      expect(strings[locale].navMogu.length).toBeGreaterThan(0);
+      expect(strings[locale].navMy.length).toBeGreaterThan(0);
+    }
+    // Primary nav labels stay short enough for the 375px bottom nav.
+    for (const locale of ['ja', 'en', 'zh-TW'] as const) {
+      for (const key of ['navHome', 'navDiscover', 'navMogu', 'navMy'] as const) {
+        expect(strings[locale][key].length, `${locale} ${key}`).toBeLessThanOrEqual(8);
+      }
     }
     // The journey framing (know / visit / support) is expressed in each locale.
     expect(strings.ja.appTagline).toMatch(/知って/);
