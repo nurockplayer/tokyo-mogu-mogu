@@ -12,10 +12,9 @@
  * useI18n().t(); place/route content uses the records' {Ja,En} fields.
  */
 import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   Button,
-  ButtonLink,
   Card,
   Chip,
   Mobility,
@@ -39,6 +38,7 @@ import {
   mobilityLabelKey,
 } from '../i18n/data-content';
 import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
+import { routeBackHref, routeBackTarget, routeContextSearch } from './route-context';
 import './route-spot.css';
 
 const DURATIONS: RouteDuration[] = ['half-day', '1-day'];
@@ -59,6 +59,7 @@ function formatTotalMinutes(total: number, locale: Locale): string {
 
 export function RoutePage() {
   const { locale, t } = useI18n();
+  const location = useLocation();
   const route = useMemo(() => getRouteById(DEFAULT_ROUTE_ID), []);
 
   const [duration, setDuration] = useState<RouteDuration>(
@@ -73,9 +74,12 @@ export function RoutePage() {
         <Card>
           <h2>{t('s5NotFoundTitle')}</h2>
           <p>{t('s5NotFoundBody')}</p>
-          <ButtonLink variant="secondary" href="#/">
+          <Link
+            to={routeBackHref(location.search)}
+            className="tmm-btn tmm-btn--secondary"
+          >
             {t('back')}
-          </ButtonLink>
+          </Link>
         </Card>
       </div>
     );
@@ -83,6 +87,10 @@ export function RoutePage() {
 
   const variant = route.variants[duration];
   const pins = projectRoutePins(variant.steps, places);
+
+  // Preserve the caller through every Route → Spot link. The helper allowlists
+  // origins and the Story's own back target before forwarding them.
+  const originQuery = routeContextSearch(location.search);
 
   const handleToggle = (next: RouteDuration) => {
     if (next === duration) return;
@@ -103,6 +111,14 @@ export function RoutePage() {
 
   return (
     <div className="tmm-page">
+      {/* Caller-aware back link (#80): Story, Discover, MOGU, and My contexts
+          all remain reachable after Route/Spot traversal. */}
+      {routeBackTarget(location.search) !== 'home' ? (
+        <Link to={routeBackHref(location.search)} className="tmm-btn tmm-btn--secondary s6-back">
+          ← {routeBackTarget(location.search) === 'story' ? t('s5BackToStory') : t('back')}
+        </Link>
+      ) : null}
+
       {/* Course header */}
       <div className="s5-hero">
         <p className="s5-hero__kicker">{t('s5Kicker')}</p>
@@ -155,7 +171,7 @@ export function RoutePage() {
             {pins.map((pin) => (
               <Link
                 key={pin.stepNumber}
-                to={`/spot/${variant.steps[pin.stepNumber - 1].placeId}`}
+                to={`/spot/${variant.steps[pin.stepNumber - 1].placeId}${originQuery}`}
                 className={`s5-map__pin ${pin.stepNumber === 1 ? 's5-map__pin--current' : ''}`}
                 style={{ left: `${pin.x}%`, top: `${pin.y}%` }}
                 aria-label={`${t('s5PinLabel')} ${pin.stepNumber}`}
@@ -190,7 +206,7 @@ export function RoutePage() {
             return (
               <div key={step.placeId}>
                 <Link
-                  to={`/spot/${step.placeId}`}
+                  to={`/spot/${step.placeId}${originQuery}`}
                   className="s5-timeline__pin-link"
                   aria-label={`${t('s5PinLabel')} ${step.stepNumber}: ${placeName}`}
                 >
@@ -227,6 +243,38 @@ export function RoutePage() {
         <Tag tone="warning">
           {t('s5ReservationNote')} — {t('s5DemoNote')}
         </Tag>
+      </section>
+
+      {/* Route-local support meaning (#80): 訪れる / 保存する / 行程を実行する
+          as a distributed support UX at the place of action — no standalone
+          Support Hub. Short, no fabricated metrics. */}
+      <section className="tmm-section">
+        <StorySection kicker={t('s5SupportKicker')} title={t('s5SupportTitle')}>
+          <p className="s5-support__lead">{t('s5SupportLead')}</p>
+          <ul className="s5-support__list">
+            <li className="s5-support__item">
+              <span className="s5-support__icon" aria-hidden="true">📍</span>
+              <span>
+                <strong>{t('s5SupportVisit')}</strong>
+                <span className="s5-support__desc">{t('s5SupportVisitDesc')}</span>
+              </span>
+            </li>
+            <li className="s5-support__item">
+              <span className="s5-support__icon" aria-hidden="true">🔖</span>
+              <span>
+                <strong>{t('s5SupportSave')}</strong>
+                <span className="s5-support__desc">{t('s5SupportSaveDesc')}</span>
+              </span>
+            </li>
+            <li className="s5-support__item">
+              <span className="s5-support__icon" aria-hidden="true">🚶</span>
+              <span>
+                <strong>{t('s5SupportGo')}</strong>
+                <span className="s5-support__desc">{t('s5SupportGoDesc')}</span>
+              </span>
+            </li>
+          </ul>
+        </StorySection>
       </section>
 
       {/* Primary CTA: save this itinerary */}

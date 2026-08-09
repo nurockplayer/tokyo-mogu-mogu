@@ -13,7 +13,7 @@
  * data. Accountless and geolocation-free.
  */
 import { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import type { ReactNode } from 'react';
 import {
   Button,
@@ -37,6 +37,7 @@ import {
 } from '../i18n/data-content';
 import { googleMapsDirectionsUrl, appleMapsDirectionsUrl } from '../lib/map-links';
 import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
+import { routeContextSearch } from './route-context';
 
 /** Maps a place type to its i18n label key. */
 const PLACE_TYPE_LABEL: Record<PlaceType, LocaleKey> = {
@@ -48,9 +49,75 @@ const PLACE_TYPE_LABEL: Record<PlaceType, LocaleKey> = {
   other: 's6CategoryOther',
 };
 
+/**
+ * Caller-aware back navigation for the Spot page (#80, #92). Spots are reached
+ * from the Route map/timeline by default (the immediate parent in the Story →
+ * Route → Spot journey), so a Spot reached from MOGU Recent or Discover still
+ * returns to the Route — never a broken back link. The origin query survives
+ * when the Route itself came from the personalized Story.
+ */
+/** The spot primary action's label/impact i18n keys per action type (#80). */
+const ACTION_LABEL_KEY: Record<SpotActionType, LocaleKey> = {
+  restaurant: 's6ActionRestaurant',
+  workshop: 's6ActionWorkshop',
+  shop: 's6ActionShop',
+  farm: 's6ActionFarm',
+  visit: 's6ActionVisit',
+};
+
+const ACTION_IMPACT_KEY: Record<SpotActionType, LocaleKey> = {
+  restaurant: 's6ImpactRestaurant',
+  workshop: 's6ImpactWorkshop',
+  shop: 's6ImpactShop',
+  farm: 's6ImpactFarm',
+  visit: 's6ImpactVisit',
+};
+
+type SpotActionKind = 'external' | 'disabled';
+
+/** The kind of real-world action a spot's primary CTA drives (#80). */
+type SpotActionType = 'restaurant' | 'workshop' | 'shop' | 'farm' | 'visit';
+
+interface SpotAction {
+  kind: SpotActionKind;
+  /** Verified external destination when `kind === 'external'`; omitted for the
+   *  disabled/coming-soon fallback (never fake success). */
+  url?: string;
+  type: SpotActionType;
+}
+
+/**
+ * Verified external destinations for spot primary actions (#80, #10).
+ *
+ * No fieldwork booking/EC/farm-visit URLs exist yet. The generic official
+ * Okutama Tourism Association site is a truthful destination for the tourism
+ * information office only; it must not masquerade as spot-specific farm or
+ * booking information. Every unverified action uses the disabled fallback.
+ */
+const CONFIRMED_VISIT_URL = 'https://www.okutokanko.jp/';
+
+export const SPOT_ACTIONS: Record<string, SpotAction> = {
+  'okutama-tourism-office': { kind: 'external', url: CONFIRMED_VISIT_URL, type: 'visit' },
+  'okutama-wasabi-field': { kind: 'disabled', type: 'farm' },
+  'okutama-soba-shop': { kind: 'disabled', type: 'restaurant' },
+  'okutama-michi-no-eki': { kind: 'disabled', type: 'shop' },
+  'okutama-fishing-center': { kind: 'disabled', type: 'visit' },
+};
+
+/** Default action type for a place category when no per-spot action exists. */
+const TYPE_DEFAULT_ACTION: Record<PlaceType, SpotActionType> = {
+  restaurant: 'restaurant',
+  shop: 'shop',
+  farm: 'farm',
+  brewery: 'workshop',
+  'info-center': 'visit',
+  other: 'visit',
+};
+
 export function SpotPage() {
   const { placeId } = useParams<{ placeId: string }>();
   const { locale, t } = useI18n();
+  const location = useLocation();
 
   const place = placeId ? getPlaceById(placeId) : undefined;
   const detail = placeId ? getSpotDetail(placeId) : undefined;
@@ -71,9 +138,12 @@ export function SpotPage() {
         <Card>
           <h2>{t('s6NotFoundTitle')}</h2>
           <p>{t('s6NotFoundBody')}</p>
-          <ButtonLink variant="secondary" href="#/route">
+          <Link
+            to={`/route${routeContextSearch(location.search)}`}
+            className="tmm-btn tmm-btn--secondary"
+          >
             {t('back')}
-          </ButtonLink>
+          </Link>
         </Card>
       </div>
     );
@@ -209,10 +279,19 @@ export function SpotPage() {
         </StorySection>
       ) : null}
 
-      {/* CTAs: directions / add to itinerary / reserve (where supported) */}
+      {/* CTAs: spot-type primary action (external-link-first) + directions +
+          add to itinerary (#80). No internal cart/payment/booking backend. */}
       <div className="s6-actions">
+        <SpotPrimaryAction
+          action={SPOT_ACTIONS[place.id] ?? {
+            kind: 'disabled',
+            type: TYPE_DEFAULT_ACTION[place.type],
+          }}
+          comingSoonLabel={t('s6ActionComingSoon')}
+        />
+        <p className="s6-action-impact">{t(ACTION_IMPACT_KEY[spotActionType(place)])}</p>
         <ButtonLink
-          variant="primary"
+          variant="secondary"
           href={googleUrl}
           target="_blank"
           rel="noreferrer"
@@ -256,7 +335,10 @@ export function SpotPage() {
       {/* Dietary safety disclaimer (product contract) */}
       <p className="s6-info-unverified">{t('s6DietaryDisclaimer')}</p>
 
-      <Link to="/route" className="tmm-btn tmm-btn--secondary s6-back">
+      <Link
+        to={`/route${routeContextSearch(location.search)}`}
+        className="tmm-btn tmm-btn--secondary s6-back"
+      >
         ← {t('s6BackToRoute')}
       </Link>
 
@@ -265,4 +347,54 @@ export function SpotPage() {
       ) : null}
     </div>
   );
+}
+
+/**
+ * The primary real-world action for a spot, driven by its place type (#80):
+ * - Restaurant → external booking / official site when verified
+ * - Workshop   → external experience booking/ticket page
+ * - Shop       → external EC / local purchase guidance
+ * - Farm/visit → official visit/reservation info
+ * - Directions → map/navigation destination
+ *
+ * When the destination is unverified the action renders a disabled
+ * coming-soon fallback (`s6ActionComingSoonDesc`) — never fake success.
+ */
+function SpotPrimaryAction({
+  action,
+  comingSoonLabel,
+}: {
+  action: SpotAction;
+  comingSoonLabel: string;
+}) {
+  const { t } = useI18n();
+  const label = t(ACTION_LABEL_KEY[action.type]);
+  if (action.kind === 'external' && action.url) {
+    return (
+      <ButtonLink
+        variant="primary"
+        href={action.url}
+        target="_blank"
+        rel="noreferrer"
+        className="tmm-btn--block"
+      >
+        ↗ {label}
+      </ButtonLink>
+    );
+  }
+  return (
+    <div className="s6-action-disabled">
+      <Button variant="primary" className="tmm-btn--block" disabled aria-disabled="true">
+        {label}
+      </Button>
+      <p className="s6-info-unverified">
+        {comingSoonLabel} — {t('s6ActionComingSoonDesc')}
+      </p>
+    </div>
+  );
+}
+
+/** Resolve the action type shown for a spot (per-spot action or category default). */
+export function spotActionType(place: { id: string; type: PlaceType }): SpotActionType {
+  return SPOT_ACTIONS[place.id]?.type ?? TYPE_DEFAULT_ACTION[place.type];
 }
