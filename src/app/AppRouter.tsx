@@ -56,6 +56,10 @@ const MoguPage = lazy(() =>
 const MyPage = lazy(() =>
   import('../pages/MyPage').then((m) => ({ default: m.MyPage })),
 );
+// #39 Stretch: My → Badges collection (not a primary-nav item).
+const BadgesPage = lazy(() =>
+  import('../pages/BadgesPage').then((m) => ({ default: m.BadgesPage })),
+);
 // Dev-only route: renders the shared UI foundation showcase. Not bundled in
 // production builds (import.meta.env.DEV is statically replaced by Vite).
 const UiShowcasePage = import.meta.env.DEV
@@ -88,6 +92,8 @@ export function AppRouter() {
       <Route path="/discover" element={withBoundary(<DiscoverPage />)} />
       <Route path="/mogu" element={withBoundary(<MoguPage />)} />
       <Route path="/my" element={withBoundary(<MyPage />)} />
+      {/* #39 Stretch: My → Badges collection */}
+      <Route path="/badges" element={withBoundary(<BadgesPage />)} />
       {UiShowcasePage ? (
         <Route path="/_ui" element={withBoundary(<UiShowcasePage />)} />
       ) : null}
