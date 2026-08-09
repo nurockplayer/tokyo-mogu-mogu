@@ -4,10 +4,13 @@
    Mobile-first (375px). Long English lines wrap cleanly.
    ============================================================ */
 
+/* Horizontal gutter moved to the shared shell (`.tmm-main`, Issue #77) so the
+   article never double-applies `--tmm-gutter`. Vertical rhythm and the bottom
+   nav clearance stay here. */
 .s4-page {
   max-width: var(--tmm-content-max);
   margin: 0 auto;
-  padding: 0 var(--tmm-gutter) calc(var(--nav-h, 60px) + var(--tmm-space-6) + env(safe-area-inset-bottom));
+  padding: 0 0 calc(var(--nav-h, 60px) + var(--tmm-space-6) + env(safe-area-inset-bottom));
 }
 
 /* ---------- Hero (section 1) ---------- */

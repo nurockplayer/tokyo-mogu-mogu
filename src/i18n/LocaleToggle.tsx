@@ -15,12 +15,12 @@ const OPTIONS: { code: Locale; label: string }[] = [
 export function LocaleToggle() {
   const { locale, setLocale } = useI18n();
   return (
-    <div className="locale-toggle" role="group" aria-label="Language">
+    <div className="tmm-locale-toggle" role="group" aria-label="Language">
       {OPTIONS.map(({ code, label }) => (
         <button
           key={code}
           type="button"
-          className={locale === code ? 'active' : ''}
+          className="tmm-locale-toggle__btn"
           onClick={() => setLocale(code)}
           aria-pressed={locale === code}
         >

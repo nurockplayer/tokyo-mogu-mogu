@@ -5,7 +5,8 @@
  * visually verified at 375px and desktop widths. Reaches only the
  * `/_ui` dev route; it is not part of the S0–S8 demo journey.
  */
-import { Button, ButtonLink, Card, Chip, EmptyState, Header, InfoList, Modal, ProgressBar, RouteStep, Mobility, StepDots, StorySection, SupportAction, Tag, Toast } from '../ui';
+import { useState } from 'react';
+import { Button, ButtonLink, Card, Chip, EmptyState, Header, InfoList, Modal, ProgressBar, RouteStep, Mobility, Segmented, StepDots, StorySection, SupportAction, Tag, Toast } from '../ui';
 
 const INFO_ITEMS = [
   { label: '住所', value: '東京都西多摩郡奥多摩町氷川' },
@@ -15,11 +16,27 @@ const INFO_ITEMS = [
 ];
 
 export function UiShowcasePage() {
+  const [segIndex, setSegIndex] = useState(0);
   return (
     <div className="tmm-page">
-      <Header logo="東京もぐもぐ">
-        <Button variant="secondary" className="tmm-btn--sm">JA / EN</Button>
+      <Header logo="東京もぐもぐ" tagline="知って、訪れて、応援する。東京の食文化の旅。">
+        <div className="tmm-locale-toggle">
+          <button type="button" className="tmm-locale-toggle__btn" aria-pressed="true">JA</button>
+          <button type="button" className="tmm-locale-toggle__btn" aria-pressed="false">EN</button>
+          <button type="button" className="tmm-locale-toggle__btn" aria-pressed="false">繁中</button>
+        </div>
       </Header>
+
+      <h2>Segmented control</h2>
+      <Segmented
+        label="コースの長さを選ぶ"
+        selected={segIndex}
+        onChange={setSegIndex}
+        options={[
+          { key: 'half', label: '半日コース' },
+          { key: 'full', label: '1日コース' },
+        ]}
+      />
 
       <h2>Buttons</h2>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', margin: '12px 0' }}>
