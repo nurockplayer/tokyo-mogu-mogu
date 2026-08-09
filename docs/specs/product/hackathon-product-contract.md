@@ -1,4 +1,4 @@
-# Hackathon Product Contract (S0–S9)
+# Hackathon Product Contract (S0–S9 → Home / Discover / MOGU / My)
 
 Durable Product positioning and behavior contract for the 2026 hackathon
 prototype.
@@ -6,8 +6,13 @@ prototype.
 - **Product positioning source of truth**: Issue #85.
 - **Hackathon UX source of truth**: Issue #41 + the approved S0–S9 UI / Design
   Spec v1.0.
+- **Current App IA source of truth**: Issue #92 (reusable `Home / Discover /
+  MOGU / My`). The S0–S9 journey below is the historical framing; this file
+  maps it onto the current primary-navigation contract (see "Current App IA").
 - **Status**: Current contract. Issue #85 adds the durable Product positioning
-  without rewriting the historical decision recorded in Issue #41.
+  without rewriting the historical decision recorded in Issue #41, and Issue
+  #92 re-maps the approved S0–S9 screens onto the current App IA without
+  discarding them.
 - **Hackathon scope**: 1 region × 1 food culture — **奥多摩 × 東京わさび**.
 
 ## Product Vision
@@ -52,7 +57,53 @@ and any continuation feature motivates another regional discovery.
 - Other food cultures appear only as S9 unearned Badge dummies or future
   expansion, never as a core-demo premise.
 
-## Core Journey
+## Current App IA (Issue #92)
+
+The persistent primary navigation is **`Home / Discover / MOGU / My`** (Issue
+#92; live in `src/app/AppShell.tsx`). Each tab owns one separation of user
+information:
+
+- **Home** — start a new personalized recommendation. The primary CTA begins
+  the current-trip Exploration questions. First-time users may pass through
+  Food Profile before Exploration; returning users skip straight to Exploration
+  and reuse the saved Food Profile.
+- **Discover** — free exploration without diagnosis. Surfaces food-culture
+  stories, workshops/experiences, seasonal/event content and bookable items.
+  `Home = recommend for me`; `Discover = I browse myself`. The 8/23 demo uses
+  only verified Okutama / Tokyo Wasabi content; future content stays clearly
+  editorial/future.
+- **MOGU** — system-managed recent recommendation history, **not** favorites.
+  It keeps up to the 5 most recent Result entries (auto-recorded, `MOGU_RECENT_MAX = 5`),
+  each reopening its `Result → Story → Route → Spot` context. Back navigation
+  from reopened content returns toward MOGU, not to a fresh diagnosis.
+- **My** — user-managed permanent content: **Saved Routes** + **Food Profile**
+  + **Badges** entry (Stretch only). A saved Route can lead back to Story /
+  Spot; no separate Saved Story / Saved Spot collections in the MVP.
+
+### S0–S9 historical framing → current App IA mapping
+
+The approved S0–S9 screens are the historical journey framing. Issue #92
+re-maps them onto the current App IA as follows; this mapping is the current
+navigation/behavior meaning:
+
+| Existing | Current IA role |
+|---|---|
+| S0 Landing | First-service introduction / Home first-time state |
+| S1 Dietary Restrictions | First-time `Food Profile`; later editable from My |
+| S2 Preference Diagnosis | Per-trip `Exploration Conditions` |
+| S3 Result | Immediate result + auto-add to MOGU |
+| S4 Story | Result content layer; also reachable from Discover |
+| S5 Route | Recommended journey; can be saved to My |
+| S6 Spot Detail | Practical details + external actions; reachable from Route/Discover |
+| S7 Support Hub | No standalone primary page; support CTAs are distributed into Story/Route/Spot |
+| S8 My Route | Integrated into `My → Saved Routes` |
+| S9 Badge | Integrated into `My → Badges`; remains Stretch |
+
+The legacy primary nav `Home / Diagnosis / Support / My Route` is **superseded**
+by `Home / Discover / MOGU / My`. Those screens remain reachable by direct URL
+for history/compatibility but are no longer primary-nav destinations.
+
+## Core Journey (historical S0–S9 framing)
 
 ```
 S0 Landing
@@ -68,6 +119,11 @@ S0 Landing
 
 - S9 Badge Collection is **stretch / time permitting**.
 - S0–S8 approved UI takes priority.
+- Under the #92 App IA this linear journey is the historical framing for the
+  screens above; the current primary-navigation and per-screen behavior is
+  defined by "Current App IA (Issue #92)". S7 Support and S8 My Route no longer
+  exist as standalone primary destinations (distributed CTAs and `My → Saved
+  Routes` respectively).
 
 ## Architecture / Data Boundary
 
@@ -84,7 +140,8 @@ S0 Landing
 
 ## Badge / Next Discovery Boundary
 
-- S9 Badge remains stretch work and must not block S0–S8.
+- S9 Badge remains stretch work and must not block S0–S8. Under the #92 App IA
+  it lives in **`My → Badges`** (Stretch), not in the primary navigation.
 - If Badge or another continuation feature is implemented, its Product role is
   to preserve the traveler's connection and create motivation to discover a
   next region; collection is not the top-level Product goal.
@@ -102,7 +159,14 @@ S0 Landing
 ## Account / Persistence
 
 - Hackathon S0–S9 UX is **accountless**.
-- S8 My Route persistence is local (localStorage / existing local persistence).
+- **Food Profile** is a persistent local user setting (asked on first use,
+  reused on later visits, editable from `My → Food Profile`). **Exploration
+  Conditions** are per-trip, current-flow variables. **MOGU Recent** is
+  system-managed (at most 5, auto-recorded, `tmm:moguRecent:v1`). **Saved Routes**
+  persist only on explicit user action (`tmm:savedRoutes`). Recent and Saved are
+  distinct semantic/persistence concepts even if they share lower-level helpers.
+- S8 My Route persistence is local (localStorage / existing local persistence);
+  under the #92 App IA it is the `My → Saved Routes` surface.
 - Google Auth is reusable infrastructure and may stay, but is **not** a
   requirement of the core demo journey, and auth controls must not be forced
   into the approved header if they conflict with it.
@@ -119,8 +183,9 @@ S0 Landing
 
 ## Safety Boundary (dietary)
 
-- Dietary-restriction input (S1) is used **only** for recommendation / match
-  reasons. It must never be presented as a verified safety guarantee.
+- Dietary-restriction input (S1, the first-time `Food Profile` under the #92
+  App IA) is used **only** for recommendation / match reasons. It must never be
+  presented as a verified safety guarantee.
 - Do not display claims like "this shop is allergy-safe" or "this food is
   safe" unless the underlying venue data actually supports them.
 - S3 diagnosis result and relevant S6 spot-detail areas must include a
@@ -144,6 +209,13 @@ hackathon core UX:
 
 These must not block or overwrite the S0–S9 implementation.
 
+The legacy primary navigation `Home / Diagnosis / Support / My Route` is also
+**superseded** by the #92 App IA (`Home / Discover / MOGU / My`). Diagnosis now
+means per-trip Exploration Conditions, Support is a distributed CTA pattern
+rather than a standalone page, and My Route is the `My → Saved Routes` surface.
+They remain reachable by direct URL only for history/compatibility, not as
+primary-nav destinations.
+
 ## Source / Data Traceability
 
 - External/open data keeps source traceability (name, URL/dataset, license,
@@ -160,9 +232,10 @@ These must not block or overwrite the S0–S9 implementation.
 - A generic multi-region platform, CMS, marketplace, or nationwide route engine
 - Full AI itinerary generation
 - Production-grade reward / redemption backend
-- Real payment / booking / donation backends (S7 actions may link out or be
+- Real payment / booking / donation backends (support CTAs may link out or be
   disabled/demo states)
 - S0–S9 all-screen bulk implementation in one ticket (implemented per child
   Issue #43–#49)
+- Saved Story / Saved Spot collections (a saved Route leads back to Story/Spot)
 - Google Auth rollback
 - Rewriting history of past PRs / closed Issues
