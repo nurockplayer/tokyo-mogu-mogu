@@ -336,11 +336,28 @@
 }
 
 .tmm-story-section__title {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--tmm-space-3);
   font-family: var(--tmm-font-display);
   font-size: var(--tmm-text-title);
   font-weight: 700;
   color: var(--tmm-color-forest-deep);
   margin-bottom: var(--tmm-space-2);
+}
+
+.tmm-story-section__num {
+  flex: 0 0 30px;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--tmm-radius-sm);
+  background: var(--tmm-color-forest);
+  color: var(--tmm-color-card);
+  display: grid;
+  place-items: center;
+  font-family: var(--tmm-font-body);
+  font-size: 0.9rem;
+  font-weight: 700;
 }
 
 .tmm-story-section__body {

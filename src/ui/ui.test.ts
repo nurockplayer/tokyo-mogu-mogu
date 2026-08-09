@@ -122,4 +122,10 @@ describe('component surface (#42)', () => {
       expect(ui, `missing export ${name}`).toHaveProperty(name);
     }
   });
+
+  it('supports optional numbering through the shared StorySection primitive', () => {
+    expect(uiSource).toContain('number?: number');
+    expect(uiSource).toContain('tmm-story-section__num');
+    expect(uiCss).toContain('.tmm-story-section__num');
+  });
 });
