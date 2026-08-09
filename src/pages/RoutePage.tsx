@@ -136,6 +136,13 @@ export function RoutePage() {
         </div>
       </div>
 
+      {/* Weekend-morning crowding advisory (#83) — hedged field observation,
+          never stated as a verified fact or realtime data. */}
+      <section className="s5-crowding" aria-label={t('s5CrowdingAdvisory')}>
+        <Tag tone="warning">{t('s5CrowdingAdvisory')}</Tag>
+        <p className="s5-crowding__source">{t('s5CrowdingSource')}</p>
+      </section>
+
       {/* Half-day ⇄ 1-day switch */}
       <div className="s5-duration-switch" role="group" aria-label={t('s5SwitchLabel')}>
         {DURATIONS.map((d) => (
