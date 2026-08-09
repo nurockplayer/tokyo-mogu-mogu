@@ -37,6 +37,7 @@ import {
 } from '../i18n/data-content';
 import { googleMapsDirectionsUrl, appleMapsDirectionsUrl } from '../lib/map-links';
 import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
+import { routeContextSearch } from './route-context';
 
 /** Maps a place type to its i18n label key. */
 const PLACE_TYPE_LABEL: Record<PlaceType, LocaleKey> = {
@@ -55,10 +56,6 @@ const PLACE_TYPE_LABEL: Record<PlaceType, LocaleKey> = {
  * returns to the Route — never a broken back link. The origin query survives
  * when the Route itself came from the personalized Story.
  */
-export function spotOriginIsStory(search: string): boolean {
-  return new URLSearchParams(search).get('from') === 'story';
-}
-
 /** The spot primary action's label/impact i18n keys per action type (#80). */
 const ACTION_LABEL_KEY: Record<SpotActionType, LocaleKey> = {
   restaurant: 's6ActionRestaurant',
@@ -92,17 +89,16 @@ interface SpotAction {
 /**
  * Verified external destinations for spot primary actions (#80, #10).
  *
- * No fieldwork booking/EC URLs exist yet, so the only confirmed destination is
- * the official Okutama Tourism Association site — already the cited source of
- * every demo place (`src/data/seed-places.ts`). Restaurants / shops / fishing
- * center have no verified booking or EC destination yet and render the disabled
- * coming-soon fallback instead of a fabricated link.
+ * No fieldwork booking/EC/farm-visit URLs exist yet. The generic official
+ * Okutama Tourism Association site is a truthful destination for the tourism
+ * information office only; it must not masquerade as spot-specific farm or
+ * booking information. Every unverified action uses the disabled fallback.
  */
 const CONFIRMED_VISIT_URL = 'https://www.okutokanko.jp/';
 
 export const SPOT_ACTIONS: Record<string, SpotAction> = {
   'okutama-tourism-office': { kind: 'external', url: CONFIRMED_VISIT_URL, type: 'visit' },
-  'okutama-wasabi-field': { kind: 'external', url: CONFIRMED_VISIT_URL, type: 'farm' },
+  'okutama-wasabi-field': { kind: 'disabled', type: 'farm' },
   'okutama-soba-shop': { kind: 'disabled', type: 'restaurant' },
   'okutama-michi-no-eki': { kind: 'disabled', type: 'shop' },
   'okutama-fishing-center': { kind: 'disabled', type: 'visit' },
@@ -143,7 +139,7 @@ export function SpotPage() {
           <h2>{t('s6NotFoundTitle')}</h2>
           <p>{t('s6NotFoundBody')}</p>
           <Link
-            to={spotOriginIsStory(location.search) ? '/route?from=story' : '/route'}
+            to={`/route${routeContextSearch(location.search)}`}
             className="tmm-btn tmm-btn--secondary"
           >
             {t('back')}
@@ -340,7 +336,7 @@ export function SpotPage() {
       <p className="s6-info-unverified">{t('s6DietaryDisclaimer')}</p>
 
       <Link
-        to={spotOriginIsStory(location.search) ? '/route?from=story' : '/route'}
+        to={`/route${routeContextSearch(location.search)}`}
         className="tmm-btn tmm-btn--secondary s6-back"
       >
         ← {t('s6BackToRoute')}

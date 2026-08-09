@@ -38,6 +38,7 @@ import {
   mobilityLabelKey,
 } from '../i18n/data-content';
 import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
+import { routeBackHref, routeBackTarget, routeContextSearch } from './route-context';
 import './route-spot.css';
 
 const DURATIONS: RouteDuration[] = ['half-day', '1-day'];
@@ -54,22 +55,6 @@ function formatTotalMinutes(total: number, locale: Locale): string {
   // English orders hours before minutes; Japanese orders units too but keeps
   // the same shape here for a compact single-line header.
   return locale === 'ja' ? `${h}時間${m}分` : `${h}h ${m}m`;
-}
-
-/** Supported Route entry contexts (Issue #92, #80): personalized Result/Story,
- *  Discover, or a saved-route / MOGU Recent re-open. */
-type RouteBackTarget = 'story' | 'discover' | 'home';
-
-/**
- * Resolve a caller-aware back target for the Route page. Route may be reached
- * from the personalized Result/Story (Story's route CTA), from Discover where
- * applicable, or from a saved-route / MOGU Recent re-open. When the caller
- * context is absent, fall back to a sensible default (the landing/home), so
- * back navigation never breaks even though #78/#93/#94 pages do not exist yet.
- */
-export function routeBackTarget(search: string): RouteBackTarget {
-  const from = new URLSearchParams(search).get('from');
-  return from === 'story' || from === 'discover' ? from : 'home';
 }
 
 export function RoutePage() {
@@ -90,7 +75,7 @@ export function RoutePage() {
           <h2>{t('s5NotFoundTitle')}</h2>
           <p>{t('s5NotFoundBody')}</p>
           <Link
-            to={routeBackTarget(location.search) === 'story' ? '/story/wasabi-okutama' : '/'}
+            to={routeBackHref(location.search)}
             className="tmm-btn tmm-btn--secondary"
           >
             {t('back')}
@@ -103,11 +88,9 @@ export function RoutePage() {
   const variant = route.variants[duration];
   const pins = projectRoutePins(variant.steps, places);
 
-  // Preserve a personalized-Story origin on spot links so the Spot page can
-  // return to this Route with the origin context intact (Issue #80). Other
-  // contexts (Discover / saved-route re-open) keep the spot back on the Route
-  // via the shell nav.
-  const originQuery = routeBackTarget(location.search) === 'story' ? '?from=story' : '';
+  // Preserve the caller through every Route → Spot link. The helper allowlists
+  // origins and the Story's own back target before forwarding them.
+  const originQuery = routeContextSearch(location.search);
 
   const handleToggle = (next: RouteDuration) => {
     if (next === duration) return;
@@ -128,11 +111,11 @@ export function RoutePage() {
 
   return (
     <div className="tmm-page">
-      {/* Caller-aware back link (#80): shown when the Route was opened from the
-          personalized Story; the shell header/bottom-nav cover other contexts. */}
-      {routeBackTarget(location.search) === 'story' ? (
-        <Link to="/story/wasabi-okutama" className="tmm-btn tmm-btn--secondary s6-back">
-          ← {t('s5BackToStory')}
+      {/* Caller-aware back link (#80): Story, Discover, MOGU, and My contexts
+          all remain reachable after Route/Spot traversal. */}
+      {routeBackTarget(location.search) !== 'home' ? (
+        <Link to={routeBackHref(location.search)} className="tmm-btn tmm-btn--secondary s6-back">
+          ← {routeBackTarget(location.search) === 'story' ? t('s5BackToStory') : t('back')}
         </Link>
       ) : null}
 
