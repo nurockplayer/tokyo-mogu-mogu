@@ -9,7 +9,12 @@
  * src/data/seed-routes.test.ts.
  */
 import { describe, expect, it } from 'vitest';
-import { routeBackHref, routeBackTarget, routeContextSearch } from './route-context';
+import {
+  routeBackHref,
+  routeBackTarget,
+  routeContextSearch,
+  spotBackHref,
+} from './route-context';
 import { spotActionType, SPOT_ACTIONS } from './SpotPage';
 import { getPlaceById } from '../data';
 import { resolveKey } from '../i18n/fallback';
@@ -53,6 +58,33 @@ describe('Route back-target resolution (#80)', () => {
     expect(routeBackHref('?from=story&backTo=%2Fdiscover')).toBe(
       '/story/wasabi-okutama?backTo=%2Fdiscover',
     );
+  });
+});
+
+describe('Spot back-target resolution (#93)', () => {
+  it('returns to Discover when the Spot was opened from Discover', () => {
+    expect(spotBackHref('?from=discover')).toBe('/discover');
+  });
+
+  it('keeps returning to the Route when the Spot was reached from the Route', () => {
+    // Route → Spot carries the Story context (the Route's caller), not a
+    // Discover context, so Back stays on the Route journey.
+    expect(spotBackHref('?from=story&backTo=%2Fexplore%2Fresult')).toBe(
+      '/route?from=story&backTo=%2Fexplore%2Fresult',
+    );
+    expect(spotBackHref('?from=story&backTo=%2Fmogu')).toBe(
+      '/route?from=story&backTo=%2Fmogu',
+    );
+  });
+
+  it('keeps returning to the Route for MOGU and My contexts (Spot sits under Route)', () => {
+    expect(spotBackHref('?from=mogu')).toBe('/route?from=mogu');
+    expect(spotBackHref('?from=my')).toBe('/route?from=my');
+  });
+
+  it('defaults to the Route when the caller context is absent', () => {
+    expect(spotBackHref('')).toBe('/route');
+    expect(spotBackHref('?from=unknown')).toBe('/route');
   });
 });
 
