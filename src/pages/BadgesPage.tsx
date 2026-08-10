@@ -3,14 +3,18 @@
  *
  * Badge is a My-owned, Stretch-only retention/discovery layer, not a top-level
  * nav item. The collection shows the earned/unearned state for the first-pilot
- * fixture (東京わさび, demo-earned) and future locked slots that never imply a
- * second region is implemented.
+ * fixture and future locked slots that never imply a second region is
+ * implemented.
+ *
+ * The first-pilot badge fixture is derived from the selected verified Tama
+ * food/story fixture (`FIRST_PILOT_BADGE`, Issue #112). Today that is 東京わさび;
+ * it is a configurable demo fixture, not an immutable Wasabi-only contract.
  *
  * Demo-earned honesty: the exact earning condition is an open product decision
  * (#38). For the Hackathon this screen shows a clearly-labeled deterministic
- * demo state — 東京わさび appears earned for demo purposes and the UI says so.
- * It never claims real visit/purchase verification, and physical reward
- * messaging stays prototype-only.
+ * demo state — the first-pilot fixture appears earned for demo purposes and the
+ * UI says so. It never claims real visit/purchase verification, and physical
+ * reward messaging stays prototype-only.
  *
  * Badge state is persisted separately from MOGU Recent and Saved Routes.
  */
@@ -18,7 +22,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useI18n, type LocaleKey } from '../i18n';
 import { Tag } from '../ui';
-import { loadBadgeState, type BadgeRecord } from '../lib/badges';
+import { FIRST_PILOT_BADGE, loadBadgeState, type BadgeRecord } from '../lib/badges';
 import './BadgesPage.css';
 
 /** A badge slot: the first-pilot fixture plus future dummy slots. */
@@ -38,11 +42,13 @@ interface BadgeSlot {
 
 const BADGE_SLOTS: BadgeSlot[] = [
   {
-    id: 'badge-wasabi-okutama',
+    // First-pilot fixture derived from the selected verified Tama food/story
+    // fixture (#112); today 東京わさび.
+    id: FIRST_PILOT_BADGE.id,
     nameKey: 'dataWasabiName',
     descKey: 'badgeWasabiDesc',
     icon: '🥢',
-    cultureId: 'wasabi-okutama',
+    cultureId: FIRST_PILOT_BADGE.cultureId,
     isFirstPilot: true,
   },
   {
