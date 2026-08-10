@@ -122,13 +122,16 @@ export function MyPage() {
         </Card>
       </section>
 
-      {/* Badges — Stretch entry only (#38/#39); core MVP ships without it */}
+      {/* Badges — Stretch entry (#38/#39); core MVP ships without it */}
       <section className="tmm-section" aria-label={t('badgesTitle')}>
         <Card className="my-card">
           <div className="my-card__body">
             <div className="my-card__title">{t('badgesTitle')}</div>
             <p className="my-card__desc">{t('badgesBody')}</p>
             <div className="my-card__actions">
+              <Link to="/badges" className="tmm-btn tmm-btn--sm tmm-btn--secondary">
+                {t('badgesOpenCta')}
+              </Link>
               <span className="tmm-tag tmm-tag--info">{t('badgesStretch')}</span>
             </div>
           </div>

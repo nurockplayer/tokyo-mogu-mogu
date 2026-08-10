@@ -1,0 +1,75 @@
+/* My → Badges (Issue #39, Stretch) — collection screen. */
+
+.badge-demo-note {
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+  margin: 0 0 var(--tmm-space-3);
+}
+
+.badge-progress {
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+  margin: 0 0 var(--tmm-space-4);
+}
+
+.badge-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--tmm-space-3);
+}
+
+.badge-slot {
+  border: 1px solid var(--tmm-border);
+  border-radius: var(--tmm-radius-md);
+  padding: var(--tmm-space-4);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--tmm-space-2);
+  background: var(--tmm-color-card);
+}
+
+.badge-slot--earned {
+  border-color: var(--tmm-color-success);
+}
+
+.badge-slot--locked {
+  opacity: 0.75;
+}
+
+.badge-slot__icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.badge-slot__name {
+  font-family: var(--tmm-font-display);
+  font-size: var(--tmm-text-title);
+  font-weight: 700;
+  color: var(--tmm-color-ink);
+}
+
+.badge-slot__desc {
+  margin: 0;
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+}
+
+.badge-slot__status {
+  margin-top: var(--tmm-space-1);
+}
+
+.badge-next {
+  margin-top: var(--tmm-space-5);
+}
+
+.badge-back {
+  display: inline-block;
+  margin-top: var(--tmm-space-4);
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+  text-decoration: none;
+}
