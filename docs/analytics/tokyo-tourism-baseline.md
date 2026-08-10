@@ -133,10 +133,10 @@ These were legacy MVP candidates, not current production targets.
 ## 6. Pitch-ready summary / ピッチ用サマリー
 
 **English (≈110 words):**
-> Tokyo's tourism boom is geographically lopsided. In 2023 the most-visited areas among foreign visitors — Shibuya 67%, Shinjuku 57%, Ginza 50% — captured the crowds, while no single Tama area reached 3.5%; Okutama saw just 0.7%. Yet those visitors stayed 5.2 nights and spent ¥179,154 per trip in Tokyo. Tokyo Mogu Mogu creates reasons to discover destinations beyond the 23 wards through regional food culture, people, nature, and experiences. The 2026 hackathon tests that vision first in Tama, with Okutama as its current fieldwork focus and Tokyo Wasabi as a possible deterministic fixture — turning an unfamiliar local culture into a story travelers understand, a route they want to take, and actions that support the region.
+> Tokyo's tourism boom is geographically lopsided. In 2023 the most-visited areas among foreign visitors — Shibuya 67%, Shinjuku 57%, Ginza 50% — captured the crowds, while no single Tama area reached 3.5%; Okutama saw just 0.7%. Yet those visitors stayed 5.2 nights and spent ¥179,154 per trip in Tokyo. Tokyo Mogu Mogu creates reasons to discover destinations beyond the 23 wards through regional food culture, people, nature, and experiences. The 2026 hackathon tests that vision first in Tama, with Okutama as its current fieldwork focus and Tokyo Wasabi as a fixed demo content candidate — turning an unfamiliar local culture into a story travelers understand, a route they want to take, and actions that support the region.
 
 **日本語 (≈110字):**
-> 東京の観光需要は23区の著名地域に偏っています。2023年、訪都外国人が最も訪れたのは渋谷67.1%・新宿・大久保57.4%・銀座50.1%で、多摩の各エリアは3.5%未満、奥多摩は0.7%でした。Tokyo Mogu Moguは、地域の食文化・人・自然・体験を入口に、旅行者が23区外へ「わざわざ行きたい」と思える理由をつくります。2026年のHackathonでは、その仮説を多摩地域（奥多摩をフィールドワークの中心、東京わさびを有力な決定論的fixtureの候補）から検証し、物語への理解を訪問ルートと地域を支える行動につなげます。
+> 東京の観光需要は23区の著名地域に偏っています。2023年、訪都外国人が最も訪れたのは渋谷67.1%・新宿・大久保57.4%・銀座50.1%で、多摩の各エリアは3.5%未満、奥多摩は0.7%でした。Tokyo Mogu Moguは、地域の食文化・人・自然・体験を入口に、旅行者が23区外へ「わざわざ行きたい」と思える理由をつくります。2026年のHackathonでは、その仮説を多摩地域（奥多摩をフィールドワークの中心、東京わさびをデモ用の固定コンテンツ候補として）から検証し、物語への理解を訪問ルートと地域を支える行動につなげます。
 
 ---
 

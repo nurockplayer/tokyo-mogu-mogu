@@ -3,12 +3,13 @@
 Durable behavior contract for the Badge / Achievement collection as a
 **Stretch retention/discovery layer** under `My → Badges`.
 
-- **Source of truth for placement and semantics**: Issue #92 current App IA +
-  Issue #85 Product Vision / MVP boundary.
+- **Source of truth for placement and semantics**: Issue #92 current App IA
+  (`Home / Discover / MOGU / My`; My holds Saved Routes + Food Profile +
+  Badges) + Issue #112 current Product / MVP framing.
 - **Presentation reference**: `docs/specs/product/approved-ui-fidelity.md`
   (S9 Badge Collection presentation rules).
 - **Hackathon journey contract**: `docs/specs/product/hackathon-product-contract.md`
-  (S0–S8 core, S9 stretch, geography invariants, accountless persistence).
+  (current core journey, S9 stretch, geography invariants, accountless persistence).
 - **Status**: Proposed contract for Issue #38. This Issue defines the contract
   only; it does **not** implement any code.
 
@@ -43,11 +44,12 @@ Badge is **not**:
 ## Priority / Stretch / 優先度
 
 - **Stretch / 時間があれば** (see `docs/project-roadmap.md`, #86: Stretch path
-  `#85 → #38 → #39`).
-- Badge must never block the core App IA, the S0–S8 journey, or the
+  `#38 → #39`).
+- Badge must never block the core App IA, the core journey, or the
   `Home / Discover / MOGU / My` navigation.
-- 2026-08-23 production content may remain only 奥多摩 × 東京わさび even when
-  Badge is implemented.
+- 2026-08-23 production content may remain only the verified Tama pilot content
+  that is ready (Tokyo Wasabi is a possible strong demo fixture); Badge must
+  not expand the MVP content contract.
 
 ## Product Role / 役割
 
@@ -63,7 +65,7 @@ Badge supports:
   primary purpose.
 
 Badge collection must not replace the Product goal of tourism dispersion /
-regional discovery (Issue #85). It is a continuation mechanism, never the
+regional discovery (Issue #112). It is a continuation mechanism, never the
 top-level purpose (product contract, "Badge / Next Discovery Boundary").
 
 ## Digital Badge Contract / デジタルバッジ契約
@@ -113,8 +115,10 @@ Notes:
 
 ### Real fixture: 東京わさび
 
-- 奥多摩 × 東京わさび is the **first-pilot real badge fixture**, matching the
-  only required real content for 2026-08-23.
+- 奥多摩 × 東京わさび is the **first-pilot real badge demo fixture**, matching
+  the current Tama / Okutama verified-content focus (Issue #112). It is a
+  possible strong demo fixture, not the only allowed production content
+  contract.
 - All other badge slots may be **future-region / future-culture dummy or locked
   presentation**.
 
@@ -239,11 +243,12 @@ The contract above satisfies Issue #38's acceptance criteria:
 - Issue #39 — `My → Badges` UI implementation (Stretch).
 - Issue #40 — physical reward redemption research (prototype/research only).
 - Issue #92 — current App IA (Home / Discover / MOGU / My; My holds Saved Routes + Food Profile + Badges).
-- Issue #85 — Product Vision / MVP boundary (tourism dispersion, Okutama as first pilot).
-- Issue #41 — approved S0–S9 UI / Design Spec v1.0 (Hackathon UX source).
+- Issue #112 — current Product / MVP framing (tourism dispersion, Tama first pilot, Okutama fieldwork / verified-content focus, evidence-driven food content).
+- Issue #85 — historical Product Vision / MVP boundary foundation (tourism dispersion, Okutama as first pilot). Historical only where it does not conflict with #112 / #92.
+- Issue #41 — historical approved S0–S9 UI / Design Spec v1.0 (historical Hackathon UX source).
 - `docs/specs/product/hackathon-product-contract.md` — durable behavior contract.
-- `docs/specs/product/approved-ui-fidelity.md` — presentation contract (S9 Badge Collection).
-- `docs/project-roadmap.md` — #86 roadmap (Badge is Stretch path `#85 → #38 → #39`).
+- `docs/specs/product/approved-ui-fidelity.md` — fallback presentation contract (S9 Badge Collection).
+- `docs/project-roadmap.md` — #86 roadmap (Badge is Stretch path `#38 → #39`).
 - `src/app/AppShell.tsx` — primary nav `Home / Discover / MOGU / My`.
 - `src/pages/MyPage.tsx` — `My` scaffold; Issue #81 adds Saved Routes + Food Profile + Badge entry.
 - `src/lib/mogu-recent.ts` — MOGU Recent persistence (`tmm:moguRecent:v1`).

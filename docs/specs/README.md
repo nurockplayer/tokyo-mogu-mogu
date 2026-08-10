@@ -105,9 +105,15 @@ For current product and UX decisions, use the following precedence:
    shared in Slack `#05_plan` on 2026-08-09) — current reusable App IA and repeat-use UX:
    `Home / Discover / MOGU / My`, Food Profile vs per-trip Exploration,
    Recent vs Saved, and distributed Support CTA.
-3. `docs/specs/product/approved-ui-fidelity.md` — visual/presentation contract.
-4. Older S0–S9 / #85 / #41 material — historical foundation only where it does
-   not conflict with #112 or #92.
+3. **Latest approved KiKi Figma for each screen** — when one exists, it is the
+   highest-priority visual / interaction implementation source for that screen.
+   Engineering agents implement the approved design rather than independently
+   redesigning or reinterpreting the UX.
+4. `docs/specs/product/approved-ui-fidelity.md` and the current design spec —
+   fallback visual / presentation guidance where an approved Figma for a screen
+   is not yet available.
+5. Older S0–S9 / #85 / #41 material — historical foundation only where it does
+   not conflict with #112, #92, or an approved Figma.
 
 The current priority above is transitional while #112 / #92 decisions are being
 fully reflected into durable Specs. After that alignment lands, implementation
