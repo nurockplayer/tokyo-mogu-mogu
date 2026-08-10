@@ -37,3 +37,17 @@ export function routeBackHref(search: string): string {
   }
   return '/';
 }
+
+/**
+ * The visible Back destination for the Spot page (Issue #93).
+ *
+ * A Spot is normally reached from the Route (the immediate parent in the
+ * Story → Route → Spot journey), so its Back returns to the Route and the
+ * caller context is forwarded. The one exception: Discover links directly to
+ * a Spot with `?from=discover` (no Route in between), so Back must return
+ * straight to Discover instead of inventing a Route hop.
+ */
+export function spotBackHref(search: string): string {
+  if (routeBackTarget(search) === 'discover') return '/discover';
+  return `/route${routeContextSearch(search)}`;
+}

@@ -37,7 +37,7 @@ import {
 } from '../i18n/data-content';
 import { googleMapsDirectionsUrl, appleMapsDirectionsUrl } from '../lib/map-links';
 import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
-import { routeContextSearch } from './route-context';
+import { routeBackTarget, spotBackHref } from './route-context';
 
 /** Maps a place type to its i18n label key. */
 const PLACE_TYPE_LABEL: Record<PlaceType, LocaleKey> = {
@@ -50,11 +50,13 @@ const PLACE_TYPE_LABEL: Record<PlaceType, LocaleKey> = {
 };
 
 /**
- * Caller-aware back navigation for the Spot page (#80, #92). Spots are reached
- * from the Route map/timeline by default (the immediate parent in the Story →
- * Route → Spot journey), so a Spot reached from MOGU Recent or Discover still
- * returns to the Route — never a broken back link. The origin query survives
- * when the Route itself came from the personalized Story.
+ * Caller-aware back navigation for the Spot page (#80, #92, #93). Spots are
+ * reached from the Route map/timeline by default (the immediate parent in the
+ * Story → Route → Spot journey), so their Back returns to the Route and the
+ * caller context is forwarded. The one exception is a Spot opened directly from
+ * Discover (?from=discover), which returns straight to Discover (Issue #93).
+ * The origin query survives when the Route itself came from the personalized
+ * Story.
  */
 /** The spot primary action's label/impact i18n keys per action type (#80). */
 const ACTION_LABEL_KEY: Record<SpotActionType, LocaleKey> = {
@@ -139,7 +141,7 @@ export function SpotPage() {
           <h2>{t('s6NotFoundTitle')}</h2>
           <p>{t('s6NotFoundBody')}</p>
           <Link
-            to={`/route${routeContextSearch(location.search)}`}
+            to={spotBackHref(location.search)}
             className="tmm-btn tmm-btn--secondary"
           >
             {t('back')}
@@ -336,10 +338,10 @@ export function SpotPage() {
       <p className="s6-info-unverified">{t('s6DietaryDisclaimer')}</p>
 
       <Link
-        to={`/route${routeContextSearch(location.search)}`}
+        to={spotBackHref(location.search)}
         className="tmm-btn tmm-btn--secondary s6-back"
       >
-        ← {t('s6BackToRoute')}
+        ← {routeBackTarget(location.search) === 'discover' ? t('back') : t('s6BackToRoute')}
       </Link>
 
       {toast ? (
