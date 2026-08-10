@@ -1,20 +1,30 @@
-# Approved UI Fidelity Contract (S0–S9 screens under Home / Discover / MOGU / My)
+# Approved UI Fidelity Contract (fallback presentation — S0–S9 screens under Home / Discover / MOGU / My)
 
 Durable cross-Issue presentation contract that keeps the S0–S9 screens visually
-coherent. This Spec owns **presentation only**; it does not redefine diagnosis
-semantics, dietary safety, route semantics, persistence, data provenance, S9
-priority, or the Product-wide geographic scope.
+coherent when no approved KiKi Figma exists for a screen. This Spec is the
+**fallback presentation contract**: once an approved KiKi Figma screen is
+available, that Figma is the highest-priority visual / interaction
+implementation source for the screen, and this Spec applies only where the
+Figma does not cover presentation. This Spec owns **presentation only**; it
+does not redefine diagnosis semantics, dietary safety, route semantics,
+persistence, data provenance, S9 priority, or the Product-wide geographic
+scope.
 
-- **Presentation source of truth**: latest approved `TOKYO_MOGU_MOGU_overview`
-  shared in Slack `#05_plan` on 2026-08-08; then `TOKYO MOGU MOGU デザイン仕様書
-  v1.0`; then Issue #85 positioning; then
-  `docs/specs/product/hackathon-product-contract.md`; then existing
+- **Presentation source of truth**: the **latest approved KiKi Figma for each
+  screen** wins for that screen when available. Where an approved Figma is not
+  yet available, use this Spec, informed by the latest approved
+  `TOKYO_MOGU_MOGU_overview` shared in Slack `#05_plan` on 2026-08-08, then
+  `TOKYO MOGU MOGU デザイン仕様書 v1.0`, then
+  `docs/specs/product/hackathon-product-contract.md`, then existing
   implementation where it does not conflict.
 - **App IA source of truth**: Issue #92 (reusable `Home / Discover / MOGU / My`).
   The S0–S9 screen names below are the historical framing; their placement in
   the current primary navigation follows the #92 App IA mapping.
-- **Status**: Current contract. Child Issues #77–#82 reference this file and
-  keep their acceptance criteria atomic.
+- **Product / MVP framing source of truth**: Issue #112 (Tama as first MVP
+  pilot geography, Okutama as current fieldwork / verified-content focus,
+  evidence-driven food content).
+- **Status**: Current fallback contract. Child Issues #77–#82 reference this
+  file and keep their acceptance criteria atomic.
 
 ## Current App IA (Issue #92)
 
@@ -45,23 +55,28 @@ current App IA (e.g. the Saved Routes list now renders under My).
 
 - **Product behavior** (diagnosis semantics, dietary safety boundary, route
   semantics, persistence, provenance, S9 priority, geographic scope) stays
-  owned by `docs/specs/product/hackathon-product-contract.md` and Issue #85.
+  owned by `docs/specs/product/hackathon-product-contract.md` and the current
+  Product / MVP framing in Issue #112.
   This Spec references those contracts instead of duplicating them.
+- **App IA / navigation behavior** stays owned by Issue #92.
 - Where presentation could mislead about the Product's geography, this Spec
   applies the positioning invariants below.
 
 ## Product-positioning Presentation Invariants
 
 TOKYO MOGU MOGU is a **regional-discovery / tourism-dispersion product for
-Tokyo beyond the 23 wards**. 奥多摩 × 東京わさび is the first Hackathon MVP
-pilot and the only required real content for 2026-08-23 — not the Product's
-permanent geographic scope. See Issue #85 and the product contract.
+Tokyo beyond the 23 wards** (Issue #112). The first MVP pilot geography is the
+**Tama area (多摩地域)**; **Okutama is the current fieldwork / verified-content
+focus**; food content is **evidence-driven** — Tokyo Wasabi is a possible
+strong demo fixture, not the exclusive MVP content contract. These are not the
+Product's permanent geographic or content scope. See Issue #112 and the product
+contract.
 
 - S0 / S8 / S9 presentation must never make the Product look permanently
   Okutama-only. Area labels on S8 and any landing copy may name 奥多摩 as the
-  current pilot, but the Product framing (name, tagline, hero, S9
-  continuation) stays region-agnostic. Under the #92 App IA the landing copy
-  is the Home first-time state.
+  current fieldwork / verified-content focus, but the Product framing (name,
+  tagline, hero, S9 continuation) stays region-agnostic. Under the #92 App IA
+  the landing copy is the Home first-time state.
 - Future-region visuals / labels may appear **only as clearly future or
   editorial fixtures** (e.g. an S9 unearned badge dummy). Presentation must
   never imply that a second region is already implemented — no implemented
@@ -359,10 +374,15 @@ explicitly open rather than be fabricated by an implementation Issue:
 - `docs/specs/product/hackathon-product-contract.md` — durable behavior
   contract (product positioning, MVP boundary, safety boundary, account /
   persistence, determinism, and the #92 App IA mapping).
+- Issue #112 — current Product / MVP framing (tourism dispersion, Tama as the
+  first MVP pilot geography, Okutama as current fieldwork / verified-content
+  focus, evidence-driven food content).
 - Issue #92 — current App IA (`Home / Discover / MOGU / My`) and the
   S0–S9 → App IA screen mapping.
-- Issue #85 — Product Vision: tourism dispersion beyond Tokyo 23 wards,
-  Okutama as first MVP pilot.
-- Issue #41 — approved S0–S9 UI / Design Spec v1.0 as Hackathon UX source.
+- Issue #85 — historical Product Vision foundation: tourism dispersion beyond
+  Tokyo 23 wards, Okutama as first pilot. Historical only where it does not
+  conflict with #112 / #92 / an approved Figma.
+- Issue #41 — historical approved S0–S9 UI / Design Spec v1.0 (historical
+  Hackathon UX source; presentation foundation only).
 - `src/ui/` (tokens.css, ui.css, index.tsx) — the shared `tmm-*` presentation
   foundation (Issue #42) this contract describes.

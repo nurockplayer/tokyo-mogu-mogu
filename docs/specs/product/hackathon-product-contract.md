@@ -10,11 +10,14 @@ prototype.
   a single Tokyo-Wasabi contract.
 - **Current App IA source of truth**: Issue #92 + the KiKi UI/UX IA draft
   (`Home / Discover / MOGU / My`). It owns current navigation and behavior.
-- **Presentation / visual source of truth**: `docs/specs/product/approved-ui-fidelity.md`
-  (visual reference only).
+- **Presentation source of truth**: the **latest approved KiKi Figma for each
+  screen** wins as the visual / interaction implementation source for that
+  screen when available. Where an approved Figma is not yet available,
+  `docs/specs/product/approved-ui-fidelity.md` is the fallback cross-screen
+  presentation guidance (visual reference only).
 - **Historical foundation**: Issue #85 / #41 and the approved S0–S9 UI. These
   are preserved as historical screen mapping / visual foundation only where
-  they do not conflict with #112 / #92.
+  they do not conflict with #112 / #92 / an approved Figma.
 - **Status**: Current contract. Issues #85 / #41 are earlier layers, not the
   current source of truth.
 - **Hackathon pilot scope**: first MVP pilot geography is the Tama area (多摩

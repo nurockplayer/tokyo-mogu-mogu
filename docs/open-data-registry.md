@@ -8,7 +8,7 @@ each dataset plays in the current Product, and its verified adoption state. When
 a dataset is promoted to implementation, it is cut out into its own Issue and
 its `Status` / `Related Issue` fields here are updated.
 
-- Product Vision / MVP boundary source of truth: Issue #85 +
+- Product Vision / MVP boundary source of truth: Issue #112 +
   `docs/specs/product/hackathon-product-contract.md`.
 - Current App IA source of truth: Issue #92 (`Home / Discover / MOGU / My`).
 - Data provenance rules: `AGENTS.md`「Data and Sources / データと出典」.
@@ -19,7 +19,7 @@ its `Status` / `Related Issue` fields here are updated.
 
 **Purpose.** Maintain a single place to answer, for every dataset the team
 considers: *what it is, who provides it, where it is from, under what license,
-which #85 Product mechanism and #92 IA surface it supports, how urgent it is for
+which #112 Product mechanism and #92 IA surface it supports, how urgent it is for
 the 2026-08-23 demo, and whether the repository actually integrates it.*
 
 **Scope.**
@@ -45,7 +45,7 @@ the 2026-08-23 demo, and whether the repository actually integrates it.*
 ## 2. Evaluation axes / 評価軸
 
 Every dataset is evaluated against these axes. "Current Product Role" must map
-to a concrete #85 mechanism and #92 surface — never to "we could stuff this data
+to a concrete #112 mechanism and #92 surface — never to "we could stuff this data
 into a store".
 
 | Axis | Meaning | Values (examples) |
@@ -55,7 +55,7 @@ into a store".
 | Format / Update frequency | Data shape and freshness | CSV / GTFS / PDF report / JSON; annual / quarterly / static |
 | Geographic coverage | Region scope; must stay extensible to future outer-Tokyo regions | 奥多摩 / Tama / 東京全域 / 23区 |
 | Key fields | What columns/attributes the data carries | lat/lng, hours, 観光入込客数 … |
-| Product Vision use | Which #85 mechanism it supports | tourism dispersion / regional discovery / mobility / story / practical UX / impact evidence |
+| Product Vision use | Which #112 mechanism it supports | tourism dispersion / regional discovery / mobility / story / practical UX / impact evidence |
 | Current IA use | Which #92 surface it supports | Home / Discover / Story / Route / Spot / Pitch (and MOGU / My only as explicitly excluded user-state) |
 | Hackathon MVP use | Whether the 2026-08-23 Okutama pilot actually uses it | yes / no / data-layer-only |
 | Future region portability | Can a future outer-Tokyo region reuse it | high / medium / low |
@@ -158,7 +158,7 @@ Evidence column = the repository file(s) this entry was verified against on
     (checked 2026-08-10); it is legacy "next discovery" infra. The current S5
     Route uses editorial mobility segments (e.g. `JR青梅線・西東京バス` labels),
     not GTFS data. GTFS fixture is consumed only by tests today.
-  - `Hackathon MVP use`: **data-layer only / optional**. Per #85/#92, GTFS is
+  - `Hackathon MVP use`: **data-layer only / optional**. Per #112/#92, GTFS is
     route-mobility **enrichment**; realtime/next-departure is **not** core demo
     UX. No fares / no realtime / no route planning by scope.
 
@@ -170,7 +170,7 @@ Evidence column = the repository file(s) this entry was verified against on
   `https://www.opendata.metro.tokyo.lg.jp/sangyouroudou/tourist_number_survey/`.
   License **CC-BY-4.0** (per BODIK). Figures used: 観光入込客数, 観光消費額,
   share 外国在住者 38.1% (2023) / 41.8% (2024), avg places visited per person.
-- **Status**: Integrated — the baseline doc is the #85/#18 pitch artifact.
+- **Status**: Integrated — the baseline doc is the #112/#18 pitch artifact.
 - **MVP use**: pitch impact evidence (P0), not in-app.
 
 #### 3.2.4 モバイルデータを活用した訪都旅行者動態調査
@@ -252,12 +252,12 @@ record that they must **not** be used to justify dataset adoption.
 
 | #92 Surface | What Open Data supports | Dataset(s) | Current state |
 |---|---|---|---|
-| **Home** (S0–S3 recommendation) | none — diagnosis is driven by user-state (Food Profile + Exploration Conditions), not by datasets | — | out of data scope |
+| **Home** (recommendation) | none — the recommendation is driven by user-state (Food Profile + Exploration Conditions), not by datasets | — | out of data scope |
 | **Discover** (#93, free exploration) | content / discovery candidates | 奥多摩観光施設一覧 (candidate), 区市町村別観光資源, 東京都指定文化財一覧, 緑のGIS | Discover is a placeholder shell today (`src/pages/DiscoverPage.tsx`); datasets are future candidates |
-| **Story enrichment** (S4) | factual grounding for editorial stories | 奥多摩観光協会 (current, editorial), 文化財一覧 / 観光資源 (future) | current story = editorial seed; candidates future |
-| **Route mobility / context** (S5) | mobility segments, access, feasibility | 西東京バス GTFS (data layer), 公共交通 Open Data (future) | data layer built; demo fixture only; not in core journey; realtime/next-departure not core UX |
-| **Spot practical data** (S6) | hours / access / price / reservation / accessibility | 奥多摩観光施設一覧 (candidate), 公衆トイレ, だれでも東京, バリアフリー情報 | practical info rendered only when source-verified (`SpotDetail.practical`), else explicit unverified state |
-| **Pitch impact evidence** (#18/#85) | tourism-concentration → dispersion metrics | 東京都観光客数等実態調査 (A), 国・地域別外国人旅行者行動特性調査 (B), モバイル動態調査 (future, proxy C today) | integrated in `docs/analytics/tokyo-tourism-baseline.md` |
+| **Story enrichment** | factual grounding for editorial stories | 奥多摩観光協会 (current, editorial), 文化財一覧 / 観光資源 (future) | current story = editorial seed; candidates future |
+| **Route mobility / context** | mobility segments, access, feasibility | 西東京バス GTFS (data layer), 公共交通 Open Data (future) | data layer built; demo fixture only; not in core journey; realtime/next-departure not core UX |
+| **Spot practical data** | hours / access / price / reservation / accessibility | 奥多摩観光施設一覧 (candidate), 公衆トイレ, だれでも東京, バリアフリー情報 | practical info rendered only when source-verified (`SpotDetail.practical`), else explicit unverified state |
+| **Pitch impact evidence** (#18/#112) | tourism-concentration → dispersion metrics | 東京都観光客数等実態調査 (A), 国・地域別外国人旅行者行動特性調査 (B), モバイル動態調査 (future, proxy C today) | integrated in `docs/analytics/tokyo-tourism-baseline.md` |
 | **MOGU** (recent results) | — user-state (auto-recorded Results, max 5) | none | **do not use as adoption justification** |
 | **My** (saved / food profile) | — user-state (Saved Routes, Food Profile, Badges) | none | **do not use as adoption justification** |
 
@@ -269,14 +269,14 @@ store, and **not** by being "interesting Open Data".
 
 ## 5. Adoption principles / 採用原則
 
-1. **Evaluate against #85 + #92, not dataset volume.** Ask *which tourism-
+1. **Evaluate against #112 + #92, not dataset volume.** Ask *which tourism-
    dispersion mechanism and which IA surface does this dataset actually
    support?* If the honest answer is "only a slide", it is pitch evidence at
    best — not a core feature driver.
-2. **GTFS = route-mobility enrichment.** GTFS may enrich S5 route/access
-   context. **Realtime / next-departure is not core demo UX** (matches #85/#41
-   contract and `docs/data-contract-wave4.md`). Never let GTFS dictate a screen
-   flow.
+2. **GTFS = route-mobility enrichment.** GTFS may enrich route mobility
+   context. **Realtime / next-departure is not core demo UX** (matches the
+   #112/#92 contract and `docs/data-contract-wave4.md`). Never let GTFS dictate
+   a screen flow.
 3. **User-state stores are off-limits as justification.** MOGU Recent / My
    Saved / Food Profile are user-state concerns. Adopting a dataset *because it
    can be pushed into those stores* is explicitly disallowed.
@@ -300,15 +300,17 @@ store, and **not** by being "interesting Open Data".
 
 ## 6. 2026-08-23 MVP boundary / MVP 境界
 
-The MVP is **1 region × 1 food culture: 奥多摩 × 東京わさび** (Issue #85 + #41
-contract). Integration priority for data is confined to Okutama; other regions
-are future.
+The MVP pilot geography is **Tama (多摩地域)**, with Okutama as the current
+fieldwork / verified-content focus and an evidence-driven food boundary (Issue
+#112; Tokyo Wasabi is a possible strong deterministic fixture, not the
+exclusive product contract). Integration priority for data is confined to the
+Tama / Okutama pilot; other regions are future.
 
 | Boundary | Decision |
 |---|---|
 | In MVP scope (integrate/verify) | Okutama spot/facilities data (app-wiring of `OKUTAMA_PLACES` is an **open follow-up**); Nishi Tokyo GTFS **data layer** (optional enrichment, demo fixture acceptable); tourism baseline for the **pitch** (datasets A/B/C). |
 | Not core demo UX | GTFS realtime / next-departure; multi-region data; any dataset whose only use is MOGU/My/Food-Profile stores. |
-| Future (P2/P3) | All candidate rows in §3.1 — they must **not** block the S0–S8 core path. |
+| Future (P2/P3) | All candidate rows in §3.1 — they must **not** block the current core demo path. |
 | Evidence gap to close before/at demo | Fieldwork (Issue #10) to re-verify approximate demo coordinates; real GTFS fetch (ODPT token) if route data is promoted; app-wiring of the 3 real CC BY 4.0 Okutama rows. |
 
 ---
@@ -347,7 +349,7 @@ are future.
 ### 日本語要約
 
 このファイルは Issue #19 の東京広域 Open Data レジストリ（研究インデックス）。
-各データセットの provider / source / license / #85 と #92 への接続点 / 優先度 /
+各データセットの provider / source / license / #112 と #92 への接続点 / 優先度 /
 採用状態を追跡する。要点：
 
 - 奥多摩観光施設は「観光施設一覧」の公式 Open Data は存在せず、実際に
