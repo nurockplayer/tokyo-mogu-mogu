@@ -97,6 +97,26 @@ describe('shared UI classes (#42)', () => {
   });
 });
 
+describe('interactive tap-target contract (#82)', () => {
+  it('keeps every interactive control height >= the 44px tap minimum', () => {
+    // All interactive min-height declarations must be at least 44px
+    // (--tmm-tap-min). No button/control may regress below it.
+    const minHeights = [...uiCss.matchAll(/\.([a-z0-9-_]+)\s*\{[^}]*min-height:\s*([0-9.]+)px/g)]
+      .map((m) => ({ cls: m[1], px: Number(m[2]) }))
+      .filter(({ cls }) => /btn|chip|nav|link|toggle/.test(cls));
+    for (const { cls, px } of minHeights) {
+      expect(px, `control .${cls} below 44px tap target`).toBeGreaterThanOrEqual(44);
+    }
+  });
+
+  it('defines tmm-btn--sm with min-height >= 44px', () => {
+    const start = uiCss.indexOf('.tmm-btn--sm');
+    const smBlock = uiCss.slice(start, start + 260);
+    expect(smBlock).toMatch(/min-height:\s*(var\(--tmm-tap-min\)|4[4-9]px|[5-9][0-9]px)/);
+    expect(smBlock).not.toMatch(/min-height:\s*3[0-9]px/);
+  });
+});
+
 describe('component surface (#42)', () => {
   it('exports the expected primitive components', () => {
     const expected = [

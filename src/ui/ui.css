@@ -115,7 +115,9 @@
 }
 
 .tmm-btn--sm {
-  min-height: 38px;
+  /* Issue #82: interactive targets must be >=44px (--tmm-tap-min). Keeps the
+     compact visual weight (font/padding) while meeting the tap-target rule. */
+  min-height: var(--tmm-tap-min);
   padding: 8px 14px;
   font-size: 0.85rem;
 }
