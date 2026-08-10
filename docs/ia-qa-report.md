@@ -37,8 +37,8 @@ Spot back context) integration fixes landed.
 | 7 | No standalone Support page required | ✅ PASS | Support actions distributed in Story/Route/Spot; no nav item |
 | 8 | Booking/purchase actions do not fake unavailable destinations | ✅ PASS | Only visit has confirmed external URL; others render disabled "準備中" |
 | 9 | Result/Story/Route/Spot work from both recommendation and browse/recent contexts | ✅ PASS | MOGU reopen → Result(?from=mogu) → Story(?backTo=/mogu) → Route(?from=story&backTo=/mogu) → Spot(back to Route); Discover → Spot → back to /discover |
-| 10 | ja/en/zh-TW no horizontal overflow at 375px | ✅ PASS | Real-browser 375px pass: ja / en / zh-TW all `scrollWidth === clientWidth === 375` on My |
-| 11 | WCAG/tap/focus basics | ✅ (partial) | 44px primary tap targets (`--tmm-tap-min`) + focus-visible styles on btn/chip/card/nav/locale. Secondary `tmm-btn--sm` actions are 38px by design (existing, not introduced here); WCAG contrast audit not run |
+| 10 | ja/en/zh-TW no horizontal overflow at 375px | ✅ PASS | Real-browser 375px pass on ALL core surfaces (Home, Food Profile, Exploration, Result, Story, Route, Spot, Discover, MOGU, My): ja / en / zh-TW all `scrollWidth === clientWidth === 375`, no horizontal overflow |
+| 11 | WCAG/tap/focus basics | ✅ PASS | `tmm-btn--sm` raised to `--tmm-tap-min` (44px); Route map pin hit area expanded to 44px via `::after`; all interactive min-heights `>=44px` (regression-tested); focus-visible styles on btn/chip/card/nav/locale/pin. WCAG color-contrast automated audit still not run (tags carry icons in addition to color) |
 | 12 | Badge not blocking | ✅ | My → Badges renders Stretch-only entry tag; My ships cleanly without it |
 | 13 | Unverified/demo content clearly distinguishable | ✅ | Discover shows 編集部作成 (editorial) and デモデータ (demo) tags; future cultures tagged 今後追加予定 |
 
@@ -120,8 +120,6 @@ Verified:
 
 - WCAG color-contrast automated audit not run; tag states carry icons in
   addition to color.
-- Secondary `tmm-btn--sm` tap targets are 38px by existing design (the 44px
-  minimum applies to primary controls); noted, not a regression of this work.
 - #39 Badge Stretch UI not part of core readiness.
 
 ## Known Integration Notes
