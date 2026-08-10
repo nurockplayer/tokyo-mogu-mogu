@@ -69,8 +69,8 @@ Completed foundation and implementation slices:
 
 - #85 / #76 / #77 (Product / UI foundation)
 - #95 Navigation IA, #78 Food Profile / Exploration / Result, #94 MOGU Recent,
-  #79 Story + distributed Support, #80 Route / Spot (current App IA
-  implementation)
+  #79 Story + distributed Support, #80 Route / Spot, #81 My, #93 Discover
+  (current App IA implementation)
 - #19 Open Data registry, #83 crowding / transfer advisory, #38 Badge contract
 
 Current open work:
@@ -129,15 +129,13 @@ Markers:
 
 ### P0 (current implementation)
 
-- #81
-- #93
 - #82
 - Integration / demo freeze
 - #10 fieldwork feeding verified Tama-pilot content
 
 ### P1
 
-- #19 and other work that strengthens the pitch without blocking the core flow
+- #19 is completed; only follow-up data/pitch work that strengthens the pitch without blocking the core flow belongs here
 
 ### Source of truth (authoritative framing)
 
