@@ -12,6 +12,7 @@ import { describe, expect, it } from 'vitest';
 import { routeBackHref, routeBackTarget, routeContextSearch } from './route-context';
 import { spotActionType, SPOT_ACTIONS } from './SpotPage';
 import { getPlaceById } from '../data';
+import { resolveKey } from '../i18n/fallback';
 import { strings } from '../i18n/resources';
 
 describe('Route back-target resolution (#80)', () => {
@@ -104,5 +105,48 @@ describe('support-copy truthfulness boundary (#80)', () => {
     expect(strings.ja.s5SupportLead).toContain('実際の貢献効果を示すものではありません');
     expect(strings.en.s5SupportLead).toContain('not measured impact claims');
     expect(strings['zh-TW'].s5SupportLead).toContain('不代表已驗證的影響成效');
+  });
+});
+
+describe('weekend-morning crowding advisory (#83)', () => {
+  const advisoryKeys = ['s5CrowdingAdvisory', 's5CrowdingSource'] as const;
+
+  it('ships a three-locale bundle for every advisory key', () => {
+    for (const locale of ['ja', 'en', 'zh-TW'] as const) {
+      for (const key of advisoryKeys) {
+        const value = resolveKey(strings, locale, key);
+        expect(value, `${locale} ${key}`).toBeTypeOf('string');
+        expect(value.length, `${locale} ${key}`).toBeGreaterThan(0);
+        expect(value.startsWith('missing:'), `${locale} ${key}`).toBe(false);
+      }
+    }
+  });
+
+  it('hedges the advisory as possible crowding, not a verified fact', () => {
+    // May / can-be phrasing in every locale; never a definite claim.
+    expect(strings.ja.s5CrowdingAdvisory).toContain('場合があります');
+    expect(strings.en.s5CrowdingAdvisory.toLowerCase()).toMatch(/can be crowded/);
+    expect(strings['zh-TW'].s5CrowdingAdvisory).toContain('可能');
+  });
+
+  it('labels the advisory as an observation, not realtime data', () => {
+    expect(strings.ja.s5CrowdingSource).toContain('観察');
+    expect(strings.ja.s5CrowdingSource).toContain('リアルタイム');
+    expect(strings.en.s5CrowdingSource.toLowerCase()).toContain('field observation');
+    expect(strings.en.s5CrowdingSource.toLowerCase()).toContain('realtime');
+    expect(strings['zh-TW'].s5CrowdingSource).toContain('現場觀察');
+    expect(strings['zh-TW'].s5CrowdingSource).toContain('即時');
+  });
+
+  it('keeps the added advisory keys structurally equivalent across locales', () => {
+    const jaKeys = Object.keys(strings.ja).sort();
+    expect(jaKeys).toEqual(Object.keys(strings.en).sort());
+    expect(jaKeys).toEqual(Object.keys(strings['zh-TW']).sort());
+  });
+
+  it('dates the observation and keeps it distinct from verified source data', () => {
+    for (const locale of ['ja', 'en', 'zh-TW'] as const) {
+      expect(strings[locale].s5CrowdingSource).toContain('2026-08-09');
+    }
   });
 });

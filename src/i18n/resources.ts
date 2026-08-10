@@ -158,6 +158,9 @@ export const strings = {
     s5Stay: '滞在',
     s5ReservationNote: '要予約・営業情報は要確認',
     s5DemoNote: 'デモ用ルート',
+    /* S5 weekend-morning crowding advisory (#83) — hedged field observation, not a verified fact */
+    s5CrowdingAdvisory: '週末午前は青梅〜奥多摩方面の列車が混雑する場合があります。乗換には余裕を。',
+    s5CrowdingSource: '現地での観察にもとづく注意（2026-08-09）。リアルタイムの混雑情報ではありません。',
     s5Saved: '旅程を保存済み',
     s5SaveCta: 'この旅程を保存する',
     s5SaveHint: '保存した旅程は「マイルート」で確認できます。',
@@ -567,6 +570,9 @@ export const strings = {
     s5Stay: 'Stay',
     s5ReservationNote: 'Check hours & reservations',
     s5DemoNote: 'Demo route',
+    /* S5 weekend-morning crowding advisory (#83) — hedged field observation, not a verified fact */
+    s5CrowdingAdvisory: 'Trains toward Okutama from Ome can be crowded on weekend mornings. Allow extra time for transfers.',
+    s5CrowdingSource: 'Based on a field observation (2026-08-09); not realtime crowd data.',
     s5Saved: 'Itinerary saved',
     s5SaveCta: 'Save this itinerary',
     s5SaveHint: 'Saved itineraries appear in My Route.',
@@ -983,6 +989,9 @@ export const strings = {
     s5Stay: '停留',
     s5ReservationNote: '請確認營業時間與是否需預約',
     s5DemoNote: '示範路線',
+    /* S5 週末上午擁擠提醒 (#83) — 保留不確定性的現場觀察，非已驗證事實 */
+    s5CrowdingAdvisory: '週末上午，青梅開往奧多摩方向的火車可能較擁擠，請為轉乘預留時間。',
+    s5CrowdingSource: '依據現場觀察（2026-08-09）；非即時擁擠資訊。',
     s5Saved: '已儲存行程',
     s5SaveCta: '儲存這個行程',
     s5SaveHint: '已儲存的行程可在「我的路線」中查看。',
