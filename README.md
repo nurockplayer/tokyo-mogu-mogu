@@ -7,24 +7,35 @@ to discover destinations across outer Tokyo. Regional food culture, people,
 nature, and experiences become a mobile-first journey from **discovery → story
 → route → support action → next regional discovery**.
 
-Issue #85 defines this durable Product Vision. For the 2026-08-23 hackathon,
-**奥多摩 × 東京わさび** is the first pilot and the only required real content;
-it is not the Product's permanent geographic scope. Issue #41 and the approved
-S0–S9 design continue to define the Hackathon MVP journey:
+The current Product / MVP framing is Issue #112: tourism is over-concentrated
+in Tokyo's 23 wards, and the product creates a personal "reason to go" for
+outer-Tokyo regions. Food culture is the direct entry point that connects a
+traveler to the land, people, and culture of a region. For the 2026-08-23
+hackathon, the **Tama area** is the first MVP pilot geography; **Okutama** is
+the current fieldwork / verified-content focus, not the permanent Product
+scope. MVP food content is evidence-driven — Tokyo Wasabi may be a strong
+deterministic demo fixture, but it is not the only allowed content contract.
 
-```
-S0 Landing → S1 Dietary Restrictions → S2 Preference Diagnosis →
-S3 Diagnosis Result → S4 Food Culture Story → S5 Model Route →
-S6 Spot Detail → S7 Support Actions → S8 My Route
-```
+The current App IA is Issue #92 / the KiKi UI/UX draft. The persistent primary
+navigation is **Home / Discover / MOGU / My**:
+
+- **Home** — start a new personalized recommendation (first-time users may pass
+  through Food Profile; returning users reuse it and answer only per-trip
+  Exploration).
+- **Discover** — free exploration without diagnosis.
+- **MOGU** — system-managed recent recommendation results (not favorites).
+- **My** — Saved Routes + Food Profile + optional Badges.
 
 The demo is accountless, deterministic, mobile-first, Japanese-default, and
-runs without geolocation. S9 Badge Collection is stretch work.
+runs without geolocation. The approved S0–S9 screens are preserved as the
+historical screen mapping / visual foundation only; current navigation and
+behavior are owned by #112 + #92.
 
 ## Product contract
 
 - See [docs/specs/product/hackathon-product-contract.md](docs/specs/product/hackathon-product-contract.md)
-  for the Product Vision (#85) and Hackathon MVP contract (#41).
+  for the current Product / MVP framing (#112) and App IA contract (#92 /
+  KiKi), with the S0–S9 material kept as historical mapping.
 - See [docs/mvp-scope.md](docs/mvp-scope.md) for the boundary between durable
   Product scope and the first-pilot demo journey.
 - See `AGENTS.md` for the repository policy.

@@ -1,15 +1,18 @@
 # Demo Script (60–90 seconds)
 
-Tokyo Mogu Mogu's Product Vision is to create reasons for travelers
-concentrated in Tokyo's 23 wards to discover outer-Tokyo regions. This
-Hackathon walkthrough tests that vision through the first pilot,
-**奥多摩 × 東京わさび**, using the S0–S8 journey (Issue #85 positioning + Issue
-#41 approved UI). Okutama is the only required real content for 2026-08-23,
-not the Product's permanent geographic scope.
+Tokyo Mogu Mogu's Product Vision (Issue #112) is to create reasons for
+travelers concentrated in Tokyo's 23 wards to discover outer-Tokyo regions. The
+first MVP pilot geography is the **Tama area**; **Okutama** is the current
+fieldwork / verified-content focus. Tokyo Wasabi is a strong deterministic demo
+fixture, but not the exclusive MVP content contract.
 
-The pitch arc is **Discover → Understand → Visit → Act**. S9 may extend it to
-**Discover next region**, but remains optional stretch work. This walkthrough
-replaces the legacy Pokédex / check-in / next-collectible demo.
+The walkthrough runs on the current App IA (Issue #92 / KiKi): **Home /
+Discover / MOGU / My**. The pitch arc is **Discover → Understand → Visit →
+Act**: a traveler starts from Home, gets a Result, reads the story, follows a
+route, supports the region at Story / Route / Spot, and finds everything again
+in MOGU Recent and My. This walkthrough replaces the legacy Pokédex / check-in
+demo and the earlier linear S0–S8 narration; the S0–S9 screens remain only as
+historical mapping.
 
 ## Demo constraints
 
@@ -17,53 +20,66 @@ replaces the legacy Pokédex / check-in / next-collectible demo.
   supplementary infrastructure but is not part of the main pitch journey.
 - **No geolocation**: the walkthrough does not require real geolocation, a fake
   geolocation override, or a `?at=place:` demo URL.
-- **Deterministic**: the diagnosis deterministically recommends 東京わさび; the
-  model route is a fixed editorial fixture. The flow is replayable from a reset.
+- **Deterministic**: the Result deterministically recommends 東京わさび (a
+  strong demo fixture); the model route is a fixed editorial fixture. The flow
+  is replayable from a reset.
 
 ## Steps (target: ≤90 seconds)
 
-1. **S0 Landing** — hero + tagline + 3-step value explanation
-   (`好みを診断 → 物語を知る → 巡って応援`) + `食文化の旅をはじめる` CTA. (5 s)
-2. **S1 Dietary Restrictions** — enter dietary restrictions (multi-select) or
-   skip. Trust copy states the input is used for recommendations only. (5 s)
-3. **S2 Diagnosis** — answer 5 preference questions (taste, experience type,
+1. **Home** — hero + tagline + value explanation
+   (`今の旅を診断 → 物語を知る → 巡って応援`) + start CTA. Home owns starting a new
+   personalized recommendation; first-time users pass through **Food Profile**
+   before the trip questions. (5 s)
+2. **Food Profile (first use only)** — set or reuse the stable Food Profile
+   (allergies / Vegetarian / Vegan / cannot-eat items) or skip. Trust copy
+   states the input is used for recommendations only. Returning users skip this
+   step and reuse the saved profile. (5 s)
+3. **Exploration** — answer the 5 current-trip questions (taste, what to do,
    base area + travel time, interests, half-day/1-day) with progress + back.
-   (20 s)
-4. **S3 Result** — 「東京わさび」result card with match-reason tags derived
-   from the answers and the dietary-consideration state. (10 s)
-5. **S4 Story** — full editorial story: why 奥多摩 wasabi, the maker, the craft,
-   and the succession challenge → `味わうことが、継承になる`. The six support
-   actions (買う / 訪れる / 予約する / 寄付する / 共有する / 保存する) are embedded
-   right after this beat, each explaining what the action means for cultural
-   succession, before the route CTA. (15 s)
-6. **S5 Model Route** — half-day / 1-day 奥多摩わさび route: numbered stops,
-   mobility segments (train / bus / walk), map pins matching the timeline. (10 s)
-7. **S6 Spot Detail** — representative spot: address, access, hours, price,
-   reservation, and practical warnings where source data exists. (5 s)
-8. **S7 Support Actions** — the same six actions are also reachable on the
-   standalone **応援** (`/support`) page from the bottom nav as a recap/deep-dive
-   of the full panel. (10 s)
-9. **S8 My Route** — save the route locally and confirm it appears in
-   `マイルート`; reload restores it. (5 s)
+   These are per-trip, not a permanent diagnosis. (20 s)
+4. **Result** — 「東京わさび」result card with match-reason tags derived from
+   the answers and the Food Profile. The Result is framed as a regional
+   discovery / journey candidate (Tokyo Wasabi is the deterministic demo
+   fixture for 8/23, not the only possible outcome). The entry auto-writes a
+   **MOGU Recent** entry. (10 s)
+5. **Story** — full editorial story: why Okutama wasabi, the maker, the craft,
+   and the succession challenge → `味わうことが、継承になる`. Support CTAs are
+   embedded here (share / understand / view route), each explaining what the
+   action means for cultural succession. (15 s)
+6. **Route** — half-day / 1-day Okutama wasabi model route: numbered stops,
+   mobility segments (train / bus / walk), map pins matching the timeline. A
+   **save** action writes `My → Saved Routes`; the support CTA here is "save
+   route / plan visit". (10 s)
+7. **Spot Detail** — representative spot: address, access, hours, price,
+   reservation, and practical warnings where source data exists. The support
+   CTA matches the venue type (reserve / buy / book); unverified actions show
+   **準備中** (coming soon). (10 s)
 
-Total walkthrough: ~90 s of presenter time. S9 Badge Collection is an optional
-stretch reveal after the core flow; if shown, explain it as motivation to
-discover a next Tokyo region, not as the Product's primary collection goal.
+Optional closing beats (~15 s, only if time allows):
+
+- **MOGU** — show the auto-recorded Recent entry (max ~5), distinct from
+  Saved; reopen it to confirm back navigation returns toward MOGU.
+- **My → Saved Routes** — confirm the saved route; show Food Profile is
+  editable here. S9 Badge stays under `My → Badges` as stretch.
+
+Total walkthrough: ~60–90 s of presenter time. The narration must not claim
+that Okutama / Tokyo Wasabi is the Product's or MVP's only contract — they are
+the current verified-content focus and a strong fixture, respectively.
 
 ## Reset for repeat demos
 
 Tap the demo reset control in the header (confirmation), or open a fresh
-browser profile / private window. Saved routes and other local demo state are
-stored in `localStorage` only.
+browser profile / private window. Saved routes, Food Profile, and MOGU Recent
+state are stored in `localStorage` only.
 
 ## Languages
 
 Japanese is the demo default (judging language). Switch in the header:
-**EN** for English, **繁中** for Traditional Chinese — the same S0–S8 flow
-works in all three locales. Long English strings are handled without breaking
-the layout.
+**EN** for English, **繁中** for Traditional Chinese — the same flow works in
+all three locales. Long English strings are handled without breaking the
+layout.
 
-## S5 route data (for the pitch)
+## Route data (for the pitch)
 
 - Course: 奥多摩わさび紀行 (Okutama Wasabi Journey), half-day default
   (~3h10m), toggle to 1-day.
@@ -72,21 +88,26 @@ the layout.
 - Route data is deterministic editorial demo content (not a verified schedule).
   Practical spot details are shown as unverified where no source exists.
 
-## Support actions (where they appear)
+## Support actions (distributed model)
 
-- **S4 Story** — the six actions (買う / 訪れる / 予約する / 寄付する / 共有する /
-  保存する) are embedded right after the `味わうことが、継承になる` beat, before
-  the route CTA, so the story's succession message becomes concrete actions.
-- **応援 (`/support`)** — the standalone page (bottom-nav **応援** tab) is the
-  full recap/deep-dive of the same panel.
-- Each action keeps its cultural-succession meaning; unverified actions show
-  **準備中** (coming soon) and never fake a destination. **保存する** and the S5
-  CTA / S6 旅程に追加する all write the same `tmm:savedRoutes` contract (see
-  below), so the panel's save state stays in sync with S8.
+Support CTA is a cross-screen pattern, **not a standalone page**:
 
-## Save → My Route
+- **Story** — share / understand the regional meaning / view route, right after
+  the `味わうことが、継承になる` beat.
+- **Route** — save route / plan visit (writes `My → Saved Routes`).
+- **Spot Detail** — venue-matched action: restaurant = reserve / go + regional
+  impact; shop = buy online / buy locally; workshop = book experience.
 
-Saving the itinerary (S5 CTA, S6 旅程に追加する, or S7 保存する) writes the
-shared `tmm:savedRoutes` localStorage contract. The saved route then appears in
-**マイルート** (S8), where it can be reopened or removed. A demo reset clears
-both collection and saved-route state.
+Each action keeps its cultural-succession meaning; unverified actions show
+**準備中** (coming soon) and never fake a destination. There is no standalone
+応援 (`/support`) bottom-nav destination and no top-level My Route tab; the
+Saved Route lives under **My**.
+
+## Save → Saved Routes (My)
+
+Saving the itinerary (Route save, Spot 旅程に追加する, or a Story/Route/Spot
+support action) writes the shared `tmm:savedRoutes` localStorage contract. The
+saved route appears under **My → Saved Routes**, where it can be reopened or
+removed. MOGU Recent (auto-recorded results) and Saved Routes (explicit user
+saves) are distinct semantics; a demo reset clears both, plus Food Profile and
+Badge state.
