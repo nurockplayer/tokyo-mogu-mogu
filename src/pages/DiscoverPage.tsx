@@ -1,19 +1,165 @@
 /**
- * Discover destination shell (Issue #95).
+ * Discover — free exploration without diagnosis (Issue #93).
  *
- * Scaffold-level placeholder for the `/discover` primary-nav destination.
- * Issue #93 implements the browse-first free-exploration experience here;
- * this shell only establishes the route and an i18n'd coming-soon surface so
- * the primary nav stays complete without guessing #93's content.
+ * Home = "recommend for me"; Discover = "I browse myself". Users can open
+ * first-pilot food-culture content and its real visit destinations without
+ * completing a Food Profile or the per-trip Exploration.
+ *
+ * Content honesty (product contract / #93):
+ * - 東京わさび (wasabi-okutama) is the verified first-pilot story: `origin:
+ *   'editorial'` written from the recorded public sources.
+ * - The five Okutama places reference real facilities (address / coordinates
+ *   are demo-approximate and marked as such in the seed), and Spot Detail
+ *   renders only source-backed practical info or an explicit unverified state.
+ * - No future/second region is presented as implemented. Browse-only use never
+ *   writes MOGU Recent history (only a generated Result does).
+ *
+ * Back navigation preserves the Discover context: Story is reached with
+ * `?backTo=/discover` (StoryPage allowlists it) and Spots with `?from=discover`
+ * (route-context carries it through Route → Spot → back).
  */
-import { useI18n } from '../i18n';
+import { Link } from 'react-router-dom';
+import { Card, Tag } from '../ui';
+import { useI18n, type LocaleKey } from '../i18n';
+import { foodCultures, places } from '../data';
+import { getFoodCultureById } from '../data';
+import { foodCultureKey, placeNameKey } from '../i18n/data-content';
+import './DiscoverPage.css';
+
+/** The verified first-pilot food culture surfaced at the top of Discover. */
+const FEATURED_CULTURE_ID = 'wasabi-okutama';
+
+/** Okutama first-pilot spots (real facilities, demo-approximate coordinates). */
+const PILOT_PLACE_IDS = [
+  'okutama-tourism-office',
+  'okutama-wasabi-field',
+  'okutama-soba-shop',
+  'okutama-michi-no-eki',
+  'okutama-fishing-center',
+];
+
+/**
+ * Display name for a non-featured culture card. Cultures with an i18n name key
+ * (yamame, soba, konnyaku) resolve through the bundle; the remaining editorial
+ * seed records (kumma, uguisu-mochi, yuzu) have no bundle key yet, so their
+ * canonical seed `nameJa` / `nameEn` is shown directly — never the featured
+ * story's name.
+ */
+/** Exported for unit tests. */
+export function cultureName(
+  fc: { id: string; nameJa: string; nameEn: string },
+  locale: string,
+  t: (key: LocaleKey) => string,
+): string {
+  const key = foodCultureKey(fc.id, 'name');
+  if (key) return t(key);
+  return locale === 'ja' ? fc.nameJa : fc.nameEn;
+}
 
 export function DiscoverPage() {
-  const { t } = useI18n();
+  const { locale, t } = useI18n();
+
+  const featured = getFoodCultureById(FEATURED_CULTURE_ID);
+
+  // Additional cultures present in the seed but outside the first-pilot story
+  // (yamame, soba, konnyaku, ...). They are editorial/demo records only — they
+  // do not imply a second region or a production journey. Keep this list
+  // deterministic and tied to what the seed actually contains.
+  const otherCultures = foodCultures.filter((fc) => fc.id !== FEATURED_CULTURE_ID);
+
+  const pilotPlaces = PILOT_PLACE_IDS.map((id) => places.find((p) => p.id === id)).filter(
+    (p): p is NonNullable<typeof p> => Boolean(p),
+  );
+
   return (
     <div className="tmm-page">
       <h1 className="page-title">{t('discoverPageTitle')}</h1>
       <p className="page-sub">{t('discoverPageBody')}</p>
+      <p className="discover-intro">{t('discoverIntro')}</p>
+
+      {/* First-pilot story — the verified entry point */}
+      {featured ? (
+        <section className="tmm-section" aria-label={t('discoverStoriesTitle')}>
+          <h2 className="discover-section-title">{t('discoverStoriesTitle')}</h2>
+          <ul className="discover-list">
+            <li>
+              <Link
+                to={`/story/${featured.id}?backTo=/discover`}
+                className="discover-link"
+                aria-label={t(foodCultureKey(featured.id, 'name') ?? 'dataWasabiName')}
+              >
+                <Card button className="discover-card">
+                  <div className="discover-card__body">
+                    <div className="discover-card__title">
+                      {t(foodCultureKey(featured.id, 'name') ?? 'dataWasabiName')}
+                    </div>
+                    <p className="discover-card__desc">
+                      {t(foodCultureKey(featured.id, 'description') ?? 'dataWasabiDescription')}
+                    </p>
+                    <div className="discover-card__meta">
+                      <span className="discover-card__area">{t('areaOkutama')}</span>
+                      <Tag tone="success">{t('originEditorial')}</Tag>
+                    </div>
+                  </div>
+                </Card>
+              </Link>
+            </li>
+          </ul>
+        </section>
+      ) : null}
+
+      {/* Visit destinations on the first-pilot route */}
+      {pilotPlaces.length > 0 ? (
+        <section className="tmm-section" aria-label={t('discoverPlacesTitle')}>
+          <h2 className="discover-section-title">{t('discoverPlacesTitle')}</h2>
+          <ul className="discover-list">
+            {pilotPlaces.map((place) => (
+              <li key={place.id}>
+                <Link
+                  to={`/spot/${place.id}?from=discover`}
+                  className="discover-link"
+                  aria-label={t(placeNameKey(place.id))}
+                >
+                  <Card button className="discover-card">
+                    <div className="discover-card__body">
+                      <div className="discover-card__title">{t(placeNameKey(place.id))}</div>
+                      <p className="discover-card__addr">{place.address}</p>
+                      <div className="discover-card__meta">
+                        <span className="discover-card__area">{t('areaOkutama')}</span>
+                        <Tag tone="info">{t('originDemo')}</Tag>
+                      </div>
+                    </div>
+                  </Card>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {/* Editorial/demo cultures outside the first-pilot story — clearly not a
+          second production region. */}
+      {otherCultures.length > 0 ? (
+        <section className="tmm-section" aria-label={t('discoverMoreTitle')}>
+          <h2 className="discover-section-title">{t('discoverMoreTitle')}</h2>
+          <ul className="discover-list">
+            {otherCultures.map((fc) => (
+              <li key={fc.id}>
+                <Card flat className="discover-card">
+                  <div className="discover-card__body">
+                    <div className="discover-card__title">
+                      {cultureName(fc, locale, t)}
+                    </div>
+                    <div className="discover-card__meta">
+                      <Tag tone="warning">{t('discoverFutureTag')}</Tag>
+                    </div>
+                  </div>
+                </Card>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
     </div>
   );
 }

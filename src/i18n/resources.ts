@@ -36,9 +36,21 @@ export const strings = {
     navMy: 'マイ',
     /* #95 destination placeholder shells (routes wired in AppRouter; filled by #93/#94/#81) */
     discoverPageTitle: 'さがす',
-    discoverPageBody: '診断なしで、東京の食文化を自由に探せるページです。この機能は今後のアップデートで追加予定です。',
+    discoverPageBody: '診断なしで、東京の食文化を自由に探せるページです。',
+    /* #93 Discover (browse-first free exploration) */
+    discoverIntro: 'おすすめを受け取る（ホーム）とは別に、自分の興味で東京の食文化や行き先を巡れます。',
+    discoverStoriesTitle: '物語からさがす',
+    discoverPlacesTitle: '奥多摩の行き先',
+    discoverMoreTitle: 'ほかの食文化（今後）',
+    discoverFutureTag: '今後追加予定',
     moguPageTitle: 'MOGU',
-    moguPageBody: '最近のおすすめ履歴がここに表示されます。この機能は今後のアップデートで追加予定です。',
+    moguPageBody: '最近のおすすめ履歴です。保存操作なしで、おすすめを出すたびに自動で記録されます。',
+    /* #94 MOGU Recent list (max 5, newest first, distinct from My Saved) */
+    moguRecentNote: '最近のおすすめ（自動記録・最大5件）。保存した旅程（マイ）とは別です。',
+    moguEmptyTitle: '最近のおすすめはまだありません',
+    moguEmptyDesc: 'ホームから今回の旅を始めると、おすすめ結果がここに自動で記録されます。',
+    moguEmptyCta: 'おすすめをはじめる',
+    moguReopenCta: 'このおすすめを見る',
     myPageTitle: 'マイ',
     myPageBody: '保存した旅程とプロフィールを、自分で管理するページです。',
     /* #81 My page (Saved Routes + Food Profile + Badge entry) */
@@ -159,6 +171,9 @@ export const strings = {
     s5Stay: '滞在',
     s5ReservationNote: '要予約・営業情報は要確認',
     s5DemoNote: 'デモ用ルート',
+    /* S5 weekend-morning crowding advisory (#83) — hedged field observation, not a verified fact */
+    s5CrowdingAdvisory: '週末午前は青梅〜奥多摩方面の列車が混雑する場合があります。乗換には余裕を。',
+    s5CrowdingSource: '現地での観察にもとづく注意（2026-08-09）。リアルタイムの混雑情報ではありません。',
     s5Saved: '旅程を保存済み',
     s5SaveCta: 'この旅程を保存する',
     s5SaveHint: '保存した旅程は「マイルート」で確認できます。',
@@ -446,9 +461,21 @@ export const strings = {
     navMy: 'My',
     /* #95 destination placeholder shells (routes wired in AppRouter; filled by #93/#94/#81) */
     discoverPageTitle: 'Discover',
-    discoverPageBody: 'Browse Tokyo food culture freely without a diagnosis. This destination is coming in a later update.',
+    discoverPageBody: 'Browse Tokyo food culture freely, without a diagnosis.',
+    /* #93 Discover (browse-first free exploration) */
+    discoverIntro: 'Separate from receiving a recommendation on Home, explore Tokyo\'s food culture and destinations by your own interest.',
+    discoverStoriesTitle: 'Stories',
+    discoverPlacesTitle: 'Okutama destinations',
+    discoverMoreTitle: 'Other food cultures (coming later)',
+    discoverFutureTag: 'Coming later',
     moguPageTitle: 'MOGU',
-    moguPageBody: 'Your recent recommendations will appear here. This destination is coming in a later update.',
+    moguPageBody: 'Your recent recommendations. Recorded automatically whenever a result is generated — no Save needed.',
+    /* #94 MOGU Recent list (max 5, newest first, distinct from My Saved) */
+    moguRecentNote: 'Recent recommendations (auto-recorded, max 5). This is separate from Saved Routes in My.',
+    moguEmptyTitle: 'No recent recommendations yet',
+    moguEmptyDesc: 'Start a new trip from Home and your recommendation result will appear here automatically.',
+    moguEmptyCta: 'Start a recommendation',
+    moguReopenCta: 'Open this recommendation',
     myPageTitle: 'My',
     myPageBody: 'Your saved journeys and profile, managed in one place.',
     /* #81 My page (Saved Routes + Food Profile + Badge entry) */
@@ -569,6 +596,9 @@ export const strings = {
     s5Stay: 'Stay',
     s5ReservationNote: 'Check hours & reservations',
     s5DemoNote: 'Demo route',
+    /* S5 weekend-morning crowding advisory (#83) — hedged field observation, not a verified fact */
+    s5CrowdingAdvisory: 'Trains toward Okutama from Ome can be crowded on weekend mornings. Allow extra time for transfers.',
+    s5CrowdingSource: 'Based on a field observation (2026-08-09); not realtime crowd data.',
     s5Saved: 'Itinerary saved',
     s5SaveCta: 'Save this itinerary',
     s5SaveHint: 'Saved itineraries appear in My Route.',
@@ -863,9 +893,21 @@ export const strings = {
     navMy: '我的',
     /* #95 destination placeholder shells (routes wired in AppRouter; filled by #93/#94/#81) */
     discoverPageTitle: '探索',
-    discoverPageBody: '不需診斷，自由探索東京飲食文化的頁面。此功能將在後續更新中提供。',
+    discoverPageBody: '不需診斷，自由探索東京飲食文化的頁面。',
+    /* #93 Discover (browse-first free exploration) */
+    discoverIntro: '與首頁「接收推薦」不同，可依自己的興趣自由瀏覽東京飲食文化與目的地。',
+    discoverStoriesTitle: '從故事探索',
+    discoverPlacesTitle: '奧多摩的目的地',
+    discoverMoreTitle: '其他飲食文化（未來）',
+    discoverFutureTag: '即將推出',
     moguPageTitle: 'MOGU',
-    moguPageBody: '最近推薦的歷史紀錄會顯示在這裡。此功能將在後續更新中提供。',
+    moguPageBody: '最近推薦的歷史紀錄。不需儲存操作，每次產生推薦時會自動記錄。',
+    /* #94 MOGU Recent list (max 5, newest first, distinct from My Saved) */
+    moguRecentNote: '最近的推薦（自動記錄・最多5筆）。與「我的」中儲存的旅程不同。',
+    moguEmptyTitle: '尚無最近的推薦',
+    moguEmptyDesc: '從首頁開始這次的旅程，推薦結果會自動記錄在這裡。',
+    moguEmptyCta: '開始推薦',
+    moguReopenCta: '查看這項推薦',
     myPageTitle: '我的',
     myPageBody: '自行管理已儲存的旅程與個人資料的頁面。',
     /* #81 My page (Saved Routes + Food Profile + Badge entry) */
@@ -986,6 +1028,9 @@ export const strings = {
     s5Stay: '停留',
     s5ReservationNote: '請確認營業時間與是否需預約',
     s5DemoNote: '示範路線',
+    /* S5 週末上午擁擠提醒 (#83) — 保留不確定性的現場觀察，非已驗證事實 */
+    s5CrowdingAdvisory: '週末上午，青梅開往奧多摩方向的火車可能較擁擠，請為轉乘預留時間。',
+    s5CrowdingSource: '依據現場觀察（2026-08-09）；非即時擁擠資訊。',
     s5Saved: '已儲存行程',
     s5SaveCta: '儲存這個行程',
     s5SaveHint: '已儲存的行程可在「我的路線」中查看。',

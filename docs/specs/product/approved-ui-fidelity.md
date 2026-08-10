@@ -1,4 +1,4 @@
-# Approved UI Fidelity Contract (S0–S9)
+# Approved UI Fidelity Contract (S0–S9 screens under Home / Discover / MOGU / My)
 
 Durable cross-Issue presentation contract that keeps the S0–S9 screens visually
 coherent. This Spec owns **presentation only**; it does not redefine diagnosis
@@ -10,8 +10,36 @@ priority, or the Product-wide geographic scope.
   v1.0`; then Issue #85 positioning; then
   `docs/specs/product/hackathon-product-contract.md`; then existing
   implementation where it does not conflict.
+- **App IA source of truth**: Issue #92 (reusable `Home / Discover / MOGU / My`).
+  The S0–S9 screen names below are the historical framing; their placement in
+  the current primary navigation follows the #92 App IA mapping.
 - **Status**: Current contract. Child Issues #77–#82 reference this file and
   keep their acceptance criteria atomic.
+
+## Current App IA (Issue #92)
+
+The persistent bottom nav is **`Home / Discover / MOGU / My`** (see
+`src/app/AppShell.tsx`); the S0–S9 screens are mapped into these four
+destinations as described in the product contract:
+
+| Existing | Current IA role |
+|---|---|
+| S0 Landing | First-service introduction / Home first-time state |
+| S1 Dietary Restrictions | First-time `Food Profile`; later editable from My |
+| S2 Preference Diagnosis | Per-trip `Exploration Conditions` |
+| S3 Result | Immediate result + auto-add to MOGU |
+| S4 Story | Result content layer; also reachable from Discover |
+| S5 Route | Recommended journey; can be saved to My |
+| S6 Spot Detail | Practical details + external actions; reachable from Route/Discover |
+| S7 Support Hub | No standalone primary page; support CTAs are distributed into Story/Route/Spot |
+| S8 My Route | Integrated into `My → Saved Routes` |
+| S9 Badge | Integrated into `My → Badges`; remains Stretch |
+
+The old bottom nav `Home / Diagnosis / Support / My Route` is **superseded**;
+those screens stay reachable by direct URL for history/compatibility but are no
+longer primary-nav destinations. The per-screen presentation rules below
+continue to apply to the corresponding screens wherever they appear in the
+current App IA (e.g. the Saved Routes list now renders under My).
 
 ## Relationship to Product Contracts
 
@@ -32,7 +60,8 @@ permanent geographic scope. See Issue #85 and the product contract.
 - S0 / S8 / S9 presentation must never make the Product look permanently
   Okutama-only. Area labels on S8 and any landing copy may name 奥多摩 as the
   current pilot, but the Product framing (name, tagline, hero, S9
-  continuation) stays region-agnostic.
+  continuation) stays region-agnostic. Under the #92 App IA the landing copy
+  is the Home first-time state.
 - Future-region visuals / labels may appear **only as clearly future or
   editorial fixtures** (e.g. an S9 unearned badge dummy). Presentation must
   never imply that a second region is already implemented — no implemented
@@ -58,9 +87,11 @@ defines them; everything else is listed under
   ≥1024px), with a `--tmm-gutter` of 16px on each side.
 - Spacing follows the shared scale `--tmm-space-1..6` (4 / 8 / 12 / 16 / 20 /
   28px). Section rhythm uses `--tmm-space-6`; cards and lists use `--tmm-space-3..4`.
-- A persistent bottom nav (Home / Diagnosis / Support / My Route) and the
-  shared header are shown on every screen via the app shell. Feature screens
-  render inside `<main>` and never build their own app root.
+- A persistent bottom nav (Home / Discover / MOGU / My per Issue #92 / #95) and
+  the shared header are shown on every screen via the app shell. Feature
+  screens render inside `<main>` and never build their own app root. The older
+  Diagnosis / Support / My Route screens stay registered as routes and remain
+  reachable by direct URL, but are no longer primary-nav destinations.
 
 ## Shared Header / Logo / Locale Switch
 
@@ -204,7 +235,7 @@ screens import these primitives instead of building their own visual system.
 - Reserve CTA is disabled unless reservation data exists. The add-to-itinerary
   CTA writes the same `tmm:savedRoutes` contract as S5 / S7.
 
-## S7 Support Actions
+## S7 Support Actions (distributed CTA, no standalone primary page)
 
 - **Two-column support-action cards** on the standalone `/support` page (and
   the shared `SupportPanel` embedded in S4). The six actions are
@@ -219,8 +250,15 @@ screens import these primitives instead of building their own visual system.
 - The **contribution summary** is the panel's framing ("興味を、力に変える。"
   + lead) plus the save-status footer — it states what each action means for
   cultural succession, not a reward count.
+- Under the #92 App IA, **Support is a cross-screen action pattern, not a
+  primary destination**: the same cards embed in Story (share / understand
+  contribution / view route), Route (save route / plan visit), and Spot
+  (reserve / buy / book + regional impact). Purchase/booking remains
+  external-link-first for the MVP; no internal commerce backend is implied.
+  The standalone `/support` page remains reachable by direct URL but is not a
+  primary-nav destination.
 
-## S8 My Route
+## S8 My Route (now `My → Saved Routes`)
 
 - **Saved-route list**: each saved model route renders as a **continuation
   card** — title, duration / area meta, and actions (open route / remove) —
@@ -231,13 +269,19 @@ screens import these primitives instead of building their own visual system.
   child issue.
 - Area meta may name 奥多摩 as the current pilot but must not make the page
   read as an Okutama-only product.
+- Under the #92 App IA, this list renders under **My → Saved Routes** (the My
+  destination also holds Food Profile and the Stretch-only Badges entry). The
+  old standalone My Route primary destination is superseded; the screen remains
+  reachable by direct URL.
 
-## S9 Badge Collection (Stretch Only)
+## S9 Badge Collection (Stretch Only; `My → Badges`)
 
 - S9 badge presentation is **Strictly Stretch**: it is optional, time-permitting
   work, and must never block or gate S0–S8.
 - If shown, badges are a **next-region / retention layer** — motivation to
   discover another Tokyo region — not the Product's primary collection goal.
+- Under the #92 App IA, Badges are not a primary-nav destination; if
+  implemented they live under `My → Badges`.
 - Unearned badge dummies / future-region slots must be clearly labeled as
   locked or future fixtures and must not imply implemented routes, places, or
   stories for those regions.
@@ -308,12 +352,15 @@ explicitly open rather than be fabricated by an implementation Issue:
 - Visual regression infrastructure
 - Product behavior changes (diagnosis, route, persistence, dietary safety,
   provenance, S9 reward/redemption)
+- Changes to the current App IA navigation contract (owned by Issue #92)
 
 ## References
 
 - `docs/specs/product/hackathon-product-contract.md` — durable behavior
   contract (product positioning, MVP boundary, safety boundary, account /
-  persistence, determinism).
+  persistence, determinism, and the #92 App IA mapping).
+- Issue #92 — current App IA (`Home / Discover / MOGU / My`) and the
+  S0–S9 → App IA screen mapping.
 - Issue #85 — Product Vision: tourism dispersion beyond Tokyo 23 wards,
   Okutama as first MVP pilot.
 - Issue #41 — approved S0–S9 UI / Design Spec v1.0 as Hackathon UX source.

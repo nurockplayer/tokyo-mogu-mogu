@@ -272,6 +272,30 @@
   line-height: 1;
 }
 
+/* ---------- S5 weekend-morning crowding advisory (#83) ---------- */
+
+.s5-crowding {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border: var(--tmm-border);
+  border-radius: var(--tmm-radius-md);
+  background: var(--tmm-color-card);
+}
+
+.s5-crowding .tmm-tag {
+  overflow-wrap: anywhere;
+  white-space: normal;
+  border-radius: var(--tmm-radius-md);
+}
+
+.s5-crowding__source {
+  margin-top: 6px;
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
 /* ---------- S5 route-local support meaning (#80) ---------- */
 
 .s5-support__lead {
