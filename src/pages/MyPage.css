@@ -1,0 +1,71 @@
+/* My (Issue #81) — user-managed permanent content area. */
+
+.my-section-title {
+  font-family: var(--tmm-font-display);
+  font-size: var(--tmm-text-title);
+  font-weight: 700;
+  color: var(--tmm-color-ink);
+  margin: 0 0 var(--tmm-space-3);
+}
+
+.my-routes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--tmm-space-3);
+}
+
+.my-route-card,
+.my-card {
+  padding: var(--tmm-space-4);
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+.my-route-card__title,
+.my-card__title {
+  font-family: var(--tmm-font-display);
+  font-size: var(--tmm-text-title);
+  font-weight: 700;
+  color: var(--tmm-color-ink);
+}
+
+.my-route-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tmm-space-2) var(--tmm-space-4);
+  margin-top: var(--tmm-space-2);
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+}
+
+.my-route-card__actions,
+.my-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tmm-space-2);
+  margin-top: var(--tmm-space-3);
+}
+
+.my-card__desc {
+  margin: var(--tmm-space-2) 0 0;
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+}
+
+.my-profile-list {
+  list-style: none;
+  margin: var(--tmm-space-2) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--tmm-space-1);
+}
+
+.my-profile-list__item {
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink);
+}
