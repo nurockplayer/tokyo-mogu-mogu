@@ -5,11 +5,13 @@ Tracking Issue: #82
 This report records the real-browser verification of the current App IA
 (`Home / Discover / MOGU / My`) across first-time / returning flows, MOGU
 Recent, My Saved Routes, Discover browse, and 375px multilingual behavior.
+It is refreshed after the #81 (My → Food Profile edit) and #93 (Discover →
+Spot back context) integration fixes landed.
 
 ## Environment
 
-- Integration branch: `chore/82-integration` (merge of `feat/94-mogu-recent-ui`,
-  `feat/81-my-page`, `feat/93-discover` on top of `origin/main` @ df0acf7)
+- Integration branch: `fix/integration` (latest `origin/main` + the #81
+  Food-Profile-edit fix + the #93 Spot-back-context fix)
 - Browser: real-browser walkthrough via dev server
 - App state: deterministic demo data; accountless local persistence
 
@@ -19,7 +21,7 @@ Recent, My Saved Routes, Discover browse, and 375px multilingual behavior.
 |---|---|
 | `pnpm typecheck` | ✅ |
 | `pnpm lint` | ✅ (0 errors) |
-| `pnpm test` | ✅ 258 passed (250 baseline + 8 new) |
+| `pnpm test` | ✅ 268 passed |
 | `pnpm build` | ✅ |
 
 ## Acceptance Criteria — Results
@@ -31,27 +33,49 @@ Recent, My Saved Routes, Discover browse, and 375px multilingual behavior.
 | 3 | Food Profile and Exploration have distinct lifecycle | ✅ PASS | Food Profile persisted to localStorage (reload survives); Exploration is per-trip (sessionStorage) |
 | 4 | Discover works without diagnosis and preserves browse context | ✅ PASS | Discover → 東京わさび Story → back returns to /discover; no Food Profile required |
 | 5 | MOGU Recent is max-5/reloadable and distinct from Saved Routes | ✅ PASS | Result auto-records to MOGU; entry shows title/time/tags; MOGU empty → populated after Result; separate from Saved |
-| 6 | My Saved Routes and Food Profile editing work after reload | ✅ PASS | Saved 奥多摩わさび紀行 route persists after reload; Food Profile 制限はありません persists |
+| 6 | My Saved Routes and Food Profile editing work after reload | ✅ PASS | Saved 奥多摩わさび紀行 route persists after reload; Food Profile Edit CTA enters /food-profile/edit (mode="edit") |
 | 7 | No standalone Support page required | ✅ PASS | Support actions distributed in Story/Route/Spot; no nav item |
 | 8 | Booking/purchase actions do not fake unavailable destinations | ✅ PASS | Only visit has confirmed external URL; others render disabled "準備中" |
-| 9 | Result/Story/Route/Spot work from both recommendation and browse/recent contexts | ✅ PASS | MOGU reopen → Result(?from=mogu) → Story(?backTo=/mogu) → Route(?from=story&backTo=/mogu); back chain returns to MOGU |
-| 10 | ja/en/zh-TW no horizontal overflow at 375px | ✅ (integration) | Responsive layout with no fixed-width content; verified in code review; #83 agent ran 375px smoke test |
-| 11 | WCAG/tap/focus basics | ✅ | 44px tap targets (--tmm-tap-min), focus-visible styles, aria-labels on linked cards |
+| 9 | Result/Story/Route/Spot work from both recommendation and browse/recent contexts | ✅ PASS | MOGU reopen → Result(?from=mogu) → Story(?backTo=/mogu) → Route(?from=story&backTo=/mogu) → Spot(back to Route); Discover → Spot → back to /discover |
+| 10 | ja/en/zh-TW no horizontal overflow at 375px | ✅ PASS | Real-browser 375px pass: ja / en / zh-TW all `scrollWidth === clientWidth === 375` on My |
+| 11 | WCAG/tap/focus basics | ✅ (partial) | 44px primary tap targets (`--tmm-tap-min`) + focus-visible styles on btn/chip/card/nav/locale. Secondary `tmm-btn--sm` actions are 38px by design (existing, not introduced here); WCAG contrast audit not run |
 | 12 | Badge not blocking | ✅ | My → Badges renders Stretch-only entry tag; My ships cleanly without it |
 | 13 | Unverified/demo content clearly distinguishable | ✅ | Discover shows 編集部作成 (editorial) and デモデータ (demo) tags; future cultures tagged 今後追加予定 |
 
 ## First-time Flow (real-browser)
 
 ```
-Home → Food Profile (create, no restrictions) → Exploration (5 steps) → Result
+Home → Food Profile (create) → Exploration (5 steps) → Result
 Result → (auto-records MOGU Recent) → Story → Route → Save → My
 ```
 
 Verified:
 - Result `/explore/result` reached after Food Profile + 5 Exploration steps.
-- MOGU card shows 東京わさび + match tags (おろしたてを堪能 / 谷あいの自然 /
-  半日で巡れる) + timestamp.
+- MOGU card shows 東京わさび + match tags + timestamp.
 - Route save writes to Saved Routes; My shows 奥多摩わさび紀行.
+
+## My → Food Profile Edit (#81 fix, real-browser)
+
+- My's Food Profile Edit CTA href = `/food-profile/edit`.
+- Clicking it navigates to `/food-profile/edit` and renders the
+  FoodProfilePage edit/setup surface (h1 フードプロフィールをつくる),
+  not the `/food-profile` view route.
+- Regression test (`src/pages/MyPage.test.ts`) asserts the CTA resolves to
+  `/food-profile/edit` and never to the bare `/food-profile` view route.
+- Note: editing and re-running a fresh recommendation to confirm the updated
+  profile is exercised by the existing FoodProfilePage flow; the #81 fix scope
+  is the CTA route, covered by the regression test and browser check above.
+
+## Discover → Spot Back (#93 fix, real-browser)
+
+- Discover → Spot card (`?from=discover`) → Spot visible Back:
+  href = `/discover`, label = 「← 戻る」. Click returns to `/discover`.
+- Route → Spot → Back: href = `/route?from=story&backTo=...`, label =
+  「← ルートに戻る」. Click returns to the Route (unchanged).
+- MOGU → Result → Story → Route → Spot → Back = the Route with the Story
+  context preserved.
+- Regression tests (`src/pages/route-spot.test.ts`) cover Discover → Spot →
+  Back → Discover and unchanged Route/Story/MOGU/My contexts.
 
 ## MOGU Recent (real-browser)
 
@@ -59,44 +83,49 @@ Verified:
 - After Result: card appears automatically (no Save pressed).
 - Reopen CTA → `/explore/result?from=mogu&resultId=wasabi-okutama`.
 - Reopen does NOT re-record (no `.tmm-result__mogu-note` on reopen mount).
-- Reopen Story CTA → `/story/wasabi-okutama?backTo=/mogu`.
 - Back chain MOGU → Result → Story → Route → back to MOGU preserved.
 - Browsing MOGU does not write the current-trip session (click-time restore).
 
 ## Discover (real-browser)
 
-- 東京わさび story card opens without diagnosis.
-- 5 Okutama place cards (demo tags) open Spot pages.
-- Future cultures (やまめ/そば/こんにゃく/くんま/うぐいす餅/ゆず) show their own
-  names, NOT the featured story's name — regression-tested.
-- Discover → Story → back to /discover.
+- 東京わさび story card opens without diagnosis; back returns to /discover.
+- 5 Okutama place cards (demo tags) open Spot pages; back returns to /discover.
+- Future cultures show their own names, NOT the featured story's name.
 
 ## My (real-browser)
 
 - Saved Routes: saved 奥多摩わさび紀行 listed; empty state before any save.
-- Food Profile: 制限はありません displayed from durable profile; edit entry links
-  to /food-profile.
+- Food Profile: 制限はありません displayed from durable profile; Edit CTA
+  enters `/food-profile/edit` (the edit mode).
 - Badges: Stretch-only entry tag.
+
+## Recent != Saved (real-browser)
+
+- MOGU Recent storage holds `wasabi-okutama` (result id); Saved Routes holds
+  `okutama-wasabi-journey` (route id) — separate keys, separate semantics.
 
 ## Reload Persistence
 
-- Reload on `/my`: Saved Routes + Food Profile both restored.
-- MOGU Recent persists (localStorage `tmm:moguRecent:v1`).
+- Reload on `/my`: Saved Routes (奥多摩わさび紀行), MOGU Recent (1 entry) and
+  Food Profile all restored.
+
+## 375px / Multilingual (real-browser)
+
+- Viewport 375×812, My page:
+  - ja: `scrollWidth === clientWidth === 375`, no horizontal overflow
+  - en: `scrollWidth === clientWidth === 375`, no horizontal overflow
+  - zh-TW: `scrollWidth === clientWidth === 375`, no horizontal overflow
 
 ## Non-verified Items
 
-- Full 375px ja/en/zh-TW real-browser pass was run on the #83 branch (3-locale
-  scrollWidth check). The integration build inherits the same tokens/CSS; a
-  dedicated 3-locale 375px pass on the integrated build is recommended before
-  the 8/22 polish window.
 - WCAG color-contrast automated audit not run; tag states carry icons in
   addition to color.
-- #39 Badge Stretch UI not implemented; out of scope for core readiness.
+- Secondary `tmm-btn--sm` tap targets are 38px by existing design (the 44px
+  minimum applies to primary controls); noted, not a regression of this work.
+- #39 Badge Stretch UI not part of core readiness.
 
 ## Known Integration Notes
 
-- The three UI PRs (#101/#102/#103) each touch `src/i18n/resources.ts` in
-  disjoint key regions; they merge cleanly (verified via `git merge --no-commit`
-  in the integration worktree, no conflicts).
-- #83 advisory (weekend crowding) was NOT part of this integration merge; its
-  RoutePage change is independent and merges cleanly.
+- #101/#102/#103 merged cleanly; #114 (#81 fix) and #115 (#93 fix) integrate
+  without conflicts and all 268 tests pass on the combined build.
+- #83 advisory (weekend crowding) is independent and merges cleanly.
