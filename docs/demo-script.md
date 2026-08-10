@@ -105,9 +105,11 @@ Saved Route lives under **My**.
 
 ## Save → Saved Routes (My)
 
-Saving the itinerary (Route save, Spot 旅程に追加する, or a Story/Route/Spot
-support action) writes the shared `tmm:savedRoutes` localStorage contract. The
-saved route appears under **My → Saved Routes**, where it can be reopened or
-removed. MOGU Recent (auto-recorded results) and Saved Routes (explicit user
-saves) are distinct semantics; a demo reset clears both, plus Food Profile and
-Badge state.
+Saving the itinerary (the Route save action, and the Spot 旅程に追加する
+add-to-itinerary action where implemented) writes the shared `tmm:savedRoutes`
+localStorage contract. Distributed support CTAs are not all save actions —
+Story support remains share / understand / view route, and only the
+save-producing surfaces above write `tmm:savedRoutes`. The saved route appears
+under **My → Saved Routes**, where it can be reopened or removed. MOGU Recent
+(auto-recorded results) and Saved Routes (explicit user saves) are distinct
+semantics; a demo reset clears both, plus Food Profile and Badge state.

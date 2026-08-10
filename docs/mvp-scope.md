@@ -171,8 +171,11 @@ Routes`. See [docs/demo-script.md](demo-script.md) for the current walkthrough.
 
 1. **Home**: the value — eating Tokyo connects its culture — is understood at a
    glance; start the current-trip Exploration (~10 s).
-2. **Exploration Conditions** (first use only, preceded by **Food Profile**):
-   answer the 5 per-trip questions (~20 s). Returning users reuse Food Profile.
+2. **Food Profile** (first use only) then **Exploration Conditions**: set or
+   reuse the stable Food Profile once on first use; then answer the 5 per-trip
+   Exploration questions. Exploration is answered on **every** new
+   recommendation, including returning users — Food Profile is the only part
+   that is first-use / persistent (~20 s).
 3. **Result**: meet the recommended regional food story with match reasons; the
    entry auto-writes MOGU Recent (~10 s).
 4. **Story**: maker, history, craft, and the succession challenge; distributed

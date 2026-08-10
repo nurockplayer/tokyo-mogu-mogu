@@ -24,7 +24,8 @@ gantt
     dateFormat  YYYY-MM-DD
     axisFormat  %m/%d
 
-    section Source of truth (done)
+    section Source of truth
+    %% #112 / #92 live GitHub Issues are OPEN; authoritative source-of-truth work, not done.
     #112 Product / MVP framing           :p112, 2026-08-09, 2d
     #92 Current App IA contract          :p92, 2026-08-09, 2d
     #85 Product Vision alignment         :p85, 2026-08-09, 2d
@@ -89,9 +90,10 @@ Fieldwork/content path:
 
 `#10 -> verified Tama-pilot content (story / route / spot / support)`
 
-Stretch path:
+Stretch / non-blocking work:
 
-`#38 -> #39 -> #40` (Badge collection, non-blocking)
+- **#39** Badge UI — starts after the #38 contract.
+- **#40** Badge reward research — independent of #39 / can proceed in parallel.
 
 ## Recommended GitHub Project configuration
 
