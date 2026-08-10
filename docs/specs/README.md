@@ -43,18 +43,32 @@ generates requirements / design / tasks artifacts.
 - Do not invent product behavior that the Spec leaves unresolved; surface it
   instead.
 
+## Current source priority / 現行優先順位
+
+For current product and UX decisions, use the following precedence:
+
+1. **Issue #112** — current Product / MVP framing: tourism dispersion, Tama as
+   the first MVP pilot geography, Okutama as the current fieldwork / verified-content
+   focus, and evidence-driven food content rather than a permanent Tokyo-Wasabi-only contract.
+2. **Issue #92 + KiKi UI/UX IA draft** (`TOKYO_MOGU_MOGU_UIUX仕様案_日本語版.pdf`,
+   shared in Slack `#05_plan` on 2026-08-09) — current reusable App IA and repeat-use UX:
+   `Home / Discover / MOGU / My`, Food Profile vs per-trip Exploration,
+   Recent vs Saved, and distributed Support CTA.
+3. `docs/specs/product/approved-ui-fidelity.md` — visual/presentation contract.
+4. Older S0–S9 / #85 / #41 material — historical foundation only where it does
+   not conflict with #112 or #92.
+
 ## Spec list / 仕様一覧
 
 - `docs/specs/product/hackathon-product-contract.md` — current hackathon product
-  contract: durable Product positioning per Issue #85 plus the S0–S9 first
-  pilot (奥多摩 × 東京わさび), accountless demo, and dietary safety boundary
-  per Issue #41. Child Issues #42–#49 reference this.
+  behavior contract. It must follow #112 for Product/MVP framing and #92 / KiKi
+  UI/UX for current App IA. Older `奥多摩 × 東京わさび` and linear S0–S9 wording
+  is historical context, not the current exclusive contract.
 - `docs/specs/product/approved-ui-fidelity.md` — approved S0–S9 UI fidelity
   contract: durable cross-Issue presentation rules (reference canvas, shared
   header/locale, visual language, component/state hierarchy, per-screen
   presentation, placeholder policy, accessibility). Owns presentation only;
-  behavior stays with the hackathon product contract. Child Issues #77–#82
-  reference this.
+  current behavior/IA stays with #92 and current Product/MVP framing with #112.
 - `docs/specs/authentication/google-login.md` — Google authentication and user
   identity contract (SDD foundation for #11, reusable infrastructure).
 - `docs/specs/product/badge-contract.md` — `My → Badges` cross-region
