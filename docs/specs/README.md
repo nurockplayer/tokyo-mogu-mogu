@@ -24,12 +24,56 @@ generates requirements / design / tasks artifacts.
 
 ## Roles / 役割分担
 
-- **Spec** (`docs/specs/...`): the durable behavior contract for a feature area.
-  Reviewed when created and when it changes.
-- **Issue**: one atomic execution slice of the behavior the referenced Spec
-  already defines. **References the Spec by path; never duplicates it.**
+- **Slack / discussion**: exploration, questions, ideas, and team conversation.
+  Decisions that affect implementation must not live only in a Slack thread.
+- **Decision Issue**: records a product / IA / architecture decision while it is
+  being discussed. After the decision is accepted, update the durable Spec and
+  keep the Issue as decision history rather than the permanent canonical contract.
+- **Spec** (`docs/specs/...`): the current durable behavior contract for a feature
+  area. Reviewed when created and when it changes.
+- **Implementation Issue**: one atomic execution slice of behavior already
+  defined by the current contract. It references the Spec instead of duplicating it.
 - **PR**: the implementation of one Issue, reviewed against both the Issue's
   acceptance criteria and the referenced Spec.
+
+## Progressive specification / 段階的な仕様確定
+
+Product, IA, and design can still be evolving while implementation proceeds.
+Do not force a false choice between "wait for every decision" and "pretend every
+current assumption is final". Record the current maturity explicitly:
+
+- **Stable**: low-regret behavior or foundation that is unlikely to be invalidated
+  by normal product changes. Normal implementation may proceed.
+- **Provisional**: the current best assumption is good enough to implement, but
+  may still change. Implementation must be **bounded, reversible, and low-rework**,
+  and the assumption must be stated explicitly in the Issue / PR.
+- **Frozen**: agreed for the current release / Hackathon submission. Do not
+  reinterpret it during implementation unless a blocker or explicit product
+  decision reopens the contract.
+
+Under uncertainty, prefer the **smallest reversible vertical slice**. Do not
+build irreversible architecture, schema, safety, privacy, or shared-API choices
+from a Provisional assumption.
+
+A Provisional slice is appropriate only when:
+
+1. most of the implementation remains useful if the assumption changes,
+2. the assumption and fallback boundary can be named clearly, and
+3. the likely rework cost is acceptable relative to the deadline.
+
+If those conditions are not true, surface the decision instead of coding around
+it.
+
+## Decision lifecycle / 意思決定の流れ
+
+Use this lifecycle for material Product / IA decisions:
+
+`Slack discussion → Decision Issue → team decision → update durable Spec → implementation Issues → PR`
+
+Decision Issues preserve the history of why a choice was made. Once accepted,
+the durable result should be written into the relevant Spec so agents and
+humans do not need to reconstruct the current contract from a chain of old
+Issues.
 
 ## Rules / ルール
 
@@ -42,6 +86,13 @@ generates requirements / design / tasks artifacts.
   rules appended to `AGENTS.md` / `CLAUDE.md`).
 - Do not invent product behavior that the Spec leaves unresolved; surface it
   instead.
+- If a Provisional assumption changes, update the current Spec / implementation
+  Issue rather than rewriting closed Issue or PR history.
+- Optimize for **merged throughput**, not the number of parallel branches or PRs.
+  When Review / integration is backing up, finish or merge active work before
+  opening more overlapping work.
+- For a canonical current-contract document, prefer at most one active PR that
+  materially rewrites that document at a time.
 
 ## Current source priority / 現行優先順位
 
@@ -57,6 +108,11 @@ For current product and UX decisions, use the following precedence:
 3. `docs/specs/product/approved-ui-fidelity.md` — visual/presentation contract.
 4. Older S0–S9 / #85 / #41 material — historical foundation only where it does
    not conflict with #112 or #92.
+
+The current priority above is transitional while #112 / #92 decisions are being
+fully reflected into durable Specs. After that alignment lands, implementation
+Issues should prefer the canonical Spec path over reconstructing behavior from
+the decision-Issue chain.
 
 ## Spec list / 仕様一覧
 
