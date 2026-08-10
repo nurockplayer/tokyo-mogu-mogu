@@ -4,19 +4,26 @@
 
 Tokyo Mogu Mogu は、東京の食文化を「おいしい」を入口に、旅行者と未来に残したい食文化をつなぐ mobile-first なプロジェクトです。
 
-**Current Product positioning (Issue #85)**: create reasons for travelers
+**Current Product / MVP framing (Issue #112)**: create reasons for travelers
 concentrated in Tokyo's 23 wards to discover outer-Tokyo regions. Regional food
 culture is the primary entry point for `Discover → Understand → Visit → Act →
-Discover next region`. This durable positioning does not make Okutama or Tama
-the Product's permanent geographic scope.
+Discover next region`. The top problem is tourism concentration in the 23 wards;
+**Tama (多摩地域) is the first MVP pilot geography**, **Okutama (奥多摩) is the
+current fieldwork / verified-content focus**, and food content is
+evidence-driven — Tokyo Wasabi is a possible strong deterministic fixture, not
+the exclusive product contract.
 
-**Current Hackathon contract (Issue #41, approved S0-S9 UI)**: the core journey
-is S0 Landing → S1 Dietary Restrictions → S2 Preference Diagnosis → S3
-Diagnosis Result → S4 Food Culture Story → S5 Model Route → S6 Spot Detail →
-S7 Support Actions → S8 My Route. **奥多摩 × 東京わさび** is the first pilot
-and only required real content for 2026-08-23, with inbound international
-travelers as the primary persona and an accountless, deterministic,
-Japanese-default demo. See `docs/specs/product/hackathon-product-contract.md`.
+**Current App IA / UX behavior (Issue #92 + KiKi approved UI/UX design draft)**:
+the persistent primary navigation is `Home / Discover / MOGU / My`. Food
+Profile is stable / persistent user data; Exploration Conditions are per-trip;
+MOGU Recent is system-managed recommendation history and is **not** My Saved;
+Support is distributed as Story / Route / Spot CTAs (no standalone primary
+page); `My Route` is `My → Saved Routes`; Badge is `My → Badges` and remains
+Stretch. The latest approved KiKi Figma for a screen is the highest-priority
+visual / interaction implementation source; when one exists, implement it
+rather than redesigning or reinterpreting the UX. See
+`docs/specs/product/hackathon-product-contract.md` and
+`docs/specs/README.md` for the current source priority.
 
 **Legacy framing**: the earlier "discovery and collection / field guide /
 goshuin" framing (collection-first Pokédex, geolocation check-in, `GET!`) is
@@ -37,46 +44,82 @@ This repository is developed with Japanese and international collaborators.
 
 ## Product Principles / プロダクト原則
 
-> Issue #85 governs durable Product positioning. Issue #41 and the approved
-> S0-S9 UI govern the Hackathon journey. The product contract records both
-> layers and wins where older repository material conflicts.
+> Issue #112 governs current Product / MVP framing. Issue #92 + the KiKi
+> approved UI/UX design draft govern current App IA / UX behavior. The latest
+> approved KiKi Figma for a screen is the visual / interaction implementation
+> source for that screen; where Figma is not yet available,
+> `docs/specs/product/approved-ui-fidelity.md` is the fallback presentation
+> reference. Older #85 / #41 / S0-S9 material is historical foundation and wins
+> only where it does not conflict with the sources above.
 
 1. **Story and support before collection.** The core experience is leading
    users from knowing a food culture to acting on it (eat / buy / visit /
-   reserve / share); collection (S9 Badge) is stretch work, not the primary
-   journey.
+   reserve / share); collection (Badge, Stretch) is stretch work, not the
+   primary journey.
 2. **Local story before catalog size.** A smaller set of meaningful places, foods, makers, and stories is better than a large shallow directory.
 3. **Drive real-world action.** Features should encourage users to visit,
    learn, taste, buy, or explore outer-Tokyo regions.
 4. **Data must matter.** Open data and other legitimate data sources should support the product itself, not exist only for presentation slides.
-5. **Start narrow, design to expand.** MVP content focuses on 奥多摩 × 東京わさび,
-   while `Region`, `FoodCulture`, `Place`, and `Route` remain able to represent
+5. **Start narrow, design to expand.** The first MVP pilot geography is Tama
+   (多摩地域), with Okutama as the current fieldwork / verified-content focus.
+   MVP food content is evidence-driven; Tokyo Wasabi may be a strong
+   deterministic fixture but is not the exclusive product contract.
+   `Region`, `FoodCulture`, `Place`, and `Route` remain able to represent
    future outer-Tokyo regions without premature platform abstractions.
 6. **Primary persona is the inbound traveler.** The hackathon UI targets the
    inbound international traveler (rep. persona: Taiwanese, 30s, Shinjuku
    base). Japanese deep-travel users are a secondary / future audience and do
    not replace the primary persona.
 7. **Never invent local facts.** Shops, products, stories, opening hours, access information, and public data must be traceable to a source or clearly marked as demo/editorial data.
-8. **Dietary input is recommendation-only.** S1 dietary-restriction input is
-   used only for recommendation / match reasons and must never be presented as
-   a verified safety guarantee (see the product contract's safety boundary).
+8. **Dietary input is recommendation-only.** Dietary-restriction input (the
+   Food Profile) is used only for recommendation / match reasons and must never
+   be presented as a verified safety guarantee (see the product contract's
+   safety boundary).
 
 ## MVP Priorities / MVP優先順位
 
-For the hackathon MVP, prioritize work in this order unless an issue states otherwise:
+For the hackathon MVP, prioritize work in this order unless an issue states otherwise. The current journey and navigation follow #92: persistent primary nav is `Home / Discover / MOGU / My`; the core release path is `Home → Food Profile (first use) → Exploration → Result → Story → Route → Spot → Save → My`; Discover (free exploration) and MOGU Recent are supporting core surfaces; Badge and other Stretch work are non-blocking.
 
-1. The S0-S8 core journey: diagnosis → story → model route → support action →
-   saved route (奥多摩 × 東京わさび).
-2. A simple, reliable data model for places, items, stories, routes, and (local)
+1. Keep the core demo runnable on `main`, then review / merge completed core
+   work before opening more parallel work.
+2. Integrate verified fieldwork content and approved KiKi Figma deltas, and fix
+   release-blocking UX / QA defects, before starting non-blocking work.
+3. A simple, reliable data model for places, items, stories, routes, and (local)
    saved-itinerary state.
-3. A small set of high-quality 奥多摩 × 東京わさび demo content backed by real
+4. A small set of high-quality Tama / Okutama demo content backed by real
    sources or clearly marked as demo/editorial.
-4. Mobile-first UX with Japanese primary copy and a ja/en/zh-TW i18n
+5. Mobile-first UX with Japanese primary copy and a ja/en/zh-TW i18n
    architecture.
-5. A convincing end-to-end demo that can be explained with real user and
+6. A convincing end-to-end demo that can be explained with real user and
    regional value — accountless, deterministic, and geolocation-independent.
 
+A deterministic, coherent prototype is preferred over a more general but
+unfinished implementation.
+
 Avoid adding authentication, payments, social graphs, complex recommendation systems, or infrastructure that is not required for the end-to-end MVP.
+
+## Hackathon Delivery Mode / ハッカソン納期モード
+
+Until the 2026-08-23 submission, optimize for **merged demo readiness**, not
+issue count or architectural completeness.
+
+Priority order:
+
+1. Keep the core demo runnable on `main`.
+2. Review / merge completed core work before starting more parallel work.
+3. Integrate verified fieldwork content and approved KiKi Figma deltas.
+4. Fix release-blocking UX / QA defects.
+5. Only then start non-blocking / Stretch implementation (e.g. Badge, physical
+   reward, speculative research-driven features, new infrastructure not
+   required for the demo).
+
+Once an approved KiKi Figma screen exists for a screen, engineering agents
+**implement the approved design**; they do not independently redesign or
+reinterpret the UX. Escalate back to Product / Design only for a concrete
+blocker: an impossible or contradictory interaction, an accessibility blocker,
+verified data that cannot fit the design, or a broken core demo flow.
+Otherwise choose the smallest reversible implementation and keep delivery
+moving.
 
 ## Engineering Principles / 開発原則
 
@@ -205,9 +248,11 @@ When an Issue references a Spec under `docs/specs/`:
 
 - Read the referenced Spec before implementing.
 - The current hackathon product contract is
-  `docs/specs/product/hackathon-product-contract.md` (Issue #85 Product
-  positioning + Issue #41 Hackathon UX). Child Issues #42–#49 and any S0–S9
-  work reference it as the current contract.
+  `docs/specs/product/hackathon-product-contract.md`, aligned with Issue #112
+  (Product / MVP framing) and Issue #92 / the KiKi approved UI/UX design draft
+  (current App IA). Issue #85 / #41 and S0–S9 are historical foundation, not
+  the current execution contract. Child Issues #42–#49 reference the older
+  S0–S9 framing as history.
 - Do not implement behavior that contradicts the Spec.
 - Do not fill in unresolved product behavior on your own; surface it instead.
 - If a Spec change is needed, call it out explicitly as its own change rather than mixing it into implementation scope.

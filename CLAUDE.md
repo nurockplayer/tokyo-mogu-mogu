@@ -23,6 +23,8 @@ Do not guess repository conventions that can be discovered from the codebase.
 ## Implementation / 実装
 
 - Implement the smallest independently verifiable vertical slice that satisfies the ticket.
+- Follow the current Product/IA contract in `AGENTS.md`: Issue #112 for Product/MVP framing and Issue #92 + the KiKi approved UI/UX design draft for current App IA. Older #85/#41/S0–S9 material is historical foundation only.
+- When an approved KiKi Figma screen exists for a screen, implement the approved design rather than independently redesigning or reinterpreting the UX. Escalate to Product/Design only for a concrete blocker (impossible/contradictory interaction, accessibility blocker, verified data that cannot fit the design, or a broken core demo flow).
 - Prefer existing patterns and dependencies over introducing new ones.
 - Keep public contracts explicit: types, schemas, API shapes, localization keys, and data-source metadata should be easy to inspect.
 - For user-facing features, preserve Japanese/English support described in `AGENTS.md`.
@@ -89,9 +91,10 @@ When an Issue references a Spec under `docs/specs/`:
 
 - Read the referenced Spec before implementing.
 - The current hackathon product contract is
-  `docs/specs/product/hackathon-product-contract.md` (Issue #85 Product
-  positioning + Issue #41 Hackathon UX). Child Issues #42–#49 and any S0–S9
-  work reference it as the current contract.
+  `docs/specs/product/hackathon-product-contract.md`, aligned with Issue #112
+  (Product / MVP framing) and Issue #92 / the KiKi approved UI/UX design draft
+  (current App IA). Issue #85 / #41 and S0–S9 are historical foundation, not
+  the current execution contract.
 - Do not implement behavior that contradicts the Spec.
 - Do not fill in unresolved product behavior on your own; surface it instead.
 - If a Spec change is needed, call it out explicitly as its own change rather than mixing it into implementation scope.
