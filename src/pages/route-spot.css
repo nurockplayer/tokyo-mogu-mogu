@@ -163,6 +163,18 @@
   transition: transform 0.15s var(--tmm-ease);
 }
 
+/* Issue #82: expand the interactive hit area to the 44px tap minimum while
+   keeping the visual pin compact (34px). */
+.s5-map__pin::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--tmm-tap-min);
+  height: var(--tmm-tap-min);
+  transform: translate(-50%, -50%);
+}
+
 .s5-map__pin:active {
   transform: translate(-50%, -50%) scale(0.94);
 }
