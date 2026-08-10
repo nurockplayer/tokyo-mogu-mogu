@@ -1,0 +1,53 @@
+/* MOGU Recent (Issue #94) — page-local styles layered on the tmm-* foundation. */
+
+.mogu-recent-note {
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+  margin: 0 0 var(--tmm-space-4);
+}
+
+.mogu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--tmm-space-3);
+}
+
+.mogu-card {
+  padding: var(--tmm-space-4);
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+.mogu-card__title {
+  font-family: var(--tmm-font-display);
+  font-size: var(--tmm-text-title);
+  font-weight: 700;
+  color: var(--tmm-color-ink);
+}
+
+.mogu-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tmm-space-2) var(--tmm-space-4);
+  margin-top: var(--tmm-space-2);
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+}
+
+.mogu-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tmm-space-2);
+  margin-top: var(--tmm-space-2);
+}
+
+.mogu-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tmm-space-2);
+  margin-top: var(--tmm-space-3);
+}

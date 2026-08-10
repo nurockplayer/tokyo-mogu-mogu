@@ -15,7 +15,7 @@
  * shown (approved-ui-fidelity: the S3 "92%" meaning is unresolved).
  */
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useSearchParams } from 'react-router-dom';
 import { getFoodCultureById } from '../../data';
 import { useI18n } from '../../i18n';
 import { EmptyState, Card, Tag, type TagTone } from '../../ui';
@@ -46,6 +46,13 @@ const RESULT_TITLE_KEY: LocaleKey = 'dataWasabiName';
 
 export function ResultPage() {
   const { t } = useI18n();
+  const [searchParams] = useSearchParams();
+
+  // MOGU recent cards reopen this page with `?from=mogu` (Issue #94). A reopen
+  // restores the stored Exploration answers (already done by MoguPage before
+  // navigation) and is NOT a new recommendation: it must not re-record Recent,
+  // and its Story CTA must carry the MOGU back context so back returns to MOGU.
+  const isReopen = searchParams.get('from') === 'mogu';
 
   const wasabi = getFoodCultureById('wasabi-okutama');
 
@@ -105,7 +112,10 @@ export function ResultPage() {
           </Card>
 
           <div className="tmm-result__actions">
-            <Link to="/story/wasabi-okutama" className="tmm-btn tmm-btn--primary tmm-btn--block">
+            <Link
+              to={isReopen ? '/story/wasabi-okutama?backTo=/mogu' : '/story/wasabi-okutama'}
+              className="tmm-btn tmm-btn--primary tmm-btn--block"
+            >
               {t('s3PrimaryCta')}
             </Link>
             <Link to="/explore" className="tmm-btn tmm-btn--secondary tmm-btn--block">
@@ -113,7 +123,9 @@ export function ResultPage() {
             </Link>
           </div>
 
-          <ResultRecorder answers={answers} tags={tags} hasDietaryConsiderations={dietary} />
+          {!isReopen ? (
+            <ResultRecorder answers={answers} tags={tags} hasDietaryConsiderations={dietary} />
+          ) : null}
         </>
       ) : (
         <EmptyFallback />
