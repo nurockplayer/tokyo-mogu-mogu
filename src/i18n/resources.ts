@@ -36,7 +36,13 @@ export const strings = {
     navMy: 'マイ',
     /* #95 destination placeholder shells (routes wired in AppRouter; filled by #93/#94/#81) */
     discoverPageTitle: 'さがす',
-    discoverPageBody: '診断なしで、東京の食文化を自由に探せるページです。この機能は今後のアップデートで追加予定です。',
+    discoverPageBody: '診断なしで、東京の食文化を自由に探せるページです。',
+    /* #93 Discover (browse-first free exploration) */
+    discoverIntro: 'おすすめを受け取る（ホーム）とは別に、自分の興味で東京の食文化や行き先を巡れます。',
+    discoverStoriesTitle: '物語からさがす',
+    discoverPlacesTitle: '奥多摩の行き先',
+    discoverMoreTitle: 'ほかの食文化（今後）',
+    discoverFutureTag: '今後追加予定',
     moguPageTitle: 'MOGU',
     moguPageBody: '最近のおすすめ履歴です。保存操作なしで、おすすめを出すたびに自動で記録されます。',
     /* #94 MOGU Recent list (max 5, newest first, distinct from My Saved) */
@@ -439,7 +445,13 @@ export const strings = {
     navMy: 'My',
     /* #95 destination placeholder shells (routes wired in AppRouter; filled by #93/#94/#81) */
     discoverPageTitle: 'Discover',
-    discoverPageBody: 'Browse Tokyo food culture freely without a diagnosis. This destination is coming in a later update.',
+    discoverPageBody: 'Browse Tokyo food culture freely, without a diagnosis.',
+    /* #93 Discover (browse-first free exploration) */
+    discoverIntro: 'Separate from receiving a recommendation on Home, explore Tokyo\'s food culture and destinations by your own interest.',
+    discoverStoriesTitle: 'Stories',
+    discoverPlacesTitle: 'Okutama destinations',
+    discoverMoreTitle: 'Other food cultures (coming later)',
+    discoverFutureTag: 'Coming later',
     moguPageTitle: 'MOGU',
     moguPageBody: 'Your recent recommendations. Recorded automatically whenever a result is generated — no Save needed.',
     /* #94 MOGU Recent list (max 5, newest first, distinct from My Saved) */
@@ -849,7 +861,13 @@ export const strings = {
     navMy: '我的',
     /* #95 destination placeholder shells (routes wired in AppRouter; filled by #93/#94/#81) */
     discoverPageTitle: '探索',
-    discoverPageBody: '不需診斷，自由探索東京飲食文化的頁面。此功能將在後續更新中提供。',
+    discoverPageBody: '不需診斷，自由探索東京飲食文化的頁面。',
+    /* #93 Discover (browse-first free exploration) */
+    discoverIntro: '與首頁「接收推薦」不同，可依自己的興趣自由瀏覽東京飲食文化與目的地。',
+    discoverStoriesTitle: '從故事探索',
+    discoverPlacesTitle: '奧多摩的目的地',
+    discoverMoreTitle: '其他飲食文化（未來）',
+    discoverFutureTag: '即將推出',
     moguPageTitle: 'MOGU',
     moguPageBody: '最近推薦的歷史紀錄。不需儲存操作，每次產生推薦時會自動記錄。',
     /* #94 MOGU Recent list (max 5, newest first, distinct from My Saved) */

@@ -1,0 +1,63 @@
+/* Discover (Issue #93) — free exploration without diagnosis. */
+
+.discover-intro {
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+  margin: 0 0 var(--tmm-space-4);
+}
+
+.discover-section-title {
+  font-family: var(--tmm-font-display);
+  font-size: var(--tmm-text-title);
+  font-weight: 700;
+  color: var(--tmm-color-ink);
+  margin: 0 0 var(--tmm-space-3);
+}
+
+.discover-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--tmm-space-3);
+}
+
+.discover-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.discover-card {
+  padding: var(--tmm-space-4);
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+.discover-card__title {
+  font-family: var(--tmm-font-display);
+  font-size: var(--tmm-text-title);
+  font-weight: 700;
+  color: var(--tmm-color-ink);
+}
+
+.discover-card__desc,
+.discover-card__addr {
+  margin: var(--tmm-space-2) 0 0;
+  font-size: var(--tmm-text-body);
+  color: var(--tmm-color-ink-soft);
+}
+
+.discover-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--tmm-space-2) var(--tmm-space-3);
+  margin-top: var(--tmm-space-3);
+}
+
+.discover-card__area {
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+}
