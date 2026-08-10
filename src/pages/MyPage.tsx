@@ -114,7 +114,7 @@ export function MyPage() {
             <p className="page-sub">{t('fpSub')}</p>
             <FoodProfileSummary />
             <div className="my-card__actions">
-              <Link to="/food-profile" className="tmm-btn tmm-btn--sm tmm-btn--secondary">
+              <Link to="/food-profile/edit" className="tmm-btn tmm-btn--sm tmm-btn--secondary">
                 {t('fpEditCta')}
               </Link>
             </div>
