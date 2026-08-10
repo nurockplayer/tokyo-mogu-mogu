@@ -57,3 +57,8 @@ generates requirements / design / tasks artifacts.
   reference this.
 - `docs/specs/authentication/google-login.md` — Google authentication and user
   identity contract (SDD foundation for #11, reusable infrastructure).
+- `docs/specs/product/badge-contract.md` — `My → Badges` cross-region
+  retention/discovery contract: Stretch placement under `My`, digital badge
+  state shape, qualifying-action categories, explicit-TBD earning condition,
+  MOGU Recent / Saved Routes / Badges semantic separation, and the
+  physical-reward boundary. Child Issues #39/#40 reference this.
