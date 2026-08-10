@@ -47,11 +47,11 @@ gantt
     #94 MOGU Recent (done)               :p94, 2026-08-11, 3d
     #79 Story + distributed Support (done) :p79, 2026-08-11, 5d
     #80 Route / Spot + external actions (done) :p80, 2026-08-11, 5d
-    #81 My: Saved Routes / Food Profile / Badge entry :p81, 2026-08-11, 4d
-    #93 Discover free exploration        :p93, 2026-08-11, 4d
+    #81 My: Saved Routes / Food Profile / Badge entry (done) :p81, 2026-08-11, 4d
+    #93 Discover free exploration (done)   :p93, 2026-08-11, 4d
 
     section QA / Integration
-    #82 375px + ja/en/zh-TW QA          :p82, 2026-08-17, 4d
+    #82 375px + ja/en/zh-TW + tap/focus QA (active) :p82, 2026-08-17, 4d
     E2E / bugfix / demo data freeze      :integration, 2026-08-20, 2d
     Feature Freeze                       :milestone, freeze, 2026-08-21, 0d
     Final polish / pitch rehearsal       :polish, 2026-08-22, 1d
@@ -75,13 +75,16 @@ Completed foundation and implementation slices:
 
 Current open work:
 
-- **#81** My (Saved Routes / Food Profile / Badge entry)
-- **#93** Discover free exploration without diagnosis
-- **#82** 375px + ja/en/zh-TW QA
+- **#82** App IA QA / release gate (375px + ja/en/zh-TW + tap/focus) — current gate; requires full-surface real-browser pass + WCAG contrast audit before close
+
+Recently completed:
+
+- **#81** My (Saved Routes / Food Profile / Badge entry) — merged (#102/#114)
+- **#93** Discover free exploration without diagnosis — merged (#103/#115)
 
 Remaining critical path:
 
-`#81 / #93 -> #82 -> Integration / demo freeze -> Feature Freeze -> Submission`
+`#82 -> Integration / demo freeze -> Feature Freeze -> Submission`
 
 Source-of-truth work (#112, #92) stays authoritative for current framing and is
 not considered implementation debt.
