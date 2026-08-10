@@ -1,19 +1,26 @@
-# Hackathon Product Contract (S0–S9 → Home / Discover / MOGU / My)
+# Hackathon Product Contract (Home / Discover / MOGU / My)
 
 Durable Product positioning and behavior contract for the 2026 hackathon
 prototype.
 
-- **Product positioning source of truth**: Issue #85.
-- **Hackathon UX source of truth**: Issue #41 + the approved S0–S9 UI / Design
-  Spec v1.0.
-- **Current App IA source of truth**: Issue #92 (reusable `Home / Discover /
-  MOGU / My`). The S0–S9 journey below is the historical framing; this file
-  maps it onto the current primary-navigation contract (see "Current App IA").
-- **Status**: Current contract. Issue #85 adds the durable Product positioning
-  without rewriting the historical decision recorded in Issue #41, and Issue
-  #92 re-maps the approved S0–S9 screens onto the current App IA without
-  discarding them.
-- **Hackathon scope**: 1 region × 1 food culture — **奥多摩 × 東京わさび**.
+- **Product / MVP framing source of truth**: Issue #112 (current clarification).
+  Top problem is tourism over-concentration in Tokyo's 23 wards; the first
+  MVP pilot geography is the Tama area; Okutama is the current fieldwork /
+  verified-content focus; food content is evidence-driven rather than locked to
+  a single Tokyo-Wasabi contract.
+- **Current App IA source of truth**: Issue #92 + the KiKi UI/UX IA draft
+  (`Home / Discover / MOGU / My`). It owns current navigation and behavior.
+- **Presentation / visual source of truth**: `docs/specs/product/approved-ui-fidelity.md`
+  (visual reference only).
+- **Historical foundation**: Issue #85 / #41 and the approved S0–S9 UI. These
+  are preserved as historical screen mapping / visual foundation only where
+  they do not conflict with #112 / #92.
+- **Status**: Current contract. Issues #85 / #41 are earlier layers, not the
+  current source of truth.
+- **Hackathon pilot scope**: first MVP pilot geography is the Tama area (多摩
+  地域); Okutama is the current fieldwork / verified-content focus. Tokyo Wasabi
+  is an allowed strong deterministic demo fixture, not the exclusive MVP content
+  contract.
 
 ## Product Vision
 
@@ -51,10 +58,16 @@ and any continuation feature motivates another regional discovery.
 
 ## Hackathon Scope
 
-- **1 region × 1 food culture**: 奥多摩 × 東京わさび.
-- This is the first MVP pilot and the only required real content for the
-  2026-08-23 submission, not the Product's permanent geographic scope.
-- Other food cultures appear only as S9 unearned Badge dummies or future
+- **First MVP pilot geography**: the **Tama area (多摩地域)**. Okutama is the
+  current fieldwork / verified-content focus and an important hub, but the
+  Product / MVP concept is not fixed to Okutama alone.
+- MVP food content is evidence-driven: Tokyo Wasabi may be a strong
+  deterministic demo fixture, but it is **not** the only allowed content
+  contract. Verified / visitable Tama food, places, and experiences are
+  selected from candidates (e.g. wasabi, yamame, trout) as evidence allows.
+- One verified journey is enough if that is what is ready; no content is
+  invented to widen scope.
+- Additional food cultures appear only as S9 unearned Badge dummies or future
   expansion, never as a core-demo premise.
 
 ## Current App IA (Issue #92)
@@ -70,7 +83,9 @@ information:
 - **Discover** — free exploration without diagnosis. Surfaces food-culture
   stories, workshops/experiences, seasonal/event content and bookable items.
   `Home = recommend for me`; `Discover = I browse myself`. The 8/23 demo uses
-  only verified Okutama / Tokyo Wasabi content; future content stays clearly
+  only verified Tama-pilot production content; Okutama fieldwork content can be
+  prominent, but the Product / MVP is not implied to be permanently limited to
+  Okutama / Tokyo Wasabi. Future/unverified content stays clearly
   editorial/future.
 - **MOGU** — system-managed recent recommendation history, **not** favorites.
   It keeps up to the 5 most recent Result entries (auto-recorded, `MOGU_RECENT_MAX = 5`),
@@ -118,12 +133,12 @@ S0 Landing
 ```
 
 - S9 Badge Collection is **stretch / time permitting**.
-- S0–S8 approved UI takes priority.
+- The approved S0–S9 UI is the historical visual foundation; the current
+  primary-navigation and per-screen behavior is defined by "Current App IA
+  (Issue #92)".
 - Under the #92 App IA this linear journey is the historical framing for the
-  screens above; the current primary-navigation and per-screen behavior is
-  defined by "Current App IA (Issue #92)". S7 Support and S8 My Route no longer
-  exist as standalone primary destinations (distributed CTAs and `My → Saved
-  Routes` respectively).
+  screens above. S7 Support and S8 My Route no longer exist as standalone
+  primary destinations (distributed CTAs and `My → Saved Routes` respectively).
 
 ## Architecture / Data Boundary
 
@@ -140,8 +155,9 @@ S0 Landing
 
 ## Badge / Next Discovery Boundary
 
-- S9 Badge remains stretch work and must not block S0–S8. Under the #92 App IA
-  it lives in **`My → Badges`** (Stretch), not in the primary navigation.
+- S9 Badge remains stretch work and must not block the core journey. Under the
+  #92 App IA it lives in **`My → Badges`** (Stretch), not in the primary
+  navigation.
 - If Badge or another continuation feature is implemented, its Product role is
   to preserve the traveler's connection and create motivation to discover a
   next region; collection is not the top-level Product goal.
@@ -158,7 +174,7 @@ S0 Landing
 
 ## Account / Persistence
 
-- Hackathon S0–S9 UX is **accountless**.
+- The current App IA demo experience is **accountless**.
 - **Food Profile** is a persistent local user setting (asked on first use,
   reused on later visits, editable from `My → Food Profile`). **Exploration
   Conditions** are per-trip, current-flow variables. **MOGU Recent** is
@@ -175,7 +191,10 @@ S0 Landing
 ## Determinism
 
 - The prototype may deterministically recommend 東京わさび; no AI
-  recommendation engine is required.
+  recommendation engine is required. Tokyo Wasabi is a strong deterministic
+  fixture, but the Result / Story semantics must remain replaceable by verified
+  Tama food candidates (the Result recommends a regional discovery / journey
+  candidate, not only Tokyo Wasabi).
 - The model route is a deterministic editorial route; no route-planning
   algorithm or realtime transit is required.
 - The demo must run without login, without real geolocation, and without any
@@ -207,7 +226,7 @@ hackathon core UX:
 - GTFS next-departure as the center of "next collectible" selection
 - Google Auth as a required demo step
 
-These must not block or overwrite the S0–S9 implementation.
+These must not block or overwrite the current App IA journey.
 
 The legacy primary navigation `Home / Diagnosis / Support / My Route` is also
 **superseded** by the #92 App IA (`Home / Discover / MOGU / My`). Diagnosis now
