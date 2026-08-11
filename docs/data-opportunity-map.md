@@ -34,7 +34,9 @@ what the product can legally build.
   are published only under チャレンジ2026限定ライセンス (not freely reusable).
   Freely-reusable mobility (Tama Monorail incl. fares+ridership+realtime,
   municipal community buses under CC0/CC BY 4.0, Toei GTFS+GTFS-RT under
-  CC BY 4.0) models the **Tama interior loop**, not the Okutama corridor.
+  CC BY 4.0 for the Toei network / interchange context) models the
+  **Tama interior loop** — not the Okutama corridor, and not end-to-end
+  Shinjuku→Tama (west of Shinjuku depends on Keio, see M7).
 - **The MVP corridor (奥多摩) is the least-open corner of Tokyo open data**
   (奥多摩町 publishes only 3 datasets; 檜原村 2; no wasabi/direct-sale/道の駅
   dataset was found in this catalog scan). This confirms the existing
@@ -134,7 +136,7 @@ Status legend: **promising** (deep-dive suggested) · *experiment* (needs work)
 | C4 | あきる野市 観光施設一覧 (`132284_tourism2022.csv`, 8 facilities, 6/8 lat/lon, 説明_英語) | あきる野市 | Open Data (CC BY 4.0) | **promising** (2022, verify freshness) | 秋川渓谷 / 五日市線 day-trip Route spine + 日帰り温泉 | Route, Spot, Discover |
 | C5 | 青梅市 観光スポット一覧 (feature_point / tourist_attraction XLSX, incl. 小澤酒造, 澤乃井園) | 青梅市 | Open Data (CC BY 4.0) | **promising** (coords need fill) | 御岳 + sake brewery + river Route official spine | Spot, Route |
 | C6 | 東京都指定史跡一覧 (`…/kyouiku/130001culturalproperty.csv`, 19 in Tama) | 東京都教育庁 | Open Data (CC BY 4.0) | promising (with C1) | Jomon–medieval ruins → 遺跡公園/郷土資料館 connectors | Discover, Story |
-| C7 | NDL デジタルコレクション (OpenSearch API; 青梅街道 1,181 hits, 武蔵国絵図 93) | 国立国会図書館 | official public web + public domain | *experiment* | Then-now story layer from Meiji 街道絵図 | Story (new "今昔" type) |
+| C7 | NDL デジタルコレクション (OpenSearch API; 青梅街道 1,181 hits, 武蔵国絵図 93) | 国立国会図書館 | official public web; **rights are item-specific — each work must be checked for reuse/publication rights before use** | *experiment* | Then-now story layer from Meiji 街道絵図 (rights-check-required per work) | Story (new "今昔" type) |
 | C8 | 東京の伝統工芸品・東京手仕事 (42 items: 村山大島紬, 多摩織) | 東京都産業労働局 | official public web | *experiment* | Craft layer parallel to food culture | Story, Spot |
 | C9 | TOKYO WALKING MAP (KML courses incl. Tama) | 東京都保健医療局 | Open Data (CC BY 4.0) | *experiment* | Walkable short courses from stations | Route |
 | C10 | 小金井市 観光施設/ポイント (58-col format, en/ja) | 小金井市 | Open Data (CC BY 4.0) | *experiment* | Format exemplar; 江戸東京たてもの園 adjacency | Spot, Discover |
@@ -147,7 +149,7 @@ Status legend: **promising** (deep-dive suggested) · *experiment* (needs work)
 |---|---|---|---|---|---|---|
 | M1 | 多摩都市モノレール GTFS + fares + ridership + GTFS-RT (`ckan.odpt.org/dataset/train-tamamonorail` + 8 siblings) | 多摩都市モノレール / ODPT | Open Data (基本ライセンス) | **promising** | Only Tama-native rail with fares+ridership+realtime open — deterministic "Tama loop" route building | Route, Result, Spot |
 | M2 | Tama community-bus GTFS cluster (町田 CC0, 東村山/稲城/国立/東大和/杉並 CC BY 4.0) | 各市 / ODPT | Open Data (CC0/CC BY 4.0) | **promising** | "Local bus reaches the food/spot" last-mile credibility (2–3 town slice) | Route, Discover |
-| M3 | 都営 GTFS + GTFS-RT (bus/train, CC BY 4.0) | 東京都交通局 | Open Data (CC BY 4.0) | **promising** | Free-licensed origin leg (Shinjuku→Tama start) | Route, Result |
+| M3 | 都営 GTFS + GTFS-RT (bus/train, CC BY 4.0) | 東京都交通局 | Open Data (CC BY 4.0) | **promising** | Free-licensed Toei network + interchange context (Shinjuku Line interchanges with Keio, but travel west of Shinjuku depends on Keio — see M7) | Route, Result |
 | M4 | 道の駅 国土数値情報 P35 (nationwide, amenity flags) | 国土交通省 | Open Data (**non-commercial**) | **promising demo / experiment prod** | Practical rest-stop layer (toilet/EV/restaurant flags) — 2018 snapshot | Discover, Spot, Route |
 | M5 | 公衆トイレ一覧 (自治体標準データセット, per-city; 八王子 `t131105d0000000040`, 都 `t131024d0000000036`) | 各区市 | Open Data (CC BY 4.0) | *experiment* | "Restroom near the rural food stop" practical chip | Spot, Route |
 | M6 | 高尾山/御岳山 ケーブルカー運行 (official web only) | 高尾登山電鉄 / 御岳ケーブル | official public web | later / editorial-only | Access guides with hedged "check official site" | Spot, Story |
@@ -185,7 +187,7 @@ mapped to current #92 surfaces and to the #112 dispersion goal.
 |---|---|---|---|---|---|
 | P1 | **旬×産地×直売所「當季東京食材」** — season-to-source-to-sale loop | F1+F2+W1/F3 (+F4 i18n) | Discover, Story, Result | `harvestSeason` field; JA→直売所→品種 join | 青梅・あきる野・日の出・町田・立川 (みのーれ) |
 | P2 | **文化財×食 geo-pairing** — food spot + official cultural-property context within reach | C1+C2+C3+C4 | Story, Spot, Route, Discover | cultural-property layer; near-food geo query | 青梅・奥多摩・八王子(高尾)・府中・武蔵野 |
-| P3 | **多摩內陸 Mobility Loop** — deterministic fares + local-bus last-mile on free licenses | M1+M2+M3 (+M8 contrast) | Route, Result, Spot | deterministic fare/feasibility; reachability-by-community-bus | 立川・多摩センター・東大和・東村山・町田 |
+| P3 | **多摩內陸 Mobility Loop** — deterministic fares + local-bus last-mile on free licenses | M1+M2+M3 (+M8 contrast) | Route, Result, Spot | deterministic fare/feasibility **within the free-licensed Tama-interior network** (not end-to-end Shinjuku→Tama; west-of-Shinjuku depends on Keio, see M7); reachability-by-community-bus | 立川・多摩センター・東大和・東村山・町田 |
 | P4 | **Historical usage proxy（駅/月別相対利用）** — calmness/season as a relative usage signal, not a crowding measurement | D4+D1 (+D2) | Home, Result, Discover | relative usage score; monthly seasonality layer | 青梅線・奥多摩 corridor; all Tama stations |
 | P5 | **島しょ Access & Live window** — logistics-first island trips | W4+W2+W3 | Route, Spot, Result | 運航-risk layer; live island window | 大島・三宅島・八丈島・父島 |
 | P6 | **日常食資料窗「這個地方計畫吃什麼」** — school menus + licensed-restaurant listings | F7+F8 | Story, 地域タブ (new), Discover | planned everyday-food layer; new-opening detection; facility status validation | 東村山・青梅 (西多摩食) |
@@ -216,7 +218,7 @@ before 8/23.
 | 1 | **青梅線・御岳/沢井 酒蔵×文化財 day-trip** (Okutama-adjacent west Tama) | Extends the current Okutama fieldnote into a coherent second stop; sake + shrine + wasabi on one rail line; source-backed | C1 (青梅22), C5 (青梅観光スポット), F5 (GO TOKYO酒蔵), F1 (奥多摩ワサビ=第16號) | High — 青梅 open data is the thickest in the corridor; content mostly editorial-backed | High — same visitor, adjacent region, real rail |
 | 2 | **當季東京野菜 Discover（直売所×收穫季）** | Seasonal loop is the simplest demo of "data makes the story": today's season → where to buy → go | F1+F2 (JA, editorial), F4 (TOKYO GROWN zh-TW), W1/F3 (market) | High — pure data plumbing + editorial copy | Medium-High — food-led, directly #112 |
 | 3 | **青梅線駅 相對利用 proxy** (S12 + mobile-dynamics) | Puts the #112 concentration problem on an evidence-backed, per-station *relative-usage* surface in the MVP corridor | D4 (S12 CC BY), D1 (mobile dynamics incl. 奥多摩) | Medium — S12 snapshot easy; D1 license wording must be confirmed | Medium — supports Result/Home, strengthens pitch |
-| 4 | **Tama 內陸 Mobility Loop demo** (立川–多摩センター–上北台) | The only fully open mobility layer; proves "Tama as a connected destination" beyond Okutama | M1 (fares+ridership), M2 (CC0 buses), M3 (Toei) | Medium — needs an ODPT token for live files; static snapshot doable | Medium — route feasibility, not food-core |
+| 4 | **Tama 內陸 Mobility Loop demo** (立川–多摩センター–上北台) | The only fully open mobility layer; proves "Tama as a connected destination" beyond Okutama | M1 (fares+ridership), M2 (CC0 buses) | Medium — needs an ODPT token for live files; static snapshot doable | Medium — route feasibility, not food-core |
 | 5 | **島しょ「島の今」preview** | Cheap, distinctive, high emotional value | W2 (live cams), W4 (UMISORA), W3 (fish zukan) | Medium — scraping needed; license of zukan unclear | Low-Medium — outside Tama MVP pilot |
 
 ---
