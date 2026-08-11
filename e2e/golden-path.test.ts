@@ -5,14 +5,16 @@
  * at the 375px mobile baseline with Japanese as the blocking locale:
  *
  *   Home → Food Profile (first use) → Exploration → Result → Story → Route →
- *   Save → My Saved Routes
+ *   Spot → Save → My Saved Routes
  *
  * The test also verifies the lifecycle / persistence boundaries that unit
  * coverage alone cannot catch:
  *   - a Result auto-records a MOGU Recent entry (distinct semantic from Save)
+ *   - the Route → Spot leg renders and the Spot save CTA writes the same
+ *     itinerary contract the Route save button uses
  *   - a page reload restores Food Profile / MOGU Recent / Saved Route
  *   - a returning Home flow does not re-ask for the Food Profile
- *   - Discover browse-only use never writes MOGU Recent
+ *   - Discover browse-only use never writes MOGU Recent (raw value, not count)
  *
  * Deterministic by construction: no external booking, realtime transit,
  * geolocation, or network dependence — the recommended result and the model
@@ -118,8 +120,36 @@ test.describe('golden path (ja, 375px)', () => {
     await page.getByRole('link', { name: 'モデルルートを見る' }).click();
     await page.waitForURL('**/route*');
 
-    // ---- 6. Route → Save → My Saved Routes ----
+    // ---- 6. Route → Spot leg (representative stop) ----
+    // Step 1 of the model route is the tourism office; open it via the
+    // timeline pin so the Route → Spot link is exercised in a real browser.
+    await page
+      .locator('.s5-timeline__pin-link')
+      .filter({ hasText: '奥多摩観光案内所' })
+      .click();
+    await page.waitForURL('**/spot/okutama-tourism-office*');
+    await page.getByRole('heading', { name: '奥多摩観光案内所' }).waitFor();
+
+    // ---- 7. Spot save CTA → writes the same itinerary contract ----
+    await page.getByRole('button', { name: '➕ 旅程に追加する' }).click();
+    await page.getByText('旅程に追加しました').waitFor();
+    // The toast overlays the lower part of the screen; close it so it does not
+    // intercept the Back link below (the spot Back sits above the bottom nav).
+    await page.getByRole('button', { name: '閉じる' }).click();
+    // The Spot save CTA writes the shared tmm:savedRoutes contract.
+    expect(await storedCount(page, SAVED_ROUTES_KEY)).toBe(1);
+
+    // ---- 8. Back to Route → Route save reflects the existing save ----
+    await page.getByRole('link', { name: /ルートに戻る/ }).click();
+    await page.waitForURL('**/route*');
     await page.getByRole('heading', { name: '奥多摩わさび紀行' }).waitFor();
+    // The itinerary is already saved via the Spot CTA, so the Route button
+    // shows the saved state. Toggle it off, then back on so the Route-level
+    // save button (Issue #120's Route Save semantic) is itself exercised and
+    // the Saved Routes state is deterministic for the My step below.
+    await page.getByRole('button', { name: '旅程を保存済み ✓' }).click();
+    await page.getByText('旅程の保存を解除しました').waitFor();
+    expect(await storedCount(page, SAVED_ROUTES_KEY)).toBe(0);
     await page.getByRole('button', { name: '🔖 この旅程を保存する' }).click();
     await page.getByText('旅程を保存しました').waitFor();
     // Explicit user Save writes the Saved Routes contract (distinct semantic).
@@ -127,18 +157,18 @@ test.describe('golden path (ja, 375px)', () => {
     await page.getByRole('link', { name: 'マイ' }).click();
     await page.waitForURL('**/my');
 
-    // ---- 7. My — saved route visible under 保存した旅程 ----
+    // ---- 9. My — saved route visible under 保存した旅程 ----
     await page.getByRole('heading', { name: '保存した旅程' }).waitFor();
     await page.getByText('奥多摩わさび紀行').waitFor();
 
-    // ---- 8. reload → Food Profile / MOGU Recent / Saved Route restored ----
+    // ---- 10. reload → Food Profile / MOGU Recent / Saved Route restored ----
     await page.reload();
     await page.getByRole('heading', { name: '保存した旅程' }).waitFor();
     await page.getByText('奥多摩わさび紀行').waitFor();
     expect(await storedCount(page, MOGU_RECENT_KEY)).toBe(1);
     expect(await storedCount(page, SAVED_ROUTES_KEY)).toBe(1);
 
-    // ---- 9. returning Home flow must not re-ask the Food Profile ----
+    // ---- 11. returning Home flow must not re-ask the Food Profile ----
     await page.getByRole('link', { name: 'ホーム' }).click();
     await page.waitForURL('**/');
     await page.getByRole('link', { name: 'わたしの食文化の旅をはじめる' }).click();
@@ -146,15 +176,19 @@ test.describe('golden path (ja, 375px)', () => {
     await page.waitForURL('**/explore');
     expect(new URL(page.url()).pathname).not.toContain('/food-profile');
 
-    // ---- 10. Discover browse-only must not pollute MOGU Recent ----
+    // ---- 12. Discover browse-only must not pollute MOGU Recent ----
+    // Snapshot the raw persisted value (not just the array length): recording
+    // the same wasabi-okutama result again would REPLACE the entry and leave
+    // the count unchanged, so comparing the count alone would miss it.
     await page.getByRole('link', { name: 'さがす' }).click();
     await page.waitForURL('**/discover');
     await page.getByRole('heading', { name: 'さがす', exact: true }).waitFor();
-    const recentBefore = await storedCount(page, MOGU_RECENT_KEY);
+    const recentBefore = await persisted(page, MOGU_RECENT_KEY);
     await page.getByRole('link', { name: '東京わさび', exact: true }).first().click();
     await expect(page).toHaveURL(/\/story\/wasabi-okutama/);
     await page.getByText('味わうことが、継承になる').waitFor();
     await page.goto('/discover');
-    expect(await storedCount(page, MOGU_RECENT_KEY)).toBe(recentBefore);
+    // Browse-only must leave the persisted entry byte-for-byte unchanged.
+    expect(await persisted(page, MOGU_RECENT_KEY)).toBe(recentBefore);
   });
 });
