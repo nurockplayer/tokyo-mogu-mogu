@@ -4,6 +4,11 @@ dist
 .DS_Store
 *.tsbuildinfo
 
+# Playwright E2E artifacts (Issue #120)
+test-results
+playwright-report
+playwright/.cache
+
 # local tool state (oh-my-claudecode)
 .omc
 .claude/worktrees
