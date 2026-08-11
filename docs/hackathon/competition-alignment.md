@@ -5,9 +5,10 @@ Hackathon (都知事杯オープンデータ・ハッカソン) submission. Issu
 **Tracking issue**: #100 ([Competition alignment and judging strategy](https://github.com/nurockplayer/tokyo-mogu-mogu/issues/100))
 **Deadline**: 2026-08-23 17:00 JST (Feature Freeze 2026-08-21 — see `docs/project-roadmap.md`)
 
-本文件是把 `#85`（Product Vision）、`#92`（current App IA）、`#19`（Open Data
-registry）、`#86`（execution roadmap）串成同一競技戰略的 durable source of
-truth。Pitch / Demo / README / Data 選定都從這裡共用同一套敘述。
+本文件是把 `#112`（current Product / MVP framing）、`#92`（current App IA）、
+`#19`（Open Data registry）、`#86`（execution roadmap）串成同一競技戰略的
+durable source of truth。Pitch / Demo / README / Data 選定都從這裡共用同一套
+敘述。#85 は historical Product Vision foundation としてのみ残す。
 
 > 本 Issue は新機能を増やすものではない。8/23 前に新しい feature を提案するときは
 > 「**Data / Idea / Tech / Impact / Service Design のどの評価を、どの concrete
@@ -38,7 +39,7 @@ Product Principles rule #7 に従う）。
 TOKYO MOGU MOGU は、訪日旅行者に東京の地域文化・作り手・食・体験を
 多言語で伝え、本人の興味や条件に合わせて**実際の地域訪問につなげる**。
 
-- この position は Product 側で選択した alignment（#85）であり、公式テーマの
+- この position は Product 側で選択した alignment（#112）であり、公式テーマの
   分類にそのまま掲載されているわけではない（Section 5 参照）。✅
 - 主 persona は訪日旅行者（rep. persona: Taiwanese, 30s, Shinjuku base）✅
   — `docs/specs/product/hackathon-product-contract.md`「Primary Persona」。
@@ -57,7 +58,7 @@ TOKYO MOGU MOGU は、訪日旅行者に東京の地域文化・作り手・食�
 
 ### Product-specific social theme — 観光消費の地域分散 × 地域文化継承
 
-- 食文化継承は重要な価値だが、**#85 に従い Product の最上位 problem statement
+- 食文化継承は重要な価値だが、**#112 に従い Product の最上位 problem statement
   は tourism dispersion / regional discovery**。継承はその先につながる価値。✅
 
 ---
@@ -67,11 +68,11 @@ TOKYO MOGU MOGU は、訪日旅行者に東京の地域文化・作り手・食�
 1. 東京観光・観光消費が **23区内の著名観光地へ集中**しやすい。
 2. outer Tokyo には食文化・生産者・自然・体験等、`わざわざ行く理由` になり得る
    地域資源がある。
-3. しかし**旅行者との接点が弱く**、地域資源が実際の visit motivation に変換
-   されていない。
+3. しかし旅行者にはその地域資源を知り、実際に `行ってみたい` と思える自然な
+   理由が不足している。
 
 Product は旅行者を強制的に分散させるのではなく、旅行者自身に **「行きたい
-理由」** を生み出す。✅/🔮（これは #85 の宣言。分散の実効性は実測待ち — 下記
+理由」** を生み出す。✅/🔮（これは #112 の宣言。分散の実効性は実測待ち — 下記
 Evidence Matrix / Section 6-Impact 参照）
 
 ### Quantitative evidence（✅ 出典あり — `docs/analytics/tokyo-tourism-baseline.md`）
@@ -118,17 +119,20 @@ Home → Food Profile (first time) → Exploration → Result → Story → Rout
   FoodCulture / Place / Route` は future outer-Tokyo region を表現できる durable
   domain（✅ `docs/specs/product/hackathon-product-contract.md` Architecture /
   Data Boundary）。
-- **2026-08-23 first pilot**：**奥多摩 × 東京わさび**。
-- **奥多摩は Product の恒久的 geographic scope ではなく**、`23区外へ行きたい
-  理由を作れるか` を検証する **first MVP pilot**。✅
+- **2026-08-23 first MVP pilot**：**多摩地域（Tama）**。奥多摩 は current
+  fieldwork / verified-content focus。
+- **奥多摩 は Product の恒久的 geographic scope ではなく**、`23区外へ行きたい
+  理由を作れるか` を検証する **current fieldwork / content focus**。✅
 - 8/23 までに複数地域を production implementation する必要はない。✅
-- 他の食文化（青梅・日の出等）は S9 Badge dummy / future expansion としてのみ
-  登場し、core-demo の前提にしない。✅
+- 東京わさびは strong deterministic demo fixture であって、MVP 唯一の food
+  contract ではない。わさび・ヤマメ・マス等の verified / visitable 候補から
+  最小の coherent vertical slice を選ぶ。他の食文化（青梅・日の出等）は S9
+  Badge dummy / future expansion としてのみ登場し、core-demo の前提にしない。✅
 
 ### Scope guardrails（#86 critical path を守る）
 
-- Feature freeze 2026-08-21 までに P0（#85/#76/#77/#78/#79/#80/#81/#82/#10）を
-  優先。✅
+- Feature freeze 2026-08-21 までに P0（#82/#10 と current-IA implementation）
+  を優先。✅
 - 新機能提案は「Data / Idea / Tech / Impact / Service Design のどの評価をどの
   evidence で強くするか」で判断。どれにも寄与しない scope expansion は 8/23 後へ。
 - Out of scope：#19 の全カテゴリを Product に取り込むこと、judging point のため
@@ -167,7 +171,7 @@ Home → Food Profile (first time) → Exploration → Result → Story → Rout
 | 5審査軸 | Section 6 の五軸戦略。公式軸名（データ活用 / アイデア力 / 技術力 / ソーシャルインパクト / サービスデザイン）と本文件の日本語軸名は同一。✅ |
 
 **Alignment の扱い**：`観光・国際交流` は本チームが選ぶ競技ポジショニング
-（#85）であり、**公式分類への申請ではない**。公式が今後公開するテーマ一覧
+（#112）であり、**公式分類への申請ではない**。公式が今後公開するテーマ一覧
 （募集回答から選定・公開される予定）を確認し、本文件の用語と齟齬があれば
 更新する。❓（テーマ一覧の公開状況は 8/10 時点で未確認）。
 
@@ -200,7 +204,7 @@ Home → Food Profile (first time) → Exploration → Result → Story → Rout
   を S6 Spot や Story で見せる。GTFS fixture で「実データ置換可能なレイヤー」
   をデモで説明。
 - **dataset adoption / priority は #19 で追跡** ✅（registry は OPEN, Product
-  role / priority は #85 + #92 基準）。
+  role / priority は #112 + #92 基準）。
 - **未取得の候補**: モバイルデータを活用した訪都旅行者動態調査 — 公開データは
   8/8 時点で見つからず未使用 ❓（baseline §2 Availability note）。
 
@@ -260,7 +264,7 @@ Home → Food Profile (first time) → Exploration → Result → Story → Rout
   - chain の入口（23区集中 / 多摩の低訪問）は ✅ 実データ（baseline M1–M3）。
   - chain の中間以降（実際の訪問・地域消費・事業者接点・継承）は **8/23 時点で
     実測の contribution metrics なし**。以下で区別する：
-    - 仮説としての chain: ✅/🔮（#85 の Product Vision）。
+    - 仮説としての chain: ✅/🔮（#112 の Product Vision）。
     - 実績: ❓ 未取得 — #10 fieldwork と demo 後の定性的フィードバックで補う。
   - **Demos で contribution metrics を捏造しない**。成果は source-backed に
     限定する。✅
@@ -360,7 +364,7 @@ dashboard ではない**。区部/多摩公式分割は非公開（proxy 使用�
 
 ### 7-6. Future / Editorial Vision — 🔮
 
-- multi-region 展開（Product scope は 23 区外全体、奥多摩は first pilot）。
+- multi-region 展開（Product scope は 23 区外全体、多摩地域が first MVP pilot）。
 - S9 Badge / next-discovery（stretch, 8/23 後）。
 - 観光消費の分散が実際に「地域分散」へ効く、という因果の実証（Pitch では
   検証済み数値と分けて提示）。
@@ -376,7 +380,7 @@ dashboard ではない**。区部/多摩公式分割は非公開（proxy 使用�
 - [x] 23区への観光集中 / outer Tokyo との差を示す quantitative evidence
   （baseline M1–M3 ✅）
 - [x] 使用した Open Data と、その Product role（7-1 / 7-2 / 7-3 ✅/🧪）
-- [ ] 奥多摩 first-pilot fieldwork evidence（#10, 👀 未完了）
+- [ ] 多摩 first-pilot fieldwork evidence（#10, 👀 未完了）
 - [x] 実在する Route / Spot / action destination（🧪 実在の店舗・施設名、
   route は editorial; 座標・営業情報は要再検証）
 - [ ] 地域側 / 生産者側の課題または機会についての一次情報（👀 未取得）
@@ -431,8 +435,9 @@ dashboard ではない**。区部/多摩公式分割は非公開（proxy 使用�
 ## 11. Acceptance Criteria Check / 完了条件チェック
 
 - [x] `docs/hackathon/competition-alignment.md` exists
-- [x] #85 Product Vision と矛盾しない（奥多摩を first pilot と明記）
-- [x] 奥多摩を permanent scope とせず first pilot と明記（Section 4）
+- [x] #112 current Product / MVP framing と矛盾しない（Tama を first pilot と明記）
+- [x] 奥多摩 を permanent scope とせず current fieldwork / content focus と明記
+  （Section 4）
 - [x] 観光・国際交流を primary alignment として説明（Section 1）
 - [x] 交通・移動との secondary relationship を説明（Section 1）
 - [x] five judging axes ごとに `claim → evidence → product/demo surface`
@@ -457,7 +462,8 @@ dashboard ではない**。区部/多摩公式分割は非公開（proxy 使用�
 
 **Repository（本文件が依拠する repo 内 source）**
 - `AGENTS.md`
-- `docs/specs/product/hackathon-product-contract.md`（#85 Product Vision + #41 Hackathon UX）
+- `docs/specs/product/hackathon-product-contract.md`（#112 Product/MVP framing +
+  #92 App IA; #85 / #41 は historical foundation）
 - `docs/project-roadmap.md`（#86）
 - `docs/analytics/tokyo-tourism-baseline.md`（#18; dataset A/B/C の出典を含む）
 - `docs/okutama-facilities-source.md`（#16）
