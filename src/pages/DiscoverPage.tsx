@@ -21,22 +21,14 @@
 import { Link } from 'react-router-dom';
 import { Card, Tag } from '../ui';
 import { useI18n, type LocaleKey } from '../i18n';
-import { foodCultures, places } from '../data';
+import { foodCultures } from '../data';
 import { getFoodCultureById } from '../data';
+import {
+  PILOT_FEATURED_CULTURE_ID,
+  pilotPlaces,
+} from '../data/pilot';
 import { foodCultureKey, placeNameKey } from '../i18n/data-content';
 import './DiscoverPage.css';
-
-/** The verified first-pilot food culture surfaced at the top of Discover. */
-const FEATURED_CULTURE_ID = 'wasabi-okutama';
-
-/** Okutama first-pilot spots (real facilities, demo-approximate coordinates). */
-const PILOT_PLACE_IDS = [
-  'okutama-tourism-office',
-  'okutama-wasabi-field',
-  'okutama-soba-shop',
-  'okutama-michi-no-eki',
-  'okutama-fishing-center',
-];
 
 /**
  * Display name for a non-featured culture card. Cultures with an i18n name key
@@ -59,17 +51,15 @@ export function cultureName(
 export function DiscoverPage() {
   const { locale, t } = useI18n();
 
-  const featured = getFoodCultureById(FEATURED_CULTURE_ID);
+  const featured = getFoodCultureById(PILOT_FEATURED_CULTURE_ID);
 
   // Additional cultures present in the seed but outside the first-pilot story
   // (yamame, soba, konnyaku, ...). They are editorial/demo records only — they
   // do not imply a second region or a production journey. Keep this list
   // deterministic and tied to what the seed actually contains.
-  const otherCultures = foodCultures.filter((fc) => fc.id !== FEATURED_CULTURE_ID);
+  const otherCultures = foodCultures.filter((fc) => fc.id !== PILOT_FEATURED_CULTURE_ID);
 
-  const pilotPlaces = PILOT_PLACE_IDS.map((id) => places.find((p) => p.id === id)).filter(
-    (p): p is NonNullable<typeof p> => Boolean(p),
-  );
+  const pilotSpots = pilotPlaces();
 
   return (
     <div className="tmm-page">
@@ -109,11 +99,11 @@ export function DiscoverPage() {
       ) : null}
 
       {/* Visit destinations on the first-pilot route */}
-      {pilotPlaces.length > 0 ? (
+      {pilotSpots.length > 0 ? (
         <section className="tmm-section" aria-label={t('discoverPlacesTitle')}>
           <h2 className="discover-section-title">{t('discoverPlacesTitle')}</h2>
           <ul className="discover-list">
-            {pilotPlaces.map((place) => (
+            {pilotSpots.map((place) => (
               <li key={place.id}>
                 <Link
                   to={`/spot/${place.id}?from=discover`}
