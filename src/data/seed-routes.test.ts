@@ -10,6 +10,7 @@ import {
   type RouteDuration,
 } from './seed-routes';
 import { places, getPlaceById } from './index';
+import { deriveVerificationStatus } from '../lib/verification';
 
 describe('model routes (#45 S5)', () => {
   it('has a deterministic model route for 奥多摩 × 東京わさび', () => {
@@ -100,6 +101,15 @@ describe('spot details (#45 S6)', () => {
       expect(detail.origin).toBe('editorial');
       expect(detail.source.name.length).toBeGreaterThan(0);
       expect(detail.source.url).toBeDefined();
+    }
+  });
+
+  it('spot verification never derives as verified and tracks source freshness (#129)', () => {
+    for (const detail of Object.values(SPOT_DETAILS)) {
+      const status = deriveVerificationStatus(detail.source, detail.origin);
+      // Editorial route seed is not stakeholder-verified; must degrade to a
+      // safe needs_confirmation / demo state, never to verified.
+      expect(['needs_confirmation', 'stale', 'demo']).toContain(status);
     }
   });
 });

@@ -16,9 +16,10 @@ import {
   spotBackHref,
 } from './route-context';
 import { spotActionType, SPOT_ACTIONS } from './SpotPage';
-import { getPlaceById } from '../data';
+import { getPlaceById, places } from '../data';
 import { resolveKey } from '../i18n/fallback';
 import { strings } from '../i18n/resources';
+import { deriveVerificationStatus } from '../lib/verification';
 
 describe('Route back-target resolution (#80)', () => {
   it('defaults to home when the caller context is absent', () => {
@@ -179,6 +180,44 @@ describe('weekend-morning crowding advisory (#83)', () => {
   it('dates the observation and keeps it distinct from verified source data', () => {
     for (const locale of ['ja', 'en', 'zh-TW'] as const) {
       expect(strings[locale].s5CrowdingSource).toContain('2026-08-09');
+    }
+  });
+});
+
+describe('spot verification badges (#129)', () => {
+  const badgeKeys = [
+    'verificationVerified',
+    'verificationNeedsConfirmation',
+    'verificationStale',
+    'verificationConflict',
+    'verificationDemo',
+  ] as const;
+
+  it('ships a three-locale bundle for every verification badge key', () => {
+    for (const locale of ['ja', 'en', 'zh-TW'] as const) {
+      for (const key of badgeKeys) {
+        const value = resolveKey(strings, locale, key);
+        expect(value, `${locale} ${key}`).toBeTypeOf('string');
+        expect(value.length, `${locale} ${key}`).toBeGreaterThan(0);
+        expect(value.startsWith('missing:'), `${locale} ${key}`).toBe(false);
+      }
+    }
+  });
+
+  it('keeps the verification badge keys structurally equivalent across locales', () => {
+    const jaKeys = Object.keys(strings.ja).sort();
+    expect(jaKeys).toEqual(Object.keys(strings.en).sort());
+    expect(jaKeys).toEqual(Object.keys(strings['zh-TW']).sort());
+  });
+
+  it('never renders a demo-origin spot as verified', () => {
+    // Every seed place is demo-origin today; every spot must degrade to the
+    // demo label, never verified.
+    for (const p of places) {
+      const status = deriveVerificationStatus(p.source, p.origin);
+      if (p.origin === 'demo') {
+        expect(status).toBe('demo');
+      }
     }
   });
 });

@@ -49,6 +49,9 @@ export const FOOD_CULTURES: FoodCulture[] = [
         lastVerified: '2026-08-08',
         sourceType: 'official_web',
         retrievedAt: '2026-08-08',
+        sourceUpdatedAt: '2026-08-08',
+        confirmedAt: '2026-08-08',
+        verificationStatus: 'verified',
         originalId: 'seed-1'
       },
       {
@@ -57,6 +60,9 @@ export const FOOD_CULTURES: FoodCulture[] = [
         lastVerified: '2026-08-08',
         sourceType: 'official_web',
         retrievedAt: '2026-08-08',
+        sourceUpdatedAt: '2026-08-08',
+        confirmedAt: '2026-08-08',
+        verificationStatus: 'verified',
         originalId: 'seed-2'
       },
     ],
@@ -95,6 +101,8 @@ export const FOOD_CULTURES: FoodCulture[] = [
         lastVerified: '2026-08-08',
         sourceType: 'official_web',
         retrievedAt: '2026-08-08',
+        sourceUpdatedAt: '2026-08-08',
+        verificationStatus: 'needs_confirmation',
         originalId: 'seed-3'
       },
     ],
@@ -132,6 +140,8 @@ export const FOOD_CULTURES: FoodCulture[] = [
         lastVerified: '2026-08-08',
         sourceType: 'official_web',
         retrievedAt: '2026-08-08',
+        sourceUpdatedAt: '2026-08-08',
+        verificationStatus: 'needs_confirmation',
         originalId: 'seed-4'
       },
     ],
@@ -168,6 +178,8 @@ export const FOOD_CULTURES: FoodCulture[] = [
         lastVerified: '2026-08-08',
         sourceType: 'official_web',
         retrievedAt: '2026-08-08',
+        sourceUpdatedAt: '2026-08-08',
+        verificationStatus: 'needs_confirmation',
         originalId: 'seed-5'
       },
     ],
@@ -205,6 +217,8 @@ export const FOOD_CULTURES: FoodCulture[] = [
         lastVerified: '2026-08-08',
         sourceType: 'official_web',
         retrievedAt: '2026-08-08',
+        sourceUpdatedAt: '2026-08-08',
+        verificationStatus: 'needs_confirmation',
         originalId: 'seed-6'
       },
     ],
@@ -241,6 +255,8 @@ export const FOOD_CULTURES: FoodCulture[] = [
         lastVerified: '2026-08-08',
         sourceType: 'official_web',
         retrievedAt: '2026-08-08',
+        sourceUpdatedAt: '2026-08-08',
+        verificationStatus: 'needs_confirmation',
         originalId: 'seed-7'
       },
     ],
@@ -277,6 +293,8 @@ export const FOOD_CULTURES: FoodCulture[] = [
         lastVerified: '2026-08-08',
         sourceType: 'official_web',
         retrievedAt: '2026-08-08',
+        sourceUpdatedAt: '2026-08-08',
+        verificationStatus: 'needs_confirmation',
         originalId: 'seed-8'
       },
     ],

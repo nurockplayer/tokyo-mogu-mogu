@@ -6,6 +6,23 @@
  * changes here must be coordinated across the parallel feature work.
  */
 
+/**
+ * Stakeholder verification state of a source (Issue #129).
+ *
+ * This is a per-source status: what degree of confirmation stands behind the
+ * source's facts. It is distinct from `DataOrigin` (source / editorial / demo)
+ * and from freshness: a `verified` source can still be `stale`, and a fresh
+ * source can still need confirmation. Absence means "unspecified" — derive a
+ * safe default with `deriveVerificationStatus` instead of treating it as
+ * verified.
+ */
+export type VerificationStatus =
+  | 'verified'
+  | 'needs_confirmation'
+  | 'stale'
+  | 'conflict'
+  | 'demo';
+
 /** A single source of information behind a food culture or a place. */
 export interface DataSource {
   /** Source name, e.g. "Okutama Tourism Association" or "Tokyo Metropolitan Government". */
@@ -16,12 +33,24 @@ export interface DataSource {
   license?: string;
   /** Retrieval or last-verified date (ISO 8601, e.g. "2026-08-08"). */
   lastVerified?: string;
-  /** How the data was obtained: an open-data portal, fieldwork, an official website, or manual entry. */
-  sourceType?: 'open_data' | 'fieldwork' | 'official_web' | 'manual';
+  /**
+   * How the data was obtained: an open-data portal, fieldwork, an official
+   * website, a business's own site / direct confirmation, a manual entry, or a
+   * demo fixture (Issue #129).
+   */
+  sourceType?: 'open_data' | 'fieldwork' | 'official_web' | 'business' | 'manual' | 'demo';
   /** Identifier of the source dataset (e.g. a CKAN dataset id) when applicable. */
   sourceDatasetId?: string;
   /** Retrieval date (ISO 8601, e.g. "2026-08-08"). */
   retrievedAt?: string;
+  /** The source document's own last-updated date (ISO 8601, e.g. "2026-08-08").
+   *  NOT the record's real-world freshness: a catalog `modified` date must not
+   *  be treated as when the underlying facts were last true (Issue #129). */
+  sourceUpdatedAt?: string;
+  /** Stakeholder / team confirmation date (ISO 8601, e.g. "2026-08-08"). */
+  confirmedAt?: string;
+  /** Stakeholder verification status (Issue #129). Absent ⇒ unspecified. */
+  verificationStatus?: VerificationStatus;
   /** Identifier of the record within its original source dataset. */
   originalId?: string;
 }

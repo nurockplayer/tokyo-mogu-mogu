@@ -8,6 +8,19 @@ import {
   getRelatedFoodCultures,
 } from './index';
 import { isWithinRadius, distanceInMeters } from '../lib/geo';
+import {
+  deriveVerificationStatus,
+  recordVerificationStatus,
+} from '../lib/verification';
+import type { VerificationStatus } from './model';
+
+const VERIFICATION_STATUSES: VerificationStatus[] = [
+  'verified',
+  'needs_confirmation',
+  'stale',
+  'conflict',
+  'demo',
+];
 
 describe('seed data contract (#2)', () => {
   it('has at least 5 food cultures', () => {
@@ -76,6 +89,70 @@ describe('seed data contract (#2)', () => {
     const firstPlace = getPlaceById(wasabi!.placeIds[0]);
     expect(firstPlace).toBeDefined();
     expect(getRelatedFoodCultures(firstPlace!)).toContain(wasabi);
+  });
+
+  it('every source timestamp is a parseable ISO date (#129)', () => {
+    const dates: string[] = [];
+    for (const fc of foodCultures) {
+      for (const s of fc.sources) {
+        if (s.sourceUpdatedAt) dates.push(s.sourceUpdatedAt);
+        if (s.confirmedAt) dates.push(s.confirmedAt);
+        if (s.retrievedAt) dates.push(s.retrievedAt);
+      }
+    }
+    for (const p of places) {
+      if (p.source.sourceUpdatedAt) dates.push(p.source.sourceUpdatedAt);
+      if (p.source.confirmedAt) dates.push(p.source.confirmedAt);
+      if (p.source.retrievedAt) dates.push(p.source.retrievedAt);
+    }
+    for (const d of dates) {
+      expect(Number.isNaN(Date.parse(d)), `${d} is not parseable`).toBe(false);
+      // Date-only ISO strings are stable to compare lexicographically.
+      expect(d).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    }
+  });
+
+  it('confirmedAt never precedes the source update (#129)', () => {
+    for (const fc of foodCultures) {
+      for (const s of fc.sources) {
+        if (s.confirmedAt && s.sourceUpdatedAt) {
+          expect(
+            s.confirmedAt >= s.sourceUpdatedAt,
+            `${fc.id}: confirmedAt ${s.confirmedAt} < sourceUpdatedAt ${s.sourceUpdatedAt}`,
+          ).toBe(true);
+        }
+      }
+    }
+    for (const p of places) {
+      const s = p.source;
+      if (s.confirmedAt && s.sourceUpdatedAt) {
+        expect(s.confirmedAt >= s.sourceUpdatedAt, `${p.id} confirmedAt precedes source update`).toBe(
+          true,
+        );
+      }
+    }
+  });
+
+  it('verification status derives to a closed, safe union for every record (#129)', () => {
+    for (const fc of foodCultures) {
+      const status = recordVerificationStatus(fc.sources, fc.origin);
+      expect(VERIFICATION_STATUSES, `${fc.id} → ${status}`).toContain(status);
+    }
+    for (const p of places) {
+      const status = deriveVerificationStatus(p.source, p.origin);
+      expect(VERIFICATION_STATUSES, `${p.id} → ${status}`).toContain(status);
+    }
+  });
+
+  it('demo fixtures are never derived as verified production facts (#129)', () => {
+    for (const p of places) {
+      if (p.origin === 'demo') {
+        expect(
+          deriveVerificationStatus(p.source, p.origin),
+          `${p.id} demo place must not be verified`,
+        ).toBe('demo');
+      }
+    }
   });
 });
 

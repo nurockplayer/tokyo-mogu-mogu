@@ -321,6 +321,14 @@ Tama / Okutama pilot; other regions are future.
   source URL / dataset id, license, and retrieval / last-verified date.
 - Model-level provenance lives in `src/data/model.ts` (`DataSource` +
   `DataOrigin`); keep it additive.
+- **Source freshness & verification (Issue #129)**: each `DataSource` may carry
+  `sourceUpdatedAt` (the source document's own last-updated date),
+  `confirmedAt` (stakeholder / team confirmation date), and
+  `verificationStatus` (`verified` / `needs_confirmation` / `stale` /
+  `conflict` / `demo`). The official catalog `modified` date must not be treated
+  as the record's real-world freshness date. `src/lib/verification.ts` derives a
+  safe default (never `verified`) and can generate a machine-readable
+  `needs_confirmation` list for stakeholder review.
 - Example source docs to imitate:
   - `docs/okutama-facilities-source.md` (per-row provenance honesty: 3 real vs
     19 demo; explains why `sourceType` is not `'open_data'` on every row).
