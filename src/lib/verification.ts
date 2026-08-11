@@ -110,10 +110,19 @@ export function deriveVerificationStatus(
   if (origin === 'demo' || source.sourceType === 'demo') {
     return 'demo';
   }
-  if (source.verificationStatus === 'verified' && source.confirmedAt === undefined) {
+  if (source.verificationStatus === 'verified') {
     // A record cannot be verified on the strength of retrieval / source
-    // existence alone (Issue #129).
-    return 'needs_confirmation';
+    // existence alone — it needs stakeholder confirmation (Issue #129).
+    if (source.confirmedAt === undefined) {
+      return 'needs_confirmation';
+    }
+    // Freshness beats an explicit verified status: once the source document
+    // moved after the confirmation, the previously-verified facts may have
+    // drifted and must be treated as stale rather than current.
+    if (source.sourceUpdatedAt !== undefined && source.sourceUpdatedAt > source.confirmedAt) {
+      return 'stale';
+    }
+    return 'verified';
   }
   if (source.verificationStatus !== undefined) {
     return source.verificationStatus;
@@ -193,23 +202,33 @@ export type ReviewField =
 
 /**
  * A machine-readable list of concrete record fields that still need stakeholder
- * confirmation. One entry per field per record. Only fields that exist in the
- * canonical shape are listed — no invented values. A record whose verification
- * is not `verified` lists the concrete fields that are absent or unverified
- * (demo records are listed with their fields so reviewers can separate them;
- * a fully verified record contributes nothing).
+ * review. One entry per field per record (deduplicated). Each entry carries the
+ * record's derived verification status so #133 can route needs_confirmation /
+ * stale / conflict / demo separately instead of collapsing them.
+ *
+ * For a record that is NOT verified, the queued fields cover BOTH:
+ * - populated source-backed values that are unverified (e.g. a `hoursJa` the
+ *   app currently displays), and
+ * - fields that are absent / unknown (so reviewers know what is missing).
+ *
+ * No values are invented: a field is only emitted when it exists in the
+ * canonical shape (or is structurally absent from it).
  */
 export interface UnverifiedFieldEntry {
   recordType: 'place' | 'foodCulture' | 'spot';
   recordId: string;
   field: ReviewField;
+  /** Derived status; keeps needs_confirmation / stale / conflict / demo distinct. */
+  status: VerificationStatus;
   source: string;
 }
 
 /**
  * Concrete fields reviewed at the place level, derived from the canonical
  * `Place` shape: address, coordinates. `coordinates` is flagged as needs
- * confirmation for demo-origin places (approximate coords).
+ * confirmation for demo-origin places (approximate coords); for a non-demo
+ * place the address is the field the app displays and therefore also needs
+ * confirmation when the place is unverified.
  */
 export function placeReviewFields(place: {
   origin: 'source' | 'editorial' | 'demo';
@@ -224,12 +243,13 @@ export function placeReviewFields(place: {
 }
 
 /**
- * Concrete fields reviewed for a spot's practical info, derived from the
- * canonical `SpotPracticalInfo` / `SpotTags` shape. A field is listed when it
- * is part of the shape and absent / unverified in the current data:
- * hours, closedDays, price, reservation, bookingDestination,
- * multilingualSupport, dietaryAllergy, accessibility, storyWording,
- * makerWording, photoReusePermission.
+ * Concrete fields reviewed for a spot, derived from the canonical
+ * `SpotPracticalInfo` / `SpotTags` shape. Every source-backed field the app may
+ * display is queued for review when the record is unverified — populated values
+ * (hours/closedDays/price/reservation present in the data) are listed exactly
+ * like absent ones, because their single spot source does not make them
+ * verified (Issue #129). Absent fields are listed honestly as "needs review";
+ * nothing is invented.
  */
 export function spotReviewFields(detail: {
   practical?: {
@@ -249,18 +269,15 @@ export function spotReviewFields(detail: {
   };
 }): ReviewField[] {
   const fields: ReviewField[] = [];
-  const p = detail.practical;
-  if (p === undefined) {
-    fields.push('hours', 'closedDays', 'price', 'reservation', 'bookingDestination');
-  } else {
-    if (p.hoursJa === undefined && p.hoursEn === undefined) fields.push('hours');
-    if (p.closedDaysJa === undefined && p.closedDaysEn === undefined) fields.push('closedDays');
-    if (p.priceJa === undefined && p.priceEn === undefined) fields.push('price');
-    // reservationAvailable is only ever set true from verified data; false /
-    // absent means the reservation status is unconfirmed.
-    if (p.reservationAvailable !== true) fields.push('reservation', 'bookingDestination');
-  }
   const t = detail.tags;
+
+  // Every source-backed practical field the UI may display is queued for
+  // review: this helper only runs for unverified spots, so populated values
+  // (hours / closedDays / price / reservation) and absent ones both need
+  // stakeholder confirmation. `reservationAvailable: true` is a populated
+  // claim from the same unverified source and is queued like the rest.
+  fields.push('hours', 'closedDays', 'price', 'reservation', 'bookingDestination');
+
   if (t.language === undefined || t.language.length === 0) fields.push('multilingualSupport');
   if (t.vegetarian !== true && t.allergyNotice !== true) fields.push('dietaryAllergy');
   if (t.accessibility !== true) fields.push('accessibility');
@@ -304,46 +321,47 @@ export function listUnverifiedFields(input: {
   }>;
 }): UnverifiedFieldEntry[] {
   const entries: UnverifiedFieldEntry[] = [];
+  const seen = new Set<string>();
+
+  const add = (recordType: UnverifiedFieldEntry['recordType'], recordId: string, field: ReviewField, status: VerificationStatus, source: string) => {
+    // At most one entry per recordType + recordId + field (Issue #129): route
+    // variants sharing the same spot must not duplicate rows.
+    const key = `${recordType}:${recordId}:${field}`;
+    if (seen.has(key)) {
+      return;
+    }
+    seen.add(key);
+    entries.push({ recordType, recordId, field, status, source });
+  };
 
   for (const place of input.places) {
-    if (deriveVerificationStatus(place.source, place.origin) === 'verified') {
+    const status = deriveVerificationStatus(place.source, place.origin);
+    if (status === 'verified') {
       continue;
     }
     for (const field of placeReviewFields(place)) {
-      entries.push({
-        recordType: 'place',
-        recordId: place.id,
-        field,
-        source: place.source.name,
-      });
+      add('place', place.id, field, status, place.source.name);
     }
   }
 
   for (const fc of input.foodCultures) {
-    if (recordVerificationStatus(fc.sources, fc.origin) === 'verified') {
+    const status = recordVerificationStatus(fc.sources, fc.origin);
+    if (status === 'verified') {
       continue;
     }
     // Food-culture facts are team-authored from sources; until a stakeholder
-    // confirms the wording, it stays needs_confirmation.
-    entries.push({
-      recordType: 'foodCulture',
-      recordId: fc.id,
-      field: 'facts',
-      source: fc.sources.map((s) => s.name).join(' / ') || 'unspecified',
-    });
+    // confirms the wording, the narrative (and any populated fact) stays
+    // needs confirmation.
+    add('foodCulture', fc.id, 'facts', status, fc.sources.map((s) => s.name).join(' / ') || 'unspecified');
   }
 
   for (const spot of input.spots) {
-    if (deriveVerificationStatus(spot.source, spot.origin) === 'verified') {
+    const status = deriveVerificationStatus(spot.source, spot.origin);
+    if (status === 'verified') {
       continue;
     }
     for (const field of spotReviewFields(spot)) {
-      entries.push({
-        recordType: 'spot',
-        recordId: spot.placeId,
-        field,
-        source: spot.source.name,
-      });
+      add('spot', spot.placeId, field, status, spot.source.name);
     }
   }
 

@@ -106,6 +106,26 @@ describe('verification status derivation (#129)', () => {
     expect(deriveVerificationStatus(s, 'source')).toBe('needs_confirmation');
   });
 
+  it('freshness beats an explicit verified status once the source moved (#129)', () => {
+    // A previously verified source whose document was updated after the
+    // confirmation is no longer current — it derives stale, not verified.
+    const s = source({
+      verificationStatus: 'verified',
+      confirmedAt: '2026-08-01',
+      sourceUpdatedAt: '2026-08-09',
+    });
+    expect(deriveVerificationStatus(s, 'source')).toBe('stale');
+  });
+
+  it('keeps verified when confirmation matches the source update (#129)', () => {
+    const s = source({
+      verificationStatus: 'verified',
+      confirmedAt: '2026-08-09',
+      sourceUpdatedAt: '2026-08-09',
+    });
+    expect(deriveVerificationStatus(s, 'source')).toBe('verified');
+  });
+
   it('derives a closed union only', () => {
     const statuses = new Set<VerificationStatus>([
       'verified',
@@ -323,8 +343,105 @@ describe('machine-readable needs_confirmation list (#129)', () => {
       expect(['place', 'foodCulture', 'spot']).toContain(entry.recordType);
       expect(entry.recordId.length).toBeGreaterThan(0);
       expect(entry.field.length).toBeGreaterThan(0);
+      expect(entry.status).toBeDefined();
+      expect(['needs_confirmation', 'stale', 'conflict', 'demo', 'verified']).toContain(entry.status);
       expect(entry.source.length).toBeGreaterThan(0);
     }
+  });
+
+  it('keeps needs_confirmation / stale / conflict / demo distinguishable per entry (#129)', () => {
+    const conflictSrc = source({ verificationStatus: 'conflict' });
+    const staleSrc = source({
+      sourceType: 'official_web',
+      retrievedAt: '2026-08-01',
+      sourceUpdatedAt: '2026-08-09',
+    });
+    const confirmSrc = source({
+      verificationStatus: 'verified',
+      confirmedAt: '2026-08-08',
+      sourceUpdatedAt: '2026-08-08',
+    });
+    const entries = listUnverifiedFields({
+      places: [
+        { id: 'p-conflict', origin: 'source', address: 'A', latitude: 1, longitude: 1, source: conflictSrc },
+        { id: 'p-stale', origin: 'source', address: 'B', latitude: 1, longitude: 1, source: staleSrc },
+        { id: 'p-needs', origin: 'source', address: 'C', latitude: 1, longitude: 1, source: source({ sourceType: 'official_web', retrievedAt: TODAY }) },
+        { id: 'p-demo', origin: 'demo', address: 'D', latitude: 1, longitude: 1, source: source({ verificationStatus: 'verified', confirmedAt: '2026-08-08' }) },
+        { id: 'p-verified', origin: 'source', address: 'E', latitude: 1, longitude: 1, source: confirmSrc },
+      ],
+      foodCultures: [],
+      spots: [],
+    });
+
+    expect(entries.find((e) => e.recordId === 'p-conflict')!.status).toBe('conflict');
+    expect(entries.find((e) => e.recordId === 'p-stale')!.status).toBe('stale');
+    expect(entries.find((e) => e.recordId === 'p-needs')!.status).toBe('needs_confirmation');
+    expect(entries.find((e) => e.recordId === 'p-demo')!.status).toBe('demo');
+    // Verified records are excluded entirely.
+    expect(entries.find((e) => e.recordId === 'p-verified')).toBeUndefined();
+  });
+
+  it('queues populated but unverified practical fields for review (#129)', () => {
+    // A spot whose source is unverified but already carries hours/price must
+    // queue those exact fields — the app currently displays them.
+    const entries = listUnverifiedFields({
+      places: [],
+      foodCultures: [],
+      spots: [
+        {
+          placeId: 's1',
+          origin: 'editorial',
+          practical: {
+            hoursJa: '10:00–17:00',
+            hoursEn: '10:00–17:00',
+            priceJa: '¥500',
+            priceEn: '500 JPY',
+            reservationAvailable: true,
+          },
+          tags: {},
+          source: source({ sourceType: 'official_web', retrievedAt: TODAY }),
+        },
+      ],
+    });
+
+    const fields = entries.filter((e) => e.recordId === 's1').map((e) => e.field);
+    expect(fields).toContain('hours');
+    expect(fields).toContain('closedDays');
+    expect(fields).toContain('price');
+    expect(fields).toContain('reservation');
+    expect(fields).toContain('bookingDestination');
+    expect(fields).toContain('multilingualSupport');
+    expect(fields).toContain('dietaryAllergy');
+    expect(fields).toContain('accessibility');
+    expect(entries.every((e) => e.status === 'needs_confirmation')).toBe(true);
+  });
+
+  it('does not duplicate record+field entries across route variants (#129)', () => {
+    const spots = modelRoutes
+      .flatMap((r) => Object.values(r.variants).flatMap((v) => v.steps.map((s) => s.placeId)))
+      .map((id) => getSpotDetail(id))
+      .filter((d): d is SpotDetail => d !== undefined);
+    const entries = listUnverifiedFields({ places, foodCultures, spots });
+
+    const keys = new Set<string>();
+    for (const e of entries) {
+      const key = `${e.recordType}:${e.recordId}:${e.field}`;
+      expect(keys.has(key), `duplicate ${key}`).toBe(false);
+      keys.add(key);
+    }
+  });
+
+  it('queues the wasabi culture (needs_confirmation) but never as verified', () => {
+    const spots = modelRoutes
+      .flatMap((r) => Object.values(r.variants).flatMap((v) => v.steps.map((s) => s.placeId)))
+      .map((id) => getSpotDetail(id))
+      .filter((d): d is SpotDetail => d !== undefined);
+    const entries = listUnverifiedFields({ places, foodCultures, spots });
+    const wasabi = entries.filter((e) => e.recordId === 'wasabi-okutama');
+    // wasabi has two official sources, neither stakeholder-confirmed.
+    expect(wasabi.length).toBeGreaterThan(0);
+    expect(wasabi[0].status).toBe('needs_confirmation');
+    expect(wasabi[0].field).toBe('facts');
   });
 
   it('returns no entries when every record is verified', () => {

@@ -112,6 +112,42 @@ describe('seed data contract (#2)', () => {
     }
   });
 
+  it('sourceUpdatedAt is absent from seed records unless the publisher supplies it (#129)', () => {
+    // sourceUpdatedAt means the source document's own update date. The current
+    // seed only records retrieval dates — do not invent publisher update dates.
+    for (const fc of foodCultures) {
+      for (const s of fc.sources) {
+        expect(s.sourceUpdatedAt, `${fc.id} source has an unsupported sourceUpdatedAt`).toBeUndefined();
+      }
+    }
+    for (const p of places) {
+      expect(p.source.sourceUpdatedAt, `${p.id} source has an unsupported sourceUpdatedAt`).toBeUndefined();
+    }
+  });
+
+  it('retrievedAt is never equaled to sourceUpdatedAt by copying (#129)', () => {
+    // Where sourceUpdatedAt exists it must be a real publisher update date,
+    // not a copy of retrievedAt (see the absent test above for current seed).
+    for (const fc of foodCultures) {
+      for (const s of fc.sources) {
+        if (s.sourceUpdatedAt && s.retrievedAt) {
+          expect(
+            s.sourceUpdatedAt === s.retrievedAt,
+            `${fc.id} sourceUpdatedAt copies retrievedAt`,
+          ).toBe(false);
+        }
+      }
+    }
+    for (const p of places) {
+      const s = p.source;
+      if (s.sourceUpdatedAt && s.retrievedAt) {
+        expect(s.sourceUpdatedAt === s.retrievedAt, `${p.id} sourceUpdatedAt copies retrievedAt`).toBe(
+          false,
+        );
+      }
+    }
+  });
+
   it('confirmedAt never precedes the source update (#129)', () => {
     for (const fc of foodCultures) {
       for (const s of fc.sources) {
