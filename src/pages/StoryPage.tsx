@@ -43,6 +43,7 @@ import { SupportPanel } from '../components/SupportPanel';
 import { Card, StorySection, Tag } from '../ui';
 import { useI18n, type Locale } from '../i18n';
 import { foodCultureKey } from '../i18n/data-content';
+import { sourceDateLabel } from '../lib/verification';
 import { readingMinutes, resolveBackTo, storyRouteHref } from './story-reading';
 import './StoryPage.css';
 
@@ -242,11 +243,14 @@ export function StoryPage() {
                   {t('sourceLink')}
                 </a>
               ) : null}
-              {source.lastVerified ? (
-                <span className="s4-sources__meta">
-                  {t('detailLastVerified')}: {source.lastVerified}
-                </span>
-              ) : null}
+              {(() => {
+                const meta = sourceDateLabel(source, record.origin);
+                return meta ? (
+                  <span className="s4-sources__meta">
+                    {t(meta.label)}: {meta.date}
+                  </span>
+                ) : null;
+              })()}
             </li>
           ))}
         </ul>

@@ -37,6 +37,7 @@ import {
 } from '../i18n/data-content';
 import { googleMapsDirectionsUrl, appleMapsDirectionsUrl } from '../lib/map-links';
 import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
+import { deriveVerificationStatus } from '../lib/verification';
 import { routeBackTarget, spotBackHref } from './route-context';
 
 /** Maps a place type to its i18n label key. */
@@ -47,6 +48,18 @@ const PLACE_TYPE_LABEL: Record<PlaceType, LocaleKey> = {
   brewery: 's6CategoryBrewery',
   'info-center': 's6CategoryInfoCenter',
   other: 's6CategoryOther',
+};
+
+/** Maps a verification status to its i18n label key (Issue #129). */
+const VERIFICATION_LABEL_KEY: Record<
+  'verified' | 'needs_confirmation' | 'stale' | 'conflict' | 'demo',
+  LocaleKey
+> = {
+  verified: 'verificationVerified',
+  needs_confirmation: 'verificationNeedsConfirmation',
+  stale: 'verificationStale',
+  conflict: 'verificationConflict',
+  demo: 'verificationDemo',
 };
 
 /**
@@ -233,6 +246,12 @@ export function SpotPage() {
           <span className="s6-roman">{place.nameEn}</span>
         ) : null}
         <span className="tmm-tag tmm-tag--info">{t(PLACE_TYPE_LABEL[place.type])}</span>
+        {/* Provenance / verification badge (Issue #129): a place is never shown
+            as verified without a source that says so. Demo-origin spots render
+            the demo label even when practical data is absent. */}
+        <span className="tmm-tag tmm-tag--info">
+          {t(VERIFICATION_LABEL_KEY[deriveVerificationStatus(place.source, place.origin)])}
+        </span>
       </div>
 
       {/* Tags where data exists */}

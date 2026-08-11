@@ -129,6 +129,7 @@ const SOURCE_OKUTAMA: DataSource = {
   lastVerified: '2026-08-08',
   sourceType: 'official_web',
   retrievedAt: '2026-08-08',
+  verificationStatus: 'needs_confirmation',
   originalId: 'seed-route-1',
 };
 
