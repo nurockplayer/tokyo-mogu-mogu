@@ -224,22 +224,14 @@ export interface UnverifiedFieldEntry {
 }
 
 /**
- * Concrete fields reviewed at the place level, derived from the canonical
- * `Place` shape: address, coordinates. `coordinates` is flagged as needs
- * confirmation for demo-origin places (approximate coords); for a non-demo
- * place the address is the field the app displays and therefore also needs
- * confirmation when the place is unverified.
+ * Concrete fields reviewed for a place, derived from the canonical `Place`
+ * shape. Both source-backed, user-impacting fields are queued for every
+ * unverified place: `address` (displayed) and `coordinates` (map / directions).
+ * Until the model gains per-field provenance, both are claims that need
+ * stakeholder confirmation regardless of origin (Issue #129).
  */
-export function placeReviewFields(place: {
-  origin: 'source' | 'editorial' | 'demo';
-  address: string;
-  latitude: number;
-  longitude: number;
-}): ReviewField[] {
-  if (place.origin === 'demo') {
-    return ['coordinates'];
-  }
-  return ['address'];
+export function placeReviewFields(): ReviewField[] {
+  return ['address', 'coordinates'];
 }
 
 /**
@@ -248,28 +240,15 @@ export function placeReviewFields(place: {
  * display is queued for review when the record is unverified — populated values
  * (hours/closedDays/price/reservation present in the data) are listed exactly
  * like absent ones, because their single spot source does not make them
- * verified (Issue #129). Absent fields are listed honestly as "needs review";
- * nothing is invented.
+ * verified (Issue #129). The tag-derived claims (multilingualSupport /
+ * dietaryAllergy / accessibility) are queued regardless of whether their value
+ * is positive, negative, or absent: a positively populated tag is a
+ * user-visible claim from an unverified source and needs confirmation just like
+ * a missing one. Absent fields are listed honestly as "needs review"; nothing
+ * is invented.
  */
-export function spotReviewFields(detail: {
-  practical?: {
-    hoursJa?: string;
-    hoursEn?: string;
-    closedDaysJa?: string;
-    closedDaysEn?: string;
-    priceJa?: string;
-    priceEn?: string;
-    reservationAvailable?: boolean;
-  };
-  tags: {
-    language?: Array<'ja' | 'en'>;
-    vegetarian?: boolean;
-    allergyNotice?: boolean;
-    accessibility?: boolean;
-  };
-}): ReviewField[] {
+export function spotReviewFields(): ReviewField[] {
   const fields: ReviewField[] = [];
-  const t = detail.tags;
 
   // Every source-backed practical field the UI may display is queued for
   // review: this helper only runs for unverified spots, so populated values
@@ -278,9 +257,13 @@ export function spotReviewFields(detail: {
   // claim from the same unverified source and is queued like the rest.
   fields.push('hours', 'closedDays', 'price', 'reservation', 'bookingDestination');
 
-  if (t.language === undefined || t.language.length === 0) fields.push('multilingualSupport');
-  if (t.vegetarian !== true && t.allergyNotice !== true) fields.push('dietaryAllergy');
-  if (t.accessibility !== true) fields.push('accessibility');
+  // The tag-derived claims are queued regardless of their value: a positively
+  // populated tag (language/vegetarian/allergyNotice/accessibility) is a
+  // user-visible claim from an unverified source and needs confirmation just
+  // like a negative or absent one. No value is invented — the claim/unknown
+  // field itself is queued for confirmation.
+  fields.push('multilingualSupport', 'dietaryAllergy', 'accessibility');
+
   fields.push('storyWording', 'makerWording', 'photoReusePermission');
   return fields;
 }
@@ -339,7 +322,7 @@ export function listUnverifiedFields(input: {
     if (status === 'verified') {
       continue;
     }
-    for (const field of placeReviewFields(place)) {
+    for (const field of placeReviewFields()) {
       add('place', place.id, field, status, place.source.name);
     }
   }
@@ -360,7 +343,7 @@ export function listUnverifiedFields(input: {
     if (status === 'verified') {
       continue;
     }
-    for (const field of spotReviewFields(spot)) {
+    for (const field of spotReviewFields()) {
       add('spot', spot.placeId, field, status, spot.source.name);
     }
   }

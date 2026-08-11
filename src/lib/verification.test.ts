@@ -416,6 +416,84 @@ describe('machine-readable needs_confirmation list (#129)', () => {
     expect(entries.every((e) => e.status === 'needs_confirmation')).toBe(true);
   });
 
+  it('queues affirmative spot tag claims for an unverified spot (#129)', () => {
+    // Positively populated tags are user-visible claims from an unverified
+    // source; they must still be queued for stakeholder confirmation, exactly
+    // like negative / absent values. No value is invented — the claim field
+    // itself is queued.
+    const entries = listUnverifiedFields({
+      places: [],
+      foodCultures: [],
+      spots: [
+        {
+          placeId: 's-tags',
+          origin: 'editorial',
+          practical: undefined,
+          tags: {
+            language: ['ja', 'en'],
+            vegetarian: true,
+            allergyNotice: true,
+            accessibility: true,
+          },
+          source: source({ sourceType: 'official_web', retrievedAt: TODAY }),
+        },
+      ],
+    });
+
+    const fields = entries.filter((e) => e.recordId === 's-tags').map((e) => e.field);
+    expect(fields).toContain('multilingualSupport');
+    expect(fields).toContain('dietaryAllergy');
+    expect(fields).toContain('accessibility');
+    // The populated practical fields are still queued alongside.
+    expect(fields).toContain('hours');
+    expect(fields).toContain('reservation');
+  });
+
+  it('queues address + coordinates for every unverified place (#129)', () => {
+    // A demo unverified place (approximate coords) queues both fields.
+    const demoPlace = {
+      id: 'p-demo2',
+      origin: 'demo' as const,
+      address: 'Okutama',
+      latitude: 35.8,
+      longitude: 139.1,
+      source: source({ verificationStatus: 'needs_confirmation' }),
+    };
+    // A non-demo unverified place queues both fields too.
+    const sourcePlace = {
+      id: 'p-source2',
+      origin: 'source' as const,
+      address: 'Ome',
+      latitude: 35.78,
+      longitude: 139.27,
+      source: source({ sourceType: 'official_web', retrievedAt: TODAY }),
+    };
+    const verifiedPlace = {
+      id: 'p-verified2',
+      origin: 'source' as const,
+      address: 'Hinode',
+      latitude: 35.74,
+      longitude: 139.27,
+      source: source({ verificationStatus: 'verified', confirmedAt: '2026-08-08' }),
+    };
+    const entries = listUnverifiedFields({
+      places: [demoPlace, sourcePlace, verifiedPlace],
+      foodCultures: [],
+      spots: [],
+    });
+
+    const demoFields = entries.filter((e) => e.recordId === 'p-demo2').map((e) => e.field);
+    expect(demoFields).toContain('address');
+    expect(demoFields).toContain('coordinates');
+
+    const sourceFields = entries.filter((e) => e.recordId === 'p-source2').map((e) => e.field);
+    expect(sourceFields).toContain('address');
+    expect(sourceFields).toContain('coordinates');
+
+    // Verified places still produce no review entries.
+    expect(entries.find((e) => e.recordId === 'p-verified2')).toBeUndefined();
+  });
+
   it('does not duplicate record+field entries across route variants (#129)', () => {
     const spots = modelRoutes
       .flatMap((r) => Object.values(r.variants).flatMap((v) => v.steps.map((s) => s.placeId)))
