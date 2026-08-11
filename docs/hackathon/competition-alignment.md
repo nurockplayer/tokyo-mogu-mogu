@@ -26,7 +26,9 @@ Product Principles rule #7 に従う）。
 |---|---|---|
 | ✅ | **verified** — repo 内の source（Open Data / 公開統計 / official web / 契約ドキュメント）に裏付け。 | 観光統計の数値、Open Data の施設 row |
 | 🧪 | **demo fixture / editorial** — 名前や住所は実在するが、coordinate は近似、narrative は team 執筆。 | `seed-places.ts` の `origin: 'demo'`、`seed-routes.ts` の `origin: 'editorial'` |
-| 👀 | **field observation** — #10 fieldwork で取得予定。**8/23 前は大部分未取得**。 | 生産者の生の声、店舗の実営業情報 |
+| 👀 | **field observation** — 2026-08-09 fieldwork で収集済み。repo への
+  verified source / content 統合は #10 待ち（`fieldwork conducted; verified
+  source/content integration pending #10`）。 | 生産者の生の声、店舗の実営業情報 |
 | 🔮 | **future / editorial vision** — 今回 MVP の範囲外だが、Product の将来像。 | multi-region 展開、Badge による next-discovery |
 | ❓ | **unknown** — source が見つからない、または取得・検証できていない。 | 訪都旅行者動態の公式データ、実測の contribution metrics |
 
@@ -102,7 +104,7 @@ Discover → Understand → Visit → Act → Discover next region
 | 1. Discover | Food Profile + Exploration Conditions から、自分に合う地域文化との出会いを作る | S0–S3 / `Food Profile` + Exploration | `Home → /explore → /explore/result` |
 | 2. Understand | 食・作り手・歴史・自然を Story として理解する | S4 / Story | `/story/:id`（東京わさび story, 🧪 editorial） |
 | 3. Visit | 半日 / 1日の Route に変換して実際の訪問へつなげる | S5–S6 / Route + Spot | `/route` の `okutama-wasabi-journey`（half-day / 1-day, 🧪） |
-| 4. Act | 食べる / 買う / 体験する / 共有する等の行動を地域消費・文化継承へ接続する | S7 / Support | `/support`（買う・訪れる・予約・寄付・共有・保存, 🧪 demo CTA） |
+| 4. Act | 食べる / 買う / 体験する / 共有する等の行動を地域消費・文化継承へ接続する | S7（historical）→ distributed Support CTA（#92） | Story / Route / Spot に分散配置した support CTA（外部リンク優先, 🧪 demo CTA）。standalone `/support` は primary destination ではない |
 | 5. Discover next region | 継続機能を使う場合は次の地域発見の動機につなげる | S8 / S9（stretch）+ `Discover` | `/my` 保存ルート、Badge（stretch, 🔮） |
 
 App の behavioral journey（#92）として語る（Section 6-5 参照）：
@@ -220,10 +222,12 @@ Home → Food Profile (first time) → Exploration → Result → Story → Rout
   - 店舗・料理・生産者・生産地を一つの Story として扱う（🧪）: `seed-routes.ts`
     の SPOT_DETAILS は wasabi 生産 → そば → 道の駅購入を一続きの物語に接続
     （「production から consumption までの水の物語」等）。
-  - `行くこと/食べること/買うこと` の地域的意味を見せる（🧪/🔮）: S7 Support の
-    各 action に文化継承の意味付け。実績の裏付けは fieldwork 待ち 👀。
+  - `行くこと/食べること/買うこと` の地域的意味を見せる（🧪/🔮）: Story / Route /
+    Spot に分散配置した distributed support CTA の各 action に文化継承の意味付け
+    （S7 standalone page は historical mapping のみ）。実績の裏付けは fieldwork
+    conducted（2026-08-09）；verified source / content 統合は #10 待ち 👀。
 - **product/demo surface**: S4 Story（wasabi の地理・歴史・作り手）+ S5 Route の
-  「奥多摩わさび紀行」half-day / 1-day + S7 の行動。
+  「奥多摩わさび紀行」half-day / 1-day + S6 Spot の行動（外部リンク優先）。
 - **差異化の核心**: 「知らない地域に、理由のある初めての訪問を作る」こと自体が
   claim。ランキング系（23区内の評価）と対比して説明する。
 
@@ -265,7 +269,8 @@ Home → Food Profile (first time) → Exploration → Result → Story → Rout
   - chain の中間以降（実際の訪問・地域消費・事業者接点・継承）は **8/23 時点で
     実測の contribution metrics なし**。以下で区別する：
     - 仮説としての chain: ✅/🔮（#112 の Product Vision）。
-    - 実績: ❓ 未取得 — #10 fieldwork と demo 後の定性的フィードバックで補う。
+    - 実績: ❓ 未取得 — 2026-08-09 fieldwork の取材済み素材（#10 統合待ち）と
+      demo 後の定性的フィードバックで補う。
   - **Demos で contribution metrics を捏造しない**。成果は source-backed に
     限定する。✅
 - **product/demo surface**: 未来像（multi-region 展開、文化継承）は 🔮 として
@@ -287,14 +292,17 @@ Home → Food Profile (first time) → Exploration → Result → Story → Rout
     - `Discover` = 診断なしで browse（`/discover`）。
     - `MOGU` = recent recommendations（`/mogu`）。
     - `My` = Saved Routes / Food Profile / optional Badges（`/my`）。
-  - 実装上の route 表と対応: `AppRouter.tsx` の `/home /explore /explore/result
-    /food-profile /story/:id /route /spot/:placeId /support /my-route /discover
-    /mogu /my` ✅。
-- **product/demo surface**: 60–90 秒デモで S0–S3 完走 → story → route → support
-  の弧を説明（`docs/mvp-scope.md` §5）。アカウントレス・決定論的・
+  - 実装上の current route 表と対応: `AppRouter.tsx` の `/home /explore
+    /explore/result /food-profile /story/:id /route /spot/:placeId /discover
+    /mogu /my` ✅。Legacy の `/support`・`/my-route` は compatibility-only の
+    direct-URL として保持されているだけで、current Product / IA の evidence では
+    ない（#92）。
+- **product/demo surface**: 60–90 秒デモで
+  `Result → Story → Route → Spot → external/local action` の弧を説明
+  （`docs/mvp-scope.md` §5）。アカウントレス・決定論的・
   geolocation 不要で再現可能。✅
-- **維持可能性の主張**: 初回診断で終わらず、Discover / MOGU / My で再訪と
-  次地域発見へつなぐ。これは service design claim（🔮 実績は未計測）。
+- **維持可能性の主張**: 初回の推薦フローで終わらず、Discover / MOGU / My で
+  再訪と次地域発見へつなぐ。これは service design claim（🔮 実績は未計測）。
 
 ---
 
@@ -353,13 +361,13 @@ dashboard ではない**。区部/多摩公式分割は非公開（proxy 使用�
   `okutama-wasabi-journey`（half-day / 1-day）。mobility は編集上の見積もり。
   実在 store の営業情報等は source が裏付けない限り S6 は未検証表示 ❓。
 
-### 7-5. Fieldwork（未取得 — assumption / pending）— 👀/❓
+### 7-5. Fieldwork（2026-08-09 実施済み；verified content 統合は #10 待ち）— 👀
 
 | 項目 | 状態 |
 |---|---|
-| #10 Okutama fieldwork（一次情報・素材） | **8/10 時点で完了確認なし**（Issue #10 は OPEN）。取得後、Story/Route/Spot/support の一次情報に差し替える |
-| 生産者・地域側の課題 / 機会の一次情報 | ❓ 未取得 — 得られたら source 付きで追記 |
-| 店舗の実営業情報（時間・料金・予約可否・言語対応等） | ❓ 未取得 — S6 は未検証 state を表示 |
+| #10 Tama / Okutama fieldwork（一次情報・素材） | **2026-08-09 に実施済み**。Issue #10 は OPEN — verified source / content の統合は #10 待ち（`fieldwork conducted; verified source/content integration pending #10`）。統合後に Story/Route/Spot の一次情報へ差し替え |
+| 生産者・地域側の課題 / 機会の一次情報 | 👀 fieldwork で収集済み（未統合）— #10 統合時に source 付きで追記 |
+| 店舗の実営業情報（時間・料金・予約可否・言語対応等） | 👀 fieldwork で収集済み（未統合）— S6 は統合前は未検証 state を表示 |
 | 実訪問・地域消費への転換実績 | ❓ 未取得 — demo では contribution metrics を捏造しない |
 
 ### 7-6. Future / Editorial Vision — 🔮
@@ -380,10 +388,10 @@ dashboard ではない**。区部/多摩公式分割は非公開（proxy 使用�
 - [x] 23区への観光集中 / outer Tokyo との差を示す quantitative evidence
   （baseline M1–M3 ✅）
 - [x] 使用した Open Data と、その Product role（7-1 / 7-2 / 7-3 ✅/🧪）
-- [ ] 多摩 first-pilot fieldwork evidence（#10, 👀 未完了）
+- [ ] 多摩 first-pilot fieldwork evidence（#10, 👀 取材済み・verified 統合待ち）
 - [x] 実在する Route / Spot / action destination（🧪 実在の店舗・施設名、
   route は editorial; 座標・営業情報は要再検証）
-- [ ] 地域側 / 生産者側の課題または機会についての一次情報（👀 未取得）
+- [ ] 地域側 / 生産者側の課題または機会についての一次情報（👀 取材済み・#10 統合待ち）
 - [x] Product が `行きたい理由` を作る mechanism の説明（Section 3 ✅）
 - [x] MVP と future multi-region vision の境界（Section 4 ✅）
 - [ ] five judging axes 各1つ以上の concrete evidence（Section 6 — Data / Idea /
@@ -392,8 +400,9 @@ dashboard ではない**。区部/多摩公式分割は非公開（proxy 使用�
 - [ ] 公式テーマ一覧の確認（公開され次第、Section 5 用語を更新 ❓）
 
 **Honesty guardrail**: fieldwork・interview・stakeholder feedback・統計・訪談の
-捏造禁止。evidence が無い軸は「evidence 尚未取得、需 #10 fieldwork 補充」と
-明記する。観光分散の実効性は仮説（✅ 数値は入口、🔮/❓ 実績は未計測）。
+捏造禁止。evidence が無い軸は「verified な evidence は 2026-08-09 fieldwork の
+取材済み素材にあり、repo への統合は #10 待ち」と明記する。観光分散の実効性は
+仮説（✅ 数値は入口、🔮/❓ 実績は未計測）。
 
 ---
 
@@ -403,8 +412,9 @@ dashboard ではない**。区部/多摩公式分割は非公開（proxy 使用�
 > 東京全体へ観光の流れを広げる。
 
 - 説明の核（60–90 秒 demo）: 「知らない」地域文化 → Story で「わかる」 →
-  Route で「行ける」 → Support で「支える」。`docs/mvp-scope.md` §5 の demo
-  journey と整合。✅
+  Route で「行ける」 → Spot で実際の行動（外部リンク優先）へ。
+  `Result → Story → Route → Spot → external/local action`。`docs/mvp-scope.md`
+  §5 の demo journey と整合。✅
 - 統計の最短表現（baseline §6 より）: 渋谷 67% / 新宿 57% / 銀座 50% vs 多摩は
   3.5% 未満、奥多摩 0.7%。✅
 - 注意: ワンライナーの後段（「東京全体へ観光の流れを広げる」）は **未来像
