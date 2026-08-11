@@ -37,12 +37,13 @@ what the product can legally build.
   CC BY 4.0) models the **Tama interior loop**, not the Okutama corridor.
 - **The MVP corridor (奥多摩) is the least-open corner of Tokyo open data**
   (奥多摩町 publishes only 3 datasets; 檜原村 2; no wasabi/direct-sale/道の駅
-  dataset exists in the catalog). This confirms the existing fieldwork /
-  editorial content route is correct and not a data gap to close by plumbing.
+  dataset was found in this catalog scan). This confirms the existing
+  fieldwork / editorial content route is correct and not a data gap to close
+  by plumbing.
 - **Genuinely surprising opportunities outside the current FoodCulture/Place/
   Route model**: school-lunch menus (学校給食献立) with ingredients/allergens,
-  food-business license lists (食品営業許可) as the only official structured
-  "this restaurant really exists" verification, and daily wholesale-market
+  food-business license lists (食品営業許可) as official regulatory/listing
+  evidence for facility identity/status validation, and daily wholesale-market
   reports (卸売市場日報, CC BY 4.0, daily) as a computable "what is in season
   today" feed.
 
@@ -79,17 +80,17 @@ what the product can legally build.
 
 Key terrain facts:
 
-1. **The Tokyo catalog is one of Japan's largest municipal open-data
-   accumulations**, but tourism (206) and culture (471) are a small slice of
-   9,648; 行財政 (3,848) dominates.
+1. **The Tokyo catalog is a large municipal open-data accumulation
+   (9,648 catalog datasets observed on 2026-08-11)**, but tourism (206) and
+   culture (471) are a small slice of that total; 行財政 (3,848) dominates.
 2. **Tama is thin where the MVP is.** The western-Tama corridor that the
    product cares about (青梅・あきる野・日の出・瑞穂・奥多摩・檜原) has the least
    open data. The product therefore relies on fieldwork/editorial there — a
    confirmed strategy, not an accident.
 3. **Directly relevant gaps are real**: no wasabi / direct-sale / marché /
-   道の駅 / local-specialty dataset exists in the Tokyo catalog. These product
-   anchors must be editorial with traceable official sources (JA, 観光協会,
-   municipal pages).
+   道の駅 / local-specialty dataset was found in this scan of the Tokyo
+   catalog. These product anchors must be editorial with traceable official
+   sources (JA, 観光協会, municipal pages).
 
 ---
 
@@ -117,8 +118,8 @@ Status legend: **promising** (deep-dive suggested) · *experiment* (needs work)
 | F4 | TOKYO GROWN (`tokyogrown.jp`, ja/en/zh-TW) | 東京の食料品振興財団 | official public web (reuse application) | **promising** | Official multilingual (incl. zh-TW) food/agri portal — ready-made i18n & story source | Story, Spot, Discover |
 | F5 | GO TOKYO 日本酒ガイド (小澤酒造 沢井 / 石川酒造 福生, both on 青梅線) | 東京都観光公式サイト | official public web | **promising** | Real sake-brewery day-trip on the 青梅線 rail | Route, Story, Spot |
 | F6 | 農林業センサス 市町村データ (e-Stat, 2025 確報 2026-08-07) | 総務省統計局 | Open Data | **promising** (**overlap-with-#128**) | Municipality agriculture-vitality profile — "towns where farming is still alive" | Discover, Story, Pitch |
-| F7 | 学校給食献立 (東村山 `…/20240910school_lunch.csv` 5,363 rows; 青梅) | 東村山市・青梅市 | Open Data (CC BY 4.0) | **promising** | What a town's children actually eat daily — menu/ingredients/allergens = everyday food culture | Story, 地域タブ (new) |
-| F8 | 食品営業許可・届出施設一覧 (自治体標準データセット, 276 hits catalog-wide) | 各区市 (新宿・中野・江東・目黒・東村山 …) | Open Data (CC BY 4.0) | **promising** | Official structured "this restaurant really exists / is licensed" verification + new-opening detection | Discover, Spot (verify) |
+| F7 | 学校給食献立 (東村山 `…/20240910school_lunch.csv` 5,363 rows; 青梅) | 東村山市・青梅市 | Open Data (CC BY 4.0) | **promising** | Published/planned school-lunch menus with ingredients/allergens — a window on planned everyday food culture (no claim about actual consumption) | Story, 地域タブ (new) |
+| F8 | 食品営業許可・届出施設一覧 (自治体標準データセット, 276 hits catalog-wide) | 各区市 (新宿・中野・江東・目黒・東村山 …) | Open Data (CC BY 4.0) | **promising** | Official regulatory/listing evidence for facility identity/status validation (subject to freshness; does not by itself prove current operation) + new-opening detection | Discover, Spot (verify) |
 | F9 | 東京の名湧水57選 | 東京都環境局 | official public web | *experiment* | Water → sake/wasabi/cuisine link (水系 as a new relation) | Story, Route, Spot |
 | F10 | 町田市名産品 CSV (lat/lon) | 町田市 | Open Data (CC BY 4.0) | *experiment* | Municipality-level "specialty × coordinates" exemplar (2018 snapshot) | Spot, Discover |
 | F11 | 東京都農業振興事務所 管内農業概要 PDF | 東京都 | official public web | *experiment* | Official region agriculture profile for Story/Pitch backing | Story, Pitch |
@@ -187,7 +188,7 @@ mapped to current #92 surfaces and to the #112 dispersion goal.
 | P3 | **多摩內陸 Mobility Loop** — deterministic fares + local-bus last-mile on free licenses | M1+M2+M3 (+M8 contrast) | Route, Result, Spot | deterministic fare/feasibility; reachability-by-community-bus | 立川・多摩センター・東大和・東村山・町田 |
 | P4 | **Quiet-vs-busy 駅/月別信號** — calmness & season grounded in data | D4+D1 (+D2) | Home, Result, Discover | calmness score; monthly crowding layer | 青梅線・奥多摩 corridor; all Tama stations |
 | P5 | **島しょ Access & Live window** — logistics-first island trips | W4+W2+W3 | Route, Spot, Result | 運航-risk layer; live island window | 大島・三宅島・八丈島・父島 |
-| P6 | **日常食資料窗「這個地方的人吃什麼」** — school menus + licensed-restaurant reality | F7+F8 | Story, 地域タブ (new), Discover | everyday-food layer; new-opening detection; existence verification | 東村山・青梅 (西多摩食) |
+| P6 | **日常食資料窗「這個地方計畫吃什麼」** — school menus + licensed-restaurant listings | F7+F8 | Story, 地域タブ (new), Discover | planned everyday-food layer; new-opening detection; facility status validation | 東村山・青梅 (西多摩食) |
 | P7 | **道の駅/實用休息層** — practical rest-stop profiling | M4+M5 | Discover, Spot, Route | practical-rest-stop profile | あきる野(あきがわ)・八王子(滝山) |
 
 Also preserved as surprising opportunities that do not fit the current model
@@ -312,8 +313,8 @@ applied — pending Issue owner review):
 - **モビリティは二層のライセンス構造**: JR 青梅線・京王線はチャレンジ2026限定で
   再利用不可、自由に使えるのは多摩都市モノレール＋コミュニティバス＋都営。奥多摩
   回廊はオープンデータ最貧区で、フィールドワーク/編集が正しい。
-- **驚きの機会**: 学校給食献立（青梅・東村山）、食品営業許可一覧（店の実在
-  verification）、卸売市場日報（日次の「今日の旬の魚」）。
+- **驚きの機会**: 学校給食献立（青梅・東村山）、食品営業許可一覧（施設の実在・
+  ステータス検証の公式規制/リスト情報）、卸売市場日報（日次の「今日の旬の魚」）。
 - **垂直スライス候補**: ①青梅線・御岳/沢井 酒蔵×文化財日帰り、②当季東京野菜
   Discover、③青梅線駅の静/混雑シグナル。**既存 8/23 デモと競合せず、source-backed
   で実装可能**な 2–3 本を推奨。
