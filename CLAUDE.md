@@ -98,3 +98,11 @@ When an Issue references a Spec under `docs/specs/`:
 - Do not implement behavior that contradicts the Spec.
 - Do not fill in unresolved product behavior on your own; surface it instead.
 - If a Spec change is needed, call it out explicitly as its own change rather than mixing it into implementation scope.
+
+## Agent Handoff / エージェント引き継ぎ
+
+The PR comment carrying the marker `<!-- agent-handoff:v1 -->` is the canonical
+cross-agent execution state for the current PR. The Stop hook at
+`.claude/hooks/agent-handoff.sh` creates that comment once and PATCHes it at the
+end of every main-agent turn. Never create a second comment with this marker;
+never edit or delete the existing one manually.
