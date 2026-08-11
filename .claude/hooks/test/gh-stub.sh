@@ -113,6 +113,13 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+# Real `gh api` treats --template/--jq/--silent/--verbose as mutually exclusive
+# ("only one of ... may be used"); model that so a regression that combines
+# them fails the test.
+if [[ "$silent" == true && -n "$jq_filter" ]]; then
+  fail "only one of \`--template\`, \`--jq\`, \`--silent\`, or \`--verbose\` may be used"
+fi
+
 raw=''
 if [[ "$url" == "repos/${REPO}/issues/${PR_NUMBER}/comments?per_page=100" ]]; then
   raw="$(api_list_comments)"
@@ -126,11 +133,10 @@ else
   fail "unknown api url: $url"
 fi
 
-if [[ "$silent" == true ]]; then
-  # --silent suppresses the response body (gh api --help); exit status only.
-  exit 0
-elif [[ -n "$jq_filter" ]]; then
+if [[ -n "$jq_filter" ]]; then
   printf '%s\n' "$raw" | jq "$jq_filter"
+elif [[ "$silent" == true ]]; then
+  exit 0
 else
   printf '%s\n' "$raw"
 fi

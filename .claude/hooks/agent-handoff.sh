@@ -46,8 +46,10 @@ if [[ -z "$summary" ]]; then
   echo "[${HOOK_NAME}] no last_assistant_message in Stop payload; nothing to hand off"
   exit 0
 fi
-# Collapse the summary to a single line so it survives JSON/body encoding.
-summary="$(printf '%s' "$summary" | tr '\n' ' ')"
+# Preserve multiline Markdown in the summary. Sanitize any literal marker in it
+# so the generated body contains exactly one marker (the one at the top) even
+# when the Claude response itself mentions the marker.
+summary="${summary//$MARKER/agent-handoff:v1}"
 
 # --- locate repository (best effort) ------------------------------------------
 repo_root="$(git rev-parse --show-toplevel 2>/dev/null || true)"
@@ -79,7 +81,9 @@ pr_url="$(printf '%s' "$pr" | jq -r '.url')"
 # repo full name: prefer gh (honours remotes even when origin is missing).
 repo_full_name="$(gh repo view --json nameWithOwner -q .nameWithOwner 2>/dev/null || true)"
 if [[ -z "$repo_full_name" ]]; then
-  repo_full_name="$(git remote get-url origin 2>/dev/null || true | sed -E 's#.*[:/]([^/]+/[^/]+)\.git$#\1#; s#.*[:/]([^/]+/[^/]+)$#\1#')"
+  # Group the git command before the pipe so sed transforms the actual origin
+  # URL (the sed must not apply to the empty `true` branch).
+  repo_full_name="$({ git remote get-url origin 2>/dev/null || true; } | sed -E 's#.*[:/]([^/]+/[^/]+)\.git$#\1#; s#.*[:/]([^/]+/[^/]+)$#\1#')"
 fi
 if [[ -z "$repo_full_name" ]]; then
   echo "[${HOOK_NAME}] could not determine repo full name; skipping handoff"
@@ -123,13 +127,15 @@ Next agent: read this comment, then the linked Issue / PR description, then resu
 
 ${summary}"
 
-# The marker must appear exactly once, at the top of the body. If the payload
-# summary ever corrupted it, fail safe rather than publish a broken marker.
-marker_count="$(printf '%s' "$handoff" | grep -Fc "$MARKER")"
-if [[ "$marker_count" -ne 1 ]]; then
-  echo "[${HOOK_NAME}] marker validation failed (count=${marker_count}); skipping handoff"
-  exit 0
-fi
+# The canonical marker must sit exactly once, at the very top of the body. The
+# summary is already sanitized above, but verify the prefix to be safe.
+case "$handoff" in
+  "$MARKER"$'\n'*) : ;;
+  *)
+    echo "[${HOOK_NAME}] marker validation failed; skipping handoff"
+    exit 0
+    ;;
+esac
 
 # --- locate existing handoff comment (by marker) or create ---------------------
 # `gh api` does not accept jq's --arg, so the dynamic marker is passed to a
