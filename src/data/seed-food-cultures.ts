@@ -50,8 +50,7 @@ export const FOOD_CULTURES: FoodCulture[] = [
         sourceType: 'official_web',
         retrievedAt: '2026-08-08',
         sourceUpdatedAt: '2026-08-08',
-        confirmedAt: '2026-08-08',
-        verificationStatus: 'verified',
+        verificationStatus: 'needs_confirmation',
         originalId: 'seed-1'
       },
       {
@@ -61,8 +60,7 @@ export const FOOD_CULTURES: FoodCulture[] = [
         sourceType: 'official_web',
         retrievedAt: '2026-08-08',
         sourceUpdatedAt: '2026-08-08',
-        confirmedAt: '2026-08-08',
-        verificationStatus: 'verified',
+        verificationStatus: 'needs_confirmation',
         originalId: 'seed-2'
       },
     ],

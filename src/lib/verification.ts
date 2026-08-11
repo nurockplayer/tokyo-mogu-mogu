@@ -7,8 +7,18 @@
  *  1. `deriveVerificationStatus` / `recordVerificationStatus` — what degree of
  *     stakeholder confirmation stands behind a source or a whole record.
  *  2. `isStale` — whether the source document has moved on since the facts were
- *     last confirmed, so they should be treated as unverified rather than
+ *     last observed, so they should be treated as unverified rather than
  *     claimed as current.
+ *
+ * SEMANTICS — the three timestamps are deliberately kept separate (Issue #129):
+ *
+ * - `confirmedAt`  — actual stakeholder / team confirmation ONLY. Retrieval or
+ *   cross-referencing a source is NOT confirmation. Missing `confirmedAt` means
+ *   the record is unconfirmed.
+ * - `retrievedAt`  — when the data was retrieved / observed, nothing more.
+ * - `lastVerified` — legacy field kept as-is. It is a retrieval / check
+ *   timestamp from before #129; it must never silently become stakeholder
+ *   confirmation.
  *
  * The rule used everywhere in this module: **absence of evidence is not
  * evidence of verified**. Missing / unspecified status always degrades to a
@@ -21,50 +31,51 @@
 import type { DataSource, VerificationStatus } from '../data/model';
 
 /**
- * The date the confirmation behind a source was last established: `confirmedAt`
- * when a stakeholder confirmed it, otherwise the retrieval / last-verified date
- * (`retrievedAt` / `lastVerified`) that represents when the facts were checked.
+ * The stakeholder confirmation date behind a source. `confirmedAt` only:
+ * a source that was retrieved or cross-referenced but never confirmed has no
+ * confirmation date. Never falls back to `retrievedAt` / `lastVerified`,
+ * because retrieval is not confirmation.
  */
 export function confirmationDate(source: DataSource): string | undefined {
-  return source.confirmedAt ?? source.retrievedAt ?? source.lastVerified;
+  return source.confirmedAt;
 }
 
 /**
- * True when the confirmation behind a source is older than the source document
- * itself, i.e. the source may have moved on since we last checked. The date
- * comparison is string-based (ISO 8601 `YYYY-MM-DD` sorts lexicographically),
- * mirroring how the rest of the codebase compares dates.
+ * True when the source document has moved on since the facts were last
+ * observed: `sourceUpdatedAt` (the source document's own last-updated date) is
+ * newer than the observation/retrieval timestamp (`retrievedAt`, falling back
+ * to the legacy `lastVerified`). The date comparison is string-based (ISO 8601
+ * `YYYY-MM-DD` sorts lexicographically), mirroring how the rest of the codebase
+ * compares dates.
  *
- * Only sources that have both dates and a non-demo origin can be stale — a demo
- * fixture is labelled demo, not stale. A missing confirmation date is not
- * "stale" here; it falls through to the needs_confirmation default.
- *
- * This is a document-freshness rule, not an elapsed-time rule: use
- * `isConfirmationOlderThan` when the intent is "no re-check within N days".
+ * This is a document-freshness rule and is deliberately NOT called
+ * "confirmation": an updated source document means "the facts may have drifted
+ * since we looked", never "a stakeholder confirmed the newer state". A missing
+ * observation date or an updated-but-unobserved source is not "stale" here; it
+ * falls through to the needs_confirmation default.
  */
-export function isStale(source: DataSource): boolean {
-  if (source.verificationStatus === 'demo' || source.sourceType === 'demo') {
-    return false;
-  }
-  const confirmed = confirmationDate(source);
+export function isSourceDocumentStale(source: DataSource): boolean {
   const updated = source.sourceUpdatedAt;
-  if (confirmed === undefined || updated === undefined) {
+  const observed = source.retrievedAt ?? source.lastVerified;
+  if (updated === undefined || observed === undefined) {
     return false;
   }
-  return updated > confirmed;
+  return updated > observed;
 }
 
 /**
- * True when the source has not been confirmed within the last `maxAgeDays`
- * days of `todayIso` — an elapsed-time staleness rule for consumers that want
- * to fail safe against silent drift rather than only against source updates.
+ * True when the source has not been stakeholder-confirmed within the last
+ * `maxAgeDays` days of `todayIso` — an elapsed-time rule. Uses `confirmedAt`
+ * ONLY; a source with no `confirmedAt` is treated as never confirmed (returns
+ * true regardless of how recently it was retrieved). Retrieval must never be
+ * counted as stakeholder confirmation (Issue #129).
  */
 export function isConfirmationOlderThan(
   source: DataSource,
   todayIso: string,
   maxAgeDays: number,
 ): boolean {
-  const confirmed = confirmationDate(source);
+  const confirmed = source.confirmedAt;
   if (confirmed === undefined) {
     return true;
   }
@@ -85,9 +96,12 @@ export function isConfirmationOlderThan(
  *    sourceType) is NEVER presented as verified — `demo` wins even over an
  *    explicit status, so a mislabeled demo record can never leak out as a
  *    verified production fact (Issue #129).
- * 2. An explicit status wins.
- * 3. An updated source with no matching confirmation → `stale`.
- * 4. Anything else degrades to `needs_confirmation` — never to `verified`.
+ * 2. An explicit `verified` status requires stakeholder confirmation
+ *    (`confirmedAt`) — a `verified` source with no `confirmedAt` degrades to
+ *    `needs_confirmation` (official_web + retrieval is not confirmation).
+ * 3. An explicit non-verified status wins.
+ * 4. An updated source document with an older observation → `stale`.
+ * 5. Anything else degrades to `needs_confirmation` — never to `verified`.
  */
 export function deriveVerificationStatus(
   source: Pick<DataSource, 'verificationStatus' | 'sourceType' | 'sourceUpdatedAt' | 'retrievedAt' | 'lastVerified' | 'confirmedAt'>,
@@ -96,10 +110,15 @@ export function deriveVerificationStatus(
   if (origin === 'demo' || source.sourceType === 'demo') {
     return 'demo';
   }
+  if (source.verificationStatus === 'verified' && source.confirmedAt === undefined) {
+    // A record cannot be verified on the strength of retrieval / source
+    // existence alone (Issue #129).
+    return 'needs_confirmation';
+  }
   if (source.verificationStatus !== undefined) {
     return source.verificationStatus;
   }
-  if (isStale(source as DataSource)) {
+  if (isSourceDocumentStale(source as DataSource)) {
     return 'stale';
   }
   return 'needs_confirmation';
@@ -110,6 +129,11 @@ export function recordVerificationStatus(
   sources: ReadonlyArray<DataSource>,
   origin: 'source' | 'editorial' | 'demo',
 ): VerificationStatus {
+  // A record with no sources has no evidence behind it — it cannot be verified
+  // ("absence of evidence is not evidence of verified").
+  if (sources.length === 0) {
+    return origin === 'demo' ? 'demo' : 'needs_confirmation';
+  }
   const statuses = sources.map((s) => deriveVerificationStatus(s, origin));
 
   // A demo fixture anywhere in the record means the record cannot be a verified
@@ -146,26 +170,111 @@ export function sourceConflictLabel(
 }
 
 /**
- * A machine-readable list of record fields that still need stakeholder
- * confirmation (Issue #129 AC: "a machine-readable list of needs_confirmation
- * fields can be generated for stakeholder review").
- *
- * Returns stable `{ recordType, recordId, field, source }` entries — one per
- * field per record — for every record whose verification is not `verified`
- * (including fully `demo` records, which are called out as demo so reviewers
- * can separate them). Records with no data need no confirmation rows.
+ * A concrete review field for the machine-readable needs_confirmation list
+ * (Issue #129 AC). The field identifiers below mirror the canonical data shape
+ * (model.ts, seed-places.ts, seed-routes.ts) so #133 can act on the exact field
+ * that needs stakeholder confirmation instead of a category bucket.
+ */
+export type ReviewField =
+  | 'address'
+  | 'coordinates'
+  | 'hours'
+  | 'closedDays'
+  | 'price'
+  | 'reservation'
+  | 'bookingDestination'
+  | 'multilingualSupport'
+  | 'dietaryAllergy'
+  | 'accessibility'
+  | 'storyWording'
+  | 'makerWording'
+  | 'photoReusePermission'
+  | 'facts';
+
+/**
+ * A machine-readable list of concrete record fields that still need stakeholder
+ * confirmation. One entry per field per record. Only fields that exist in the
+ * canonical shape are listed — no invented values. A record whose verification
+ * is not `verified` lists the concrete fields that are absent or unverified
+ * (demo records are listed with their fields so reviewers can separate them;
+ * a fully verified record contributes nothing).
  */
 export interface UnverifiedFieldEntry {
   recordType: 'place' | 'foodCulture' | 'spot';
   recordId: string;
-  field: string;
+  field: ReviewField;
   source: string;
+}
+
+/**
+ * Concrete fields reviewed at the place level, derived from the canonical
+ * `Place` shape: address, coordinates. `coordinates` is flagged as needs
+ * confirmation for demo-origin places (approximate coords).
+ */
+export function placeReviewFields(place: {
+  origin: 'source' | 'editorial' | 'demo';
+  address: string;
+  latitude: number;
+  longitude: number;
+}): ReviewField[] {
+  if (place.origin === 'demo') {
+    return ['coordinates'];
+  }
+  return ['address'];
+}
+
+/**
+ * Concrete fields reviewed for a spot's practical info, derived from the
+ * canonical `SpotPracticalInfo` / `SpotTags` shape. A field is listed when it
+ * is part of the shape and absent / unverified in the current data:
+ * hours, closedDays, price, reservation, bookingDestination,
+ * multilingualSupport, dietaryAllergy, accessibility, storyWording,
+ * makerWording, photoReusePermission.
+ */
+export function spotReviewFields(detail: {
+  practical?: {
+    hoursJa?: string;
+    hoursEn?: string;
+    closedDaysJa?: string;
+    closedDaysEn?: string;
+    priceJa?: string;
+    priceEn?: string;
+    reservationAvailable?: boolean;
+  };
+  tags: {
+    language?: Array<'ja' | 'en'>;
+    vegetarian?: boolean;
+    allergyNotice?: boolean;
+    accessibility?: boolean;
+  };
+}): ReviewField[] {
+  const fields: ReviewField[] = [];
+  const p = detail.practical;
+  if (p === undefined) {
+    fields.push('hours', 'closedDays', 'price', 'reservation', 'bookingDestination');
+  } else {
+    if (p.hoursJa === undefined && p.hoursEn === undefined) fields.push('hours');
+    if (p.closedDaysJa === undefined && p.closedDaysEn === undefined) fields.push('closedDays');
+    if (p.priceJa === undefined && p.priceEn === undefined) fields.push('price');
+    // reservationAvailable is only ever set true from verified data; false /
+    // absent means the reservation status is unconfirmed.
+    if (p.reservationAvailable !== true) fields.push('reservation', 'bookingDestination');
+  }
+  const t = detail.tags;
+  if (t.language === undefined || t.language.length === 0) fields.push('multilingualSupport');
+  if (t.vegetarian !== true && t.allergyNotice !== true) fields.push('dietaryAllergy');
+  if (t.accessibility !== true) fields.push('accessibility');
+  fields.push('storyWording', 'makerWording', 'photoReusePermission');
+  return fields;
 }
 
 export function listUnverifiedFields(input: {
   places: ReadonlyArray<{
     id: string;
     origin: 'source' | 'editorial' | 'demo';
+    address: string;
+    latitude: number;
+    longitude: number;
     source: DataSource;
   }>;
   foodCultures: ReadonlyArray<{
@@ -176,29 +285,46 @@ export function listUnverifiedFields(input: {
   spots: ReadonlyArray<{
     placeId: string;
     origin: 'editorial';
+    practical?: {
+      hoursJa?: string;
+      hoursEn?: string;
+      closedDaysJa?: string;
+      closedDaysEn?: string;
+      priceJa?: string;
+      priceEn?: string;
+      reservationAvailable?: boolean;
+    };
+    tags: {
+      language?: Array<'ja' | 'en'>;
+      vegetarian?: boolean;
+      allergyNotice?: boolean;
+      accessibility?: boolean;
+    };
     source: DataSource;
   }>;
 }): UnverifiedFieldEntry[] {
   const entries: UnverifiedFieldEntry[] = [];
 
   for (const place of input.places) {
-    const status = deriveVerificationStatus(place.source, place.origin);
-    if (status === 'verified') {
+    if (deriveVerificationStatus(place.source, place.origin) === 'verified') {
       continue;
     }
-    entries.push({
-      recordType: 'place',
-      recordId: place.id,
-      field: 'basic',
-      source: place.source.name,
-    });
+    for (const field of placeReviewFields(place)) {
+      entries.push({
+        recordType: 'place',
+        recordId: place.id,
+        field,
+        source: place.source.name,
+      });
+    }
   }
 
   for (const fc of input.foodCultures) {
-    const status = recordVerificationStatus(fc.sources, fc.origin);
-    if (status === 'verified') {
+    if (recordVerificationStatus(fc.sources, fc.origin) === 'verified') {
       continue;
     }
+    // Food-culture facts are team-authored from sources; until a stakeholder
+    // confirms the wording, it stays needs_confirmation.
     entries.push({
       recordType: 'foodCulture',
       recordId: fc.id,
@@ -208,16 +334,17 @@ export function listUnverifiedFields(input: {
   }
 
   for (const spot of input.spots) {
-    const status = deriveVerificationStatus(spot.source, spot.origin);
-    if (status === 'verified') {
+    if (deriveVerificationStatus(spot.source, spot.origin) === 'verified') {
       continue;
     }
-    entries.push({
-      recordType: 'spot',
-      recordId: spot.placeId,
-      field: 'practical',
-      source: spot.source.name,
-    });
+    for (const field of spotReviewFields(spot)) {
+      entries.push({
+        recordType: 'spot',
+        recordId: spot.placeId,
+        field,
+        source: spot.source.name,
+      });
+    }
   }
 
   return entries;

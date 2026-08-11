@@ -3,7 +3,7 @@ import {
   confirmationDate,
   deriveVerificationStatus,
   isConfirmationOlderThan,
-  isStale,
+  isSourceDocumentStale,
   listUnverifiedFields,
   recordVerificationStatus,
   sourceConflictLabel,
@@ -27,13 +27,46 @@ describe('verification status derivation (#129)', () => {
     ).toBe('needs_confirmation');
   });
 
-  it('keeps an explicit verified status when no demo signal exists', () => {
+  it('keeps an explicit verified status only with stakeholder confirmation', () => {
     expect(
       deriveVerificationStatus(
         source({ verificationStatus: 'verified', confirmedAt: '2026-08-08' }),
         'source',
       ),
     ).toBe('verified');
+  });
+
+  it('official_web + recent retrieval alone never becomes verified', () => {
+    // A recently-retrieved official source is still needs_confirmation until a
+    // stakeholder confirms it (Issue #129). Retrieval is not confirmation.
+    expect(
+      deriveVerificationStatus(
+        source({ sourceType: 'official_web', retrievedAt: TODAY }),
+        'source',
+      ),
+    ).toBe('needs_confirmation');
+    expect(
+      deriveVerificationStatus(
+        source({
+          sourceType: 'official_web',
+          retrievedAt: TODAY,
+          lastVerified: TODAY,
+          sourceUpdatedAt: TODAY,
+        }),
+        'source',
+      ),
+    ).toBe('needs_confirmation');
+  });
+
+  it('downgrades an explicit verified status to needs_confirmation without confirmedAt', () => {
+    // A mislabeled record claiming verified without any stakeholder
+    // confirmation must degrade — never verified on retrieval alone.
+    expect(
+      deriveVerificationStatus(
+        source({ verificationStatus: 'verified', retrievedAt: TODAY }),
+        'source',
+      ),
+    ).toBe('needs_confirmation');
   });
 
   it('never lets a demo-origin record be verified, even with an explicit status', () => {
@@ -53,7 +86,7 @@ describe('verification status derivation (#129)', () => {
     ).toBe('demo');
   });
 
-  it('derives stale when the source was updated after its confirmation', () => {
+  it('derives stale when the source document moved after the observation', () => {
     const s = source({
       sourceType: 'official_web',
       retrievedAt: '2026-08-08',
@@ -93,7 +126,7 @@ describe('verification status derivation (#129)', () => {
 });
 
 describe('record-level verification aggregate (#129)', () => {
-  it('is verified only when every source is verified', () => {
+  it('is verified only when every source is stakeholder-confirmed', () => {
     const sources = [
       source({ verificationStatus: 'verified', confirmedAt: '2026-08-08' }),
       source({ verificationStatus: 'verified', confirmedAt: '2026-08-08' }),
@@ -101,7 +134,17 @@ describe('record-level verification aggregate (#129)', () => {
     expect(recordVerificationStatus(sources, 'source')).toBe('verified');
   });
 
-  it('downgrades to needs_confirmation when any source is unverified', () => {
+  it('is not verified when sources are retrieved but never confirmed', () => {
+    // Two official sources that were retrieved and cross-referenced are still
+    // not stakeholder confirmation (Issue #129).
+    const sources = [
+      source({ sourceType: 'official_web', retrievedAt: TODAY }),
+      source({ sourceType: 'official_web', retrievedAt: TODAY }),
+    ];
+    expect(recordVerificationStatus(sources, 'source')).toBe('needs_confirmation');
+  });
+
+  it('downgrades to needs_confirmation when any source is unconfirmed', () => {
     const sources = [
       source({ verificationStatus: 'verified', confirmedAt: '2026-08-08' }),
       source({ sourceType: 'official_web', retrievedAt: '2026-08-08' }),
@@ -118,8 +161,15 @@ describe('record-level verification aggregate (#129)', () => {
   });
 
   it('downgrades to demo for a demo-origin record with verified sources', () => {
-    const sources = [source({ verificationStatus: 'verified' })];
+    const sources = [source({ verificationStatus: 'verified', confirmedAt: '2026-08-08' })];
     expect(recordVerificationStatus(sources, 'demo')).toBe('demo');
+  });
+
+  it('a record with no sources is never verified', () => {
+    // Absence of evidence is not evidence of verified (#129).
+    expect(recordVerificationStatus([], 'source')).toBe('needs_confirmation');
+    expect(recordVerificationStatus([], 'editorial')).toBe('needs_confirmation');
+    expect(recordVerificationStatus([], 'demo')).toBe('demo');
   });
 
   it('downgrades to stale when a stale source exists but no conflict', () => {
@@ -132,35 +182,51 @@ describe('record-level verification aggregate (#129)', () => {
 });
 
 describe('freshness (#129)', () => {
-  it('treats an updated source document as stale vs its confirmation', () => {
+  it('treats an updated source document as stale vs its observation', () => {
     const s = source({ retrievedAt: '2026-08-01', sourceUpdatedAt: '2026-08-09' });
-    expect(isStale(s)).toBe(true);
+    expect(isSourceDocumentStale(s)).toBe(true);
   });
 
-  it('is not stale when the source has not moved since confirmation', () => {
+  it('is not stale when the source has not moved since observation', () => {
     const s = source({ retrievedAt: '2026-08-08', sourceUpdatedAt: '2026-08-08' });
-    expect(isStale(s)).toBe(false);
+    expect(isSourceDocumentStale(s)).toBe(false);
   });
 
-  it('is not stale for a demo fixture', () => {
+  it('a demo fixture with a newer source update derives demo, not stale', () => {
+    // Demo protection lives in the derivation layer: a demo fixture is never
+    // downgraded to stale (or verified), even when the underlying document
+    // moved after the observation.
     const s = source({ sourceType: 'demo', retrievedAt: '2026-08-01', sourceUpdatedAt: '2026-08-09' });
-    expect(isStale(s)).toBe(false);
+    expect(isSourceDocumentStale(s)).toBe(true);
+    expect(deriveVerificationStatus(s, 'editorial')).toBe('demo');
   });
 
-  it('is not stale when the confirmation date is missing', () => {
+  it('is not stale when the observation date is missing', () => {
     const s = source({ sourceUpdatedAt: '2026-08-09' });
-    expect(isStale(s)).toBe(false);
+    expect(isSourceDocumentStale(s)).toBe(false);
   });
 
-  it('confirmationDate prefers confirmedAt over retrievedAt over lastVerified', () => {
+  it('is stale vs the legacy lastVerified when retrievedAt is missing', () => {
+    const s = source({ lastVerified: '2026-08-01', sourceUpdatedAt: '2026-08-09' });
+    expect(isSourceDocumentStale(s)).toBe(true);
+  });
+});
+
+describe('confirmation-date semantics (#129)', () => {
+  it('confirmationDate returns confirmedAt only — retrieval never counts', () => {
+    // retrievedAt / lastVerified are observation timestamps, not stakeholder
+    // confirmation (Issue #129).
     expect(confirmationDate(source({ confirmedAt: '2026-08-08', retrievedAt: '2026-08-01' }))).toBe(
       '2026-08-08',
     );
-    expect(confirmationDate(source({ retrievedAt: '2026-08-01', lastVerified: '2026-08-02' }))).toBe(
-      '2026-08-01',
-    );
-    expect(confirmationDate(source({ lastVerified: '2026-08-02' }))).toBe('2026-08-02');
+    expect(confirmationDate(source({ retrievedAt: '2026-08-01' }))).toBeUndefined();
+    expect(confirmationDate(source({ lastVerified: '2026-08-02' }))).toBeUndefined();
     expect(confirmationDate(source({}))).toBeUndefined();
+  });
+
+  it('a source with retrievedAt but no confirmedAt has no confirmation date', () => {
+    const s = source({ sourceType: 'official_web', retrievedAt: '2026-08-08' });
+    expect(confirmationDate(s)).toBeUndefined();
   });
 
   it('flags a confirmation older than the allowed age', () => {
@@ -169,7 +235,10 @@ describe('freshness (#129)', () => {
     expect(isConfirmationOlderThan(s, '2026-08-11', 15)).toBe(false);
   });
 
-  it('flags a missing confirmation as old', () => {
+  it('a missing confirmedAt remains unconfirmed regardless of retrieval recency', () => {
+    // A recently-retrieved source with no stakeholder confirmation is treated
+    // as never confirmed (Issue #129).
+    expect(isConfirmationOlderThan(source({ retrievedAt: TODAY }), TODAY, 90)).toBe(true);
     expect(isConfirmationOlderThan(source({}), TODAY, 90)).toBe(true);
   });
 });
@@ -188,19 +257,65 @@ describe('conflict representation (#129)', () => {
 });
 
 describe('machine-readable needs_confirmation list (#129)', () => {
+  it('emits concrete field identifiers, not only category buckets', () => {
+    const spots = modelRoutes
+      .flatMap((r) => Object.values(r.variants).flatMap((v) => v.steps.map((s) => s.placeId)))
+      .map((id) => getSpotDetail(id))
+      .filter((d): d is SpotDetail => d !== undefined);
+    const entries = listUnverifiedFields({ places, foodCultures, spots });
+
+    const fields = new Set(entries.map((e) => e.field));
+    // Concrete review fields appear (hours, reservation, accessibility, ...),
+    // and no category-bucket-only entries exist for spots/places.
+    for (const concrete of [
+      'hours',
+      'closedDays',
+      'price',
+      'reservation',
+      'bookingDestination',
+      'multilingualSupport',
+      'dietaryAllergy',
+      'accessibility',
+      'storyWording',
+      'makerWording',
+      'photoReusePermission',
+      'coordinates',
+    ]) {
+      expect(fields, `expected ${concrete}`).toContain(concrete);
+    }
+    // Coarse buckets must not be emitted for places/spots.
+    expect(fields).not.toContain('practical');
+    expect(fields).not.toContain('basic');
+  });
+
+  it('spot entries name the exact practical field to confirm', () => {
+    const spots = modelRoutes
+      .flatMap((r) => Object.values(r.variants).flatMap((v) => v.steps.map((s) => s.placeId)))
+      .map((id) => getSpotDetail(id))
+      .filter((d): d is SpotDetail => d !== undefined);
+    const entries = listUnverifiedFields({ places, foodCultures, spots });
+
+    const sobaFieldEntries = entries.filter((e) => e.recordId === 'okutama-soba-shop');
+    const sobaFields = sobaFieldEntries.map((e) => e.field);
+    // The soba shop has no practical data today — the concrete hours/price/
+    // reservation/accessibility fields must all be listed.
+    expect(sobaFields).toContain('hours');
+    expect(sobaFields).toContain('closedDays');
+    expect(sobaFields).toContain('price');
+    expect(sobaFields).toContain('reservation');
+    expect(sobaFields).toContain('bookingDestination');
+    expect(sobaFields).toContain('accessibility');
+  });
+
   it('lists every record that is not verified across the current seed', () => {
     const spots = modelRoutes
       .flatMap((r) => Object.values(r.variants).flatMap((v) => v.steps.map((s) => s.placeId)))
       .map((id) => getSpotDetail(id))
       .filter((d): d is SpotDetail => d !== undefined);
-    const entries = listUnverifiedFields({
-      places,
-      foodCultures,
-      spots,
-    });
+    const entries = listUnverifiedFields({ places, foodCultures, spots });
 
-    // Every seed place is demo-origin and every unverified food culture is
-    // needs_confirmation, so the list is non-empty and covers the seed.
+    // Every seed record is unverified today (all needs_confirmation / demo), so
+    // the list is non-empty and covers the seed.
     expect(entries.length).toBeGreaterThan(0);
 
     // Stable machine-readable shape.
@@ -210,16 +325,15 @@ describe('machine-readable needs_confirmation list (#129)', () => {
       expect(entry.field.length).toBeGreaterThan(0);
       expect(entry.source.length).toBeGreaterThan(0);
     }
-
-    // The verified wasabi culture must not appear as needs_confirmation.
-    const wasabi = entries.find((e) => e.recordId === 'wasabi-okutama');
-    expect(wasabi).toBeUndefined();
   });
 
   it('returns no entries when every record is verified', () => {
     const verifiedPlace = {
       id: 'p1',
       origin: 'source' as const,
+      address: 'Tokyo',
+      latitude: 35.8,
+      longitude: 139.1,
       source: source({ verificationStatus: 'verified', confirmedAt: '2026-08-08' }),
     };
     const verifiedFc = {
@@ -230,6 +344,18 @@ describe('machine-readable needs_confirmation list (#129)', () => {
     const entries = listUnverifiedFields({
       places: [verifiedPlace],
       foodCultures: [verifiedFc],
+      spots: [],
+    });
+    expect(entries).toEqual([]);
+  });
+
+  it('never lists a record as needs_confirmation when it is actually verified', () => {
+    const confirmed = source({ verificationStatus: 'verified', confirmedAt: '2026-08-08' });
+    const entries = listUnverifiedFields({
+      places: [
+        { id: 'p1', origin: 'source', address: 'X', latitude: 1, longitude: 1, source: confirmed },
+      ],
+      foodCultures: [],
       spots: [],
     });
     expect(entries).toEqual([]);
