@@ -1,10 +1,12 @@
 # Shared Data Contract — Auth Sequence (Issues #21, #22, #23)
 
-> **Status note (Issue #41)**: Google Auth is **reusable infrastructure**, not a
-> requirement of the current hackathon core journey (S0–S9). The current product
-> contract lives at `docs/specs/product/hackathon-product-contract.md`. Keep
-> this auth implementation working, but do not force auth controls into the
-> approved S0–S9 header UI.
+> **Status note (Issue #41, superseded by #112 / #92)**: Google Auth is
+> **reusable infrastructure**, not a requirement of the current hackathon core
+> journey. The current product contract
+> (Issue #112 Product/MVP framing + Issue #92 App IA) lives at
+> `docs/specs/product/hackathon-product-contract.md`. Keep this auth
+> implementation working, but do not force auth controls into the approved
+> header UI.
 
 Google authentication built on the merged SDD/Auth spec (#20), app shell (#14),
 i18n (#12), and config (#13). Read the spec FIRST:

@@ -23,7 +23,7 @@ export function HomePage() {
         <Link to={journeyTarget} className="btn btn-primary" onClick={beginNewExploration}>
           {t('s0Cta')}
         </Link>
-        <Link to="/my-route" className="btn btn-secondary">{t('s8NavLabel')}</Link>
+        <Link to="/my" className="btn btn-secondary">{t('navMy')}</Link>
       </div>
     </section>
   );

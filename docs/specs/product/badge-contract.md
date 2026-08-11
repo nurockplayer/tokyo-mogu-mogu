@@ -115,10 +115,13 @@ Notes:
 
 ### Real fixture: 東京わさび
 
-- 奥多摩 × 東京わさび is the **first-pilot real badge demo fixture**, matching
-  the current Tama / Okutama verified-content focus (Issue #112). It is a
-  possible strong demo fixture, not the only allowed production content
-  contract.
+- 東京わさび is the **current first-pilot demo badge fixture** for the
+  Tama-pilot demo, matching the current Tama / Okutama verified-content focus
+  (Issue #112). It is a possible strong demo fixture, not the only allowed
+  production content contract. The MVP pilot geography is the **Tama area**,
+  not 奥多摩 × 東京わさび as an immutable pair; Okutama is the current
+  fieldwork / verified-content focus and 東京わさび is one verified / visitable
+  candidate (わさび・ヤマメ・マス etc.).
 - All other badge slots may be **future-region / future-culture dummy or locked
   presentation**.
 
