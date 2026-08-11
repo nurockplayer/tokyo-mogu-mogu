@@ -16,8 +16,11 @@
 # (The pull-request review-comment endpoint, pulls/<pr>/comments/<id>, is NOT
 # used for top-level comments and is not simulated.)
 #
-# The stub mimics the `gh api` flags the hook actually uses: --jq, --arg,
-# --method, -f/-F, -o, -w.
+# The stub mirrors the flags `gh api` actually documents (see `gh api --help`):
+#   * -q/--jq, -X/--method, -f/--raw-field, -F/--field, --silent
+# Flags gh does NOT support (--arg, -o, -w) are rejected with exit 1, so a
+# regression that re-introduces them fails the integration test instead of
+# silently passing.
 
 set -euo pipefail
 
@@ -29,6 +32,8 @@ REPO="stub/repo"
 mkdir -p "$(dirname "$STATE")"
 
 log() { printf 'ghstub %s\n' "$*" >>"${STATE}.log"; }
+
+fail() { printf 'ghstub: %s\n' "$*" >&2; exit 1; }
 
 pr_cmd() {
   # Bare "no PR" is exercised separately against the real gh, not via stub.
@@ -84,26 +89,27 @@ if [[ "$1" == "repo" ]]; then
   repo_cmd
   exit 0
 fi
-[[ "$1" == "api" ]] || { log "UNKNOWN subcommand $1"; exit 1; }
+[[ "$1" == "api" ]] || fail "unknown gh subcommand: $1"
 
 url="$2"
 shift 2
 
 jq_filter=''
-jq_arg_list=()
 body_value=''
-want_http=false
+silent=false
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --jq)   jq_filter="$2"; shift 2 ;;
-    --arg)  jq_arg_list+=("--arg" "$2" "$3"); shift 3 ;;
-    -f|-F)
+    --jq|-q)
+      jq_filter="$2"; shift 2 ;;
+    --method|-X)
+      shift 2 ;;
+    -f|--raw-field|-F|--field)
       if [[ "$2" == body=* ]]; then body_value="${2#body=}"; fi
       shift 2 ;;
-    --method) shift 2 ;;
-    -o)     shift 2 ;;
-    -w)     want_http=true; shift 2 ;;
-    *)      shift ;;
+    --silent)
+      silent=true; shift ;;
+    *)
+      fail "unsupported gh api flag: $1" ;;
   esac
 done
 
@@ -117,19 +123,14 @@ elif [[ "$url" == "repos/${REPO}/issues/comments/"* ]]; then
 elif [[ "$url" == *"/pulls/"* ]]; then
   raw="$(api_pulls)"
 else
-  log "api UNKNOWN url=$url"
-  echo '{"error":"stub: unknown url"}' >&2
-  exit 1
+  fail "unknown api url: $url"
 fi
 
-if [[ "$want_http" == true ]]; then
-  printf '200\n'
+if [[ "$silent" == true ]]; then
+  # --silent suppresses the response body (gh api --help); exit status only.
+  exit 0
 elif [[ -n "$jq_filter" ]]; then
-  if [[ "${#jq_arg_list[@]}" -gt 0 ]]; then
-    printf '%s\n' "$raw" | jq "${jq_arg_list[@]}" "$jq_filter"
-  else
-    printf '%s\n' "$raw" | jq "$jq_filter"
-  fi
+  printf '%s\n' "$raw" | jq "$jq_filter"
 else
   printf '%s\n' "$raw"
 fi

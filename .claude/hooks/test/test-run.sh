@@ -9,6 +9,8 @@
 #   * update went through the issue-comment endpoint
 #     (issues/comments/<id>, never pulls/<pr>/comments/<id>)
 #   * both runs exited 0
+#   * gh flags the production code must NOT use (--arg, -o, -w) are rejected
+#     by the stub — a regression that reintroduces them fails this test.
 #
 # Prints PASS/FAIL lines. Exit 0 on success, 1 on failure.
 set -euo pipefail
@@ -41,7 +43,6 @@ cd "$FAUX"
 
 count_records() { jq -s 'length' "$GH_STUB_STATE"; }
 count_markers() { grep -c 'agent-handoff:v1' "$GH_STUB_STATE" || true; }
-comment_id() { jq -r '.[0].id' "$GH_STUB_STATE"; }
 
 echo "== run 1 (create expected) =="
 OUT1="$("$EMIT" | "$HOOK" 2>&1)"
@@ -71,5 +72,14 @@ echo "endpoint contract OK"
 
 echo "== comment state after run 2 =="
 jq -s -c '.[] | {id: .id, body_head: (.body[0:40])}' "$GH_STUB_STATE"
+
+echo "== gh flags that must NOT reach gh api (regression guard) =="
+for bad_flag in --arg -o -w; do
+  if "$STUB" api "repos/stub/repo/issues/123/comments" "$bad_flag" x >/dev/null 2>&1; then
+    echo "FAIL: stub accepted unsupported flag '$bad_flag' (should exit non-zero)"
+    exit 1
+  fi
+  echo "rejected '$bad_flag': OK"
+done
 
 echo "RESULT: PASS"

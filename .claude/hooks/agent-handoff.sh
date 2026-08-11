@@ -132,9 +132,14 @@ if [[ "$marker_count" -ne 1 ]]; then
 fi
 
 # --- locate existing handoff comment (by marker) or create ---------------------
-existing_id="$(gh api "repos/$repo_full_name/issues/$pr_number/comments?per_page=100" \
-  --jq '[.[] | select(.body | contains($m)) | .id] | last // empty' \
-  --arg m "$MARKER" 2>/dev/null || true)"
+# `gh api` does not accept jq's --arg, so the dynamic marker is passed to a
+# real jq after the API call.
+existing_id="$(
+  gh api "repos/$repo_full_name/issues/$pr_number/comments?per_page=100" 2>/dev/null |
+    jq -r --arg m "$MARKER" \
+      '[.[] | select(.body | contains($m)) | .id] | last // empty' \
+      2>/dev/null || true
+)"
 
 if [[ -z "$existing_id" ]]; then
   new_id="$(gh api "repos/$repo_full_name/issues/$pr_number/comments" \
@@ -150,15 +155,15 @@ else
   # Top-level PR Conversation comments are issue comments, so update through
   # the issue-comment endpoint (not the pull-request review-comment endpoint).
   # gh form-encodes the raw multi-line body; GitHub stores it verbatim, so the
-  # marker survives the update byte-for-byte.
-  update_status="$(gh api "repos/$repo_full_name/issues/comments/$existing_id" \
+  # marker survives the update byte-for-byte. `gh api` has no curl-style -o/-w;
+  # use --silent and the command exit status.
+  if gh api "repos/$repo_full_name/issues/comments/$existing_id" \
     --method PATCH \
     -f body="$handoff" \
-    -o /dev/null -w '%{http_code}' 2>/dev/null || true)"
-  if [[ "$update_status" == "200" || "$update_status" == "201" ]]; then
+    --silent >/dev/null 2>&1; then
     echo "[${HOOK_NAME}] updated handoff comment: id=${existing_id} pr=${pr_number} url=${pr_url}"
   else
-    echo "[${HOOK_NAME}] failed to update handoff comment id=${existing_id} (http ${update_status:-unknown})"
+    echo "[${HOOK_NAME}] failed to update handoff comment id=${existing_id}"
   fi
 fi
 
