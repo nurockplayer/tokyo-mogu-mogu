@@ -65,6 +65,15 @@ Before finishing:
 
 Do not claim a check passed if it was not executed. If something cannot be verified, state it explicitly.
 
+Validation is risk-based (Issue #137): the CI `Quality Gates` job classifies
+each change with `scripts/ci/classify-changes.sh` into docs/policy-only, normal
+runtime, or core-risk. Docs/policy-only changes skip dependency install, unit
+tests, build, and Playwright; normal runtime changes run
+typecheck/lint/test/build; core-risk changes additionally run the 375px
+Japanese Golden-path Playwright E2E (which never reruns the TypeScript
+typecheck owned by Quality Gates). Do not weaken or delete existing test
+assertions; the tiers only change when the gates run, not what they assert.
+
 ## Handoff / 引き継ぎ
 
 Keep the final handoff concise and concrete. Include:

@@ -11,9 +11,42 @@ jobs:
     name: Quality Gates
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    outputs:
+      # Classified by the repository-owned shell classifier (Issue #137):
+      #   docs — git diff --check only
+      #   normal — typecheck / lint / test / build
+      #   core — normal gates plus the 375px Japanese Golden-path E2E
+      risk: ${{ steps.classify.outputs.risk }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # Fetch the full history (including the merge base with the target
+          # branch) so the classifier can diff exactly the PR's changed files
+          # on both `pull_request` and `push` to `main`.
+          fetch-depth: 0
+
+      - name: Resolve base ref
+        id: base
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            base="${{ github.event.pull_request.base.sha }}"
+          else
+            base="${{ github.event.before }}"
+          fi
+          echo "base=$base" >> "$GITHUB_OUTPUT"
+
+      - name: git diff --check
+        run: git diff --check "$BASE" "$GITHUB_SHA"
+
+      - name: Classify changes
+        id: classify
+        run: |
+          risk="$(git diff --name-only "$BASE" "$GITHUB_SHA" | bash scripts/ci/classify-changes.sh)"
+          echo "risk=$risk" >> "$GITHUB_OUTPUT"
+          echo "Classified change risk: $risk"
+        env:
+          BASE: ${{ steps.base.outputs.base }}
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -26,25 +59,35 @@ jobs:
           node-version: 22
           cache: pnpm
 
+      # Runtime gates only when the change is not docs/policy-only.
       - name: Install dependencies
+        if: steps.classify.outputs.risk != 'docs'
         run: pnpm install --frozen-lockfile
 
       - name: Typecheck
+        if: steps.classify.outputs.risk != 'docs'
         run: pnpm typecheck
 
       - name: Lint
+        if: steps.classify.outputs.risk != 'docs'
         run: pnpm lint
 
       - name: Test
+        if: steps.classify.outputs.risk != 'docs'
         run: pnpm test
 
       - name: Build
+        if: steps.classify.outputs.risk != 'docs'
         run: pnpm build
 
   golden-path-e2e:
     name: Golden-path E2E (375px, ja)
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    # Runs only for core-risk changes, after Quality Gates classifies the change
+    # and proves the normal runtime gates pass.
+    needs: quality-gates
+    if: needs.quality-gates.outputs.risk == 'core'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -66,9 +109,8 @@ jobs:
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
 
-      - name: Typecheck
-        run: pnpm typecheck
-
+      # E2E builds the Vite production bundle it needs but does not rerun the
+      # TypeScript typecheck that Quality Gates already owns (Issue #137).
       - name: Build
         run: pnpm build
 
