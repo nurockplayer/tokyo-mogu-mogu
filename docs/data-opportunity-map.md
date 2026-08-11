@@ -103,10 +103,10 @@ Status legend: **promising** (deep-dive suggested) · *experiment* (needs work)
 
 | # | Dataset | Provider | Class | Status | Traveler value | Surface |
 |---|---|---|---|---|---|---|
-| D1 | モバイルデータを活用した訪都旅行者動態調査 (`data.tourism.metro.tokyo.lg.jp/data/mobile/files/mobile-jp.zip`, 2025-12-24) | 東京都産業労働局 | Open Data (download; 出典表示) | **promising** | Municipality × month × stay-type visitor counts incl. 奥多摩 — "when to go / where is crowded", official #112 evidence | Home, Discover, Spot, Pitch |
+| D1 | モバイルデータを活用した訪都旅行者動態調査 (`data.tourism.metro.tokyo.lg.jp/data/mobile/files/mobile-jp.zip`, 2025-12-24) | 東京都産業労働局 | Open Data (download; 出典表示) | **promising** | Municipality × month × stay-type visitor counts incl. 奥多摩 — monthly seasonality / relative demand signal (municipality-level, not per-station crowding), official #112 evidence | Home, Discover, Spot, Pitch |
 | D2 | 観光庁宿泊旅行統計 広域市町村別 (`mlit.go.jp/kankocho/content/002015008.xlsx`) | 観光庁 | official public web | **promising** | Official "40 東京都多摩地域" accommodation grouping — Tama as an official destination | Spot, Pitch |
 | D3 | 東京都観光客数等実態調査 (R5/R6 CSV) | 東京都産業労働局 | Open Data (CC BY 4.0) | integrated in `docs/analytics/tokyo-tourism-baseline.md` | visitor count + spend concentration | Pitch |
-| D4 | 駅別乗降客数 国土数値情報 S12 (`nlftp.mlit.go.jp/ksj`) | 国土交通省 | Open Data (**CC BY 4.0**) | *experiment* | Per-station ridership → "quiet vs busy station" calmness signal, evidence-backed #112 dispersion | Result, Route, Home |
+| D4 | 駅別乗降客数 国土数値情報 S12 (`nlftp.mlit.go.jp/ksj`) | 国土交通省 | Open Data (**CC BY 4.0**) | *experiment* | Historical per-station usage → relative usage proxy (not per-station crowding proof); evidence-backed #112 dispersion | Result, Route, Home |
 
 ### 4.2 Food & agriculture
 
@@ -128,7 +128,7 @@ Status legend: **promising** (deep-dive suggested) · *experiment* (needs work)
 
 | # | Dataset | Provider | Class | Status | Traveler value | Surface |
 |---|---|---|---|---|---|---|
-| C1 | 東京都指定文化財一覧 (`…/suisyoudataset/130001_cultural_property.csv`, **248 items, 108 in Tama, 245 with lat/lon + English name**, CC BY 4.0) | 東京都教育庁 | Open Data (CC BY 4.0) | **promising** — registry candidate → **Available** | "What is officially old / designated here" near food — story anchors (御嶽神社旧本殿, 薬王院, 水車経営農家) | Story, Spot, Route, Discover |
+| C1 | 東京都指定文化財一覧 (`…/suisyoudataset/130001_cultural_property.csv`, **248 items, 108 in Tama, 245 with lat/lon + English name**, CC BY 4.0) | 東京都教育庁 | Open Data (CC BY 4.0) | **promising** — registry candidate (pending registry verification) | "What is officially old / designated here" near food — story anchors (御嶽神社旧本殿, 薬王院, 水車経営農家) | Story, Spot, Route, Discover |
 | C2 | 市町村別 文化財一覧 (28+ municipalities, 標準フォーマット 自治体 high quality) | 青梅・八王子・武蔵野・府中・国分寺 ほか | Open Data (CC BY 4.0, XLSX mix) | **promising** | Municipal self-definition; 3–5× density when combined with C1 | Discover, Spot, Story |
 | C3 | 三鷹市みどころマップ (`attach_74215_1.csv`, 77 spots with hours/fees/文化財解説) | 三鷹市 | Open Data (CC BY 4.0) | **promising** | Cultural-spot practical info with 食・生業 explanations baked in (わさび田・養蚕) | Spot, Story, Route |
 | C4 | あきる野市 観光施設一覧 (`132284_tourism2022.csv`, 8 facilities, 6/8 lat/lon, 説明_英語) | あきる野市 | Open Data (CC BY 4.0) | **promising** (2022, verify freshness) | 秋川渓谷 / 五日市線 day-trip Route spine + 日帰り温泉 | Route, Spot, Discover |
@@ -186,7 +186,7 @@ mapped to current #92 surfaces and to the #112 dispersion goal.
 | P1 | **旬×産地×直売所「當季東京食材」** — season-to-source-to-sale loop | F1+F2+W1/F3 (+F4 i18n) | Discover, Story, Result | `harvestSeason` field; JA→直売所→品種 join | 青梅・あきる野・日の出・町田・立川 (みのーれ) |
 | P2 | **文化財×食 geo-pairing** — food spot + official cultural-property context within reach | C1+C2+C3+C4 | Story, Spot, Route, Discover | cultural-property layer; near-food geo query | 青梅・奥多摩・八王子(高尾)・府中・武蔵野 |
 | P3 | **多摩內陸 Mobility Loop** — deterministic fares + local-bus last-mile on free licenses | M1+M2+M3 (+M8 contrast) | Route, Result, Spot | deterministic fare/feasibility; reachability-by-community-bus | 立川・多摩センター・東大和・東村山・町田 |
-| P4 | **Quiet-vs-busy 駅/月別信號** — calmness & season grounded in data | D4+D1 (+D2) | Home, Result, Discover | calmness score; monthly crowding layer | 青梅線・奥多摩 corridor; all Tama stations |
+| P4 | **Historical usage proxy（駅/月別相対利用）** — calmness/season as a relative usage signal, not a crowding measurement | D4+D1 (+D2) | Home, Result, Discover | relative usage score; monthly seasonality layer | 青梅線・奥多摩 corridor; all Tama stations |
 | P5 | **島しょ Access & Live window** — logistics-first island trips | W4+W2+W3 | Route, Spot, Result | 運航-risk layer; live island window | 大島・三宅島・八丈島・父島 |
 | P6 | **日常食資料窗「這個地方計畫吃什麼」** — school menus + licensed-restaurant listings | F7+F8 | Story, 地域タブ (new), Discover | planned everyday-food layer; new-opening detection; facility status validation | 東村山・青梅 (西多摩食) |
 | P7 | **道の駅/實用休息層** — practical rest-stop profiling | M4+M5 | Discover, Spot, Route | practical-rest-stop profile | あきる野(あきがわ)・八王子(滝山) |
@@ -215,7 +215,7 @@ before 8/23.
 |---|---|---|---|---|---|
 | 1 | **青梅線・御岳/沢井 酒蔵×文化財 day-trip** (Okutama-adjacent west Tama) | Extends the current Okutama fieldnote into a coherent second stop; sake + shrine + wasabi on one rail line; source-backed | C1 (青梅22), C5 (青梅観光スポット), F5 (GO TOKYO酒蔵), F1 (奥多摩ワサビ=第16號) | High — 青梅 open data is the thickest in the corridor; content mostly editorial-backed | High — same visitor, adjacent region, real rail |
 | 2 | **當季東京野菜 Discover（直売所×收穫季）** | Seasonal loop is the simplest demo of "data makes the story": today's season → where to buy → go | F1+F2 (JA, editorial), F4 (TOKYO GROWN zh-TW), W1/F3 (market) | High — pure data plumbing + editorial copy | Medium-High — food-led, directly #112 |
-| 3 | **Quiet-vs-busy 青梅線駅信號** (S12 + mobile-dynamics) | Puts the #112 concentration problem on an evidence-backed, per-station surface in the MVP corridor | D4 (S12 CC BY), D1 (mobile dynamics incl. 奥多摩) | Medium — S12 snapshot easy; D1 license wording must be confirmed | Medium — supports Result/Home, strengthens pitch |
+| 3 | **青梅線駅 相對利用 proxy** (S12 + mobile-dynamics) | Puts the #112 concentration problem on an evidence-backed, per-station *relative-usage* surface in the MVP corridor | D4 (S12 CC BY), D1 (mobile dynamics incl. 奥多摩) | Medium — S12 snapshot easy; D1 license wording must be confirmed | Medium — supports Result/Home, strengthens pitch |
 | 4 | **Tama 內陸 Mobility Loop demo** (立川–多摩センター–上北台) | The only fully open mobility layer; proves "Tama as a connected destination" beyond Okutama | M1 (fares+ridership), M2 (CC0 buses), M3 (Toei) | Medium — needs an ODPT token for live files; static snapshot doable | Medium — route feasibility, not food-core |
 | 5 | **島しょ「島の今」preview** | Cheap, distinctive, high emotional value | W2 (live cams), W4 (UMISORA), W3 (fish zukan) | Medium — scraping needed; license of zukan unclear | Low-Medium — outside Tama MVP pilot |
 
@@ -229,8 +229,9 @@ before 8/23.
 2. **當季東京野菜 Discover** — pure data story: JA 江戸東京野菜 收穫季 × 直売所
    → "this season, buy at the source". Editorial-ize JA pages with provenance,
    pair with TOKYO GROWN for zh-TW/en.
-3. **Quiet-vs-busy 青梅線駅信號** — cheapest evidence play: snapshot S12 + confirm
-   mobile-dynamics license, render a per-station calmness comparison on Result.
+3. **青梅線駅 相對利用 proxy** — cheapest evidence play: snapshot S12 + confirm
+   mobile-dynamics license, render a historical per-station usage comparison
+   (relative usage proxy, not per-station crowding) on Result.
    This also directly strengthens the 8/23 pitch.
 
 These are the strongest because they (a) are playable as a small vertical slice
@@ -270,9 +271,9 @@ applied — pending Issue owner review):
 
 | Registry row | Suggested change | Evidence |
 |---|---|---|
-| §3.2.4 モバイルデータ動態調査 | `unverified/Candidate` → **Available** (released 2025-12-24, download verified) | this doc §4.1 D1 |
-| §3.2.6 東京都指定文化財一覧 | `unverified/Candidate` → **Available** (CC BY 4.0, 248 items, 108 Tama, 245 lat/lon+EN) | this doc §4.3 C1 |
-| §3.2.7 緑のオープンデータ GIS | `unverified` → **Available** (17 layers incl. 自然公園 polygon; browser fetch needed) | this doc §4.4 (lane 3) |
+| §3.2.4 モバイルデータ動態調査 | `unverified/Candidate` → **candidate / pending registry verification** (released 2025-12-24, download reachable; durable source/license/format/retrieval evidence to be recorded in the registry) | this doc §4.1 D1 |
+| §3.2.6 東京都指定文化財一覧 | `unverified/Candidate` → **candidate / pending registry verification** (CC BY 4.0, 248 items, 108 Tama, 245 lat/lon+EN; durable evidence to be recorded in the registry) | this doc §4.3 C1 |
+| §3.2.7 緑のオープンデータ GIS | `unverified` → **candidate / pending registry verification** (17 layers incl. 自然公園 polygon; browser fetch needed; durable evidence to be recorded in the registry) | this doc §3 catalog terrain (lane 3) |
 | New | 学校給食献立 (東村山・青梅) | — | §4.2 F7 |
 | New | 食品営業許可・届出施設一覧 | — | §4.2 F8 |
 | New | 東京都卸売市場日報 (青果/水産) | — | §4.2 F3 / §4.5 W1 |
@@ -309,14 +310,17 @@ applied — pending Issue owner review):
   動態調査》が 2025-12-24 に公開され、奥多摩を含む全市町村×月別旅行者数を直接
   ダウンロード可能（#112 の 23区 vs 多摩 論証を公式データに昇格）。
 - **文化財一覧**（都教育庁、CC BY 4.0）は 248 件・多摩 108 件・245 件が緯度経度と
-  英名を持ち、既存 registry の「未検証」から **Available** へ昇格できる。
+  英名を持つ。既存 registry の「未検証」から昇格する場合は、registry 規則の
+  durable な source/license/format/retrieval 記録を満たした上で
+  **candidate → Available** を検討する。
 - **モビリティは二層のライセンス構造**: JR 青梅線・京王線はチャレンジ2026限定で
   再利用不可、自由に使えるのは多摩都市モノレール＋コミュニティバス＋都営。奥多摩
   回廊はオープンデータ最貧区で、フィールドワーク/編集が正しい。
 - **驚きの機会**: 学校給食献立（青梅・東村山）、食品営業許可一覧（施設の実在・
   ステータス検証の公式規制/リスト情報）、卸売市場日報（日次の「今日の旬の魚」）。
 - **垂直スライス候補**: ①青梅線・御岳/沢井 酒蔵×文化財日帰り、②当季東京野菜
-  Discover、③青梅線駅の静/混雑シグナル。**既存 8/23 デモと競合せず、source-backed
+  Discover、③青梅線駅の相対利用 proxy（混雑の実測ではなく歴史的利用の
+  相対指標）。**既存 8/23 デモと競合せず、source-backed
   で実装可能**な 2–3 本を推奨。
 - インフラ（adapter/index）は実装せず、繰り返しパターンとして記録のみ（#131 の
   conditional 判断材料）。
