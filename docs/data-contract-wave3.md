@@ -1,9 +1,10 @@
 # Shared Data Contract — Wave 3 (Issues #12, #13, #14)
 
-> **Status note (Issue #41)**: This contract documents legacy platform
-> foundations (i18n, config/env, app shell/routing). These remain **reusable
-> infrastructure** — the S0–S9 child Issues (#43–#49) build on them. The current
-> hackathon product contract lives at
+> **Status note (Issue #41, superseded by #112 / #92)**: This contract documents
+> legacy platform foundations (i18n, config/env, app shell/routing). These remain
+> **reusable infrastructure** — the S0–S9 child Issues (#43–#49) build on them.
+> The current hackathon product contract
+> (Issue #112 Product/MVP framing + Issue #92 App IA) lives at
 > `docs/specs/product/hackathon-product-contract.md`.
 
 Platform foundations built on the merged MVP + wave 2. Read before writing.

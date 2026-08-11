@@ -176,7 +176,7 @@ screens import these primitives instead of building their own visual system.
 ## S0 Landing
 
 - Hero: eyebrow → display title → tagline → primary CTA → small note.
-- Primary CTA is a block primary button (診断へ); the 3-step value explanation
+- Primary CTA is a block primary button (starts the current-trip exploration); the 3-step value explanation
   uses numbered circular step markers with display-type titles and caption
   descriptions.
 - Media: the hero uses no final photo asset by default; if a hero image is
@@ -278,9 +278,9 @@ screens import these primitives instead of building their own visual system.
 - **Saved-route list**: each saved model route renders as a **continuation
   card** — title, duration / area meta, and actions (open route / remove) —
   navigating back to S5. Newest first.
-- Empty state uses the shared `EmptyState` with a CTA that starts the
-  diagnosis journey. The current implementation links that CTA to the landing
-  screen (copy: 「診断から始める」); confirm the intended target in the S8
+- Empty state uses the shared `EmptyState` with a CTA that starts the current
+  exploration journey. The current implementation links that CTA to the landing
+  screen (copy: 「探索から始める」); confirm the intended target in the S8
   child issue.
 - Area meta may name 奥多摩 as the current pilot but must not make the page
   read as an Okutama-only product.
