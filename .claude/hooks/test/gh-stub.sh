@@ -4,9 +4,17 @@
 #
 # Simulated state:
 #   * Branch "stub/pr" owns PR #123 (url https://github.com/stub/repo/pull/123).
-#   * The PR has one pre-existing non-handoff review comment (id 100).
+#   * The PR has one pre-existing non-handoff issue comment (id 100).
 #   * Comments persist in a JSONL state file shared across invocations, so a
 #     second run must PATCH the same handoff comment id created by the first.
+#
+# The stub models the real GitHub API contract for top-level PR comments,
+# which are issue comments:
+#   * create  -> POST   repos/<repo>/issues/<pr>/comments
+#   * list    -> GET    repos/<repo>/issues/<pr>/comments
+#   * update  -> PATCH  repos/<repo>/issues/comments/<comment_id>
+# (The pull-request review-comment endpoint, pulls/<pr>/comments/<id>, is NOT
+# used for top-level comments and is not simulated.)
 #
 # The stub mimics the `gh api` flags the hook actually uses: --jq, --arg,
 # --method, -f/-F, -o, -w.
@@ -50,11 +58,11 @@ api_create_comment() {
   local id
   id="$(( $(jq -s 'if length == 0 then 0 else (map(.id) | max) end' "$STATE") + 1 ))"
   jq -n --argjson id "$id" --arg body "$body_value" '{id: $id, body: $body}' >>"$STATE"
-  log "create comment id=${id}"
+  log "create comment id=${id} url=${url}"
   printf '{"id":%s}\n' "$id"
 }
 
-# pulls/<n>/comments/<id> — update (PATCH)
+# issues/comments/<id> — update (PATCH)
 api_update_comment() {
   local id="${1}" tmp
   tmp="$(mktemp)"
@@ -63,7 +71,7 @@ api_update_comment() {
   jq -s --argjson id "$id" --arg body "$body_value" \
     'map(if .id == $id then (.body = $body) else . end) | .[]' "$STATE" >"$tmp"
   mv "$tmp" "$STATE"
-  log "update comment id=${id}"
+  log "update comment id=${id} url=${url}"
   printf '{"id":%s}\n' "$id"
 }
 
@@ -104,7 +112,7 @@ if [[ "$url" == "repos/${REPO}/issues/${PR_NUMBER}/comments?per_page=100" ]]; th
   raw="$(api_list_comments)"
 elif [[ "$url" == "repos/${REPO}/issues/${PR_NUMBER}/comments" ]]; then
   raw="$(api_create_comment)"
-elif [[ "$url" == "repos/${REPO}/pulls/${PR_NUMBER}/comments/"* ]]; then
+elif [[ "$url" == "repos/${REPO}/issues/comments/"* ]]; then
   raw="$(api_update_comment "${url##*/}")"
 elif [[ "$url" == *"/pulls/"* ]]; then
   raw="$(api_pulls)"

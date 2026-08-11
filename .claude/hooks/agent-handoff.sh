@@ -147,9 +147,11 @@ if [[ -z "$existing_id" ]]; then
   fi
   echo "[${HOOK_NAME}] created handoff comment: id=${new_id} pr=${pr_number} url=${pr_url}"
 else
+  # Top-level PR Conversation comments are issue comments, so update through
+  # the issue-comment endpoint (not the pull-request review-comment endpoint).
   # gh form-encodes the raw multi-line body; GitHub stores it verbatim, so the
   # marker survives the update byte-for-byte.
-  update_status="$(gh api "repos/$repo_full_name/pulls/$pr_number/comments/$existing_id" \
+  update_status="$(gh api "repos/$repo_full_name/issues/comments/$existing_id" \
     --method PATCH \
     -f body="$handoff" \
     -o /dev/null -w '%{http_code}' 2>/dev/null || true)"

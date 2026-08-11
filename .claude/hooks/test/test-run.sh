@@ -2,10 +2,12 @@
 # Integration test for the create-then-update flow.
 #
 # Builds a faux git repo + branch, shadows `gh` with a stub that simulates a
-# PR with one pre-existing review comment, runs the hook twice with the same
+# PR with one pre-existing issue comment, runs the hook twice with the same
 # payload, and asserts:
 #   * run 1 created a new comment (id != 100, exactly 2 comment records)
 #   * run 2 PATCHed the SAME id (no third comment; no marker duplication)
+#   * update went through the issue-comment endpoint
+#     (issues/comments/<id>, never pulls/<pr>/comments/<id>)
 #   * both runs exited 0
 #
 # Prints PASS/FAIL lines. Exit 0 on success, 1 on failure.
@@ -33,7 +35,7 @@ export GH_STUB_STATE="$BASE/comments.txt"
 export GH_STUB_BRANCH='stub/pr'
 hash -r  # drop the shell's cached gh path so the stub wins
 : >"$GH_STUB_STATE.log"
-jq -n --arg body 'pre-existing review comment' '{id: 100, body: $body}' >"$GH_STUB_STATE"
+jq -n --arg body 'pre-existing issue comment' '{id: 100, body: $body}' >"$GH_STUB_STATE"
 
 cd "$FAUX"
 
@@ -58,6 +60,14 @@ echo "$OUT2"
 [[ "$OUT2" == *"updated handoff comment: id=${ID1}"* ]] || { echo "FAIL: run2 did not update id ${ID1}"; exit 1; }
 [[ "$(count_records)" -eq 2 ]] || { echo "FAIL: run2 created a new comment (records=$(count_records))"; exit 1; }
 [[ "$(count_markers)" -eq 1 ]] || { echo "FAIL: marker duplicated after run2 (count=$(count_markers))"; exit 1; }
+
+echo "== endpoint contract check (stub log) =="
+cat "$GH_STUB_STATE.log"
+grep -q "update comment id=${ID1} url=repos/stub/repo/issues/comments/${ID1}" "$GH_STUB_STATE.log" \
+  || { echo "FAIL: update did not use the issue-comment endpoint"; exit 1; }
+grep -q "repos/stub/repo/pulls/123/comments/" "$GH_STUB_STATE.log" \
+  && { echo "FAIL: review-comment endpoint was used"; exit 1; }
+echo "endpoint contract OK"
 
 echo "== comment state after run 2 =="
 jq -s -c '.[] | {id: .id, body_head: (.body[0:40])}' "$GH_STUB_STATE"
