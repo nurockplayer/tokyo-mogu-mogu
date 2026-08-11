@@ -3,6 +3,7 @@ import { FoodCultureImage } from '../components/FoodCultureImage';
 import { CheckInPanel } from '../components/CheckInPanel';
 import { getFoodCultureById, getRelatedPlaces } from '../data';
 import type { DataOrigin, FoodCultureCategory } from '../data';
+import { sourceDateLabel } from '../lib/verification';
 import { useI18n, type LocaleKey } from '../i18n';
 import { useCollection } from '../store/collection';
 import './FoodCulturePage.css';
@@ -141,11 +142,14 @@ export function FoodCulturePage() {
                 {source.license && (
                   <span className="fcp-source-meta">{t('detailLicense')}: {source.license}</span>
                 )}
-                {source.lastVerified && (
-                  <span className="fcp-source-meta">
-                    {t('detailLastVerified')}: {source.lastVerified}
-                  </span>
-                )}
+                {(() => {
+                  const meta = sourceDateLabel(source, foodCulture.origin);
+                  return meta ? (
+                    <span className="fcp-source-meta">
+                      {t(meta.label)}: {meta.date}
+                    </span>
+                  ) : null;
+                })()}
               </li>
             ))}
           </ul>

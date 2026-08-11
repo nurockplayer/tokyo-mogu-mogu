@@ -41,6 +41,30 @@ export function confirmationDate(source: DataSource): string | undefined {
 }
 
 /**
+ * What date a source meta line should display, and under which label.
+ *
+ * Issue #129 contract: retrieval / check dates must never be presented as
+ * stakeholder verification. Only a source that is actually `verified` (which
+ * `deriveVerificationStatus` guarantees implies a `confirmedAt`) may show
+ * "Last verified"; every other status shows the honest "Retrieved" date
+ * (`retrievedAt`, falling back to the legacy `lastVerified` check date).
+ */
+export function sourceDateLabel(
+  source: DataSource,
+  origin: 'source' | 'editorial' | 'demo',
+): { label: 'detailLastVerified' | 'detailRetrieved'; date: string } | undefined {
+  const status = deriveVerificationStatus(source, origin);
+  if (status === 'verified' && source.confirmedAt !== undefined) {
+    return { label: 'detailLastVerified', date: source.confirmedAt };
+  }
+  const date = source.retrievedAt ?? source.lastVerified;
+  if (date === undefined) {
+    return undefined;
+  }
+  return { label: 'detailRetrieved', date };
+}
+
+/**
  * True when the source document has moved on since the facts were last
  * observed: `sourceUpdatedAt` (the source document's own last-updated date) is
  * newer than the observation/retrieval timestamp (`retrievedAt`, falling back

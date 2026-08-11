@@ -7,6 +7,7 @@ import {
   listUnverifiedFields,
   recordVerificationStatus,
   sourceConflictLabel,
+  sourceDateLabel,
 } from './verification';
 import type { DataSource, VerificationStatus } from '../data/model';
 import type { SpotDetail } from '../data';
@@ -554,5 +555,67 @@ describe('machine-readable needs_confirmation list (#129)', () => {
       spots: [],
     });
     expect(entries).toEqual([]);
+  });
+});
+
+describe('sourceDateLabel (#129)', () => {
+  it('labels a verified source date as Last verified using confirmedAt', () => {
+    expect(
+      sourceDateLabel(
+        source({
+          verificationStatus: 'verified',
+          confirmedAt: '2026-08-08',
+          retrievedAt: '2026-07-01',
+          lastVerified: '2026-07-01',
+        }),
+        'source',
+      ),
+    ).toEqual({ label: 'detailLastVerified', date: '2026-08-08' });
+  });
+
+  it('labels a needs_confirmation source date as Retrieved using retrievedAt', () => {
+    expect(
+      sourceDateLabel(
+        source({
+          verificationStatus: 'needs_confirmation',
+          retrievedAt: '2026-08-08',
+          lastVerified: '2026-08-08',
+        }),
+        'source',
+      ),
+    ).toEqual({ label: 'detailRetrieved', date: '2026-08-08' });
+  });
+
+  it('never presents retrieval as verification even with lastVerified set', () => {
+    // lastVerified is a legacy retrieval/check timestamp; it must not be shown
+    // as "Last verified" without stakeholder confirmation.
+    expect(
+      sourceDateLabel(
+        source({ lastVerified: '2026-08-08', retrievedAt: '2026-08-08' }),
+        'source',
+      ),
+    ).toEqual({ label: 'detailRetrieved', date: '2026-08-08' });
+  });
+
+  it('falls back to lastVerified when retrievedAt is missing', () => {
+    expect(
+      sourceDateLabel(
+        source({ verificationStatus: 'needs_confirmation', lastVerified: '2026-08-08' }),
+        'source',
+      ),
+    ).toEqual({ label: 'detailRetrieved', date: '2026-08-08' });
+  });
+
+  it('returns undefined when there is no retrievable date', () => {
+    expect(sourceDateLabel(source({}), 'source')).toBeUndefined();
+  });
+
+  it('labels a demo-origin source as Retrieved, never Last verified', () => {
+    expect(
+      sourceDateLabel(
+        source({ sourceType: 'demo', retrievedAt: '2026-08-08', lastVerified: '2026-08-08' }),
+        'demo',
+      ),
+    ).toEqual({ label: 'detailRetrieved', date: '2026-08-08' });
   });
 });
