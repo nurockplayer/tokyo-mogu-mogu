@@ -20,6 +20,7 @@ import {
   appleMapsDirectionsUrl,
   googleMapsDirectionsUrl,
   openDirectionsInMapApp,
+  type DirectionsPlace,
 } from '../lib/map-links';
 import './MapPage.css';
 
@@ -27,6 +28,24 @@ import './MapPage.css';
 const DEFAULT_CENTER = { lat: 35.8, lng: 139.15 };
 const DEFAULT_ZOOM = 10;
 const PLACE_ZOOM = 13;
+
+/** Build the directions descriptor for a selected map place (Issue #127:
+ *  approximate places navigate by sourced name/address, not the centroid). */
+function placeDirections(place: {
+  latitude: number;
+  longitude: number;
+  coordinatePrecision?: 'precise' | 'approximate';
+  nameJa: string;
+  address: string;
+}): DirectionsPlace {
+  return {
+    latitude: place.latitude,
+    longitude: place.longitude,
+    coordinatePrecision: place.coordinatePrecision,
+    name: place.nameJa,
+    address: place.address,
+  };
+}
 
 export function MapPage() {
   const { t, locale } = useI18n();
@@ -153,20 +172,20 @@ export function MapPage() {
             <button
               type="button"
               className="btn btn-primary"
-              onClick={() => openDirectionsInMapApp(selectedPlace.latitude, selectedPlace.longitude)}
+              onClick={() => openDirectionsInMapApp(placeDirections(selectedPlace))}
             >
               {t('openInMap')}
             </button>
             <div className="map-place-links">
               <a
-                href={googleMapsDirectionsUrl(selectedPlace.latitude, selectedPlace.longitude)}
+                href={googleMapsDirectionsUrl(placeDirections(selectedPlace))}
                 target="_blank"
                 rel="noreferrer"
               >
                 {t('openInGoogleMaps')}
               </a>
               <a
-                href={appleMapsDirectionsUrl(selectedPlace.latitude, selectedPlace.longitude)}
+                href={appleMapsDirectionsUrl(placeDirections(selectedPlace))}
                 target="_blank"
                 rel="noreferrer"
               >

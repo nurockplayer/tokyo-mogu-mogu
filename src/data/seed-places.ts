@@ -53,6 +53,7 @@ export const PLACES: Place[] = [
     // Precise OSM point (not a centroid) from the generated okutama dataset.
     latitude: 35.8089218,
     longitude: 139.0967554,
+    coordinatePrecision: 'precise',
     foodCultureIds: ['wasabi-okutama'],
     type: 'info-center',
     source: {
@@ -74,6 +75,7 @@ export const PLACES: Place[] = [
     // District-centroid coordinate (approx) from the generated okutama dataset.
     latitude: 35.8104963,
     longitude: 139.1538298,
+    coordinatePrecision: 'approximate',
     foodCultureIds: ['wasabi-okutama'],
     type: 'farm',
     source: {
@@ -95,6 +97,7 @@ export const PLACES: Place[] = [
     // District-centroid coordinate (approx) from the generated okutama dataset.
     latitude: 35.8104963,
     longitude: 139.1538298,
+    coordinatePrecision: 'approximate',
     foodCultureIds: ['wasabi-okutama', 'okutama-soba'],
     type: 'restaurant',
     source: {
@@ -116,6 +119,7 @@ export const PLACES: Place[] = [
     // District-centroid coordinate (approx) from the generated okutama dataset.
     latitude: 35.8305487,
     longitude: 139.1621017,
+    coordinatePrecision: 'approximate',
     foodCultureIds: ['wasabi-okutama'],
     type: 'shop',
     source: {
@@ -137,6 +141,7 @@ export const PLACES: Place[] = [
     // District-centroid coordinate (approx) from the generated okutama dataset.
     latitude: 35.8305487,
     longitude: 139.1621017,
+    coordinatePrecision: 'approximate',
     foodCultureIds: ['wasabi-okutama'],
     type: 'other',
     source: {

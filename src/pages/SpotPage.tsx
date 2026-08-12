@@ -35,7 +35,7 @@ import {
   spotRoleKey,
   foodCultureKey,
 } from '../i18n/data-content';
-import { googleMapsDirectionsUrl, appleMapsDirectionsUrl } from '../lib/map-links';
+import { googleMapsDirectionsUrl, appleMapsDirectionsUrl, type DirectionsPlace } from '../lib/map-links';
 import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
 import { deriveVerificationStatus } from '../lib/verification';
 import { routeBackTarget, spotBackHref } from './route-context';
@@ -175,9 +175,18 @@ export function SpotPage() {
   const practical = detail?.practical;
   const relatedCultures = getRelatedFoodCultures(place);
 
-  // Direction CTAs (external map apps) — safe to offer for any place.
-  const googleUrl = googleMapsDirectionsUrl(place.latitude, place.longitude);
-  const appleUrl = appleMapsDirectionsUrl(place.latitude, place.longitude);
+  // Direction CTAs (external map apps). Approximate places (district-centroid
+  // coordinates) navigate by the sourced name/address, not the centroid (Issue
+  // #127); precise places keep coordinate-based directions.
+  const directionsPlace: DirectionsPlace = {
+    latitude: place.latitude,
+    longitude: place.longitude,
+    coordinatePrecision: place.coordinatePrecision,
+    name: place.nameJa,
+    address: place.address,
+  };
+  const googleUrl = googleMapsDirectionsUrl(directionsPlace);
+  const appleUrl = appleMapsDirectionsUrl(directionsPlace);
 
   // Info list built only from data that actually exists.
   const infoItems: { label: string; value: string }[] = [];

@@ -153,29 +153,30 @@ export const MODEL_ROUTES: ModelRoute[] = [
             placeId: 'okutama-tourism-office',
             stepNumber: 1,
             stayMinutes: 15,
-            roleJa: '出発点。わさび田への行き方と地域の情報を集めます。',
-            roleEn: 'Start here to pick up maps and local guidance for the wasabi fields.',
+            roleJa: '出発点。わさびの産地への行き方と地域の情報を集めます。',
+            roleEn: 'Start here to pick up maps and local guidance for the wasabi-growing area.',
           },
           {
             placeId: 'chishima-wasabi-garden',
             stepNumber: 2,
             stayMinutes: 45,
-            roleJa: '谷の清流が育てる東京わさびの栽培現場を見学します。',
-            roleEn: 'See the wasabi paddies where Tokyo Wasabi is grown in clear mountain streams.',
+            roleJa: '奥多摩のわさびの産地、丹三郎へ。わさびと加工品を扱う千島わさび園があります。',
+            roleEn:
+              'Head to Tanzaburo, Okutama\'s wasabi-growing area — home of Chishima Wasabi Garden, which sells wasabi and wasabi products.',
           },
           {
             placeId: 'soba-isshintei',
             stepNumber: 3,
             stayMinutes: 60,
-            roleJa: 'おろしたてのわさびをのせた手打ちそばで昼食を。',
-            roleEn: 'Lunch: hand-made soba topped with freshly grated wasabi.',
+            roleJa: '丹三郎のそば店で昼食を。',
+            roleEn: 'Lunch at the soba restaurant in Tanzaburo.',
           },
           {
             placeId: 'shishiguchiya',
             stepNumber: 4,
             stayMinutes: 30,
-            roleJa: 'わさびのお土産を選べる大丹波の店。旅のしめくくりに立ち寄ります。',
-            roleEn: 'A wasabi shop in Odanba to round off the trip.',
+            roleJa: '大丹波のわさびの店で、わさびのお土産を選べます。',
+            roleEn: 'Choose wasabi souvenirs at the wasabi shop in Odanba.',
           },
         ],
         mobility: [
@@ -214,37 +215,38 @@ export const MODEL_ROUTES: ModelRoute[] = [
             placeId: 'okutama-tourism-office',
             stepNumber: 1,
             stayMinutes: 15,
-            roleJa: '出発点。わさび田への行き方と地域の情報を集めます。',
-            roleEn: 'Start here to pick up maps and local guidance for the wasabi fields.',
+            roleJa: '出発点。わさびの産地への行き方と地域の情報を集めます。',
+            roleEn: 'Start here to pick up maps and local guidance for the wasabi-growing area.',
           },
           {
             placeId: 'chishima-wasabi-garden',
             stepNumber: 2,
             stayMinutes: 60,
-            roleJa: '谷の清流が育てる東京わさびの栽培現場をゆっくり見学。',
-            roleEn: 'Spend more time at the wasabi paddies and clear mountain streams.',
+            roleJa: '奥多摩のわさびの産地、丹三郎を訪れます。わさびと加工品を扱う千島わさび園があります。',
+            roleEn:
+              'Visit Tanzaburo, Okutama\'s wasabi-growing area — home of Chishima Wasabi Garden, which sells wasabi and wasabi products.',
           },
           {
             placeId: 'soba-isshintei',
             stepNumber: 3,
             stayMinutes: 60,
-            roleJa: 'おろしたてのわさびをのせた手打ちそばで昼食を。',
-            roleEn: 'Lunch: hand-made soba topped with freshly grated wasabi.',
+            roleJa: '丹三郎のそば店で昼食を。',
+            roleEn: 'Lunch at the soba restaurant in Tanzaburo.',
           },
           {
             placeId: 'odanba-fishing',
             stepNumber: 4,
             stayMinutes: 60,
-            roleJa: '渓流魚の釣り体験。わさびの恵みとともにある川の味わいへ。',
+            roleJa: '大丹波にある虹ますの釣り施設。大丹波川国際虹ます釣場を訪ねます。',
             roleEn:
-              'Try river fishing for trout — the other taste of Okutama\'s waters.',
+              'A rainbow-trout fishing facility in Odanba — Odanba-gawa International Rainbow Trout Pond.',
           },
           {
             placeId: 'shishiguchiya',
             stepNumber: 5,
             stayMinutes: 30,
-            roleJa: 'わさびのお土産を選べる大丹波の店。旅のしめくくりに立ち寄ります。',
-            roleEn: 'A wasabi shop in Odanba to round off the trip.',
+            roleJa: '大丹波のわさびの店で、わさびのお土産を選べます。',
+            roleEn: 'Choose wasabi souvenirs at the wasabi shop in Odanba.',
           },
         ],
         mobility: [
@@ -305,9 +307,9 @@ export const SPOT_DETAILS: Record<string, SpotDetail> = {
   'chishima-wasabi-garden': {
     placeId: 'chishima-wasabi-garden',
     roleJa:
-      '千島わさび園は奥多摩のわさび田を間近に見学できる農園です。東京わさびが「作られる」場所を自分の目で確かめられます。',
+      '千島わさび園は丹三郎にあるわさびの農園で、わさびとわさび加工品を扱っています。奥多摩のわさびの産地を訪ねる旅の中継点です。',
     roleEn:
-      'Chishima Wasabi Garden lets you see Okutama\'s wasabi paddies up close — where Tokyo Wasabi is actually grown.',
+      'Chishima Wasabi Garden is a wasabi farm in Tanzaburo that deals in wasabi and wasabi products — a stop on a journey through Okutama\'s wasabi-growing area.',
     tags: {},
     origin: 'editorial',
     source: SOURCE_OKUTAMA,
@@ -315,9 +317,9 @@ export const SPOT_DETAILS: Record<string, SpotDetail> = {
   'soba-isshintei': {
     placeId: 'soba-isshintei',
     roleJa:
-      '一心亭は丹三郎の手打ちそば店。おろしたてのわさびをのせたそばで、奥多摩の水が生んだ味を楽しめます。',
+      '一心亭は丹三郎にあるそば店です。奥多摩の山あいの旅で、昼食に立ち寄ります。',
     roleEn:
-      'Isshintei is a hand-made soba restaurant in Tanzaburo. Enjoy the taste of Okutama\'s water with soba topped with freshly grated wasabi.',
+      'Isshintei is a soba restaurant in Tanzaburo — a lunch stop on the journey through the Okutama mountains.',
     tags: {},
     origin: 'editorial',
     source: SOURCE_OKUTAMA,
@@ -325,9 +327,9 @@ export const SPOT_DETAILS: Record<string, SpotDetail> = {
   'shishiguchiya': {
     placeId: 'shishiguchiya',
     roleJa:
-      '獅子口屋は大丹波のわさびの店。わさびのお土産を選んで、旅の思い出を持ち帰れます。',
+      '獅子口屋は大丹波にあるわさびの店です。わさびのお土産を扱っています。',
     roleEn:
-      'Shishiguchiya is a wasabi shop in Odanba. Take home a wasabi souvenir from your trip.',
+      'Shishiguchiya is a wasabi shop in Odanba that sells wasabi souvenirs.',
     tags: {},
     origin: 'editorial',
     source: SOURCE_OKUTAMA,
@@ -335,9 +337,9 @@ export const SPOT_DETAILS: Record<string, SpotDetail> = {
   'odanba-fishing': {
     placeId: 'odanba-fishing',
     roleJa:
-      '大丹波川国際虹ます釣場は大丹波の渓流魚釣り体験スポット。わさびの恵みとともにある、川の味わいを体感できます。',
+      '大丹波川国際虹ます釣場は、大丹波にある虹ますの釣り施設です。',
     roleEn:
-      'Odanba-gawa International Rainbow Trout Pond is a river-fishing experience spot. Feel the river\'s bounty alongside Okutama\'s wasabi.',
+      'Odanba-gawa International Rainbow Trout Pond is a rainbow-trout fishing facility in Odanba.',
     tags: {},
     origin: 'editorial',
     source: SOURCE_OKUTAMA,

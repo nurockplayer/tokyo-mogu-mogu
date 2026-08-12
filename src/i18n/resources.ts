@@ -425,7 +425,7 @@ export const strings = {
       'あなたが味わうこと自体が、このわさびの次の世代を支えることになります。ぜひ、食べて、買って、そして奥多摩へ。',
     dataRouteName: '奥多摩わさび紀行',
     dataRouteTransport: 'JR青梅線・西東京バス',
-    dataRouteStopRoleTourismOffice: '出発点。わさび田への行き方と地域の情報を集めます。',
+    dataRouteStopRoleTourismOffice: '出発点。わさびの産地への行き方と地域の情報を集めます。',
     dataRouteStopRoleWasabiField: '谷の清流が育てる東京わさびの栽培現場を見学します。',
     dataRouteStopRoleSobaLunch: 'おろしたてのわさびをのせた手打ちそばで昼食を。',
     dataRouteStopRoleMichiNoEki: 'わさび加工品やこんにゃくなど、お土産を選びます。',
@@ -444,19 +444,19 @@ export const strings = {
     dataPlaceIsshinteiName: '一心亭',
     dataPlaceShishiguchiyaName: '獅子口屋（わさび）',
     dataPlaceOdanbaName: '大丹波川国際虹ます釣場',
-    dataRouteStopRoleChishima: '谷の清流が育てる東京わさびの栽培現場を見学します。',
-    dataRouteStopRoleChishimaFullDay: '谷の清流が育てる東京わさびの栽培現場をゆっくり見学。',
-    dataRouteStopRoleIsshinteiLunch: 'おろしたてのわさびをのせた手打ちそばで昼食を。',
-    dataRouteStopRoleShishiguchiya: 'わさびのお土産を選べる大丹波の店。旅のしめくくりに立ち寄ります。',
-    dataRouteStopRoleOdanba: '渓流魚の釣り体験。わさびの恵みとともにある川の味わいへ。',
+    dataRouteStopRoleChishima: '奥多摩のわさびの産地、丹三郎へ。わさびと加工品を扱う千島わさび園があります。',
+    dataRouteStopRoleChishimaFullDay: '奥多摩のわさびの産地、丹三郎を訪れます。わさびと加工品を扱う千島わさび園があります。',
+    dataRouteStopRoleIsshinteiLunch: '丹三郎のそば店で昼食を。',
+    dataRouteStopRoleShishiguchiya: '大丹波のわさびの店で、わさびのお土産を選べます。',
+    dataRouteStopRoleOdanba: '大丹波にある虹ますの釣り施設。大丹波川国際虹ます釣場を訪ねます。',
     dataChishimaRole:
-      '千島わさび園は奥多摩のわさび田を間近に見学できる農園です。東京わさびが「作られる」場所を自分の目で確かめられます。',
+      '千島わさび園は丹三郎にあるわさびの農園で、わさびとわさび加工品を扱っています。奥多摩のわさびの産地を訪ねる旅の中継点です。',
     dataIsshinteiRole:
-      '一心亭は丹三郎の手打ちそば店。おろしたてのわさびをのせたそばで、奥多摩の水が生んだ味を楽しめます。',
+      '一心亭は丹三郎にあるそば店です。奥多摩の山あいの旅で、昼食に立ち寄ります。',
     dataShishiguchiyaRole:
-      '獅子口屋は大丹波のわさびの店。わさびのお土産を選んで、旅の思い出を持ち帰れます。',
+      '獅子口屋は大丹波にあるわさびの店です。わさびのお土産を扱っています。',
     dataOdanbaRole:
-      '大丹波川国際虹ます釣場は大丹波の渓流魚釣り体験スポット。わさびの恵みとともにある、川の味わいを体感できます。',
+      '大丹波川国際虹ます釣場は、大丹波にある虹ますの釣り施設です。',
     dataWasabiFieldAccess: '奥多摩駅からバスまたは徒歩（デモ表記）',
     dataFishingCenterAccess: '奥多摩駅からバス（デモ表記）',
     dataWasabiFieldDemoNote: '見学条件は時期により異なります。事前に現地へご確認ください（デモ）',
@@ -876,7 +876,7 @@ export const strings = {
     dataRouteName: 'Okutama Wasabi Journey',
     dataRouteTransport: 'JR Ome Line & Nishi Tokyo Bus',
     dataRouteStopRoleTourismOffice:
-      'Start here to pick up maps and local guidance for the wasabi fields.',
+      'Start here to pick up maps and local guidance for the wasabi-growing area.',
     dataRouteStopRoleWasabiField:
       'See the terraced wasabi paddies fed by clear mountain stream water.',
     dataRouteStopRoleSobaLunch: 'Lunch: hand-made soba topped with freshly grated wasabi.',
@@ -899,21 +899,21 @@ export const strings = {
     dataPlaceShishiguchiyaName: 'Shishiguchiya (Wasabi)',
     dataPlaceOdanbaName: 'Odanba-gawa International Rainbow Trout Pond',
     dataRouteStopRoleChishima:
-      'See the wasabi paddies where Tokyo Wasabi is grown in clear mountain streams.',
+      'Head to Tanzaburo, Okutama\'s wasabi-growing area — home of Chishima Wasabi Garden, which sells wasabi and wasabi products.',
     dataRouteStopRoleChishimaFullDay:
-      'Spend more time at the wasabi paddies and clear mountain streams.',
-    dataRouteStopRoleIsshinteiLunch: 'Lunch: hand-made soba topped with freshly grated wasabi.',
-    dataRouteStopRoleShishiguchiya: 'A wasabi shop in Odanba to round off the trip.',
+      'Visit Tanzaburo, Okutama\'s wasabi-growing area — home of Chishima Wasabi Garden, which sells wasabi and wasabi products.',
+    dataRouteStopRoleIsshinteiLunch: 'Lunch at the soba restaurant in Tanzaburo.',
+    dataRouteStopRoleShishiguchiya: 'Choose wasabi souvenirs at the wasabi shop in Odanba.',
     dataRouteStopRoleOdanba:
-      'Try river fishing for trout — the other taste of Okutama\'s waters.',
+      'A rainbow-trout fishing facility in Odanba — Odanba-gawa International Rainbow Trout Pond.',
     dataChishimaRole:
-      'Chishima Wasabi Garden lets you see Okutama\'s wasabi paddies up close — where Tokyo Wasabi is actually grown.',
+      'Chishima Wasabi Garden is a wasabi farm in Tanzaburo that deals in wasabi and wasabi products — a stop on a journey through Okutama\'s wasabi-growing area.',
     dataIsshinteiRole:
-      'Isshintei is a hand-made soba restaurant in Tanzaburo. Enjoy the taste of Okutama\'s water with soba topped with freshly grated wasabi.',
+      'Isshintei is a soba restaurant in Tanzaburo — a lunch stop on the journey through the Okutama mountains.',
     dataShishiguchiyaRole:
-      'Shishiguchiya is a wasabi shop in Odanba. Take home a wasabi souvenir from your trip.',
+      'Shishiguchiya is a wasabi shop in Odanba that sells wasabi souvenirs.',
     dataOdanbaRole:
-      'Odanba-gawa International Rainbow Trout Pond is a river-fishing experience spot. Feel the river\'s bounty alongside Okutama\'s wasabi.',
+      'Odanba-gawa International Rainbow Trout Pond is a rainbow-trout fishing facility in Odanba.',
     dataWasabiFieldAccess: 'Bus or walk from Okutama Station (demo)',
     dataFishingCenterAccess: 'Bus from Okutama Station (demo)',
     dataWasabiFieldDemoNote:
@@ -1329,7 +1329,7 @@ export const strings = {
       '你的每一次品嚐，都在支撐山葵的下一個世代。歡迎你來品嚐、購買，親自造訪奧多摩。',
     dataRouteName: '奧多摩山葵紀行',
     dataRouteTransport: 'JR青梅線・西東京巴士',
-    dataRouteStopRoleTourismOffice: '出發點。在這裡收集前往山葵田的交通方式與當地資訊。',
+    dataRouteStopRoleTourismOffice: '出發點。在這裡收集前往山葵產地的交通方式與當地資訊。',
     dataRouteStopRoleWasabiField: '參觀以清澈溪流培育的東京山葵栽培現場。',
     dataRouteStopRoleSobaLunch: '午餐：現磨山葵鋪在手工蕎麥麵上。',
     dataRouteStopRoleMichiNoEki: '挑選山葵加工品與蒟蒻等伴手禮。',
@@ -1348,19 +1348,19 @@ export const strings = {
     dataPlaceIsshinteiName: '一心亭',
     dataPlaceShishiguchiyaName: '獅子口屋（山葵）',
     dataPlaceOdanbaName: '大丹波川國際虹鱒釣場',
-    dataRouteStopRoleChishima: '參觀以清澈溪流培育的東京山葵栽培現場。',
-    dataRouteStopRoleChishimaFullDay: '細細走訪清澈溪流孕育的東京山葵栽培現場。',
-    dataRouteStopRoleIsshinteiLunch: '午餐：現磨山葵鋪在手工蕎麥麵上。',
-    dataRouteStopRoleShishiguchiya: '在販售山葵的大丹波店家選購伴手禮，為旅程畫下句點。',
-    dataRouteStopRoleOdanba: '體驗溪流魚的釣魚樂趣，感受與山葵同源的水之美味。',
+    dataRouteStopRoleChishima: '前往山葵產地丹三郎。這裡有販售山葵與加工品的千島山葵園。',
+    dataRouteStopRoleChishimaFullDay: '造訪山葵產地丹三郎。這裡有販售山葵與加工品的千島山葵園。',
+    dataRouteStopRoleIsshinteiLunch: '在丹三郎的蕎麥麵店享用午餐。',
+    dataRouteStopRoleShishiguchiya: '在大丹波的山葵店選購山葵伴手禮。',
+    dataRouteStopRoleOdanba: '位於大丹波的虹鱒釣魚設施——大丹波川國際虹鱒釣場。',
     dataChishimaRole:
-      '千島山葵園是可以近距離參觀奧多摩山葵田的農園。你將親眼看到東京山葵實際「生長」的場所。',
+      '千島山葵園是位於丹三郎的山葵農園，販售山葵與山葵加工品。是造訪奧多摩山葵產地途中的一站。',
     dataIsshinteiRole:
-      '一心亭是丹三郎的手工蕎麥麵店。現磨山葵搭配蕎麥麵，品嚐奧多摩之水孕育的滋味。',
+      '一心亭是位於丹三郎的蕎麥麵店，是奧多摩山間之旅的午餐據點。',
     dataShishiguchiyaRole:
-      '獅子口屋是大丹波的山葵店。選購山葵伴手禮，把旅程回憶帶回家。',
+      '獅子口屋是位於大丹波的山葵店，販售山葵伴手禮。',
     dataOdanbaRole:
-      '大丹波川國際虹鱒釣場是奧多摩的溪流魚釣魚體驗景點。感受與山葵同源的水之恩賜。',
+      '大丹波川國際虹鱒釣場是位於大丹波的虹鱒釣魚設施。',
     dataWasabiFieldAccess: '從奧多摩站搭巴士或步行（示範標示）',
     dataFishingCenterAccess: '從奧多摩站搭巴士（示範標示）',
     dataWasabiFieldDemoNote: '參觀條件依季節而異，請事先向當地確認（示範）',
