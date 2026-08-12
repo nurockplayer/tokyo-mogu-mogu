@@ -7,7 +7,14 @@
  * wasabi fallback text. These tests lock availability and locale completeness.
  */
 import { describe, expect, it } from 'vitest';
-import { routeAdvisoryKeys, storyContent, STORY_DATA_KEYS } from './data-content';
+import {
+  placeNameKey,
+  routeAdvisoryKeys,
+  routeNameKey,
+  stepRoleKey,
+  storyContent,
+  STORY_DATA_KEYS,
+} from './data-content';
 import { resolveKey } from './fallback';
 import { strings, type LocaleKey } from './resources';
 import { PILOT_JOURNEY } from '../data/pilot-journey';
@@ -84,6 +91,12 @@ describe('S4 story content availability (#123)', () => {
     // A future non-Okutama route has no advisory → renders honest none, never
     // the Okutama field observation.
     expect(routeAdvisoryKeys('ome-sake-journey')).toBeUndefined();
+  });
+
+  it('does not fall back to wasabi/Okutama copy for unknown route or place ids', () => {
+    expect(routeNameKey('unknown-route')).toBeUndefined();
+    expect(placeNameKey('unknown-place')).toBeUndefined();
+    expect(stepRoleKey('unknown-route', 'unknown-place', 'half-day')).toBeUndefined();
   });
 
   it('keeps the story key set structurally equivalent across locales', () => {

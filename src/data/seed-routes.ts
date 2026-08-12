@@ -74,6 +74,8 @@ export interface ModelRoute {
   variants: Record<RouteDuration, RouteVariant>;
   /** Provenance of the editorial route. */
   source: DataSource;
+  /** True only for the frozen 8/23 Okutama golden-path demo route. */
+  isDemo?: boolean;
 }
 
 /** Optional verified practical data — only present when source data exists. */
@@ -148,6 +150,7 @@ export const MODEL_ROUTES: ModelRoute[] = [
     areaEn: 'Okutama',
     defaultDuration: 'half-day',
     source: SOURCE_OKUTAMA,
+    isDemo: true,
     variants: {
       'half-day': {
         transportJa: 'JR青梅線・西東京バス',

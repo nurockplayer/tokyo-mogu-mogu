@@ -20,6 +20,12 @@ describe('model routes (#45 S5)', () => {
     expect(route?.nameEn).toMatch(/Wasabi/);
   });
 
+  it('marks only the frozen 8/23 demo route as demo content', () => {
+    const demoRoutes = MODEL_ROUTES.filter((r) => r.isDemo);
+    expect(demoRoutes).toHaveLength(1);
+    expect(demoRoutes[0].id).toBe('okutama-wasabi-journey');
+  });
+
   it('offers both half-day and 1-day variants', () => {
     const route = getRouteById('okutama-wasabi-journey');
     expect(route).toBeDefined();

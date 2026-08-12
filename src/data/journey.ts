@@ -81,3 +81,63 @@ export function resolveRouteId(search: string): string | undefined {
   if (explicitRouteId) return explicitRouteId;
   return resolveJourneyIdentity(params.get('candidateId')).journeyId;
 }
+
+/**
+ * Resolve the Story screen's identity from the displayed culture and the
+ * selected candidate (Issue #123).
+ *
+ * Invariant: the displayed Story culture always equals the resolved culture,
+ * and a Route is attached only when it belongs to that same culture.
+ *
+ * - The displayed culture is the URL `foodCultureId`, or — when absent — the
+ *   candidate's culture, or the demo journey's culture (legacy `/story` entry).
+ * - A candidate whose `foodCultureId` matches the displayed culture contributes
+ *   its journey (absent when the candidate is route-less).
+ * - A mismatched candidate (different culture) is never combined with the
+ *   displayed Story: the culture is kept and the journey is represented as
+ *   absent.
+ * - Without a candidate id, a journey is resolved only when it can be
+ *   unambiguously derived from the displayed culture/config (the demo wasabi
+ *   culture, or a single configured candidate for that culture). Otherwise the
+ *   journey is absent — the Okutama pilot is never attached merely because a
+ *   candidate id is missing.
+ */
+export function resolveStoryJourney(
+  foodCultureId: string | null | undefined,
+  candidateId: string | null | undefined,
+  candidates: readonly RecommendationCandidate[] = DEMO_RECOMMENDATION_CANDIDATES,
+): JourneyIdentity {
+  const candidate = candidateId
+    ? candidates.find((item) => item.id === candidateId)
+    : undefined;
+
+  // The displayed culture is the URL id, else the candidate's culture, else the
+  // demo journey's culture (legacy `/story` entry).
+  const cultureId = foodCultureId ?? candidate?.foodCultureId ?? PILOT_JOURNEY.foodCultureId;
+
+  if (candidate) {
+    if (candidate.foodCultureId === cultureId) {
+      return {
+        candidateId: candidateId ?? undefined,
+        foodCultureId: cultureId,
+        ...(candidate.journeyId ? { journeyId: candidate.journeyId } : {}),
+      };
+    }
+    // Mismatched candidate: keep the displayed culture, journey absent.
+    return { candidateId: candidateId ?? undefined, foodCultureId: cultureId };
+  }
+
+  // No candidate id: derive the journey unambiguously from the culture/config.
+  if (cultureId === PILOT_JOURNEY.foodCultureId) {
+    return { foodCultureId: cultureId, journeyId: PILOT_JOURNEY.routeId };
+  }
+  const matching = candidates.filter((item) => item.foodCultureId === cultureId);
+  if (matching.length === 1 && matching[0].journeyId) {
+    return {
+      candidateId: matching[0].id,
+      foodCultureId: cultureId,
+      journeyId: matching[0].journeyId,
+    };
+  }
+  return { foodCultureId: cultureId };
+}

@@ -50,7 +50,7 @@ import {
   getMunicipalityAgricultureById,
   MUNICIPALITY_INDICATOR_KEYS,
   municipalityIndicatorValue,
-  resolveJourneyIdentity,
+  resolveStoryJourney,
 } from '../data';
 import { FoodCultureImage } from '../components/FoodCultureImage';
 import { SupportPanel } from '../components/SupportPanel';
@@ -99,16 +99,19 @@ export function StoryPage() {
   // arbitrary or protocol-relative destinations.
   const backTo = resolveBackTo(searchParams.get('backTo'), '/explore/result');
 
-  // The selected candidate/journey identity (#123): Result and MOGU reopen
-  // forward the canonical candidate id; Discover / legacy entry falls back to
-  // the demo journey. The Route CTA and Back both resolve through it.
-  const identity = resolveJourneyIdentity(searchParams.get('candidateId'));
+  // The displayed culture is the URL `foodCultureId`; a journey is attached
+  // only when it belongs to that same culture (a matching candidate, or an
+  // unambiguous culture/config default such as the demo wasabi culture).
+  // A candidate-less non-demo Story or a mismatched candidate keeps its culture
+  // and represents the journey as absent — the pilot is never attached just
+  // because a candidate id is missing.
+  const identity = resolveStoryJourney(foodCultureId, searchParams.get('candidateId'));
 
   // No id defaults to the recommended 東京わさび story. Any culture that
   // resolves a complete story entry renders its own story; any other id —
   // whether it names a different seed culture or an unknown value — renders
   // the graceful empty state instead of a mislabeled article.
-  const record = getFoodCultureById(foodCultureId ?? identity.foodCultureId);
+  const record = getFoodCultureById(identity.foodCultureId);
   const content = record ? storyContent(record.id) : undefined;
 
   if (!record || !content) {
@@ -159,7 +162,9 @@ export function StoryPage() {
     ],
     locale,
   );
-  const routeHref = storyRouteHref(backTo, identity.candidateId);
+  const routeHref = identity.journeyId
+    ? storyRouteHref(backTo, identity.candidateId)
+    : undefined;
 
   return (
     <article className="s4-page">
@@ -275,7 +280,7 @@ export function StoryPage() {
           journey; a culture without a Route renders no route CTA rather than
           attaching the pilot journey). */}
       <footer className="s4-cta">
-        {identity.journeyId ? (
+        {routeHref ? (
           <>
             <Link to={routeHref} className="tmm-btn tmm-btn--primary tmm-btn--block">
               {t('s4CtaLabel')}
@@ -340,7 +345,7 @@ export function StoryPage() {
       </details>
 
       {/* Mobile sticky/following CTA — only when the candidate has a journey. */}
-      {identity.journeyId ? (
+      {routeHref ? (
         <div className="s4-sticky-cta">
           <Link to={routeHref} className="tmm-btn tmm-btn--orange tmm-btn--block">
             {t(content.stickyCta)}

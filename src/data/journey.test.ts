@@ -9,7 +9,7 @@
  */
 import { describe, expect, it } from 'vitest';
 import type { RecommendationCandidate } from '../lib/recommendation';
-import { resolveJourneyIdentity, resolveRouteId } from './journey';
+import { resolveJourneyIdentity, resolveRouteId, resolveStoryJourney } from './journey';
 import { PILOT_JOURNEY } from './pilot-journey';
 import { DEMO_RECOMMENDATION_CANDIDATE_ID } from './demo-recommendation';
 
@@ -100,5 +100,46 @@ describe('route resolution from URL context (#123)', () => {
     // A candidate id that is not in the configured list is a legacy/unknown
     // identity → demo default (route-less candidates are covered above).
     expect(resolveRouteId('?candidateId=culture-only')).toBe(PILOT_JOURNEY.routeId);
+  });
+});
+
+describe('story journey resolution (#123)', () => {
+  it('keeps the pilot Discover story resolving its demo journey', () => {
+    // /story/wasabi-okutama without candidateId (the Discover link shape).
+    expect(resolveStoryJourney('wasabi-okutama', null)).toEqual({
+      foodCultureId: PILOT_JOURNEY.foodCultureId,
+      journeyId: PILOT_JOURNEY.routeId,
+    });
+  });
+
+  it('attaches the candidate journey only when its culture matches the story', () => {
+    expect(resolveStoryJourney('sake-ome', 'future-ome-sake', [FUTURE_CANDIDATE])).toEqual({
+      candidateId: 'future-ome-sake',
+      foodCultureId: 'sake-ome',
+      journeyId: 'ome-sake-journey',
+    });
+  });
+
+  it('keeps a candidate-less non-demo story culture and represents its journey as absent', () => {
+    // No candidate id and no configured candidate for this culture: the story
+    // keeps its culture and the Okutama pilot is never attached.
+    expect(resolveStoryJourney('sake-ome', null, [])).toEqual({ foodCultureId: 'sake-ome' });
+    expect(resolveStoryJourney('sake-ome', null, []).journeyId).toBeUndefined();
+  });
+
+  it('derives an unambiguous journey from a single configured culture when candidate-less', () => {
+    // One configured candidate for the displayed culture → unambiguous journey.
+    expect(resolveStoryJourney('sake-ome', null, [FUTURE_CANDIDATE])).toEqual({
+      candidateId: 'future-ome-sake',
+      foodCultureId: 'sake-ome',
+      journeyId: 'ome-sake-journey',
+    });
+  });
+
+  it('never combines one culture\'s story with a mismatched candidate\'s journey', () => {
+    // URL culture wasabi-okutama, candidate is the Ome sake candidate.
+    const identity = resolveStoryJourney('wasabi-okutama', 'future-ome-sake', [FUTURE_CANDIDATE]);
+    expect(identity.foodCultureId).toBe('wasabi-okutama');
+    expect(identity.journeyId).toBeUndefined();
   });
 });

@@ -60,7 +60,7 @@ export {
   DEMO_RECOMMENDATION_CANDIDATES,
   demoRecommendationMatchTags,
 } from './demo-recommendation';
-export { resolveJourneyIdentity, resolveRouteId } from './journey';
+export { resolveJourneyIdentity, resolveRouteId, resolveStoryJourney } from './journey';
 export type { JourneyIdentity } from './journey';
 export type { PilotJourney } from './pilot-journey';
 

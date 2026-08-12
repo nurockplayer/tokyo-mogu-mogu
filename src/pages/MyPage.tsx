@@ -73,7 +73,12 @@ export function MyPage() {
               <li key={entry.routeId}>
                 <Card button className="my-route-card">
                   <div className="my-route-card__body">
-                    <div className="my-route-card__title">{t(routeNameKey(route.id))}</div>
+                    <div className="my-route-card__title">
+                      {(() => {
+                        const key = routeNameKey(route.id);
+                        return key ? t(key) : locale === 'ja' ? route.nameJa : route.nameEn;
+                      })()}
+                    </div>
                     <div className="my-route-card__meta">
                       <span>
                         {t('s8Duration')}: {durationLabel(route, locale)}

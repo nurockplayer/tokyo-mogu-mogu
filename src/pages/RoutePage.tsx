@@ -32,7 +32,7 @@ import {
   resolveRouteId,
 } from '../data';
 import type { RouteDuration } from '../data';
-import { useI18n, type Locale } from '../i18n';
+import { useI18n, type Locale, type LocaleKey } from '../i18n';
 import {
   routeNameKey,
   placeNameKey,
@@ -95,6 +95,12 @@ export function RoutePage() {
   const variant = route.variants[duration];
   const pins = projectRoutePins(variant.steps, places);
 
+  // Localized copy with the record's canonical {Ja,En} fields as the honest
+  // fallback when no per-id i18n key is configured — never another culture's
+  // name (no silent wasabi/Okutama copy for unknown/new ids).
+  const localized = (key: LocaleKey | undefined, ja: string, en: string): string =>
+    key ? t(key) : locale === 'ja' ? ja : en;
+
   // Route-specific transport guidance (the route's own {Ja,En} data), not a
   // shared Okutama assumption.
   const transport = locale === 'ja' ? variant.transportJa : variant.transportEn || variant.transportJa;
@@ -139,7 +145,7 @@ export function RoutePage() {
       {/* Course header */}
       <div className="s5-hero">
         <p className="s5-hero__kicker">{t('s5Kicker')}</p>
-        <h1 className="s5-hero__title">{t(routeNameKey(route.id))}</h1>
+        <h1 className="s5-hero__title">{localized(routeNameKey(route.id), route.nameJa, route.nameEn)}</h1>
         <div className="s5-hero__meta">
           <span className="s5-hero__meta-item">
             {t(duration === 'half-day' ? 's5DurationHalfDay' : 's5DurationFullDay')}
@@ -229,7 +235,7 @@ export function RoutePage() {
             const mobility = variant.mobility.find(
               (seg) => seg.fromStep === step.stepNumber,
             );
-            const placeName = t(placeNameKey(place.id));
+            const placeName = localized(placeNameKey(place.id), place.nameJa, place.nameEn);
             return (
               <div key={step.placeId}>
                 <Link
@@ -240,7 +246,11 @@ export function RoutePage() {
                   <RouteStep
                     number={step.stepNumber}
                     name={placeName}
-                    role={t(stepRoleKey(route.id, step.placeId, duration))}
+                    role={localized(
+                      stepRoleKey(route.id, step.placeId, duration),
+                      step.roleJa,
+                      step.roleEn,
+                    )}
                   >
                     <span className="s5-timeline__stay">
                       ⏱ {t('s5Stay')}: {step.stayMinutes}min
@@ -265,10 +275,12 @@ export function RoutePage() {
         </div>
       </StorySection>
 
-      {/* Warning / reservation badge (not color-alone: Tag carries an icon) */}
+      {/* Warning / reservation badge (not color-alone: Tag carries an icon).
+          The demo marker applies only to the 8/23 Okutama golden-path route. */}
       <section className="tmm-section">
         <Tag tone="warning">
-          {t('s5ReservationNote')} — {t('s5DemoNote')}
+          {t('s5ReservationNote')}
+          {route.isDemo ? ` — ${t('s5DemoNote')}` : ''}
         </Tag>
       </section>
 

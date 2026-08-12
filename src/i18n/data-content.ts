@@ -101,16 +101,16 @@ export function foodCultureKey(
   return FOOD_CULTURE_DATA_KEYS[id]?.[field];
 }
 
-export function routeNameKey(id: string): LocaleKey {
-  return ROUTE_DATA_KEYS[id as keyof typeof ROUTE_DATA_KEYS]?.name ?? 'dataRouteName';
+export function routeNameKey(id: string): LocaleKey | undefined {
+  return ROUTE_DATA_KEYS[id as keyof typeof ROUTE_DATA_KEYS]?.name;
 }
 
-export function stepRoleKey(routeId: string, placeId: string, duration: string): LocaleKey {
-  return ROUTE_STEP_ROLE_KEYS[`${routeId}.${placeId}.${duration}`] ?? 'dataRouteStopRoleWasabiField';
+export function stepRoleKey(routeId: string, placeId: string, duration: string): LocaleKey | undefined {
+  return ROUTE_STEP_ROLE_KEYS[`${routeId}.${placeId}.${duration}`];
 }
 
-export function placeNameKey(id: string): LocaleKey {
-  return PLACE_DATA_KEYS[id as keyof typeof PLACE_DATA_KEYS]?.name ?? 'dataPlaceWasabiFieldName';
+export function placeNameKey(id: string): LocaleKey | undefined {
+  return PLACE_DATA_KEYS[id as keyof typeof PLACE_DATA_KEYS]?.name;
 }
 
 export function spotAccessKey(placeId: string): LocaleKey | undefined {
