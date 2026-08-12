@@ -27,7 +27,10 @@ describe('municipality agriculture context', () => {
       expect(p.origin).toBe('source');
       expect(p.source.sourceType).toBe('open_data');
       expect(p.source.retrievedAt).toMatch(/^\d{4}-\d{2}-\d{2}$/);
-      expect(p.source.originalId).toBe(p.municipalityId);
+      // Canonical municipality id is the 6-digit code including check digit;
+      // the source-specific originalId is the census's 5-digit area code.
+      expect(p.municipalityId).toMatch(/^\d{6}$/);
+      expect(p.source.originalId).toMatch(/^\d{5}$/);
       expect(p.source.license).toBeTruthy();
       expect(p.source.url).toBeTruthy();
       expect(p.source.verificationStatus).toBe('needs_confirmation');
@@ -36,6 +39,12 @@ describe('municipality agriculture context', () => {
       expect(p.interpretationNoteJa.length).toBeGreaterThan(0);
       expect(p.interpretationNoteEn.length).toBeGreaterThan(0);
     }
+  });
+
+  it('uses the 6-digit canonical code and keeps the census 5-digit source code', () => {
+    const okutama = getMunicipalityAgricultureById(OKUTAMA_MUNICIPALITY_ID)!;
+    expect(OKUTAMA_MUNICIPALITY_ID).toBe('133086');
+    expect(okutama.source.originalId).toBe('13308');
   });
 
   it('never derives verified without stakeholder confirmation', () => {
@@ -61,6 +70,6 @@ describe('municipality agriculture context', () => {
   });
 
   it('returns undefined for unknown municipalities (safe missing handling)', () => {
-    expect(getMunicipalityAgricultureById('99999')).toBeUndefined();
+    expect(getMunicipalityAgricultureById('999999')).toBeUndefined();
   });
 });

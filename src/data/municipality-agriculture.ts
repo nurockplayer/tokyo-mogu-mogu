@@ -7,6 +7,11 @@
  * touching shared contracts (see product-scope-invariant: Okutama × Tokyo
  * Wasabi is the 2026-08-23 demo golden path only, not the Product domain).
  *
+ * Municipality ids use the 6-digit 全国地方公共団体コード including the check
+ * digit (e.g. '133086' = 奥多摩町), the same form the repository's existing
+ * municipality data uses (scripts/ingest-okutama snapshots). The census
+ * source's 5-digit area code is preserved on `DataSource.originalId`.
+ *
  * Data source: 農林水産省「2020年農林業センサス 市町村別統計表」, survey base date
  * 2020-02-01. As of retrieval (2026-08-12), the published 2025 Census result set
  * did not provide the municipality-level agricultural-management-entity indicator
@@ -57,7 +62,12 @@ export interface MunicipalityAgricultureIndicator {
 
 /** Reusable normalized agriculture context for one Tokyo municipality. */
 export interface MunicipalityAgricultureProfile {
-  /** 全国地方公共団体コード (5 digits), e.g. '13308' = 奥多摩町. */
+  /**
+   * Canonical municipality id — 6-digit 全国地方公共団体コード including the
+   * check digit (e.g. '133086' = 奥多摩町), matching the repository's existing
+   * municipality data. The source-specific 5-digit census area code lives on
+   * `source.originalId`.
+   */
   municipalityId: string;
   nameJa: string;
   nameEn: string;
@@ -75,8 +85,19 @@ export interface MunicipalityAgricultureProfile {
   interpretationNoteEn: string;
 }
 
-/** The current demo/evidence municipality (8/23 golden path). */
-export const OKUTAMA_MUNICIPALITY_ID = '13308';
+/**
+ * The current demo/evidence municipality (8/23 golden path). 6-digit 全国地方
+ * 公共団体コード including the check digit, matching the repository's existing
+ * municipality data (scripts/ingest-okutama snapshots use '133086').
+ */
+export const OKUTAMA_MUNICIPALITY_ID = '133086';
+
+/**
+ * The 5-digit 全国地方公共団体コード used by the census 市町村別統計表 source
+ * (the census publishes 5-digit area codes without the check digit). Kept as
+ * the source-specific identifier on `DataSource.originalId` for traceability.
+ */
+export const OKUTAMA_CENSUS_AREA_CODE = '13308';
 
 export const MUNICIPALITY_AGRICULTURE_PROFILES: MunicipalityAgricultureProfile[] = [
   {
@@ -127,7 +148,7 @@ export const MUNICIPALITY_AGRICULTURE_PROFILES: MunicipalityAgricultureProfile[]
       sourceDatasetId: '2020年農林業センサス 市町村別統計表（東京都分）',
       retrievedAt: '2026-08-12',
       verificationStatus: 'needs_confirmation',
-      originalId: OKUTAMA_MUNICIPALITY_ID,
+      originalId: OKUTAMA_CENSUS_AREA_CODE,
     },
     origin: 'source',
     interpretationNoteJa:
