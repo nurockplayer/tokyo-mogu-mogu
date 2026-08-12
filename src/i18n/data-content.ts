@@ -45,53 +45,52 @@ export const ROUTE_DATA_KEYS = {
 export const ROUTE_STEP_ROLE_KEYS: Record<string, LocaleKey> = {
   'okutama-wasabi-journey.okutama-tourism-office.half-day': 'dataRouteStopRoleTourismOffice',
   'okutama-wasabi-journey.okutama-tourism-office.1-day': 'dataRouteStopRoleTourismOffice',
-  'okutama-wasabi-journey.okutama-wasabi-field.half-day': 'dataRouteStopRoleWasabiField',
-  'okutama-wasabi-journey.okutama-wasabi-field.1-day': 'dataRouteStopRoleWasabiFieldFullDay',
-  'okutama-wasabi-journey.okutama-soba-shop.half-day': 'dataRouteStopRoleSobaLunch',
-  'okutama-wasabi-journey.okutama-soba-shop.1-day': 'dataRouteStopRoleSobaLunch',
-  'okutama-wasabi-journey.okutama-michi-no-eki.half-day': 'dataRouteStopRoleMichiNoEki',
-  'okutama-wasabi-journey.okutama-michi-no-eki.1-day': 'dataRouteStopRoleMichiNoEki',
-  'okutama-wasabi-journey.okutama-fishing-center.1-day': 'dataRouteStopRoleFishingCenter',
+  'okutama-wasabi-journey.chishima-wasabi-garden.half-day': 'dataRouteStopRoleChishima',
+  'okutama-wasabi-journey.chishima-wasabi-garden.1-day': 'dataRouteStopRoleChishimaFullDay',
+  'okutama-wasabi-journey.soba-isshintei.half-day': 'dataRouteStopRoleIsshinteiLunch',
+  'okutama-wasabi-journey.soba-isshintei.1-day': 'dataRouteStopRoleIsshinteiLunch',
+  'okutama-wasabi-journey.shishiguchiya.half-day': 'dataRouteStopRoleShishiguchiya',
+  'okutama-wasabi-journey.shishiguchiya.1-day': 'dataRouteStopRoleShishiguchiya',
+  'okutama-wasabi-journey.odanba-fishing.1-day': 'dataRouteStopRoleOdanba',
 } as const satisfies Record<string, LocaleKey>;
 
 /** A place keyed by its record id. */
 export const PLACE_DATA_KEYS = {
-  'okutama-wasabi-field': { name: 'dataPlaceWasabiFieldName' },
   'okutama-tourism-office': { name: 'dataPlaceTourismOfficeName' },
+  'chishima-wasabi-garden': { name: 'dataPlaceChishimaName' },
+  'soba-isshintei': { name: 'dataPlaceIsshinteiName' },
+  'shishiguchiya': { name: 'dataPlaceShishiguchiyaName' },
+  'odanba-fishing': { name: 'dataPlaceOdanbaName' },
   'okutama-soba-shop': { name: 'dataPlaceSobaShopName' },
   'okutama-michi-no-eki': { name: 'dataPlaceMichiNoEkiName' },
   'okutama-fishing-center': { name: 'dataPlaceFishingCenterName' },
 } as const satisfies Record<string, Record<string, LocaleKey>>;
 
-/** Spot practical-info access label, keyed by place id. */
-export const SPOT_ACCESS_KEYS: Record<string, LocaleKey> = {
-  'okutama-wasabi-field': 'dataWasabiFieldAccess',
-  'okutama-fishing-center': 'dataFishingCenterAccess',
-} as const satisfies Record<string, LocaleKey>;
+/** Spot practical-info access label, keyed by place id (none on the frozen
+ *  journey: practical info is unverified and renders the explicit unknown
+ *  state). */
+export const SPOT_ACCESS_KEYS: Record<string, LocaleKey> = {} as const;
 
-/** Spot demo-note label, keyed by place id. */
-export const SPOT_DEMO_NOTE_KEYS: Record<string, LocaleKey> = {
-  'okutama-wasabi-field': 'dataWasabiFieldDemoNote',
-  'okutama-fishing-center': 'dataFishingCenterDemoNote',
-} as const satisfies Record<string, LocaleKey>;
+/** Spot demo-note label, keyed by place id (none on the frozen journey). */
+export const SPOT_DEMO_NOTE_KEYS: Record<string, LocaleKey> = {} as const;
 
 /** Spot role, keyed by place id. */
 export const SPOT_ROLE_KEYS: Record<string, LocaleKey> = {
-  'okutama-wasabi-field': 'dataWasabiFieldRole',
   'okutama-tourism-office': 'dataTourismOfficeRole',
-  'okutama-fishing-center': 'dataFishingCenterRole',
-  'okutama-soba-shop': 'dataSobaShopRole',
-  'okutama-michi-no-eki': 'dataMichiNoEkiRole',
+  'chishima-wasabi-garden': 'dataChishimaRole',
+  'soba-isshintei': 'dataIsshinteiRole',
+  'shishiguchiya': 'dataShishiguchiyaRole',
+  'odanba-fishing': 'dataOdanbaRole',
 } as const satisfies Record<string, LocaleKey>;
 
 /**
- * Mobility line label, keyed by `{routeId}.{fromStep}-{toStep}`. The demo route
- * uses a stream-side walk for step 1→2 and a bus for 2→3; remaining segments
- * are plain walks (default).
+ * Mobility line label, keyed by `{routeId}.{fromStep}-{toStep}`. The frozen
+ * journey takes the bus 氷川 ⇄ 丹三郎 (steps 1-2 and 3-4); the in-丹三郎 and
+ * in-氷川 segments are walks (default).
  */
 const ROUTE_MOBILITY_LABEL_KEYS: Record<string, LocaleKey> = {
-  'okutama-wasabi-journey.1-2': 'dataRouteMobilityWalkStream',
-  'okutama-wasabi-journey.2-3': 'dataRouteMobilityBus',
+  'okutama-wasabi-journey.1-2': 'dataRouteMobilityBus',
+  'okutama-wasabi-journey.3-4': 'dataRouteMobilityBus',
 } as const satisfies Record<string, LocaleKey>;
 
 /** The bridge helpers below are pure id → key lookups (used by page code). */

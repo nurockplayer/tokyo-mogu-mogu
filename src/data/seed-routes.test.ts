@@ -214,22 +214,23 @@ describe('pin de-overlap (#69, #74)', () => {
     }
   });
 
-  it('separates the nearly-coincident soba shop and roadside station pins (#69)', () => {
-    // The roadside station projects exactly onto the padded-canvas top-right
-    // corner, so the free soba-shop pin must absorb the full separation — the
-    // pair reaches the target in a single pass (no asymptotic convergence).
+  it('separates the coincident wasabi-garden and soba pins (#69)', () => {
+    // 千島わさび園 and 一心亭 share the 丹三郎 district centroid, so their pins
+    // project onto the exact same padded-canvas top-right corner; the free pin
+    // must absorb the full separation — the pair reaches the target in a single
+    // pass (no asymptotic convergence).
     const route = getRouteById('okutama-wasabi-journey');
     const pins = projectRoutePins(route!.variants['half-day'].steps, places);
+    const garden = toPixels(pins.find((p) => p.stepNumber === 2)!);
     const soba = toPixels(pins.find((p) => p.stepNumber === 3)!);
-    const station = toPixels(pins.find((p) => p.stepNumber === 4)!);
-    const dist = Math.hypot(soba.x - station.x, soba.y - station.y);
+    const dist = Math.hypot(garden.x - soba.x, garden.y - soba.y);
     expect(dist).toBeGreaterThanOrEqual(PIN_LAYOUT.minSeparationPx - EPSILON);
   });
 });
 
 describe('route-id lookup for a place (#69)', () => {
   it('resolves the model route that contains a spot', () => {
-    const routeId = getRouteIdForPlace('okutama-soba-shop');
+    const routeId = getRouteIdForPlace('soba-isshintei');
     expect(routeId).toBe('okutama-wasabi-journey');
   });
 

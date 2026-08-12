@@ -107,25 +107,25 @@ describe('spot primary-action mapping (#80)', () => {
 
   it('never fakes a booking/EC destination for unverified spots', () => {
     // No fieldwork booking URLs exist yet (#10): restaurant / shop / fishing
-    // center must render the disabled fallback, not an invented link.
-    expect(SPOT_ACTIONS['okutama-soba-shop']).toMatchObject({ kind: 'disabled', type: 'restaurant' });
-    expect(SPOT_ACTIONS['okutama-michi-no-eki']).toMatchObject({ kind: 'disabled', type: 'shop' });
-    expect(SPOT_ACTIONS['okutama-fishing-center']).toMatchObject({ kind: 'disabled', type: 'visit' });
+    // pond must render the disabled fallback, not an invented link.
+    expect(SPOT_ACTIONS['soba-isshintei']).toMatchObject({ kind: 'disabled', type: 'restaurant' });
+    expect(SPOT_ACTIONS['shishiguchiya']).toMatchObject({ kind: 'disabled', type: 'shop' });
+    expect(SPOT_ACTIONS['odanba-fishing']).toMatchObject({ kind: 'disabled', type: 'visit' });
   });
 
   it('uses the official site only where it is a truthful destination', () => {
     const tourism = SPOT_ACTIONS['okutama-tourism-office'];
     expect(tourism.kind).toBe('external');
     expect(tourism.url).toBe('https://www.okutokanko.jp/');
-    const field = SPOT_ACTIONS['okutama-wasabi-field'];
-    expect(field.kind).toBe('disabled');
-    expect(field.type).toBe('farm');
-    expect(field.url).toBeUndefined();
+    const garden = SPOT_ACTIONS['chishima-wasabi-garden'];
+    expect(garden.kind).toBe('disabled');
+    expect(garden.type).toBe('farm');
+    expect(garden.url).toBeUndefined();
   });
 
   it('resolves per-spot action type, then falls back to the place category default', () => {
     // Per-spot override wins.
-    expect(spotActionType(getPlaceById('okutama-soba-shop')!)).toBe('restaurant');
+    expect(spotActionType(getPlaceById('soba-isshintei')!)).toBe('restaurant');
     // No override: category default (e.g. a brewery spot → workshop).
     expect(
       spotActionType({ id: 'some-brewery', type: 'brewery' }),

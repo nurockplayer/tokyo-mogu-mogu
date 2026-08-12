@@ -51,6 +51,13 @@ export function getRouteIdForPlace(placeId: string): string | undefined {
   return _getRouteIdForPlace(placeId);
 }
 
+/**
+ * The single frozen pilot journey (Issue #127). Result / Story / Route / Spot /
+ * Discover read this record instead of each hard-coding the same ids.
+ */
+export { PILOT_JOURNEY, pilotDiscoverPlaceIds } from './pilot-journey';
+export type { PilotJourney } from './pilot-journey';
+
 export function getFoodCultureById(id: string): FoodCulture | undefined {
   return FOOD_CULTURES.find((fc) => fc.id === id);
 }

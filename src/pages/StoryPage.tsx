@@ -37,7 +37,7 @@
  * silently creates Saved Route state (the route page owns saving).
  */
 import { Link, useParams, useSearchParams } from 'react-router-dom';
-import { getFoodCultureById } from '../data';
+import { getFoodCultureById, PILOT_JOURNEY } from '../data';
 import { FoodCultureImage } from '../components/FoodCultureImage';
 import { SupportPanel } from '../components/SupportPanel';
 import { Card, StorySection, Tag } from '../ui';
@@ -47,8 +47,8 @@ import { sourceDateLabel } from '../lib/verification';
 import { readingMinutes, resolveBackTo, storyRouteHref } from './story-reading';
 import './StoryPage.css';
 
-/** The recommended food culture rendered by this screen (MVP scope: 東京わさび). */
-const STORY_ID = 'wasabi-okutama';
+/** The recommended food culture rendered by this screen (the PILOT_JOURNEY). */
+const STORY_ID = PILOT_JOURNEY.foodCultureId;
 
 /**
  * Replace `{name}` placeholders in a localized template, mirroring the
@@ -67,7 +67,9 @@ function bodyReadingMinutes(body: string[], locale: Locale): number {
 
 export function StoryPage() {
   const { locale, t } = useI18n();
-  const { id } = useParams<{ id: string }>();
+  // The route param is `:foodCultureId` (AppRouter); reading it (instead of a
+  // stale `id`) lets the documented "any other id → empty state" contract work.
+  const { foodCultureId } = useParams<{ foodCultureId: string }>();
   const [searchParams] = useSearchParams();
 
   // Entry-context-aware back (#79). The Story is a reusable component reached
@@ -81,7 +83,7 @@ export function StoryPage() {
   // No id defaults to the recommended 東京わさび story. Any other id — whether
   // it names a different seed culture or an unknown value — renders the graceful
   // empty state instead of a mislabeled article.
-  const record = getFoodCultureById(id ?? STORY_ID);
+  const record = getFoodCultureById(foodCultureId ?? STORY_ID);
   const isStoryRecord = record?.id === STORY_ID;
 
   if (!record || !isStoryRecord) {
@@ -101,11 +103,11 @@ export function StoryPage() {
     );
   }
 
-  const heroName = t(foodCultureKey('wasabi-okutama', 'name') ?? 'dataWasabiName');
+  const heroName = t(foodCultureKey(STORY_ID, 'name') ?? 'dataWasabiName');
   const lead = t('dataStoryLead');
   const areaName = t('areaOkutama');
   const fcKey = (field: 'history' | 'story' | 'maker' | 'howToEnjoy') =>
-    foodCultureKey('wasabi-okutama', field) ?? 'dataWasabiDescription';
+    foodCultureKey(STORY_ID, field) ?? 'dataWasabiDescription';
   const readTime = bodyReadingMinutes(
     [
       t(fcKey('history')),

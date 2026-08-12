@@ -108,15 +108,16 @@ interface SpotAction {
  * Okutama Tourism Association site is a truthful destination for the tourism
  * information office only; it must not masquerade as spot-specific farm or
  * booking information. Every unverified action uses the disabled fallback.
+ * The frozen-journey spots (Issue #127) are the real Okutama facilities.
  */
 const CONFIRMED_VISIT_URL = 'https://www.okutokanko.jp/';
 
 export const SPOT_ACTIONS: Record<string, SpotAction> = {
   'okutama-tourism-office': { kind: 'external', url: CONFIRMED_VISIT_URL, type: 'visit' },
-  'okutama-wasabi-field': { kind: 'disabled', type: 'farm' },
-  'okutama-soba-shop': { kind: 'disabled', type: 'restaurant' },
-  'okutama-michi-no-eki': { kind: 'disabled', type: 'shop' },
-  'okutama-fishing-center': { kind: 'disabled', type: 'visit' },
+  'chishima-wasabi-garden': { kind: 'disabled', type: 'farm' },
+  'soba-isshintei': { kind: 'disabled', type: 'restaurant' },
+  'shishiguchiya': { kind: 'disabled', type: 'shop' },
+  'odanba-fishing': { kind: 'disabled', type: 'visit' },
 };
 
 /** Default action type for a place category when no per-spot action exists. */

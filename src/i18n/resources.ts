@@ -439,6 +439,24 @@ export const strings = {
     dataPlaceSobaShopName: '奥多摩そば処',
     dataPlaceMichiNoEkiName: '奥多摩駅前 道の駅',
     dataPlaceFishingCenterName: '奥多摩フィッシングセンター',
+    // Frozen pilot journey (Issue #127) — real Okutama facilities.
+    dataPlaceChishimaName: '千島わさび園',
+    dataPlaceIsshinteiName: '一心亭',
+    dataPlaceShishiguchiyaName: '獅子口屋（わさび）',
+    dataPlaceOdanbaName: '大丹波川国際虹ます釣場',
+    dataRouteStopRoleChishima: '谷の清流が育てる東京わさびの栽培現場を見学します。',
+    dataRouteStopRoleChishimaFullDay: '谷の清流が育てる東京わさびの栽培現場をゆっくり見学。',
+    dataRouteStopRoleIsshinteiLunch: 'おろしたてのわさびをのせた手打ちそばで昼食を。',
+    dataRouteStopRoleShishiguchiya: 'わさびのお土産を選べる大丹波の店。旅のしめくくりに立ち寄ります。',
+    dataRouteStopRoleOdanba: '渓流魚の釣り体験。わさびの恵みとともにある川の味わいへ。',
+    dataChishimaRole:
+      '千島わさび園は奥多摩のわさび田を間近に見学できる農園です。東京わさびが「作られる」場所を自分の目で確かめられます。',
+    dataIsshinteiRole:
+      '一心亭は丹三郎の手打ちそば店。おろしたてのわさびをのせたそばで、奥多摩の水が生んだ味を楽しめます。',
+    dataShishiguchiyaRole:
+      '獅子口屋は大丹波のわさびの店。わさびのお土産を選んで、旅の思い出を持ち帰れます。',
+    dataOdanbaRole:
+      '大丹波川国際虹ます釣場は大丹波の渓流魚釣り体験スポット。わさびの恵みとともにある、川の味わいを体感できます。',
     dataWasabiFieldAccess: '奥多摩駅からバスまたは徒歩（デモ表記）',
     dataFishingCenterAccess: '奥多摩駅からバス（デモ表記）',
     dataWasabiFieldDemoNote: '見学条件は時期により異なります。事前に現地へご確認ください（デモ）',
@@ -875,6 +893,27 @@ export const strings = {
     dataPlaceSobaShopName: 'Okutama Soba Shop',
     dataPlaceMichiNoEkiName: 'Okutama Station Roadside Station',
     dataPlaceFishingCenterName: 'Okutama Fishing Center',
+    // Frozen pilot journey (Issue #127) — real Okutama facilities.
+    dataPlaceChishimaName: 'Chishima Wasabi Garden',
+    dataPlaceIsshinteiName: 'Isshintei',
+    dataPlaceShishiguchiyaName: 'Shishiguchiya (Wasabi)',
+    dataPlaceOdanbaName: 'Odanba-gawa International Rainbow Trout Pond',
+    dataRouteStopRoleChishima:
+      'See the wasabi paddies where Tokyo Wasabi is grown in clear mountain streams.',
+    dataRouteStopRoleChishimaFullDay:
+      'Spend more time at the wasabi paddies and clear mountain streams.',
+    dataRouteStopRoleIsshinteiLunch: 'Lunch: hand-made soba topped with freshly grated wasabi.',
+    dataRouteStopRoleShishiguchiya: 'A wasabi shop in Odanba to round off the trip.',
+    dataRouteStopRoleOdanba:
+      'Try river fishing for trout — the other taste of Okutama\'s waters.',
+    dataChishimaRole:
+      'Chishima Wasabi Garden lets you see Okutama\'s wasabi paddies up close — where Tokyo Wasabi is actually grown.',
+    dataIsshinteiRole:
+      'Isshintei is a hand-made soba restaurant in Tanzaburo. Enjoy the taste of Okutama\'s water with soba topped with freshly grated wasabi.',
+    dataShishiguchiyaRole:
+      'Shishiguchiya is a wasabi shop in Odanba. Take home a wasabi souvenir from your trip.',
+    dataOdanbaRole:
+      'Odanba-gawa International Rainbow Trout Pond is a river-fishing experience spot. Feel the river\'s bounty alongside Okutama\'s wasabi.',
     dataWasabiFieldAccess: 'Bus or walk from Okutama Station (demo)',
     dataFishingCenterAccess: 'Bus from Okutama Station (demo)',
     dataWasabiFieldDemoNote:
@@ -1304,6 +1343,24 @@ export const strings = {
     dataPlaceSobaShopName: '奧多摩蕎麥麵店',
     dataPlaceMichiNoEkiName: '奧多摩站前 道之驛',
     dataPlaceFishingCenterName: '奧多摩釣魚中心',
+    // Frozen pilot journey (Issue #127) — real Okutama facilities.
+    dataPlaceChishimaName: '千島山葵園',
+    dataPlaceIsshinteiName: '一心亭',
+    dataPlaceShishiguchiyaName: '獅子口屋（山葵）',
+    dataPlaceOdanbaName: '大丹波川國際虹鱒釣場',
+    dataRouteStopRoleChishima: '參觀以清澈溪流培育的東京山葵栽培現場。',
+    dataRouteStopRoleChishimaFullDay: '細細走訪清澈溪流孕育的東京山葵栽培現場。',
+    dataRouteStopRoleIsshinteiLunch: '午餐：現磨山葵鋪在手工蕎麥麵上。',
+    dataRouteStopRoleShishiguchiya: '在販售山葵的大丹波店家選購伴手禮，為旅程畫下句點。',
+    dataRouteStopRoleOdanba: '體驗溪流魚的釣魚樂趣，感受與山葵同源的水之美味。',
+    dataChishimaRole:
+      '千島山葵園是可以近距離參觀奧多摩山葵田的農園。你將親眼看到東京山葵實際「生長」的場所。',
+    dataIsshinteiRole:
+      '一心亭是丹三郎的手工蕎麥麵店。現磨山葵搭配蕎麥麵，品嚐奧多摩之水孕育的滋味。',
+    dataShishiguchiyaRole:
+      '獅子口屋是大丹波的山葵店。選購山葵伴手禮，把旅程回憶帶回家。',
+    dataOdanbaRole:
+      '大丹波川國際虹鱒釣場是奧多摩的溪流魚釣魚體驗景點。感受與山葵同源的水之恩賜。',
     dataWasabiFieldAccess: '從奧多摩站搭巴士或步行（示範標示）',
     dataFishingCenterAccess: '從奧多摩站搭巴士（示範標示）',
     dataWasabiFieldDemoNote: '參觀條件依季節而異，請事先向當地確認（示範）',

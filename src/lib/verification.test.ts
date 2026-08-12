@@ -316,9 +316,9 @@ describe('machine-readable needs_confirmation list (#129)', () => {
       .filter((d): d is SpotDetail => d !== undefined);
     const entries = listUnverifiedFields({ places, foodCultures, spots });
 
-    const sobaFieldEntries = entries.filter((e) => e.recordId === 'okutama-soba-shop');
+    const sobaFieldEntries = entries.filter((e) => e.recordId === 'soba-isshintei');
     const sobaFields = sobaFieldEntries.map((e) => e.field);
-    // The soba shop has no practical data today — the concrete hours/price/
+    // The soba spot has no practical data today — the concrete hours/price/
     // reservation/accessibility fields must all be listed.
     expect(sobaFields).toContain('hours');
     expect(sobaFields).toContain('closedDays');

@@ -40,7 +40,7 @@ export const FOOD_CULTURES: FoodCulture[] = [
     image: 'wasabi-okutama',
     hintJa: '奥多摩駅からバスでわさび田へ。谷の清流を探そう。',
     hintEn: 'Take a bus from Okutama Station to the wasabi fields. Follow the mountain streams.',
-    placeIds: ['okutama-wasabi-field', 'okutama-tourism-office'],
+    placeIds: ['okutama-tourism-office', 'chishima-wasabi-garden', 'shishiguchiya'],
     unlockMethod: 'location-checkin',
     sources: [
       {
