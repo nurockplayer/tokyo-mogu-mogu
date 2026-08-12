@@ -1,5 +1,5 @@
 /** Caller context carried through Route → Spot → Route (Issues #79/#80/#92). */
-import { resolveJourneyIdentity } from '../data';
+import { getRouteIdForPlace, resolveJourneyIdentity, resolveRouteId } from '../data';
 
 export type RouteBackTarget = 'story' | 'discover' | 'mogu' | 'my' | 'home';
 
@@ -68,4 +68,24 @@ export function routeBackHref(search: string): string {
 export function spotBackHref(search: string): string {
   if (routeBackTarget(search) === 'discover') return '/discover';
   return `/route${routeContextSearch(search)}`;
+}
+
+/**
+ * Resolve the itinerary a Spot page's "save" action targets (Issue #69).
+ *
+ * When the Spot was reached from a Route, the forwarded `routeId`/`candidateId`
+ * context is authoritative — a place shared by multiple routes must save the
+ * route the traveler actually opened, never an arbitrary one. Without route
+ * context (legacy/direct entry), fall back to the place's unambiguous parent
+ * route; a place on multiple routes with no context stays unavailable rather
+ * than guessing.
+ */
+export function resolveSpotRouteId(
+  search: string,
+  placeId: string | undefined,
+): string | undefined {
+  const params = new URLSearchParams(search);
+  const hasRouteContext = Boolean(params.get('routeId') || params.get('candidateId'));
+  if (hasRouteContext) return resolveRouteId(search);
+  return placeId ? getRouteIdForPlace(placeId) : undefined;
 }

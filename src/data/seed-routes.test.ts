@@ -7,6 +7,7 @@ import {
   PIN_LAYOUT,
   projectRoutePins,
   SPOT_DETAILS,
+  type ModelRoute,
   type RouteDuration,
 } from './seed-routes';
 import { places, getPlaceById } from './index';
@@ -242,5 +243,33 @@ describe('route-id lookup for a place (#69)', () => {
 
   it('returns undefined for a place outside every model route', () => {
     expect(getRouteIdForPlace('does-not-exist')).toBeUndefined();
+  });
+
+  it('does not arbitrarily choose a route when a place belongs to multiple routes', () => {
+    const base = getRouteById('okutama-wasabi-journey');
+    expect(base).toBeDefined();
+    const sharedPlace = 'shared-place';
+    const makeRoute = (id: string): ModelRoute => {
+      const route = base!;
+      const step = route.variants['half-day'].steps[0];
+      const replaceSteps = (variant: typeof route.variants['half-day']): typeof variant => ({
+        ...variant,
+        steps: [{ ...step, placeId: sharedPlace, stepNumber: 1 }],
+      });
+      return {
+        ...route,
+        id,
+        variants: {
+          'half-day': replaceSteps(route.variants['half-day']),
+          '1-day': replaceSteps(route.variants['1-day']),
+        },
+      };
+    };
+    const routeA = makeRoute('route-a');
+    const routeB = makeRoute('route-b');
+    // Ambiguous: a shared place must stay unavailable rather than pick one.
+    expect(getRouteIdForPlace(sharedPlace, [routeA, routeB])).toBeUndefined();
+    // Unambiguous: single route containing the place resolves to itself.
+    expect(getRouteIdForPlace(sharedPlace, [routeA])).toBe('route-a');
   });
 });

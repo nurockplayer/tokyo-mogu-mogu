@@ -8,6 +8,7 @@
  */
 import { describe, expect, it } from 'vitest';
 import {
+  mobilityLabelKey,
   placeNameKey,
   routeAdvisoryKeys,
   routeNameKey,
@@ -97,6 +98,15 @@ describe('S4 story content availability (#123)', () => {
     expect(routeNameKey('unknown-route')).toBeUndefined();
     expect(placeNameKey('unknown-place')).toBeUndefined();
     expect(stepRoleKey('unknown-route', 'unknown-place', 'half-day')).toBeUndefined();
+  });
+
+  it('does not falsely label an unmapped mobility segment as Walk', () => {
+    // A future route's bus/train segment without an i18n mapping has no label
+    // key — RoutePage falls back to the segment's own canonical label, never a
+    // substituted transport mode.
+    expect(mobilityLabelKey('unknown-route', 1, 2)).toBeUndefined();
+    // The demo route's known segments keep their explicit keys.
+    expect(mobilityLabelKey('okutama-wasabi-journey', 1, 2)).toBe('dataRouteMobilityBus');
   });
 
   it('keeps the story key set structurally equivalent across locales', () => {

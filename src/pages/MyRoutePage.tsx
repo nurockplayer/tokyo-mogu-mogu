@@ -100,7 +100,7 @@ export function MyRoutePage() {
                 </div>
                 <div className="s8-card__actions">
                   <Link
-                    to={`/route?routeId=${encodeURIComponent(entry.routeId)}`}
+                    to={`/route?from=my&routeId=${encodeURIComponent(entry.routeId)}`}
                     className="tmm-btn tmm-btn--sm tmm-btn--secondary"
                   >
                     {t('s8OpenRoute')}

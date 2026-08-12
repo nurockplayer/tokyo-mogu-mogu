@@ -25,7 +25,11 @@ import {
   Toast,
 } from '../ui';
 import { PlaceVisual } from '../components/PlaceVisual';
-import { getPlaceById, getRelatedFoodCultures, getRouteIdForPlace, getSpotDetail } from '../data';
+import {
+  getPlaceById,
+  getRelatedFoodCultures,
+  getSpotDetail,
+} from '../data';
 import type { PlaceType } from '../data';
 import { useI18n, type LocaleKey } from '../i18n';
 import {
@@ -38,7 +42,7 @@ import {
 import { googleMapsDirectionsUrl, appleMapsDirectionsUrl, type DirectionsPlace } from '../lib/map-links';
 import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
 import { deriveVerificationStatus } from '../lib/verification';
-import { routeBackTarget, spotBackHref } from './route-context';
+import { routeBackTarget, resolveSpotRouteId, spotBackHref } from './route-context';
 
 /** Maps a place type to its i18n label key. */
 const PLACE_TYPE_LABEL: Record<PlaceType, LocaleKey> = {
@@ -138,11 +142,13 @@ export function SpotPage() {
   const place = placeId ? getPlaceById(placeId) : undefined;
   const detail = placeId ? getSpotDetail(placeId) : undefined;
 
-  // The S6 "add to itinerary" CTA saves the spot's parent model route into the
-  // shared `tmm:savedRoutes` contract — the same itinerary the S5 save button
-  // writes and S8 My Route reads (Issue #69). The route is derived from the
-  // place id, so the saved entry always matches what the route map links to.
-  const routeId = placeId ? getRouteIdForPlace(placeId) : undefined;
+  // The S6 "add to itinerary" CTA saves the itinerary the traveler is on into
+  // the shared `tmm:savedRoutes` contract (the same entry the S5 save button
+  // writes and S8 My Route reads, Issue #69). The forwarded route/candidate
+  // context wins when present; otherwise the place's unambiguous parent route
+  // is used, and an ambiguous place (no context, multiple routes) stays
+  // unavailable rather than guessing.
+  const routeId = resolveSpotRouteId(location.search, placeId);
   const [saved, setSaved] = useState<boolean>(() =>
     routeId !== undefined ? isRouteSaved(routeId) : false,
   );

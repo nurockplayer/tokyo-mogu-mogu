@@ -10,6 +10,7 @@
  */
 import { describe, expect, it } from 'vitest';
 import {
+  resolveSpotRouteId,
   routeBackHref,
   routeBackTarget,
   routeContextSearch,
@@ -118,6 +119,33 @@ describe('Spot back-target resolution (#93)', () => {
   it('defaults to the Route when the caller context is absent', () => {
     expect(spotBackHref('')).toBe('/route');
     expect(spotBackHref('?from=unknown')).toBe('/route');
+  });
+});
+
+describe('Spot save route identity (#69)', () => {
+  it('uses an explicit forwarded route id over the place lookup', () => {
+    // Reached from a saved Route, a shared place must save that route, not the
+    // place's first matching route.
+    expect(resolveSpotRouteId('?from=my&routeId=route-b', 'shared-place')).toBe('route-b');
+  });
+
+  it('resolves the journey from forwarded candidate context', () => {
+    expect(
+      resolveSpotRouteId('?from=story&candidateId=demo-okutama-wasabi', 'shared-place'),
+    ).toBe('okutama-wasabi-journey');
+  });
+
+  it('falls back to the place parent route only without route context', () => {
+    // Direct entry (Discover) keeps the demo place → demo route resolution.
+    expect(resolveSpotRouteId('?from=discover', 'okutama-tourism-office')).toBe(
+      'okutama-wasabi-journey',
+    );
+  });
+
+  it('keeps an ambiguous direct spot unavailable instead of choosing a route', () => {
+    // No route context and no unambiguous place parent → no itinerary target.
+    expect(resolveSpotRouteId('?from=discover', 'unknown-place')).toBeUndefined();
+    expect(resolveSpotRouteId('?from=discover', undefined)).toBeUndefined();
   });
 });
 

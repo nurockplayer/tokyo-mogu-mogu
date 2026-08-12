@@ -125,10 +125,12 @@ export function spotRoleKey(placeId: string): LocaleKey | undefined {
   return SPOT_ROLE_KEYS[placeId];
 }
 
-export function mobilityLabelKey(routeId: string, fromStep: number, toStep: number): LocaleKey {
-  return (
-    ROUTE_MOBILITY_LABEL_KEYS[`${routeId}.${fromStep}-${toStep}`] ?? 'dataRouteMobilityWalk'
-  );
+export function mobilityLabelKey(
+  routeId: string,
+  fromStep: number,
+  toStep: number,
+): LocaleKey | undefined {
+  return ROUTE_MOBILITY_LABEL_KEYS[`${routeId}.${fromStep}-${toStep}`];
 }
 
 /**

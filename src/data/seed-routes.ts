@@ -583,17 +583,20 @@ export function projectRoutePins(
 }
 
 /**
- * The route id whose variants include the given place. Spots in the S6 page
- * belong to exactly one model route in the current demo, so this resolves the
- * shared `tmm:savedRoutes` entry for a spot-level "save" action.
+ * The route id whose variants include the given place, when that is
+ * unambiguous. A place shared by multiple model routes has no single parent,
+ * so it resolves to `undefined` — the Spot "save" action must never pick one
+ * route arbitrarily. (The current demo places each belong to exactly one
+ * route, so this returns the pilot route for them.)
  */
-export function getRouteIdForPlace(placeId: string): string | undefined {
-  for (const route of MODEL_ROUTES) {
-    for (const variant of Object.values(route.variants)) {
-      if (variant.steps.some((s) => s.placeId === placeId)) {
-        return route.id;
-      }
-    }
-  }
-  return undefined;
+export function getRouteIdForPlace(
+  placeId: string,
+  routes: readonly ModelRoute[] = MODEL_ROUTES,
+): string | undefined {
+  const matching = routes.filter((route) =>
+    Object.values(route.variants).some((variant) =>
+      variant.steps.some((s) => s.placeId === placeId),
+    ),
+  );
+  return matching.length === 1 ? matching[0].id : undefined;
 }

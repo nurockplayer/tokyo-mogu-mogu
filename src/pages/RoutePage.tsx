@@ -265,7 +265,11 @@ export function RoutePage() {
                     <Mobility
                       mode={mobility.mode}
                       duration={`${mobility.durationMinutes}min`}
-                      label={t(mobilityLabelKey(route.id, mobility.fromStep, mobility.toStep))}
+                      label={localized(
+                        mobilityLabelKey(route.id, mobility.fromStep, mobility.toStep),
+                        mobility.labelJa,
+                        mobility.labelEn,
+                      )}
                     />
                   </div>
                 ) : null}
