@@ -175,7 +175,7 @@ export function StoryPage() {
           />
         </div>
         <div className="s4-hero__body">
-          <p className="s4-hero__kicker">{t('s4HeroKicker')}</p>
+          <p className="s4-hero__kicker">{t(content.heroKicker)}</p>
           <h1 className="s4-hero__title">{heroName}</h1>
           <p className="s4-hero__lead">{lead}</p>
           <p className="s4-hero__caption">{t('s4MediaCaption')}</p>
@@ -196,7 +196,7 @@ export function StoryPage() {
       </header>
 
       <div className="s4-story">
-        {/* Section 2 — Why Okutama (geography / history) */}
+        {/* Section 2 — Why this region (geography / history) */}
         <StorySection number={1} kicker={t('s4KickerWhy')} title={format(t('s4TitleWhy'), { area: areaName })}>
           <p className="s4-p">{t(content.history)}</p>
           <p className="s4-p">{t(content.story)}</p>
@@ -232,7 +232,7 @@ export function StoryPage() {
               name={t(content.craft)}
               nameJa={record.nameJa}
               category={record.category}
-              alt={t('s4CraftMediaAlt')}
+              alt={t(content.craftMediaAlt)}
             />
             <span className="s4-media-caption">{t('s4MediaCaption')}</span>
           </div>
@@ -245,12 +245,12 @@ export function StoryPage() {
           <p className="s4-note s4-note--editorial">{t('s4EditorialNote')}</p>
           {/* Issue #128: municipality census context shown as a separate
               reference note — after the editorial note, never as evidence for
-              the succession claim above. Rendered only when the story's own
-              municipality indicator is available; suppressed/missing falls
+              the succession claim above. The template is the story's own
+              (never another municipality's name); missing/suppressed falls
               back to editorial only. */}
-          {municipalityEntities !== undefined ? (
+          {municipalityAgri && content.challengeEvidence && municipalityEntities !== undefined ? (
             <p className="s4-note s4-note--editorial">
-              {format(t('dataStoryChallengeEvidence'), { n: municipalityEntities })}
+              {format(t(content.challengeEvidence), { n: municipalityEntities })}
             </p>
           ) : null}
         </StorySection>
@@ -280,7 +280,7 @@ export function StoryPage() {
             <Link to={routeHref} className="tmm-btn tmm-btn--primary tmm-btn--block">
               {t('s4CtaLabel')}
             </Link>
-            <p className="s4-cta__sub">{t('s4CtaSub')}</p>
+            <p className="s4-cta__sub">{t(content.ctaSub)}</p>
           </>
         ) : null}
         <Link to={backTo} className="s4-cta__back">{t('s4BackToResult')}</Link>
@@ -343,7 +343,7 @@ export function StoryPage() {
       {identity.journeyId ? (
         <div className="s4-sticky-cta">
           <Link to={routeHref} className="tmm-btn tmm-btn--orange tmm-btn--block">
-            {t('s4StickyCta')}
+            {t(content.stickyCta)}
           </Link>
         </div>
       ) : null}

@@ -23,7 +23,7 @@ import { routeNameKey } from '../i18n/data-content';
 import { loadSavedRoutes, unsaveRoute, type SavedRouteEntry } from '../lib/saved-routes';
 import { loadFoodProfile } from '../lib/food-profile-storage';
 import type { DietaryRestriction } from '../lib/food-profile';
-import { buildEntries, durationLabel } from './MyRoutePage';
+import { buildEntries, durationLabel, routeAreaLabel } from './MyRoutePage';
 import './MyPage.css';
 
 /** Dietary restriction → i18n label key (kept in sync with FoodProfilePage). */
@@ -78,7 +78,7 @@ export function MyPage() {
                       <span>
                         {t('s8Duration')}: {durationLabel(route, locale)}
                       </span>
-                      <span>{t('s8Area')}: {t('s8AreaOkutama')}</span>
+                      <span>{t('s8Area')}: {routeAreaLabel(route, locale)}</span>
                     </div>
                     <div className="my-route-card__actions">
                       <Link

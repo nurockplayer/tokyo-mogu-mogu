@@ -57,6 +57,25 @@ describe('S4 story content availability (#123)', () => {
     }
   });
 
+  it('keeps culture-specific chrome and evidence copy inside the story content mapping', () => {
+    const wasabi = storyContent('wasabi-okutama');
+    expect(wasabi?.heroKicker).toBe('s4HeroKicker');
+    expect(wasabi?.craftMediaAlt).toBe('s4CraftMediaAlt');
+    expect(wasabi?.ctaSub).toBe('s4CtaSub');
+    expect(wasabi?.stickyCta).toBe('s4StickyCta');
+    // The municipality-evidence template is the story's own: only the Okutama
+    // story names Okutama, and a non-Okutama story must never fall back to it.
+    expect(wasabi?.challengeEvidence).toBe('dataStoryChallengeEvidence');
+    for (const [id, entry] of Object.entries(STORY_DATA_KEYS)) {
+      if (id === 'wasabi-okutama') continue;
+      expect(entry.heroKicker, `culture ${id}`).toBeUndefined();
+      expect(entry.craftMediaAlt, `culture ${id}`).toBeUndefined();
+      expect(entry.ctaSub, `culture ${id}`).toBeUndefined();
+      expect(entry.stickyCta, `culture ${id}`).toBeUndefined();
+      expect(entry.challengeEvidence, `culture ${id}`).toBeUndefined();
+    }
+  });
+
   it('keeps route advisory copy route-specific (#83)', () => {
     expect(routeAdvisoryKeys('okutama-wasabi-journey')).toEqual({
       advisory: 's5CrowdingAdvisory',

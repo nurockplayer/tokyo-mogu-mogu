@@ -66,6 +66,9 @@ export interface ModelRoute {
   id: string;
   nameJa: string;
   nameEn: string;
+  /** Region/area the route serves, e.g. 奥多摩 / Okutama. */
+  areaJa: string;
+  areaEn: string;
   /** The variant shown first; the user toggles to the other. */
   defaultDuration: RouteDuration;
   variants: Record<RouteDuration, RouteVariant>;
@@ -141,6 +144,8 @@ export const MODEL_ROUTES: ModelRoute[] = [
     id: 'okutama-wasabi-journey',
     nameJa: '奥多摩わさび紀行',
     nameEn: 'Okutama Wasabi Journey',
+    areaJa: '奥多摩',
+    areaEn: 'Okutama',
     defaultDuration: 'half-day',
     source: SOURCE_OKUTAMA,
     variants: {

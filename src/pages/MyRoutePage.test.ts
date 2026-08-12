@@ -7,8 +7,8 @@
  * src/lib/saved-routes.test.ts.
  */
 import { describe, expect, it } from 'vitest';
-import { buildEntries, durationLabel } from './MyRoutePage';
-import { modelRoutes } from '../data';
+import { buildEntries, durationLabel, routeAreaLabel } from './MyRoutePage';
+import { modelRoutes, type ModelRoute } from '../data';
 
 const wasabiRoute = modelRoutes.find((r) => r.id === 'okutama-wasabi-journey');
 if (!wasabiRoute) throw new Error('fixture route missing');
@@ -42,5 +42,23 @@ describe('S8 My Route helpers (#47)', () => {
     expect(ja).toMatch(/時間|分/);
     expect(en).toMatch(/\d/);
     expect(en).toMatch(/h|min/);
+  });
+
+  it('labels a saved-route card with the route\'s own area (demo stays Okutama)', () => {
+    expect(routeAreaLabel(wasabiRoute, 'ja')).toBe('奥多摩');
+    expect(routeAreaLabel(wasabiRoute, 'en')).toBe('Okutama');
+  });
+
+  it('never labels a non-Okutama route with Okutama area metadata', () => {
+    // A future Ome route supplies its own area; the label comes from the route
+    // data, never a hard-coded Okutama string.
+    const omeRoute: ModelRoute = {
+      ...wasabiRoute,
+      id: 'ome-sake-journey',
+      areaJa: '青梅',
+      areaEn: 'Ome',
+    };
+    expect(routeAreaLabel(omeRoute, 'ja')).toBe('青梅');
+    expect(routeAreaLabel(omeRoute, 'en')).toBe('Ome');
   });
 });

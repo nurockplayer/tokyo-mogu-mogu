@@ -149,7 +149,11 @@ export type StoryField =
   | 'craft'
   | 'howToEnjoy'
   | 'challenge'
-  | 'support';
+  | 'support'
+  | 'heroKicker'
+  | 'craftMediaAlt'
+  | 'ctaSub'
+  | 'stickyCta';
 
 /** Every key the S4 story layout needs before it can render a culture. */
 export interface StoryContentKeys {
@@ -165,12 +169,27 @@ export interface StoryContentKeys {
   howToEnjoy: LocaleKey;
   challenge: LocaleKey;
   support: LocaleKey;
+  /** Hero kicker framing (e.g. "東京わさびの物語"), per story. */
+  heroKicker: LocaleKey;
+  /** Craft-section media alt text, per story. */
+  craftMediaAlt: LocaleKey;
+  /** Route-CTA supporting copy, per story. */
+  ctaSub: LocaleKey;
+  /** Sticky route-CTA label, per story. */
+  stickyCta: LocaleKey;
   /**
    * Municipality-agriculture context id shown on this story, when one exists
    * (Issue #128). Absent for any culture whose Story has no municipality
    * evidence — a future Ome/Hachioji Story must never show Okutama census.
    */
   municipalityId?: string;
+  /**
+   * Template key for the municipality-evidence reference note (Issue #128),
+   * when the story carries municipality context. The copy is story-specific:
+   * a future municipality statistic is never labeled with another region's
+   * name.
+   */
+  challengeEvidence?: LocaleKey;
 }
 
 /**
@@ -183,7 +202,10 @@ const OKUTAMA_MUNICIPALITY_CODE = '133086';
 /** The 8/23 demo supplies full story content for 東京わさび only. */
 export const STORY_DATA_KEYS: Record<
   string,
-  Partial<Record<StoryField, LocaleKey>> & { municipalityId?: string }
+  Partial<Record<StoryField, LocaleKey>> & {
+    municipalityId?: string;
+    challengeEvidence?: LocaleKey;
+  }
 > = {
   'wasabi-okutama': {
     name: 'dataWasabiName',
@@ -198,7 +220,12 @@ export const STORY_DATA_KEYS: Record<
     howToEnjoy: 'dataWasabiHowToEnjoy',
     challenge: 'dataStoryChallenge',
     support: 'dataStorySupport',
+    heroKicker: 's4HeroKicker',
+    craftMediaAlt: 's4CraftMediaAlt',
+    ctaSub: 's4CtaSub',
+    stickyCta: 's4StickyCta',
     municipalityId: OKUTAMA_MUNICIPALITY_CODE,
+    challengeEvidence: 'dataStoryChallengeEvidence',
   },
 };
 
@@ -215,6 +242,10 @@ const STORY_REQUIRED_FIELDS: readonly StoryField[] = [
   'howToEnjoy',
   'challenge',
   'support',
+  'heroKicker',
+  'craftMediaAlt',
+  'ctaSub',
+  'stickyCta',
 ];
 
 /**
@@ -233,6 +264,7 @@ export function storyContent(id: string): StoryContentKeys | undefined {
     keys[field] = key;
   }
   if (entry.municipalityId) keys.municipalityId = entry.municipalityId;
+  if (entry.challengeEvidence) keys.challengeEvidence = entry.challengeEvidence;
   return keys as StoryContentKeys;
 }
 

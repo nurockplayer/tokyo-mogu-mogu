@@ -39,6 +39,11 @@ export function durationLabel(route: ModelRoute, locale: Locale): string {
   return locale === 'ja' ? `${h}時間${m}分` : `${h}h ${m}m`;
 }
 
+/** Region/area label for a route's card, from the route's own data (ja/en). */
+export function routeAreaLabel(route: ModelRoute, locale: Locale): string {
+  return locale === 'ja' ? route.areaJa : route.areaEn;
+}
+
 export function MyRoutePage() {
   const { locale, t } = useI18n();
   const [saved, setSaved] = useState<SavedRouteEntry[]>(() => loadSavedRoutes());
@@ -86,7 +91,7 @@ export function MyRoutePage() {
                   <span>
                     {t('s8Duration')}: {durationLabel(route, locale)}
                   </span>
-                  <span>{t('s8Area')}: {t('s8AreaOkutama')}</span>
+                  <span>{t('s8Area')}: {routeAreaLabel(route, locale)}</span>
                 </div>
                 <div className="s8-card__actions">
                   <Link
