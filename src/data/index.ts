@@ -62,6 +62,20 @@ export function getFoodCultureById(id: string): FoodCulture | undefined {
   return FOOD_CULTURES.find((fc) => fc.id === id);
 }
 
+/** Municipality-level agriculture context (Issue #128). */
+export {
+  MUNICIPALITY_AGRICULTURE_PROFILES,
+  MUNICIPALITY_INDICATOR_KEYS,
+  OKUTAMA_MUNICIPALITY_ID,
+  getMunicipalityAgricultureById,
+  municipalityIndicatorValue,
+} from './municipality-agriculture';
+export type {
+  MunicipalityAgricultureIndicator,
+  MunicipalityAgricultureProfile,
+  MunicipalityIndicatorKey,
+} from './municipality-agriculture';
+
 export function getPlaceById(id: string): Place | undefined {
   return PLACES.find((p) => p.id === id);
 }

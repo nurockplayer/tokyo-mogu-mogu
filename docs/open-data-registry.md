@@ -95,9 +95,9 @@ Based on the Issue #19 draft table, with the **verified** status per this repo
 | 公共交通 Open Data / GTFS（多摩地域ほか） | 各交通事業者 | Future region accessibility / route feasibility | P2 | Candidate — unverified in repo | — |
 | 奥多摩町 公衆（観光）トイレ一覧 | 奥多摩町 | Route/Spot practical UX | P2 | Candidate — unverified in repo | — |
 | だれでも東京 | 東京都 | Spot / future-region accessibility | P2 | Candidate — unverified in repo | — |
-| 東京都内の飲食店バリアフリー情報 | 東京都産業労働局 | Spot accessibility reference (coverage-limited) | P2 | **Available — CC BY, 210 rows; western-Tama corridor has only 4 records** (see §3.2.5) | #132 |
-| 東京都青梅市における飲食店一覧 | 青梅市 | Spot identity / regulatory-record validation only | P2 | **Available — CC BY, 1,593 rows; not proof of current operation or local ingredients** (see §3.2.5) | #132 |
-| 農林業センサス / 市町村の姿 | 国 / 自治体 | Regional producer / succession context | P3 | Candidate — unverified in repo | — |
+| 東京都内の飲食店バリアフリー情報 | 東京都産業労働局 | Spot accessibility reference (coverage-limited) | P2 | **Available — CC BY, 210 rows; western-Tama corridor has only 4 records** (see §3.2.15) | #132 |
+| 東京都青梅市における飲食店一覧 | 青梅市 | Spot identity / regulatory-record validation only | P2 | **Available — CC BY, 1,593 rows; not proof of current operation or local ingredients** (see §3.2.15) | #132 |
+| 農林業センサス 市町村別統計表（2020年, 東京都分） | 農林水産省 / e-Stat | Regional producer / succession context | P3 | Integrated (#128 — `src/data/municipality-agriculture.ts`) | #128 |
 
 > **Verified-in-repo rows carry an evidence file** in §3.2. Candidate rows that
 > are not backed by a repo artifact are marked `unverified`; their Source URL /
@@ -218,14 +218,31 @@ verified open data:
   pattern (§3.2.2) — same ODPT 基本ライセンス family, per-operator catalog.
 - **奥多摩町 公衆（観光）トイレ一覧** (奥多摩町) — Route/Spot practical UX (P2).
 - **だれでも東京** (東京都) — Spot / future-region accessibility (P2).
-- **農林業センサス / 市町村の姿** (国 / 自治体) — regional producer / succession
-  context (P3).
 
 > A candidate becomes `Available` only after a repo doc records its real source
 > URL, license, format, and retrieval date. Until then it is explicitly
 > `unverified`.
 
-#### 3.2.5 Restaurant accessibility and regulatory records (#132)
+#### 3.2.14 農林業センサス 市町村別統計表（2020年, 東京都分）— integrated (#128)
+
+- **Dataset**: 農林水産省「2020年農林業センサス 市町村別統計表」（都道府県別、
+  東京都分は 62 市町村）。Survey base date **2020-02-01**。#128 が必要とする
+  市町村級の農業経営体指標は、retrieval（2026-08-12）時点で公表済みの 2025
+  Census 結果セットに未収録（2025 の市町村級出力は一部＝森林面積などに限られる）。
+  そのため本指標には 2020 の市町村表が現行の公式ソース。
+- **License**: 政府標準利用規約（第2.0版）準拠・出典表示が必要（e-Stat）。
+- **Evidence file**: `src/data/municipality-agriculture.ts`（reusable
+  municipality-generic profile + 奥多摩町 demo/evidence record）。
+  数値は同 2020 census を編纂する 西多摩地域統計年鑑（西多摩地域広域行政圏
+  協議会, 2021, PDF）で照合。
+- **Verified Okutama values**: 農業経営体数 1（経営耕地面積規模別の計）、
+  経営耕地面積は統計法開示制限により非公表（x）、林家数 192戸・保有山林面積
+  1,946ha。
+- **Interpretation boundary**: 市町村単位の集計であり、個別生産者・わさび農家
+  の状態や後継者の有無を推測できない。2020年時点のデータであり現在状況では
+  ない。奥多摩単独の evidence を東京全体へ一般化しない。
+
+#### 3.2.15 Restaurant accessibility and regulatory records (#132)
 
 Both resources below were downloaded and inspected at field/record level on
 **2026-08-12**. Their catalog metadata changed later than their resource files;
