@@ -33,6 +33,9 @@
  *     clearly-marked editorial composition (s4EditorialNote). The section
  *     names the succession challenge generically without fabricating specific
  *     statistics, and always resolves toward the user's action.
+ *   - The municipality census context (#128) renders as a separate reference
+ *     note after the editorial note, never as evidence for the succession
+ *     claim, and surfaces its own provenance in the Sources block.
  *   - The compact Sources block preserves the record's provenance.
  *
  * Entry contexts (#79): the Story is a reusable component reached from the
@@ -42,15 +45,31 @@
  * silently creates Saved Route state (the route page owns saving).
  */
 import { Link, useParams, useSearchParams } from 'react-router-dom';
-import { getFoodCultureById, resolveJourneyIdentity } from '../data';
+import {
+  getFoodCultureById,
+  getMunicipalityAgricultureById,
+  MUNICIPALITY_INDICATOR_KEYS,
+  municipalityIndicatorValue,
+  OKUTAMA_MUNICIPALITY_ID,
+  resolveJourneyIdentity,
+} from '../data';
 import { FoodCultureImage } from '../components/FoodCultureImage';
 import { SupportPanel } from '../components/SupportPanel';
 import { Card, StorySection, Tag } from '../ui';
 import { useI18n, type Locale } from '../i18n';
 import { storyContent } from '../i18n/data-content';
-import { sourceDateLabel } from '../lib/verification';
+import { deriveVerificationStatus, sourceDateLabel } from '../lib/verification';
 import { readingMinutes, resolveBackTo, storyRouteHref } from './story-reading';
 import './StoryPage.css';
+
+/** Source-review label for the census context surfaced in this story (#128/#129). */
+const CENSUS_STATUS_LABEL = {
+  verified: 'verificationVerified',
+  needs_confirmation: 'verificationNeedsConfirmation',
+  stale: 'verificationStale',
+  conflict: 'verificationConflict',
+  demo: 'verificationDemo',
+} as const;
 
 /**
  * Replace `{name}` placeholders in a localized template, mirroring the
@@ -109,6 +128,15 @@ export function StoryPage() {
       </section>
     );
   }
+
+  // Issue #128: source-backed municipality agriculture context. This is shown
+  // as separate municipal context with an explicit non-succession limitation;
+  // when missing/suppressed the section falls back to the editorial text alone
+  // (no fabricated statistic).
+  const okutamaAgri = getMunicipalityAgricultureById(OKUTAMA_MUNICIPALITY_ID);
+  const okutamaAgriEntities = okutamaAgri
+    ? municipalityIndicatorValue(okutamaAgri, MUNICIPALITY_INDICATOR_KEYS.agriculturalEntities)
+    : undefined;
 
   const heroName = t(content.name);
   const lead = t(content.lead);
@@ -210,6 +238,15 @@ export function StoryPage() {
         <StorySection number={4} kicker={t('s4KickerChallenge')} title={t('s4TitleChallenge')}>
           <p className="s4-p">{t(content.challenge)}</p>
           <p className="s4-note s4-note--editorial">{t('s4EditorialNote')}</p>
+          {/* Issue #128: municipality census context shown as a separate
+              reference note — after the editorial note, never as evidence for
+              the succession claim above. Rendered only when the indicator is
+              available; suppressed/missing falls back to editorial only. */}
+          {okutamaAgriEntities !== undefined ? (
+            <p className="s4-note s4-note--editorial">
+              {format(t('dataStoryChallengeEvidence'), { n: okutamaAgriEntities })}
+            </p>
+          ) : null}
         </StorySection>
 
         {/* Section 6 — Tasting is passing it on */}
@@ -262,6 +299,31 @@ export function StoryPage() {
               })()}
             </li>
           ))}
+          {/* Issue #128: when the municipality census context is shown, surface
+              its own provenance (e-Stat dataset / retrieval date / status). */}
+          {okutamaAgri ? (
+            <li key="municipality-census" className="s4-sources__item">
+              <span className="s4-sources__name">{okutamaAgri.source.name}</span>
+              {okutamaAgri.source.url ? (
+                <a href={okutamaAgri.source.url} target="_blank" rel="noreferrer" className="s4-sources__link">
+                  {t('sourceLink')}
+                </a>
+              ) : null}
+              <Tag tone="warning">
+                {t(CENSUS_STATUS_LABEL[
+                  deriveVerificationStatus(okutamaAgri.source, okutamaAgri.origin)
+                ])}
+              </Tag>
+              {(() => {
+                const meta = sourceDateLabel(okutamaAgri.source, okutamaAgri.origin);
+                return meta ? (
+                  <span className="s4-sources__meta">
+                    {t(meta.label)}: {meta.date}
+                  </span>
+                ) : null;
+              })()}
+            </li>
+          ) : null}
         </ul>
       </details>
 
