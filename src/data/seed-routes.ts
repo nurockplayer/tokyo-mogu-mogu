@@ -239,7 +239,7 @@ export const MODEL_ROUTES: ModelRoute[] = [
             stayMinutes: 60,
             roleJa: '大丹波にある虹ますの釣り施設。大丹波川国際虹ます釣場を訪ねます。',
             roleEn:
-              'A rainbow-trout fishing facility in Odanba — Odanba-gawa International Rainbow Trout Pond.',
+              'A rainbow-trout fishing facility in Odanba — Otaba-gawa International Rainbow Trout Pond.',
           },
           {
             placeId: 'shishiguchiya',
@@ -339,7 +339,7 @@ export const SPOT_DETAILS: Record<string, SpotDetail> = {
     roleJa:
       '大丹波川国際虹ます釣場は、大丹波にある虹ますの釣り施設です。',
     roleEn:
-      'Odanba-gawa International Rainbow Trout Pond is a rainbow-trout fishing facility in Odanba.',
+      'Otaba-gawa International Rainbow Trout Pond is a rainbow-trout fishing facility in Odanba.',
     tags: {},
     origin: 'editorial',
     source: SOURCE_OKUTAMA,

@@ -98,7 +98,10 @@ export const PLACES: Place[] = [
     latitude: 35.8104963,
     longitude: 139.1538298,
     coordinatePrecision: 'approximate',
-    foodCultureIds: ['wasabi-okutama', 'okutama-soba'],
+    // A soba restaurant (snapshot: category restaurant, no wasabi menu) — the
+    // wasabi association is NOT sourced, so only the soba culture is listed
+    // (Issue #127: foodCultureIds = cultures experienced HERE).
+    foodCultureIds: ['okutama-soba'],
     type: 'restaurant',
     source: {
       name: '一般社団法人奥多摩観光協会（奥多摩町観光案内所）',
@@ -136,13 +139,18 @@ export const PLACES: Place[] = [
   {
     id: 'odanba-fishing',
     nameJa: '大丹波川国際虹ます釣場',
-    nameEn: 'Odanba-gawa International Rainbow Trout Pond',
+    // Source-backed English name from the committed snapshot (Otaba-gawa, not
+    // "Odanba-gawa") — Issue #127.
+    nameEn: 'Otaba-gawa International Rainbow Trout Pond',
     address: '東京都西多摩郡奥多摩町大丹波114',
     // District-centroid coordinate (approx) from the generated okutama dataset.
     latitude: 35.8305487,
     longitude: 139.1621017,
     coordinatePrecision: 'approximate',
-    foodCultureIds: ['wasabi-okutama'],
+    // A rainbow-trout fishing facility (snapshot). It stays on the wasabi
+    // journey as an editorial stop, but no FoodCulture can be experienced HERE,
+    // so foodCultureIds is empty (Issue #127).
+    foodCultureIds: [],
     type: 'other',
     source: {
       name: '一般社団法人奥多摩観光協会（奥多摩町観光案内所）',

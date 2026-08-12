@@ -10,7 +10,7 @@
  * canonical seed copy in SPOT_DETAILS.
  */
 import { describe, expect, it } from 'vitest';
-import { getRouteById, PILOT_JOURNEY } from './index';
+import { getRouteById, getPlaceById, getRelatedFoodCultures, getRouteIdForPlace, PILOT_JOURNEY } from './index';
 import { SPOT_DETAILS } from './seed-routes';
 import { strings } from '../i18n/resources';
 import { resolveKey } from '../i18n/fallback';
@@ -69,5 +69,37 @@ describe('frozen-journey copy honesty (Issue #127)', () => {
     expect(SPOT_DETAILS['soba-isshintei'].roleJa).not.toMatch(/手打ち|おろしたて/);
     expect(SPOT_DETAILS['odanba-fishing'].roleJa).not.toMatch(/体験/);
     expect(SPOT_DETAILS['shishiguchiya'].roleJa).not.toMatch(/見学|体験/);
+  });
+
+  it('does not treat 大丹波川国際虹ます釣場 as a Tokyo Wasabi experience', () => {
+    // The committed snapshot establishes a rainbow-trout fishing facility, not a
+    // wasabi experience. foodCultureIds must keep its "experienced HERE" meaning
+    // — the facility stays on the journey as an editorial stop, but carries no
+    // FoodCulture association.
+    const odanba = getPlaceById('odanba-fishing')!;
+    expect(odanba.foodCultureIds).toEqual([]);
+    expect(getRelatedFoodCultures(odanba)).toEqual([]);
+    // Still referenced by the wasabi journey route editorially.
+    expect(getRouteIdForPlace('odanba-fishing')).toBe(PILOT_JOURNEY.routeId);
+  });
+
+  it('does not treat 一心亭 as a Tokyo Wasabi experience (only soba)', () => {
+    // A soba restaurant whose snapshot has no wasabi connection lists only the
+    // soba culture — never wasabi merely for being in the wasabi journey.
+    const isshintei = getPlaceById('soba-isshintei')!;
+    expect(isshintei.foodCultureIds).not.toContain('wasabi-okutama');
+    expect(isshintei.foodCultureIds).toContain('okutama-soba');
+  });
+
+  it('keeps the source-backed English name Otaba-gawa', () => {
+    // The committed snapshot names the facility "Otaba-gawa International
+    // Rainbow Trout Pond" (not "Odanba-gawa"); the surfaced seed + en bundle
+    // must preserve it.
+    expect(getPlaceById('odanba-fishing')!.nameEn).toBe(
+      'Otaba-gawa International Rainbow Trout Pond',
+    );
+    expect(spotJa('odanba-fishing')).toContain('大丹波川国際虹ます釣場');
+    const enSpotRole = resolveKey(strings, 'en', spotRoleKey('odanba-fishing')!);
+    expect(enSpotRole).toContain('Otaba-gawa');
   });
 });

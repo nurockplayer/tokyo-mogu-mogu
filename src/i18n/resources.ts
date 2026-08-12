@@ -897,7 +897,7 @@ export const strings = {
     dataPlaceChishimaName: 'Chishima Wasabi Garden',
     dataPlaceIsshinteiName: 'Isshintei',
     dataPlaceShishiguchiyaName: 'Shishiguchiya (Wasabi)',
-    dataPlaceOdanbaName: 'Odanba-gawa International Rainbow Trout Pond',
+    dataPlaceOdanbaName: 'Otaba-gawa International Rainbow Trout Pond',
     dataRouteStopRoleChishima:
       'Head to Tanzaburo, Okutama\'s wasabi-growing area — home of Chishima Wasabi Garden, which sells wasabi and wasabi products.',
     dataRouteStopRoleChishimaFullDay:
@@ -905,7 +905,7 @@ export const strings = {
     dataRouteStopRoleIsshinteiLunch: 'Lunch at the soba restaurant in Tanzaburo.',
     dataRouteStopRoleShishiguchiya: 'Choose wasabi souvenirs at the wasabi shop in Odanba.',
     dataRouteStopRoleOdanba:
-      'A rainbow-trout fishing facility in Odanba — Odanba-gawa International Rainbow Trout Pond.',
+      'A rainbow-trout fishing facility in Odanba — Otaba-gawa International Rainbow Trout Pond.',
     dataChishimaRole:
       'Chishima Wasabi Garden is a wasabi farm in Tanzaburo that deals in wasabi and wasabi products — a stop on a journey through Okutama\'s wasabi-growing area.',
     dataIsshinteiRole:
@@ -913,7 +913,7 @@ export const strings = {
     dataShishiguchiyaRole:
       'Shishiguchiya is a wasabi shop in Odanba that sells wasabi souvenirs.',
     dataOdanbaRole:
-      'Odanba-gawa International Rainbow Trout Pond is a rainbow-trout fishing facility in Odanba.',
+      'Otaba-gawa International Rainbow Trout Pond is a rainbow-trout fishing facility in Odanba.',
     dataWasabiFieldAccess: 'Bus or walk from Okutama Station (demo)',
     dataFishingCenterAccess: 'Bus from Okutama Station (demo)',
     dataWasabiFieldDemoNote:
