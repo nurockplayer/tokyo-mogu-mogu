@@ -51,7 +51,10 @@ jobs:
         id: classify
         run: |
           merge_base="$(git merge-base "$BASE" "$GITHUB_SHA")"
-          risk="$(git diff --name-only "$merge_base" "$GITHUB_SHA" | bash scripts/ci/classify-changes.sh)"
+          # --no-renames feeds BOTH sides of a rename (old and new path) into
+          # the classifier, so removing runtime source can never be masked as a
+          # docs-only change (Codex P1).
+          risk="$(git diff --no-renames --name-only "$merge_base" "$GITHUB_SHA" | bash scripts/ci/classify-changes.sh)"
           echo "risk=$risk" >> "$GITHUB_OUTPUT"
           echo "Classified change risk: $risk"
         env:
