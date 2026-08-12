@@ -1,5 +1,5 @@
 /** Caller context carried through Route → Spot → Route (Issues #79/#80/#92). */
-import { PILOT_JOURNEY } from '../data/pilot-journey';
+import { resolveJourneyIdentity } from '../data';
 
 export type RouteBackTarget = 'story' | 'discover' | 'mogu' | 'my' | 'home';
 
@@ -12,7 +12,11 @@ export function routeBackTarget(search: string): RouteBackTarget {
     : 'home';
 }
 
-/** A sanitized query string safe to forward from Route to Spot and back. */
+/**
+ * A sanitized query string safe to forward from Route to Spot and back. The
+ * caller `from` context, the Story's own back target, and the selected
+ * candidate id (#123) survive; everything else is dropped.
+ */
 export function routeContextSearch(search: string): string {
   const source = new URLSearchParams(search);
   const target = routeBackTarget(search);
@@ -23,6 +27,8 @@ export function routeContextSearch(search: string): string {
     const backTo = source.get('backTo');
     params.set('backTo', backTo && STORY_BACK_TARGETS.has(backTo) ? backTo : '/explore/result');
   }
+  const candidateId = source.get('candidateId');
+  if (candidateId) params.set('candidateId', candidateId);
   return `?${params.toString()}`;
 }
 
@@ -35,7 +41,13 @@ export function routeBackHref(search: string): string {
   if (target === 'story') {
     const context = new URLSearchParams(routeContextSearch(search));
     const backTo = context.get('backTo') ?? '/explore/result';
-    return `/story/${PILOT_JOURNEY.foodCultureId}?backTo=${encodeURIComponent(backTo)}`;
+    // Resolve the recorded candidate (or the demo default) so Back returns to
+    // the story that produced this journey, and forward the candidate id so a
+    // further Story → Route hop keeps the recorded journey.
+    const identity = resolveJourneyIdentity(context.get('candidateId'));
+    const params = new URLSearchParams({ backTo });
+    if (identity.candidateId) params.set('candidateId', identity.candidateId);
+    return `/story/${identity.foodCultureId}?${params.toString()}`;
   }
   return '/';
 }

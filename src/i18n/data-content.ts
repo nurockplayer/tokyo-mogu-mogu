@@ -130,3 +130,90 @@ export function mobilityLabelKey(routeId: string, fromStep: number, toStep: numb
     ROUTE_MOBILITY_LABEL_KEYS[`${routeId}.${fromStep}-${toStep}`] ?? 'dataRouteMobilityWalk'
   );
 }
+
+/**
+ * S4 story screen fields that resolve to a per-culture bundle key (Issue
+ * #123). The whole editorial layout reads through these, so a future verified
+ * Region × FoodCulture supplies its own story as data/config — no shared-flow
+ * redesign and no mislabeled fallback copy.
+ */
+export type StoryField =
+  | 'name'
+  | 'lead'
+  | 'area'
+  | 'history'
+  | 'story'
+  | 'makerName'
+  | 'makerRole'
+  | 'maker'
+  | 'craft'
+  | 'howToEnjoy'
+  | 'challenge'
+  | 'support';
+
+/** Every key the S4 story layout needs before it can render a culture. */
+export interface StoryContentKeys {
+  name: LocaleKey;
+  lead: LocaleKey;
+  area: LocaleKey;
+  history: LocaleKey;
+  story: LocaleKey;
+  makerName: LocaleKey;
+  makerRole: LocaleKey;
+  maker: LocaleKey;
+  craft: LocaleKey;
+  howToEnjoy: LocaleKey;
+  challenge: LocaleKey;
+  support: LocaleKey;
+}
+
+/** The 8/23 demo supplies full story content for 東京わさび only. */
+export const STORY_DATA_KEYS: Record<string, Partial<Record<StoryField, LocaleKey>>> = {
+  'wasabi-okutama': {
+    name: 'dataWasabiName',
+    lead: 'dataStoryLead',
+    area: 'areaOkutama',
+    history: 'dataWasabiHistory',
+    story: 'dataWasabiStory',
+    makerName: 'dataStoryMakerName',
+    makerRole: 'dataStoryMakerRole',
+    maker: 'dataWasabiMaker',
+    craft: 'dataStoryCraft',
+    howToEnjoy: 'dataWasabiHowToEnjoy',
+    challenge: 'dataStoryChallenge',
+    support: 'dataStorySupport',
+  },
+};
+
+const STORY_REQUIRED_FIELDS: readonly StoryField[] = [
+  'name',
+  'lead',
+  'area',
+  'history',
+  'story',
+  'makerName',
+  'makerRole',
+  'maker',
+  'craft',
+  'howToEnjoy',
+  'challenge',
+  'support',
+];
+
+/**
+ * Resolve a culture's complete S4 story key set, or `undefined` when any field
+ * is missing. The Story screen renders only cultures with full content so an
+ * un-authored culture shows the honest empty state instead of a mislabeled
+ * article.
+ */
+export function storyContent(id: string): StoryContentKeys | undefined {
+  const entry = STORY_DATA_KEYS[id];
+  if (!entry) return undefined;
+  const keys: Partial<StoryContentKeys> = {};
+  for (const field of STORY_REQUIRED_FIELDS) {
+    const key = entry[field];
+    if (!key) return undefined;
+    keys[field] = key;
+  }
+  return keys as StoryContentKeys;
+}

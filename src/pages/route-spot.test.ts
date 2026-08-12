@@ -60,6 +60,27 @@ describe('Route back-target resolution (#80)', () => {
       '/story/wasabi-okutama?backTo=%2Fdiscover',
     );
   });
+
+  it('forwards the selected candidate identity through Route and Spot context (#123)', () => {
+    expect(
+      routeContextSearch('?from=story&backTo=%2Fmogu&candidateId=demo-okutama-wasabi'),
+    ).toBe('?from=story&backTo=%2Fmogu&candidateId=demo-okutama-wasabi');
+    expect(routeBackHref('?from=story&backTo=%2Fmogu&candidateId=demo-okutama-wasabi')).toBe(
+      '/story/wasabi-okutama?backTo=%2Fmogu&candidateId=demo-okutama-wasabi',
+    );
+  });
+
+  it('falls back to the demo journey for a candidate not in the configured data', () => {
+    // A candidate that is not part of the configured candidate data resolves to
+    // the frozen demo journey instead of inventing a destination. Resolving a
+    // genuinely configured second candidate is covered by journey.test.ts.
+    expect(routeBackHref('?from=story&backTo=%2Fdiscover&candidateId=future-ome-sake')).toBe(
+      '/story/wasabi-okutama?backTo=%2Fdiscover',
+    );
+    expect(routeBackHref('?from=story&backTo=%2Fdiscover&candidateId=removed-candidate')).toBe(
+      '/story/wasabi-okutama?backTo=%2Fdiscover',
+    );
+  });
 });
 
 describe('Spot back-target resolution (#93)', () => {

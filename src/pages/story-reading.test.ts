@@ -47,4 +47,13 @@ describe('storyRouteHref (#79)', () => {
       '/route?from=story&backTo=%2Fexplore%2Fresult',
     );
   });
+
+  it('forwards the selected candidate identity so Route resolves the recorded journey (#123)', () => {
+    expect(storyRouteHref('/discover', 'demo-okutama-wasabi')).toBe(
+      '/route?from=story&backTo=%2Fdiscover&candidateId=demo-okutama-wasabi',
+    );
+    expect(storyRouteHref('/mogu', 'future-ome-sake')).toBe(
+      '/route?from=story&backTo=%2Fmogu&candidateId=future-ome-sake',
+    );
+  });
 });

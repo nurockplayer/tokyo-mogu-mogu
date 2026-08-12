@@ -28,16 +28,16 @@ import { SUPPORT_ACTIONS, actionMeaning, actionTitle } from './support-actions';
 import { MODEL_ROUTE_ID, isRouteSaved, saveRoute, unsaveRoute } from './saved-routes';
 import './SupportPanel.css';
 
-export function SupportPanel() {
+export function SupportPanel({ routeId = MODEL_ROUTE_ID }: { routeId?: string }) {
   const { locale, t } = useI18n();
-  const [saved, setSaved] = useState<boolean>(() => isRouteSaved(MODEL_ROUTE_ID));
+  const [saved, setSaved] = useState<boolean>(() => isRouteSaved(routeId));
 
   const toggleSave = () => {
     if (saved) {
-      unsaveRoute(MODEL_ROUTE_ID);
+      unsaveRoute(routeId);
       setSaved(false);
     } else {
-      saveRoute(MODEL_ROUTE_ID);
+      saveRoute(routeId);
       setSaved(true);
     }
   };

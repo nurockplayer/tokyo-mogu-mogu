@@ -60,6 +60,8 @@ export {
   DEMO_RECOMMENDATION_CANDIDATES,
   demoRecommendationMatchTags,
 } from './demo-recommendation';
+export { resolveJourneyIdentity } from './journey';
+export type { JourneyIdentity } from './journey';
 export type { PilotJourney } from './pilot-journey';
 
 export function getFoodCultureById(id: string): FoodCulture | undefined {

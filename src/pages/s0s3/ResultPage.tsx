@@ -54,6 +54,18 @@ function resultStoryCta(template: string, foodCultureName: string): string {
   return template.replace('{name}', foodCultureName);
 }
 
+/**
+ * Result → Story href. Always forwards the canonical candidate id (#123) so the
+ * Story → Route flow keeps resolving the recorded journey; MOGU reopen re-adds
+ * the `backTo=/mogu` context so Back returns to history, never a fresh result.
+ */
+function storyHref(foodCultureId: string, candidateId: string, isReopen: boolean): string {
+  const params = new URLSearchParams();
+  if (isReopen) params.set('backTo', '/mogu');
+  params.set('candidateId', candidateId);
+  return `/story/${foodCultureId}?${params.toString()}`;
+}
+
 export function ResultPage() {
   const { t } = useI18n();
   const [searchParams] = useSearchParams();
@@ -165,7 +177,7 @@ export function ResultPage() {
 
           <div className="tmm-result__actions">
             <Link
-              to={isReopen ? `/story/${recommendation.foodCultureId}?backTo=/mogu` : `/story/${recommendation.foodCultureId}`}
+              to={storyHref(recommendation.foodCultureId, recommendation.id, isReopen)}
               className="tmm-btn tmm-btn--primary tmm-btn--block"
             >
               {resultStoryCta(t('s3PrimaryCta'), t(recommendedTitleKey))}

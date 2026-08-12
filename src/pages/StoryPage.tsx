@@ -1,13 +1,16 @@
 /**
  * S4 Food Culture Story screen (Issues #44, #79).
  *
- * A vertical-scroll editorial article for the recommended food culture
- * (東京わさび / wasabi-okutama). No legacy Locked/Unlocked gating: the full
- * story is readable directly from S3, accountless and without geolocation.
+ * A vertical-scroll editorial article for the recommended food culture. No
+ * legacy Locked/Unlocked gating: the full story is readable directly from S3,
+ * accountless and without geolocation.
  *
- * The story is scoped to the 東京わさび record: `wasabi-okutama` is the default
- * when no id is given, and any other / unknown id renders a graceful empty
- * state instead of a 404 or a mislabeled article.
+ * The story resolves the food culture named in the URL (the recommended
+ * 東京わさび is the default when no id is given). Any culture that resolves a
+ * complete story-content entry renders its own story; any other / unknown id
+ * renders a graceful empty state instead of a 404 or a mislabeled article.
+ * The selected candidate/journey identity (#123) is forwarded on to the Route
+ * screen so the recorded journey stays stable through Result → Story → Route.
  *
  * Structure follows the approved S4 editorial rhythm (#79):
  *   hero (kicker, title, lead, read-time, origin tag, media)
@@ -22,8 +25,10 @@
  * `number` label so the numbering stays consistent and reusable.
  *
  * Content provenance:
- *   - Geography/history, maker, craft and how-to-enjoy sections draw on the
- *     FoodCulture record's {Ja,En} fields (origin: 'editorial').
+ *   - All story copy resolves through the per-culture S4 content map
+ *     (`storyContent` in `src/i18n/data-content.ts`); the 8/23 demo supplies
+ *     the 東京わさび entry only, so a future verified Region × FoodCulture adds
+ *     its own story as data/config rather than editing this screen.
  *   - The challenge section and its "tasting is succession" framing are
  *     clearly-marked editorial composition (s4EditorialNote). The section
  *     names the succession challenge generically without fabricating specific
@@ -37,18 +42,15 @@
  * silently creates Saved Route state (the route page owns saving).
  */
 import { Link, useParams, useSearchParams } from 'react-router-dom';
-import { getFoodCultureById, PILOT_JOURNEY } from '../data';
+import { getFoodCultureById, resolveJourneyIdentity } from '../data';
 import { FoodCultureImage } from '../components/FoodCultureImage';
 import { SupportPanel } from '../components/SupportPanel';
 import { Card, StorySection, Tag } from '../ui';
 import { useI18n, type Locale } from '../i18n';
-import { foodCultureKey } from '../i18n/data-content';
+import { storyContent } from '../i18n/data-content';
 import { sourceDateLabel } from '../lib/verification';
 import { readingMinutes, resolveBackTo, storyRouteHref } from './story-reading';
 import './StoryPage.css';
-
-/** The recommended food culture rendered by this screen (the PILOT_JOURNEY). */
-const STORY_ID = PILOT_JOURNEY.foodCultureId;
 
 /**
  * Replace `{name}` placeholders in a localized template, mirroring the
@@ -78,15 +80,20 @@ export function StoryPage() {
   // Result back behavior. An allowlist prevents crafted values from becoming
   // arbitrary or protocol-relative destinations.
   const backTo = resolveBackTo(searchParams.get('backTo'), '/explore/result');
-  const routeHref = storyRouteHref(backTo);
 
-  // No id defaults to the recommended 東京わさび story. Any other id — whether
-  // it names a different seed culture or an unknown value — renders the graceful
-  // empty state instead of a mislabeled article.
-  const record = getFoodCultureById(foodCultureId ?? STORY_ID);
-  const isStoryRecord = record?.id === STORY_ID;
+  // The selected candidate/journey identity (#123): Result and MOGU reopen
+  // forward the canonical candidate id; Discover / legacy entry falls back to
+  // the demo journey. The Route CTA and Back both resolve through it.
+  const identity = resolveJourneyIdentity(searchParams.get('candidateId'));
 
-  if (!record || !isStoryRecord) {
+  // No id defaults to the recommended 東京わさび story. Any culture that
+  // resolves a complete story entry renders its own story; any other id —
+  // whether it names a different seed culture or an unknown value — renders
+  // the graceful empty state instead of a mislabeled article.
+  const record = getFoodCultureById(foodCultureId ?? identity.foodCultureId);
+  const content = record ? storyContent(record.id) : undefined;
+
+  if (!record || !content) {
     return (
       <section className="s4-page">
         <div className="tmm-empty">
@@ -103,24 +110,23 @@ export function StoryPage() {
     );
   }
 
-  const heroName = t(foodCultureKey(STORY_ID, 'name') ?? 'dataWasabiName');
-  const lead = t('dataStoryLead');
-  const areaName = t('areaOkutama');
-  const fcKey = (field: 'history' | 'story' | 'maker' | 'howToEnjoy') =>
-    foodCultureKey(STORY_ID, field) ?? 'dataWasabiDescription';
+  const heroName = t(content.name);
+  const lead = t(content.lead);
+  const areaName = t(content.area);
   const readTime = bodyReadingMinutes(
     [
-      t(fcKey('history')),
-      t(fcKey('story')),
-      t('dataStoryMakerRole'),
-      t(fcKey('maker')),
-      t('dataStoryCraft'),
-      t(fcKey('howToEnjoy')),
-      t('dataStoryChallenge'),
-      t('dataStorySupport'),
+      t(content.history),
+      t(content.story),
+      t(content.makerRole),
+      t(content.maker),
+      t(content.craft),
+      t(content.howToEnjoy),
+      t(content.challenge),
+      t(content.support),
     ],
     locale,
   );
+  const routeHref = storyRouteHref(backTo, identity.candidateId);
 
   return (
     <article className="s4-page">
@@ -159,8 +165,8 @@ export function StoryPage() {
       <div className="s4-story">
         {/* Section 2 — Why Okutama (geography / history) */}
         <StorySection number={1} kicker={t('s4KickerWhy')} title={format(t('s4TitleWhy'), { area: areaName })}>
-          <p className="s4-p">{t(fcKey('history'))}</p>
-          <p className="s4-p">{t(fcKey('story'))}</p>
+          <p className="s4-p">{t(content.history)}</p>
+          <p className="s4-p">{t(content.story)}</p>
         </StorySection>
 
         {/* Section 3 — The maker (the maker is the visual lead of the section) */}
@@ -169,56 +175,57 @@ export function StoryPage() {
             <div className="s4-maker-media">
               <FoodCultureImage
                 image={record.image}
-                name={t('dataStoryMakerName')}
+                name={t(content.makerName)}
                 nameJa={record.nameJa}
                 category={record.category}
-                alt={t('dataStoryMakerName')}
+                alt={t(content.makerName)}
               />
             </div>
             <div className="s4-maker-body">
-              <h3 className="s4-maker-name">{t('dataStoryMakerName')}</h3>
-              <p className="s4-maker-role">{t('dataStoryMakerRole')}</p>
+              <h3 className="s4-maker-name">{t(content.makerName)}</h3>
+              <p className="s4-maker-role">{t(content.makerRole)}</p>
             </div>
           </Card>
-          <p className="s4-p">{t(fcKey('maker'))}</p>
+          <p className="s4-p">{t(content.maker)}</p>
           <p className="s4-note">{t('s4MakerNote')}</p>
         </StorySection>
 
         {/* Section 4 — Craft & wisdom (story + how to enjoy) */}
         <StorySection number={3} kicker={t('s4KickerCraft')} title={t('s4TitleCraft')}>
-          <p className="s4-p">{t('dataStoryCraft')}</p>
+          <p className="s4-p">{t(content.craft)}</p>
           <div className="s4-inline-media">
             <FoodCultureImage
               image={record.image}
-              name={t('dataStoryCraft')}
+              name={t(content.craft)}
               nameJa={record.nameJa}
               category={record.category}
               alt={t('s4CraftMediaAlt')}
             />
             <span className="s4-media-caption">{t('s4MediaCaption')}</span>
           </div>
-          <p className="s4-p">{t(fcKey('howToEnjoy'))}</p>
+          <p className="s4-p">{t(content.howToEnjoy)}</p>
         </StorySection>
 
         {/* Section 5 — The challenge today (never ends on pessimism) */}
         <StorySection number={4} kicker={t('s4KickerChallenge')} title={t('s4TitleChallenge')}>
-          <p className="s4-p">{t('dataStoryChallenge')}</p>
+          <p className="s4-p">{t(content.challenge)}</p>
           <p className="s4-note s4-note--editorial">{t('s4EditorialNote')}</p>
         </StorySection>
 
         {/* Section 6 — Tasting is passing it on */}
         <StorySection number={5} kicker={t('s4KickerSupport')} title={t('s4TitleSupport')}>
           <Card className="s4-support-card">
-            <p className="s4-p">{t('dataStorySupport')}</p>
+            <p className="s4-p">{t(content.support)}</p>
           </Card>
         </StorySection>
       </div>
 
       {/* Support actions (Issues #68/#79) — the story's "tasting is succession"
           beat made concrete: how to actually act on that interest. Shared
-          SupportPanel; no standalone S7 destination is required. */}
+          SupportPanel; no standalone S7 destination is required. The save
+          action persists this journey's route, never a hard-coded pilot id. */}
       <div className="s4-support-actions">
-        <SupportPanel />
+        <SupportPanel routeId={identity.journeyId} />
       </div>
 
       {/* Section 7 — CTA to S5 route */}

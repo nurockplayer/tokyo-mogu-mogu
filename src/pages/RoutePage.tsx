@@ -29,7 +29,7 @@ import {
   getRouteById,
   places,
   projectRoutePins,
-  PILOT_JOURNEY,
+  resolveJourneyIdentity,
 } from '../data';
 import type { RouteDuration } from '../data';
 import { useI18n, type Locale } from '../i18n';
@@ -45,9 +45,6 @@ import './route-spot.css';
 
 const DURATIONS: RouteDuration[] = ['half-day', '1-day'];
 
-/** Deterministic route id for the demo (the frozen pilot journey). */
-const DEFAULT_ROUTE_ID = PILOT_JOURNEY.routeId;
-
 /** Formats a minute total as "3h 10m" (kept locale-agnostic for the header). */
 function formatTotalMinutes(total: number, locale: Locale): string {
   const h = Math.floor(total / 60);
@@ -62,12 +59,20 @@ function formatTotalMinutes(total: number, locale: Locale): string {
 export function RoutePage() {
   const { locale, t } = useI18n();
   const location = useLocation();
-  const route = useMemo(() => getRouteById(DEFAULT_ROUTE_ID), []);
+  // The journey comes from the recorded candidate id (#123) when Story/MOGU
+  // forwarded one; Discover / direct entry falls back to the demo journey.
+  // This keeps Route on the selected candidate's route instead of always
+  // resolving the pilot route.
+  const identity = useMemo(
+    () => resolveJourneyIdentity(new URLSearchParams(location.search).get('candidateId')),
+    [location.search],
+  );
+  const route = useMemo(() => getRouteById(identity.journeyId), [identity.journeyId]);
 
   const [duration, setDuration] = useState<RouteDuration>(
     route?.defaultDuration ?? 'half-day',
   );
-  const [saved, setSaved] = useState<boolean>(() => isRouteSaved(DEFAULT_ROUTE_ID));
+  const [saved, setSaved] = useState<boolean>(() => isRouteSaved(identity.journeyId));
   const [toast, setToast] = useState<null | { message: string; saved: boolean }>(null);
 
   if (!route) {
@@ -101,11 +106,11 @@ export function RoutePage() {
 
   const handleSave = () => {
     if (saved) {
-      unsaveRoute(DEFAULT_ROUTE_ID);
+      unsaveRoute(identity.journeyId);
       setSaved(false);
       setToast({ message: t('s5UnsavedToast'), saved: false });
     } else {
-      saveRoute(DEFAULT_ROUTE_ID);
+      saveRoute(identity.journeyId);
       setSaved(true);
       setToast({ message: t('s5SavedToast'), saved: true });
     }
