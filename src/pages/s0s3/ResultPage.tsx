@@ -1,14 +1,15 @@
 /**
  * Result page (Issue #78 reframe of S3).
  *
- * Deterministically reveals 東京わさび (from the `wasabi-okutama` FoodCulture
- * record) — a deterministic first-pilot fixture that does not make the Product
- * permanently single-region. The result reflects the durable Food Profile
- * (dietary-consideration state) + the current-trip Exploration answers
- * (match-reason tags). On successful result creation it hands off to the MOGU
- * Recent contract (#94) to auto-record the entry.
+ * Deterministically reveals 東京わさび (the PILOT_JOURNEY food culture, resolved
+ * from the `wasabi-okutama` FoodCulture record) — a deterministic first-pilot
+ * fixture that does not make the Product permanently single-region. The result
+ * reflects the durable Food Profile (dietary-consideration state) + the
+ * current-trip Exploration answers (match-reason tags). On successful result
+ * creation it hands off to the MOGU Recent contract (#94) to auto-record the
+ * entry.
  *
- * The primary CTA routes to the S4 story (/story/wasabi-okutama) and the
+ * The primary CTA routes to the S4 story (/story/<foodCultureId>) and the
  * secondary CTA lets the user re-run the current Exploration. The dietary
  * disclaimer states that details must be confirmed with the venue —
  * recommendation-only, never a safety guarantee. No fabricated match-score is
@@ -16,7 +17,7 @@
  */
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, Navigate, useSearchParams } from 'react-router-dom';
-import { getFoodCultureById } from '../../data';
+import { getFoodCultureById, PILOT_JOURNEY } from '../../data';
 import { useI18n } from '../../i18n';
 import { EmptyState, Card, Tag, type TagTone } from '../../ui';
 import { deriveMatchTags, type MatchTagKey } from '../../lib/exploration';
@@ -42,7 +43,8 @@ const TAG_COPY: Record<MatchTagKey, { labelKey: LocaleKey; tone: TagTone }> = {
 };
 
 /** Title key used for the MOGU Recent entry of this result. */
-const RESULT_TITLE_KEY: LocaleKey = 'dataWasabiName';
+const RESULT_TITLE_KEY: LocaleKey =
+  foodCultureKey(PILOT_JOURNEY.foodCultureId, 'name') ?? 'dataWasabiName';
 
 export function ResultPage() {
   const { t } = useI18n();
@@ -54,7 +56,7 @@ export function ResultPage() {
   // and its Story CTA must carry the MOGU back context so back returns to MOGU.
   const isReopen = searchParams.get('from') === 'mogu';
 
-  const wasabi = getFoodCultureById('wasabi-okutama');
+  const wasabi = getFoodCultureById(PILOT_JOURNEY.foodCultureId);
 
   const answers = useMemo(() => loadExplorationAnswers(), []);
   const tags = useMemo(() => (answers ? deriveMatchTags(answers) : []), [answers]);
@@ -88,8 +90,8 @@ export function ResultPage() {
       {wasabi ? (
         <>
           <Card feature>
-            <div className="tmm-result-card__title">{t(foodCultureKey('wasabi-okutama', 'name') ?? 'dataWasabiName')}</div>
-            <p className="tmm-result-card__desc">{t(foodCultureKey('wasabi-okutama', 'description') ?? 'dataWasabiDescription')}</p>
+            <div className="tmm-result-card__title">{t(foodCultureKey(PILOT_JOURNEY.foodCultureId, 'name') ?? 'dataWasabiName')}</div>
+            <p className="tmm-result-card__desc">{t(foodCultureKey(PILOT_JOURNEY.foodCultureId, 'description') ?? 'dataWasabiDescription')}</p>
 
             <div className="tmm-result__tags">
               {tags.length > 0
@@ -113,7 +115,7 @@ export function ResultPage() {
 
           <div className="tmm-result__actions">
             <Link
-              to={isReopen ? '/story/wasabi-okutama?backTo=/mogu' : '/story/wasabi-okutama'}
+              to={isReopen ? `/story/${PILOT_JOURNEY.foodCultureId}?backTo=/mogu` : `/story/${PILOT_JOURNEY.foodCultureId}`}
               className="tmm-btn tmm-btn--primary tmm-btn--block"
             >
               {t('s3PrimaryCta')}
@@ -157,7 +159,7 @@ function ResultRecorder({
     if (!answers) return;
     done.current = true;
     recordMoguRecent({
-      resultId: 'wasabi-okutama',
+      resultId: PILOT_JOURNEY.foodCultureId,
       titleKey: RESULT_TITLE_KEY,
       summary: tags,
       exploration: answers,

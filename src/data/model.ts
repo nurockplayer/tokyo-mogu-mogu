@@ -134,6 +134,14 @@ export interface Place {
   address: string;
   latitude: number;
   longitude: number;
+  /**
+   * Coordinate precision (Issue #127). 'precise' = field-verified / precise OSM
+   * point; 'approximate' = district centroid, usable for map display but never
+   * as a turn-by-turn navigation destination (the app uses the sourced
+   * name/address for directions instead). Absent ⇒ unspecified (treated as
+   * coordinate-based by the map-link helpers).
+   */
+  coordinatePrecision?: 'precise' | 'approximate';
   /** Food cultures that can be experienced here. */
   foodCultureIds: string[];
   type: PlaceType;

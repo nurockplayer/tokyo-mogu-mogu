@@ -35,7 +35,7 @@ import {
   spotRoleKey,
   foodCultureKey,
 } from '../i18n/data-content';
-import { googleMapsDirectionsUrl, appleMapsDirectionsUrl } from '../lib/map-links';
+import { googleMapsDirectionsUrl, appleMapsDirectionsUrl, type DirectionsPlace } from '../lib/map-links';
 import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
 import { deriveVerificationStatus } from '../lib/verification';
 import { routeBackTarget, spotBackHref } from './route-context';
@@ -108,15 +108,16 @@ interface SpotAction {
  * Okutama Tourism Association site is a truthful destination for the tourism
  * information office only; it must not masquerade as spot-specific farm or
  * booking information. Every unverified action uses the disabled fallback.
+ * The frozen-journey spots (Issue #127) are the real Okutama facilities.
  */
 const CONFIRMED_VISIT_URL = 'https://www.okutokanko.jp/';
 
 export const SPOT_ACTIONS: Record<string, SpotAction> = {
   'okutama-tourism-office': { kind: 'external', url: CONFIRMED_VISIT_URL, type: 'visit' },
-  'okutama-wasabi-field': { kind: 'disabled', type: 'farm' },
-  'okutama-soba-shop': { kind: 'disabled', type: 'restaurant' },
-  'okutama-michi-no-eki': { kind: 'disabled', type: 'shop' },
-  'okutama-fishing-center': { kind: 'disabled', type: 'visit' },
+  'chishima-wasabi-garden': { kind: 'disabled', type: 'farm' },
+  'soba-isshintei': { kind: 'disabled', type: 'restaurant' },
+  'shishiguchiya': { kind: 'disabled', type: 'shop' },
+  'odanba-fishing': { kind: 'disabled', type: 'visit' },
 };
 
 /** Default action type for a place category when no per-spot action exists. */
@@ -174,9 +175,18 @@ export function SpotPage() {
   const practical = detail?.practical;
   const relatedCultures = getRelatedFoodCultures(place);
 
-  // Direction CTAs (external map apps) — safe to offer for any place.
-  const googleUrl = googleMapsDirectionsUrl(place.latitude, place.longitude);
-  const appleUrl = appleMapsDirectionsUrl(place.latitude, place.longitude);
+  // Direction CTAs (external map apps). Approximate places (district-centroid
+  // coordinates) navigate by the sourced name/address, not the centroid (Issue
+  // #127); precise places keep coordinate-based directions.
+  const directionsPlace: DirectionsPlace = {
+    latitude: place.latitude,
+    longitude: place.longitude,
+    coordinatePrecision: place.coordinatePrecision,
+    name: place.nameJa,
+    address: place.address,
+  };
+  const googleUrl = googleMapsDirectionsUrl(directionsPlace);
+  const appleUrl = appleMapsDirectionsUrl(directionsPlace);
 
   // Info list built only from data that actually exists.
   const infoItems: { label: string; value: string }[] = [];

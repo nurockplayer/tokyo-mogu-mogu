@@ -29,6 +29,7 @@ import {
   getRouteById,
   places,
   projectRoutePins,
+  PILOT_JOURNEY,
 } from '../data';
 import type { RouteDuration } from '../data';
 import { useI18n, type Locale } from '../i18n';
@@ -44,8 +45,8 @@ import './route-spot.css';
 
 const DURATIONS: RouteDuration[] = ['half-day', '1-day'];
 
-/** Deterministic route id for the demo (single authored route). */
-const DEFAULT_ROUTE_ID = 'okutama-wasabi-journey';
+/** Deterministic route id for the demo (the frozen pilot journey). */
+const DEFAULT_ROUTE_ID = PILOT_JOURNEY.routeId;
 
 /** Formats a minute total as "3h 10m" (kept locale-agnostic for the header). */
 function formatTotalMinutes(total: number, locale: Locale): string {

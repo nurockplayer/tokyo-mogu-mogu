@@ -155,3 +155,22 @@ pnpm vitest run scripts/ingest-okutama/okutama-ingest.test.ts
   snapshot from the Tokyo education board; facility lists can change.
 - Names/addresses in the directory snapshot were transcribed from HTML as of
   2026-08-08; business closures or relocations after that date are not reflected.
+
+## Frozen pilot journey wiring (Issue #127)
+
+The 8/23 demo's frozen wasabi journey (Result → Story → Route → Spot →
+Discover) is curated in `src/data/seed-places.ts` as real-facility records
+copied from this generated dataset, linked back via `originalId`:
+
+- 奥多摩観光案内所 (`okutama-tourism-office`, origId `okutama-tourism-office`)
+- 千島わさび園 (`chishima-wasabi-garden`, origId `chishima-wasabi-garden`)
+- 一心亭 (`soba-isshintei`, origId `soba-isshintei`)
+- 獅子口屋 (`shishiguchiya`, origId `shishiguchiya`)
+- 大丹波川国際虹ます釣場 (`odanba-fishing`, origId `odanba-trout-fishing`)
+
+These curated records use `origin: 'source'` with
+`verificationStatus: 'needs_confirmation'`: names/addresses come from the
+association directory (All Rights Reserved), coordinates are the approximate
+OSM centroids above. They are NOT field-verified and carry no `confirmedAt`.
+The generated file itself remains the raw reference dataset and is not wired
+into the app's `places` export.

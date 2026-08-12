@@ -3,11 +3,12 @@
  *
  * Provenance:
  * - Route structure, step ordering, stay durations, and mobility segments are
- *   TEAM-EDITORIAL (origin: 'editorial') authored for the 奥多摩 × 東京わさび
- *   demo. They are a coherent suggested itinerary, not a verified schedule.
- * - Places referenced here are the existing records in `src/data/seed-places.ts`
- *   (all origin: 'demo' — approximate coordinates / addresses) — do not change
- *   their semantics.
+ *   TEAM-EDITORIAL (origin: 'editorial') authored for the frozen 奥多摩 × 東京わさび
+ *   pilot journey (Issue #127). They are a coherent suggested itinerary, not a
+ *   verified schedule.
+ * - The journey's stops are the REAL facilities curated in `src/data/seed-places.ts`
+ *   (奥多摩観光案内所 / 千島わさび園 / 一心亭 / 獅子口屋 / 大丹波川国際虹ます釣場,
+ *   origin: 'source', coordinates approximate — needs_confirmation).
  * - Practical spot details (hours / price / reservation) are ONLY populated
  *   when the underlying source data supports them. Everything else renders as
  *   an explicit unknown/unverified state in the S6 screen.
@@ -124,8 +125,9 @@ export interface SpotDetail {
 }
 
 const SOURCE_OKUTAMA: DataSource = {
-  name: '奥多摩観光協会',
-  url: 'https://www.okutokanko.jp/',
+  name: '一般社団法人奥多摩観光協会（奥多摩町観光案内所）',
+  url: 'https://www.okutama.gr.jp/site/',
+  license: 'All Rights Reserved（参考情報としてのみ利用）',
   lastVerified: '2026-08-08',
   sourceType: 'official_web',
   retrievedAt: '2026-08-08',
@@ -145,136 +147,138 @@ export const MODEL_ROUTES: ModelRoute[] = [
       'half-day': {
         transportJa: 'JR青梅線・西東京バス',
         transportEn: 'JR Ome Line & Nishi Tokyo Bus',
-        totalMinutes: 190,
+        totalMinutes: 200,
         steps: [
           {
             placeId: 'okutama-tourism-office',
             stepNumber: 1,
             stayMinutes: 15,
-            roleJa: '出発点。わさび田への行き方と地域の情報を集めます。',
-            roleEn: 'Start here to pick up maps and local guidance for the wasabi fields.',
+            roleJa: '出発点。わさびの産地への行き方と地域の情報を集めます。',
+            roleEn: 'Start here to pick up maps and local guidance for the wasabi-growing area.',
           },
           {
-            placeId: 'okutama-wasabi-field',
+            placeId: 'chishima-wasabi-garden',
             stepNumber: 2,
             stayMinutes: 45,
-            roleJa: '谷の清流が育てる東京わさびの栽培現場を見学します。',
-            roleEn: 'See the terraced wasabi paddies fed by clear mountain stream water.',
+            roleJa: '奥多摩のわさびの産地、丹三郎へ。わさびと加工品を扱う千島わさび園があります。',
+            roleEn:
+              'Head to Tanzaburo, Okutama\'s wasabi-growing area — home of Chishima Wasabi Garden, which sells wasabi and wasabi products.',
           },
           {
-            placeId: 'okutama-soba-shop',
+            placeId: 'soba-isshintei',
             stepNumber: 3,
             stayMinutes: 60,
-            roleJa: 'おろしたてのわさびをのせた手打ちそばで昼食を。',
-            roleEn: 'Lunch: hand-made soba topped with freshly grated wasabi.',
+            roleJa: '丹三郎のそば店で昼食を。',
+            roleEn: 'Lunch at the soba restaurant in Tanzaburo.',
           },
           {
-            placeId: 'okutama-michi-no-eki',
+            placeId: 'shishiguchiya',
             stepNumber: 4,
             stayMinutes: 30,
-            roleJa: 'わさび加工品やこんにゃくなど、お土産を選びます。',
-            roleEn: 'Pick up wasabi products and konnyaku as souvenirs.',
+            roleJa: '大丹波のわさびの店で、わさびのお土産を選べます。',
+            roleEn: 'Choose wasabi souvenirs at the wasabi shop in Odanba.',
           },
         ],
         mobility: [
           {
             fromStep: 1,
             toStep: 2,
-            mode: 'walk',
-            durationMinutes: 20,
-            labelJa: '徒歩（沢沿い）',
-            labelEn: 'Walk (along the stream)',
-          },
-          {
-            fromStep: 2,
-            toStep: 3,
             mode: 'bus',
-            durationMinutes: 10,
+            durationMinutes: 25,
             labelJa: '西東京バス',
             labelEn: 'Nishi Tokyo Bus',
           },
           {
-            fromStep: 3,
-            toStep: 4,
+            fromStep: 2,
+            toStep: 3,
             mode: 'walk',
-            durationMinutes: 5,
+            durationMinutes: 10,
             labelJa: '徒歩',
             labelEn: 'Walk',
+          },
+          {
+            fromStep: 3,
+            toStep: 4,
+            mode: 'bus',
+            durationMinutes: 15,
+            labelJa: '西東京バス',
+            labelEn: 'Nishi Tokyo Bus',
           },
         ],
       },
       '1-day': {
         transportJa: 'JR青梅線・西東京バス',
         transportEn: 'JR Ome Line & Nishi Tokyo Bus',
-        totalMinutes: 280,
+        totalMinutes: 285,
         steps: [
           {
             placeId: 'okutama-tourism-office',
             stepNumber: 1,
             stayMinutes: 15,
-            roleJa: '出発点。わさび田への行き方と地域の情報を集めます。',
-            roleEn: 'Start here to pick up maps and local guidance for the wasabi fields.',
+            roleJa: '出発点。わさびの産地への行き方と地域の情報を集めます。',
+            roleEn: 'Start here to pick up maps and local guidance for the wasabi-growing area.',
           },
           {
-            placeId: 'okutama-wasabi-field',
+            placeId: 'chishima-wasabi-garden',
             stepNumber: 2,
             stayMinutes: 60,
-            roleJa: '谷の清流が育てる東京わさびの栽培現場をゆっくり見学。',
-            roleEn: 'Spend more time among the terraced wasabi paddies and clear streams.',
+            roleJa: '奥多摩のわさびの産地、丹三郎を訪れます。わさびと加工品を扱う千島わさび園があります。',
+            roleEn:
+              'Visit Tanzaburo, Okutama\'s wasabi-growing area — home of Chishima Wasabi Garden, which sells wasabi and wasabi products.',
           },
           {
-            placeId: 'okutama-fishing-center',
+            placeId: 'soba-isshintei',
             stepNumber: 3,
             stayMinutes: 60,
-            roleJa: '渓流魚やまめの釣り体験。わさびの恵みとともにある川の味わいへ。',
-            roleEn:
-              'Try river fishing for yamame trout — the other taste of Okutama\'s waters.',
+            roleJa: '丹三郎のそば店で昼食を。',
+            roleEn: 'Lunch at the soba restaurant in Tanzaburo.',
           },
           {
-            placeId: 'okutama-soba-shop',
+            placeId: 'odanba-fishing',
             stepNumber: 4,
             stayMinutes: 60,
-            roleJa: 'おろしたてのわさびをのせた手打ちそばで昼食を。',
-            roleEn: 'Lunch: hand-made soba topped with freshly grated wasabi.',
+            roleJa: '大丹波にある虹ますの釣り施設。大丹波川国際虹ます釣場を訪ねます。',
+            roleEn:
+              'A rainbow-trout fishing facility in Odanba — Otaba-gawa International Rainbow Trout Pond.',
           },
           {
-            placeId: 'okutama-michi-no-eki',
+            placeId: 'shishiguchiya',
             stepNumber: 5,
             stayMinutes: 30,
-            roleJa: 'わさび加工品やこんにゃくなど、お土産を選びます。',
-            roleEn: 'Pick up wasabi products and konnyaku as souvenirs.',
+            roleJa: '大丹波のわさびの店で、わさびのお土産を選べます。',
+            roleEn: 'Choose wasabi souvenirs at the wasabi shop in Odanba.',
           },
         ],
         mobility: [
           {
             fromStep: 1,
             toStep: 2,
-            mode: 'walk',
-            durationMinutes: 20,
-            labelJa: '徒歩（沢沿い）',
-            labelEn: 'Walk (along the stream)',
-          },
-          {
-            fromStep: 2,
-            toStep: 3,
             mode: 'bus',
-            durationMinutes: 15,
+            durationMinutes: 25,
             labelJa: '西東京バス',
             labelEn: 'Nishi Tokyo Bus',
           },
           {
-            fromStep: 3,
-            toStep: 4,
+            fromStep: 2,
+            toStep: 3,
             mode: 'walk',
             durationMinutes: 10,
             labelJa: '徒歩',
             labelEn: 'Walk',
           },
           {
+            fromStep: 3,
+            toStep: 4,
+            mode: 'bus',
+            durationMinutes: 15,
+            labelJa: '西東京バス',
+            labelEn: 'Nishi Tokyo Bus',
+          },
+          {
             fromStep: 4,
             toStep: 5,
             mode: 'walk',
-            durationMinutes: 5,
+            durationMinutes: 10,
             labelJa: '徒歩',
             labelEn: 'Walk',
           },
@@ -290,25 +294,6 @@ export const MODEL_ROUTES: ModelRoute[] = [
  * address, and practical fields render as unverified.
  */
 export const SPOT_DETAILS: Record<string, SpotDetail> = {
-  'okutama-wasabi-field': {
-    placeId: 'okutama-wasabi-field',
-    roleJa:
-      'わさびは清らかな冷水でしか育ちません。奥多摩のわさび田は谷の沢水を引き込んだ棚田状で、急流を利用した伝統的な水掛け栽培が今も続いています。この地を訪れると、東京わさびが「作られる」場所を自分の目で確かめられます。',
-    roleEn:
-      'Wasabi only grows in clean cold water. Okutama\'s wasabi paddies are terraced fields fed by valley streams, still cultivated with traditional water-flush methods. Visiting here lets you see where Tokyo Wasabi is actually grown.',
-    practical: {
-      accessJa: '奥多摩駅からバスまたは徒歩（デモ表記）',
-      accessEn: 'Bus or walk from Okutama Station (demo)',
-    },
-    demoNote: {
-      tone: 'warning',
-      noteJa: '見学条件は時期により異なります。事前に現地へご確認ください（デモ）',
-      noteEn: 'Visiting conditions vary by season. Please confirm on site in advance (demo)',
-    },
-    tags: {},
-    origin: 'editorial',
-    source: SOURCE_OKUTAMA,
-  },
   'okutama-tourism-office': {
     placeId: 'okutama-tourism-office',
     roleJa:
@@ -319,41 +304,42 @@ export const SPOT_DETAILS: Record<string, SpotDetail> = {
     origin: 'editorial',
     source: SOURCE_OKUTAMA,
   },
-  'okutama-fishing-center': {
-    placeId: 'okutama-fishing-center',
+  'chishima-wasabi-garden': {
+    placeId: 'chishima-wasabi-garden',
     roleJa:
-      '清流の恵みはわさびだけではありません。多摩川の支流でやまめを釣り、その場で味わえる施設です。わさびの「生産」から、川魚という「消費」まで、奥多摩の水の物語を続けて体感できます。',
+      '千島わさび園は丹三郎にあるわさびの農園で、わさびとわさび加工品を扱っています。奥多摩のわさびの産地を訪ねる旅の中継点です。',
     roleEn:
-      'The clear streams feed more than wasabi. At this riverside facility you can fish for yamame trout and taste it on the spot — from wasabi to river fish, one story of Okutama\'s water.',
-    practical: {
-      accessJa: '奥多摩駅からバス（デモ表記）',
-      accessEn: 'Bus from Okutama Station (demo)',
-    },
-    demoNote: {
-      tone: 'info',
-      noteJa: '釣り体験は料金・予約条件が異なります。現地へご確認ください（デモ）',
-      noteEn: 'Fishing experience prices and booking rules vary. Please confirm on site (demo)',
-    },
+      'Chishima Wasabi Garden is a wasabi farm in Tanzaburo that deals in wasabi and wasabi products — a stop on a journey through Okutama\'s wasabi-growing area.',
     tags: {},
     origin: 'editorial',
     source: SOURCE_OKUTAMA,
   },
-  'okutama-soba-shop': {
-    placeId: 'okutama-soba-shop',
+  'soba-isshintei': {
+    placeId: 'soba-isshintei',
     roleJa:
-      'おろしたてのわさびをのせた手打ちそば。わさびは薬味ではなく、奥多摩の水が生んだ「主役」です。生産者の仕事が食卓に届く、物語の味わいの場。',
+      '一心亭は丹三郎にあるそば店です。奥多摩の山あいの旅で、昼食に立ち寄ります。',
     roleEn:
-      'Hand-made soba topped with freshly grated wasabi — where wasabi becomes the star, not just a garnish. The moment the grower\'s craft reaches your table.',
+      'Isshintei is a soba restaurant in Tanzaburo — a lunch stop on the journey through the Okutama mountains.',
     tags: {},
     origin: 'editorial',
     source: SOURCE_OKUTAMA,
   },
-  'okutama-michi-no-eki': {
-    placeId: 'okutama-michi-no-eki',
+  'shishiguchiya': {
+    placeId: 'shishiguchiya',
     roleJa:
-      '奥多摩駅前に広がる道の駅。わさび加工品やこんにゃくなど、地域の恵みを土産に選べます。訪れた人が「持ち帰る」ことで、文化の継承が支えられます。',
+      '獅子口屋は大丹波にあるわさびの店です。わさびのお土産を扱っています。',
     roleEn:
-      'A roadside station by Okutama Station. Pick up wasabi products and konnyaku — taking a little of the region home supports its cultural succession.',
+      'Shishiguchiya is a wasabi shop in Odanba that sells wasabi souvenirs.',
+    tags: {},
+    origin: 'editorial',
+    source: SOURCE_OKUTAMA,
+  },
+  'odanba-fishing': {
+    placeId: 'odanba-fishing',
+    roleJa:
+      '大丹波川国際虹ます釣場は、大丹波にある虹ますの釣り施設です。',
+    roleEn:
+      'Otaba-gawa International Rainbow Trout Pond is a rainbow-trout fishing facility in Odanba.',
     tags: {},
     origin: 'editorial',
     source: SOURCE_OKUTAMA,

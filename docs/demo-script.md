@@ -82,11 +82,16 @@ layout.
 ## Route data (for the pitch)
 
 - Course: 奥多摩わさび紀行 (Okutama Wasabi Journey), half-day default
-  (~3h10m), toggle to 1-day.
-- 4 numbered stops: 奥多摩観光案内所 → 奥多摩わさび田 → 奥多摩そば処 →
-  奥多摩駅前 道の駅, connected by 徒歩 / 西東京バス segments.
-- Route data is deterministic editorial demo content (not a verified schedule).
-  Practical spot details are shown as unverified where no source exists.
+  (~3h20m), toggle to 1-day.
+- Half-day stops: 奥多摩観光案内所 → 千島わさび園 → 一心亭 → 獅子口屋;
+  the 1-day variant adds 大丹波川国際虹ます釣場. Connected by 西東京バス /
+  徒歩 segments.
+- The stops are the frozen pilot journey's real Okutama facilities (Issue
+  #127): names/addresses from the 奥多摩観光協会 directory, coordinates
+  approximate (`needs_confirmation`). Route structure is deterministic
+  editorial demo content (a coherent suggested itinerary, not a verified
+  schedule). Practical spot details are shown as unverified where no source
+  exists.
 
 ## Support actions (distributed model)
 

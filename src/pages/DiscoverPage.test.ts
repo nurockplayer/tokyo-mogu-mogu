@@ -15,10 +15,10 @@ import { cultureName } from './DiscoverPage';
 const FEATURED = 'wasabi-okutama';
 const PILOT_PLACES = [
   'okutama-tourism-office',
-  'okutama-wasabi-field',
-  'okutama-soba-shop',
-  'okutama-michi-no-eki',
-  'okutama-fishing-center',
+  'chishima-wasabi-garden',
+  'soba-isshintei',
+  'shishiguchiya',
+  'odanba-fishing',
 ];
 
 describe('Discover selection (#93)', () => {

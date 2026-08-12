@@ -8,9 +8,11 @@
  * Content honesty (product contract / #93):
  * - 東京わさび (wasabi-okutama) is the verified first-pilot story: `origin:
  *   'editorial'` written from the recorded public sources.
- * - The five Okutama places reference real facilities (address / coordinates
- *   are demo-approximate and marked as such in the seed), and Spot Detail
- *   renders only source-backed practical info or an explicit unverified state.
+ * - The pilot places are the frozen journey's real Okutama facilities (Issue
+ *   #127: 奥多摩観光案内所 / 千島わさび園 / 一心亭 / 獅子口屋 / 大丹波川国際虹ます釣場),
+ *   `origin: 'source'` with `needs_confirmation` — addresses are source-backed,
+ *   coordinates are approximate (marked in the seed). Spot Detail renders only
+ *   source-backed practical info or an explicit unverified state.
  * - No future/second region is presented as implemented. Browse-only use never
  *   writes MOGU Recent history (only a generated Result does).
  *
@@ -21,22 +23,27 @@
 import { Link } from 'react-router-dom';
 import { Card, Tag } from '../ui';
 import { useI18n, type LocaleKey } from '../i18n';
-import { foodCultures, places } from '../data';
-import { getFoodCultureById } from '../data';
+import {
+  foodCultures,
+  places,
+  getFoodCultureById,
+  getRouteById,
+  PILOT_JOURNEY,
+  pilotDiscoverPlaceIds,
+} from '../data';
 import { foodCultureKey, placeNameKey } from '../i18n/data-content';
+import { deriveVerificationStatus } from '../lib/verification';
+import type { VerificationStatus } from '../data';
 import './DiscoverPage.css';
 
-/** The verified first-pilot food culture surfaced at the top of Discover. */
-const FEATURED_CULTURE_ID = 'wasabi-okutama';
-
-/** Okutama first-pilot spots (real facilities, demo-approximate coordinates). */
-const PILOT_PLACE_IDS = [
-  'okutama-tourism-office',
-  'okutama-wasabi-field',
-  'okutama-soba-shop',
-  'okutama-michi-no-eki',
-  'okutama-fishing-center',
-];
+/** Verification status → i18n label key (kept honest on place cards). */
+const VERIFICATION_LABEL_KEY: Record<VerificationStatus, LocaleKey> = {
+  verified: 'verificationVerified',
+  needs_confirmation: 'verificationNeedsConfirmation',
+  stale: 'verificationStale',
+  conflict: 'verificationConflict',
+  demo: 'verificationDemo',
+};
 
 /**
  * Display name for a non-featured culture card. Cultures with an i18n name key
@@ -59,17 +66,22 @@ export function cultureName(
 export function DiscoverPage() {
   const { locale, t } = useI18n();
 
-  const featured = getFoodCultureById(FEATURED_CULTURE_ID);
+  const featured = getFoodCultureById(PILOT_JOURNEY.foodCultureId);
 
   // Additional cultures present in the seed but outside the first-pilot story
   // (yamame, soba, konnyaku, ...). They are editorial/demo records only — they
   // do not imply a second region or a production journey. Keep this list
   // deterministic and tied to what the seed actually contains.
-  const otherCultures = foodCultures.filter((fc) => fc.id !== FEATURED_CULTURE_ID);
+  const otherCultures = foodCultures.filter((fc) => fc.id !== PILOT_JOURNEY.foodCultureId);
 
-  const pilotPlaces = PILOT_PLACE_IDS.map((id) => places.find((p) => p.id === id)).filter(
-    (p): p is NonNullable<typeof p> => Boolean(p),
-  );
+  // The pilot places are the union of the frozen route's stops (Issue #127) —
+  // Discover and Route read the same canonical journey, so the lists cannot
+  // diverge. No second hard-coded place array.
+  const pilotRoute = getRouteById(PILOT_JOURNEY.routeId);
+  const pilotPlaceIds = pilotRoute ? pilotDiscoverPlaceIds(pilotRoute) : [];
+  const pilotPlaces = pilotPlaceIds
+    .map((id) => places.find((p) => p.id === id))
+    .filter((p): p is NonNullable<typeof p> => Boolean(p));
 
   return (
     <div className="tmm-page">
@@ -126,7 +138,9 @@ export function DiscoverPage() {
                       <p className="discover-card__addr">{place.address}</p>
                       <div className="discover-card__meta">
                         <span className="discover-card__area">{t('areaOkutama')}</span>
-                        <Tag tone="info">{t('originDemo')}</Tag>
+                        <Tag tone="info">
+                          {t(VERIFICATION_LABEL_KEY[deriveVerificationStatus(place.source, place.origin)])}
+                        </Tag>
                       </div>
                     </div>
                   </Card>

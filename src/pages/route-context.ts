@@ -1,4 +1,6 @@
 /** Caller context carried through Route → Spot → Route (Issues #79/#80/#92). */
+import { PILOT_JOURNEY } from '../data/pilot-journey';
+
 export type RouteBackTarget = 'story' | 'discover' | 'mogu' | 'my' | 'home';
 
 const STORY_BACK_TARGETS = new Set(['/explore/result', '/discover', '/mogu']);
@@ -33,7 +35,7 @@ export function routeBackHref(search: string): string {
   if (target === 'story') {
     const context = new URLSearchParams(routeContextSearch(search));
     const backTo = context.get('backTo') ?? '/explore/result';
-    return `/story/wasabi-okutama?backTo=${encodeURIComponent(backTo)}`;
+    return `/story/${PILOT_JOURNEY.foodCultureId}?backTo=${encodeURIComponent(backTo)}`;
   }
   return '/';
 }
