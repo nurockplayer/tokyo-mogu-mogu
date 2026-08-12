@@ -50,12 +50,21 @@ import { SupportPanel } from '../components/SupportPanel';
 import { Card, StorySection, Tag } from '../ui';
 import { useI18n, type Locale } from '../i18n';
 import { foodCultureKey } from '../i18n/data-content';
-import { sourceDateLabel } from '../lib/verification';
+import { deriveVerificationStatus, sourceDateLabel } from '../lib/verification';
 import { readingMinutes, resolveBackTo, storyRouteHref } from './story-reading';
 import './StoryPage.css';
 
 /** The recommended food culture rendered by this screen (the PILOT_JOURNEY). */
 const STORY_ID = PILOT_JOURNEY.foodCultureId;
+
+/** Source-review label for the census context surfaced in this story (#128/#129). */
+const CENSUS_STATUS_LABEL = {
+  verified: 'verificationVerified',
+  needs_confirmation: 'verificationNeedsConfirmation',
+  stale: 'verificationStale',
+  conflict: 'verificationConflict',
+  demo: 'verificationDemo',
+} as const;
 
 /**
  * Replace `{name}` placeholders in a localized template, mirroring the
@@ -289,6 +298,11 @@ export function StoryPage() {
                   {t('sourceLink')}
                 </a>
               ) : null}
+              <Tag tone="warning">
+                {t(CENSUS_STATUS_LABEL[
+                  deriveVerificationStatus(okutamaAgri.source, okutamaAgri.origin)
+                ])}
+              </Tag>
               {(() => {
                 const meta = sourceDateLabel(okutamaAgri.source, okutamaAgri.origin);
                 return meta ? (
