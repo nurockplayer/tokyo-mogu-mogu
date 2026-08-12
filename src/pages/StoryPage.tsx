@@ -279,6 +279,26 @@ export function StoryPage() {
               })()}
             </li>
           ))}
+          {/* Issue #128: when the municipality census context is shown, surface
+              its own provenance (e-Stat dataset / retrieval date / status). */}
+          {okutamaAgri ? (
+            <li key="municipality-census" className="s4-sources__item">
+              <span className="s4-sources__name">{okutamaAgri.source.name}</span>
+              {okutamaAgri.source.url ? (
+                <a href={okutamaAgri.source.url} target="_blank" rel="noreferrer" className="s4-sources__link">
+                  {t('sourceLink')}
+                </a>
+              ) : null}
+              {(() => {
+                const meta = sourceDateLabel(okutamaAgri.source, okutamaAgri.origin);
+                return meta ? (
+                  <span className="s4-sources__meta">
+                    {t(meta.label)}: {meta.date}
+                  </span>
+                ) : null;
+              })()}
+            </li>
+          ) : null}
         </ul>
       </details>
 
