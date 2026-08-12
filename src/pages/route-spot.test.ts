@@ -70,6 +70,17 @@ describe('Route back-target resolution (#80)', () => {
     );
   });
 
+  it('forwards an explicit saved-route id through the Route ↔ Spot round-trip (#123)', () => {
+    // A saved route reopened from My keeps its own route id through Spot and
+    // back, so it never collapses to the pilot route.
+    expect(routeContextSearch('?from=my&routeId=ome-sake-journey')).toBe(
+      '?from=my&routeId=ome-sake-journey',
+    );
+    expect(spotBackHref('?from=my&routeId=ome-sake-journey')).toBe(
+      '/route?from=my&routeId=ome-sake-journey',
+    );
+  });
+
   it('falls back to the demo journey for a candidate not in the configured data', () => {
     // A candidate that is not part of the configured candidate data resolves to
     // the frozen demo journey instead of inventing a destination. Resolving a

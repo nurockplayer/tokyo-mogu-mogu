@@ -8,11 +8,15 @@
  * (candidate id, the same id persisted in MOGU Recent) and the concrete
  * food-culture / model-route ids that the Story and Route screens render.
  *
- * Unknown or absent identities resolve to the frozen demo journey as a safe
- * default: Discover's direct links and legacy pre-#123 history carry no
- * candidate id, and both must keep opening the 奥多摩 × 東京わさび golden path.
- * A candidate id that no longer resolves fails safe to the same default rather
- * than inventing content.
+ * Resolution rules:
+ * - A known candidate keeps its own `foodCultureId` even when it has no
+ *   `journeyId`: the Story exists for the culture, and the missing Route is
+ *   represented explicitly (absent `journeyId`), never substituted with the
+ *   pilot journey.
+ * - Only missing / unknown / legacy identities (no candidate id at all, or a
+ *   candidate id that no longer resolves) fall back to the frozen demo
+ *   journey — the 8/23 golden path for Discover's direct links and pre-#123
+ *   history.
  *
  * The candidate list is caller-supplied (defaulting to the configured demo
  * list), so a future verified Region × FoodCulture resolves through data/config
@@ -28,16 +32,20 @@ export interface JourneyIdentity {
   candidateId?: string;
   /** The food-culture id the Story screen reads. */
   foodCultureId: string;
-  /** The model-route id the Route screen renders. */
-  journeyId: string;
+  /**
+   * The model-route id the Route screen renders. Absent when the candidate is
+   * known but has no Route yet — the missing Route is explicit, never the
+   * pilot journey.
+   */
+  journeyId?: string;
 }
 
 /**
  * Resolve the canonical journey identity from a candidate id.
  *
- * Candidate identity comes from the configured candidate data. The frozen
- * pilot journey is the fallback for missing / unknown identities, so legacy
- * and direct-entry flows keep the deterministic demo behavior.
+ * Candidate identity comes from the configured candidate data. A known
+ * candidate always keeps its culture identity; only missing / unknown / legacy
+ * identities fall back to the frozen demo journey.
  */
 export function resolveJourneyIdentity(
   candidateId: string | null | undefined,
@@ -45,11 +53,11 @@ export function resolveJourneyIdentity(
 ): JourneyIdentity {
   if (candidateId) {
     const candidate = candidates.find((item) => item.id === candidateId);
-    if (candidate?.foodCultureId && candidate.journeyId) {
+    if (candidate?.foodCultureId) {
       return {
         candidateId,
         foodCultureId: candidate.foodCultureId,
-        journeyId: candidate.journeyId,
+        ...(candidate.journeyId ? { journeyId: candidate.journeyId } : {}),
       };
     }
   }
@@ -57,4 +65,19 @@ export function resolveJourneyIdentity(
     foodCultureId: PILOT_JOURNEY.foodCultureId,
     journeyId: PILOT_JOURNEY.routeId,
   };
+}
+
+/**
+ * Resolve the route id the Route screen should render from its URL context.
+ *
+ * An explicit `?routeId=` (a saved-route reopen from My) is authoritative and
+ * is never substituted: an unknown/stale route id resolves to itself so the
+ * Route screen renders its honest not-found state rather than the pilot route.
+ * Otherwise the route comes from the candidate journey identity.
+ */
+export function resolveRouteId(search: string): string | undefined {
+  const params = new URLSearchParams(search);
+  const explicitRouteId = params.get('routeId');
+  if (explicitRouteId) return explicitRouteId;
+  return resolveJourneyIdentity(params.get('candidateId')).journeyId;
 }

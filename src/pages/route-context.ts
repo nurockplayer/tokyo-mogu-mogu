@@ -14,8 +14,10 @@ export function routeBackTarget(search: string): RouteBackTarget {
 
 /**
  * A sanitized query string safe to forward from Route to Spot and back. The
- * caller `from` context, the Story's own back target, and the selected
- * candidate id (#123) survive; everything else is dropped.
+ * caller `from` context, the Story's own back target, and the selected route /
+ * candidate identity (#123) survive; everything else is dropped. The route id
+ * must survive the Route ↔ Spot round-trip so a saved route reopened from My
+ * does not collapse back to the pilot route.
  */
 export function routeContextSearch(search: string): string {
   const source = new URLSearchParams(search);
@@ -27,6 +29,8 @@ export function routeContextSearch(search: string): string {
     const backTo = source.get('backTo');
     params.set('backTo', backTo && STORY_BACK_TARGETS.has(backTo) ? backTo : '/explore/result');
   }
+  const routeId = source.get('routeId');
+  if (routeId) params.set('routeId', routeId);
   const candidateId = source.get('candidateId');
   if (candidateId) params.set('candidateId', candidateId);
   return `?${params.toString()}`;

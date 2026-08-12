@@ -89,7 +89,10 @@ export function MyRoutePage() {
                   <span>{t('s8Area')}: {t('s8AreaOkutama')}</span>
                 </div>
                 <div className="s8-card__actions">
-                  <Link to="/route" className="tmm-btn tmm-btn--sm tmm-btn--secondary">
+                  <Link
+                    to={`/route?routeId=${encodeURIComponent(entry.routeId)}`}
+                    className="tmm-btn tmm-btn--sm tmm-btn--secondary"
+                  >
                     {t('s8OpenRoute')}
                   </Link>
                   <button

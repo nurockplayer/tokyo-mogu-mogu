@@ -7,9 +7,9 @@
  * wasabi fallback text. These tests lock availability and locale completeness.
  */
 import { describe, expect, it } from 'vitest';
-import { storyContent, STORY_DATA_KEYS } from './data-content';
+import { routeAdvisoryKeys, storyContent, STORY_DATA_KEYS } from './data-content';
 import { resolveKey } from './fallback';
-import { strings } from './resources';
+import { strings, type LocaleKey } from './resources';
 import { PILOT_JOURNEY } from '../data/pilot-journey';
 
 describe('S4 story content availability (#123)', () => {
@@ -34,14 +34,37 @@ describe('S4 story content availability (#123)', () => {
       const entry = STORY_DATA_KEYS[id];
       expect(entry, `culture ${id}`).toBeDefined();
       for (const [field, key] of Object.entries(entry)) {
-        expect(key, `culture ${id} field ${field}`).toBeTypeOf('string');
+        if (field === 'municipalityId') continue; // non-i18n story data
+        const localeKey = key as LocaleKey;
+        expect(localeKey, `culture ${id} field ${field}`).toBeTypeOf('string');
         for (const locale of locales) {
-          const value = resolveKey(strings, locale, key);
-          expect(value.startsWith('missing:'), `${locale} ${key}`).toBe(false);
-          expect(value.length, `${locale} ${key}`).toBeGreaterThan(0);
+          const value = resolveKey(strings, locale, localeKey);
+          expect(value.startsWith('missing:'), `${locale} ${localeKey}`).toBe(false);
+          expect(value.length, `${locale} ${localeKey}`).toBeGreaterThan(0);
         }
       }
     }
+  });
+
+  it('scopes municipality census evidence to the story that owns it', () => {
+    // The Okutama story carries its municipality context; a future Ome/Hachioji
+    // story must never inherit it.
+    expect(storyContent('wasabi-okutama')?.municipalityId).toBe('133086');
+    for (const [id, entry] of Object.entries(STORY_DATA_KEYS)) {
+      if (id !== 'wasabi-okutama') {
+        expect(entry.municipalityId, `culture ${id}`).toBeUndefined();
+      }
+    }
+  });
+
+  it('keeps route advisory copy route-specific (#83)', () => {
+    expect(routeAdvisoryKeys('okutama-wasabi-journey')).toEqual({
+      advisory: 's5CrowdingAdvisory',
+      source: 's5CrowdingSource',
+    });
+    // A future non-Okutama route has no advisory → renders honest none, never
+    // the Okutama field observation.
+    expect(routeAdvisoryKeys('ome-sake-journey')).toBeUndefined();
   });
 
   it('keeps the story key set structurally equivalent across locales', () => {

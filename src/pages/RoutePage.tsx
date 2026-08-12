@@ -29,7 +29,7 @@ import {
   getRouteById,
   places,
   projectRoutePins,
-  resolveJourneyIdentity,
+  resolveRouteId,
 } from '../data';
 import type { RouteDuration } from '../data';
 import { useI18n, type Locale } from '../i18n';
@@ -38,6 +38,7 @@ import {
   placeNameKey,
   stepRoleKey,
   mobilityLabelKey,
+  routeAdvisoryKeys,
 } from '../i18n/data-content';
 import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
 import { routeBackHref, routeBackTarget, routeContextSearch } from './route-context';
@@ -59,20 +60,19 @@ function formatTotalMinutes(total: number, locale: Locale): string {
 export function RoutePage() {
   const { locale, t } = useI18n();
   const location = useLocation();
-  // The journey comes from the recorded candidate id (#123) when Story/MOGU
-  // forwarded one; Discover / direct entry falls back to the demo journey.
-  // This keeps Route on the selected candidate's route instead of always
-  // resolving the pilot route.
-  const identity = useMemo(
-    () => resolveJourneyIdentity(new URLSearchParams(location.search).get('candidateId')),
-    [location.search],
-  );
-  const route = useMemo(() => getRouteById(identity.journeyId), [identity.journeyId]);
+  // The route comes from the URL context. An explicit `?routeId=` (a
+  // saved-route reopen from My) is authoritative and never substituted — an
+  // unknown/stale id resolves to itself so this screen shows its honest
+  // not-found state instead of the pilot route. Otherwise a forwarded
+  // candidate id resolves its journey; Discover / direct entry falls back to
+  // the demo journey.
+  const routeId = useMemo(() => resolveRouteId(location.search), [location.search]);
+  const route = useMemo(() => getRouteById(routeId ?? ''), [routeId]);
 
   const [duration, setDuration] = useState<RouteDuration>(
     route?.defaultDuration ?? 'half-day',
   );
-  const [saved, setSaved] = useState<boolean>(() => isRouteSaved(identity.journeyId));
+  const [saved, setSaved] = useState<boolean>(() => (routeId ? isRouteSaved(routeId) : false));
   const [toast, setToast] = useState<null | { message: string; saved: boolean }>(null);
 
   if (!route) {
@@ -95,6 +95,15 @@ export function RoutePage() {
   const variant = route.variants[duration];
   const pins = projectRoutePins(variant.steps, places);
 
+  // Route-specific transport guidance (the route's own {Ja,En} data), not a
+  // shared Okutama assumption.
+  const transport = locale === 'ja' ? variant.transportJa : variant.transportEn || variant.transportJa;
+
+  // Route-specific advisory/observation copy. Only the demo route carries one
+  // today; any other route renders no advisory rather than Okutama's hedged
+  // field note (honest unknown).
+  const advisory = routeAdvisoryKeys(route.id);
+
   // Preserve the caller through every Route → Spot link. The helper allowlists
   // origins and the Story's own back target before forwarding them.
   const originQuery = routeContextSearch(location.search);
@@ -105,12 +114,13 @@ export function RoutePage() {
   };
 
   const handleSave = () => {
+    if (!routeId) return;
     if (saved) {
-      unsaveRoute(identity.journeyId);
+      unsaveRoute(routeId);
       setSaved(false);
       setToast({ message: t('s5UnsavedToast'), saved: false });
     } else {
-      saveRoute(identity.journeyId);
+      saveRoute(routeId);
       setSaved(true);
       setToast({ message: t('s5SavedToast'), saved: true });
     }
@@ -135,7 +145,7 @@ export function RoutePage() {
             {t(duration === 'half-day' ? 's5DurationHalfDay' : 's5DurationFullDay')}
           </span>
           <span className="s5-hero__meta-item">
-            🚌 {t('dataRouteTransport')}
+            🚌 {transport}
           </span>
           <span className="s5-hero__meta-item">
             ⏱ {formatTotalMinutes(variant.totalMinutes, locale)}
@@ -143,12 +153,15 @@ export function RoutePage() {
         </div>
       </div>
 
-      {/* Weekend-morning crowding advisory (#83) — hedged field observation,
-          never stated as a verified fact or realtime data. */}
-      <section className="s5-crowding" aria-label={t('s5CrowdingAdvisory')}>
-        <Tag tone="warning">{t('s5CrowdingAdvisory')}</Tag>
-        <p className="s5-crowding__source">{t('s5CrowdingSource')}</p>
-      </section>
+      {/* Route-specific crowding advisory (#83) — hedged field observation,
+          never stated as a verified fact or realtime data. Only routes that
+          actually carry the observation render it. */}
+      {advisory ? (
+        <section className="s5-crowding" aria-label={t(advisory.advisory)}>
+          <Tag tone="warning">{t(advisory.advisory)}</Tag>
+          <p className="s5-crowding__source">{t(advisory.source)}</p>
+        </section>
+      ) : null}
 
       {/* Half-day ⇄ 1-day switch */}
       <div className="s5-duration-switch" role="group" aria-label={t('s5SwitchLabel')}>

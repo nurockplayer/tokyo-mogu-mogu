@@ -50,7 +50,6 @@ import {
   getMunicipalityAgricultureById,
   MUNICIPALITY_INDICATOR_KEYS,
   municipalityIndicatorValue,
-  OKUTAMA_MUNICIPALITY_ID,
   resolveJourneyIdentity,
 } from '../data';
 import { FoodCultureImage } from '../components/FoodCultureImage';
@@ -129,13 +128,19 @@ export function StoryPage() {
     );
   }
 
-  // Issue #128: source-backed municipality agriculture context. This is shown
+  // Issue #128: municipality agriculture context, resolved only for the story
+  // that owns it (via the story's data/config `municipalityId`). This is shown
   // as separate municipal context with an explicit non-succession limitation;
   // when missing/suppressed the section falls back to the editorial text alone
-  // (no fabricated statistic).
-  const okutamaAgri = getMunicipalityAgricultureById(OKUTAMA_MUNICIPALITY_ID);
-  const okutamaAgriEntities = okutamaAgri
-    ? municipalityIndicatorValue(okutamaAgri, MUNICIPALITY_INDICATOR_KEYS.agriculturalEntities)
+  // (no fabricated statistic, and never another municipality's census).
+  const municipalityAgri = content.municipalityId
+    ? getMunicipalityAgricultureById(content.municipalityId)
+    : undefined;
+  const municipalityEntities = municipalityAgri
+    ? municipalityIndicatorValue(
+        municipalityAgri,
+        MUNICIPALITY_INDICATOR_KEYS.agriculturalEntities,
+      )
     : undefined;
 
   const heroName = t(content.name);
@@ -240,11 +245,12 @@ export function StoryPage() {
           <p className="s4-note s4-note--editorial">{t('s4EditorialNote')}</p>
           {/* Issue #128: municipality census context shown as a separate
               reference note — after the editorial note, never as evidence for
-              the succession claim above. Rendered only when the indicator is
-              available; suppressed/missing falls back to editorial only. */}
-          {okutamaAgriEntities !== undefined ? (
+              the succession claim above. Rendered only when the story's own
+              municipality indicator is available; suppressed/missing falls
+              back to editorial only. */}
+          {municipalityEntities !== undefined ? (
             <p className="s4-note s4-note--editorial">
-              {format(t('dataStoryChallengeEvidence'), { n: okutamaAgriEntities })}
+              {format(t('dataStoryChallengeEvidence'), { n: municipalityEntities })}
             </p>
           ) : null}
         </StorySection>
@@ -265,12 +271,18 @@ export function StoryPage() {
         <SupportPanel routeId={identity.journeyId} />
       </div>
 
-      {/* Section 7 — CTA to S5 route */}
+      {/* Section 7 — CTA to S5 route (only when the story's candidate has a
+          journey; a culture without a Route renders no route CTA rather than
+          attaching the pilot journey). */}
       <footer className="s4-cta">
-        <Link to={routeHref} className="tmm-btn tmm-btn--primary tmm-btn--block">
-          {t('s4CtaLabel')}
-        </Link>
-        <p className="s4-cta__sub">{t('s4CtaSub')}</p>
+        {identity.journeyId ? (
+          <>
+            <Link to={routeHref} className="tmm-btn tmm-btn--primary tmm-btn--block">
+              {t('s4CtaLabel')}
+            </Link>
+            <p className="s4-cta__sub">{t('s4CtaSub')}</p>
+          </>
+        ) : null}
         <Link to={backTo} className="s4-cta__back">{t('s4BackToResult')}</Link>
       </footer>
 
@@ -299,23 +311,23 @@ export function StoryPage() {
               })()}
             </li>
           ))}
-          {/* Issue #128: when the municipality census context is shown, surface
-              its own provenance (e-Stat dataset / retrieval date / status). */}
-          {okutamaAgri ? (
+          {/* Issue #128: when the story's own municipality census context is
+              shown, surface its provenance (e-Stat dataset / date / status). */}
+          {municipalityAgri ? (
             <li key="municipality-census" className="s4-sources__item">
-              <span className="s4-sources__name">{okutamaAgri.source.name}</span>
-              {okutamaAgri.source.url ? (
-                <a href={okutamaAgri.source.url} target="_blank" rel="noreferrer" className="s4-sources__link">
+              <span className="s4-sources__name">{municipalityAgri.source.name}</span>
+              {municipalityAgri.source.url ? (
+                <a href={municipalityAgri.source.url} target="_blank" rel="noreferrer" className="s4-sources__link">
                   {t('sourceLink')}
                 </a>
               ) : null}
               <Tag tone="warning">
                 {t(CENSUS_STATUS_LABEL[
-                  deriveVerificationStatus(okutamaAgri.source, okutamaAgri.origin)
+                  deriveVerificationStatus(municipalityAgri.source, municipalityAgri.origin)
                 ])}
               </Tag>
               {(() => {
-                const meta = sourceDateLabel(okutamaAgri.source, okutamaAgri.origin);
+                const meta = sourceDateLabel(municipalityAgri.source, municipalityAgri.origin);
                 return meta ? (
                   <span className="s4-sources__meta">
                     {t(meta.label)}: {meta.date}
@@ -327,12 +339,14 @@ export function StoryPage() {
         </ul>
       </details>
 
-      {/* Mobile sticky/following CTA — does not conflict with the approved editorial layout */}
-      <div className="s4-sticky-cta">
-        <Link to={routeHref} className="tmm-btn tmm-btn--orange tmm-btn--block">
-          {t('s4StickyCta')}
-        </Link>
-      </div>
+      {/* Mobile sticky/following CTA — only when the candidate has a journey. */}
+      {identity.journeyId ? (
+        <div className="s4-sticky-cta">
+          <Link to={routeHref} className="tmm-btn tmm-btn--orange tmm-btn--block">
+            {t('s4StickyCta')}
+          </Link>
+        </div>
+      ) : null}
     </article>
   );
 }

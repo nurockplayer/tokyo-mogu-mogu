@@ -9,7 +9,7 @@
  */
 import { describe, expect, it } from 'vitest';
 import type { RecommendationCandidate } from '../lib/recommendation';
-import { resolveJourneyIdentity } from './journey';
+import { resolveJourneyIdentity, resolveRouteId } from './journey';
 import { PILOT_JOURNEY } from './pilot-journey';
 import { DEMO_RECOMMENDATION_CANDIDATE_ID } from './demo-recommendation';
 
@@ -66,13 +66,39 @@ describe('selected journey identity (#123)', () => {
     });
   });
 
-  it('fails safe to the demo journey when a candidate has no journey yet', () => {
-    // A candidate may be production-ready without a Route; no journey is
-    // invented and the demo journey stays the safe navigation default.
+  it('keeps a known candidate that has no journey its own culture identity', () => {
+    // A candidate may be production-ready without a Route. The missing Route is
+    // represented explicitly (absent journeyId) — the culture identity is
+    // preserved and the pilot journey is never attached.
     const noJourney = { ...FUTURE_CANDIDATE, id: 'culture-only', journeyId: undefined };
     expect(resolveJourneyIdentity('culture-only', [noJourney])).toEqual({
-      foodCultureId: PILOT_JOURNEY.foodCultureId,
-      journeyId: PILOT_JOURNEY.routeId,
+      candidateId: 'culture-only',
+      foodCultureId: 'sake-ome',
     });
+    expect(resolveJourneyIdentity('culture-only', [noJourney]).journeyId).toBeUndefined();
+  });
+});
+
+describe('route resolution from URL context (#123)', () => {
+  it('uses an explicit saved-route id from My without substituting it', () => {
+    // A saved route reopened from My carries its own route id; even an unknown
+    // id resolves to itself so the Route screen shows its honest not-found
+    // state rather than the pilot route.
+    expect(resolveRouteId('?routeId=ome-sake-journey')).toBe('ome-sake-journey');
+    expect(resolveRouteId('?from=my&routeId=stale-route')).toBe('stale-route');
+  });
+
+  it('resolves the demo journey for the configured demo candidate', () => {
+    expect(resolveRouteId(`?candidateId=${DEMO_RECOMMENDATION_CANDIDATE_ID}`)).toBe(
+      PILOT_JOURNEY.routeId,
+    );
+  });
+
+  it('falls back to the demo journey when no route or candidate identity is carried', () => {
+    expect(resolveRouteId('')).toBe(PILOT_JOURNEY.routeId);
+    expect(resolveRouteId('?from=discover')).toBe(PILOT_JOURNEY.routeId);
+    // A candidate id that is not in the configured list is a legacy/unknown
+    // identity → demo default (route-less candidates are covered above).
+    expect(resolveRouteId('?candidateId=culture-only')).toBe(PILOT_JOURNEY.routeId);
   });
 });

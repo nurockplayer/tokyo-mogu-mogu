@@ -165,10 +165,26 @@ export interface StoryContentKeys {
   howToEnjoy: LocaleKey;
   challenge: LocaleKey;
   support: LocaleKey;
+  /**
+   * Municipality-agriculture context id shown on this story, when one exists
+   * (Issue #128). Absent for any culture whose Story has no municipality
+   * evidence — a future Ome/Hachioji Story must never show Okutama census.
+   */
+  municipalityId?: string;
 }
 
+/**
+ * Okutama's six-digit 全国地方公共団体コード. Kept in sync with
+ * `OKUTAMA_MUNICIPALITY_ID` in `src/data/municipality-agriculture.ts` (the
+ * repo's canonical id for the Okutama municipality profile).
+ */
+const OKUTAMA_MUNICIPALITY_CODE = '133086';
+
 /** The 8/23 demo supplies full story content for 東京わさび only. */
-export const STORY_DATA_KEYS: Record<string, Partial<Record<StoryField, LocaleKey>>> = {
+export const STORY_DATA_KEYS: Record<
+  string,
+  Partial<Record<StoryField, LocaleKey>> & { municipalityId?: string }
+> = {
   'wasabi-okutama': {
     name: 'dataWasabiName',
     lead: 'dataStoryLead',
@@ -182,6 +198,7 @@ export const STORY_DATA_KEYS: Record<string, Partial<Record<StoryField, LocaleKe
     howToEnjoy: 'dataWasabiHowToEnjoy',
     challenge: 'dataStoryChallenge',
     support: 'dataStorySupport',
+    municipalityId: OKUTAMA_MUNICIPALITY_CODE,
   },
 };
 
@@ -215,5 +232,23 @@ export function storyContent(id: string): StoryContentKeys | undefined {
     if (!key) return undefined;
     keys[field] = key;
   }
+  if (entry.municipalityId) keys.municipalityId = entry.municipalityId;
   return keys as StoryContentKeys;
+}
+
+/**
+ * Route-specific advisory/observation copy, keyed by route id (Issue #83).
+ * Only the demo route carries a weekend-morning crowding observation today;
+ * any other route renders no advisory rather than Okutama's hedged field note.
+ */
+export const ROUTE_ADVISORY_KEYS: Record<
+  string,
+  { advisory: LocaleKey; source: LocaleKey }
+> = {
+  'okutama-wasabi-journey': { advisory: 's5CrowdingAdvisory', source: 's5CrowdingSource' },
+};
+
+/** Resolve a route's advisory copy keys, or `undefined` when it has none. */
+export function routeAdvisoryKeys(routeId: string): { advisory: LocaleKey; source: LocaleKey } | undefined {
+  return ROUTE_ADVISORY_KEYS[routeId];
 }
