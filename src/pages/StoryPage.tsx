@@ -37,7 +37,14 @@
  * silently creates Saved Route state (the route page owns saving).
  */
 import { Link, useParams, useSearchParams } from 'react-router-dom';
-import { getFoodCultureById, PILOT_JOURNEY } from '../data';
+import {
+  getFoodCultureById,
+  getMunicipalityAgricultureById,
+  MUNICIPALITY_INDICATOR_KEYS,
+  municipalityIndicatorValue,
+  OKUTAMA_MUNICIPALITY_ID,
+  PILOT_JOURNEY,
+} from '../data';
 import { FoodCultureImage } from '../components/FoodCultureImage';
 import { SupportPanel } from '../components/SupportPanel';
 import { Card, StorySection, Tag } from '../ui';
@@ -104,6 +111,14 @@ export function StoryPage() {
   }
 
   const heroName = t(foodCultureKey(STORY_ID, 'name') ?? 'dataWasabiName');
+  // Issue #128: source-backed municipality agriculture context. The challenge
+  // sentence gains one concrete, traceable census figure when the Okutama
+  // profile is available; when missing/suppressed the section falls back to
+  // the editorial text alone (no fabricated statistic).
+  const okutamaAgri = getMunicipalityAgricultureById(OKUTAMA_MUNICIPALITY_ID);
+  const okutamaAgriEntities = okutamaAgri
+    ? municipalityIndicatorValue(okutamaAgri, MUNICIPALITY_INDICATOR_KEYS.agriculturalEntities)
+    : undefined;
   const lead = t('dataStoryLead');
   const areaName = t('areaOkutama');
   const fcKey = (field: 'history' | 'story' | 'maker' | 'howToEnjoy') =>
@@ -203,6 +218,9 @@ export function StoryPage() {
         {/* Section 5 — The challenge today (never ends on pessimism) */}
         <StorySection number={4} kicker={t('s4KickerChallenge')} title={t('s4TitleChallenge')}>
           <p className="s4-p">{t('dataStoryChallenge')}</p>
+          {okutamaAgriEntities !== undefined ? (
+            <p className="s4-p">{format(t('dataStoryChallengeEvidence'), { n: okutamaAgriEntities })}</p>
+          ) : null}
           <p className="s4-note s4-note--editorial">{t('s4EditorialNote')}</p>
         </StorySection>
 

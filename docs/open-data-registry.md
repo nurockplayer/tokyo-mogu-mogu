@@ -96,7 +96,7 @@ Based on the Issue #19 draft table, with the **verified** status per this repo
 | 奥多摩町 公衆（観光）トイレ一覧 | 奥多摩町 | Route/Spot practical UX | P2 | Candidate — unverified in repo | — |
 | だれでも東京 | 東京都 | Spot / future-region accessibility | P2 | Candidate — unverified in repo | — |
 | 東京都内の飲食店バリアフリー情報 | 東京都 | Spot / future-region accessibility | P2 | Candidate — unverified in repo | — |
-| 農林業センサス / 市町村の姿 | 国 / 自治体 | Regional producer / succession context | P3 | Candidate — unverified in repo | — |
+| 農林業センサス 市町村別統計表（2020年, 東京都分） | 農林水産省 / e-Stat | Regional producer / succession context | P3 | Integrated (#128 — `src/data/municipality-agriculture.ts`) | #128 |
 
 > **Verified-in-repo rows carry an evidence file** in §3.2. Candidate rows that
 > are not backed by a repo artifact are marked `unverified`; their Source URL /
@@ -219,12 +219,28 @@ verified open data:
 - **だれでも東京** (東京都) — Spot / future-region accessibility (P2).
 - **東京都内の飲食店バリアフリー情報** (東京都) — Spot / future-region
   accessibility (P2).
-- **農林業センサス / 市町村の姿** (国 / 自治体) — regional producer / succession
-  context (P3).
 
 > A candidate becomes `Available` only after a repo doc records its real source
 > URL, license, format, and retrieval date. Until then it is explicitly
 > `unverified`.
+
+#### 3.2.x 農林業センサス 市町村別統計表（2020年, 東京都分）— integrated (#128)
+
+- **Dataset**: 農林水産省「2020年農林業センサス 市町村別統計表」（都道府県別、
+  東京都分は 62 市町村）。Survey base date **2020-02-01**。2025 census 確報
+  （2026-08-07 公表）は全国／都道府県級のみで、市町村級は retrieval
+  （2026-08-12）時点で未公表 → 2020 が現行唯一の公式市町村級結果。
+- **License**: 政府標準利用規約（第2.0版）準拠・出典表示が必要（e-Stat）。
+- **Evidence file**: `src/data/municipality-agriculture.ts`（reusable
+  municipality-generic profile + 奥多摩町 demo/evidence record）。
+  数値は同 2020 census を編纂する 西多摩地域統計年鑑（西多摩地域広域行政圏
+  協議会, 2021, PDF）で照合。
+- **Verified Okutama values**: 農業経営体数 1（経営耕地面積規模別の計）、
+  経営耕地面積は統計法開示制限により非公表（x）、林家数 192戸・保有山林面積
+  1,946ha。
+- **Interpretation boundary**: 市町村単位の集計であり、個別生産者・わさび農家
+  の状態や後継者の有無を推測できない。2020年時点のデータであり現在状況では
+  ない。奥多摩単独の evidence を東京全体へ一般化しない。
 
 ### 3.3 Additional traceable sources currently wired into the demo (not open data)
 
