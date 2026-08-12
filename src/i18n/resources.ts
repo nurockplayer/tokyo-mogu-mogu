@@ -422,7 +422,7 @@ export const strings = {
     dataStoryChallenge:
       '渓流沿いのわさび田は、山の地形と水に寄り添う小規模な営みです。こうした産業では、後継者や担い手の減少が共通の課題になっています。そのため、食べること、買うこと、訪ねること——そのひとつひとつが、作り手の営みを支えることにつながります。',
     dataStoryChallengeEvidence:
-      '2020年農林業センサスによると、奥多摩町の農業経営体はわずか{n}経営体で、経営耕地面積は統計の開示制限により公表されていません。',
+      '地域全体の参考情報として、2020年農林業センサスでは奥多摩町の農業経営体は{n}経営体です。これは農業全体の市町村集計で、わさび農家や後継者の状況を示すものではなく、現在の状況でもありません。',
     dataStorySupport:
       'あなたが味わうこと自体が、このわさびの次の世代を支えることになります。ぜひ、食べて、買って、そして奥多摩へ。',
     dataRouteName: '奥多摩わさび紀行',
@@ -874,7 +874,7 @@ export const strings = {
     dataStoryChallenge:
       'Stream-side wasabi paddies are a small, gentle craft that follows the mountain\'s shape and water. Like many such industries, passing the work on to the next generation is a common challenge. That is why eating it, buying it, and visiting it — each single act helps keep the growers\' work alive.',
     dataStoryChallengeEvidence:
-      'The 2020 Agriculture and Forestry Census counts {n} agricultural management entity in all of Okutama Town. Cultivated land area is withheld under statistical disclosure rules.',
+      'For separate municipal context, the 2020 Agriculture and Forestry Census counts {n} agricultural management entity across all agriculture in Okutama Town. This does not identify wasabi farms or succession status, and is not a current figure.',
     dataStorySupport:
       'Your tasting alone helps carry this wasabi to the next generation. Eat it, buy it — and visit Okutama.',
     dataRouteName: 'Okutama Wasabi Journey',
@@ -1330,7 +1330,7 @@ export const strings = {
     dataStoryChallenge:
       '溪流畔的山葵田，是依循山勢與水源展開的小規模農事。這樣的行業，普遍面臨後繼者與人手減少的課題。正因如此，每一次品嚐、每一次購買、每一次到訪——都會成為支持生產者繼續耕耘的力量。',
     dataStoryChallengeEvidence:
-      '根據2020年農林業センサス，奧多摩町的農業經營體僅有{n}個，耕地面積因統計揭露限制而未公布。',
+      '另提供全町背景資料：根據2020年農林業センサス，奧多摩町所有農業共有{n}個農業經營體。這是全體農業的市町村彙總，無法說明山葵農家或接班狀況，也不是現況資料。',
     dataStorySupport:
       '你的每一次品嚐，都在支撐山葵的下一個世代。歡迎你來品嚐、購買，親自造訪奧多摩。',
     dataRouteName: '奧多摩山葵紀行',

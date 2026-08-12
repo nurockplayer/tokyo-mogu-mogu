@@ -111,10 +111,10 @@ export function StoryPage() {
   }
 
   const heroName = t(foodCultureKey(STORY_ID, 'name') ?? 'dataWasabiName');
-  // Issue #128: source-backed municipality agriculture context. The challenge
-  // sentence gains one concrete, traceable census figure when the Okutama
-  // profile is available; when missing/suppressed the section falls back to
-  // the editorial text alone (no fabricated statistic).
+  // Issue #128: source-backed municipality agriculture context. This is shown
+  // as separate municipal context with an explicit non-succession limitation;
+  // when missing/suppressed the section falls back to the editorial text alone
+  // (no fabricated statistic).
   const okutamaAgri = getMunicipalityAgricultureById(OKUTAMA_MUNICIPALITY_ID);
   const okutamaAgriEntities = okutamaAgri
     ? municipalityIndicatorValue(okutamaAgri, MUNICIPALITY_INDICATOR_KEYS.agriculturalEntities)
