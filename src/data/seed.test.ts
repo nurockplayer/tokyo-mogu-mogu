@@ -91,6 +91,31 @@ describe('seed data contract (#2)', () => {
     expect(getRelatedFoodCultures(firstPlace!)).toContain(wasabi);
   });
 
+  it('keeps every Place ↔ FoodCulture relationship symmetric (#127)', () => {
+    // Shared consumers traverse from FoodCulture.placeIds (FoodCulturePage,
+    // map) AND from Place.foodCultureIds (SpotPage, check-in). A one-way link
+    // makes one side invisible, so every pair must agree:
+    //   place.foodCultureIds includes culture.id  ⟺  culture.placeIds includes place.id
+    // The canonical seed is intentionally fully symmetric, including the
+    // retained demo fixtures (okutama-soba-shop ↔ okutama-soba etc.). Any
+    // future intentional asymmetric demo fixture must be documented at its
+    // definition site rather than silently accepted here.
+    for (const fc of foodCultures) {
+      for (const placeId of fc.placeIds) {
+        const place = getPlaceById(placeId);
+        expect(place, `${fc.id} → missing place ${placeId}`).toBeDefined();
+        expect(place!.foodCultureIds, `${fc.id} → ${placeId} missing back-ref`).toContain(fc.id);
+      }
+    }
+    for (const place of places) {
+      for (const fcId of place.foodCultureIds) {
+        const fc = getFoodCultureById(fcId);
+        expect(fc, `${place.id} → missing culture ${fcId}`).toBeDefined();
+        expect(fc!.placeIds, `${place.id} → ${fcId} missing back-ref`).toContain(place.id);
+      }
+    }
+  });
+
   it('every source timestamp is a parseable ISO date (#129)', () => {
     const dates: string[] = [];
     for (const fc of foodCultures) {

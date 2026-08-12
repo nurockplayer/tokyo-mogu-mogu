@@ -201,7 +201,11 @@ export const FOOD_CULTURES: FoodCulture[] = [
     image: 'okutama-soba',
     hintJa: '奥多摩駅前から続くそば屋を探そう。',
     hintEn: 'Find the soba shops near Okutama Station.',
-    placeIds: ['okutama-soba-shop'],
+    // okutama-soba-shop is the pre-existing demo fixture (kept for its off-path
+    // consumers); soba-isshintei is the source-backed real soba restaurant on
+    // the frozen journey. Both keep the Place ↔ FoodCulture relationship
+    // symmetric (Issue #127).
+    placeIds: ['okutama-soba-shop', 'soba-isshintei'],
     unlockMethod: 'location-checkin',
     sources: [
       {

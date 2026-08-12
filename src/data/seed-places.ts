@@ -210,7 +210,10 @@ export const PLACES: Place[] = [
     address: '東京都西多摩郡奥多摩町氷川（奥多摩駅前）',
     latitude: 35.8095,
     longitude: 139.0994,
-    foodCultureIds: ['okutama-konnyaku', 'okutama-soba'],
+    // Demo fixture for the konnyaku culture (off the frozen journey). The soba
+    // back-ref was tied to the old wasabi journey's step 4 and is no longer
+    // reciprocal, so it was removed to keep Place ↔ FoodCulture symmetric.
+    foodCultureIds: ['okutama-konnyaku'],
     type: 'shop',
     source: {
       name: '奥多摩観光協会',
