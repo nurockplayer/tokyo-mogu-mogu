@@ -1,6 +1,6 @@
 # Explainable Recommendation Contract / 説明可能な推薦契約
 
-Status: **Current durable recommendation contract**  
+Status: **Current durable recommendation contract**
 Decision / implementation: Issue #123
 
 ## Scope invariant / 対象範囲
