@@ -218,10 +218,16 @@ export function StoryPage() {
         {/* Section 5 — The challenge today (never ends on pessimism) */}
         <StorySection number={4} kicker={t('s4KickerChallenge')} title={t('s4TitleChallenge')}>
           <p className="s4-p">{t('dataStoryChallenge')}</p>
-          {okutamaAgriEntities !== undefined ? (
-            <p className="s4-p">{format(t('dataStoryChallengeEvidence'), { n: okutamaAgriEntities })}</p>
-          ) : null}
           <p className="s4-note s4-note--editorial">{t('s4EditorialNote')}</p>
+          {/* Issue #128: municipality census context shown as a separate
+              reference note — after the editorial note, never as evidence for
+              the succession claim above. Rendered only when the indicator is
+              available; suppressed/missing falls back to editorial only. */}
+          {okutamaAgriEntities !== undefined ? (
+            <p className="s4-note s4-note--editorial">
+              {format(t('dataStoryChallengeEvidence'), { n: okutamaAgriEntities })}
+            </p>
+          ) : null}
         </StorySection>
 
         {/* Section 6 — Tasting is passing it on */}

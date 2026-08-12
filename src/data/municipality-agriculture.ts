@@ -8,11 +8,12 @@
  * Wasabi is the 2026-08-23 demo golden path only, not the Product domain).
  *
  * Data source: 農林水産省「2020年農林業センサス 市町村別統計表」, survey base date
- * 2020-02-01. This is currently the ONLY official municipality-level
- * agriculture census available: the 2025 census 確報 (published 2026-08-07)
- * is national/prefecture-level only — no municipality-level data was released
- * as of retrieval (2026-08-12). Per-municipality values below were verified
- * against the 西多摩地域統計年鑑 (西多摩地域広域行政圏協議会, 2021, PDF), which
+ * 2020-02-01. As of retrieval (2026-08-12), the published 2025 Census result set
+ * did not provide the municipality-level agricultural-management-entity indicator
+ * required by Issue #128 (the 2025 Census includes some municipality-level outputs,
+ * e.g. forest area, but not this indicator), so the 2020 municipality table
+ * remains the usable source for this indicator. Per-municipality values below were
+ * verified against the 西多摩地域統計年鑑 (西多摩地域広域行政圏協議会, 2021, PDF), which
  * compiles the same 2020 census tables for the western-Tama municipalities;
  * the PDF explicitly cites 農林水産省「2020年 農林業センサス」as its source.
  *

@@ -227,9 +227,10 @@ verified open data:
 #### 3.2.x 農林業センサス 市町村別統計表（2020年, 東京都分）— integrated (#128)
 
 - **Dataset**: 農林水産省「2020年農林業センサス 市町村別統計表」（都道府県別、
-  東京都分は 62 市町村）。Survey base date **2020-02-01**。2025 census 確報
-  （2026-08-07 公表）は全国／都道府県級のみで、市町村級は retrieval
-  （2026-08-12）時点で未公表 → 2020 が現行唯一の公式市町村級結果。
+  東京都分は 62 市町村）。Survey base date **2020-02-01**。#128 が必要とする
+  市町村級の農業経営体指標は、retrieval（2026-08-12）時点で公表済みの 2025
+  Census 結果セットに未収録（2025 の市町村級出力は一部＝森林面積などに限られる）。
+  そのため本指標には 2020 の市町村表が現行の公式ソース。
 - **License**: 政府標準利用規約（第2.0版）準拠・出典表示が必要（e-Stat）。
 - **Evidence file**: `src/data/municipality-agriculture.ts`（reusable
   municipality-generic profile + 奥多摩町 demo/evidence record）。
