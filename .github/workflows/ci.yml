@@ -118,10 +118,11 @@ jobs:
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
 
-      # E2E builds the Vite production bundle it needs but does not rerun the
-      # TypeScript typecheck that Quality Gates already owns (Issue #137).
+      # E2E builds the Vite production bundle it needs via `vite build` only,
+      # without rerunning the TypeScript typecheck (`pnpm build` would run
+      # `tsc -b`, which Quality Gates already owns — Issue #137).
       - name: Build
-        run: pnpm build
+        run: npx vite build
 
       - name: Run golden-path E2E
         run: npx playwright test
