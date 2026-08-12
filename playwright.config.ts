@@ -9,8 +9,9 @@
  *
  * A `webServer` boots `vite preview` from the production build so the browser
  * exercises the same bundle that ships (dist/) rather than the dev server.
- * `reuseExistingServer` keeps local iteration fast; CI always builds first via
- * the `pnpm build` step in the workflow.
+ * `reuseExistingServer` keeps local iteration fast; in CI, the E2E job builds
+ * the bundle with `vite build` before running (Issue #137 — the TypeScript
+ * typecheck stays owned by Quality Gates).
  */
 import { defineConfig } from '@playwright/test';
 
