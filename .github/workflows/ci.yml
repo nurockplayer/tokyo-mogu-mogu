@@ -26,6 +26,9 @@ jobs:
           # on both `pull_request` and `push` to `main`.
           fetch-depth: 0
 
+      # Resolve the base ref for both `pull_request` and `push` to `main`, then
+      # compute the merge base so the diff covers exactly this change's files
+      # even if the base branch moved after the PR was opened.
       - name: Resolve base ref
         id: base
         run: |
@@ -37,12 +40,18 @@ jobs:
           echo "base=$base" >> "$GITHUB_OUTPUT"
 
       - name: git diff --check
-        run: git diff --check "$BASE" "$GITHUB_SHA"
+        run: |
+          merge_base="$(git merge-base "$BASE" "$GITHUB_SHA")"
+          echo "merge_base=$merge_base"
+          git diff --check "$merge_base" "$GITHUB_SHA"
+        env:
+          BASE: ${{ steps.base.outputs.base }}
 
       - name: Classify changes
         id: classify
         run: |
-          risk="$(git diff --name-only "$BASE" "$GITHUB_SHA" | bash scripts/ci/classify-changes.sh)"
+          merge_base="$(git merge-base "$BASE" "$GITHUB_SHA")"
+          risk="$(git diff --name-only "$merge_base" "$GITHUB_SHA" | bash scripts/ci/classify-changes.sh)"
           echo "risk=$risk" >> "$GITHUB_OUTPUT"
           echo "Classified change risk: $risk"
         env:
