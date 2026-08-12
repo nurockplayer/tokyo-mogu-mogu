@@ -49,6 +49,11 @@ const TAG_COPY: Record<MatchTagKey, { labelKey: LocaleKey; tone: TagTone }> = {
   'full-day': { labelKey: 's3TagFullDay', tone: 'info' },
 };
 
+/** Insert the selected FoodCulture name without coupling the shared CTA to demo data. */
+function resultStoryCta(template: string, foodCultureName: string): string {
+  return template.replace('{name}', foodCultureName);
+}
+
 export function ResultPage() {
   const { t } = useI18n();
   const [searchParams] = useSearchParams();
@@ -163,7 +168,7 @@ export function ResultPage() {
               to={isReopen ? `/story/${recommendation.foodCultureId}?backTo=/mogu` : `/story/${recommendation.foodCultureId}`}
               className="tmm-btn tmm-btn--primary tmm-btn--block"
             >
-              {t('s3PrimaryCta')}
+              {resultStoryCta(t('s3PrimaryCta'), t(recommendedTitleKey))}
             </Link>
             <Link to="/explore" className="tmm-btn tmm-btn--secondary tmm-btn--block">
               {t('s3EditCta')}

@@ -360,7 +360,7 @@ export const strings = {
       'この出発地からの移動時間は未確認です。ルートの交通情報を確認してから計画してください。',
     s3Disclaimer:
       'おすすめは探索結果にもとづく提案です。アレルギー対応や食品の安全性を保証するものではありません。詳細は現地・店舗に直接ご確認ください。',
-    s3PrimaryCta: '東京わさびの物語を読む',
+    s3PrimaryCta: '{name}の物語を読む',
     s3EditCta: '今回の探索をもう一度',
     s3MoguNote: 'このおすすめを「MOGU」の最近の履歴に保存しました。',
     s3MissingTitle: 'おすすめを表示できませんでした',
@@ -813,7 +813,7 @@ export const strings = {
       'Travel time from this starting area is unverified. Check the route transport details before planning.',
     s3Disclaimer:
       'This recommendation is based on your exploration. It is not a guarantee of allergen compatibility or food safety. Please confirm details directly with the venue or shop.',
-    s3PrimaryCta: 'Read the Tokyo Wasabi story',
+    s3PrimaryCta: 'Read the {name} story',
     s3EditCta: 'Run this trip again',
     s3MoguNote: 'This recommendation was saved to your Recent in MOGU.',
     s3MissingTitle: 'We could not show a recommendation',
@@ -1270,7 +1270,7 @@ export const strings = {
     s3TravelTimeUnknown: '從這個出發地前往的交通時間尚未確認。規劃前請查看路線中的交通資訊。',
     s3Disclaimer:
       '推薦是根據探索結果提出的建議。不保證過敏原對應或食品安全。詳細請直接向當地店家確認。',
-    s3PrimaryCta: '閱讀東京山葵的故事',
+    s3PrimaryCta: '閱讀{name}的故事',
     s3EditCta: '重新探索這次旅程',
     s3MoguNote: '已將這項推薦存入「MOGU」的最近記錄。',
     s3MissingTitle: '無法顯示推薦',
