@@ -37,9 +37,21 @@ fi
 risk="docs"
 
 for path in "${files[@]}"; do
-  # core-risk: application source, the E2E contract itself, and the build /
-  # tooling configuration that shapes the shipped bundle. Prefix matching
-  # covers nested paths (src/pages/…, e2e/…) without globstar dependence.
+  # normal runtime: deliberately narrow allowlist of isolated presentation
+  # surfaces that the deterministic core journey never enters. Adding a new
+  # path here requires classifier regression coverage; all other src/** paths
+  # stay core by conservative fallback below.
+  case "$path" in
+    src/pages/BadgesPage.* | src/pages/PokedexPage.* | src/pages/UiShowcasePage.*)
+      risk="normal"
+      continue
+      ;;
+  esac
+
+  # core-risk: every other application source path, the E2E contract itself,
+  # and the build/tooling configuration that shapes the shipped bundle. This
+  # keeps journey, routing, persistence, shared-interaction, i18n, and demo data
+  # changes core even when a new file has not yet been named explicitly.
   if [[ "$path" == src/* || "$path" == e2e/* ]]; then
     risk="core"
     break
