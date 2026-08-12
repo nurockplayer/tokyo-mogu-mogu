@@ -22,8 +22,9 @@ Tama MVP corridor in a way that supports a new product surface by itself.
   concentrated in the 23 wards (165) with limited Tama (42 across 18 cities)
   and 3 island rows.** It is a store-level yes/no flag table (wheelchair
   entrance width, step height, accessible toilet, foreign-language menu,
-  allergy / vegan / halal by prior request). The Tama MVP western corridor
-  (奥多摩・日の出・瑞穂・檜原・羽村) has **zero** coverage and 青梅 only 2 rows, so
+  allergy / vegan / halal by prior request). The established western-Tama
+  corridor (青梅・あきる野・日の出・瑞穂・奥多摩・檜原) has only **4** records
+  (青梅 2 + あきる野 2), so
   it cannot back a Tama-corridor accessibility feature.
 - **The 「青梅市 飲食店一覧」 food-business license list (CC BY 4.0, 1,593 rows,
   100% lat/lng) is the only Tama-municipality restaurant dataset found** — but
@@ -98,8 +99,8 @@ No partnership or endorsement is inferred from any official listing, and no
   classification): 23 ward = 165, Tama = 42 (あきる野 2, 三鷹 3, 八王子 3,
   国分寺 1, 多摩 1, 小平 2, 府中 3, 日野 1, 昭島 1, 東村山 4, 武蔵野 3, 狛江 1,
   町田 3, 稲城 1, 立川 4, 西東京 3, 調布 4, 青梅 2), islands = 3 (大島, 八丈,
-  小笠原). The **Tama MVP western corridor is still nearly absent**: 青梅 has
-  only 2 rows and **奥多摩・日の出・瑞穂・檜原・羽村・あきる野 western areas have zero**.
+  小笠原). The **western-Tama corridor is still nearly absent**: 青梅 and
+  あきる野 have only 2 rows each; **奥多摩・日の出・瑞穂・檜原 have zero**.
 - No coordinates (address text only), no floor-level elevator details, no
   audited/verified flags (self-reported), no ingredient or menu content.
 - **Freshness is unclear**: catalog metadata_modified is 2024-03-12; there is no
@@ -266,7 +267,7 @@ GH #132 asks to test (not assume) four opportunity shapes. Results:
 |---|---|---|
 | "この東京食材を食べられる店 → その産地へ行く" | Ome license list (no ingredient field) + JA directory (no ingredient claims) | **Not data-supported.** No open dataset links ingredients → restaurants. Editorial only. |
 | "今日は東京産を食べる" Discover collection | JA directory (official web, closed) | **Editorial-feasible**, not open-data-feasible. P1 (#130) stands but needs provenance curation. |
-| barrier-free 条件から安心して巡れる regional route | barrier-free guide (165 ward + 42 Tama + 3 island) | **Not Tama-corridor-feasible.** 42 Tama rows exist, but the MVP corridor (奥多摩・日の出・瑞穂・檜原・羽村) has zero coverage and 青梅 only 2; a corridor route cannot be data-backed. A partial Tama/23-ward reference is possible. |
+| barrier-free 条件から安心して巡れる regional route | barrier-free guide (165 ward + 42 Tama + 3 island) | **Not western-Tama-corridor-feasible.** The established six-area corridor has only 4 rows (青梅 2 + あきる野 2; the other four areas zero), so a corridor route cannot be data-backed. A partial Tama/23-ward reference is possible. |
 | local ingredient × restaurant × producer / area Story | Ome list (no ingredient) + #130 C1/C5 cultural anchors | **Partly editorial.** Story grounding via cultural anchors yes; ingredient→restaurant linkage no. |
 
 **Acceptance-criteria checkpoints (GH #132):**
@@ -280,8 +281,8 @@ GH #132 asks to test (not assume) four opportunity shapes. Results:
 - ✅ `uses Tokyo ingredient` not equated with `represents regional FoodCulture`.
 - ✅ dietary/allergy/language/accessibility claims not inferred when missing
   (barrier-free blanks treated as unconfirmed).
-- ⏳ feeds #130 opportunity map — this doc is the feed (suggested registry updates
-  in §5).
+- ✅ feeds #130 opportunity map — the focused completion follow-up applies the
+  source classifications and coverage limit to the registry/map (see §5).
 - ✅ implementation/enrichment split to follow-up only where data proved useful
   (it did not prove ingestion-useful; recorded, not built).
 
@@ -289,16 +290,16 @@ GH #132 asks to test (not assume) four opportunity shapes. Results:
 
 ## 5. Registry / opportunity-map updates suggested / レジストリ更新提案
 
-Changes suggested to `docs/open-data-registry.md` / `docs/data-opportunity-map.md`
-(not applied in this Issue; pending Issue owner review):
+Changes applied to `docs/open-data-registry.md` / `docs/data-opportunity-map.md`
+by the focused research-completion follow-up:
 
-| Doc | Row | Suggested change | Evidence |
+| Doc | Row | Applied change | Evidence |
 |---|---|---|---|
 | registry §3.1 | 東京都内の飲食店バリアフリー情報 | `Candidate — unverified` → **Available (Open Data, CC BY 4.0, 210 rows, 165 ward / 42 Tama / 3 island; Tama corridor ~zero limitation)** | §3.1 |
 | registry §3.1 | 青梅市 飲食店一覧 | **New** `Available` (Open Data, CC BY 4.0, 1,593 rows, 100% lat/lng, license-history only) | §3.2 |
 | registry §3.3 | 都内JA直売所マップ | **New** row under official-web sources; `All Rights Reserved`, editorial-only | §3.3 |
 | opportunity map §4.2 | (F2 extension) JA直売所 | Confirm 60+ outlets, five subregions; editorial pattern | §3.3 |
-| opportunity map §4.5/§5 | accessibility | Add explicit limitation: barrier-free set has 42 Tama rows but zero in the MVP western corridor → not a Tama-corridor route basis | §3.1, §4 |
+| opportunity map §4.5/§5 | accessibility | Add explicit limitation: barrier-free set has 42 Tama rows but only 4 in the western-Tama corridor → not a corridor-route basis | §3.1, §4 |
 
 ---
 
@@ -309,8 +310,8 @@ Changes suggested to `docs/open-data-registry.md` / `docs/data-opportunity-map.m
   data exists for the corridor. Fieldwork/editorial remains the correct strategy
   (consistent with #130 §3).
 - **Barrier-free guide coverage is concentrated in the 23 wards (165 rows);
-  only 42 rows are in Tama (18 cities), and the MVP western corridor
-  (奥多摩・日の出・瑞穂・檜原・羽村) has zero, 青梅 just 2.** Any accessibility-driven
+  only 42 rows are in Tama (18 cities), and the western-Tama corridor has only
+  4 (青梅 2 + あきる野 2; 日の出・瑞穂・奥多摩・檜原 are zero).** Any accessibility-driven
   feature for the Tama-corridor MVP cannot be sourced from it; a partial
   reference layer is the limit.
 - **`廃業年月日` empty everywhere** — license lists are historical; "listed" ≠
@@ -331,7 +332,7 @@ Changes suggested to `docs/open-data-registry.md` / `docs/data-opportunity-map.m
 
 - 唯一の都域バリアフリー Open Data「飲食店のバリアフリー情報」(CC BY 4.0, 210件) は
   **23区 165件・多摩 42件(18市)・離島 3件**。ただし多摩西部の MVP 回廊
-  (奥多摩・日の出・瑞穂・檜原・羽村)は 0 件、青梅 2件のみ。店舗単位の有無フラグ表で、
+  西多摩回廊は青梅 2件・あきる野 2件のみで、日の出・瑞穂・奥多摩・檜原は 0 件。店舗単位の有無フラグ表で、
   アクセス経路・車椅子トイレ・英語メニュー・アレルギー/ヴィーガン/ハラール(事前申請)等を
   確認できるが、座標なし・自己申告・2024-03 snapshot。
 - 多摩の自治体で飲食店 open data があるのは**青梅市の営業許可一覧**(CC BY 4.0,

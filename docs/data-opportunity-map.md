@@ -5,7 +5,8 @@
 > universal adapter / index decision is deliberately deferred until repeated
 > patterns justify it (see §8 and conditional follow-up #131).
 > Retrieval / last-verified date: **2026-08-11** (all URLs live-checked; key
-> rows re-verified by the coordinator on 2026-08-11).
+> rows re-verified by the coordinator on 2026-08-11). The restaurant /
+> accessibility rows added from #132 were field-checked on **2026-08-12**.
 > Lane artifacts (raw, per-worker): six lane files written by parallel research
 > workers; this document is the deduplicated synthesis.
 
@@ -115,13 +116,13 @@ Status legend: **promising** (deep-dive suggested) · *experiment* (needs work)
 | # | Dataset | Provider | Class | Status | Traveler value | Surface |
 |---|---|---|---|---|---|---|
 | F1 | 江戸東京野菜 登録品目一覧 (52+ cultivars, 64 detail pages; 奥多摩ワサビ = #16, harvest 周年, JA西東京) | JA東京中央会 | official public web (All Rights Reserved) | **promising** | "What Tokyo traditional vegetable is in season now, and where" — season × place | Story, Discover, Result |
-| F2 | 都内JA直売所マップ (60+ direct-sale outlets) | JA東京中央会 | official public web | **promising** | "Buy from the farmer at the source" — direct-sale as the simplest visit action | Spot, Route, Discover |
+| F2 | 都内JA直売所マップ (60+ direct-sale outlets across five Tokyo subregions) | JA東京中央会 | official public web (reuse restricted; not Open Data) | **promising editorial source** | "Buy from the farmer at the source" — direct-sale as the simplest visit action; outlet details need manual verification | Spot, Route, Discover |
 | F3 | 東京都卸売市場日報 (daily produce/fish/meat/flower CSV, CC BY 4.0, ~358k produce rows/yr, daily) | 東京都中央卸売市場 | Open Data (CC BY 4.0) | *experiment* (product feed) | Daily market arrivals/transactions, origin and price data (prefecture-level provenance; not freshness/catch-date evidence) | Story, Discover, Result |
 | F4 | TOKYO GROWN (`tokyogrown.jp`, ja/en/zh-TW) | 東京の食料品振興財団 | official public web (reuse application) | **promising** | Official multilingual (incl. zh-TW) food/agri portal — ready-made i18n & story source | Story, Spot, Discover |
 | F5 | GO TOKYO 日本酒ガイド (小澤酒造 沢井 / 石川酒造 福生, both on 青梅線) | 東京都観光公式サイト | official public web | **promising** | Real sake-brewery day-trip on the 青梅線 rail | Route, Story, Spot |
 | F6 | 農林業センサス 市町村データ (e-Stat, 2025 確報 2026-08-07) | 総務省統計局 | Open Data | **promising** (**overlap-with-#128**) | Municipality agriculture-vitality profile — "towns where farming is still alive" | Discover, Story, Pitch |
 | F7 | 学校給食献立 (東村山 `…/20240910school_lunch.csv` 5,363 rows; 青梅) | 東村山市・青梅市 | Open Data (CC BY 4.0) | **promising** | Published/planned school-lunch menus with ingredients/allergens — a window on planned everyday food culture (no claim about actual consumption) | Story, 地域タブ (new) |
-| F8 | 食品営業許可・届出施設一覧 (自治体標準データセット, 276 hits catalog-wide) | 各区市 (新宿・中野・江東・目黒・東村山 …) | Open Data (CC BY 4.0) | **promising** | Official regulatory/listing evidence for facility identity/status validation (subject to freshness; does not by itself prove current operation or an opening event) + new permit/listing detection | Discover, Spot (verify) |
+| F8 | 食品営業許可・届出施設一覧 (自治体標準データセット; #132 inspected 青梅 1,593-row XLSX) | 各区市 / 青梅市 | Open Data (CC BY 4.0) | **experiment (validation only)** | Regulatory/listing evidence for facility identity/status investigation. The Ome file has no menu, ingredient, hours, or accessibility fields and does not prove current operation or local-food use. | Spot (verify) |
 | F9 | 東京の名湧水57選 | 東京都環境局 | official public web | *experiment* | Water → sake/wasabi/cuisine link (水系 as a new relation) | Story, Route, Spot |
 | F10 | 町田市名産品 CSV (lat/lon) | 町田市 | Open Data (CC BY 4.0) | *experiment* | Municipality-level "specialty × coordinates" exemplar (2018 snapshot) | Spot, Discover |
 | F11 | 東京都農業振興事務所 管内農業概要 PDF | 東京都 | official public web | *experiment* | Official region agriculture profile for Story/Pitch backing | Story, Pitch |
@@ -156,6 +157,7 @@ Status legend: **promising** (deep-dive suggested) · *experiment* (needs work)
 | M7 | JR東日本 / 京王 rail GTFS (青梅線, 京王線) | JR・京王 | **チャレンジ2026限定** — not freely reusable | **reject as product dependency** | The MVP access spines are off-limits for real reuse | — |
 | M8 | TOKYO CRUISE 水上バス GTFS (CC BY 4.0) | 東京都観光汽船 | Open Data (CC BY 4.0) | later (pitch contrast) | Fully-open water-bus GTFS sample; 水辺ライン suspended 2026-01 | Pitch |
 | M9 | だれでも東京 (accessibility portal) | 東京都 | official public web (no confirmed API) | later | Barrier-free concept valuable; data not open yet | Spot |
+| M10 | 東京都内の飲食店のバリアフリー情報 (`t000012d0000000063`, 210 rows) | 東京都産業労働局 | Open Data (CC BY; CP932 CSV) | **experiment / coverage-limited** | Partial self-reported accessibility reference: 165 ward / 42 Tama / 3 island; western-Tama corridor has 4 rows (青梅 2 + あきる野 2), and blanks are unknown | Spot |
 
 ### 4.5 Waterfront, fisheries & islands
 
@@ -192,6 +194,11 @@ mapped to current #92 surfaces and to the #112 dispersion goal.
 | P5 | **島しょ Access & Live window** — logistics-first island trips | W4+W2+W3 | Route, Spot, Result | 運航-risk layer; live island window | 大島・三宅島・八丈島・父島 |
 | P6 | **日常食資料窗「這個地方計畫吃什麼」** — school menus + licensed-restaurant listings | F7+F8 | Story, 地域タブ (new), Discover | planned everyday-food layer; new permit/listing detection; facility status validation | 東村山・青梅 (西多摩食) |
 | P7 | **道の駅/實用休息層** — practical rest-stop profiling | M4+M5 | Discover, Spot, Route | practical-rest-stop profile | あきる野(あきがわ)・八王子(滝山) |
+
+The #132 accessibility hypothesis does **not** qualify as a western-Tama Route
+slice: M10 has only 4 records across the established six-area corridor
+(青梅 2 + あきる野 2; 日の出・瑞穂・奥多摩・檜原 zero). It remains a partial Spot
+reference experiment, never a completeness or safety guarantee.
 
 Also preserved as surprising opportunities that do not fit the current model
 (not forced into FoodCulture/Place/Route):
