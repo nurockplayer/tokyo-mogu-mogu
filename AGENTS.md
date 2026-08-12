@@ -215,6 +215,24 @@ Before declaring work complete:
 
 If a validation step cannot be run, state exactly what was not verified and why.
 
+Validation is risk-based (Issue #137). The CI `Quality Gates` job classifies
+each change with the repository-owned classifier
+(`scripts/ci/classify-changes.sh`) instead of running every gate on every PR:
+
+- **docs / policy-only** — documentation, issue/PR templates, CI workflows, and
+  agent guidance: `git diff --check` plus a focused review of the changed docs
+  and the referenced contract. No dependency install, unit tests, build, or
+  Playwright.
+- **normal runtime** — `pnpm typecheck`, `pnpm lint`, `pnpm test`, and
+  `pnpm build`.
+- **core-risk** — core journey / routing / persistence / shared interaction
+  changes, including the E2E contract itself: the normal runtime gates plus the
+  375px Japanese Golden-path Playwright E2E.
+
+The classifier is conservative: unknown paths are treated as runtime, and one
+core-risk path makes the whole change core-risk. The Golden-path E2E never
+reruns the TypeScript typecheck that Quality Gates already owns.
+
 ## Focused Review / レビュー範囲
 
 Review only the diff, the Issue acceptance criteria, referenced contracts/specs,
@@ -223,6 +241,11 @@ unrelated repository audit. Blocking findings require concrete evidence. The
 final verdict must be either blocking findings or exactly
 `No blocking findings.` Do not spend review budget investigating unrelated
 pre-existing issues.
+
+A blocking finding must be release-, contract-, security/privacy-,
+data-semantics-, persistence-, accessibility-, or concrete
+regression-relevant. Unrelated historical wording or low-risk cleanup is a
+follow-up, not a reason to widen every PR.
 
 ## Definition of Done / 完了条件
 
