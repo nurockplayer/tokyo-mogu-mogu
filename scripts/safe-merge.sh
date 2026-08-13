@@ -158,12 +158,18 @@ assert_strict_review_evidence() {
             )
         ] | length) as $blocking_count
 
-      | ([ $decisive[] | select(.state == "APPROVED") ] | length) as $approvals
+      | ([ $decisive[]
+          | select(.state == "APPROVED" and is_clean_verdict(.))
+        ] | length) as $approvals
       | ([ $decisive[]
           | select(.user.login == "chatgpt-codex-connector[bot]")
         ] | sort_by(._order) | last) as $codex
       | ([ $comments[] | select($codex != null and .pull_request_review_id == $codex.id) ] | length) as $codex_findings
 
+      # The accepted verdict must be exactly `No blocking findings.` (safe-merge
+      # rule step 4). A native APPROVED review is accepted only when its body
+      # carries that clean verdict text — an approval whose body is empty or
+      # contains a caveat is not the mandated final-review verdict.
       | (($approvals > 0)
           or (
             $codex != null
