@@ -47,6 +47,7 @@ case "$1 $2" in
         no_review) echo '[]' ;;
         approved_then_commented) echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"}},{"id":2,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:01:00Z","user":{"login":"reviewer"},"body":"non-decisive comment"}]' ;;
         bot_blocking_after_approval) echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"}},{"id":2,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:01:00Z","user":{"login":"coderabbitai[bot]"},"body":"**Actionable comments posted: 2**"}]' ;;
+        clean_bot_with_approval) echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"}},{"id":2,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:01:00Z","user":{"login":"coderabbitai[bot]"},"body":"**Actionable comments posted: 0**"}]' ;;
         *) echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"}}]' ;;
       esac
     elif [[ "$1" == api && "$2" == --paginate && "$3" == */comments* ]]; then
@@ -97,5 +98,11 @@ grep -q -- "--match-head-commit $HEAD" "$GH_LOG"
 : >"$GH_LOG"
 SCENARIO=approved_then_commented bash "$ROOT/scripts/safe-merge.sh" 160 "$HEAD"
 grep -q -- "--match-head-commit $HEAD" "$GH_LOG" || { echo "later non-decisive comment displaced APPROVED" >&2; exit 1; }
+
+# A trusted-bot clean COMMENTED verdict alongside a native APPROVED must not
+# block the merge (the clean bot verdict is not a blocking veto).
+: >"$GH_LOG"
+SCENARIO=clean_bot_with_approval bash "$ROOT/scripts/safe-merge.sh" 160 "$HEAD"
+grep -q -- "--match-head-commit $HEAD" "$GH_LOG" || { echo "clean bot COMMENTED incorrectly blocked merge" >&2; exit 1; }
 
 echo "safe-merge-v3 tests: PASS"

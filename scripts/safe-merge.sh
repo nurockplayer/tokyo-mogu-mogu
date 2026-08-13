@@ -114,8 +114,8 @@ assert_strict_review_evidence() {
     --argjson comments "$comments" '
       def norm($s): ($s // "") | gsub("\r"; "") | gsub("\\*\\*"; "") | gsub("`"; "") | gsub("^[[:space:]]+|[[:space:]]+$"; "");
       def body_is_clean($r):
-        (([($r.body // "") | split("\n") | map(norm(.))] | index("No blocking findings.")) != null)
-        or (([($r.body // "") | split("\n") | map(norm(.))] | index("Actionable comments posted: 0")) != null);
+        (((($r.body // "") | split("\n") | map(norm(.))) | index("No blocking findings.")) != null)
+        or (((($r.body // "") | split("\n") | map(norm(.))) | index("Actionable comments posted: 0")) != null);
       # A trusted-bot review is a clean verdict when its body explicitly records
       # one, or when it is the Codex standard boilerplate with zero inline review
       # comments (the Codex machine-readable no-findings form).
