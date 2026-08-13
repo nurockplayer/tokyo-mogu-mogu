@@ -135,3 +135,28 @@ jobs:
 
       - name: Run golden-path E2E
         run: npx playwright test
+
+  # One always-present status for branch protection. Docs/normal changes may
+  # legitimately skip the conditional E2E job; core changes may not. Requiring
+  # only this check in the branch rules keeps the protection compatible with
+  # the risk classifier while still making a core E2E failure merge-blocking.
+  merge-gate:
+    name: Merge Gate
+    runs-on: ubuntu-latest
+    if: always()
+    needs: [quality-gates, golden-path-e2e]
+    steps:
+      - name: Enforce required CI results
+        env:
+          QUALITY_RESULT: ${{ needs.quality-gates.result }}
+          E2E_RESULT: ${{ needs.golden-path-e2e.result }}
+        run: |
+          if [ "$QUALITY_RESULT" != "success" ]; then
+            echo "Quality Gates result: $QUALITY_RESULT" >&2
+            exit 1
+          fi
+          if [ "$E2E_RESULT" != "success" ] && [ "$E2E_RESULT" != "skipped" ]; then
+            echo "Golden-path E2E result: $E2E_RESULT" >&2
+            exit 1
+          fi
+          echo "Merge Gate passed (quality=$QUALITY_RESULT, e2e=$E2E_RESULT)"
