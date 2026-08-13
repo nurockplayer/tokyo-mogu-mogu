@@ -35,9 +35,17 @@ case "$1 $2" in
   *)
     if [[ "$1" == api && "$2" == repos/*/branches/main/protection ]]; then
       [[ "${SCENARIO:-safe}" == unprotected ]] && exit 1
-      echo '{"required_status_checks":{"contexts":["Merge Gate"]},"required_pull_request_reviews":{"required_approving_review_count":0},"enforce_admins":{"enabled":true},"required_conversation_resolution":{"enabled":true}}'
+      if [[ "${SCENARIO:-safe}" == bypass ]]; then
+        echo '{"required_status_checks":{"contexts":["Merge Gate"]},"required_pull_request_reviews":{"required_approving_review_count":0,"bypass_pull_request_allowances":{"users":[{"login":"nurockplayer"}],"teams":[],"apps":[]}},"enforce_admins":{"enabled":true},"required_conversation_resolution":{"enabled":true}}'
+      else
+        echo '{"required_status_checks":{"contexts":["Merge Gate"]},"required_pull_request_reviews":{"required_approving_review_count":0},"enforce_admins":{"enabled":true},"required_conversation_resolution":{"enabled":true}}'
+      fi
     elif [[ "$1" == api && "$2" == --paginate && "$3" == */reviews* ]]; then
-      [[ "${SCENARIO:-safe}" == no_review ]] && echo '[]' || echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"}}]'
+      case "${SCENARIO:-safe}" in
+        no_review) echo '[]' ;;
+        approved_then_commented) echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"}},{"id":2,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:01:00Z","user":{"login":"reviewer"},"body":"non-decisive comment"}]' ;;
+        *) echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"}}]' ;;
+      esac
     elif [[ "$1" == api && "$2" == --paginate && "$3" == */comments* ]]; then
       echo '[]'
     else
@@ -66,6 +74,7 @@ must_block() {
 }
 
 must_block unprotected "branch protection"
+must_block bypass "bypass allowances"
 must_block moved "HEAD moved"
 must_block unresolved "unresolved review thread"
 must_block no_review "no accepted"
@@ -77,5 +86,11 @@ SCENARIO=safe bash "$ROOT/scripts/safe-merge.sh" 160 "$HEAD"
 grep -q '^pr checks ' "$GH_LOG"
 grep -q -- "--match-head-commit $HEAD" "$GH_LOG"
 ! grep -q -- '--admin' "$GH_LOG"
+
+# P2: a later non-decisive COMMENTED review must not displace an earlier
+# APPROVED from the same reviewer — the merge stays authorized.
+: >"$GH_LOG"
+SCENARIO=approved_then_commented bash "$ROOT/scripts/safe-merge.sh" 160 "$HEAD"
+grep -q -- "--match-head-commit $HEAD" "$GH_LOG" || { echo "later non-decisive comment displaced APPROVED" >&2; exit 1; }
 
 echo "safe-merge-v3 tests: PASS"

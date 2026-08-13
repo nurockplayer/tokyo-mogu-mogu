@@ -52,9 +52,20 @@ review_state="$({
         (((.body // "") | split("\n") | map(norm) | index("No blocking findings.")) != null)
         or (((.body // "") | split("\n") | map(norm) | index("Actionable comments posted: 0")) != null);
 
+      # For each reviewer we consider only "decisive" reviews on the exact
+      # HEAD: native APPROVED / CHANGES_REQUESTED states plus trusted-bot
+      # COMMENTED verdicts. A later untrusted human COMMENTED review is a
+      # non-decisive comment and must NOT displace an earlier still-valid
+      # APPROVED (or CHANGES_REQUESTED) from the same reviewer.
       [ $reviews[]
         | select(.commit_id == $head)
         | select(.state != "PENDING" and .state != "DISMISSED")
+        | . as $r
+        | select(
+            $r.state == "APPROVED"
+            or $r.state == "CHANGES_REQUESTED"
+            or ($r.state == "COMMENTED" and (($trusted | split(",") | index($r.user.login)) != null))
+          )
         | . + { _order: (.submitted_at // ((.id // 0) | tostring)) }
       ]
       | sort_by(._order)

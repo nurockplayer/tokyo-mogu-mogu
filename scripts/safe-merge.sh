@@ -163,9 +163,21 @@ assert_server_protection() {
       ((.required_status_checks.contexts // []) | index("Merge Gate")) != null
       or ((.required_status_checks.checks // []) | map(.context) | index("Merge Gate")) != null
     )
+    # No-bypass guarantee: pull-request review bypass allowances would let the
+    # caller skip the review/conversation backstop without --admin. Require any
+    # configured bypass user/team/app lists to be empty.
+    and (
+      (.required_pull_request_reviews.bypass_pull_request_allowances // null) as $b
+      | $b == null
+        or (
+          (($b.users // []) | length) == 0
+          and (($b.teams // []) | length) == 0
+          and (($b.apps // []) | length) == 0
+        )
+    )
   ' >/dev/null <<<"$protection"; then
     echo "safe-merge: target branch '$base' lacks required atomic merge protection" >&2
-    echo "  required: conversation resolution, PR review protection, Merge Gate status, admin enforcement" >&2
+    echo "  required: conversation resolution, PR review protection, Merge Gate status, admin enforcement, no PR-review bypass allowances" >&2
     exit 6
   fi
 }
