@@ -1,120 +1,128 @@
-# Demo Script (60–90 seconds)
+# Demo Script（60–90秒）/ Demo Script (60–90 s)
 
-Tokyo Mogu Mogu's Product Vision (Issue #112) is to create reasons for
-travelers concentrated in Tokyo's 23 wards to discover outer-Tokyo regions. The
-first MVP pilot geography is the **Tama area**; **Okutama** is the current
-fieldwork / verified-content focus. Tokyo Wasabi is a strong deterministic demo
-fixture, but not the exclusive MVP content contract.
+**Status**: current release state に合わせて更新（2026-08-14）。実行 journey は
+`e2e/golden-path.test.ts`（Issue #120）と `src/app/AppRouter.tsx` の実装に一致。
+Product scope / demo boundary は `docs/specs/product/product-scope-invariant.md` +
+#112、current App IA は #92 / KiKi。
 
-The walkthrough runs on the current App IA (Issue #92 / KiKi): **Home /
-Discover / MOGU / My**. The pitch arc is **Discover → Understand → Visit →
-Act**: a traveler starts from Home, gets a Result, reads the story, follows a
-route, supports the region at Story / Route / Spot, and finds everything again
-in MOGU Recent and My. This walkthrough replaces the legacy Pokédex / check-in
-demo and the earlier linear S0–S8 narration; the S0–S9 screens remain only as
-historical mapping.
+> **Product scope = 東京都全域 × 複数地域 × 複数食文化。**
+>
+> **2026-08-23 Hackathon Demo Golden Path = 奥多摩 × 東京わさび。**
 
-## Demo constraints
+Tama / Okutama は current fieldwork / evidence / demo-content context であり、Product
+の恒久 geography ではない。本スクリプトの `canonical` / `frozen` / 決定論的な
+fixture（東京わさび result・奥多摩わさび紀行 route）は **8/23 demo golden path の
+中でのみ** canonical / frozen であり、Product domain を狭めない。
 
-- **Accountless**: no sign-in is required at any step. Google Auth remains as
-  supplementary infrastructure but is not part of the main pitch journey.
-- **No geolocation**: the walkthrough does not require real geolocation, a fake
-  geolocation override, or a `?at=place:` demo URL.
-- **Deterministic**: the Result deterministically recommends 東京わさび (a
-  strong demo fixture); the model route is a fixed editorial fixture. The flow
-  is replayable from a reset.
+## ゴール / Goal
 
-## Steps (target: ≤90 seconds)
+審査員に 60–90 秒で以下を伝える：
 
-1. **Home** — hero + tagline + value explanation
-   (`今の旅を診断 → 物語を知る → 巡って応援`) + start CTA. Home owns starting a new
-   personalized recommendation; first-time users pass through **Food Profile**
-   before the trip questions. (5 s)
-2. **Food Profile (first use only)** — set or reuse the stable Food Profile
-   (allergies / Vegetarian / Vegan / cannot-eat items) or skip. Trust copy
-   states the input is used for recommendations only. Returning users skip this
-   step and reuse the saved profile. (5 s)
-3. **Exploration** — answer the 5 current-trip questions (taste, what to do,
-   base area + travel time, interests, half-day/1-day) with progress + back.
-   These are per-trip, not a permanent diagnosis. (20 s)
-4. **Result** — 「東京わさび」result card with match-reason tags derived from
-   the answers and the Food Profile. The Result is framed as a regional
-   discovery / journey candidate (Tokyo Wasabi is the deterministic demo
-   fixture for 8/23, not the only possible outcome). The entry auto-writes a
-   **MOGU Recent** entry. (10 s)
-5. **Story** — full editorial story: why Okutama wasabi, the maker, the craft,
-   and the succession challenge → `味わうことが、継承になる`. Support CTAs are
-   embedded here (share / understand / view route), each explaining what the
-   action means for cultural succession. (15 s)
-6. **Route** — half-day / 1-day Okutama wasabi model route: numbered stops,
-   mobility segments (train / bus / walk), map pins matching the timeline. A
-   **save** action writes `My → Saved Routes`; the support CTA here is "save
-   route / plan visit". (10 s)
-7. **Spot Detail** — representative spot: address, access, hours, price,
-   reservation, and practical warnings where source data exists. The support
-   CTA matches the venue type (reserve / buy / book); unverified actions show
-   **準備中** (coming soon). (10 s)
+1. **課題**（23区への観光集中 → まだ知られていない東京へ `行きたい理由` を作る）
+2. **入口**（身近な「食」を地域・作り手・歴史・自然への entry point にする）
+3. **体験**（`あなたを知る → 今回の旅をえらぶ → 巡って応援` の一つのサービス体験）
+4. **信頼**（Open Data / 検証済み source が mechanism の一部として使われている）
 
-Optional closing beats (~15 s, only if time allows):
+## デモ制約 / Demo constraints
 
-- **MOGU** — show the auto-recorded Recent entry (max ~5), distinct from
-  Saved; reopen it to confirm back navigation returns toward MOGU.
-- **My → Saved Routes** — confirm the saved route; show Food Profile is
-  editable here. S9 Badge stays under `My → Badges` as stretch.
+- **Accountless（アカウント不要）**: どの step もサインイン不要。Google Auth は補助
+  infrastructure であり pitch journey に含めない。
+- **No geolocation**: 実位置情報・偽位置 override・`?at=place:` demo URL 不要。
+- **Deterministic（決定論的）**: Result は決定論的に **東京わさび**
+  （`wasabi-okutama`）、モデルルートは **奥多摩わさび紀行**
+  （`okutama-wasabi-journey`）。これは **8/23 demo golden path の fixture** であり、
+  「唯一の Product outcome」「唯一の未来 geography」ではない。
+- **Local persistence**: Food Profile / MOGU Recent / Saved Routes は
+  `localStorage` のみ（`tmm:foodProfile:v1` / `tmm:moguRecent:v1` / `tmm:savedRoutes`）。
 
-Total walkthrough: ~60–90 s of presenter time. The narration must not claim
-that Okutama / Tokyo Wasabi is the Product's or MVP's only contract — they are
-the current verified-content focus and a strong fixture, respectively.
+## 主シーケンス / Primary sequence（目標 ≤90 秒）
 
-## Reset for repeat demos
+Presented journey（#92 current App IA）:
 
-Tap the demo reset control in the header (confirmation), or open a fresh
-browser profile / private window. Saved routes, Food Profile, and MOGU Recent
-state are stored in `localStorage` only.
+```text
+Home → Food Profile (first use) → Exploration → Result → Story → Route → Spot
+→ Save → My → Saved Routes
+```
 
-## Languages
+| # | Step | 画面 / route | タイム | 話すこと（Speaker note） |
+|---|---|---|---|---|
+| 1 | **Home（Landing）** | `/`（`東京の食文化と出会う旅` / `わたしの食文化の旅をはじめる`） | 5 s | 「東京23区に観光は集中しています。このアプリは食を入口に、まだ知らない東京へ『行ってみたい』理由を作ります。」初回は Food Profile へ。 |
+| 2 | **Food Profile（初回のみ）** | `/food-profile`（`フードプロフィールをつくる` → `制限はありません` → `保存してつぎへ`） | 5 s | 「安定したプロフィール（アレルギー・制限など）。初回だけ聞き、あとからマイで編集できます。これはおすすめのためだけに使い、安全性の保証ではありません。」 |
+| 3 | **Exploration（今回の旅）** | `/explore`（5 問: 味 → 体験 → 起点・移動 → 興味 → 半日/1日） | 20 s | 「今回は『さっぱり・爽やか』『食べる』『奥多摩まで60分』『自然・景色』『半日』。これは今回の旅行の条件で、永続の好み診断ではありません。」 |
+| 4 | **Result** | `/explore/result`（`あなたへのおすすめ` = 東京わさび + match reason） | 10 s | 「あなたの条件に合う、地域×食文化の候補が出ました。東京わさびは今日のデモの fixture で、これだけが Product の結果ではありません。この結果は MOGU に自動記録されます。」 |
+| 5 | **Story** | `/story/wasabi-okutama`（`味わうことが、継承になる` + support CTA） | 15 s | 「水・作り手・歴史・技と、継承の課題を一つの物語として見せます。応援 CTA はここに分散配置（共有・理解・ルートを見る）。」 |
+| 6 | **Route** | `/route`（`奥多摩わさび紀行` half-day / 1-day、ピン + mobility） | 10 s | 「半日/1日の実行可能な旅程。公共交通と徒歩の移動、地図ピンが時系列に並びます。『この旅程を保存する』でマイへ。」 |
+| 7 | **Spot Detail** | `/spot/okutama-tourism-office`（実務情報 + 旅程に追加） | 10 s | 「実在する施設の実務情報（source がある範囲）。予約・購入など未検証の行動は『準備中』と表示し、偽の導線を作りません。」 |
+| 8 | **My → Saved Routes** | `/my`（`保存した旅程` = 奥多摩わさび紀行） | 10 s | 「保存した旅程がマイに残ります。Food Profile もここで編集できます。」 |
 
-Japanese is the demo default (judging language). Switch in the header:
-**EN** for English, **繁中** for Traditional Chinese — the same flow works in
-all three locales. Long English strings are handled without breaking the
-layout.
+**計: 約 85 秒**（presenter time）。
 
-## Route data (for the pitch)
+## 初回 / 再訪の違い / First-time vs returning
 
-- Course: 奥多摩わさび紀行 (Okutama Wasabi Journey), half-day default
-  (~3h20m), toggle to 1-day.
-- Half-day stops: 奥多摩観光案内所 → 千島わさび園 → 一心亭 → 獅子口屋;
-  the 1-day variant adds 大丹波川国際虹ます釣場. Connected by 西東京バス /
-  徒歩 segments.
-- The stops are the frozen pilot journey's real Okutama facilities (Issue
-  #127): names/addresses from the 奥多摩観光協会 directory, coordinates
-  approximate (`needs_confirmation`). Route structure is deterministic
-  editorial demo content (a coherent suggested itinerary, not a verified
-  schedule). Practical spot details are shown as unverified where no source
-  exists.
+- **初回**: `Home → Food Profile → Exploration → Result → …`（上記の通り）
+- **再訪**: `Home → Exploration → Result → …`（保存済み Food Profile を再利用。
+  E2E が `reload` 後・再訪時に Food Profile を再質問しないことを検証済み）
 
-## Support actions (distributed model)
+## 任意の締めのビート（時間が許せば +10 秒）/ Optional closing beats
 
-Support CTA is a cross-screen pattern, **not a standalone page**:
+- **MOGU**（`/mogu`）— 自動記録された「最近のおすすめ」（最大5件）が **Saved と
+  別物**であることを示す。再オープンすると `Result → Story → Route → Spot` の
+  文脈に戻る（戻ると MOGU へ）。
+- **Discover**（`/discover`）— 診断なしで browse。Story / Spot へ入り、戻ると
+  Discover へ。Discover 閲覧は MOGU Recent を汚染しない。
+- **Badges**（`/my` → Badges）— **Stretch**。block してはいけない。時間が
+  あるときだけ触る。
 
-- **Story** — share / understand the regional meaning / view route, right after
-  the `味わうことが、継承になる` beat.
-- **Route** — save route / plan visit (writes `My → Saved Routes`).
-- **Spot Detail** — venue-matched action: restaurant = reserve / go + regional
-  impact; shop = buy online / buy locally; workshop = book experience.
+## リセット / Reset
 
-Each action keeps its cultural-succession meaning; unverified actions show
-**準備中** (coming soon) and never fake a destination. There is no standalone
-応援 (`/support`) bottom-nav destination and no top-level My Route tab; the
-Saved Route lives under **My**.
+Header の **demo reset control**（`src/components/DemoResetButton.tsx`、確認付き）を
+タップするか、private window / 新しいブラウザプロファイルを開く。Food Profile /
+MOGU Recent / Saved Routes は `localStorage` のみに保存。
 
-## Save → Saved Routes (My)
+## 言語 / Languages
 
-Saving the itinerary (the Route save action, and the Spot 旅程に追加する
-add-to-itinerary action where implemented) writes the shared `tmm:savedRoutes`
-localStorage contract. Distributed support CTAs are not all save actions —
-Story support remains share / understand / view route, and only the
-save-producing surfaces above write `tmm:savedRoutes`. The saved route appears
-under **My → Saved Routes**, where it can be reopened or removed. MOGU Recent
-(auto-recorded results) and Saved Routes (explicit user saves) are distinct
-semantics; a demo reset clears both, plus Food Profile and Badge state.
+デモ既定は日本語（judging language）。Header の **EN** / **繁中** で切り替え、
+同じ journey が動作する（375px で ja / en / zh-TW すべて `scrollWidth ===
+clientWidth` を QA で確認済み、`docs/ia-qa-report.md`）。
+
+## Route data（pitch 用）/ Route data for the pitch
+
+- Course: **奥多摩わさび紀行**（`okutama-wasabi-journey`）、既定 half-day（約3h20m）、
+  1-day に toggle 可。
+- half-day の stop: 奥多摩観光案内所 → 千島わさび園 → 一心亭 → 獅子口屋。
+  1-day は 大丹波川国際虹ます釣場 を追加。西東京バス / 徒歩で接続。
+- 実在の奥多摩施設（Issue #127 の demo golden path）: 名前・住所は 奥多摩観光協会
+  directory 由来、座標は近似（`needs_confirmation`）、route 構造は deterministic
+  editorial demo コンテンツ（検証済みダイヤではない）。未検証の実務情報は
+  unverified として表示。
+
+## Support actions（分散モデル）/ Distributed support
+
+Support CTA は cross-screen パターンであり **standalone ページではない**：
+
+- **Story** — 共有 / 地域の意味を理解 / ルートを見る（`味わうことが、継承になる`
+  の直後）
+- **Route** — 旅程を保存 / 訪問を計画（`My → Saved Routes` に書く）
+- **Spot Detail** — venue 種別に応じた action（店=予約/行く、shop=オンライン購入/
+  現地購入、workshop=体験予約）。未検証 action は `準備中` を表示し、destination を
+  偽らない。
+
+standalone の応援 (`/support`) bottom-nav や top-level My Route tab はない。
+Saved Route は **My** 配下。
+
+## Save → Saved Routes（My）
+
+Route の保存（および Spot の `旅程に追加する`）は共有 `tmm:savedRoutes` の
+localStorage contract に書く。Story の support は共有・理解・ルート表示であり、
+すべてが save action ではない。**MOGU Recent（自動記録）と Saved Routes（明示保存）
+は別の意味論**。demo reset は両方に加えて Food Profile / Badge state を消す。
+
+## 整合 / Alignment
+
+- Pitch one-liner・審査軸との対応: `docs/hackathon/judging-axis-evidence.md`
+- 競技戦略: `docs/hackathon/competition-alignment.md`（§6 審査軸 / §7 evidence
+  matrix / §9 one-liner）
+- 決定論シーケンスの実行順: `docs/hackathon/demo-sequence.md`
+- 失敗時フォールバック: `docs/hackathon/demo-fallbacks.md`
+- 納期チェックリスト: `docs/hackathon/feature-freeze-checklist.md` /
+  `rehearsal-checklist.md` / `submission-checklist.md`
