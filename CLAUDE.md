@@ -86,6 +86,21 @@ Do not claim a check passed if it was not executed. If something cannot be verif
 
 Validation is risk-based (Issue #137): the CI `Quality Gates` job classifies each change with `scripts/ci/classify-changes.sh` into docs/policy-only, normal runtime, or core-risk. Docs/policy-only changes skip dependency install, unit tests, build, and Playwright; normal runtime changes run typecheck/lint/test/build; core-risk changes additionally run the 375px Japanese Golden-path Playwright E2E (which never reruns the TypeScript typecheck owned by Quality Gates). Do not weaken or delete existing test assertions; the tiers only change when the gates run, not what they assert.
 
+## Local Validation Tiers / ローカル検証の段階
+
+Issue #153 adds a local/agent tier below the CI gate. Follow the loop below while editing instead of running `pnpm test` / `pnpm build` after every small change; CI (#137) remains the authoritative merge gate.
+
+```
+edit → T0 focused → … → slice complete → T1 → focused review → fix + focused regression → T2 once → PR → CI (T3)
+```
+
+- **T0 — focused edit loop** — after a small edit or review fix. Run `pnpm test:related <src-file>` (native `vitest related --run`) or `pnpm test:focused <test-file>` (native `vitest run`). Pass file paths positionally, without `--` — pnpm 11 drops args after `--`, so `pnpm test:related -- <src-file>` finds zero tests and `pnpm test:focused -- <test-file>` runs the full suite. Always pass a path: with no path, `test:focused` runs the full suite and `test:related` exits 0 with zero tests. Never treat `0 related tests` as proof of safety: dynamic imports, generated data, and global config are invisible to related-test discovery; use an explicit focused test or escalate to T1/T2.
+- **T1 — vertical-slice checkpoint** — focused/related tests for the slice + `pnpm typecheck` (when TS/runtime code changed) + any new deterministic regression test, before reviewer handoff. Record what was run. No Playwright unless the change needs browser verification here.
+- **T2 — pre-PR runtime validation** — `pnpm validate` (typecheck + lint + full Vitest + build), run once when the branch is ready. After a review fix, rerun the focused regression first; repeat T2 only for a material surface change or immediately before delivery.
+- **T3 — CI / merge gate** — the existing #137 classifier (`docs / normal / core`), unchanged.
+
+Do not repeatedly run the full suite after every edit or review fix.
+
 ## Handoff / 引き継ぎ
 
 Keep the final handoff concise and concrete. Include:
