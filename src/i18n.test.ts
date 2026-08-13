@@ -55,7 +55,9 @@ describe('i18n fallback (#12)', () => {
     // Spot-check that zh-TW is not just an empty placeholder block.
     expect(strings['zh-TW'].s0Cta).toBe('開始我的飲食文化之旅');
     expect(strings['zh-TW'].s8PageTitle).toBe('我的路線');
-    expect(strings['zh-TW'].s3PrimaryCta).toContain('東京山葵');
+    expect(strings.ja.s3PrimaryCta).toContain('{name}');
+    expect(strings.en.s3PrimaryCta).toContain('{name}');
+    expect(strings['zh-TW'].s3PrimaryCta).toContain('{name}');
     expect(strings['zh-TW'].fpNoRestrictions).toBe('沒有飲食限制');
   });
 

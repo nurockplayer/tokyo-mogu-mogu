@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { EmptyState, Card } from '../ui';
 import { useI18n, type Locale } from '../i18n';
-import { routeNameKey } from '../i18n/data-content';
+import { routeAreaKey, routeNameKey } from '../i18n/data-content';
 import { getRouteById, type ModelRoute } from '../data';
 import { loadSavedRoutes, unsaveRoute, type SavedRouteEntry } from '../lib/saved-routes';
 import './MyRoutePage.css';
@@ -37,6 +37,11 @@ export function durationLabel(route: ModelRoute, locale: Locale): string {
   if (h === 0) return `${m}min`;
   if (m === 0) return `${h}h`;
   return locale === 'ja' ? `${h}時間${m}分` : `${h}h ${m}m`;
+}
+
+/** Region/area label for a route's card, from the route's own data (ja/en). */
+export function routeAreaLabel(route: ModelRoute, locale: Locale): string {
+  return locale === 'ja' ? route.areaJa : route.areaEn;
 }
 
 export function MyRoutePage() {
@@ -81,15 +86,28 @@ export function MyRoutePage() {
           return (
             <Card key={entry.routeId} button className="s8-card">
               <div className="s8-card__body">
-                <div className="s8-card__title">{t(routeNameKey(route.id))}</div>
+                <div className="s8-card__title">
+                  {(() => {
+                    const key = routeNameKey(route.id);
+                    return key ? t(key) : locale === 'ja' ? route.nameJa : route.nameEn;
+                  })()}
+                </div>
                 <div className="s8-card__meta">
                   <span>
                     {t('s8Duration')}: {durationLabel(route, locale)}
                   </span>
-                  <span>{t('s8Area')}: {t('s8AreaOkutama')}</span>
+                  <span>
+                    {t('s8Area')}: {(() => {
+                      const areaKey = routeAreaKey(route.id);
+                      return areaKey ? t(areaKey) : routeAreaLabel(route, locale);
+                    })()}
+                  </span>
                 </div>
                 <div className="s8-card__actions">
-                  <Link to="/route" className="tmm-btn tmm-btn--sm tmm-btn--secondary">
+                  <Link
+                    to={`/route?from=my&routeId=${encodeURIComponent(entry.routeId)}`}
+                    className="tmm-btn tmm-btn--sm tmm-btn--secondary"
+                  >
                     {t('s8OpenRoute')}
                   </Link>
                   <button

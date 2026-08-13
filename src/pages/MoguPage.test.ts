@@ -88,6 +88,12 @@ describe('MOGU Recent page helpers (#94)', () => {
     expect(loadExplorationAnswers()).toEqual(entry.exploration);
   });
 
+  it('includes candidate identity for new multi-candidate history entries', () => {
+    expect(reopenHref(makeEntry({ candidateId: 'demo-okutama-wasabi' }))).toBe(
+      '/explore/result?from=mogu&resultId=wasabi-okutama&candidateId=demo-okutama-wasabi',
+    );
+  });
+
   it('restoreReopenSession overwrites any previous current-trip answers', () => {
     saveExplorationAnswers({
       tastes: ['spicy'],

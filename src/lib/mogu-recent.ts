@@ -8,8 +8,8 @@
  * - recommendation Result is recorded on successful creation (no Save needed)
  * - at most 5 entries, newest first
  * - duplicate / repeated deterministic results are handled by replacing the
- *   existing entry for the same resultId (moves it to the front with a new
- *   timestamp) — simple and documented
+ *   existing entry for the same candidate identity (legacy entries fall back
+ *   to resultId), moving it to the front with a new timestamp
  * - distinct from Saved Routes (which live under `tmm:savedRoutes`), even
  *   though both are accountless local persistence
  * - corrupted / stale payloads fail safely (treated as empty)
@@ -22,6 +22,8 @@ export const MOGU_RECENT_MAX = 5;
 
 /** One automatically-recorded Recent entry (the #94 core contract). */
 export interface MoguRecentEntry {
+  /** Stable recommendation-candidate identity (#123); absent on legacy v1 entries. */
+  candidateId?: string;
   /** result / food-culture identifier, e.g. 'wasabi-okutama'. */
   resultId: string;
   /** i18n key for the result title (resolved by the UI, not baked in). */
@@ -40,6 +42,8 @@ const isMoguRecentEntry = (value: unknown): value is MoguRecentEntry => {
   if (typeof value !== 'object' || value === null) return false;
   const v = value as Record<string, unknown>;
   return (
+    (v.candidateId === undefined ||
+      (typeof v.candidateId === 'string' && v.candidateId.length > 0)) &&
     typeof v.resultId === 'string' &&
     typeof v.titleKey === 'string' &&
     Array.isArray(v.summary) &&
@@ -65,6 +69,26 @@ export function loadMoguRecent(): MoguRecentEntry[] {
   }
 }
 
+/** Candidate-aware identity with a legacy result-id fallback. */
+export function moguRecentIdentity(entry: Pick<MoguRecentEntry, 'candidateId' | 'resultId'>): string {
+  return entry.candidateId ?? entry.resultId;
+}
+
+/**
+ * Candidate-aware equality that also migrates a legacy result-id-only entry.
+ * Two candidate-aware entries may share a food culture without collapsing;
+ * when either side is legacy, resultId is the only compatible identity.
+ */
+export function isSameMoguRecommendation(
+  left: Pick<MoguRecentEntry, 'candidateId' | 'resultId'>,
+  right: Pick<MoguRecentEntry, 'candidateId' | 'resultId'>,
+): boolean {
+  if (left.candidateId && right.candidateId) {
+    return left.candidateId === right.candidateId;
+  }
+  return left.resultId === right.resultId;
+}
+
 /** Writes the Recent list; silently no-ops when storage is unavailable. */
 export function saveMoguRecent(entries: MoguRecentEntry[]): void {
   try {
@@ -76,15 +100,15 @@ export function saveMoguRecent(entries: MoguRecentEntry[]): void {
 
 /**
  * Records a successfully generated Result into Recent. Newest first, capped at
- * MOGU_RECENT_MAX. Repeating the same resultId replaces that entry (moves it to
- * the front with the new timestamp) instead of duplicating it.
+ * MOGU_RECENT_MAX. Repeating the same candidate identity replaces that entry
+ * (moves it to the front with the new timestamp) instead of duplicating it.
  */
 export function recordMoguRecent(
   entry: Omit<MoguRecentEntry, 'createdAt'>,
   now = new Date().toISOString(),
 ): MoguRecentEntry[] {
   const full: MoguRecentEntry = { ...entry, createdAt: now };
-  const rest = loadMoguRecent().filter((e) => e.resultId !== full.resultId);
+  const rest = loadMoguRecent().filter((existing) => !isSameMoguRecommendation(existing, full));
   const next = [full, ...rest].slice(0, MOGU_RECENT_MAX);
   saveMoguRecent(next);
   return next;

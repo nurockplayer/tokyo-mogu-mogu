@@ -25,7 +25,11 @@ import {
   Toast,
 } from '../ui';
 import { PlaceVisual } from '../components/PlaceVisual';
-import { getPlaceById, getRelatedFoodCultures, getRouteIdForPlace, getSpotDetail } from '../data';
+import {
+  getPlaceById,
+  getRelatedFoodCultures,
+  getSpotDetail,
+} from '../data';
 import type { PlaceType } from '../data';
 import { useI18n, type LocaleKey } from '../i18n';
 import {
@@ -38,7 +42,7 @@ import {
 import { googleMapsDirectionsUrl, appleMapsDirectionsUrl, type DirectionsPlace } from '../lib/map-links';
 import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
 import { deriveVerificationStatus } from '../lib/verification';
-import { routeBackTarget, spotBackHref } from './route-context';
+import { routeBackTarget, resolveSpotRouteId, spotBackHref } from './route-context';
 
 /** Maps a place type to its i18n label key. */
 const PLACE_TYPE_LABEL: Record<PlaceType, LocaleKey> = {
@@ -138,11 +142,13 @@ export function SpotPage() {
   const place = placeId ? getPlaceById(placeId) : undefined;
   const detail = placeId ? getSpotDetail(placeId) : undefined;
 
-  // The S6 "add to itinerary" CTA saves the spot's parent model route into the
-  // shared `tmm:savedRoutes` contract — the same itinerary the S5 save button
-  // writes and S8 My Route reads (Issue #69). The route is derived from the
-  // place id, so the saved entry always matches what the route map links to.
-  const routeId = placeId ? getRouteIdForPlace(placeId) : undefined;
+  // The S6 "add to itinerary" CTA saves the itinerary the traveler is on into
+  // the shared `tmm:savedRoutes` contract (the same entry the S5 save button
+  // writes and S8 My Route reads, Issue #69). The forwarded route/candidate
+  // context wins when present; otherwise the place's unambiguous parent route
+  // is used, and an ambiguous place (no context, multiple routes) stays
+  // unavailable rather than guessing.
+  const routeId = resolveSpotRouteId(location.search, placeId);
   const [saved, setSaved] = useState<boolean>(() =>
     routeId !== undefined ? isRouteSaved(routeId) : false,
   );
@@ -171,6 +177,18 @@ export function SpotPage() {
   // callers guard on the `ja` value, so the fallback string is never rendered.
   const recordField = (ja?: string, en?: string): string =>
     locale === 'ja' ? ja ?? '' : en ?? ja ?? '';
+
+  // Localized place name / role with the record's canonical {Ja,En} fields as
+  // the honest fallback — never another culture's name (no silent wasabi/Okutama
+  // copy for unknown/new ids).
+  const placeNameKeyValue = placeNameKey(place.id);
+  const placeName = placeNameKeyValue
+    ? t(placeNameKeyValue)
+    : recordField(place.nameJa, place.nameEn);
+  const spotRoleKeyValue = spotRoleKey(place.id);
+  const spotRole = spotRoleKeyValue
+    ? t(spotRoleKeyValue)
+    : recordField(detail?.roleJa, detail?.roleEn);
 
   const practical = detail?.practical;
   const relatedCultures = getRelatedFoodCultures(place);
@@ -244,15 +262,15 @@ export function SpotPage() {
       {/* Hero: photo placeholder + local name + romanization + category */}
       <div className="s6-visual-wrap">
         <PlaceVisual
-          name={t(placeNameKey(place.id))}
+          name={placeName}
           nameJa={place.nameJa}
           type={place.type}
-          alt={t(placeNameKey(place.id))}
+          alt={placeName}
         />
       </div>
       <div className="s6-title-row">
-        <h1>{t(placeNameKey(place.id))}</h1>
-        {place.nameEn !== t(placeNameKey(place.id)) ? (
+        <h1>{placeName}</h1>
+        {place.nameEn !== placeName ? (
           <span className="s6-roman">{place.nameEn}</span>
         ) : null}
         <span className="tmm-tag tmm-tag--info">{t(PLACE_TYPE_LABEL[place.type])}</span>
@@ -270,7 +288,7 @@ export function SpotPage() {
       {/* Story excerpt — the spot's role in the wasabi journey (editorial) */}
       <StorySection kicker={t('s6StoryKicker')} title={t('s6StoryTitle')}>
         {detail?.roleJa ? (
-          <p>{t(spotRoleKey(place.id) ?? 'dataWasabiFieldRole')}</p>
+          <p>{spotRole}</p>
         ) : (
           <p>{t('s6StoryUnavailable')}</p>
         )}
@@ -289,7 +307,10 @@ export function SpotPage() {
       {detail?.demoNote ? (
         <div className="tmm-section">
           <Tag tone={detail.demoNote.tone === 'warning' ? 'warning' : 'info'}>
-            {t(spotDemoNoteKey(place.id) ?? 'dataWasabiFieldDemoNote')}
+            {(() => {
+              const demoKey = spotDemoNoteKey(place.id);
+              return demoKey ? t(demoKey) : recordField(detail.demoNote.noteJa, detail.demoNote.noteEn);
+            })()}
           </Tag>
         </div>
       ) : null}
@@ -302,7 +323,10 @@ export function SpotPage() {
               <li key={fc.id} className="tmm-info-list__item">
                 <span className="tmm-info-list__label">{t('s6RelatedFoodCulture')}</span>
                 <span className="tmm-info-list__value">
-                  {t(foodCultureKey(fc.id, 'name') ?? 'dataWasabiName')}
+                  {(() => {
+                    const nameKey = foodCultureKey(fc.id, 'name');
+                    return nameKey ? t(nameKey) : recordField(fc.nameJa, fc.nameEn);
+                  })()}
                 </span>
               </li>
             ))}

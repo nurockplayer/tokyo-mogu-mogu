@@ -29,24 +29,23 @@ import {
   getRouteById,
   places,
   projectRoutePins,
-  PILOT_JOURNEY,
+  resolveRouteId,
 } from '../data';
 import type { RouteDuration } from '../data';
-import { useI18n, type Locale } from '../i18n';
+import { useI18n, type Locale, type LocaleKey } from '../i18n';
 import {
   routeNameKey,
   placeNameKey,
   stepRoleKey,
   mobilityLabelKey,
+  routeAdvisoryKeys,
+  routeTransportKey,
 } from '../i18n/data-content';
 import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
 import { routeBackHref, routeBackTarget, routeContextSearch } from './route-context';
 import './route-spot.css';
 
 const DURATIONS: RouteDuration[] = ['half-day', '1-day'];
-
-/** Deterministic route id for the demo (the frozen pilot journey). */
-const DEFAULT_ROUTE_ID = PILOT_JOURNEY.routeId;
 
 /** Formats a minute total as "3h 10m" (kept locale-agnostic for the header). */
 function formatTotalMinutes(total: number, locale: Locale): string {
@@ -62,12 +61,19 @@ function formatTotalMinutes(total: number, locale: Locale): string {
 export function RoutePage() {
   const { locale, t } = useI18n();
   const location = useLocation();
-  const route = useMemo(() => getRouteById(DEFAULT_ROUTE_ID), []);
+  // The route comes from the URL context. An explicit `?routeId=` (a
+  // saved-route reopen from My) is authoritative and never substituted — an
+  // unknown/stale id resolves to itself so this screen shows its honest
+  // not-found state instead of the pilot route. Otherwise a forwarded
+  // candidate id resolves its journey; Discover / direct entry falls back to
+  // the demo journey.
+  const routeId = useMemo(() => resolveRouteId(location.search), [location.search]);
+  const route = useMemo(() => getRouteById(routeId ?? ''), [routeId]);
 
   const [duration, setDuration] = useState<RouteDuration>(
     route?.defaultDuration ?? 'half-day',
   );
-  const [saved, setSaved] = useState<boolean>(() => isRouteSaved(DEFAULT_ROUTE_ID));
+  const [saved, setSaved] = useState<boolean>(() => (routeId ? isRouteSaved(routeId) : false));
   const [toast, setToast] = useState<null | { message: string; saved: boolean }>(null);
 
   if (!route) {
@@ -90,6 +96,25 @@ export function RoutePage() {
   const variant = route.variants[duration];
   const pins = projectRoutePins(variant.steps, places);
 
+  // Localized copy with the record's canonical {Ja,En} fields as the honest
+  // fallback when no per-id i18n key is configured — never another culture's
+  // name (no silent wasabi/Okutama copy for unknown/new ids).
+  const localized = (key: LocaleKey | undefined, ja: string, en: string): string =>
+    key ? t(key) : locale === 'ja' ? ja : en;
+
+  // Route-specific transport guidance. A per-route localized key (ja/en/zh-TW)
+  // wins when configured; otherwise the route's own {Ja,En} variant data is the
+  // honest fallback (a non-Japanese locale uses the record's English variant).
+  const transportKey = routeTransportKey(route.id);
+  const transport = transportKey
+    ? t(transportKey)
+    : locale === 'ja' ? variant.transportJa : variant.transportEn || variant.transportJa;
+
+  // Route-specific advisory/observation copy. Only the demo route carries one
+  // today; any other route renders no advisory rather than Okutama's hedged
+  // field note (honest unknown).
+  const advisory = routeAdvisoryKeys(route.id);
+
   // Preserve the caller through every Route → Spot link. The helper allowlists
   // origins and the Story's own back target before forwarding them.
   const originQuery = routeContextSearch(location.search);
@@ -100,12 +125,13 @@ export function RoutePage() {
   };
 
   const handleSave = () => {
+    if (!routeId) return;
     if (saved) {
-      unsaveRoute(DEFAULT_ROUTE_ID);
+      unsaveRoute(routeId);
       setSaved(false);
       setToast({ message: t('s5UnsavedToast'), saved: false });
     } else {
-      saveRoute(DEFAULT_ROUTE_ID);
+      saveRoute(routeId);
       setSaved(true);
       setToast({ message: t('s5SavedToast'), saved: true });
     }
@@ -124,13 +150,13 @@ export function RoutePage() {
       {/* Course header */}
       <div className="s5-hero">
         <p className="s5-hero__kicker">{t('s5Kicker')}</p>
-        <h1 className="s5-hero__title">{t(routeNameKey(route.id))}</h1>
+        <h1 className="s5-hero__title">{localized(routeNameKey(route.id), route.nameJa, route.nameEn)}</h1>
         <div className="s5-hero__meta">
           <span className="s5-hero__meta-item">
             {t(duration === 'half-day' ? 's5DurationHalfDay' : 's5DurationFullDay')}
           </span>
           <span className="s5-hero__meta-item">
-            🚌 {t('dataRouteTransport')}
+            🚌 {transport}
           </span>
           <span className="s5-hero__meta-item">
             ⏱ {formatTotalMinutes(variant.totalMinutes, locale)}
@@ -138,12 +164,15 @@ export function RoutePage() {
         </div>
       </div>
 
-      {/* Weekend-morning crowding advisory (#83) — hedged field observation,
-          never stated as a verified fact or realtime data. */}
-      <section className="s5-crowding" aria-label={t('s5CrowdingAdvisory')}>
-        <Tag tone="warning">{t('s5CrowdingAdvisory')}</Tag>
-        <p className="s5-crowding__source">{t('s5CrowdingSource')}</p>
-      </section>
+      {/* Route-specific crowding advisory (#83) — hedged field observation,
+          never stated as a verified fact or realtime data. Only routes that
+          actually carry the observation render it. */}
+      {advisory ? (
+        <section className="s5-crowding" aria-label={t(advisory.advisory)}>
+          <Tag tone="warning">{t(advisory.advisory)}</Tag>
+          <p className="s5-crowding__source">{t(advisory.source)}</p>
+        </section>
+      ) : null}
 
       {/* Half-day ⇄ 1-day switch */}
       <div className="s5-duration-switch" role="group" aria-label={t('s5SwitchLabel')}>
@@ -211,7 +240,7 @@ export function RoutePage() {
             const mobility = variant.mobility.find(
               (seg) => seg.fromStep === step.stepNumber,
             );
-            const placeName = t(placeNameKey(place.id));
+            const placeName = localized(placeNameKey(place.id), place.nameJa, place.nameEn);
             return (
               <div key={step.placeId}>
                 <Link
@@ -222,7 +251,11 @@ export function RoutePage() {
                   <RouteStep
                     number={step.stepNumber}
                     name={placeName}
-                    role={t(stepRoleKey(route.id, step.placeId, duration))}
+                    role={localized(
+                      stepRoleKey(route.id, step.placeId, duration),
+                      step.roleJa,
+                      step.roleEn,
+                    )}
                   >
                     <span className="s5-timeline__stay">
                       ⏱ {t('s5Stay')}: {step.stayMinutes}min
@@ -237,7 +270,11 @@ export function RoutePage() {
                     <Mobility
                       mode={mobility.mode}
                       duration={`${mobility.durationMinutes}min`}
-                      label={t(mobilityLabelKey(route.id, mobility.fromStep, mobility.toStep))}
+                      label={localized(
+                        mobilityLabelKey(route.id, mobility.fromStep, mobility.toStep),
+                        mobility.labelJa,
+                        mobility.labelEn,
+                      )}
                     />
                   </div>
                 ) : null}
@@ -247,10 +284,12 @@ export function RoutePage() {
         </div>
       </StorySection>
 
-      {/* Warning / reservation badge (not color-alone: Tag carries an icon) */}
+      {/* Warning / reservation badge (not color-alone: Tag carries an icon).
+          The demo marker applies only to the 8/23 Okutama golden-path route. */}
       <section className="tmm-section">
         <Tag tone="warning">
-          {t('s5ReservationNote')} — {t('s5DemoNote')}
+          {t('s5ReservationNote')}
+          {route.isDemo ? ` — ${t('s5DemoNote')}` : ''}
         </Tag>
       </section>
 

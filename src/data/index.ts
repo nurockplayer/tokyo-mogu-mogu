@@ -56,6 +56,12 @@ export function getRouteIdForPlace(placeId: string): string | undefined {
  * Discover read this record instead of each hard-coding the same ids.
  */
 export { PILOT_JOURNEY, pilotDiscoverPlaceIds } from './pilot-journey';
+export {
+  DEMO_RECOMMENDATION_CANDIDATES,
+  demoRecommendationMatchTags,
+} from './demo-recommendation';
+export { resolveJourneyIdentity, resolveRouteId, resolveStoryJourney } from './journey';
+export type { JourneyIdentity } from './journey';
 export type { PilotJourney } from './pilot-journey';
 
 export function getFoodCultureById(id: string): FoodCulture | undefined {

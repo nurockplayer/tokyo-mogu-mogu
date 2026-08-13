@@ -113,8 +113,10 @@ test.describe('golden path (ja, 375px)', () => {
     await page.getByText('このおすすめを「MOGU」の最近の履歴に保存しました。').waitFor();
     // Result auto-records a MOGU Recent entry (explicit user Save not involved).
     expect(await storedCount(page, MOGU_RECENT_KEY)).toBe(1);
+    // The Story link now carries the canonical candidate id (#123) so the
+    // Story → Route flow keeps resolving the recorded journey.
     await page.getByRole('link', { name: '東京わさびの物語を読む' }).click();
-    await page.waitForURL('**/story/wasabi-okutama');
+    await page.waitForURL('**/story/wasabi-okutama*');
 
     // ---- 5. Story → Route ----
     await page.getByRole('link', { name: 'モデルルートを見る' }).click();
@@ -190,5 +192,26 @@ test.describe('golden path (ja, 375px)', () => {
     await page.goto('/discover');
     // Browse-only must leave the persisted entry byte-for-byte unchanged.
     expect(await persisted(page, MOGU_RECENT_KEY)).toBe(recentBefore);
+
+    // ---- 13. MOGU reopen preserves the recorded candidate/journey identity (#123) ----
+    // Reopening history carries the candidate id forward, so Result → Story →
+    // Route keeps resolving the recorded journey (never the wrong route) and
+    // Back from the story returns to MOGU, not a fresh diagnosis.
+    await page.getByRole('link', { name: 'MOGU' }).click();
+    await page.waitForURL('**/mogu');
+    await page.getByRole('button', { name: 'このおすすめを見る' }).click();
+    await page.waitForURL('**/explore/result*');
+    await page.getByRole('heading', { name: 'あなたへのおすすめ' }).waitFor();
+    await page.getByRole('link', { name: '東京わさびの物語を読む' }).click();
+    await page.waitForURL('**/story/wasabi-okutama*');
+    await page.getByText('味わうことが、継承になる').waitFor();
+    await page.getByRole('link', { name: 'モデルルートを見る' }).click();
+    await page.waitForURL('**/route*');
+    await page.getByRole('heading', { name: '奥多摩わさび紀行' }).waitFor();
+    // Back from the reopened Route returns to the Story (caller-context aware)
+    // with the recorded journey intact.
+    await page.getByRole('link', { name: /物語に戻る/ }).click();
+    await page.waitForURL('**/story/wasabi-okutama*');
+    await page.getByText('味わうことが、継承になる').waitFor();
   });
 });

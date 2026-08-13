@@ -82,6 +82,29 @@ describe('MOGU Recent (#78 → #94)', () => {
     expect(loadMoguRecent()).toHaveLength(1);
   });
 
+  it('keeps distinct journey candidates even when they share a food culture', () => {
+    recordMoguRecent({ ...baseEntry, candidateId: 'candidate-a' }, '2026-08-10T01:00:00.000Z');
+    recordMoguRecent({ ...baseEntry, candidateId: 'candidate-b' }, '2026-08-10T02:00:00.000Z');
+
+    expect(loadMoguRecent().map((entry) => entry.candidateId)).toEqual([
+      'candidate-b',
+      'candidate-a',
+    ]);
+  });
+
+  it('replaces a legacy result entry when its candidate-aware form is recorded', () => {
+    recordMoguRecent(baseEntry, '2026-08-10T01:00:00.000Z');
+    recordMoguRecent(
+      { ...baseEntry, candidateId: 'demo-okutama-wasabi' },
+      '2026-08-10T02:00:00.000Z',
+    );
+
+    const recent = loadMoguRecent();
+    expect(recent).toHaveLength(1);
+    expect(recent[0].candidateId).toBe('demo-okutama-wasabi');
+    expect(recent[0].createdAt).toBe('2026-08-10T02:00:00.000Z');
+  });
+
   it('returns empty for no data and fails safely on corruption', () => {
     expect(loadMoguRecent()).toEqual([]);
     localStorage.setItem(MOGU_RECENT_KEY, '{not json');

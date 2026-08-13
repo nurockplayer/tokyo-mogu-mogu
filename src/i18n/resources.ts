@@ -356,9 +356,11 @@ export const strings = {
     s3DietaryTitle: '食事制限の考慮',
     s3DietaryKnown: '食事制限の入力があります（対応可否は未確認です）',
     s3DietaryUnknown: '制限なしのご入力でした',
+    s3TravelTimeUnknown:
+      'この出発地からの移動時間は未確認です。ルートの交通情報を確認してから計画してください。',
     s3Disclaimer:
       'おすすめは探索結果にもとづく提案です。アレルギー対応や食品の安全性を保証するものではありません。詳細は現地・店舗に直接ご確認ください。',
-    s3PrimaryCta: '東京わさびの物語を読む',
+    s3PrimaryCta: '{name}の物語を読む',
     s3EditCta: '今回の探索をもう一度',
     s3MoguNote: 'このおすすめを「MOGU」の最近の履歴に保存しました。',
     s3MissingTitle: 'おすすめを表示できませんでした',
@@ -809,9 +811,11 @@ export const strings = {
     s3DietaryTitle: 'Dietary considerations',
     s3DietaryKnown: 'Dietary restrictions recorded; compatibility is unverified',
     s3DietaryUnknown: 'No restrictions entered',
+    s3TravelTimeUnknown:
+      'Travel time from this starting area is unverified. Check the route transport details before planning.',
     s3Disclaimer:
       'This recommendation is based on your exploration. It is not a guarantee of allergen compatibility or food safety. Please confirm details directly with the venue or shop.',
-    s3PrimaryCta: 'Read the Tokyo Wasabi story',
+    s3PrimaryCta: 'Read the {name} story',
     s3EditCta: 'Run this trip again',
     s3MoguNote: 'This recommendation was saved to your Recent in MOGU.',
     s3MissingTitle: 'We could not show a recommendation',
@@ -1267,9 +1271,10 @@ export const strings = {
     s3DietaryTitle: '飲食限制的考量',
     s3DietaryKnown: '已記錄飲食限制；是否適用尚未確認',
     s3DietaryUnknown: '未輸入飲食限制',
+    s3TravelTimeUnknown: '從這個出發地前往的交通時間尚未確認。規劃前請查看路線中的交通資訊。',
     s3Disclaimer:
       '推薦是根據探索結果提出的建議。不保證過敏原對應或食品安全。詳細請直接向當地店家確認。',
-    s3PrimaryCta: '閱讀東京山葵的故事',
+    s3PrimaryCta: '閱讀{name}的故事',
     s3EditCta: '重新探索這次旅程',
     s3MoguNote: '已將這項推薦存入「MOGU」的最近記錄。',
     s3MissingTitle: '無法顯示推薦',

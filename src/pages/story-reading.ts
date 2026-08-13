@@ -31,8 +31,13 @@ export function resolveBackTo(raw: string | null, fallback: string): string {
   return raw && allowed.has(raw) ? raw : fallback;
 }
 
-/** Preserve the Story caller when continuing into the Route journey. */
-export function storyRouteHref(backTo: string): string {
+/**
+ * Preserve the Story caller when continuing into the Route journey. The
+ * selected candidate id (#123) is forwarded so the Route screen resolves the
+ * recorded journey instead of falling back to the pilot route.
+ */
+export function storyRouteHref(backTo: string, candidateId?: string): string {
   const params = new URLSearchParams({ from: 'story', backTo });
+  if (candidateId) params.set('candidateId', candidateId);
   return `/route?${params.toString()}`;
 }

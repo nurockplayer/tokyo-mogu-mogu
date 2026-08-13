@@ -125,28 +125,34 @@ export function DiscoverPage() {
         <section className="tmm-section" aria-label={t('discoverPlacesTitle')}>
           <h2 className="discover-section-title">{t('discoverPlacesTitle')}</h2>
           <ul className="discover-list">
-            {pilotPlaces.map((place) => (
-              <li key={place.id}>
-                <Link
-                  to={`/spot/${place.id}?from=discover`}
-                  className="discover-link"
-                  aria-label={t(placeNameKey(place.id))}
-                >
-                  <Card button className="discover-card">
-                    <div className="discover-card__body">
-                      <div className="discover-card__title">{t(placeNameKey(place.id))}</div>
-                      <p className="discover-card__addr">{place.address}</p>
-                      <div className="discover-card__meta">
-                        <span className="discover-card__area">{t('areaOkutama')}</span>
-                        <Tag tone="info">
-                          {t(VERIFICATION_LABEL_KEY[deriveVerificationStatus(place.source, place.origin)])}
-                        </Tag>
+            {pilotPlaces.map((place) => {
+              const placeKey = placeNameKey(place.id);
+              const placeName = placeKey
+                ? t(placeKey)
+                : locale === 'ja' ? place.nameJa : place.nameEn;
+              return (
+                <li key={place.id}>
+                  <Link
+                    to={`/spot/${place.id}?from=discover`}
+                    className="discover-link"
+                    aria-label={placeName}
+                  >
+                    <Card button className="discover-card">
+                      <div className="discover-card__body">
+                        <div className="discover-card__title">{placeName}</div>
+                        <p className="discover-card__addr">{place.address}</p>
+                        <div className="discover-card__meta">
+                          <span className="discover-card__area">{t('areaOkutama')}</span>
+                          <Tag tone="info">
+                            {t(VERIFICATION_LABEL_KEY[deriveVerificationStatus(place.source, place.origin)])}
+                          </Tag>
+                        </div>
                       </div>
-                    </div>
-                  </Card>
-                </Link>
-              </li>
-            ))}
+                    </Card>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </section>
       ) : null}

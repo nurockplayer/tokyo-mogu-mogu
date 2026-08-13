@@ -1,13 +1,12 @@
 /**
  * Result page (Issue #78 reframe of S3).
  *
- * Deterministically reveals 東京わさび (the PILOT_JOURNEY food culture, resolved
- * from the `wasabi-okutama` FoodCulture record) — a deterministic first-pilot
- * fixture that does not make the Product permanently single-region. The result
- * reflects the durable Food Profile (dietary-consideration state) + the
- * current-trip Exploration answers (match-reason tags). On successful result
- * creation it hands off to the MOGU Recent contract (#94) to auto-record the
- * entry.
+ * Selects through the reusable #123 recommendation contract. The 8/23 demo
+ * supplies exactly one production-ready candidate, so it deterministically
+ * reveals 東京わさび without making the durable Product contract single-region.
+ * The result reflects the durable Food Profile (dietary-consideration state) +
+ * the current-trip Exploration answers (match-reason tags). On successful
+ * result creation it hands off to the MOGU Recent contract (#94).
  *
  * The primary CTA routes to the S4 story (/story/<foodCultureId>) and the
  * secondary CTA lets the user re-run the current Exploration. The dietary
@@ -17,12 +16,20 @@
  */
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, Navigate, useSearchParams } from 'react-router-dom';
-import { getFoodCultureById, PILOT_JOURNEY } from '../../data';
+import {
+  DEMO_RECOMMENDATION_CANDIDATES,
+  demoRecommendationMatchTags,
+  getFoodCultureById,
+} from '../../data';
 import { useI18n } from '../../i18n';
 import { EmptyState, Card, Tag, type TagTone } from '../../ui';
-import { deriveMatchTags, type MatchTagKey } from '../../lib/exploration';
+import { type MatchTagKey } from '../../lib/exploration';
+import {
+  recommendCandidates,
+  resolveHistoricalRecommendation,
+} from '../../lib/recommendation';
 import { loadExplorationAnswers } from './exploration-session';
-import { loadFoodProfile, hasFoodProfile } from '../../lib/food-profile-storage';
+import { loadFoodProfile } from '../../lib/food-profile-storage';
 import { recordMoguRecent } from '../../lib/mogu-recent';
 import { type LocaleKey } from '../../i18n/resources';
 import { foodCultureKey } from '../../i18n/data-content';
@@ -42,9 +49,22 @@ const TAG_COPY: Record<MatchTagKey, { labelKey: LocaleKey; tone: TagTone }> = {
   'full-day': { labelKey: 's3TagFullDay', tone: 'info' },
 };
 
-/** Title key used for the MOGU Recent entry of this result. */
-const RESULT_TITLE_KEY: LocaleKey =
-  foodCultureKey(PILOT_JOURNEY.foodCultureId, 'name') ?? 'dataWasabiName';
+/** Insert the selected FoodCulture name without coupling the shared CTA to demo data. */
+function resultStoryCta(template: string, foodCultureName: string): string {
+  return template.replace('{name}', foodCultureName);
+}
+
+/**
+ * Result → Story href. Always forwards the canonical candidate id (#123) so the
+ * Story → Route flow keeps resolving the recorded journey; MOGU reopen re-adds
+ * the `backTo=/mogu` context so Back returns to history, never a fresh result.
+ */
+function storyHref(foodCultureId: string, candidateId: string, isReopen: boolean): string {
+  const params = new URLSearchParams();
+  if (isReopen) params.set('backTo', '/mogu');
+  params.set('candidateId', candidateId);
+  return `/story/${foodCultureId}?${params.toString()}`;
+}
 
 export function ResultPage() {
   const { t } = useI18n();
@@ -55,22 +75,61 @@ export function ResultPage() {
   // navigation) and is NOT a new recommendation: it must not re-record Recent,
   // and its Story CTA must carry the MOGU back context so back returns to MOGU.
   const isReopen = searchParams.get('from') === 'mogu';
-
-  const wasabi = getFoodCultureById(PILOT_JOURNEY.foodCultureId);
+  const reopenCandidateId = searchParams.get('candidateId');
+  const legacyReopenResultId = searchParams.get('resultId');
 
   const answers = useMemo(() => loadExplorationAnswers(), []);
-  const tags = useMemo(() => (answers ? deriveMatchTags(answers) : []), [answers]);
+  const profile = useMemo(() => loadFoodProfile(), []);
+  const decision = useMemo(
+    () =>
+      profile && answers
+        ? recommendCandidates(profile, answers, DEMO_RECOMMENDATION_CANDIDATES)
+        : null,
+    [answers, profile],
+  );
+  // MOGU is recommendation history, not a request to re-rank. New entries use
+  // candidateId; legacy v1 entries fall back to the food-culture resultId. If
+  // that historical candidate is no longer eligible/present, fail safely
+  // instead of silently showing a different recommendation.
+  const recommendationEvaluation = isReopen
+    ? decision
+      ? resolveHistoricalRecommendation(decision, reopenCandidateId, legacyReopenResultId)
+      : undefined
+    : decision?.selected;
+  const recommendation = recommendationEvaluation?.candidate;
+  const recommendedFoodCulture = recommendation
+    ? getFoodCultureById(recommendation.foodCultureId)
+    : undefined;
+  const recommendedTitleKey = recommendation
+    ? foodCultureKey(recommendation.foodCultureId, 'name')
+    : undefined;
+  const recommendedDescriptionKey = recommendation
+    ? foodCultureKey(recommendation.foodCultureId, 'description')
+    : undefined;
+  const tags = useMemo(
+    () =>
+      recommendationEvaluation
+        ? demoRecommendationMatchTags(
+            recommendationEvaluation.candidate.id,
+            recommendationEvaluation.explanation.reasons,
+          )
+        : [],
+    [recommendationEvaluation],
+  );
+  const hasUnknownTravelTime =
+    recommendationEvaluation?.explanation.cautions.some(
+      (caution) => caution.code === 'travel-time-unknown',
+    ) ?? false;
 
   // Dietary-consideration state comes from the durable Food Profile, which the
   // returning flow preserves; missing profile → "no restrictions".
   const dietary = useMemo(() => {
-    const profile = loadFoodProfile();
     return profile !== null && (profile.dietary.length > 0 || profile.dietaryOther.trim().length > 0);
-  }, []);
+  }, [profile]);
 
   // First-time flow must set up the Food Profile before Exploration. A direct
   // visit with no durable profile redirects to setup instead of recommending.
-  if (!hasFoodProfile()) {
+  if (!profile) {
     return <Navigate to="/food-profile" replace />;
   }
 
@@ -87,11 +146,11 @@ export function ResultPage() {
         <p className="tmm-result__summary-desc">{t('s3Subtitle')}</p>
       </section>
 
-      {wasabi ? (
+      {recommendedFoodCulture && recommendation && recommendedTitleKey && recommendedDescriptionKey ? (
         <>
           <Card feature>
-            <div className="tmm-result-card__title">{t(foodCultureKey(PILOT_JOURNEY.foodCultureId, 'name') ?? 'dataWasabiName')}</div>
-            <p className="tmm-result-card__desc">{t(foodCultureKey(PILOT_JOURNEY.foodCultureId, 'description') ?? 'dataWasabiDescription')}</p>
+            <div className="tmm-result-card__title">{t(recommendedTitleKey)}</div>
+            <p className="tmm-result-card__desc">{t(recommendedDescriptionKey)}</p>
 
             <div className="tmm-result__tags">
               {tags.length > 0
@@ -110,15 +169,18 @@ export function ResultPage() {
               </Tag>
             </div>
 
+            {hasUnknownTravelTime ? (
+              <p className="tmm-result__disclaimer">{t('s3TravelTimeUnknown')}</p>
+            ) : null}
             <p className="tmm-result__disclaimer">{t('s3Disclaimer')}</p>
           </Card>
 
           <div className="tmm-result__actions">
             <Link
-              to={isReopen ? `/story/${PILOT_JOURNEY.foodCultureId}?backTo=/mogu` : `/story/${PILOT_JOURNEY.foodCultureId}`}
+              to={storyHref(recommendation.foodCultureId, recommendation.id, isReopen)}
               className="tmm-btn tmm-btn--primary tmm-btn--block"
             >
-              {t('s3PrimaryCta')}
+              {resultStoryCta(t('s3PrimaryCta'), t(recommendedTitleKey))}
             </Link>
             <Link to="/explore" className="tmm-btn tmm-btn--secondary tmm-btn--block">
               {t('s3EditCta')}
@@ -126,7 +188,14 @@ export function ResultPage() {
           </div>
 
           {!isReopen ? (
-            <ResultRecorder answers={answers} tags={tags} hasDietaryConsiderations={dietary} />
+            <ResultRecorder
+              answers={answers}
+              tags={tags}
+              hasDietaryConsiderations={dietary}
+              candidateId={recommendation.id}
+              resultId={recommendation.foodCultureId}
+              titleKey={recommendedTitleKey}
+            />
           ) : null}
         </>
       ) : (
@@ -138,17 +207,23 @@ export function ResultPage() {
 
 /**
  * Hands a successful Result off to the MOGU Recent contract (#94): records the
- * entry once per Result mount. Idempotent for the same resultId, so a dev-mode
- * double mount simply refreshes the timestamp.
+ * entry once per Result mount. Idempotent for the same candidate identity, so
+ * a dev-mode double mount simply refreshes the timestamp.
  */
 function ResultRecorder({
   answers,
   tags,
   hasDietaryConsiderations,
+  candidateId,
+  resultId,
+  titleKey,
 }: {
   answers: ReturnType<typeof loadExplorationAnswers>;
   tags: MatchTagKey[];
   hasDietaryConsiderations: boolean;
+  candidateId: string;
+  resultId: string;
+  titleKey: LocaleKey;
 }) {
   const { t } = useI18n();
   const [recorded, setRecorded] = useState(false);
@@ -159,14 +234,15 @@ function ResultRecorder({
     if (!answers) return;
     done.current = true;
     recordMoguRecent({
-      resultId: PILOT_JOURNEY.foodCultureId,
-      titleKey: RESULT_TITLE_KEY,
+      candidateId,
+      resultId,
+      titleKey,
       summary: tags,
       exploration: answers,
       hasDietaryConsiderations,
     });
     setRecorded(true);
-  }, [answers, hasDietaryConsiderations, tags]);
+  }, [answers, candidateId, hasDietaryConsiderations, resultId, tags, titleKey]);
 
   if (!recorded) return null;
   return <p className="tmm-result__mogu-note">{t('s3MoguNote')}</p>;
