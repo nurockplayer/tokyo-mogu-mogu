@@ -158,6 +158,11 @@ assert_server_protection() {
   if ! jq -e '
     (.required_conversation_resolution.enabled == true)
     and (.required_pull_request_reviews != null)
+    # A real server-side review requirement: an approving-review count of 0
+    # leaves no server-enforced review gate, so a clean review could be
+    # dismissed or a body-only blocking review could arrive after Gate 4
+    # without creating an unresolved thread.
+    and ((.required_pull_request_reviews.required_approving_review_count // 0) >= 1)
     and (.enforce_admins.enabled == true)
     and (
       ((.required_status_checks.contexts // []) | index("Merge Gate")) != null
@@ -177,7 +182,7 @@ assert_server_protection() {
     )
   ' >/dev/null <<<"$protection"; then
     echo "safe-merge: target branch '$base' lacks required atomic merge protection" >&2
-    echo "  required: conversation resolution, PR review protection, Merge Gate status, admin enforcement, no PR-review bypass allowances" >&2
+    echo "  required: conversation resolution, >=1 approving review, Merge Gate status, admin enforcement, no PR-review bypass allowances" >&2
     exit 6
   fi
 }

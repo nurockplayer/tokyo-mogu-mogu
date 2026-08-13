@@ -36,9 +36,11 @@ case "$1 $2" in
     if [[ "$1" == api && "$2" == repos/*/branches/main/protection ]]; then
       [[ "${SCENARIO:-safe}" == unprotected ]] && exit 1
       if [[ "${SCENARIO:-safe}" == bypass ]]; then
-        echo '{"required_status_checks":{"contexts":["Merge Gate"]},"required_pull_request_reviews":{"required_approving_review_count":0,"bypass_pull_request_allowances":{"users":[{"login":"nurockplayer"}],"teams":[],"apps":[]}},"enforce_admins":{"enabled":true},"required_conversation_resolution":{"enabled":true}}'
-      else
+        echo '{"required_status_checks":{"contexts":["Merge Gate"]},"required_pull_request_reviews":{"required_approving_review_count":1,"bypass_pull_request_allowances":{"users":[{"login":"nurockplayer"}],"teams":[],"apps":[]}},"enforce_admins":{"enabled":true},"required_conversation_resolution":{"enabled":true}}'
+      elif [[ "${SCENARIO:-safe}" == count0 ]]; then
         echo '{"required_status_checks":{"contexts":["Merge Gate"]},"required_pull_request_reviews":{"required_approving_review_count":0},"enforce_admins":{"enabled":true},"required_conversation_resolution":{"enabled":true}}'
+      else
+        echo '{"required_status_checks":{"contexts":["Merge Gate"]},"required_pull_request_reviews":{"required_approving_review_count":1},"enforce_admins":{"enabled":true},"required_conversation_resolution":{"enabled":true}}'
       fi
     elif [[ "$1" == api && "$2" == --paginate && "$3" == */reviews* ]]; then
       case "${SCENARIO:-safe}" in
@@ -75,6 +77,7 @@ must_block() {
 
 must_block unprotected "branch protection"
 must_block bypass "bypass allowances"
+must_block count0 "approving review"
 must_block moved "HEAD moved"
 must_block unresolved "unresolved review thread"
 must_block no_review "no accepted"
