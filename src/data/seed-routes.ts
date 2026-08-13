@@ -133,7 +133,6 @@ const SOURCE_OKUTAMA: DataSource = {
   name: '一般社団法人奥多摩観光協会（奥多摩町観光案内所）',
   url: 'https://www.okutama.gr.jp/site/',
   license: 'All Rights Reserved（参考情報としてのみ利用）',
-  lastVerified: '2026-08-08',
   sourceType: 'official_web',
   retrievedAt: '2026-08-08',
   verificationStatus: 'needs_confirmation',

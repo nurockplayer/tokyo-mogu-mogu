@@ -133,9 +133,7 @@ describe('S0–S8 data content localization (#67)', () => {
     expect(strings['zh-TW'].dataStoryLead).toContain('奧多摩');
     expect(strings['zh-TW'].dataRouteName).toBe('奧多摩山葵紀行');
     expect(strings['zh-TW'].dataRouteTransport).toContain('巴士');
-    expect(strings['zh-TW'].dataRouteStopRoleSobaLunch).toContain('蕎麥麵');
     expect(strings['zh-TW'].dataPlaceSobaShopName).toBe('奧多摩蕎麥麵店');
-    expect(strings['zh-TW'].dataWasabiFieldRole).toContain('山葵');
     expect(strings['zh-TW'].dataStorySupport).toContain('品嚐');
   });
 

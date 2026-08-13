@@ -18,7 +18,10 @@
  *   okutama-fishing-center, okutama-michi-no-eki, kumma-hyakka-shop,
  *   uguisu-mochi-shop, hinode-yuzu-stand) are demo fixtures / check-in test
  *   scaffolding for cultures outside the frozen journey; they are kept for the
- *   location-based demo infrastructure and the non-pilot cultures.
+ *   location-based demo infrastructure and the non-pilot cultures. Their source
+ *   metadata is `sourceType: 'demo'` + `verificationStatus: 'demo'` (Issue #10
+ *   audit): they are scaffolds, not unconfirmed real facilities, so they must
+ *   never read as official_web data awaiting confirmation.
  */
 import type { Place } from './model';
 
@@ -37,10 +40,9 @@ export const PLACES: Place[] = [
     source: {
       name: '奥多摩観光協会',
       url: 'https://www.okutokanko.jp/',
-      lastVerified: '2026-08-08',
-      sourceType: 'official_web',
+      sourceType: 'demo',
       retrievedAt: '2026-08-08',
-      verificationStatus: 'needs_confirmation',
+      verificationStatus: 'demo',
       originalId: 'seed-place-1',
     },
     origin: 'demo',
@@ -175,10 +177,9 @@ export const PLACES: Place[] = [
     source: {
       name: '奥多摩観光協会',
       url: 'https://www.okutokanko.jp/',
-      lastVerified: '2026-08-08',
-      sourceType: 'official_web',
+      sourceType: 'demo',
       retrievedAt: '2026-08-08',
-      verificationStatus: 'needs_confirmation',
+      verificationStatus: 'demo',
       originalId: 'seed-place-3',
     },
     origin: 'demo',
@@ -195,10 +196,9 @@ export const PLACES: Place[] = [
     source: {
       name: '奥多摩観光協会',
       url: 'https://www.okutokanko.jp/',
-      lastVerified: '2026-08-08',
-      sourceType: 'official_web',
+      sourceType: 'demo',
       retrievedAt: '2026-08-08',
-      verificationStatus: 'needs_confirmation',
+      verificationStatus: 'demo',
       originalId: 'seed-place-4',
     },
     origin: 'demo',
@@ -218,10 +218,9 @@ export const PLACES: Place[] = [
     source: {
       name: '奥多摩観光協会',
       url: 'https://www.okutokanko.jp/',
-      lastVerified: '2026-08-08',
-      sourceType: 'official_web',
+      sourceType: 'demo',
       retrievedAt: '2026-08-08',
-      verificationStatus: 'needs_confirmation',
+      verificationStatus: 'demo',
       originalId: 'seed-place-5',
     },
     origin: 'demo',
@@ -238,10 +237,9 @@ export const PLACES: Place[] = [
     source: {
       name: '青梅市',
       url: 'https://www.city.ome.tokyo.jp/',
-      lastVerified: '2026-08-08',
-      sourceType: 'official_web',
+      sourceType: 'demo',
       retrievedAt: '2026-08-08',
-      verificationStatus: 'needs_confirmation',
+      verificationStatus: 'demo',
       originalId: 'seed-place-6',
     },
     origin: 'demo',
@@ -258,10 +256,9 @@ export const PLACES: Place[] = [
     source: {
       name: '青梅市観光協会',
       url: 'https://www.city.ome.tokyo.jp/',
-      lastVerified: '2026-08-08',
-      sourceType: 'official_web',
+      sourceType: 'demo',
       retrievedAt: '2026-08-08',
-      verificationStatus: 'needs_confirmation',
+      verificationStatus: 'demo',
       originalId: 'seed-place-7',
     },
     origin: 'demo',
@@ -278,10 +275,9 @@ export const PLACES: Place[] = [
     source: {
       name: '日の出町',
       url: 'https://www.town.hinode.tokyo.jp/',
-      lastVerified: '2026-08-08',
-      sourceType: 'official_web',
+      sourceType: 'demo',
       retrievedAt: '2026-08-08',
-      verificationStatus: 'needs_confirmation',
+      verificationStatus: 'demo',
       originalId: 'seed-place-8',
     },
     origin: 'demo',
