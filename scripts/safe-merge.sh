@@ -143,22 +143,24 @@ assert_strict_review_evidence() {
         ]) as $decisive
 
       # The merge-time verdict must be enforced: the latest decisive review of
-      # EVERY reviewer is binding. A blocking verdict from any reviewer (native
-      # CHANGES_REQUESTED, or a trusted-bot COMMENTED that does not report a
-      # clean verdict) vetoes the merge even when a human APPROVED exists,
-      # because the trusted bot verdict is the accepted reviewer evidence here.
-      | ([ $decisive
+      # EVERY reviewer is binding. Both blocking and acceptance are computed
+      # from the SAME latest-per-reviewer set, so a reviewer newest verdict
+      # (which may omit or contradict the earlier clean body) fully supersedes
+      # the older review — an old clean body must not authorize a merge that
+      # the latest review no longer supports.
+      | ($decisive
           | sort_by(._order)
           | group_by(.user.login)
-          | map(last)
-          | .[]
+          | map(last)) as $latest
+
+      | ([ $latest[]
           | select(
               .state == "CHANGES_REQUESTED"
               or (.state == "COMMENTED" and is_trusted(.) and (is_clean_verdict(.) | not))
             )
         ] | length) as $blocking_count
 
-      | ([ $decisive[]
+      | ([ $latest[]
           | select(
               (.state == "APPROVED" or (.state == "COMMENTED" and is_trusted(.)))
               and is_clean_verdict(.)

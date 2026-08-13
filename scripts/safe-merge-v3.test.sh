@@ -49,6 +49,7 @@ case "$1 $2" in
         bot_blocking_after_approval) echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"},"body":"No blocking findings."},{"id":2,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:01:00Z","user":{"login":"coderabbitai[bot]"},"body":"**Actionable comments posted: 2**"}]' ;;
         clean_bot_with_approval) echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"},"body":"No blocking findings."},{"id":2,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:01:00Z","user":{"login":"coderabbitai[bot]"},"body":"**Actionable comments posted: 0**"}]' ;;
         empty_approval_bot_clean) echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"},"body":""},{"id":2,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:01:00Z","user":{"login":"coderabbitai[bot]"},"body":"**Actionable comments posted: 0**"}]' ;;
+        clean_then_empty_approval) echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"},"body":"No blocking findings."},{"id":2,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:01:00Z","user":{"login":"reviewer"},"body":""}]' ;;
         *) echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"},"body":"No blocking findings."}]' ;;
       esac
     elif [[ "$1" == api && "$2" == --paginate && "$3" == */comments* ]]; then
@@ -85,6 +86,7 @@ must_block moved "HEAD moved"
 must_block unresolved "unresolved review thread"
 must_block no_review "no accepted"
 must_block bot_blocking_after_approval "blocking latest review"
+must_block clean_then_empty_approval "lacks strict clean review evidence"
 
 : >"$GH_LOG"
 SCENARIO=safe bash "$ROOT/scripts/safe-merge.sh" 160 "$HEAD"
