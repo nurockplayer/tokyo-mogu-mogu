@@ -1,4 +1,4 @@
-# Submission Checklist（8/23 提出）/ 
+# Submission Checklist（8/23 提出）
 
 **Deadline**: 2026-08-23 **17:00 JST**（#86 マイルストーン）。公式の work submission
 window は 2026-07-10 〜 08-23（公式 recruitment ページ、2026-08-14 取得）。
