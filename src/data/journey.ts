@@ -9,14 +9,16 @@
  * food-culture / model-route ids that the Story and Route screens render.
  *
  * Resolution rules:
- * - A known candidate keeps its own `foodCultureId` even when it has no
- *   `journeyId`: the Story exists for the culture, and the missing Route is
- *   represented explicitly (absent `journeyId`), never substituted with the
- *   pilot journey.
- * - Only missing / unknown / legacy identities (no candidate id at all, or a
- *   candidate id that no longer resolves) fall back to the frozen demo
- *   journey — the 8/23 golden path for Discover's direct links and pre-#123
- *   history.
+ * - Only an ABSENT candidate identity (no candidate id at all) uses the frozen
+ *   demo journey default — the 8/23 golden path for Discover's direct links and
+ *   pre-#123 history.
+ * - An explicit candidate id must resolve to a production-ready candidate
+ *   (`availability === 'ready'`, matching the recommendation contract's
+ *   `candidate-unavailable` hard exclusion). Unknown, removed, or unavailable
+ *   candidates resolve to `undefined` (invalid) — never the pilot journey.
+ * - A known ready candidate keeps its own `foodCultureId`; a missing
+ *   `journeyId` is represented explicitly (absent `journeyId`), never
+ *   substituted with the pilot journey.
  *
  * The candidate list is caller-supplied (defaulting to the configured demo
  * list), so a future verified Region × FoodCulture resolves through data/config
@@ -43,23 +45,26 @@ export interface JourneyIdentity {
 /**
  * Resolve the canonical journey identity from a candidate id.
  *
- * Candidate identity comes from the configured candidate data. A known
- * candidate always keeps its culture identity; only missing / unknown / legacy
- * identities fall back to the frozen demo journey.
+ * An explicit candidate id must resolve to a production-ready candidate;
+ * unknown / removed / unavailable candidates resolve to `undefined` (invalid)
+ * and are never substituted with the pilot journey. Only an absent candidate
+ * id falls back to the frozen demo journey for legacy/direct golden-path
+ * compatibility.
  */
 export function resolveJourneyIdentity(
   candidateId: string | null | undefined,
   candidates: readonly RecommendationCandidate[] = DEMO_RECOMMENDATION_CANDIDATES,
-): JourneyIdentity {
+): JourneyIdentity | undefined {
   if (candidateId) {
     const candidate = candidates.find((item) => item.id === candidateId);
-    if (candidate?.foodCultureId) {
-      return {
-        candidateId,
-        foodCultureId: candidate.foodCultureId,
-        ...(candidate.journeyId ? { journeyId: candidate.journeyId } : {}),
-      };
+    if (!candidate || candidate.availability !== 'ready' || !candidate.foodCultureId) {
+      return undefined;
     }
+    return {
+      candidateId,
+      foodCultureId: candidate.foodCultureId,
+      ...(candidate.journeyId ? { journeyId: candidate.journeyId } : {}),
+    };
   }
   return {
     foodCultureId: PILOT_JOURNEY.foodCultureId,
@@ -73,13 +78,14 @@ export function resolveJourneyIdentity(
  * An explicit `?routeId=` (a saved-route reopen from My) is authoritative and
  * is never substituted: an unknown/stale route id resolves to itself so the
  * Route screen renders its honest not-found state rather than the pilot route.
- * Otherwise the route comes from the candidate journey identity.
+ * Otherwise the route comes from the candidate journey identity; an explicit
+ * invalid candidate resolves to `undefined` (not-found), never the pilot.
  */
 export function resolveRouteId(search: string): string | undefined {
   const params = new URLSearchParams(search);
   const explicitRouteId = params.get('routeId');
   if (explicitRouteId) return explicitRouteId;
-  return resolveJourneyIdentity(params.get('candidateId')).journeyId;
+  return resolveJourneyIdentity(params.get('candidateId'))?.journeyId;
 }
 
 /**
@@ -89,49 +95,63 @@ export function resolveRouteId(search: string): string | undefined {
  * Invariant: the displayed Story culture always equals the resolved culture,
  * and a Route is attached only when it belongs to that same culture.
  *
- * - The displayed culture is the URL `foodCultureId`, or — when absent — the
- *   candidate's culture, or the demo journey's culture (legacy `/story` entry).
- * - A candidate whose `foodCultureId` matches the displayed culture contributes
- *   its journey (absent when the candidate is route-less).
- * - A mismatched candidate (different culture) is never combined with the
- *   displayed Story: the culture is kept and the journey is represented as
- *   absent.
- * - Without a candidate id, a journey is resolved only when it can be
- *   unambiguously derived from the displayed culture/config (the demo wasabi
- *   culture, or a single configured candidate for that culture). Otherwise the
- *   journey is absent — the Okutama pilot is never attached merely because a
- *   candidate id is missing.
+ * - The displayed culture is the URL `foodCultureId`, else the candidate's
+ *   culture, else the demo journey's culture (legacy `/story` entry).
+ * - An explicit invalid candidate (unknown/removed/unavailable) never
+ *   contributes a route: the URL's valid Story culture may still render without
+ *   a journey, and if neither a valid culture nor a valid candidate resolves,
+ *   `undefined` is returned (honest empty state).
+ * - A ready candidate whose `foodCultureId` matches the displayed culture
+ *   contributes its journey (absent when route-less); a mismatched candidate is
+ *   never combined with the displayed Story.
+ * - Without a candidate id, a journey is resolved only from READY candidates
+ *   (the demo wasabi culture, or a single ready candidate for that culture);
+ *   unavailable candidates never become the unambiguous default route.
  */
 export function resolveStoryJourney(
   foodCultureId: string | null | undefined,
   candidateId: string | null | undefined,
   candidates: readonly RecommendationCandidate[] = DEMO_RECOMMENDATION_CANDIDATES,
-): JourneyIdentity {
+): JourneyIdentity | undefined {
   const candidate = candidateId
     ? candidates.find((item) => item.id === candidateId)
     : undefined;
 
-  // The displayed culture is the URL id, else the candidate's culture, else the
-  // demo journey's culture (legacy `/story` entry).
-  const cultureId = foodCultureId ?? candidate?.foodCultureId ?? PILOT_JOURNEY.foodCultureId;
+  // Explicit invalid candidate: never resolves a journey. A valid URL story
+  // culture may still render without one; otherwise it is invalid.
+  if (candidateId && (!candidate || candidate.availability !== 'ready')) {
+    return foodCultureId ? { foodCultureId } : undefined;
+  }
+
+  // Displayed culture: URL id, else the ready candidate's culture.
+  const cultureId = foodCultureId ?? candidate?.foodCultureId ?? undefined;
 
   if (candidate) {
-    if (candidate.foodCultureId === cultureId) {
+    // candidate is ready here; its culture is the displayed culture when the
+    // URL does not name one.
+    const cid = foodCultureId ?? candidate.foodCultureId;
+    if (candidate.foodCultureId === cid) {
       return {
         candidateId: candidateId ?? undefined,
-        foodCultureId: cultureId,
+        foodCultureId: cid,
         ...(candidate.journeyId ? { journeyId: candidate.journeyId } : {}),
       };
     }
-    // Mismatched candidate: keep the displayed culture, journey absent.
-    return { candidateId: candidateId ?? undefined, foodCultureId: cultureId };
+    // Mismatched ready candidate: keep the displayed culture, journey absent.
+    return { candidateId: candidateId ?? undefined, foodCultureId: cid };
   }
 
   // No candidate id: derive the journey unambiguously from the culture/config.
+  if (!cultureId) {
+    // `/story` with no id and no candidate → legacy demo journey.
+    return { foodCultureId: PILOT_JOURNEY.foodCultureId, journeyId: PILOT_JOURNEY.routeId };
+  }
   if (cultureId === PILOT_JOURNEY.foodCultureId) {
     return { foodCultureId: cultureId, journeyId: PILOT_JOURNEY.routeId };
   }
-  const matching = candidates.filter((item) => item.foodCultureId === cultureId);
+  const matching = candidates.filter(
+    (item) => item.foodCultureId === cultureId && item.availability === 'ready',
+  );
   if (matching.length === 1 && matching[0].journeyId) {
     return {
       candidateId: matching[0].id,

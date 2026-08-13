@@ -111,7 +111,7 @@ export function StoryPage() {
   // resolves a complete story entry renders its own story; any other id —
   // whether it names a different seed culture or an unknown value — renders
   // the graceful empty state instead of a mislabeled article.
-  const record = getFoodCultureById(identity.foodCultureId);
+  const record = identity ? getFoodCultureById(identity.foodCultureId) : undefined;
   const content = record ? storyContent(record.id) : undefined;
 
   if (!record || !content) {
@@ -162,7 +162,7 @@ export function StoryPage() {
     ],
     locale,
   );
-  const routeHref = identity.journeyId
+  const routeHref = identity?.journeyId
     ? storyRouteHref(backTo, identity.candidateId)
     : undefined;
 
@@ -273,7 +273,7 @@ export function StoryPage() {
           SupportPanel; no standalone S7 destination is required. The save
           action persists this journey's route, never a hard-coded pilot id. */}
       <div className="s4-support-actions">
-        <SupportPanel routeId={identity.journeyId} />
+        <SupportPanel routeId={identity?.journeyId} />
       </div>
 
       {/* Section 7 — CTA to S5 route (only when the story's candidate has a

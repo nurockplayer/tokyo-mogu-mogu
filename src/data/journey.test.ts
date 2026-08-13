@@ -4,8 +4,9 @@
  * The recommendation layer can select any Tokyo Region × FoodCulture candidate;
  * the downstream Result → Story → Route flow must keep resolving the recorded
  * journey instead of collapsing to the pilot. These tests lock the resolution
- * contract: configured candidates resolve from data, and unknown / legacy /
- * direct-entry identities fail safe to the frozen demo journey.
+ * contract: only an ABSENT candidate id uses the frozen demo default, while an
+ * explicit unknown / removed / unavailable candidate resolves to `undefined`
+ * (invalid) and never substitutes the pilot.
  */
 import { describe, expect, it } from 'vitest';
 import type { RecommendationCandidate } from '../lib/recommendation';
@@ -28,6 +29,12 @@ const FUTURE_CANDIDATE: RecommendationCandidate = {
   tourismDispersion: { status: 'unknown' },
 };
 
+const UNAVAILABLE_CANDIDATE: RecommendationCandidate = {
+  ...FUTURE_CANDIDATE,
+  id: 'unavailable-ome-sake',
+  availability: 'unavailable',
+};
+
 describe('selected journey identity (#123)', () => {
   it('resolves the configured demo candidate to its canonical food culture and journey', () => {
     expect(resolveJourneyIdentity(DEMO_RECOMMENDATION_CANDIDATE_ID)).toEqual({
@@ -38,8 +45,6 @@ describe('selected journey identity (#123)', () => {
   });
 
   it('resolves a second Region × FoodCulture purely from candidate data/config', () => {
-    // A future verified candidate passes through the shared resolver without
-    // any shared-flow change; the ids come from the candidate record alone.
     const identity = resolveJourneyIdentity('future-ome-sake', [FUTURE_CANDIDATE]);
     expect(identity).toEqual({
       candidateId: 'future-ome-sake',
@@ -59,31 +64,25 @@ describe('selected journey identity (#123)', () => {
     });
   });
 
-  it('fails safe to the demo journey for an unknown or removed candidate', () => {
-    expect(resolveJourneyIdentity('removed-candidate')).toEqual({
-      foodCultureId: PILOT_JOURNEY.foodCultureId,
-      journeyId: PILOT_JOURNEY.routeId,
-    });
+  it('rejects an explicit unknown or removed candidate instead of falling back to the demo', () => {
+    expect(resolveJourneyIdentity('removed-candidate')).toBeUndefined();
+    expect(resolveJourneyIdentity('unknown-candidate')).toBeUndefined();
   });
 
-  it('keeps a known candidate that has no journey its own culture identity', () => {
-    // A candidate may be production-ready without a Route. The missing Route is
-    // represented explicitly (absent journeyId) — the culture identity is
-    // preserved and the pilot journey is never attached.
+  it('rejects an explicit unavailable candidate (no journey)', () => {
+    expect(resolveJourneyIdentity('unavailable-ome-sake', [UNAVAILABLE_CANDIDATE])).toBeUndefined();
+  });
+
+  it('keeps a known ready candidate that has no journey its own culture identity', () => {
     const noJourney = { ...FUTURE_CANDIDATE, id: 'culture-only', journeyId: undefined };
-    expect(resolveJourneyIdentity('culture-only', [noJourney])).toEqual({
-      candidateId: 'culture-only',
-      foodCultureId: 'sake-ome',
-    });
-    expect(resolveJourneyIdentity('culture-only', [noJourney]).journeyId).toBeUndefined();
+    const identity = resolveJourneyIdentity('culture-only', [noJourney]);
+    expect(identity).toEqual({ candidateId: 'culture-only', foodCultureId: 'sake-ome' });
+    expect(identity?.journeyId).toBeUndefined();
   });
 });
 
 describe('route resolution from URL context (#123)', () => {
   it('uses an explicit saved-route id from My without substituting it', () => {
-    // A saved route reopened from My carries its own route id; even an unknown
-    // id resolves to itself so the Route screen shows its honest not-found
-    // state rather than the pilot route.
     expect(resolveRouteId('?routeId=ome-sake-journey')).toBe('ome-sake-journey');
     expect(resolveRouteId('?from=my&routeId=stale-route')).toBe('stale-route');
   });
@@ -94,18 +93,19 @@ describe('route resolution from URL context (#123)', () => {
     );
   });
 
-  it('falls back to the demo journey when no route or candidate identity is carried', () => {
+  it('reaches the not-found state for an explicit invalid candidate (not the pilot)', () => {
+    expect(resolveRouteId('?candidateId=unknown-candidate')).toBeUndefined();
+    expect(resolveRouteId('?candidateId=removed-candidate')).toBeUndefined();
+  });
+
+  it('falls back to the demo journey only when no route or candidate identity is carried', () => {
     expect(resolveRouteId('')).toBe(PILOT_JOURNEY.routeId);
     expect(resolveRouteId('?from=discover')).toBe(PILOT_JOURNEY.routeId);
-    // A candidate id that is not in the configured list is a legacy/unknown
-    // identity → demo default (route-less candidates are covered above).
-    expect(resolveRouteId('?candidateId=culture-only')).toBe(PILOT_JOURNEY.routeId);
   });
 });
 
 describe('story journey resolution (#123)', () => {
   it('keeps the pilot Discover story resolving its demo journey', () => {
-    // /story/wasabi-okutama without candidateId (the Discover link shape).
     expect(resolveStoryJourney('wasabi-okutama', null)).toEqual({
       foodCultureId: PILOT_JOURNEY.foodCultureId,
       journeyId: PILOT_JOURNEY.routeId,
@@ -121,14 +121,11 @@ describe('story journey resolution (#123)', () => {
   });
 
   it('keeps a candidate-less non-demo story culture and represents its journey as absent', () => {
-    // No candidate id and no configured candidate for this culture: the story
-    // keeps its culture and the Okutama pilot is never attached.
     expect(resolveStoryJourney('sake-ome', null, [])).toEqual({ foodCultureId: 'sake-ome' });
-    expect(resolveStoryJourney('sake-ome', null, []).journeyId).toBeUndefined();
+    expect(resolveStoryJourney('sake-ome', null, [])?.journeyId).toBeUndefined();
   });
 
-  it('derives an unambiguous journey from a single configured culture when candidate-less', () => {
-    // One configured candidate for the displayed culture → unambiguous journey.
+  it('derives an unambiguous journey from a single configured ready culture when candidate-less', () => {
     expect(resolveStoryJourney('sake-ome', null, [FUTURE_CANDIDATE])).toEqual({
       candidateId: 'future-ome-sake',
       foodCultureId: 'sake-ome',
@@ -137,9 +134,29 @@ describe('story journey resolution (#123)', () => {
   });
 
   it('never combines one culture\'s story with a mismatched candidate\'s journey', () => {
-    // URL culture wasabi-okutama, candidate is the Ome sake candidate.
     const identity = resolveStoryJourney('wasabi-okutama', 'future-ome-sake', [FUTURE_CANDIDATE]);
-    expect(identity.foodCultureId).toBe('wasabi-okutama');
-    expect(identity.journeyId).toBeUndefined();
+    expect(identity?.foodCultureId).toBe('wasabi-okutama');
+    expect(identity?.journeyId).toBeUndefined();
+  });
+
+  it('rejects an explicit unknown candidate: a valid URL story renders without a journey, else invalid', () => {
+    expect(resolveStoryJourney('wasabi-okutama', 'unknown-candidate')).toEqual({
+      foodCultureId: 'wasabi-okutama',
+    });
+    expect(resolveStoryJourney(undefined, 'unknown-candidate')).toBeUndefined();
+  });
+
+  it('rejects an explicit unavailable candidate (no journey)', () => {
+    expect(resolveStoryJourney('sake-ome', 'unavailable-ome-sake', [UNAVAILABLE_CANDIDATE])).toEqual({
+      foodCultureId: 'sake-ome',
+    });
+  });
+
+  it('ignores unavailable candidates when deriving a candidate-less journey', () => {
+    // One unavailable candidate for the culture must not become the
+    // unambiguous default route.
+    expect(resolveStoryJourney('sake-ome', null, [UNAVAILABLE_CANDIDATE])).toEqual({
+      foodCultureId: 'sake-ome',
+    });
   });
 });

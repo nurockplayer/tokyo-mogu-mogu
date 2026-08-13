@@ -82,15 +82,14 @@ describe('Route back-target resolution (#80)', () => {
     );
   });
 
-  it('falls back to the demo journey for a candidate not in the configured data', () => {
-    // A candidate that is not part of the configured candidate data resolves to
-    // the frozen demo journey instead of inventing a destination. Resolving a
-    // genuinely configured second candidate is covered by journey.test.ts.
+  it('returns to the caller for an explicit invalid candidate (no demo fallback)', () => {
+    // An explicit candidate that is not part of the configured data (or was
+    // removed) no longer resolves the demo journey; Back returns to the caller.
     expect(routeBackHref('?from=story&backTo=%2Fdiscover&candidateId=future-ome-sake')).toBe(
-      '/story/wasabi-okutama?backTo=%2Fdiscover',
+      '/discover',
     );
     expect(routeBackHref('?from=story&backTo=%2Fdiscover&candidateId=removed-candidate')).toBe(
-      '/story/wasabi-okutama?backTo=%2Fdiscover',
+      '/discover',
     );
   });
 });

@@ -47,8 +47,11 @@ export function routeBackHref(search: string): string {
     const backTo = context.get('backTo') ?? '/explore/result';
     // Resolve the recorded candidate (or the demo default) so Back returns to
     // the story that produced this journey, and forward the candidate id so a
-    // further Story → Route hop keeps the recorded journey.
+    // further Story → Route hop keeps the recorded journey. An invalid
+    // candidate identity resolves to nothing — Back returns to the caller
+    // instead of inventing a story.
     const identity = resolveJourneyIdentity(context.get('candidateId'));
+    if (!identity) return backTo;
     const params = new URLSearchParams({ backTo });
     if (identity.candidateId) params.set('candidateId', identity.candidateId);
     return `/story/${identity.foodCultureId}?${params.toString()}`;
