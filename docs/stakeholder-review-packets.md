@@ -9,6 +9,16 @@ pnpm review-packet --food-culture wasabi-okutama --place chishima-wasabi-garden 
   > /tmp/chishima-review.md
 ```
 
+Story の本文・作り手・課題などの物語コピーは、StoryPage と同じ canonical
+`storyContent`（`src/i18n/data-content.ts`）から解決します。個別の key や
+pilot 文字列を CLI 側に複製しません。
+
+Story が `municipalityId` を持つ場合（Issue #128）、その市町村の農林業センサス
+集計（e-Stat 出典・取得日・`needs_confirmation` 状態）と「市町村単位の集計であって
+個別の生産者や後継者を示すものではない」という解釈の範囲を packet に含めます。
+`municipalityId` を持たない別の `Region × FoodCulture` は奥多摩のセンサスを
+受け取りません。
+
 generator は ID を引数で受け取り、奥多摩・東京わさびを共有 contract に
 埋め込みません。別の `Region × FoodCulture` でも同じ canonical records を追加すれば
 同じ command を使えます。unknown は `不明（未確認）` と出力し、空欄を事実に

@@ -1,5 +1,4 @@
 import { getFoodCultureById, getPlaceById, getSpotDetail, PILOT_JOURNEY } from '../src/data';
-import { strings } from '../src/i18n/resources';
 import { generateStakeholderReviewPacket } from '../src/lib/stakeholder-review-packet';
 
 function argument(name: string): string | undefined {
@@ -21,6 +20,9 @@ if (!foodCulture || !place || !place.foodCultureIds.includes(foodCulture.id)) {
   process.exit(1);
 }
 
+// Story narrative and municipality census evidence resolve through the same
+// canonical `storyContent` / municipality data contract StoryPage renders
+// (see `resolveStoryEvidence`); the CLI supplies only demo-scoped context.
 process.stdout.write(generateStakeholderReviewPacket({
   foodCulture,
   place,
@@ -28,18 +30,5 @@ process.stdout.write(generateStakeholderReviewPacket({
   generatedAt: new Date().toISOString().slice(0, 10),
   contextNoteJa: foodCulture.id === PILOT_JOURNEY.foodCultureId
     ? '奥多摩 × 東京わさびは 2026-08-23 Hackathon Demo Golden Path の確認対象です。Product scope を限定しません。'
-    : undefined,
-  storyVisibleCopy: foodCulture.id === PILOT_JOURNEY.foodCultureId
-    ? [
-        ['Story リード', strings.ja.dataStoryLead],
-        ['作り手名', strings.ja.dataStoryMakerName],
-        ['作り手の役割', strings.ja.dataStoryMakerRole],
-        ['作り手注記', strings.ja.s4MakerNote],
-        ['技・知恵', strings.ja.dataStoryCraft],
-        ['現在の課題', strings.ja.dataStoryChallenge],
-        ['編集注記', strings.ja.s4EditorialNote],
-        ['応援の説明', strings.ja.dataStorySupport],
-        ['Story CTA 補足', strings.ja.s4CtaSub],
-      ].map(([label, value]) => ({ label, value }))
     : undefined,
 }));

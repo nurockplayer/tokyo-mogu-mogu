@@ -1,6 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { getFoodCultureById, getPlaceById, getSpotDetail } from '../data';
-import { generateStakeholderReviewPacket, UNKNOWN_JA } from './stakeholder-review-packet';
+import { getFoodCultureById, getMunicipalityAgricultureById, getPlaceById, getSpotDetail } from '../data';
+import { storyContent } from '../i18n/data-content';
+import { resolveKey } from '../i18n/fallback';
+import { DEFAULT_LOCALE, strings } from '../i18n/resources';
+import { generateStakeholderReviewPacket, resolveStoryEvidence, UNKNOWN_JA } from './stakeholder-review-packet';
 
 describe('stakeholder review packet (#133)', () => {
   it('generates a Japanese-first packet from live demo records without inventing unknowns', () => {
@@ -30,6 +33,84 @@ describe('stakeholder review packet (#133)', () => {
     expect(markdown).toContain(place.nameJa);
     expect(markdown).not.toContain('対象: okutama');
     expect(markdown).not.toContain('奥多摩 × 東京わさび');
+  });
+
+  it('resolves Story narrative from canonical storyContent, not duplicated pilot strings', () => {
+    const foodCulture = getFoodCultureById('wasabi-okutama')!;
+    const place = getPlaceById('chishima-wasabi-garden')!;
+    const markdown = generateStakeholderReviewPacket({
+      foodCulture,
+      place,
+      spot: getSpotDetail(place.id),
+      generatedAt: '2026-08-12',
+    });
+
+    // `challenge` exists only on the canonical Story content map (storyContent),
+    // never on the FoodCulture record — so its presence proves the narrative is
+    // resolved through the same contract StoryPage renders.
+    const content = storyContent('wasabi-okutama')!;
+    expect(markdown).toContain(resolveKey(strings, DEFAULT_LOCALE, content.lead));
+    expect(markdown).toContain(resolveKey(strings, DEFAULT_LOCALE, content.challenge));
+    expect(markdown).toContain('後継者や担い手の減少が共通の課題');
+  });
+
+  it('includes municipality census claim, e-Stat provenance, and needs_confirmation for the Okutama story', () => {
+    const foodCulture = getFoodCultureById('wasabi-okutama')!;
+    const place = getPlaceById('chishima-wasabi-garden')!;
+    const markdown = generateStakeholderReviewPacket({
+      foodCulture,
+      place,
+      spot: getSpotDetail(place.id),
+      generatedAt: '2026-08-12',
+    });
+
+    expect(markdown).toContain('市町村別の参考情報（農林業センサス）');
+    expect(markdown).toContain('農林水産省 2020年農林業センサス（市町村別統計表）');
+    expect(markdown).toContain('e-stat.go.jp');
+    expect(markdown).toContain('農業経営体は1経営体');
+    expect(markdown).toContain('1経営体');
+    expect(markdown).toContain('needs_confirmation');
+  });
+
+  it('surfaces the municipality interpretation boundary in the packet', () => {
+    const foodCulture = getFoodCultureById('wasabi-okutama')!;
+    const place = getPlaceById('chishima-wasabi-garden')!;
+    const markdown = generateStakeholderReviewPacket({
+      foodCulture,
+      place,
+      spot: getSpotDetail(place.id),
+      generatedAt: '2026-08-12',
+    });
+
+    const profile = getMunicipalityAgricultureById('133086')!;
+    expect(markdown).toContain('解釈の範囲');
+    expect(markdown).toContain(profile.interpretationNoteJa);
+  });
+
+  it('excludes Okutama census evidence for a non-Okutama story', () => {
+    const foodCulture = getFoodCultureById('kumma-hyakka-ome')!;
+    const place = getPlaceById(foodCulture.placeIds[0])!;
+    const markdown = generateStakeholderReviewPacket({ foodCulture, place, generatedAt: '2026-08-12' });
+
+    expect(markdown).not.toContain('市町村別の参考情報（農林業センサス）');
+    expect(markdown).not.toContain('農林水産省 2020年農林業センサス');
+    expect(markdown).not.toContain('e-stat.go.jp');
+    expect(markdown).not.toContain('奥多摩町の農業経営体');
+  });
+
+  it('resolves Story evidence generically and ties census to the story municipalityId', () => {
+    const evidence = resolveStoryEvidence('wasabi-okutama')!;
+    const content = storyContent('wasabi-okutama')!;
+
+    expect(evidence.narrative.find((f) => f.label === 'Story リード')?.value)
+      .toBe(resolveKey(strings, DEFAULT_LOCALE, content.lead));
+    expect(evidence.municipality).toBeDefined();
+    expect(evidence.municipality!.source.name)
+      .toBe('農林水産省 2020年農林業センサス（市町村別統計表）');
+
+    // A culture without a full Story resolves to no evidence — and therefore
+    // no census — rather than inheriting Okutama's.
+    expect(resolveStoryEvidence('kumma-hyakka-ome')).toBeUndefined();
   });
 
   it('keeps missing fields reviewable even when a source is verified and preserves false', () => {
