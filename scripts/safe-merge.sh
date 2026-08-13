@@ -13,7 +13,15 @@ verdict. This command refuses to merge when:
 - no accepted independent review exists for that exact HEAD,
 - any inline review thread is unresolved,
 - PR checks are pending/failing,
-- or the HEAD changes during the final gate.
+- the base branch does not enforce the required server-side protections,
+- or the HEAD/review state changes during the final gate.
+
+Server-side protection is mandatory because client-side reads cannot make
+review/thread state atomic with the merge request. The target branch must have:
+- required conversation resolution,
+- required pull-request review protection,
+- required status check `Merge Gate`, and
+- administrator enforcement / no bypass for repository admins.
 
 Requires: gh, jq
 EOF
@@ -43,6 +51,10 @@ script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 current_head() {
   gh pr view "$pr" --repo "$repo" --json headRefOid --jq .headRefOid
+}
+
+base_branch() {
+  gh pr view "$pr" --repo "$repo" --json baseRefName --jq .baseRefName
 }
 
 unresolved_threads_json() {
@@ -95,6 +107,34 @@ assert_no_unresolved_threads() {
   fi
 }
 
+assert_server_protection() {
+  local base protection
+  base="$(base_branch)"
+  if ! protection="$(gh api "repos/$owner/$name/branches/$base/protection" 2>/dev/null)"; then
+    echo "safe-merge: target branch '$base' has no readable branch protection; merge blocked" >&2
+    exit 6
+  fi
+
+  if ! jq -e '
+    (.required_conversation_resolution.enabled == true)
+    and (.required_pull_request_reviews != null)
+    and (.enforce_admins.enabled == true)
+    and (
+      ((.required_status_checks.contexts // []) | index("Merge Gate")) != null
+      or ((.required_status_checks.checks // []) | map(.context) | index("Merge Gate")) != null
+    )
+  ' >/dev/null <<<"$protection"; then
+    echo "safe-merge: target branch '$base' lacks required atomic merge protection" >&2
+    echo "  required: conversation resolution, PR review protection, Merge Gate status, admin enforcement" >&2
+    exit 6
+  fi
+}
+
+# Gate 0: server-side protection must exist before any client-side review state
+# can authorize a merge. This closes the race between the final live scan and
+# GitHub accepting the merge request.
+assert_server_protection
+
 # Gate 1: the SHA that was reviewed must still be the live PR head, and accepted
 # independent review evidence must itself be attached to that exact SHA.
 assert_reviewed_head
@@ -109,14 +149,16 @@ assert_no_unresolved_threads
 gh pr checks "$pr" --repo "$repo" >/dev/null
 
 # Gate 4: re-read all mutable authorization state after checks. A push, review,
-# dismissal, or review comment may have arrived while the previous commands
-# were running.
+# dismissal, review comment, or protection change may have arrived while the
+# previous commands were running.
+assert_server_protection
 assert_reviewed_head
 assert_accepted_review
 assert_no_unresolved_threads
 
-# Final server-side compare-and-swap: GitHub rejects the merge if HEAD changes
-# between the last read and the merge request. Never use --admin here.
+# Final server-side HEAD compare-and-swap. Review/thread atomicity is provided by
+# the verified branch protection above; --match-head-commit additionally rejects
+# a late push. Never use --admin here.
 gh pr merge "$pr" \
   --repo "$repo" \
   --squash \
