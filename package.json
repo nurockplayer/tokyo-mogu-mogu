@@ -12,7 +12,10 @@
     "typecheck": "tsc -b --noEmit",
     "lint": "eslint .",
     "test": "vitest run",
-    "test:e2e": "pnpm build && playwright test"
+    "test:related": "vitest related --run",
+    "test:focused": "vitest run",
+    "test:e2e": "pnpm build && playwright test",
+    "validate": "pnpm typecheck && pnpm lint && pnpm test && pnpm build"
   },
   "dependencies": {
     "leaflet": "^1.9.4",

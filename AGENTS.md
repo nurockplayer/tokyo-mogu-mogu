@@ -184,6 +184,20 @@ Validation is risk-based (Issue #137). The CI `Quality Gates` job classifies eac
 
 The classifier is conservative: unknown paths are treated as runtime, and one core-risk path makes the whole change core-risk. The Golden-path E2E never reruns the TypeScript typecheck that Quality Gates already owns.
 
+## Local / Agent Validation Tiers / ローカル検証の段階
+
+Issue #153 adds a local/agent tier below the CI gate so the implementation loop stays fast without weakening the final merge gate. CI `Quality Gates` (#137) remains the authoritative validation policy; do not rerun the full suite after every small edit or review fix.
+
+- **T0 — focused edit loop** — after a small implementation edit or review fix.
+  - `pnpm test:related src/lib/progression.ts` → `vitest related --run`, which follows the import graph to the tests that cover the file.
+  - `pnpm test:focused src/lib/progression.test.ts` → `vitest run` on that test file.
+  - Pass file paths positionally, without `--` (pnpm 11 forwards bare positional args to the script but drops args after `--`). Always pass a path: with no path, `test:focused` runs the full suite and `test:related` finds zero tests (and still exits 0) — neither is a valid T0 result.
+  - Uses native Vitest related-test discovery or an explicitly named test file — never a separate dependency graph framework. Do not run full lint/typecheck/test/build here.
+  - **Limitation**: related-test discovery relies on the static import graph. A change reached through dynamic loading, generated data, global config, or another relationship Vitest cannot see may yield few or zero related tests. Never treat `0 related tests` as proof of safety — use an explicit focused test or escalate to T1/T2.
+- **T1 — vertical-slice checkpoint** — focused/related tests for the changed slice, plus `pnpm typecheck` when TypeScript/runtime code changed, plus any new deterministic regression test the issue requires. Run when a coherent slice is complete, before reviewer handoff. Record what was run. Do not run Playwright unless the changed behavior needs browser verification at this checkpoint.
+- **T2 — pre-PR runtime validation** — `pnpm validate` (typecheck + lint + full Vitest + build). Run once when implementation and review fixes are complete and the branch is ready for PR. After a reviewer finding is fixed, rerun the focused regression first; repeat T2 only when the fix materially changes the validated surface or immediately before final delivery.
+- **T3 — CI / merge gate** — the existing #137 classifier, unchanged: `docs` → `git diff --check` + focused review; `normal` → typecheck/lint/test/build; `core` → normal gates + 375px Japanese Golden-path E2E. CI is the authoritative merge safety net.
+
 ## Focused Review / レビュー範囲
 
 Review only the diff, the Issue acceptance criteria, referenced contracts/specs, and regressions plausibly introduced by the diff. Do not perform a broad unrelated repository audit. Blocking findings require concrete evidence. The final verdict must be either blocking findings or exactly `No blocking findings.` Do not spend review budget investigating unrelated pre-existing issues.
