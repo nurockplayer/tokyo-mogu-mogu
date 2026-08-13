@@ -48,6 +48,7 @@ case "$1 $2" in
         approved_then_commented) echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"},"body":"No blocking findings."},{"id":2,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:01:00Z","user":{"login":"reviewer"},"body":"non-decisive comment"}]' ;;
         bot_blocking_after_approval) echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"},"body":"No blocking findings."},{"id":2,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:01:00Z","user":{"login":"coderabbitai[bot]"},"body":"**Actionable comments posted: 2**"}]' ;;
         clean_bot_with_approval) echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"},"body":"No blocking findings."},{"id":2,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:01:00Z","user":{"login":"coderabbitai[bot]"},"body":"**Actionable comments posted: 0**"}]' ;;
+        empty_approval_bot_clean) echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"},"body":""},{"id":2,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:01:00Z","user":{"login":"coderabbitai[bot]"},"body":"**Actionable comments posted: 0**"}]' ;;
         *) echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"},"body":"No blocking findings."}]' ;;
       esac
     elif [[ "$1" == api && "$2" == --paginate && "$3" == */comments* ]]; then
@@ -104,5 +105,11 @@ grep -q -- "--match-head-commit $HEAD" "$GH_LOG" || { echo "later non-decisive c
 : >"$GH_LOG"
 SCENARIO=clean_bot_with_approval bash "$ROOT/scripts/safe-merge.sh" 160 "$HEAD"
 grep -q -- "--match-head-commit $HEAD" "$GH_LOG" || { echo "clean bot COMMENTED incorrectly blocked merge" >&2; exit 1; }
+
+# A clean trusted-bot verdict is accepted even when the human approval body is
+# empty (the mandated clean verdict comes from the trusted reviewer).
+: >"$GH_LOG"
+SCENARIO=empty_approval_bot_clean bash "$ROOT/scripts/safe-merge.sh" 160 "$HEAD"
+grep -q -- "--match-head-commit $HEAD" "$GH_LOG" || { echo "empty-approval + clean bot verdict incorrectly blocked" >&2; exit 1; }
 
 echo "safe-merge-v3 tests: PASS"

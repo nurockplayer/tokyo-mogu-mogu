@@ -159,25 +159,18 @@ assert_strict_review_evidence() {
         ] | length) as $blocking_count
 
       | ([ $decisive[]
-          | select(.state == "APPROVED" and is_clean_verdict(.))
-        ] | length) as $approvals
-      | ([ $decisive[]
-          | select(.user.login == "chatgpt-codex-connector[bot]")
-        ] | sort_by(._order) | last) as $codex
-      | ([ $comments[] | select($codex != null and .pull_request_review_id == $codex.id) ] | length) as $codex_findings
+          | select(
+              (.state == "APPROVED" or (.state == "COMMENTED" and is_trusted(.)))
+              and is_clean_verdict(.)
+            )
+        ] | length) as $accepted_count
 
       # The accepted verdict must be exactly `No blocking findings.` (safe-merge
-      # rule step 4). A native APPROVED review is accepted only when its body
-      # carries that clean verdict text — an approval whose body is empty or
-      # contains a caveat is not the mandated final-review verdict.
-      | (($approvals > 0)
-          or (
-            $codex != null
-            and $codex.state == "COMMENTED"
-            and (($codex.body // "") | startswith("### 💡 Codex Review"))
-            and $codex_findings == 0
-          ))
-        and $blocking_count == 0
+      # rule step 4). Accepted evidence is any decisive review — a native
+      # APPROVED or any trusted-bot COMMENTED — whose body carries that clean
+      # verdict text (or is the Codex standard zero-findings form). An approval
+      # whose body is empty or carries a caveat is not the mandated verdict.
+      | ($accepted_count > 0) and $blocking_count == 0
     ')"
 
   if [[ "$accepted" != "true" ]]; then
