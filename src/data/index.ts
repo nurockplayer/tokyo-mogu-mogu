@@ -56,11 +56,31 @@ export function getRouteIdForPlace(placeId: string): string | undefined {
  * Discover read this record instead of each hard-coding the same ids.
  */
 export { PILOT_JOURNEY, pilotDiscoverPlaceIds } from './pilot-journey';
+export {
+  DEMO_RECOMMENDATION_CANDIDATES,
+  demoRecommendationMatchTags,
+} from './demo-recommendation';
+export { resolveJourneyIdentity, resolveRouteId, resolveStoryJourney } from './journey';
+export type { JourneyIdentity } from './journey';
 export type { PilotJourney } from './pilot-journey';
 
 export function getFoodCultureById(id: string): FoodCulture | undefined {
   return FOOD_CULTURES.find((fc) => fc.id === id);
 }
+
+/** Municipality-level agriculture context (Issue #128). */
+export {
+  MUNICIPALITY_AGRICULTURE_PROFILES,
+  MUNICIPALITY_INDICATOR_KEYS,
+  OKUTAMA_MUNICIPALITY_ID,
+  getMunicipalityAgricultureById,
+  municipalityIndicatorValue,
+} from './municipality-agriculture';
+export type {
+  MunicipalityAgricultureIndicator,
+  MunicipalityAgricultureProfile,
+  MunicipalityIndicatorKey,
+} from './municipality-agriculture';
 
 export function getPlaceById(id: string): Place | undefined {
   return PLACES.find((p) => p.id === id);

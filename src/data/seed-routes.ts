@@ -66,11 +66,16 @@ export interface ModelRoute {
   id: string;
   nameJa: string;
   nameEn: string;
+  /** Region/area the route serves, e.g. 奥多摩 / Okutama. */
+  areaJa: string;
+  areaEn: string;
   /** The variant shown first; the user toggles to the other. */
   defaultDuration: RouteDuration;
   variants: Record<RouteDuration, RouteVariant>;
   /** Provenance of the editorial route. */
   source: DataSource;
+  /** True only for the frozen 8/23 Okutama golden-path demo route. */
+  isDemo?: boolean;
 }
 
 /** Optional verified practical data — only present when source data exists. */
@@ -141,8 +146,11 @@ export const MODEL_ROUTES: ModelRoute[] = [
     id: 'okutama-wasabi-journey',
     nameJa: '奥多摩わさび紀行',
     nameEn: 'Okutama Wasabi Journey',
+    areaJa: '奥多摩',
+    areaEn: 'Okutama',
     defaultDuration: 'half-day',
     source: SOURCE_OKUTAMA,
+    isDemo: true,
     variants: {
       'half-day': {
         transportJa: 'JR青梅線・西東京バス',
@@ -575,17 +583,20 @@ export function projectRoutePins(
 }
 
 /**
- * The route id whose variants include the given place. Spots in the S6 page
- * belong to exactly one model route in the current demo, so this resolves the
- * shared `tmm:savedRoutes` entry for a spot-level "save" action.
+ * The route id whose variants include the given place, when that is
+ * unambiguous. A place shared by multiple model routes has no single parent,
+ * so it resolves to `undefined` — the Spot "save" action must never pick one
+ * route arbitrarily. (The current demo places each belong to exactly one
+ * route, so this returns the pilot route for them.)
  */
-export function getRouteIdForPlace(placeId: string): string | undefined {
-  for (const route of MODEL_ROUTES) {
-    for (const variant of Object.values(route.variants)) {
-      if (variant.steps.some((s) => s.placeId === placeId)) {
-        return route.id;
-      }
-    }
-  }
-  return undefined;
+export function getRouteIdForPlace(
+  placeId: string,
+  routes: readonly ModelRoute[] = MODEL_ROUTES,
+): string | undefined {
+  const matching = routes.filter((route) =>
+    Object.values(route.variants).some((variant) =>
+      variant.steps.some((s) => s.placeId === placeId),
+    ),
+  );
+  return matching.length === 1 ? matching[0].id : undefined;
 }

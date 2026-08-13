@@ -7,6 +7,7 @@
  * recap/deep-dive of the full S7 framing (the 「応援」 tab, Issue #66).
  */
 import { SupportPanel } from '../components/SupportPanel';
+import { MODEL_ROUTE_ID } from '../components/saved-routes';
 import { useI18n } from '../i18n';
 
 export function SupportPage() {
@@ -15,7 +16,8 @@ export function SupportPage() {
     <div className="tmm-page">
       <h1 className="s7-page-title">{t('s7PageTitle')}</h1>
       <p className="s7-page-sub">{t('s7PageSub')}</p>
-      <SupportPanel />
+      {/* Standalone demo page: the save action targets the demo model route. */}
+      <SupportPanel routeId={MODEL_ROUTE_ID} />
     </div>
   );
 }

@@ -55,7 +55,9 @@ describe('i18n fallback (#12)', () => {
     // Spot-check that zh-TW is not just an empty placeholder block.
     expect(strings['zh-TW'].s0Cta).toBe('開始我的飲食文化之旅');
     expect(strings['zh-TW'].s8PageTitle).toBe('我的路線');
-    expect(strings['zh-TW'].s3PrimaryCta).toContain('東京山葵');
+    expect(strings.ja.s3PrimaryCta).toContain('{name}');
+    expect(strings.en.s3PrimaryCta).toContain('{name}');
+    expect(strings['zh-TW'].s3PrimaryCta).toContain('{name}');
     expect(strings['zh-TW'].fpNoRestrictions).toBe('沒有飲食限制');
   });
 
@@ -141,6 +143,16 @@ describe('S0–S8 data content localization (#67)', () => {
     const jaKeys = Object.keys(strings.ja).sort();
     expect(jaKeys).toEqual(Object.keys(strings.en).sort());
     expect(jaKeys).toEqual(Object.keys(strings['zh-TW']).sort());
+  });
+
+  it('keeps municipality agriculture context visibly separate from wasabi succession claims (#128)', () => {
+    expect(strings.ja.dataStoryChallengeEvidence).toMatch(/農業全体.*わさび農家.*後継者/);
+    expect(strings.en.dataStoryChallengeEvidence).toMatch(/all agriculture.*does not identify wasabi farms or succession/i);
+    expect(strings['zh-TW'].dataStoryChallengeEvidence).toMatch(/全體農業.*無法說明山葵農家或接班/);
+
+    for (const locale of ['ja', 'en', 'zh-TW'] as const) {
+      expect(strings[locale].dataStoryChallengeEvidence).toContain('{n}');
+    }
   });
 });
 

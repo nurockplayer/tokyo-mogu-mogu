@@ -47,6 +47,9 @@ jobs:
         env:
           BASE: ${{ steps.base.outputs.base }}
 
+      - name: Test change classifier
+        run: bash scripts/ci/classify-changes.test.sh
+
       - name: Classify changes
         id: classify
         run: |

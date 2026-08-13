@@ -1,13 +1,16 @@
 /**
  * S4 Food Culture Story screen (Issues #44, #79).
  *
- * A vertical-scroll editorial article for the recommended food culture
- * (東京わさび / wasabi-okutama). No legacy Locked/Unlocked gating: the full
- * story is readable directly from S3, accountless and without geolocation.
+ * A vertical-scroll editorial article for the recommended food culture. No
+ * legacy Locked/Unlocked gating: the full story is readable directly from S3,
+ * accountless and without geolocation.
  *
- * The story is scoped to the 東京わさび record: `wasabi-okutama` is the default
- * when no id is given, and any other / unknown id renders a graceful empty
- * state instead of a 404 or a mislabeled article.
+ * The story resolves the food culture named in the URL (the recommended
+ * 東京わさび is the default when no id is given). Any culture that resolves a
+ * complete story-content entry renders its own story; any other / unknown id
+ * renders a graceful empty state instead of a 404 or a mislabeled article.
+ * The selected candidate/journey identity (#123) is forwarded on to the Route
+ * screen so the recorded journey stays stable through Result → Story → Route.
  *
  * Structure follows the approved S4 editorial rhythm (#79):
  *   hero (kicker, title, lead, read-time, origin tag, media)
@@ -22,12 +25,17 @@
  * `number` label so the numbering stays consistent and reusable.
  *
  * Content provenance:
- *   - Geography/history, maker, craft and how-to-enjoy sections draw on the
- *     FoodCulture record's {Ja,En} fields (origin: 'editorial').
+ *   - All story copy resolves through the per-culture S4 content map
+ *     (`storyContent` in `src/i18n/data-content.ts`); the 8/23 demo supplies
+ *     the 東京わさび entry only, so a future verified Region × FoodCulture adds
+ *     its own story as data/config rather than editing this screen.
  *   - The challenge section and its "tasting is succession" framing are
  *     clearly-marked editorial composition (s4EditorialNote). The section
  *     names the succession challenge generically without fabricating specific
  *     statistics, and always resolves toward the user's action.
+ *   - The municipality census context (#128) renders as a separate reference
+ *     note after the editorial note, never as evidence for the succession
+ *     claim, and surfaces its own provenance in the Sources block.
  *   - The compact Sources block preserves the record's provenance.
  *
  * Entry contexts (#79): the Story is a reusable component reached from the
@@ -37,18 +45,30 @@
  * silently creates Saved Route state (the route page owns saving).
  */
 import { Link, useParams, useSearchParams } from 'react-router-dom';
-import { getFoodCultureById, PILOT_JOURNEY } from '../data';
+import {
+  getFoodCultureById,
+  getMunicipalityAgricultureById,
+  MUNICIPALITY_INDICATOR_KEYS,
+  municipalityIndicatorValue,
+  resolveStoryJourney,
+} from '../data';
 import { FoodCultureImage } from '../components/FoodCultureImage';
 import { SupportPanel } from '../components/SupportPanel';
 import { Card, StorySection, Tag } from '../ui';
 import { useI18n, type Locale } from '../i18n';
-import { foodCultureKey } from '../i18n/data-content';
-import { sourceDateLabel } from '../lib/verification';
+import { storyContent } from '../i18n/data-content';
+import { deriveVerificationStatus, sourceDateLabel } from '../lib/verification';
 import { readingMinutes, resolveBackTo, storyRouteHref } from './story-reading';
 import './StoryPage.css';
 
-/** The recommended food culture rendered by this screen (the PILOT_JOURNEY). */
-const STORY_ID = PILOT_JOURNEY.foodCultureId;
+/** Source-review label for the census context surfaced in this story (#128/#129). */
+const CENSUS_STATUS_LABEL = {
+  verified: 'verificationVerified',
+  needs_confirmation: 'verificationNeedsConfirmation',
+  stale: 'verificationStale',
+  conflict: 'verificationConflict',
+  demo: 'verificationDemo',
+} as const;
 
 /**
  * Replace `{name}` placeholders in a localized template, mirroring the
@@ -78,15 +98,23 @@ export function StoryPage() {
   // Result back behavior. An allowlist prevents crafted values from becoming
   // arbitrary or protocol-relative destinations.
   const backTo = resolveBackTo(searchParams.get('backTo'), '/explore/result');
-  const routeHref = storyRouteHref(backTo);
 
-  // No id defaults to the recommended 東京わさび story. Any other id — whether
-  // it names a different seed culture or an unknown value — renders the graceful
-  // empty state instead of a mislabeled article.
-  const record = getFoodCultureById(foodCultureId ?? STORY_ID);
-  const isStoryRecord = record?.id === STORY_ID;
+  // The displayed culture is the URL `foodCultureId`; a journey is attached
+  // only when it belongs to that same culture (a matching candidate, or an
+  // unambiguous culture/config default such as the demo wasabi culture).
+  // A candidate-less non-demo Story or a mismatched candidate keeps its culture
+  // and represents the journey as absent — the pilot is never attached just
+  // because a candidate id is missing.
+  const identity = resolveStoryJourney(foodCultureId, searchParams.get('candidateId'));
 
-  if (!record || !isStoryRecord) {
+  // No id defaults to the recommended 東京わさび story. Any culture that
+  // resolves a complete story entry renders its own story; any other id —
+  // whether it names a different seed culture or an unknown value — renders
+  // the graceful empty state instead of a mislabeled article.
+  const record = identity ? getFoodCultureById(identity.foodCultureId) : undefined;
+  const content = record ? storyContent(record.id) : undefined;
+
+  if (!record || !content) {
     return (
       <section className="s4-page">
         <div className="tmm-empty">
@@ -103,24 +131,40 @@ export function StoryPage() {
     );
   }
 
-  const heroName = t(foodCultureKey(STORY_ID, 'name') ?? 'dataWasabiName');
-  const lead = t('dataStoryLead');
-  const areaName = t('areaOkutama');
-  const fcKey = (field: 'history' | 'story' | 'maker' | 'howToEnjoy') =>
-    foodCultureKey(STORY_ID, field) ?? 'dataWasabiDescription';
+  // Issue #128: municipality agriculture context, resolved only for the story
+  // that owns it (via the story's data/config `municipalityId`). This is shown
+  // as separate municipal context with an explicit non-succession limitation;
+  // when missing/suppressed the section falls back to the editorial text alone
+  // (no fabricated statistic, and never another municipality's census).
+  const municipalityAgri = content.municipalityId
+    ? getMunicipalityAgricultureById(content.municipalityId)
+    : undefined;
+  const municipalityEntities = municipalityAgri
+    ? municipalityIndicatorValue(
+        municipalityAgri,
+        MUNICIPALITY_INDICATOR_KEYS.agriculturalEntities,
+      )
+    : undefined;
+
+  const heroName = t(content.name);
+  const lead = t(content.lead);
+  const areaName = t(content.area);
   const readTime = bodyReadingMinutes(
     [
-      t(fcKey('history')),
-      t(fcKey('story')),
-      t('dataStoryMakerRole'),
-      t(fcKey('maker')),
-      t('dataStoryCraft'),
-      t(fcKey('howToEnjoy')),
-      t('dataStoryChallenge'),
-      t('dataStorySupport'),
+      t(content.history),
+      t(content.story),
+      t(content.makerRole),
+      t(content.maker),
+      t(content.craft),
+      t(content.howToEnjoy),
+      t(content.challenge),
+      t(content.support),
     ],
     locale,
   );
+  const routeHref = identity?.journeyId
+    ? storyRouteHref(backTo, identity.candidateId)
+    : undefined;
 
   return (
     <article className="s4-page">
@@ -136,7 +180,7 @@ export function StoryPage() {
           />
         </div>
         <div className="s4-hero__body">
-          <p className="s4-hero__kicker">{t('s4HeroKicker')}</p>
+          <p className="s4-hero__kicker">{t(content.heroKicker)}</p>
           <h1 className="s4-hero__title">{heroName}</h1>
           <p className="s4-hero__lead">{lead}</p>
           <p className="s4-hero__caption">{t('s4MediaCaption')}</p>
@@ -157,10 +201,10 @@ export function StoryPage() {
       </header>
 
       <div className="s4-story">
-        {/* Section 2 — Why Okutama (geography / history) */}
+        {/* Section 2 — Why this region (geography / history) */}
         <StorySection number={1} kicker={t('s4KickerWhy')} title={format(t('s4TitleWhy'), { area: areaName })}>
-          <p className="s4-p">{t(fcKey('history'))}</p>
-          <p className="s4-p">{t(fcKey('story'))}</p>
+          <p className="s4-p">{t(content.history)}</p>
+          <p className="s4-p">{t(content.story)}</p>
         </StorySection>
 
         {/* Section 3 — The maker (the maker is the visual lead of the section) */}
@@ -169,64 +213,81 @@ export function StoryPage() {
             <div className="s4-maker-media">
               <FoodCultureImage
                 image={record.image}
-                name={t('dataStoryMakerName')}
+                name={t(content.makerName)}
                 nameJa={record.nameJa}
                 category={record.category}
-                alt={t('dataStoryMakerName')}
+                alt={t(content.makerName)}
               />
             </div>
             <div className="s4-maker-body">
-              <h3 className="s4-maker-name">{t('dataStoryMakerName')}</h3>
-              <p className="s4-maker-role">{t('dataStoryMakerRole')}</p>
+              <h3 className="s4-maker-name">{t(content.makerName)}</h3>
+              <p className="s4-maker-role">{t(content.makerRole)}</p>
             </div>
           </Card>
-          <p className="s4-p">{t(fcKey('maker'))}</p>
+          <p className="s4-p">{t(content.maker)}</p>
           <p className="s4-note">{t('s4MakerNote')}</p>
         </StorySection>
 
         {/* Section 4 — Craft & wisdom (story + how to enjoy) */}
         <StorySection number={3} kicker={t('s4KickerCraft')} title={t('s4TitleCraft')}>
-          <p className="s4-p">{t('dataStoryCraft')}</p>
+          <p className="s4-p">{t(content.craft)}</p>
           <div className="s4-inline-media">
             <FoodCultureImage
               image={record.image}
-              name={t('dataStoryCraft')}
+              name={t(content.craft)}
               nameJa={record.nameJa}
               category={record.category}
-              alt={t('s4CraftMediaAlt')}
+              alt={t(content.craftMediaAlt)}
             />
             <span className="s4-media-caption">{t('s4MediaCaption')}</span>
           </div>
-          <p className="s4-p">{t(fcKey('howToEnjoy'))}</p>
+          <p className="s4-p">{t(content.howToEnjoy)}</p>
         </StorySection>
 
         {/* Section 5 — The challenge today (never ends on pessimism) */}
         <StorySection number={4} kicker={t('s4KickerChallenge')} title={t('s4TitleChallenge')}>
-          <p className="s4-p">{t('dataStoryChallenge')}</p>
+          <p className="s4-p">{t(content.challenge)}</p>
           <p className="s4-note s4-note--editorial">{t('s4EditorialNote')}</p>
+          {/* Issue #128: municipality census context shown as a separate
+              reference note — after the editorial note, never as evidence for
+              the succession claim above. The template is the story's own
+              (never another municipality's name); missing/suppressed falls
+              back to editorial only. */}
+          {municipalityAgri && content.challengeEvidence && municipalityEntities !== undefined ? (
+            <p className="s4-note s4-note--editorial">
+              {format(t(content.challengeEvidence), { n: municipalityEntities })}
+            </p>
+          ) : null}
         </StorySection>
 
         {/* Section 6 — Tasting is passing it on */}
         <StorySection number={5} kicker={t('s4KickerSupport')} title={t('s4TitleSupport')}>
           <Card className="s4-support-card">
-            <p className="s4-p">{t('dataStorySupport')}</p>
+            <p className="s4-p">{t(content.support)}</p>
           </Card>
         </StorySection>
       </div>
 
       {/* Support actions (Issues #68/#79) — the story's "tasting is succession"
           beat made concrete: how to actually act on that interest. Shared
-          SupportPanel; no standalone S7 destination is required. */}
+          SupportPanel; no standalone S7 destination is required. The save
+          action persists this journey's route, never a hard-coded pilot id. */}
       <div className="s4-support-actions">
-        <SupportPanel />
+        <SupportPanel routeId={identity?.journeyId} />
       </div>
 
-      {/* Section 7 — CTA to S5 route */}
+      {/* Section 7 — CTA to S5 route (only when the story's candidate has a
+          journey; a culture without a Route renders no route CTA rather than
+          attaching the pilot journey). */}
       <footer className="s4-cta">
-        <Link to={routeHref} className="tmm-btn tmm-btn--primary tmm-btn--block">
-          {t('s4CtaLabel')}
-        </Link>
-        <p className="s4-cta__sub">{t('s4CtaSub')}</p>
+        {routeHref ? (
+          <>
+            <Link to={routeHref} className="tmm-btn tmm-btn--primary tmm-btn--block">
+              {t('s4CtaLabel')}
+            </Link>
+            <p className="s4-cta__sub">{t(content.ctaSub)}</p>
+          </>
+        ) : null}
         <Link to={backTo} className="s4-cta__back">{t('s4BackToResult')}</Link>
       </footer>
 
@@ -255,15 +316,42 @@ export function StoryPage() {
               })()}
             </li>
           ))}
+          {/* Issue #128: when the story's own municipality census context is
+              shown, surface its provenance (e-Stat dataset / date / status). */}
+          {municipalityAgri ? (
+            <li key="municipality-census" className="s4-sources__item">
+              <span className="s4-sources__name">{municipalityAgri.source.name}</span>
+              {municipalityAgri.source.url ? (
+                <a href={municipalityAgri.source.url} target="_blank" rel="noreferrer" className="s4-sources__link">
+                  {t('sourceLink')}
+                </a>
+              ) : null}
+              <Tag tone="warning">
+                {t(CENSUS_STATUS_LABEL[
+                  deriveVerificationStatus(municipalityAgri.source, municipalityAgri.origin)
+                ])}
+              </Tag>
+              {(() => {
+                const meta = sourceDateLabel(municipalityAgri.source, municipalityAgri.origin);
+                return meta ? (
+                  <span className="s4-sources__meta">
+                    {t(meta.label)}: {meta.date}
+                  </span>
+                ) : null;
+              })()}
+            </li>
+          ) : null}
         </ul>
       </details>
 
-      {/* Mobile sticky/following CTA — does not conflict with the approved editorial layout */}
-      <div className="s4-sticky-cta">
-        <Link to={routeHref} className="tmm-btn tmm-btn--orange tmm-btn--block">
-          {t('s4StickyCta')}
-        </Link>
-      </div>
+      {/* Mobile sticky/following CTA — only when the candidate has a journey. */}
+      {routeHref ? (
+        <div className="s4-sticky-cta">
+          <Link to={routeHref} className="tmm-btn tmm-btn--orange tmm-btn--block">
+            {t(content.stickyCta)}
+          </Link>
+        </div>
+      ) : null}
     </article>
   );
 }

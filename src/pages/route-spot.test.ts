@@ -10,6 +10,7 @@
  */
 import { describe, expect, it } from 'vitest';
 import {
+  resolveSpotRouteId,
   routeBackHref,
   routeBackTarget,
   routeContextSearch,
@@ -60,6 +61,37 @@ describe('Route back-target resolution (#80)', () => {
       '/story/wasabi-okutama?backTo=%2Fdiscover',
     );
   });
+
+  it('forwards the selected candidate identity through Route and Spot context (#123)', () => {
+    expect(
+      routeContextSearch('?from=story&backTo=%2Fmogu&candidateId=demo-okutama-wasabi'),
+    ).toBe('?from=story&backTo=%2Fmogu&candidateId=demo-okutama-wasabi');
+    expect(routeBackHref('?from=story&backTo=%2Fmogu&candidateId=demo-okutama-wasabi')).toBe(
+      '/story/wasabi-okutama?backTo=%2Fmogu&candidateId=demo-okutama-wasabi',
+    );
+  });
+
+  it('forwards an explicit saved-route id through the Route ↔ Spot round-trip (#123)', () => {
+    // A saved route reopened from My keeps its own route id through Spot and
+    // back, so it never collapses to the pilot route.
+    expect(routeContextSearch('?from=my&routeId=ome-sake-journey')).toBe(
+      '?from=my&routeId=ome-sake-journey',
+    );
+    expect(spotBackHref('?from=my&routeId=ome-sake-journey')).toBe(
+      '/route?from=my&routeId=ome-sake-journey',
+    );
+  });
+
+  it('returns to the caller for an explicit invalid candidate (no demo fallback)', () => {
+    // An explicit candidate that is not part of the configured data (or was
+    // removed) no longer resolves the demo journey; Back returns to the caller.
+    expect(routeBackHref('?from=story&backTo=%2Fdiscover&candidateId=future-ome-sake')).toBe(
+      '/discover',
+    );
+    expect(routeBackHref('?from=story&backTo=%2Fdiscover&candidateId=removed-candidate')).toBe(
+      '/discover',
+    );
+  });
 });
 
 describe('Spot back-target resolution (#93)', () => {
@@ -86,6 +118,33 @@ describe('Spot back-target resolution (#93)', () => {
   it('defaults to the Route when the caller context is absent', () => {
     expect(spotBackHref('')).toBe('/route');
     expect(spotBackHref('?from=unknown')).toBe('/route');
+  });
+});
+
+describe('Spot save route identity (#69)', () => {
+  it('uses an explicit forwarded route id over the place lookup', () => {
+    // Reached from a saved Route, a shared place must save that route, not the
+    // place's first matching route.
+    expect(resolveSpotRouteId('?from=my&routeId=route-b', 'shared-place')).toBe('route-b');
+  });
+
+  it('resolves the journey from forwarded candidate context', () => {
+    expect(
+      resolveSpotRouteId('?from=story&candidateId=demo-okutama-wasabi', 'shared-place'),
+    ).toBe('okutama-wasabi-journey');
+  });
+
+  it('falls back to the place parent route only without route context', () => {
+    // Direct entry (Discover) keeps the demo place → demo route resolution.
+    expect(resolveSpotRouteId('?from=discover', 'okutama-tourism-office')).toBe(
+      'okutama-wasabi-journey',
+    );
+  });
+
+  it('keeps an ambiguous direct spot unavailable instead of choosing a route', () => {
+    // No route context and no unambiguous place parent → no itinerary target.
+    expect(resolveSpotRouteId('?from=discover', 'unknown-place')).toBeUndefined();
+    expect(resolveSpotRouteId('?from=discover', undefined)).toBeUndefined();
   });
 });
 

@@ -25,19 +25,22 @@ import { useState } from 'react';
 import { SupportAction, Tag } from '../ui';
 import { useI18n } from '../i18n';
 import { SUPPORT_ACTIONS, actionMeaning, actionTitle } from './support-actions';
-import { MODEL_ROUTE_ID, isRouteSaved, saveRoute, unsaveRoute } from './saved-routes';
+import { isRouteSaved, saveRoute, unsaveRoute } from './saved-routes';
 import './SupportPanel.css';
 
-export function SupportPanel() {
+export function SupportPanel({ routeId }: { routeId?: string }) {
   const { locale, t } = useI18n();
-  const [saved, setSaved] = useState<boolean>(() => isRouteSaved(MODEL_ROUTE_ID));
+  // Absent routeId means the caller has no journey yet: the save action stays
+  // disabled and never attaches a default (pilot) route to this panel.
+  const [saved, setSaved] = useState<boolean>(() => (routeId ? isRouteSaved(routeId) : false));
 
   const toggleSave = () => {
+    if (!routeId) return;
     if (saved) {
-      unsaveRoute(MODEL_ROUTE_ID);
+      unsaveRoute(routeId);
       setSaved(false);
     } else {
-      saveRoute(MODEL_ROUTE_ID);
+      saveRoute(routeId);
       setSaved(true);
     }
   };
@@ -66,16 +69,20 @@ export function SupportPanel() {
               {item.kind === 'disabled' ? (
                 <Tag tone="warning">{t('s7ComingSoon')}</Tag>
               ) : item.kind === 'save' ? (
-                <button
-                  type="button"
-                  onClick={toggleSave}
-                  className={`tmm-btn tmm-btn--sm ${
-                    saved ? 'tmm-btn--primary' : 'tmm-btn--secondary'
-                  }`}
-                  aria-pressed={saved}
-                >
-                  {saved ? t('s7SaveRemove') : t('s7SaveToRoute')}
-                </button>
+                routeId ? (
+                  <button
+                    type="button"
+                    onClick={toggleSave}
+                    className={`tmm-btn tmm-btn--sm ${
+                      saved ? 'tmm-btn--primary' : 'tmm-btn--secondary'
+                    }`}
+                    aria-pressed={saved}
+                  >
+                    {saved ? t('s7SaveRemove') : t('s7SaveToRoute')}
+                  </button>
+                ) : (
+                  <Tag tone="warning">{t('s7ComingSoon')}</Tag>
+                )
               ) : (
                 t('s7VisitMore')
               )}

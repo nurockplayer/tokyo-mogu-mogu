@@ -21,7 +21,7 @@ const DURATIONS = ['half-day', '1-day'] as const;
 
 /** The bundle string rendered for a route step role (ja). */
 function stepJa(placeId: string, duration: (typeof DURATIONS)[number]): string {
-  return resolveKey(strings, 'ja', stepRoleKey(ROUTE.id, placeId, duration));
+  return resolveKey(strings, 'ja', stepRoleKey(ROUTE.id, placeId, duration)!);
 }
 
 /** The bundle string rendered for a spot role (ja). */

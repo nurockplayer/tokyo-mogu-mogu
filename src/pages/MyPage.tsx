@@ -19,11 +19,11 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, EmptyState } from '../ui';
 import { useI18n, type LocaleKey } from '../i18n';
-import { routeNameKey } from '../i18n/data-content';
+import { routeAreaKey, routeNameKey } from '../i18n/data-content';
 import { loadSavedRoutes, unsaveRoute, type SavedRouteEntry } from '../lib/saved-routes';
 import { loadFoodProfile } from '../lib/food-profile-storage';
 import type { DietaryRestriction } from '../lib/food-profile';
-import { buildEntries, durationLabel } from './MyRoutePage';
+import { buildEntries, durationLabel, routeAreaLabel } from './MyRoutePage';
 import './MyPage.css';
 
 /** Dietary restriction → i18n label key (kept in sync with FoodProfilePage). */
@@ -73,16 +73,26 @@ export function MyPage() {
               <li key={entry.routeId}>
                 <Card button className="my-route-card">
                   <div className="my-route-card__body">
-                    <div className="my-route-card__title">{t(routeNameKey(route.id))}</div>
+                    <div className="my-route-card__title">
+                      {(() => {
+                        const key = routeNameKey(route.id);
+                        return key ? t(key) : locale === 'ja' ? route.nameJa : route.nameEn;
+                      })()}
+                    </div>
                     <div className="my-route-card__meta">
                       <span>
                         {t('s8Duration')}: {durationLabel(route, locale)}
                       </span>
-                      <span>{t('s8Area')}: {t('s8AreaOkutama')}</span>
+                      <span>
+                        {t('s8Area')}: {(() => {
+                          const areaKey = routeAreaKey(route.id);
+                          return areaKey ? t(areaKey) : routeAreaLabel(route, locale);
+                        })()}
+                      </span>
                     </div>
                     <div className="my-route-card__actions">
                       <Link
-                        to={`/route?from=my`}
+                        to={`/route?from=my&routeId=${encodeURIComponent(entry.routeId)}`}
                         className="tmm-btn tmm-btn--sm tmm-btn--secondary"
                       >
                         {t('s8OpenRoute')}

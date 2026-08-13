@@ -356,9 +356,11 @@ export const strings = {
     s3DietaryTitle: '食事制限の考慮',
     s3DietaryKnown: '食事制限の入力があります（対応可否は未確認です）',
     s3DietaryUnknown: '制限なしのご入力でした',
+    s3TravelTimeUnknown:
+      'この出発地からの移動時間は未確認です。ルートの交通情報を確認してから計画してください。',
     s3Disclaimer:
       'おすすめは探索結果にもとづく提案です。アレルギー対応や食品の安全性を保証するものではありません。詳細は現地・店舗に直接ご確認ください。',
-    s3PrimaryCta: '東京わさびの物語を読む',
+    s3PrimaryCta: '{name}の物語を読む',
     s3EditCta: '今回の探索をもう一度',
     s3MoguNote: 'このおすすめを「MOGU」の最近の履歴に保存しました。',
     s3MissingTitle: 'おすすめを表示できませんでした',
@@ -421,6 +423,8 @@ export const strings = {
       'わさびは清らかな冷水でしか育ちません。奥多摩のわさび田は谷の沢水を引き込んだ棚田状で、急流を利用した伝統的な「畳流し」や水掛け栽培が今も続いています。',
     dataStoryChallenge:
       '渓流沿いのわさび田は、山の地形と水に寄り添う小規模な営みです。こうした産業では、後継者や担い手の減少が共通の課題になっています。そのため、食べること、買うこと、訪ねること——そのひとつひとつが、作り手の営みを支えることにつながります。',
+    dataStoryChallengeEvidence:
+      '地域全体の参考情報として、2020年農林業センサスでは奥多摩町の農業経営体は{n}経営体です。これは農業全体の市町村集計で、わさび農家や後継者の状況を示すものではなく、現在の状況でもありません。',
     dataStorySupport:
       'あなたが味わうこと自体が、このわさびの次の世代を支えることになります。ぜひ、食べて、買って、そして奥多摩へ。',
     dataRouteName: '奥多摩わさび紀行',
@@ -807,9 +811,11 @@ export const strings = {
     s3DietaryTitle: 'Dietary considerations',
     s3DietaryKnown: 'Dietary restrictions recorded; compatibility is unverified',
     s3DietaryUnknown: 'No restrictions entered',
+    s3TravelTimeUnknown:
+      'Travel time from this starting area is unverified. Check the route transport details before planning.',
     s3Disclaimer:
       'This recommendation is based on your exploration. It is not a guarantee of allergen compatibility or food safety. Please confirm details directly with the venue or shop.',
-    s3PrimaryCta: 'Read the Tokyo Wasabi story',
+    s3PrimaryCta: 'Read the {name} story',
     s3EditCta: 'Run this trip again',
     s3MoguNote: 'This recommendation was saved to your Recent in MOGU.',
     s3MissingTitle: 'We could not show a recommendation',
@@ -871,6 +877,8 @@ export const strings = {
       'Wasabi only grows in clean cold water. Okutama\'s wasabi fields are terraced paddies fed by mountain stream water, still cultivated using traditional stone-laden and water-flush methods.',
     dataStoryChallenge:
       'Stream-side wasabi paddies are a small, gentle craft that follows the mountain\'s shape and water. Like many such industries, passing the work on to the next generation is a common challenge. That is why eating it, buying it, and visiting it — each single act helps keep the growers\' work alive.',
+    dataStoryChallengeEvidence:
+      'For separate municipal context, the 2020 Agriculture and Forestry Census counts {n} agricultural management entity across all agriculture in Okutama Town. This does not identify wasabi farms or succession status, and is not a current figure.',
     dataStorySupport:
       'Your tasting alone helps carry this wasabi to the next generation. Eat it, buy it — and visit Okutama.',
     dataRouteName: 'Okutama Wasabi Journey',
@@ -1263,9 +1271,10 @@ export const strings = {
     s3DietaryTitle: '飲食限制的考量',
     s3DietaryKnown: '已記錄飲食限制；是否適用尚未確認',
     s3DietaryUnknown: '未輸入飲食限制',
+    s3TravelTimeUnknown: '從這個出發地前往的交通時間尚未確認。規劃前請查看路線中的交通資訊。',
     s3Disclaimer:
       '推薦是根據探索結果提出的建議。不保證過敏原對應或食品安全。詳細請直接向當地店家確認。',
-    s3PrimaryCta: '閱讀東京山葵的故事',
+    s3PrimaryCta: '閱讀{name}的故事',
     s3EditCta: '重新探索這次旅程',
     s3MoguNote: '已將這項推薦存入「MOGU」的最近記錄。',
     s3MissingTitle: '無法顯示推薦',
@@ -1325,6 +1334,8 @@ export const strings = {
       '山葵只在清澈冷水中生長。奧多摩的山葵田是利用山谷泉水引入的梯田，至今仍沿用湍急水流與水掛栽培的傳統農法。',
     dataStoryChallenge:
       '溪流畔的山葵田，是依循山勢與水源展開的小規模農事。這樣的行業，普遍面臨後繼者與人手減少的課題。正因如此，每一次品嚐、每一次購買、每一次到訪——都會成為支持生產者繼續耕耘的力量。',
+    dataStoryChallengeEvidence:
+      '另提供全町背景資料：根據2020年農林業センサス，奧多摩町所有農業共有{n}個農業經營體。這是全體農業的市町村彙總，無法說明山葵農家或接班狀況，也不是現況資料。',
     dataStorySupport:
       '你的每一次品嚐，都在支撐山葵的下一個世代。歡迎你來品嚐、購買，親自造訪奧多摩。',
     dataRouteName: '奧多摩山葵紀行',

@@ -13,9 +13,9 @@
  *
  * The Result page decides whether a mount counts as a NEW recommendation
  * (records into Recent) or a REOPEN (reads Recent, does not re-record): MOGU
- * cards link to `/explore/result?from=mogu`, and ResultPage treats that marker
- * as a reopen so a historical result's timestamp is not refreshed by browsing
- * history again.
+ * cards link to `/explore/result?from=mogu` with the stored result/candidate
+ * identity, and ResultPage treats that marker as a reopen so history is not
+ * re-ranked or refreshed merely by browsing it.
  */
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -42,7 +42,10 @@ const TAG_LABEL_KEY: Record<MatchTagKey, LocaleKey> = {
 
 /** Exported for unit tests: pure href builder for the reopen link. */
 export function reopenHref(entry: MoguRecentEntry): string {
-  return `/explore/result?from=mogu&resultId=${encodeURIComponent(entry.resultId)}`;
+  const candidate = entry.candidateId
+    ? `&candidateId=${encodeURIComponent(entry.candidateId)}`
+    : '';
+  return `/explore/result?from=mogu&resultId=${encodeURIComponent(entry.resultId)}${candidate}`;
 }
 
 /**
@@ -111,7 +114,7 @@ export function MoguPage() {
 
       <ul className="mogu-list">
         {entries.map((entry) => (
-          <li key={`${entry.resultId}-${entry.createdAt}`}>
+          <li key={`${entry.candidateId ?? entry.resultId}-${entry.createdAt}`}>
             <Card button className="mogu-card">
               <div className="mogu-card__body">
                 <div className="mogu-card__title">{t(entry.titleKey as LocaleKey)}</div>
