@@ -10,7 +10,9 @@
  *   re-verified during the Issue #10 Okutama fieldwork before real-world use.
  *
  * Source URLs use official top-level domains; exact deep links may need
- * updating. lastVerified is the retrieval date of the base facts.
+ * updating. retrievedAt is the retrieval date of the base facts (no
+ * confirmedAt / verification claim is made — everything is needs_confirmation
+ * until a stakeholder confirms it, Issue #10 / #129).
  */
 import type { FoodCulture } from './model';
 
@@ -46,7 +48,6 @@ export const FOOD_CULTURES: FoodCulture[] = [
       {
         name: '奥多摩観光協会',
         url: 'https://www.okutokanko.jp/',
-        lastVerified: '2026-08-08',
         sourceType: 'official_web',
         retrievedAt: '2026-08-08',
       verificationStatus: 'needs_confirmation',
@@ -55,7 +56,6 @@ export const FOOD_CULTURES: FoodCulture[] = [
       {
         name: '東京都産業労働局 特産品情報',
         url: 'https://www.sangyo-rodo.metro.tokyo.lg.jp/',
-        lastVerified: '2026-08-08',
         sourceType: 'official_web',
         retrievedAt: '2026-08-08',
       verificationStatus: 'needs_confirmation',
@@ -94,7 +94,6 @@ export const FOOD_CULTURES: FoodCulture[] = [
       {
         name: '奥多摩観光協会',
         url: 'https://www.okutokanko.jp/',
-        lastVerified: '2026-08-08',
         sourceType: 'official_web',
         retrievedAt: '2026-08-08',
       verificationStatus: 'needs_confirmation',
@@ -132,7 +131,6 @@ export const FOOD_CULTURES: FoodCulture[] = [
       {
         name: '青梅市',
         url: 'https://www.city.ome.tokyo.jp/',
-        lastVerified: '2026-08-08',
         sourceType: 'official_web',
         retrievedAt: '2026-08-08',
       verificationStatus: 'needs_confirmation',
@@ -169,7 +167,6 @@ export const FOOD_CULTURES: FoodCulture[] = [
       {
         name: '青梅市観光協会',
         url: 'https://www.city.ome.tokyo.jp/',
-        lastVerified: '2026-08-08',
         sourceType: 'official_web',
         retrievedAt: '2026-08-08',
       verificationStatus: 'needs_confirmation',
@@ -211,7 +208,6 @@ export const FOOD_CULTURES: FoodCulture[] = [
       {
         name: '奥多摩観光協会',
         url: 'https://www.okutokanko.jp/',
-        lastVerified: '2026-08-08',
         sourceType: 'official_web',
         retrievedAt: '2026-08-08',
       verificationStatus: 'needs_confirmation',
@@ -248,7 +244,6 @@ export const FOOD_CULTURES: FoodCulture[] = [
       {
         name: '奥多摩観光協会',
         url: 'https://www.okutokanko.jp/',
-        lastVerified: '2026-08-08',
         sourceType: 'official_web',
         retrievedAt: '2026-08-08',
       verificationStatus: 'needs_confirmation',
@@ -285,7 +280,6 @@ export const FOOD_CULTURES: FoodCulture[] = [
       {
         name: '日の出町',
         url: 'https://www.town.hinode.tokyo.jp/',
-        lastVerified: '2026-08-08',
         sourceType: 'official_web',
         retrievedAt: '2026-08-08',
       verificationStatus: 'needs_confirmation',
