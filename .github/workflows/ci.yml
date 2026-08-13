@@ -50,6 +50,9 @@ jobs:
       - name: Test change classifier
         run: bash scripts/ci/classify-changes.test.sh
 
+      - name: Test safe merge helper
+        run: bash scripts/safe-merge.test.sh
+
       - name: Classify changes
         id: classify
         run: |
