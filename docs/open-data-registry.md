@@ -130,9 +130,17 @@ Evidence column = the repository file(s) this entry was verified against on
 - **Status nuance (important)**:
   - The ingestion **pipeline and generated file exist** (Issue #16 closed), but
     `src/data/index.ts` does **not** import `OKUTAMA_PLACES`. The app's runtime
-    `places` / `foodCultures` come from `src/data/seed-places.ts` (8 places, all
-    `origin: 'demo'`, source 奥多摩観光協会) and `src/data/seed-routes.ts`
-    (editorial route, `SOURCE_OKUTAMA`).
+    `places` / `foodCultures` come from `src/data/seed-places.ts` and
+    `src/data/seed-routes.ts`.
+  - `src/data/seed-places.ts` now holds **12 places** (Issue #127 / #10 audit):
+    the **5 real facilities** on the frozen pilot journey (奥多摩観光案内所 /
+    千島わさび園 / 一心亭 / 獅子口屋 / 大丹波川国際虹ます釣場) are
+    `origin: 'source'` with `needs_confirmation` and **approximate** district-centroid
+    coordinates (no `confirmedAt`); the **7 remaining records** are
+    `origin: 'demo'` check-in/GTFS fixtures whose source metadata is explicitly
+    `sourceType: 'demo'` + `verificationStatus: 'demo'` (scaffolds, not unconfirmed
+    real facilities). `src/data/seed-routes.ts` is the editorial route with
+    `SOURCE_OKUTAMA` (`official_web`, `needs_confirmation`).
   - So the current Route/Spot (Issues #45/#80) are **not** backed by the open
     data rows; they are editorial/demo seed content. Wiring `OKUTAMA_PLACES`
     into the data layer is an open follow-up, not done state.
