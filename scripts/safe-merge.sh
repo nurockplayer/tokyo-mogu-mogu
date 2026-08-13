@@ -47,6 +47,7 @@ fi
 repo="${SAFE_MERGE_REPO:-$(gh repo view --json nameWithOwner --jq .nameWithOwner)}"
 owner="${repo%%/*}"
 name="${repo#*/}"
+trusted_reviewers="${SAFE_MERGE_REVIEWERS:-chatgpt-codex-connector[bot],coderabbitai[bot]}"
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 current_head() {
@@ -108,25 +109,69 @@ assert_strict_review_evidence() {
 
   accepted="$(jq -n \
     --arg head "$reviewed_head" \
+    --arg trusted "$trusted_reviewers" \
     --argjson reviews "$reviews" \
     --argjson comments "$comments" '
+      def norm($s): ($s // "") | gsub("\r"; "") | gsub("\\*\\*"; "") | gsub("`"; "") | gsub("^[[:space:]]+|[[:space:]]+$"; "");
+      def body_is_clean($r):
+        (([($r.body // "") | split("\n") | map(norm(.))] | index("No blocking findings.")) != null)
+        or (([($r.body // "") | split("\n") | map(norm(.))] | index("Actionable comments posted: 0")) != null);
+      # A trusted-bot review is a clean verdict when its body explicitly records
+      # one, or when it is the Codex standard boilerplate with zero inline review
+      # comments (the Codex machine-readable no-findings form).
+      def is_clean_verdict($r):
+        body_is_clean($r)
+        or (
+          $r.user.login == "chatgpt-codex-connector[bot]"
+          and (($r.body // "") | startswith("### 💡 Codex Review"))
+          and ([ $comments[] | select(.pull_request_review_id == $r.id) ] | length) == 0
+        );
+      def is_trusted($r): (($trusted | split(",") | index($r.user.login)) != null);
+
       [ $reviews[]
         | select(.commit_id == $head)
         | select(.state != "PENDING" and .state != "DISMISSED")
         | . + { _order: (.submitted_at // ((.id // 0) | tostring)) }
       ] as $exact
-      | ([ $exact[] | select(.state == "APPROVED") ] | length) as $approvals
+
+      # Decisive reviews only: native APPROVED / CHANGES_REQUESTED plus
+      # trusted-bot COMMENTED verdicts. Untrusted human COMMENTED reviews are
+      # non-decisive and never displace the decisive state.
       | ([ $exact[]
+          | . as $r
+          | select($r.state == "APPROVED" or $r.state == "CHANGES_REQUESTED" or ($r.state == "COMMENTED" and is_trusted($r)))
+        ]) as $decisive
+
+      # The merge-time verdict must be enforced: the latest decisive review of
+      # EVERY reviewer is binding. A blocking verdict from any reviewer (native
+      # CHANGES_REQUESTED, or a trusted-bot COMMENTED that does not report a
+      # clean verdict) vetoes the merge even when a human APPROVED exists,
+      # because the trusted bot verdict is the accepted reviewer evidence here.
+      | ([ $decisive
+          | sort_by(._order)
+          | group_by(.user.login)
+          | map(last)
+          | .[]
+          | select(
+              .state == "CHANGES_REQUESTED"
+              or (.state == "COMMENTED" and is_trusted(.) and (is_clean_verdict(.) | not))
+            )
+        ] | length) as $blocking_count
+
+      | ([ $decisive[] | select(.state == "APPROVED") ] | length) as $approvals
+      | ([ $decisive[]
           | select(.user.login == "chatgpt-codex-connector[bot]")
         ] | sort_by(._order) | last) as $codex
       | ([ $comments[] | select($codex != null and .pull_request_review_id == $codex.id) ] | length) as $codex_findings
-      | ($approvals > 0)
-        or (
-          $codex != null
-          and $codex.state == "COMMENTED"
-          and (($codex.body // "") | startswith("### 💡 Codex Review"))
-          and $codex_findings == 0
-        )
+
+      | (($approvals > 0)
+          or (
+            $codex != null
+            and $codex.state == "COMMENTED"
+            and (($codex.body // "") | startswith("### 💡 Codex Review"))
+            and $codex_findings == 0
+          ))
+        and $blocking_count == 0
     ')"
 
   if [[ "$accepted" != "true" ]]; then
