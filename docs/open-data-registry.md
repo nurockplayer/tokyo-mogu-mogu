@@ -95,7 +95,8 @@ Based on the Issue #19 draft table, with the **verified** status per this repo
 | 公共交通 Open Data / GTFS（多摩地域ほか） | 各交通事業者 | Future region accessibility / route feasibility | P2 | Candidate — unverified in repo | — |
 | 奥多摩町 公衆（観光）トイレ一覧 | 奥多摩町 | Route/Spot practical UX | P2 | Candidate — unverified in repo | — |
 | だれでも東京 | 東京都 | Spot / future-region accessibility | P2 | Candidate — unverified in repo | — |
-| 東京都内の飲食店バリアフリー情報 | 東京都 | Spot / future-region accessibility | P2 | Candidate — unverified in repo | — |
+| 東京都内の飲食店バリアフリー情報 | 東京都産業労働局 | Spot accessibility reference (coverage-limited) | P2 | **Available — CC BY, 210 rows; western-Tama corridor has only 4 records** (see §3.2.15) | #132 |
+| 東京都青梅市における飲食店一覧 | 青梅市 | Spot identity / regulatory-record validation only | P2 | **Available — CC BY, 1,593 rows; not proof of current operation or local ingredients** (see §3.2.15) | #132 |
 | 農林業センサス 市町村別統計表（2020年, 東京都分） | 農林水産省 / e-Stat | Regional producer / succession context | P3 | Integrated (#128 — `src/data/municipality-agriculture.ts`) | #128 |
 
 > **Verified-in-repo rows carry an evidence file** in §3.2. Candidate rows that
@@ -217,14 +218,12 @@ verified open data:
   pattern (§3.2.2) — same ODPT 基本ライセンス family, per-operator catalog.
 - **奥多摩町 公衆（観光）トイレ一覧** (奥多摩町) — Route/Spot practical UX (P2).
 - **だれでも東京** (東京都) — Spot / future-region accessibility (P2).
-- **東京都内の飲食店バリアフリー情報** (東京都) — Spot / future-region
-  accessibility (P2).
 
 > A candidate becomes `Available` only after a repo doc records its real source
 > URL, license, format, and retrieval date. Until then it is explicitly
 > `unverified`.
 
-#### 3.2.x 農林業センサス 市町村別統計表（2020年, 東京都分）— integrated (#128)
+#### 3.2.14 農林業センサス 市町村別統計表（2020年, 東京都分）— integrated (#128)
 
 - **Dataset**: 農林水産省「2020年農林業センサス 市町村別統計表」（都道府県別、
   東京都分は 62 市町村）。Survey base date **2020-02-01**。#128 が必要とする
@@ -243,6 +242,19 @@ verified open data:
   の状態や後継者の有無を推測できない。2020年時点のデータであり現在状況では
   ない。奥多摩単独の evidence を東京全体へ一般化しない。
 
+#### 3.2.15 Restaurant accessibility and regulatory records (#132)
+
+Both resources below were downloaded and inspected at field/record level on
+**2026-08-12**. Their catalog metadata changed later than their resource files;
+freshness claims therefore use the resource timestamps, not the catalog page
+timestamp. Full field counts and limitations are recorded in
+`docs/132-local-food-accessibility-opportunities.md`.
+
+| Dataset | Source / format | License | Resource freshness | Safe product meaning |
+|---|---|---|---|---|
+| 東京都内の飲食店のバリアフリー情報 (`t000012d0000000063`) | Tokyo Open Data Catalog; CP932 CSV; 210 rows | CC BY | `last_modified: 2024-03-12` | A partial, self-reported accessibility reference. 165 ward / 42 Tama / 3 island rows; the western-Tama corridor has 4 (青梅 2 + あきる野 2), while 日の出・瑞穂・奥多摩・檜原 have zero. Blank flags are unknown, not “no”. |
+| 東京都青梅市における飲食店一覧 (`t132055d0000000009`) | Tokyo Open Data Catalog; XLSX; 1,593 rows | CC BY | `last_modified: 2024-03-21` | A food-business license record usable for identity/status investigation only. It has no menu, ingredient, hours, or accessibility fields, and does not prove current operation. |
+
 ### 3.3 Additional traceable sources currently wired into the demo (not open data)
 
 These are the sources that **actually back the app's runtime content** today.
@@ -259,6 +271,12 @@ traceable origins of the demo seed and belong in the registry for honesty:
 
 All were retrieved / last-verified **2026-08-08**.
 
+### 3.4 Researched official-web source not wired into the demo
+
+| Source | Possible role | License / status | Verified in |
+|---|---|---|---|
+| JA東京中央会 都内JA直売所マップ | Editorial “buy at the source” discovery across five Tokyo subregions | official public web; reproduction beyond quotation/private use requires permission; not Open Data | `docs/132-local-food-accessibility-opportunities.md` (retrieved 2026-08-12) |
+
 ---
 
 ## 4. Product-role mapping (#92 surfaces ↔ datasets)
@@ -273,7 +291,7 @@ record that they must **not** be used to justify dataset adoption.
 | **Discover** (#93, free exploration) | content / discovery candidates | 奥多摩観光施設一覧 (candidate), 区市町村別観光資源, 東京都指定文化財一覧, 緑のGIS | Discover is a placeholder shell today (`src/pages/DiscoverPage.tsx`); datasets are future candidates |
 | **Story enrichment** | factual grounding for editorial stories | 奥多摩観光協会 (current, editorial), 文化財一覧 / 観光資源 (future) | current story = editorial seed; candidates future |
 | **Route mobility / context** | mobility segments, access, feasibility | 西東京バス GTFS (data layer), 公共交通 Open Data (future) | data layer built; demo fixture only; not in core journey; realtime/next-departure not core UX |
-| **Spot practical data** | hours / access / price / reservation / accessibility | 奥多摩観光施設一覧 (candidate), 公衆トイレ, だれでも東京, バリアフリー情報 | practical info rendered only when source-verified (`SpotDetail.practical`), else explicit unverified state |
+| **Spot practical data** | hours / access / price / reservation / accessibility | 奥多摩観光施設一覧 (candidate), 公衆トイレ, だれでも東京, 飲食店バリアフリー情報 (available but corridor-limited), 青梅市飲食店一覧 (regulatory validation only) | practical info rendered only when source-verified (`SpotDetail.practical`), else explicit unverified state; blanks stay unknown |
 | **Pitch impact evidence** (#18/#112) | tourism-concentration → dispersion metrics | 東京都観光客数等実態調査 (A), 国・地域別外国人旅行者行動特性調査 (B), モバイル動態調査 (future, proxy C today) | integrated in `docs/analytics/tokyo-tourism-baseline.md` |
 | **MOGU** (recent results) | — user-state (auto-recorded Results, max 5) | none | **do not use as adoption justification** |
 | **My** (saved / food profile) | — user-state (Saved Routes, Food Profile, Badges) | none | **do not use as adoption justification** |
