@@ -15,7 +15,8 @@
     "test:related": "vitest related --run",
     "test:focused": "vitest run",
     "test:e2e": "pnpm build && playwright test",
-    "validate": "pnpm typecheck && pnpm lint && pnpm test && pnpm build"
+    "validate": "pnpm typecheck && pnpm lint && pnpm test && pnpm build",
+    "review-packet": "tsx scripts/generate-review-packet.ts"
   },
   "dependencies": {
     "leaflet": "^1.9.4",
@@ -35,6 +36,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
+    "tsx": "^4.23.12",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.35.1",
     "vite": "^7.0.0",
