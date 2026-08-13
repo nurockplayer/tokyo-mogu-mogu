@@ -2,14 +2,14 @@
 
 Tracking Issue: #86
 
-This roadmap covers the current Hackathon MVP through the submission deadline on **2026-08-23 17:00 JST**. It reflects the live issue state as of 2026-08-10.
+This roadmap covers the current Hackathon MVP through the submission deadline on **2026-08-23 17:00 JST**. It reflects the live issue state as of 2026-08-14.
 
 ## Planning rules
 
-- Product / MVP framing source of truth: **#112** (top problem = tourism over-concentration in Tokyo's 23 wards; first MVP pilot = Tama area; Okutama = current fieldwork / verified-content focus; food content is evidence-driven).
+- Product / MVP framing source of truth: **#112** (top problem = tourism over-concentration in Tokyo's 23 wards; Okutama × Tokyo Wasabi = 8/23 Hackathon Demo Golden Path only; Tama / Okutama = current fieldwork / evidence / demo-content context, not permanent Product geography; food content is evidence-driven).
 - Current App IA source of truth: **#92 / KiKi UI/UX** (`Home / Discover / MOGU / My`, Food Profile vs per-trip Exploration, Recent vs Saved, distributed Support).
 - Core MVP journey: `Home → (Food Profile on first use) → Exploration → Result → Story → Route → Spot`, with Result auto-writing MOGU Recent and saved Routes landing in `My → Saved Routes`.
-- First MVP pilot geography: 多摩地域 (Tama). Tokyo Wasabi is an allowed deterministic demo fixture, not the exclusive MVP content contract.
+- **Hackathon Demo Golden Path**: 奥多摩 × 東京わさび (Okutama × Tokyo Wasabi) — the 8/23 demo golden path, demo-scoped only. Tokyo Wasabi is the deterministic demo fixture, not the exclusive or durable Product content contract. Tama / Okutama are current fieldwork / evidence / demo-content context, never the permanent Product domain.
 - S9 Badge is Stretch (`My → Badges`) and must not block the core journey.
 - Historical / superseded Pokédex, geolocation check-in, and the linear S0–S8 / `Home / Diagnosis / Support / My Route` framing are not part of the current critical path.
 - Feature freeze: 2026-08-21
@@ -72,6 +72,10 @@ Completed foundation and implementation slices:
   #79 Story + distributed Support, #80 Route / Spot, #81 My, #93 Discover
   (current App IA implementation)
 - #19 Open Data registry, #83 crowding / transfer advisory, #38 Badge contract
+- #120 Golden-path E2E release gate, #129 source freshness / verification state,
+  #127 8/23 demo dataset freeze, #128 municipality agriculture context,
+  #149 explainable multi-candidate recommendation, #152 stakeholder review
+  packets (demo/pitch readiness)
 
 Current open work:
 
@@ -79,8 +83,10 @@ Current open work:
 
 Recently completed:
 
-- **#81** My (Saved Routes / Food Profile / Badge entry) — merged (#102/#114)
-- **#93** Discover free exploration without diagnosis — merged (#103/#115)
+- **#120** Golden-path browser E2E release gate — merged (#134); the 60–90 s demo
+  sequence (`docs/demo-script.md`, `docs/hackathon/demo-sequence.md`) mirrors it
+- **#127** Okutama × Tokyo Wasabi demo dataset freeze — merged (#144), demo-scoped
+- **#152** Stakeholder review packets — merged; demo / pitch evidence source
 
 Remaining critical path:
 
@@ -91,7 +97,7 @@ not considered implementation debt.
 
 Fieldwork/content path:
 
-`#10 -> verified Tama-pilot content (story / route / spot / support)`
+`#10 -> verified demo content (story / route / spot / support)`
 
 Stretch / non-blocking work:
 
@@ -131,7 +137,7 @@ Markers:
 
 - #82
 - Integration / demo freeze
-- #10 fieldwork feeding verified Tama-pilot content
+- #10 fieldwork feeding verified demo content
 
 ### P1
 
