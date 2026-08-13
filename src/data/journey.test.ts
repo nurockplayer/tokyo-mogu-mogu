@@ -12,7 +12,7 @@ import { describe, expect, it } from 'vitest';
 import type { RecommendationCandidate } from '../lib/recommendation';
 import { resolveJourneyIdentity, resolveRouteId, resolveStoryJourney } from './journey';
 import { PILOT_JOURNEY } from './pilot-journey';
-import { DEMO_RECOMMENDATION_CANDIDATE_ID } from './demo-recommendation';
+import { DEMO_RECOMMENDATION_CANDIDATE_ID, DEMO_RECOMMENDATION_CANDIDATES } from './demo-recommendation';
 
 /** A minimal data/config-only candidate for a second Region × FoodCulture. */
 const FUTURE_CANDIDATE: RecommendationCandidate = {
@@ -105,10 +105,23 @@ describe('route resolution from URL context (#123)', () => {
 });
 
 describe('story journey resolution (#123)', () => {
-  it('keeps the pilot Discover story resolving its demo journey', () => {
+  it('keeps the pilot Discover story resolving its demo journey when the demo candidate is ready', () => {
     expect(resolveStoryJourney('wasabi-okutama', null)).toEqual({
+      candidateId: DEMO_RECOMMENDATION_CANDIDATE_ID,
       foodCultureId: PILOT_JOURNEY.foodCultureId,
       journeyId: PILOT_JOURNEY.routeId,
+    });
+  });
+
+  it('does not attach the pilot journey when the demo candidate is unavailable', () => {
+    // The Story may still render its authored content, but the unavailable demo
+    // candidate must not contribute a journey.
+    const unavailableDemo = {
+      ...DEMO_RECOMMENDATION_CANDIDATES[0],
+      availability: 'unavailable' as const,
+    };
+    expect(resolveStoryJourney('wasabi-okutama', null, [unavailableDemo])).toEqual({
+      foodCultureId: 'wasabi-okutama',
     });
   });
 

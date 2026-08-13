@@ -146,9 +146,9 @@ export function resolveStoryJourney(
     // `/story` with no id and no candidate → legacy demo journey.
     return { foodCultureId: PILOT_JOURNEY.foodCultureId, journeyId: PILOT_JOURNEY.routeId };
   }
-  if (cultureId === PILOT_JOURNEY.foodCultureId) {
-    return { foodCultureId: cultureId, journeyId: PILOT_JOURNEY.routeId };
-  }
+  // One shared readiness-aware derivation path: only a READY candidate matching
+  // the displayed culture contributes a journey (the pilot culture included —
+  // an unavailable demo candidate never attaches the pilot Route).
   const matching = candidates.filter(
     (item) => item.foodCultureId === cultureId && item.availability === 'ready',
   );
