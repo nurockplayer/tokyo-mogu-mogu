@@ -9,6 +9,14 @@ pnpm review-packet --food-culture wasabi-okutama --place chishima-wasabi-garden 
   > /tmp/chishima-review.md
 ```
 
+generator は demo scope を推測しません。8/23 Hackathon Demo Golden Path の
+但し書きが必要な場合は caller が `--context-note` で明示的に渡します。
+
+```bash
+pnpm review-packet --food-culture wasabi-okutama --place chishima-wasabi-garden \
+  --context-note '奥多摩 × 東京わさびは 2026-08-23 Hackathon Demo Golden Path の確認対象です。Product scope を限定しません。'
+```
+
 Story の本文・作り手・課題などの物語コピーは、StoryPage と同じ canonical
 `storyContent`（`src/i18n/data-content.ts`）から解決します。個別の key や
 pilot 文字列を CLI 側に複製しません。

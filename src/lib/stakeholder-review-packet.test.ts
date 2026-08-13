@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { getFoodCultureById, getMunicipalityAgricultureById, getPlaceById, getSpotDetail } from '../data';
 import { storyContent } from '../i18n/data-content';
 import { resolveKey } from '../i18n/fallback';
@@ -156,5 +158,27 @@ describe('stakeholder review packet (#133)', () => {
 
     expect(markdown).toMatch(/英語・多言語対応 \| 空の配列（対応言語の確認なし） \| 要確認/);
     expect(markdown).toContain('- [ ] 英語・多言語対応 — 要確認');
+  });
+});
+
+describe('stakeholder review packet reusable boundary (#133)', () => {
+  // The generic CLI and generator must not infer demo scope from a hard-coded
+  // food-culture id or the pilot-journey constant. Assert the source stays free
+  // of those inference tokens so a future edit cannot silently re-couple the
+  // packet to Okutama × Tokyo Wasabi.
+  const cliSource = readFileSync(
+    fileURLToPath(new URL('../../scripts/generate-review-packet.ts', import.meta.url)),
+    'utf8',
+  );
+  const generatorSource = readFileSync(
+    fileURLToPath(new URL('./stakeholder-review-packet.ts', import.meta.url)),
+    'utf8',
+  );
+
+  it('contains no PILOT_JOURNEY or hard-coded food-culture inference', () => {
+    expect(cliSource).not.toContain('PILOT_JOURNEY');
+    expect(cliSource).not.toContain('wasabi-okutama');
+    expect(generatorSource).not.toContain('PILOT_JOURNEY');
+    expect(generatorSource).not.toContain('wasabi-okutama');
   });
 });

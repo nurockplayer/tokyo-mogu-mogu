@@ -1,4 +1,4 @@
-import { getFoodCultureById, getPlaceById, getSpotDetail, PILOT_JOURNEY } from '../src/data';
+import { getFoodCultureById, getPlaceById, getSpotDetail } from '../src/data';
 import { generateStakeholderReviewPacket } from '../src/lib/stakeholder-review-packet';
 
 function argument(name: string): string | undefined {
@@ -9,7 +9,7 @@ function argument(name: string): string | undefined {
 const foodCultureId = argument('--food-culture');
 const placeId = argument('--place');
 if (!foodCultureId || !placeId) {
-  console.error('Usage: pnpm review-packet --food-culture <id> --place <id>');
+  console.error('Usage: pnpm review-packet --food-culture <id> --place <id> [--context-note <ja text>]');
   process.exit(1);
 }
 
@@ -22,13 +22,13 @@ if (!foodCulture || !place || !place.foodCultureIds.includes(foodCulture.id)) {
 
 // Story narrative and municipality census evidence resolve through the same
 // canonical `storyContent` / municipality data contract StoryPage renders
-// (see `resolveStoryEvidence`); the CLI supplies only demo-scoped context.
+// (see `resolveStoryEvidence`). The generator never infers demo scope from
+// record identity: any demo-scoped disclaimer is caller-supplied via
+// `--context-note`.
 process.stdout.write(generateStakeholderReviewPacket({
   foodCulture,
   place,
   spot: getSpotDetail(place.id),
   generatedAt: new Date().toISOString().slice(0, 10),
-  contextNoteJa: foodCulture.id === PILOT_JOURNEY.foodCultureId
-    ? '奥多摩 × 東京わさびは 2026-08-23 Hackathon Demo Golden Path の確認対象です。Product scope を限定しません。'
-    : undefined,
+  contextNoteJa: argument('--context-note'),
 }));
