@@ -96,6 +96,46 @@ assert_accepted_review() {
   bash "$script_dir/check-review-evidence.sh" "$repo" "$pr" "$reviewed_head"
 }
 
+# Defense in depth for trusted COMMENTED reviews: safe-merge itself requires a
+# machine-verifiable clean source that cannot be satisfied by merely mentioning
+# success text inside a blocking body. Native APPROVED reviews qualify. For
+# Codex, the latest exact-HEAD submitted review qualifies only when it is the
+# standard Codex review and that review owns zero inline findings.
+assert_strict_review_evidence() {
+  local reviews comments accepted
+  reviews="$(gh api --paginate "repos/$owner/$name/pulls/$pr/reviews?per_page=100" | jq -s 'add // []')"
+  comments="$(gh api --paginate "repos/$owner/$name/pulls/$pr/comments?per_page=100" | jq -s 'add // []')"
+
+  accepted="$(jq -n \
+    --arg head "$reviewed_head" \
+    --argjson reviews "$reviews" \
+    --argjson comments "$comments" '
+      [ $reviews[]
+        | select(.commit_id == $head)
+        | select(.state != "PENDING" and .state != "DISMISSED")
+        | . + { _order: (.submitted_at // ((.id // 0) | tostring)) }
+      ] as $exact
+      | ([ $exact[] | select(.state == "APPROVED") ] | length) as $approvals
+      | ([ $exact[]
+          | select(.user.login == "chatgpt-codex-connector[bot]")
+        ] | sort_by(._order) | last) as $codex
+      | ([ $comments[] | select($codex != null and .pull_request_review_id == $codex.id) ] | length) as $codex_findings
+      | ($approvals > 0)
+        or (
+          $codex != null
+          and $codex.state == "COMMENTED"
+          and (($codex.body // "") | startswith("### 💡 Codex Review"))
+          and $codex_findings == 0
+        )
+    ')"
+
+  if [[ "$accepted" != "true" ]]; then
+    echo "safe-merge: PR #$pr lacks strict clean review evidence for exact HEAD $reviewed_head" >&2
+    echo "  required: exact-HEAD APPROVED review or zero-finding exact-HEAD Codex review" >&2
+    exit 5
+  fi
+}
+
 assert_no_unresolved_threads() {
   local unresolved count
   unresolved="$(unresolved_threads_json)"
@@ -139,6 +179,7 @@ assert_server_protection
 # independent review evidence must itself be attached to that exact SHA.
 assert_reviewed_head
 assert_accepted_review
+assert_strict_review_evidence
 
 # Gate 2: reconcile GitHub live state, not an earlier handoff snapshot.
 assert_no_unresolved_threads
@@ -154,6 +195,7 @@ gh pr checks "$pr" --repo "$repo" >/dev/null
 assert_server_protection
 assert_reviewed_head
 assert_accepted_review
+assert_strict_review_evidence
 assert_no_unresolved_threads
 
 # Final server-side HEAD compare-and-swap. Review/thread atomicity is provided by
