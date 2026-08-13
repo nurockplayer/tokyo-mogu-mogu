@@ -44,17 +44,22 @@ if [[ "$1" == "api" && "$2" == "--paginate" && "$3" == repos/*/pulls/*/reviews* 
       ;;
     stale_review)
       cat <<'JSON'
-[{"state":"COMMENTED","commit_id":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb","user":{"login":"coderabbitai[bot]"}}]
+[{"state":"COMMENTED","commit_id":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb","body":"**Actionable comments posted: 0**","user":{"login":"coderabbitai[bot]"}}]
 JSON
       ;;
     untrusted_review)
       cat <<'JSON'
-[{"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","user":{"login":"nurockplayer"}}]
+[{"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","body":"No blocking findings.","user":{"login":"nurockplayer"}}]
+JSON
+      ;;
+    blocking_review)
+      cat <<'JSON'
+[{"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","body":"**Actionable comments posted: 2**","user":{"login":"coderabbitai[bot]"}}]
 JSON
       ;;
     *)
       cat <<'JSON'
-[{"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","user":{"login":"coderabbitai[bot]"}}]
+[{"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","body":"**Actionable comments posted: 0**","user":{"login":"coderabbitai[bot]"}}]
 JSON
       ;;
   esac
@@ -109,7 +114,7 @@ fi
 if SCENARIO=no_review bash "$ROOT/scripts/safe-merge.sh" 150 "$EXPECTED" >"$TMP/out" 2>"$TMP/err"; then
   fail "missing final review evidence should block merge"
 fi
-grep -q "no accepted independent review" "$TMP/err" || fail "missing no-review diagnostic"
+grep -q "no accepted non-blocking review" "$TMP/err" || fail "missing no-review diagnostic"
 if grep -q '^pr merge ' "$GH_LOG"; then
   fail "merge was attempted without final review evidence"
 fi
@@ -119,16 +124,23 @@ fi
 if SCENARIO=stale_review bash "$ROOT/scripts/safe-merge.sh" 150 "$EXPECTED" >"$TMP/out" 2>"$TMP/err"; then
   fail "stale review evidence should block merge"
 fi
-grep -q "no accepted independent review" "$TMP/err" || fail "missing stale-review diagnostic"
+grep -q "no accepted non-blocking review" "$TMP/err" || fail "missing stale-review diagnostic"
 
 # 5. A self-authored COMMENTED review is not independent evidence.
 : >"$GH_LOG"
 if SCENARIO=untrusted_review bash "$ROOT/scripts/safe-merge.sh" 150 "$EXPECTED" >"$TMP/out" 2>"$TMP/err"; then
   fail "untrusted commented review should block merge"
 fi
-grep -q "no accepted independent review" "$TMP/err" || fail "missing untrusted-review diagnostic"
+grep -q "no accepted non-blocking review" "$TMP/err" || fail "missing untrusted-review diagnostic"
 
-# 6. A safe merge revalidates review evidence and threads after checks and uses
+# 6. A trusted COMMENTED review that still reports findings is not a clean verdict.
+: >"$GH_LOG"
+if SCENARIO=blocking_review bash "$ROOT/scripts/safe-merge.sh" 150 "$EXPECTED" >"$TMP/out" 2>"$TMP/err"; then
+  fail "trusted review with actionable findings should block merge"
+fi
+grep -q "no accepted non-blocking review" "$TMP/err" || fail "missing blocking-review diagnostic"
+
+# 7. A safe merge revalidates review evidence and threads after checks and uses
 # an exact-head compare-and-swap without admin bypass.
 : >"$GH_LOG"
 SCENARIO=safe bash "$ROOT/scripts/safe-merge.sh" 150 "$EXPECTED" >"$TMP/out" 2>"$TMP/err"
