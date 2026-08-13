@@ -44,22 +44,27 @@ if [[ "$1" == "api" && "$2" == "--paginate" && "$3" == repos/*/pulls/*/reviews* 
       ;;
     stale_review)
       cat <<'JSON'
-[{"state":"COMMENTED","commit_id":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb","body":"**Actionable comments posted: 0**","user":{"login":"coderabbitai[bot]"}}]
+[{"id":1,"submitted_at":"2026-08-13T00:00:00Z","state":"COMMENTED","commit_id":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb","body":"**Actionable comments posted: 0**","user":{"login":"coderabbitai[bot]"}}]
 JSON
       ;;
     untrusted_review)
       cat <<'JSON'
-[{"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","body":"No blocking findings.","user":{"login":"nurockplayer"}}]
+[{"id":1,"submitted_at":"2026-08-13T00:00:00Z","state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","body":"No blocking findings.","user":{"login":"nurockplayer"}}]
 JSON
       ;;
     blocking_review)
       cat <<'JSON'
-[{"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","body":"**Actionable comments posted: 2**","user":{"login":"coderabbitai[bot]"}}]
+[{"id":1,"submitted_at":"2026-08-13T00:00:00Z","state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","body":"**Actionable comments posted: 2**","user":{"login":"coderabbitai[bot]"}}]
+JSON
+      ;;
+    clean_then_blocking)
+      cat <<'JSON'
+[{"id":1,"submitted_at":"2026-08-13T00:00:00Z","state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","body":"**Actionable comments posted: 0**","user":{"login":"coderabbitai[bot]"}},{"id":2,"submitted_at":"2026-08-13T00:01:00Z","state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","body":"**Actionable comments posted: 1**","user":{"login":"coderabbitai[bot]"}}]
 JSON
       ;;
     *)
       cat <<'JSON'
-[{"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","body":"**Actionable comments posted: 0**","user":{"login":"coderabbitai[bot]"}}]
+[{"id":1,"submitted_at":"2026-08-13T00:00:00Z","state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","body":"**Actionable comments posted: 0**","user":{"login":"coderabbitai[bot]"}}]
 JSON
       ;;
   esac
@@ -138,9 +143,19 @@ grep -q "no accepted non-blocking review" "$TMP/err" || fail "missing untrusted-
 if SCENARIO=blocking_review bash "$ROOT/scripts/safe-merge.sh" 150 "$EXPECTED" >"$TMP/out" 2>"$TMP/err"; then
   fail "trusted review with actionable findings should block merge"
 fi
-grep -q "no accepted non-blocking review" "$TMP/err" || fail "missing blocking-review diagnostic"
+grep -q "blocking latest review" "$TMP/err" || fail "missing blocking-review diagnostic"
 
-# 7. A safe merge revalidates review evidence and threads after checks and uses
+# 7. A later blocking verdict from the same reviewer supersedes its earlier clean verdict.
+: >"$GH_LOG"
+if SCENARIO=clean_then_blocking bash "$ROOT/scripts/safe-merge.sh" 150 "$EXPECTED" >"$TMP/out" 2>"$TMP/err"; then
+  fail "later blocking review should supersede older clean review"
+fi
+grep -q "blocking latest review" "$TMP/err" || fail "missing latest-review diagnostic"
+if grep -q '^pr merge ' "$GH_LOG"; then
+  fail "merge was attempted after a later blocking verdict"
+fi
+
+# 8. A safe merge revalidates review evidence and threads after checks and uses
 # an exact-head compare-and-swap without admin bypass.
 : >"$GH_LOG"
 SCENARIO=safe bash "$ROOT/scripts/safe-merge.sh" 150 "$EXPECTED" >"$TMP/out" 2>"$TMP/err"
