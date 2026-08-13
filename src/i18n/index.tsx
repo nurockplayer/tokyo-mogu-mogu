@@ -12,8 +12,9 @@
  * `missing:<key>` placeholder. `t()` never returns `undefined`.
  */
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
-import { DEFAULT_LOCALE, strings, type Locale, type LocaleKey } from './resources';
+import { strings, type Locale, type LocaleKey } from './resources';
 import { resolveKey } from './fallback';
+import { loadStoredLocale, storeLocale } from './persistence';
 
 export { LocaleToggle } from './LocaleToggle';
 export { formatDate, formatNumber } from '../i18n-format';
@@ -29,7 +30,14 @@ interface I18nContextValue {
 const I18nContext = createContext<I18nContextValue | null>(null);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocale] = useState<Locale>(DEFAULT_LOCALE);
+  // Issue #82: restore the persisted locale on mount (lazy initializer runs
+  // once), then keep it mirrored to localStorage on every switch.
+  const [locale, setLocaleState] = useState<Locale>(() => loadStoredLocale());
+
+  const setLocale = useCallback((next: Locale) => {
+    setLocaleState(next);
+    storeLocale(next);
+  }, []);
 
   const t = useCallback(
     (key: LocaleKey) => resolveKey(strings, locale, key),
@@ -38,7 +46,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo(
     () => ({ locale, setLocale, t }),
-    [locale, t],
+    [locale, setLocale, t],
   );
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
