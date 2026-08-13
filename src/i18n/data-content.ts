@@ -38,6 +38,8 @@ export const FOOD_CULTURE_DATA_KEYS: Record<string, Partial<Record<FoodCultureFi
 export const ROUTE_DATA_KEYS = {
   'okutama-wasabi-journey': {
     name: 'dataRouteName',
+    area: 'areaOkutama',
+    transport: 'dataRouteTransport',
   },
 } as const satisfies Record<string, Record<string, LocaleKey>>;
 
@@ -103,6 +105,16 @@ export function foodCultureKey(
 
 export function routeNameKey(id: string): LocaleKey | undefined {
   return ROUTE_DATA_KEYS[id as keyof typeof ROUTE_DATA_KEYS]?.name;
+}
+
+/** Route area label key when a per-route localized mapping exists. */
+export function routeAreaKey(id: string): LocaleKey | undefined {
+  return ROUTE_DATA_KEYS[id as keyof typeof ROUTE_DATA_KEYS]?.area;
+}
+
+/** Route transport label key when a per-route localized mapping exists. */
+export function routeTransportKey(id: string): LocaleKey | undefined {
+  return ROUTE_DATA_KEYS[id as keyof typeof ROUTE_DATA_KEYS]?.transport;
 }
 
 export function stepRoleKey(routeId: string, placeId: string, duration: string): LocaleKey | undefined {

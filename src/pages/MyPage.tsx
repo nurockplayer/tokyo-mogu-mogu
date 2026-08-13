@@ -19,7 +19,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, EmptyState } from '../ui';
 import { useI18n, type LocaleKey } from '../i18n';
-import { routeNameKey } from '../i18n/data-content';
+import { routeAreaKey, routeNameKey } from '../i18n/data-content';
 import { loadSavedRoutes, unsaveRoute, type SavedRouteEntry } from '../lib/saved-routes';
 import { loadFoodProfile } from '../lib/food-profile-storage';
 import type { DietaryRestriction } from '../lib/food-profile';
@@ -83,7 +83,12 @@ export function MyPage() {
                       <span>
                         {t('s8Duration')}: {durationLabel(route, locale)}
                       </span>
-                      <span>{t('s8Area')}: {routeAreaLabel(route, locale)}</span>
+                      <span>
+                        {t('s8Area')}: {(() => {
+                          const areaKey = routeAreaKey(route.id);
+                          return areaKey ? t(areaKey) : routeAreaLabel(route, locale);
+                        })()}
+                      </span>
                     </div>
                     <div className="my-route-card__actions">
                       <Link

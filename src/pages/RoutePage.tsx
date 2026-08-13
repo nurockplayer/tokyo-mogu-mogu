@@ -39,6 +39,7 @@ import {
   stepRoleKey,
   mobilityLabelKey,
   routeAdvisoryKeys,
+  routeTransportKey,
 } from '../i18n/data-content';
 import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
 import { routeBackHref, routeBackTarget, routeContextSearch } from './route-context';
@@ -101,9 +102,13 @@ export function RoutePage() {
   const localized = (key: LocaleKey | undefined, ja: string, en: string): string =>
     key ? t(key) : locale === 'ja' ? ja : en;
 
-  // Route-specific transport guidance (the route's own {Ja,En} data), not a
-  // shared Okutama assumption.
-  const transport = locale === 'ja' ? variant.transportJa : variant.transportEn || variant.transportJa;
+  // Route-specific transport guidance. A per-route localized key (ja/en/zh-TW)
+  // wins when configured; otherwise the route's own {Ja,En} variant data is the
+  // honest fallback (a non-Japanese locale uses the record's English variant).
+  const transportKey = routeTransportKey(route.id);
+  const transport = transportKey
+    ? t(transportKey)
+    : locale === 'ja' ? variant.transportJa : variant.transportEn || variant.transportJa;
 
   // Route-specific advisory/observation copy. Only the demo route carries one
   // today; any other route renders no advisory rather than Okutama's hedged

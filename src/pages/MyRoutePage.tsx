@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { EmptyState, Card } from '../ui';
 import { useI18n, type Locale } from '../i18n';
-import { routeNameKey } from '../i18n/data-content';
+import { routeAreaKey, routeNameKey } from '../i18n/data-content';
 import { getRouteById, type ModelRoute } from '../data';
 import { loadSavedRoutes, unsaveRoute, type SavedRouteEntry } from '../lib/saved-routes';
 import './MyRoutePage.css';
@@ -96,7 +96,12 @@ export function MyRoutePage() {
                   <span>
                     {t('s8Duration')}: {durationLabel(route, locale)}
                   </span>
-                  <span>{t('s8Area')}: {routeAreaLabel(route, locale)}</span>
+                  <span>
+                    {t('s8Area')}: {(() => {
+                      const areaKey = routeAreaKey(route.id);
+                      return areaKey ? t(areaKey) : routeAreaLabel(route, locale);
+                    })()}
+                  </span>
                 </div>
                 <div className="s8-card__actions">
                   <Link

@@ -60,5 +60,8 @@ describe('S8 My Route helpers (#47)', () => {
     };
     expect(routeAreaLabel(omeRoute, 'ja')).toBe('青梅');
     expect(routeAreaLabel(omeRoute, 'en')).toBe('Ome');
+    // Without a localized mapping, a non-Japanese locale honestly uses the
+    // route's own English variant — not Okutama copy.
+    expect(routeAreaLabel(omeRoute, 'zh-TW')).toBe('Ome');
   });
 });

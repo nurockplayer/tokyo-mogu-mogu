@@ -11,7 +11,9 @@ import {
   mobilityLabelKey,
   placeNameKey,
   routeAdvisoryKeys,
+  routeAreaKey,
   routeNameKey,
+  routeTransportKey,
   stepRoleKey,
   storyContent,
   STORY_DATA_KEYS,
@@ -107,6 +109,26 @@ describe('S4 story content availability (#123)', () => {
     expect(mobilityLabelKey('unknown-route', 1, 2)).toBeUndefined();
     // The demo route's known segments keep their explicit keys.
     expect(mobilityLabelKey('okutama-wasabi-journey', 1, 2)).toBe('dataRouteMobilityBus');
+  });
+
+  it('keeps route transport localized in ja/en/zh-TW', () => {
+    const key = routeTransportKey('okutama-wasabi-journey');
+    expect(key).toBe('dataRouteTransport');
+    expect(resolveKey(strings, 'ja', key!)).toBe('JR青梅線・西東京バス');
+    expect(resolveKey(strings, 'en', key!)).toBe('JR Ome Line & Nishi Tokyo Bus');
+    expect(resolveKey(strings, 'zh-TW', key!)).toBe('JR青梅線・西東京巴士');
+    // A future route without a localized mapping has no transport key — its own
+    // canonical variant data is the honest fallback, never another route's copy.
+    expect(routeTransportKey('ome-sake-journey')).toBeUndefined();
+  });
+
+  it('keeps saved-route area localized in ja/en/zh-TW', () => {
+    const key = routeAreaKey('okutama-wasabi-journey');
+    expect(key).toBe('areaOkutama');
+    expect(resolveKey(strings, 'ja', key!)).toBe('奥多摩');
+    expect(resolveKey(strings, 'en', key!)).toBe('Okutama');
+    expect(resolveKey(strings, 'zh-TW', key!)).toBe('奧多摩');
+    expect(routeAreaKey('ome-sake-journey')).toBeUndefined();
   });
 
   it('keeps the story key set structurally equivalent across locales', () => {
