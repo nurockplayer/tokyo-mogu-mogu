@@ -42,6 +42,16 @@ review_state="$({
     --arg trusted "$trusted_reviewers" \
     --argjson reviews "$reviews_json" \
     --argjson comments "$review_comments_json" '
+      # A body verdict must be matched exactly, not by substring: a blocking
+      # review that merely mentions the success text ("I cannot return `No
+      # blocking findings.` because ...") must not count as clean. Normalize
+      # each body line (strip markdown emphasis/backticks and whitespace) and
+      # require a line equal to the accepted text.
+      def norm: gsub("\r"; "") | gsub("\\*\\*"; "") | gsub("`"; "") | gsub("^[[:space:]]+|[[:space:]]+$"; "");
+      def body_has_clean_verdict:
+        (((.body // "") | split("\n") | map(norm) | index("No blocking findings.")) != null)
+        or (((.body // "") | split("\n") | map(norm) | index("Actionable comments posted: 0")) != null);
+
       [ $reviews[]
         | select(.commit_id == $head)
         | select(.state != "PENDING" and .state != "DISMISSED")
@@ -60,8 +70,7 @@ review_state="$({
               { reviewer: $review.user.login, result: "clean" }
             elif ($review.state == "COMMENTED" and $is_trusted_bot) then
               if (
-                (($review.body // "") | contains("No blocking findings."))
-                or (($review.body // "") | contains("**Actionable comments posted: 0**"))
+                ($review | body_has_clean_verdict)
                 or (
                   $review.user.login == "chatgpt-codex-connector[bot]"
                   and (($review.body // "") | contains("### 💡 Codex Review"))

@@ -36,6 +36,7 @@ if [[ "$1" == "api" && "$2" == "--paginate" && "$3" == repos/*/pulls/*/reviews* 
     stale_review) echo '[{"id":1,"submitted_at":"2026-08-13T00:00:00Z","state":"COMMENTED","commit_id":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb","body":"**Actionable comments posted: 0**","user":{"login":"coderabbitai[bot]"}}]' ;;
     clean_then_blocking) echo '[{"id":1,"submitted_at":"2026-08-13T00:00:00Z","state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","body":"**Actionable comments posted: 0**","user":{"login":"coderabbitai[bot]"}},{"id":2,"submitted_at":"2026-08-13T00:01:00Z","state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","body":"**Actionable comments posted: 1**","user":{"login":"coderabbitai[bot]"}}]' ;;
     codex_clean|codex_inline) echo '[{"id":7,"submitted_at":"2026-08-13T00:00:00Z","state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","body":"### 💡 Codex Review","user":{"login":"chatgpt-codex-connector[bot]"}}]' ;;
+    mentions_clean_text) echo '[{"id":1,"submitted_at":"2026-08-13T00:00:00Z","state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","body":"I cannot return `No blocking findings.` because the access field is still missing.","user":{"login":"coderabbitai[bot]"}}]' ;;
     *) echo '[{"id":1,"submitted_at":"2026-08-13T00:00:00Z","state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","body":"**Actionable comments posted: 0**","user":{"login":"coderabbitai[bot]"}}]' ;;
   esac
   exit 0
@@ -68,6 +69,7 @@ assert_blocked no_review "no accepted non-blocking review"
 assert_blocked stale_review "no accepted non-blocking review"
 assert_blocked clean_then_blocking "blocking latest review"
 assert_blocked codex_inline "blocking latest review"
+assert_blocked mentions_clean_text "blocking latest review"
 
 : >"$GH_LOG"
 SCENARIO=codex_clean bash "$ROOT/scripts/safe-merge.sh" 150 "$EXPECTED"
