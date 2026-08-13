@@ -27,7 +27,7 @@ western-Tama corridor in a way that supports a new product surface by itself.
   (青梅 2 + あきる野 2), so
   it cannot back a western-Tama-corridor accessibility feature.
 - **The 「青梅市 飲食店一覧」 food-business license list (CC BY 4.0, 1,593 rows,
-  100% lat/lng) is the Tama-municipality restaurant dataset inspected at
+  100% lat/lng) is the Ome-municipality food-business license dataset inspected at
   field/record level in this Issue** — but it is a *regulatory* list: it proves
   a license was issued and the facility exists, not that it is open, in
   business now, or serves local ingredients. It contains no menu, ingredient,
@@ -42,7 +42,7 @@ western-Tama corridor in a way that supports a new product surface by itself.
 - **Recommended product conclusion**: the "eat Tokyo ingredients / barrier-free
   route" hypotheses are **not** data-supported as an ingestion-based feature
   today. They remain **editorial-with-provenance** opportunities, with the Ome
-  license list usable only as an *existence/status* validation layer and the
+  license list usable only as an *existence/permit-history* validation layer and the
   barrier-free set usable as a *partial* accessibility reference (165 ward /
   42 Tama / 3 island) — not a western-Tama-corridor feature basis.
 
@@ -182,7 +182,7 @@ explicit coverage limits; **not** a Tama-corridor feature basis.
   produce or is even currently open for business.
 - `申請区分` values are 新規/更新 — an "updated" license is not an "open now"
   guarantee.
-- Ome is the municipality dataset inspected at field level in this Issue. #130
+- Ome is the municipality food-business permit dataset inspected at field level in this Issue. #130
   already records comparable standardized permit data in other municipalities,
   including Higashimurayama; those datasets were not inspected here and must be
   evaluated separately before any Tokyo/Tama-wide conclusion.
@@ -190,7 +190,7 @@ explicit coverage limits; **not** a Tama-corridor feature basis.
 **Classification**: `Open Data` (CC BY 4.0).
 
 **Traveler value / product fit**
-- A **facility existence / status validation layer**: confirm a Spot in the demo
+- A **facility existence / permit-history validation layer**: confirm a Spot in the demo
   seed is a real licensed facility (identity check), or investigate permit
   events over time.
 - **Not** a discovery source for "where to eat local food" — no ingredient or
@@ -315,7 +315,7 @@ by the focused research-completion follow-up:
 
 ## 6. Data limitations / honesty notes / データの限界
 
-- **This Issue does not establish a Tama-wide inventory of restaurant Open
+- **This Issue does not establish a Tama-wide inventory of municipal food-business permit Open
   Data.** Ome was inspected at field level here; #130 already identifies
   comparable permit datasets in other municipalities (including
   Higashimurayama), which require separate field-level evaluation. None of the
@@ -348,11 +348,12 @@ by the focused research-completion follow-up:
 - 唯一の都域バリアフリー Open Data「飲食店のバリアフリー情報」(CC BY 4.0, 210件) は
   **23区 165件・多摩 42件(18市)・離島 3件**。西多摩回廊
   (青梅・あきる野・日の出・瑞穂・奥多摩・檜原)では青梅 2件・あきる野 2件のみで、
-  日の出・瑞穂・奥多摩・檜原は 0 件。店舗単位の有無フラグ表で、アクセス経路・
-  車椅子トイレ・英語メニュー・アレルギー/ヴィーガン/ハラール(事前申請)等を確認できるが、
-  座標なし・自己申告・2024-03 snapshot。事前申請フラグは「安全に食べられる」保証ではなく、
-  店舗への事前確認が必要。
-- この Issue で field/record level まで確認した自治体の飲食店 Open Data は**青梅市の営業許可一覧**
+  日の出・瑞穂・奥多摩・檜原は 0 件。店舗単位の自己申告・職員報告による有無フラグ表で、アクセス経路・
+  車椅子トイレ・英語メニュー・アレルギー/ヴィーガン/ハラール(事前申請)等の報告有無を確認できるが、
+  実際のアクセシビリティや食事上の安全性を検証したデータではない。空欄は未確認として扱う。
+  座標なし。カタログの `metadata_modified` は 2024-03-12、行単位の更新日時はなく、取得日は 2026-08-12。
+  事前申請フラグは「安全に食べられる」保証ではなく、店舗への事前確認が必要。
+- この Issue で field/record level まで確認した自治体の食品営業許可 Open Data は**青梅市の営業許可一覧**
   (CC BY 4.0, 1,593件、緯度経度100%)。ただし許可の歴史で、営業中か・地元食材かは言えない
   (メニュー・食材・営業時間・バリアフリー欄なし、廃業年月日は全件空)。#130 では東村山など
   他自治体の標準化された許可データも確認されているため、「青梅だけ」とは結論しない。
@@ -360,6 +361,6 @@ by the focused research-completion follow-up:
   (西多摩/南多摩/北多摩、60+店舗) だが **All Rights Reserved の official web** —
   Open Data ではなく、編集+出典の editorial 運用が正しい。
 - 結論: 「東京食材を食べられる店」「バリアフリーで巡れる西多摩ルート」は**今回確認したデータだけでは
-  支えられない**ので ingestion しない。青梅リストは存在/ステータス検証層、バリアフリー表は
+  支えられない**ので ingestion しない。青梅リストは存在/許可履歴検証層、バリアフリー表は
   部分参照層(23区165・多摩42・離島3、西多摩回廊4件)としてのみ利用可能。§5 の registry / opportunity-map
   更新は focused completion follow-up ですでに適用済み。
