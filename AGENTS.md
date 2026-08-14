@@ -85,6 +85,8 @@ Priority order:
 4. Fix release-blocking UX / QA defects.
 5. Only then start non-blocking / Stretch implementation (e.g. Badge, physical reward, speculative research-driven features, new infrastructure not required for the demo).
 
+DevEx / Stretch / platform work remains deferred unless the current Issue explicitly promotes it. Do not open additional engineering lanes that compete with the 8/23 release mainline.
+
 Once an approved KiKi Figma screen exists for a screen, engineering agents **implement the approved design**; they do not independently redesign or reinterpret the UX. Escalate back to Product / Design only for a concrete blocker: an impossible or contradictory interaction, an accessibility blocker, verified data that cannot fit the design, or a broken core demo flow. Otherwise choose the smallest reversible implementation and keep delivery moving.
 
 Hackathon Delivery Mode may narrow **what ships**, but must never be interpreted as narrowing the durable Product scope. The single Okutama × Tokyo Wasabi golden path is a delivery constraint, not a Product-domain decision.
@@ -125,6 +127,12 @@ Recommended branch naming:
 
 Keep one clear implementation concern per PR. Link the issue and include validation evidence.
 
+## Agent Context and Escalation / Agentコンテキストとエスカレーション
+
+Routine bounded work starts from the smallest sufficient context. Default read set: relevant `AGENTS.md` / `CLAUDE.md` rules, the current Issue/task, directly referenced current Spec(s), the affected implementation files, the affected tests, and the current PR/handoff state. Do not perform repository-wide archaeology by default; expand the read set only on a concrete trigger — shared-contract impact, unresolved product/data meaning, an unknown repository convention, dependency/open-PR ambiguity, an unexpected test failure, or a reviewer finding that requires broader impact analysis. Reuse established issue/spec/handoff facts instead of re-discovering the same history.
+
+Escalation follows the global model-routing policy. Keep routine implementation ownership with the default implementation agent; escalate only the consequential decision slice — an unresolved architecture / shared API-schema contract, a security / privacy / auth / data-safety boundary, an irreversible or high-rework persistence/data-model decision, a Product-scope / data-semantics ambiguity, or genuinely difficult debugging after focused evidence gathering — never the whole ticket. After focused advice or review, implementation ownership returns to the routine agent, which verifies the advice against repository evidence.
+
 ## Parallel Agent Work / 並列Agent作業
 
 Parallel work is encouraged only when tasks are genuinely independent.
@@ -133,6 +141,7 @@ Parallel work is encouraged only when tasks are genuinely independent.
 - Avoid assigning multiple agents to overlapping files unless one agent owns integration.
 - Prefer vertical slices that can be tested and merged independently.
 - Do not create sub-tasks only to make work look parallel.
+- Prefer 2–4 meaningful lanes over many micro-agents; do not dispatch multiple agents that would each re-read the same repository context for tiny overlapping tasks.
 - The integrating agent is responsible for resolving contract mismatches between parallel changes.
 
 ## Data and Sources / データと出典
