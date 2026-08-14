@@ -3,7 +3,9 @@
 > 作成日: 2026-08-14
 > 目的: 現行 hackathon 簡報/展示材料が Product source of truth に正しく対齊しているか監査し、
 > 過時・誤導の宣稱を正確に列挙して修正リストを提供する。**アプリの再設計はしない。**
-> 本リストは「修正指示」であり、各ファイルへの適用は別作業として行う。
+> 本リストは「修正指示」。優先ファイル（competition-alignment.md / tokyo-tourism-baseline.md /
+> approved-ui-fidelity.md）への適用は本 PR で実施済み。残る NICE-TO-HAVE
+> （okutama-facilities-source.md / 10-content-audit.md）は follow-up として残す。
 
 ## Source of truth（本監査の基準）
 
@@ -173,14 +175,15 @@ Tokyo-wide と正しく宣言しているため SHOULD-FIX 群。）
   （本ファイルは data audit のため NICE-TO-HAVE）。
 - **修正**: 表示面を現行名に変更し legacy を註記、例: `FoodCulturePage（一覧）・StoryPage（全文）・Discover・Map・関連施設一覧`、または `（うち Pokedex / NextDiscovery は legacy surface）` を追加。
 
-## (C) 措辭の伝播元（follow-up 推奨）
+## (C) 措辭の伝播源 — 本 PR で一括対齊済み
 
-`docs/specs/product/approved-ui-fidelity.md` は source-of-truth であり、本監査の直接対象ではないが、
-「Tama as first MVP pilot geography」（L23–25 / L68–69 / L377–378）と
-L285「Area meta may name 奥多摩 as the current pilot」を今も保持している。
-上記 Tama-pilot 措辭の最有力な伝播源であり、pitch docs が次回更新されると同措辭を再継承する可能性が高い。
-同じ invariant 措辭（Product scope = Tokyo-wide / 8/23 demo = Okutama × Tokyo Wasabi golden path /
-多摩・奥多摩 = fieldwork / demo-content context）で一度だけ一括 alignment することを推奨する。
+`docs/specs/product/approved-ui-fidelity.md` は「Tama as first MVP pilot geography」
+（旧 L23–25 / L68–69 / L377–378）と「Area meta may name 奥多摩 as the current pilot」
+（旧 L285）という Tama-pilot 措辭の最も有力な伝播源だった。**本 PR の doc alignment で
+これらの箇所を invariant 措辭（Product scope = Tokyo-wide / 8/23 demo = Okutama ×
+Tokyo Wasabi golden path / 多摩・奥多摩 = fieldwork / demo-content context）へ一括対齊した。**
+以後の pitch docs 更新で同措辭を再継承しないための対策でもある。明示的に historical な
+Issue #85 の記述（"Okutama as first pilot"）のみ意図的に残している（historical reference）。
 
 ## 適用方法メモ
 
