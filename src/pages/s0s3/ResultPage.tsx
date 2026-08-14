@@ -20,6 +20,7 @@ import {
   DEMO_RECOMMENDATION_CANDIDATES,
   demoRecommendationMatchTags,
   getFoodCultureById,
+  recommendableCandidates,
 } from '../../data';
 import { useI18n } from '../../i18n';
 import { EmptyState, Card, Tag, type TagTone } from '../../ui';
@@ -80,10 +81,13 @@ export function ResultPage() {
 
   const answers = useMemo(() => loadExplorationAnswers(), []);
   const profile = useMemo(() => loadFoodProfile(), []);
+  // Production recommendation reads the release boundary (#171): a disabled /
+  // non-recommendable slice is never offered, even though its canonical data and
+  // direct Story/Route/Spot access remain intact.
   const decision = useMemo(
     () =>
       profile && answers
-        ? recommendCandidates(profile, answers, DEMO_RECOMMENDATION_CANDIDATES)
+        ? recommendCandidates(profile, answers, recommendableCandidates(DEMO_RECOMMENDATION_CANDIDATES))
         : null,
     [answers, profile],
   );

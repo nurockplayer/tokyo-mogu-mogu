@@ -35,6 +35,7 @@ import {
   getFoodCultureById,
   getRouteById,
   DEMO_RECOMMENDATION_CANDIDATES,
+  discoverableCandidates,
   pilotDiscoverPlaceIds,
 } from '../data';
 import { foodCultureKey, placeNameKey } from '../i18n/data-content';
@@ -96,9 +97,12 @@ export function DiscoverPage() {
   const { locale, t } = useI18n();
 
   // Playable journeys are derived from the ready recommendation candidates —
-  // the same config Result reads. A journey whose culture or route record is
-  // missing is skipped gracefully (honest partial state, never a dead link).
-  const playableJourneys = DEMO_RECOMMENDATION_CANDIDATES.filter(
+  // the same config Result reads, gated by the #171 release boundary
+  // (discoverable) so a disabled slice drops out of the production Discover
+  // playable journeys without touching its canonical data. A journey whose
+  // culture or route record is missing is skipped gracefully (honest partial
+  // state, never a dead link).
+  const playableJourneys = discoverableCandidates(DEMO_RECOMMENDATION_CANDIDATES).filter(
     (c) => c.availability === 'ready' && c.journeyId,
   )
     .map((c) => {

@@ -62,6 +62,15 @@ export {
   DEMO_OME_SAKE_CANDIDATE_ID,
   demoRecommendationMatchTags,
 } from './demo-recommendation';
+export {
+  RELEASE_CONFIG,
+  releaseRoleOf,
+  isCandidateRecommendable,
+  isCandidateDiscoverable,
+  recommendableCandidates,
+  discoverableCandidates,
+} from './release-config';
+export type { ReleaseRole, ReleaseConfigEntry } from './release-config';
 export { resolveJourneyIdentity, resolveRouteId, resolveStoryJourney } from './journey';
 export type { JourneyIdentity } from './journey';
 export type { PilotJourney } from './pilot-journey';
