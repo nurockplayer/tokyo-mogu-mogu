@@ -117,12 +117,15 @@ Home → Food Profile (first time) → Exploration → Result → Story → Rout
 
 ## 4. Hackathon MVP Boundary / ハッカソン MVP 境界
 
-- **Product scope（durable）**：東京都23区外の複数地域へ将来展開可能。`Region /
-  FoodCulture / Place / Route` は future outer-Tokyo region を表現できる durable
-  domain（✅ `docs/specs/product/hackathon-product-contract.md` Architecture /
-  Data Boundary）。
-- **2026-08-23 first MVP pilot**：**多摩地域（Tama）**。奥多摩 は current
-  fieldwork / verified-content focus。
+- **Product scope（durable）**：**東京都全域 × 複数地域 × 複数食文化**。`Region /
+  FoodCulture / Place / Route` は複数の東京 Region × FoodCulture を表現できる
+  durable domain（✅ `docs/specs/product/product-scope-invariant.md` +
+  `docs/specs/product/hackathon-product-contract.md` Architecture / Data
+  Boundary）。将来の検証済み旅程（例: 青梅 × 日本酒、八王子 × 地域野菜）は主に
+  data/content/config で追加可能。
+- **2026-08-23 Hackathon Demo Golden Path**：**奥多摩 × 東京わさび**（単一の
+  deterministic demo journey）。多摩 / 奥多摩 は current fieldwork / evidence /
+  demo-content context であり、恒久の Product scope ではない。
 - **奥多摩 は Product の恒久的 geographic scope ではなく**、`23区外へ行きたい
   理由を作れるか` を検証する **current fieldwork / content focus**。✅
 - 8/23 までに複数地域を production implementation する必要はない。✅
@@ -372,7 +375,8 @@ dashboard ではない**。区部/多摩公式分割は非公開（proxy 使用�
 
 ### 7-6. Future / Editorial Vision — 🔮
 
-- multi-region 展開（Product scope は 23 区外全体、多摩地域が first MVP pilot）。
+- multi-region 展開（Product scope は 東京都全域 × 複数地域 × 複数食文化。8/23 の
+  demo golden path は 奥多摩 × 東京わさび のみ）。
 - S9 Badge / next-discovery（stretch, 8/23 後）。
 - 観光消費の分散が実際に「地域分散」へ効く、という因果の実証（Pitch では
   検証済み数値と分けて提示）。
@@ -388,7 +392,7 @@ dashboard ではない**。区部/多摩公式分割は非公開（proxy 使用�
 - [x] 23区への観光集中 / outer Tokyo との差を示す quantitative evidence
   （baseline M1–M3 ✅）
 - [x] 使用した Open Data と、その Product role（7-1 / 7-2 / 7-3 ✅/🧪）
-- [ ] 多摩 first-pilot fieldwork evidence（#10, 👀 取材済み・verified 統合待ち）
+- [ ] 8/23 demo golden path（奥多摩 × 東京わさび）の fieldwork evidence（#10, 👀 取材済み・verified 統合待ち）
 - [x] 実在する Route / Spot / action destination（🧪 実在の店舗・施設名、
   route は editorial; 座標・営業情報は要再検証）
 - [ ] 地域側 / 生産者側の課題または機会についての一次情報（👀 取材済み・#10 統合待ち）
@@ -416,7 +420,7 @@ dashboard ではない**。区部/多摩公式分割は非公開（proxy 使用�
   `Result → Story → Route → Spot → external/local action`。`docs/mvp-scope.md`
   §5 の demo journey と整合。✅
 - 統計の最短表現（baseline §6 より）: 渋谷 67% / 新宿 57% / 銀座 50% vs 多摩は
-  3.5% 未満、奥多摩 0.7%。✅
+  3.5% 以下（どの多摩エリアも 3.5% 以下）、奥多摩 0.7%。✅
 - 注意: ワンライナーの後段（「東京全体へ観光の流れを広げる」）は **未来像
   （vision, 🔮）** であり、実績値ではない。Pitch で数値を伴わせる場合は検証済み
   source に限定する。
@@ -445,7 +449,7 @@ dashboard ではない**。区部/多摩公式分割は非公開（proxy 使用�
 ## 11. Acceptance Criteria Check / 完了条件チェック
 
 - [x] `docs/hackathon/competition-alignment.md` exists
-- [x] #112 current Product / MVP framing と矛盾しない（Tama を first pilot と明記）
+- [x] #112 current Product / MVP framing と矛盾しない（8/23 demo golden path = 奥多摩 × 東京わさび、多摩 / 奥多摩 は fieldwork / demo-content context と明記）
 - [x] 奥多摩 を permanent scope とせず current fieldwork / content focus と明記
   （Section 4）
 - [x] 観光・国際交流を primary alignment として説明（Section 1）
