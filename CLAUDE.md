@@ -33,6 +33,7 @@ If an Issue, PR, existing comment, or implementation plan appears to say `MVP = 
 4. Look for related issues, PRs, contracts, schemas, and tests before creating new abstractions.
 5. For Product/data/recommendation/demo work, read `docs/specs/product/product-scope-invariant.md` and verify the task does not confuse demo scope with Product scope.
 6. Keep the requested scope narrow. Do not opportunistically refactor unrelated code.
+7. For routine bounded tasks, start from the default read set in `AGENTS.md` and expand only on a concrete trigger (shared-contract impact, unresolved product/data meaning, unknown convention, dependency/open-PR ambiguity, unexpected test failure, or a reviewer finding requiring broader analysis). Do not perform repository-wide archaeology by default.
 
 Do not guess repository conventions that can be discovered from the codebase.
 
@@ -47,6 +48,7 @@ Do not guess repository conventions that can be discovered from the codebase.
 - For external data, keep source traceability and never convert uncertain information into an unqualified fact.
 - Avoid speculative architecture for hypothetical post-hackathon scale unless the ticket requires it.
 - Do not introduce Okutama/Wasabi-specific semantics into reusable code merely because the 8/23 demo uses that golden path.
+- Keep routine implementation ownership with the default implementation agent; escalate only the consequential decision slice and return ownership after focused advice (see `AGENTS.md` → Agent Context and Escalation).
 
 ## Parallel Work / 並列実装
 
