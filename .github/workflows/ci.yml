@@ -94,9 +94,11 @@ jobs:
         if: steps.classify.outputs.risk != 'docs'
         run: pnpm test
 
+      # TypeScript validation is already owned by the explicit Typecheck step;
+      # build only the production bundle here to avoid running `tsc -b` twice.
       - name: Build
         if: steps.classify.outputs.risk != 'docs'
-        run: pnpm build
+        run: pnpm build:bundle
 
   golden-path-e2e:
     name: Golden-path E2E (375px, ja)
