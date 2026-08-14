@@ -14,7 +14,12 @@ import type {
 import { storyContent } from '../i18n/data-content';
 import { resolveKey } from '../i18n/fallback';
 import { DEFAULT_LOCALE, strings, type LocaleKey } from '../i18n/resources';
-import { deriveVerificationStatus, listUnverifiedFields, recordVerificationStatus } from './verification';
+import {
+  deriveVerificationStatus,
+  listUnverifiedFields,
+  recordVerificationStatus,
+  type ReviewField,
+} from './verification';
 
 export const UNKNOWN_JA = '不明（未確認）';
 
@@ -37,11 +42,11 @@ const STATUS_JA: Record<VerificationStatus, string> = {
 
 const REVIEW_FIELD_JA = {
   address: '住所', coordinates: '位置情報', hours: '営業時間', closedDays: '定休日',
-  price: '価格帯', reservation: '予約要否', bookingDestination: '予約方法・URL',
+  price: '価格帯', reservation: '予約要否', bookingDestination: '予約方法・URL', access: 'アクセス',
   multilingualSupport: '英語・多言語対応', dietaryAllergy: 'Vegetarian / Vegan・アレルギー対応',
   accessibility: 'アクセシビリティ', storyWording: 'Spot 紹介文', makerWording: '事業者・生産者の説明',
   photoReusePermission: '写真利用許可', facts: 'FoodCulture の事実・表現',
-} as const;
+} satisfies Record<ReviewField, string>;
 
 function value(value: string | number | boolean | undefined): string {
   if (value === undefined || value === '') return UNKNOWN_JA;
@@ -238,6 +243,7 @@ export function generateStakeholderReviewPacket(input: StakeholderReviewPacketIn
     ['価格帯', spot?.practical?.priceJa, fieldStatus(spot?.practical?.priceJa, spotStatus)],
     ['予約要否', spot?.practical?.reservationAvailable === undefined ? undefined : `reservationAvailable: ${spot.practical.reservationAvailable}`, fieldStatus(spot?.practical?.reservationAvailable, spotStatus)],
     ['予約方法・URL', undefined, '要確認'],
+    ['アクセス', spot?.practical?.accessJa, fieldStatus(spot?.practical?.accessJa, spotStatus)],
     ['英語・多言語対応', languages, languageNeedsReview ? '要確認' : fieldStatus(languages, spotStatus)],
     ['Vegetarian / Vegan・アレルギー対応', dietary, dietaryNeedsReview ? '要確認' : fieldStatus(dietary, spotStatus)],
     ['アクセシビリティ', spot?.tags.accessibility === undefined ? undefined : `accessibility: ${spot.tags.accessibility}`, fieldStatus(spot?.tags.accessibility, spotStatus)],
@@ -250,7 +256,8 @@ export function generateStakeholderReviewPacket(input: StakeholderReviewPacketIn
     const missingFields = [
       ['hours', spot.practical?.hoursJa], ['closedDays', spot.practical?.closedDaysJa],
       ['price', spot.practical?.priceJa], ['reservation', spot.practical?.reservationAvailable],
-      ['bookingDestination', undefined], ['multilingualSupport', languageNeedsReview ? undefined : languages],
+      ['bookingDestination', undefined], ['access', spot.practical?.accessJa],
+      ['multilingualSupport', languageNeedsReview ? undefined : languages],
       ['dietaryAllergy', dietaryNeedsReview ? undefined : dietary], ['accessibility', spot.tags.accessibility],
       ['photoReusePermission', undefined],
     ] as const;

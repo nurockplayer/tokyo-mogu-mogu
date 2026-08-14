@@ -216,6 +216,7 @@ export type ReviewField =
   | 'price'
   | 'reservation'
   | 'bookingDestination'
+  | 'access'
   | 'multilingualSupport'
   | 'dietaryAllergy'
   | 'accessibility'
@@ -262,8 +263,8 @@ export function placeReviewFields(): ReviewField[] {
  * Concrete fields reviewed for a spot, derived from the canonical
  * `SpotPracticalInfo` / `SpotTags` shape. Every source-backed field the app may
  * display is queued for review when the record is unverified — populated values
- * (hours/closedDays/price/reservation present in the data) are listed exactly
- * like absent ones, because their single spot source does not make them
+ * (hours/closedDays/price/reservation/access present in the data) are listed
+ * exactly like absent ones, because their single spot source does not make them
  * verified (Issue #129). The tag-derived claims (multilingualSupport /
  * dietaryAllergy / accessibility) are queued regardless of whether their value
  * is positive, negative, or absent: a positively populated tag is a
@@ -276,10 +277,10 @@ export function spotReviewFields(): ReviewField[] {
 
   // Every source-backed practical field the UI may display is queued for
   // review: this helper only runs for unverified spots, so populated values
-  // (hours / closedDays / price / reservation) and absent ones both need
-  // stakeholder confirmation. `reservationAvailable: true` is a populated
+  // (hours / closedDays / price / reservation / access) and absent ones both
+  // need stakeholder confirmation. `reservationAvailable: true` is a populated
   // claim from the same unverified source and is queued like the rest.
-  fields.push('hours', 'closedDays', 'price', 'reservation', 'bookingDestination');
+  fields.push('hours', 'closedDays', 'price', 'reservation', 'bookingDestination', 'access');
 
   // The tag-derived claims are queued regardless of their value: a positively
   // populated tag (language/vegetarian/allergyNotice/accessibility) is a
@@ -317,6 +318,8 @@ export function listUnverifiedFields(input: {
       priceJa?: string;
       priceEn?: string;
       reservationAvailable?: boolean;
+      accessJa?: string;
+      accessEn?: string;
     };
     tags: {
       language?: Array<'ja' | 'en'>;

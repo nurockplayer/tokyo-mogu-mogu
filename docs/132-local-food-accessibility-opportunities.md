@@ -15,7 +15,7 @@
 Tokyo's local-food and accessibility data surface is **thin, skewed to the 23
 wards, and mostly *official web*, not Open Data**. The two datasets that do
 exist in open form each answer only a narrow question, and neither reaches the
-Tama MVP corridor in a way that supports a new product surface by itself.
+western-Tama corridor in a way that supports a new product surface by itself.
 
 - **「東京都内の飲食店のバリアフリー情報」(barrier-free guide) is the only
   true Tokyo-wide barrier-free Open Data set for restaurants — 210 records
@@ -25,12 +25,15 @@ Tama MVP corridor in a way that supports a new product surface by itself.
   allergy / vegan / halal by prior request). The established western-Tama
   corridor (青梅・あきる野・日の出・瑞穂・奥多摩・檜原) has only **4** records
   (青梅 2 + あきる野 2), so
-  it cannot back a Tama-corridor accessibility feature.
+  it cannot back a western-Tama-corridor accessibility feature.
 - **The 「青梅市 飲食店一覧」 food-business license list (CC BY 4.0, 1,593 rows,
-  100% lat/lng) is the only Tama-municipality restaurant dataset found** — but
-  it is a *regulatory* list: it proves a license was issued and the facility
-  exists, not that it is open, in business now, or serves local ingredients. It
-  contains no menu, ingredient, hours, or accessibility fields.
+  100% lat/lng) is the Ome-municipality food-business license dataset inspected at
+  field/record level in this Issue** — but it is a *regulatory* list: it proves
+  a license was issued and the facility exists, not that it is open, in
+  business now, or serves local ingredients. It contains no menu, ingredient,
+  hours, or accessibility fields. Other municipality permit datasets already
+  identified by #130 (for example Higashimurayama) are outside this Issue's
+  field-level inspection and must not be treated as absent.
 - **The JA Tokyo direct-sale directory (`tokyo-ja.or.jp/farm/store/`) is the
   most complete Tama-relevant "eat-at-the-source" surface (西多摩・南多摩・北多摩
   across 60+ outlets) — but it is `official public web` (All Rights Reserved),
@@ -39,9 +42,9 @@ Tama MVP corridor in a way that supports a new product surface by itself.
 - **Recommended product conclusion**: the "eat Tokyo ingredients / barrier-free
   route" hypotheses are **not** data-supported as an ingestion-based feature
   today. They remain **editorial-with-provenance** opportunities, with the Ome
-  license list usable only as an *existence/status* validation layer and the
+  license list usable only as an *existence/permit-history* validation layer and the
   barrier-free set usable as a *partial* accessibility reference (165 ward /
-  42 Tama / 3 island) — not a Tama-corridor feature basis.
+  42 Tama / 3 island) — not a western-Tama-corridor feature basis.
 
 No partnership or endorsement is inferred from any official listing, and no
 `uses Tokyo ingredient` row is equated with `represents regional FoodCulture`.
@@ -127,15 +130,19 @@ No partnership or endorsement is inferred from any official listing, and no
 **Classification**: `Open Data` (CC BY 4.0).
 
 **Traveler value / product fit**
-- Directly answers "can I eat here with a wheelchair / allergy / English menu?"
-  where coverage exists — practical `Spot` chip data.
-- **Limited MVP fit**: 42 Tama rows exist, but the MVP corridor (奥多摩, 日の出,
-  瑞穂, 檜原, 羽村) has zero coverage and 青梅 only 2 rows. Usable as a partial
-  reference layer, not a Tama-corridor feature basis.
+- Supports practical Spot information such as reported wheelchair features,
+  foreign-language menus, and whether a venue reports accepting **advance
+  requests** for allergy / vegan / halal needs. These flags are not a dietary
+  safety guarantee: travelers must contact the venue to confirm suitability.
+- **Limited corridor fit**: 42 Tama rows exist, but the established western-Tama
+  corridor (青梅・あきる野・日の出・瑞穂・奥多摩・檜原) has only 4 records
+  (青梅 2 + あきる野 2; the other four areas zero). Usable as a partial
+  reference layer, not a western-Tama-corridor feature basis.
 
 **Verification needs before any use**: confirm the 2024-03-12 catalog date is
 not the only revision; the file must be decoded as CP932 (not UTF-8); treat
-blank as "unconfirmed" not "no".
+blank as "unconfirmed" not "no"; treat advance-request flags as contact cues,
+not verified allergy/dietary safety claims.
 
 **Recommendation**: `experiment` — a partial accessibility reference layer with
 explicit coverage limits; **not** a Tama-corridor feature basis.
@@ -175,17 +182,19 @@ explicit coverage limits; **not** a Tama-corridor feature basis.
   produce or is even currently open for business.
 - `申請区分` values are 新規/更新 — an "updated" license is not an "open now"
   guarantee.
-- Ome City only — no other Tama municipality publishes a comparable dataset in
-  the Tokyo catalog at field-checkable level.
+- Ome is the municipality food-business permit dataset inspected at field level in this Issue. #130
+  already records comparable standardized permit data in other municipalities,
+  including Higashimurayama; those datasets were not inspected here and must be
+  evaluated separately before any Tokyo/Tama-wide conclusion.
 
 **Classification**: `Open Data` (CC BY 4.0).
 
 **Traveler value / product fit**
-- A **facility existence / status validation layer**: confirm a Spot in the demo
-  seed is a real licensed facility (identity check), or detect new/closed
-  licenses over time.
+- A **facility existence / permit-history validation layer**: confirm a Spot in the demo
+  seed is a real licensed facility (identity check), or investigate permit
+  events over time.
 - **Not** a discovery source for "where to eat local food" — no ingredient or
-  quality signal.
+  quality signal. A new/updated permit is not evidence of a new opening.
 
 **Verification needs before any use**: reconcile 廃業年月日 emptiness against the
 city's operational list; confirm refresh cadence (last_modified 2024-03-21);
@@ -280,7 +289,8 @@ GH #132 asks to test (not assume) four opportunity shapes. Results:
 - ✅ no partnership/endorsement inferred from official listings.
 - ✅ `uses Tokyo ingredient` not equated with `represents regional FoodCulture`.
 - ✅ dietary/allergy/language/accessibility claims not inferred when missing
-  (barrier-free blanks treated as unconfirmed).
+  (barrier-free blanks treated as unconfirmed; advance-request flags are not
+  treated as dietary-safety guarantees).
 - ✅ feeds #130 opportunity map — the focused completion follow-up applies the
   source classifications and coverage limit to the registry/map (see §5).
 - ✅ implementation/enrichment split to follow-up only where data proved useful
@@ -305,19 +315,24 @@ by the focused research-completion follow-up:
 
 ## 6. Data limitations / honesty notes / データの限界
 
-- **Tama has essentially no local-food *restaurant* open data.** Only Ome
-  publishes a field-level license list; no ingredient/accessibility/menu open
-  data exists for the corridor. Fieldwork/editorial remains the correct strategy
-  (consistent with #130 §3).
+- **This Issue does not establish a Tama-wide inventory of municipal food-business permit Open
+  Data.** Ome was inspected at field level here; #130 already identifies
+  comparable permit datasets in other municipalities (including
+  Higashimurayama), which require separate field-level evaluation. None of the
+  sources inspected here provides the ingredient/menu linkage needed for the
+  proposed local-food discovery feature.
 - **Barrier-free guide coverage is concentrated in the 23 wards (165 rows);
   only 42 rows are in Tama (18 cities), and the western-Tama corridor has only
   4 (青梅 2 + あきる野 2; 日の出・瑞穂・奥多摩・檜原 are zero).** Any accessibility-driven
-  feature for the Tama-corridor MVP cannot be sourced from it; a partial
-  reference layer is the limit.
+  feature for that corridor cannot be sourced from it; a partial reference
+  layer is the limit.
 - **`廃業年月日` empty everywhere** — license lists are historical; "listed" ≠
   "open now".
 - **Barrier-free blanks are ambiguous** (no vs not surveyed) — never render as a
   negative claim.
+- **Advance-request allergy / vegan / halal flags are not safety guarantees** —
+  they indicate a reported contact/accommodation path only; suitability still
+  requires venue confirmation.
 - **JA directory is closed** (All Rights Reserved) — reuse requires editorial
   curation with provenance, not ingestion.
 - **Ome license `last_modified` 2024-03-21** — freshness must be reconfirmed
@@ -331,17 +346,21 @@ by the focused research-completion follow-up:
 大半が official web で Open Data ではない**。
 
 - 唯一の都域バリアフリー Open Data「飲食店のバリアフリー情報」(CC BY 4.0, 210件) は
-  **23区 165件・多摩 42件(18市)・離島 3件**。ただし多摩西部の MVP 回廊
-  西多摩回廊は青梅 2件・あきる野 2件のみで、日の出・瑞穂・奥多摩・檜原は 0 件。店舗単位の有無フラグ表で、
-  アクセス経路・車椅子トイレ・英語メニュー・アレルギー/ヴィーガン/ハラール(事前申請)等を
-  確認できるが、座標なし・自己申告・2024-03 snapshot。
-- 多摩の自治体で飲食店 open data があるのは**青梅市の営業許可一覧**(CC BY 4.0,
-  1,593件、緯度経度100%)のみ。ただし許可の歴史で、営業中か・地元食材かは言えない
-  (メニュー・食材・営業時間・バリアフリー欄なし、廃業年月日は全件空)。
+  **23区 165件・多摩 42件(18市)・離島 3件**。西多摩回廊
+  (青梅・あきる野・日の出・瑞穂・奥多摩・檜原)では青梅 2件・あきる野 2件のみで、
+  日の出・瑞穂・奥多摩・檜原は 0 件。店舗単位の自己申告・職員報告による有無フラグ表で、アクセス経路・
+  車椅子トイレ・英語メニュー・アレルギー/ヴィーガン/ハラール(事前申請)等の報告有無を確認できるが、
+  実際のアクセシビリティや食事上の安全性を検証したデータではない。空欄は未確認として扱う。
+  座標なし。カタログの `metadata_modified` は 2024-03-12、行単位の更新日時はなく、取得日は 2026-08-12。
+  事前申請フラグは「安全に食べられる」保証ではなく、店舗への事前確認が必要。
+- この Issue で field/record level まで確認した自治体の食品営業許可 Open Data は**青梅市の営業許可一覧**
+  (CC BY 4.0, 1,593件、緯度経度100%)。ただし許可の歴史で、営業中か・地元食材かは言えない
+  (メニュー・食材・営業時間・バリアフリー欄なし、廃業年月日は全件空)。#130 では東村山など
+  他自治体の標準化された許可データも確認されているため、「青梅だけ」とは結論しない。
 - 多摩で最も使える「その場で食べる」面は **JA東京中央会の直売所ディレクトリ**
   (西多摩/南多摩/北多摩、60+店舗) だが **All Rights Reserved の official web** —
   Open Data ではなく、編集+出典の editorial 運用が正しい。
-- 結論: 「東京食材を食べられる店」「バリアフリーで巡れる多摩ルート」は**データで
-  支えられない**ので、今回の Issue では ingestion しない。青梅リストは存在/ステータス
-  検証層、バリアフリー表は部分参照層(23区165・多摩42・離島3、MVP回廊は0)としてのみ
-  可能。registry への更新提案を §5 に記録(本 Issue では適用せず)。
+- 結論: 「東京食材を食べられる店」「バリアフリーで巡れる西多摩ルート」は**今回確認したデータだけでは
+  支えられない**ので ingestion しない。青梅リストは存在/許可履歴検証層、バリアフリー表は
+  部分参照層(23区165・多摩42・離島3、西多摩回廊4件)としてのみ利用可能。§5 の registry / opportunity-map
+  更新は focused completion follow-up ですでに適用済み。
