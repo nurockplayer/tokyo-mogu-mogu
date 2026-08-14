@@ -20,9 +20,10 @@ scope.
 - **App IA source of truth**: Issue #92 (reusable `Home / Discover / MOGU / My`).
   The S0–S9 screen names below are the historical framing; their placement in
   the current primary navigation follows the #92 App IA mapping.
-- **Product / MVP framing source of truth**: Issue #112 (Tama as first MVP
-  pilot geography, Okutama as current fieldwork / verified-content focus,
-  evidence-driven food content).
+- **Product / MVP framing source of truth**: Issue #112 (Product scope =
+  Tokyo-wide, multi-region × multi-food-culture; 8/23 demo golden path =
+  Okutama × Tokyo Wasabi; Tama / Okutama as current fieldwork /
+  demo-content context; evidence-driven food content).
 - **Status**: Current fallback contract. Child Issues #77–#82 reference this
   file and keep their acceptance criteria atomic.
 
@@ -65,9 +66,9 @@ current App IA (e.g. the Saved Routes list now renders under My).
 ## Product-positioning Presentation Invariants
 
 TOKYO MOGU MOGU is a **regional-discovery / tourism-dispersion product for
-Tokyo beyond the 23 wards** (Issue #112). The first MVP pilot geography is the
-**Tama area (多摩地域)**; **Okutama is the current fieldwork / verified-content
-focus**; food content is **evidence-driven** — Tokyo Wasabi is a possible
+Tokyo beyond the 23 wards** (Issue #112). The 8/23 demo golden path is
+**Okutama × Tokyo Wasabi**; **Tama / Okutama are the current fieldwork /
+evidence / demo-content context**; food content is **evidence-driven** — Tokyo Wasabi is a possible
 strong demo fixture, not the exclusive MVP content contract. These are not the
 Product's permanent geographic or content scope. See Issue #112 and the product
 contract.
@@ -181,7 +182,7 @@ screens import these primitives instead of building their own visual system.
   descriptions.
 - Media: the hero uses no final photo asset by default; if a hero image is
   used it follows the placeholder rule below and must not imply a region
-  outside the pilot.
+  outside the current demo scope.
 
 ## S1 / S2 Diagnosis
 
@@ -282,8 +283,8 @@ screens import these primitives instead of building their own visual system.
   exploration journey. The current implementation links that CTA to the landing
   screen (copy: 「探索から始める」); confirm the intended target in the S8
   child issue.
-- Area meta may name 奥多摩 as the current pilot but must not make the page
-  read as an Okutama-only product.
+- Area meta may name 奥多摩 as the current demo / fieldwork focus but must not
+  make the page read as an Okutama-only product.
 - Under the #92 App IA, this list renders under **My → Saved Routes** (the My
   destination also holds Food Profile and the Stretch-only Badges entry). The
   old standalone My Route primary destination is superseded; the screen remains
@@ -374,9 +375,10 @@ explicitly open rather than be fabricated by an implementation Issue:
 - `docs/specs/product/hackathon-product-contract.md` — durable behavior
   contract (product positioning, MVP boundary, safety boundary, account /
   persistence, determinism, and the #92 App IA mapping).
-- Issue #112 — current Product / MVP framing (tourism dispersion, Tama as the
-  first MVP pilot geography, Okutama as current fieldwork / verified-content
-  focus, evidence-driven food content).
+- Issue #112 — current Product / MVP framing (tourism dispersion, Product scope =
+  Tokyo-wide multi-region × multi-food-culture, 8/23 demo golden path =
+  Okutama × Tokyo Wasabi, Tama / Okutama as current fieldwork / demo-content
+  context, evidence-driven food content).
 - Issue #92 — current App IA (`Home / Discover / MOGU / My`) and the
   S0–S9 → App IA screen mapping.
 - Issue #85 — historical Product Vision foundation: tourism dispersion beyond
