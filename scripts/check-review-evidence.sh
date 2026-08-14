@@ -51,12 +51,24 @@ review_state="$({
       def body_has_clean_verdict:
         (((.body // "") | split("\n") | map(norm) | index("No blocking findings.")) != null)
         or (((.body // "") | split("\n") | map(norm) | index("Actionable comments posted: 0")) != null);
+      # A trusted-bot COMMENTED review is decisive only when its body actually
+      # carries a machine-recognizable verdict: a CodeRabbit actionable-count
+      # report, an explicit clean-verdict line, or the Codex standard review
+      # heading. An empty or non-verdict acknowledgement (e.g. a bot reply after
+      # a resolution) is NON-decisive and must not supersede a real verdict.
+      def is_decisive_verdict($r):
+        (($r.body // "") | contains("Actionable comments posted:"))
+        or (($r.body // "") | contains("No blocking findings."))
+        or (
+          $r.user.login == "chatgpt-codex-connector[bot]"
+          and (($r.body // "") | contains("### 💡 Codex Review"))
+        );
 
       # For each reviewer we consider only "decisive" reviews on the exact
       # HEAD: native APPROVED / CHANGES_REQUESTED states plus trusted-bot
-      # COMMENTED verdicts. A later untrusted human COMMENTED review is a
-      # non-decisive comment and must NOT displace an earlier still-valid
-      # APPROVED (or CHANGES_REQUESTED) from the same reviewer.
+      # COMMENTED reviews that carry a real verdict. A later untrusted human
+      # COMMENTED review, or an empty/non-verdict trusted-bot acknowledgement,
+      # is non-decisive and must NOT displace an earlier still-valid verdict.
       [ $reviews[]
         | select(.commit_id == $head)
         | select(.state != "PENDING" and .state != "DISMISSED")
@@ -64,7 +76,11 @@ review_state="$({
         | select(
             $r.state == "APPROVED"
             or $r.state == "CHANGES_REQUESTED"
-            or ($r.state == "COMMENTED" and (($trusted | split(",") | index($r.user.login)) != null))
+            or (
+              $r.state == "COMMENTED"
+              and (($trusted | split(",") | index($r.user.login)) != null)
+              and is_decisive_verdict($r)
+            )
           )
         | . + { _order: (.submitted_at // ((.id // 0) | tostring)) }
       ]

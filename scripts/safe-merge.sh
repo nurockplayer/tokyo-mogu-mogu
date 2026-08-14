@@ -127,6 +127,18 @@ assert_strict_review_evidence() {
           and ([ $comments[] | select(.pull_request_review_id == $r.id) ] | length) == 0
         );
       def is_trusted($r): (($trusted | split(",") | index($r.user.login)) != null);
+      # A trusted-bot COMMENTED review is decisive only when its body actually
+      # carries a machine-recognizable verdict: a CodeRabbit actionable-count
+      # report, an explicit clean-verdict line, or the Codex standard review
+      # heading. An empty or non-verdict acknowledgement (e.g. a bot reply after
+      # a resolution) is NON-decisive and must not supersede a real verdict.
+      def is_decisive_verdict($r):
+        (($r.body // "") | contains("Actionable comments posted:"))
+        or (($r.body // "") | contains("No blocking findings."))
+        or (
+          $r.user.login == "chatgpt-codex-connector[bot]"
+          and (($r.body // "") | contains("### 💡 Codex Review"))
+        );
 
       [ $reviews[]
         | select(.commit_id == $head)
@@ -135,11 +147,16 @@ assert_strict_review_evidence() {
       ] as $exact
 
       # Decisive reviews only: native APPROVED / CHANGES_REQUESTED plus
-      # trusted-bot COMMENTED verdicts. Untrusted human COMMENTED reviews are
+      # trusted-bot COMMENTED reviews that carry a real verdict. Untrusted human
+      # COMMENTED reviews and empty/non-verdict trusted-bot acknowledgements are
       # non-decisive and never displace the decisive state.
       | ([ $exact[]
           | . as $r
-          | select($r.state == "APPROVED" or $r.state == "CHANGES_REQUESTED" or ($r.state == "COMMENTED" and is_trusted($r)))
+          | select(
+              $r.state == "APPROVED"
+              or $r.state == "CHANGES_REQUESTED"
+              or ($r.state == "COMMENTED" and is_trusted($r) and is_decisive_verdict($r))
+            )
         ]) as $decisive
 
       # The merge-time verdict must be enforced: the latest decisive review of

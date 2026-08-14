@@ -50,6 +50,8 @@ case "$1 $2" in
         clean_bot_with_approval) echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"},"body":"No blocking findings."},{"id":2,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:01:00Z","user":{"login":"coderabbitai[bot]"},"body":"**Actionable comments posted: 0**"}]' ;;
         empty_approval_bot_clean) echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"},"body":""},{"id":2,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:01:00Z","user":{"login":"coderabbitai[bot]"},"body":"**Actionable comments posted: 0**"}]' ;;
         clean_then_empty_approval) echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"},"body":"No blocking findings."},{"id":2,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:01:00Z","user":{"login":"reviewer"},"body":""}]' ;;
+        bot_blocking_then_empty) echo '[{"id":1,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"coderabbitai[bot]"},"body":"**Actionable comments posted: 1**"},{"id":2,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:01:00Z","user":{"login":"coderabbitai[bot]"},"body":""}]' ;;
+        bot_clean_then_empty) echo '[{"id":1,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"coderabbitai[bot]"},"body":"**Actionable comments posted: 0**"},{"id":2,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:01:00Z","user":{"login":"coderabbitai[bot]"},"body":""}]' ;;
         *) echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"},"body":"No blocking findings."}]' ;;
       esac
     elif [[ "$1" == api && "$2" == --paginate && "$3" == */comments* ]]; then
@@ -87,6 +89,9 @@ must_block unresolved "unresolved review thread"
 must_block no_review "no accepted"
 must_block bot_blocking_after_approval "blocking latest review"
 must_block clean_then_empty_approval "lacks strict clean review evidence"
+# A non-verdict empty trusted-bot COMMENTED follow-up must NOT supersede an
+# earlier blocking CodeRabbit verdict.
+must_block bot_blocking_then_empty "blocking latest review"
 
 : >"$GH_LOG"
 SCENARIO=safe bash "$ROOT/scripts/safe-merge.sh" 160 "$HEAD"
@@ -113,5 +118,11 @@ grep -q -- "--match-head-commit $HEAD" "$GH_LOG" || { echo "clean bot COMMENTED 
 : >"$GH_LOG"
 SCENARIO=empty_approval_bot_clean bash "$ROOT/scripts/safe-merge.sh" 160 "$HEAD"
 grep -q -- "--match-head-commit $HEAD" "$GH_LOG" || { echo "empty-approval + clean bot verdict incorrectly blocked" >&2; exit 1; }
+
+# A non-verdict empty trusted-bot COMMENTED follow-up must NOT supersede an
+# earlier CLEAN CodeRabbit verdict — the clean verdict remains effective.
+: >"$GH_LOG"
+SCENARIO=bot_clean_then_empty bash "$ROOT/scripts/safe-merge.sh" 160 "$HEAD"
+grep -q -- "--match-head-commit $HEAD" "$GH_LOG" || { echo "empty bot follow-up displaced a clean CodeRabbit verdict" >&2; exit 1; }
 
 echo "safe-merge-v3 tests: PASS"
