@@ -36,6 +36,7 @@ import {
   getRouteById,
   DEMO_RECOMMENDATION_CANDIDATES,
   discoverableCandidates,
+  hiddenManagedFoodCultureIds,
   pilotDiscoverPlaceIds,
 } from '../data';
 import { foodCultureKey, placeNameKey } from '../i18n/data-content';
@@ -93,6 +94,23 @@ export function cultureName(
   return locale === 'ja' ? fc.nameJa : fc.nameEn;
 }
 
+/**
+ * The editorial "other cultures" section: seed cultures that are neither on a
+ * playable journey nor a release-managed slice currently hidden from Discover
+ * (disabled / non-discoverable). A hidden managed slice must not resurface here
+ * as a future card (#171); ordinary editorial cultures stay.
+ */
+/** Exported for unit tests. */
+export function discoverOtherCultures(
+  allCultures: readonly FoodCulture[],
+  playableCultureIds: ReadonlySet<string>,
+  hiddenManagedIds: ReadonlySet<string>,
+): FoodCulture[] {
+  return allCultures.filter(
+    (fc) => !playableCultureIds.has(fc.id) && !hiddenManagedIds.has(fc.id),
+  );
+}
+
 export function DiscoverPage() {
   const { locale, t } = useI18n();
 
@@ -114,10 +132,16 @@ export function DiscoverPage() {
 
   // Additional cultures present in the seed but outside the playable journeys
   // (yamame, soba, konnyaku, ...). They are editorial/demo records only — they
-  // do not imply another region or a production journey. Keep this list
+  // do not imply another region or a production journey. Release-managed slices
+  // that are hidden from Discover (disabled, #171) are excluded here too, so a
+  // disabled slice never resurfaces as a future card. Keep this list
   // deterministic and tied to what the seed actually contains.
   const playableCultureIds = new Set(playableJourneys.map((j) => j.culture.id));
-  const otherCultures = foodCultures.filter((fc) => !playableCultureIds.has(fc.id));
+  const otherCultures = discoverOtherCultures(
+    foodCultures,
+    playableCultureIds,
+    hiddenManagedFoodCultureIds(DEMO_RECOMMENDATION_CANDIDATES),
+  );
 
   // The playable places are the union of every ready journey's route stops —
   // Discover and Route read the same canonical journeys, so the lists cannot
