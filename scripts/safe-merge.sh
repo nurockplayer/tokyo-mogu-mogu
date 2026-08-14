@@ -220,12 +220,12 @@ assert_server_protection() {
 
   if ! jq -e '
     (.required_conversation_resolution.enabled == true)
+    # Require the pull-request workflow itself (PR-only merging; no direct
+    # pushes to main). The solo-maintainer workflow allows an approving-review
+    # count of 0; the mandatory accepted exact-HEAD trusted review evidence is
+    # enforced by the client gates (check-review-evidence.sh and
+    # assert_strict_review_evidence), not by a server approval count.
     and (.required_pull_request_reviews != null)
-    # A real server-side review requirement: an approving-review count of 0
-    # leaves no server-enforced review gate, so a clean review could be
-    # dismissed or a body-only blocking review could arrive after Gate 4
-    # without creating an unresolved thread.
-    and ((.required_pull_request_reviews.required_approving_review_count // 0) >= 1)
     and (.enforce_admins.enabled == true)
     and (
       ((.required_status_checks.contexts // []) | index("Merge Gate")) != null
@@ -245,7 +245,7 @@ assert_server_protection() {
     )
   ' >/dev/null <<<"$protection"; then
     echo "safe-merge: target branch '$base' lacks required atomic merge protection" >&2
-    echo "  required: conversation resolution, >=1 approving review, Merge Gate status, admin enforcement, no PR-review bypass allowances" >&2
+    echo "  required: PR workflow, conversation resolution, Merge Gate status, admin enforcement, no PR-review bypass allowances" >&2
     exit 6
   fi
 }

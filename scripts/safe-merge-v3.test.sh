@@ -36,11 +36,12 @@ case "$1 $2" in
     if [[ "$1" == api && "$2" == repos/*/branches/main/protection ]]; then
       [[ "${SCENARIO:-safe}" == unprotected ]] && exit 1
       if [[ "${SCENARIO:-safe}" == bypass ]]; then
-        echo '{"required_status_checks":{"contexts":["Merge Gate"]},"required_pull_request_reviews":{"required_approving_review_count":1,"bypass_pull_request_allowances":{"users":[{"login":"nurockplayer"}],"teams":[],"apps":[]}},"enforce_admins":{"enabled":true},"required_conversation_resolution":{"enabled":true}}'
-      elif [[ "${SCENARIO:-safe}" == count0 ]]; then
-        echo '{"required_status_checks":{"contexts":["Merge Gate"]},"required_pull_request_reviews":{"required_approving_review_count":0},"enforce_admins":{"enabled":true},"required_conversation_resolution":{"enabled":true}}'
-      else
+        echo '{"required_status_checks":{"contexts":["Merge Gate"]},"required_pull_request_reviews":{"required_approving_review_count":0,"bypass_pull_request_allowances":{"users":[{"login":"nurockplayer"}],"teams":[],"apps":[]}},"enforce_admins":{"enabled":true},"required_conversation_resolution":{"enabled":true}}'
+      elif [[ "${SCENARIO:-safe}" == count1 ]]; then
         echo '{"required_status_checks":{"contexts":["Merge Gate"]},"required_pull_request_reviews":{"required_approving_review_count":1},"enforce_admins":{"enabled":true},"required_conversation_resolution":{"enabled":true}}'
+      else
+        # Solo-maintainer workflow: approving-review count 0 is allowed.
+        echo '{"required_status_checks":{"contexts":["Merge Gate"]},"required_pull_request_reviews":{"required_approving_review_count":0},"enforce_admins":{"enabled":true},"required_conversation_resolution":{"enabled":true}}'
       fi
     elif [[ "$1" == api && "$2" == --paginate && "$3" == */reviews* ]]; then
       case "${SCENARIO:-safe}" in
@@ -83,7 +84,6 @@ must_block() {
 
 must_block unprotected "branch protection"
 must_block bypass "bypass allowances"
-must_block count0 "approving review"
 must_block moved "HEAD moved"
 must_block unresolved "unresolved review thread"
 must_block no_review "no accepted"
@@ -93,6 +93,9 @@ must_block clean_then_empty_approval "lacks strict clean review evidence"
 # earlier blocking CodeRabbit verdict.
 must_block bot_blocking_then_empty "blocking latest review"
 
+# The solo-maintainer protection allows required_approving_review_count == 0.
+# Accepted exact-HEAD trusted review evidence remains mandatory (verified by
+# no_review above and the strict evidence gates).
 : >"$GH_LOG"
 SCENARIO=safe bash "$ROOT/scripts/safe-merge.sh" 160 "$HEAD"
 [[ "$(grep -c 'branches/main/protection$' "$GH_LOG")" -eq 2 ]]
@@ -100,6 +103,17 @@ SCENARIO=safe bash "$ROOT/scripts/safe-merge.sh" 160 "$HEAD"
 grep -q '^pr checks ' "$GH_LOG"
 grep -q -- "--match-head-commit $HEAD" "$GH_LOG"
 ! grep -q -- '--admin' "$GH_LOG"
+
+# count0 (the default solo-maintainer protection) allows the merge when review
+# evidence is present.
+: >"$GH_LOG"
+SCENARIO=count0 bash "$ROOT/scripts/safe-merge.sh" 160 "$HEAD"
+grep -q -- "--match-head-commit $HEAD" "$GH_LOG" || { echo "count0 protection should allow merge with accepted evidence" >&2; exit 1; }
+
+# count1 remains allowed as well (count >= 0 is not rejected by Gate 0).
+: >"$GH_LOG"
+SCENARIO=count1 bash "$ROOT/scripts/safe-merge.sh" 160 "$HEAD"
+grep -q -- "--match-head-commit $HEAD" "$GH_LOG" || { echo "count1 protection should allow merge with accepted evidence" >&2; exit 1; }
 
 # P2: a later non-decisive COMMENTED review must not displace an earlier
 # APPROVED from the same reviewer — the merge stays authorized.
