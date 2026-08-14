@@ -10,16 +10,22 @@ Review-atomic merge gate for tokyo-mogu-mogu.
 The caller must pass the exact PR HEAD SHA that received the final reviewer
 verdict. This command refuses to merge when:
 - the PR HEAD moved after review,
-- no accepted independent review exists for that exact HEAD,
+- the exact HEAD lacks the mandated final-verdict review (`No blocking findings.`),
+- a live CHANGES_REQUESTED review exists on that exact HEAD,
 - any inline review thread is unresolved,
 - PR checks are pending/failing,
 - the base branch does not enforce the required server-side protections,
 - or the HEAD/review state changes during the final gate.
 
+A COMMENTED review (bot or human) is advisory, not merge-authoritative: its
+actionable findings must materialize as an unresolved inline review thread, a
+CHANGES_REQUESTED, or a required-status failure to block a merge. A native
+GitHub APPROVED review is NOT required.
+
 Server-side protection is mandatory because client-side reads cannot make
 review/thread state atomic with the merge request. The target branch must have:
 - required conversation resolution,
-- required pull-request review protection,
+- pull-request review protection (no approving-review count required),
 - required status check `Merge Gate`, and
 - administrator enforcement / no bypass for repository admins.
 
@@ -47,7 +53,6 @@ fi
 repo="${SAFE_MERGE_REPO:-$(gh repo view --json nameWithOwner --jq .nameWithOwner)}"
 owner="${repo%%/*}"
 name="${repo#*/}"
-trusted_reviewers="${SAFE_MERGE_REVIEWERS:-chatgpt-codex-connector[bot],coderabbitai[bot]}"
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 current_head() {
@@ -93,110 +98,13 @@ assert_reviewed_head() {
   fi
 }
 
-assert_accepted_review() {
+# Machine-verifiable review evidence on the exact reviewed HEAD. This is the
+# only review-state gate: a mandated final-verdict review must exist on the exact
+# HEAD, and a live CHANGES_REQUESTED must not. COMMENTED reviews (bot or human)
+# are advisory and never block a SHA whose actionable inline findings have been
+# reconciled/resolved.
+assert_review_state() {
   bash "$script_dir/check-review-evidence.sh" "$repo" "$pr" "$reviewed_head"
-}
-
-# Defense in depth for trusted COMMENTED reviews: safe-merge itself requires a
-# machine-verifiable clean source that cannot be satisfied by merely mentioning
-# success text inside a blocking body. Native APPROVED reviews qualify. For
-# Codex, the latest exact-HEAD submitted review qualifies only when it is the
-# standard Codex review and that review owns zero inline findings.
-assert_strict_review_evidence() {
-  local reviews comments accepted
-  reviews="$(gh api --paginate "repos/$owner/$name/pulls/$pr/reviews?per_page=100" | jq -s 'add // []')"
-  comments="$(gh api --paginate "repos/$owner/$name/pulls/$pr/comments?per_page=100" | jq -s 'add // []')"
-
-  accepted="$(jq -n \
-    --arg head "$reviewed_head" \
-    --arg trusted "$trusted_reviewers" \
-    --argjson reviews "$reviews" \
-    --argjson comments "$comments" '
-      def norm($s): ($s // "") | gsub("\r"; "") | gsub("\\*\\*"; "") | gsub("`"; "") | gsub("^[[:space:]]+|[[:space:]]+$"; "");
-      def body_is_clean($r):
-        (((($r.body // "") | split("\n") | map(norm(.))) | index("No blocking findings.")) != null)
-        or (((($r.body // "") | split("\n") | map(norm(.))) | index("Actionable comments posted: 0")) != null);
-      # A trusted-bot review is a clean verdict when its body explicitly records
-      # one, or when it is the Codex standard boilerplate with zero inline review
-      # comments (the Codex machine-readable no-findings form).
-      def is_clean_verdict($r):
-        body_is_clean($r)
-        or (
-          $r.user.login == "chatgpt-codex-connector[bot]"
-          and (($r.body // "") | startswith("### 💡 Codex Review"))
-          and ([ $comments[] | select(.pull_request_review_id == $r.id) ] | length) == 0
-        );
-      def is_trusted($r): (($trusted | split(",") | index($r.user.login)) != null);
-      # A trusted-bot COMMENTED review is decisive only when its body actually
-      # carries a machine-recognizable verdict: a CodeRabbit actionable-count
-      # report, an explicit clean-verdict line, or the Codex standard review
-      # heading. An empty or non-verdict acknowledgement (e.g. a bot reply after
-      # a resolution) is NON-decisive and must not supersede a real verdict.
-      def is_decisive_verdict($r):
-        (($r.body // "") | contains("Actionable comments posted:"))
-        or (($r.body // "") | contains("No blocking findings."))
-        or (
-          $r.user.login == "chatgpt-codex-connector[bot]"
-          and (($r.body // "") | contains("### 💡 Codex Review"))
-        );
-
-      [ $reviews[]
-        | select(.commit_id == $head)
-        | select(.state != "PENDING" and .state != "DISMISSED")
-        | . + { _order: (.submitted_at // ((.id // 0) | tostring)) }
-      ] as $exact
-
-      # Decisive reviews only: native APPROVED / CHANGES_REQUESTED plus
-      # trusted-bot COMMENTED reviews that carry a real verdict. Untrusted human
-      # COMMENTED reviews and empty/non-verdict trusted-bot acknowledgements are
-      # non-decisive and never displace the decisive state.
-      | ([ $exact[]
-          | . as $r
-          | select(
-              $r.state == "APPROVED"
-              or $r.state == "CHANGES_REQUESTED"
-              or ($r.state == "COMMENTED" and is_trusted($r) and is_decisive_verdict($r))
-            )
-        ]) as $decisive
-
-      # The merge-time verdict must be enforced: the latest decisive review of
-      # EVERY reviewer is binding. Both blocking and acceptance are computed
-      # from the SAME latest-per-reviewer set, so a reviewer newest verdict
-      # (which may omit or contradict the earlier clean body) fully supersedes
-      # the older review — an old clean body must not authorize a merge that
-      # the latest review no longer supports.
-      | ($decisive
-          | sort_by(._order)
-          | group_by(.user.login)
-          | map(last)) as $latest
-
-      | ([ $latest[]
-          | select(
-              .state == "CHANGES_REQUESTED"
-              or (.state == "COMMENTED" and is_trusted(.) and (is_clean_verdict(.) | not))
-            )
-        ] | length) as $blocking_count
-
-      | ([ $latest[]
-          | select(
-              (.state == "APPROVED" or (.state == "COMMENTED" and is_trusted(.)))
-              and is_clean_verdict(.)
-            )
-        ] | length) as $accepted_count
-
-      # The accepted verdict must be exactly `No blocking findings.` (safe-merge
-      # rule step 4). Accepted evidence is any decisive review — a native
-      # APPROVED or any trusted-bot COMMENTED — whose body carries that clean
-      # verdict text (or is the Codex standard zero-findings form). An approval
-      # whose body is empty or carries a caveat is not the mandated verdict.
-      | ($accepted_count > 0) and $blocking_count == 0
-    ')"
-
-  if [[ "$accepted" != "true" ]]; then
-    echo "safe-merge: PR #$pr lacks strict clean review evidence for exact HEAD $reviewed_head" >&2
-    echo "  required: exact-HEAD APPROVED review or zero-finding exact-HEAD Codex review" >&2
-    exit 5
-  fi
 }
 
 assert_no_unresolved_threads() {
@@ -221,10 +129,12 @@ assert_server_protection() {
   if ! jq -e '
     (.required_conversation_resolution.enabled == true)
     # Require the pull-request workflow itself (PR-only merging; no direct
-    # pushes to main). The solo-maintainer workflow allows an approving-review
-    # count of 0; the mandatory accepted exact-HEAD trusted review evidence is
-    # enforced by the client gates (check-review-evidence.sh and
-    # assert_strict_review_evidence), not by a server approval count.
+    # pushes to main). No approving-review count is required: the owner/agent
+    # workflow cannot reliably produce a native APPROVED (the PR author cannot
+    # approve their own PR), so a server count >= 1 would deadlock every merge.
+    # The server is configured with required_approving_review_count 0; the
+    # mandated final-verdict attestation is enforced client-side by
+    # check-review-evidence.sh.
     and (.required_pull_request_reviews != null)
     and (.enforce_admins.enabled == true)
     and (
@@ -245,7 +155,7 @@ assert_server_protection() {
     )
   ' >/dev/null <<<"$protection"; then
     echo "safe-merge: target branch '$base' lacks required atomic merge protection" >&2
-    echo "  required: PR workflow, conversation resolution, Merge Gate status, admin enforcement, no PR-review bypass allowances" >&2
+    echo "  required: pull-request review protection (PR workflow), conversation resolution, Merge Gate status, admin enforcement, no PR-review bypass allowances" >&2
     exit 6
   fi
 }
@@ -255,11 +165,10 @@ assert_server_protection() {
 # GitHub accepting the merge request.
 assert_server_protection
 
-# Gate 1: the SHA that was reviewed must still be the live PR head, and accepted
-# independent review evidence must itself be attached to that exact SHA.
+# Gate 1: the SHA that was reviewed must still be the live PR head, and the
+# review evidence must be attached to that exact SHA.
 assert_reviewed_head
-assert_accepted_review
-assert_strict_review_evidence
+assert_review_state
 
 # Gate 2: reconcile GitHub live state, not an earlier handoff snapshot.
 assert_no_unresolved_threads
@@ -274,8 +183,7 @@ gh pr checks "$pr" --repo "$repo" >/dev/null
 # previous commands were running.
 assert_server_protection
 assert_reviewed_head
-assert_accepted_review
-assert_strict_review_evidence
+assert_review_state
 assert_no_unresolved_threads
 
 # Final server-side HEAD compare-and-swap. Review/thread atomicity is provided by

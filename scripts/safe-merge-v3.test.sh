@@ -30,29 +30,38 @@ case "$1 $2" in
       echo '{"data":{"repository":{"pullRequest":{"reviewThreads":{"nodes":[],"pageInfo":{"hasNextPage":false,"endCursor":null}}}}}}'
     fi
     ;;
-  "pr checks"|"pr merge")
+  "pr checks")
+    if [[ "${SCENARIO:-safe}" == checks_fail ]]; then
+      echo "checks failed" >&2
+      exit 1
+    fi
+    ;;
+  "pr merge")
     ;;
   *)
     if [[ "$1" == api && "$2" == repos/*/branches/main/protection ]]; then
       [[ "${SCENARIO:-safe}" == unprotected ]] && exit 1
       if [[ "${SCENARIO:-safe}" == bypass ]]; then
-        echo '{"required_status_checks":{"contexts":["Merge Gate"]},"required_pull_request_reviews":{"required_approving_review_count":0,"bypass_pull_request_allowances":{"users":[{"login":"nurockplayer"}],"teams":[],"apps":[]}},"enforce_admins":{"enabled":true},"required_conversation_resolution":{"enabled":true}}'
-      elif [[ "${SCENARIO:-safe}" == count1 ]]; then
-        echo '{"required_status_checks":{"contexts":["Merge Gate"]},"required_pull_request_reviews":{"required_approving_review_count":1},"enforce_admins":{"enabled":true},"required_conversation_resolution":{"enabled":true}}'
+        echo '{"required_status_checks":{"contexts":["Merge Gate"]},"required_pull_request_reviews":{"required_approving_review_count":0,"dismiss_stale_reviews":true,"bypass_pull_request_allowances":{"users":[{"login":"nurockplayer"}],"teams":[],"apps":[]}},"enforce_admins":{"enabled":true},"required_conversation_resolution":{"enabled":true}}'
+      elif [[ "${SCENARIO:-safe}" == missing_prr ]]; then
+        echo '{"required_status_checks":{"contexts":["Merge Gate"]},"enforce_admins":{"enabled":true},"required_conversation_resolution":{"enabled":true}}'
+      elif [[ "${SCENARIO:-safe}" == missing_merge_gate ]]; then
+        echo '{"required_status_checks":{"contexts":["Quality Gates"]},"required_pull_request_reviews":{"required_approving_review_count":0,"dismiss_stale_reviews":true},"enforce_admins":{"enabled":true},"required_conversation_resolution":{"enabled":true}}'
       else
-        # Solo-maintainer workflow: approving-review count 0 is allowed.
-        echo '{"required_status_checks":{"contexts":["Merge Gate"]},"required_pull_request_reviews":{"required_approving_review_count":0},"enforce_admins":{"enabled":true},"required_conversation_resolution":{"enabled":true}}'
+        echo '{"required_status_checks":{"contexts":["Merge Gate"]},"required_pull_request_reviews":{"required_approving_review_count":0,"dismiss_stale_reviews":true},"enforce_admins":{"enabled":true},"required_conversation_resolution":{"enabled":true}}'
       fi
     elif [[ "$1" == api && "$2" == --paginate && "$3" == */reviews* ]]; then
       case "${SCENARIO:-safe}" in
-        no_review) echo '[]' ;;
-        approved_then_commented) echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"},"body":"No blocking findings."},{"id":2,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:01:00Z","user":{"login":"reviewer"},"body":"non-decisive comment"}]' ;;
-        bot_blocking_after_approval) echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"},"body":"No blocking findings."},{"id":2,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:01:00Z","user":{"login":"coderabbitai[bot]"},"body":"**Actionable comments posted: 2**"}]' ;;
-        clean_bot_with_approval) echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"},"body":"No blocking findings."},{"id":2,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:01:00Z","user":{"login":"coderabbitai[bot]"},"body":"**Actionable comments posted: 0**"}]' ;;
-        empty_approval_bot_clean) echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"},"body":""},{"id":2,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:01:00Z","user":{"login":"coderabbitai[bot]"},"body":"**Actionable comments posted: 0**"}]' ;;
-        clean_then_empty_approval) echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"},"body":"No blocking findings."},{"id":2,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:01:00Z","user":{"login":"reviewer"},"body":""}]' ;;
-        bot_blocking_then_empty) echo '[{"id":1,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"coderabbitai[bot]"},"body":"**Actionable comments posted: 1**"},{"id":2,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:01:00Z","user":{"login":"coderabbitai[bot]"},"body":""}]' ;;
-        bot_clean_then_empty) echo '[{"id":1,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"coderabbitai[bot]"},"body":"**Actionable comments posted: 0**"},{"id":2,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:01:00Z","user":{"login":"coderabbitai[bot]"},"body":""}]' ;;
+        no_attestation) echo '[]' ;;
+        changes_requested) echo '[{"id":1,"state":"CHANGES_REQUESTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"},"body":"needs work"}]' ;;
+        changes_then_approve) echo '[{"id":1,"state":"CHANGES_REQUESTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"},"body":"needs work"},{"id":2,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:01:00Z","user":{"login":"reviewer"},"body":"No blocking findings."}]' ;;
+        # A trusted-bot COMMENTED finding whose inline thread has been reconciled
+        # and resolved must not block; the exact-HEAD verdict-line COMMENTED
+        # review provides the attestation; no native APPROVED exists.
+        resolved_bot_comment) echo '[{"id":1,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"coderabbitai[bot]"},"body":"**Actionable comments posted: 1**"},{"id":2,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:01:00Z","user":{"login":"reviewer"},"body":"No blocking findings."}]' ;;
+        # No native APPROVED anywhere: a plain exact-HEAD COMMENTED verdict-line
+        # review is sufficient attestation.
+        verdict_comment_only) echo '[{"id":1,"state":"COMMENTED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"},"body":"No blocking findings."}]' ;;
         *) echo '[{"id":1,"state":"APPROVED","commit_id":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","submitted_at":"2026-08-14T00:00:00Z","user":{"login":"reviewer"},"body":"No blocking findings."}]' ;;
       esac
     elif [[ "$1" == api && "$2" == --paginate && "$3" == */comments* ]]; then
@@ -82,61 +91,56 @@ must_block() {
   ! grep -q '^pr merge ' "$GH_LOG"
 }
 
-must_block unprotected "branch protection"
-must_block bypass "bypass allowances"
-must_block moved "HEAD moved"
-must_block unresolved "unresolved review thread"
-must_block no_review "no accepted"
-must_block bot_blocking_after_approval "blocking latest review"
-must_block clean_then_empty_approval "lacks strict clean review evidence"
-# A non-verdict empty trusted-bot COMMENTED follow-up must NOT supersede an
-# earlier blocking CodeRabbit verdict.
-must_block bot_blocking_then_empty "blocking latest review"
+must_merge() {
+  local scenario="$1"
+  : >"$GH_LOG"
+  if ! SCENARIO="$scenario" bash "$ROOT/scripts/safe-merge.sh" 160 "$HEAD" >"$TMP/out" 2>"$TMP/err"; then
+    echo "expected merge: $scenario" >&2
+    cat "$TMP/err" >&2
+    exit 1
+  fi
+  grep -q -- "--match-head-commit $HEAD" "$GH_LOG"
+}
 
-# The solo-maintainer protection allows required_approving_review_count == 0.
-# Accepted exact-HEAD trusted review evidence remains mandatory (verified by
-# no_review above and the strict evidence gates).
+# Authoritative merge blockers (Issue #159 policy):
+# 1. unresolved inline thread → reject
+must_block unresolved "unresolved review thread"
+# 2. live CHANGES_REQUESTED on the exact HEAD → reject
+must_block changes_requested "CHANGES_REQUESTED"
+# 3. HEAD moved after review → reject
+must_block moved "HEAD moved"
+# 4. required CI / Merge Gate failure or missing server protection → reject
+must_block checks_fail "checks failed"
+must_block unprotected "branch protection"
+must_block missing_merge_gate "Merge Gate"
+# Server protection must preserve the required controls and NOT require approvals.
+must_block missing_prr "pull-request review protection"
+must_block bypass "bypass"
+# The mandated final-verdict review must exist on the exact HEAD (review-atomic).
+must_block no_attestation "final verdict"
+
+# Baseline: the reviewed, protected, resolved PR merges with an exact-head guard.
 : >"$GH_LOG"
 SCENARIO=safe bash "$ROOT/scripts/safe-merge.sh" 160 "$HEAD"
+# Final live-state scans happen at Gate 0/4 (protection), Gate 2/4 (threads), and
+# Gate 1/4 (review state), immediately before the merge command.
 [[ "$(grep -c 'branches/main/protection$' "$GH_LOG")" -eq 2 ]]
 [[ "$(grep -c '^api graphql ' "$GH_LOG")" -eq 2 ]]
+[[ "$(grep -c 'reviews?per_page=100' "$GH_LOG")" -eq 2 ]]
 grep -q '^pr checks ' "$GH_LOG"
 grep -q -- "--match-head-commit $HEAD" "$GH_LOG"
 ! grep -q -- '--admin' "$GH_LOG"
 
-# count0 (the default solo-maintainer protection) allows the merge when review
-# evidence is present.
-: >"$GH_LOG"
-SCENARIO=count0 bash "$ROOT/scripts/safe-merge.sh" 160 "$HEAD"
-grep -q -- "--match-head-commit $HEAD" "$GH_LOG" || { echo "count0 protection should allow merge with accepted evidence" >&2; exit 1; }
+# 5. A trusted-bot COMMENTED finding whose inline thread has been reconciled and
+#    resolved does not block the merge.
+must_merge resolved_bot_comment
 
-# count1 remains allowed as well (count >= 0 is not rejected by Gate 0).
-: >"$GH_LOG"
-SCENARIO=count1 bash "$ROOT/scripts/safe-merge.sh" 160 "$HEAD"
-grep -q -- "--match-head-commit $HEAD" "$GH_LOG" || { echo "count1 protection should allow merge with accepted evidence" >&2; exit 1; }
+# 6. A native APPROVED review is NOT required: a plain exact-HEAD COMMENTED
+#    verdict-line review authorizes the merge.
+must_merge verdict_comment_only
 
-# P2: a later non-decisive COMMENTED review must not displace an earlier
-# APPROVED from the same reviewer — the merge stays authorized.
-: >"$GH_LOG"
-SCENARIO=approved_then_commented bash "$ROOT/scripts/safe-merge.sh" 160 "$HEAD"
-grep -q -- "--match-head-commit $HEAD" "$GH_LOG" || { echo "later non-decisive comment displaced APPROVED" >&2; exit 1; }
-
-# A trusted-bot clean COMMENTED verdict alongside a native APPROVED must not
-# block the merge (the clean bot verdict is not a blocking veto).
-: >"$GH_LOG"
-SCENARIO=clean_bot_with_approval bash "$ROOT/scripts/safe-merge.sh" 160 "$HEAD"
-grep -q -- "--match-head-commit $HEAD" "$GH_LOG" || { echo "clean bot COMMENTED incorrectly blocked merge" >&2; exit 1; }
-
-# A clean trusted-bot verdict is accepted even when the human approval body is
-# empty (the mandated clean verdict comes from the trusted reviewer).
-: >"$GH_LOG"
-SCENARIO=empty_approval_bot_clean bash "$ROOT/scripts/safe-merge.sh" 160 "$HEAD"
-grep -q -- "--match-head-commit $HEAD" "$GH_LOG" || { echo "empty-approval + clean bot verdict incorrectly blocked" >&2; exit 1; }
-
-# A non-verdict empty trusted-bot COMMENTED follow-up must NOT supersede an
-# earlier CLEAN CodeRabbit verdict — the clean verdict remains effective.
-: >"$GH_LOG"
-SCENARIO=bot_clean_then_empty bash "$ROOT/scripts/safe-merge.sh" 160 "$HEAD"
-grep -q -- "--match-head-commit $HEAD" "$GH_LOG" || { echo "empty bot follow-up displaced a clean CodeRabbit verdict" >&2; exit 1; }
+# A superseded CHANGES_REQUESTED (later APPROVED by the same reviewer) does not
+# block — the latest decisive verdict per reviewer is binding.
+must_merge changes_then_approve
 
 echo "safe-merge-v3 tests: PASS"
