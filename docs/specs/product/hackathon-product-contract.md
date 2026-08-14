@@ -45,7 +45,7 @@ The Hackathon submission deliberately validates the Product through a **small de
 
 > **Okutama × Tokyo Wasabi**
 
-This may be the only production-ready Result / Story / Route / Spot journey shown by 8/23. This is acceptable and preferred to fake breadth.
+Okutama × Tokyo Wasabi is the primary production-ready Result / Story / Route / Spot journey shown by 8/23. Additional source-backed slices (Ome/Sawai × sake, #163) may ship as secondary behind the release boundary below. This is acceptable and preferred to fake breadth.
 
 This demo choice is only:
 - demo content/data selection
@@ -62,6 +62,15 @@ It does **not** mean:
 Tama / Okutama remain important current fieldwork, evidence, and demo-content contexts. Other verified Tokyo Region × FoodCulture candidates may be researched without becoming 8/23 production requirements.
 
 One verified journey is enough. No content is invented to widen scope.
+
+### Release boundary (Issue #171)
+
+Additional Region × FoodCulture slices are release-switchable through one small centralized registry keyed by the demo candidate identity (`src/data/release-config.ts`). The 8/23 default:
+
+- **Okutama × Tokyo Wasabi** — enabled, `primary`, recommendable, discoverable (current 8/23 primary MVP / demo)
+- **Ome/Sawai × sake** — enabled, `secondary`, recommendable, discoverable (secondary expansion proof)
+
+A single `enabled: false` change removes a slice from production Discover and recommendation exposure. Disabling only changes release exposure — canonical data / content / routes / i18n and direct Story / Route / Spot access stay usable, and the focused browser path remains green. Product scope stays Tokyo-wide and broader than either slice.
 
 ## Current App IA (Issue #92)
 
