@@ -8,9 +8,18 @@
  * write Recent" invariant at the page-selection level.
  */
 import { describe, expect, it } from 'vitest';
-import { foodCultures, places } from '../data';
+import {
+  DEMO_OME_SAKE_CANDIDATE_ID,
+  DEMO_RECOMMENDATION_CANDIDATES,
+  DEMO_RECOMMENDATION_CANDIDATE_ID,
+  discoverableCandidates,
+  foodCultures,
+  hiddenManagedFoodCultureIds,
+  places,
+  type ReleaseConfigEntry,
+} from '../data';
 import { loadMoguRecent } from '../lib/mogu-recent';
-import { cultureName } from './DiscoverPage';
+import { cultureName, discoverOtherCultures } from './DiscoverPage';
 
 const FEATURED = 'wasabi-okutama';
 const PILOT_PLACES = [
@@ -19,6 +28,27 @@ const PILOT_PLACES = [
   'soba-isshintei',
   'shishiguchiya',
   'odanba-fishing',
+];
+
+/**
+ * A test-only release config simulating the team decision to keep Ome/Sawai out
+ * of the 8/23 production Discover surface via a single `enabled: false` change.
+ */
+const DISABLED_OME_CONFIG: readonly ReleaseConfigEntry[] = [
+  {
+    candidateId: DEMO_RECOMMENDATION_CANDIDATE_ID,
+    enabled: true,
+    releaseRole: 'primary',
+    recommendable: true,
+    discoverable: true,
+  },
+  {
+    candidateId: DEMO_OME_SAKE_CANDIDATE_ID,
+    enabled: false,
+    releaseRole: 'secondary',
+    recommendable: true,
+    discoverable: true,
+  },
 ];
 
 describe('Discover selection (#93)', () => {
@@ -52,5 +82,46 @@ describe('Discover selection (#93)', () => {
       expect(en).not.toBe('');
       expect(en).not.toMatch(/わさび|Wasabi|山葵/i);
     }
+  });
+});
+
+describe('Discover release gating (#171)', () => {
+  it('does not surface a disabled managed slice as a playable Discover culture', () => {
+    // Mirrors the component's playable-journey derivation under a disabled
+    // Ome config: only wasabi stays playable.
+    const playable = discoverableCandidates(DEMO_RECOMMENDATION_CANDIDATES, DISABLED_OME_CONFIG).filter(
+      (c) => c.availability === 'ready' && c.journeyId,
+    );
+    const playableCultureIds = new Set(playable.map((c) => c.foodCultureId));
+    expect(playableCultureIds.has('sake-ome')).toBe(false);
+    expect(playableCultureIds.has('wasabi-okutama')).toBe(true);
+  });
+
+  it('does not resurface a disabled managed slice in the future/other cultures section', () => {
+    const playableCultureIds = new Set(['wasabi-okutama']);
+    const hiddenManaged = hiddenManagedFoodCultureIds(DEMO_RECOMMENDATION_CANDIDATES, DISABLED_OME_CONFIG);
+    const other = discoverOtherCultures(foodCultures, playableCultureIds, hiddenManaged);
+    expect(other.map((fc) => fc.id)).not.toContain('sake-ome');
+  });
+
+  it('keeps ordinary non-release-managed editorial cultures in the future section', () => {
+    const playableCultureIds = new Set(['wasabi-okutama']);
+    const hiddenManaged = hiddenManagedFoodCultureIds(DEMO_RECOMMENDATION_CANDIDATES, DISABLED_OME_CONFIG);
+    const other = discoverOtherCultures(foodCultures, playableCultureIds, hiddenManaged);
+    const ids = other.map((fc) => fc.id);
+    expect(ids).toEqual(
+      expect.arrayContaining(['yamame-okutama', 'okutama-soba', 'okutama-konnyaku']),
+    );
+  });
+
+  it('keeps release-managed cultures out of the future section whenever they are playable', () => {
+    // Default config: both slices are playable, so neither falls back into the
+    // editorial "other cultures" list.
+    const playableCultureIds = new Set(['wasabi-okutama', 'sake-ome']);
+    const hiddenManaged = hiddenManagedFoodCultureIds(DEMO_RECOMMENDATION_CANDIDATES);
+    const other = discoverOtherCultures(foodCultures, playableCultureIds, hiddenManaged);
+    const ids = other.map((fc) => fc.id);
+    expect(ids).not.toContain('wasabi-okutama');
+    expect(ids).not.toContain('sake-ome');
   });
 });

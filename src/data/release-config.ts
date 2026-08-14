@@ -122,3 +122,22 @@ export function discoverableCandidates(
 ): RecommendationCandidate[] {
   return candidates.filter((candidate) => isCandidateDiscoverable(candidate.id, config));
 }
+
+/**
+ * Food-culture ids of release-managed slices that are NOT exposed on the
+ * production Discover surface (disabled or `discoverable: false`). They must not
+ * resurface anywhere on Discover — including the editorial "other cultures"
+ * section (#171) — because the release boundary governs every appearance of a
+ * managed slice. Ordinary editorial cultures without a managed candidate are
+ * unaffected.
+ */
+export function hiddenManagedFoodCultureIds(
+  candidates: readonly RecommendationCandidate[],
+  config: readonly ReleaseConfigEntry[] = RELEASE_CONFIG,
+): ReadonlySet<string> {
+  return new Set(
+    candidates
+      .filter((candidate) => !isCandidateDiscoverable(candidate.id, config))
+      .map((candidate) => candidate.foodCultureId),
+  );
+}

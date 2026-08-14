@@ -69,6 +69,7 @@ export {
   isCandidateDiscoverable,
   recommendableCandidates,
   discoverableCandidates,
+  hiddenManagedFoodCultureIds,
 } from './release-config';
 export type { ReleaseRole, ReleaseConfigEntry } from './release-config';
 export { resolveJourneyIdentity, resolveRouteId, resolveStoryJourney } from './journey';

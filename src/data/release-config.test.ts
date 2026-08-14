@@ -11,6 +11,7 @@ import { getFoodCultureById, getRouteById } from './index';
 import { resolveJourneyIdentity } from './journey';
 import {
   discoverableCandidates,
+  hiddenManagedFoodCultureIds,
   isCandidateDiscoverable,
   isCandidateRecommendable,
   recommendableCandidates,
@@ -105,5 +106,17 @@ describe('8/23 release boundary (#171)', () => {
     expect(isCandidateRecommendable('not-a-registered-candidate')).toBe(false);
     expect(isCandidateDiscoverable('not-a-registered-candidate')).toBe(false);
     expect(releaseRoleOf('not-a-registered-candidate')).toBeUndefined();
+  });
+
+  it('derives hidden managed food-culture ids from the release boundary', () => {
+    // Default: both slices are discoverable, so nothing is hidden.
+    expect(hiddenManagedFoodCultureIds(DEMO_RECOMMENDATION_CANDIDATES)).toEqual(new Set());
+
+    // A single enabled:false change marks sake-ome as the hidden managed
+    // culture; wasabi stays exposed. This is the set Discover excludes from its
+    // editorial "other cultures" section (#171).
+    expect(hiddenManagedFoodCultureIds(DEMO_RECOMMENDATION_CANDIDATES, DISABLED_OME_CONFIG)).toEqual(
+      new Set(['sake-ome']),
+    );
   });
 });
