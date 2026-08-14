@@ -58,6 +58,8 @@ export function getRouteIdForPlace(placeId: string): string | undefined {
 export { PILOT_JOURNEY, pilotDiscoverPlaceIds } from './pilot-journey';
 export {
   DEMO_RECOMMENDATION_CANDIDATES,
+  DEMO_RECOMMENDATION_CANDIDATE_ID,
+  DEMO_OME_SAKE_CANDIDATE_ID,
   demoRecommendationMatchTags,
 } from './demo-recommendation';
 export { resolveJourneyIdentity, resolveRouteId, resolveStoryJourney } from './journey';

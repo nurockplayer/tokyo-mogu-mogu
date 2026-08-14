@@ -2,12 +2,18 @@
  * Discover — free exploration without diagnosis (Issue #93).
  *
  * Home = "recommend for me"; Discover = "I browse myself". Users can open
- * first-pilot food-culture content and its real visit destinations without
+ * playable food-culture content and its real visit destinations without
  * completing a Food Profile or the per-trip Exploration.
  *
- * Content honesty (product contract / #93):
+ * Content honesty (product contract / #93 / #163):
  * - 東京わさび (wasabi-okutama) is the verified first-pilot story: `origin:
  *   'editorial'` written from the recorded public sources.
+ * - 青梅・沢井の日本酒 (sake-ome, Issue #163) is the source-backed second slice:
+ *   `origin: 'editorial'` written from the recorded official/Open Data sources.
+ * - Playable journeys are DERIVED from the ready recommendation candidates
+ *   (the same config Result reads), so Discover and Result can never diverge on
+ *   what is playable. A culture/place whose record is missing is skipped
+ *   gracefully (honest partial state, never a dead link).
  * - The pilot places are the frozen journey's real Okutama facilities (Issue
  *   #127: 奥多摩観光案内所 / 千島わさび園 / 一心亭 / 獅子口屋 / 大丹波川国際虹ます釣場),
  *   `origin: 'source'` with `needs_confirmation` — addresses are source-backed,
@@ -28,12 +34,12 @@ import {
   places,
   getFoodCultureById,
   getRouteById,
-  PILOT_JOURNEY,
+  DEMO_RECOMMENDATION_CANDIDATES,
   pilotDiscoverPlaceIds,
 } from '../data';
 import { foodCultureKey, placeNameKey } from '../i18n/data-content';
 import { deriveVerificationStatus } from '../lib/verification';
-import type { VerificationStatus } from '../data';
+import type { FoodCulture, ModelRoute, VerificationStatus, TamaArea } from '../data';
 import './DiscoverPage.css';
 
 /** Verification status → i18n label key (kept honest on place cards). */
@@ -44,6 +50,29 @@ const VERIFICATION_LABEL_KEY: Record<VerificationStatus, LocaleKey> = {
   conflict: 'verificationConflict',
   demo: 'verificationDemo',
 };
+
+/**
+ * Area label key per seed area. Only areas with a three-locale bundle key are
+ * mapped; an unmapped area falls back to the culture's canonical name.
+ */
+const AREA_LABEL_KEY: Partial<Record<TamaArea, LocaleKey>> = {
+  okutama: 'areaOkutama',
+  ome: 'areaOme',
+};
+
+/**
+ * Localized area label for a playable culture's card. An unmapped area falls
+ * back to the culture's canonical name so a future verified Region × FoodCulture
+ * never inherits another region's label.
+ */
+function areaLabel(
+  fc: { area: TamaArea; nameJa: string; nameEn: string },
+  locale: string,
+  t: (key: LocaleKey) => string,
+): string {
+  const key = AREA_LABEL_KEY[fc.area];
+  return key ? t(key) : locale === 'ja' ? fc.nameJa : fc.nameEn;
+}
 
 /**
  * Display name for a non-featured culture card. Cultures with an i18n name key
@@ -66,22 +95,44 @@ export function cultureName(
 export function DiscoverPage() {
   const { locale, t } = useI18n();
 
-  const featured = getFoodCultureById(PILOT_JOURNEY.foodCultureId);
+  // Playable journeys are derived from the ready recommendation candidates —
+  // the same config Result reads. A journey whose culture or route record is
+  // missing is skipped gracefully (honest partial state, never a dead link).
+  const playableJourneys = DEMO_RECOMMENDATION_CANDIDATES.filter(
+    (c) => c.availability === 'ready' && c.journeyId,
+  )
+    .map((c) => {
+      const culture = getFoodCultureById(c.foodCultureId);
+      const route = c.journeyId ? getRouteById(c.journeyId) : undefined;
+      return culture && route ? { culture, route } : undefined;
+    })
+    .filter((j): j is { culture: FoodCulture; route: ModelRoute } => j !== undefined);
 
-  // Additional cultures present in the seed but outside the first-pilot story
+  // Additional cultures present in the seed but outside the playable journeys
   // (yamame, soba, konnyaku, ...). They are editorial/demo records only — they
-  // do not imply a second region or a production journey. Keep this list
+  // do not imply another region or a production journey. Keep this list
   // deterministic and tied to what the seed actually contains.
-  const otherCultures = foodCultures.filter((fc) => fc.id !== PILOT_JOURNEY.foodCultureId);
+  const playableCultureIds = new Set(playableJourneys.map((j) => j.culture.id));
+  const otherCultures = foodCultures.filter((fc) => !playableCultureIds.has(fc.id));
 
-  // The pilot places are the union of the frozen route's stops (Issue #127) —
-  // Discover and Route read the same canonical journey, so the lists cannot
-  // diverge. No second hard-coded place array.
-  const pilotRoute = getRouteById(PILOT_JOURNEY.routeId);
-  const pilotPlaceIds = pilotRoute ? pilotDiscoverPlaceIds(pilotRoute) : [];
-  const pilotPlaces = pilotPlaceIds
-    .map((id) => places.find((p) => p.id === id))
-    .filter((p): p is NonNullable<typeof p> => Boolean(p));
+  // The playable places are the union of every ready journey's route stops —
+  // Discover and Route read the same canonical journeys, so the lists cannot
+  // diverge. No second hard-coded place array. Each entry carries the area of
+  // the journey it belongs to (a place shared by two journeys dedups, keeping
+  // the first journey's area).
+  const seenPlaceIds = new Set<string>();
+  const playablePlaces = playableJourneys.flatMap((j) => {
+    const area = areaLabel(j.culture, locale, t);
+    return pilotDiscoverPlaceIds(j.route)
+      .map((id) => places.find((p) => p.id === id))
+      .filter((p): p is NonNullable<typeof p> => Boolean(p))
+      .filter((p) => {
+        if (seenPlaceIds.has(p.id)) return false;
+        seenPlaceIds.add(p.id);
+        return true;
+      })
+      .map((place) => ({ place, area }));
+  });
 
   return (
     <div className="tmm-page">
@@ -89,43 +140,48 @@ export function DiscoverPage() {
       <p className="page-sub">{t('discoverPageBody')}</p>
       <p className="discover-intro">{t('discoverIntro')}</p>
 
-      {/* First-pilot story — the verified entry point */}
-      {featured ? (
+      {/* Playable stories — the verified entry points (first = demo golden path) */}
+      {playableJourneys.length > 0 ? (
         <section className="tmm-section" aria-label={t('discoverStoriesTitle')}>
           <h2 className="discover-section-title">{t('discoverStoriesTitle')}</h2>
           <ul className="discover-list">
-            <li>
-              <Link
-                to={`/story/${featured.id}?backTo=/discover`}
-                className="discover-link"
-                aria-label={t(foodCultureKey(featured.id, 'name') ?? 'dataWasabiName')}
-              >
-                <Card button className="discover-card">
-                  <div className="discover-card__body">
-                    <div className="discover-card__title">
-                      {t(foodCultureKey(featured.id, 'name') ?? 'dataWasabiName')}
-                    </div>
-                    <p className="discover-card__desc">
-                      {t(foodCultureKey(featured.id, 'description') ?? 'dataWasabiDescription')}
-                    </p>
-                    <div className="discover-card__meta">
-                      <span className="discover-card__area">{t('areaOkutama')}</span>
-                      <Tag tone="success">{t('originEditorial')}</Tag>
-                    </div>
-                  </div>
-                </Card>
-              </Link>
-            </li>
+            {playableJourneys.map(({ culture }) => {
+              const name = cultureName(culture, locale, t);
+              const descKey = foodCultureKey(culture.id, 'description');
+              const desc = descKey
+                ? t(descKey)
+                : locale === 'ja' ? culture.descriptionJa : culture.descriptionEn;
+              return (
+                <li key={culture.id}>
+                  <Link
+                    to={`/story/${culture.id}?backTo=/discover`}
+                    className="discover-link"
+                    aria-label={name}
+                  >
+                    <Card button className="discover-card">
+                      <div className="discover-card__body">
+                        <div className="discover-card__title">{name}</div>
+                        <p className="discover-card__desc">{desc}</p>
+                        <div className="discover-card__meta">
+                          <span className="discover-card__area">{areaLabel(culture, locale, t)}</span>
+                          <Tag tone="success">{t('originEditorial')}</Tag>
+                        </div>
+                      </div>
+                    </Card>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </section>
       ) : null}
 
-      {/* Visit destinations on the first-pilot route */}
-      {pilotPlaces.length > 0 ? (
+      {/* Visit destinations on the playable journeys */}
+      {playablePlaces.length > 0 ? (
         <section className="tmm-section" aria-label={t('discoverPlacesTitle')}>
           <h2 className="discover-section-title">{t('discoverPlacesTitle')}</h2>
           <ul className="discover-list">
-            {pilotPlaces.map((place) => {
+            {playablePlaces.map(({ place, area }) => {
               const placeKey = placeNameKey(place.id);
               const placeName = placeKey
                 ? t(placeKey)
@@ -142,7 +198,7 @@ export function DiscoverPage() {
                         <div className="discover-card__title">{placeName}</div>
                         <p className="discover-card__addr">{place.address}</p>
                         <div className="discover-card__meta">
-                          <span className="discover-card__area">{t('areaOkutama')}</span>
+                          <span className="discover-card__area">{area}</span>
                           <Tag tone="info">
                             {t(VERIFICATION_LABEL_KEY[deriveVerificationStatus(place.source, place.origin)])}
                           </Tag>

@@ -32,7 +32,7 @@
 | **1. Home** | 課題の入口: baseline M1（渋谷67.1% / 新宿57.4% / 銀座50.1% vs 奥多摩0.7%）✅ | 「あなたを知る→今回の旅をえらぶ→巡って応援」で、ランキングではなく**行きたい理由**を起点にする 🧪 | Landing/Home は共有 shell + lazy-loaded route（`AppRouter.tsx`）✅ | 23区集中という課題を冒頭 1 文で提示 ✅ | primary nav `Home / Discover / MOGU / My`（#92）✅ |
 | **2. Food Profile** | 制限項目は source なしに safety 保証しない（safety boundary）✅ | 安定プロフィール vs 毎回の診断を分離する設計 🧪 | `food-profile*.ts` + persistence `tmm:foodProfile:v1`（テストあり）✅ | 食物アレルギー等への配慮を「保証でなく match のみ」で提示 ✅ | 初回のみ質問・再訪で再利用・`My` から編集（#92）✅ |
 | **3. Exploration** | 質問結果が Result の match reason に接続 ✅ | 「今回どう体験したいか」を 5 問で掴む（永続診断でない）🧪 | `exploration*.ts` per-trip lifecycle（テストあり）✅ | — | Home と Discover の役割分担（`recommend for me` vs `I browse`）✅ |
-| **4. Result** | 決定論 Result は **demo fixture**（#127）。「唯一の outcome でない」と語る ✅/🧪 | 地域×食文化を candidate として提示（#149 の多候補 contract）✅ | 決定論推薦（AI engine 不要）✅ + Result→MOGU 自動記録 ✅ | 推薦は 23区外への「行ってみたい」動機づけの起点 🔮 | Result 自動記録 → MOGU Recent（`tmm:moguRecent:v1`, max5）✅ |
+| **4. Result** | 決定論 Result は **demo fixture**（#127）。#163 で recommendation contract は **2つの ready candidate**（東京わさび + 青梅・沢井×日本酒）を提供し、「唯一の outcome でない」が実装にも裏付けに ✅/🧪 | 地域×食文化を candidate として提示（#149 の多候補 contract）✅ | 決定論推薦（AI engine 不要）✅ + Result→MOGU 自動記録 ✅ | 推薦は 23区外への「行ってみたい」動機づけの起点 🔮 | Result 自動記録 → MOGU Recent（`tmm:moguRecent:v1`, max5）✅ |
 | **5. Story** | Story 本文は公開観光情報（奥多摩観光協会 etc.）からの editorial ✅/🧪。#128 census（後継者・経営体）が municipality aggregate として接続可能 ✅ | 食→水・作り手・歴史・継承課題を一続きに語る `味わうことが、継承になる` 🧪。ranking でない差異化 ✅ | `storyContent` を canonical `src/i18n/data-content.ts` から解決（review packet #152 と同一 source）✅ | 継承課題の提示（census aggregate を個別生産者へ誤変換しない）✅/👀 | Story = Support CTA の分散配置（共有・理解・ルート表示）✅ |
 | **6. Route** | Route の mobility は西東京バス（GTFS は fixture `origin:'demo'`、**実 GTFS 未取得** ❓）🧪/❓ | half-day/1-day の実行可能な旅程（店舗羅列でない）🧪 | `seed-routes.ts` + 決定論 pin de-overlap（375px で 44px 確保）✅。Save → `tmm:savedRoutes` ✅ | 「訪れる」への変換設計 ✅/🔮（実訪問実績は ❓ 未計測） | Route = save/plan の CTA。Saved は `My → Saved Routes` へ（#92）✅ |
 | **7. Spot** | 実 Open Data 3 row（`okutama-general-1jcznma` / `okutama-general-1uxd9bs` / `okutama-sports-us0v10`、CC BY 4.0、実座標）✅。奥多摩観光協会 directory 19 row は demo 🧪 | venue 種別に応じた action（予約/購入/体験）を cultural-succession の意味で提示 🧪 | `route-spot.ts*` + `PIN_LAYOUT`、未検証 action は `準備中`（destination を偽らない）✅ | 地域事業者・生産者への消費接続（下流は仮説 🔮） | Spot = 実務情報 + 外部リンク優先 CTA。`旅程に追加する` で同一 contract ✅ |
@@ -64,6 +64,10 @@
 - GTFS / 座標 / 営業情報の未検証部分は demo/unverified 表示のまま語る。
 - デモ fixture（東京わさび result・奥多摩わさび紀行 route）は「8/23 demo golden
   path の fixture」であり、唯一の Product outcome ではないと明示する。
+- #163: recommendation contract は **2つの ready source-backed candidate**
+  （東京わさび + 青梅・沢井 × 日本酒）を提供。決定論デモ結果は東京わさびのまま、
+  data-honesty 軸（多候補 contract の実利用）が強化される。sake スライスは
+  source-backed であり demo fixture ではない。
 
 ## 関連
 

@@ -462,6 +462,54 @@ export const strings = {
     dataFishingCenterDemoNote: '釣り体験は料金・予約条件が異なります。現地へご確認ください（デモ）',
     dataTourismOfficeRole:
       '奥多摩の玄関口となる案内所。わさび田への行き方や周辺の観光情報を集めて、旅程を組み立てる出発点です。',
+    // Ome/Sawai sake slice (Issue #163) — source-backed (sake-ome / 沢井).
+    dataSakeName: '青梅・沢井の日本酒',
+    dataSakeDescription: '青梅・沢井の小澤酒造が醸す、多摩川の清流が流れる渓谷の里の日本酒「澤乃井」。',
+    dataSakeStory:
+      '沢井は多摩川の清流が流れる渓谷の里です。小澤酒造は自然豊かな渓谷のほとりで日本酒と豆腐を造り、酒銘「澤乃井」はこの土地の水と米から醸されます。',
+    dataSakeHistory:
+      '小澤酒造は元禄時代の創業と伝わる老舗です。創業の頃に建てられた土造りの蔵「元禄蔵」が現存し、歴史的に貴重な建造物とされています。',
+    dataSakeMaker:
+      '小澤酒造は、酒蔵の裏手にある井戸「蔵の井」の水を使って日本酒を醸しています。沢井駅から歩いて訪ねることができます。',
+    dataSakeHowToEnjoy:
+      '酒蔵では予約制の見学と試飲があります。蔵元直営の「澤乃井園」でも、澤乃井の生原酒や甘酒を楽しめます。',
+    dataSakeStoryLead:
+      '元禄時代の創業と伝わる沢井の酒蔵。その日本酒「澤乃井」の物語を、読み物としてたどってみましょう。',
+    dataSakeStoryMakerName: '小澤酒造',
+    dataSakeStoryMakerRole:
+      '元禄時代の創業と伝わる沢井の酒蔵。渓谷の清流と土地の米から、酒銘「澤乃井」を醸しています。',
+    dataSakeStoryCraft:
+      '酒づくりに欠かせないのは、酒蔵の裏手にある井戸「蔵の井」の水です。創業の頃に建てられた土造りの蔵「元禄蔵」は今も現存し、歴史的に貴重な建造物とされています。',
+    dataSakeStoryChallenge:
+      '酒づくりは、清らかな水と土地の恵みに支えられた、地域に根ざした営みです。長い歴史を持つ酒蔵の文化を次の世代へ受け継いでいくことは、地域全体で向き合う課題です。食べること、買うこと、訪ねること——そのひとつひとつが、酒蔵の営みを支えることにつながります。',
+    dataSakeStorySupport: '沢井の渓谷と、そこに続く酒蔵の物語。ぜひ、澤乃井を味わって、そして沢井へ。',
+    dataSakeHeroKicker: '青梅・沢井の日本酒の物語',
+    dataSakeCraftMediaAlt: '沢井の渓谷と多摩川の清流、小澤酒造の酒蔵のイメージ',
+    dataSakeCtaSub: '沢井の酒蔵を訪ね、御嶽の文化財をめぐるための行き方や、体験できる場所をまとめたルートです。',
+    dataSakeStickyCta: '酒蔵の旅を見る',
+    dataSakeRouteName: '沢井の酒蔵と御嶽の文化財をめぐる旅',
+    dataSakeRouteTransport: 'JR青梅線・徒歩',
+    dataSakeStopRoleOzawa:
+      '沢井駅から徒歩で、澤乃井を醸す小澤酒造へ。多摩川の清流が流れる渓谷のほとりに酒蔵があります。',
+    dataSakeStopRoleSawanoien:
+      '蔵元直営の清流ガーデン。多摩川を見下ろすオープンガーデンで、軽食やおつまみを楽しめます。',
+    dataSakeStopRoleMitakeShrine:
+      '青梅市御岳に鎮座する御嶽神社。東京都指定有形文化財「御嶽神社旧本殿」が現存します。',
+    dataSakeStopRoleBaba:
+      'かつて御嶽神社への参拝者を迎えた「馬場家御師住宅」。東京都指定有形文化財に指定されています。',
+    dataPlaceOzawaName: '小澤酒造（沢井・澤乃井）',
+    dataPlaceSawanoienName: '澤乃井園',
+    dataPlaceMitakeShrineName: '御嶽神社',
+    dataPlaceBabaName: '馬場家御師住宅',
+    dataOzawaRole:
+      '小澤酒造は沢井にある酒蔵で、日本酒「澤乃井」を醸しています。多摩川の清流が流れる渓谷のほとりに位置します。',
+    dataSawanoienRole:
+      '澤乃井園は小澤酒造が営む清流ガーデンです。多摩川の清流を見下ろすオープンガーデンで、軽食や澤乃井の生原酒を楽しめます。',
+    dataMitakeShrineRole:
+      '青梅市御岳にある御嶽神社。現存する旧本殿は、東京都指定有形文化財に指定されています。',
+    dataBabaRole:
+      '馬場家御師住宅は、かつて御嶽神社への参拝者を迎えた御師の住宅で、東京都指定有形文化財です。',
+    dataSakeMobilityCableCar: 'JR青梅線・御岳登山鉄道ケーブル',
   },
   en: {
     appName: 'Tokyo Mogu Mogu',
@@ -909,6 +957,58 @@ export const strings = {
       'Fishing experience prices and booking rules vary. Please confirm on site (demo)',
     dataTourismOfficeRole:
       'The gateway to Okutama. Gather route guidance and local information here before heading to the wasabi fields.',
+    // Ome/Sawai sake slice (Issue #163) — source-backed (sake-ome / Sawai).
+    dataSakeName: 'Sawai Sake of Ome',
+    dataSakeDescription:
+      'Sake brewed by Ozawa Shuzo in Sawai, Ome — "Sawanoi", from the clear-stream valley of the Tama River.',
+    dataSakeStory:
+      'Sawai is a valley town along the clear Tama River. Ozawa Shuzo brews sake and makes tofu on the banks of this naturally rich valley, producing the "Sawanoi" label from the land\'s water and rice.',
+    dataSakeHistory:
+      'Ozawa Shuzo is a long-established brewery said to date back to the Genroku era. Its Genroku-era earthen storehouse survives and is considered historically valuable.',
+    dataSakeMaker:
+      'Ozawa Shuzo brews its sake with water from the "Kura no I" well behind the brewery, a short walk from Sawai Station.',
+    dataSakeHowToEnjoy:
+      'The brewery offers a reservation-based tour with sake tasting, and the brewery-run Sawanoien garden serves Sawanoi nama genshu and amazake.',
+    dataSakeStoryLead:
+      'A Sawai brewery said to date back to the Genroku era. Follow the story of its "Sawanoi" sake as a read.',
+    dataSakeStoryMakerName: 'Ozawa Shuzo',
+    dataSakeStoryMakerRole:
+      'A brewery in Sawai said to date back to the Genroku era, brewing the "Sawanoi" label from the valley\'s clear water and the land\'s rice.',
+    dataSakeStoryCraft:
+      'Essential to the brewing is the water of the "Kura no I" well behind the brewery. The Genroku-era earthen storehouse built around the founding still stands — considered historically valuable.',
+    dataSakeStoryChallenge:
+      'Brewing sake is a craft rooted in the region, supported by clear water and the bounty of the land. Passing on the culture of a long-established brewery to the next generation is a challenge the whole region faces together. Tasting it, buying it, and visiting it — each single act helps sustain the brewery\'s work.',
+    dataSakeStorySupport:
+      'The story of the Sawai valley and its enduring brewery. Taste the Sawanoi, and visit Sawai.',
+    dataSakeHeroKicker: 'The Story of Sawai Sake of Ome',
+    dataSakeCraftMediaAlt:
+      'Illustrative image of the Sawai valley, the clear Tama River, and the Ozawa Shuzo brewery',
+    dataSakeCtaSub:
+      'A route to visit the Sawai brewery and the Mitake heritage sites: how to get there and what you can experience along the way.',
+    dataSakeStickyCta: 'Start the sake journey',
+    dataSakeRouteName: 'Sawai Sake & Mitake Heritage Journey',
+    dataSakeRouteTransport: 'JR Ome Line & walking',
+    dataSakeStopRoleOzawa:
+      'Walk from Sawai Station to Ozawa Shuzo, the brewery behind the Sawanoi label, on the banks of the clear Tama River valley.',
+    dataSakeStopRoleSawanoien:
+      'The brewery-run Clear Stream Garden — an open garden overlooking the Tama River where you can enjoy light meals and snacks.',
+    dataSakeStopRoleMitakeShrine:
+      'Mitake Shrine in Mitake, Ome, preserves its former main hall — a Tokyo-designated cultural property.',
+    dataSakeStopRoleBaba:
+      'The Baba House oshi residence, which once lodged pilgrims to Mitake Shrine — a Tokyo-designated cultural property.',
+    dataPlaceOzawaName: 'Ozawa Shuzo Sawai (Sawanoi)',
+    dataPlaceSawanoienName: 'Sawanoien Garden',
+    dataPlaceMitakeShrineName: 'Mitake Shrine',
+    dataPlaceBabaName: 'Baba House Oshi Residence',
+    dataOzawaRole:
+      'Ozawa Shuzo is a sake brewery in Sawai that brews the "Sawanoi" label, on the banks of the clear Tama River valley.',
+    dataSawanoienRole:
+      'Sawanoien is the brewery-run Clear Stream Garden overlooking the Tama River, serving light meals and Sawanoi nama genshu.',
+    dataMitakeShrineRole:
+      'Mitake Shrine stands in Mitake, Ome; its surviving former main hall is designated as a Tokyo cultural property.',
+    dataBabaRole:
+      'The Baba House is a former oshi (pilgrim-host) residence that once received Mitake Shrine pilgrims — a Tokyo-designated cultural property.',
+    dataSakeMobilityCableCar: 'JR Ome Line & Mitake Tozan cable car',
   },
   'zh-TW': {
     appName: '東京もぐもぐ',
@@ -1344,6 +1444,51 @@ export const strings = {
     dataFishingCenterDemoNote: '釣魚體驗的費用與預約條件各有不同，請向當地確認（示範）',
     dataTourismOfficeRole:
       '奧多摩的門戶服務中心。出發前往山葵田前，先在這裡收集交通方式與周邊旅遊資訊。',
+    // Ome/Sawai sake slice (Issue #163) — source-backed (sake-ome / 沢井).
+    dataSakeName: '青梅・沢井的日本酒',
+    dataSakeDescription: '由青梅・沢井的小澤酒造釀造，多摩川清流流淌的溪谷小鎮所產的日本酒「澤乃井」。',
+    dataSakeStory:
+      '沢井是沿著多摩川清流的小鎮。小澤酒造在自然豐饒的溪谷河畔釀造日本酒與製作豆腐，其酒銘「澤乃井」即是以這片土地的水與米釀成。',
+    dataSakeHistory:
+      '小澤酒造相傳創立於元祿時代，是歷史悠久的酒藏。創業時期所建的土造倉庫「元祿蔵」至今仍存，被視為具有歷史價值的建築物。',
+    dataSakeMaker: '小澤酒造以酒藏後方水井「蔵之井」的水釀造日本酒。從沢井站步行即可到訪。',
+    dataSakeHowToEnjoy: '酒藏提供需預約的見學與試飲。在蔵元直營的「澤乃井園」也能品嚐澤乃井的生原酒與甘酒。',
+    dataSakeStoryLead: '相傳創業於元祿時代的沢井酒藏。讓我們以閱讀的方式，走進其日本酒「澤乃井」的故事。',
+    dataSakeStoryMakerName: '小澤酒造',
+    dataSakeStoryMakerRole:
+      '相傳創業於元祿時代的沢井酒藏，以溪谷的清流與土地之米釀造「澤乃井」酒銘。',
+    dataSakeStoryCraft:
+      '釀造不可或缺的，是酒藏後方水井「蔵之井」的水。創業時期所建的土造倉庫「元祿蔵」至今仍存，被視為具有歷史價值的建築物。',
+    dataSakeStoryChallenge:
+      '釀造日本酒是扎根於地區、由清澈水源與土地恩惠支撐的傳統產業。如何將歷史悠久的酒藏文化傳承到下一代，是整個地區共同面對的課題。每一次品嚐、每一次購買、每一次到訪——都會成為支持酒藏繼續經營的力量。',
+    dataSakeStorySupport: '沢井的溪谷與延續至今的酒藏故事。歡迎品嚐澤乃井，親自造訪沢井。',
+    dataSakeHeroKicker: '青梅・沢井的日本酒物語',
+    dataSakeCraftMediaAlt: '沢井溪谷、多摩川清流與小澤酒造酒藏的示意圖',
+    dataSakeCtaSub: '一條造訪沢井酒藏、走訪御嶽文化財的路線：包含交通方式與沿途可體驗的地點。',
+    dataSakeStickyCta: '展開酒藏之旅',
+    dataSakeRouteName: '沢井酒藏與御嶽文化財之旅',
+    dataSakeRouteTransport: 'JR青梅線・步行',
+    dataSakeStopRoleOzawa:
+      '從沢井站步行前往釀造澤乃井的小澤酒造。酒藏就位在多摩川清流流淌的溪谷河畔。',
+    dataSakeStopRoleSawanoien:
+      '蔵元直營的「清流花園」。在俯瞰多摩川的開放庭園中，可以享用輕食與小菜。',
+    dataSakeStopRoleMitakeShrine:
+      '坐落於青梅市御岳的御嶽神社。東京都指定有形文化財「御嶽神社舊本殿」至今仍存。',
+    dataSakeStopRoleBaba:
+      '過去曾接待御嶽神社參拜者的「馬場家御師住宅」，被指定為東京都指定有形文化財。',
+    dataPlaceOzawaName: '小澤酒造（沢井・澤乃井）',
+    dataPlaceSawanoienName: '澤乃井園',
+    dataPlaceMitakeShrineName: '御嶽神社',
+    dataPlaceBabaName: '馬場家御師住宅',
+    dataOzawaRole:
+      '小澤酒造是位於沢井的酒藏，釀造日本酒「澤乃井」，坐落在多摩川清流流淌的溪谷河畔。',
+    dataSawanoienRole:
+      '澤乃井園是小澤酒造經營的清流花園。在俯瞰多摩川清流的開放庭園中，可以享用輕食與澤乃井的生原酒。',
+    dataMitakeShrineRole:
+      '位於青梅市御岳的御嶽神社。現存的舊本殿被指定為東京都指定有形文化財。',
+    dataBabaRole:
+      '馬場家御師住宅是過去曾接待御嶽神社參拜者的御師宅邸，為東京都指定有形文化財。',
+    dataSakeMobilityCableCar: 'JR青梅線・御岳登山鐵道纜車',
   },
 } as const;
 
