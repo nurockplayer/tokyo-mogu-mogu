@@ -139,6 +139,60 @@ const SOURCE_OKUTAMA: DataSource = {
   originalId: 'seed-route-1',
 };
 
+/**
+ * 青梅・沢井 slice (Issue #163) — the source-backed sake × culture journey.
+ *
+ * Route structure, step ordering, stay durations, and mobility segments are
+ * TEAM-EDITORIAL (origin: 'editorial') authored as a coherent suggested
+ * itinerary, not a verified schedule. The stops are the REAL facilities
+ * curated in `src/data/seed-places.ts` (小澤酒造 / 澤乃井園 / 御嶽神社 / 馬場家御師住宅,
+ * origin: 'source', needs_confirmation). Mobility for the 沢井 → 御岳 leg
+ * combines JR青梅線 with the 御岳登山鉄道 cable car; run information is
+ * editorial/hedged and no transit times are claimed. Practical spot details
+ * (hours / price / reservation) are deliberately NOT populated: even where an
+ * official source states them (e.g. GO TOKYO tour fee, 澤乃井園 hours), the
+ * canonical seed keeps them absent so the S6 screen renders the honest
+ * unknown/unverified state (seed-routes.test.ts asserts absence for all spots).
+ * isDemo is intentionally ABSENT — this is a source-backed route, not demo.
+ */
+const SOURCE_OME_ROUTE: DataSource = {
+  name: '編集部（青梅・沢井の酒蔵と御嶽の文化財）',
+  url: 'https://www.sawanoi-sake.com/',
+  sourceType: 'official_web',
+  retrievedAt: '2026-08-14',
+  verificationStatus: 'needs_confirmation',
+  originalId: 'seed-route-ome',
+};
+
+const SOURCE_SAWANOI: DataSource = {
+  name: '小澤酒造（公式サイト）',
+  url: 'https://www.sawanoi-sake.com/',
+  sourceType: 'official_web',
+  retrievedAt: '2026-08-14',
+  verificationStatus: 'needs_confirmation',
+  originalId: 'ozawa-shuzo',
+};
+
+const SOURCE_SAWANOIEN: DataSource = {
+  name: '小澤酒造 澤乃井園（公式）',
+  url: 'https://www.sawanoi-sake.com/service/sawanoien/',
+  sourceType: 'official_web',
+  retrievedAt: '2026-08-14',
+  verificationStatus: 'needs_confirmation',
+  originalId: 'sawanoien',
+};
+
+const SOURCE_MITAKE_HERITAGE: DataSource = {
+  name: '東京都教育庁 文化財一覧（東京都指定文化財）',
+  url: 'https://www.opendata.metro.tokyo.lg.jp/suisyoudataset/130001_cultural_property.csv',
+  license: 'CC BY 4.0（クリエイティブ・コモンズ 表示 4.0）',
+  sourceType: 'open_data',
+  sourceDatasetId: '445ee18d-ee49-4659-9667-de8630bd0d0e',
+  retrievedAt: '2026-08-14',
+  verificationStatus: 'needs_confirmation',
+  originalId: '御嶽神社旧本殿',
+};
+
 /** Deterministic editorial model route — 奥多摩 × 東京わさび. */
 export const MODEL_ROUTES: ModelRoute[] = [
   {
@@ -293,6 +347,140 @@ export const MODEL_ROUTES: ModelRoute[] = [
       },
     },
   },
+  {
+    id: 'ome-sawai-sake-journey',
+    nameJa: '沢井の酒蔵と御嶽の文化財をめぐる旅',
+    nameEn: 'Sawai Sake & Mitake Heritage Journey',
+    areaJa: '青梅・沢井',
+    areaEn: 'Ome / Sawai',
+    defaultDuration: 'half-day',
+    // Source-backed editorial route: isDemo is intentionally absent (only the
+    // frozen 8/23 Okutama golden path is demo).
+    source: SOURCE_OME_ROUTE,
+    variants: {
+      'half-day': {
+        transportJa: 'JR青梅線・徒歩',
+        transportEn: 'JR Ome Line & walking',
+        totalMinutes: 215,
+        steps: [
+          {
+            placeId: 'sawai-ozawa-shuzo',
+            stepNumber: 1,
+            stayMinutes: 45,
+            roleJa:
+              '沢井駅から徒歩で、澤乃井を醸す小澤酒造へ。多摩川の清流が流れる渓谷のほとりに酒蔵があります。',
+            roleEn:
+              'Walk from Sawai Station to Ozawa Shuzo, the brewery behind the Sawanoi label, on the banks of the clear Tama River valley.',
+          },
+          {
+            placeId: 'sawanoien-garden',
+            stepNumber: 2,
+            stayMinutes: 60,
+            roleJa:
+              '蔵元直営の清流ガーデン。多摩川を見下ろすオープンガーデンで、軽食やおつまみを楽しめます。',
+            roleEn:
+              'The brewery-run Clear Stream Garden — an open garden overlooking the Tama River where you can enjoy light meals and snacks.',
+          },
+          {
+            placeId: 'mitake-shrine',
+            stepNumber: 3,
+            stayMinutes: 60,
+            roleJa:
+              '青梅市御岳に鎮座する御嶽神社。東京都指定有形文化財「御嶽神社旧本殿」が現存します。',
+            roleEn:
+              'Mitake Shrine in Mitake, Ome, preserves its former main hall — a Tokyo-designated cultural property.',
+          },
+        ],
+        mobility: [
+          {
+            fromStep: 1,
+            toStep: 2,
+            mode: 'walk',
+            durationMinutes: 5,
+            labelJa: '徒歩',
+            labelEn: 'Walk',
+          },
+          {
+            fromStep: 2,
+            toStep: 3,
+            mode: 'train',
+            durationMinutes: 45,
+            labelJa: 'JR青梅線・御岳登山鉄道ケーブル',
+            labelEn: 'JR Ome Line & Mitake Tozan cable car',
+          },
+        ],
+      },
+      '1-day': {
+        transportJa: 'JR青梅線・徒歩',
+        transportEn: 'JR Ome Line & walking',
+        totalMinutes: 370,
+        steps: [
+          {
+            placeId: 'sawai-ozawa-shuzo',
+            stepNumber: 1,
+            stayMinutes: 60,
+            roleJa:
+              '沢井駅から徒歩で、澤乃井を醸す小澤酒造へ。多摩川の清流が流れる渓谷のほとりに酒蔵があります。',
+            roleEn:
+              'Walk from Sawai Station to Ozawa Shuzo, the brewery behind the Sawanoi label, on the banks of the clear Tama River valley.',
+          },
+          {
+            placeId: 'sawanoien-garden',
+            stepNumber: 2,
+            stayMinutes: 90,
+            roleJa:
+              '蔵元直営の清流ガーデン。多摩川を見下ろすオープンガーデンで、軽食やおつまみを楽しめます。',
+            roleEn:
+              'The brewery-run Clear Stream Garden — an open garden overlooking the Tama River where you can enjoy light meals and snacks.',
+          },
+          {
+            placeId: 'mitake-shrine',
+            stepNumber: 3,
+            stayMinutes: 120,
+            roleJa:
+              '青梅市御岳に鎮座する御嶽神社。東京都指定有形文化財「御嶽神社旧本殿」が現存します。',
+            roleEn:
+              'Mitake Shrine in Mitake, Ome, preserves its former main hall — a Tokyo-designated cultural property.',
+          },
+          {
+            placeId: 'baba-oshijutaku',
+            stepNumber: 4,
+            stayMinutes: 30,
+            roleJa:
+              'かつて御嶽神社への参拝者を迎えた「馬場家御師住宅」。東京都指定有形文化財に指定されています。',
+            roleEn:
+              'The Baba House oshi residence, which once lodged pilgrims to Mitake Shrine — a Tokyo-designated cultural property.',
+          },
+        ],
+        mobility: [
+          {
+            fromStep: 1,
+            toStep: 2,
+            mode: 'walk',
+            durationMinutes: 5,
+            labelJa: '徒歩',
+            labelEn: 'Walk',
+          },
+          {
+            fromStep: 2,
+            toStep: 3,
+            mode: 'train',
+            durationMinutes: 45,
+            labelJa: 'JR青梅線・御岳登山鉄道ケーブル',
+            labelEn: 'JR Ome Line & Mitake Tozan cable car',
+          },
+          {
+            fromStep: 3,
+            toStep: 4,
+            mode: 'walk',
+            durationMinutes: 20,
+            labelJa: '徒歩',
+            labelEn: 'Walk',
+          },
+        ],
+      },
+    },
+  },
 ];
 
 /**
@@ -350,6 +538,52 @@ export const SPOT_DETAILS: Record<string, SpotDetail> = {
     tags: {},
     origin: 'editorial',
     source: SOURCE_OKUTAMA,
+  },
+  // ---- 青梅・沢井 slice (Issue #163) spot details ---------------------------
+  // practical is deliberately ABSENT: hours/price/reservation stay unstated so
+  // the S6 screen renders the honest unknown/unverified state (verified facts
+  // like the GO TOKYO tour fee or 澤乃井園 hours are recorded in the handoff,
+  // not claimed in the canonical seed). tags stay {} — no dietary / language /
+  // accessibility claims are sourced.
+  'sawai-ozawa-shuzo': {
+    placeId: 'sawai-ozawa-shuzo',
+    roleJa:
+      '小澤酒造は沢井にある酒蔵で、日本酒「澤乃井」を醸しています。多摩川の清流が流れる渓谷のほとりに位置します。',
+    roleEn:
+      'Ozawa Shuzo is a sake brewery in Sawai that brews the "Sawanoi" label, on the banks of the clear Tama River valley.',
+    tags: {},
+    origin: 'editorial',
+    source: SOURCE_SAWANOI,
+  },
+  'sawanoien-garden': {
+    placeId: 'sawanoien-garden',
+    roleJa:
+      '澤乃井園は小澤酒造が営む清流ガーデンです。多摩川の清流を見下ろすオープンガーデンで、軽食や澤乃井の生原酒を楽しめます。',
+    roleEn:
+      'Sawanoien is the brewery-run Clear Stream Garden overlooking the Tama River, serving light meals and Sawanoi nama genshu.',
+    tags: {},
+    origin: 'editorial',
+    source: SOURCE_SAWANOIEN,
+  },
+  'mitake-shrine': {
+    placeId: 'mitake-shrine',
+    roleJa:
+      '青梅市御岳にある御嶽神社。現存する旧本殿は、東京都指定有形文化財に指定されています。',
+    roleEn:
+      'Mitake Shrine stands in Mitake, Ome; its surviving former main hall is designated as a Tokyo cultural property.',
+    tags: {},
+    origin: 'editorial',
+    source: SOURCE_MITAKE_HERITAGE,
+  },
+  'baba-oshijutaku': {
+    placeId: 'baba-oshijutaku',
+    roleJa:
+      '馬場家御師住宅は、かつて御嶽神社への参拝者を迎えた御師の住宅で、東京都指定有形文化財です。',
+    roleEn:
+      'The Baba House is a former oshi (pilgrim-host) residence that once received Mitake Shrine pilgrims — a Tokyo-designated cultural property.',
+    tags: {},
+    origin: 'editorial',
+    source: SOURCE_MITAKE_HERITAGE,
   },
 };
 

@@ -35,6 +35,14 @@ fixture（東京わさび result・奥多摩わさび紀行 route）は **8/23 d
 - **Local persistence**: Food Profile / MOGU Recent / Saved Routes は
   `localStorage` のみ（`tmm:foodProfile:v1` / `tmm:moguRecent:v1` / `tmm:savedRoutes`）。
 
+## セカンドスライス（#163）/ Second playable slice
+
+#163 で **source-backed の第二の playable slice（青梅・沢井 × 日本酒:
+`sake-ome` / `ome-sawai-sake-journey`）**が **Discover** から遊べるようになった
+（data/config のみで追加。shared contract 未変更・Product scope 非縮小）。
+最終デモの実行 journey は **#163 QA 後に決定**（#112 / #163）。主シーケンス
+（下記 90 秒）は引き続き決定論的な 奥多摩 × 東京わさび golden path のまま。
+
 ## 主シーケンス / Primary sequence（目標 ≤90 秒）
 
 Presented journey（#92 current App IA）:

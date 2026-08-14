@@ -34,6 +34,7 @@
 |---|---|---|
 | MOGU | nav `MOGU` → `このおすすめを見る` → `東京わさびの物語を読む` | `/mogu` → `/explore/result` → `/story/wasabi-okutama`。戻ると MOGU 方向へ |
 | Discover | nav `さがす` → `東京わさび` → Story | `/discover` 閲覧では MOGU Recent が増えない |
+| Discover（第2スライス #163） | nav `さがす` → `青梅・沢井の日本酒` → Story → `モデルルートを見る` → timeline ピン `小澤酒造` → Spot | `/discover` → `/story/sake-ome` → `/route` → `/spot/sawai-ozawa-shuzo`。source-backed の playable slice（fixture ではない） |
 | Badges | `マイ` → Badges entry | **Stretch**。時間があるときのみ |
 
 ## Fixture（demo-scoped）/ Deterministic fixtures
@@ -45,6 +46,11 @@
 
 これらは **8/23 demo golden path の fixture**（#127）であり、「唯一の Product
 outcome」「唯一の未来 geography」ではない。ナレーションで明示すること。
+
+対して `sake-ome` / `ome-sawai-sake-journey`（青梅・沢井 × 日本酒、#163）は
+**source-backed の playable slice** であり **demo fixture ではない**（Open Data /
+official source 由来の editorial コンテンツ）。optional ビート（上表）で語る場合も、
+決定論デモ結果（東京わさび）はそのまま。
 
 ## 関連
 

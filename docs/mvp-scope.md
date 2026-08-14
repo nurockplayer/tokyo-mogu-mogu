@@ -41,7 +41,7 @@ The release is intentionally narrow:
 
 > **Hackathon Demo Golden Path: Okutama × Tokyo Wasabi**
 
-Tama / Okutama remain the current fieldwork, evidence, and demo-content context. Tokyo Wasabi is the strongest current deterministic demo story. Shipping one coherent source-backed journey is enough.
+Tama / Okutama remain the current fieldwork, evidence, and demo-content context. Tokyo Wasabi is the strongest current deterministic demo story. Shipping one coherent source-backed journey is enough; #163 additionally makes a second source-backed playable slice (青梅・沢井 × 日本酒) available via Discover — still demo-scoped, never narrowing Product scope.
 
 This does not mean:
 - Product geography = Tama / Okutama
@@ -66,7 +66,7 @@ Flow:
 ### Screen roles (current behavior)
 
 - **Home** — start a new personalized recommendation; the primary CTA begins the current-trip Exploration questions (first-time users may pass through Food Profile first). Does not duplicate recent history.
-- **Discover** — free exploration without diagnosis: regional food stories, workshops/experiences, seasonal/event and bookable items. The 8/23 production content may still be just the demo golden path.
+- **Discover** — free exploration without diagnosis: regional food stories, workshops/experiences, seasonal/event and bookable items. The 8/23 production content remains the demo golden path, now joined by the source-backed Ome/Sawai sake slice (#163).
 - **MOGU** — system-managed recent recommendation results (up to ~5), auto-recorded from each Result, **distinct from Saved**. Each entry reopens its `Result → Story → Route → Spot` context; back navigation returns toward MOGU.
 - **My** — Saved Routes + Food Profile + optional Badges (Stretch). No separate Saved Story / Saved Spot collections in the MVP; a saved Route can lead back to Story / Spot.
 
@@ -123,7 +123,7 @@ These are release guardrails, not permanent Product-scope exclusions.
 
 ## 4. Demo Content / デモデータ
 
-The **8/23 demo content** is Okutama × Tokyo Wasabi. It may be a single source-backed canonical demo dataset shared by Result / Story / Route / Spot / Discover.
+The **8/23 demo content** is Okutama × Tokyo Wasabi, now joined by the source-backed Ome/Sawai × sake slice (Issue #163). Both are demo-scoped canonical demo data shared by Result / Story / Route / Spot / Discover; neither narrows Product scope.
 
 Data provenance follows `AGENTS.md`: verified source data, team editorial content, and demo fixtures are distinguished explicitly. Demo content can be canonical **inside the golden path** without becoming canonical for the Product domain. No local facts are invented.
 

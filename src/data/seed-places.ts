@@ -282,4 +282,109 @@ export const PLACES: Place[] = [
     },
     origin: 'demo',
   },
+  // ---- 青梅・沢井 slice (Issue #163) ----------------------------------------
+  // Real Ome/Sawai facilities for the source-backed `ome-sawai-sake-journey`.
+  // Names/addresses are transcribed from the cited official / open-data sources
+  // (retrieved 2026-08-14): 小澤酒造 official site (sawanoi-sake.com), its 澤乃井園
+  // page, and 東京都教育庁 文化財一覧 (東京都指定文化財, CC BY 4.0,
+  // 130001_cultural_property.csv). These records are origin: 'source' with
+  // verificationStatus: 'needs_confirmation' — coordinates for the brewery and
+  // garden are APPROXIMATE (Sawai-Station / Tama-riverside area, not
+  // field-verified); the shrine coordinate is the authoritative coordinate from
+  // the designated-cultural-property open data. No confirmedAt exists.
+  {
+    id: 'sawai-ozawa-shuzo',
+    nameJa: '小澤酒造（沢井・澤乃井）',
+    nameEn: 'Ozawa Shuzo Sawai (Sawanoi)',
+    address: '東京都青梅市沢井2-770',
+    // Approximate area coordinate near Sawai Station on the Tama River; the
+    // precise building point was not field-verified (needs field confirmation).
+    latitude: 35.7967,
+    longitude: 139.167,
+    coordinatePrecision: 'approximate',
+    foodCultureIds: ['sake-ome'],
+    type: 'brewery',
+    source: {
+      name: '小澤酒造（公式サイト）',
+      url: 'https://www.sawanoi-sake.com/',
+      sourceType: 'official_web',
+      retrievedAt: '2026-08-14',
+      verificationStatus: 'needs_confirmation',
+      originalId: 'ozawa-shuzo',
+    },
+    origin: 'source',
+  },
+  {
+    id: 'sawanoien-garden',
+    nameJa: '澤乃井園',
+    nameEn: 'Sawanoien Garden',
+    address: '東京都青梅市沢井2-770',
+    // Approximate area coordinate near Sawai Station / Tama riverside, shared
+    // with the brewery premises (needs field confirmation).
+    latitude: 35.7966,
+    longitude: 139.1671,
+    coordinatePrecision: 'approximate',
+    foodCultureIds: ['sake-ome'],
+    type: 'restaurant',
+    source: {
+      name: '小澤酒造 澤乃井園（公式）',
+      url: 'https://www.sawanoi-sake.com/service/sawanoien/',
+      sourceType: 'official_web',
+      retrievedAt: '2026-08-14',
+      verificationStatus: 'needs_confirmation',
+      originalId: 'sawanoien',
+    },
+    origin: 'source',
+  },
+  {
+    id: 'mitake-shrine',
+    nameJa: '御嶽神社',
+    nameEn: 'Mitake Shrine',
+    address: '東京都青梅市御岳山176',
+    // Authoritative coordinate from the Tokyo designated cultural property open
+    // data (東京都教育庁 文化財一覧, 130001_cultural_property.csv, CC BY 4.0).
+    latitude: 35.782772,
+    longitude: 139.150253,
+    coordinatePrecision: 'precise',
+    // A designated cultural property (御嶽神社旧本殿); no sake is experienced
+    // HERE, so foodCultureIds stays empty (Issue #127, like odanba-fishing).
+    foodCultureIds: [],
+    type: 'other',
+    source: {
+      name: '東京都教育庁 文化財一覧（東京都指定文化財）',
+      url: 'https://www.opendata.metro.tokyo.lg.jp/suisyoudataset/130001_cultural_property.csv',
+      license: 'CC BY 4.0（クリエイティブ・コモンズ 表示 4.0）',
+      sourceType: 'open_data',
+      sourceDatasetId: '445ee18d-ee49-4659-9667-de8630bd0d0e',
+      retrievedAt: '2026-08-14',
+      verificationStatus: 'needs_confirmation',
+      originalId: '御嶽神社旧本殿',
+    },
+    origin: 'source',
+  },
+  {
+    id: 'baba-oshijutaku',
+    nameJa: '馬場家御師住宅',
+    nameEn: 'Baba House Oshi Residence',
+    address: '東京都青梅市御岳山54',
+    // Authoritative coordinate from the Tokyo designated cultural property open
+    // data (東京都教育庁 文化財一覧, 130001_cultural_property.csv, CC BY 4.0).
+    latitude: 35.785996,
+    longitude: 139.151073,
+    coordinatePrecision: 'precise',
+    // A designated cultural property with no sake experience HERE.
+    foodCultureIds: [],
+    type: 'other',
+    source: {
+      name: '東京都教育庁 文化財一覧（東京都指定文化財）',
+      url: 'https://www.opendata.metro.tokyo.lg.jp/suisyoudataset/130001_cultural_property.csv',
+      license: 'CC BY 4.0（クリエイティブ・コモンズ 表示 4.0）',
+      sourceType: 'open_data',
+      sourceDatasetId: '445ee18d-ee49-4659-9667-de8630bd0d0e',
+      retrievedAt: '2026-08-14',
+      verificationStatus: 'needs_confirmation',
+      originalId: '馬場家御師住宅',
+    },
+    origin: 'source',
+  },
 ];

@@ -26,6 +26,15 @@ export const FOOD_CULTURE_DATA_KEYS: Record<string, Partial<Record<FoodCultureFi
     maker: 'dataWasabiMaker',
     howToEnjoy: 'dataWasabiHowToEnjoy',
   },
+  // Ome/Sawai sake slice (Issue #163) — full record content for `sake-ome`.
+  'sake-ome': {
+    name: 'dataSakeName',
+    description: 'dataSakeDescription',
+    story: 'dataSakeStory',
+    history: 'dataSakeHistory',
+    maker: 'dataSakeMaker',
+    howToEnjoy: 'dataSakeHowToEnjoy',
+  },
   // Names for the other cultures surfaced on the S6 route spots' "related food
   // cultures" list (Issue #67). Only `name` is mapped — the full record content
   // for these cultures is out of the S3–S8 demo journey scope.
@@ -41,6 +50,11 @@ export const ROUTE_DATA_KEYS = {
     area: 'areaOkutama',
     transport: 'dataRouteTransport',
   },
+  'ome-sawai-sake-journey': {
+    name: 'dataSakeRouteName',
+    area: 'areaOme',
+    transport: 'dataSakeRouteTransport',
+  },
 } as const satisfies Record<string, Record<string, LocaleKey>>;
 
 /** A route step's role, keyed by `{ routeId }.{ placeId }` and duration. */
@@ -54,6 +68,17 @@ export const ROUTE_STEP_ROLE_KEYS: Record<string, LocaleKey> = {
   'okutama-wasabi-journey.shishiguchiya.half-day': 'dataRouteStopRoleShishiguchiya',
   'okutama-wasabi-journey.shishiguchiya.1-day': 'dataRouteStopRoleShishiguchiya',
   'okutama-wasabi-journey.odanba-fishing.1-day': 'dataRouteStopRoleOdanba',
+  // Ome/Sawai sake journey (Issue #163). The seed role copy is identical across
+  // durations for each stop, so each place shares one key; 馬場家御師住宅 appears
+  // only in the 1-day variant, so both duration entries map to its single key.
+  'ome-sawai-sake-journey.sawai-ozawa-shuzo.half-day': 'dataSakeStopRoleOzawa',
+  'ome-sawai-sake-journey.sawai-ozawa-shuzo.1-day': 'dataSakeStopRoleOzawa',
+  'ome-sawai-sake-journey.sawanoien-garden.half-day': 'dataSakeStopRoleSawanoien',
+  'ome-sawai-sake-journey.sawanoien-garden.1-day': 'dataSakeStopRoleSawanoien',
+  'ome-sawai-sake-journey.mitake-shrine.half-day': 'dataSakeStopRoleMitakeShrine',
+  'ome-sawai-sake-journey.mitake-shrine.1-day': 'dataSakeStopRoleMitakeShrine',
+  'ome-sawai-sake-journey.baba-oshijutaku.half-day': 'dataSakeStopRoleBaba',
+  'ome-sawai-sake-journey.baba-oshijutaku.1-day': 'dataSakeStopRoleBaba',
 } as const satisfies Record<string, LocaleKey>;
 
 /** A place keyed by its record id. */
@@ -66,6 +91,11 @@ export const PLACE_DATA_KEYS = {
   'okutama-soba-shop': { name: 'dataPlaceSobaShopName' },
   'okutama-michi-no-eki': { name: 'dataPlaceMichiNoEkiName' },
   'okutama-fishing-center': { name: 'dataPlaceFishingCenterName' },
+  // Ome/Sawai sake journey places (Issue #163).
+  'sawai-ozawa-shuzo': { name: 'dataPlaceOzawaName' },
+  'sawanoien-garden': { name: 'dataPlaceSawanoienName' },
+  'mitake-shrine': { name: 'dataPlaceMitakeShrineName' },
+  'baba-oshijutaku': { name: 'dataPlaceBabaName' },
 } as const satisfies Record<string, Record<string, LocaleKey>>;
 
 /** Spot practical-info access label, keyed by place id (none on the frozen
@@ -83,16 +113,24 @@ export const SPOT_ROLE_KEYS: Record<string, LocaleKey> = {
   'soba-isshintei': 'dataIsshinteiRole',
   'shishiguchiya': 'dataShishiguchiyaRole',
   'odanba-fishing': 'dataOdanbaRole',
+  // Ome/Sawai sake journey spots (Issue #163).
+  'sawai-ozawa-shuzo': 'dataOzawaRole',
+  'sawanoien-garden': 'dataSawanoienRole',
+  'mitake-shrine': 'dataMitakeShrineRole',
+  'baba-oshijutaku': 'dataBabaRole',
 } as const satisfies Record<string, LocaleKey>;
 
 /**
  * Mobility line label, keyed by `{routeId}.{fromStep}-{toStep}`. The frozen
  * journey takes the bus 氷川 ⇄ 丹三郎 (steps 1-2 and 3-4); the in-丹三郎 and
- * in-氷川 segments are walks (default).
+ * in-氷川 segments are walks (default). The Ome/Sawai journey's only non-walk
+ * segment is steps 2-3 (JR Ome Line & Mitake Tozan cable car); its walk
+ * segments (1-2, 3-4) need no entry and fall back to the route's own {Ja, En}.
  */
 const ROUTE_MOBILITY_LABEL_KEYS: Record<string, LocaleKey> = {
   'okutama-wasabi-journey.1-2': 'dataRouteMobilityBus',
   'okutama-wasabi-journey.3-4': 'dataRouteMobilityBus',
+  'ome-sawai-sake-journey.2-3': 'dataSakeMobilityCableCar',
 } as const satisfies Record<string, LocaleKey>;
 
 /** The bridge helpers below are pure id → key lookups (used by page code). */
@@ -213,7 +251,10 @@ export interface StoryContentKeys {
  */
 const OKUTAMA_MUNICIPALITY_CODE = '133086';
 
-/** The 8/23 demo supplies full story content for 東京わさび only. */
+/** The 8/23 demo supplies full story content for 東京わさび and the Ome/Sawai
+ *  sake slice (Issue #163). The sake story carries its own culture chrome keys
+ *  (dataSakeHeroKicker etc.) — never wasabi's shared s4* chrome — and no
+ *  municipalityId (no Ome municipality-agriculture profile exists). */
 export const STORY_DATA_KEYS: Record<
   string,
   Partial<Record<StoryField, LocaleKey>> & {
@@ -240,6 +281,24 @@ export const STORY_DATA_KEYS: Record<
     stickyCta: 's4StickyCta',
     municipalityId: OKUTAMA_MUNICIPALITY_CODE,
     challengeEvidence: 'dataStoryChallengeEvidence',
+  },
+  'sake-ome': {
+    name: 'dataSakeName',
+    lead: 'dataSakeStoryLead',
+    area: 'areaOme',
+    history: 'dataSakeHistory',
+    story: 'dataSakeStory',
+    makerName: 'dataSakeStoryMakerName',
+    makerRole: 'dataSakeStoryMakerRole',
+    maker: 'dataSakeMaker',
+    craft: 'dataSakeStoryCraft',
+    howToEnjoy: 'dataSakeHowToEnjoy',
+    challenge: 'dataSakeStoryChallenge',
+    support: 'dataSakeStorySupport',
+    heroKicker: 'dataSakeHeroKicker',
+    craftMediaAlt: 'dataSakeCraftMediaAlt',
+    ctaSub: 'dataSakeCtaSub',
+    stickyCta: 'dataSakeStickyCta',
   },
 };
 

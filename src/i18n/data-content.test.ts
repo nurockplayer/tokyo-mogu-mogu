@@ -78,11 +78,15 @@ describe('S4 story content availability (#123)', () => {
     expect(wasabi?.challengeEvidence).toBe('dataStoryChallengeEvidence');
     for (const [id, entry] of Object.entries(STORY_DATA_KEYS)) {
       if (id === 'wasabi-okutama') continue;
-      expect(entry.heroKicker, `culture ${id}`).toBeUndefined();
-      expect(entry.craftMediaAlt, `culture ${id}`).toBeUndefined();
-      expect(entry.ctaSub, `culture ${id}`).toBeUndefined();
-      expect(entry.stickyCta, `culture ${id}`).toBeUndefined();
-      expect(entry.challengeEvidence, `culture ${id}`).toBeUndefined();
+      // A non-wasabi story may define its OWN chrome keys (the sake-ome story
+      // ships dataSakeHeroKicker etc. for the S4 layout, Issue #163), but it
+      // must never reuse wasabi's shared s4* chrome or wasabi's municipality-
+      // evidence template — that would mislabel another culture's copy.
+      expect(entry.heroKicker, `culture ${id}`).not.toBe('s4HeroKicker');
+      expect(entry.craftMediaAlt, `culture ${id}`).not.toBe('s4CraftMediaAlt');
+      expect(entry.ctaSub, `culture ${id}`).not.toBe('s4CtaSub');
+      expect(entry.stickyCta, `culture ${id}`).not.toBe('s4StickyCta');
+      expect(entry.challengeEvidence, `culture ${id}`).not.toBe('dataStoryChallengeEvidence');
     }
   });
 
