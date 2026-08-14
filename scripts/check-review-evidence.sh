@@ -49,15 +49,15 @@ review_state="$(
       ] as $exact
 
       | {
-          attestation: ([ $exact[] | select(has_verdict_line) ] | length) > 0,
+          attestation: ([ $exact[] | select(has_verdict_line) ] | length > 0),
           changes_requested: (
-            ([ $exact[]
+            [ $exact[]
               | select(.state == "APPROVED" or .state == "CHANGES_REQUESTED")
             ]
             | sort_by(._order)
             | group_by(.user.login)
             | map(last)
-            | [ .[] | select(.state == "CHANGES_REQUESTED") ] | length) > 0
+            | [ .[] | select(.state == "CHANGES_REQUESTED") ] | length > 0
           )
         }
     '
