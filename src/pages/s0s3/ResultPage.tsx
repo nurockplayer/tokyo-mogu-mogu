@@ -2,8 +2,10 @@
  * Result page (Issue #78 reframe of S3).
  *
  * Selects through the reusable #123 recommendation contract. The 8/23 demo
- * supplies exactly one production-ready candidate, so it deterministically
- * reveals 東京わさび without making the durable Product contract single-region.
+ * supplies two production-ready candidates (Okutama × Tokyo Wasabi primary,
+ * Ome/Sawai × sake secondary); the fixed golden-path answers match only the
+ * wasabi profile, so the Result deterministically reveals 東京わさび without
+ * making the durable Product contract single-region.
  * The result reflects the durable Food Profile (dietary-consideration state) +
  * the current-trip Exploration answers (match-reason tags). On successful
  * result creation it hands off to the MOGU Recent contract (#94).
