@@ -116,6 +116,9 @@ export function MoguPage() {
         {entries.map((entry) => (
           <li key={`${entry.candidateId ?? entry.resultId}-${entry.createdAt}`}>
             <Card className="mogu-card">
+              <div className="mogu-card__media" aria-hidden="true">
+                <span className="mogu-card__media-mark">🌿</span>
+              </div>
               <div className="mogu-card__body">
                 <div className="mogu-card__title">{t(entry.titleKey as LocaleKey)}</div>
                 {entry.summary.length > 0 ? (

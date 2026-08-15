@@ -81,12 +81,19 @@
 .tmm-btn--primary {
   background: var(--tmm-color-forest);
   color: var(--tmm-color-card);
-  box-shadow: var(--tmm-shadow-card);
+  /* Figma parity: the primary action carries a quiet hard offset in the deep
+     olive (Figma `0 4px 0 #667A47`), read as a tactile candy button. */
+  box-shadow: 0 3px 0 var(--tmm-color-forest-deep);
 }
 
 .tmm-btn--primary:hover {
   background: var(--tmm-color-forest-deep);
-  box-shadow: var(--tmm-shadow-lift);
+  box-shadow: 0 2px 0 var(--tmm-color-forest-deep);
+}
+
+.tmm-btn--primary:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--tmm-color-forest-deep);
 }
 
 .tmm-btn--secondary {
@@ -848,20 +855,25 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background: rgb(253 251 243 / 0.92);
+  /* Figma parity: a solid warm-white bar with a hairline top border. */
+  background: rgb(255 253 246 / 0.94);
   backdrop-filter: blur(10px);
   border-top: var(--tmm-border);
 }
 
 .tmm-nav__link {
   display: inline-flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 2px;
   min-height: var(--tmm-tap-min);
-  padding: 0 var(--tmm-space-3);
+  padding: 4px var(--tmm-space-3);
   border-radius: var(--tmm-radius-sm);
-  font-family: var(--tmm-font-display);
-  font-size: 0.9rem;
+  font-family: var(--tmm-font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.2;
   color: var(--tmm-color-ink-faint);
   text-decoration: none;
   text-align: center;
@@ -871,13 +883,18 @@
     background 0.2s var(--tmm-ease);
 }
 
+.tmm-nav__icon {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
 .tmm-nav__link:hover {
   color: var(--tmm-color-forest);
 }
 
 .tmm-nav__link[aria-current='page'] {
   color: var(--tmm-color-forest);
-  background: var(--tmm-color-forest-tint);
+  background: var(--tmm-color-leaf-tint);
   font-weight: 700;
 }
 

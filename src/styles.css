@@ -6,17 +6,17 @@
    ============================================================ */
 
 :root {
-  /* Color — paper & ink */
-  --paper: #f6f1e6;
-  --paper-deep: #ece3d0;
+  /* Color — paper & ink (mirrors the tmm-* Figma-aligned palette) */
+  --paper: #fff4e4;
+  --paper-deep: #f5e8d0;
   --ink: #2c2a24;
-  --ink-soft: #5b5749;
-  --ink-faint: #8d876f;
+  --ink-soft: #6b4d3e;
+  --ink-faint: #6b6350;
 
   /* Color — Tama greens & accents */
-  --forest: #2f6f4f;
-  --forest-deep: #1f4f38;
-  --wasabi: #9fb83f;
+  --forest: #61733f;
+  --forest-deep: #4d5c30;
+  --wasabi: #9dbc64;
   --stream: #4a8fb0;
   --vermillion: #c44a2c;
   --vermillion-deep: #a03a22;
@@ -25,8 +25,8 @@
   /* Surfaces */
   --card: #fffdf6;
   --card-locked: #f0ead9;
-  --line: #dcd3bd;
-  --line-strong: #b9ad8f;
+  --line: #efe7d8;
+  --line-strong: #d6cbb4;
 
   /* Typography */
   --font-display: 'Shippori Mincho', 'Hiragino Mincho ProN', serif;
@@ -39,7 +39,7 @@
   /* Layout */
   --radius: 14px;
   --radius-sm: 8px;
-  --nav-h: 60px;
+  --nav-h: 68px;
   --max-w: 480px;
 
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -55,10 +55,10 @@ html {
 
 body {
   margin: 0;
-  background:
-    radial-gradient(1200px 600px at 80% -10%, rgb(159 184 63 / 0.10), transparent 60%),
-    radial-gradient(900px 500px at -10% 30%, rgb(74 143 176 / 0.08), transparent 55%),
-    var(--paper);
+  /* Clean warm-cream ground (Figma parity). The earlier leaf/blue radial tints
+     and washi grain were dropped so the app reads as one flat warm-cream
+     editorial surface, not a tinted dashboard. */
+  background: var(--paper);
   color: var(--ink);
   font-family: var(--font-body);
   line-height: 1.6;

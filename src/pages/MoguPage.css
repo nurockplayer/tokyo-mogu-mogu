@@ -52,9 +52,33 @@
 
 /* ---- Compact continuation card ---- */
 
+/* ---- Compact media-forward continuation card (Figma past-trips language) ----
+   A quiet photo-stand-in band (gradient + glyph, aria-hidden — no text) leads
+   the card; the localized culture name stays in the title below so the card
+   never duplicates the name into a screen-reader-visible node. */
+
 .mogu-card {
-  padding: var(--tmm-space-4);
+  padding: 0;
+  overflow: hidden;
   width: 100%;
+}
+
+.mogu-card__media {
+  aspect-ratio: 16 / 7;
+  background: linear-gradient(150deg, var(--tmm-color-leaf), var(--tmm-color-forest-deep));
+  display: grid;
+  place-items: center;
+  color: var(--tmm-color-card);
+}
+
+.mogu-card__media-mark {
+  font-size: 2rem;
+  line-height: 1;
+  opacity: 0.85;
+}
+
+.mogu-card__body {
+  padding: var(--tmm-space-4);
 }
 
 .mogu-card__title {
