@@ -121,7 +121,7 @@ flowchart TB
 
 8/23 デモには production-ready な候補が **2 件**（奥多摩 × 東京わさび / 青梅・沢井 × 日本酒）あります（`src/data/slice-manifest.ts` で両方 `enabled` + `recommendationEligible`）。golden path の固定回答（refreshing / nature 系）にマッチするのはわさび profile のみなので、Result は決定的に **奥多摩 × 東京わさび** が選ばれます。rich / sweet・伝統志向で回答したユーザーは同じエンジンで **青梅・沢井 × 日本酒** に到達できます。この決定論は「回答 profile × デモデータ」の選択であり、永続的な推薦ドメインの制約ではありません（Product scope は東京都全域 × 複数地域 × 複数食文化）。
 
-> Note: `docs/specs/product/recommendation-contract.md` の「8/23 デモでは候補 1 件」という文言は #163 以前のものであり、current main では本番候補が 2 件になっています（`src/data/demo-recommendation.ts` / `src/data/slice-manifest.ts` が current authority）。本図は current main に従います。
+> Note: `docs/specs/product/recommendation-contract.md` は current main に合わせて更新済みです（本番候補 2 件・golden path の決定論は回答 profile 由来）。本図も current main に従います。
 
 ---
 
