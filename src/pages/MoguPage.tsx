@@ -89,7 +89,7 @@ export function MoguPage() {
 
   if (entries.length === 0) {
     return (
-      <div className="tmm-page">
+      <div className="tmm-page mogu-page">
         <h1 className="page-title">{t('moguPageTitle')}</h1>
         <p className="page-sub">{t('moguPageBody')}</p>
         <EmptyState
@@ -107,7 +107,7 @@ export function MoguPage() {
   }
 
   return (
-    <div className="tmm-page">
+    <div className="tmm-page mogu-page">
       <h1 className="page-title">{t('moguPageTitle')}</h1>
       <p className="page-sub">{t('moguPageBody')}</p>
       <p className="mogu-recent-note">{t('moguRecentNote')}</p>
@@ -115,14 +115,9 @@ export function MoguPage() {
       <ul className="mogu-list">
         {entries.map((entry) => (
           <li key={`${entry.candidateId ?? entry.resultId}-${entry.createdAt}`}>
-            <Card button className="mogu-card">
+            <Card className="mogu-card">
               <div className="mogu-card__body">
                 <div className="mogu-card__title">{t(entry.titleKey as LocaleKey)}</div>
-                <div className="mogu-card__meta">
-                  <span className="mogu-card__time">
-                    🕐 {formatRecommendedAt(entry.createdAt)}
-                  </span>
-                </div>
                 {entry.summary.length > 0 ? (
                   <div className="mogu-card__tags">
                     {entry.summary.map((key) =>
@@ -134,7 +129,10 @@ export function MoguPage() {
                     )}
                   </div>
                 ) : null}
-                <div className="mogu-card__actions">
+                <div className="mogu-card__footer">
+                  <span className="mogu-card__time">
+                    {formatRecommendedAt(entry.createdAt)}
+                  </span>
                   <button
                     type="button"
                     className="tmm-btn tmm-btn--sm tmm-btn--secondary"

@@ -1,18 +1,68 @@
-/* Discover (Issue #93) — free exploration without diagnosis. */
+/* Discover (Issue #93) — free exploration without diagnosis.
+   Modern Tokyo Terroir presentation (Issue #187): editorial page hero,
+   leaf-dash section titles, media-forward story cards, and a compact
+   destination list. Page-local styles layered on the shared tmm-*
+   foundation — no competing visual system. Mobile-first, 375px baseline. */
+
+/* ---- Editorial page hero ---- */
+
+.discover-page {
+  padding-top: var(--tmm-space-6);
+}
+
+.discover-page .page-title {
+  font-family: var(--tmm-font-display);
+  font-size: var(--tmm-text-display);
+  font-weight: 700;
+  line-height: var(--tmm-leading-display);
+  letter-spacing: var(--tmm-tracking-display);
+  color: var(--tmm-color-forest-deep);
+  margin: 0 0 var(--tmm-space-2);
+  overflow-wrap: anywhere;
+}
+
+.discover-page .page-sub {
+  font-size: var(--tmm-text-body);
+  color: var(--tmm-color-ink-soft);
+  line-height: var(--tmm-leading-body);
+  margin: 0 0 var(--tmm-space-2);
+  overflow-wrap: anywhere;
+}
 
 .discover-intro {
   font-size: var(--tmm-text-caption);
   color: var(--tmm-color-ink-soft);
-  margin: 0 0 var(--tmm-space-4);
+  line-height: var(--tmm-leading-caption);
+  letter-spacing: 0.02em;
+  margin: 0 0 var(--tmm-space-5);
+  overflow-wrap: anywhere;
 }
 
+/* ---- Section titles with a quiet leaf-dash kicker ---- */
+
 .discover-section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--tmm-space-2);
   font-family: var(--tmm-font-display);
   font-size: var(--tmm-text-title);
   font-weight: 700;
+  line-height: var(--tmm-leading-title);
   color: var(--tmm-color-ink);
   margin: 0 0 var(--tmm-space-3);
+  overflow-wrap: anywhere;
 }
+
+.discover-section-title::before {
+  content: '';
+  flex: 0 0 16px;
+  width: 16px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--tmm-color-leaf);
+}
+
+/* ---- Lists ---- */
 
 .discover-list {
   list-style: none;
@@ -28,6 +78,16 @@
   color: inherit;
 }
 
+/* Keyboard focus: the whole card is one link, so the shared focus ring lands
+   on the link (the interactive element), not the inner card. */
+.discover-link:focus-visible {
+  outline: var(--tmm-focus-ring);
+  outline-offset: var(--tmm-focus-offset);
+  border-radius: var(--tmm-radius-md);
+}
+
+/* ---- Compact card content (stories, destinations, future) ---- */
+
 .discover-card {
   padding: var(--tmm-space-4);
   display: block;
@@ -35,11 +95,34 @@
   text-align: left;
 }
 
+/* Media-forward story card (the discovery entry points). Declared after
+   .discover-card so its `padding: 0` wins at equal specificity. */
+.discover-card--media {
+  padding: 0;
+  overflow: hidden;
+}
+
+.discover-card__media {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.discover-card__media .fc-image {
+  height: 100%;
+  border-radius: 0;
+}
+
+.discover-card--media .discover-card__body {
+  padding: var(--tmm-space-4);
+}
+
 .discover-card__title {
   font-family: var(--tmm-font-display);
   font-size: var(--tmm-text-title);
   font-weight: 700;
+  line-height: var(--tmm-leading-title);
   color: var(--tmm-color-ink);
+  overflow-wrap: anywhere;
 }
 
 .discover-card__desc,
@@ -47,6 +130,8 @@
   margin: var(--tmm-space-2) 0 0;
   font-size: var(--tmm-text-body);
   color: var(--tmm-color-ink-soft);
+  line-height: var(--tmm-leading-body);
+  overflow-wrap: anywhere;
 }
 
 .discover-card__meta {

@@ -1,10 +1,45 @@
-/* MOGU Recent (Issue #94) — page-local styles layered on the tmm-* foundation. */
+/* MOGU Recent (Issue #94) — system-managed recent recommendation history.
+   Modern Tokyo Terroir presentation (Issue #187): a lightweight editorial
+   hero and compact continuation cards — intentionally lighter than Discover,
+   since MOGU reads as a continuation of the user's discovery history, not a
+   second browse surface. Page-local styles layered on the shared tmm-*
+   foundation. Mobile-first, 375px baseline. */
+
+/* ---- Editorial page hero ---- */
+
+.mogu-page {
+  padding-top: var(--tmm-space-6);
+}
+
+.mogu-page .page-title {
+  font-family: var(--tmm-font-display);
+  font-size: var(--tmm-text-display);
+  font-weight: 700;
+  line-height: var(--tmm-leading-display);
+  letter-spacing: var(--tmm-tracking-display);
+  color: var(--tmm-color-forest-deep);
+  margin: 0 0 var(--tmm-space-2);
+  overflow-wrap: anywhere;
+}
+
+.mogu-page .page-sub {
+  font-size: var(--tmm-text-body);
+  color: var(--tmm-color-ink-soft);
+  line-height: var(--tmm-leading-body);
+  margin: 0 0 var(--tmm-space-2);
+  overflow-wrap: anywhere;
+}
 
 .mogu-recent-note {
   font-size: var(--tmm-text-caption);
   color: var(--tmm-color-ink-soft);
-  margin: 0 0 var(--tmm-space-4);
+  line-height: var(--tmm-leading-caption);
+  letter-spacing: 0.02em;
+  margin: 0 0 var(--tmm-space-5);
+  overflow-wrap: anywhere;
 }
+
+/* ---- List ---- */
 
 .mogu-list {
   list-style: none;
@@ -15,27 +50,20 @@
   gap: var(--tmm-space-3);
 }
 
+/* ---- Compact continuation card ---- */
+
 .mogu-card {
   padding: var(--tmm-space-4);
-  display: block;
   width: 100%;
-  text-align: left;
 }
 
 .mogu-card__title {
   font-family: var(--tmm-font-display);
   font-size: var(--tmm-text-title);
   font-weight: 700;
+  line-height: var(--tmm-leading-title);
   color: var(--tmm-color-ink);
-}
-
-.mogu-card__meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--tmm-space-2) var(--tmm-space-4);
-  margin-top: var(--tmm-space-2);
-  font-size: var(--tmm-text-caption);
-  color: var(--tmm-color-ink-soft);
+  overflow-wrap: anywhere;
 }
 
 .mogu-card__tags {
@@ -45,9 +73,20 @@
   margin-top: var(--tmm-space-2);
 }
 
-.mogu-card__actions {
+/* Hairline-separated footer: the recorded time reads quietly on the left,
+   the single reopen action on the right. Wraps on narrow 375px lines. */
+.mogu-card__footer {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--tmm-space-2);
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--tmm-space-2) var(--tmm-space-3);
   margin-top: var(--tmm-space-3);
+  padding-top: var(--tmm-space-3);
+  border-top: var(--tmm-border);
+}
+
+.mogu-card__time {
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
 }
