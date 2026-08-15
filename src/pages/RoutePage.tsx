@@ -264,9 +264,6 @@ export function RoutePage() {
                 </Link>
                 {mobility ? (
                   <div className="s5-mobility">
-                    <span className="s5-mobility__arrow" aria-hidden="true">
-                      ↓
-                    </span>
                     <Mobility
                       mode={mobility.mode}
                       duration={`${mobility.durationMinutes}min`}

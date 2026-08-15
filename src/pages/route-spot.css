@@ -3,6 +3,11 @@
    Built on the shared tmm-* primitives from src/ui. Only small,
    page-specific layout additions live here — no competing visual
    system. Mobile-first, 375px baseline.
+
+   Issue #186 presentation: editorial travel-magazine rhythm on the
+   same tmm-* foundation — a vertical timeline spine, hairline
+   separators instead of nested card borders, restrained elevation,
+   and overflow-safe text at the 375px baseline.
    ============================================================ */
 
 /* ---------- Stylized spot "photo" placeholder ---------- */
@@ -44,6 +49,8 @@
 
 .s5-hero {
   padding-top: 4px;
+  padding-bottom: var(--tmm-space-4);
+  border-bottom: var(--tmm-border);
 }
 
 .s5-hero__kicker {
@@ -70,6 +77,7 @@
   gap: 8px;
 }
 
+/* Meta pills stay quiet: warm tint, no competing border on the hairline hero. */
 .s5-hero__meta-item {
   display: inline-flex;
   align-items: center;
@@ -77,18 +85,10 @@
   font-size: var(--tmm-text-caption);
   font-weight: 600;
   color: var(--tmm-color-ink-soft);
-  padding: 3px 10px;
+  padding: 4px 12px;
   border-radius: var(--tmm-radius-pill);
   background: var(--tmm-color-warm-deep);
-  border: var(--tmm-border);
   overflow-wrap: anywhere;
-}
-
-.s5-hero__duration {
-  font-size: var(--tmm-text-body);
-  font-weight: 700;
-  color: var(--tmm-color-ink);
-  margin-bottom: 2px;
 }
 
 /* Half-day / 1-day toggle — segmented control from the tmm-chip primitive */
@@ -163,6 +163,11 @@
   transition: transform 0.15s var(--tmm-ease);
 }
 
+.s5-map__pin:hover {
+  transform: translate(-50%, -50%) scale(1.06);
+  box-shadow: var(--tmm-shadow-lift);
+}
+
 /* Issue #82: expand the interactive hit area to the 44px tap minimum while
    keeping the visual pin compact (34px). */
 .s5-map__pin::after {
@@ -184,8 +189,14 @@
   outline-offset: 2px;
 }
 
+/* Start pin (step 1) is the route's departure: orange with a quiet halo. */
 .s5-map__pin--current {
   background: var(--tmm-color-orange);
+  box-shadow: 0 0 0 4px rgb(196 74 44 / 0.16), var(--tmm-shadow-card);
+}
+
+.s5-map__pin--current:hover {
+  box-shadow: 0 0 0 4px rgb(196 74 44 / 0.16), var(--tmm-shadow-lift);
 }
 
 .s5-map__legend {
@@ -219,69 +230,77 @@
 /* ---------- S5 timeline ---------- */
 
 .s5-timeline {
+  position: relative;
   display: grid;
-  gap: 10px;
+  gap: var(--tmm-space-2);
   margin-top: 4px;
 }
 
+/* Editorial spine (Issue #186): a hairline connects the numbered step circles,
+   replacing the per-step down-arrow as the flow cue. */
+.s5-timeline::before {
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  bottom: 14px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--tmm-color-line-strong);
+  opacity: 0.55;
+}
+
+/* The step card becomes a flat editorial row sitting on the spine: the shared
+   card surface/border would compete with the connected line (Issue #186). */
 .s5-timeline .tmm-route-step {
   width: 100%;
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
 }
 
 .s5-timeline__pin-link {
   display: block;
   text-decoration: none;
   color: inherit;
+  border-radius: var(--tmm-radius-md);
+}
+
+.s5-timeline__pin-link:hover .tmm-route-step__num {
+  background: var(--tmm-color-forest-deep);
+  box-shadow: 0 0 0 4px var(--tmm-color-forest-tint);
 }
 
 .s5-timeline__pin-link:focus-visible {
-  outline: 3px solid var(--tmm-color-orange);
-  outline-offset: 2px;
-  border-radius: var(--tmm-radius-md);
+  outline: var(--tmm-focus-ring);
+  outline-offset: var(--tmm-focus-offset);
 }
 
 .s5-timeline__stay {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  margin-top: 6px;
+  margin-top: var(--tmm-space-2);
   font-size: var(--tmm-text-caption);
   color: var(--tmm-color-ink-soft);
+  overflow-wrap: anywhere;
 }
 
-.s5-step-card {
-  background: var(--tmm-color-card);
-  border: var(--tmm-border);
-  border-radius: var(--tmm-radius-md);
-  padding: 12px;
-  display: grid;
-  gap: 10px;
-}
-
-.s5-step-card .pv-visual {
-  aspect-ratio: 16 / 7;
-}
-
+/* Mobility hangs off the spine, aligned with the step body text (the spine
+   itself is the continuity cue, so no per-segment arrow is needed). */
 .s5-mobility {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 4px 2px;
+  margin-left: calc(28px + var(--tmm-space-3));
+  padding: var(--tmm-space-1) 0 var(--tmm-space-2);
   color: var(--tmm-color-ink-soft);
   font-size: var(--tmm-text-caption);
 }
 
-.s5-mobility__line {
-  flex: 1;
-  height: 1px;
-  background: var(--tmm-color-line-strong);
-  position: relative;
-}
-
-.s5-mobility__arrow {
-  flex: 0 0 auto;
-  font-size: 1.05rem;
-  line-height: 1;
+.s5-mobility .tmm-mobility {
+  margin: 0;
 }
 
 /* ---------- S5 weekend-morning crowding advisory (#83) ---------- */
@@ -322,18 +341,20 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  gap: var(--tmm-space-2);
 }
 
+/* Editorial list: hairline separators instead of a nested card per item
+   (Issue #186 — fewer competing card borders under the route timeline). */
 .s5-support__item {
   display: flex;
   align-items: flex-start;
   gap: var(--tmm-space-3);
-  background: var(--tmm-color-card);
-  border: var(--tmm-border);
-  border-radius: var(--tmm-radius-md);
-  padding: var(--tmm-space-3) var(--tmm-space-4);
+  padding: var(--tmm-space-4) 0;
+  border-bottom: var(--tmm-border);
+}
+
+.s5-support__item:last-child {
+  border-bottom: none;
 }
 
 .s5-support__icon {
@@ -374,6 +395,7 @@
 .s6-title-row {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 6px;
   margin-bottom: 10px;
 }
@@ -401,6 +423,43 @@
   margin: 14px 0 4px;
 }
 
+/* Practical info section — values stay overflow-safe at 375px (Issue #186). */
+.s6-info {
+  min-width: 0;
+}
+
+.s6-info .tmm-info-list__item {
+  min-width: 0;
+}
+
+.s6-info .tmm-info-list__value {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Explicit unverified state (data honesty): a clear callout panel rather than
+   faint text, so "not yet confirmed" reads as intentional, not a gap. */
+.s6-unverified-note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--tmm-space-2);
+  margin-top: var(--tmm-space-3);
+  padding: var(--tmm-space-3) var(--tmm-space-4);
+  border: 1px solid rgb(196 74 44 / 0.35);
+  border-radius: var(--tmm-radius-md);
+  background: rgb(196 74 44 / 0.06);
+  color: var(--tmm-color-ink);
+  font-size: var(--tmm-text-caption);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.s6-unverified-note::before {
+  content: '⚠';
+  flex: 0 0 auto;
+  color: var(--tmm-color-danger);
+}
+
 .s6-actions {
   display: grid;
   gap: 10px;
@@ -426,6 +485,8 @@
   gap: 4px;
 }
 
+/* Secondary in-place notes (save hint, dietary disclaimer, coming-soon
+   description): quiet caption copy, distinct from the unverified callout. */
 .s6-info-unverified {
   margin-top: 2px;
   font-size: var(--tmm-text-caption);

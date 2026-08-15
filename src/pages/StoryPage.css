@@ -1,7 +1,18 @@
 /* ============================================================
-   S4 Food Culture Story — editorial article (Issues #44, #79).
+   S4 Food Culture Story — editorial article (Issues #44, #79, #185).
    Page-local styles layered on the shared tmm-* foundation.
-   Mobile-first (375px). Long English lines wrap cleanly.
+
+   Issue #185 redesign: a slice-neutral magazine-style editorial surface.
+   - masthead hero: full-bleed media with an overlay provenance caption,
+     leaf-dash kicker, balanced display title, hairline folio meta
+   - numbered editorial sections with quiet leaf-tint number badges and a
+     roomier magazine rhythm (--tmm-space-7)
+   - flattened provenance block (hairline rule + rotating chevron) that never
+     dominates the reading flow
+   - the "tasting is succession" thesis as a pull-quote, not a nested card
+   - `overflow-wrap: anywhere` throughout so long 375px lines (ja/en/zh-TW)
+     wrap without horizontal overflow
+   Mobile-first (375px).
    ============================================================ */
 
 /* Horizontal gutter moved to the shared shell (`.tmm-main`, Issue #77) so the
@@ -13,10 +24,11 @@
   padding: 0 0 calc(var(--nav-h, 60px) + var(--tmm-space-6) + env(safe-area-inset-bottom));
 }
 
-/* ---------- Hero (section 1) — dark-green / media-forward (#79) ----------
-   The media sits on top, edge-to-edge within the content canvas, and the text
-   block sits on the deep-green surface beneath it so the hero reads as one
-   dark, media-forward unit. */
+/* ---------- Hero (section 1) — masthead / media-forward (#79, #185) ----------
+   The media sits on top, edge-to-edge within the content canvas, with the
+   provenance caption as an editorial overlay on the plate. The text block sits
+   on the deep-green surface beneath it so the hero reads as one dark,
+   media-forward masthead. */
 
 .s4-hero {
   margin-left: calc(var(--tmm-gutter) * -1);
@@ -27,6 +39,7 @@
 }
 
 .s4-hero__media {
+  position: relative;
   aspect-ratio: 16 / 9;
 }
 
@@ -35,8 +48,24 @@
   border-radius: 0;
 }
 
+/* Editorial photo-caption overlay on the plate. The scrim keeps the caption
+   legible over the media gradient; the watermark name stays bottom-right and
+   the short caption sits bottom-left without colliding at 375px. */
+.s4-hero__caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: var(--tmm-space-2) var(--tmm-space-3);
+  font-size: 0.68rem;
+  line-height: 1.5;
+  color: rgb(253 251 243 / 0.9);
+  background: linear-gradient(to top, rgb(28 60 44 / 0.6), rgb(28 60 44 / 0));
+}
+
 .s4-hero__body {
-  padding: var(--tmm-space-4) var(--tmm-gutter) var(--tmm-space-5);
+  padding: var(--tmm-space-5) var(--tmm-gutter) var(--tmm-space-5);
 }
 
 .s4-hero__kicker {
@@ -48,6 +77,17 @@
   margin-bottom: var(--tmm-space-2);
 }
 
+.s4-hero__kicker::before {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--tmm-color-leaf);
+  margin-right: 8px;
+  vertical-align: 0.18em;
+}
+
 .s4-hero__title {
   font-family: var(--tmm-font-display);
   font-size: 2.2rem;
@@ -55,8 +95,8 @@
   color: var(--tmm-color-warm);
   line-height: 1.25;
   margin-bottom: var(--tmm-space-3);
-  overflow-wrap: break-word;
-  word-break: keep-all;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
 }
 
 .s4-hero__lead {
@@ -64,23 +104,19 @@
   color: rgb(246 241 230 / 0.85);
   line-height: 1.9;
   max-width: 34em;
-  margin-bottom: var(--tmm-space-2);
-  overflow-wrap: break-word;
+  margin-bottom: var(--tmm-space-4);
+  overflow-wrap: anywhere;
 }
 
-/* Placeholder/provenance caption on the dark hero — keeps the media slot
-   clearly illustrative, never a fabricated photo. */
-.s4-hero__caption {
-  font-size: 0.7rem;
-  color: rgb(246 241 230 / 0.6);
-  margin-bottom: var(--tmm-space-3);
-}
-
+/* Hairline folio meta — area, read-time, origin tag on a quiet rule so the
+   masthead still reads as one editorial unit. */
 .s4-hero__meta {
   display: flex;
   align-items: center;
   gap: var(--tmm-space-3);
   flex-wrap: wrap;
+  padding-top: var(--tmm-space-3);
+  border-top: 1px solid rgb(246 241 230 / 0.18);
 }
 
 .s4-hero__meta-item {
@@ -111,13 +147,18 @@
 /* ---------- Editorial body ---------- */
 
 .s4-story {
-  padding-top: var(--tmm-space-2);
+  padding-top: 0;
 }
 
-/* Numbered editorial section (#79): the number sits left of the display title
-   as a leaf square so the numbering reads consistently across all sections. */
+/* Numbered editorial section (#79): a roomier magazine rhythm and a quiet
+   leaf-tint number badge (instead of a filled square) so the numbering reads
+   as typographic punctuation, not a card. */
 .s4-story .tmm-story-section {
-  margin-top: var(--tmm-space-6);
+  margin-top: var(--tmm-space-7);
+}
+
+.s4-story .tmm-story-section:first-child {
+  margin-top: var(--tmm-space-4);
 }
 
 .s4-story .tmm-story-section__kicker {
@@ -126,6 +167,17 @@
   letter-spacing: 0.08em;
   color: var(--tmm-color-forest-deep);
   margin-bottom: var(--tmm-space-1);
+}
+
+.s4-story .tmm-story-section__kicker::before {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--tmm-color-leaf);
+  margin-right: 8px;
+  vertical-align: 0.18em;
 }
 
 .s4-story .tmm-story-section__title {
@@ -138,22 +190,26 @@
   color: var(--tmm-color-forest-deep);
   margin-bottom: var(--tmm-space-2);
   line-height: 1.35;
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
 }
 
 .s4-story .tmm-story-section__num {
   margin-top: 2px;
+  background: var(--tmm-color-leaf-tint);
+  color: var(--tmm-color-forest-deep);
 }
 
 .s4-story .tmm-story-section__body {
   font-size: var(--tmm-text-body);
   color: var(--tmm-color-ink);
   line-height: 1.8;
+  overflow-wrap: anywhere;
 }
 
 .s4-p {
   margin: 0 0 var(--tmm-space-3);
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
 }
 
 /* Inline media slot interleaved with story text (#79). */
@@ -169,8 +225,15 @@
   height: 100%;
 }
 
-.s4-inline-media .s4-media-caption {
-  margin-top: var(--tmm-space-1);
+/* Caption below the inline media frame (kept outside the aspect-ratio box so
+   it is never clipped by the frame's overflow). */
+.s4-media-caption {
+  display: block;
+  margin: var(--tmm-space-1) 0 var(--tmm-space-3);
+  font-size: 0.68rem;
+  line-height: 1.5;
+  color: var(--tmm-color-ink-faint);
+  overflow-wrap: anywhere;
 }
 
 /* Small provenance / editorial markers, kept visually quiet. */
@@ -179,6 +242,7 @@
   color: var(--tmm-color-ink-faint);
   line-height: 1.6;
   margin-top: var(--tmm-space-2);
+  overflow-wrap: anywhere;
 }
 
 .s4-note--editorial {
@@ -186,11 +250,16 @@
   padding-top: var(--tmm-space-2);
 }
 
-/* ---------- Maker section (the maker is the visual lead) ---------- */
+/* ---------- Maker section (the maker is the visual lead) ----------
+   Flattened to an editorial fact-box: warm surface + leaf feature rule,
+   restrained elevation (no float). */
 
 .s4-maker-card {
   padding: var(--tmm-space-2);
   margin-bottom: var(--tmm-space-3);
+  background: var(--tmm-color-warm);
+  border-color: var(--tmm-color-line);
+  box-shadow: none;
 }
 
 .s4-maker-media {
@@ -213,24 +282,37 @@
   font-weight: 700;
   color: var(--tmm-color-ink);
   margin-bottom: var(--tmm-space-1);
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
 }
 
 .s4-maker-role {
   font-size: var(--tmm-text-caption);
   color: var(--tmm-color-ink-soft);
   line-height: 1.7;
+  overflow-wrap: anywhere;
 }
 
-/* ---------- Support card (section 6) ---------- */
+/* ---------- Support pull-quote (section 6) ----------
+   The "tasting is passing it on" thesis as an editorial pull-quote: forest
+   tint surface, leaf feature rule, display serif. Reads as the article's
+   climactic beat, not a nested card. */
 
-.s4-support-card {
+.s4-support-quote {
+  margin: 0;
+  padding: var(--tmm-space-4) var(--tmm-space-5);
   border-left: 4px solid var(--tmm-color-leaf);
-  background: var(--tmm-color-warm);
+  border-radius: 0 var(--tmm-radius-md) var(--tmm-radius-md) 0;
+  background: var(--tmm-color-forest-tint);
 }
 
-.s4-support-card .s4-p {
-  margin-bottom: 0;
+.s4-support-quote__text {
+  margin: 0;
+  font-family: var(--tmm-font-display);
+  font-size: 1.12rem;
+  font-weight: 700;
+  line-height: 1.85;
+  color: var(--tmm-color-forest-deep);
+  overflow-wrap: anywhere;
 }
 
 /* ---------- Embedded S7 support panel (Issues #68/#79) ----------
@@ -239,13 +321,13 @@
    step, not a separate page. No standalone S7 destination is required. */
 
 .s4-support-actions {
-  margin-top: var(--tmm-space-6);
+  margin-top: var(--tmm-space-7);
 }
 
 /* ---------- CTA (section 7) ---------- */
 
 .s4-cta {
-  margin-top: var(--tmm-space-6);
+  margin-top: var(--tmm-space-7);
   padding-top: var(--tmm-space-5);
   border-top: 1px solid var(--tmm-color-line);
   text-align: center;
@@ -259,31 +341,36 @@
   max-width: 30em;
   margin-left: auto;
   margin-right: auto;
+  overflow-wrap: anywhere;
 }
 
 .s4-cta__back {
-  display: inline-block;
-  margin-top: var(--tmm-space-3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tmm-tap-min);
+  margin-top: var(--tmm-space-1);
+  padding: 0 var(--tmm-space-2);
   font-size: var(--tmm-text-caption);
   color: var(--tmm-color-forest-deep);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
-/* ---------- Compact provenance (Sources) ---------- */
+/* ---------- Compact provenance (Sources) ----------
+   Flattened: a hairline rule and a chevron that rotates on open, so the
+   provenance stays accessible without dominating the editorial reading flow. */
 
 .s4-sources {
-  margin-top: var(--tmm-space-6);
-  padding: var(--tmm-space-3) var(--tmm-space-4);
-  border: var(--tmm-border);
-  border-radius: var(--tmm-radius-md);
-  background: var(--tmm-color-warm);
+  margin-top: var(--tmm-space-7);
+  border-top: 1px solid var(--tmm-color-line);
+  padding-top: var(--tmm-space-2);
 }
 
 .s4-sources__summary {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
   align-items: center;
-  justify-content: space-between;
   gap: var(--tmm-space-2);
   font-family: var(--tmm-font-display);
   font-weight: 700;
@@ -297,12 +384,22 @@
   display: none;
 }
 
+.s4-sources__summary::after {
+  content: '⌄';
+  color: var(--tmm-color-ink-faint);
+  font-family: var(--tmm-font-body);
+  transition: transform 0.2s var(--tmm-ease);
+}
+
+.s4-sources[open] .s4-sources__summary::after {
+  transform: rotate(180deg);
+}
+
 .s4-sources__list {
   list-style: none;
   margin: var(--tmm-space-2) 0 0;
-  padding: 0;
+  padding: var(--tmm-space-2) 0 0;
   border-top: 1px dashed var(--tmm-color-line);
-  padding-top: var(--tmm-space-2);
 }
 
 .s4-sources__item {
@@ -310,6 +407,7 @@
   font-size: var(--tmm-text-caption);
   line-height: 1.6;
   color: var(--tmm-color-ink-soft);
+  overflow-wrap: anywhere;
 }
 
 .s4-sources__name {

@@ -84,7 +84,7 @@ export function MyRoutePage() {
       <div className="tmm-stack s8-list">
         {entries.map(({ entry, route }) => {
           return (
-            <Card key={entry.routeId} button className="s8-card">
+            <Card key={entry.routeId} className="s8-card">
               <div className="s8-card__body">
                 <div className="s8-card__title">
                   {(() => {

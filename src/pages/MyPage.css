@@ -20,9 +20,7 @@
 .my-route-card,
 .my-card {
   padding: var(--tmm-space-4);
-  display: block;
   width: 100%;
-  text-align: left;
 }
 
 .my-route-card__title,
@@ -31,15 +29,26 @@
   font-size: var(--tmm-text-title);
   font-weight: 700;
   color: var(--tmm-color-ink);
+  line-height: var(--tmm-leading-title);
+  overflow-wrap: anywhere;
 }
 
 .my-route-card__meta {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--tmm-space-2) var(--tmm-space-4);
-  margin-top: var(--tmm-space-2);
+  gap: var(--tmm-space-2);
+  margin-top: var(--tmm-space-3);
   font-size: var(--tmm-text-caption);
   color: var(--tmm-color-ink-soft);
+}
+
+.my-route-card__meta span {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: var(--tmm-radius-pill);
+  background: var(--tmm-color-warm-deep);
+  overflow-wrap: anywhere;
 }
 
 .my-route-card__actions,
@@ -48,6 +57,12 @@
   flex-wrap: wrap;
   gap: var(--tmm-space-2);
   margin-top: var(--tmm-space-3);
+}
+
+/* Continuation-card action row: hairline-separated from the meta above. */
+.my-route-card__actions {
+  padding-top: var(--tmm-space-3);
+  border-top: var(--tmm-border);
 }
 
 .my-card__desc {

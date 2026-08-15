@@ -178,12 +178,14 @@ export function StoryPage() {
             category={record.category}
             alt={heroName}
           />
+          {/* Editorial photo-caption overlay on the placeholder media (the
+              "※画像はイメージです" provenance note sits on the plate, not the body). */}
+          <p className="s4-hero__caption">{t('s4MediaCaption')}</p>
         </div>
         <div className="s4-hero__body">
           <p className="s4-hero__kicker">{t(content.heroKicker)}</p>
           <h1 className="s4-hero__title">{heroName}</h1>
           <p className="s4-hero__lead">{lead}</p>
-          <p className="s4-hero__caption">{t('s4MediaCaption')}</p>
           <div className="s4-hero__meta">
             <span className="s4-hero__meta-item">
               <span className="s4-hero__meta-icon" aria-hidden="true">📍</span>
@@ -239,8 +241,8 @@ export function StoryPage() {
               category={record.category}
               alt={t(content.craftMediaAlt)}
             />
-            <span className="s4-media-caption">{t('s4MediaCaption')}</span>
           </div>
+          <p className="s4-media-caption">{t('s4MediaCaption')}</p>
           <p className="s4-p">{t(content.howToEnjoy)}</p>
         </StorySection>
 
@@ -262,9 +264,11 @@ export function StoryPage() {
 
         {/* Section 6 — Tasting is passing it on */}
         <StorySection number={5} kicker={t('s4KickerSupport')} title={t('s4TitleSupport')}>
-          <Card className="s4-support-card">
-            <p className="s4-p">{t(content.support)}</p>
-          </Card>
+          {/* Pull-quote beat: the section's thesis as an editorial quote rather
+              than a nested card — fewer card borders, restrained elevation. */}
+          <blockquote className="s4-support-quote">
+            <p className="s4-support-quote__text">{t(content.support)}</p>
+          </blockquote>
         </StorySection>
       </div>
 

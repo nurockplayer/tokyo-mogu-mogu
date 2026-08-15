@@ -71,7 +71,7 @@ export function MyPage() {
           <ul className="my-routes">
             {entries.map(({ entry, route }) => (
               <li key={entry.routeId}>
-                <Card button className="my-route-card">
+                <Card className="my-route-card">
                   <div className="my-route-card__body">
                     <div className="my-route-card__title">
                       {(() => {
