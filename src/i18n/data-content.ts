@@ -26,11 +26,15 @@ export const FOOD_CULTURE_DATA_KEYS: Record<string, Partial<Record<FoodCultureFi
     maker: 'dataWasabiMaker',
     howToEnjoy: 'dataWasabiHowToEnjoy',
   },
-  // Ome/Sawai sake slice (Issue #163) — full record content for `sake-ome`.
+  // Ome/Sawai sake slice (Issue #163 / #177). `dataSakeStory` currently contains
+  // an unsupported local-rice implication ("this land's rice"). Until that
+  // source copy is corrected in the canonical bundle, every production bridge
+  // deliberately resolves the story field to the source-backed description
+  // instead. This is a conservative content downgrade, not invented evidence.
   'sake-ome': {
     name: 'dataSakeName',
     description: 'dataSakeDescription',
-    story: 'dataSakeStory',
+    story: 'dataSakeDescription',
     history: 'dataSakeHistory',
     maker: 'dataSakeMaker',
     howToEnjoy: 'dataSakeHowToEnjoy',
@@ -264,7 +268,13 @@ const OKUTAMA_MUNICIPALITY_CODE = '133086';
 /** The 8/23 demo supplies full story content for 東京わさび and the Ome/Sawai
  *  sake slice (Issue #163). The sake story carries its own culture chrome keys
  *  (dataSakeHeroKicker etc.) — never wasabi's shared s4* chrome — and no
- *  municipalityId (no Ome municipality-agriculture profile exists). */
+ *  municipalityId (no Ome municipality-agriculture profile exists).
+ *
+ * #177 source audit: the current `dataSakeStory` / `dataSakeStoryMakerRole`
+ * bundle strings imply locally grown rice without evidence. Production S4
+ * therefore downgrades those two slots to already source-backed keys until the
+ * canonical copy is corrected, rather than upgrading the evidence silently.
+ */
 export const STORY_DATA_KEYS: Record<
   string,
   Partial<Record<StoryField, LocaleKey>> & {
@@ -297,9 +307,9 @@ export const STORY_DATA_KEYS: Record<
     lead: 'dataSakeStoryLead',
     area: 'areaOme',
     history: 'dataSakeHistory',
-    story: 'dataSakeStory',
+    story: 'dataSakeDescription',
     makerName: 'dataSakeStoryMakerName',
-    makerRole: 'dataSakeStoryMakerRole',
+    makerRole: 'dataSakeHistory',
     maker: 'dataSakeMaker',
     craft: 'dataSakeStoryCraft',
     howToEnjoy: 'dataSakeHowToEnjoy',
