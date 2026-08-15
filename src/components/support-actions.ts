@@ -1,20 +1,15 @@
 /**
- * Deterministic S7 support-action list (Issue #46, #68).
+ * S7 support-action content boundary (Issue #46, #68, #177).
  *
- * The six actions (買う / 訪れる / 予約する / 寄付する / 共有する / 保存する)
- * with the cultural-succession meaning copy for each, in ja + en + zh-TW.
- * The zh-TW title/meaning fields keep the panel from falling back to English
- * under the zh-TW locale (Issue #68), mirroring the #67 data-content pattern
- * without introducing a second locale mechanism.
+ * Shared support UI must never infer one Region × FoodCulture from another.
+ * The safe default below is deliberately generic and conservative: unsupported
+ * external actions stay disabled and no destination is guessed. The frozen
+ * Okutama × Tokyo Wasabi journey keeps its existing, explicitly scoped copy and
+ * confirmed tourism-association destination.
  *
- * Availability rules:
- * - `kind === 'external'` has a confirmed, traceable `externalUrl` and is
- *   available. The only confirmed destination today reuses the official
- *   Okutama Tourism Association site already cited in the seed data
- *   (`src/data/seed-places.ts`), so no URL is invented.
- * - `kind === 'save'` is available through the local saved-route persistence
- *   (see `saved-routes.ts`) — it needs no external URL.
- * - `kind === 'disabled'` is unverified/unsupported and is never fake-success.
+ * This is intentionally a thin journey selector, not the #170 Slice Manifest:
+ * there are only two current behaviors — the approved Wasabi pilot override and
+ * the safe generic fallback used by Ome/Sawai and any unknown future context.
  */
 import type { Locale } from '../i18n/resources';
 
@@ -29,7 +24,7 @@ export interface SupportActionItem {
   titleEn: string;
   /** zh-TW title (Issue #68) — avoids the English fallback under zh-TW. */
   titleZh: string;
-  /** What this action means for cultural succession. */
+  /** What this action means for the active journey. */
   meaningJa: string;
   meaningEn: string;
   /** zh-TW meaning copy (Issue #68). */
@@ -41,10 +36,108 @@ export interface SupportActionItem {
   kind: SupportActionKind;
 }
 
-/** The demo's only confirmed external destination (official Okutama tourism association site). */
+/** The Wasabi pilot's confirmed official tourism destination. Never generic. */
 export const CONFIRMED_VISIT_URL = 'https://www.okutokanko.jp/';
 
+const OKUTAMA_WASABI_ROUTE_ID = 'okutama-wasabi-journey';
+
+/**
+ * Safe shared default. This is what Ome/Sawai receives today: no Wasabi copy,
+ * no Okutama destination, and no unsupported booking/donation/share success.
+ */
 export const SUPPORT_ACTIONS: readonly SupportActionItem[] = [
+  {
+    id: 'buy',
+    icon: '🛒',
+    titleJa: '買う',
+    titleEn: 'Buy',
+    titleZh: '購買',
+    meaningJa:
+      '地域の商品を選んで買うことは、作り手や文化を知る接点になります。購入先は公式情報で確認してください。',
+    meaningEn:
+      'Choosing products from the region can be a point of connection with its makers and culture. Check official information for where to buy.',
+    meaningZh: '購買地區商品，可以成為認識製作者與文化的接點。購買地點請以官方資訊為準。',
+    externalUrl: null,
+    available: false,
+    kind: 'disabled',
+  },
+  {
+    id: 'visit',
+    icon: '📍',
+    titleJa: '訪れる',
+    titleEn: 'Visit',
+    titleZh: '到訪',
+    meaningJa:
+      '現地を訪れることは、その土地の風景や文化を知る接点になります。受け入れ情報は事前に公式情報で確認してください。',
+    meaningEn:
+      'Visiting in person can be a point of connection with the place and its culture. Check official visitor information before going.',
+    meaningZh: '親自到訪可以成為認識當地風景與文化的接點。出發前請先確認官方的接待資訊。',
+    externalUrl: null,
+    available: false,
+    kind: 'disabled',
+  },
+  {
+    id: 'reserve',
+    icon: '📅',
+    titleJa: '予約する',
+    titleEn: 'Reserve',
+    titleZh: '預約',
+    meaningJa:
+      '公式に案内された体験や訪問がある場合のみ、予約条件を確認して参加を検討できます。',
+    meaningEn:
+      'When an official experience or visit is offered, check its booking conditions before planning to join.',
+    meaningZh: '只有在官方提供體驗或參訪時，請先確認預約條件，再規劃是否參加。',
+    externalUrl: null,
+    available: false,
+    kind: 'disabled',
+  },
+  {
+    id: 'donate',
+    icon: '💌',
+    titleJa: '寄付する',
+    titleEn: 'Donate',
+    titleZh: '捐款',
+    meaningJa: '公式の寄付先が確認できた場合のみ案内します。',
+    meaningEn: 'A donation option is shown only when an official destination has been confirmed.',
+    meaningZh: '只有在確認到官方捐款管道時，才會提供相關資訊。',
+    externalUrl: null,
+    available: false,
+    kind: 'disabled',
+  },
+  {
+    id: 'share',
+    icon: '📣',
+    titleJa: '共有する',
+    titleEn: 'Share',
+    titleZh: '分享',
+    meaningJa: 'ストーリーを共有することは、地域の食文化を知る人を増やすきっかけになります。',
+    meaningEn: 'Sharing the story can help more people discover the region’s food culture.',
+    meaningZh: '分享故事，可以成為讓更多人認識地區食文化的契機。',
+    externalUrl: null,
+    available: false,
+    kind: 'disabled',
+  },
+  {
+    id: 'save',
+    icon: '🔖',
+    titleJa: '保存する',
+    titleEn: 'Save',
+    titleZh: '儲存',
+    meaningJa: '旅程として保存しておけば、関心を将来の訪問計画につなげられます。',
+    meaningEn: 'Saving the journey keeps this interest available for a future visit plan.',
+    meaningZh: '儲存這段旅程，可以把現在的興趣保留到之後的造訪規劃。',
+    externalUrl: null,
+    available: true,
+    kind: 'save',
+  },
+];
+
+/**
+ * Existing Wasabi-pilot support behavior, explicitly owned by that journey.
+ * Keeping it separate prevents its copy and external URL from becoming the
+ * default contract for every Region × FoodCulture.
+ */
+const WASABI_SUPPORT_ACTIONS: readonly SupportActionItem[] = [
   {
     id: 'buy',
     icon: '🛒',
@@ -130,20 +223,22 @@ export const SUPPORT_ACTIONS: readonly SupportActionItem[] = [
 ];
 
 /**
- * Resolve an action title for the active locale (ja / en / zh-TW).
- *
- * Kept as a pure helper so the panel and any test can assert all three
- * locales resolve without a `missing:` fallback (Issue #68).
+ * Resolve support content from the active journey. Unknown/no context fails to
+ * the safe generic list instead of inheriting another journey's semantics.
  */
+export function supportActionsForJourney(
+  routeId?: string,
+): readonly SupportActionItem[] {
+  return routeId === OKUTAMA_WASABI_ROUTE_ID ? WASABI_SUPPORT_ACTIONS : SUPPORT_ACTIONS;
+}
+
+/** Resolve an action title for the active locale (ja / en / zh-TW). */
 export function actionTitle(item: SupportActionItem, locale: Locale): string {
   if (locale === 'ja') return item.titleJa;
   return locale === 'zh-TW' ? item.titleZh : item.titleEn;
 }
 
-/**
- * Resolve an action's cultural-succession meaning for the active locale
- * (ja / en / zh-TW).
- */
+/** Resolve an action meaning for the active locale (ja / en / zh-TW). */
 export function actionMeaning(item: SupportActionItem, locale: Locale): string {
   if (locale === 'ja') return item.meaningJa;
   return locale === 'zh-TW' ? item.meaningZh : item.meaningEn;
