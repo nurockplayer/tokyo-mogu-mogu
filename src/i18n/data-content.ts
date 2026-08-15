@@ -272,8 +272,8 @@ const OKUTAMA_MUNICIPALITY_CODE = '133086';
  *
  * #177 source audit: the current `dataSakeStory` / `dataSakeStoryMakerRole`
  * bundle strings imply locally grown rice without evidence. Production S4
- * therefore downgrades those two slots to already source-backed keys until the
- * canonical copy is corrected, rather than upgrading the evidence silently.
+ * therefore uses the already source-backed `dataSakeDescription` story and
+ * `dataOzawaRole` maker copy, rather than upgrading the evidence silently.
  */
 export const STORY_DATA_KEYS: Record<
   string,
@@ -309,7 +309,7 @@ export const STORY_DATA_KEYS: Record<
     history: 'dataSakeHistory',
     story: 'dataSakeDescription',
     makerName: 'dataSakeStoryMakerName',
-    makerRole: 'dataSakeHistory',
+    makerRole: 'dataOzawaRole',
     maker: 'dataSakeMaker',
     craft: 'dataSakeStoryCraft',
     howToEnjoy: 'dataSakeHowToEnjoy',
