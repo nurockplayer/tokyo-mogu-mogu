@@ -407,6 +407,9 @@ export const strings = {
     dataYamameName: '奥多摩やまめ',
     dataOkutamaSobaName: '奥多摩そば',
     dataOkutamaKonnyakuName: '奥多摩こんにゃく',
+    dataKummaHyakkaName: '青梅くんまひゃっか',
+    dataUguisuMochiName: '多摩の和菓子 うぐいす餅',
+    dataHinodeYuzuName: '日の出ゆず',
     dataWasabiDescription: '多摩川上流域の清流で育つ、東京都の特産わさび。',
     dataWasabiStory:
       'わさびは清らかな冷水でしか育ちません。奥多摩のわさび田は谷の沢水を引き込んだ棚田状で、急流を利用した伝統的な「畳流し」や水掛け栽培が今も続いています。',
@@ -894,6 +897,9 @@ export const strings = {
     dataYamameName: 'Okutama Yamame Trout',
     dataOkutamaSobaName: 'Okutama Soba',
     dataOkutamaKonnyakuName: 'Okutama Konnyaku',
+    dataKummaHyakkaName: 'Ome Kumma Hyakka (Simmered Mountain Greens)',
+    dataUguisuMochiName: 'Tama Wagashi — Uguisu Mochi',
+    dataHinodeYuzuName: 'Hinode Yuzu',
     dataWasabiDescription:
       'Tokyo\'s signature wasabi, grown in the clear streams of the Tama river headwaters.',
     dataWasabiStory:
@@ -1390,6 +1396,9 @@ export const strings = {
     dataYamameName: '奧多摩山女魚',
     dataOkutamaSobaName: '奧多摩蕎麥麵',
     dataOkutamaKonnyakuName: '奧多摩蒟蒻',
+    dataKummaHyakkaName: '青梅燉山菜',
+    dataUguisuMochiName: '多摩和菓子 鶯餅',
+    dataHinodeYuzuName: '日之出柚',
     dataWasabiDescription: '在多摩川上游清澈溪流中生長的東京特產山葵。',
     dataWasabiStory:
       '山葵只在清澈冷水中生長。奧多摩的山葵田是利用山谷泉水引入的梯田，至今仍沿用湍急水流與水掛栽培的傳統農法。',

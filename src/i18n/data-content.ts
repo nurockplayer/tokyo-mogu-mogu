@@ -41,6 +41,12 @@ export const FOOD_CULTURE_DATA_KEYS: Record<string, Partial<Record<FoodCultureFi
   'yamame-okutama': { name: 'dataYamameName' },
   'okutama-soba': { name: 'dataOkutamaSobaName' },
   'okutama-konnyaku': { name: 'dataOkutamaKonnyakuName' },
+  // Remaining editorial seed cultures surfaced on the Discover "other cultures"
+  // section. They get the same per-culture name key so zh-TW resolves through
+  // the bundle instead of falling back to the record's English name.
+  'kumma-hyakka-ome': { name: 'dataKummaHyakkaName' },
+  'uguisu-mochi-ome': { name: 'dataUguisuMochiName' },
+  'yuzu-hinode': { name: 'dataHinodeYuzuName' },
 };
 
 /** A route keyed by its record id. */
@@ -123,14 +129,18 @@ export const SPOT_ROLE_KEYS: Record<string, LocaleKey> = {
 /**
  * Mobility line label, keyed by `{routeId}.{fromStep}-{toStep}`. The frozen
  * journey takes the bus 氷川 ⇄ 丹三郎 (steps 1-2 and 3-4); the in-丹三郎 and
- * in-氷川 segments are walks (default). The Ome/Sawai journey's only non-walk
- * segment is steps 2-3 (JR Ome Line & Mitake Tozan cable car); its walk
- * segments (1-2, 3-4) need no entry and fall back to the route's own {Ja, En}.
+ * in-氷川 segments are walks. The Ome/Sawai journey's only non-walk segment is
+ * steps 2-3 (JR Ome Line & Mitake Tozan cable car). All walk segments resolve
+ * through the three-locale `dataRouteMobilityWalk` key (徒歩 / Walk / 步行).
  */
 const ROUTE_MOBILITY_LABEL_KEYS: Record<string, LocaleKey> = {
   'okutama-wasabi-journey.1-2': 'dataRouteMobilityBus',
+  'okutama-wasabi-journey.2-3': 'dataRouteMobilityWalk',
   'okutama-wasabi-journey.3-4': 'dataRouteMobilityBus',
+  'okutama-wasabi-journey.4-5': 'dataRouteMobilityWalk',
+  'ome-sawai-sake-journey.1-2': 'dataRouteMobilityWalk',
   'ome-sawai-sake-journey.2-3': 'dataSakeMobilityCableCar',
+  'ome-sawai-sake-journey.3-4': 'dataRouteMobilityWalk',
 } as const satisfies Record<string, LocaleKey>;
 
 /** The bridge helpers below are pure id → key lookups (used by page code). */
