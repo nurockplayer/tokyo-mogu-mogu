@@ -112,11 +112,11 @@ test.describe('Ome/Sawai sake semantic isolation (ja, 375px)', () => {
     // ---- 3. Story + shared SupportPanel — the original #177 leakage boundary ----
     await page.getByRole('heading', { name: '青梅・沢井の日本酒' }).waitFor();
     await page.getByText('青梅・沢井の日本酒の物語').waitFor();
-    const storyPage = page.locator('.tmm-page');
-    await expect(storyPage).not.toContainText('わさび');
-    await expect(storyPage).not.toContainText('奥多摩');
-    await expect(storyPage).not.toContainText('この土地の水と米');
-    await expect(storyPage).not.toContainText('土地の米');
+    const rendered = page.locator('body');
+    await expect(rendered).not.toContainText('わさび');
+    await expect(rendered).not.toContainText('奥多摩');
+    await expect(rendered).not.toContainText('この土地の水と米');
+    await expect(rendered).not.toContainText('土地の米');
 
     const support = page.locator('.s7-panel');
     await expect(support).toContainText(
@@ -130,8 +130,8 @@ test.describe('Ome/Sawai sake semantic isolation (ja, 375px)', () => {
     await page.getByRole('link', { name: 'モデルルートを見る' }).click();
     await page.waitForURL('**/route*');
     await page.getByRole('heading', { name: '沢井の酒蔵と御嶽の文化財をめぐる旅' }).waitFor();
-    await expect(page.locator('.tmm-page')).not.toContainText('わさび');
-    await expect(page.locator('.tmm-page')).not.toContainText('奥多摩観光案内所');
+    await expect(page.locator('body')).not.toContainText('わさび');
+    await expect(page.locator('body')).not.toContainText('奥多摩観光案内所');
     await expectNoOkutamaDestination(page);
 
     await page.getByRole('button', { name: '🔖 この旅程を保存する' }).click();
@@ -146,8 +146,8 @@ test.describe('Ome/Sawai sake semantic isolation (ja, 375px)', () => {
       .click();
     await page.waitForURL('**/spot/sawai-ozawa-shuzo*');
     await page.getByRole('heading', { name: '小澤酒造（沢井・澤乃井）' }).waitFor();
-    await expect(page.locator('.tmm-page')).not.toContainText('わさび');
-    await expect(page.locator('.tmm-page')).not.toContainText('奥多摩');
+    await expect(page.locator('body')).not.toContainText('わさび');
+    await expect(page.locator('body')).not.toContainText('奥多摩');
     await expectNoOkutamaDestination(page);
 
     // ---- 6. Saved reopen — route identity remains Ome/Sawai ----
@@ -158,7 +158,7 @@ test.describe('Ome/Sawai sake semantic isolation (ja, 375px)', () => {
     await page.getByRole('link', { name: 'ルートを見る' }).click();
     await page.waitForURL('**/route*');
     await page.getByRole('heading', { name: '沢井の酒蔵と御嶽の文化財をめぐる旅' }).waitFor();
-    await expect(page.locator('.tmm-page')).not.toContainText('わさび');
+    await expect(page.locator('body')).not.toContainText('わさび');
 
     // ---- 7. MOGU reopen — recorded candidate remains the sake candidate ----
     await page.getByRole('link', { name: 'MOGU' }).click();
@@ -185,7 +185,7 @@ test.describe('Ome/Sawai support boundary locale smoke (375px)', () => {
     await expect(support).toContainText('Choosing products from the region');
     await expect(support).not.toContainText(/wasabi/i);
     await expect(support).not.toContainText(/Okutama/i);
-    await expect(page.locator('.tmm-page')).not.toContainText("land's rice");
+    await expect(page.locator('body')).not.toContainText("land's rice");
     await expectNoOkutamaDestination(page);
   });
 
@@ -196,7 +196,7 @@ test.describe('Ome/Sawai support boundary locale smoke (375px)', () => {
     await expect(support).not.toContainText('山葵');
     await expect(support).not.toContainText('奧多摩');
     await expect(support).not.toContainText('奥多摩');
-    await expect(page.locator('.tmm-page')).not.toContainText('土地之米');
+    await expect(page.locator('body')).not.toContainText('土地之米');
     await expectNoOkutamaDestination(page);
   });
 });
