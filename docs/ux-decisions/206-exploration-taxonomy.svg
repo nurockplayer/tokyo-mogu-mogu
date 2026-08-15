@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="840" viewBox="0 0 1280 840">
   <style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP","Noto Sans TC",sans-serif;fill:#263228}.title{font-size:34px;font-weight:700}.sub{font-size:18px;fill:#556057}.h{font-size:22px;font-weight:700}.body{font-size:17px}.small{font-size:15px;fill:#5f6b62}.step{font-size:18px;font-weight:700}.opt{font-size:18px;font-weight:700}</style>
   <rect width="1280" height="840" fill="#F7F6EF"/>
-  <text x="56" y="66" class="title">#206 Exploration taxonomy & departure-location decision</text>
+  <text x="56" y="66" class="title">#206 Exploration taxonomy &amp; departure-location decision</text>
   <text x="56" y="98" class="sub">Figma の推薦 UX を正式 recommendation contract にどこまで採用するか / 哪些旅行條件正式進入推薦模型</text>
 
   <text x="56" y="148" class="h">Current Figma journey inputs</text>
