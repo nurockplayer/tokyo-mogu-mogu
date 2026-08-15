@@ -1,4 +1,7 @@
-/* S8 My Route (Issue #47) — page-local styles layered on the tmm-* foundation. */
+/* S8 My Route (Issue #47) — page-local styles layered on the tmm-* foundation.
+   Issue #186: continuation-card hierarchy — display title, pill meta, and a
+   hairline-separated action row. The card is a passive surface (no misleading
+   whole-card button affordance); the explicit "open route" action carries it. */
 
 .s8-list {
   display: flex;
@@ -8,9 +11,6 @@
 
 .s8-card {
   padding: var(--tmm-space-4);
-  display: block;
-  width: 100%;
-  text-align: left;
 }
 
 .s8-card__title {
@@ -18,15 +18,26 @@
   font-size: var(--tmm-text-title);
   font-weight: 700;
   color: var(--tmm-color-ink);
+  line-height: var(--tmm-leading-title);
+  overflow-wrap: anywhere;
 }
 
 .s8-card__meta {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--tmm-space-2) var(--tmm-space-4);
-  margin-top: var(--tmm-space-2);
+  gap: var(--tmm-space-2);
+  margin-top: var(--tmm-space-3);
   font-size: var(--tmm-text-caption);
   color: var(--tmm-color-ink-soft);
+}
+
+.s8-card__meta span {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: var(--tmm-radius-pill);
+  background: var(--tmm-color-warm-deep);
+  overflow-wrap: anywhere;
 }
 
 .s8-card__actions {
@@ -34,4 +45,6 @@
   flex-wrap: wrap;
   gap: var(--tmm-space-2);
   margin-top: var(--tmm-space-3);
+  padding-top: var(--tmm-space-3);
+  border-top: var(--tmm-border);
 }
