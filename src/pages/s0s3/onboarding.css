@@ -3,10 +3,10 @@
    Built on the `tmm-*` foundation only; no competing visual system.
    ============================================================ */
 
-/* ---------- S0 Landing ---------- */
+/* ---------- S0 Landing (Issue #183 Modern Tokyo Terroir polish) ---------- */
 
 .tmm-landing-hero {
-  margin: var(--tmm-space-2) 0 var(--tmm-space-6);
+  margin: var(--tmm-space-6) 0 var(--tmm-space-7);
   text-align: center;
 }
 
@@ -14,7 +14,8 @@
   display: inline-block;
   font-size: var(--tmm-text-caption);
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: var(--tmm-tracking-caption);
+  line-height: var(--tmm-leading-caption);
   color: var(--tmm-color-forest);
   text-transform: uppercase;
 }
@@ -22,50 +23,63 @@
 .tmm-landing-hero__title {
   font-family: var(--tmm-font-display);
   font-size: 2.1rem;
-  line-height: 1.3;
+  line-height: var(--tmm-leading-display);
   font-weight: 700;
   color: var(--tmm-color-ink);
-  margin: var(--tmm-space-3) 0 var(--tmm-space-2);
+  letter-spacing: var(--tmm-tracking-display);
+  margin: var(--tmm-space-3) 0 var(--tmm-space-4);
+  overflow-wrap: anywhere;
 }
 
 .tmm-landing-hero__tagline {
   font-size: var(--tmm-text-body);
   color: var(--tmm-color-ink-soft);
-  line-height: 1.7;
+  line-height: var(--tmm-leading-body);
   max-width: 340px;
-  margin: 0 auto var(--tmm-space-4);
+  margin: 0 auto var(--tmm-space-5);
 }
 
 .tmm-landing-hero__cta {
   margin-top: var(--tmm-space-2);
 }
 
+/* Hairline rule above the caption note (editorial separation). */
 .tmm-landing-hero__note {
-  margin-top: var(--tmm-space-2);
+  margin: var(--tmm-space-4) auto 0;
+  padding-top: var(--tmm-space-2);
+  border-top: var(--tmm-border);
+  max-width: 240px;
   font-size: var(--tmm-text-caption);
   color: var(--tmm-color-ink-soft);
+  line-height: var(--tmm-leading-caption);
 }
 
-/* 3-step value explanation */
+/* 3-step value explanation — hairline separators, editorial rhythm. */
 .tmm-landing-steps {
   display: grid;
-  gap: var(--tmm-space-3);
-  margin-top: var(--tmm-space-4);
+  gap: var(--tmm-space-4);
+  margin-top: var(--tmm-space-5);
 }
 
 .tmm-landing-step {
   display: flex;
-  gap: var(--tmm-space-3);
+  gap: var(--tmm-space-4);
   align-items: flex-start;
   text-align: left;
 }
 
+.tmm-landing-step + .tmm-landing-step {
+  border-top: var(--tmm-border);
+  padding-top: var(--tmm-space-4);
+}
+
 .tmm-landing-step__num {
-  flex: 0 0 28px;
-  width: 28px;
-  height: 28px;
+  flex: 0 0 30px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   background: var(--tmm-color-leaf-tint);
+  border: 1px solid rgb(159 184 63 / 0.55);
   color: var(--tmm-color-forest-deep);
   display: grid;
   place-items: center;
@@ -76,23 +90,25 @@
 .tmm-landing-step__title {
   font-family: var(--tmm-font-display);
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.02rem;
+  line-height: var(--tmm-leading-title);
   color: var(--tmm-color-ink);
 }
 
 .tmm-landing-step__desc {
   font-size: var(--tmm-text-caption);
   color: var(--tmm-color-ink-soft);
-  line-height: 1.6;
-  margin-top: 2px;
+  line-height: var(--tmm-leading-caption);
+  margin-top: var(--tmm-space-1);
 }
 
-/* "why now" section */
+/* "why now" section — editorial callout, restrained elevation. */
 .tmm-landing-why {
-  margin-top: var(--tmm-space-6);
+  margin-top: var(--tmm-space-7);
   padding: var(--tmm-space-5);
   background: var(--tmm-color-warm);
   border: var(--tmm-border);
+  border-left: 4px solid var(--tmm-color-leaf);
   border-radius: var(--tmm-radius-lg);
 }
 
@@ -107,11 +123,17 @@
 .tmm-landing-why__body {
   font-size: var(--tmm-text-body);
   color: var(--tmm-color-ink);
-  line-height: 1.8;
+  line-height: var(--tmm-leading-body);
 }
 
 .tmm-landing-why__body p + p {
   margin-top: var(--tmm-space-2);
+}
+
+@media (min-width: 768px) {
+  .tmm-landing-why {
+    padding: var(--tmm-space-6);
+  }
 }
 
 /* ---------- S1 / S2 wizard ---------- */

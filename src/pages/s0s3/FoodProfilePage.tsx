@@ -26,6 +26,7 @@ import {
 import { loadFoodProfile, saveFoodProfile } from '../../lib/food-profile-storage';
 import { beginNewExploration } from './exploration-session';
 import './onboarding.css';
+import './FoodProfilePage.css';
 
 interface Choice {
   value: DietaryRestriction;
@@ -146,7 +147,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   // First-use setup: no profile exists yet.
   if (view === 'setup') {
     return (
-      <div className="tmm-page">
+      <div className="tmm-page tmm-food-profile">
         <h1 className="page-title">{t('fpSetupTitle')}</h1>
         <p className="page-sub">{t('fpSetupSub')}</p>
 
@@ -162,7 +163,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
           ))}
         </div>
 
-        <div className="tmm-wizard__options">
+        <div className="tmm-wizard__options tmm-food-profile__norestrict">
           <Chip selected={draftState.hasNoRestrictions} onClick={setNoRestrictions}>
             {t('fpNoRestrictions')}
           </Chip>
@@ -195,7 +196,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   // Edit mode (My → Food Profile → edit).
   if (view === 'edit') {
     return (
-      <div className="tmm-page">
+      <div className="tmm-page tmm-food-profile">
         <h1 className="page-title">{t('fpEditTitle')}</h1>
         <p className="page-sub">{t('fpEditSub')}</p>
 
@@ -211,7 +212,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
           ))}
         </div>
 
-        <div className="tmm-wizard__options">
+        <div className="tmm-wizard__options tmm-food-profile__norestrict">
           <Chip selected={draftState.hasNoRestrictions} onClick={setNoRestrictions}>
             {t('fpNoRestrictions')}
           </Chip>
@@ -250,7 +251,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
     return null;
   }
   return (
-    <div className="tmm-page">
+    <div className="tmm-page tmm-food-profile">
       <h1 className="page-title">{t('fpTitle')}</h1>
       <p className="page-sub">{t('fpSub')}</p>
 

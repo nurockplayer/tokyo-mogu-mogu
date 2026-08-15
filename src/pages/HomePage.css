@@ -1,0 +1,52 @@
+/* ============================================================
+   Home (Issue #183) — legacy /home fallback.
+   Modern Tokyo Terroir presentation, page-scoped on the `tmm-*`
+   foundation. First-time / returning routing and i18n keys are
+   untouched (see HomePage.tsx); this file only refines the look.
+   ============================================================ */
+
+.tmm-home {
+  text-align: center;
+  padding-top: var(--tmm-space-7);
+}
+
+.tmm-home__hero {
+  margin-bottom: var(--tmm-space-6);
+}
+
+.tmm-home__eyebrow {
+  display: inline-block;
+  font-size: var(--tmm-text-caption);
+  font-weight: 700;
+  letter-spacing: var(--tmm-tracking-caption);
+  line-height: var(--tmm-leading-caption);
+  color: var(--tmm-color-forest);
+  text-transform: uppercase;
+}
+
+.tmm-home__title {
+  font-family: var(--tmm-font-display);
+  font-size: var(--tmm-text-display-lg);
+  font-weight: 700;
+  line-height: var(--tmm-leading-display);
+  color: var(--tmm-color-forest-deep);
+  letter-spacing: var(--tmm-tracking-display);
+  margin: var(--tmm-space-3) 0 var(--tmm-space-3);
+  overflow-wrap: anywhere;
+}
+
+.tmm-home__tagline {
+  font-size: var(--tmm-text-body);
+  color: var(--tmm-color-ink-soft);
+  line-height: var(--tmm-leading-body);
+  max-width: 340px;
+  margin: 0 auto;
+}
+
+.tmm-home__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tmm-space-3);
+  max-width: 340px;
+  margin: 0 auto;
+}
