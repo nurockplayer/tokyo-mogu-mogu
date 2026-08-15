@@ -107,12 +107,17 @@ describe('S4 story content availability (#123)', () => {
     // invented evidence. All three locales resolve through the same safe keys.
     expect(FOOD_CULTURE_DATA_KEYS['sake-ome']?.story).toBe('dataSakeDescription');
     expect(storyContent('sake-ome')?.story).toBe('dataSakeDescription');
-    expect(storyContent('sake-ome')?.makerRole).toBe('dataSakeHistory');
+    expect(storyContent('sake-ome')?.makerRole).toBe('dataOzawaRole');
     for (const locale of ['ja', 'en', 'zh-TW'] as const) {
-      const story = resolveKey(strings, locale, storyContent('sake-ome')!.story);
-      expect(story.toLowerCase()).not.toContain("land's rice");
-      expect(story).not.toContain('土地の米');
-      expect(story).not.toContain('土地之米');
+      const content = storyContent('sake-ome')!;
+      const visibleCopy = [
+        resolveKey(strings, locale, content.story),
+        resolveKey(strings, locale, content.makerRole),
+      ].join('\n');
+      const normalized = visibleCopy.toLowerCase().replace(/[\u2018\u2019]/g, "'");
+      expect(normalized).not.toContain("land's rice");
+      expect(visibleCopy).not.toContain('土地の米');
+      expect(visibleCopy).not.toContain('土地之米');
     }
   });
 
