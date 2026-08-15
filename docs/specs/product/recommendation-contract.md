@@ -11,13 +11,22 @@ and may point to a Journey/Route. Candidate generation is data/config supplied
 by the caller; the shared filter/ranker contains no Okutama or Tokyo Wasabi
 identifier.
 
-The 2026-08-23 demo passes exactly one production-ready candidate, **Okutama ×
-Tokyo Wasabi**, and therefore returns it deterministically. This is a demo data
-choice, not the durable selection domain.
+The 2026-08-23 demo ships two production-ready candidates — **Okutama ×
+Tokyo Wasabi** (primary) and **Ome/Sawai × sake** (secondary) — both registered
+in `src/data/slice-manifest.ts` as enabled and recommendation-eligible. The
+shared engine selects deterministically among them: the fixed golden-path
+answers match only the wasabi profile, so the demo Result returns **Okutama ×
+Tokyo Wasabi**, while a rich/sweet, tradition-focused trip reaches the sake
+journey through the same engine. This is a demo data choice, not the durable
+selection domain.
 
-推薦対象は「東京都全域 × 複数地域 × 複数食文化」です。8/23 デモでは、本番表示
-可能な候補が奥多摩 × 東京わさびの1件だけなので決定的に選ばれますが、これはデモ
-データの制約であり共有ロジックの制約ではありません。
+推薦対象は「東京都全域 × 複数地域 × 複数食文化」です。8/23 デモには本番候補が
+2 件（奥多摩 × 東京わさび＝primary / 青梅・沢井 × 日本酒＝secondary）あり、
+両者とも `src/data/slice-manifest.ts` で enabled かつ recommendation-eligible
+です。golden path の固定回答はわさび profile のみにマッチするため Result は
+決定的に奥多摩 × 東京わさび が選ばれますが、rich / sweet・伝統志向の回答では
+同じエンジンで青梅・沢井 × 日本酒 に到達できます。これはデモデータの制約であり
+共有ロジックの制約ではありません。
 
 ## Inputs and pipeline / 入力と処理順
 
@@ -103,10 +112,10 @@ or `neutral`. Empty references do not activate an objective bonus. This is a
 provenance pointer into the candidate data/verification record, not a parallel
 source model. `unknown` needs no invented source reference.
 
-The current demo candidate is `unknown` for this factor because the existing
-evidence does not provide a sufficiently direct Okutama-specific comparison
-for this runtime decision. Pitch/research evidence remains useful without
-being silently converted into a per-candidate ranking fact.
+The current demo candidates are `unknown` for this factor because the existing
+evidence does not provide sufficiently direct region-specific comparison for
+this runtime decision. Pitch/research evidence remains useful without being
+silently converted into a per-candidate ranking fact.
 
 ## Explainability / 説明可能性
 
@@ -123,9 +132,10 @@ percentage; the approved meaning of a match percentage remains unresolved.
 
 ## Demo integration / デモ実装境界
 
-`src/data/demo-recommendation.ts` contains the sole Hackathon demo candidate.
-`ResultPage` sends Food Profile + Exploration Conditions + that candidate list
-through the shared contract. Adding a future verified `青梅 × 日本酒` or
+`src/data/demo-recommendation.ts` contains the Hackathon demo candidate list
+(Okutama × Tokyo Wasabi primary + Ome/Sawai × sake secondary). `ResultPage`
+sends Food Profile + Exploration Conditions + that candidate list through the
+shared contract. Adding a future verified `青梅 × 日本酒` or
 `八王子 × 地域野菜` candidate requires data/config, not new region-specific
 branches in the ranker.
 
@@ -161,7 +171,7 @@ corresponding evidence exists.
 - Dietary hard exclusions require future structured inputs specific enough to
   establish an actual conflict (for example a named allergen), plus sourced
   candidate metadata. They must not be inferred from today's broad categories.
-- A future multi-candidate release needs verified candidate content and a
+- Further multi-candidate expansion needs verified candidate content and a
   product-approved localization/presentation mapping; it does not need a new
   selection contract.
 - MOGU entries preserve the stable candidate id plus the current Exploration
