@@ -23,7 +23,7 @@ import {
   recommendableCandidates,
 } from '../../data';
 import { useI18n } from '../../i18n';
-import { EmptyState, Card, Tag, type TagTone } from '../../ui';
+import { EmptyState, Tag, type TagTone } from '../../ui';
 import { type MatchTagKey } from '../../lib/exploration';
 import {
   recommendCandidates,
@@ -144,7 +144,7 @@ export function ResultPage() {
   }
 
   return (
-    <div className="tmm-page">
+    <div className="tmm-page tmm-result">
       <section className="tmm-result__summary">
         <h1 className="tmm-result__summary-title">{t('s3Title')}</h1>
         <p className="tmm-result__summary-desc">{t('s3Subtitle')}</p>
@@ -152,32 +152,41 @@ export function ResultPage() {
 
       {recommendedFoodCulture && recommendation && recommendedTitleKey && recommendedDescriptionKey ? (
         <>
-          <Card feature>
-            <div className="tmm-result-card__title">{t(recommendedTitleKey)}</div>
-            <p className="tmm-result-card__desc">{t(recommendedDescriptionKey)}</p>
-
-            <div className="tmm-result__tags">
-              {tags.length > 0
-                ? tags.map((key) => (
-                    <Tag key={key} tone={TAG_COPY[key].tone}>
-                      {t(TAG_COPY[key].labelKey)}
-                    </Tag>
-                  ))
-                : null}
+          <div className="tmm-result-card tmm-result-card--hero">
+            <div className="tmm-result-card__media" aria-hidden="true">
+              <span className="tmm-result-card__media-mark">{t(recommendedTitleKey)}</span>
             </div>
+            <div className="tmm-result-card__body">
+              <div className="tmm-result-card__title">{t(recommendedTitleKey)}</div>
+              <p className="tmm-result-card__desc">{t(recommendedDescriptionKey)}</p>
 
-            <div className="tmm-result__section">
-              <h2 className="tmm-result__section-title">{t('s3DietaryTitle')}</h2>
-              <Tag tone={dietary ? 'warning' : 'info'}>
-                {dietary ? t('s3DietaryKnown') : t('s3DietaryUnknown')}
-              </Tag>
+              <div className="tmm-result__tags">
+                {tags.length > 0
+                  ? tags.map((key) => (
+                      <Tag key={key} tone={TAG_COPY[key].tone}>
+                        {t(TAG_COPY[key].labelKey)}
+                      </Tag>
+                    ))
+                  : null}
+              </div>
+
+              <div className="tmm-result__section">
+                <h2 className="tmm-result__section-title">{t('s3DietaryTitle')}</h2>
+                <Tag tone={dietary ? 'warning' : 'info'}>
+                  {dietary ? t('s3DietaryKnown') : t('s3DietaryUnknown')}
+                </Tag>
+              </div>
+
+              {hasUnknownTravelTime ? (
+                <p className="tmm-result__disclaimer" role="note">
+                  {t('s3TravelTimeUnknown')}
+                </p>
+              ) : null}
+              <p className="tmm-result__disclaimer" role="note">
+                {t('s3Disclaimer')}
+              </p>
             </div>
-
-            {hasUnknownTravelTime ? (
-              <p className="tmm-result__disclaimer">{t('s3TravelTimeUnknown')}</p>
-            ) : null}
-            <p className="tmm-result__disclaimer">{t('s3Disclaimer')}</p>
-          </Card>
+          </div>
 
           <div className="tmm-result__actions">
             <Link

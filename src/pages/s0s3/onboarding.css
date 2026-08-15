@@ -322,3 +322,120 @@
   text-align: center;
   line-height: 1.6;
 }
+
+/* ---------- Issue #184: Exploration Wizard + Result presentation polish ---------- */
+
+/* Progress bar: a slimmer editorial rule inside the header row. */
+.tmm-wizard .tmm-progress__bar {
+  height: 6px;
+}
+
+/* Step label eyebrow between the header and the step dots. */
+.tmm-wizard__step {
+  margin: var(--tmm-space-2) 0 var(--tmm-space-3);
+  font-size: var(--tmm-text-caption);
+  font-weight: 700;
+  letter-spacing: var(--tmm-tracking-caption);
+  color: var(--tmm-color-forest);
+  text-align: center;
+  line-height: var(--tmm-leading-caption);
+}
+
+/* Step dots: larger, with a softer current-step ring. */
+.tmm-wizard .tmm-steps {
+  gap: var(--tmm-space-2);
+  margin-bottom: var(--tmm-space-5);
+}
+
+.tmm-wizard .tmm-steps__dot {
+  width: 12px;
+  height: 12px;
+}
+
+.tmm-wizard .tmm-steps__dot--current {
+  box-shadow: 0 0 0 5px var(--tmm-color-forest-tint);
+}
+
+/* Question: stronger display hierarchy that still wraps safely at 375px. */
+.tmm-wizard__question {
+  font-size: 1.7rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  margin-bottom: var(--tmm-space-2);
+}
+
+/* Option rows: roomier rhythm for single- and multi-select alike. */
+.tmm-wizard .tmm-wizard__options {
+  gap: var(--tmm-space-3);
+  margin-bottom: var(--tmm-space-5);
+}
+
+/* Single-choice steps stack full-width chips for 375px tap ergonomics.
+   Higher specificity than the base `.tmm-wizard__options` rule. */
+.tmm-wizard .tmm-wizard__options--stack {
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--tmm-space-2);
+  margin-bottom: 0;
+}
+
+.tmm-wizard .tmm-wizard__options--stack .tmm-chip {
+  width: 100%;
+}
+
+/* Sub-question field label (Q3 area / travel). */
+.tmm-wizard__field-label {
+  margin: var(--tmm-space-4) 0 var(--tmm-space-2);
+  font-size: var(--tmm-text-caption);
+  font-weight: 700;
+  letter-spacing: var(--tmm-tracking-caption);
+  color: var(--tmm-color-forest-deep);
+  line-height: var(--tmm-leading-caption);
+}
+
+/* Result hero: feature card with a cover band and stronger body hierarchy. */
+.tmm-result-card--hero {
+  border-left: 4px solid var(--tmm-color-leaf);
+}
+
+.tmm-result-card__media-mark {
+  font-size: var(--tmm-text-display-lg);
+  line-height: var(--tmm-leading-display);
+  padding: 0 var(--tmm-space-4);
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.tmm-result .tmm-result-card__body {
+  gap: var(--tmm-space-3);
+}
+
+.tmm-result .tmm-result-card__title {
+  font-size: 1.5rem;
+  overflow-wrap: anywhere;
+}
+
+.tmm-result .tmm-result__tags {
+  margin: 0;
+}
+
+/* Dietary note: a hairline rule separates it from the match tags. */
+.tmm-result .tmm-result__section {
+  margin-top: 0;
+  padding-top: var(--tmm-space-3);
+  border-top: 1px solid var(--tmm-color-line);
+}
+
+.tmm-result .tmm-result__disclaimer {
+  margin-top: 0;
+  border: var(--tmm-border);
+}
+
+.tmm-result__mogu-note {
+  color: var(--tmm-color-forest-deep);
+}
+
+.tmm-result__mogu-note::before {
+  content: '✓ ';
+  font-weight: 700;
+}
