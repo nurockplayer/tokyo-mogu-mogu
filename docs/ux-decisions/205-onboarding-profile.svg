@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP","Noto Sans TC",sans-serif;fill:#263228}.title{font-size:34px;font-weight:700}.sub{font-size:18px;fill:#556057}.h{font-size:22px;font-weight:700}.body{font-size:17px}.small{font-size:15px;fill:#5f6b62}.opt{font-size:18px;font-weight:700}</style>
+  <rect width="1200" height="760" fill="#F7F6EF"/>
+  <text x="56" y="66" class="title">#205 Onboarding: nickname, skip flow, profile ownership</text>
+  <text x="56" y="98" class="sub">名前入力・登録なし導線 / 暱稱、免註冊流程與資料 ownership</text>
+
+  <rect x="56" y="132" width="1088" height="184" rx="22" fill="#FFFFFF" stroke="#D9DDD6"/>
+  <text x="82" y="170" class="h">Figma flow evidence</text>
+  <text x="82" y="205" class="body">「はじめる！」 / 「登録なし、自分で見てみる」 → 「なんてお呼びすればいいですか？」 → ナナミ</text>
+  <text x="82" y="238" class="body">Home greeting: 「こんにちは！ナナミさん」</text>
+  <text x="82" y="271" class="small">This turns a friendly conversational detail into a real identity / persistence decision.</text>
+
+  <text x="56" y="368" class="h">Four possible ownership models</text>
+  <rect x="56" y="398" width="250" height="178" rx="18" fill="#EAF2DD" stroke="#9EAF88" stroke-width="2"/>
+  <text x="78" y="434" class="opt">A. Optional local ★</text>
+  <text x="78" y="466" class="body">nickname optional</text>
+  <text x="78" y="496" class="body">local persistence</text>
+  <text x="78" y="526" class="small">account 不要 / 不需帳號</text>
+
+  <rect x="332" y="398" width="250" height="178" rx="18" fill="#FFFFFF" stroke="#D9DDD6"/>
+  <text x="354" y="434" class="opt">B. Remove name</text>
+  <text x="354" y="466" class="body">generic greeting</text>
+  <text x="354" y="496" class="small">最小 data collection</text>
+
+  <rect x="608" y="398" width="250" height="178" rx="18" fill="#FFFFFF" stroke="#D9DDD6"/>
+  <text x="630" y="434" class="opt">C. Account field</text>
+  <text x="630" y="466" class="body">cross-device identity</text>
+  <text x="630" y="496" class="small">scope / privacy 增加</text>
+
+  <rect x="884" y="398" width="260" height="178" rx="18" fill="#FFFFFF" stroke="#D9DDD6"/>
+  <text x="906" y="434" class="opt">D. Session-only</text>
+  <text x="906" y="466" class="body">conversation only</text>
+  <text x="906" y="496" class="small">returning greeting 無法維持</text>
+
+  <rect x="56" y="618" width="1088" height="92" rx="18" fill="#F6EEE0" stroke="#C7B797"/>
+  <text x="82" y="652" class="opt">Copy risk</text>
+  <text x="82" y="683" class="body">If no account registration exists, 「登録なし」 may mislead. Consider 「設定せずに探してみる」.</text>
+
+  <text x="56" y="742" class="small">Decide: required/optional → ownership → skip behavior → My edit surface → privacy/account wording.</text>
+</svg>
