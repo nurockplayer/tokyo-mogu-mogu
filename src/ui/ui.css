@@ -31,11 +31,11 @@
 .tmm-page {
   max-width: var(--tmm-content-max);
   margin: 0 auto;
-  padding: var(--tmm-space-4) 0 var(--tmm-space-6);
+  padding: var(--tmm-space-4) 0 var(--tmm-space-7);
 }
 
 .tmm-section {
-  margin-top: var(--tmm-space-6);
+  margin-top: var(--tmm-space-7);
 }
 
 /* ---------- Buttons ---------- */
@@ -68,8 +68,8 @@
 }
 
 .tmm-btn:focus-visible {
-  outline: 3px solid var(--tmm-color-orange);
-  outline-offset: 2px;
+  outline: var(--tmm-focus-ring);
+  outline-offset: var(--tmm-focus-offset);
 }
 
 .tmm-btn:disabled {
@@ -150,8 +150,8 @@
 }
 
 .tmm-chip:focus-visible {
-  outline: 3px solid var(--tmm-color-orange);
-  outline-offset: 2px;
+  outline: var(--tmm-focus-ring);
+  outline-offset: var(--tmm-focus-offset);
 }
 
 .tmm-chip:hover {
@@ -203,6 +203,7 @@
 .tmm-progress__label {
   font-size: var(--tmm-text-caption);
   color: var(--tmm-color-ink-soft);
+  line-height: var(--tmm-leading-caption);
   white-space: nowrap;
 }
 
@@ -283,8 +284,8 @@
 }
 
 .tmm-card--button:focus-visible {
-  outline: 3px solid var(--tmm-color-orange);
-  outline-offset: 2px;
+  outline: var(--tmm-focus-ring);
+  outline-offset: var(--tmm-focus-offset);
 }
 
 .tmm-card--button:disabled {
@@ -324,12 +325,13 @@
   font-size: var(--tmm-text-title);
   font-weight: 700;
   color: var(--tmm-color-ink);
+  line-height: var(--tmm-leading-title);
 }
 
 .tmm-result-card__desc {
   font-size: var(--tmm-text-body);
   color: var(--tmm-color-ink-soft);
-  line-height: 1.6;
+  line-height: var(--tmm-leading-body);
 }
 
 /* ---------- Story section ---------- */
@@ -341,7 +343,8 @@
 .tmm-story-section__kicker {
   font-size: var(--tmm-text-caption);
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: var(--tmm-tracking-caption);
+  line-height: var(--tmm-leading-caption);
   color: var(--tmm-color-forest-deep);
   margin-bottom: var(--tmm-space-1);
 }
@@ -354,6 +357,7 @@
   font-size: var(--tmm-text-title);
   font-weight: 700;
   color: var(--tmm-color-forest-deep);
+  line-height: var(--tmm-leading-title);
   margin-bottom: var(--tmm-space-2);
 }
 
@@ -374,7 +378,7 @@
 .tmm-story-section__body {
   font-size: var(--tmm-text-body);
   color: var(--tmm-color-ink);
-  line-height: 1.8;
+  line-height: var(--tmm-leading-body);
 }
 
 /* ---------- Route step card / mobility ---------- */
@@ -412,12 +416,13 @@
   font-weight: 700;
   font-size: 1rem;
   color: var(--tmm-color-ink);
+  line-height: var(--tmm-leading-title);
 }
 
 .tmm-route-step__role {
   font-size: var(--tmm-text-caption);
   color: var(--tmm-color-ink-soft);
-  line-height: 1.5;
+  line-height: var(--tmm-leading-caption);
   margin-top: var(--tmm-space-1);
 }
 
@@ -471,12 +476,14 @@
   font-size: var(--tmm-text-caption);
   font-weight: 700;
   color: var(--tmm-color-ink-soft);
+  line-height: var(--tmm-leading-caption);
 }
 
 .tmm-info-list__value {
   flex: 1;
   font-size: var(--tmm-text-body);
   color: var(--tmm-color-ink);
+  line-height: var(--tmm-leading-body);
 }
 
 /* ---------- Support action card ---------- */
@@ -513,12 +520,13 @@
   font-weight: 700;
   font-size: 1.02rem;
   color: var(--tmm-color-ink);
+  line-height: var(--tmm-leading-title);
 }
 
 .tmm-support__desc {
   font-size: var(--tmm-text-caption);
   color: var(--tmm-color-ink-soft);
-  line-height: 1.6;
+  line-height: var(--tmm-leading-caption);
   margin-top: var(--tmm-space-1);
 }
 
@@ -646,13 +654,14 @@
   font-size: var(--tmm-text-title);
   font-weight: 700;
   color: var(--tmm-color-ink);
+  line-height: var(--tmm-leading-title);
   margin-bottom: var(--tmm-space-2);
 }
 
 .tmm-modal__body {
   font-size: var(--tmm-text-body);
   color: var(--tmm-color-ink-soft);
-  line-height: 1.7;
+  line-height: var(--tmm-leading-body);
   margin-bottom: var(--tmm-space-5);
 }
 
@@ -683,13 +692,14 @@
   font-size: var(--tmm-text-title);
   font-weight: 700;
   color: var(--tmm-color-ink);
+  line-height: var(--tmm-leading-title);
 }
 
 .tmm-empty__desc {
   font-size: var(--tmm-text-body);
   color: var(--tmm-color-ink-soft);
   max-width: 280px;
-  line-height: 1.6;
+  line-height: var(--tmm-leading-body);
 }
 
 .tmm-empty__action {
@@ -707,10 +717,11 @@
 .tmm-header {
   max-width: var(--tmm-content-max);
   margin: 0 auto;
-  padding: var(--tmm-space-4) var(--tmm-gutter) var(--tmm-space-2);
+  /* Compact 375px header (Issue #182): tighter vertical rhythm, same structure. */
+  padding: var(--tmm-space-3) var(--tmm-gutter) var(--tmm-space-1);
   display: flex;
   flex-direction: column;
-  gap: var(--tmm-space-2);
+  gap: var(--tmm-space-1);
 }
 
 .tmm-header__top {
@@ -725,18 +736,18 @@
   align-items: center;
   min-height: var(--tmm-tap-min);
   font-family: var(--tmm-font-display);
-  font-size: 1.3rem;
+  font-size: 1.12rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   color: var(--tmm-color-forest-deep);
-  line-height: 1.2;
+  line-height: var(--tmm-leading-display);
   text-decoration: none;
   overflow-wrap: anywhere;
 }
 
 .tmm-header__logo:focus-visible {
-  outline: 3px solid var(--tmm-color-orange);
-  outline-offset: 2px;
+  outline: var(--tmm-focus-ring);
+  outline-offset: var(--tmm-focus-offset);
   border-radius: var(--tmm-radius-sm);
 }
 
@@ -753,7 +764,7 @@
   font-size: var(--tmm-text-caption);
   color: var(--tmm-color-ink-soft);
   letter-spacing: 0.03em;
-  line-height: 1.5;
+  line-height: var(--tmm-leading-caption);
   overflow-wrap: anywhere;
 }
 
@@ -762,7 +773,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--tmm-space-2);
+  gap: var(--tmm-space-1);
   flex-wrap: wrap;
 }
 
@@ -770,6 +781,14 @@
 .tmm-header__demo button,
 .tmm-header__demo a {
   min-height: var(--tmm-tap-min);
+}
+
+/* Demo-row controls keep their legacy quiet footprint but no longer add their
+   own top margin, so the compact 375px header stays tight (Issue #182). */
+.tmm-header__demo .auth-control,
+.tmm-header__demo .demo-reset,
+.tmm-header__demo .sign-out {
+  margin-top: 0;
 }
 
 /* ---------- Locale switch (approved header right slot) ---------- */
@@ -809,7 +828,7 @@
 }
 
 .tmm-locale-toggle__btn:focus-visible {
-  outline: 3px solid var(--tmm-color-orange);
+  outline: var(--tmm-focus-ring);
   outline-offset: -1px;
   position: relative;
   z-index: 1;
@@ -863,8 +882,8 @@
 }
 
 .tmm-nav__link:focus-visible {
-  outline: 3px solid var(--tmm-color-orange);
-  outline-offset: 2px;
+  outline: var(--tmm-focus-ring);
+  outline-offset: var(--tmm-focus-offset);
 }
 
 /* ---------- Segmented control (built from tmm-chip) ---------- */
