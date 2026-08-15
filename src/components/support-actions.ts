@@ -12,6 +12,7 @@
  * the safe generic fallback used by Ome/Sawai and any unknown future context.
  */
 import type { Locale } from '../i18n/resources';
+import { MODEL_ROUTE_ID } from './saved-routes';
 
 export type SupportActionId = 'buy' | 'visit' | 'reserve' | 'donate' | 'share' | 'save';
 
@@ -38,8 +39,6 @@ export interface SupportActionItem {
 
 /** The Wasabi pilot's confirmed official tourism destination. Never generic. */
 export const CONFIRMED_VISIT_URL = 'https://www.okutokanko.jp/';
-
-const OKUTAMA_WASABI_ROUTE_ID = 'okutama-wasabi-journey';
 
 /**
  * Safe shared default. This is what Ome/Sawai receives today: no Wasabi copy,
@@ -229,7 +228,7 @@ const WASABI_SUPPORT_ACTIONS: readonly SupportActionItem[] = [
 export function supportActionsForJourney(
   routeId?: string,
 ): readonly SupportActionItem[] {
-  return routeId === OKUTAMA_WASABI_ROUTE_ID ? WASABI_SUPPORT_ACTIONS : SUPPORT_ACTIONS;
+  return routeId === MODEL_ROUTE_ID ? WASABI_SUPPORT_ACTIONS : SUPPORT_ACTIONS;
 }
 
 /** Resolve an action title for the active locale (ja / en / zh-TW). */
