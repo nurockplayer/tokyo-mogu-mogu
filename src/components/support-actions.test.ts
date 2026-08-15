@@ -1,11 +1,9 @@
 /**
- * S7 support-action list contract tests (Issue #46, #68).
+ * S7 support-action boundary tests (Issue #46, #68, #177).
  *
- * Guards the deterministic action list that the SupportPanel renders:
- *   - all six actions exist with three-locale title/meaning copy (ja/en/zh-TW)
- *   - every available action is genuinely actionable (external action has a
- *     real, traceable URL; save action maps to the shared storage key)
- *   - disabled actions never fake a destination
+ * The shared default must be safe for every non-pilot journey. The Okutama ×
+ * Wasabi override is selected only by its explicit route id, so a new or
+ * unknown slice cannot inherit Wasabi copy or the Okutama tourism URL.
  */
 import { describe, expect, it } from 'vitest';
 import {
@@ -13,75 +11,86 @@ import {
   SUPPORT_ACTIONS,
   actionMeaning,
   actionTitle,
+  supportActionsForJourney,
   type SupportActionItem,
 } from './support-actions';
 import { MODEL_ROUTE_ID } from './saved-routes';
 
-describe('support actions (#46)', () => {
-  it('contains exactly the six support actions', () => {
+const OME_ROUTE_ID = 'ome-sawai-sake-journey';
+const FORBIDDEN_GENERIC_TERMS = ['わさび', 'wasabi', '山葵', '奥多摩', 'Okutama'];
+
+function combinedCopy(actions: readonly SupportActionItem[]): string {
+  return actions
+    .flatMap((action) => [
+      action.titleJa,
+      action.titleEn,
+      action.titleZh,
+      action.meaningJa,
+      action.meaningEn,
+      action.meaningZh,
+      action.externalUrl ?? '',
+    ])
+    .join('\n');
+}
+
+describe('support actions (#46 / #177)', () => {
+  it('contains exactly the six support actions in the safe generic default', () => {
     const ids = SUPPORT_ACTIONS.map((a) => a.id);
     expect(ids).toEqual(['buy', 'visit', 'reserve', 'donate', 'share', 'save']);
-    expect(new Set(ids).size).toBe(ids.length); // ids are unique
+    expect(new Set(ids).size).toBe(ids.length);
   });
 
-  it('gives every action a title and meaning in both languages', () => {
+  it('gives every generic action complete ja/en/zh-TW copy', () => {
     for (const action of SUPPORT_ACTIONS) {
       expect(action.titleJa, action.id).toBeTruthy();
       expect(action.titleEn, action.id).toBeTruthy();
+      expect(action.titleZh, action.id).toBeTruthy();
       expect(action.meaningJa, action.id).toBeTruthy();
       expect(action.meaningEn, action.id).toBeTruthy();
-    }
-  });
-
-  it('gives every action a zh-TW title and meaning (Issue #68)', () => {
-    for (const action of SUPPORT_ACTIONS) {
-      expect(action.titleZh, action.id).toBeTruthy();
       expect(action.meaningZh, action.id).toBeTruthy();
-    }
-  });
 
-  it('resolves title and meaning for every action in all three locales', () => {
-    for (const action of SUPPORT_ACTIONS) {
       for (const locale of ['ja', 'en', 'zh-TW'] as const) {
-        const title = actionTitle(action, locale);
-        const meaning = actionMeaning(action, locale);
-        expect(title, `${action.id} ${locale}`).toBeTruthy();
-        expect(meaning, `${action.id} ${locale}`).toBeTruthy();
+        expect(actionTitle(action, locale), `${action.id} ${locale} title`).toBeTruthy();
+        expect(actionMeaning(action, locale), `${action.id} ${locale} meaning`).toBeTruthy();
       }
     }
   });
 
-  it('does not let zh-TW fall back to English copy (Issue #68)', () => {
-    // zh-TW must resolve its own title/meaning, not the en fallback.
+  it('does not let zh-TW generic copy fall back to English', () => {
     for (const action of SUPPORT_ACTIONS) {
       expect(actionTitle(action, 'zh-TW'), action.id).not.toBe(action.titleEn);
       expect(actionMeaning(action, 'zh-TW'), action.id).not.toBe(action.meaningEn);
     }
   });
 
-  it('keeps ja title/meaning equal to the canonical ja fields', () => {
-    for (const action of SUPPORT_ACTIONS) {
-      expect(actionTitle(action, 'ja'), action.id).toBe(action.titleJa);
-      expect(actionMeaning(action, 'ja'), action.id).toBe(action.meaningJa);
+  it('keeps the safe default free of Wasabi / Okutama semantics and destinations', () => {
+    const copy = combinedCopy(SUPPORT_ACTIONS);
+    for (const forbidden of FORBIDDEN_GENERIC_TERMS) {
+      expect(copy.toLowerCase()).not.toContain(forbidden.toLowerCase());
     }
+    expect(copy).not.toContain(CONFIRMED_VISIT_URL);
   });
 
-  it('gives every action an icon', () => {
-    for (const action of SUPPORT_ACTIONS) {
-      expect(action.icon, action.id).toBeTruthy();
-    }
+  it('uses the safe generic default for Ome/Sawai and unknown journeys', () => {
+    expect(supportActionsForJourney(OME_ROUTE_ID)).toBe(SUPPORT_ACTIONS);
+    expect(supportActionsForJourney('future-region-food-journey')).toBe(SUPPORT_ACTIONS);
+    expect(supportActionsForJourney()).toBe(SUPPORT_ACTIONS);
   });
 
-  it('marks an external action available only when it has a confirmed URL', () => {
-    const externals = SUPPORT_ACTIONS.filter((a) => a.kind === 'external');
-    expect(externals.length).toBeGreaterThan(0);
-    for (const action of externals) {
-      expect(action.available, action.id).toBe(true);
-      expect(action.externalUrl, action.id).toMatch(/^https:\/\//);
-    }
+  it('does not give Ome/Sawai any external action without a verified destination', () => {
+    const actions = supportActionsForJourney(OME_ROUTE_ID);
+    expect(actions.some((action) => action.kind === 'external')).toBe(false);
+    expect(actions.every((action) => action.externalUrl === null)).toBe(true);
   });
 
-  it('keeps disabled actions with no URL and available=false', () => {
+  it('keeps the save action available in the generic fallback without an external URL', () => {
+    const save = SUPPORT_ACTIONS.find((a) => a.kind === 'save');
+    expect(save).toBeDefined();
+    expect(save?.externalUrl).toBeNull();
+    expect(save?.available).toBe(true);
+  });
+
+  it('keeps unsupported generic actions disabled without fake destinations', () => {
     const disabled = SUPPORT_ACTIONS.filter((a) => a.kind === 'disabled');
     expect(disabled.length).toBeGreaterThan(0);
     for (const action of disabled) {
@@ -90,29 +99,27 @@ describe('support actions (#46)', () => {
     }
   });
 
-  it('keeps the save action available and free of an external URL', () => {
-    const save = SUPPORT_ACTIONS.find((a) => a.kind === 'save');
-    expect(save).toBeDefined();
-    expect(save?.externalUrl).toBeNull();
-    expect(save?.available).toBe(true);
-  });
-
-  it('keeps the visit action pointed at the confirmed official destination', () => {
-    const visit = SUPPORT_ACTIONS.find((a) => a.id === 'visit');
-    expect(visit?.externalUrl).toBe(CONFIRMED_VISIT_URL);
-  });
-
-  it('keeps the model route id consistent with the shared persistence contract', () => {
-    // The save action must reference the model route id that S8 can resolve
-    // (okutama-wasabi-journey), not a food culture id.
+  it('preserves the explicit Okutama × Wasabi pilot override', () => {
+    const actions = supportActionsForJourney(MODEL_ROUTE_ID);
     expect(MODEL_ROUTE_ID).toBe('okutama-wasabi-journey');
-    const save = SUPPORT_ACTIONS.find((a) => a.kind === 'save');
-    // The save action is persisted under the model route id the demo journey uses.
-    expect(save).toBeDefined();
+    expect(actions).not.toBe(SUPPORT_ACTIONS);
+
+    const visit = actions.find((a) => a.id === 'visit');
+    const buy = actions.find((a) => a.id === 'buy');
+    expect(visit?.kind).toBe('external');
+    expect(visit?.available).toBe(true);
+    expect(visit?.externalUrl).toBe(CONFIRMED_VISIT_URL);
+    expect(buy?.meaningJa).toContain('わさび');
+    expect(buy?.meaningEn.toLowerCase()).toContain('wasabi');
+    expect(buy?.meaningZh).toContain('山葵');
   });
 
-  it('is a pure, deterministic list (no closures or mutable state)', () => {
-    const clone: SupportActionItem[] = SUPPORT_ACTIONS.map((a) => ({ ...a }));
-    expect(clone).toEqual(SUPPORT_ACTIONS as unknown as SupportActionItem[]);
+  it('keeps both action lists pure and deterministic', () => {
+    const genericClone: SupportActionItem[] = SUPPORT_ACTIONS.map((a) => ({ ...a }));
+    expect(genericClone).toEqual(SUPPORT_ACTIONS as unknown as SupportActionItem[]);
+
+    const wasabi = supportActionsForJourney(MODEL_ROUTE_ID);
+    const wasabiClone: SupportActionItem[] = wasabi.map((a) => ({ ...a }));
+    expect(wasabiClone).toEqual(wasabi as unknown as SupportActionItem[]);
   });
 });
