@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="780" viewBox="0 0 1200 780">
+  <style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP","Noto Sans TC",sans-serif;fill:#263228}.title{font-size:34px;font-weight:700}.sub{font-size:18px;fill:#556057}.h{font-size:22px;font-weight:700}.body{font-size:17px}.small{font-size:15px;fill:#5f6b62}.opt{font-size:18px;font-weight:700}.num{font-size:38px;font-weight:750}</style>
+  <rect width="1200" height="780" fill="#F7F6EF"/>
+  <text x="56" y="66" class="title">#208 Figma fidelity vs production constraints</text>
+  <text x="56" y="98" class="sub">375px・i18n・a11y の adaptation rule / 設計還原與正式產品調整邊界</text>
+
+  <rect x="56" y="132" width="330" height="202" rx="22" fill="#FFFFFF" stroke="#D9DDD6"/>
+  <text x="82" y="170" class="h">Figma baseline</text>
+  <text x="82" y="226" class="num">390px</text>
+  <text x="82" y="262" class="body">mobile frames</text>
+  <text x="82" y="300" class="small">design intent source</text>
+
+  <rect x="436" y="132" width="708" height="202" rx="22" fill="#FFFFFF" stroke="#D9DDD6"/>
+  <text x="462" y="170" class="h">Production contract</text>
+  <text x="462" y="210" class="body">375px mobile baseline</text>
+  <text x="462" y="242" class="body">ja / en / zh-TW text expansion</text>
+  <text x="462" y="274" class="body">WCAG AA • visible focus • ≥44px touch target</text>
+  <text x="462" y="306" class="small">locale switch + missing interactive states must still exist</text>
+
+  <text x="56" y="390" class="h">When they conflict, who owns the adaptation?</text>
+  <rect x="56" y="420" width="248" height="180" rx="18" fill="#FFFFFF" stroke="#D9DDD6"/>
+  <text x="78" y="456" class="opt">A. Pixel-first</text>
+  <text x="78" y="490" class="body">copy Figma closely</text>
+  <text x="78" y="524" class="small">higher QA rework risk</text>
+
+  <rect x="326" y="420" width="248" height="180" rx="18" fill="#FFFFFF" stroke="#D9DDD6"/>
+  <text x="348" y="456" class="opt">B. Intent-first</text>
+  <text x="348" y="490" class="body">engineering adapts</text>
+  <text x="348" y="524" class="small">needs clear boundary</text>
+
+  <rect x="596" y="420" width="248" height="180" rx="18" fill="#FFFFFF" stroke="#D9DDD6"/>
+  <text x="618" y="456" class="opt">C. Figma first</text>
+  <text x="618" y="490" class="body">make DS production-ready</text>
+  <text x="618" y="524" class="small">more KiKi workload now</text>
+
+  <rect x="866" y="420" width="278" height="180" rx="18" fill="#EAF2DD" stroke="#9EAF88" stroke-width="2"/>
+  <text x="888" y="456" class="opt">D. Hybrid ★</text>
+  <text x="888" y="490" class="body">core tokens → Figma</text>
+  <text x="888" y="522" class="body">wrapping / 375px → eng</text>
+  <text x="888" y="554" class="small">best deadline balance</text>
+
+  <rect x="56" y="646" width="1088" height="82" rx="18" fill="#F6EEE0" stroke="#C7B797"/>
+  <text x="82" y="680" class="body">Examples needing explicit ownership: color contrast, long-copy wrapping, locale switch, focus/disabled/error states, image crop.</text>
+  <text x="82" y="710" class="small">建議：核心品牌 token 與 reusable state 回寫 Figma；文字換行、375px 小幅適配與技術性 a11y 修正由工程負責。</text>
+
+  <text x="56" y="762" class="small">Decision output: adaptation rule + source-of-truth boundary → #181 / #187 / Figma annotations.</text>
+</svg>
