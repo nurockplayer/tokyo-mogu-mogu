@@ -1,0 +1,114 @@
+/* ============================================================
+   Food Profile (Issue #183) — Modern Tokyo Terroir polish.
+   Page-scoped under `.tmm-food-profile` so the shared wizard /
+   result surfaces used by the Exploration (#184) and Result lanes
+   in onboarding.css are left untouched. Contracts (DietaryRestriction,
+   hasNoRestrictions, save/edit/no-restriction behavior) are unchanged.
+   ============================================================ */
+
+.tmm-food-profile {
+  padding-top: var(--tmm-space-6);
+}
+
+/* Editorial display hierarchy for the page title / subtitle. */
+.tmm-food-profile .page-title {
+  font-family: var(--tmm-font-display);
+  font-size: var(--tmm-text-display);
+  font-weight: 700;
+  line-height: var(--tmm-leading-display);
+  color: var(--tmm-color-ink);
+  letter-spacing: var(--tmm-tracking-display);
+  margin-bottom: var(--tmm-space-2);
+}
+
+.tmm-food-profile .page-sub {
+  font-size: var(--tmm-text-body);
+  color: var(--tmm-color-ink-soft);
+  line-height: var(--tmm-leading-body);
+  margin: 0 0 var(--tmm-space-5);
+}
+
+/* Selection affordance: roomier chips with a clearer tap presence. */
+.tmm-food-profile .tmm-wizard__options {
+  gap: var(--tmm-space-3);
+  margin-bottom: var(--tmm-space-5);
+}
+
+.tmm-food-profile .tmm-chip {
+  padding: 12px 20px;
+  font-size: 0.95rem;
+}
+
+/* "No restrictions" is a distinct, exclusive choice — hairline separation. */
+.tmm-food-profile__norestrict {
+  border-top: var(--tmm-border);
+  padding-top: var(--tmm-space-4);
+}
+
+/* "Other restrictions" label above the text field. */
+.tmm-food-profile label.tmm-wizard__hint {
+  display: block;
+  font-weight: 700;
+  color: var(--tmm-color-ink);
+  margin-bottom: var(--tmm-space-2);
+}
+
+/* Recommendation-only trust callout: info glyph + leaf accent edge. */
+.tmm-food-profile .tmm-wizard__trust {
+  margin: var(--tmm-space-5) 0 var(--tmm-space-5);
+  padding: var(--tmm-space-3) var(--tmm-space-4);
+  background: var(--tmm-color-warm);
+  border: var(--tmm-border);
+  border-left: 4px solid var(--tmm-color-leaf);
+  border-radius: var(--tmm-radius-md);
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+  line-height: var(--tmm-leading-caption);
+}
+
+.tmm-food-profile .tmm-wizard__trust::before {
+  content: 'ⓘ ';
+  font-weight: 700;
+}
+
+/* Actions: keep 44px+ targets, roomier stack. */
+.tmm-food-profile .tmm-wizard__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tmm-space-3);
+  margin-top: var(--tmm-space-5);
+}
+
+.tmm-food-profile .tmm-result__actions {
+  margin-top: var(--tmm-space-5);
+}
+
+/* Summary card: hairline surface with a leaf accent, airy list. */
+.tmm-food-profile .tmm-profile-summary {
+  border-left: 4px solid var(--tmm-color-leaf);
+  padding: var(--tmm-space-4) var(--tmm-space-5);
+}
+
+.tmm-food-profile .tmm-profile-summary__list {
+  gap: var(--tmm-space-3);
+}
+
+.tmm-food-profile .tmm-profile-summary__item {
+  position: relative;
+  padding-left: var(--tmm-space-4);
+}
+
+.tmm-food-profile .tmm-profile-summary__item::before {
+  content: '◆';
+  position: absolute;
+  left: 0;
+  top: 0.2em;
+  font-size: 0.7em;
+  color: var(--tmm-color-forest);
+}
+
+@media (min-width: 768px) {
+  .tmm-food-profile {
+    padding-top: var(--tmm-space-7);
+  }
+}
