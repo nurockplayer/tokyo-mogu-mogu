@@ -4,6 +4,9 @@ dist
 .DS_Store
 *.tsbuildinfo
 
+# Data acquisition raw cache (Issue #175) — large/full downloads, never committed
+.data-cache
+
 # Playwright E2E artifacts (Issue #120)
 test-results
 playwright-report

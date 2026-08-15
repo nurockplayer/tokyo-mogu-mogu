@@ -1,0 +1,5 @@
+# Committed raw acquisition artifacts (Issue #175) are byte-exact source
+# files (CP932 CSV / XLSX). Treat them as binary so git never rewrites line
+# endings or flags their source-owned trailing whitespace, and so
+# `git diff --check` does not fail on the raw data.
+scripts/data-acquisition/**/snapshots/* binary

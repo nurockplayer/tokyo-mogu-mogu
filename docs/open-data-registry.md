@@ -89,7 +89,7 @@ Based on the Issue #19 draft table, with the **verified** status per this repo
 | 東京都観光客数等実態調査 | 東京都産業労働局 | Pitch impact evidence / tourism-distribution problem statement | P0 | Integrated (baseline doc, dataset A) | #18 (closed), #85 |
 | モバイルデータを活用した訪都旅行者動態調査 | 東京都 | 23区 vs outer-Tokyo movement / tourism distribution / Impact | P0 (as drafted) | **Candidate — not located** (TCVB proxy used; see §3.2.4) | #18, #85 |
 | 国・地域別外国人旅行者行動特性調査 | 東京都 | Persona / travel behavior / Marketing / Impact | P1 | Integrated (baseline doc, dataset B) | #18 |
-| 東京都指定文化財一覧 | 東京都 | Future regional Story / Discover enrichment | P2 | Candidate — unverified in repo | — |
+| 東京都指定文化財一覧 | 東京都教育庁 | Future regional Story / Discover enrichment | P2 | **Available — 245 records, CC BY 4.0, source-driven ingestion** (see §3.2.6) | #175 |
 | 緑のオープンデータ GIS | 東京都 | Future geography / nature discovery | P2 | Candidate — unverified in repo | — |
 | 区市町村別の観光・地域資源 dataset | 東京都 / 各自治体 | Future region expansion / Discover candidate | P2 | Candidate — unverified in repo | — |
 | 公共交通 Open Data / GTFS（多摩地域ほか） | 各交通事業者 | Future region accessibility / route feasibility | P2 | Candidate — unverified in repo | — |
@@ -209,15 +209,42 @@ Evidence column = the repository file(s) this entry was verified against on
   on the PDF** — attribute when reused publicly.
 - **Status**: Integrated (baseline doc).
 
-#### 3.2.6–3.2.13 Candidate datasets (not present in this repo)
+#### 3.2.6 東京都指定文化財一覧 — source-driven acquisition (#175)
+
+- **Evidence**: `scripts/data-acquisition/` (source registry + adapter +
+  sync), `scripts/data-acquisition/adapters/cultural-property/snapshots/130001_cultural_property.csv`
+  (committed raw artifact), `scripts/data-acquisition/manifest.ts`.
+- **Verified facts** (retrieved **2026-08-15**):
+  - Provider **東京都教育庁**; Tokyo Open Data Catalog dataset
+    `t000021d0000000017`
+    (`https://catalog.data.metro.tokyo.lg.jp/dataset/t000021d0000000017`).
+  - Artifact:
+    `https://www.opendata.metro.tokyo.lg.jp/suisyoudataset/130001_cultural_property.csv`
+    — CSV, **CP932** encoding, **CC BY 4.0** (license:
+    `https://creativecommons.org/licenses/by/4.0/`).
+  - 245 valid records (the artifact carries 248 record lines; 3 are blank
+    trailing rows). All 245 have a latitude and an English name; **one record
+    (下宅部遺跡) has a malformed longitude cell (", 139.451301")** that the
+    adapter leaves undefined rather than inferring.
+  - The records' 最終確認日 is **2019-03-29** — the dataset's own confirmation
+    date, not a claim about real-world freshness today.
+  - sha256 of the raw artifact: `0ceefb11…a73ee`, matching the committed
+    snapshot (re-verified against the live fetch on 2026-08-15).
+  - `pnpm data:sync` fetches → caches under `.data-cache/` (gitignored) →
+    parses → normalizes 245 provenance-carrying records; re-runs are idempotent
+    (no-op when the artifact is unchanged).
+- **Status nuance**: acquisition and Product editorial meaning are separate.
+  The normalized records are **not** wired into any Product-visible surface;
+  this source is an enrichment candidate (research #130 C1), not a statement
+  that cultural property is the Product domain.
+
+#### 3.2.7–3.2.13 Candidate datasets (not present in this repo)
 
 All of the following appear in the Issue #19 draft table but have **no repo
 artifact** on 2026-08-10 (no source doc, no seed, no ingestion script). Their
 `Source URL`, `License`, `Format`, and `Retrieval date` are therefore marked
 **unverified** and intentionally left blank — they must not be treated as
 verified open data:
-
-- **東京都指定文化財一覧** (東京都) — future Story / Discover enrichment (P2).
 - **緑のオープンデータ GIS** (東京都) — future geography / nature discovery (P2).
 - **区市町村別の観光・地域資源 dataset** (東京都 / 各自治体) — future region
   expansion / Discover (P2).
@@ -249,6 +276,13 @@ verified open data:
 - **Interpretation boundary**: 市町村単位の集計であり、個別生産者・わさび農家
   の状態や後継者の有無を推測できない。2020年時点のデータであり現在状況では
   ない。奥多摩単独の evidence を東京全体へ一般化しない。
+- **#175 acquisition seam**: an e-Stat credential-gated acquisition seam
+  (`scripts/data-acquisition/auth/estat.ts`, env `ESTAT_APPLICATION_ID`)
+  declares this dataset as a source in
+  `scripts/data-acquisition/manifest.ts`. Without an Application ID,
+  `pnpm data:sync` reports it `skipped`; live fetch requires an `estat`
+  adapter, which is not yet implemented (explicit skipped/manual state per
+  Issue #175).
 
 #### 3.2.15 Restaurant accessibility and regulatory records (#132)
 
@@ -257,6 +291,10 @@ Both resources below were downloaded and inspected at field/record level on
 freshness claims therefore use the resource timestamps, not the catalog page
 timestamp. Full field counts and limitations are recorded in
 `docs/132-local-food-accessibility-opportunities.md`.
+
+Since **2026-08-15** both rows are also acquired end-to-end by the #175
+acquisition layer (`scripts/data-acquisition/adapters/barrier-free/` and
+`.../ome-food-business/`; snapshots + live `pnpm data:sync` verified).
 
 | Dataset | Source / format | License | Resource freshness | Safe product meaning |
 |---|---|---|---|---|
