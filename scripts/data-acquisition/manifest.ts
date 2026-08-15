@@ -10,7 +10,11 @@
  * are intentionally absent from the static manifest until a run happens.
  */
 import type { SourceManifest } from './types.ts';
-import { CULTURAL_PROPERTY_SOURCE_ID } from './adapters/cultural-property/adapter.ts';
+import {
+  CULTURAL_PROPERTY_SOURCE_ID,
+  HACHIOJI_CULTURAL_PROPERTY_SOURCE_ID,
+  KUNITACHI_CULTURAL_PROPERTY_SOURCE_ID,
+} from './adapters/ods-cultural-property/config.ts';
 
 /** 東京都指定文化財一覧 — 東京都教育庁, Tokyo Open Data Catalog (CC BY 4.0). */
 export const CULTURAL_PROPERTY_SOURCE: SourceManifest = {
@@ -26,13 +30,58 @@ export const CULTURAL_PROPERTY_SOURCE: SourceManifest = {
   licenseUrl: 'https://creativecommons.org/licenses/by/4.0/',
   reuseNotes:
     '東京オープンデータカタログ経由（東京都教育庁）。東京都指定文化財の一覧で、所有者・管理者の承諾が得られたもののみ公開。出典表示が条件。',
-  adapterId: 'cultural-property',
+  adapterId: 'ods-cultural-property',
   credentialsRequired: false,
   sourceUpdatedAt: '2026-01-15T03:07:25Z',
   lastVerifiedAt: '2026-08-15',
   productUsage:
     'Potential Story / Spot / Route enrichment anchor (research #130 C1). Acquisition alone makes no Product-visible claim.',
-  cachePath: 'cultural-property/130001_cultural_property.csv',
+  cachePath: 'ods-cultural-property/130001_cultural_property.csv',
+};
+
+/** 国立市 文化財一覧 — 国立市, Tokyo Open Data Catalog, 新 ODS 標準 Ver1.5 (CC BY 4.0). */
+export const KUNITACHI_CULTURAL_PROPERTY_SOURCE: SourceManifest = {
+  id: KUNITACHI_CULTURAL_PROPERTY_SOURCE_ID,
+  provider: '国立市',
+  url: 'https://www.opendata.metro.tokyo.lg.jp/kunitachi/132152_cultural_property.csv',
+  acquisitionType: 'http_file',
+  datasetId: 't132152d0000000014',
+  catalogUrl: 'https://catalog.data.metro.tokyo.lg.jp/dataset/t132152d0000000014',
+  format: 'csv',
+  encoding: 'utf-8',
+  license: 'CC BY 4.0',
+  licenseUrl: 'https://creativecommons.org/licenses/by/4.0/',
+  reuseNotes:
+    '東京オープンデータカタログ経由（国立市）。自治体標準データセット（新 ODS 標準 Ver1.5）準拠の文化財一覧。出典表示が条件。',
+  adapterId: 'ods-cultural-property',
+  credentialsRequired: false,
+  sourceUpdatedAt: '2025-03-27T05:00:00',
+  lastVerifiedAt: '2026-08-15',
+  productUsage:
+    'Potential Story / Spot / Route enrichment anchor (research #130 C1). Acquisition alone makes no Product-visible claim.',
+  cachePath: 'ods-cultural-property/132152_cultural_property.csv',
+};
+
+/** 八王子市 文化財一覧 — 八王子市, Tokyo Open Data Catalog, 旧 ODS 標準 (CC BY 4.0). */
+export const HACHIOJI_CULTURAL_PROPERTY_SOURCE: SourceManifest = {
+  id: HACHIOJI_CULTURAL_PROPERTY_SOURCE_ID,
+  provider: '八王子市',
+  url: 'https://www.city.hachioji.tokyo.jp/contents/open/002/p005877_d/fil/bunkazaiichiran.xlsx',
+  acquisitionType: 'http_file',
+  datasetId: 't132012d3000000018',
+  catalogUrl: 'https://catalog.data.metro.tokyo.lg.jp/dataset/t132012d3000000018',
+  format: 'xlsx',
+  license: 'CC BY 4.0',
+  licenseUrl: 'https://creativecommons.org/licenses/by/4.0/',
+  reuseNotes:
+    '東京オープンデータカタログ経由（八王子市）。自治体標準データセット（旧 ODS 標準）準拠の文化財一覧。ソースの 緯度/経度 列は値が入れ替わって収録されているため、正しい半球値に補正して正規化する（2026-08-15 検証）。出典表示が条件。',
+  adapterId: 'ods-cultural-property',
+  credentialsRequired: false,
+  sourceUpdatedAt: '2024-04-30T15:00:00',
+  lastVerifiedAt: '2026-08-15',
+  productUsage:
+    'Potential Story / Spot / Route enrichment anchor (research #130 C1). Acquisition alone makes no Product-visible claim.',
+  cachePath: 'ods-cultural-property/132012_cultural_property.xlsx',
 };
 
 /** 東京都内の飲食店のバリアフリー情報 — 東京都産業労働局, CC BY 4.0, CP932 CSV. */
@@ -112,6 +161,8 @@ export const ESTAT_AGRICULTURE_CENSUS_SOURCE: SourceManifest = {
 /** Every configured source. `data:sync` iterates this list in order. */
 export const SOURCE_MANIFESTS: SourceManifest[] = [
   CULTURAL_PROPERTY_SOURCE,
+  KUNITACHI_CULTURAL_PROPERTY_SOURCE,
+  HACHIOJI_CULTURAL_PROPERTY_SOURCE,
   BARRIER_FREE_SOURCE,
   OME_FOOD_BUSINESS_SOURCE,
   ESTAT_AGRICULTURE_CENSUS_SOURCE,
