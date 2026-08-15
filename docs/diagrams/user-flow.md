@@ -156,7 +156,7 @@ stateDiagram-v2
 | **Spot（S6）** | 実用情報 + 外部アクション | **Route / Discover から到達可能**（`/spot/:id?from=discover`）。食事の免責を表示 |
 
 - **保存**：Route の保存は明示的操作のみ（`src/lib/saved-routes.ts`、`tmm:savedRoutes`）。MOGU Recent の自動記録とは別の意味論 / 永続キー。保存した Route は Story / Spot へ戻れます（Saved Story / Saved Spot コレクションは MVP に存在しません）。
-- **サポート CTA**：S7 Support Hub は単独の primary page を持ちません。サポート CTA は **Story / Route / Spot に分散配置**されます（Story：共有 / 貢献の理解 / ルート表示、Route：保存 / 訪問計画、Spot：予約 / 購入 / 予約 + 地域貢献）。購入 / 予約は MVP では外部リンク優先です。
+- **サポート CTA**：S7 Support Hub は単独の primary page を持ちません。サポート CTA は **Story / Route / Spot に分散配置**されます（Story：共有 / 貢献の理解 / ルート表示、Route：保存 / 訪問計画、Spot：予約 / 購入 + 地域貢献）。購入 / 予約は MVP では外部リンク優先です。
 - **食事の安全境界**：Result（S3）と Spot（S6）には「**詳細は現地・店舗に直接確認してください**」に相当する免責を表示します。食事制限の入力は推奨 / マッチ理由のみに使い、安全性の保証としては提示しません。
 
 ---

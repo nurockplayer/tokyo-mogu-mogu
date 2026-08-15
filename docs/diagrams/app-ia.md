@@ -29,7 +29,7 @@ flowchart TB
     MY["マイ / My"]
 
     HOME --> H["新しいパーソナライズ推薦の開始地点<br/>Home = recommend for me<br/>primary CTA が current-trip の Exploration を開始<br/>初回: Food Profile → Exploration<br/>リピーター: 保存済み Food Profile を再利用"]
-    DISCOVER --> D["診断なしの自由探索<br/>Discover = I browse myself<br/>source-backed な Region × FoodCulture / Story / Route を閲覧<br/>default release は奥多摩 + #163 青梅・沢井 secondary slice を表示<br/>#171 release config で secondary の露出を外せる<br/>breadth のための fake candidate は追加しない"]
+    DISCOVER --> D["診断なしの自由探索<br/>Discover = I browse myself<br/>source-backed な Region × FoodCulture / Story / Route を閲覧<br/>default release は奥多摩 + #163 青梅・沢井 secondary slice を表示<br/>Slice Manifest（src/data/slice-manifest.ts）の visibility / enabled で secondary の production 露出を外せる<br/>breadth のための fake candidate は追加しない"]
     MOGU --> M["system-managed の最近のおすすめ / MOGU Recent（favorites ではない）<br/>最大 5 件・自動記録（MOGU_RECENT_MAX = 5）<br/>Result → Story → Route → Spot の文脈を再オープン<br/>Saved / Favorites とは別 semantic・別 persistence"]
     MY --> Y["ユーザー管理の永続コンテンツ / 設定<br/>Saved Routes + Food Profile（編集可）+ Badges（Stretch のみ）<br/>保存した Route は Story / Spot へ戻る<br/>Saved Story / Saved Spot コレクションは MVP に存在しない"]
 ```

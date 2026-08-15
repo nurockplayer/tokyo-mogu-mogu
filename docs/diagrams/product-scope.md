@@ -48,7 +48,7 @@ flowchart LR
         M["maturity<br/>content の成熟度<br/>research → source_backed → playable → verified"]
         V["visibility<br/>discover: hidden | preview | visible<br/>+ recommendationEligible"]
         R["releaseRole<br/>release metadata<br/>none | primary | secondary"]
-        E["enabled<br/>#171 master release switch<br/>false で全 production surface から除外"]
+        E["enabled<br/>#171 master release switch<br/>false で production の Discover / recommendation 露出から除外<br/>canonical data / content / routes / i18n と direct Story / Route / Spot アクセスは維持"]
     end
     VER["record-level verification（Issue #129）<br/>provenance / freshness / verificationStatus<br/>record-level の唯一の authority"]
     PNOTE["playable ≠ verified<br/>個別 record の needs_confirmation / unverified は<br/>record layer が判断"]
@@ -72,7 +72,7 @@ flowchart LR
 | `maturity` | 内容の成熟度（content がどこまで整っているか） | `research → source_backed → playable → verified` | record-level verification の代替ではない |
 | `visibility` | どの Product surface に露出してよいか | `discover: hidden / preview / visible` + `recommendationEligible` | maturity から自動推論しない。`visible` のみ production 露出 |
 | `releaseRole` | 現在の release / demo における役割 | `none / primary / secondary` | release metadata のみ。content maturity と独立に変更可 |
-| `enabled`（#171 master switch） | release の master on/off | `true / false` | `false` で全 production surface から除外。data / content / routes / i18n は維持 |
+| `enabled`（#171 master switch） | release の master on/off | `true / false` | `false` で production の **Discover / recommendation 露出から除外**。canonical data / content / routes / i18n と **direct Story / Route / Spot アクセスは維持**。focused browser path は green |
 | record-level verification（#129） | 個別 record の provenance / freshness / `verificationStatus` | 既存 #129 contract に従う | Slice Manifest の外部。record-level の唯一の authority。`playable` ≠ `verified` |
 
 ---

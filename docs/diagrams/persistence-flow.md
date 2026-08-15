@@ -75,7 +75,6 @@ flowchart TB
     saved -->|"read/write"| device
     fp -->|"read/write"| device
     ex -->|"read/write"| device
-    badges -.->|"独自 namespace（別系統）"| device
 ```
 
 補足:
@@ -120,7 +119,7 @@ stateDiagram-v2
 | **Saved Routes** | ユーザー明示（手動） | `tmm:savedRoutes` | localStorage | 上限なし・save/unsave 冪等 | create（明示 save）/ read / remove（明示 unsave） | My → Saved Routes（Route → Story / Spot に戻れる） |
 | **Food Profile** | ユーザー設定（永続） | `tmm:foodProfile:v1` | localStorage | 単一 profile・破損時は「なし」扱い | create（初回聴取）/ read（推薦フィルタ）/ update（My から編集）/ remove（demo reset） | 推薦の安定フィルタ / My → Food Profile 編集 |
 | **Exploration Conditions** | その旅行のみ（一時） | `tmm:exploration:v1` | sessionStorage | 毎回リセット・旅行を越えて永続しない | create（新規旅行）/ read（ウィザード + Result）/ update（Q1〜Q5 回答）/ remove（新規開始時にクリア） | Exploration ウィザード / Result |
-| **Badges** | Stretch・別系統 | 独自 namespace（キー未固定） | localStorage（想定） | earned / unearned（未実装・Stretch） | コア永続化契約の外 | My → Badges |
+| **Badges** | Stretch・別系統（未実装） | —（未実装・未確定） | —（未実装・未確定） | earned / unearned（未実装・Stretch） | コア永続化契約の外 | My → Badges |
 
 ## 読み手への注意（別軸の区別）
 
