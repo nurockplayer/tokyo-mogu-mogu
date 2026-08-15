@@ -1,35 +1,37 @@
 /**
- * S7 Support Panel (Issue #46) — reusable support/contribution block.
+ * S7 Support Panel (Issue #46, #177) — reusable support/contribution block.
  *
  * Renders the six support actions (買う / 訪れる / 予約する / 寄付する / 共有する /
- * 保存する) with the cultural-succession meaning copy for each, framed by the
- * "興味を、力に変える。" narrative. Each card reuses the shared `SupportAction`
- * primitive from `src/ui`.
+ * 保存する) through the shared journey-aware content boundary. The active
+ * route is the context key: the frozen Okutama × Wasabi journey keeps its
+ * approved pilot actions, while Ome/Sawai and unknown future journeys receive
+ * the conservative generic fallback from `support-actions.ts`.
  *
- * Reusable: S4 embeds the panel right after the "味わうことが、継承になる" story
- * beat so the reader sees the concrete ways to act (Issue #68); the standalone
- * `/support` page (SupportPage) shows the same block with its page framing.
- * The deterministic action list lives in `support-actions.ts`; the saved-route
- * persistence lives in `saved-routes.ts`.
+ * Reusable: S4 embeds the panel after the story support beat; the standalone
+ * `/support` page passes the pilot route explicitly. No caller without a known
+ * journey silently inherits the pilot's Wasabi copy or Okutama destination.
  *
  * Locale: action titles/meanings resolve in ja / en / zh-TW via the
- * `actionTitle` / `actionMeaning` helpers (Issue #68), so zh-TW never falls
- * back to English.
+ * `actionTitle` / `actionMeaning` helpers, so zh-TW never falls back to English.
  *
  * State: the `save` action toggles the local saved-route contract
- * (`tmm:savedRoutes`, see `saved-routes.ts`) owned by this issue. No network,
- * no fake success — actions without a confirmed destination render as a
- * clearly-marked 準備中 / coming-soon state.
+ * (`tmm:savedRoutes`, see `saved-routes.ts`). No network, no fake success —
+ * actions without a verified destination render as 準備中 / coming soon.
  */
 import { useState } from 'react';
 import { SupportAction, Tag } from '../ui';
 import { useI18n } from '../i18n';
-import { SUPPORT_ACTIONS, actionMeaning, actionTitle } from './support-actions';
+import {
+  actionMeaning,
+  actionTitle,
+  supportActionsForJourney,
+} from './support-actions';
 import { isRouteSaved, saveRoute, unsaveRoute } from './saved-routes';
 import './SupportPanel.css';
 
 export function SupportPanel({ routeId }: { routeId?: string }) {
   const { locale, t } = useI18n();
+  const actions = supportActionsForJourney(routeId);
   // Absent routeId means the caller has no journey yet: the save action stays
   // disabled and never attaches a default (pilot) route to this panel.
   const [saved, setSaved] = useState<boolean>(() => (routeId ? isRouteSaved(routeId) : false));
@@ -54,7 +56,7 @@ export function SupportPanel({ routeId }: { routeId?: string }) {
       </header>
 
       <div className="s7-panel__actions">
-        {SUPPORT_ACTIONS.map((item) => {
+        {actions.map((item) => {
           const title = actionTitle(item, locale);
           const meaning = actionMeaning(item, locale);
           return (

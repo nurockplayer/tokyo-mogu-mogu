@@ -1,13 +1,15 @@
 /**
- * S4 story content resolution (Issue #123 Codex P1).
+ * S4 story content resolution (Issue #123 Codex P1 / Issue #177).
  *
  * The Story screen renders only cultures that resolve a complete story-content
  * entry, so a future verified Region × FoodCulture supplies its own copy as
  * data/config and un-authored cultures show the honest empty state instead of
- * wasabi fallback text. These tests lock availability and locale completeness.
+ * wasabi fallback text. These tests lock availability, locale completeness,
+ * and the source-audited Ome/Sawai content boundary.
  */
 import { describe, expect, it } from 'vitest';
 import {
+  FOOD_CULTURE_DATA_KEYS,
   mobilityLabelKey,
   placeNameKey,
   routeAdvisoryKeys,
@@ -87,6 +89,35 @@ describe('S4 story content availability (#123)', () => {
       expect(entry.ctaSub, `culture ${id}`).not.toBe('s4CtaSub');
       expect(entry.stickyCta, `culture ${id}`).not.toBe('s4StickyCta');
       expect(entry.challengeEvidence, `culture ${id}`).not.toBe('dataStoryChallengeEvidence');
+    }
+  });
+
+  it('downgrades unsupported Ome/Sawai local-rice claims out of production mappings (#177)', () => {
+    const foodCultureKeys = Object.values(FOOD_CULTURE_DATA_KEYS['sake-ome'] ?? {});
+    const storyKeys = Object.values(STORY_DATA_KEYS['sake-ome'] ?? {});
+
+    // The current canonical resource bundle still contains these legacy strings,
+    // but official evidence supports brewery water + selected rice, not rice
+    // grown in Ome/Sawai. Production-visible bridges must not select them.
+    expect(foodCultureKeys).not.toContain('dataSakeStory');
+    expect(storyKeys).not.toContain('dataSakeStory');
+    expect(storyKeys).not.toContain('dataSakeStoryMakerRole');
+
+    // Reuse already source-backed copy rather than replacing the overclaim with
+    // invented evidence. All three locales resolve through the same safe keys.
+    expect(FOOD_CULTURE_DATA_KEYS['sake-ome']?.story).toBe('dataSakeDescription');
+    expect(storyContent('sake-ome')?.story).toBe('dataSakeDescription');
+    expect(storyContent('sake-ome')?.makerRole).toBe('dataOzawaRole');
+    for (const locale of ['ja', 'en', 'zh-TW'] as const) {
+      const content = storyContent('sake-ome')!;
+      const visibleCopy = [
+        resolveKey(strings, locale, content.story),
+        resolveKey(strings, locale, content.makerRole),
+      ].join('\n');
+      const normalized = visibleCopy.toLowerCase().replace(/[\u2018\u2019]/g, "'");
+      expect(normalized).not.toContain("land's rice");
+      expect(visibleCopy).not.toContain('土地の米');
+      expect(visibleCopy).not.toContain('土地之米');
     }
   });
 
