@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP","Noto Sans TC",sans-serif;fill:#263228}.title{font-size:34px;font-weight:700}.sub{font-size:18px;fill:#556057}.h{font-size:22px;font-weight:700}.body{font-size:17px}.small{font-size:15px;fill:#5f6b62}.opt{font-size:18px;font-weight:700}</style>
+  <rect width="1200" height="760" fill="#F7F6EF"/>
+  <text x="56" y="66" class="title">#204 Recent / History / Favorites / Saved Routes</text>
+  <text x="56" y="98" class="sub">MOGU・過去の旅・お気に入り・Saved Routes / 歷史旅程與收藏狀態</text>
+
+  <rect x="56" y="132" width="1088" height="190" rx="22" fill="#FFFFFF" stroke="#D9DDD6"/>
+  <text x="82" y="170" class="h">What Figma currently suggests / Figma 現況</text>
+  <text x="82" y="205" class="body">Home: 「過去の旅」 cards + bookmark icon</text>
+  <text x="82" y="238" class="body">Bottom nav: 「お気に入り」</text>
+  <text x="82" y="271" class="small">Question: are these Recent recommendations, actual visited trips, explicit saves, or a new Library?</text>
+
+  <text x="56" y="374" class="h">Current state ownership (#92)</text>
+  <rect x="56" y="404" width="470" height="150" rx="20" fill="#EAF2DD" stroke="#A5B58E"/>
+  <text x="82" y="442" class="opt">MOGU Recent</text>
+  <text x="82" y="476" class="body">system-managed / Result creation</text>
+  <text x="82" y="508" class="small">max 5 • reopen recommendation context</text>
+
+  <rect x="674" y="404" width="470" height="150" rx="20" fill="#F6EEE0" stroke="#C7B797"/>
+  <text x="700" y="442" class="opt">Saved Routes</text>
+  <text x="700" y="476" class="body">explicit user action / persistent</text>
+  <text x="700" y="508" class="small">currently owned by My</text>
+
+  <path d="M526 476 L674 476" stroke="#89948C" stroke-width="3" stroke-dasharray="8 8"/>
+  <text x="550" y="457" class="small">do not silently merge</text>
+
+  <rect x="56" y="596" width="1088" height="108" rx="20" fill="#FFFFFF" stroke="#D9DDD6"/>
+  <text x="82" y="630" class="opt">Recommended MVP direction ★</text>
+  <text x="82" y="662" class="body">Keep Recent and Saved separate. Clarify 「過去の旅」 if the user has not actually travelled.</text>
+  <text x="82" y="690" class="small">建議：Recent 與 Saved 維持不同 ownership；若只是最近推薦，不要用會暗示「真的去過」的名稱。</text>
+
+  <text x="56" y="738" class="small">Decide bookmark target: Route / Journey / FoodCulture / Story / Spot. Then decide whether Favorites deserves a primary tab.</text>
+</svg>
