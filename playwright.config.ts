@@ -9,9 +9,13 @@
  *
  * A `webServer` boots `vite preview` from the production build so the browser
  * exercises the same bundle that ships (dist/) rather than the dev server.
- * `reuseExistingServer` keeps local iteration fast; in CI, the E2E job builds
- * the bundle with `vite build` before running (Issue #137 — the TypeScript
- * typecheck stays owned by Quality Gates).
+ * `reuseExistingServer` is always false (Issue #188): the E2E must serve the
+ * current worktree's fresh build and never silently reuse a stale `vite
+ * preview` left running by another worktree on port 4173. A port-free guard
+ * runs first so an occupied port fails fast with a recovery hint instead of a
+ * misleading test run. In CI, the E2E job builds the bundle with `vite build`
+ * before running (Issue #137 — the TypeScript typecheck stays owned by Quality
+ * Gates).
  */
 import { defineConfig } from '@playwright/test';
 
@@ -29,9 +33,10 @@ export default defineConfig({
     trace: 'retain-on-failure',
   },
   webServer: {
-    command: 'pnpm preview --host 127.0.0.1 --port 4173 --strictPort',
+    command:
+      'node scripts/assert-preview-port-free.mjs 4173 && pnpm preview --host 127.0.0.1 --port 4173 --strictPort',
     url: 'http://127.0.0.1:4173',
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: false,
     timeout: 30_000,
   },
 });
