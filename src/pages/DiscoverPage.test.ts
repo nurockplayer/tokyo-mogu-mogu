@@ -16,7 +16,7 @@ import {
   foodCultures,
   hiddenManagedFoodCultureIds,
   places,
-  type ReleaseConfigEntry,
+  type SliceManifestEntry,
 } from '../data';
 import { loadMoguRecent } from '../lib/mogu-recent';
 import { cultureName, discoverOtherCultures } from './DiscoverPage';
@@ -31,23 +31,25 @@ const PILOT_PLACES = [
 ];
 
 /**
- * A test-only release config simulating the team decision to keep Ome/Sawai out
- * of the 8/23 production Discover surface via a single `enabled: false` change.
+ * A test-only manifest simulating the team decision to keep Ome/Sawai out of
+ * the 8/23 production Discover surface via a single `enabled: false` change.
  */
-const DISABLED_OME_CONFIG: readonly ReleaseConfigEntry[] = [
+const DISABLED_OME_MANIFEST: readonly SliceManifestEntry[] = [
   {
     candidateId: DEMO_RECOMMENDATION_CANDIDATE_ID,
+    maturity: 'playable',
     enabled: true,
     releaseRole: 'primary',
-    recommendable: true,
-    discoverable: true,
+    discover: 'visible',
+    recommendationEligible: true,
   },
   {
     candidateId: DEMO_OME_SAKE_CANDIDATE_ID,
+    maturity: 'playable',
     enabled: false,
     releaseRole: 'secondary',
-    recommendable: true,
-    discoverable: true,
+    discover: 'visible',
+    recommendationEligible: true,
   },
 ];
 
@@ -89,7 +91,7 @@ describe('Discover release gating (#171)', () => {
   it('does not surface a disabled managed slice as a playable Discover culture', () => {
     // Mirrors the component's playable-journey derivation under a disabled
     // Ome config: only wasabi stays playable.
-    const playable = discoverableCandidates(DEMO_RECOMMENDATION_CANDIDATES, DISABLED_OME_CONFIG).filter(
+    const playable = discoverableCandidates(DEMO_RECOMMENDATION_CANDIDATES, DISABLED_OME_MANIFEST).filter(
       (c) => c.availability === 'ready' && c.journeyId,
     );
     const playableCultureIds = new Set(playable.map((c) => c.foodCultureId));
@@ -99,14 +101,14 @@ describe('Discover release gating (#171)', () => {
 
   it('does not resurface a disabled managed slice in the future/other cultures section', () => {
     const playableCultureIds = new Set(['wasabi-okutama']);
-    const hiddenManaged = hiddenManagedFoodCultureIds(DEMO_RECOMMENDATION_CANDIDATES, DISABLED_OME_CONFIG);
+    const hiddenManaged = hiddenManagedFoodCultureIds(DEMO_RECOMMENDATION_CANDIDATES, DISABLED_OME_MANIFEST);
     const other = discoverOtherCultures(foodCultures, playableCultureIds, hiddenManaged);
     expect(other.map((fc) => fc.id)).not.toContain('sake-ome');
   });
 
   it('keeps ordinary non-release-managed editorial cultures in the future section', () => {
     const playableCultureIds = new Set(['wasabi-okutama']);
-    const hiddenManaged = hiddenManagedFoodCultureIds(DEMO_RECOMMENDATION_CANDIDATES, DISABLED_OME_CONFIG);
+    const hiddenManaged = hiddenManagedFoodCultureIds(DEMO_RECOMMENDATION_CANDIDATES, DISABLED_OME_MANIFEST);
     const other = discoverOtherCultures(foodCultures, playableCultureIds, hiddenManaged);
     const ids = other.map((fc) => fc.id);
     expect(ids).toEqual(

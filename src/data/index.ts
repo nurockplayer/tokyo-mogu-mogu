@@ -63,15 +63,22 @@ export {
   demoRecommendationMatchTags,
 } from './demo-recommendation';
 export {
-  RELEASE_CONFIG,
+  SLICE_MANIFEST,
+  maturityOf,
+  discoverVisibilityOf,
   releaseRoleOf,
   isCandidateRecommendable,
   isCandidateDiscoverable,
   recommendableCandidates,
   discoverableCandidates,
   hiddenManagedFoodCultureIds,
-} from './release-config';
-export type { ReleaseRole, ReleaseConfigEntry } from './release-config';
+} from './slice-manifest';
+export type {
+  ReleaseRole,
+  SliceMaturity,
+  SliceVisibility,
+  SliceManifestEntry,
+} from './slice-manifest';
 export { resolveJourneyIdentity, resolveRouteId, resolveStoryJourney } from './journey';
 export type { JourneyIdentity } from './journey';
 export type { PilotJourney } from './pilot-journey';
