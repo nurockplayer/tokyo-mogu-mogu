@@ -104,7 +104,7 @@ test.describe('Ome/Sawai sake semantic isolation (ja, 375px)', () => {
       .locator('.tmm-result-card__title')
       .filter({ hasText: '青梅・沢井の日本酒' })
       .waitFor();
-    await expect(page.locator('.tmm-result__summary').locator('..')).not.toContainText('東京わさび');
+    await expect(page.locator('body')).not.toContainText('東京わさび');
     expect(await storedCount(page, MOGU_RECENT_KEY)).toBe(1);
     await page.getByRole('link', { name: '青梅・沢井の日本酒の物語を読む' }).click();
     await page.waitForURL(/\/story\/sake-ome/);
@@ -191,6 +191,7 @@ test.describe('Ome/Sawai support boundary locale smoke (375px)', () => {
 
   test('zh-TW: generic support copy has no 山葵/奧多摩 inheritance', async ({ page }) => {
     await openSakeStoryInLocale(page, 'zh-TW');
+    await page.getByRole('heading', { name: '青梅・沢井的日本酒' }).waitFor();
     const support = page.locator('.s7-panel');
     await expect(support).toContainText('購買地區商品，可以成為認識製作者與文化的接點');
     await expect(support).not.toContainText('山葵');
