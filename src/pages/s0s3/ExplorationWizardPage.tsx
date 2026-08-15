@@ -190,7 +190,7 @@ function ExplorationWizardInner() {
     onChange: (v: V) => void,
   ) {
     return (
-      <div className="tmm-wizard__options" role="radiogroup">
+      <div className="tmm-wizard__options tmm-wizard__options--stack" role="radiogroup">
         {choices.map((choice) => (
           <Chip
             key={choice.value}
@@ -235,9 +235,9 @@ function ExplorationWizardInner() {
       case 2:
         return (
           <>
-            <p className="tmm-wizard__hint">{t('exQ3AreaLabel')}</p>
+            <p className="tmm-wizard__field-label">{t('exQ3AreaLabel')}</p>
             {renderSingle(areaChoices, answers.baseArea, setBaseArea)}
-            <p className="tmm-wizard__hint">{t('exQ3TravelLabel')}</p>
+            <p className="tmm-wizard__field-label">{t('exQ3TravelLabel')}</p>
             {renderSingle(travelChoices, answers.travelTime, setTravelTime)}
           </>
         );
@@ -273,9 +273,13 @@ function ExplorationWizardInner() {
             ‹
           </button>
           <div className="tmm-wizard__progress">
-            <ProgressBar value={step + 1} max={stepCount} label={progressLabel} />
+            <ProgressBar value={step + 1} max={stepCount} />
           </div>
         </div>
+
+        <p className="tmm-wizard__step" aria-hidden="true">
+          {progressLabel}
+        </p>
 
         <StepDots total={stepCount} current={step} label={ariaProgress} />
 
