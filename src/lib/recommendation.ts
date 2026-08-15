@@ -3,7 +3,8 @@
  *
  * The durable contract ranks caller-supplied Tokyo Region × FoodCulture /
  * journey candidates. It contains no Okutama or Tokyo Wasabi identifiers; the
- * 8/23 demo supplies its single production-ready candidate from demo data.
+ * 8/23 demo supplies its production-ready candidates from demo data (Okutama ×
+ * Tokyo Wasabi primary + Ome/Sawai × sake secondary).
  */
 import type { FoodProfile } from './food-profile';
 import type {

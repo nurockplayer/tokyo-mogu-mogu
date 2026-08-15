@@ -143,7 +143,7 @@ S0 Landing
 ## Recommendation Boundary
 
 - The durable recommendation model selects among Region × FoodCulture / journey candidates; it must not define Tokyo Wasabi as the only valid Product outcome.
-- The 8/23 demo may deterministically recommend Tokyo Wasabi when that is the only production-ready candidate.
+- The 8/23 demo ships two production-ready candidates (Okutama × Tokyo Wasabi primary, Ome/Sawai × sake secondary); the golden-path answers match only the wasabi profile, so it deterministically recommends Tokyo Wasabi.
 - That deterministic behavior is **demo-only**, not a Product-domain rule.
 - Food Profile supports filtering / recommendation reasons; Exploration Conditions provide per-trip ranking / selection context.
 - Do not infer food safety from dietary inputs or missing venue metadata.
