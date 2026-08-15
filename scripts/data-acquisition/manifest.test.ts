@@ -60,8 +60,29 @@ describe('SOURCE_MANIFESTS registry', () => {
       format: 'csv',
       encoding: 'cp932',
       license: 'CC BY 4.0',
-      adapterId: 'cultural-property',
+      adapterId: 'ods-cultural-property',
       credentialsRequired: false,
+    });
+  });
+
+  it('keeps the municipal cultural-property sources traceable to their datasets', () => {
+    expect(SOURCE_MANIFESTS.filter((s) => s.adapterId === 'ods-cultural-property').length).toBe(3);
+    const kunitachi = SOURCE_MANIFESTS.find((s) => s.id === 'kunitachi-cultural-property');
+    expect(kunitachi).toMatchObject({
+      provider: '国立市',
+      datasetId: 't132152d0000000014',
+      format: 'csv',
+      encoding: 'utf-8',
+      license: 'CC BY 4.0',
+      adapterId: 'ods-cultural-property',
+    });
+    const hachioji = SOURCE_MANIFESTS.find((s) => s.id === 'hachioji-cultural-property');
+    expect(hachioji).toMatchObject({
+      provider: '八王子市',
+      datasetId: 't132012d3000000018',
+      format: 'xlsx',
+      license: 'CC BY 4.0',
+      adapterId: 'ods-cultural-property',
     });
   });
 });

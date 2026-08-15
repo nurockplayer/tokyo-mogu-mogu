@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { afterEach, describe, expect, it } from 'vitest';
-import { culturalPropertyAdapter } from './adapters/cultural-property/adapter.ts';
+import { odsCulturalPropertyAdapter } from './adapters/ods-cultural-property/adapter.ts';
 import { CULTURAL_PROPERTY_SOURCE } from './manifest.ts';
 import { renderReport, runSync } from './sync.ts';
 import type { SourceManifest } from './types.ts';
@@ -27,7 +27,7 @@ afterEach(async () => {
 const SNAPSHOT_PATH = join(
   dirname(fileURLToPath(import.meta.url)),
   'adapters',
-  'cultural-property',
+  'ods-cultural-property',
   'snapshots',
   '130001_cultural_property.csv',
 );
@@ -84,7 +84,7 @@ describe('runSync', () => {
     const report = await runSync([CULTURAL_PROPERTY_SOURCE, brokenSource], {
       cacheRoot,
       fetcher: STUB_FETCH,
-      adapters: [culturalPropertyAdapter],
+      adapters: [odsCulturalPropertyAdapter],
       now: () => '2026-08-15T12:00:00.000Z',
     });
     expect(report.sources.map((s) => s.status)).toEqual(['ok', 'error']);
@@ -115,9 +115,10 @@ describe('renderReport', () => {
 describe('credential boundary', () => {
   it('skips a credentialsRequired source when its credential is missing', async () => {
     const cacheRoot = await tempCacheRoot();
+    // Uses the real cultural-property source id so the adapter's config
+    // registry resolves it; only the credential flags are synthetic.
     const authedSource: SourceManifest = {
       ...CULTURAL_PROPERTY_SOURCE,
-      id: 'estat-authed-source',
       credentialsRequired: true,
       credentialEnv: 'ESTAT_APPLICATION_ID',
     };
@@ -139,7 +140,6 @@ describe('credential boundary', () => {
     const cacheRoot = await tempCacheRoot();
     const authedSource: SourceManifest = {
       ...CULTURAL_PROPERTY_SOURCE,
-      id: 'estat-authed-source',
       credentialsRequired: true,
       credentialEnv: 'ESTAT_APPLICATION_ID',
     };

@@ -40,9 +40,12 @@ scripts/data-acquisition/
   auth/                               # authenticated-source credential seams (e-Stat)
   adapters/
     index.ts                          # ADAPTERS registry
-    cultural-property/
-      adapter.ts                      # parse + normalize (pure, unit-tested)
-      snapshots/130001_cultural_property.csv   # committed raw artifact (CC BY 4.0)
+    ods-cultural-property/
+      adapter.ts                      # reusable ODS 文化財一覧 parse + normalize (#131)
+      config.ts                       # per-source column mapping (東京都 + 市町村)
+      snapshots/130001_cultural_property.csv   # 東京都指定文化財一覧 (CC BY 4.0)
+      snapshots/132152_cultural_property.csv   # 国立市 (CC BY 4.0)
+      snapshots/132012_cultural_property.xlsx  # 八王子市 (CC BY 4.0)
     barrier-free/
       adapter.ts                      # 東京都内の飲食店バリアフリー情報 (CP932 CSV)
       snapshots/barrier-free-guide.csv
@@ -82,9 +85,13 @@ prints a concise per-source report. Behavior:
 2. Add an adapter under `adapters/<source>/` implementing `parse` (raw bytes →
    source-shaped rows) and `normalize` (rows → `NormalizedRecord[]`), keeping
    both pure where possible. Register it in `adapters/index.ts`.
-3. Commit a license-permitted snapshot under `adapters/<source>/snapshots/`
+3. For a **repeated ODS pattern** (e.g. 文化財一覧 across municipalities), do
+   **not** fork an adapter per source. Reuse `ods-cultural-property` and add one
+   column-mapping entry in `adapters/ods-cultural-property/config.ts` — the
+   shared parse/normalize path stays single (Issue #131).
+4. Commit a license-permitted snapshot under `adapters/<source>/snapshots/`
    only when needed for reproducible tests.
-4. Add focused tests: adapter output contract, metadata completeness,
+5. Add focused tests: adapter output contract, metadata completeness,
    invalid / missing source handling, and deterministic normalization.
 
 Additional adapter shapes (ZIP archive, CKAN-driven, HTML) slot into the same
@@ -135,17 +142,28 @@ license, and the source document's last-updated time when known. The layer:
 
 | Source | Format / encoding | License | Valid records | Adapter |
 |---|---|---|---|---|
-| 東京都指定文化財一覧 (`t000021d0000000017`) | CSV / CP932 | CC BY 4.0 | 245 | `cultural-property` |
+| 東京都指定文化財一覧 (`t000021d0000000017`) | CSV / CP932 | CC BY 4.0 | 245 | `ods-cultural-property` |
+| 国立市 文化財一覧 (`t132152d0000000014`) | CSV / UTF-8 | CC BY 4.0 | 122 | `ods-cultural-property` |
+| 八王子市 文化財一覧 (`t132012d3000000018`) | XLSX | CC BY 4.0 | 258 | `ods-cultural-property` |
 | 東京都内の飲食店バリアフリー情報 (`t000012d0000000063`) | CSV / CP932 | CC BY 4.0 | 210 | `barrier-free` |
 | 青梅市飲食店一覧 (`t132055d0000000009`) | XLSX | CC BY 4.0 | 1,593 | `ome-food-business` |
 | 農林業センサス 市町村別統計表 (e-Stat, declared seam) | JSON | 政府標準利用規約 | — (skipped) | `estat` (pending) |
 
 Data-quality notes:
 
-- Cultural property: 245 valid records (248 lines minus 3 blank); all have
-  latitude + English name except one malformed longitude cell (下宅部遺跡,
+- The three `ods-cultural-property` sources share **one** reusable parse +
+  normalize path; per-municipality column differences (国立市 new ODS Ver1.5
+  vs 八王子市 old ODS) are config entries, not parser forks (Issue #131).
+- Cultural property (東京都): 245 valid records (248 lines minus 3 blank); all
+  have latitude + English name except one malformed longitude cell (下宅部遺跡,
   `", 139.451301"`) left undefined; 最終確認日 2019-03-29 is the dataset's own
   confirmation date, not real-world freshness.
+- Cultural property (国立市): 122 records, new ODS 標準 Ver1.5; 場所名称 is
+  sometimes `非公開`; only 2 records carry an English name; no 最終確認日 column.
+- Cultural property (八王子市): 258 records, old ODS 標準; the source stores
+  経度 in the 緯度 column and 緯度 in the 経度 column, and the adapter config
+  restores the correct hemisphere values (verified on all filled rows
+  2026-08-15); no 最終確認日 column.
 - Barrier-free: 210 self-reported restaurant accessibility records. Flag
   cells are `〇` or blank — **blank is unknown, not "no"**; no coordinates;
   `営業時間`/`定休日` stay raw source strings.

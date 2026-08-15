@@ -89,7 +89,9 @@ Based on the Issue #19 draft table, with the **verified** status per this repo
 | 東京都観光客数等実態調査 | 東京都産業労働局 | Pitch impact evidence / tourism-distribution problem statement | P0 | Integrated (baseline doc, dataset A) | #18 (closed), #85 |
 | モバイルデータを活用した訪都旅行者動態調査 | 東京都 | 23区 vs outer-Tokyo movement / tourism distribution / Impact | P0 (as drafted) | **Candidate — not located** (TCVB proxy used; see §3.2.4) | #18, #85 |
 | 国・地域別外国人旅行者行動特性調査 | 東京都 | Persona / travel behavior / Marketing / Impact | P1 | Integrated (baseline doc, dataset B) | #18 |
-| 東京都指定文化財一覧 | 東京都教育庁 | Future regional Story / Discover enrichment | P2 | **Available — 245 records, CC BY 4.0, source-driven ingestion** (see §3.2.6) | #175 |
+| 東京都指定文化財一覧 | 東京都教育庁 | Future regional Story / Discover enrichment | P2 | **Available — 245 records, CC BY 4.0, source-driven ingestion** (see §3.2.6) | #175 / #131 |
+| 国立市 文化財一覧 | 国立市 | Future regional Story / Discover enrichment | P2 | **Available — 122 records, CC BY 4.0, reusable ODS adapter** (see §3.2.6) | #131 |
+| 八王子市 文化財一覧 | 八王子市 | Future regional Story / Discover enrichment | P2 | **Available — 258 records, CC BY 4.0, reusable ODS adapter** (see §3.2.6) | #131 |
 | 緑のオープンデータ GIS | 東京都 | Future geography / nature discovery | P2 | Candidate — unverified in repo | — |
 | 区市町村別の観光・地域資源 dataset | 東京都 / 各自治体 | Future region expansion / Discover candidate | P2 | Candidate — unverified in repo | — |
 | 公共交通 Open Data / GTFS（多摩地域ほか） | 各交通事業者 | Future region accessibility / route feasibility | P2 | Candidate — unverified in repo | — |
@@ -209,34 +211,52 @@ Evidence column = the repository file(s) this entry was verified against on
   on the PDF** — attribute when reused publicly.
 - **Status**: Integrated (baseline doc).
 
-#### 3.2.6 東京都指定文化財一覧 — source-driven acquisition (#175)
+#### 3.2.6 文化財一覧（東京都指定 + 市町村）— reusable ODS adapter (#175 / #131)
 
-- **Evidence**: `scripts/data-acquisition/` (source registry + adapter +
-  sync), `scripts/data-acquisition/adapters/cultural-property/snapshots/130001_cultural_property.csv`
-  (committed raw artifact), `scripts/data-acquisition/manifest.ts`.
-- **Verified facts** (retrieved **2026-08-15**):
-  - Provider **東京都教育庁**; Tokyo Open Data Catalog dataset
-    `t000021d0000000017`
+- **Evidence**: `scripts/data-acquisition/` (source registry + sync),
+  `scripts/data-acquisition/adapters/ods-cultural-property/` (reusable
+  parse/normalize + per-source config), committed raw artifacts under
+  `.../ods-cultural-property/snapshots/`, `scripts/data-acquisition/manifest.ts`.
+- The ODS 文化財一覧 pattern recurs across Tokyo municipalities in **two schema
+  generations** (new ODS 標準 Ver1.5: 国立市・青梅市・台東区・国分寺市・千代田区 —
+  byte-identical 45-col header; old ODS 標準: 東京都・八王子市). Issue #131
+  absorbs this with **one** reusable adapter; municipality quirks are config
+  entries (`config.ts`), not parser forks.
+- **東京都指定文化財一覧** (retrieved **2026-08-15**):
+  - Provider **東京都教育庁**; dataset `t000021d0000000017`
     (`https://catalog.data.metro.tokyo.lg.jp/dataset/t000021d0000000017`).
   - Artifact:
     `https://www.opendata.metro.tokyo.lg.jp/suisyoudataset/130001_cultural_property.csv`
-    — CSV, **CP932** encoding, **CC BY 4.0** (license:
-    `https://creativecommons.org/licenses/by/4.0/`).
-  - 245 valid records (the artifact carries 248 record lines; 3 are blank
-    trailing rows). All 245 have a latitude and an English name; **one record
-    (下宅部遺跡) has a malformed longitude cell (", 139.451301")** that the
-    adapter leaves undefined rather than inferring.
-  - The records' 最終確認日 is **2019-03-29** — the dataset's own confirmation
-    date, not a claim about real-world freshness today.
-  - sha256 of the raw artifact: `0ceefb11…a73ee`, matching the committed
-    snapshot (re-verified against the live fetch on 2026-08-15).
-  - `pnpm data:sync` fetches → caches under `.data-cache/` (gitignored) →
-    parses → normalizes 245 provenance-carrying records; re-runs are idempotent
-    (no-op when the artifact is unchanged).
-- **Status nuance**: acquisition and Product editorial meaning are separate.
-  The normalized records are **not** wired into any Product-visible surface;
-  this source is an enrichment candidate (research #130 C1), not a statement
-  that cultural property is the Product domain.
+    — CSV, **CP932**, **CC BY 4.0**.
+  - 245 valid records; all have latitude + English name; **one record
+    (下宅部遺跡) has a malformed longitude cell** the adapter leaves undefined.
+    sha256 `0ceefb11…73ee` matches the committed snapshot.
+- **国立市 文化財一覧** (retrieved **2026-08-15**):
+  - Provider **国立市**; dataset `t132152d0000000014`
+    (`https://catalog.data.metro.tokyo.lg.jp/dataset/t132152d0000000014`).
+  - Artifact:
+    `https://www.opendata.metro.tokyo.lg.jp/kunitachi/132152_cultural_property.csv`
+    — CSV, **UTF-8**, **CC BY 4.0**, 122 records. New ODS Ver1.5 shape;
+    場所名称 sometimes `非公開`; only 2 records carry an English name; no
+    最終確認日 column. sha256 `8c62bb71…0290`.
+- **八王子市 文化財一覧** (retrieved **2026-08-15**):
+  - Provider **八王子市**; dataset `t132012d3000000018`
+    (`https://catalog.data.metro.tokyo.lg.jp/dataset/t132012d3000000018`).
+  - Artifact:
+    `https://www.city.hachioji.tokyo.jp/contents/open/002/p005877_d/fil/bunkazaiichiran.xlsx`
+    — XLSX, **CC BY 4.0**, 258 records. Old ODS shape (`NO` / `住所` / `方書`).
+    The source stores 経度 in the 緯度 column and 緯度 in the 経度 column; the
+    adapter config restores correct hemisphere values (verified on all filled
+    rows, 2026-08-15). sha256 `d43e5858…9bf1`.
+  - The 最終確認日 of the metro source is the dataset's own confirmation date,
+    not a real-world freshness claim; freshness/verification stays within the
+    #129 semantics.
+  - `pnpm data:sync` fetches → caches → normalizes all three provenance-carrying
+    sources (245 + 122 + 258 records); re-runs are idempotent.
+- **Status nuance**: acquisition and Product editorial meaning are separate. The
+  normalized records are **not** wired into any Product-visible surface; these
+  sources remain enrichment candidates (research #130 C1), not a statement that
+  cultural property is the Product domain.
 
 #### 3.2.7–3.2.13 Candidate datasets (not present in this repo)
 
