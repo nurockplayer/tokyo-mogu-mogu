@@ -20,13 +20,13 @@
   <text x="512" y="334" class="small">百分比若無明確公式，很容易被理解成推薦精度或安全保證。</text>
 
   <text x="56" y="410" class="h">Decision options</text>
-  <rect x="56" y="440" width="250" height="194" rx="18" fill="#FFFFFF" stroke="#D9DDD6"/>
-  <text x="78" y="476" class="opt">A. Reasons only</text>
-  <text x="78" y="510" class="body">自然 / 伝統 / 半日</text>
-  <text x="78" y="542" class="small">most explainable</text>
+  <rect x="56" y="440" width="250" height="194" rx="18" fill="#EAF2DD" stroke="#9EAF88" stroke-width="2"/>
+  <text x="78" y="476" class="opt">A. Reasons only ★</text>
+  <text x="78" y="510" class="body">2–3 match reasons from answers</text>
+  <text x="78" y="542" class="small">qualitative copy OK · no %</text>
 
-  <rect x="332" y="440" width="250" height="194" rx="18" fill="#EAF2DD" stroke="#9EAF88" stroke-width="2"/>
-  <text x="354" y="476" class="opt">B. Qualitative ★</text>
+  <rect x="332" y="440" width="250" height="194" rx="18" fill="#FFFFFF" stroke="#D9DDD6"/>
+  <text x="354" y="476" class="opt">B. Qualitative</text>
   <text x="354" y="510" class="body">「かなりおすすめ」</text>
   <text x="354" y="542" class="small">+ concrete reasons</text>
   <text x="354" y="576" class="small">MVP 向け / 適合 MVP</text>

@@ -24,9 +24,9 @@
   <text x="516" y="322" class="small">label mapping or IA change?</text>
 
   <text x="56" y="398" class="h">Team decision options / 選択肢</text>
-  <rect x="56" y="426" width="340" height="188" rx="20" fill="#FFFFFF" stroke="#D9DDD6"/>
-  <text x="80" y="464" class="opt">A. Keep IA</text>
-  <text x="80" y="496" class="body">Figma = user-facing labels only</text>
+  <rect x="56" y="426" width="340" height="188" rx="20" fill="#EAF2DD" stroke="#9EAF88" stroke-width="2"/>
+  <text x="80" y="464" class="opt">A. Keep IA ★</text>
+  <text x="80" y="496" class="body">Figma wording = presentation / label proposal only</text>
   <text x="80" y="528" class="small">低リスク / 低風險</text>
   <text x="80" y="556" class="small">但可能失去 KiKi 的新 IA 意圖</text>
 
@@ -36,8 +36,8 @@
   <text x="454" y="528" class="small">設計意圖最完整</text>
   <text x="454" y="556" class="small">需重做 routing / persistence semantics</text>
 
-  <rect x="804" y="426" width="340" height="188" rx="20" fill="#EAF2DD" stroke="#9EAF88" stroke-width="2"/>
-  <text x="828" y="464" class="opt">C. Hybrid ★</text>
+  <rect x="804" y="426" width="340" height="188" rx="20" fill="#FFFFFF" stroke="#D9DDD6"/>
+  <text x="828" y="464" class="opt">C. Hybrid</text>
   <text x="828" y="496" class="body">travel-first labels + stable semantics</text>
   <text x="828" y="528" class="small">例: 食旅を見つけ / 探す / MOGU / マイ</text>
   <text x="828" y="556" class="small">8/23 に最も reversible</text>
