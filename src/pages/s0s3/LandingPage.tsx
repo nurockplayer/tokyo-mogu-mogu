@@ -33,7 +33,7 @@ export function LandingPage() {
   ];
 
   return (
-    <div className="tmm-page">
+    <div className="tmm-page tmm-landing">
       <section className="tmm-landing-hero">
         <span className="tmm-landing-hero__eyebrow">{t('s0Eyebrow')}</span>
         <h1 className="tmm-landing-hero__title">{t('s0Title')}</h1>
