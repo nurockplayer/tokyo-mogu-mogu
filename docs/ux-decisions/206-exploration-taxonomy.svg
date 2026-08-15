@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="840" viewBox="0 0 1280 840">
+  <style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP","Noto Sans TC",sans-serif;fill:#263228}.title{font-size:34px;font-weight:700}.sub{font-size:18px;fill:#556057}.h{font-size:22px;font-weight:700}.body{font-size:17px}.small{font-size:15px;fill:#5f6b62}.step{font-size:18px;font-weight:700}.opt{font-size:18px;font-weight:700}</style>
+  <rect width="1280" height="840" fill="#F7F6EF"/>
+  <text x="56" y="66" class="title">#206 Exploration taxonomy &amp; departure-location decision</text>
+  <text x="56" y="98" class="sub">Figma の推薦 UX を正式 recommendation contract にどこまで採用するか / 哪些旅行條件正式進入推薦模型</text>
+
+  <text x="56" y="148" class="h">Current Figma journey inputs</text>
+  <rect x="56" y="176" width="214" height="176" rx="20" fill="#FFFFFF" stroke="#D9DDD6"/>
+  <text x="78" y="210" class="step">1. Experience</text>
+  <text x="78" y="242" class="body">食べる / 作る / 買う</text>
+  <text x="78" y="272" class="body">職人 / 産地 / 学ぶ</text>
+  <text x="78" y="316" class="small">What do you want to do?</text>
+
+  <rect x="294" y="176" width="214" height="176" rx="20" fill="#FFFFFF" stroke="#D9DDD6"/>
+  <text x="316" y="210" class="step">2. Departure</text>
+  <text x="316" y="242" class="body">area / place / station</text>
+  <text x="316" y="272" class="body">search UI</text>
+  <text x="316" y="316" class="small">source/provider needed</text>
+
+  <rect x="532" y="176" width="214" height="176" rx="20" fill="#FFFFFF" stroke="#D9DDD6"/>
+  <text x="554" y="210" class="step">3. One-way time</text>
+  <text x="554" y="242" class="body">30m / 1h / 1.5h</text>
+  <text x="554" y="272" class="body">2h / no limit</text>
+  <text x="554" y="316" class="small">ranking or display?</text>
+
+  <rect x="770" y="176" width="214" height="176" rx="20" fill="#FFFFFF" stroke="#D9DDD6"/>
+  <text x="792" y="210" class="step">4. Trip length</text>
+  <text x="792" y="242" class="body">半日 / 1日</text>
+  <text x="792" y="272" class="body">まだ決めていない</text>
+  <text x="792" y="316" class="small">separate from travel time?</text>
+
+  <rect x="1008" y="176" width="216" height="176" rx="20" fill="#FFFFFF" stroke="#D9DDD6"/>
+  <text x="1030" y="210" class="step">5. Taste + Theme</text>
+  <text x="1030" y="242" class="body">濃厚 / 発酵 / 自然</text>
+  <text x="1030" y="272" class="body">伝統 / 旬 / 交流…</text>
+  <text x="1030" y="316" class="small">expanded taxonomy</text>
+
+  <path d="M270 264 L294 264 M508 264 L532 264 M746 264 L770 264 M984 264 L1008 264" stroke="#8A968C" stroke-width="3"/>
+
+  <text x="56" y="414" class="h">Why this is a Product decision</text>
+  <rect x="56" y="442" width="1168" height="104" rx="18" fill="#F6EEE0" stroke="#C7B797"/>
+  <text x="82" y="478" class="body">UI choices can become schema + scoring + data-provider requirements.</text>
+  <text x="82" y="510" class="small">特に「出発地検索」は pure visual ではない：canonical place/station ID、travel-time calculation、no-result handling が必要。</text>
+  <text x="82" y="535" class="small">尤其「出發地搜尋」會牽涉資料來源、autocomplete、交通時間計算與錯誤處理。</text>
+
+  <text x="56" y="606" class="h">Decision directions</text>
+  <rect x="56" y="632" width="350" height="144" rx="18" fill="#FFFFFF" stroke="#D9DDD6"/>
+  <text x="80" y="668" class="opt">A. UI only</text>
+  <text x="80" y="700" class="body">keep current domain values</text>
+  <text x="80" y="732" class="small">fastest, but may discard design intent</text>
+
+  <rect x="432" y="632" width="350" height="144" rx="18" fill="#FFFFFF" stroke="#D9DDD6"/>
+  <text x="456" y="668" class="opt">B. Full taxonomy now</text>
+  <text x="456" y="700" class="body">update schema + scoring</text>
+  <text x="456" y="732" class="small">highest scope / deadline risk</text>
+
+  <rect x="808" y="632" width="416" height="144" rx="18" fill="#EAF2DD" stroke="#9EAF88" stroke-width="2"/>
+  <text x="832" y="668" class="opt">C. Phased adoption ★</text>
+  <text x="832" y="700" class="body">adopt UX structure + MVP-backed subset</text>
+  <text x="832" y="732" class="small">expanded taxonomy / live station search after MVP</text>
+
+  <text x="56" y="820" class="small">Decision must align with Aika's recommendation ownership. Lock what ships on 8/23 separately from durable Product target.</text>
+</svg>

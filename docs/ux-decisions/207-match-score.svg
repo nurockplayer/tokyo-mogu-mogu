@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP","Noto Sans TC",sans-serif;fill:#263228}.title{font-size:34px;font-weight:700}.sub{font-size:18px;fill:#556057}.h{font-size:22px;font-weight:700}.body{font-size:17px}.small{font-size:15px;fill:#5f6b62}.opt{font-size:18px;font-weight:700}.big{font-size:54px;font-weight:750;fill:#6E894D}</style>
+  <rect width="1200" height="760" fill="#F7F6EF"/>
+  <text x="56" y="66" class="title">#207 What does “96% match” actually mean?</text>
+  <text x="56" y="98" class="sub">Result のマッチ度 / 推薦結果的匹配度與可解釋性</text>
+
+  <rect x="56" y="132" width="390" height="220" rx="24" fill="#FFFFFF" stroke="#D9DDD6"/>
+  <text x="82" y="172" class="h">Current Figma Result</text>
+  <text x="82" y="235" class="big">96%</text>
+  <text x="215" y="234" class="body">マッチ度</text>
+  <text x="82" y="282" class="body">奥多摩 × 東京わさび</text>
+  <text x="82" y="318" class="small">node 23:3527</text>
+
+  <rect x="486" y="132" width="658" height="220" rx="24" fill="#F6EEE0" stroke="#C7B797"/>
+  <text x="512" y="172" class="h">A percentage creates factual expectations</text>
+  <text x="512" y="210" class="body">What is the denominator? What is weighted?</text>
+  <text x="512" y="242" class="body">Absolute fit or relative ranking?</text>
+  <text x="512" y="274" class="body">Does Food Profile safety filtering affect the score?</text>
+  <text x="512" y="306" class="small">96% must not be interpreted as “96% dietary safety” or model confidence.</text>
+  <text x="512" y="334" class="small">百分比若無明確公式，很容易被理解成推薦精度或安全保證。</text>
+
+  <text x="56" y="410" class="h">Decision options</text>
+  <rect x="56" y="440" width="250" height="194" rx="18" fill="#EAF2DD" stroke="#9EAF88" stroke-width="2"/>
+  <text x="78" y="476" class="opt">A. Reasons only ★</text>
+  <text x="78" y="510" class="body">2–3 match reasons from answers</text>
+  <text x="78" y="542" class="small">qualitative copy OK · no %</text>
+
+  <rect x="332" y="440" width="250" height="194" rx="18" fill="#FFFFFF" stroke="#D9DDD6"/>
+  <text x="354" y="476" class="opt">B. Qualitative</text>
+  <text x="354" y="510" class="body">「かなりおすすめ」</text>
+  <text x="354" y="542" class="small">+ concrete reasons</text>
+  <text x="354" y="576" class="small">MVP 向け / 適合 MVP</text>
+
+  <rect x="608" y="440" width="250" height="194" rx="18" fill="#FFFFFF" stroke="#D9DDD6"/>
+  <text x="630" y="476" class="opt">C. Real 0–100</text>
+  <text x="630" y="510" class="body">define formula</text>
+  <text x="630" y="542" class="small">deterministic + testable</text>
+  <text x="630" y="576" class="small">coordinate with Aika</text>
+
+  <rect x="884" y="440" width="260" height="194" rx="18" fill="#FFF3F0" stroke="#D5AAA0"/>
+  <text x="906" y="476" class="opt">D. Fixed demo %</text>
+  <text x="906" y="510" class="body">visual fixture only</text>
+  <text x="906" y="542" class="small">not recommended</text>
+  <text x="906" y="576" class="small">假精度 / 誤解風險</text>
+
+  <text x="56" y="694" class="body">If numeric: define tie / missing answer / no-match behavior and keep hard safety filters separate from preference score.</text>
+  <text x="56" y="726" class="small">數字分數若正式採用，必須可重現、可測試、可解釋，而且候選增加後仍維持同一語意。</text>
+</svg>
