@@ -55,6 +55,12 @@ export interface SourceManifest {
   adapterId: string;
   /** Whether credentials are required to fetch this source. */
   credentialsRequired: boolean;
+  /**
+   * Env var name carrying the required credential (only meaningful when
+   * `credentialsRequired` is true). Absent credentials produce an explicit
+   * 'skipped' report, never a live fetch.
+   */
+  credentialEnv?: string;
   /** Last known retrieval timestamp (ISO 8601). Updated by `data:sync`. */
   retrievedAt?: string;
   /** Last known raw-artifact checksum. Updated by `data:sync`. */
@@ -197,17 +203,26 @@ export interface AcquisitionAdapter<
 }
 
 /** Outcome of acquiring one source. */
+export type SourceReportStatus = 'ok' | 'error' | 'skipped';
+
+/** Outcome of acquiring one source. */
 export interface SourceReport {
   /** Source manifest id. */
   sourceId: string;
-  /** 'ok' when the source was acquired and normalized; 'error' otherwise. */
-  status: 'ok' | 'error';
+  /**
+   * 'ok' when the source was acquired and normalized; 'error' when acquisition
+   * failed; 'skipped' when acquisition was intentionally not attempted (e.g. a
+   * required credential is missing) — a skipped source is not an error.
+   */
+  status: SourceReportStatus;
   /** Cached artifact when acquisition succeeded. */
   artifact?: CachedArtifact;
   /** Number of normalized records when acquisition succeeded. */
   recordCount?: number;
   /** Error message when acquisition failed. */
   error?: string;
+  /** Reason when status is 'skipped'. */
+  skippedReason?: string;
 }
 
 /** Concise report produced by a `data:sync` run. */

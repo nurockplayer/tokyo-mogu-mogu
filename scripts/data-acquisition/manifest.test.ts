@@ -30,14 +30,22 @@ describe('SOURCE_MANIFESTS registry', () => {
       for (const field of REQUIRED_MANIFEST_FIELDS) {
         expect(manifest[field], `${manifest.id}.${field}`).toBeDefined();
       }
-      // A source needing credentials must never be fetched without them.
-      expect(manifest.credentialsRequired, manifest.id).toBe(false);
+      if (manifest.credentialsRequired) {
+        // A credential-required source must name the env var that carries it.
+        expect(manifest.credentialEnv, `${manifest.id}.credentialEnv`).toBeDefined();
+      } else {
+        expect(manifest.credentialEnv, `${manifest.id}.credentialEnv`).toBeUndefined();
+      }
     }
   });
 
-  it('references an adapter that is registered', () => {
+  it('references an adapter that is registered (credential seams exempt)', () => {
     const adapterIds = new Set(ADAPTERS.map((a) => a.id));
     for (const manifest of SOURCE_MANIFESTS) {
+      // A credential-required source without a credential is reported as
+      // 'skipped' before the adapter lookup, so an unimplemented adapter is a
+      // declared seam, not a broken source.
+      if (manifest.credentialsRequired && !adapterIds.has(manifest.adapterId)) continue;
       expect(adapterIds.has(manifest.adapterId), `${manifest.id} → ${manifest.adapterId}`).toBe(true);
     }
   });

@@ -1,0 +1,92 @@
+{
+  "help": "https://catalog.data.metro.tokyo.lg.jp/api/3/action/help_show?name=package_show",
+  "success": true,
+  "result": {
+    "author": null,
+    "author_email": null,
+    "creator_user_id": "808114df-af4f-4b09-bcfd-f655635cdec2",
+    "id": "445ee18d-ee49-4659-9667-de8630bd0d0e",
+    "isopen": true,
+    "license_id": "CC-BY-4.0",
+    "license_title": "クリエイティブ・コモンズ 表示（CC BY）",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/deed.ja",
+    "maintainer": "東京都教育庁地域教育支援部",
+    "maintainer_email": null,
+    "metadata_created": "2019-11-01T04:55:53.990257",
+    "metadata_modified": "2025-12-12T07:32:32.936608",
+    "name": "t000021d0000000017",
+    "notes": "【東京都教育庁】東京都指定文化財の一覧です。現在は、一般公開されており、所有者・管理者の承諾が得られたもののみを公開しています。内閣官房情報通信技術（IT）総合戦略室が平成29年12月22日に公開した、推奨データセットに準拠して作成しています。",
+    "num_resources": 1,
+    "num_tags": 1,
+    "organization": {
+      "id": "eaebe4a5-a6bd-4857-93d2-9c356f19a800",
+      "name": "t000021",
+      "title": "東京都教育庁",
+      "type": "organization",
+      "description": "http://www.kyoiku.metro.tokyo.jp/\r\n\r\n所属:東京都",
+      "image_url": "https://catalog.data.metro.tokyo.lg.jp/static/images/organizations/t000021.png",
+      "created": "2026-01-28T04:57:37.294103",
+      "is_organization": true,
+      "approval_status": "approved",
+      "state": "active"
+    },
+    "owner_org": "eaebe4a5-a6bd-4857-93d2-9c356f19a800",
+    "private": false,
+    "state": "active",
+    "title": "文化財一覧",
+    "type": "dataset",
+    "url": "https://bunkazai.metro.tokyo.lg.jp/",
+    "version": null,
+    "extras": [
+      {
+        "key": "更新頻度",
+        "value": ""
+      }
+    ],
+    "groups": [
+      {
+        "description": "博物館、美術館、文化財などに関するデータ",
+        "display_name": "文化・芸術",
+        "id": "2bc626c5-4b70-4ffc-81e4-1d3fbce15b9c",
+        "image_display_url": "https://catalog.data.metro.tokyo.lg.jp/static/images/categories/c021.svg",
+        "name": "c021",
+        "title": "文化・芸術"
+      }
+    ],
+    "resources": [
+      {
+        "cache_last_updated": null,
+        "cache_url": null,
+        "created": "2019-03-29T17:47:00",
+        "datastore_active": false,
+        "description": null,
+        "format": "CSV",
+        "hash": "",
+        "id": "25c5e6f7-0f8d-44d8-ac37-127e008f7a69",
+        "last_modified": null,
+        "metadata_modified": "2026-01-30T11:24:01.506468",
+        "mimetype": null,
+        "mimetype_inner": null,
+        "name": "文化財一覧",
+        "package_id": "445ee18d-ee49-4659-9667-de8630bd0d0e",
+        "position": 0,
+        "resource_type": null,
+        "size": null,
+        "state": "active",
+        "url": "https://www.opendata.metro.tokyo.lg.jp/suisyoudataset/130001_cultural_property.csv",
+        "url_type": null
+      }
+    ],
+    "tags": [
+      {
+        "display_name": "推奨データセット",
+        "id": "f5072e24-e47a-47f9-b29b-4fc84e7319a9",
+        "name": "推奨データセット",
+        "state": "active",
+        "vocabulary_id": null
+      }
+    ],
+    "relationships_as_subject": [],
+    "relationships_as_object": []
+  }
+}

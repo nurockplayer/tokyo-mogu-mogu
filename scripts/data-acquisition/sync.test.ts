@@ -108,6 +108,48 @@ describe('renderReport', () => {
     expect(text).toContain('[data:sync] 2026-08-15T12:00:00.000Z');
     expect(text).toContain('[ok] tokyo-designated-cultural-property');
     expect(text).toContain('245 records');
-    expect(text).toContain('1/1 sources ok');
+    expect(text).toContain('1 ok, 0 skipped, 0 error of 1 sources');
+  });
+});
+
+describe('credential boundary', () => {
+  it('skips a credentialsRequired source when its credential is missing', async () => {
+    const cacheRoot = await tempCacheRoot();
+    const authedSource: SourceManifest = {
+      ...CULTURAL_PROPERTY_SOURCE,
+      id: 'estat-authed-source',
+      credentialsRequired: true,
+      credentialEnv: 'ESTAT_APPLICATION_ID',
+    };
+    const report = await runSync([authedSource], {
+      cacheRoot,
+      fetcher: STUB_FETCH,
+      env: {},
+      now: () => '2026-08-15T12:00:00.000Z',
+    });
+    expect(report.sources[0]).toMatchObject({
+      status: 'skipped',
+      skippedReason: 'missing credential ESTAT_APPLICATION_ID',
+    });
+    // The stub fetcher must never be reached without a credential.
+    expect(report.sources[0].artifact).toBeUndefined();
+  });
+
+  it('fetches a credentialsRequired source when its credential is present', async () => {
+    const cacheRoot = await tempCacheRoot();
+    const authedSource: SourceManifest = {
+      ...CULTURAL_PROPERTY_SOURCE,
+      id: 'estat-authed-source',
+      credentialsRequired: true,
+      credentialEnv: 'ESTAT_APPLICATION_ID',
+    };
+    const report = await runSync([authedSource], {
+      cacheRoot,
+      fetcher: STUB_FETCH,
+      env: { ESTAT_APPLICATION_ID: 'test-id' },
+      now: () => '2026-08-15T12:00:00.000Z',
+    });
+    expect(report.sources[0].status).toBe('ok');
+    expect(report.sources[0].recordCount).toBe(245);
   });
 });

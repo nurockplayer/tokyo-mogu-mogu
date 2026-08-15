@@ -7,6 +7,12 @@
  */
 import type { AcquisitionAdapter } from '../types.ts';
 import { culturalPropertyAdapter } from './cultural-property/adapter.ts';
+import { barrierFreeAdapter } from './barrier-free/adapter.ts';
+import { omeFoodBusinessAdapter } from './ome-food-business/adapter.ts';
 
 /** All registered adapters. */
-export const ADAPTERS: AcquisitionAdapter[] = [culturalPropertyAdapter];
+export const ADAPTERS: AcquisitionAdapter[] = [
+  culturalPropertyAdapter,
+  barrierFreeAdapter,
+  omeFoodBusinessAdapter,
+];

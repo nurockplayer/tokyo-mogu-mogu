@@ -33,6 +33,8 @@ export interface SyncOptions {
   now?: () => string;
   /** Adapter registry; defaults to the built-in adapters. */
   adapters?: AcquisitionAdapter[];
+  /** Env map for credential resolution; defaults to process.env. */
+  env?: Record<string, string | undefined>;
 }
 
 const DEFAULT_HELPERS: AdapterHelpers = { decodeText, parseCsv: splitCsv };
@@ -48,9 +50,27 @@ export async function runSync(
 ): Promise<AcquisitionReport> {
   const adapters = options.adapters ?? ADAPTERS;
   const now = options.now ?? (() => new Date().toISOString());
+  const env = options.env ?? process.env;
   const report: AcquisitionReport = { runAt: now(), sources: [] };
 
   for (const manifest of manifests) {
+    // Credential boundary: a source that requires credentials must never be
+    // fetched without them. Missing credentials produce an explicit 'skipped'
+    // report — public sources keep working regardless (Issue #175).
+    if (manifest.credentialsRequired) {
+      const key = manifest.credentialEnv ?? '';
+      if (key === '' || !env[key]) {
+        report.sources.push({
+          sourceId: manifest.id,
+          status: 'skipped',
+          skippedReason:
+            key === ''
+              ? 'credentialsRequired but no credentialEnv configured'
+              : `missing credential ${key}`,
+        });
+        continue;
+      }
+    }
     try {
       const adapter = adapters.find((a) => a.id === manifest.adapterId);
       if (adapter === undefined) {
@@ -94,12 +114,16 @@ export function renderReport(report: AcquisitionReport): string {
       lines.push(
         `[ok] ${source.sourceId}  ${source.recordCount ?? 0} records  sha256:${shortHex(artifact.checksum.value)}  cached(${artifact.filePath})  downloaded:${artifact.downloaded}  retrievedAt:${artifact.retrievedAt}`,
       );
+    } else if (source.status === 'skipped') {
+      lines.push(`[skipped] ${source.sourceId}  ${source.skippedReason ?? 'skipped'}`);
     } else {
       lines.push(`[error] ${source.sourceId}  ${source.error}`);
     }
   }
   const ok = report.sources.filter((s) => s.status === 'ok').length;
-  lines.push(`${ok}/${report.sources.length} sources ok`);
+  const skipped = report.sources.filter((s) => s.status === 'skipped').length;
+  const failed = report.sources.filter((s) => s.status === 'error').length;
+  lines.push(`${ok} ok, ${skipped} skipped, ${failed} error of ${report.sources.length} sources`);
   return lines.join('\n');
 }
 

@@ -36,11 +36,19 @@ scripts/data-acquisition/
   csv.ts                              # CP932 decode + RFC-4180-ish CSV split
   fetch.ts                            # fetch → .data-cache/ → checksum + metadata (idempotent)
   sync.ts                             # `pnpm data:sync` engine + CLI
+  ckan/                               # Tokyo Open Data CKAN client (package_search/show + resource selection)
+  auth/                               # authenticated-source credential seams (e-Stat)
   adapters/
     index.ts                          # ADAPTERS registry
     cultural-property/
       adapter.ts                      # parse + normalize (pure, unit-tested)
       snapshots/130001_cultural_property.csv   # committed raw artifact (CC BY 4.0)
+    barrier-free/
+      adapter.ts                      # 東京都内の飲食店バリアフリー情報 (CP932 CSV)
+      snapshots/barrier-free-guide.csv
+    ome-food-business/
+      adapter.ts                      # 青梅市飲食店一覧 (XLSX via SheetJS)
+      snapshots/132055_food_business_all.xlsx
 ```
 
 ## Usage
@@ -59,6 +67,11 @@ prints a concise per-source report. Behavior:
   error and never poisons other sources; the command exits non-zero when any
   source fails.
 - **No blind commit**: raw downloads stay in `.data-cache/` (gitignored).
+- **Credential boundary**: a `credentialsRequired` source is reported as
+  `[skipped]` when its `credentialEnv` var is missing — it is never fetched
+  without credentials and never blocks the public sources around it. A
+  skipped source is not an error (the command exits non-zero only on
+  `[error]`).
 
 ## Adding a source
 
@@ -74,10 +87,34 @@ prints a concise per-source report. Behavior:
 4. Add focused tests: adapter output contract, metadata completeness,
    invalid / missing source handling, and deterministic normalization.
 
-Future adapter shapes (CSV, XLSX, ZIP archive, CKAN API) slot into the same
+Additional adapter shapes (ZIP archive, CKAN-driven, HTML) slot into the same
 `AcquisitionAdapter` contract; the registry's `acquisitionType` field records
 the intended mechanism. **Do not build a generic framework** until repeated
 patterns justify it (see `docs/data-opportunity-map.md` §8 / Issue #131).
+
+## CKAN discovery (Tokyo Open Data Catalog)
+
+`ckan/ckan.ts` is a thin client for the Tokyo CKAN API (no key required):
+`ckanPackageSearch` / `ckanPackageShow` / `ckanResourceShow` plus
+`selectBestResource`, a deterministic rule (format rank → last_modified →
+name → index) for picking the artifact from a dataset. It is a
+discovery/probe tool, not a second acquisition path: the acquisition layer
+fetches the selected artifact URL through the normal `http_file` path, and
+the cultural-property source already points at the artifact this client
+selects. Unit tests run fully offline against committed fixtures
+(`ckan/fixtures/`).
+
+## Authenticated sources (ODPT / e-Stat)
+
+- ODPT (`scripts/ingest-gtfs/`, untouched): the access token is read only
+  from `process.env.ODPT_ACCESS_TOKEN` and a missing token exits before any
+  fetch — the acquisition layer contains no ODPT code.
+- e-Stat (`auth/estat.ts`): a pure credential seam. `resolveEstatCredential`
+  reads `ESTAT_APPLICATION_ID` (missing/blank → `undefined`) and
+  `estatRestUrl` builds the REST v3.0 endpoint; nothing fetches live. The
+  manifest entry `estat-agriculture-census-municipal` is a **declared seam**:
+  without a credential `data:sync` reports it `[skipped]`, and with a
+  credential it fails loudly until an `estat` adapter is registered.
 
 ## Provenance / validation rules
 
@@ -99,15 +136,23 @@ license, and the source document's last-updated time when known. The layer:
 | Source | Format / encoding | License | Valid records | Adapter |
 |---|---|---|---|---|
 | 東京都指定文化財一覧 (`t000021d0000000017`) | CSV / CP932 | CC BY 4.0 | 245 | `cultural-property` |
+| 東京都内の飲食店バリアフリー情報 (`t000012d0000000063`) | CSV / CP932 | CC BY 4.0 | 210 | `barrier-free` |
+| 青梅市飲食店一覧 (`t132055d0000000009`) | XLSX | CC BY 4.0 | 1,593 | `ome-food-business` |
+| 農林業センサス 市町村別統計表 (e-Stat, declared seam) | JSON | 政府標準利用規約 | — (skipped) | `estat` (pending) |
 
-Data-quality notes for the cultural-property snapshot:
+Data-quality notes:
 
-- The artifact carries 248 record lines; 3 are blank trailing rows (filtered).
-- All 245 records have latitude + an English name; **one record (下宅部遺跡)
-  has a malformed longitude cell (", 139.451301")** and is normalized with
-  longitude left undefined rather than inferred.
-- The records' 最終確認日 is 2019-03-29 — the dataset's own confirmation date,
-  not a statement about real-world freshness today.
+- Cultural property: 245 valid records (248 lines minus 3 blank); all have
+  latitude + English name except one malformed longitude cell (下宅部遺跡,
+  `", 139.451301"`) left undefined; 最終確認日 2019-03-29 is the dataset's own
+  confirmation date, not real-world freshness.
+- Barrier-free: 210 self-reported restaurant accessibility records. Flag
+  cells are `〇` or blank — **blank is unknown, not "no"**; no coordinates;
+  `営業時間`/`定休日` stay raw source strings.
+- Ome food business: 1,593 license records for facility identity/status
+  investigation only. No menu/ingredient/hours/accessibility fields; it does
+  not prove current operation or Tokyo-ingredient use; date cells stay raw
+  Excel serials to avoid inventing calendar semantics.
 
 ## Verification
 

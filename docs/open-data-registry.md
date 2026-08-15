@@ -276,6 +276,13 @@ verified open data:
 - **Interpretation boundary**: 市町村単位の集計であり、個別生産者・わさび農家
   の状態や後継者の有無を推測できない。2020年時点のデータであり現在状況では
   ない。奥多摩単独の evidence を東京全体へ一般化しない。
+- **#175 acquisition seam**: an e-Stat credential-gated acquisition seam
+  (`scripts/data-acquisition/auth/estat.ts`, env `ESTAT_APPLICATION_ID`)
+  declares this dataset as a source in
+  `scripts/data-acquisition/manifest.ts`. Without an Application ID,
+  `pnpm data:sync` reports it `skipped`; live fetch requires an `estat`
+  adapter, which is not yet implemented (explicit skipped/manual state per
+  Issue #175).
 
 #### 3.2.15 Restaurant accessibility and regulatory records (#132)
 
@@ -284,6 +291,10 @@ Both resources below were downloaded and inspected at field/record level on
 freshness claims therefore use the resource timestamps, not the catalog page
 timestamp. Full field counts and limitations are recorded in
 `docs/132-local-food-accessibility-opportunities.md`.
+
+Since **2026-08-15** both rows are also acquired end-to-end by the #175
+acquisition layer (`scripts/data-acquisition/adapters/barrier-free/` and
+`.../ome-food-business/`; snapshots + live `pnpm data:sync` verified).
 
 | Dataset | Source / format | License | Resource freshness | Safe product meaning |
 |---|---|---|---|---|
