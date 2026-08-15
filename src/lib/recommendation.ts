@@ -233,9 +233,10 @@ function evaluateCandidate(
 /**
  * Filter → rank → select, with a stable candidate-id tie-break.
  *
- * The caller owns candidate generation and production-readiness. Passing one
- * demo candidate yields the deterministic 8/23 result; passing multiple
- * candidates exercises the same durable contract without changing this code.
+ * The caller owns candidate generation and production-readiness. The fixed
+ * golden-path answers match only the wasabi profile, so passing the two demo
+ * candidates still yields the deterministic 8/23 result; other candidate lists
+ * exercise the same durable contract without changing this code.
  */
 export function recommendCandidates(
   profile: FoodProfile,
