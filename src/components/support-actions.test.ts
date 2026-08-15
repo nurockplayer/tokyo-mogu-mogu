@@ -114,12 +114,10 @@ describe('support actions (#46 / #177)', () => {
     expect(buy?.meaningZh).toContain('山葵');
   });
 
-  it('keeps both action lists pure and deterministic', () => {
-    const genericClone: SupportActionItem[] = SUPPORT_ACTIONS.map((a) => ({ ...a }));
-    expect(genericClone).toEqual(SUPPORT_ACTIONS as unknown as SupportActionItem[]);
-
-    const wasabi = supportActionsForJourney(MODEL_ROUTE_ID);
-    const wasabiClone: SupportActionItem[] = wasabi.map((a) => ({ ...a }));
-    expect(wasabiClone).toEqual(wasabi as unknown as SupportActionItem[]);
+  it('returns stable action-list instances on repeated resolution', () => {
+    expect(supportActionsForJourney(OME_ROUTE_ID)).toBe(supportActionsForJourney(OME_ROUTE_ID));
+    expect(supportActionsForJourney(MODEL_ROUTE_ID)).toBe(
+      supportActionsForJourney(MODEL_ROUTE_ID),
+    );
   });
 });
