@@ -63,14 +63,28 @@ Tama / Okutama remain important current fieldwork, evidence, and demo-content co
 
 One verified journey is enough. No content is invented to widen scope.
 
-### Release boundary (Issue #171)
+### Release boundary / Slice Manifest (Issue #171 / #170)
 
-Additional Region × FoodCulture slices are release-switchable through one small centralized registry keyed by the demo candidate identity (`src/data/release-config.ts`). The 8/23 default:
+Additional Region × FoodCulture slices are release-switchable through one small
+centralized Slice Manifest registry keyed by the demo candidate identity
+(`src/data/slice-manifest.ts`). The manifest keeps each slice's lifecycle axes
+explicitly separate — **content maturity** (`research → source_backed →
+playable → verified`), **visibility** (`discover: hidden | preview | visible`
+plus `recommendationEligible`), and **release role** (`none | secondary |
+primary`) — and carries **no record-level verification state** (#129 stays the
+authority). The 8/23 default:
 
-- **Okutama × Tokyo Wasabi** — enabled, `primary`, recommendable, discoverable (current 8/23 primary MVP / demo)
-- **Ome/Sawai × sake** — enabled, `secondary`, recommendable, discoverable (secondary expansion proof)
+- **Okutama × Tokyo Wasabi** — `playable`, `discover: visible`,
+  recommendation-eligible, `primary` (current 8/23 primary MVP / demo)
+- **Ome/Sawai × sake** — `playable`, `discover: visible`,
+  recommendation-eligible, `secondary` (secondary expansion proof)
 
-A single `enabled: false` change removes a slice from production Discover and recommendation exposure. Disabling only changes release exposure — canonical data / content / routes / i18n and direct Story / Route / Spot access stay usable, and the focused browser path remains green. Product scope stays Tokyo-wide and broader than either slice.
+A single `enabled: false` change (or `discover: hidden`) removes a slice from
+production Discover and recommendation exposure. Changing release exposure or
+`releaseRole` only affects release metadata — canonical data / content / routes
+/ i18n and direct Story / Route / Spot access stay usable, and the focused
+browser path remains green. `playable` does **not** imply record verification.
+Product scope stays Tokyo-wide and broader than either slice.
 
 ## Current App IA (Issue #92)
 
