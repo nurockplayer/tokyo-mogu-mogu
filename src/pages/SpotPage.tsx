@@ -43,6 +43,7 @@ import { googleMapsDirectionsUrl, appleMapsDirectionsUrl, type DirectionsPlace }
 import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
 import { deriveVerificationStatus } from '../lib/verification';
 import { routeBackTarget, resolveSpotRouteId, spotBackHref } from './route-context';
+import './route-spot.css';
 
 /** Maps a place type to its i18n label key. */
 const PLACE_TYPE_LABEL: Record<PlaceType, LocaleKey> = {
@@ -297,10 +298,12 @@ export function SpotPage() {
 
       {/* Practical info */}
       <StorySection kicker={t('s6InfoKicker')} title={t('s6InfoTitle')}>
-        <InfoList items={infoItems} />
-        {practical ? null : (
-          <p className="s6-info-unverified">{t('s6InfoUnverified')}</p>
-        )}
+        <div className="s6-info">
+          <InfoList items={infoItems} />
+          {practical ? null : (
+            <p className="s6-unverified-note">{t('s6InfoUnverified')}</p>
+          )}
+        </div>
       </StorySection>
 
       {/* Demo note (clearly marked) when the spot carries one */}
