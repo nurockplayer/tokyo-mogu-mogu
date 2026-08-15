@@ -40,7 +40,7 @@ export const strings = {
     /* #93 Discover (browse-first free exploration) */
     discoverIntro: 'おすすめを受け取る（ホーム）とは別に、自分の興味で東京の食文化や行き先を巡れます。',
     discoverStoriesTitle: '物語からさがす',
-    discoverPlacesTitle: '奥多摩の行き先',
+    discoverPlacesTitle: '行き先',
     discoverMoreTitle: 'ほかの食文化（今後）',
     discoverFutureTag: '今後追加予定',
     moguPageTitle: 'MOGU',
@@ -531,7 +531,7 @@ export const strings = {
     /* #93 Discover (browse-first free exploration) */
     discoverIntro: 'Separate from receiving a recommendation on Home, explore Tokyo\'s food culture and destinations by your own interest.',
     discoverStoriesTitle: 'Stories',
-    discoverPlacesTitle: 'Okutama destinations',
+    discoverPlacesTitle: 'Destinations',
     discoverMoreTitle: 'Other food cultures (coming later)',
     discoverFutureTag: 'Coming later',
     moguPageTitle: 'MOGU',
@@ -1033,7 +1033,7 @@ export const strings = {
     /* #93 Discover (browse-first free exploration) */
     discoverIntro: '與首頁「接收推薦」不同，可依自己的興趣自由瀏覽東京飲食文化與目的地。',
     discoverStoriesTitle: '從故事探索',
-    discoverPlacesTitle: '奧多摩的目的地',
+    discoverPlacesTitle: '目的地',
     discoverMoreTitle: '其他飲食文化（未來）',
     discoverFutureTag: '即將推出',
     moguPageTitle: 'MOGU',

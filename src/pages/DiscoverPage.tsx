@@ -28,6 +28,7 @@
  */
 import { Link } from 'react-router-dom';
 import { Card, Tag } from '../ui';
+import { FoodCultureImage } from '../components/FoodCultureImage';
 import { useI18n, type LocaleKey } from '../i18n';
 import {
   foodCultures,
@@ -163,7 +164,7 @@ export function DiscoverPage() {
   });
 
   return (
-    <div className="tmm-page">
+    <div className="tmm-page discover-page">
       <h1 className="page-title">{t('discoverPageTitle')}</h1>
       <p className="page-sub">{t('discoverPageBody')}</p>
       <p className="discover-intro">{t('discoverIntro')}</p>
@@ -186,7 +187,16 @@ export function DiscoverPage() {
                     className="discover-link"
                     aria-label={name}
                   >
-                    <Card button className="discover-card">
+                    <Card button className="discover-card discover-card--media">
+                      <div className="discover-card__media">
+                        <FoodCultureImage
+                          image={culture.image}
+                          name={name}
+                          nameJa={culture.nameJa}
+                          category={culture.category}
+                          alt={name}
+                        />
+                      </div>
                       <div className="discover-card__body">
                         <div className="discover-card__title">{name}</div>
                         <p className="discover-card__desc">{desc}</p>

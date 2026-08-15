@@ -35,19 +35,29 @@ export function LandingPage() {
   return (
     <div className="tmm-page tmm-landing">
       <section className="tmm-landing-hero">
-        <span className="tmm-landing-hero__eyebrow">{t('s0Eyebrow')}</span>
-        <h1 className="tmm-landing-hero__title">{t('s0Title')}</h1>
-        <p className="tmm-landing-hero__tagline">{t('s0Tagline')}</p>
-        <div className="tmm-landing-hero__cta">
-          <Link
-            to={journeyTarget}
-            className="tmm-btn tmm-btn--primary tmm-btn--block"
-            onClick={beginNewExploration}
-          >
-            {t('s0Cta')}
-          </Link>
+        <div
+          className="tmm-landing-hero__media"
+          role="img"
+          aria-label={t('appName')}
+        >
+          <span className="tmm-landing-hero__media-glyph" aria-hidden="true">🌿</span>
+          <span className="tmm-landing-hero__media-name">{t('appName')}</span>
         </div>
-        <p className="tmm-landing-hero__note">{t('s0CtaNote')}</p>
+        <div className="tmm-landing-hero__body">
+          <span className="tmm-landing-hero__eyebrow">{t('s0Eyebrow')}</span>
+          <h1 className="tmm-landing-hero__title">{t('s0Title')}</h1>
+          <p className="tmm-landing-hero__tagline">{t('s0Tagline')}</p>
+          <div className="tmm-landing-hero__cta">
+            <Link
+              to={journeyTarget}
+              className="tmm-btn tmm-btn--primary tmm-btn--block"
+              onClick={beginNewExploration}
+            >
+              {t('s0Cta')}
+            </Link>
+          </div>
+          <p className="tmm-landing-hero__note">{t('s0CtaNote')}</p>
+        </div>
       </section>
 
       <StorySection kicker={t('s0StepsKicker')} title={t('s0StepsTitle')}>

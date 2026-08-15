@@ -49,7 +49,7 @@ export function MyPage() {
   const entries = buildEntries(saved);
 
   return (
-    <div className="tmm-page">
+    <div className="tmm-page my-page">
       <h1 className="page-title">{t('myPageTitle')}</h1>
       <p className="page-sub">{t('myPageBody')}</p>
 

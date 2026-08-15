@@ -47,10 +47,22 @@ export function AppShell({ children }: { children: ReactNode }) {
         <ErrorBoundary>{children}</ErrorBoundary>
       </main>
       <nav className="tmm-nav">
-        <NavLink to="/" end className="tmm-nav__link">{t('navHome')}</NavLink>
-        <NavLink to="/discover" className="tmm-nav__link">{t('navDiscover')}</NavLink>
-        <NavLink to="/mogu" className="tmm-nav__link">{t('navMogu')}</NavLink>
-        <NavLink to="/my" className="tmm-nav__link">{t('navMy')}</NavLink>
+        <NavLink to="/" end className="tmm-nav__link">
+          <span className="tmm-nav__icon" aria-hidden="true">🏠</span>
+          {t('navHome')}
+        </NavLink>
+        <NavLink to="/discover" className="tmm-nav__link">
+          <span className="tmm-nav__icon" aria-hidden="true">🔍</span>
+          {t('navDiscover')}
+        </NavLink>
+        <NavLink to="/mogu" className="tmm-nav__link">
+          <span className="tmm-nav__icon" aria-hidden="true">🍽️</span>
+          {t('navMogu')}
+        </NavLink>
+        <NavLink to="/my" className="tmm-nav__link">
+          <span className="tmm-nav__icon" aria-hidden="true">👤</span>
+          {t('navMy')}
+        </NavLink>
       </nav>
     </div>
   );

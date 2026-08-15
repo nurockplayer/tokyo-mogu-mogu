@@ -6,8 +6,48 @@
 /* ---------- S0 Landing (Issue #183 Modern Tokyo Terroir polish) ---------- */
 
 .tmm-landing-hero {
-  margin: var(--tmm-space-6) 0 var(--tmm-space-7);
+  margin: 0 0 var(--tmm-space-7);
+}
+
+/* Full-bleed media-forward hero (Figma parity): the first viewport is led by a
+   wide image/visual plate, with the headline + single dominant CTA beneath it
+   on the cream ground. Placeholder gradient + brand mark — no invented photo. */
+.tmm-landing-hero__media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  margin-left: calc(var(--tmm-gutter) * -1);
+  margin-right: calc(var(--tmm-gutter) * -1);
+  background: linear-gradient(160deg, var(--tmm-color-leaf), var(--tmm-color-forest-deep));
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  color: var(--tmm-color-card);
+}
+
+.tmm-landing-hero__media-glyph {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 4.4rem;
+  opacity: 0.28;
+}
+
+.tmm-landing-hero__media-name {
+  font-family: var(--tmm-font-display);
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: var(--tmm-leading-display);
+  text-shadow: 0 2px 10px rgb(0 0 0 / 0.25);
+  padding: var(--tmm-space-2);
+  overflow-wrap: anywhere;
   text-align: center;
+}
+
+.tmm-landing-hero__body {
+  text-align: center;
+  margin-top: var(--tmm-space-6);
 }
 
 .tmm-landing-hero__eyebrow {
@@ -438,4 +478,15 @@
 .tmm-result__mogu-note::before {
   content: '✓ ';
   font-weight: 700;
+}
+
+/* Desktop: contain the full-bleed hero as a rounded plate (same treatment as
+   the Story hero) so the wider `.tmm-main` gutter does not leave a partial
+   cream band either side of the media. */
+@media (min-width: 768px) {
+  .tmm-landing-hero__media {
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: var(--tmm-radius-lg);
+  }
 }
