@@ -1,9 +1,9 @@
 # TOKYO MOGU MOGU — Data & Route Review Brief
 
-> Team review version for planning / route feasibility discussion  
-> Updated: 2026-08-16  
-> Audience: 企画・PM・デザイン・現地視点のレビュー担当  
-> **調べた44件の一覧:** [`docs/team/data-catalog.md`](./data-catalog.md)  
+> Team review version for planning / route feasibility discussion
+> Updated: 2026-08-16
+> Audience: 企画・PM・デザイン・現地視点のレビュー担当
+> **調べた44件の一覧:** [`docs/team/data-catalog.md`](./data-catalog.md)
 > Detailed research source of truth: [`docs/data-opportunity-map.md`](../data-opportunity-map.md)
 
 ## 1. まず結論

@@ -1,8 +1,8 @@
 # TOKYO MOGU MOGU — Data Catalog
 
-> チーム向け「調べたデータは結局どれ？」一覧  
-> Updated: 2026-08-16  
-> Source of truth: [`docs/data-opportunity-map.md`](../data-opportunity-map.md)  
+> チーム向け「調べたデータは結局どれ？」一覧
+> Updated: 2026-08-16
+> Source of truth: [`docs/data-opportunity-map.md`](../data-opportunity-map.md)
 > Planning brief: [`docs/team/data-review-for-planning.md`](./data-review-for-planning.md)
 
 ## まずここだけ
@@ -113,19 +113,19 @@ Issue #130 の調査で評価した **44件の Data / official public sources** 
 
 データそのものを並べるだけでなく、組み合わせると次のような企画が見えている。
 
-1. **青梅線・御岳 / 沢井 — 酒蔵 × 文化財 day-trip**  
+1. **青梅線・御岳 / 沢井 — 酒蔵 × 文化財 day-trip**
    C1 + C5 + F5 を中心に、小澤酒造・澤乃井園・御嶽周辺を組み合わせる。
-2. **旬 × 産地 × 直売所 — 当季東京食材**  
+2. **旬 × 産地 × 直売所 — 当季東京食材**
    F1 + F2 + F4 + F3 / W1 から「今の旬 → 産地 → 買いに行く」を作る。
-3. **青梅線の相対利用 signal**  
+3. **青梅線の相対利用 signal**
    D4 + D1 から、混雑断定ではなく「歴史的・月別の相対利用」を見せる。
-4. **多摩内陸 Mobility Loop**  
+4. **多摩内陸 Mobility Loop**
    M1 + M2 + M3 から、自由に再利用できる交通データで多摩内陸をつなぐ。
-5. **島しょ『島の今』**  
+5. **島しょ『島の今』**
    W2 + W3 + W4 から、食と船のアクセス、Live情報を組み合わせる。
-6. **文化財 × 食 geo-pairing**  
+6. **文化財 × 食 geo-pairing**
    C1 + C2 + C3 + C4 から、Food Spot の近くにある文化・歴史を旅の理由にする。
-7. **地域の日常食**  
+7. **地域の日常食**
    F7 + F8 から、学校給食や公式施設 listing を地域理解の補助情報にする。
 
 詳しい Product opportunity と vertical-slice ranking は [`Data Opportunity Map §5–7`](../data-opportunity-map.md#5-product-opportunities--プロダクト機会) を参照。
