@@ -1,9 +1,11 @@
 # Demo Script（60–90秒）/ Demo Script (60–90 s)
 
-**Status**: current release state に合わせて更新（2026-08-14）。実行 journey は
-`e2e/golden-path.test.ts`（Issue #120）と `src/app/AppRouter.tsx` の実装に一致。
+**Status**: 2026-08-16 更新（Issue #217 Phase 1 = KiKi 会話型ガイド prototype）。
+実行 journey は `e2e/golden-path.test.ts` と `src/app/AppRouter.tsx` の実装に一致。
 Product scope / demo boundary は `docs/specs/product/product-scope-invariant.md` +
-#112、current App IA は #92 / KiKi。
+#112、current App IA は #92 / KiKi。Phase 1 は production bottom-nav
+（Home / Discover / MOGU / My）を demo path から隠す presentation mode であり、
+Phase 2 の既存 code / data / 契約は保持される（direct URL で到達可能）。
 
 > **Product scope = 東京都全域 × 複数地域 × 複数食文化。**
 >
@@ -33,7 +35,14 @@ fixture（東京わさび result・奥多摩わさび紀行 route）は **8/23 d
   （`okutama-wasabi-journey`）。これは **8/23 demo golden path の fixture** であり、
   「唯一の Product outcome」「唯一の未来 geography」ではない。
 - **Local persistence**: Food Profile / MOGU Recent / Saved Routes は
-  `localStorage` のみ（`tmm:foodProfile:v1` / `tmm:moguRecent:v1` / `tmm:savedRoutes`）。
+  `localStorage` のみ（`tmm:foodProfile:v1` / `tmm:moguRecent:v1` /
+  `tmm:savedRoutes`）。会話の nickname は **sessionStorage**（`tmm:nickname:v1`）
+  のみで、アカウント / profile にならない。
+- **会話型ガイド（Phase 1）**: 旅程は LINE / ChatGPT 風の逐步対話
+  （MOGU のメッセージ → quick reply → 選択が履歴に残る → 次へ）。従来の
+  form wizard ではない。production bottom-nav は demo path に表示されない。
+- **96% は presentation-only**: Result の `96% マッチ度` は Figma の prototype
+  表示で、実際の適合度・安全性の保証でも scoring 基盤でもない。
 
 ## セカンドスライス（#163）/ Second playable slice
 
@@ -45,39 +54,46 @@ fixture（東京わさび result・奥多摩わさび紀行 route）は **8/23 d
 
 ## 主シーケンス / Primary sequence（目標 ≤90 秒）
 
-Presented journey（#92 current App IA）:
+Presented journey（#217 Phase 1 guided conversation）:
 
 ```text
-Home → Food Profile (first use) → Exploration → Result → Story → Route → Spot
-→ Save → My → Saved Routes
+Landing → Food Profile 会話（nickname + dietary）→ Exploration 会話 → Result
+(96% presentation) → Story → Route → Spot → Save
 ```
 
 | # | Step | 画面 / route | タイム | 話すこと（Speaker note） |
 |---|---|---|---|---|
-| 1 | **Home（Landing）** | `/`（`東京の食文化と出会う旅` / `わたしの食文化の旅をはじめる`） | 5 s | 「東京23区に観光は集中しています。このアプリは食を入口に、まだ知らない東京へ『行ってみたい』理由を作ります。」初回は Food Profile へ。 |
-| 2 | **Food Profile（初回のみ）** | `/food-profile`（`フードプロフィールをつくる` → `制限はありません` → `保存してつぎへ`） | 5 s | 「安定したプロフィール（アレルギー・制限など）。初回だけ聞き、あとからマイで編集できます。これはおすすめのためだけに使い、安全性の保証ではありません。」 |
-| 3 | **Exploration（今回の旅）** | `/explore`（5 問: 味 → 体験 → 起点・移動 → 興味 → 半日/1日） | 20 s | 「今回は『さっぱり・爽やか』『食べる』『奥多摩まで60分』『自然・景色』『半日』。これは今回の旅行の条件で、永続の好み診断ではありません。」 |
-| 4 | **Result** | `/explore/result`（`あなたへのおすすめ` = 東京わさび + match reason） | 10 s | 「あなたの条件に合う、地域×食文化の候補が出ました。東京わさびは今日のデモの fixture で、これだけが Product の結果ではありません。この結果は MOGU に自動記録されます。」 |
+| 1 | **Home（Landing）** | `/`（`東京の食文化と出会う旅` / `わたしの食文化の旅をはじめる`） | 5 s | 「東京23区に観光は集中しています。このアプリは食を入口に、まだ知らない東京へ『行ってみたい』理由を作ります。」初回は Food Profile 会話へ。 |
+| 2 | **Food Profile 会話（初回のみ）** | `/food-profile`（`MOGU MOGUへようこそ！` → nickname → 4 カテゴリ → summary） | 10 s | 「LINE のような対話で、呼び名（セッション限定）と食べ物の好みを少しだけ聞きます。これはおすすめのためだけに使い、安全性の保証ではありません。nickname はアカウントになりません。」 |
+| 3 | **Exploration 会話（今回の旅）** | `/explore`（挨拶 + 味 → 体験 → 起点・移動 → 興味 → 半日/1日） | 20 s | 「今回は『さっぱり・爽やか』『食べる』『奥多摩まで60分』『自然・景色』『半日』。これは今回の旅行の条件で、永続の好み診断ではありません。選択肢は奥多摩 × 東京わさびの旅程と整合するように絞られています。」 |
+| 4 | **Result** | `/explore/result`（`96% マッチ度` + `東京わさび` reveal） | 10 s | 「あなたの条件に合う、地域×食文化の候補が出ました。96% は Figma の prototype 表示で、実際の適合度・AI 精度の保証ではありません。東京わさびは今日のデモの fixture で、これだけが Product の結果ではありません。」 |
 | 5 | **Story** | `/story/wasabi-okutama`（`味わうことが、継承になる` + support CTA） | 15 s | 「水・作り手・歴史・技と、継承の課題を一つの物語として見せます。応援 CTA はここに分散配置（共有・理解・ルートを見る）。」 |
-| 6 | **Route** | `/route`（`奥多摩わさび紀行` half-day / 1-day、ピン + mobility） | 10 s | 「半日/1日の実行可能な旅程。公共交通と徒歩の移動、地図ピンが時系列に並びます。『この旅程を保存する』でマイへ。」 |
+| 6 | **Route** | `/route`（`奥多摩わさび紀行` half-day / 1-day、ピン + mobility） | 10 s | 「半日/1日の実行可能な旅程。公共交通と徒歩の移動、地図ピンが時系列に並びます。『この旅程を保存する』で保存。」 |
 | 7 | **Spot Detail** | `/spot/okutama-tourism-office`（実務情報 + 旅程に追加） | 10 s | 「実在する施設の実務情報（source がある範囲）。予約・購入など未検証の行動は『準備中』と表示し、偽の導線を作りません。」 |
-| 8 | **My → Saved Routes** | `/my`（`保存した旅程` = 奥多摩わさび紀行） | 10 s | 「保存した旅程がマイに残ります。Food Profile もここで編集できます。」 |
+| 8 | **Save（検証）** | `/route` の `🔖 この旅程を保存する`（Saved Routes contract を確認） | 5 s | 「保存した旅程は `tmm:savedRoutes` に残ります。My（`/my`）は Phase 1 の demo path には出しません（direct URL で到達可能な Phase 2 面）。」 |
 
-**計: 約 85 秒**（presenter time）。
+**計: 約 85 秒**（presenter time）。production bottom-nav は demo path に
+表示されない（`/my` / `/mogu` / `/discover` は direct URL でのみ到達）。
 
 ## 初回 / 再訪の違い / First-time vs returning
 
-- **初回**: `Home → Food Profile → Exploration → Result → …`（上記の通り）
-- **再訪**: `Home → Exploration → Result → …`（保存済み Food Profile を再利用。
-  E2E が `reload` 後・再訪時に Food Profile を再質問しないことを検証済み）
+- **初回**: `Landing → Food Profile 会話（nickname + dietary）→ Exploration 会話
+  → Result → …`（上記の通り）
+- **再訪**: `Landing → Exploration 会話 → Result → …`（保存済み Food Profile を
+  再利用。E2E が `reload` 後・再訪時に Food Profile を再質問しないことを検証済み。
+  nickname は session-only なので、新しい session ではもう一度聞かれる）
 
 ## 任意の締めのビート（時間が許せば +10 秒）/ Optional closing beats
+
+Phase 1 の demo path には出さないが、**direct URL で到達可能**（Phase 2 面は
+preserved / 非削除）。時間と文脈が許せば直接遷移で見せられる：
 
 - **MOGU**（`/mogu`）— 自動記録された「最近のおすすめ」（最大5件）が **Saved と
   別物**であることを示す。再オープンすると `Result → Story → Route → Spot` の
   文脈に戻る（戻ると MOGU へ）。
 - **Discover**（`/discover`）— 診断なしで browse。Story / Spot へ入り、戻ると
-  Discover へ。Discover 閲覧は MOGU Recent を汚染しない。
+  Discover へ。Discover 閲覧は MOGU Recent を汚染しない。Ome/Sawai × 日本酒
+  （#163）もここで直接確認できる。
 - **Badges**（`/my` → Badges）— **Stretch**。block してはいけない。時間が
   あるときだけ触る。
 

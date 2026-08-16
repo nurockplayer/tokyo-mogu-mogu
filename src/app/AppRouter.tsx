@@ -4,9 +4,14 @@
  * All feature routes live under one router. Features add their routes here and
  * never create their own root/router. Pages are lazy-loaded so Suspense-based
  * route-level loading (LoadingBoundary) is meaningful.
+ *
+ * Phase 1 (Issue #217) renders the guided conversational journey inside the
+ * slim PrototypeShell (no production bottom nav); the production surfaces stay
+ * under the AppShell and remain reachable by direct URL for Phase 2.
  */
 import { lazy, type ReactNode } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { AppShell, PrototypeShell } from './index';
 import { LoadingBoundary } from './LoadingBoundary';
 import { NotFoundPage } from './NotFoundPage';
 
@@ -73,31 +78,38 @@ function withBoundary(element: ReactNode) {
 export function AppRouter() {
   return (
     <Routes>
-      <Route path="/" element={withBoundary(<LandingPage />)} />
-      <Route path="/home" element={withBoundary(<HomePage />)} />
-      <Route path="/explore" element={withBoundary(<ExplorationWizardPage />)} />
-      <Route path="/explore/result" element={withBoundary(<ResultPage />)} />
-      <Route path="/food-profile" element={withBoundary(<FoodProfilePage mode="view" />)} />
-      <Route path="/food-profile/edit" element={withBoundary(<FoodProfilePage mode="edit" />)} />
-      <Route path="/pokedex" element={withBoundary(<PokedexPage />)} />
-      <Route path="/map" element={withBoundary(<MapPage />)} />
-      <Route path="/food-cultures/:id" element={withBoundary(<FoodCulturePage />)} />
-      <Route path="/route" element={withBoundary(<RoutePage />)} />
-      <Route path="/spot/:placeId" element={withBoundary(<SpotPage />)} />
-      <Route path="/story/:foodCultureId" element={withBoundary(<StoryPage />)} />
-      <Route path="/story" element={withBoundary(<StoryPage />)} />
-      <Route path="/support" element={withBoundary(<SupportPage />)} />
-      <Route path="/my-route" element={withBoundary(<MyRoutePage />)} />
-      {/* #95 primary-nav destination shells (content owned by #93 / #94 / #81) */}
-      <Route path="/discover" element={withBoundary(<DiscoverPage />)} />
-      <Route path="/mogu" element={withBoundary(<MoguPage />)} />
-      <Route path="/my" element={withBoundary(<MyPage />)} />
-      {/* #39 Stretch: My → Badges collection */}
-      <Route path="/badges" element={withBoundary(<BadgesPage />)} />
-      {UiShowcasePage ? (
-        <Route path="/_ui" element={withBoundary(<UiShowcasePage />)} />
-      ) : null}
-      <Route path="*" element={<NotFoundPage />} />
+      {/* Phase 1 — guided conversational prototype (Issue #217): no production nav. */}
+      <Route element={<PrototypeShell />}>
+        <Route path="/" element={withBoundary(<LandingPage />)} />
+        <Route path="/food-profile" element={withBoundary(<FoodProfilePage mode="view" />)} />
+        <Route path="/food-profile/edit" element={withBoundary(<FoodProfilePage mode="edit" />)} />
+        <Route path="/explore" element={withBoundary(<ExplorationWizardPage />)} />
+        <Route path="/explore/result" element={withBoundary(<ResultPage />)} />
+        <Route path="/story/:foodCultureId" element={withBoundary(<StoryPage />)} />
+        <Route path="/story" element={withBoundary(<StoryPage />)} />
+        <Route path="/route" element={withBoundary(<RoutePage />)} />
+        <Route path="/spot/:placeId" element={withBoundary(<SpotPage />)} />
+      </Route>
+
+      {/* Phase 2 — production surfaces (preserved, direct-URL reachable only). */}
+      <Route element={<AppShell />}>
+        <Route path="/home" element={withBoundary(<HomePage />)} />
+        <Route path="/pokedex" element={withBoundary(<PokedexPage />)} />
+        <Route path="/map" element={withBoundary(<MapPage />)} />
+        <Route path="/food-cultures/:id" element={withBoundary(<FoodCulturePage />)} />
+        <Route path="/support" element={withBoundary(<SupportPage />)} />
+        <Route path="/my-route" element={withBoundary(<MyRoutePage />)} />
+        {/* #95 primary-nav destination shells (content owned by #93 / #94 / #81) */}
+        <Route path="/discover" element={withBoundary(<DiscoverPage />)} />
+        <Route path="/mogu" element={withBoundary(<MoguPage />)} />
+        <Route path="/my" element={withBoundary(<MyPage />)} />
+        {/* #39 Stretch: My → Badges collection */}
+        <Route path="/badges" element={withBoundary(<BadgesPage />)} />
+        {UiShowcasePage ? (
+          <Route path="/_ui" element={withBoundary(<UiShowcasePage />)} />
+        ) : null}
+        <Route path="*" element={<NotFoundPage />} />
+      </Route>
     </Routes>
   );
 }

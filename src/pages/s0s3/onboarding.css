@@ -433,6 +433,86 @@
   line-height: var(--tmm-leading-caption);
 }
 
+/* Large touchable selection surfaces (Issue #181 Figma parity): wizard chips
+   grow past the 44px floor so multi-select steps read as generous choices
+   while staying >=44px for the tap-target rule. */
+.tmm-wizard .tmm-chip {
+  min-height: 50px;
+  padding: 12px 22px;
+  font-size: 0.98rem;
+}
+
+/* Experience choices: image-forward 2-column tiles (Figma `4:2101`). */
+.tmm-wizard__tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--tmm-space-3);
+  margin-bottom: var(--tmm-space-5);
+}
+
+.tmm-wizard__tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--tmm-space-1);
+  min-height: 132px;
+  padding: var(--tmm-space-3);
+  border-radius: var(--tmm-radius-md);
+  border: var(--tmm-border-strong);
+  background: var(--tmm-color-card);
+  color: var(--tmm-color-ink);
+  cursor: pointer;
+  font-family: var(--tmm-font-body);
+  text-align: center;
+  transition:
+    background 0.15s var(--tmm-ease),
+    color 0.15s var(--tmm-ease),
+    border-color 0.15s var(--tmm-ease);
+}
+
+.tmm-wizard__tile:focus-visible {
+  outline: var(--tmm-focus-ring);
+  outline-offset: var(--tmm-focus-offset);
+}
+
+.tmm-wizard__tile:hover {
+  border-color: var(--tmm-color-forest);
+}
+
+.tmm-wizard__tile:active {
+  transform: scale(0.98);
+}
+
+.tmm-wizard__tile--selected {
+  background: var(--tmm-color-forest);
+  border-color: var(--tmm-color-forest);
+  color: var(--tmm-color-card);
+}
+
+.tmm-wizard__tile-icon {
+  font-size: 1.7rem;
+  line-height: 1;
+}
+
+.tmm-wizard__tile-label {
+  font-weight: 700;
+  font-size: 1.02rem;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.tmm-wizard__tile-sub {
+  font-size: var(--tmm-text-caption);
+  line-height: 1.4;
+  color: var(--tmm-color-ink-soft);
+  overflow-wrap: anywhere;
+}
+
+.tmm-wizard__tile--selected .tmm-wizard__tile-sub {
+  color: rgb(255 253 246 / 0.9);
+}
+
 /* Result hero: feature card with a cover band and stronger body hierarchy. */
 .tmm-result-card--hero {
   border-left: 4px solid var(--tmm-color-leaf);
@@ -453,6 +533,26 @@
 .tmm-result .tmm-result-card__title {
   font-size: 1.5rem;
   overflow-wrap: anywhere;
+}
+
+/* Result hero: taller media so the reveal reads as an image-led discovery
+   moment (Figma `23:3380` / `23:3527` 350×240 hero) rather than a thin band. */
+.tmm-result .tmm-result-card__media {
+  aspect-ratio: 10 / 7;
+}
+
+.tmm-result-card__region {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 12px;
+  border-radius: var(--tmm-radius-pill);
+  background: var(--tmm-color-leaf-tint);
+  border: 1px solid rgb(157 188 100 / 0.5);
+  font-size: var(--tmm-text-caption);
+  font-weight: 700;
+  color: var(--tmm-color-forest-deep);
+  line-height: 1.5;
 }
 
 .tmm-result .tmm-result__tags {
@@ -480,6 +580,60 @@
   font-weight: 700;
 }
 
+/* Phase 1 match presentation (Issue #217): Figma's circular 96% マッチ度 is a
+   prototype presentation badge over the result hero — no scoring semantics. */
+.tmm-result__greeting {
+  justify-content: center;
+  margin-bottom: var(--tmm-space-4);
+}
+
+.tmm-result__greeting .fp-convo__bubble {
+  flex: 0 1 auto;
+  text-align: left;
+}
+
+.tmm-result .tmm-result-card__media {
+  position: relative;
+}
+
+.tmm-result-match {
+  position: absolute;
+  right: var(--tmm-space-3);
+  bottom: var(--tmm-space-3);
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  background: var(--tmm-color-card);
+  border: 2px solid var(--tmm-color-leaf);
+  box-shadow: var(--tmm-shadow-card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.tmm-result-match__percent {
+  font-family: var(--tmm-font-display);
+  font-weight: 800;
+  font-size: 1.18rem;
+  line-height: 1.1;
+  color: var(--tmm-color-forest-deep);
+}
+
+.tmm-result-match__label {
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: var(--tmm-color-forest);
+  letter-spacing: 0.04em;
+}
+
+.tmm-result-match__note {
+  margin: 0;
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-faint);
+  line-height: var(--tmm-leading-caption);
+}
+
 /* Desktop: contain the full-bleed hero as a rounded plate (same treatment as
    the Story hero) so the wider `.tmm-main` gutter does not leave a partial
    cream band either side of the media. */
@@ -488,5 +642,245 @@
     margin-left: 0;
     margin-right: 0;
     border-radius: var(--tmm-radius-lg);
+  }
+}
+
+/* ---------- Returning Home (Issue #217 Phase 1) ---------- */
+
+.tmm-landing-return {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tmm-space-6);
+  padding-top: var(--tmm-space-4);
+}
+
+.tmm-landing-return__greet {
+  justify-content: center;
+}
+
+.tmm-landing-return__greet .fp-convo__bubble {
+  flex: 0 1 auto;
+  max-width: 320px;
+  text-align: left;
+}
+
+.tmm-landing-return__cta {
+  max-width: 340px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+   Conversational guided prototype (Issue #181 Figma parity →
+   Issue #217 Phase 1). Assistant-led chat rhythm: left avatar +
+   bubble, 46px-scale embedded choices, user confirmation bubble.
+   Shared by the Food Profile and Exploration conversations.
+   Built on the shared `tmm-*` foundation only.
+   ============================================================ */
+
+/* Accumulated transcript: vertical rhythm between bubbles. */
+.fp-chat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tmm-space-3);
+}
+
+.fp-convo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tmm-space-3);
+}
+
+.fp-convo__msg {
+  display: flex;
+  gap: var(--tmm-space-3);
+  align-items: flex-start;
+}
+
+.fp-convo__msg--assistant {
+  justify-content: flex-start;
+}
+
+.fp-convo__msg--user {
+  justify-content: flex-end;
+}
+
+.fp-convo__avatar {
+  flex: 0 0 46px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--tmm-color-leaf-tint);
+  border: 1px solid rgb(157 188 100 / 0.5);
+  display: grid;
+  place-items: center;
+  font-size: 1.3rem;
+}
+
+.fp-convo__bubble {
+  flex: 1;
+  min-width: 0;
+  background: var(--tmm-color-card);
+  border: var(--tmm-border);
+  border-radius: var(--tmm-radius-lg);
+  border-top-left-radius: var(--tmm-radius-sm);
+  box-shadow: var(--tmm-shadow-card);
+  padding: var(--tmm-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--tmm-space-2);
+}
+
+.fp-convo__msg--user .fp-convo__bubble {
+  flex: 0 1 auto;
+  background: var(--tmm-color-forest);
+  border-color: var(--tmm-color-forest);
+  color: var(--tmm-color-card);
+  border-radius: var(--tmm-radius-lg);
+  border-top-right-radius: var(--tmm-radius-sm);
+  font-weight: 600;
+}
+
+.fp-convo__title {
+  font-family: var(--tmm-font-display);
+  font-weight: 700;
+  font-size: 1.08rem;
+  line-height: var(--tmm-leading-title);
+  color: var(--tmm-color-ink);
+  margin: 0;
+}
+
+.fp-convo__q {
+  font-family: var(--tmm-font-display);
+  font-weight: 700;
+  font-size: 1.12rem;
+  line-height: var(--tmm-leading-title);
+  color: var(--tmm-color-ink);
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.fp-convo__body {
+  font-size: var(--tmm-text-body);
+  color: var(--tmm-color-ink);
+  line-height: var(--tmm-leading-body);
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Embedded choice row: 46px-scale controls per the Figma conversation. */
+.fp-convo__choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tmm-space-2);
+  margin-top: var(--tmm-space-1);
+}
+
+.fp-convo__choices--stack {
+  flex-direction: column;
+  gap: var(--tmm-space-2);
+}
+
+.fp-convo .tmm-chip {
+  min-height: 46px;
+  padding: 12px 22px;
+  font-size: 0.95rem;
+}
+
+.fp-convo__hint {
+  margin: 0;
+  padding-left: 58px;
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-faint);
+  line-height: var(--tmm-leading-caption);
+}
+
+.fp-convo__label {
+  display: block;
+  font-weight: 700;
+  color: var(--tmm-color-ink);
+  margin-bottom: var(--tmm-space-2);
+}
+
+.fp-convo__trust {
+  margin: var(--tmm-space-2) 0 0;
+  padding: var(--tmm-space-3);
+  background: var(--tmm-color-warm);
+  border: var(--tmm-border);
+  border-left: 4px solid var(--tmm-color-leaf);
+  border-radius: var(--tmm-radius-md);
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+  line-height: var(--tmm-leading-caption);
+}
+
+.fp-convo__note {
+  margin: 0;
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+  line-height: var(--tmm-leading-caption);
+}
+
+/* Browse escape hatch (no-profile path) below the intro card. */
+.fp-convo__browse {
+  align-self: center;
+  background: transparent;
+  border: 0;
+  padding: var(--tmm-space-2) var(--tmm-space-3);
+  min-height: var(--tmm-tap-min);
+  font-family: var(--tmm-font-body);
+  font-size: var(--tmm-text-body);
+  color: var(--tmm-color-forest);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.fp-convo__browse:focus-visible {
+  outline: var(--tmm-focus-ring);
+  outline-offset: var(--tmm-focus-offset);
+  border-radius: var(--tmm-radius-sm);
+}
+
+/* Conversation header row: back + title + spacer. */
+.fp-convo-header {
+  margin-bottom: var(--tmm-space-4);
+}
+
+.fp-convo-header__label {
+  flex: 1;
+  text-align: center;
+  font-family: var(--tmm-font-body);
+  font-size: var(--tmm-text-caption);
+  font-weight: 700;
+  letter-spacing: var(--tmm-tracking-caption);
+  color: var(--tmm-color-forest);
+  line-height: var(--tmm-leading-caption);
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.fp-convo-header__spacer {
+  flex: 0 0 44px;
+}
+
+/* Step label above the step dots. */
+.fp-convo-progress {
+  display: flex;
+  justify-content: center;
+  margin: var(--tmm-space-2) 0 var(--tmm-space-3);
+}
+
+.fp-convo-progress .tmm-progress__label {
+  white-space: normal;
+  text-align: center;
+}
+
+/* Bottom primary action. */
+.fp-convo-actions {
+  margin-top: var(--tmm-space-5);
+}
+
+@media (min-width: 768px) {
+  .fp-convo__bubble {
+    padding: var(--tmm-space-5);
   }
 }
