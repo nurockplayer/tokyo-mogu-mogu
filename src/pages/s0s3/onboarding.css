@@ -818,6 +818,22 @@
   line-height: var(--tmm-leading-caption);
 }
 
+/* Figma dietary category chips (Issue #226): grouped proposed-input chips. */
+.fp-dietary {
+  margin-top: var(--tmm-space-3);
+  padding-top: var(--tmm-space-3);
+  border-top: var(--tmm-border);
+}
+
+.fp-dietary__label {
+  margin: 0 0 var(--tmm-space-2);
+  font-weight: 700;
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-forest-deep);
+  letter-spacing: var(--tmm-tracking-caption);
+  line-height: var(--tmm-leading-caption);
+}
+
 .fp-convo__label {
   display: block;
   font-weight: 700;
