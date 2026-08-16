@@ -13,14 +13,17 @@
  *
  * Phase 1 presents the Figma Food Profile as a LINE / ChatGPT-style
  * conversation: the assistant welcome, an optional session-only nickname step,
- * four yes/no dietary category steps, an optional free-text step, and a summary
- * with the recommendation-only trust copy. Selected choices append to the
- * transcript as user confirmation bubbles so the history stays visible. The
- * canonical FoodProfile schema, the save/edit/no-restriction behavior, and the
- * safety boundary are unchanged. Input is recommendation-only, never a safety
- * guarantee (product contract "Safety Boundary"). No option implies an allergy
- * / vegan / religious safety guarantee and no option contradicts the fixed
- * Okutama × Tokyo Wasabi demo route.
+ * the dietary category step(s), an optional free-text step, and a summary with
+ * the recommendation-only trust copy. Phase 1 setup (the demo path) exposes
+ * only the taste-preference (dislike) question — a condition that safely
+ * coexists with the fixed Okutama × Tokyo Wasabi route; the durable model and
+ * the edit surface keep all four categories for Phase 2 (Issue #220). Selected
+ * choices append to the transcript as user confirmation bubbles so the history
+ * stays visible. The canonical FoodProfile schema, the save/edit/no-restriction
+ * behavior, and the safety boundary are unchanged. Input is recommendation-only,
+ * never a safety guarantee (product contract "Safety Boundary"). No option
+ * implies an allergy / vegan / religious safety guarantee and no option
+ * contradicts the fixed Okutama × Tokyo Wasabi demo route.
  */
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -71,11 +74,8 @@ export function foodProfileView(mode: 'view' | 'edit', hasExisting: boolean) {
 /** Wizard step index constants for the conversation. */
 const STEP_INTRO = 0;
 const STEP_NICKNAME = 1;
-const STEP_Q1 = 2;
-const STEP_Q4 = 5;
-const STEP_OTHER = 6;
-const STEP_SUMMARY = 7;
-const CATEGORY_STEP_COUNT = 4;
+/** First dietary category step (always the step right after nickname). */
+const FIRST_CATEGORY_STEP = STEP_NICKNAME + 1;
 
 /** Which intro action the user chose (drives the intro transcript bubble). */
 type IntroChoice = 'start' | 'no-restrictions';
@@ -102,7 +102,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
     setExisting(loadFoodProfile());
   }, [mode]);
 
-  const [step, setStep] = useState(editing ? STEP_Q1 : STEP_INTRO);
+  const [step, setStep] = useState(editing ? FIRST_CATEGORY_STEP : STEP_INTRO);
   const [answered, setAnswered] = useState<Set<number>>(new Set());
   const [introChoice, setIntroChoice] = useState<IntroChoice | null>(null);
   const [nicknameInput, setNicknameInput] = useState(() => loadNickname() ?? '');
@@ -116,7 +116,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   // and edit starts at the first category question.
   useEffect(() => {
     setDraftState(loadFoodProfile() ?? createDefaultFoodProfile());
-    setStep(mode === 'edit' ? STEP_Q1 : STEP_INTRO);
+    setStep(mode === 'edit' ? FIRST_CATEGORY_STEP : STEP_INTRO);
     setAnswered(new Set());
     setIntroChoice(null);
     setNicknameInput(loadNickname() ?? '');
@@ -129,13 +129,27 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
     { value: 'dislike', label: t('fpDislike') },
   ];
 
-  // Category step titles in order (allergy → vegan → religious → dislike).
-  const categoryTitles = [
-    t('fpQ1Title'),
-    t('fpQ2Title'),
-    t('fpQ3Title'),
-    t('fpQ4Title'),
-  ] as const;
+  // Phase 1 setup exposes only the dietary conditions that safely coexist with
+  // the fixed demo route (Issue #220): a taste-preference (dislike) question.
+  // The durable Food Profile model and the edit surface keep all four
+  // categories for Phase 2.
+  const phase1Choices: Choice[] = [{ value: 'dislike', label: t('fpDislike') }];
+  const categoryChoices = editing ? choices : phase1Choices;
+  const categoryCount = categoryChoices.length;
+  const lastCategoryStep = FIRST_CATEGORY_STEP + categoryCount - 1;
+  const otherStep = lastCategoryStep + 1;
+  const summaryStep = otherStep + 1;
+
+  // Category step titles, in the order the current mode offers them.
+  const categoryTitles = categoryChoices.map((choice) =>
+    choice.value === 'allergy'
+      ? t('fpQ1Title')
+      : choice.value === 'vegetarian-vegan'
+        ? t('fpQ2Title')
+        : choice.value === 'religious'
+          ? t('fpQ3Title')
+          : t('fpQ4Title'),
+  );
 
   /** Mark the current category step as explicitly answered by the user. */
   function markAnswered(currentStep: number) {
@@ -208,7 +222,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
 
   function goBack() {
     if (step > STEP_INTRO) {
-      if (step === STEP_Q1 && editing) {
+      if (step === FIRST_CATEGORY_STEP && editing) {
         // Edit back from the first category step → profile summary.
         navigate('/food-profile');
         return;
@@ -221,25 +235,25 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
 
   /** Advance past the current step. Category steps require an explicit answer. */
   function canProceed(): boolean {
-    if (step >= STEP_Q1 && step <= STEP_Q4) return answered.has(step);
+    if (step >= FIRST_CATEGORY_STEP && step <= lastCategoryStep) return answered.has(step);
     return true;
   }
 
   function goNext() {
-    if (step === STEP_SUMMARY) {
+    if (step === summaryStep) {
       handleSave();
       return;
     }
-    if (step === STEP_OTHER) {
-      setStep(STEP_SUMMARY);
+    if (step === otherStep) {
+      setStep(summaryStep);
       return;
     }
-    if (step >= STEP_Q1 && step < STEP_Q4) {
+    if (step >= FIRST_CATEGORY_STEP && step < lastCategoryStep) {
       setStep(step + 1);
       return;
     }
     // After the last category step → optional free-text step.
-    setStep(STEP_OTHER);
+    setStep(otherStep);
   }
 
   /** Save the session nickname (blank = skip) and continue to the first question. */
@@ -247,7 +261,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
     if (nicknameInput.trim().length > 0) {
       saveNickname(nicknameInput);
     }
-    setStep(STEP_Q1);
+    setStep(FIRST_CATEGORY_STEP);
   }
 
   // Single source of truth for which view renders (Issue #78 P1 fix): derived
@@ -284,12 +298,12 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
       children: nickname ?? t('fpNicknameSkip'),
     });
   }
-  for (let i = STEP_Q1; i < step && i <= STEP_Q4; i += 1) {
-    const value = choices[i - STEP_Q1].value;
+  for (let i = FIRST_CATEGORY_STEP; i < step && i <= lastCategoryStep; i += 1) {
+    const value = categoryChoices[i - FIRST_CATEGORY_STEP].value;
     transcript.push({
       id: `q${i}`,
       role: 'assistant',
-      children: <AssistantQuestion title={categoryTitles[i - STEP_Q1]} />,
+      children: <AssistantQuestion title={categoryTitles[i - FIRST_CATEGORY_STEP]} />,
     });
     if (answered.has(i)) {
       transcript.push({
@@ -299,7 +313,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
       });
     }
   }
-  if (step > STEP_OTHER) {
+  if (step > otherStep) {
     transcript.push({
       id: 'other',
       role: 'assistant',
@@ -330,7 +344,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
             onNoRestrictions={() => {
               setNoRestrictions();
               setIntroChoice('no-restrictions');
-              setStep(STEP_SUMMARY);
+              setStep(summaryStep);
             }}
           />
         ) : null}
@@ -341,21 +355,21 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
               value={nicknameInput}
               onChange={setNicknameInput}
               onConfirm={submitNickname}
-              onSkip={() => setStep(STEP_Q1)}
+              onSkip={() => setStep(FIRST_CATEGORY_STEP)}
             />
           </>
         ) : null}
 
-        {step >= STEP_Q1 && step <= STEP_Q4 ? (
+        {step >= FIRST_CATEGORY_STEP && step <= lastCategoryStep ? (
           <>
-            <ProgressHeader step={step} />
+            <ProgressHeader step={step} categoryCount={categoryCount} />
             <CategoryStep
-              title={categoryTitles[step - STEP_Q1]}
-              choice={choices[step - STEP_Q1]}
-              present={isSelected(draftState.dietary, choices[step - STEP_Q1].value)}
+              title={categoryTitles[step - FIRST_CATEGORY_STEP]}
+              choice={categoryChoices[step - FIRST_CATEGORY_STEP]}
+              present={isSelected(draftState.dietary, categoryChoices[step - FIRST_CATEGORY_STEP].value)}
               answered={answered.has(step)}
               onAnswer={(present) => {
-                setCategory(choices[step - STEP_Q1].value, present);
+                setCategory(categoryChoices[step - FIRST_CATEGORY_STEP].value, present);
                 markAnswered(step);
               }}
               yesLabel={t('fpYes')}
@@ -365,7 +379,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
           </>
         ) : null}
 
-        {step === STEP_OTHER ? (
+        {step === otherStep ? (
           <>
             <OtherStep
               value={draftState.dietaryOther}
@@ -379,7 +393,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
           </>
         ) : null}
 
-        {step === STEP_SUMMARY ? (
+        {step === summaryStep ? (
           <>
             <SummaryStep profile={draftState} choices={choices} nickname={nickname} />
             <WizardActions onNext={handleSave} nextLabel={t('fpSave')} />
@@ -396,16 +410,16 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
         <ConversationHeader editing onBack={goBack} />
         <ChatTranscript items={transcript} />
 
-        {step >= STEP_Q1 && step <= STEP_Q4 ? (
+        {step >= FIRST_CATEGORY_STEP && step <= lastCategoryStep ? (
           <>
-            <ProgressHeader step={step} />
+            <ProgressHeader step={step} categoryCount={categoryCount} />
             <CategoryStep
-              title={categoryTitles[step - STEP_Q1]}
-              choice={choices[step - STEP_Q1]}
-              present={isSelected(draftState.dietary, choices[step - STEP_Q1].value)}
+              title={categoryTitles[step - FIRST_CATEGORY_STEP]}
+              choice={categoryChoices[step - FIRST_CATEGORY_STEP]}
+              present={isSelected(draftState.dietary, categoryChoices[step - FIRST_CATEGORY_STEP].value)}
               answered={answered.has(step)}
               onAnswer={(present) => {
-                setCategory(choices[step - STEP_Q1].value, present);
+                setCategory(categoryChoices[step - FIRST_CATEGORY_STEP].value, present);
                 markAnswered(step);
               }}
               yesLabel={t('fpYes')}
@@ -415,7 +429,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
           </>
         ) : null}
 
-        {step === STEP_OTHER ? (
+        {step === otherStep ? (
           <>
             <OtherStep
               value={draftState.dietaryOther}
@@ -429,7 +443,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
           </>
         ) : null}
 
-        {step === STEP_SUMMARY ? (
+        {step === summaryStep ? (
           <>
             <SummaryStep profile={draftState} choices={choices} nickname={loadNickname()} />
             <WizardActions onNext={handleSave} nextLabel={t('fpSave')} />
@@ -509,17 +523,17 @@ function ConversationHeader({
   );
 }
 
-/** Progress bar + step dots shown during the four category steps. */
-function ProgressHeader({ step }: { step: number }) {
+/** Progress bar + step dots shown during the category steps. */
+function ProgressHeader({ step, categoryCount }: { step: number; categoryCount: number }) {
   const { t } = useI18n();
-  const n = step - STEP_Q1 + 1;
-  const label = fillTemplate(t('fpStepOf'), { n: String(n), total: String(CATEGORY_STEP_COUNT) });
+  const n = step - FIRST_CATEGORY_STEP + 1;
+  const label = fillTemplate(t('fpStepOf'), { n: String(n), total: String(categoryCount) });
   return (
     <>
       <div className="tmm-wizard__progress fp-convo-progress">
         <span className="tmm-progress__label">{label}</span>
       </div>
-      <StepDots total={CATEGORY_STEP_COUNT} current={n - 1} label={label} />
+      <StepDots total={categoryCount} current={n - 1} label={label} />
     </>
   );
 }
@@ -626,10 +640,10 @@ function CategoryStep({
         <div className="fp-convo__bubble">
           <p className="fp-convo__q">{title}</p>
           <div className="fp-convo__choices">
-            <Chip selected={present} onClick={() => onAnswer(true)}>
+            <Chip selected={answered && present} onClick={() => onAnswer(true)}>
               {yesLabel}
             </Chip>
-            <Chip selected={!present} onClick={() => onAnswer(false)}>
+            <Chip selected={answered && !present} onClick={() => onAnswer(false)}>
               {noLabel}
             </Chip>
           </div>

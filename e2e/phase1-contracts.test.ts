@@ -128,10 +128,9 @@ async function completeJourney(page: Page, locale: Locale): Promise<void> {
   await page.getByText(j.nicknameTitle).waitFor();
   await page.getByLabel(/nickname|暱稱/i).fill(j.nickname);
   await page.getByRole('button', { name: j.nicknameConfirm }).click();
-  for (let step = 0; step < 4; step += 1) {
-    await page.getByRole('button', { name: j.no }).click();
-    await page.getByRole('button', { name: j.next }).click();
-  }
+  // Phase 1 setup exposes only the taste-preference (dislike) category question.
+  await page.getByRole('button', { name: j.no }).click();
+  await page.getByRole('button', { name: j.next }).click();
   await page.getByRole('button', { name: j.next }).click();
   await page.getByRole('button', { name: j.save }).click();
   await page.waitForURL('**/explore');
@@ -184,10 +183,8 @@ test.describe('Phase 1 constrained options (ja, 375px)', () => {
     await page.getByRole('button', { name: 'はじめる！' }).click();
     await page.getByLabel('ニックネーム').fill('ナナミ');
     await page.getByRole('button', { name: 'これでお願いします！' }).click();
-    for (let step = 0; step < 4; step += 1) {
-      await page.getByRole('button', { name: 'いいえ' }).click();
-      await page.getByRole('button', { name: '次へ' }).click();
-    }
+    await page.getByRole('button', { name: 'いいえ' }).click();
+    await page.getByRole('button', { name: '次へ' }).click();
     await page.getByRole('button', { name: '次へ' }).click();
     await page.getByRole('button', { name: '保存してつぎへ' }).click();
     await page.waitForURL('**/explore');
@@ -241,5 +238,81 @@ test.describe('Phase 1 hidden Phase 2 surfaces (ja, 375px)', () => {
     await page.goto('/my');
     await page.getByRole('heading', { name: 'マイ' }).waitFor();
     await expect(page.locator('.tmm-nav')).toHaveCount(1);
+  });
+});
+
+/** ja: complete the Food Profile setup (dislike only) and reach the first Exploration step. */
+async function jaReachExplorationFirstStep(page: Page): Promise<void> {
+  await page.goto('/');
+  await resetDemoState(page);
+  await page.reload();
+  await page.getByRole('link', { name: 'わたしの食文化の旅をはじめる' }).click();
+  await page.waitForURL('**/food-profile');
+  await page.getByRole('button', { name: 'はじめる！' }).click();
+  await page.getByLabel('ニックネーム').fill('ナナミ');
+  await page.getByRole('button', { name: 'これでお願いします！' }).click();
+  await page.getByRole('button', { name: 'いいえ' }).click();
+  await page.getByRole('button', { name: '次へ' }).click();
+  await page.getByRole('button', { name: '次へ' }).click();
+  await page.getByRole('button', { name: '保存してつぎへ' }).click();
+  await page.waitForURL('**/explore');
+}
+
+/** ja: complete Food Profile + first two Exploration steps → departure/travel step. */
+async function jaReachDepartureStep(page: Page): Promise<void> {
+  await jaReachExplorationFirstStep(page);
+  await page.getByRole('button', { name: 'さっぱり・爽やか' }).click();
+  await page.getByRole('button', { name: '次へ' }).click();
+  await page.getByRole('button', { name: '食べる' }).click();
+  await page.getByRole('button', { name: '次へ' }).click();
+  await page.getByRole('button', { name: '奥多摩' }).waitFor();
+}
+
+test.describe('Phase 1 believable departure × travel-time choices (ja, 375px)', () => {
+  test.use({ locale: 'ja-JP' });
+
+  test('a central-Tokyo/Shinjuku departure never offers a short travel tolerance', async ({
+    page,
+  }) => {
+    await jaReachDepartureStep(page);
+
+    await page.getByRole('button', { name: '東京西部・都心（新宿など）' }).click();
+    // Only the believable long-travel option is selectable for Okutama.
+    await page.getByRole('button', { name: '1時間以上OK' }).waitFor();
+    await expect(page.getByRole('button', { name: '30分以内' })).toHaveCount(0);
+    await expect(page.getByRole('button', { name: '60分以内' })).toHaveCount(0);
+  });
+
+  test('an Okutama departure never offers an implausible over-60 travel time', async ({ page }) => {
+    await jaReachDepartureStep(page);
+
+    await page.getByRole('button', { name: '奥多摩' }).click();
+    await page.getByRole('button', { name: '30分以内' }).waitFor();
+    await page.getByRole('button', { name: '60分以内' }).waitFor();
+    await expect(page.getByRole('button', { name: '1時間以上OK' })).toHaveCount(0);
+  });
+});
+
+test.describe('Phase 1 unanswered yes/no has no selected state (ja, 375px)', () => {
+  test.use({ locale: 'ja-JP' });
+
+  test('the dislike quick replies start unselected until the user answers', async ({ page }) => {
+    await page.goto('/');
+    await resetDemoState(page);
+    await page.reload();
+    await page.getByRole('link', { name: 'わたしの食文化の旅をはじめる' }).click();
+    await page.waitForURL('**/food-profile');
+    await page.getByRole('button', { name: 'はじめる！' }).click();
+    await page.getByLabel('ニックネーム').fill('ナナミ');
+    await page.getByRole('button', { name: 'これでお願いします！' }).click();
+    await page.getByText('苦手な食材や味はありますか？').waitFor();
+
+    // Unanswered: neither Yes nor No may look preselected.
+    await expect(page.getByRole('button', { name: 'はい' })).toHaveAttribute('aria-pressed', 'false');
+    await expect(page.getByRole('button', { name: 'いいえ' })).toHaveAttribute('aria-pressed', 'false');
+
+    await page.getByRole('button', { name: 'いいえ' }).click();
+    await expect(page.getByRole('button', { name: 'いいえ' })).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.getByRole('button', { name: 'はい' })).toHaveAttribute('aria-pressed', 'false');
   });
 });

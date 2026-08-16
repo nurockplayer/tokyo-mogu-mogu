@@ -21,7 +21,7 @@
 |---|---|---|---|---|
 | 0 | 前準備 | DemoResetButton → 確認、ja、375px | 空状態 | 5 s |
 | 1 | **Landing** | `/` で CTA `わたしの食文化の旅をはじめる` | h1 `東京の食文化と出会う旅`、bottom-nav なし | 5 s |
-| 2 | **Food Profile 会話** | `MOGU MOGUへようこそ！` → `はじめる！` → nickname `ナナミ` → `これでお願いします！` → 各カテゴリ `いいえ` → `次へ` ×4 → `次へ`（任意入力）→ `保存してつぎへ` | URL → `/explore`、`tmm:nickname:v1` は sessionStorage のみ | 12 s |
+| 2 | **Food Profile 会話** | `MOGU MOGUへようこそ！` → `はじめる！` → nickname `ナナミ` → `これでお願いします！` → 苦手な食材 `いいえ` → `次へ` → `次へ`（任意入力）→ `保存してつぎへ` | URL → `/explore`、`tmm:nickname:v1` は sessionStorage のみ | 12 s |
 | 3 | **Exploration 会話** | 挨拶確認 → ①`さっぱり・爽やか`→`次へ` ②`食べる`→`次へ` ③`奥多摩`+`60分以内`→`次へ` ④`自然・景色`→`次へ` ⑤`半日（日帰り）`→`結果を見る` | URL → `/explore/result`、挨拶に `ナナミ` | 20 s |
 | 4 | **Result** | カード `東京わさび` + `.tmm-result-match` = `96%` `マッチ度` + prototype 注記 | `.tmm-result-card__title` = 東京わさび | 10 s |
 | 5 | **Story** | `東京わさびの物語を読む` | `/story/wasabi-okutama`、`味わうことが、継承になる` | 15 s |

@@ -19,11 +19,14 @@ import {
 import { createDefaultFoodProfile } from '../../lib/food-profile';
 import { recommendCandidates } from '../../lib/recommendation';
 import {
+  PHASE1_AREA_TRAVEL_PAIRS,
+  PHASE1_BASE_AREAS,
   PHASE1_DURATIONS,
   PHASE1_EXPERIENCES,
   PHASE1_INTERESTS,
   PHASE1_TASTES,
   phase1RecommendableCandidates,
+  phase1TravelTimesFor,
 } from './phase1-exploration';
 
 /** The wasabi candidate's offered values (the determinism target). */
@@ -64,6 +67,45 @@ describe('Phase 1 constrained choice sets (Issue #217)', () => {
   });
 });
 
+describe('Phase 1 departure × travel-time allow-list (Issue #220)', () => {
+  it('offers the canonical base areas in the Phase 1 conversation', () => {
+    expect(PHASE1_BASE_AREAS).toEqual(['okutama', 'tama-center', 'tokyo-west']);
+  });
+
+  it('pairs every offered departure with believable travel times for Okutama', () => {
+    expect(PHASE1_AREA_TRAVEL_PAIRS).toEqual([
+      { baseArea: 'okutama', travelTime: 'within-30' },
+      { baseArea: 'okutama', travelTime: 'within-60' },
+      { baseArea: 'tama-center', travelTime: 'within-60' },
+      { baseArea: 'tama-center', travelTime: 'over-60' },
+      { baseArea: 'tokyo-west', travelTime: 'over-60' },
+    ]);
+  });
+
+  it('never pairs a central-Tokyo/Shinjuku departure with a short travel tolerance', () => {
+    const tokyoWestTimes = PHASE1_AREA_TRAVEL_PAIRS.filter(
+      (pair) => pair.baseArea === 'tokyo-west',
+    ).map((pair) => pair.travelTime);
+    expect(tokyoWestTimes).toEqual(['over-60']);
+  });
+
+  it('offers only within-30/within-60 from Okutama and within-60/over-60 from Tama', () => {
+    expect(phase1TravelTimesFor('okutama')).toEqual(['within-30', 'within-60']);
+    expect(phase1TravelTimesFor('tama-center')).toEqual(['within-60', 'over-60']);
+    expect(phase1TravelTimesFor('tokyo-west')).toEqual(['over-60']);
+  });
+
+  it('exposes no pair that obviously contradicts reaching Okutama', () => {
+    const contradictory = PHASE1_AREA_TRAVEL_PAIRS.filter(
+      (pair) =>
+        (pair.baseArea === 'tokyo-west' && pair.travelTime !== 'over-60') ||
+        (pair.baseArea === 'tama-center' && pair.travelTime === 'within-30') ||
+        (pair.baseArea === 'okutama' && pair.travelTime === 'over-60'),
+    );
+    expect(contradictory).toEqual([]);
+  });
+});
+
 describe('Phase 1 deterministic wasabi outcome (Issue #217)', () => {
   const profile = createDefaultFoodProfile();
 
@@ -88,4 +130,20 @@ describe('Phase 1 deterministic wasabi outcome (Issue #217)', () => {
       expect(decision.excluded.length).toBe(0);
     });
   }
+
+  it('every allowed Phase 1 departure × travel-time pair still selects wasabi', () => {
+    for (const pair of PHASE1_AREA_TRAVEL_PAIRS) {
+      const answers = answersFor({
+        tastes: ['refreshing'],
+        experiences: ['eat'],
+        interests: ['nature'],
+        duration: 'half-day',
+        baseArea: pair.baseArea,
+        travelTime: pair.travelTime,
+      });
+      const decision = recommendCandidates(profile, answers, phase1RecommendableCandidates());
+      expect(decision.selected?.candidate.id).toBe(DEMO_RECOMMENDATION_CANDIDATE_ID);
+      expect(decision.excluded.length).toBe(0);
+    }
+  });
 });

@@ -36,7 +36,13 @@ import {
 import { loadExplorationAnswers, saveExplorationAnswers } from './exploration-session';
 import { hasFoodProfile } from '../../lib/food-profile-storage';
 import { loadNickname } from '../../lib/nickname';
-import { PHASE1_EXPERIENCES, PHASE1_INTERESTS, PHASE1_TASTES } from './phase1-exploration';
+import {
+  PHASE1_BASE_AREAS,
+  PHASE1_EXPERIENCES,
+  PHASE1_INTERESTS,
+  PHASE1_TASTES,
+  phase1TravelTimesFor,
+} from './phase1-exploration';
 import { ChatTranscript, AssistantQuestion, type ChatItem } from './conversation';
 import './onboarding.css';
 
@@ -97,9 +103,18 @@ function ExplorationWizardInner() {
     // A stale session may carry values the Phase 1 conversation no longer
     // offers (e.g. rich/sweet from a pre-Phase-1 session). Narrow them so the
     // conversation and the Result stay coherent after a reload.
+    const baseArea = saved.baseArea;
+    const travelTime =
+      baseArea !== null &&
+      saved.travelTime !== null &&
+      phase1TravelTimesFor(baseArea).includes(saved.travelTime)
+        ? saved.travelTime
+        : null;
     return {
       ...createDefaultExplorationAnswers(),
       ...saved,
+      baseArea,
+      travelTime,
       tastes: saved.tastes.filter((v) => PHASE1_TASTES.includes(v)),
       experiences: saved.experiences.filter((v) => PHASE1_EXPERIENCES.includes(v)),
       interests: saved.interests.filter((v) => PHASE1_INTERESTS.includes(v)),
@@ -133,17 +148,25 @@ function ExplorationWizardInner() {
     return { value, label: t('exExpMeet'), sub: t('exExpMeetSub'), icon: '🤝' };
   });
 
-  const areaChoices: Choice<BaseArea>[] = [
-    { value: 'okutama', label: t('exAreaOkutama') },
-    { value: 'tama-center', label: t('exAreaTama') },
-    { value: 'tokyo-west', label: t('exAreaTokyoWest') },
-  ];
+  const areaChoices: Choice<BaseArea>[] = PHASE1_BASE_AREAS.map((value) => {
+    if (value === 'okutama') return { value, label: t('exAreaOkutama') };
+    if (value === 'tama-center') return { value, label: t('exAreaTama') };
+    return { value, label: t('exAreaTokyoWest') };
+  });
 
-  const travelChoices: Choice<TravelTime>[] = [
-    { value: 'within-30', label: t('exTravelWithin30') },
-    { value: 'within-60', label: t('exTravelWithin60') },
-    { value: 'over-60', label: t('exTravelOver60') },
-  ];
+  /** Travel-time choices for a departure area, from the Phase 1 allow-list. */
+  function travelChoicesFor(baseArea: BaseArea): Choice<TravelTime>[] {
+    return phase1TravelTimesFor(baseArea).map((value) => ({
+      value,
+      label: t(
+        value === 'within-30'
+          ? 'exTravelWithin30'
+          : value === 'within-60'
+            ? 'exTravelWithin60'
+            : 'exTravelOver60',
+      ),
+    }));
+  }
 
   const interestChoices: Choice<Interest>[] = PHASE1_INTERESTS.map((value) => ({
     value,
@@ -192,7 +215,14 @@ function ExplorationWizardInner() {
   }
 
   function setBaseArea(value: BaseArea) {
-    persist({ ...answers, baseArea: value });
+    // A previously chosen travel time may not be offered for the new departure
+    // area (e.g. within-30 with tokyo-west); drop it so the travel question is
+    // re-answered with only believable options.
+    const travelTime =
+      answers.travelTime !== null && phase1TravelTimesFor(value).includes(answers.travelTime)
+        ? answers.travelTime
+        : null;
+    persist({ ...answers, baseArea: value, travelTime });
   }
 
   function setTravelTime(value: TravelTime) {
@@ -264,11 +294,11 @@ function ExplorationWizardInner() {
           children: labelFor(areaChoices, answers.baseArea),
         });
       }
-      if (answers.travelTime !== null) {
+      if (answers.travelTime !== null && answers.baseArea !== null) {
         transcript.push({
           id: 'a2b',
           role: 'user',
-          children: labelFor(travelChoices, answers.travelTime),
+          children: labelFor(travelChoicesFor(answers.baseArea), answers.travelTime),
         });
       }
     } else if (i === 3) {
@@ -409,7 +439,11 @@ function ExplorationWizardInner() {
             <p className="fp-convo__hint">{t(S2_HINTS[1])}</p>
           </>
         );
-      case 2:
+      case 2: {
+        // Travel-time options come from the Phase 1 allow-list for the chosen
+        // departure area, so only believable combinations are selectable.
+        const travelChoices =
+          answers.baseArea !== null ? travelChoicesFor(answers.baseArea) : [];
         return (
           <>
             {answers.baseArea === null ? (
@@ -430,6 +464,7 @@ function ExplorationWizardInner() {
             <p className="fp-convo__hint">{t(S2_HINTS[2])}</p>
           </>
         );
+      }
       case 3:
         return (
           <>
