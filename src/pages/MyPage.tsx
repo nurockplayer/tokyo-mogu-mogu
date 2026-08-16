@@ -72,6 +72,9 @@ export function MyPage() {
             {entries.map(({ entry, route }) => (
               <li key={entry.routeId}>
                 <Card className="my-route-card">
+                  <div className="my-route-card__media" aria-hidden="true">
+                    <span className="my-route-card__media-glyph">🌿</span>
+                  </div>
                   <div className="my-route-card__body">
                     <div className="my-route-card__title">
                       {(() => {

@@ -433,6 +433,86 @@
   line-height: var(--tmm-leading-caption);
 }
 
+/* Large touchable selection surfaces (Issue #181 Figma parity): wizard chips
+   grow past the 44px floor so multi-select steps read as generous choices
+   while staying >=44px for the tap-target rule. */
+.tmm-wizard .tmm-chip {
+  min-height: 50px;
+  padding: 12px 22px;
+  font-size: 0.98rem;
+}
+
+/* Experience choices: image-forward 2-column tiles (Figma `4:2101`). */
+.tmm-wizard__tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--tmm-space-3);
+  margin-bottom: var(--tmm-space-5);
+}
+
+.tmm-wizard__tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--tmm-space-1);
+  min-height: 132px;
+  padding: var(--tmm-space-3);
+  border-radius: var(--tmm-radius-md);
+  border: var(--tmm-border-strong);
+  background: var(--tmm-color-card);
+  color: var(--tmm-color-ink);
+  cursor: pointer;
+  font-family: var(--tmm-font-body);
+  text-align: center;
+  transition:
+    background 0.15s var(--tmm-ease),
+    color 0.15s var(--tmm-ease),
+    border-color 0.15s var(--tmm-ease);
+}
+
+.tmm-wizard__tile:focus-visible {
+  outline: var(--tmm-focus-ring);
+  outline-offset: var(--tmm-focus-offset);
+}
+
+.tmm-wizard__tile:hover {
+  border-color: var(--tmm-color-forest);
+}
+
+.tmm-wizard__tile:active {
+  transform: scale(0.98);
+}
+
+.tmm-wizard__tile--selected {
+  background: var(--tmm-color-forest);
+  border-color: var(--tmm-color-forest);
+  color: var(--tmm-color-card);
+}
+
+.tmm-wizard__tile-icon {
+  font-size: 1.7rem;
+  line-height: 1;
+}
+
+.tmm-wizard__tile-label {
+  font-weight: 700;
+  font-size: 1.02rem;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.tmm-wizard__tile-sub {
+  font-size: var(--tmm-text-caption);
+  line-height: 1.4;
+  color: var(--tmm-color-ink-soft);
+  overflow-wrap: anywhere;
+}
+
+.tmm-wizard__tile--selected .tmm-wizard__tile-sub {
+  color: rgb(255 253 246 / 0.9);
+}
+
 /* Result hero: feature card with a cover band and stronger body hierarchy. */
 .tmm-result-card--hero {
   border-left: 4px solid var(--tmm-color-leaf);
@@ -453,6 +533,26 @@
 .tmm-result .tmm-result-card__title {
   font-size: 1.5rem;
   overflow-wrap: anywhere;
+}
+
+/* Result hero: taller media so the reveal reads as an image-led discovery
+   moment (Figma `23:3380` / `23:3527` 350×240 hero) rather than a thin band. */
+.tmm-result .tmm-result-card__media {
+  aspect-ratio: 10 / 7;
+}
+
+.tmm-result-card__region {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 12px;
+  border-radius: var(--tmm-radius-pill);
+  background: var(--tmm-color-leaf-tint);
+  border: 1px solid rgb(157 188 100 / 0.5);
+  font-size: var(--tmm-text-caption);
+  font-weight: 700;
+  color: var(--tmm-color-forest-deep);
+  line-height: 1.5;
 }
 
 .tmm-result .tmm-result__tags {
@@ -485,6 +585,181 @@
    cream band either side of the media. */
 @media (min-width: 768px) {
   .tmm-landing-hero__media {
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: var(--tmm-radius-lg);
+  }
+}
+
+/* ---------- Returning Home (Figma Talk12 parity, Issue #181) ---------- */
+
+.tmm-home-return__hero {
+  margin-bottom: var(--tmm-space-6);
+}
+
+/* Full-bleed image-led hero with a translucent shade and centered greeting.
+   Mirrors the Figma `Talk12` returning Home: a large food/nature plate, white
+   greeting over it, and the primary pill CTA below on the cream ground. */
+.tmm-home-return__media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  margin-left: calc(var(--tmm-gutter) * -1);
+  margin-right: calc(var(--tmm-gutter) * -1);
+  background: linear-gradient(160deg, var(--tmm-color-leaf), var(--tmm-color-forest-deep));
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  color: var(--tmm-color-card);
+}
+
+.tmm-home-return__glyph {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 5rem;
+  opacity: 0.22;
+}
+
+.tmm-home-return__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgb(38 46 22 / 0.05) 0%, rgb(38 46 22 / 0.38) 100%);
+}
+
+.tmm-home-return__greet {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--tmm-space-1);
+  text-align: center;
+  padding: var(--tmm-space-4);
+  overflow-wrap: anywhere;
+}
+
+.tmm-home-return__greet-line {
+  font-size: var(--tmm-text-body);
+  font-weight: 600;
+  line-height: var(--tmm-leading-title);
+  opacity: 0.96;
+}
+
+.tmm-home-return__greet-title {
+  font-family: var(--tmm-font-display);
+  font-size: 1.7rem;
+  font-weight: 700;
+  line-height: var(--tmm-leading-display);
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 10px rgb(0 0 0 / 0.25);
+}
+
+.tmm-home-return__cta {
+  margin-top: var(--tmm-space-5);
+  max-width: 340px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Recent recommendations — media-forward card stack (shared Figma vocabulary). */
+.tmm-home-return__recent-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--tmm-space-3);
+  margin-bottom: var(--tmm-space-4);
+}
+
+.tmm-home-return__recent-title {
+  font-family: var(--tmm-font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: var(--tmm-leading-title);
+  color: var(--tmm-color-ink);
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.tmm-home-return__recent-all {
+  flex: 0 0 auto;
+  min-height: var(--tmm-tap-min);
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--tmm-text-body);
+  font-weight: 600;
+  color: var(--tmm-color-forest);
+  text-decoration: none;
+}
+
+.tmm-home-return__recent-all:focus-visible {
+  outline: var(--tmm-focus-ring);
+  outline-offset: var(--tmm-focus-offset);
+  border-radius: var(--tmm-radius-sm);
+}
+
+.tmm-home-return__recent-empty {
+  font-size: var(--tmm-text-body);
+  color: var(--tmm-color-ink-soft);
+  line-height: var(--tmm-leading-body);
+}
+
+.tmm-home-return__recent-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--tmm-space-3);
+}
+
+.tmm-home-return__card {
+  background: var(--tmm-color-card);
+  border: var(--tmm-border);
+  border-radius: var(--tmm-radius-md);
+  box-shadow: var(--tmm-shadow-card);
+  overflow: hidden;
+}
+
+.tmm-home-return__card-media {
+  aspect-ratio: 16 / 7.3;
+  background: linear-gradient(160deg, var(--tmm-color-forest), var(--tmm-color-forest-deep));
+  display: grid;
+  place-items: center;
+  color: var(--tmm-color-card);
+  font-size: 2.4rem;
+  opacity: 0.94;
+}
+
+.tmm-home-return__card-body {
+  padding: var(--tmm-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--tmm-space-2);
+}
+
+.tmm-home-return__card-title {
+  font-family: var(--tmm-font-display);
+  font-weight: 700;
+  font-size: 1.08rem;
+  line-height: var(--tmm-leading-title);
+  color: var(--tmm-color-ink);
+  overflow-wrap: anywhere;
+}
+
+.tmm-home-return__card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--tmm-space-3);
+}
+
+.tmm-home-return__card-time {
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-faint);
+  line-height: var(--tmm-leading-caption);
+}
+
+@media (min-width: 768px) {
+  .tmm-home-return__media {
     margin-left: 0;
     margin-right: 0;
     border-radius: var(--tmm-radius-lg);

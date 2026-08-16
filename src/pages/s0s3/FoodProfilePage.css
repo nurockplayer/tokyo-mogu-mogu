@@ -112,3 +112,211 @@
     padding-top: var(--tmm-space-7);
   }
 }
+
+/* ============================================================
+   Conversational Food Profile (Issue #181 Figma parity).
+   Assistant-led chat rhythm: left avatar + bubble, 46px-scale
+   embedded choices, user confirmation bubble, one category per
+   step. Built on the shared `tmm-*` foundation only.
+   ============================================================ */
+
+.fp-convo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tmm-space-3);
+}
+
+.fp-convo__msg {
+  display: flex;
+  gap: var(--tmm-space-3);
+  align-items: flex-start;
+}
+
+.fp-convo__msg--assistant {
+  justify-content: flex-start;
+}
+
+.fp-convo__msg--user {
+  justify-content: flex-end;
+}
+
+.fp-convo__avatar {
+  flex: 0 0 46px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--tmm-color-leaf-tint);
+  border: 1px solid rgb(157 188 100 / 0.5);
+  display: grid;
+  place-items: center;
+  font-size: 1.3rem;
+}
+
+.fp-convo__bubble {
+  flex: 1;
+  min-width: 0;
+  background: var(--tmm-color-card);
+  border: var(--tmm-border);
+  border-radius: var(--tmm-radius-lg);
+  border-top-left-radius: var(--tmm-radius-sm);
+  box-shadow: var(--tmm-shadow-card);
+  padding: var(--tmm-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--tmm-space-2);
+}
+
+.fp-convo__msg--user .fp-convo__bubble {
+  flex: 0 1 auto;
+  background: var(--tmm-color-forest);
+  border-color: var(--tmm-color-forest);
+  color: var(--tmm-color-card);
+  border-radius: var(--tmm-radius-lg);
+  border-top-right-radius: var(--tmm-radius-sm);
+  font-weight: 600;
+}
+
+.fp-convo__title {
+  font-family: var(--tmm-font-display);
+  font-weight: 700;
+  font-size: 1.08rem;
+  line-height: var(--tmm-leading-title);
+  color: var(--tmm-color-ink);
+  margin: 0;
+}
+
+.fp-convo__q {
+  font-family: var(--tmm-font-display);
+  font-weight: 700;
+  font-size: 1.12rem;
+  line-height: var(--tmm-leading-title);
+  color: var(--tmm-color-ink);
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.fp-convo__body {
+  font-size: var(--tmm-text-body);
+  color: var(--tmm-color-ink);
+  line-height: var(--tmm-leading-body);
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Embedded choice row: 46px-scale controls per the Figma conversation. */
+.fp-convo__choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tmm-space-2);
+  margin-top: var(--tmm-space-1);
+}
+
+.fp-convo__choices--stack {
+  flex-direction: column;
+  gap: var(--tmm-space-2);
+}
+
+.fp-convo .tmm-chip {
+  min-height: 46px;
+  padding: 12px 22px;
+  font-size: 0.95rem;
+}
+
+.fp-convo__hint {
+  margin: 0;
+  padding-left: 58px;
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-faint);
+  line-height: var(--tmm-leading-caption);
+}
+
+.fp-convo__label {
+  display: block;
+  font-weight: 700;
+  color: var(--tmm-color-ink);
+  margin-bottom: var(--tmm-space-2);
+}
+
+.fp-convo__trust {
+  margin: var(--tmm-space-2) 0 0;
+  padding: var(--tmm-space-3);
+  background: var(--tmm-color-warm);
+  border: var(--tmm-border);
+  border-left: 4px solid var(--tmm-color-leaf);
+  border-radius: var(--tmm-radius-md);
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+  line-height: var(--tmm-leading-caption);
+}
+
+.fp-convo__note {
+  margin: 0;
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+  line-height: var(--tmm-leading-caption);
+}
+
+/* Browse escape hatch (no-profile path) below the intro card. */
+.fp-convo__browse {
+  align-self: center;
+  background: transparent;
+  border: 0;
+  padding: var(--tmm-space-2) var(--tmm-space-3);
+  min-height: var(--tmm-tap-min);
+  font-family: var(--tmm-font-body);
+  font-size: var(--tmm-text-body);
+  color: var(--tmm-color-forest);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.fp-convo__browse:focus-visible {
+  outline: var(--tmm-focus-ring);
+  outline-offset: var(--tmm-focus-offset);
+  border-radius: var(--tmm-radius-sm);
+}
+
+/* Conversation header row: back + title + spacer. */
+.fp-convo-header {
+  margin-bottom: var(--tmm-space-4);
+}
+
+.fp-convo-header__label {
+  flex: 1;
+  text-align: center;
+  font-family: var(--tmm-font-body);
+  font-size: var(--tmm-text-caption);
+  font-weight: 700;
+  letter-spacing: var(--tmm-tracking-caption);
+  color: var(--tmm-color-forest);
+  line-height: var(--tmm-leading-caption);
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.fp-convo-header__spacer {
+  flex: 0 0 44px;
+}
+
+/* Step label above the step dots. */
+.fp-convo-progress {
+  display: flex;
+  justify-content: center;
+  margin: var(--tmm-space-2) 0 var(--tmm-space-3);
+}
+
+.fp-convo-progress .tmm-progress__label {
+  white-space: normal;
+  text-align: center;
+}
+
+/* Bottom primary action. */
+.fp-convo-actions {
+  margin-top: var(--tmm-space-5);
+}
+
+@media (min-width: 768px) {
+  .fp-convo__bubble {
+    padding: var(--tmm-space-5);
+  }
+}

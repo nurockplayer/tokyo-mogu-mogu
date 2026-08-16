@@ -38,6 +38,14 @@ interface Choice<V extends string> {
   label: string;
 }
 
+/** A large image-forward tile (experience choices, Figma `4:2101` parity). */
+interface ExperienceTile<V extends string> {
+  value: V;
+  label: string;
+  sub: string;
+  icon: string;
+}
+
 function isSelected(values: string[], value: string): boolean {
   return values.includes(value);
 }
@@ -87,11 +95,14 @@ function ExplorationWizardInner() {
     { value: 'sweet', label: t('exTasteSweet') },
   ];
 
-  const experienceChoices: Choice<Experience>[] = [
-    { value: 'eat', label: t('exExpEat') },
-    { value: 'make', label: t('exExpMake') },
-    { value: 'buy', label: t('exExpBuy') },
-    { value: 'meet', label: t('exExpMeet') },
+  // Large image-forward experience tiles (Figma `4:2101`): icon + label +
+  // sublabel in a 2-column grid. Values stay canonical; icons are visual
+  // guidance, not new answer taxonomy.
+  const experienceTiles: ExperienceTile<Experience>[] = [
+    { value: 'eat', label: t('exExpEat'), sub: t('exExpEatSub'), icon: '🍽️' },
+    { value: 'make', label: t('exExpMake'), sub: t('exExpMakeSub'), icon: '🧑‍🍳' },
+    { value: 'buy', label: t('exExpBuy'), sub: t('exExpBuySub'), icon: '🛍️' },
+    { value: 'meet', label: t('exExpMeet'), sub: t('exExpMeetSub'), icon: '🤝' },
   ];
 
   const areaChoices: Choice<BaseArea>[] = [
@@ -226,12 +237,42 @@ function ExplorationWizardInner() {
     );
   }
 
+  /** Large 2-column experience tiles (Figma `4:2101` parity). */
+  function renderTiles<V extends string>(
+    tiles: ExperienceTile<V>[],
+    values: V[],
+    onToggle: (v: V) => void,
+  ) {
+    return (
+      <div className="tmm-wizard__tiles">
+        {tiles.map((tile) => {
+          const selected = isSelected(values, tile.value);
+          return (
+            <button
+              key={tile.value}
+              type="button"
+              aria-pressed={selected}
+              className={`tmm-wizard__tile ${selected ? 'tmm-wizard__tile--selected' : ''}`.trim()}
+              onClick={() => onToggle(tile.value)}
+            >
+              <span className="tmm-wizard__tile-icon" aria-hidden="true">
+                {tile.icon}
+              </span>
+              <span className="tmm-wizard__tile-label">{tile.label}</span>
+              <span className="tmm-wizard__tile-sub">{tile.sub}</span>
+            </button>
+          );
+        })}
+      </div>
+    );
+  }
+
   function renderStepBody() {
     switch (step) {
       case 0:
         return renderMulti(tasteChoices, answers.tastes, toggleTaste);
       case 1:
-        return renderMulti(experienceChoices, answers.experiences, toggleExperience);
+        return renderTiles(experienceTiles, answers.experiences, toggleExperience);
       case 2:
         return (
           <>

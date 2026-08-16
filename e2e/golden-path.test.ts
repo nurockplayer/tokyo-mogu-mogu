@@ -102,7 +102,8 @@ test.describe('golden path (ja, 375px)', () => {
     await page.waitForURL('**/explore/result');
 
     // ---- 4. Result — deterministic 東京わさび + MOGU Recent hand-off ----
-    await page.getByRole('heading', { name: 'あなたへのおすすめ' }).waitFor();
+    // The Result reads as a reveal/discovery moment (Issue #181 Figma parity).
+    await page.getByRole('heading', { name: '今回のあなたに合う食文化の旅を見つけました！' }).waitFor();
     // The result title appears in the feature card; "東京わさび" also matches
     // the Story CTA below it, so scope to the card title for a strict check.
     await page
@@ -173,7 +174,8 @@ test.describe('golden path (ja, 375px)', () => {
     // ---- 11. returning Home flow must not re-ask the Food Profile ----
     await page.getByRole('link', { name: 'ホーム' }).click();
     await page.waitForURL('**/');
-    await page.getByRole('link', { name: 'わたしの食文化の旅をはじめる' }).click();
+    // The returning Home shows the Figma Talk12 "continue" CTA (Issue #181).
+    await page.getByRole('link', { name: '食旅をつづける' }).click();
     // Returning user skips /food-profile and goes straight into Exploration.
     await page.waitForURL('**/explore');
     expect(new URL(page.url()).pathname).not.toContain('/food-profile');
@@ -201,7 +203,7 @@ test.describe('golden path (ja, 375px)', () => {
     await page.waitForURL('**/mogu');
     await page.getByRole('button', { name: 'このおすすめを見る' }).click();
     await page.waitForURL('**/explore/result*');
-    await page.getByRole('heading', { name: 'あなたへのおすすめ' }).waitFor();
+    await page.getByRole('heading', { name: '今回のあなたに合う食文化の旅を見つけました！' }).waitFor();
     await page.getByRole('link', { name: '東京わさびの物語を読む' }).click();
     await page.waitForURL('**/story/wasabi-okutama*');
     await page.getByText('味わうことが、継承になる').waitFor();
@@ -213,5 +215,18 @@ test.describe('golden path (ja, 375px)', () => {
     await page.getByRole('link', { name: /物語に戻る/ }).click();
     await page.waitForURL('**/story/wasabi-okutama*');
     await page.getByText('味わうことが、継承になる').waitFor();
+
+    // ---- 14. My → Food Profile edit opens the conversation at the first
+    //          question (#181 reviewer regression lock) ----
+    // `/food-profile` and `/food-profile/edit` reuse the same component
+    // instance (only the `mode` prop changes), so entering edit from the
+    // summary must reset the conversation step — otherwise edit renders a
+    // stale/blank step instead of the first category question.
+    await page.goto('/food-profile');
+    await page.getByRole('heading', { name: 'フードプロフィール' }).waitFor();
+    await page.getByRole('link', { name: '編集する' }).click();
+    await page.waitForURL('**/food-profile/edit');
+    await page.getByRole('heading', { name: 'フードプロフィールを編集' }).waitFor();
+    await page.getByText('まず、食物アレルギーはありますか？').waitFor();
   });
 });

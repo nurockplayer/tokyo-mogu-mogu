@@ -294,6 +294,13 @@ export const strings = {
     s0WhyBody1:
       '作り手が減り、守るべき食文化が静かに消えようとしています。多摩の山あいには、江戸時代から続くわさび田や、小さな生産者たちがいます。',
     s0WhyBody2: 'あなたが味わい、買い、訪れるだけで、その食文化は明日も続いていきます。',
+    // Home returning state (Figma Talk12 parity, Issue #181)
+    homeGreeting: 'こんにちは！',
+    homeGreetingTitle: 'あなただけの食旅を見つけよう!',
+    homeCtaContinue: '食旅をつづける',
+    homeRecentTitle: '最近のおすすめ',
+    homeRecentCta: 'すべて見る',
+    homeRecentEmpty: 'おすすめ履歴はまだありません。ホームから今回の旅を始めると、ここに自動で記録されます。',
     // Food Profile (Issue #78, reframe of S1)
     fpTitle: 'フードプロフィール',
     fpSub: '食べられるもの・制限は、ここでまとめて管理できます。',
@@ -313,6 +320,25 @@ export const strings = {
     fpSave: '保存してつぎへ',
     fpEditCta: '編集する',
     fpStartExplorationCta: '今回の探索をはじめる',
+    // Food Profile conversational rhythm (Figma parity, Issue #181)
+    fpIntroTitle: 'MOGU MOGUへようこそ！',
+    fpIntroBody:
+      'あなたにぴったりの東京の食文化や体験を見つけるために、まずはあなたの「食」のことを少しだけ教えてください。',
+    fpStartCta: 'はじめる！',
+    fpBrowseCta: '登録なし、自分で見てみる',
+    fpStepOf: 'ステップ {n} / {total}',
+    fpQ1Title: 'まず、食物アレルギーはありますか？',
+    fpQ2Title: 'ベジタリアン・ビーガンなどの食事スタイルはありますか？',
+    fpQ3Title: '宗教上の理由などで、避けている食べものはありますか？',
+    fpQ4Title: '苦手な食材や味はありますか？',
+    fpYes: 'はい',
+    fpNo: 'いいえ',
+    fpOtherNote: 'その他、避けているもの・気になることがあれば入力してください（任意）。',
+    fpSummaryConfirm: 'ありがとうございます！あなたの食のプロフィールを登録しました。',
+    fpSummaryTitle: 'あなたのFood Profile：',
+    fpSummaryTrust:
+      'この情報は、あなたに合ったおすすめと理由を提案するためにのみ使用されます。安全性や対応可否を保証するものではありません。詳細は現地・店舗に直接ご確認ください。',
+    fpEditNote: '回答内容を変更したい場合や、間違えた場合は、回答完了後にマイページから編集できます。',
     // Exploration conditions (Issue #78, reframe of S2)
     exNext: '次へ',
     exDone: '結果を見る',
@@ -338,6 +364,10 @@ export const strings = {
     exExpMake: '作る',
     exExpBuy: '買う',
     exExpMeet: '作り手に会う',
+    exExpEatSub: '地元の料理を味わう',
+    exExpMakeSub: '体験・ワークショップに参加',
+    exExpBuySub: '食材やお土産を買う',
+    exExpMeetSub: '職人や生産者を訪ねる',
     exAreaOkutama: '奥多摩',
     exAreaTama: '多摩地域（八王子・立川など）',
     exAreaTokyoWest: '東京西部・都心（新宿など）',
@@ -350,9 +380,9 @@ export const strings = {
     exInterestDaily: '地域の日常',
     exDurationHalf: '半日（日帰り）',
     exDurationFull: '1日',
-    // S3 result (Issue #43, reframed by Issue #78)
-    s3Title: 'あなたへのおすすめ',
-    s3Subtitle: '今回の探索にもとづく、最初の一皿。',
+    // S3 result (Issue #43, reframed by Issue #78; Issue #181 reveal moment)
+    s3RevealTitle: '今回のあなたに合う食文化の旅を見つけました！',
+    s3RevealSub: 'あなたの答えから導いた、最初のおすすめです。',
     s3DietaryTitle: '食事制限の考慮',
     s3DietaryKnown: '食事制限の入力があります（対応可否は未確認です）',
     s3DietaryUnknown: '制限なしのご入力でした',
@@ -787,6 +817,14 @@ export const strings = {
     s0WhyBody1:
       'Makers are aging, and food cultures worth keeping are quietly disappearing. In the Tama hills there are wasabi fields that go back to the Edo period and small producers who keep them going.',
     s0WhyBody2: 'By tasting, buying, and visiting, you help this food culture live another day.',
+    // Home returning state (Figma Talk12 parity, Issue #181)
+    homeGreeting: 'Hello!',
+    homeGreetingTitle: 'Find a food journey made for you!',
+    homeCtaContinue: 'Continue your food journey',
+    homeRecentTitle: 'Recent recommendations',
+    homeRecentCta: 'See all',
+    homeRecentEmpty:
+      'No recommendations yet. Start a trip from Home and results will be recorded here automatically.',
     // Food Profile (Issue #78, reframe of S1)
     fpTitle: 'Food Profile',
     fpSub: 'What you can and cannot eat, managed in one place.',
@@ -806,6 +844,27 @@ export const strings = {
     fpSave: 'Save & continue',
     fpEditCta: 'Edit',
     fpStartExplorationCta: 'Start this trip',
+    // Food Profile conversational rhythm (Figma parity, Issue #181)
+    fpIntroTitle: 'Welcome to MOGU MOGU!',
+    fpIntroBody:
+      'To find Tokyo food cultures and experiences that suit you, first tell us a little about your food preferences.',
+    fpStartCta: "Let's start!",
+    fpBrowseCta: 'No thanks, I will look around',
+    fpStepOf: 'Step {n} / {total}',
+    fpQ1Title: 'First, do you have any food allergies?',
+    fpQ2Title: 'Do you follow a vegetarian or vegan style of eating?',
+    fpQ3Title: 'Are there foods you avoid for religious or other reasons?',
+    fpQ4Title: 'Are there ingredients or flavors you dislike?',
+    fpYes: 'Yes',
+    fpNo: 'No',
+    fpOtherNote:
+      'Anything else you avoid or want us to know? This is optional.',
+    fpSummaryConfirm: 'Thank you! Your food profile is saved.',
+    fpSummaryTitle: 'Your Food Profile:',
+    fpSummaryTrust:
+      'This information is used only to suggest recommendations and their reasons. It is not a guarantee of safety or allergen compatibility. Please confirm details directly with the venue or shop.',
+    fpEditNote:
+      'To change or correct your answers, you can edit them later from My page.',
     // Exploration conditions (Issue #78, reframe of S2)
     exNext: 'Next',
     exDone: 'See my result',
@@ -831,6 +890,10 @@ export const strings = {
     exExpMake: 'Make',
     exExpBuy: 'Buy',
     exExpMeet: 'Meet the maker',
+    exExpEatSub: 'Savor local dishes',
+    exExpMakeSub: 'Join an experience or workshop',
+    exExpBuySub: 'Buy ingredients and souvenirs',
+    exExpMeetSub: 'Visit makers and producers',
     exAreaOkutama: 'Okutama',
     exAreaTama: 'Tama area (Hachioji, Tachikawa, etc.)',
     exAreaTokyoWest: 'West Tokyo / city center (Shinjuku, etc.)',
@@ -843,9 +906,9 @@ export const strings = {
     exInterestDaily: 'Local everyday life',
     exDurationHalf: 'Half day (day trip)',
     exDurationFull: 'Full day',
-    // S3 result (Issue #43, reframed by Issue #78)
-    s3Title: 'Recommended for you',
-    s3Subtitle: 'Your first dish, based on this trip.',
+    // S3 result (Issue #43, reframed by Issue #78; Issue #181 reveal moment)
+    s3RevealTitle: 'We found a food-culture journey that fits you this time!',
+    s3RevealSub: 'Our first recommendation, shaped by your answers.',
     s3DietaryTitle: 'Dietary considerations',
     s3DietaryKnown: 'Dietary restrictions recorded; compatibility is unverified',
     s3DietaryUnknown: 'No restrictions entered',
@@ -1286,6 +1349,14 @@ export const strings = {
     s0WhyBody1:
       '製作人逐漸減少，值得守護的飲食文化正悄悄消失。多摩的山間仍有從江戶時代延續至今的山葵田，以及守護它們的小型生產者。',
     s0WhyBody2: '只要你去品嚐、購買、拜訪，這項飲食文化就能繼續到明天。',
+    // Home returning state (Figma Talk12 parity, Issue #181)
+    homeGreeting: '你好！',
+    homeGreetingTitle: '為你找到專屬的飲食文化之旅！',
+    homeCtaContinue: '繼續飲食之旅',
+    homeRecentTitle: '最近推薦',
+    homeRecentCta: '查看全部',
+    homeRecentEmpty:
+      '目前還沒有推薦紀錄。從首頁開始這次旅程，結果就會自動記錄在這裡。',
     // Food Profile (Issue #78, reframe of S1)
     fpTitle: '飲食檔案',
     fpSub: '能吃的與不能吃的食物，集中在此管理。',
@@ -1305,6 +1376,25 @@ export const strings = {
     fpSave: '儲存並繼續',
     fpEditCta: '編輯',
     fpStartExplorationCta: '開始這次探索',
+    // Food Profile conversational rhythm (Figma parity, Issue #181)
+    fpIntroTitle: '歡迎來到 MOGU MOGU！',
+    fpIntroBody:
+      '為了找到適合你的東京飲食文化與體驗，先讓我們稍微了解一下你的「飲食」偏好。',
+    fpStartCta: '開始！',
+    fpBrowseCta: '不註冊，我自己看看',
+    fpStepOf: '步驟 {n} / {total}',
+    fpQ1Title: '首先，你有食物過敏嗎？',
+    fpQ2Title: '你有素食或純素等飲食習慣嗎？',
+    fpQ3Title: '是否有因為宗教等原因而避免的食物？',
+    fpQ4Title: '有討厭的食材或味道嗎？',
+    fpYes: '有',
+    fpNo: '沒有',
+    fpOtherNote: '其他想避開或有顧慮的事物，可以在此輸入（選填）。',
+    fpSummaryConfirm: '謝謝你！已登錄你的飲食檔案。',
+    fpSummaryTitle: '你的 Food Profile：',
+    fpSummaryTrust:
+      '此資訊僅用於提供適合你的推薦與推薦理由。不保證安全性或對應的可能性。詳細請直接向當地店家確認。',
+    fpEditNote: '若想變更或修正回答，可在完成後從「我的」頁面編輯。',
     // Exploration conditions (Issue #78, reframe of S2)
     exNext: '下一步',
     exDone: '查看結果',
@@ -1330,6 +1420,10 @@ export const strings = {
     exExpMake: '做',
     exExpBuy: '買',
     exExpMeet: '與製作人見面',
+    exExpEatSub: '品嚐在地料理',
+    exExpMakeSub: '參加體驗或工作坊',
+    exExpBuySub: '購買食材與伴手禮',
+    exExpMeetSub: '拜訪職人與生產者',
     exAreaOkutama: '奧多摩',
     exAreaTama: '多摩地區（八王子、立川等）',
     exAreaTokyoWest: '東京西部・市中心（新宿等）',
@@ -1342,9 +1436,9 @@ export const strings = {
     exInterestDaily: '在地日常',
     exDurationHalf: '半日（當天來回）',
     exDurationFull: '一整天',
-    // S3 result (Issue #43, reframed by Issue #78)
-    s3Title: '推薦給你',
-    s3Subtitle: '根據這次探索，為你準備的第一道菜。',
+    // S3 result (Issue #43, reframed by Issue #78; Issue #181 reveal moment)
+    s3RevealTitle: '我們找到了這次適合你的飲食文化之旅！',
+    s3RevealSub: '根據你的回答，為你挑選的第一項推薦。',
     s3DietaryTitle: '飲食限制的考量',
     s3DietaryKnown: '已記錄飲食限制；是否適用尚未確認',
     s3DietaryUnknown: '未輸入飲食限制',

@@ -99,7 +99,7 @@ test.describe('Ome/Sawai sake semantic isolation (ja, 375px)', () => {
     await page.waitForURL('**/explore/result');
 
     // ---- 2. Result — correct secondary candidate, no inherited Wasabi result ----
-    await page.getByRole('heading', { name: 'あなたへのおすすめ' }).waitFor();
+    await page.getByRole('heading', { name: '今回のあなたに合う食文化の旅を見つけました！' }).waitFor();
     await page
       .locator('.tmm-result-card__title')
       .filter({ hasText: '青梅・沢井の日本酒' })

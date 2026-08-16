@@ -62,10 +62,31 @@
   gap: var(--tmm-space-3);
 }
 
-.my-route-card,
+.my-route-card {
+  padding: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
 .my-card {
   padding: var(--tmm-space-4);
   width: 100%;
+}
+
+/* Media-forward saved-route card (shared Figma vocabulary): a gradient media
+   band + glyph stands in for real route photography (placeholder rule). */
+.my-route-card__media {
+  aspect-ratio: 16 / 7.3;
+  background: linear-gradient(160deg, var(--tmm-color-forest), var(--tmm-color-forest-deep));
+  display: grid;
+  place-items: center;
+  color: var(--tmm-color-card);
+  font-size: 2.2rem;
+  opacity: 0.94;
+}
+
+.my-route-card__body {
+  padding: var(--tmm-space-4);
 }
 
 .my-route-card__title,

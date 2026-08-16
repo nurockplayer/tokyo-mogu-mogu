@@ -38,6 +38,12 @@ import { type LocaleKey } from '../../i18n/resources';
 import { foodCultureKey } from '../../i18n/data-content';
 import './onboarding.css';
 
+/** FoodCulture area value → localized area label key (data-driven lookup). */
+const AREA_LABEL_KEY: Record<string, LocaleKey> = {
+  okutama: 'areaOkutama',
+  ome: 'areaOme',
+};
+
 /** Match-tag key → i18n copy key + tone. */
 const TAG_COPY: Record<MatchTagKey, { labelKey: LocaleKey; tone: TagTone }> = {
   'grate-fresh': { labelKey: 's3TagGrateFresh', tone: 'success' },
@@ -148,8 +154,8 @@ export function ResultPage() {
   return (
     <div className="tmm-page tmm-result">
       <section className="tmm-result__summary">
-        <h1 className="tmm-result__summary-title">{t('s3Title')}</h1>
-        <p className="tmm-result__summary-desc">{t('s3Subtitle')}</p>
+        <h1 className="tmm-result__summary-title">{t('s3RevealTitle')}</h1>
+        <p className="tmm-result__summary-desc">{t('s3RevealSub')}</p>
       </section>
 
       {recommendedFoodCulture && recommendation && recommendedTitleKey && recommendedDescriptionKey ? (
@@ -159,6 +165,11 @@ export function ResultPage() {
               <span className="tmm-result-card__media-mark">{t(recommendedTitleKey)}</span>
             </div>
             <div className="tmm-result-card__body">
+              {recommendedFoodCulture.area in AREA_LABEL_KEY ? (
+                <span className="tmm-result-card__region">
+                  {t(AREA_LABEL_KEY[recommendedFoodCulture.area])}
+                </span>
+              ) : null}
               <div className="tmm-result-card__title">{t(recommendedTitleKey)}</div>
               <p className="tmm-result-card__desc">{t(recommendedDescriptionKey)}</p>
 
