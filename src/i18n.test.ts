@@ -53,7 +53,7 @@ describe('i18n fallback (#12)', () => {
 
   it('ships real zh-TW translations for the S0-S8 journey chrome', () => {
     // Spot-check that zh-TW is not just an empty placeholder block.
-    expect(strings['zh-TW'].s0Cta).toBe('開始我的飲食文化之旅');
+    expect(strings['zh-TW'].s0Cta).toBe('開始你的飲食之旅');
     expect(strings['zh-TW'].s8PageTitle).toBe('我的路線');
     expect(strings.ja.s3PrimaryCta).toContain('{name}');
     expect(strings.en.s3PrimaryCta).toContain('{name}');

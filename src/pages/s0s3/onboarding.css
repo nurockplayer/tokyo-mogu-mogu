@@ -670,6 +670,7 @@
   margin-right: auto;
 }
 
+/* ============================================================
    Conversational guided prototype (Issue #181 Figma parity →
    Issue #217 Phase 1). Assistant-led chat rhythm: left avatar +
    bubble, 46px-scale embedded choices, user confirmation bubble.
@@ -883,4 +884,108 @@
   .fp-convo__bubble {
     padding: var(--tmm-space-5);
   }
+}
+
+/* ---------- Phase 1 latest-Figma parity (Issue #224) ---------- */
+
+/* Result: presentation-only "結果:N件" counter. */
+.tmm-result__count {
+  margin-top: var(--tmm-space-2);
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+}
+
+/* Result: secondary (presentation) candidate card — quieter than the hero. */
+.tmm-result-card--secondary {
+  margin-top: var(--tmm-space-4);
+  opacity: 0.92;
+}
+
+.tmm-result-card--secondary .tmm-result-match__percent {
+  color: var(--tmm-color-ink-soft);
+}
+
+.tmm-result__secondary-note {
+  margin-top: var(--tmm-space-2);
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-faint);
+}
+
+/* Interview question inline step label, e.g. (1/4). */
+.fp-convo__step {
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-faint);
+  white-space: nowrap;
+}
+
+/* Returning Home: latest-Figma past-trips presentation (fixture-backed). */
+.tmm-past-trips {
+  margin-top: var(--tmm-space-6);
+}
+
+.tmm-past-trips__title {
+  font-family: var(--tmm-font-display);
+  font-size: var(--tmm-text-title);
+  font-weight: 700;
+  color: var(--tmm-color-ink);
+  margin-bottom: var(--tmm-space-3);
+}
+
+.tmm-past-trips__list {
+  display: grid;
+  gap: var(--tmm-space-3);
+}
+
+.tmm-past-trips__card {
+  padding: var(--tmm-space-4);
+  background: var(--tmm-color-card);
+  border: var(--tmm-border);
+  border-radius: var(--tmm-radius-md);
+}
+
+.tmm-past-trips__card-title {
+  font-family: var(--tmm-font-display);
+  font-weight: 700;
+  color: var(--tmm-color-ink);
+}
+
+.tmm-past-trips__card-desc {
+  margin-top: var(--tmm-space-1);
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+  line-height: var(--tmm-leading-caption);
+}
+
+.tmm-past-trips__see-all {
+  display: inline-block;
+  margin-top: var(--tmm-space-3);
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-forest);
+  font-weight: 700;
+}
+
+/* Presentation-only bottom nav (Figma 3:1952 / 55:4166). */
+.phase1-nav {
+  position: sticky;
+  bottom: 0;
+  margin-top: var(--tmm-space-6);
+  display: flex;
+  background: var(--tmm-color-card);
+  border-top: var(--tmm-border);
+}
+
+.phase1-nav__item {
+  flex: 1;
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+  text-align: center;
+  padding: var(--tmm-space-2);
+}
+
+.phase1-nav__item--active {
+  color: var(--tmm-color-forest-deep);
+  font-weight: 700;
 }

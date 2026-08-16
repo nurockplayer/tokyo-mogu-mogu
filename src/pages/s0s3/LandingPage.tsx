@@ -23,6 +23,7 @@ import { hasFoodProfile } from '../../lib/food-profile-storage';
 import { loadNickname } from '../../lib/nickname';
 import { fillTemplate } from '../../lib/exploration';
 import { beginNewExploration } from './exploration-session';
+import { Phase1Nav } from './Phase1Nav';
 import './onboarding.css';
 
 export function LandingPage() {
@@ -99,9 +100,10 @@ export function LandingPage() {
 }
 
 /**
- * Returning Home — conversational MOGU greeting (Issue #217 Phase 1). The
- * production-oriented MOGU Recent section is hidden from the demo journey, so
- * this is a slim chat-style greeting + one continue CTA into Exploration.
+ * Returning Home — conversational MOGU greeting + latest-Figma past-trips
+ * presentation + presentation-only bottom nav (Issue #217 / #224). The
+ * production-oriented MOGU Recent surface stays hidden from the demo journey
+ * (#201 / #217); the `私の食旅` cards are fixture-backed presentation only.
  */
 function ReturningHome({ journeyTarget }: { journeyTarget: string }) {
   const { t } = useI18n();
@@ -130,6 +132,25 @@ function ReturningHome({ journeyTarget }: { journeyTarget: string }) {
           {t('homeCtaContinue')}
         </Link>
       </div>
+
+      <section className="tmm-past-trips" aria-labelledby="past-trips-title">
+        <h2 id="past-trips-title" className="tmm-past-trips__title">
+          {t('homePastTrips')}
+        </h2>
+        <div className="tmm-past-trips__list">
+          {[0, 1, 2].map((index) => (
+            <div key={index} className="tmm-past-trips__card">
+              <div className="tmm-past-trips__card-title">{t('homeTripTitle')}</div>
+              <p className="tmm-past-trips__card-desc">{t('homeTripDesc')}</p>
+            </div>
+          ))}
+        </div>
+        <Link to="/explore" className="tmm-past-trips__see-all">
+          {t('homeSeeAll')}
+        </Link>
+      </section>
+
+      <Phase1Nav active="explore" />
     </div>
   );
 }

@@ -8,6 +8,7 @@
  * itinerary. Exploration state is current-session / per-trip data.
  */
 import { isExplorationAnswers, type ExplorationAnswers } from '../../lib/exploration';
+import { clearFigmaExplorationAnswers } from './phase1-figma-session';
 
 const STORAGE_KEY = 'tmm:exploration:v1';
 
@@ -33,4 +34,5 @@ export function clearExplorationAnswers(): void {
 /** Starts a genuinely new per-trip Exploration instead of reusing prior answers. */
 export function beginNewExploration(): void {
   clearExplorationAnswers();
+  clearFigmaExplorationAnswers();
 }

@@ -42,7 +42,7 @@ export const FOOD_CULTURE_DATA_KEYS: Record<string, Partial<Record<FoodCultureFi
   // Names for the other cultures surfaced on the S6 route spots' "related food
   // cultures" list (Issue #67). Only `name` is mapped — the full record content
   // for these cultures is out of the S3–S8 demo journey scope.
-  'yamame-okutama': { name: 'dataYamameName' },
+  'yamame-okutama': { name: 'dataYamameName', description: 'dataYamameDescription' },
   'okutama-soba': { name: 'dataOkutamaSobaName' },
   'okutama-konnyaku': { name: 'dataOkutamaKonnyakuName' },
   // Remaining editorial seed cultures surfaced on the Discover "other cultures"

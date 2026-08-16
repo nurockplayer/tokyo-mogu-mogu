@@ -154,6 +154,17 @@ export function ResultPage() {
     ? fillTemplate(t('s3GreetingName'), { name: nickname })
     : t('s3Greeting');
 
+  // Phase 1 presentation-only secondary card (Issue #224 / Figma 23:3380): the
+  // 91% "奥多摩やまめ" alternative. The name/description are source-backed seed
+  // content; the match percent and tags are presentation fixtures only.
+  const secondaryCulture = getFoodCultureById('yamame-okutama');
+  const secondaryNameKey = secondaryCulture
+    ? foodCultureKey('yamame-okutama', 'name')
+    : undefined;
+  const secondaryDescKey = secondaryCulture
+    ? foodCultureKey('yamame-okutama', 'description')
+    : undefined;
+
   return (
     <div className="tmm-page tmm-result">
       <section className="tmm-result__summary">
@@ -167,6 +178,11 @@ export function ResultPage() {
         </div>
         <h1 className="tmm-result__summary-title">{t('s3RevealTitle')}</h1>
         <p className="tmm-result__summary-desc">{t('s3RevealSub')}</p>
+        {secondaryCulture ? (
+          <p className="tmm-result__count" role="note">
+            {fillTemplate(t('s3ResultCount'), { n: '2' })}
+          </p>
+        ) : null}
       </section>
 
       {recommendedFoodCulture && recommendation && recommendedTitleKey && recommendedDescriptionKey ? (
@@ -219,6 +235,33 @@ export function ResultPage() {
               </p>
             </div>
           </div>
+
+          {secondaryCulture && secondaryNameKey ? (
+            <div className="tmm-result-card tmm-result-card--secondary">
+              <div className="tmm-result-card__media" aria-hidden="true">
+                <span className="tmm-result-card__media-mark">{t(secondaryNameKey)}</span>
+                <div className="tmm-result-match">
+                  <span className="tmm-result-match__percent">{t('s3MatchPercentLow')}</span>
+                  <span className="tmm-result-match__label">{t('s3MatchLabel')}</span>
+                </div>
+              </div>
+              <div className="tmm-result-card__body">
+                <span className="tmm-result-card__region">{t('areaOkutama')}</span>
+                <div className="tmm-result-card__title">{t(secondaryNameKey)}</div>
+                {secondaryDescKey ? (
+                  <p className="tmm-result-card__desc">{t(secondaryDescKey)}</p>
+                ) : null}
+                <div className="tmm-result__tags">
+                  <Tag tone="info">{t('s3FigmaTagNature')}</Tag>
+                  <Tag tone="info">{t('s3FigmaTagTradition')}</Tag>
+                  <Tag tone="info">{t('s3FigmaTagHalfDay')}</Tag>
+                </div>
+                <p className="tmm-result__secondary-note" role="note">
+                  {t('s3SecondaryNote')}
+                </p>
+              </div>
+            </div>
+          ) : null}
 
           <div className="tmm-result__actions">
             <Link

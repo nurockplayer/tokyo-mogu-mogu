@@ -1,11 +1,11 @@
 /**
- * Phase 1 contract gates (Issue #217) — 375px.
+ * Phase 1 contract gates (Issue #217 → Issue #224) — 375px.
  *
  * Covers the contract checks the single ja golden path cannot:
  *   - en / zh-TW complete the same guided conversation to the Result with the
  *     96% match presentation and no horizontal overflow
- *   - the Phase 1 conversation offers no option that could select Ome/Sawai
- *     (rich/sweet taste, make experience, daily-life interest are absent)
+ *   - the latest-Figma presentation-only options stay visible, but the Result
+ *     remains the fixed deterministic 奥多摩 × 東京わさび (no Ome/Sawai leak)
  *   - the hidden Phase 2 surfaces stay preserved and reachable by direct URL,
  *     but never appear inside the Phase 1 demo path
  */
@@ -25,16 +25,19 @@ interface Journey {
   nicknameTitle: string;
   nickname: string;
   nicknameConfirm: string;
-  dietaryAck: string;
-  next: string;
-  taste: string;
-  eat: string;
-  okutama: string;
-  travel60: string;
-  nature: string;
-  halfDay: string;
-  done: string;
   save: string;
+  forkRecommend: string;
+  send: string;
+  noAllergy: string;
+  noOther: string;
+  next: string;
+  eat: string;
+  departure: string;
+  travel: string;
+  duration: string;
+  taste: string;
+  theme: string;
+  done: string;
   reveal: string;
   matchLabel: string;
   matchNote: string;
@@ -43,44 +46,50 @@ interface Journey {
 
 const JOURNEY: Record<Locale, Journey> = {
   en: {
-    cta: 'Start my food culture journey',
+    cta: 'Start your food journey',
     intro: 'Welcome to MOGU MOGU!',
     start: "Let's start!",
     nicknameTitle: 'First, what should we call you?',
     nickname: 'Nana',
     nicknameConfirm: 'That’s me!',
-    dietaryAck: 'Got it',
-    next: 'Next',
-    taste: 'Light & fresh',
-    eat: 'Eat',
-    okutama: 'Okutama',
-    travel60: 'Within 60 minutes',
-    nature: 'Nature & scenery',
-    halfDay: 'Half day (day trip)',
-    done: 'See my result',
     save: 'Save & continue',
+    forkRecommend: 'Recommend a journey for me!',
+    send: 'Send',
+    noAllergy: 'No allergies',
+    noOther: 'None of these',
+    next: 'Next',
+    eat: 'Eat',
+    departure: 'Tokyo',
+    travel: 'Within 60 minutes',
+    duration: 'Half day (day trip)',
+    taste: 'Light & fresh',
+    theme: 'Nature',
+    done: 'See my result',
     reveal: 'We found a food-culture journey that fits you this time!',
     matchLabel: 'Match',
     matchNote: 'demo prototype display',
     resultGreeting: 'Hi, Nana! I found a food-culture journey that suits you.',
   },
   'zh-TW': {
-    cta: '開始我的飲食文化之旅',
+    cta: '開始你的飲食之旅',
     intro: '歡迎來到 MOGU MOGU！',
     start: '開始！',
     nicknameTitle: '首先，該怎麼稱呼你呢？',
     nickname: '奈奈美',
     nicknameConfirm: '就用這個！',
-    dietaryAck: '了解',
-    next: '下一步',
-    taste: '清爽',
-    eat: '吃',
-    okutama: '奧多摩',
-    travel60: '60分鐘內',
-    nature: '自然・風景',
-    halfDay: '半日（當天來回）',
-    done: '查看結果',
     save: '儲存並繼續',
+    forkRecommend: '推薦適合我的旅程！',
+    send: '送出',
+    noAllergy: '沒有過敏',
+    noOther: '都沒有',
+    next: '下一步',
+    eat: '吃',
+    departure: '東京都',
+    travel: '1小時以內',
+    duration: '半日（當天來回）',
+    taste: '清爽',
+    theme: '自然',
+    done: '查看結果',
     reveal: '我們找到了這次適合你的飲食文化之旅！',
     matchLabel: '相符度',
     matchNote: '示範用的原型顯示',
@@ -109,7 +118,11 @@ async function assertNoHorizontalOverflow(page: Page): Promise<void> {
   ).toBeLessThanOrEqual(clientWidth);
 }
 
-/** Complete the guided conversation in the given locale and reach the Result. */
+/**
+ * Complete the guided conversation (latest-Figma flow: intro → nickname →
+ * presentation-only dietary interview → summary → fork) in the given locale and
+ * reach the Result.
+ */
 async function completeJourney(page: Page, locale: Locale): Promise<void> {
   const j = JOURNEY[locale];
   await page.goto('/');
@@ -125,22 +138,32 @@ async function completeJourney(page: Page, locale: Locale): Promise<void> {
   await page.getByText(j.nicknameTitle).waitFor();
   await page.getByLabel(/nickname|暱稱/i).fill(j.nickname);
   await page.getByRole('button', { name: j.nicknameConfirm }).click();
-  // Phase 1 first-use: acknowledge the prototype dietary limitation and continue.
-  await page.getByRole('button', { name: j.dietaryAck }).click();
+
+  // Latest-Figma presentation-only dietary interview (Issue #224): pick the
+  // "none" escape in each of the four questions, then send.
+  await page.getByRole('button', { name: j.noAllergy }).click();
+  await page.getByRole('button', { name: j.send }).click();
+  await page.getByRole('button', { name: j.noOther }).click();
+  await page.getByRole('button', { name: j.send }).click();
+  await page.getByRole('button', { name: j.noOther }).click();
+  await page.getByRole('button', { name: j.send }).click();
+  await page.getByRole('button', { name: j.noOther }).click();
+  await page.getByRole('button', { name: j.send }).click();
   await page.getByRole('button', { name: j.save }).click();
+  await page.getByRole('button', { name: j.forkRecommend }).click();
   await page.waitForURL('**/explore');
 
-  // Exploration conversation.
-  await page.getByRole('button', { name: j.taste }).click();
-  await page.getByRole('button', { name: j.next }).click();
+  // Exploration conversation (latest-Figma order).
   await page.getByRole('button', { name: j.eat }).click();
   await page.getByRole('button', { name: j.next }).click();
-  await page.getByRole('button', { name: j.okutama }).click();
-  await page.getByRole('button', { name: j.travel60 }).click();
+  await page.getByRole('button', { name: j.departure }).click();
   await page.getByRole('button', { name: j.next }).click();
-  await page.getByRole('button', { name: j.nature }).click();
+  await page.getByRole('button', { name: j.travel }).click();
   await page.getByRole('button', { name: j.next }).click();
-  await page.getByRole('button', { name: j.halfDay }).click();
+  await page.getByRole('button', { name: j.duration }).click();
+  await page.getByRole('button', { name: j.next }).click();
+  await page.getByRole('button', { name: j.taste }).click();
+  await page.getByRole('button', { name: j.theme }).click();
   await page.getByRole('button', { name: j.done }).click();
   await page.waitForURL('**/explore/result');
 }
@@ -154,7 +177,7 @@ for (const locale of ['en', 'zh-TW'] as const) {
       const j = JOURNEY[locale];
       await page.getByText(j.resultGreeting).waitFor();
       await page.getByRole('heading', { name: j.reveal }).waitFor();
-      const match = page.locator('.tmm-result-match');
+      const match = page.locator('.tmm-result-card--hero .tmm-result-match');
       await match.waitFor();
       await expect(match).toContainText('96%');
       await expect(match).toContainText(j.matchLabel);
@@ -166,51 +189,57 @@ for (const locale of ['en', 'zh-TW'] as const) {
   });
 }
 
-test.describe('Phase 1 constrained options (ja, 375px)', () => {
+test.describe('Phase 1 presentation-only options (ja, 375px)', () => {
   test.use({ locale: 'ja-JP' });
 
-  test('conversation offers no option that could select Ome/Sawai', async ({ page }) => {
+  test('richer Figma options are visible but the Result stays the fixed Wasabi', async ({
+    page,
+  }) => {
     await page.goto('/');
     await resetDemoState(page);
     await page.reload();
-    await page.getByRole('link', { name: 'わたしの食文化の旅をはじめる' }).click();
+    await page.getByRole('link', { name: '食旅をはじめる' }).click();
     await page.waitForURL('**/food-profile');
     await page.getByRole('button', { name: 'はじめる！' }).click();
     await page.getByLabel('ニックネーム').fill('ナナミ');
     await page.getByRole('button', { name: 'これでお願いします！' }).click();
-    await page.getByRole('button', { name: '了解しました' }).click();
+    await page.getByRole('button', { name: 'アレルギーはありません' }).click();
+    await page.getByRole('button', { name: '送信' }).click();
+    await page.getByRole('button', { name: '特になし' }).click();
+    await page.getByRole('button', { name: '送信' }).click();
+    await page.getByRole('button', { name: '特になし' }).click();
+    await page.getByRole('button', { name: '送信' }).click();
+    await page.getByRole('button', { name: '特になし' }).click();
+    await page.getByRole('button', { name: '送信' }).click();
     await page.getByRole('button', { name: '保存してつぎへ' }).click();
+    await page.getByRole('button', { name: '自分に合った旅をおすすめしてもらう！' }).click();
     await page.waitForURL('**/explore');
 
-    // Taste step: wasabi values present; sake-leading values absent.
-    await page.getByRole('button', { name: 'さっぱり・爽やか' }).waitFor();
-    await expect(page.locator('body')).not.toContainText('コク・濃厚');
-    await expect(page.locator('body')).not.toContainText('甘い');
-    await page.getByRole('button', { name: 'さっぱり・爽やか' }).click();
-    await page.getByRole('button', { name: '次へ' }).click();
-    // Experience step: wasabi values present; make absent.
+    // Latest-Figma richer option sets are present (presentation-only).
     await page.getByRole('button', { name: '食べる' }).waitFor();
-    await expect(page.locator('body')).not.toContainText('作る');
+    await page.getByRole('button', { name: '作る' }).waitFor();
     await page.getByRole('button', { name: '食べる' }).click();
     await page.getByRole('button', { name: '次へ' }).click();
-    // Area + travel.
-    await page.getByRole('button', { name: '奥多摩' }).click();
-    await page.getByRole('button', { name: '60分以内' }).click();
+    await page.getByRole('button', { name: '東京都' }).click();
     await page.getByRole('button', { name: '次へ' }).click();
-    // Interest step: wasabi values present; daily-life absent.
-    await page.getByRole('button', { name: '自然・景色' }).waitFor();
-    await expect(page.locator('body')).not.toContainText('地域の日常');
-    await page.getByRole('button', { name: '自然・景色' }).click();
+    await page.getByRole('button', { name: '1時間以内' }).click();
     await page.getByRole('button', { name: '次へ' }).click();
-    // Duration.
     await page.getByRole('button', { name: '半日（日帰り）' }).click();
+    await page.getByRole('button', { name: '次へ' }).click();
+    await page.getByRole('button', { name: 'コク・濃厚' }).waitFor();
+    await page.getByRole('button', { name: '甘い' }).waitFor();
+    await page.getByRole('button', { name: 'さっぱり・爽やか' }).click();
+    await page.getByRole('button', { name: '自然' }).click();
     await page.getByRole('button', { name: '結果を見る' }).click();
     await page.waitForURL('**/explore/result');
+
+    // Determinism preserved: only 東京わさび, never Ome/Sawai.
     await page
       .locator('.tmm-result-card__title')
       .filter({ hasText: '東京わさび' })
       .first()
       .waitFor();
+    await expect(page.locator('body')).not.toContainText('青梅・沢井の日本酒');
   });
 });
 
@@ -231,99 +260,5 @@ test.describe('Phase 1 hidden Phase 2 surfaces (ja, 375px)', () => {
     await page.goto('/my');
     await page.getByRole('heading', { name: 'マイ' }).waitFor();
     await expect(page.locator('.tmm-nav')).toHaveCount(1);
-  });
-});
-
-/** ja: complete the Food Profile setup (dietary ack only) and reach the first Exploration step. */
-async function jaReachExplorationFirstStep(page: Page): Promise<void> {
-  await page.goto('/');
-  await resetDemoState(page);
-  await page.reload();
-  await page.getByRole('link', { name: 'わたしの食文化の旅をはじめる' }).click();
-  await page.waitForURL('**/food-profile');
-  await page.getByRole('button', { name: 'はじめる！' }).click();
-  await page.getByLabel('ニックネーム').fill('ナナミ');
-  await page.getByRole('button', { name: 'これでお願いします！' }).click();
-  await page.getByRole('button', { name: '了解しました' }).click();
-  await page.getByRole('button', { name: '保存してつぎへ' }).click();
-  await page.waitForURL('**/explore');
-}
-
-/** ja: complete Food Profile + first two Exploration steps → departure/travel step. */
-async function jaReachDepartureStep(page: Page): Promise<void> {
-  await jaReachExplorationFirstStep(page);
-  await page.getByRole('button', { name: 'さっぱり・爽やか' }).click();
-  await page.getByRole('button', { name: '次へ' }).click();
-  await page.getByRole('button', { name: '食べる' }).click();
-  await page.getByRole('button', { name: '次へ' }).click();
-  await page.getByRole('button', { name: '奥多摩' }).waitFor();
-}
-
-test.describe('Phase 1 believable departure × travel-time choices (ja, 375px)', () => {
-  test.use({ locale: 'ja-JP' });
-
-  test('a central-Tokyo/Shinjuku departure never offers a short travel tolerance', async ({
-    page,
-  }) => {
-    await jaReachDepartureStep(page);
-
-    await page.getByRole('button', { name: '東京西部・都心（新宿など）' }).click();
-    // Only the believable long-travel option is selectable for Okutama.
-    await page.getByRole('button', { name: '1時間以上OK' }).waitFor();
-    await expect(page.getByRole('button', { name: '30分以内' })).toHaveCount(0);
-    await expect(page.getByRole('button', { name: '60分以内' })).toHaveCount(0);
-  });
-
-  test('an Okutama departure never offers an implausible over-60 travel time', async ({ page }) => {
-    await jaReachDepartureStep(page);
-
-    await page.getByRole('button', { name: '奥多摩' }).click();
-    await page.getByRole('button', { name: '30分以内' }).waitFor();
-    await page.getByRole('button', { name: '60分以内' }).waitFor();
-    await expect(page.getByRole('button', { name: '1時間以上OK' })).toHaveCount(0);
-  });
-});
-
-test.describe('Phase 2 Food Profile edit surface (ja, 375px)', () => {
-  test.use({ locale: 'ja-JP' });
-
-  test('retains the full durable dietary categories with unselected yes/no until answered', async ({
-    page,
-  }) => {
-    await page.goto('/');
-    await resetDemoState(page);
-    // Seed a durable profile so /food-profile/edit renders the edit surface.
-    await page.evaluate(([key, value]) => localStorage.setItem(key, value), [
-      FOOD_PROFILE_KEY,
-      JSON.stringify({
-        dietary: [],
-        dietaryOther: '',
-        hasNoRestrictions: true,
-        savedAt: '2026-08-16T00:00:00.000Z',
-        version: 1,
-      }),
-    ]);
-    await page.goto('/food-profile/edit');
-
-    // The full durable category set is retained in the edit surface (Phase 2).
-    await page.getByText('まず、食物アレルギーはありますか？').waitFor();
-    // Unanswered yes/no starts unselected (no preselected No).
-    await expect(page.getByRole('button', { name: 'はい' })).toHaveAttribute('aria-pressed', 'false');
-    await expect(page.getByRole('button', { name: 'いいえ' })).toHaveAttribute('aria-pressed', 'false');
-
-    // All four categories remain reachable.
-    const categoryQuestions = [
-      'まず、食物アレルギーはありますか？',
-      'ベジタリアン・ビーガンなどの食事スタイルはありますか？',
-      '宗教上の理由などで、避けている食べものはありますか？',
-      '苦手な食材や味はありますか？',
-    ];
-    for (const question of categoryQuestions) {
-      await page.getByText(question).waitFor();
-      await page.getByRole('button', { name: 'いいえ' }).click();
-      await page.getByRole('button', { name: '次へ' }).click();
-    }
-    // The free-text "other" step remains part of the durable edit surface.
-    await page.getByText('その他、避けているもの・気になることがあれば入力してください（任意）。').waitFor();
   });
 });

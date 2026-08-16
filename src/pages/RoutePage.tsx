@@ -43,6 +43,7 @@ import {
 } from '../i18n/data-content';
 import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
 import { routeBackHref, routeBackTarget, routeContextSearch } from './route-context';
+import { Phase1Nav } from './s0s3/Phase1Nav';
 import './route-spot.css';
 
 const DURATIONS: RouteDuration[] = ['half-day', '1-day'];
@@ -342,6 +343,9 @@ export function RoutePage() {
           closeLabel={t('close')}
         />
       ) : null}
+
+      {/* Presentation-only bottom nav (Figma 55:4166). */}
+      <Phase1Nav active="explore" />
     </div>
   );
 }

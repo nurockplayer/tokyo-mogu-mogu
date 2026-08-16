@@ -31,6 +31,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useI18n } from '../../i18n';
 import { Button, Chip, StepDots } from '../../ui';
+import { type LocaleKey } from '../../i18n/resources';
 import {
   createDefaultFoodProfile,
   type DietaryRestriction,
@@ -52,6 +53,88 @@ import './FoodProfilePage.css';
 interface Choice {
   value: DietaryRestriction;
   label: string;
+}
+
+/**
+ * Phase 1 presentation-only dietary interview (Issue #224 / Figma 2:623, 3:959,
+ * 3:1203, 3:1500, 3:1702). Answers are local/presentation fixture state only:
+ * they never join the durable Food Profile, never claim dietary safety, and
+ * never drive the recommendation engine. The demo outcome stays the fixed
+ * Okutama × Tokyo Wasabi golden path (#201 / #220).
+ */
+export interface InterviewOption {
+  value: string;
+  labelKey: LocaleKey;
+}
+
+export interface InterviewQuestion {
+  titleKey: LocaleKey;
+  /** Emoji quick-reply chips, plus an implicit "other" free-input option. */
+  options: InterviewOption[];
+}
+
+export const PHASE1_INTERVIEW: readonly InterviewQuestion[] = [
+  {
+    titleKey: 'fpIvQ1Title',
+    options: [
+      { value: 'egg', labelKey: 'fpIvEgg' },
+      { value: 'dairy', labelKey: 'fpIvDairy' },
+      { value: 'wheat', labelKey: 'fpIvWheat' },
+      { value: 'shellfish', labelKey: 'fpIvShellfish' },
+      { value: 'nuts', labelKey: 'fpIvNuts' },
+      { value: 'fish', labelKey: 'fpIvFish' },
+      { value: 'none', labelKey: 'fpIvNoAllergy' },
+    ],
+  },
+  {
+    titleKey: 'fpIvQ2Title',
+    options: [
+      { value: 'vegetarian', labelKey: 'fpIvVeg' },
+      { value: 'vegan', labelKey: 'fpIvVegan' },
+      { value: 'pescatarian', labelKey: 'fpIvPescatarian' },
+      { value: 'none', labelKey: 'fpIvNoDiet' },
+    ],
+  },
+  {
+    titleKey: 'fpIvQ3Title',
+    options: [
+      { value: 'pork', labelKey: 'fpIvPork' },
+      { value: 'beef', labelKey: 'fpIvBeef' },
+      { value: 'halal', labelKey: 'fpIvHalal' },
+      { value: 'alcohol', labelKey: 'fpIvAlcohol' },
+      { value: 'none', labelKey: 'fpIvNoReligious' },
+    ],
+  },
+  {
+    titleKey: 'fpIvQ4Title',
+    options: [
+      { value: 'raw', labelKey: 'fpIvRaw' },
+      { value: 'spicy', labelKey: 'fpIvSpicy' },
+      { value: 'fermented', labelKey: 'fpIvFermented' },
+      { value: 'bitter', labelKey: 'fpIvBitter' },
+      { value: 'none', labelKey: 'fpIvNoDislike' },
+    ],
+  },
+];
+
+/** One question's presentation-only answer set. */
+export interface InterviewAnswers {
+  [questionIndex: number]: string[];
+  /** Free-input "other" text per question, keyed by question index. */
+  other: Record<number, string>;
+}
+
+export function createEmptyInterviewAnswers(): InterviewAnswers {
+  return { other: {} };
+}
+
+/** Selection label for a question index (used in the summary). */
+export function interviewSelectionLabels(answers: InterviewAnswers, questionIndex: number, t: (key: LocaleKey) => string): string[] {
+  const q = PHASE1_INTERVIEW[questionIndex];
+  const picked = (answers[questionIndex] ?? []).map((v) => q.options.find((o) => o.value === v)?.labelKey).filter((k): k is LocaleKey => Boolean(k)).map((k) => t(k));
+  const other = answers.other[questionIndex];
+  if (other?.trim()) picked.push(t('fpIvOther'));
+  return picked;
 }
 
 function isSelected(values: DietaryRestriction[], value: DietaryRestriction): boolean {
@@ -78,9 +161,14 @@ const STEP_INTRO = 0;
 const STEP_NICKNAME = 1;
 /** First dietary category step (always the step right after nickname). */
 const FIRST_CATEGORY_STEP = STEP_NICKNAME + 1;
+/** Phase 1 setup flow: four presentation interview steps → summary → fork. */
+const SETUP_INTERVIEW_FIRST = STEP_NICKNAME + 1;
+const SETUP_INTERVIEW_LAST = SETUP_INTERVIEW_FIRST + PHASE1_INTERVIEW.length - 1;
+const SETUP_SUMMARY = SETUP_INTERVIEW_LAST + 1;
+const SETUP_FORK = SETUP_SUMMARY + 1;
 
 /** Which intro action the user chose (drives the intro transcript bubble). */
-type IntroChoice = 'start' | 'no-restrictions';
+type IntroChoice = 'start' | 'browse';
 
 export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   const { t } = useI18n();
@@ -108,6 +196,11 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   const [answered, setAnswered] = useState<Set<number>>(new Set());
   const [introChoice, setIntroChoice] = useState<IntroChoice | null>(null);
   const [nicknameInput, setNicknameInput] = useState(() => loadNickname() ?? '');
+  // Phase 1 presentation-only interview answers (Issue #224): local fixture
+  // state only — never the durable profile, never a safety claim.
+  const [interviewAnswers, setInterviewAnswers] = useState<InterviewAnswers>(() =>
+    createEmptyInterviewAnswers(),
+  );
 
   // The conversation restarts from the saved profile whenever the route/mode
   // changes so edit always reflects the latest persisted state. The same
@@ -122,6 +215,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
     setAnswered(new Set());
     setIntroChoice(null);
     setNicknameInput(loadNickname() ?? '');
+    setInterviewAnswers(createEmptyInterviewAnswers());
   }, [mode]);
 
   const choices: Choice[] = [
@@ -131,11 +225,11 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
     { value: 'dislike', label: t('fpDislike') },
   ];
 
-  // Phase 1 first-use setup collects no dietary conditions (Issue #220): instead
-  // of yes/no categories or free text it shows a dietary acknowledgement, so no
-  // allergy / vegan / religious / dislike / free-text condition can contradict
-  // the fixed demo route. The durable Food Profile model and the edit surface
-  // keep all four categories plus free text for Phase 2.
+  // Phase 1 first-use setup replaces the category yes/no steps with the
+  // presentation-only interview (Issue #224); the durable profile is saved as
+  // no-restrictions so no dietary condition can contradict the fixed demo route
+  // (#220). The edit surface keeps all four categories plus free text for
+  // Phase 2.
   const phase1Choices: Choice[] = [];
   const categoryChoices = editing ? choices : phase1Choices;
   const categoryCount = categoryChoices.length;
@@ -175,12 +269,6 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
     });
   }
 
-  function setNoRestrictions() {
-    setDraftState((prev) =>
-      draft(prev, { hasNoRestrictions: true, dietary: [], dietaryOther: '' }),
-    );
-  }
-
   function setDietaryOther(value: string) {
     const trimmed = value.trim();
     setDraftState((prev) =>
@@ -200,16 +288,16 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   function handleSave() {
     const profile = normalizedProfile(draft(draftState, { savedAt: new Date().toISOString() }));
     saveFoodProfile(profile);
-    // Keep the summary fresh with the just-saved profile so returning to the
-    // summary route never renders a stale profile (Issue #78 P1 fix).
-    setExisting(profile);
-    // First-use setup → continue straight into the current Exploration; edit →
-    // return to the profile summary.
+    // First-use setup → the latest-Figma post-profile fork (Figma Talk12
+    // 3:1835). Keep the component in the setup view (do not flip `existing`
+    // yet) so the fork step renders; a later visit re-reads the persisted
+    // profile and shows the summary. Edit → return to the profile summary.
     if (existing) {
+      setExisting(profile);
       navigate('/food-profile');
     } else {
       beginNewExploration();
-      navigate('/explore');
+      setStep(SETUP_FORK);
     }
   }
 
@@ -245,12 +333,21 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   }
 
   function goNext() {
+    if (view === 'setup') {
+      // Phase 1 setup: intro → nickname → interview 1–4 → summary → fork.
+      if (step === SETUP_SUMMARY) {
+        handleSave();
+      } else {
+        setStep(step + 1);
+      }
+      return;
+    }
     if (step === summaryStep) {
       handleSave();
       return;
     }
     if (step === postCategoryStep) {
-      // Edit: free-text "other" → summary. First-use: dietary acknowledgement → summary.
+      // Edit: free-text "other" → summary.
       setStep(summaryStep);
       return;
     }
@@ -267,7 +364,8 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
     if (nicknameInput.trim().length > 0) {
       saveNickname(nicknameInput);
     }
-    setStep(FIRST_CATEGORY_STEP);
+    // Setup → first interview question; edit → first category question.
+    setStep(editing ? FIRST_CATEGORY_STEP : SETUP_INTERVIEW_FIRST);
   }
 
   // Single source of truth for which view renders (Issue #78 P1 fix): derived
@@ -289,7 +387,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
     transcript.push({
       id: 'intro-user',
       role: 'user',
-      children: introChoice === 'start' ? t('fpStartCta') : t('fpNoRestrictions'),
+      children: introChoice === 'start' ? t('fpStartCta') : t('fpBrowseCta'),
     });
   }
   if (introChoice === 'start' && step > STEP_NICKNAME) {
@@ -304,23 +402,38 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
       children: nickname ?? t('fpNicknameSkip'),
     });
   }
-  for (let i = FIRST_CATEGORY_STEP; i < step && i <= lastCategoryStep; i += 1) {
-    const value = categoryChoices[i - FIRST_CATEGORY_STEP].value;
-    transcript.push({
-      id: `q${i}`,
-      role: 'assistant',
-      children: <AssistantQuestion title={categoryTitles[i - FIRST_CATEGORY_STEP]} />,
-    });
-    if (answered.has(i)) {
+
+  if (view === 'setup') {
+    // Phase 1 presentation-only interview turns (Issue #224).
+    for (let i = SETUP_INTERVIEW_FIRST; i < step && i <= SETUP_INTERVIEW_LAST; i += 1) {
+      const q = PHASE1_INTERVIEW[i - SETUP_INTERVIEW_FIRST];
       transcript.push({
-        id: `q${i}-user`,
-        role: 'user',
-        children: isSelected(draftState.dietary, value) ? t('fpYes') : t('fpNo'),
+        id: `iv${i}`,
+        role: 'assistant',
+        children: <AssistantQuestion title={t(q.titleKey)} />,
       });
+      const picks = interviewSelectionLabels(interviewAnswers, i - SETUP_INTERVIEW_FIRST, t);
+      if (picks.length > 0) {
+        transcript.push({ id: `iv${i}-user`, role: 'user', children: picks.join('、') });
+      }
     }
-  }
-  if (step > postCategoryStep) {
-    if (editing) {
+  } else {
+    for (let i = FIRST_CATEGORY_STEP; i < step && i <= lastCategoryStep; i += 1) {
+      const value = categoryChoices[i - FIRST_CATEGORY_STEP].value;
+      transcript.push({
+        id: `q${i}`,
+        role: 'assistant',
+        children: <AssistantQuestion title={categoryTitles[i - FIRST_CATEGORY_STEP]} />,
+      });
+      if (answered.has(i)) {
+        transcript.push({
+          id: `q${i}-user`,
+          role: 'user',
+          children: isSelected(draftState.dietary, value) ? t('fpYes') : t('fpNo'),
+        });
+      }
+    }
+    if (step > postCategoryStep && editing) {
       transcript.push({
         id: 'other',
         role: 'assistant',
@@ -333,17 +446,6 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
           children: draftState.dietaryOther,
         });
       }
-    } else if (introChoice === 'start') {
-      transcript.push({
-        id: 'dietary-ack',
-        role: 'assistant',
-        children: <AssistantMessage title={t('fpDietaryAckTitle')} body={t('fpDietaryAckBody')} />,
-      });
-      transcript.push({
-        id: 'dietary-ack-user',
-        role: 'user',
-        children: t('fpDietaryAckCta'),
-      });
     }
   }
 
@@ -360,67 +462,57 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
               setIntroChoice('start');
               setStep(STEP_NICKNAME);
             }}
-            onNoRestrictions={() => {
-              setNoRestrictions();
-              setIntroChoice('no-restrictions');
-              setStep(summaryStep);
+            onBrowse={() => {
+              setIntroChoice('browse');
+              beginNewExploration();
+              navigate('/discover');
             }}
           />
         ) : null}
 
         {step === STEP_NICKNAME ? (
-          <>
-            <NicknameStep
-              value={nicknameInput}
-              onChange={setNicknameInput}
-              onConfirm={submitNickname}
-              onSkip={() => setStep(FIRST_CATEGORY_STEP)}
-            />
-          </>
+          <NicknameStep
+            value={nicknameInput}
+            onChange={setNicknameInput}
+            onConfirm={submitNickname}
+            onSkip={() => setStep(SETUP_INTERVIEW_FIRST)}
+          />
         ) : null}
 
-        {step >= FIRST_CATEGORY_STEP && step <= lastCategoryStep ? (
-          <>
-            <ProgressHeader step={step} categoryCount={categoryCount} />
-            <CategoryStep
-              title={categoryTitles[step - FIRST_CATEGORY_STEP]}
-              choice={categoryChoices[step - FIRST_CATEGORY_STEP]}
-              present={isSelected(draftState.dietary, categoryChoices[step - FIRST_CATEGORY_STEP].value)}
-              answered={answered.has(step)}
-              onAnswer={(present) => {
-                setCategory(categoryChoices[step - FIRST_CATEGORY_STEP].value, present);
-                markAnswered(step);
-              }}
-              yesLabel={t('fpYes')}
-              noLabel={t('fpNo')}
-            />
-            <WizardActions onNext={goNext} nextLabel={t('exNext')} disabled={!canProceed()} />
-          </>
+        {step >= SETUP_INTERVIEW_FIRST && step <= SETUP_INTERVIEW_LAST ? (
+          <InterviewStep
+            question={PHASE1_INTERVIEW[step - SETUP_INTERVIEW_FIRST]}
+            stepNumber={step - SETUP_INTERVIEW_FIRST}
+            total={PHASE1_INTERVIEW.length}
+            selected={interviewAnswers[step - SETUP_INTERVIEW_FIRST] ?? []}
+            other={interviewAnswers.other[step - SETUP_INTERVIEW_FIRST] ?? ''}
+            onToggle={(value) => {
+              setInterviewAnswers((prev) => {
+                const idx = step - SETUP_INTERVIEW_FIRST;
+                const cur = prev[idx] ?? [];
+                const next = cur.includes(value) ? cur.filter((v) => v !== value) : [...cur, value];
+                return { ...prev, [idx]: next };
+              });
+            }}
+            onOtherChange={(value) => {
+              setInterviewAnswers((prev) => ({
+                ...prev,
+                other: { ...prev.other, [step - SETUP_INTERVIEW_FIRST]: value },
+              }));
+            }}
+            onSend={goNext}
+          />
         ) : null}
 
-        {step === postCategoryStep ? (
-          editing ? (
-            <>
-              <OtherStep
-                value={draftState.dietaryOther}
-                note={t('fpOtherNote')}
-                label={t('fpOtherLabel')}
-                placeholder={t('fpOtherPlaceholder')}
-                onChange={setDietaryOther}
-                disabled={draftState.hasNoRestrictions}
-              />
-              <WizardActions onNext={goNext} nextLabel={t('exNext')} />
-            </>
-          ) : (
-            <DietaryAckStep onContinue={() => setStep(summaryStep)} />
-          )
+        {step === SETUP_SUMMARY ? (
+          <SetupSummaryStep interviewAnswers={interviewAnswers} nickname={nickname} onSave={handleSave} />
         ) : null}
 
-        {step === summaryStep ? (
-          <>
-            <SummaryStep profile={draftState} choices={choices} nickname={nickname} />
-            <WizardActions onNext={handleSave} nextLabel={t('fpSave')} />
-          </>
+        {step === SETUP_FORK ? (
+          <ForkStep
+            onRecommend={() => navigate('/explore')}
+            onBrowse={() => navigate('/discover')}
+          />
         ) : null}
       </div>
     );
@@ -453,21 +545,17 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
         ) : null}
 
         {step === postCategoryStep ? (
-          editing ? (
-            <>
-              <OtherStep
-                value={draftState.dietaryOther}
-                note={t('fpOtherNote')}
-                label={t('fpOtherLabel')}
-                placeholder={t('fpOtherPlaceholder')}
-                onChange={setDietaryOther}
-                disabled={draftState.hasNoRestrictions}
-              />
-              <WizardActions onNext={goNext} nextLabel={t('exNext')} />
-            </>
-          ) : (
-            <DietaryAckStep onContinue={() => setStep(summaryStep)} />
-          )
+          <>
+            <OtherStep
+              value={draftState.dietaryOther}
+              note={t('fpOtherNote')}
+              label={t('fpOtherLabel')}
+              placeholder={t('fpOtherPlaceholder')}
+              onChange={setDietaryOther}
+              disabled={draftState.hasNoRestrictions}
+            />
+            <WizardActions onNext={goNext} nextLabel={t('exNext')} />
+          </>
         ) : null}
 
         {step === summaryStep ? (
@@ -568,10 +656,10 @@ function ProgressHeader({ step, categoryCount }: { step: number; categoryCount: 
 /** Intro message with the primary start CTA and the no-restrictions quick path. */
 function IntroCard({
   onStart,
-  onNoRestrictions,
+  onBrowse,
 }: {
   onStart: () => void;
-  onNoRestrictions: () => void;
+  onBrowse: () => void;
 }) {
   const { t } = useI18n();
   return (
@@ -587,7 +675,7 @@ function IntroCard({
             <Button variant="primary" className="tmm-btn--block" onClick={onStart}>
               {t('fpStartCta')}
             </Button>
-            <Chip onClick={onNoRestrictions}>{t('fpNoRestrictions')}</Chip>
+            <Chip onClick={onBrowse}>{t('fpBrowseCta')}</Chip>
           </div>
         </div>
       </div>
@@ -687,14 +775,148 @@ function CategoryStep({
 }
 
 /**
- * Phase 1 first-use dietary acknowledgement (Issue #220).
- *
- * This prototype does not evaluate dietary/allergy compatibility with the fixed
- * demo route, so first-use setup does not collect restrictions or free text.
- * Instead MOGU states that limitation and offers a single continue action; no
- * allergy / vegan / religious / dislike / free-text condition can be submitted.
+ * Phase 1 presentation-only interview question (Issue #224 / Figma 2:623,
+ * 3:959, 3:1203, 3:1500). Emoji quick-reply chips + a "other" free-input
+ * affordance + a send button. Answers are local fixture state and never claim
+ * dietary safety (#201 / #220).
  */
-function DietaryAckStep({ onContinue }: { onContinue: () => void }) {
+function InterviewStep({
+  question,
+  stepNumber,
+  total,
+  selected,
+  other,
+  onToggle,
+  onOtherChange,
+  onSend,
+}: {
+  question: InterviewQuestion;
+  stepNumber: number;
+  total: number;
+  selected: string[];
+  other: string;
+  onToggle: (value: string) => void;
+  onOtherChange: (value: string) => void;
+  onSend: () => void;
+}) {
+  const { t } = useI18n();
+  const [showOther, setShowOther] = useState(other.length > 0);
+  return (
+    <div className="fp-convo">
+      <div className="fp-convo__msg fp-convo__msg--assistant">
+        <span className="fp-convo__avatar" aria-hidden="true">
+          🌿
+        </span>
+        <div className="fp-convo__bubble">
+          <p className="fp-convo__q">
+            {t(question.titleKey)}{' '}
+            <span className="fp-convo__step">
+              {fillTemplate(t('fpIvStep'), { n: String(stepNumber + 1), total: String(total) })}
+            </span>
+          </p>
+          <div className="fp-convo__choices">
+            {question.options.map((opt) => (
+              <Chip
+                key={opt.value}
+                selected={selected.includes(opt.value)}
+                onClick={() => onToggle(opt.value)}
+              >
+                {t(opt.labelKey)}
+              </Chip>
+            ))}
+            <Chip selected={showOther} onClick={() => setShowOther((s) => !s)}>
+              {t('fpIvOther')}
+            </Chip>
+          </div>
+          {showOther ? (
+            <>
+              <label htmlFor={`fp-iv-other-${stepNumber}`} className="fp-convo__label">
+                {t('fpIvFreeTextLabel')}
+              </label>
+              <input
+                id={`fp-iv-other-${stepNumber}`}
+                className="tmm-wizard__text"
+                type="text"
+                value={other}
+                onChange={(e) => onOtherChange(e.target.value)}
+                placeholder={t('fpIvFreeTextLabel')}
+              />
+            </>
+          ) : null}
+          <div className="fp-convo__choices">
+            <Button variant="primary" className="tmm-btn--block" onClick={onSend}>
+              {t('fpIvSend')}
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Phase 1 setup summary (Figma Talk11 3:1702): the registered-profile
+ * confirmation with the presentation-only interview selections + the
+ * recommendation-only trust copy. Saving persists the durable profile (saved as
+ * no-restrictions; the interview is presentation-only) before the fork step.
+ */
+function SetupSummaryStep({
+  interviewAnswers,
+  nickname,
+  onSave,
+}: {
+  interviewAnswers: InterviewAnswers;
+  nickname: string | null;
+  onSave: () => void;
+}) {
+  const { t } = useI18n();
+  const confirm = nickname
+    ? fillTemplate(t('fpSummaryConfirmName'), { name: nickname })
+    : t('fpSummaryConfirm');
+  const selections = PHASE1_INTERVIEW.map((_, index) =>
+    interviewSelectionLabels(interviewAnswers, index, t),
+  ).filter((labels) => labels.length > 0);
+  return (
+    <div className="fp-convo">
+      <div className="fp-convo__msg fp-convo__msg--assistant">
+        <span className="fp-convo__avatar" aria-hidden="true">
+          🌿
+        </span>
+        <div className="fp-convo__bubble">
+          <p className="fp-convo__title">{t('fpIvSummaryTitle')}</p>
+          <p className="fp-convo__body">{confirm}</p>
+          <p className="fp-convo__body">{t('fpSummaryTitle')}</p>
+          <div className="tmm-profile-summary">
+            {selections.length > 0 ? (
+              selections.map((labels, index) => (
+                <p key={index} className="tmm-profile-summary__line">
+                  {labels.join('、')}
+                </p>
+              ))
+            ) : (
+              <p className="tmm-profile-summary__line">{t('fpNoRestrictions')}</p>
+            )}
+          </div>
+          <p className="fp-convo__trust">{t('fpSummaryTrust')}</p>
+          <p className="fp-convo__note">{t('fpEditNote')}</p>
+        </div>
+      </div>
+      <WizardActions onNext={onSave} nextLabel={t('fpSave')} />
+    </div>
+  );
+}
+
+/**
+ * Post-profile fork (Figma Talk12 3:1835): recommend-for-me vs browse-myself.
+ * Presentation-only — no durable semantics (#201 / #204 deferred).
+ */
+function ForkStep({
+  onRecommend,
+  onBrowse,
+}: {
+  onRecommend: () => void;
+  onBrowse: () => void;
+}) {
   const { t } = useI18n();
   return (
     <div className="fp-convo">
@@ -703,11 +925,13 @@ function DietaryAckStep({ onContinue }: { onContinue: () => void }) {
           🌿
         </span>
         <div className="fp-convo__bubble">
-          <p className="fp-convo__title">{t('fpDietaryAckTitle')}</p>
-          <p className="fp-convo__body">{t('fpDietaryAckBody')}</p>
-          <div className="fp-convo__choices">
-            <Button variant="primary" className="tmm-btn--block" onClick={onContinue}>
-              {t('fpDietaryAckCta')}
+          <p className="fp-convo__q">{t('fpForkTitle')}</p>
+          <div className="fp-convo__choices fp-convo__choices--stack">
+            <Button variant="primary" className="tmm-btn--block" onClick={onRecommend}>
+              {t('fpForkRecommend')}
+            </Button>
+            <Button variant="secondary" className="tmm-btn--block" onClick={onBrowse}>
+              {t('fpForkBrowse')}
             </Button>
           </div>
         </div>

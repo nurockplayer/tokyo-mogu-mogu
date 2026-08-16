@@ -1,87 +1,129 @@
 /**
- * Exploration Conditions conversation (Issue #78 reframe of S2; Issue #217
- * Phase 1 guided prototype).
+ * Exploration Conditions conversation (Issue #78 reframe of S2; Issue #217 Phase
+ * 1 guided prototype; Issue #224 latest-Figma parity).
  *
- * The five per-trip Exploration questions ("今回どう体験したいか") render as a
- * LINE / ChatGPT-style conversation: MOGU greets the user (reusing the
- * session-only nickname when present) and each question appears as an assistant
- * bubble with embedded quick replies; the user's selection appends as a
- * confirmation bubble and stays in the transcript. The whole flow keeps a
- * single `ExplorationAnswers` object in state (seeded from sessionStorage) and
- * writes it back on every change, so Back/Next never lose prior answers and the
- * Result can read the same payload.
+ * The five per-trip Exploration questions render as a LINE / ChatGPT-style
+ * conversation in the latest KiKi Figma order (Figma `4:2101`, `8:2436`,
+ * `23:3131`, `23:3207`, `23:3262`, `8:2608`):
  *
- * Phase 1 deliberately offers only the values the fixed Okutama × Tokyo Wasabi
- * demo journey supports (see phase1-exploration.ts), so every allowed path
- * deterministically reaches the wasabi Result with believable match reasons —
- * no selectable option contradicts the final route. Exploration state is
- * current-session / per-trip data — it is NOT the durable Food Profile.
+ *   1. どんな食体験をしてみたいですか？ (experience tiles)
+ *   2. どこから出発しますか？ (departure + presentation-only area search)
+ *   3. 片道どのくらいまでなら移動できそうですか？ (travel time)
+ *   4. どのくらいの時間で楽しみたいですか？ (trip duration)
+ *   5. どんな味とモチーフを楽しみたいですか？ (taste + theme)
+ *
+ * The visible selections are **presentation-only fixture state**
+ * (`phase1-figma-session.ts`): they drive the transcript but never the
+ * recommendation result. On completion the wizard writes the fixed canonical
+ * `PHASE1_DEMO_ANSWERS`, so the Okutama × Tokyo Wasabi outcome stays
+ * deterministic with no real scoring, geocoder, station autocomplete, realtime
+ * travel-time engine, or multi-candidate ranking (#201 / #220 / #206 deferred).
  */
 import { useMemo, useState, type ReactNode } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useI18n } from '../../i18n';
 import { Button, Chip, ProgressBar, StepDots } from '../../ui';
-import {
-  WIZARD_STEP_COUNT,
-  createDefaultExplorationAnswers,
-  fillTemplate,
-  type ExplorationAnswers,
-  type Experience,
-  type Interest,
-  type Taste,
-  type TravelTime,
-  type TripDuration,
-  type BaseArea,
-} from '../../lib/exploration';
-import { loadExplorationAnswers, saveExplorationAnswers } from './exploration-session';
+import { type LocaleKey } from '../../i18n/resources';
+import { fillTemplate } from '../../lib/exploration';
 import { hasFoodProfile } from '../../lib/food-profile-storage';
 import { loadNickname } from '../../lib/nickname';
+import { saveExplorationAnswers } from './exploration-session';import { PHASE1_DEMO_ANSWERS } from './phase1-exploration';
 import {
-  PHASE1_BASE_AREAS,
-  PHASE1_EXPERIENCES,
-  PHASE1_INTERESTS,
-  PHASE1_TASTES,
-  phase1TravelTimesFor,
-} from './phase1-exploration';
+  createEmptyFigmaExplorationAnswers,
+  loadFigmaExplorationAnswers,
+  saveFigmaExplorationAnswers,
+  type FigmaExplorationAnswers,
+} from './phase1-figma-session';
 import { ChatTranscript, AssistantQuestion, type ChatItem } from './conversation';
 import './onboarding.css';
 
-/** A chip option rendered for a conversation step. */
-interface Choice<V extends string> {
-  value: V;
-  label: string;
+/** A presentation-only option: value + label key + optional emoji icon. */
+interface Option {
+  value: string;
+  labelKey: LocaleKey;
+  icon?: string;
 }
 
-/** A large image-forward tile (experience choices, Figma `4:2101` parity). */
-interface ExperienceTile<V extends string> {
-  value: V;
-  label: string;
-  sub: string;
+/** A large image-forward experience tile (Figma `4:2101` parity). */
+interface ExperienceTile {
+  value: string;
+  labelKey: LocaleKey;
+  subKey: LocaleKey;
   icon: string;
 }
+
+const EXPERIENCE_TILES: readonly ExperienceTile[] = [
+  { value: 'eat', labelKey: 'exExpEat', subKey: 'exExpEatSub', icon: '🍽️' },
+  { value: 'make', labelKey: 'exExpMake', subKey: 'exExpMakeSub', icon: '👨‍🍳' },
+  { value: 'buy', labelKey: 'exExpBuy', subKey: 'exExpBuySub', icon: '🛍️' },
+  { value: 'meet', labelKey: 'exExpMeet', subKey: 'exExpMeetSub', icon: '🤝' },
+  { value: 'visit', labelKey: 'exExpVisit', subKey: 'exExpVisitSub', icon: '🌾' },
+  { value: 'learn', labelKey: 'exExpLearn', subKey: 'exExpLearnSub', icon: '📖' },
+];
+
+const DEPARTURE_OPTIONS: readonly Option[] = [
+  { value: 'tokyo', labelKey: 'exAreaTokyo' },
+  { value: 'periphery', labelKey: 'exAreaPeriphery' },
+];
+
+const TRAVEL_OPTIONS: readonly Option[] = [
+  { value: 'within-30', labelKey: 'exTravelWithin30' },
+  { value: 'within-60', labelKey: 'exTravelWithin60' },
+  { value: 'within-90', labelKey: 'exTravel90' },
+  { value: 'within-2h', labelKey: 'exTravel2h' },
+  { value: 'any', labelKey: 'exTravelAny' },
+];
+
+const DURATION_OPTIONS: readonly Option[] = [
+  { value: 'half-day', labelKey: 'exDurationHalf' },
+  { value: 'full-day', labelKey: 'exDurationFull' },
+  { value: 'undecided', labelKey: 'exDurationUndecided' },
+];
+
+const TASTE_OPTIONS: readonly Option[] = [
+  { value: 'rich', labelKey: 'exTasteRich' },
+  { value: 'mild', labelKey: 'exTasteMild' },
+  { value: 'sweet', labelKey: 'exTasteSweet' },
+  { value: 'savory', labelKey: 'exTasteSavory' },
+  { value: 'spicy', labelKey: 'exTasteSpicy' },
+  { value: 'fermented', labelKey: 'exTasteFermented' },
+  { value: 'refreshing', labelKey: 'exTasteRefreshing' },
+  { value: 'natural', labelKey: 'exTasteNatural' },
+  { value: 'any', labelKey: 'exTasteAny' },
+];
+
+const THEME_OPTIONS: readonly Option[] = [
+  { value: 'tradition', labelKey: 'exThemeTradition' },
+  { value: 'food-history', labelKey: 'exThemeFoodHistory' },
+  { value: 'daily', labelKey: 'exThemeDaily' },
+  { value: 'craft', labelKey: 'exThemeCraft' },
+  { value: 'nature', labelKey: 'exThemeNature' },
+  { value: 'season', labelKey: 'exThemeSeason' },
+  { value: 'farm', labelKey: 'exThemeFarm' },
+  { value: 'people', labelKey: 'exThemePeople' },
+  { value: 'any', labelKey: 'exThemeAny' },
+];
+
+const WIZARD_STEP_COUNT = 5;
 
 function isSelected(values: string[], value: string): boolean {
   return values.includes(value);
 }
 
-function toggleValue<V extends string>(values: V[], value: V): V[] {
-  return isSelected(values, value)
-    ? values.filter((v) => v !== value)
-    : [...values, value];
+function toggleValue(values: string[], value: string): string[] {
+  return isSelected(values, value) ? values.filter((v) => v !== value) : [...values, value];
 }
 
-function labelFor<V extends string>(choices: Choice<V>[], value: V): string {
-  return choices.find((c) => c.value === value)?.label ?? value;
+function labelFor(options: readonly Option[], value: string | null, t: (key: LocaleKey) => string): string {
+  if (value === null) return '';
+  return options.find((o) => o.value === value)?.labelKey
+    ? t(options.find((o) => o.value === value)!.labelKey)
+    : value;
 }
 
-/** Compact bubble text for a multi-selection (comma-joined labels). */
-function joinedLabels<V extends string>(choices: Choice<V>[], values: readonly V[]): string {
-  return values.map((v) => labelFor(choices, v)).join(', ');
+function joinedLabels(options: readonly Option[], values: readonly string[], t: (key: LocaleKey) => string): string {
+  return values.map((v) => labelFor(options, v, t)).join('、');
 }
-
-/** Exploration copy keys for the current step's question title / hint. */
-const S2_TITLES = ['exQ1Title', 'exQ2Title', 'exQ3Title', 'exQ4Title', 'exQ5Title'] as const;
-const S2_HINTS = ['exQ1Hint', 'exQ2Hint', 'exQ3Hint', 'exQ4Hint', 'exQ5Hint'] as const;
 
 export function ExplorationWizardPage() {
   // First-time flow asks for the Food Profile before Exploration. Any entry
@@ -97,144 +139,46 @@ function ExplorationWizardInner() {
   const { t } = useI18n();
   const navigate = useNavigate();
 
-  const [answers, setAnswers] = useState<ExplorationAnswers>(() => {
-    const saved = loadExplorationAnswers();
-    if (!saved) return createDefaultExplorationAnswers();
-    // A stale session may carry values the Phase 1 conversation no longer
-    // offers (e.g. rich/sweet from a pre-Phase-1 session). Narrow them so the
-    // conversation and the Result stay coherent after a reload.
-    const baseArea = saved.baseArea;
-    const travelTime =
-      baseArea !== null &&
-      saved.travelTime !== null &&
-      phase1TravelTimesFor(baseArea).includes(saved.travelTime)
-        ? saved.travelTime
-        : null;
-    return {
-      ...createDefaultExplorationAnswers(),
-      ...saved,
-      baseArea,
-      travelTime,
-      tastes: saved.tastes.filter((v) => PHASE1_TASTES.includes(v)),
-      experiences: saved.experiences.filter((v) => PHASE1_EXPERIENCES.includes(v)),
-      interests: saved.interests.filter((v) => PHASE1_INTERESTS.includes(v)),
-    };
+  // Presentation-only Figma selections (fixture state; see phase1-figma-session).
+  const [answers, setAnswers] = useState<FigmaExplorationAnswers>(() => {
+    const saved = loadFigmaExplorationAnswers();
+    return saved ?? createEmptyFigmaExplorationAnswers();
   });
   const [step, setStep] = useState(0);
 
-  /** Update answers and mirror them to sessionStorage for the Result screen. */
-  function persist(next: ExplorationAnswers) {
+  function persist(next: FigmaExplorationAnswers) {
     setAnswers(next);
-    saveExplorationAnswers(next);
+    saveFigmaExplorationAnswers(next);
   }
-
-  // Phase 1 constrained choice sets (Issue #217): only the values the fixed
-  // Okutama × Tokyo Wasabi journey supports, so the Result is deterministic.
-  const tasteChoices: Choice<Taste>[] = PHASE1_TASTES.map((value) => ({
-    value,
-    label: t(value === 'refreshing' ? 'exTasteRefreshing' : 'exTasteSpicy'),
-  }));
-
-  // Large image-forward experience tiles (Figma `4:2101`): icon + label +
-  // sublabel in a 2-column grid. Values stay canonical; icons are visual
-  // guidance, not new answer taxonomy.
-  const experienceTiles: ExperienceTile<Experience>[] = PHASE1_EXPERIENCES.map((value) => {
-    if (value === 'eat') {
-      return { value, label: t('exExpEat'), sub: t('exExpEatSub'), icon: '🍽️' };
-    }
-    if (value === 'buy') {
-      return { value, label: t('exExpBuy'), sub: t('exExpBuySub'), icon: '🛍️' };
-    }
-    return { value, label: t('exExpMeet'), sub: t('exExpMeetSub'), icon: '🤝' };
-  });
-
-  const areaChoices: Choice<BaseArea>[] = PHASE1_BASE_AREAS.map((value) => {
-    if (value === 'okutama') return { value, label: t('exAreaOkutama') };
-    if (value === 'tama-center') return { value, label: t('exAreaTama') };
-    return { value, label: t('exAreaTokyoWest') };
-  });
-
-  /** Travel-time choices for a departure area, from the Phase 1 allow-list. */
-  function travelChoicesFor(baseArea: BaseArea): Choice<TravelTime>[] {
-    return phase1TravelTimesFor(baseArea).map((value) => ({
-      value,
-      label: t(
-        value === 'within-30'
-          ? 'exTravelWithin30'
-          : value === 'within-60'
-            ? 'exTravelWithin60'
-            : 'exTravelOver60',
-      ),
-    }));
-  }
-
-  const interestChoices: Choice<Interest>[] = PHASE1_INTERESTS.map((value) => ({
-    value,
-    label: t(
-      value === 'nature'
-        ? 'exInterestNature'
-        : value === 'tradition'
-          ? 'exInterestTradition'
-          : 'exInterestCraft',
-    ),
-  }));
-
-  const durationChoices: Choice<TripDuration>[] = [
-    { value: 'half-day', label: t('exDurationHalf') },
-    { value: 'full-day', label: t('exDurationFull') },
-  ];
-
-  const stepCount = WIZARD_STEP_COUNT;
-
-  /** Whether the current step has enough input to continue. */
-  const canProceed = useMemo(() => {
-    switch (step) {
-      case 0:
-        return answers.tastes.length > 0;
-      case 1:
-        return true; // multi-select, optional
-      case 2:
-        return answers.baseArea !== null && answers.travelTime !== null;
-      case 3:
-        return answers.interests.length > 0;
-      case 4:
-        return answers.duration !== null;
-      default:
-        return true;
-    }
-  }, [step, answers]);
 
   // --- Field mutations (each persists immediately so Back never loses input) ---
 
-  function toggleTaste(value: Taste) {
-    persist({ ...answers, tastes: toggleValue(answers.tastes, value) });
-  }
-
-  function toggleExperience(value: Experience) {
+  function toggleExperience(value: string) {
     persist({ ...answers, experiences: toggleValue(answers.experiences, value) });
   }
 
-  function setBaseArea(value: BaseArea) {
-    // A previously chosen travel time may not be offered for the new departure
-    // area (e.g. within-30 with tokyo-west); drop it so the travel question is
-    // re-answered with only believable options.
-    const travelTime =
-      answers.travelTime !== null && phase1TravelTimesFor(value).includes(answers.travelTime)
-        ? answers.travelTime
-        : null;
-    persist({ ...answers, baseArea: value, travelTime });
+  function setDeparture(value: string) {
+    persist({ ...answers, departure: value });
   }
 
-  function setTravelTime(value: TravelTime) {
+  function setDepartureSearch(value: string) {
+    persist({ ...answers, departureSearch: value });
+  }
+
+  function setTravelTime(value: string) {
     persist({ ...answers, travelTime: value });
   }
 
-  function toggleInterest(value: Interest) {
-    persist({ ...answers, interests: toggleValue(answers.interests, value) });
+  function setDuration(value: string) {
+    persist({ ...answers, duration: value });
   }
 
-  function setDuration(value: TripDuration) {
-    persist({ ...answers, duration: value });
+  function toggleTaste(value: string) {
+    persist({ ...answers, tastes: toggleValue(answers.tastes, value) });
+  }
+
+  function toggleTheme(value: string) {
+    persist({ ...answers, themes: toggleValue(answers.themes, value) });
   }
 
   // --- Navigation ---
@@ -247,13 +191,36 @@ function ExplorationWizardInner() {
     }
   }
 
+  /** Completion: write the fixed deterministic canonical answers, then Result. */
+  function complete() {
+    saveExplorationAnswers(PHASE1_DEMO_ANSWERS);
+    navigate('/explore/result');
+  }
+
   function goNext() {
-    if (step < stepCount - 1) {
+    if (step < WIZARD_STEP_COUNT - 1) {
       setStep(step + 1);
     } else {
-      navigate('/explore/result');
+      complete();
     }
   }
+
+  const canProceed = useMemo(() => {
+    switch (step) {
+      case 0:
+        return answers.experiences.length > 0;
+      case 1:
+        return answers.departure !== null;
+      case 2:
+        return answers.travelTime !== null;
+      case 3:
+        return answers.duration !== null;
+      case 4:
+        return answers.tastes.length > 0 || answers.themes.length > 0;
+      default:
+        return true;
+    }
+  }, [step, answers]);
 
   // --- Conversation transcript (Issue #217): greeting + every completed turn ---
 
@@ -266,92 +233,105 @@ function ExplorationWizardInner() {
     { id: 'intro', role: 'assistant', children: <p className="fp-convo__body">{greeting}</p> },
   ];
 
-  for (let i = 0; i < step && i < stepCount; i += 1) {
-    transcript.push({
-      id: `q${i}`,
-      role: 'assistant',
-      children: <AssistantQuestion title={t(S2_TITLES[i] ?? 'exQ1Title')} />,
-    });
+  for (let i = 0; i < step && i < WIZARD_STEP_COUNT; i += 1) {
     if (i === 0) {
       transcript.push({
-        id: `a${i}`,
-        role: 'user',
-        children: joinedLabels(tasteChoices, answers.tastes),
+        id: 'q0',
+        role: 'assistant',
+        children: <AssistantQuestion title={t('exQ1Title')} />,
       });
-    } else if (i === 1) {
       if (answers.experiences.length > 0) {
         transcript.push({
-          id: `a${i}`,
+          id: 'a0',
           role: 'user',
-          children: joinedLabels(experienceTiles, answers.experiences),
+          children: joinedLabels(EXPERIENCE_TILES, answers.experiences, t),
+        });
+      }
+    } else if (i === 1) {
+      transcript.push({
+        id: 'q1',
+        role: 'assistant',
+        children: <AssistantQuestion title={t('exQ2Title')} />,
+      });
+      if (answers.departure !== null) {
+        transcript.push({
+          id: 'a1',
+          role: 'user',
+          children: labelFor(DEPARTURE_OPTIONS, answers.departure, t),
         });
       }
     } else if (i === 2) {
-      if (answers.baseArea !== null) {
+      transcript.push({
+        id: 'q2',
+        role: 'assistant',
+        children: <AssistantQuestion title={t('exQ3Title')} />,
+      });
+      if (answers.travelTime !== null) {
         transcript.push({
-          id: 'a2a',
+          id: 'a2',
           role: 'user',
-          children: labelFor(areaChoices, answers.baseArea),
-        });
-      }
-      if (answers.travelTime !== null && answers.baseArea !== null) {
-        transcript.push({
-          id: 'a2b',
-          role: 'user',
-          children: labelFor(travelChoicesFor(answers.baseArea), answers.travelTime),
+          children: labelFor(TRAVEL_OPTIONS, answers.travelTime, t),
         });
       }
     } else if (i === 3) {
       transcript.push({
-        id: `a${i}`,
-        role: 'user',
-        children: joinedLabels(interestChoices, answers.interests),
+        id: 'q3',
+        role: 'assistant',
+        children: <AssistantQuestion title={t('exQ4Title')} />,
       });
-    } else if (i === 4 && answers.duration !== null) {
+      if (answers.duration !== null) {
+        transcript.push({
+          id: 'a3',
+          role: 'user',
+          children: labelFor(DURATION_OPTIONS, answers.duration, t),
+        });
+      }
+    } else if (i === 4) {
       transcript.push({
-        id: `a${i}`,
-        role: 'user',
-        children: labelFor(durationChoices, answers.duration),
+        id: 'q4',
+        role: 'assistant',
+        children: <AssistantQuestion title={t('exQ5Title')} />,
       });
+      const picks = [
+        ...answers.tastes.map((v) => labelFor(TASTE_OPTIONS, v, t)),
+        ...answers.themes.map((v) => labelFor(THEME_OPTIONS, v, t)),
+      ];
+      if (picks.length > 0) {
+        transcript.push({ id: 'a4', role: 'user', children: picks.join('、') });
+      }
     }
   }
 
   // --- Renderers ---
 
-  function renderSingle<V extends string>(
-    choices: Choice<V>[],
-    value: V | null,
-    onChange: (v: V) => void,
-  ) {
+  function renderMulti(options: readonly Option[], values: string[], onToggle: (v: string) => void) {
     return (
       <div className="fp-convo__choices">
-        {choices.map((choice) => (
+        {options.map((option) => (
           <Chip
-            key={choice.value}
-            selected={value === choice.value}
-            onClick={() => onChange(choice.value)}
+            key={option.value}
+            selected={isSelected(values, option.value)}
+            onClick={() => onToggle(option.value)}
           >
-            {choice.label}
+            {option.icon ? `${option.icon} ` : ''}
+            {t(option.labelKey)}
           </Chip>
         ))}
       </div>
     );
   }
 
-  function renderMulti<V extends string>(
-    choices: Choice<V>[],
-    values: V[],
-    onToggle: (v: V) => void,
-  ) {
+  function renderSingle(options: readonly Option[], value: string | null, onChange: (v: string) => void) {
     return (
       <div className="fp-convo__choices">
-        {choices.map((choice) => (
+        {options.map((option) => (
           <Chip
-            key={choice.value}
-            selected={isSelected(values, choice.value)}
-            onClick={() => onToggle(choice.value)}
+            key={option.value}
+            selected={value === option.value}
+            onClick={() => onChange(option.value)}
           >
-            {choice.label}
+            {option.icon ? `${option.icon} ` : ''}
+            {t(option.labelKey)}
           </Chip>
         ))}
       </div>
@@ -359,14 +339,10 @@ function ExplorationWizardInner() {
   }
 
   /** Large 2-column experience tiles (Figma `4:2101` parity). */
-  function renderTiles<V extends string>(
-    tiles: ExperienceTile<V>[],
-    values: V[],
-    onToggle: (v: V) => void,
-  ) {
+  function renderTiles(values: string[], onToggle: (v: string) => void) {
     return (
       <div className="tmm-wizard__tiles">
-        {tiles.map((tile) => {
+        {EXPERIENCE_TILES.map((tile) => {
           const selected = isSelected(values, tile.value);
           return (
             <button
@@ -379,8 +355,8 @@ function ExplorationWizardInner() {
               <span className="tmm-wizard__tile-icon" aria-hidden="true">
                 {tile.icon}
               </span>
-              <span className="tmm-wizard__tile-label">{tile.label}</span>
-              <span className="tmm-wizard__tile-sub">{tile.sub}</span>
+              <span className="tmm-wizard__tile-label">{t(tile.labelKey)}</span>
+              <span className="tmm-wizard__tile-sub">{t(tile.subKey)}</span>
             </button>
           );
         })}
@@ -412,81 +388,82 @@ function ExplorationWizardInner() {
     );
   }
 
-  /** Current step assistant + replies + hint. */
   function renderStepConversation() {
     switch (step) {
       case 0:
         return (
           <>
-            <ChatQuestion title={t(S2_TITLES[0])}>
-              {renderMulti(tasteChoices, answers.tastes, toggleTaste)}
+            <ChatQuestion title={t('exQ1Title')}>
+              {renderTiles(answers.experiences, toggleExperience)}
             </ChatQuestion>
-            {answers.tastes.length > 0 ? (
-              <ChatReply>{joinedLabels(tasteChoices, answers.tastes)}</ChatReply>
+            {answers.experiences.length > 0 ? (
+              <ChatReply>{joinedLabels(EXPERIENCE_TILES, answers.experiences, t)}</ChatReply>
             ) : null}
-            <p className="fp-convo__hint">{t(S2_HINTS[0])}</p>
+            <p className="fp-convo__hint">{t('exQ1Hint')}</p>
           </>
         );
       case 1:
         return (
           <>
-            <ChatQuestion title={t(S2_TITLES[1])}>
-              {renderTiles(experienceTiles, answers.experiences, toggleExperience)}
+            <ChatQuestion title={t('exQ2Title')}>
+              {renderSingle(DEPARTURE_OPTIONS, answers.departure, setDeparture)}
+              <label htmlFor="fp-departure-search" className="fp-convo__label">
+                {t('exAreaSearchLabel')}
+              </label>
+              <input
+                id="fp-departure-search"
+                className="tmm-wizard__text"
+                type="text"
+                value={answers.departureSearch}
+                onChange={(e) => setDepartureSearch(e.target.value)}
+                placeholder={t('exAreaSearchPlaceholder')}
+              />
             </ChatQuestion>
-            {answers.experiences.length > 0 ? (
-              <ChatReply>{joinedLabels(experienceTiles, answers.experiences)}</ChatReply>
+            {answers.departure !== null ? (
+              <ChatReply>{labelFor(DEPARTURE_OPTIONS, answers.departure, t)}</ChatReply>
             ) : null}
-            <p className="fp-convo__hint">{t(S2_HINTS[1])}</p>
+            <p className="fp-convo__hint">{t('exQ2Hint')}</p>
           </>
         );
-      case 2: {
-        // Travel-time options come from the Phase 1 allow-list for the chosen
-        // departure area, so only believable combinations are selectable.
-        const travelChoices =
-          answers.baseArea !== null ? travelChoicesFor(answers.baseArea) : [];
+      case 2:
         return (
           <>
-            {answers.baseArea === null ? (
-              <ChatQuestion title={t('exQ3AreaLabel')}>
-                {renderSingle(areaChoices, answers.baseArea, setBaseArea)}
-              </ChatQuestion>
-            ) : (
-              <>
-                <ChatReply>{labelFor(areaChoices, answers.baseArea)}</ChatReply>
-                <ChatQuestion title={t('exQ3TravelLabel')}>
-                  {renderSingle(travelChoices, answers.travelTime, setTravelTime)}
-                </ChatQuestion>
-              </>
-            )}
+            <ChatQuestion title={t('exQ3Title')}>
+              {renderSingle(TRAVEL_OPTIONS, answers.travelTime, setTravelTime)}
+            </ChatQuestion>
             {answers.travelTime !== null ? (
-              <ChatReply>{labelFor(travelChoices, answers.travelTime)}</ChatReply>
+              <ChatReply>{labelFor(TRAVEL_OPTIONS, answers.travelTime, t)}</ChatReply>
             ) : null}
-            <p className="fp-convo__hint">{t(S2_HINTS[2])}</p>
+            <p className="fp-convo__hint">{t('exQ3Hint')}</p>
           </>
         );
-      }
       case 3:
         return (
           <>
-            <ChatQuestion title={t(S2_TITLES[3])}>
-              {renderMulti(interestChoices, answers.interests, toggleInterest)}
+            <ChatQuestion title={t('exQ4Title')}>
+              {renderSingle(DURATION_OPTIONS, answers.duration, setDuration)}
             </ChatQuestion>
-            {answers.interests.length > 0 ? (
-              <ChatReply>{joinedLabels(interestChoices, answers.interests)}</ChatReply>
+            {answers.duration !== null ? (
+              <ChatReply>{labelFor(DURATION_OPTIONS, answers.duration, t)}</ChatReply>
             ) : null}
-            <p className="fp-convo__hint">{t(S2_HINTS[3])}</p>
+            <p className="fp-convo__hint">{t('exQ4Hint')}</p>
           </>
         );
       case 4:
         return (
           <>
-            <ChatQuestion title={t(S2_TITLES[4])}>
-              {renderSingle(durationChoices, answers.duration, setDuration)}
+            <ChatQuestion title={`${t('exQ5TasteLabel')} ${fillTemplate(t('exSubStep'), { n: '1', total: '2' })}`}>
+              {renderMulti(TASTE_OPTIONS, answers.tastes, toggleTaste)}
             </ChatQuestion>
-            {answers.duration !== null ? (
-              <ChatReply>{labelFor(durationChoices, answers.duration)}</ChatReply>
+            <ChatQuestion title={`${t('exQ5ThemeLabel')} ${fillTemplate(t('exSubStep'), { n: '2', total: '2' })}`}>
+              {renderMulti(THEME_OPTIONS, answers.themes, toggleTheme)}
+            </ChatQuestion>
+            {answers.tastes.length > 0 || answers.themes.length > 0 ? (
+              <ChatReply>
+                {[...answers.tastes.map((v) => labelFor(TASTE_OPTIONS, v, t)), ...answers.themes.map((v) => labelFor(THEME_OPTIONS, v, t))].join('、')}
+              </ChatReply>
             ) : null}
-            <p className="fp-convo__hint">{t(S2_HINTS[4])}</p>
+            <p className="fp-convo__hint">{t('exQ5Hint')}</p>
           </>
         );
       default:
@@ -496,12 +473,12 @@ function ExplorationWizardInner() {
 
   const progressLabel = fillTemplate(t('explorationStepOf'), {
     n: String(step + 1),
-    total: String(stepCount),
+    total: String(WIZARD_STEP_COUNT),
   });
 
   const ariaProgress = fillTemplate(t('explorationProgressAria'), {
     n: String(step + 1),
-    total: String(stepCount),
+    total: String(WIZARD_STEP_COUNT),
   });
 
   return (
@@ -517,7 +494,7 @@ function ExplorationWizardInner() {
             ‹
           </button>
           <div className="tmm-wizard__progress">
-            <ProgressBar value={step + 1} max={stepCount} />
+            <ProgressBar value={step + 1} max={WIZARD_STEP_COUNT} />
           </div>
         </div>
 
@@ -525,7 +502,7 @@ function ExplorationWizardInner() {
           {progressLabel}
         </p>
 
-        <StepDots total={stepCount} current={step} label={ariaProgress} />
+        <StepDots total={WIZARD_STEP_COUNT} current={step} label={ariaProgress} />
 
         <div className="fp-convo">
           <ChatTranscript items={transcript} />
@@ -539,7 +516,7 @@ function ExplorationWizardInner() {
             onClick={goNext}
             disabled={!canProceed}
           >
-            {step === stepCount - 1 ? t('exDone') : t('exNext')}
+            {step === WIZARD_STEP_COUNT - 1 ? t('exDone') : t('exNext')}
           </Button>
         </div>
       </div>

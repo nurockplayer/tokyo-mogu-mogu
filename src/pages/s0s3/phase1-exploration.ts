@@ -21,6 +21,7 @@ import {
 import type {
   BaseArea,
   Experience,
+  ExplorationAnswers,
   Interest,
   Taste,
   TravelTime,
@@ -80,3 +81,22 @@ export function phase1RecommendableCandidates() {
     DEMO_RECOMMENDATION_CANDIDATES.filter((c) => c.id === DEMO_RECOMMENDATION_CANDIDATE_ID),
   );
 }
+
+/**
+ * Fixed canonical answers handed to the Phase 1 Result (Issue #224).
+ *
+ * The visible Figma Exploration selections are presentation-only fixture state
+ * (see `phase1-figma-session.ts`); the demo outcome stays the deterministic
+ * Okutama × Tokyo Wasabi golden path, so the canonical answers the Result
+ * consumes are this fixed, wasabi-matching payload regardless of the user's
+ * visible choices. Values stay canonical; no real scoring or multi-candidate
+ * ranking is introduced (#201 / #206 deferred).
+ */
+export const PHASE1_DEMO_ANSWERS: ExplorationAnswers = {
+  tastes: ['refreshing'],
+  experiences: ['eat'],
+  interests: ['nature'],
+  duration: 'half-day',
+  baseArea: 'tokyo-west',
+  travelTime: 'over-60',
+};
