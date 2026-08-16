@@ -10,7 +10,7 @@
 | Item | Value |
 | --- | --- |
 | Observation date | 2026-08-09 (Sunday) |
-| Observer context | Team fieldwork / demo research trip; primary persona travel day (inbound traveler, day-trip range) |
+| Observer context | Team fieldwork / demo research trip; example traveler travel day (inbound traveler, day-trip range) |
 | Corridor | 青梅 (Ome) → 奥多摩 (Okutama) direction (JR 青梅線 御嶽・鳩ノ巣・奥多摩方面) |
 | Time window | Weekend morning (午前) |
 | What was observed | Trains heading from 青梅 toward 奥多摩 (incl. 御嶽 / 鳩ノ巣) were **very crowded** during the weekend morning |

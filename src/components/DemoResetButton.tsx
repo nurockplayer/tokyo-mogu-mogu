@@ -13,6 +13,7 @@ import { clearSavedRoutes } from '../lib/saved-routes';
 import { clearExplorationAnswers } from '../pages/s0s3/exploration-session';
 import { clearFoodProfile } from '../lib/food-profile-storage';
 import { clearMoguRecent } from '../lib/mogu-recent';
+import { clearNickname } from '../lib/nickname';
 
 export function DemoResetButton() {
   const { t } = useI18n();
@@ -25,12 +26,14 @@ export function DemoResetButton() {
       return;
     }
     // Reset collection + saved-route + Food Profile + current Exploration +
-    // MOGU Recent state so a demo can be replayed cleanly (first-use flow).
+    // MOGU Recent + session nickname state so a demo can be replayed cleanly
+    // (first-use flow).
     reset();
     clearSavedRoutes();
     clearExplorationAnswers();
     clearFoodProfile();
     clearMoguRecent();
+    clearNickname();
     setConfirming(false);
   };
 

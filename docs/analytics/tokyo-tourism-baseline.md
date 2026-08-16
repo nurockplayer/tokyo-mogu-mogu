@@ -7,6 +7,11 @@ focuses on Tama / Okutama evidence; that evidence scope is not Tokyo Mogu
 Mogu's permanent geographic boundary. This is **not** an in-app analytics
 dashboard.
 
+The figures quantify tourism concentration and one user segment (foreign
+visitors). They are **evidence** for the problem statement and for multilingual /
+accessibility needs, not a definition of the Product audience. Japanese and
+international travelers are both first-class Product users (Issue #112 / #214).
+
 Last retrieved / verified: 2026-08-08. All figures below are tied to dataset + year + source. Where a desired number is **not publicly available**, it is stated explicitly rather than estimated.
 
 ---

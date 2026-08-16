@@ -1,12 +1,15 @@
 # Deterministic Demo Sequence（決定論デモ手順）/ Play Sheet
 
-**Status**: 2026-08-14。実行順は `e2e/golden-path.test.ts`（#120）の操作と 1:1 対応。
+**Status**: 2026-08-16 更新（Issue #217 Phase 1 会話型ガイド）。実行順は
+`e2e/golden-path.test.ts` の操作と 1:1 対応。production bottom-nav は demo path
+に表示されない（My / MOGU / Discover は direct URL で到達する Phase 2 面）。
 ナレーション台本は `docs/demo-script.md`、審査軸との対応は
 `docs/hackathon/judging-axis-evidence.md`。
 
 **デモ前に必ず実行**:
-1. Header の **demo reset control**（`DemoResetButton`）→ 確認 → `localStorage` を
-   クリア（`tmm:foodProfile:v1` / `tmm:moguRecent:v1` / `tmm:savedRoutes`）。
+1. Header の **demo reset control**（`DemoResetButton`）→ 確認 → `localStorage` と
+   session nickname をクリア（`tmm:foodProfile:v1` / `tmm:moguRecent:v1` /
+   `tmm:savedRoutes` / `tmm:nickname:v1`）。
 2. ロケール **ja**、ビューポート **375px**（mobile）。
 3. 端末 / ブラウザのネットワークは不必要（コア journey はすべてローカルに同梱。
 
@@ -17,25 +20,25 @@
 | # | Step | 操作（exact tap / click） | 確認ポイント | 時間 |
 |---|---|---|---|---|
 | 0 | 前準備 | DemoResetButton → 確認、ja、375px | 空状態 | 5 s |
-| 1 | **Home** | `/` で CTA `わたしの食文化の旅をはじめる` | h1 `東京の食文化と出会う旅` | 5 s |
-| 2 | **Food Profile** | `フードプロフィールをつくる` → `制限はありません` → `保存してつぎへ` | URL → `/explore` | 5 s |
-| 3 | **Exploration** | ①`さっぱり・爽やか`→`次へ` ②`食べる`→`次へ` ③radio `奥多摩`+`60分以内`→`次へ` ④`自然・景色`→`次へ` ⑤radio `半日（日帰り）`→`結果を見る` | URL → `/explore/result` | 20 s |
-| 4 | **Result** | カード `東京わさび` + `このおすすめを「MOGU」の最近の履歴に保存しました。` | `.tmm-result-card__title` = 東京わさび | 10 s |
+| 1 | **Landing** | `/` で CTA `わたしの食文化の旅をはじめる` | h1 `東京の食文化と出会う旅`、bottom-nav なし | 5 s |
+| 2 | **Food Profile 会話** | `MOGU MOGUへようこそ！` → `はじめる！` → nickname `ナナミ` → `これでお願いします！` → お食事のご案内 `了解しました` → `保存してつぎへ` | URL → `/explore`、`tmm:nickname:v1` は sessionStorage のみ | 12 s |
+| 3 | **Exploration 会話** | 挨拶確認 → ①`さっぱり・爽やか`→`次へ` ②`食べる`→`次へ` ③`奥多摩`+`60分以内`→`次へ` ④`自然・景色`→`次へ` ⑤`半日（日帰り）`→`結果を見る` | URL → `/explore/result`、挨拶に `ナナミ` | 20 s |
+| 4 | **Result** | カード `東京わさび` + `.tmm-result-match` = `96%` `マッチ度` + prototype 注記 | `.tmm-result-card__title` = 東京わさび | 10 s |
 | 5 | **Story** | `東京わさびの物語を読む` | `/story/wasabi-okutama`、`味わうことが、継承になる` | 15 s |
 | 6 | **Route** | `モデルルートを見る` | `/route`、h1 `奥多摩わさび紀行` | 10 s |
 | 7 | **Spot** | timeline ピン `奥多摩観光案内所` → `➕ 旅程に追加する` → `旅程に追加しました` → `閉じる` | `/spot/okutama-tourism-office`、h1 `奥多摩観光案内所` | 10 s |
-| 8 | **My** | `ルートに戻る` → `🔖 この旅程を保存する` → `旅程を保存しました` → nav `マイ` | `/my`、`保存した旅程` に `奥多摩わさび紀行` | 10 s |
+| 8 | **Save** | `ルートに戻る` → `🔖 この旅程を保存する` → `旅程を保存しました` | `tmm:savedRoutes` に `奥多摩わさび紀行` | 5 s |
 
-**合計: 約 85 s**。
+**合計: 約 85 s**。production bottom-nav は Phase 1 の demo path に表示されない。
 
-### 任意（+10 s、時間が許せば）
+### 任意（+10 s、時間が許せば）— Phase 2 面は direct URL で到達
 
 | Step | 操作 | 確認ポイント |
 |---|---|---|
-| MOGU | nav `MOGU` → `このおすすめを見る` → `東京わさびの物語を読む` | `/mogu` → `/explore/result` → `/story/wasabi-okutama`。戻ると MOGU 方向へ |
-| Discover | nav `さがす` → `東京わさび` → Story | `/discover` 閲覧では MOGU Recent が増えない |
-| Discover（第2スライス #163） | nav `さがす` → `青梅・沢井の日本酒` → Story → `モデルルートを見る` → timeline ピン `小澤酒造` → Spot | `/discover` → `/story/sake-ome` → `/route` → `/spot/sawai-ozawa-shuzo`。source-backed の playable slice（fixture ではない） |
-| Badges | `マイ` → Badges entry | **Stretch**。時間があるときのみ |
+| MOGU | `/mogu` を直接開く → `このおすすめを見る` → `東京わさびの物語を読む` | `/mogu` → `/explore/result` → `/story/wasabi-okutama`。戻ると MOGU 方向へ |
+| Discover | `/discover` を直接開く → `東京わさび` → Story | `/discover` 閲覧では MOGU Recent が増えない |
+| Discover（第2スライス #163） | `/discover` を直接開く → `青梅・沢井の日本酒` → Story → `モデルルートを見る` → timeline ピン `小澤酒造` → Spot | `/discover` → `/story/sake-ome` → `/route` → `/spot/sawai-ozawa-shuzo`。source-backed の playable slice（fixture ではない） |
+| Badges | `/my` を直接開く → Badges entry | **Stretch**。時間があるときのみ |
 
 ## Fixture（demo-scoped）/ Deterministic fixtures
 

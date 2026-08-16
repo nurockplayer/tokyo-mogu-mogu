@@ -14,6 +14,24 @@ The Product is not an Okutama-only, Tama-only, outer-Tokyo-only, or Tokyo-Wasabi
 
 Product は奥多摩専用、多摩専用、23区外専用、東京わさび専用のサービスではありません。現在の Product objective として 23 区への観光集中を緩和し、まだ知られていない地域への `行きたい理由` を作ることを重視しますが、その優先課題によって Product domain 自体を狭めません。
 
+## Audience invariant / 対象ユーザーの不変条件
+
+> **TOKYO MOGU MOGU is for both Japanese and international travelers.**
+>
+> **TOKYO MOGU MOGU は、日本人・訪日外国人を問わず、東京のまだ知らない地域や食文化と出会い、「行ってみたい理由」を見つけたい旅行者のためのサービスです。**
+
+Audience is defined by the user's travel/discovery need, not by nationality.
+
+- Japanese travelers and international travelers are both first-class Product users.
+- Do not define inbound international travelers as the sole or primary Product persona.
+- Do not define Japanese travelers as a secondary or future audience.
+- A Taiwanese or other international traveler may be used as an example use case or research segment, but must not become the canonical Product persona.
+- Foreign-visitor tourism statistics remain valid evidence for tourism concentration, demand, and multilingual/accessibility needs. They do **not** define the Product audience boundary.
+- Japanese remains the judging/demo primary copy and default locale. Multilingual support remains a first-class Product capability for international users.
+- Recommendation, IA, routing, persistence, data contracts, and shared UI must remain nationality-neutral.
+
+Tracking alignment: Issue #214.
+
 ## 2026-08-23 Hackathon demo boundary / デモ境界
 
 For delivery stability, the 2026-08-23 Hackathon submission may use exactly one small deterministic demo journey:
@@ -61,7 +79,7 @@ Food is the entry point that can connect a traveler to a region's land, water, p
 
 ## Architecture invariant / アーキテクチャ不変条件
 
-Shared contracts must not encode Okutama or Tokyo Wasabi as Product-wide semantics.
+Shared contracts must not encode Okutama, Tokyo Wasabi, or a nationality-specific persona as Product-wide semantics.
 
 This applies to:
 
@@ -84,7 +102,7 @@ This invariant does **not** require implementing a second region before 2026-08-
 
 ## Recommendation invariant / 推薦ロジック
 
-The durable recommendation contract selects among Region × FoodCulture / journey candidates. It must not assume Tokyo Wasabi is the only possible result.
+The durable recommendation contract selects among Region × FoodCulture / journey candidates. It must not assume Tokyo Wasabi is the only possible result, and it must not depend on a nationality-specific persona assumption.
 
 The Hackathon demo ships two production-ready candidates (Okutama × Tokyo Wasabi primary, Ome/Sawai × sake secondary); the fixed golden-path answers match only the wasabi profile, so it returns Okutama × Tokyo Wasabi deterministically. That deterministic result is a **demo behavior**, not a Product-domain rule.
 
@@ -96,6 +114,8 @@ Preferred:
 - `8/23 Demo Content Freeze`
 - `demo canonical dataset`
 - `Okutama fieldwork / demo-content focus`
+- `Japanese and international travelers are both first-class Product users`
+- `need-based traveler audience`
 
 Avoid as current normative wording:
 
@@ -104,15 +124,17 @@ Avoid as current normative wording:
 - `Tama / Okutama is the Product scope`
 - `Tokyo Wasabi is the canonical Product journey`
 - `outer Tokyo is the permanent Product domain`
+- `inbound international traveler is the primary Product persona`
+- `Japanese travelers are a secondary/future audience`
 
 ## Source priority
 
-For geographic / FoodCulture scope questions:
+For geographic / FoodCulture / audience scope questions:
 
-1. This Spec + Issue #112
+1. This Spec + Issue #112 + Issue #214 audience alignment
 2. `docs/specs/product/hackathon-product-contract.md`
 3. Issue #92 / KiKi current App IA for navigation and interaction behavior
 4. current Hackathon demo/data Issues such as #127
 5. historical #85 / #41 / S0-S9 material only as history or visual foundation
 
-A narrow demo Issue can constrain **what ships by 8/23**, but cannot silently narrow this durable Product scope.
+A narrow demo Issue can constrain **what ships by 8/23**, but cannot silently narrow this durable Product scope or redefine the Product as inbound-only.
