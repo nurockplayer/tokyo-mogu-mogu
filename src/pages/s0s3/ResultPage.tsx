@@ -33,12 +33,6 @@ import { type LocaleKey } from '../../i18n/resources';
 import { foodCultureKey } from '../../i18n/data-content';
 import './onboarding.css';
 
-/** FoodCulture area value → localized area label key (data-driven lookup). */
-const AREA_LABEL_KEY: Record<string, LocaleKey> = {
-  okutama: 'areaOkutama',
-  ome: 'areaOme',
-};
-
 /** Match-tag key → i18n copy key + tone. */
 const TAG_COPY: Record<MatchTagKey, { labelKey: LocaleKey; tone: TagTone }> = {
   'grate-fresh': { labelKey: 's3TagGrateFresh', tone: 'success' },
@@ -147,8 +141,8 @@ export function ResultPage() {
     return <Navigate to="/explore" replace />;
   }
 
-  // Session nickname is reused in the closing MOGU message (Issue #217); it is
-  // session-only and never an account/profile.
+  // Local prototype-continuity nickname is reused in the closing MOGU message
+  // (Issue #217 / #226); it is never an account/profile.
   const nickname = loadNickname();
   const greeting = nickname
     ? fillTemplate(t('s3GreetingName'), { name: nickname })
@@ -166,7 +160,7 @@ export function ResultPage() {
           </div>
         </div>
         <h1 className="tmm-result__summary-title">{t('s3RevealTitle')}</h1>
-        <p className="tmm-result__summary-desc">{t('s3RevealSub')}</p>
+        <p className="tmm-result__summary-desc">{t('s3ResultCount')}</p>
       </section>
 
       {recommendedFoodCulture && recommendation && recommendedTitleKey && recommendedDescriptionKey ? (
@@ -180,12 +174,8 @@ export function ResultPage() {
               </div>
             </div>
             <div className="tmm-result-card__body">
-              {recommendedFoodCulture.area in AREA_LABEL_KEY ? (
-                <span className="tmm-result-card__region">
-                  {t(AREA_LABEL_KEY[recommendedFoodCulture.area])}
-                </span>
-              ) : null}
-              <div className="tmm-result-card__title">{t(recommendedTitleKey)}</div>
+              <span className="tmm-result-card__region">{t('s3CardRegion')}</span>
+              <div className="tmm-result-card__title">{t('s3CardTitlePrimary')}</div>
               <p className="tmm-result-card__desc">{t(recommendedDescriptionKey)}</p>
 
               <p className="tmm-result-match__note" role="note">
@@ -217,6 +207,27 @@ export function ResultPage() {
               <p className="tmm-result__disclaimer" role="note">
                 {t('s3Disclaimer')}
               </p>
+            </div>
+          </div>
+
+          {/* Secondary fixture candidate (Figma `23:3380` 91% card, Issue #226).
+              Presentation-only: Okutama yamame, no CTA, no ranking/scoring. */}
+          <div className="tmm-result-card" aria-label={t('s3CardTitleSecondary')}>
+            <div className="tmm-result-card__media" aria-hidden="true">
+              <span className="tmm-result-card__media-mark">{t('s3CardTitleSecondary')}</span>
+              <div className="tmm-result-match">
+                <span className="tmm-result-match__percent">{t('s3MatchPercentSecondary')}</span>
+                <span className="tmm-result-match__label">{t('s3MatchLabel')}</span>
+              </div>
+            </div>
+            <div className="tmm-result-card__body">
+              <span className="tmm-result-card__region">{t('s3CardRegion')}</span>
+              <div className="tmm-result-card__title">{t('s3CardTitleSecondary')}</div>
+              <div className="tmm-result__tags">
+                <Tag tone="info">{t('s3TagNature')}</Tag>
+                <Tag tone="info">{t('s3TagTradition')}</Tag>
+                <Tag tone="info">{t('s3TagHalfDay')}</Tag>
+              </div>
             </div>
           </div>
 

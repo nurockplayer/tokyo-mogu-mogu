@@ -43,7 +43,7 @@ interface Journey {
 
 const JOURNEY: Record<Locale, Journey> = {
   en: {
-    cta: 'Start my food culture journey',
+    cta: 'Start a food journey',
     intro: 'Welcome to MOGU MOGU!',
     start: "Let's start!",
     nicknameTitle: 'First, what should we call you?',
@@ -59,13 +59,13 @@ const JOURNEY: Record<Locale, Journey> = {
     halfDay: 'Half day (day trip)',
     done: 'See my result',
     save: 'Save & continue',
-    reveal: 'We found a food-culture journey that fits you this time!',
+    reveal: 'We found a food journey that fits you!',
     matchLabel: 'Match',
     matchNote: 'demo prototype display',
     resultGreeting: 'Hi, Nana! I found a food-culture journey that suits you.',
   },
   'zh-TW': {
-    cta: '開始我的飲食文化之旅',
+    cta: '開始飲食之旅',
     intro: '歡迎來到 MOGU MOGU！',
     start: '開始！',
     nicknameTitle: '首先，該怎麼稱呼你呢？',
@@ -81,7 +81,7 @@ const JOURNEY: Record<Locale, Journey> = {
     halfDay: '半日（當天來回）',
     done: '查看結果',
     save: '儲存並繼續',
-    reveal: '我們找到了這次適合你的飲食文化之旅！',
+    reveal: '我們找到了適合你的飲食之旅！',
     matchLabel: '相符度',
     matchNote: '示範用的原型顯示',
     resultGreeting: '你好，奈奈美！我為你找到了適合的飲食文化之旅。',
@@ -154,7 +154,7 @@ for (const locale of ['en', 'zh-TW'] as const) {
       const j = JOURNEY[locale];
       await page.getByText(j.resultGreeting).waitFor();
       await page.getByRole('heading', { name: j.reveal }).waitFor();
-      const match = page.locator('.tmm-result-match');
+      const match = page.locator('.tmm-result-match').first();
       await match.waitFor();
       await expect(match).toContainText('96%');
       await expect(match).toContainText(j.matchLabel);
@@ -173,7 +173,7 @@ test.describe('Phase 1 constrained options (ja, 375px)', () => {
     await page.goto('/');
     await resetDemoState(page);
     await page.reload();
-    await page.getByRole('link', { name: 'わたしの食文化の旅をはじめる' }).click();
+    await page.getByRole('link', { name: '食旅をはじめる' }).click();
     await page.waitForURL('**/food-profile');
     await page.getByRole('button', { name: 'はじめる！' }).click();
     await page.getByLabel('ニックネーム').fill('ナナミ');
@@ -208,7 +208,7 @@ test.describe('Phase 1 constrained options (ja, 375px)', () => {
     await page.waitForURL('**/explore/result');
     await page
       .locator('.tmm-result-card__title')
-      .filter({ hasText: '東京わさび' })
+      .filter({ hasText: '奥多摩のわさび文化をたどる' })
       .first()
       .waitFor();
   });
@@ -239,7 +239,7 @@ async function jaReachExplorationFirstStep(page: Page): Promise<void> {
   await page.goto('/');
   await resetDemoState(page);
   await page.reload();
-  await page.getByRole('link', { name: 'わたしの食文化の旅をはじめる' }).click();
+  await page.getByRole('link', { name: '食旅をはじめる' }).click();
   await page.waitForURL('**/food-profile');
   await page.getByRole('button', { name: 'はじめる！' }).click();
   await page.getByLabel('ニックネーム').fill('ナナミ');

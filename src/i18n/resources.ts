@@ -34,6 +34,11 @@ export const strings = {
     navDiscover: 'さがす',
     navMogu: 'MOGU',
     navMy: 'マイ',
+    /* Prototype bottom-nav labels (latest Figma parity, Issue #226) */
+    protoNavDiscover: '食旅を見つけ',
+    protoNavMogu: 'モグモグる',
+    protoNavFavorites: 'お気に入り',
+    protoNavMy: 'マイ',
     /* #95 destination placeholder shells (routes wired in AppRouter; filled by #93/#94/#81) */
     discoverPageTitle: 'さがす',
     discoverPageBody: '診断なしで、東京の食文化を自由に探せるページです。',
@@ -277,10 +282,10 @@ export const strings = {
     s4EmptyBack: 'ホームに戻る',
     // S0 landing (Issue #43)
     s0Eyebrow: '食文化の旅',
-    s0Title: '東京の食文化と出会う旅',
+    s0Title: '東京のローカルな食文化を体験しよう。',
     s0Tagline:
       '奥多摩の山あいで育つ「東京わさび」。知って、訪れて、応援することで、受け継がれる物語があります。',
-    s0Cta: 'わたしの食文化の旅をはじめる',
+    s0Cta: '食旅をはじめる',
     s0CtaNote: '約2分・アカウント不要',
     s0StepsKicker: 'HOW IT WORKS',
     s0StepsTitle: '3ステップで、あなたの食文化を見つける',
@@ -295,10 +300,14 @@ export const strings = {
       '作り手が減り、守るべき食文化が静かに消えようとしています。多摩の山あいには、江戸時代から続くわさび田や、小さな生産者たちがいます。',
     s0WhyBody2: 'あなたが味わい、買い、訪れるだけで、その食文化は明日も続いていきます。',
     // Home returning state (Phase 1 conversational greeting, Issue #217)
-    homeGreeting: 'こんにちは！またお会いしましたね。',
+    homeGreeting: 'こんにちは！ あなただけの食旅を見つけよう!',
     homeGreetingTitle: 'あなただけの食旅を見つけよう!',
-    homeGreetingName: 'こんにちは、{name}さん！あなたに合う食旅を続けましょう。',
-    homeCtaContinue: '食旅をつづける',
+    homeGreetingName: 'こんにちは、{name}さん！ あなただけの食旅を見つけよう!',
+    homeCtaContinue: "Let's Go!",
+    // Returning-home history section (latest Figma parity, Issue #226)
+    homeHistoryTitle: '私の食旅 (過去の旅)',
+    homeHistoryAll: 'すべて見る',
+    homeHistoryEmpty: '最近のおすすめはまだありません',
     // Food Profile (Issue #78, reframe of S1)
     fpTitle: 'フードプロフィール',
     fpSub: '食べられるもの・制限は、ここでまとめて管理できます。',
@@ -395,9 +404,15 @@ export const strings = {
     // Issue #217 nickname + 96% presentation)
     s3Greeting: 'こんにちは！あなたにぴったりの食文化の旅が見つかりました。',
     s3GreetingName: 'こんにちは、{name}さん。あなたにぴったりの食文化の旅が見つかりました。',
-    s3RevealTitle: '今回のあなたに合う食文化の旅を見つけました！',
+    s3RevealTitle: 'あなたに合う食の旅を見つけました！',
     s3RevealSub: 'あなたの答えから導いた、最初のおすすめです。',
+    // Result fixture candidates (latest Figma parity, Issue #226)
+    s3ResultCount: '結果:2件',
+    s3CardRegion: '奥多摩地区 (東京西部)',
+    s3CardTitlePrimary: '水がつなぐ、江戸から続く辛味\n奥多摩のわさび文化をたどる',
+    s3CardTitleSecondary: '水が育てる、幻の川魚\n奥多摩やまめの食文化',
     s3MatchPercent: '96%',
+    s3MatchPercentSecondary: '91%',
     s3MatchLabel: 'マッチ度',
     s3MatchNote: '※ このマッチ度はデモ用のプロトタイプ表示です。実際の適合度や安全性を保証するものではありません。',
     s3DietaryTitle: '食事制限の考慮',
@@ -572,6 +587,11 @@ export const strings = {
     navDiscover: 'Discover',
     navMogu: 'MOGU',
     navMy: 'My',
+    /* Prototype bottom-nav labels (latest Figma parity, Issue #226) */
+    protoNavDiscover: 'Discover',
+    protoNavMogu: 'MOGU',
+    protoNavFavorites: 'Favorites',
+    protoNavMy: 'My',
     /* #95 destination placeholder shells (routes wired in AppRouter; filled by #93/#94/#81) */
     discoverPageTitle: 'Discover',
     discoverPageBody: 'Browse Tokyo food culture freely, without a diagnosis.',
@@ -817,10 +837,10 @@ export const strings = {
     s4EmptyBack: 'Back to home',
     // S0 landing (Issue #43)
     s0Eyebrow: 'A food culture journey',
-    s0Title: 'Meet Tokyo\'s food culture',
+    s0Title: 'Experience Tokyo\'s local food culture.',
     s0Tagline:
       'Tokyo Wasabi grows in the mountains of Okutama. There is a story to be told — one that lives on when you know it, visit it, and support it.',
-    s0Cta: 'Start my food culture journey',
+    s0Cta: 'Start a food journey',
     s0CtaNote: 'About 2 minutes · no account needed',
     s0StepsKicker: 'HOW IT WORKS',
     s0StepsTitle: 'Find your food culture in 3 steps',
@@ -835,10 +855,14 @@ export const strings = {
       'Makers are aging, and food cultures worth keeping are quietly disappearing. In the Tama hills there are wasabi fields that go back to the Edo period and small producers who keep them going.',
     s0WhyBody2: 'By tasting, buying, and visiting, you help this food culture live another day.',
     // Home returning state (Phase 1 conversational greeting, Issue #217)
-    homeGreeting: 'Hello! Nice to see you again.',
+    homeGreeting: 'Hello! Let\'s find a food journey made for you!',
     homeGreetingTitle: 'Find a food journey made for you!',
-    homeGreetingName: 'Hello, {name}! Let’s continue your food journey.',
-    homeCtaContinue: 'Continue your food journey',
+    homeGreetingName: 'Hello, {name}! Let\'s find a food journey made for you!',
+    homeCtaContinue: "Let's Go!",
+    // Returning-home history section (latest Figma parity, Issue #226)
+    homeHistoryTitle: 'My food journeys (past trips)',
+    homeHistoryAll: 'View all',
+    homeHistoryEmpty: 'No recent recommendations yet',
     // Food Profile (Issue #78, reframe of S1)
     fpTitle: 'Food Profile',
     fpSub: 'What you can and cannot eat, managed in one place.',
@@ -937,9 +961,15 @@ export const strings = {
     // Issue #217 nickname + 96% presentation)
     s3Greeting: 'Hi! I found a food-culture journey that suits you.',
     s3GreetingName: 'Hi, {name}! I found a food-culture journey that suits you.',
-    s3RevealTitle: 'We found a food-culture journey that fits you this time!',
+    s3RevealTitle: 'We found a food journey that fits you!',
     s3RevealSub: 'Our first recommendation, shaped by your answers.',
+    // Result fixture candidates (latest Figma parity, Issue #226)
+    s3ResultCount: '2 results',
+    s3CardRegion: 'Okutama area (western Tokyo)',
+    s3CardTitlePrimary: 'Water ties it together\nTracing Okutama\'s wasabi culture',
+    s3CardTitleSecondary: 'Water-raised, rare river fish\nThe food culture of Okutama yamame',
     s3MatchPercent: '96%',
+    s3MatchPercentSecondary: '91%',
     s3MatchLabel: 'Match',
     s3MatchNote:
       '* This match percentage is a demo prototype display. It is not a real accuracy score or a safety guarantee.',
@@ -1124,6 +1154,11 @@ export const strings = {
     navDiscover: '探索',
     navMogu: 'MOGU',
     navMy: '我的',
+    /* Prototype bottom-nav labels (latest Figma parity, Issue #226) */
+    protoNavDiscover: '探索',
+    protoNavMogu: 'MOGU',
+    protoNavFavorites: '收藏',
+    protoNavMy: '我的',
     /* #95 destination placeholder shells (routes wired in AppRouter; filled by #93/#94/#81) */
     discoverPageTitle: '探索',
     discoverPageBody: '不需診斷，自由探索東京飲食文化的頁面。',
@@ -1366,10 +1401,10 @@ export const strings = {
     s4EmptyBack: '返回首頁',
     // S0 landing (Issue #43)
     s0Eyebrow: '飲食文化之旅',
-    s0Title: '遇見東京的飲食文化',
+    s0Title: '體驗東京的在地飲食文化。',
     s0Tagline:
       '奧多摩山間孕育的「東京山葵」。認識它、拜訪它、支持它，讓它的故事持續傳承下去。',
-    s0Cta: '開始我的飲食文化之旅',
+    s0Cta: '開始飲食之旅',
     s0CtaNote: '約2分鐘・無需帳號',
     s0StepsKicker: 'HOW IT WORKS',
     s0StepsTitle: '三步驟，找到屬於你的飲食文化',
@@ -1384,10 +1419,14 @@ export const strings = {
       '製作人逐漸減少，值得守護的飲食文化正悄悄消失。多摩的山間仍有從江戶時代延續至今的山葵田，以及守護它們的小型生產者。',
     s0WhyBody2: '只要你去品嚐、購買、拜訪，這項飲食文化就能繼續到明天。',
     // Home returning state (Phase 1 conversational greeting, Issue #217)
-    homeGreeting: '你好！很高興再見到你。',
+    homeGreeting: '你好！一起來找屬於你的飲食之旅吧！',
     homeGreetingTitle: '為你找到專屬的飲食文化之旅！',
-    homeGreetingName: '你好，{name}！我們繼續這次飲食文化之旅吧。',
-    homeCtaContinue: '繼續飲食之旅',
+    homeGreetingName: '你好，{name}！一起來找屬於你的飲食之旅吧！',
+    homeCtaContinue: "Let's Go!",
+    // Returning-home history section (latest Figma parity, Issue #226)
+    homeHistoryTitle: '我的飲食之旅（過去的旅程）',
+    homeHistoryAll: '查看全部',
+    homeHistoryEmpty: '尚無最近的推薦',
     // Food Profile (Issue #78, reframe of S1)
     fpTitle: '飲食檔案',
     fpSub: '能吃的與不能吃的食物，集中在此管理。',
@@ -1484,9 +1523,15 @@ export const strings = {
     // Issue #217 nickname + 96% presentation)
     s3Greeting: '你好！我為你找到了適合的飲食文化之旅。',
     s3GreetingName: '你好，{name}！我為你找到了適合的飲食文化之旅。',
-    s3RevealTitle: '我們找到了這次適合你的飲食文化之旅！',
+    s3RevealTitle: '我們找到了適合你的飲食之旅！',
     s3RevealSub: '根據你的回答，為你挑選的第一項推薦。',
+    // Result fixture candidates (latest Figma parity, Issue #226)
+    s3ResultCount: '結果：2 個',
+    s3CardRegion: '奧多摩地區（東京西部）',
+    s3CardTitlePrimary: '由水串起的辛味\n探訪奧多摩的山葵文化',
+    s3CardTitleSecondary: '水所養育的珍稀川魚\n奧多摩山女魚的飲食文化',
     s3MatchPercent: '96%',
+    s3MatchPercentSecondary: '91%',
     s3MatchLabel: '相符度',
     s3MatchNote: '※ 此相符度為示範用的原型顯示，不代表實際的準確度或安全性保證。',
     s3DietaryTitle: '飲食限制的考量',

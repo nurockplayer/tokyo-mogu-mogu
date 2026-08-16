@@ -645,31 +645,55 @@
   }
 }
 
-/* ---------- Returning Home (Issue #217 Phase 1) ---------- */
+/* ---------- Returning Home (Issue #217 Phase 1; Issue #226 Figma hero) ---------- */
 
 .tmm-landing-return {
   display: flex;
   flex-direction: column;
-  gap: var(--tmm-space-6);
-  padding-top: var(--tmm-space-4);
+  gap: var(--tmm-space-7);
 }
 
-.tmm-landing-return__greet {
-  justify-content: center;
+/* Hero media: taller than the first-time plate, used as a decorative
+   background (aria-hidden) with the greeting overlaid in white so the Figma
+   name-highlight accent (#FFE100) reads on the deep-green ground. */
+.tmm-landing-return__hero-media {
+  position: relative;
 }
 
-.tmm-landing-return__greet .fp-convo__bubble {
-  flex: 0 1 auto;
-  max-width: 320px;
-  text-align: left;
+.tmm-landing-return__media {
+  aspect-ratio: auto;
+  min-height: 280px;
 }
 
-.tmm-landing-return__cta {
-  max-width: 340px;
-  margin-left: auto;
-  margin-right: auto;
+.tmm-landing-return__greeting {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  text-align: center;
+  font-family: var(--tmm-font-display);
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1.35;
+  color: var(--tmm-color-card);
+  margin: 0;
+  padding: var(--tmm-space-6) var(--tmm-gutter);
+  overflow-wrap: anywhere;
+  text-shadow: 0 2px 10px rgb(0 0 0 / 0.3);
 }
 
+.tmm-landing-return__name {
+  background: transparent;
+  color: #ffe100;
+  font-weight: 800;
+}
+
+.tmm-landing-return__hero .tmm-landing-hero__cta {
+  margin-top: var(--tmm-space-5);
+}
+
+/* ============================================================
    Conversational guided prototype (Issue #181 Figma parity →
    Issue #217 Phase 1). Assistant-led chat rhythm: left avatar +
    bubble, 46px-scale embedded choices, user confirmation bubble.
@@ -705,15 +729,15 @@
 }
 
 .fp-convo__avatar {
-  flex: 0 0 46px;
-  width: 46px;
-  height: 46px;
+  flex: 0 0 50px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   background: var(--tmm-color-leaf-tint);
   border: 1px solid rgb(157 188 100 / 0.5);
   display: grid;
   place-items: center;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
 }
 
 .fp-convo__bubble {
@@ -788,7 +812,7 @@
 
 .fp-convo__hint {
   margin: 0;
-  padding-left: 58px;
+  padding-left: 62px;
   font-size: var(--tmm-text-caption);
   color: var(--tmm-color-ink-faint);
   line-height: var(--tmm-leading-caption);
