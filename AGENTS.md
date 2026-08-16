@@ -28,6 +28,8 @@ Canonical durable scope Spec: `docs/specs/product/product-scope-invariant.md` (I
 
 **Current Product / MVP framing (Issue #112)**: create reasons for travelers concentrated in Tokyo's 23 wards to discover under-visited Tokyo regions. Regional food culture is the primary entry point for `Discover → Understand → Visit → Act → Discover next region`. The top current problem is tourism concentration in the 23 wards. Tama / Okutama are current research, fieldwork, and demo-content contexts; they are not the permanent Product domain. Tokyo Wasabi is the 8/23 demo golden-path content, not the exclusive Product contract.
 
+**Audience invariant (Issue #112 + #214, 2026-08-16 team decision)**: TOKYO MOGU MOGU is for **both Japanese and international travelers**. Audience is defined by the need to discover lesser-known Tokyo regions / food cultures and find a reason to visit, not by nationality. Do not define inbound international travelers as the sole/primary Product persona. Do not define Japanese travelers as a secondary/future audience. A Taiwanese or other international traveler may be used as one example use case or research segment, but not as the canonical Product persona. Foreign-visitor statistics remain valid evidence for tourism concentration and multilingual/accessibility needs; they do not define the Product audience boundary. Japanese remains the judging/demo primary copy and default locale; multilingual support remains a Product capability.
+
 **Current App IA / UX behavior (Issue #92 + KiKi approved UI/UX design draft)**: the persistent primary navigation is `Home / Discover / MOGU / My`. Food Profile is stable / persistent user data; Exploration Conditions are per-trip; MOGU Recent is system-managed recommendation history and is **not** My Saved; Support is distributed as Story / Route / Spot CTAs (no standalone primary page); `My Route` is `My → Saved Routes`; Badge is `My → Badges` and remains Stretch. The latest approved KiKi Figma for a screen is the highest-priority visual / interaction implementation source; when one exists, implement it rather than redesigning or reinterpreting the UX. See `docs/specs/product/product-scope-invariant.md`, `docs/specs/product/hackathon-product-contract.md`, and `docs/specs/README.md` for the current source priority.
 
 **Legacy framing**: the earlier "discovery and collection / field guide / goshuin" framing (collection-first Pokédex, geolocation check-in, `GET!`) is reusable infrastructure, not the current product direction.
@@ -47,14 +49,14 @@ This repository is developed with Japanese and international collaborators.
 
 ## Product Principles / プロダクト原則
 
-> `docs/specs/product/product-scope-invariant.md` + Issue #112 govern durable Product scope and the 8/23 demo boundary. Issue #92 + the KiKi approved UI/UX design draft govern current App IA / UX behavior. The latest approved KiKi Figma for a screen is the visual / interaction implementation source for that screen; where Figma is not yet available, `docs/specs/product/approved-ui-fidelity.md` is the fallback presentation reference. Older #85 / #41 / S0-S9 material is historical foundation and wins only where it does not conflict with the sources above.
+> `docs/specs/product/product-scope-invariant.md` + Issue #112 govern durable Product scope, audience, and the 8/23 demo boundary. Issue #92 + the KiKi approved UI/UX design draft govern current App IA / UX behavior. The latest approved KiKi Figma for a screen is the visual / interaction implementation source for that screen; where Figma is not yet available, `docs/specs/product/approved-ui-fidelity.md` is the fallback presentation reference. Older #85 / #41 / S0-S9 material is historical foundation and wins only where it does not conflict with the sources above.
 
 1. **Story and support before collection.** The core experience is leading users from knowing a food culture to acting on it (eat / buy / visit / reserve / share); collection (Badge, Stretch) is stretch work, not the primary journey.
 2. **Local story before catalog size.** A smaller set of meaningful places, foods, makers, and stories is better than a large shallow directory.
 3. **Drive real-world action.** Features should encourage users to visit, learn, taste, buy, or explore Tokyo regions, with the current tourism-dispersion objective prioritizing less-visited areas.
 4. **Data must matter.** Open data and other legitimate data sources should support the product itself, not exist only for presentation slides.
 5. **Demo narrow, Product broad.** The durable Product scope is Tokyo-wide, multi-region × multi-food-culture. The 8/23 demo may ship only Okutama × Tokyo Wasabi. Demo content may be frozen without freezing Product scope. `Region`, `FoodCulture`, `Place`, and `Route` remain able to represent other Tokyo regions and cultures without premature platform abstractions.
-6. **Primary persona is the inbound traveler.** The hackathon UI targets the inbound international traveler (rep. persona: Taiwanese, 30s, Shinjuku base). Japanese deep-travel users are a secondary / future audience and do not replace the primary persona.
+6. **Audience is need-based, not nationality-based.** Japanese and international travelers are both first-class Product users. Design the core journey so a Japanese judge/user can naturally use it without feeling that the service is fundamentally "for foreigners", while keeping multilingual support for international users. Do not encode nationality as a required recommendation/persona assumption.
 7. **Never invent local facts.** Shops, products, stories, opening hours, access information, and public data must be traceable to a source or clearly marked as demo/editorial data.
 8. **Dietary input is recommendation-only.** Dietary-restriction input (the Food Profile) is used only for recommendation / match reasons and must never be presented as a verified safety guarantee (see the product contract's safety boundary).
 
@@ -87,9 +89,9 @@ Priority order:
 
 DevEx / Stretch / platform work remains deferred unless the current Issue explicitly promotes it. Do not open additional engineering lanes that compete with the 8/23 release mainline.
 
-Once an approved KiKi Figma screen exists for a screen, engineering agents **implement the approved design**; they do not independently redesign or reinterpret the UX. Escalate back to Product / Design only for a concrete blocker: an impossible or contradictory interaction, an accessibility blocker, verified data that cannot fit the design, or a broken core demo flow. Otherwise choose the smallest reversible implementation and keep delivery moving.
+Once an approved KiKi Figma screen exists for a screen, engineering agents **implement the approved design**; they do not independently redesign or reinterpret the UX. Escalate back to Product / Design only for a concrete blocker: an impossible or contradictory interaction, an accessibility blocker, verified data that cannot fit the design, a broken core demo flow, or a presentation that conflicts with the locked audience invariant. Otherwise choose the smallest reversible implementation and keep delivery moving.
 
-Hackathon Delivery Mode may narrow **what ships**, but must never be interpreted as narrowing the durable Product scope. The single Okutama × Tokyo Wasabi golden path is a delivery constraint, not a Product-domain decision.
+Hackathon Delivery Mode may narrow **what ships**, but must never be interpreted as narrowing the durable Product scope or audience. The single Okutama × Tokyo Wasabi golden path is a delivery constraint, not a Product-domain or nationality decision.
 
 ## Engineering Principles / 開発原則
 
@@ -99,6 +101,7 @@ Hackathon Delivery Mode may narrow **what ships**, but must never be interpreted
 - Follow existing project conventions before introducing new frameworks, libraries, folders, or abstractions.
 - **Shared-contract impact check**: before changing shared shell/layout, global CSS/tokens, common primitives, routing, persistence, schemas/types, geometry constants, or shared APIs, identify downstream assumptions — search relevant consumers, tests, duplicated constants/magic numbers, calculations, and documented contracts. Principle: before changing a shared assumption, identify who depends on it.
 - **Demo-scope impact check**: before introducing `Okutama`, `Tama`, `Wasabi`, `pilot`, `canonical`, or `frozen` semantics into shared code/contracts, verify the wording/logic is demo-scoped and does not narrow `docs/specs/product/product-scope-invariant.md`.
+- **Audience impact check**: before introducing `inbound`, `foreign traveler`, `Japanese user`, a nationality, or a representative persona into shared Product/UX/recommendation contracts, verify it is an evidence segment/example and does not redefine the Product audience. The core experience must remain nationality-neutral.
 - Do not perform unrelated refactors while implementing a ticket.
 - Do not commit secrets, private credentials, personal data, or generated local environment files.
 - Never force-push shared branches.
@@ -109,7 +112,7 @@ Hackathon Delivery Mode may narrow **what ships**, but must never be interpreted
 Before implementation:
 
 1. Read this file and the relevant issue.
-2. Read `docs/specs/product/product-scope-invariant.md` for any Product, Region, FoodCulture, recommendation, pilot/demo, or data-model work.
+2. Read `docs/specs/product/product-scope-invariant.md` for any Product, Region, FoodCulture, recommendation, pilot/demo, audience/persona, or data-model work.
 3. **Live-state preflight**: verify the current Issue/spec/dependency/open-PR state and `origin/main`. Route execution based on the CURRENT contract state, not the Issue title or an earlier session's assumption.
 4. Inspect related code, data, docs, and open PRs before changing anything.
 5. Confirm the ticket is independently implementable and not already covered elsewhere.
@@ -131,7 +134,7 @@ Keep one clear implementation concern per PR. Link the issue and include validat
 
 Routine bounded work starts from the smallest sufficient context. Default read set: relevant `AGENTS.md` / `CLAUDE.md` rules, the current Issue/task, directly referenced current Spec(s), the affected implementation files, the affected tests, and the current PR/handoff state. Do not perform repository-wide archaeology by default; expand the read set only on a concrete trigger — shared-contract impact, unresolved product/data meaning, an unknown repository convention, dependency/open-PR ambiguity, an unexpected test failure, or a reviewer finding that requires broader impact analysis. Reuse established issue/spec/handoff facts instead of re-discovering the same history.
 
-Escalation follows the global model-routing policy. Keep routine implementation ownership with the default implementation agent; escalate only the consequential decision slice — an unresolved architecture / shared API-schema contract, a security / privacy / auth / data-safety boundary, an irreversible or high-rework persistence/data-model decision, a Product-scope / data-semantics ambiguity, or genuinely difficult debugging after focused evidence gathering — never the whole ticket. After focused advice or review, implementation ownership returns to the routine agent, which verifies the advice against repository evidence.
+Escalation follows the global model-routing policy. Keep routine implementation ownership with the default implementation agent; escalate only the consequential decision slice — an unresolved architecture / shared API-schema contract, a security / privacy / auth / data-safety boundary, an irreversible or high-rework persistence/data-model decision, a Product-scope / audience / data-semantics ambiguity, or genuinely difficult debugging after focused evidence gathering — never the whole ticket. After focused advice or review, implementation ownership returns to the routine agent, which verifies the advice against repository evidence.
 
 ## Parallel Agent Work / 並列Agent作業
 
@@ -163,10 +166,14 @@ If data quality is uncertain, surface the uncertainty instead of silently conver
 
 Demo data may be canonical **for the 8/23 golden path** without becoming canonical for the Product domain.
 
+Segment-specific data (for example foreign-visitor behavior data) may support a problem statement, content decision, accessibility/multilingual requirement, or evaluation. It must not silently become a Product-wide persona rule unless the team explicitly changes the audience contract.
+
 ## UX and i18n / UX・多言語
 
 - Design mobile-first unless a ticket explicitly targets another form factor.
+- The Japanese core experience must read naturally as a service a Japanese traveler can use; do not add explanatory framing that assumes the user is a foreign visitor.
 - Keep Japanese and English content structurally equivalent, but allow natural wording rather than word-for-word translation.
+- Multilingual support serves international users without making the Product inbound-only.
 - Do not hard-code translatable UI copy deep inside business logic.
 - Consider text expansion, Japanese line wrapping, and accessibility when building layouts.
 - User-visible dates, locations, and transport information must be unambiguous.
@@ -178,71 +185,4 @@ Before declaring work complete:
 
 - Run the relevant tests, type checks, linting, and build commands available in the repository.
 - Test the changed user flow, not only isolated functions.
-- Verify Japanese and English UI when user-facing copy changed.
-- Confirm external data still points to a traceable source.
-- Check that no unrelated files, secrets, debug output, or local artifacts were included.
-- For Product/data/recommendation work, check that Okutama × Tokyo Wasabi remains demo-scoped and that another Tokyo Region × FoodCulture would not require redesigning shared contracts.
-
-If a validation step cannot be run, state exactly what was not verified and why.
-
-Validation is risk-based (Issue #137). The CI `Quality Gates` job classifies each change with the repository-owned classifier (`scripts/ci/classify-changes.sh`) instead of running every gate on every PR:
-
-- **docs / policy-only** — documentation, issue/PR templates, CI workflows, and agent guidance: `git diff --check` plus a focused review of the changed docs and the referenced contract. No dependency install, unit tests, build, or Playwright.
-- **normal runtime** — `pnpm typecheck`, `pnpm lint`, `pnpm test`, and `pnpm build`.
-- **core-risk** — core journey / routing / persistence / shared interaction changes, including the E2E contract itself: the normal runtime gates plus the 375px Japanese Golden-path Playwright E2E.
-
-The classifier is conservative: unknown paths are treated as runtime, and one core-risk path makes the whole change core-risk. The Golden-path E2E never reruns the TypeScript typecheck that Quality Gates already owns.
-
-## Local / Agent Validation Tiers / ローカル検証の段階
-
-Issue #153 adds a local/agent tier below the CI gate so the implementation loop stays fast without weakening the final merge gate. CI `Quality Gates` (#137) remains the authoritative validation policy; do not rerun the full suite after every small edit or review fix.
-
-- **T0 — focused edit loop** — after a small implementation edit or review fix.
-  - `pnpm test:related src/lib/progression.ts` → `vitest related --run`, which follows the import graph to the tests that cover the file.
-  - `pnpm test:focused src/lib/progression.test.ts` → `vitest run` on that test file.
-  - Pass file paths positionally, without `--` (pnpm 11 forwards bare positional args to the script but drops args after `--`). Always pass a path: with no path, `test:focused` runs the full suite and `test:related` finds zero tests (and still exits 0) — neither is a valid T0 result.
-  - Uses native Vitest related-test discovery or an explicitly named test file — never a separate dependency graph framework. Do not run full lint/typecheck/test/build here.
-  - **Limitation**: related-test discovery relies on the static import graph. A change reached through dynamic loading, generated data, global config, or another relationship Vitest cannot see may yield few or zero related tests. Never treat `0 related tests` as proof of safety — use an explicit focused test or escalate to T1/T2.
-- **T1 — vertical-slice checkpoint** — focused/related tests for the changed slice, plus `pnpm typecheck` when TypeScript/runtime code changed, plus any new deterministic regression test the issue requires. Run when a coherent slice is complete, before reviewer handoff. Record what was run. Do not run Playwright unless the changed behavior needs browser verification at this checkpoint.
-- **T2 — pre-PR runtime validation** — `pnpm validate` (typecheck + lint + full Vitest + build). Run once when implementation and review fixes are complete and the branch is ready for PR. After a reviewer finding is fixed, rerun the focused regression first; repeat T2 only when the fix materially changes the validated surface or immediately before final delivery.
-- **T3 — CI / merge gate** — the existing #137 classifier, unchanged: `docs` → `git diff --check` + focused review; `normal` → typecheck/lint/test/build; `core` → normal gates + 375px Japanese Golden-path E2E. CI is the authoritative merge safety net.
-
-## Focused Review / レビュー範囲
-
-Review only the diff, the Issue acceptance criteria, referenced contracts/specs, and regressions plausibly introduced by the diff. Do not perform a broad unrelated repository audit. Blocking findings require concrete evidence. The final verdict must be either blocking findings or exactly `No blocking findings.` Do not spend review budget investigating unrelated pre-existing issues.
-
-A blocking finding must be release-, contract-, security/privacy-, data-semantics-, persistence-, accessibility-, or concrete regression-relevant. Unrelated historical wording or low-risk cleanup is a follow-up, not a reason to widen every PR.
-
-A Product-scope regression is contract-relevant: shared runtime or current normative docs must not turn the 8/23 demo golden path into the durable Product domain.
-
-## Definition of Done / 完了条件
-
-A ticket is done when:
-
-- its acceptance criteria are satisfied,
-- the implementation is independently verifiable,
-- relevant validation passes,
-- user-facing copy is handled in the required languages,
-- source-backed data remains traceable,
-- documentation is updated when behavior or contracts changed,
-- Product/data/recommendation changes preserve the Tokyo-wide multi-region × multi-food-culture invariant,
-- and the PR contains no unrelated scope.
-
-## Decision Rule / 判断基準
-
-When requirements are incomplete, choose the **smallest reversible assumption that preserves the product goal**, document the assumption, and avoid creating unnecessary infrastructure.
-
-When product intent conflicts with implementation convenience, protect the product intent first.
-
-A deadline may justify a narrower demo implementation, but never silently converts that demo into the durable Product scope.
-
-## Spec-aware Execution / Spec準拠の実行
-
-When an Issue references a Spec under `docs/specs/`:
-
-- Read the referenced Spec before implementing.
-- For Product scope, Region/FoodCulture boundaries, recommendation candidates, pilot/demo semantics, or data-model extensibility, read `docs/specs/product/product-scope-invariant.md` first.
-- The current hackathon behavior contract is `docs/specs/product/hackathon-product-contract.md`, aligned with Issue #112 (Product scope/demo boundary) and Issue #92 / the KiKi approved UI/UX design draft (current App IA). Issue #85 / #41 and S0–S9 are historical foundation, not the current execution contract.
-- Do not implement behavior that contradicts the Spec.
-- Do not fill in unresolved product behavior on your own; surface it instead.
-- If a Spec change is needed, call it out explicitly as its own change rather than mixing it into implementation scope.
+- For Product/audience copy changes, search current normative artifacts for stale `inbound`, `primary persona`, `primary target`, `Japanese deep-travel`, `訪日旅行者`, `訪日外国人旅行者`, and `外国人旅行者` wording. Remaining hits must be valid research evidence, explicitly historical material, or an intentional example use case rather than a current audience boundary.
