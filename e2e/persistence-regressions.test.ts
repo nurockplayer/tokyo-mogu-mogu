@@ -120,7 +120,7 @@ test.describe('preserved Product browser regressions (Issue #221, ja, 375px)', (
     await page.goto('/discover');
     await page.getByRole('heading', { name: 'さがす', exact: true }).waitFor();
     await page.getByRole('link', { name: '東京わさび', exact: true }).click();
-    await page.waitForURL('**/story/wasabi-okutama?*');
+    await expect(page).toHaveURL(/\/story\/wasabi-okutama/);
     await page.getByText('味わうことが、継承になる').waitFor();
     await expect(page.locator('.s4-cta__back')).toHaveAttribute('href', '/discover');
 
