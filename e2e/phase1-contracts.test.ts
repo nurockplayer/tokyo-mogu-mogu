@@ -262,3 +262,114 @@ test.describe('Phase 1 hidden Phase 2 surfaces (ja, 375px)', () => {
     await expect(page.locator('.tmm-nav')).toHaveCount(1);
   });
 });
+
+test.describe('Phase 1 presentation-only browse/nav stays in-prototype (ja, 375px)', () => {
+  test.use({ locale: 'ja-JP' });
+
+  test('登録なし browse and 自分で旅を探す never navigate to Phase 2 routes', async ({ page }) => {
+    await page.goto('/');
+    await resetDemoState(page);
+    await page.reload();
+    await page.getByRole('link', { name: '食旅をはじめる' }).click();
+    await page.waitForURL('**/food-profile');
+
+    // 登録なし、自分で見てみる → presentation note, no Phase 2 navigation.
+    await page.getByRole('button', { name: '登録なし、自分で見てみる' }).click();
+    await page.getByText('「自分で探す」はデモでは準備中です').waitFor();
+    await expect(page).toHaveURL(/\/food-profile$/);
+
+    // Back to the intro, then complete the interview + save → fork.
+    await page.getByRole('button', { name: 'おすすめの旅へ戻る' }).click();
+    await page.getByRole('button', { name: 'はじめる！' }).click();
+    await page.getByLabel('ニックネーム').fill('ナナミ');
+    await page.getByRole('button', { name: 'これでお願いします！' }).click();
+    await page.getByRole('button', { name: 'アレルギーはありません' }).click();
+    await page.getByRole('button', { name: '送信' }).click();
+    await page.getByRole('button', { name: '特になし' }).click();
+    await page.getByRole('button', { name: '送信' }).click();
+    await page.getByRole('button', { name: '特になし' }).click();
+    await page.getByRole('button', { name: '送信' }).click();
+    await page.getByRole('button', { name: '特になし' }).click();
+    await page.getByRole('button', { name: '送信' }).click();
+    await page.getByRole('button', { name: '保存してつぎへ' }).click();
+
+    // 自分で旅を探す → presentation note, no Phase 2 navigation.
+    await page.getByRole('button', { name: '自分で旅を探す' }).click();
+    await page.getByText('「自分で探す」はデモでは準備中です').waitFor();
+    await expect(page).toHaveURL(/\/food-profile$/);
+
+    // Back → recommend → explore.
+    await page.getByRole('button', { name: 'おすすめの旅へ戻る' }).click();
+    await page.getByRole('button', { name: '自分に合った旅をおすすめしてもらう！' }).click();
+    await page.waitForURL('**/explore');
+  });
+
+  test('returning-home bottom nav exposes no Phase 2 route links', async ({ page }) => {
+    await page.goto('/');
+    await resetDemoState(page);
+    // Seed a durable profile so the returning-home nav renders.
+    await page.evaluate(([key, value]) => localStorage.setItem(key, value), [
+      FOOD_PROFILE_KEY,
+      JSON.stringify({
+        dietary: [],
+        dietaryOther: '',
+        hasNoRestrictions: false,
+        savedAt: '2026-08-16T00:00:00.000Z',
+        version: 1,
+      }),
+    ]);
+    await page.reload();
+    await page.locator('.phase1-nav').waitFor();
+    // Only "食旅を見つけ" is a real link (to the prototype journey); the other
+    // nav labels are presentation-only and must not route to Phase 2 surfaces.
+    await expect(page.locator('.phase1-nav a')).toHaveCount(1);
+    await expect(page.locator('.phase1-nav a')).toHaveAttribute('href', '/explore');
+    await expect(
+      page.locator('.phase1-nav a[href="/discover"], .phase1-nav a[href="/mogu"], .phase1-nav a[href="/my"]'),
+    ).toHaveCount(0);
+  });
+});
+
+test.describe('Phase 2 Food Profile edit surface (ja, 375px)', () => {
+  test.use({ locale: 'ja-JP' });
+
+  test('retains the full durable dietary categories with unselected yes/no until answered', async ({
+    page,
+  }) => {
+    await page.goto('/');
+    await resetDemoState(page);
+    // Seed a durable profile so /food-profile/edit renders the edit surface.
+    await page.evaluate(([key, value]) => localStorage.setItem(key, value), [
+      FOOD_PROFILE_KEY,
+      JSON.stringify({
+        dietary: [],
+        dietaryOther: '',
+        hasNoRestrictions: true,
+        savedAt: '2026-08-16T00:00:00.000Z',
+        version: 1,
+      }),
+    ]);
+    await page.goto('/food-profile/edit');
+
+    // The full durable category set is retained in the edit surface (Phase 2).
+    await page.getByText('まず、食物アレルギーはありますか？').waitFor();
+    // Unanswered yes/no starts unselected (no preselected No).
+    await expect(page.getByRole('button', { name: 'はい' })).toHaveAttribute('aria-pressed', 'false');
+    await expect(page.getByRole('button', { name: 'いいえ' })).toHaveAttribute('aria-pressed', 'false');
+
+    // All four categories remain reachable.
+    const categoryQuestions = [
+      'まず、食物アレルギーはありますか？',
+      'ベジタリアン・ビーガンなどの食事スタイルはありますか？',
+      '宗教上の理由などで、避けている食べものはありますか？',
+      '苦手な食材や味はありますか？',
+    ];
+    for (const question of categoryQuestions) {
+      await page.getByText(question).waitFor();
+      await page.getByRole('button', { name: 'いいえ' }).click();
+      await page.getByRole('button', { name: '次へ' }).click();
+    }
+    // The free-text "other" step remains part of the durable edit surface.
+    await page.getByText('その他、避けているもの・気になることがあれば入力してください（任意）。').waitFor();
+  });
+});

@@ -26,7 +26,10 @@ import {
   PHASE1_INTERVIEW,
   createEmptyInterviewAnswers,
   interviewSelectionLabels,
+  toggleInterviewAnswer,
+  createPhase1NeutralProfile,
 } from './FoodProfilePage';
+import { isFoodProfile } from '../../lib/food-profile';
 import { type LocaleKey } from '../../i18n/resources';
 
 const wasabi = DEMO_RECOMMENDATION_CANDIDATES.find(
@@ -159,5 +162,47 @@ describe('Figma exploration presentation session (Issue #224)', () => {
       tastes: [],
       themes: [],
     });
+  });
+});
+
+describe('interview "none" mutual exclusivity (P1 / Issue #224)', () => {
+  it('selecting "none" clears every substantive option', () => {
+    expect(toggleInterviewAnswer(['egg', 'nuts'], 'none')).toEqual(['none']);
+  });
+
+  it('selecting a substantive option clears "none"', () => {
+    expect(toggleInterviewAnswer(['none'], 'egg')).toEqual(['egg']);
+  });
+
+  it('toggling "none" off leaves the question empty', () => {
+    expect(toggleInterviewAnswer(['none'], 'none')).toEqual([]);
+  });
+
+  it('toggling a substantive option off removes only that option', () => {
+    expect(toggleInterviewAnswer(['egg', 'nuts'], 'egg')).toEqual(['nuts']);
+  });
+});
+
+describe('Phase 1 neutral profile never claims false "no restrictions" (Blocking 2)', () => {
+  it('persists a non-claiming profile: hasNoRestrictions false with empty dietary', () => {
+    const profile = createPhase1NeutralProfile('2026-08-16T00:00:00.000Z');
+    expect(profile.hasNoRestrictions).toBe(false);
+    expect(profile.dietary).toEqual([]);
+    expect(profile.dietaryOther).toBe('');
+    // The neutral shape is a valid durable FoodProfile.
+    expect(isFoodProfile(profile)).toBe(true);
+  });
+
+  it('declaring an allergy/restriction in the prototype never stores "no restrictions"', () => {
+    // Even when the user visibly selects a restriction in the interview, the
+    // durable profile the Phase 1 flow persists stays the neutral non-claiming
+    // profile — it must not become hasNoRestrictions: true.
+    const interviewAnswers = createEmptyInterviewAnswers();
+    interviewAnswers[0] = toggleInterviewAnswer([], 'egg');
+    expect(interviewAnswers[0]).toEqual(['egg']);
+
+    const persisted = createPhase1NeutralProfile();
+    expect(persisted.hasNoRestrictions).toBe(false);
+    expect(persisted.dietary).toEqual([]);
   });
 });

@@ -563,6 +563,9 @@ export const strings = {
     // Food Profile conversational interview — presentation-only fixture, never
     // dietary-safety semantics (Figma 2:623 / 3:959 / 3:1203 / 3:1500 / 3:1702).
     fpBrowseCta: '登録なし、自分で見てみる',
+    fpBrowseComingSoon: '「自分で探す」はデモでは準備中です。今回はおすすめの旅を体験してみてください。',
+    fpNotEvaluated: '食事条件は未評価（デモのプロトタイプでは評価しません）',
+    fpBrowseBack: 'おすすめの旅へ戻る',
     fpIvQ1Title: 'まず、食物アレルギーはありますか？(複数選択)',
     fpIvQ2Title: '普段の食事で、当てはまるものはありますか？(複数選択)',
     fpIvQ3Title: '宗教上の理由などで、避けている食べものはありますか？(複数選択)',
@@ -1204,6 +1207,10 @@ export const strings = {
     dataSakeMobilityCableCar: 'JR Ome Line & Mitake Tozan cable car',
     // ---------- Phase 1 latest-Figma parity (Issue #224) ----------
     fpBrowseCta: 'No registration, let me browse',
+    fpBrowseComingSoon:
+      'Browsing on your own is not part of this demo yet — try the recommended journey instead.',
+    fpNotEvaluated: 'Dietary conditions not evaluated (this demo prototype does not assess them)',
+    fpBrowseBack: 'Back to the recommended journey',
     fpIvQ1Title: 'Do you have any food allergies? (multi-select)',
     fpIvQ2Title: 'Does any of these describe your usual meals? (multi-select)',
     fpIvQ3Title: 'For religious or other reasons, are there foods you avoid? (multi-select)',
@@ -1816,6 +1823,9 @@ export const strings = {
     dataSakeMobilityCableCar: 'JR青梅線・御岳登山鐵道纜車',
     // ---------- Phase 1 latest-Figma parity (Issue #224) ----------
     fpBrowseCta: '免註冊，自己逛逛看',
+    fpBrowseComingSoon: '「自己探索」在示範中尚未提供，請先體驗推薦旅程。',
+    fpNotEvaluated: '飲食條件未評估（此示範原型不進行評估）',
+    fpBrowseBack: '返回推薦旅程',
     fpIvQ1Title: '你有食物過敏嗎？(可複選)',
     fpIvQ2Title: '平常的飲食習慣符合哪一項？(可複選)',
     fpIvQ3Title: '因為宗教等原因，有沒有避開不吃的食物？(可複選)',

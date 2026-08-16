@@ -137,6 +137,38 @@ export function interviewSelectionLabels(answers: InterviewAnswers, questionInde
   return picked;
 }
 
+/**
+ * Mutually-exclusive "none" toggle for one presentation interview question.
+ * Selecting `none` clears every substantive choice; selecting a substantive
+ * choice clears `none` (P1 / Issue #224 follow-up).
+ */
+export function toggleInterviewAnswer(current: readonly string[], value: string): string[] {
+  const isNone = value === 'none';
+  const toggledOn = !current.includes(value);
+  if (isNone) return toggledOn ? ['none'] : [];
+  if (toggledOn) return [...current.filter((v) => v !== 'none'), value];
+  return current.filter((v) => v !== value);
+}
+
+/**
+ * Phase 1 neutral, non-claiming durable profile (Issue #224 follow-up).
+ *
+ * The prototype dietary interview is presentation-only and is never mapped into
+ * production dietary semantics. Because the prototype does not evaluate
+ * restrictions, the durable profile must NOT claim "no restrictions" — that
+ * would store the opposite of a visibly declared allergy/restriction. This
+ * profile (`hasNoRestrictions: false`, empty dietary) means "not evaluated".
+ */
+export function createPhase1NeutralProfile(now = new Date().toISOString()): FoodProfile {
+  return {
+    dietary: [],
+    dietaryOther: '',
+    hasNoRestrictions: false,
+    savedAt: now,
+    version: 1,
+  };
+}
+
 function isSelected(values: DietaryRestriction[], value: DietaryRestriction): boolean {
   return values.includes(value);
 }
@@ -201,6 +233,8 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   const [interviewAnswers, setInterviewAnswers] = useState<InterviewAnswers>(() =>
     createEmptyInterviewAnswers(),
   );
+  // Presentation-only browse note ("自分で探す" has no demo branch yet).
+  const [browseNote, setBrowseNote] = useState(false);
 
   // The conversation restarts from the saved profile whenever the route/mode
   // changes so edit always reflects the latest persisted state. The same
@@ -216,6 +250,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
     setIntroChoice(null);
     setNicknameInput(loadNickname() ?? '');
     setInterviewAnswers(createEmptyInterviewAnswers());
+    setBrowseNote(false);
   }, [mode]);
 
   const choices: Choice[] = [
@@ -286,19 +321,24 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   }
 
   function handleSave() {
-    const profile = normalizedProfile(draft(draftState, { savedAt: new Date().toISOString() }));
-    saveFoodProfile(profile);
-    // First-use setup → the latest-Figma post-profile fork (Figma Talk12
-    // 3:1835). Keep the component in the setup view (do not flip `existing`
-    // yet) so the fork step renders; a later visit re-reads the persisted
-    // profile and shows the summary. Edit → return to the profile summary.
     if (existing) {
+      // Edit: persist the edited durable profile (Phase 2 behavior unchanged).
+      const profile = normalizedProfile(draft(draftState, { savedAt: new Date().toISOString() }));
+      saveFoodProfile(profile);
       setExisting(profile);
       navigate('/food-profile');
-    } else {
-      beginNewExploration();
-      setStep(SETUP_FORK);
+      return;
     }
+    // Phase 1 setup: the dietary interview is presentation-only (never mapped
+    // into production dietary semantics). The durable profile must NOT claim
+    // "no restrictions" (that would contradict a visibly declared restriction),
+    // so we persist a neutral, non-claiming profile — `hasNoRestrictions: false`
+    // with empty dietary. Then continue to the latest-Figma post-profile fork
+    // (Figma Talk12 3:1835); a later visit re-reads the persisted profile and
+    // shows the summary.
+    saveFoodProfile(createPhase1NeutralProfile());
+    beginNewExploration();
+    setStep(SETUP_FORK);
   }
 
   function handleCancel() {
@@ -456,7 +496,14 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
         <ConversationHeader editing={false} onBack={goBack} />
         <ChatTranscript items={transcript} />
 
-        {step === STEP_INTRO ? (
+        {step === STEP_INTRO && browseNote ? (
+          <DemoNote
+            message={t('fpBrowseComingSoon')}
+            onBack={() => setBrowseNote(false)}
+          />
+        ) : null}
+
+        {step === STEP_INTRO && !browseNote ? (
           <IntroCard
             onStart={() => {
               setIntroChoice('start');
@@ -464,8 +511,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
             }}
             onBrowse={() => {
               setIntroChoice('browse');
-              beginNewExploration();
-              navigate('/discover');
+              setBrowseNote(true);
             }}
           />
         ) : null}
@@ -490,8 +536,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
               setInterviewAnswers((prev) => {
                 const idx = step - SETUP_INTERVIEW_FIRST;
                 const cur = prev[idx] ?? [];
-                const next = cur.includes(value) ? cur.filter((v) => v !== value) : [...cur, value];
-                return { ...prev, [idx]: next };
+                return { ...prev, [idx]: toggleInterviewAnswer(cur, value) };
               });
             }}
             onOtherChange={(value) => {
@@ -508,12 +553,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
           <SetupSummaryStep interviewAnswers={interviewAnswers} nickname={nickname} onSave={handleSave} />
         ) : null}
 
-        {step === SETUP_FORK ? (
-          <ForkStep
-            onRecommend={() => navigate('/explore')}
-            onBrowse={() => navigate('/discover')}
-          />
-        ) : null}
+        {step === SETUP_FORK ? <ForkStep onRecommend={() => navigate('/explore')} /> : null}
       </div>
     );
   }
@@ -581,6 +621,8 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
       <div className="tmm-profile-summary">
         {existing.hasNoRestrictions ? (
           <p className="tmm-profile-summary__line">{t('fpNoRestrictions')}</p>
+        ) : existing.dietary.length === 0 && existing.dietaryOther.trim().length === 0 ? (
+          <p className="tmm-profile-summary__line">{t('fpNotEvaluated')}</p>
         ) : (
           <ul className="tmm-profile-summary__list">
             {existing.dietary.map((value) => (
@@ -824,7 +866,16 @@ function InterviewStep({
                 {t(opt.labelKey)}
               </Chip>
             ))}
-            <Chip selected={showOther} onClick={() => setShowOther((s) => !s)}>
+            <Chip
+              selected={showOther}
+              onClick={() => {
+                const next = !showOther;
+                setShowOther(next);
+                // Closing the "other" input must not leave a hidden stale value
+                // that would still surface in the summary.
+                if (!next) onOtherChange('');
+              }}
+            >
               {t('fpIvOther')}
             </Chip>
           </div>
@@ -908,16 +959,16 @@ function SetupSummaryStep({
 
 /**
  * Post-profile fork (Figma Talk12 3:1835): recommend-for-me vs browse-myself.
- * Presentation-only — no durable semantics (#201 / #204 deferred).
+ * "Browse myself" has no demo branch in the live Figma, so it stays a
+ * presentation-only note rather than routing to a Phase 2 surface (#201 /
+ * #204 deferred).
  */
-function ForkStep({
-  onRecommend,
-  onBrowse,
-}: {
-  onRecommend: () => void;
-  onBrowse: () => void;
-}) {
+function ForkStep({ onRecommend }: { onRecommend: () => void }) {
   const { t } = useI18n();
+  const [browseNote, setBrowseNote] = useState(false);
+  if (browseNote) {
+    return <DemoNote message={t('fpBrowseComingSoon')} onBack={() => setBrowseNote(false)} />;
+  }
   return (
     <div className="fp-convo">
       <div className="fp-convo__msg fp-convo__msg--assistant">
@@ -930,8 +981,30 @@ function ForkStep({
             <Button variant="primary" className="tmm-btn--block" onClick={onRecommend}>
               {t('fpForkRecommend')}
             </Button>
-            <Button variant="secondary" className="tmm-btn--block" onClick={onBrowse}>
+            <Button variant="secondary" className="tmm-btn--block" onClick={() => setBrowseNote(true)}>
               {t('fpForkBrowse')}
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** Presentation-only "not in this demo yet" note with a back action. */
+function DemoNote({ message, onBack }: { message: string; onBack: () => void }) {
+  const { t } = useI18n();
+  return (
+    <div className="fp-convo">
+      <div className="fp-convo__msg fp-convo__msg--assistant">
+        <span className="fp-convo__avatar" aria-hidden="true">
+          🌿
+        </span>
+        <div className="fp-convo__bubble">
+          <p className="fp-convo__body">{message}</p>
+          <div className="fp-convo__choices">
+            <Button variant="primary" className="tmm-btn--block" onClick={onBack}>
+              {t('fpBrowseBack')}
             </Button>
           </div>
         </div>
