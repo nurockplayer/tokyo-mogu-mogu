@@ -20,6 +20,7 @@ AIを使った調査により、東京都・自治体・国・観光公式サイ
 - **Primary presentation anchor:** 奥多摩 × 東京わさび
 - **Secondary playable proof:** 青梅・沢井 × 日本酒 × 文化財
 - Product 全体は東京都全域 × 複数地域 × 複数食文化を対象とする
+- **Product audience:** 日本人・訪日外国人の双方。国籍ではなく「東京のまだ知らない地域や食文化と出会い、行ってみたい理由を見つけたい」という travel/discovery need で捉える
 
 44件を一件ずつ確認したい場合は [`Data Catalog`](./data-catalog.md) を参照。この資料では、企画判断に必要な情報だけを、**「何が分かっているか → どの旅行体験に使えるか → 何がまだ分からないか」** の順に整理する。
 
@@ -40,6 +41,8 @@ AIを使った調査により、東京都・自治体・国・観光公式サイ
 | 青梅・御岳山 | **0.6%** |
 
 一方、奥多摩まで訪れた外国人旅行者では「自然を感じる」体験の評価が高いというデータもある。ただしサンプル数が小さいため、方向性を示す参考値として扱う。
+
+**ここで外国人旅行者のデータを使うのは、観光集中を示す quantitative evidence の一つとしてであり、TOKYO MOGU MOGU の利用者を外国人に限定するためではない。Product は日本人・訪日外国人の双方が利用できる前提で設計する。**
 
 TOKYO MOGU MOGU が試している mechanism は次の通り。
 
@@ -101,7 +104,7 @@ TOKYO MOGU MOGU が試している mechanism は次の通り。
 - この順番で実際に移動するのが自然か
 - 西東京バスの本数を考えて 200分 / 285分で本当に回れるか
 - 千島わさび園 → 一心亭 → 大丹波方面の移動負担は妥当か
-- 外国人旅行者にとって乗換やバス利用が難しすぎないか
+- 初めて奥多摩を訪れる旅行者にとって、乗換やバス利用が難しすぎないか
 - 各施設を「わざわざ行く価値のある stop」として見せられるか
 - 営業時間・定休日・予約・価格等の practical information は追加確認が必要
 
@@ -159,7 +162,7 @@ AIによる広域 data research では、奥多摩よりも青梅・沢井周辺
 - 酒蔵で飲酒した後に御岳山方面へ移動する itinerary として問題がないか
 - 御嶽神社 60分 / 120分、馬場家御師住宅 30分の滞在時間は適切か
 - Half-day を本当に「Half-day」と呼べるか
-- 一日版を外国人旅行者が無理なく完走できるか
+- 一日版を旅行者が無理なく完走できるか
 - 営業時間・酒蔵見学・料金・予約等の practical information をどこまで current data で保証できるか
 
 この route も、**Stop 自体は source-backed だが、route 順序・滞在時間・移動時間は editorial model** である。
@@ -180,7 +183,7 @@ AIによる広域 data research では、奥多摩よりも青梅・沢井周辺
 - 観光庁 宿泊旅行統計
 - 駅別乗降客数
 
-**使い道:** Pitch / Home / Result で「なぜこの地域を紹介するのか」を説明。
+**使い道:** Pitch / Home / Result で「なぜこの地域を紹介するのか」を説明。外国人旅行者に限定した Product persona を定義するための data ではない。
 
 ### B. 食・農業
 
@@ -258,5 +261,6 @@ AIによる広域 data research では、奥多摩よりも青梅・沢井周辺
 - [`docs/data-opportunity-map.md`](../data-opportunity-map.md): AI / engineering / PM が dataset、license、format、制約まで追跡する研究 source of truth
 - [`docs/analytics/tokyo-tourism-baseline.md`](../analytics/tokyo-tourism-baseline.md): 観光集中に関する quantitative evidence の詳細
 - [Issue #211](https://github.com/nurockplayer/tokyo-mogu-mogu/issues/211): 既に見つけた source-backed data を Web App の Story / Route / Spot に反映する current P0 work
+- [Issue #214](https://github.com/nurockplayer/tokyo-mogu-mogu/issues/214): Product audience を日本人・訪日外国人双方にそろえる current alignment work
 
 > **この Brief は、現在確認できているデータ・ルート・未確認事項を、チームが短時間で把握できるように整理した資料。**
