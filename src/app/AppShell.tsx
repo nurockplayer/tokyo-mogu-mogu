@@ -18,15 +18,18 @@
  * system. Feature screens render inside <main> and never build their own app
  * root.
  */
-import type { ReactNode } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 import { useI18n } from '../i18n';
 import { AuthControl } from '../components/AuthControl';
 import { DemoResetButton } from '../components/DemoResetButton';
 import { LocaleToggle } from '../components/LocaleToggle';
 import { ErrorBoundary } from './ErrorBoundary';
 
-export function AppShell({ children }: { children: ReactNode }) {
+/**
+ * Production shell — used as a React Router layout route for the Phase 2
+ * surfaces (Issue #217). The matched child route renders through <Outlet />.
+ */
+export function AppShell() {
   const { t } = useI18n();
   return (
     <div className="tmm-shell">
@@ -44,7 +47,9 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       </header>
       <main className="tmm-main">
-        <ErrorBoundary>{children}</ErrorBoundary>
+        <ErrorBoundary>
+          <Outlet />
+        </ErrorBoundary>
       </main>
       <nav className="tmm-nav">
         <NavLink to="/" end className="tmm-nav__link">

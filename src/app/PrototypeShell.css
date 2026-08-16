@@ -1,0 +1,20 @@
+/* Phase 1 prototype shell (Issue #217): slim chat-style top bar, no bottom nav. */
+
+.tmm-prototype {
+  /* The production shell reserves bottom space for the nav; the prototype has
+     no bottom nav, so only the safe-area inset applies. */
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.tmm-prototype__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--tmm-space-3);
+  padding: var(--tmm-space-3) var(--tmm-gutter);
+  border-bottom: var(--tmm-border);
+  background: var(--tmm-color-warm);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
