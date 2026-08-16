@@ -186,3 +186,24 @@ Before declaring work complete:
 - Run the relevant tests, type checks, linting, and build commands available in the repository.
 - Test the changed user flow, not only isolated functions.
 - For Product/audience copy changes, search current normative artifacts for stale `inbound`, `primary persona`, `primary target`, `Japanese deep-travel`, `訪日旅行者`, `訪日外国人旅行者`, and `外国人旅行者` wording. Remaining hits must be valid research evidence, explicitly historical material, or an intentional example use case rather than a current audience boundary.
+
+## Focused Review / レビュー範囲
+
+Review only the diff, the Issue acceptance criteria, referenced contracts/specs, and regressions plausibly introduced by the diff. Do not perform a broad unrelated repository audit. Blocking findings require concrete evidence. The final verdict must be either blocking findings or exactly `No blocking findings.` Do not spend review budget investigating unrelated pre-existing issues.
+
+A blocking finding must be release-, contract-, security/privacy-, data-semantics-, persistence-, accessibility-, or concrete regression-relevant. Unrelated historical wording or low-risk cleanup is a follow-up, not a reason to widen every PR.
+
+A Product-scope regression is contract-relevant: shared runtime or current normative docs must not turn the 8/23 demo golden path into the durable Product domain.
+
+## Definition of Done / 完了条件
+
+A ticket is done when:
+
+- its acceptance criteria are satisfied,
+- the implementation is independently verifiable,
+- relevant validation passes,
+- user-facing copy is handled in the required languages,
+- source-backed data remains traceable,
+- documentation is updated when behavior or contracts changed,
+- Product/data/recommendation changes preserve the Tokyo-wide multi-region × multi-food-culture invariant,
+- and the PR contains no unrelated scope.
