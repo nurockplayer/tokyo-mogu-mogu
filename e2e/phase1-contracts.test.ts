@@ -25,7 +25,8 @@ interface Journey {
   nicknameTitle: string;
   nickname: string;
   nicknameConfirm: string;
-  dietaryAck: string;
+  interviewSend: string;
+  forkRecommend: string;
   next: string;
   taste: string;
   eat: string;
@@ -49,7 +50,8 @@ const JOURNEY: Record<Locale, Journey> = {
     nicknameTitle: 'First, what should we call you?',
     nickname: 'Nana',
     nicknameConfirm: 'That’s me!',
-    dietaryAck: 'Got it',
+    interviewSend: 'Send',
+    forkRecommend: 'Recommend a journey for me!',
     next: 'Next',
     taste: 'Refreshing',
     eat: 'Eat',
@@ -71,7 +73,8 @@ const JOURNEY: Record<Locale, Journey> = {
     nicknameTitle: '首先，該怎麼稱呼你呢？',
     nickname: '奈奈美',
     nicknameConfirm: '就用這個！',
-    dietaryAck: '了解',
+    interviewSend: '送出',
+    forkRecommend: '推薦適合我的旅程！',
     next: '下一步',
     taste: '清爽',
     eat: '吃',
@@ -125,22 +128,26 @@ async function completeJourney(page: Page, locale: Locale): Promise<void> {
   await page.getByText(j.nicknameTitle).waitFor();
   await page.getByLabel(/nickname|暱稱/i).fill(j.nickname);
   await page.getByRole('button', { name: j.nicknameConfirm }).click();
-  // Phase 1 first-use: acknowledge the prototype dietary limitation and continue.
-  await page.getByRole('button', { name: j.dietaryAck }).click();
+  // Latest-Figma four-question dietary interview (presentation-only) → summary → fork.
+  for (let i = 0; i < 4; i += 1) {
+    await page.getByRole('button', { name: j.interviewSend }).click();
+  }
   await page.getByRole('button', { name: j.save }).click();
+  await page.getByRole('button', { name: j.forkRecommend }).click();
   await page.waitForURL('**/explore');
 
-  // Exploration conversation.
-  await page.getByRole('button', { name: j.taste }).click();
-  await page.getByRole('button', { name: j.next }).click();
+  // Exploration conversation (latest-Figma order: Experience → Departure →
+  // Travel → Duration → Taste + Theme).
   await page.getByRole('button', { name: j.eat }).click();
   await page.getByRole('button', { name: j.next }).click();
   await page.getByRole('button', { name: j.okutama }).click();
+  await page.getByRole('button', { name: j.next }).click();
   await page.getByRole('button', { name: j.travel60 }).click();
   await page.getByRole('button', { name: j.next }).click();
-  await page.getByRole('button', { name: j.nature }).click();
-  await page.getByRole('button', { name: j.next }).click();
   await page.getByRole('button', { name: j.halfDay }).click();
+  await page.getByRole('button', { name: j.next }).click();
+  await page.getByRole('button', { name: j.taste }).click();
+  await page.getByRole('button', { name: j.nature }).click();
   await page.getByRole('button', { name: j.done }).click();
   await page.waitForURL('**/explore/result');
 }
@@ -180,31 +187,40 @@ test.describe('Phase 1 constrained options (ja, 375px)', () => {
     await page.getByRole('button', { name: 'はじめる！' }).click();
     await page.getByLabel('ニックネーム').fill('ナナミ');
     await page.getByRole('button', { name: 'これでお願いします！' }).click();
-    await page.getByRole('button', { name: '了解しました' }).click();
+    // Four-question dietary interview (latest Figma), presentation-only.
+    await page.getByRole('button', { name: '🥚 卵' }).click();
+    await page.getByRole('button', { name: '送信' }).click();
+    await page.getByRole('button', { name: '送信' }).click();
+    await page.getByRole('button', { name: '送信' }).click();
+    await page.getByRole('button', { name: '送信' }).click();
     await page.getByRole('button', { name: '保存してつぎへ' }).click();
+    await page.getByRole('button', { name: '自分に合った旅をおすすめしてもらう！' }).click();
     await page.waitForURL('**/explore');
 
-    // The latest Figma option set is visible as fixture presentation.
-    await page.getByRole('button', { name: '濃厚な味' }).waitFor();
-    await page.getByRole('button', { name: '甘いもの' }).waitFor();
-    await page.getByRole('button', { name: 'おまかせ' }).waitFor();
-    await page.getByRole('button', { name: '甘いもの' }).click();
-    await page.getByRole('button', { name: '次へ' }).click();
+    // Latest-Figma question order: Experience → Departure → Travel → Duration →
+    // Taste + Theme.
     // Experience: the full tile set is shown, including make / origin / learn.
     await page.getByRole('button', { name: '作る' }).waitFor();
     await page.getByRole('button', { name: '産地を訪ねる' }).waitFor();
     await page.getByRole('button', { name: '作る' }).click();
     await page.getByRole('button', { name: '次へ' }).click();
-    // Departure + travel: Figma controls, every choice selectable.
+    // Departure: Figma controls, every choice selectable.
     await page.getByRole('button', { name: '東京都' }).click();
-    await page.getByRole('button', { name: '2時間以内', exact: true }).click();
+    await page.getByRole('button', { name: '周辺' }).waitFor();
     await page.getByRole('button', { name: '次へ' }).click();
-    // Theme: full chip set, including daily-life.
-    await page.getByRole('button', { name: '地域の日常' }).waitFor();
-    await page.getByRole('button', { name: '地域の日常' }).click();
+    // Travel: every Figma choice selectable.
+    await page.getByRole('button', { name: '2時間以内', exact: true }).click();
     await page.getByRole('button', { name: '次へ' }).click();
     // Duration: including "not decided yet".
     await page.getByRole('button', { name: 'まだ決めていない' }).click();
+    await page.getByRole('button', { name: '次へ' }).click();
+    // Taste + theme: the full chip sets, including daily-life theme.
+    await page.getByRole('button', { name: '濃厚な味' }).waitFor();
+    await page.getByRole('button', { name: '甘いもの' }).waitFor();
+    await page.getByRole('button', { name: 'おまかせ' }).waitFor();
+    await page.getByRole('button', { name: '地域の日常' }).waitFor();
+    await page.getByRole('button', { name: '甘いもの' }).click();
+    await page.getByRole('button', { name: '地域の日常' }).click();
     await page.getByRole('button', { name: '結果を見る' }).click();
     await page.waitForURL('**/explore/result');
     // The Result is still deterministically Okutama × Tokyo Wasabi.
@@ -237,7 +253,7 @@ test.describe('Phase 1 hidden Phase 2 surfaces (ja, 375px)', () => {
   });
 });
 
-/** ja: complete the Food Profile setup (dietary ack only) and reach the first Exploration step. */
+/** ja: complete the Food Profile setup (interview) and reach the first Exploration step. */
 async function jaReachExplorationFirstStep(page: Page): Promise<void> {
   await page.goto('/');
   await resetDemoState(page);
@@ -247,16 +263,19 @@ async function jaReachExplorationFirstStep(page: Page): Promise<void> {
   await page.getByRole('button', { name: 'はじめる！' }).click();
   await page.getByLabel('ニックネーム').fill('ナナミ');
   await page.getByRole('button', { name: 'これでお願いします！' }).click();
-  await page.getByRole('button', { name: '了解しました' }).click();
+  // Four-question dietary interview (latest Figma), presentation-only.
+  await page.getByRole('button', { name: '送信' }).click();
+  await page.getByRole('button', { name: '送信' }).click();
+  await page.getByRole('button', { name: '送信' }).click();
+  await page.getByRole('button', { name: '送信' }).click();
   await page.getByRole('button', { name: '保存してつぎへ' }).click();
+  await page.getByRole('button', { name: '自分に合った旅をおすすめしてもらう！' }).click();
   await page.waitForURL('**/explore');
 }
 
-/** ja: complete Food Profile + first two Exploration steps → departure/travel step. */
+/** ja: complete Food Profile + the Experience step → departure step. */
 async function jaReachDepartureStep(page: Page): Promise<void> {
   await jaReachExplorationFirstStep(page);
-  await page.getByRole('button', { name: 'さっぱりした味' }).click();
-  await page.getByRole('button', { name: '次へ' }).click();
   await page.getByRole('button', { name: '食べる' }).click();
   await page.getByRole('button', { name: '次へ' }).click();
   await page.getByRole('button', { name: '東京都' }).waitFor();
@@ -272,16 +291,18 @@ test.describe('Phase 1 Figma departure × travel-time choices (ja, 375px)', () =
 
     await page.getByRole('button', { name: '東京都' }).waitFor();
     await page.getByRole('button', { name: '周辺' }).waitFor();
+    await page.getByRole('button', { name: '東京都' }).click();
+    await page.getByRole('button', { name: '次へ' }).click();
+    // Travel is its own step with every Figma choice selectable.
     for (const label of ['30分以内', '1時間以内', '1時間30分以内', '2時間以内', '時間は気にしない']) {
       await page.getByRole('button', { name: label, exact: true }).waitFor();
     }
     // A long travel choice is selectable and the Result still converges to wasabi.
-    await page.getByRole('button', { name: '東京都' }).click();
     await page.getByRole('button', { name: '2時間以内', exact: true }).click();
     await page.getByRole('button', { name: '次へ' }).click();
-    await page.getByRole('button', { name: '自然' }).click();
-    await page.getByRole('button', { name: '次へ' }).click();
     await page.getByRole('button', { name: '半日' }).click();
+    await page.getByRole('button', { name: '次へ' }).click();
+    await page.getByRole('button', { name: '自然' }).click();
     await page.getByRole('button', { name: '結果を見る' }).click();
     await page.waitForURL('**/explore/result');
     await page

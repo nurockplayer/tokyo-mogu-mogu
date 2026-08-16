@@ -458,3 +458,81 @@
     margin-right: 0;
   }
 }
+
+/* ---------- Issue #224: latest-Figma presentation (MOGUMOGU point + nearby spots) ---------- */
+
+.s4-point {
+  margin: var(--tmm-space-5) 0;
+  border: var(--tmm-border);
+  border-left: 4px solid var(--tmm-color-leaf);
+  border-radius: var(--tmm-radius-md);
+  background: var(--tmm-color-warm);
+  padding: var(--tmm-space-3) var(--tmm-space-4);
+}
+
+.s4-point__summary {
+  display: flex;
+  align-items: baseline;
+  gap: var(--tmm-space-2);
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.s4-point__badge {
+  font-size: var(--tmm-text-caption);
+  font-weight: 700;
+  color: var(--tmm-color-forest-deep);
+  letter-spacing: var(--tmm-tracking-caption);
+}
+
+.s4-point__question {
+  font-family: var(--tmm-font-display);
+  font-weight: 700;
+  color: var(--tmm-color-ink);
+}
+
+.s4-point__body {
+  margin-top: var(--tmm-space-2);
+  font-size: var(--tmm-text-body);
+  line-height: var(--tmm-leading-body);
+  color: var(--tmm-color-ink);
+}
+
+.s4-nearby {
+  margin-top: var(--tmm-space-6);
+}
+
+.s4-nearby__title {
+  font-family: var(--tmm-font-display);
+  font-size: var(--tmm-text-title);
+  font-weight: 700;
+  color: var(--tmm-color-ink);
+  margin-bottom: var(--tmm-space-3);
+}
+
+.s4-nearby__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--tmm-space-2);
+}
+
+.s4-nearby__card {
+  display: block;
+  min-height: 44px;
+  padding: var(--tmm-space-3) var(--tmm-space-4);
+  background: var(--tmm-color-card);
+  border: var(--tmm-border);
+  border-radius: var(--tmm-radius-md);
+  color: var(--tmm-color-ink);
+}
+
+.s4-nearby__card:hover,
+.s4-nearby__card:focus-visible {
+  border-color: var(--tmm-color-forest);
+}
+
+.s4-nearby__name {
+  font-weight: 700;
+}
