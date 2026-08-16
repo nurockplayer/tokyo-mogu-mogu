@@ -30,6 +30,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useI18n } from '../../i18n';
+import { type LocaleKey } from '../../i18n/resources';
 import { Button, Chip, StepDots } from '../../ui';
 import {
   createDefaultFoodProfile,
@@ -53,6 +54,80 @@ interface Choice {
   value: DietaryRestriction;
   label: string;
 }
+
+/** One selectable dietary chip shown in the Figma category UI (fixture). */
+interface DietaryChip {
+  id: string;
+  labelKey: LocaleKey;
+}
+
+type DietaryCategoryId = 'allergy' | 'diet' | 'religion' | 'dislike';
+
+interface DietaryCategory {
+  id: DietaryCategoryId;
+  titleKey: LocaleKey;
+  chips: readonly DietaryChip[];
+}
+
+/** Visual (proposed-input) selection per category — never persisted. */
+type DietaryVisual = Record<DietaryCategoryId, string[]>;
+
+/**
+ * The Figma Food Profile dietary category chips (Issue #226). Rendered as
+ * proposed input on the Phase 1 first-use flow; selection is preview-only and
+ * is not written into the durable Food Profile nor evaluated for compatibility.
+ */
+const DIETARY_CATEGORIES: readonly DietaryCategory[] = [
+  {
+    id: 'allergy',
+    titleKey: 'fpQ1Title',
+    chips: [
+      { id: 'egg', labelKey: 'fpDAllergyEgg' },
+      { id: 'dairy', labelKey: 'fpDAllergyDairy' },
+      { id: 'wheat', labelKey: 'fpDAllergyWheat' },
+      { id: 'shellfish', labelKey: 'fpDAllergyShellfish' },
+      { id: 'nut', labelKey: 'fpDAllergyNut' },
+      { id: 'fish', labelKey: 'fpDAllergyFish' },
+      { id: 'none', labelKey: 'fpDAllergyNone' },
+      { id: 'other', labelKey: 'fpDOther' },
+    ],
+  },
+  {
+    id: 'diet',
+    titleKey: 'fpQ2Title',
+    chips: [
+      { id: 'veg', labelKey: 'fpDDietVeg' },
+      { id: 'vegan', labelKey: 'fpDDietVegan' },
+      { id: 'pesca', labelKey: 'fpDDietPesca' },
+      { id: 'none', labelKey: 'fpDNone' },
+    ],
+  },
+  {
+    id: 'religion',
+    titleKey: 'fpQ3Title',
+    chips: [
+      { id: 'pork', labelKey: 'fpDReligionPork' },
+      { id: 'beef', labelKey: 'fpDReligionBeef' },
+      { id: 'halal', labelKey: 'fpDReligionHalal' },
+      { id: 'alcohol', labelKey: 'fpDReligionAlcohol' },
+      { id: 'none', labelKey: 'fpDNone' },
+      { id: 'other', labelKey: 'fpDOther' },
+    ],
+  },
+  {
+    id: 'dislike',
+    titleKey: 'fpQ4Title',
+    chips: [
+      { id: 'raw', labelKey: 'fpDDislikeRaw' },
+      { id: 'spicy', labelKey: 'fpDDislikeSpicy' },
+      { id: 'fermented', labelKey: 'fpDDislikeFermented' },
+      { id: 'bitter', labelKey: 'fpDDislikeBitter' },
+      { id: 'shellfish', labelKey: 'fpDDislikeShellfish' },
+      { id: 'none', labelKey: 'fpDNone' },
+      { id: 'other', labelKey: 'fpDOther' },
+    ],
+  },
+];
 
 function isSelected(values: DietaryRestriction[], value: DietaryRestriction): boolean {
   return values.includes(value);
@@ -108,6 +183,14 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   const [answered, setAnswered] = useState<Set<number>>(new Set());
   const [introChoice, setIntroChoice] = useState<IntroChoice | null>(null);
   const [nicknameInput, setNicknameInput] = useState(() => loadNickname() ?? '');
+  // Figma dietary category chips — proposed-input preview only, never persisted
+  // into the durable Food Profile (Issue #226).
+  const [dietaryVisual, setDietaryVisual] = useState<DietaryVisual>({
+    allergy: [],
+    diet: [],
+    religion: [],
+    dislike: [],
+  });
 
   // The conversation restarts from the saved profile whenever the route/mode
   // changes so edit always reflects the latest persisted state. The same
@@ -189,6 +272,23 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
         hasNoRestrictions: trimmed.length === 0 && prev.dietary.length === 0,
       }),
     );
+  }
+
+  /** Toggle a Figma dietary chip in a category (proposed input only). */
+  function toggleDietaryChip(category: DietaryCategoryId, chipId: string) {
+    setDietaryVisual((prev) => {
+      const current = prev[category];
+      if (chipId === 'none') {
+        return { ...prev, [category]: current.includes('none') ? [] : ['none'] };
+      }
+      const withoutNone = current.filter((c) => c !== 'none');
+      return {
+        ...prev,
+        [category]: withoutNone.includes(chipId)
+          ? withoutNone.filter((c) => c !== chipId)
+          : [...withoutNone, chipId],
+      };
+    });
   }
 
   /** Normalize the "no restrictions" invariant at save time. */
@@ -412,7 +512,10 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
               <WizardActions onNext={goNext} nextLabel={t('exNext')} />
             </>
           ) : (
-            <DietaryAckStep onContinue={() => setStep(summaryStep)} />
+            <>
+              <FigmaDietaryStep visual={dietaryVisual} onToggle={toggleDietaryChip} />
+              <DietaryAckStep onContinue={() => setStep(summaryStep)} />
+            </>
           )
         ) : null}
 
@@ -466,7 +569,10 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
               <WizardActions onNext={goNext} nextLabel={t('exNext')} />
             </>
           ) : (
-            <DietaryAckStep onContinue={() => setStep(summaryStep)} />
+            <>
+              <FigmaDietaryStep visual={dietaryVisual} onToggle={toggleDietaryChip} />
+              <DietaryAckStep onContinue={() => setStep(summaryStep)} />
+            </>
           )
         ) : null}
 
@@ -682,6 +788,51 @@ function CategoryStep({
         </div>
       ) : null}
       <p className="fp-convo__hint">{choice.label}</p>
+    </div>
+  );
+}
+
+/**
+ * Figma dietary category chips (Issue #226) — proposed-input preview. The
+ * chips mirror the live Figma categories; selections are local visual state and
+ * are never written into the durable Food Profile nor evaluated for
+ * compatibility. The safety acknowledgement below remains the authority.
+ */
+function FigmaDietaryStep({
+  visual,
+  onToggle,
+}: {
+  visual: DietaryVisual;
+  onToggle: (category: DietaryCategoryId, chipId: string) => void;
+}) {
+  const { t } = useI18n();
+  return (
+    <div className="fp-convo">
+      <div className="fp-convo__msg fp-convo__msg--assistant">
+        <span className="fp-convo__avatar" aria-hidden="true">
+          🌿
+        </span>
+        <div className="fp-convo__bubble">
+          <p className="fp-convo__q">{t('fpDietaryChipsTitle')}</p>
+          <p className="fp-convo__body">{t('fpDietaryChipsBody')}</p>
+          {DIETARY_CATEGORIES.map((category) => (
+            <div key={category.id} className="fp-dietary">
+              <p className="fp-dietary__label">{t(category.titleKey)}</p>
+              <div className="fp-convo__choices">
+                {category.chips.map((chip) => (
+                  <Chip
+                    key={chip.id}
+                    selected={visual[category.id].includes(chip.id)}
+                    onClick={() => onToggle(category.id, chip.id)}
+                  >
+                    {t(chip.labelKey)}
+                  </Chip>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

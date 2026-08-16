@@ -1,9 +1,13 @@
-/* Phase 1 prototype shell (Issue #217): slim chat-style top bar, no bottom nav. */
+/* Phase 1 prototype shell (Issue #217; Issue #226 fixture bottom nav). */
 
 .tmm-prototype {
-  /* The production shell reserves bottom space for the nav; the prototype has
-     no bottom nav, so only the safe-area inset applies. */
+  /* The production shell reserves bottom space for the nav; the prototype
+     reserves it only when the Figma bottom nav is present. */
   padding-bottom: env(safe-area-inset-bottom);
+}
+
+.tmm-prototype--nav {
+  padding-bottom: calc(var(--tmm-nav-h) + env(safe-area-inset-bottom));
 }
 
 .tmm-prototype__bar {
@@ -17,4 +21,24 @@
   position: sticky;
   top: 0;
   z-index: 10;
+}
+
+/* Fixture bottom nav (Figma `3:1952` / `55:4166`): presentational, first tab
+   active, others aria-disabled. Reuses the shared fixed-bar geometry. */
+.tmm-nav--proto .tmm-nav__icon {
+  font-size: 1.3rem;
+}
+
+.tmm-nav--proto .tmm-nav__link {
+  cursor: default;
+}
+
+.tmm-nav--proto .tmm-nav__link.is-active {
+  color: var(--tmm-color-forest);
+  background: var(--tmm-color-leaf-tint);
+  font-weight: 700;
+}
+
+.tmm-nav--proto .tmm-nav__link[aria-disabled='true'] {
+  opacity: 0.5;
 }

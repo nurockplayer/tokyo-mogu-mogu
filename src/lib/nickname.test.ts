@@ -1,10 +1,10 @@
 /**
- * Session-only conversational nickname (Issue #217).
+ * Locally persisted conversational nickname (Issue #217; Issue #226 moves it to
+ * localStorage for prototype continuity).
  *
- * Vitest runs in a node environment, so this uses a minimal sessionStorage
- * shim. The contract: nickname is persisted to sessionStorage (cleared on tab
- * close / reload), never localStorage, so it can never become an
- * account/profile.
+ * Vitest runs in a node environment, so this uses a minimal localStorage shim.
+ * The contract: nickname is persisted to localStorage (cleared by the demo
+ * reset), never an account/profile.
  */
 import { afterAll, beforeEach, describe, expect, it } from 'vitest';
 import { clearNickname, hasNickname, loadNickname, saveNickname } from './nickname';
@@ -31,18 +31,18 @@ class MemoryStorage implements Storage {
   }
 }
 
-const originalSessionStorage = globalThis.sessionStorage;
+const originalLocalStorage = globalThis.localStorage;
 
 beforeEach(() => {
-  globalThis.sessionStorage = new MemoryStorage() as unknown as Storage;
+  globalThis.localStorage = new MemoryStorage() as unknown as Storage;
 });
 
 afterAll(() => {
-  globalThis.sessionStorage = originalSessionStorage;
+  globalThis.localStorage = originalLocalStorage;
 });
 
-describe('nickname (session-only, Issue #217)', () => {
-  it('round-trips a nickname in sessionStorage', () => {
+describe('nickname (local prototype continuity, Issue #226)', () => {
+  it('round-trips a nickname in localStorage', () => {
     expect(loadNickname()).toBeNull();
     saveNickname('ナナミ');
     expect(loadNickname()).toBe('ナナミ');

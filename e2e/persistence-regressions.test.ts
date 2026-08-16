@@ -80,7 +80,7 @@ test.describe('preserved Product browser regressions (Issue #221, ja, 375px)', (
     expect(reopenedResult.searchParams.get('candidateId')).toBe('demo-okutama-wasabi');
     await page
       .locator('.tmm-result-card__title')
-      .filter({ hasText: '東京わさび' })
+      .filter({ hasText: '奥多摩のわさび文化をたどる' })
       .first()
       .waitFor();
 

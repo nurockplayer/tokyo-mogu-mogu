@@ -1,0 +1,102 @@
+/* Returning-home history section (Figma `3:1952` `私の食旅`, Issue #226). */
+
+.tmm-history {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tmm-space-4);
+}
+
+.tmm-history__title {
+  font-family: var(--tmm-font-display);
+  font-size: var(--tmm-text-title);
+  font-weight: 700;
+  color: var(--tmm-color-ink);
+  margin: 0;
+}
+
+.tmm-history__empty {
+  font-size: var(--tmm-text-body);
+  color: var(--tmm-color-ink-soft);
+  line-height: var(--tmm-leading-body);
+  margin: 0;
+}
+
+.tmm-history__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--tmm-space-3);
+}
+
+/* Media-forward card (Figma: ~354×233 card, 338×154 image, 10px radius). */
+.tmm-history-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+  border: var(--tmm-border);
+  border-radius: 10px;
+  background: var(--tmm-color-card);
+  box-shadow: var(--tmm-shadow-card);
+  cursor: pointer;
+  overflow: hidden;
+  text-align: left;
+  font-family: var(--tmm-font-body);
+}
+
+.tmm-history-card:focus-visible {
+  outline: var(--tmm-focus-ring);
+  outline-offset: var(--tmm-focus-offset);
+}
+
+.tmm-history-card__media {
+  position: relative;
+  aspect-ratio: 16 / 7.3;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(160deg, var(--tmm-color-leaf), var(--tmm-color-forest-deep));
+  color: var(--tmm-color-card);
+}
+
+.tmm-history-card__glyph {
+  font-size: 2.4rem;
+  opacity: 0.9;
+}
+
+.tmm-history-card__bookmark {
+  position: absolute;
+  top: var(--tmm-space-2);
+  right: var(--tmm-space-2);
+  font-size: 1.05rem;
+}
+
+.tmm-history-card__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--tmm-space-2);
+  padding: var(--tmm-space-3) var(--tmm-space-4);
+}
+
+.tmm-history-card__title {
+  font-family: var(--tmm-font-display);
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: var(--tmm-color-ink);
+  overflow-wrap: anywhere;
+}
+
+/* Full-width `すべて見る` action (Figma 357×54). Fixture / presentational. */
+.tmm-history__all {
+  align-self: stretch;
+  min-height: var(--tmm-tap-min);
+  border: var(--tmm-border-strong);
+  border-radius: var(--tmm-radius-md);
+  background: var(--tmm-color-card);
+  color: var(--tmm-color-forest);
+  font-family: var(--tmm-font-body);
+  font-size: var(--tmm-text-body);
+  font-weight: 600;
+}

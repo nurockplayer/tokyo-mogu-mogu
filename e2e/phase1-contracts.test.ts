@@ -43,7 +43,7 @@ interface Journey {
 
 const JOURNEY: Record<Locale, Journey> = {
   en: {
-    cta: 'Start my food culture journey',
+    cta: 'Start a food journey',
     intro: 'Welcome to MOGU MOGU!',
     start: "Let's start!",
     nicknameTitle: 'First, what should we call you?',
@@ -51,21 +51,21 @@ const JOURNEY: Record<Locale, Journey> = {
     nicknameConfirm: 'That’s me!',
     dietaryAck: 'Got it',
     next: 'Next',
-    taste: 'Light & fresh',
+    taste: 'Refreshing',
     eat: 'Eat',
-    okutama: 'Okutama',
-    travel60: 'Within 60 minutes',
-    nature: 'Nature & scenery',
-    halfDay: 'Half day (day trip)',
+    okutama: 'Tokyo',
+    travel60: 'Within 1 hour',
+    nature: 'Nature',
+    halfDay: 'Half day',
     done: 'See my result',
     save: 'Save & continue',
-    reveal: 'We found a food-culture journey that fits you this time!',
+    reveal: 'We found a food journey that fits you!',
     matchLabel: 'Match',
     matchNote: 'demo prototype display',
     resultGreeting: 'Hi, Nana! I found a food-culture journey that suits you.',
   },
   'zh-TW': {
-    cta: '開始我的飲食文化之旅',
+    cta: '開始飲食之旅',
     intro: '歡迎來到 MOGU MOGU！',
     start: '開始！',
     nicknameTitle: '首先，該怎麼稱呼你呢？',
@@ -75,13 +75,13 @@ const JOURNEY: Record<Locale, Journey> = {
     next: '下一步',
     taste: '清爽',
     eat: '吃',
-    okutama: '奧多摩',
-    travel60: '60分鐘內',
-    nature: '自然・風景',
-    halfDay: '半日（當天來回）',
+    okutama: '東京都',
+    travel60: '1小時內',
+    nature: '自然',
+    halfDay: '半日',
     done: '查看結果',
     save: '儲存並繼續',
-    reveal: '我們找到了這次適合你的飲食文化之旅！',
+    reveal: '我們找到了適合你的飲食之旅！',
     matchLabel: '相符度',
     matchNote: '示範用的原型顯示',
     resultGreeting: '你好，奈奈美！我為你找到了適合的飲食文化之旅。',
@@ -154,7 +154,7 @@ for (const locale of ['en', 'zh-TW'] as const) {
       const j = JOURNEY[locale];
       await page.getByText(j.resultGreeting).waitFor();
       await page.getByRole('heading', { name: j.reveal }).waitFor();
-      const match = page.locator('.tmm-result-match');
+      const match = page.locator('.tmm-result-match').first();
       await match.waitFor();
       await expect(match).toContainText('96%');
       await expect(match).toContainText(j.matchLabel);
@@ -169,11 +169,13 @@ for (const locale of ['en', 'zh-TW'] as const) {
 test.describe('Phase 1 constrained options (ja, 375px)', () => {
   test.use({ locale: 'ja-JP' });
 
-  test('conversation offers no option that could select Ome/Sawai', async ({ page }) => {
+  test('conversation shows the full Figma option set yet still converges to wasabi', async ({
+    page,
+  }) => {
     await page.goto('/');
     await resetDemoState(page);
     await page.reload();
-    await page.getByRole('link', { name: 'わたしの食文化の旅をはじめる' }).click();
+    await page.getByRole('link', { name: '食旅をはじめる' }).click();
     await page.waitForURL('**/food-profile');
     await page.getByRole('button', { name: 'はじめる！' }).click();
     await page.getByLabel('ニックネーム').fill('ナナミ');
@@ -182,35 +184,36 @@ test.describe('Phase 1 constrained options (ja, 375px)', () => {
     await page.getByRole('button', { name: '保存してつぎへ' }).click();
     await page.waitForURL('**/explore');
 
-    // Taste step: wasabi values present; sake-leading values absent.
-    await page.getByRole('button', { name: 'さっぱり・爽やか' }).waitFor();
-    await expect(page.locator('body')).not.toContainText('コク・濃厚');
-    await expect(page.locator('body')).not.toContainText('甘い');
-    await page.getByRole('button', { name: 'さっぱり・爽やか' }).click();
+    // The latest Figma option set is visible as fixture presentation.
+    await page.getByRole('button', { name: '濃厚な味' }).waitFor();
+    await page.getByRole('button', { name: '甘いもの' }).waitFor();
+    await page.getByRole('button', { name: 'おまかせ' }).waitFor();
+    await page.getByRole('button', { name: '甘いもの' }).click();
     await page.getByRole('button', { name: '次へ' }).click();
-    // Experience step: wasabi values present; make absent.
-    await page.getByRole('button', { name: '食べる' }).waitFor();
-    await expect(page.locator('body')).not.toContainText('作る');
-    await page.getByRole('button', { name: '食べる' }).click();
+    // Experience: the full tile set is shown, including make / origin / learn.
+    await page.getByRole('button', { name: '作る' }).waitFor();
+    await page.getByRole('button', { name: '産地を訪ねる' }).waitFor();
+    await page.getByRole('button', { name: '作る' }).click();
     await page.getByRole('button', { name: '次へ' }).click();
-    // Area + travel.
-    await page.getByRole('button', { name: '奥多摩' }).click();
-    await page.getByRole('button', { name: '60分以内' }).click();
+    // Departure + travel: Figma controls, every choice selectable.
+    await page.getByRole('button', { name: '東京都' }).click();
+    await page.getByRole('button', { name: '2時間以内', exact: true }).click();
     await page.getByRole('button', { name: '次へ' }).click();
-    // Interest step: wasabi values present; daily-life absent.
-    await page.getByRole('button', { name: '自然・景色' }).waitFor();
-    await expect(page.locator('body')).not.toContainText('地域の日常');
-    await page.getByRole('button', { name: '自然・景色' }).click();
+    // Theme: full chip set, including daily-life.
+    await page.getByRole('button', { name: '地域の日常' }).waitFor();
+    await page.getByRole('button', { name: '地域の日常' }).click();
     await page.getByRole('button', { name: '次へ' }).click();
-    // Duration.
-    await page.getByRole('button', { name: '半日（日帰り）' }).click();
+    // Duration: including "not decided yet".
+    await page.getByRole('button', { name: 'まだ決めていない' }).click();
     await page.getByRole('button', { name: '結果を見る' }).click();
     await page.waitForURL('**/explore/result');
+    // The Result is still deterministically Okutama × Tokyo Wasabi.
     await page
       .locator('.tmm-result-card__title')
-      .filter({ hasText: '東京わさび' })
+      .filter({ hasText: '奥多摩のわさび文化をたどる' })
       .first()
       .waitFor();
+    await expect(page.locator('body')).not.toContainText('青梅・沢井の日本酒');
   });
 });
 
@@ -239,7 +242,7 @@ async function jaReachExplorationFirstStep(page: Page): Promise<void> {
   await page.goto('/');
   await resetDemoState(page);
   await page.reload();
-  await page.getByRole('link', { name: 'わたしの食文化の旅をはじめる' }).click();
+  await page.getByRole('link', { name: '食旅をはじめる' }).click();
   await page.waitForURL('**/food-profile');
   await page.getByRole('button', { name: 'はじめる！' }).click();
   await page.getByLabel('ニックネーム').fill('ナナミ');
@@ -252,35 +255,40 @@ async function jaReachExplorationFirstStep(page: Page): Promise<void> {
 /** ja: complete Food Profile + first two Exploration steps → departure/travel step. */
 async function jaReachDepartureStep(page: Page): Promise<void> {
   await jaReachExplorationFirstStep(page);
-  await page.getByRole('button', { name: 'さっぱり・爽やか' }).click();
+  await page.getByRole('button', { name: 'さっぱりした味' }).click();
   await page.getByRole('button', { name: '次へ' }).click();
   await page.getByRole('button', { name: '食べる' }).click();
   await page.getByRole('button', { name: '次へ' }).click();
-  await page.getByRole('button', { name: '奥多摩' }).waitFor();
+  await page.getByRole('button', { name: '東京都' }).waitFor();
 }
 
-test.describe('Phase 1 believable departure × travel-time choices (ja, 375px)', () => {
+test.describe('Phase 1 Figma departure × travel-time choices (ja, 375px)', () => {
   test.use({ locale: 'ja-JP' });
 
-  test('a central-Tokyo/Shinjuku departure never offers a short travel tolerance', async ({
+  test('departure and travel show the Figma controls and every choice still reaches wasabi', async ({
     page,
   }) => {
     await jaReachDepartureStep(page);
 
-    await page.getByRole('button', { name: '東京西部・都心（新宿など）' }).click();
-    // Only the believable long-travel option is selectable for Okutama.
-    await page.getByRole('button', { name: '1時間以上OK' }).waitFor();
-    await expect(page.getByRole('button', { name: '30分以内' })).toHaveCount(0);
-    await expect(page.getByRole('button', { name: '60分以内' })).toHaveCount(0);
-  });
-
-  test('an Okutama departure never offers an implausible over-60 travel time', async ({ page }) => {
-    await jaReachDepartureStep(page);
-
-    await page.getByRole('button', { name: '奥多摩' }).click();
-    await page.getByRole('button', { name: '30分以内' }).waitFor();
-    await page.getByRole('button', { name: '60分以内' }).waitFor();
-    await expect(page.getByRole('button', { name: '1時間以上OK' })).toHaveCount(0);
+    await page.getByRole('button', { name: '東京都' }).waitFor();
+    await page.getByRole('button', { name: '周辺' }).waitFor();
+    for (const label of ['30分以内', '1時間以内', '1時間30分以内', '2時間以内', '時間は気にしない']) {
+      await page.getByRole('button', { name: label, exact: true }).waitFor();
+    }
+    // A long travel choice is selectable and the Result still converges to wasabi.
+    await page.getByRole('button', { name: '東京都' }).click();
+    await page.getByRole('button', { name: '2時間以内', exact: true }).click();
+    await page.getByRole('button', { name: '次へ' }).click();
+    await page.getByRole('button', { name: '自然' }).click();
+    await page.getByRole('button', { name: '次へ' }).click();
+    await page.getByRole('button', { name: '半日' }).click();
+    await page.getByRole('button', { name: '結果を見る' }).click();
+    await page.waitForURL('**/explore/result');
+    await page
+      .locator('.tmm-result-card__title')
+      .filter({ hasText: '奥多摩のわさび文化をたどる' })
+      .first()
+      .waitFor();
   });
 });
 
