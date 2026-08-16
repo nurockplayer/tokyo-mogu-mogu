@@ -38,13 +38,18 @@ Product Principles rule #7 に従う）。
 
 ### Primary category — 観光・国際交流
 
-TOKYO MOGU MOGU は、訪日旅行者に東京の地域文化・作り手・食・体験を
-多言語で伝え、本人の興味や条件に合わせて**実際の地域訪問につなげる**。
+TOKYO MOGU MOGU は、東京のまだ知らない地域や食文化と出会い「行ってみたい
+理由」を見つけたい旅行者（日本人・訪日外国人を問わず）に、地域の文化・
+作り手・食・体験を多言語で伝え、本人の興味や条件に合わせて**実際の地域訪問に
+つなげる**。
 
 - この position は Product 側で選択した alignment（#112）であり、公式テーマの
   分類にそのまま掲載されているわけではない（Section 5 参照）。✅
-- 主 persona は訪日旅行者（rep. persona: Taiwanese, 30s, Shinjuku base）✅
-  — `docs/specs/product/hackathon-product-contract.md`「Primary Persona」。
+- **Audience は need-based**（国籍ではなく travel/discovery need で定義）。
+  日本人・訪日外国人はどちらも first-class Product user（#112 Audience
+  Invariant / #214）。台湾人旅行者（rep. example: Taiwanese, 30s, Shinjuku
+  base）は example use case の一つであり、canonical Product persona では
+  ない。✅
 
 ### Secondary relationship — 交通・移動
 

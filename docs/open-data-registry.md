@@ -88,7 +88,7 @@ Based on the Issue #19 draft table, with the **verified** status per this repo
 | 西東京バス GTFS | 西東京バス / 公共交通オープンデータセンター (ODPT) | First-pilot mobility enrichment (route context) | P1 | **Available — data layer built, demo fixture only** (see §3.2.2) | #17 (closed), #80 (closed) |
 | 東京都観光客数等実態調査 | 東京都産業労働局 | Pitch impact evidence / tourism-distribution problem statement | P0 | Integrated (baseline doc, dataset A) | #18 (closed), #85 |
 | モバイルデータを活用した訪都旅行者動態調査 | 東京都 | 23区 vs outer-Tokyo movement / tourism distribution / Impact | P0 (as drafted) | **Candidate — not located** (TCVB proxy used; see §3.2.4) | #18, #85 |
-| 国・地域別外国人旅行者行動特性調査 | 東京都 | Persona / travel behavior / Marketing / Impact | P1 | Integrated (baseline doc, dataset B) | #18 |
+| 国・地域別外国人旅行者行動特性調査 | 東京都 | Segment evidence / travel behavior / Marketing / Impact | P1 | Integrated (baseline doc, dataset B) | #18 |
 | 東京都指定文化財一覧 | 東京都教育庁 | Future regional Story / Discover enrichment | P2 | **Available — 245 records, CC BY 4.0, source-driven ingestion** (see §3.2.6) | #175 / #131 |
 | 国立市 文化財一覧 | 国立市 | Future regional Story / Discover enrichment | P2 | **Available — 122 records, CC BY 4.0, reusable ODS adapter** (see §3.2.6) | #131 |
 | 八王子市 文化財一覧 | 八王子市 | Future regional Story / Discover enrichment | P2 | **Available — 258 records, CC BY 4.0, reusable ODS adapter** (see §3.2.6) | #131 |
