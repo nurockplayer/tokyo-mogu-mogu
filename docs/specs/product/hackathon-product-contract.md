@@ -1,11 +1,12 @@
 # Hackathon Product Contract (Home / Discover / MOGU / My)
 
-Durable behavior contract for the 2026 hackathon prototype. Product geographic / FoodCulture scope is governed first by `docs/specs/product/product-scope-invariant.md`.
+Durable behavior contract for the 2026 hackathon prototype. Product geographic / FoodCulture scope and audience are governed first by `docs/specs/product/product-scope-invariant.md`.
 
 ## Source priority / scope hard gate
 
-1. **`docs/specs/product/product-scope-invariant.md` + Issue #112** — Product scope and demo boundary.
+1. **`docs/specs/product/product-scope-invariant.md` + Issue #112 + Issue #214** — Product scope, audience, and demo boundary.
    - **Product scope = Tokyo-wide, multi-region × multi-food-culture.**
+   - **Audience = Japanese + international travelers as first-class Product users.** Nationality does not define primary/secondary persona.
    - Current Product objective = create reasons to visit less-visited Tokyo regions and reduce tourism concentration in the 23 wards.
    - **Okutama × Tokyo Wasabi = 2026-08-23 Hackathon Demo Golden Path only.**
    - Tama / Okutama / Tokyo Wasabi are not permanent Product-domain boundaries.
@@ -14,7 +15,7 @@ Durable behavior contract for the 2026 hackathon prototype. Product geographic /
 4. `docs/specs/product/approved-ui-fidelity.md` — fallback presentation guidance.
 5. Issue #85 / #41 and S0–S9 — historical foundation only where not conflicting with the sources above.
 
-`canonical`, `pilot`, and `frozen` terminology around Okutama × Tokyo Wasabi must be explicitly scoped to demo data/content/golden-path behavior. A narrow Hackathon demo cannot redefine the durable Product domain.
+`canonical`, `pilot`, and `frozen` terminology around Okutama × Tokyo Wasabi must be explicitly scoped to demo data/content/golden-path behavior. A narrow Hackathon demo cannot redefine the durable Product domain or audience.
 
 ## Product Vision
 
@@ -28,14 +29,35 @@ Food culture is the primary entry point for creating that reason to visit. Cultu
 
 ## Product
 
-Tokyo Mogu Mogu connects inbound travelers with Tokyo food cultures that deserve to be known and passed on. It is not a popularity ranking. Each food culture can be shown as one continuous story — maker, place, history, nature — and the journey leads from "knowing" to acting: eating, buying, visiting, making, reserving, and sharing.
+Tokyo Mogu Mogu connects **Japanese and international travelers** with Tokyo food cultures and regions they may not yet know, helping each traveler find a personal reason to visit. It is not a popularity ranking. Each food culture can be shown as one continuous story — maker, place, history, nature — and the journey leads from "knowing" to acting: eating, buying, visiting, making, reserving, and sharing.
 
 The durable loop is **Discover → Understand → Visit → Act → Discover next region**, where the action's meaning for cultural succession is made visible and continuation features can motivate another regional discovery.
 
-## Primary Persona
+Multilingual support helps international users access the same Product experience; it does not define the Product itself as inbound-only.
 
-- Primary: inbound international traveler planning a trip to Tokyo (rep. persona: Taiwanese, 30s, based in Shinjuku, seeking local life / nature / maker interaction in day-trip range).
-- Japanese deep-travel users are a future / secondary audience. They do not replace the primary persona for the hackathon UI.
+## Audience / Persona
+
+**Audience invariant:** Japanese and international travelers are both first-class Product users. The audience is defined by the travel/discovery need, not nationality.
+
+Core need-based traveler:
+- wants to discover Tokyo regions / food cultures beyond what they already know
+- values local life, nature, makers, history, craft, and food as a reason to visit
+- wants a feasible half-day / one-day experience based on interests, food constraints, and travel conditions
+- may be a Tokyo/Japan resident taking a weekend trip or an international visitor planning / taking a Tokyo trip
+
+Representative use cases may include, for example:
+- a Japanese traveler looking for an unfamiliar Tokyo day trip built around local food culture
+- a Taiwanese or other international traveler based in central Tokyo looking for local life / nature / maker interaction
+
+These are **examples**, not a primary/secondary nationality hierarchy.
+
+Do not:
+- define `inbound international traveler` as the sole/primary Product persona
+- define Japanese deep-travel users as a secondary/future audience
+- infer that foreign-visitor statistics define the Product audience
+- encode nationality into recommendation/domain architecture unless a future explicit Product decision requires it
+
+Foreign-visitor behavior statistics remain valid segment evidence for tourism concentration, multilingual/accessibility needs, and specific research questions.
 
 ## 2026-08-23 Hackathon Demo Scope
 
@@ -58,6 +80,7 @@ It does **not** mean:
 - Product FoodCulture scope = Tokyo Wasabi
 - durable recommendation output = Tokyo Wasabi only
 - shared schema / routing / persistence / i18n = Okutama-specific
+- Product audience = inbound travelers only
 
 Tama / Okutama remain important current fieldwork, evidence, and demo-content contexts. Other verified Tokyo Region × FoodCulture candidates may be researched without becoming 8/23 production requirements.
 
@@ -136,8 +159,9 @@ S0 Landing
 
 - `Region`, `FoodCulture`, `Place`, and `Route` are durable Product domains that must represent multiple Tokyo regions and multiple food cultures.
 - Okutama / Tokyo Wasabi hard-coding belongs only in demo fixtures / demo canonical content / demo tests, not in shared UI, routing, persistence, i18n, provenance, or recommendation contracts.
+- Nationality-specific persona assumptions must not be hard-coded into shared UI, routing, persistence, data contracts, or recommendation logic.
 - Shared contracts should remain reusable when another verified Tokyo Region × FoodCulture is added.
-- Practical architecture test: adding a future verified journey such as `青梅 × 日本酒` or `八王子 × 地域野菜` should primarily require data/content/configuration rather than redesigning shared contracts.
+- Practical test: adding a future verified journey such as `青梅 × 日本酒` or `八王子 × 地域野菜` should primarily require data/content/configuration rather than redesigning shared contracts.
 - This extensibility does **not** authorize a generic platform, CMS, marketplace, nationwide route engine, speculative production records, or a second implemented region for the Hackathon demo.
 
 ## Recommendation Boundary
@@ -146,6 +170,7 @@ S0 Landing
 - The 8/23 demo ships two production-ready candidates (Okutama × Tokyo Wasabi primary, Ome/Sawai × sake secondary); the golden-path answers match only the wasabi profile, so it deterministically recommends Tokyo Wasabi.
 - That deterministic behavior is **demo-only**, not a Product-domain rule.
 - Food Profile supports filtering / recommendation reasons; Exploration Conditions provide per-trip ranking / selection context.
+- Nationality is not a required recommendation input or persona assumption under the current Product contract.
 - Do not infer food safety from dietary inputs or missing venue metadata.
 
 ## Badge / Next Discovery Boundary
@@ -157,7 +182,9 @@ S0 Landing
 ## Language / Device
 
 - Mobile-first, 375px baseline.
-- Japanese is the judging/demo primary copy; the i18n architecture supports English / Traditional Chinese expansion.
+- Japanese is the judging/demo primary copy and default Product locale.
+- The Japanese core experience must read naturally for Japanese travelers and must not assume the user is foreign.
+- The i18n architecture supports English / Traditional Chinese expansion for international users; multilingual support does not make the Product inbound-only.
 - Long English strings must not break layout.
 - WCAG AA and 44px tap targets are the minimum quality bar.
 
@@ -194,8 +221,9 @@ The following are implemented / previously considered and may be kept as reusabl
 - Area/category completion as the central progression
 - GTFS next-departure as the center of "next collectible" selection
 - Google Auth as a required demo step
+- Inbound-only / foreign-traveler-only Product persona framing
 
-These must not block or overwrite the current App IA journey.
+These must not block or overwrite the current App IA journey or audience invariant.
 
 The legacy primary navigation `Home / Diagnosis / Support / My Route` is also **superseded** by the #92 App IA (`Home / Discover / MOGU / My`). Diagnosis now means per-trip Exploration Conditions, Support is a distributed CTA pattern rather than a standalone page, and My Route is the `My → Saved Routes` surface. They remain reachable by direct URL only for history/compatibility, not as primary-nav destinations.
 
@@ -205,6 +233,7 @@ The legacy primary navigation `Home / Diagnosis / Support / My Route` is also **
 - Clearly distinguish verified source data, team editorial content, and demo fixtures.
 - Never fabricate fieldwork facts. Use verified existing data, clearly identified demo/editorial fixtures, or explicit unknown/unverified states.
 - A dataset can be canonical for the **8/23 demo golden path** without becoming canonical for the Product domain.
+- Segment-specific research (for example foreign-visitor behavior) may support evidence and UX requirements without becoming a Product-wide persona rule.
 
 ## Out of Scope for 2026-08-23
 
@@ -217,5 +246,3 @@ The legacy primary navigation `Home / Diagnosis / Support / My Route` is also **
 - Saved Story / Saved Spot collections (a saved Route leads back to Story/Spot)
 - Google Auth rollback
 - Rewriting history of past PRs / closed Issues
-
-These Hackathon out-of-scope items constrain **what ships by 8/23**, not the durable Product scope defined in `product-scope-invariant.md`.

@@ -1,16 +1,20 @@
 # MVP Scope and Demo Journey
 
-Status: Product scope follows `docs/specs/product/product-scope-invariant.md` / Issue #112; current App IA follows Issue #92 (KiKi UI/UX draft). The approved S0–S9 screens remain historical screen mapping / visual foundation only.
+Status: Product scope and audience follow `docs/specs/product/product-scope-invariant.md` / Issue #112 / Issue #214; current App IA follows Issue #92 (KiKi UI/UX draft). The approved S0–S9 screens remain historical screen mapping / visual foundation only.
 
 ## 0. Product scope vs 8/23 demo scope / 最重要
 
 > **Product scope = 東京都全域 × 複数地域 × 複数食文化。**
 >
+> **Audience = 日本人・訪日外国人の双方。国籍ではなく travel/discovery need で定義する。**
+>
 > **2026-08-23 Hackathon Demo Golden Path = 奥多摩 × 東京わさび。**
 
-The second line does **not** redefine the first. Okutama × Tokyo Wasabi is a deliberately small deterministic demo chosen for deadline stability. `MVP`, `pilot`, `canonical`, or `frozen` wording in this document refers to the Hackathon release/demo only when attached to that journey.
+The demo boundary does **not** redefine Product scope or audience. Okutama × Tokyo Wasabi is a deliberately small deterministic demo chosen for deadline stability. `MVP`, `pilot`, `canonical`, or `frozen` wording in this document refers to the Hackathon release/demo only when attached to that journey.
 
 The Product is not permanently Okutama-only, Tama-only, outer-Tokyo-only, or Tokyo-Wasabi-only. The current Product objective prioritizes creating reasons to visit under-visited Tokyo regions because tourism is concentrated in the 23 wards, but that objective does not narrow the durable Product domain.
+
+The Product is also not inbound-only. Japanese travelers and international travelers are both first-class users. Foreign-visitor statistics may support the tourism-concentration problem statement or multilingual UX, but they do not define the Product audience.
 
 ## 1. Product Vision / プロダクトビジョン
 
@@ -20,20 +24,26 @@ Tokyo Mogu Mogu is a Tokyo-wide product that can connect travelers with multiple
 
 The current Product objective is to create reasons for travelers concentrated in Tokyo's 23 wards to discover less-visited parts of Tokyo. The Hackathon validates this vision through one deliberately narrow demo; it does not implement the full multi-region Product.
 
-## 2. Primary Persona / 主要ペルソナ
+## 2. Audience / 主要ユーザー
 
-**Inbound traveler** — an international visitor planning a Tokyo trip who wants to experience local food culture beyond the usual tourist spots.
+**Need-based traveler audience** — 日本人・訪日外国人を問わず、東京のまだ知らない地域や食文化と出会い、「行ってみたい理由」を見つけたい旅行者。
 
 | Attribute | Detail |
 |---|---|
-| Type | Primary persona for the hackathon demo |
-| Who | Inbound international traveler (rep. persona: Taiwanese, 30s, based in Shinjuku, seeking local life / nature / maker interaction in day-trip range) |
-| Motivations | Wants to understand the story behind Tokyo food culture and act on it — eat, buy, visit, support |
-| Pain point | Local food culture is fragmented and hard to turn interest into a real visit or meaningful support |
-| Core need | Discover a food culture → understand its story → follow a model route → support the culture through real actions |
-| Success moment | Feels the food culture is worth passing on and knows exactly what to do about it |
+| Audience | Japanese and international travelers are both first-class Product users |
+| Core need | Discover a food culture / region → understand its story → follow a feasible model route → act through eating, buying, visiting, reserving, sharing, or saving |
+| Motivations | Local food culture, nature, makers, history, craft, regional daily life, and day-trip discovery |
+| Pain point | Tokyo's lesser-known regional food culture is fragmented and hard to turn into a concrete reason to visit |
+| Context | May be a Japan/Tokyo resident planning a weekend trip or an international visitor planning / taking a Tokyo trip |
+| Success moment | Finds a place / culture they did not already know and has a concrete reason and feasible way to visit |
 
-Japanese deep-travel users are a secondary / future audience.
+Representative examples may include:
+- a Japanese traveler looking for a new Tokyo weekend/day-trip destination
+- a Taiwanese/international traveler based in central Tokyo seeking local life / nature / maker interaction
+
+These examples are **not** a primary/secondary nationality hierarchy. Do not treat Japanese deep-travel users as future-only, and do not treat inbound travelers as the sole/primary Product persona.
+
+Japanese is the judging/demo primary copy and default locale. English / Traditional Chinese support remains important for international users, but multilingual support is a capability rather than the Product audience definition.
 
 ## 3. 2026-08-23 Hackathon Demo Scope / ハッカソン実装範囲
 
@@ -48,6 +58,7 @@ This does not mean:
 - Product FoodCulture scope = Tokyo Wasabi
 - recommendation = Tokyo Wasabi forever
 - shared architecture = Okutama-specific
+- Product audience = inbound travelers only
 
 No second region or second production FoodCulture is required for 8/23. Extensibility does not require fake breadth.
 
@@ -94,13 +105,14 @@ The approved S0–S8 screens are the historical journey framing that the #92 App
 - Deterministic `Result → Story → Route → Spot` demo journey from the current App IA, with Food Profile and per-trip Exploration as separate lifecycles.
 - Shared UI foundation used by all screens.
 - Local persistence for Saved Routes (`My → Saved Routes`), Food Profile, and MOGU Recent; demo reset. Recent and Saved remain distinct semantics.
-- Japanese-first copy with English / Traditional Chinese i18n architecture.
+- Japanese-first/default copy with English / Traditional Chinese i18n architecture.
+- Core Japanese copy that reads naturally for Japanese travelers, without assuming the user is foreign.
 - Source-backed **Okutama × Tokyo Wasabi demo golden-path content** with traceability preserved.
 
 ### Durable Product/domain boundary (not additional Hackathon scope)
 
 - `Region`, `FoodCulture`, `Place`, and `Route` represent multiple Tokyo regions and multiple food cultures.
-- Shared UI, routing, recommendation, persistence, i18n, and provenance contracts remain reusable across Tokyo regions.
+- Shared UI, routing, recommendation, persistence, i18n, and provenance contracts remain reusable across Tokyo regions and nationality-neutral.
 - Practical test: another verified Tokyo Region × FoodCulture should be addable mainly through data/content/config rather than redesigning shared contracts.
 - No second region, speculative production data, CMS, marketplace, or generic route platform is required for 2026-08-23.
 
@@ -108,6 +120,7 @@ The approved S0–S8 screens are the historical journey framing that the #92 App
 
 - Food Culture Pokédex, Locked/Unlocked gating, geolocation check-in, `GET!` success moment, GTFS transit-aware next discovery, map view, Google Auth.
 - These may remain as supplementary implementation but must not block or overwrite the current App IA.
+- Inbound-only persona framing is historical/superseded and must not drive current Product/UX work.
 
 ### Out of Scope (2026-08-23 release)
 
@@ -140,6 +153,8 @@ The core loop is **Home → Exploration → Result → Story → Route → Spot 
 
 Target: a judge can complete Home → Result in ~60–90 seconds and understand the differentiated story → route → support arc in that window. The demo runs without login, without geolocation, and is replayable from a deterministic reset.
 
+**Audience narration rule:** the presenter must not explain the demo as “an app for foreign tourists.” A foreign traveler can be one example, but the product story should work equally for a Japanese traveler discovering a part of Tokyo they do not already know.
+
 ## 6. Success Metrics / 成功指標
 
 For the hackathon demo and post-demo learning:
@@ -150,6 +165,7 @@ For the hackathon demo and post-demo learning:
 - **Support clarity**: story → route → support differentiation explainable in 60–90 seconds.
 - **Data quality**: 100% of demo items carry a traceable source or are clearly marked as demo/editorial data.
 - **Scope clarity**: evaluators and collaborators can distinguish `Tokyo-wide multi-region × multi-food-culture Product` from `Okutama × Tokyo Wasabi 8/23 demo`.
+- **Audience clarity**: evaluators understand that Japanese and international travelers are both first-class users and that foreign-visitor statistics are evidence, not the Product audience boundary.
 
 These are demo-stage metrics, not production targets.
 
@@ -161,3 +177,4 @@ These are demo-stage metrics, not production targets.
 - Prefer the smallest reversible implementation that satisfies each issue's acceptance criteria, reusing the shared UI foundation.
 - Do not implement another region or generic infrastructure solely to prove future extensibility.
 - **Do not convert the narrow demo into the Product scope.** `Okutama × Tokyo Wasabi` is the Hackathon Demo Golden Path only.
+- **Do not convert international-visitor evidence into the Product audience.** Japanese and international travelers remain first-class users.

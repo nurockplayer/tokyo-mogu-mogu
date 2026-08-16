@@ -10,6 +10,16 @@
 
 The Product is not permanently limited to Tama, Okutama, outer Tokyo, or Tokyo Wasabi. The current Product objective is to create personal reasons for travelers concentrated in Tokyo's 23 wards to discover less-visited parts of Tokyo. Regional food culture, people, nature, and experiences become a mobile-first journey from **discovery → story → route → support action → next regional discovery**.
 
+## Audience / 対象ユーザー
+
+**Tokyo Mogu Mogu is for both Japanese and international travelers.**
+
+**日本人・訪日外国人を問わず、東京のまだ知らない地域や食文化と出会い、「行ってみたい理由」を見つけたい旅行者を対象とします。**
+
+The audience is defined by travel/discovery need, not nationality. Japanese travelers are not a secondary/future audience, and inbound travelers are not the sole/primary Product persona. Foreign-visitor statistics may be used as evidence for tourism concentration and multilingual needs without defining the Product as inbound-only. Japanese is the judging/demo primary copy and default locale; multilingual support remains a core capability for international users.
+
+See Issue #112 and Issue #214 for the current audience decision.
+
 For the **2026-08-23 Hackathon only**, delivery is deliberately narrowed to a small deterministic demo:
 
 > **Hackathon Demo Golden Path: Okutama × Tokyo Wasabi**
@@ -18,7 +28,7 @@ For the **2026-08-23 Hackathon only**, delivery is deliberately narrowed to a sm
 
 This is a demo content/data freeze, not the Product scope, recommendation domain, or shared architecture boundary. `canonical`, `pilot`, and `frozen` wording for Okutama × Tokyo Wasabi must be understood as demo-only.
 
-See [docs/specs/product/product-scope-invariant.md](docs/specs/product/product-scope-invariant.md) for the durable scope contract and Issue #112 for the decision record.
+See [docs/specs/product/product-scope-invariant.md](docs/specs/product/product-scope-invariant.md) for the durable scope and audience contract and Issue #112 for the decision record.
 
 The current App IA is Issue #92 / the KiKi UI/UX draft. The persistent primary navigation is **Home / Discover / MOGU / My**:
 
@@ -31,7 +41,7 @@ The demo is accountless, deterministic, mobile-first, Japanese-default, and runs
 
 ## Product contract
 
-- See [docs/specs/product/product-scope-invariant.md](docs/specs/product/product-scope-invariant.md) for the durable Tokyo-wide multi-region × multi-food-culture scope and the strict 8/23 demo boundary.
+- See [docs/specs/product/product-scope-invariant.md](docs/specs/product/product-scope-invariant.md) for the durable Tokyo-wide multi-region × multi-food-culture scope, Japanese + international traveler audience invariant, and strict 8/23 demo boundary.
 - See [docs/specs/product/hackathon-product-contract.md](docs/specs/product/hackathon-product-contract.md) for current Hackathon behavior and App IA contract.
 - See [docs/mvp-scope.md](docs/mvp-scope.md) for the release/demo boundary.
 - See `AGENTS.md` for the repository policy.
