@@ -25,8 +25,7 @@ interface Journey {
   nicknameTitle: string;
   nickname: string;
   nicknameConfirm: string;
-  yes: string;
-  no: string;
+  dietaryAck: string;
   next: string;
   taste: string;
   eat: string;
@@ -50,8 +49,7 @@ const JOURNEY: Record<Locale, Journey> = {
     nicknameTitle: 'First, what should we call you?',
     nickname: 'Nana',
     nicknameConfirm: 'That’s me!',
-    yes: 'Yes',
-    no: 'No',
+    dietaryAck: 'Got it',
     next: 'Next',
     taste: 'Light & fresh',
     eat: 'Eat',
@@ -73,8 +71,7 @@ const JOURNEY: Record<Locale, Journey> = {
     nicknameTitle: '首先，該怎麼稱呼你呢？',
     nickname: '奈奈美',
     nicknameConfirm: '就用這個！',
-    yes: '有',
-    no: '沒有',
+    dietaryAck: '了解',
     next: '下一步',
     taste: '清爽',
     eat: '吃',
@@ -128,10 +125,8 @@ async function completeJourney(page: Page, locale: Locale): Promise<void> {
   await page.getByText(j.nicknameTitle).waitFor();
   await page.getByLabel(/nickname|暱稱/i).fill(j.nickname);
   await page.getByRole('button', { name: j.nicknameConfirm }).click();
-  // Phase 1 setup exposes only the taste-preference (dislike) category question.
-  await page.getByRole('button', { name: j.no }).click();
-  await page.getByRole('button', { name: j.next }).click();
-  await page.getByRole('button', { name: j.next }).click();
+  // Phase 1 first-use: acknowledge the prototype dietary limitation and continue.
+  await page.getByRole('button', { name: j.dietaryAck }).click();
   await page.getByRole('button', { name: j.save }).click();
   await page.waitForURL('**/explore');
 
@@ -183,9 +178,7 @@ test.describe('Phase 1 constrained options (ja, 375px)', () => {
     await page.getByRole('button', { name: 'はじめる！' }).click();
     await page.getByLabel('ニックネーム').fill('ナナミ');
     await page.getByRole('button', { name: 'これでお願いします！' }).click();
-    await page.getByRole('button', { name: 'いいえ' }).click();
-    await page.getByRole('button', { name: '次へ' }).click();
-    await page.getByRole('button', { name: '次へ' }).click();
+    await page.getByRole('button', { name: '了解しました' }).click();
     await page.getByRole('button', { name: '保存してつぎへ' }).click();
     await page.waitForURL('**/explore');
 
@@ -241,7 +234,7 @@ test.describe('Phase 1 hidden Phase 2 surfaces (ja, 375px)', () => {
   });
 });
 
-/** ja: complete the Food Profile setup (dislike only) and reach the first Exploration step. */
+/** ja: complete the Food Profile setup (dietary ack only) and reach the first Exploration step. */
 async function jaReachExplorationFirstStep(page: Page): Promise<void> {
   await page.goto('/');
   await resetDemoState(page);
@@ -251,9 +244,7 @@ async function jaReachExplorationFirstStep(page: Page): Promise<void> {
   await page.getByRole('button', { name: 'はじめる！' }).click();
   await page.getByLabel('ニックネーム').fill('ナナミ');
   await page.getByRole('button', { name: 'これでお願いします！' }).click();
-  await page.getByRole('button', { name: 'いいえ' }).click();
-  await page.getByRole('button', { name: '次へ' }).click();
-  await page.getByRole('button', { name: '次へ' }).click();
+  await page.getByRole('button', { name: '了解しました' }).click();
   await page.getByRole('button', { name: '保存してつぎへ' }).click();
   await page.waitForURL('**/explore');
 }
@@ -293,26 +284,46 @@ test.describe('Phase 1 believable departure × travel-time choices (ja, 375px)',
   });
 });
 
-test.describe('Phase 1 unanswered yes/no has no selected state (ja, 375px)', () => {
+test.describe('Phase 2 Food Profile edit surface (ja, 375px)', () => {
   test.use({ locale: 'ja-JP' });
 
-  test('the dislike quick replies start unselected until the user answers', async ({ page }) => {
+  test('retains the full durable dietary categories with unselected yes/no until answered', async ({
+    page,
+  }) => {
     await page.goto('/');
     await resetDemoState(page);
-    await page.reload();
-    await page.getByRole('link', { name: 'わたしの食文化の旅をはじめる' }).click();
-    await page.waitForURL('**/food-profile');
-    await page.getByRole('button', { name: 'はじめる！' }).click();
-    await page.getByLabel('ニックネーム').fill('ナナミ');
-    await page.getByRole('button', { name: 'これでお願いします！' }).click();
-    await page.getByText('苦手な食材や味はありますか？').waitFor();
+    // Seed a durable profile so /food-profile/edit renders the edit surface.
+    await page.evaluate(([key, value]) => localStorage.setItem(key, value), [
+      FOOD_PROFILE_KEY,
+      JSON.stringify({
+        dietary: [],
+        dietaryOther: '',
+        hasNoRestrictions: true,
+        savedAt: '2026-08-16T00:00:00.000Z',
+        version: 1,
+      }),
+    ]);
+    await page.goto('/food-profile/edit');
 
-    // Unanswered: neither Yes nor No may look preselected.
+    // The full durable category set is retained in the edit surface (Phase 2).
+    await page.getByText('まず、食物アレルギーはありますか？').waitFor();
+    // Unanswered yes/no starts unselected (no preselected No).
     await expect(page.getByRole('button', { name: 'はい' })).toHaveAttribute('aria-pressed', 'false');
     await expect(page.getByRole('button', { name: 'いいえ' })).toHaveAttribute('aria-pressed', 'false');
 
-    await page.getByRole('button', { name: 'いいえ' }).click();
-    await expect(page.getByRole('button', { name: 'いいえ' })).toHaveAttribute('aria-pressed', 'true');
-    await expect(page.getByRole('button', { name: 'はい' })).toHaveAttribute('aria-pressed', 'false');
+    // All four categories remain reachable.
+    const categoryQuestions = [
+      'まず、食物アレルギーはありますか？',
+      'ベジタリアン・ビーガンなどの食事スタイルはありますか？',
+      '宗教上の理由などで、避けている食べものはありますか？',
+      '苦手な食材や味はありますか？',
+    ];
+    for (const question of categoryQuestions) {
+      await page.getByText(question).waitFor();
+      await page.getByRole('button', { name: 'いいえ' }).click();
+      await page.getByRole('button', { name: '次へ' }).click();
+    }
+    // The free-text "other" step remains part of the durable edit surface.
+    await page.getByText('その他、避けているもの・気になることがあれば入力してください（任意）。').waitFor();
   });
 });

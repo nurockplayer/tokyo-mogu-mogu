@@ -330,6 +330,11 @@ export const strings = {
     fpNicknamePlaceholder: '例：ナナミ',
     fpNicknameConfirm: 'これでお願いします！',
     fpNicknameSkip: 'スキップ',
+    // Phase 1 first-use dietary acknowledgement (Issue #220)
+    fpDietaryAckTitle: 'お食事についてのご案内',
+    fpDietaryAckBody:
+      'このプロトタイプでは、アレルギーや食事制限への対応可否は判断しません。表示するおすすめは、食事の好み・制限の合致を評価した結果ではありません。詳細は現地・店舗に直接ご確認ください。',
+    fpDietaryAckCta: '了解しました',
     fpQ1Title: 'まず、食物アレルギーはありますか？',
     fpQ2Title: 'ベジタリアン・ビーガンなどの食事スタイルはありますか？',
     fpQ3Title: '宗教上の理由などで、避けている食べものはありますか？',
@@ -865,6 +870,11 @@ export const strings = {
     fpNicknamePlaceholder: 'e.g. Nana',
     fpNicknameConfirm: 'That’s me!',
     fpNicknameSkip: 'Skip',
+    // Phase 1 first-use dietary acknowledgement (Issue #220)
+    fpDietaryAckTitle: 'A note about food preferences',
+    fpDietaryAckBody:
+      'This prototype does not evaluate whether foods accommodate allergies or dietary restrictions. The recommended journey is not based on a dietary match. Please confirm details directly with the venue or shop.',
+    fpDietaryAckCta: 'Got it',
     fpQ1Title: 'First, do you have any food allergies?',
     fpQ2Title: 'Do you follow a vegetarian or vegan style of eating?',
     fpQ3Title: 'Are there foods you avoid for religious or other reasons?',
@@ -1409,6 +1419,11 @@ export const strings = {
     fpNicknamePlaceholder: '例如：奈奈美',
     fpNicknameConfirm: '就用這個！',
     fpNicknameSkip: '略過',
+    // Phase 1 first-use dietary acknowledgement (Issue #220)
+    fpDietaryAckTitle: '關於飲食與過敏的說明',
+    fpDietaryAckBody:
+      '這個原型不會判斷過敏或飲食限制的相容性。顯示的推薦並非根據飲食偏好的比對結果。詳情請直接向當地店家確認。',
+    fpDietaryAckCta: '了解',
     fpQ1Title: '首先，你有食物過敏嗎？',
     fpQ2Title: '你有素食或純素等飲食習慣嗎？',
     fpQ3Title: '是否有因為宗教等原因而避免的食物？',

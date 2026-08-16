@@ -13,17 +13,19 @@
  *
  * Phase 1 presents the Figma Food Profile as a LINE / ChatGPT-style
  * conversation: the assistant welcome, an optional session-only nickname step,
- * the dietary category step(s), an optional free-text step, and a summary with
- * the recommendation-only trust copy. Phase 1 setup (the demo path) exposes
- * only the taste-preference (dislike) question — a condition that safely
- * coexists with the fixed Okutama × Tokyo Wasabi route; the durable model and
- * the edit surface keep all four categories for Phase 2 (Issue #220). Selected
- * choices append to the transcript as user confirmation bubbles so the history
- * stays visible. The canonical FoodProfile schema, the save/edit/no-restriction
- * behavior, and the safety boundary are unchanged. Input is recommendation-only,
- * never a safety guarantee (product contract "Safety Boundary"). No option
- * implies an allergy / vegan / religious safety guarantee and no option
- * contradicts the fixed Okutama × Tokyo Wasabi demo route.
+ * a dietary acknowledgement, and a summary with the recommendation-only trust
+ * copy. Phase 1 first-use setup (the demo path) does not collect dietary
+ * conditions — it explains that dietary/allergy compatibility is not evaluated
+ * in this prototype and offers a single continue acknowledgement, so no
+ * contradiction with the fixed Okutama × Tokyo Wasabi route is possible
+ * (Issue #220). The durable model and the edit surface keep all four categories
+ * plus free text for Phase 2. Selected choices append to the transcript as user
+ * confirmation bubbles so the history stays visible. The canonical FoodProfile
+ * schema, the save/edit/no-restriction behavior, and the safety boundary are
+ * unchanged. Input is recommendation-only, never a safety guarantee (product
+ * contract "Safety Boundary"). No option implies an allergy / vegan / religious
+ * safety guarantee and no option contradicts the fixed Okutama × Tokyo Wasabi
+ * demo route.
  */
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -129,16 +131,19 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
     { value: 'dislike', label: t('fpDislike') },
   ];
 
-  // Phase 1 setup exposes only the dietary conditions that safely coexist with
-  // the fixed demo route (Issue #220): a taste-preference (dislike) question.
-  // The durable Food Profile model and the edit surface keep all four
-  // categories for Phase 2.
-  const phase1Choices: Choice[] = [{ value: 'dislike', label: t('fpDislike') }];
+  // Phase 1 first-use setup collects no dietary conditions (Issue #220): instead
+  // of yes/no categories or free text it shows a dietary acknowledgement, so no
+  // allergy / vegan / religious / dislike / free-text condition can contradict
+  // the fixed demo route. The durable Food Profile model and the edit surface
+  // keep all four categories plus free text for Phase 2.
+  const phase1Choices: Choice[] = [];
   const categoryChoices = editing ? choices : phase1Choices;
   const categoryCount = categoryChoices.length;
   const lastCategoryStep = FIRST_CATEGORY_STEP + categoryCount - 1;
-  const otherStep = lastCategoryStep + 1;
-  const summaryStep = otherStep + 1;
+  // The step right after the last category: the free-text "other" step in edit
+  // mode, and the dietary acknowledgement in Phase 1 first-use setup.
+  const postCategoryStep = lastCategoryStep + 1;
+  const summaryStep = postCategoryStep + 1;
 
   // Category step titles, in the order the current mode offers them.
   const categoryTitles = categoryChoices.map((choice) =>
@@ -244,7 +249,8 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
       handleSave();
       return;
     }
-    if (step === otherStep) {
+    if (step === postCategoryStep) {
+      // Edit: free-text "other" → summary. First-use: dietary acknowledgement → summary.
       setStep(summaryStep);
       return;
     }
@@ -252,8 +258,8 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
       setStep(step + 1);
       return;
     }
-    // After the last category step → optional free-text step.
-    setStep(otherStep);
+    // After the last category step → the post-category step.
+    setStep(postCategoryStep);
   }
 
   /** Save the session nickname (blank = skip) and continue to the first question. */
@@ -313,17 +319,30 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
       });
     }
   }
-  if (step > otherStep) {
-    transcript.push({
-      id: 'other',
-      role: 'assistant',
-      children: <AssistantQuestion title={t('fpOtherNote')} />,
-    });
-    if (draftState.dietaryOther.trim().length > 0) {
+  if (step > postCategoryStep) {
+    if (editing) {
       transcript.push({
-        id: 'other-user',
+        id: 'other',
+        role: 'assistant',
+        children: <AssistantQuestion title={t('fpOtherNote')} />,
+      });
+      if (draftState.dietaryOther.trim().length > 0) {
+        transcript.push({
+          id: 'other-user',
+          role: 'user',
+          children: draftState.dietaryOther,
+        });
+      }
+    } else if (introChoice === 'start') {
+      transcript.push({
+        id: 'dietary-ack',
+        role: 'assistant',
+        children: <AssistantMessage title={t('fpDietaryAckTitle')} body={t('fpDietaryAckBody')} />,
+      });
+      transcript.push({
+        id: 'dietary-ack-user',
         role: 'user',
-        children: draftState.dietaryOther,
+        children: t('fpDietaryAckCta'),
       });
     }
   }
@@ -379,18 +398,22 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
           </>
         ) : null}
 
-        {step === otherStep ? (
-          <>
-            <OtherStep
-              value={draftState.dietaryOther}
-              note={t('fpOtherNote')}
-              label={t('fpOtherLabel')}
-              placeholder={t('fpOtherPlaceholder')}
-              onChange={setDietaryOther}
-              disabled={draftState.hasNoRestrictions}
-            />
-            <WizardActions onNext={goNext} nextLabel={t('exNext')} />
-          </>
+        {step === postCategoryStep ? (
+          editing ? (
+            <>
+              <OtherStep
+                value={draftState.dietaryOther}
+                note={t('fpOtherNote')}
+                label={t('fpOtherLabel')}
+                placeholder={t('fpOtherPlaceholder')}
+                onChange={setDietaryOther}
+                disabled={draftState.hasNoRestrictions}
+              />
+              <WizardActions onNext={goNext} nextLabel={t('exNext')} />
+            </>
+          ) : (
+            <DietaryAckStep onContinue={() => setStep(summaryStep)} />
+          )
         ) : null}
 
         {step === summaryStep ? (
@@ -429,18 +452,22 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
           </>
         ) : null}
 
-        {step === otherStep ? (
-          <>
-            <OtherStep
-              value={draftState.dietaryOther}
-              note={t('fpOtherNote')}
-              label={t('fpOtherLabel')}
-              placeholder={t('fpOtherPlaceholder')}
-              onChange={setDietaryOther}
-              disabled={draftState.hasNoRestrictions}
-            />
-            <WizardActions onNext={goNext} nextLabel={t('exNext')} />
-          </>
+        {step === postCategoryStep ? (
+          editing ? (
+            <>
+              <OtherStep
+                value={draftState.dietaryOther}
+                note={t('fpOtherNote')}
+                label={t('fpOtherLabel')}
+                placeholder={t('fpOtherPlaceholder')}
+                onChange={setDietaryOther}
+                disabled={draftState.hasNoRestrictions}
+              />
+              <WizardActions onNext={goNext} nextLabel={t('exNext')} />
+            </>
+          ) : (
+            <DietaryAckStep onContinue={() => setStep(summaryStep)} />
+          )
         ) : null}
 
         {step === summaryStep ? (
@@ -655,6 +682,36 @@ function CategoryStep({
         </div>
       ) : null}
       <p className="fp-convo__hint">{choice.label}</p>
+    </div>
+  );
+}
+
+/**
+ * Phase 1 first-use dietary acknowledgement (Issue #220).
+ *
+ * This prototype does not evaluate dietary/allergy compatibility with the fixed
+ * demo route, so first-use setup does not collect restrictions or free text.
+ * Instead MOGU states that limitation and offers a single continue action; no
+ * allergy / vegan / religious / dislike / free-text condition can be submitted.
+ */
+function DietaryAckStep({ onContinue }: { onContinue: () => void }) {
+  const { t } = useI18n();
+  return (
+    <div className="fp-convo">
+      <div className="fp-convo__msg fp-convo__msg--assistant">
+        <span className="fp-convo__avatar" aria-hidden="true">
+          🌿
+        </span>
+        <div className="fp-convo__bubble">
+          <p className="fp-convo__title">{t('fpDietaryAckTitle')}</p>
+          <p className="fp-convo__body">{t('fpDietaryAckBody')}</p>
+          <div className="fp-convo__choices">
+            <Button variant="primary" className="tmm-btn--block" onClick={onContinue}>
+              {t('fpDietaryAckCta')}
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

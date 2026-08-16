@@ -91,19 +91,23 @@ test.describe('golden path (ja, 375px)', () => {
     await page.getByText('まず、なんてお呼びすればいいですか？').waitFor();
     await page.getByLabel('ニックネーム').fill('ナナミ');
     await page.getByRole('button', { name: 'これでお願いします！' }).click();
-    await page.getByText('苦手な食材や味はありますか？').waitFor();
-    // Phase 1 must not expose allergy / vegan / religious compatibility claims.
+    // Phase 1 first-use does not collect dietary conditions or free text: MOGU
+    // explains that dietary compatibility is not evaluated in this prototype and
+    // offers a single continue acknowledgement (Issue #220).
+    await page.getByText('お食事についてのご案内').waitFor();
     await expect(page.getByText('食物アレルギーはありますか？')).toHaveCount(0);
     await expect(page.getByText('ベジタリアン・ビーガンなどの食事スタイルはありますか？')).toHaveCount(0);
     await expect(page.getByText('宗教上の理由などで、避けている食べものはありますか？')).toHaveCount(0);
+    await expect(page.getByText('苦手な食材や味はありますか？')).toHaveCount(0);
+    // No unrestricted free-text dietary field is exposed on the Phase 1 path.
+    await expect(page.locator('#fp-other')).toHaveCount(0);
+    await expect(page.getByText('その他、避けているもの・気になることがあれば入力してください（任意）。')).toHaveCount(0);
     // Session-only nickname: stored in sessionStorage, never localStorage.
     expect(await sessionPersisted(page, NICKNAME_KEY)).toBe('ナナミ');
     expect(await persisted(page, NICKNAME_KEY)).toBeNull();
 
-    await page.getByRole('button', { name: 'いいえ' }).click();
-    await page.getByRole('button', { name: '次へ' }).click();
-    // Optional free-text step → summary.
-    await page.getByRole('button', { name: '次へ' }).click();
+    // Acknowledge the prototype dietary limitation and continue.
+    await page.getByRole('button', { name: '了解しました' }).click();
     await page.getByText('ありがとうございます、ナナミさん！').waitFor();
     await page.getByRole('button', { name: '保存してつぎへ' }).click();
     await page.waitForURL('**/explore');
@@ -208,9 +212,7 @@ test.describe('golden path (ja, 375px)', () => {
     await page.getByRole('button', { name: 'はじめる！' }).click();
     await page.getByLabel('ニックネーム').fill('ナナミ');
     await page.getByRole('button', { name: 'これでお願いします！' }).click();
-    await page.getByRole('button', { name: 'いいえ' }).click();
-    await page.getByRole('button', { name: '次へ' }).click();
-    await page.getByRole('button', { name: '次へ' }).click();
+    await page.getByRole('button', { name: '了解しました' }).click();
     await page.getByRole('button', { name: '保存してつぎへ' }).click();
     await page.waitForURL('**/explore');
     await expect(page.locator('.tmm-nav')).toHaveCount(0);
