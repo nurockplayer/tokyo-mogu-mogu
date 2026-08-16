@@ -251,55 +251,12 @@ AIによる広域 data research では、奥多摩よりも青梅・沢井周辺
 
 ---
 
-## 6. 今、新井SDさんに確認してほしいこと
-
-### ① データ量は十分か
-
-8/23 Hackathon の「データ活用」評価に対して、現在の evidence set で十分説得力があるか。
-
-特に、
-
-- 観光集中を quantitative data で示す
-- 食 / 酒 / 文化財の official data を使う
-- それを実際の Story / Route / Spot に変換する
-
-という流れで十分かを見てほしい。
-
-### ② 2つの route は実際に成立するか
-
-以下を旅行企画の視点で確認してほしい。
-
-- Stop の順番
-- 移動手段
-- 乗換回数
-- 移動時間
-- 滞在時間
-- Half-day / 1-day という表現
-- 外国人旅行者にとっての難易度
-- 「わざわざ行きたい」と感じる journey になっているか
-
-### ③ 追加で確認すべき情報は何か
-
-AIでは「どの data が存在するか」「公式 source があるか」はかなり広く確認できる。
-
-一方で、次のようなことはデータだけでは判断しにくい。
-
-- この順番で回ると本当に楽しいか
-- 途中で疲れすぎないか
-- 電車 / バス / 徒歩の組み合わせが現実的か
-- 一つの旅として Story がつながっているか
-- 現地で旅行者が困る情報が抜けていないか
-
-**もし追加確認が必要なら、「何の情報が足りないか」を先に特定し、その項目だけ追加で調査する方針にしたい。**
-
----
-
-## 7. この資料と詳細資料の使い分け
+## 6. この資料と詳細資料の使い分け
 
 - [`docs/team/data-catalog.md`](./data-catalog.md): **調査した44件を人が一件ずつ確認する一覧**
-- **この Brief:** チームが5分程度で全体を理解し、企画・route判断をするための資料
+- **この Brief:** チームが5分程度で全体を理解し、企画・route検討に必要な情報を確認するための資料
 - [`docs/data-opportunity-map.md`](../data-opportunity-map.md): AI / engineering / PM が dataset、license、format、制約まで追跡する研究 source of truth
 - [`docs/analytics/tokyo-tourism-baseline.md`](../analytics/tokyo-tourism-baseline.md): 観光集中に関する quantitative evidence の詳細
 - [Issue #211](https://github.com/nurockplayer/tokyo-mogu-mogu/issues/211): 既に見つけた source-backed data を Web App の Story / Route / Spot に反映する current P0 work
 
-> **この Brief の目的は、データを全部読んでもらうことではなく、「今ある材料で旅行体験として成立するか」を人間に判断してもらうこと。**
+> **この Brief は、現在確認できているデータ・ルート・未確認事項を、チームが短時間で把握できるように整理した資料。**
