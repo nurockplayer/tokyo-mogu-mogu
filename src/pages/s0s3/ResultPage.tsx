@@ -1,42 +1,43 @@
 /**
- * Result page (Issue #78 reframe of S3).
+ * Result page (Issue #78 reframe of S3; Issue #217 Phase 1).
  *
- * Selects through the reusable #123 recommendation contract. The 8/23 demo
- * supplies two production-ready candidates (Okutama × Tokyo Wasabi primary,
- * Ome/Sawai × sake secondary); the fixed golden-path answers match only the
- * wasabi profile, so the Result deterministically reveals 東京わさび without
- * making the durable Product contract single-region.
+ * Selects through the reusable #123 recommendation contract. Phase 1 restricts
+ * the candidate set to the Okutama × Tokyo Wasabi demo golden path
+ * (phase1-exploration.ts), so every allowed guided-conversation path
+ * deterministically reveals 東京わさび without making the durable Product
+ * contract single-region or surfacing Ome/Sawai in the demo journey.
  * The result reflects the durable Food Profile (dietary-consideration state) +
  * the current-trip Exploration answers (match-reason tags). On successful
  * result creation it hands off to the MOGU Recent contract (#94).
  *
+ * The `96%` match is Figma prototype presentation only — it is not a real
+ * recommendation-accuracy metric and no scoring infrastructure backs it.
  * The primary CTA routes to the S4 story (/story/<foodCultureId>) and the
  * secondary CTA lets the user re-run the current Exploration. The dietary
  * disclaimer states that details must be confirmed with the venue —
- * recommendation-only, never a safety guarantee. No fabricated match-score is
- * shown (approved-ui-fidelity: the S3 "92%" meaning is unresolved).
+ * recommendation-only, never a safety guarantee.
  */
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, Navigate, useSearchParams } from 'react-router-dom';
-import {
-  DEMO_RECOMMENDATION_CANDIDATES,
-  demoRecommendationMatchTags,
-  getFoodCultureById,
-  recommendableCandidates,
-} from '../../data';
+import { demoRecommendationMatchTags, getFoodCultureById } from '../../data';
 import { useI18n } from '../../i18n';
 import { EmptyState, Tag, type TagTone } from '../../ui';
-import { type MatchTagKey } from '../../lib/exploration';
-import {
-  recommendCandidates,
-  resolveHistoricalRecommendation,
-} from '../../lib/recommendation';
+import { fillTemplate, type MatchTagKey } from '../../lib/exploration';
+import { recommendCandidates, resolveHistoricalRecommendation } from '../../lib/recommendation';
 import { loadExplorationAnswers } from './exploration-session';
 import { loadFoodProfile } from '../../lib/food-profile-storage';
+import { loadNickname } from '../../lib/nickname';
+import { phase1RecommendableCandidates } from './phase1-exploration';
 import { recordMoguRecent } from '../../lib/mogu-recent';
 import { type LocaleKey } from '../../i18n/resources';
 import { foodCultureKey } from '../../i18n/data-content';
 import './onboarding.css';
+
+/** FoodCulture area value → localized area label key (data-driven lookup). */
+const AREA_LABEL_KEY: Record<string, LocaleKey> = {
+  okutama: 'areaOkutama',
+  ome: 'areaOme',
+};
 
 /** Match-tag key → i18n copy key + tone. */
 const TAG_COPY: Record<MatchTagKey, { labelKey: LocaleKey; tone: TagTone }> = {
@@ -83,13 +84,14 @@ export function ResultPage() {
 
   const answers = useMemo(() => loadExplorationAnswers(), []);
   const profile = useMemo(() => loadFoodProfile(), []);
-  // Production recommendation reads the release boundary (#171): a disabled /
-  // non-recommendable slice is never offered, even though its canonical data and
-  // direct Story/Route/Spot access remain intact.
+  // Phase 1 reads only the Okutama × Tokyo Wasabi candidate (issue #217): the
+  // demo journey must deterministically reach wasabi, and Ome/Sawai / future
+  // slices must never surface in the Phase 1 Result. Still fail-closed through
+  // the Slice Manifest via phase1RecommendableCandidates().
   const decision = useMemo(
     () =>
       profile && answers
-        ? recommendCandidates(profile, answers, recommendableCandidates(DEMO_RECOMMENDATION_CANDIDATES))
+        ? recommendCandidates(profile, answers, phase1RecommendableCandidates())
         : null,
     [answers, profile],
   );
@@ -145,11 +147,26 @@ export function ResultPage() {
     return <Navigate to="/explore" replace />;
   }
 
+  // Session nickname is reused in the closing MOGU message (Issue #217); it is
+  // session-only and never an account/profile.
+  const nickname = loadNickname();
+  const greeting = nickname
+    ? fillTemplate(t('s3GreetingName'), { name: nickname })
+    : t('s3Greeting');
+
   return (
     <div className="tmm-page tmm-result">
       <section className="tmm-result__summary">
-        <h1 className="tmm-result__summary-title">{t('s3Title')}</h1>
-        <p className="tmm-result__summary-desc">{t('s3Subtitle')}</p>
+        <div className="fp-convo__msg fp-convo__msg--assistant tmm-result__greeting">
+          <span className="fp-convo__avatar" aria-hidden="true">
+            🌿
+          </span>
+          <div className="fp-convo__bubble">
+            <p className="fp-convo__body">{greeting}</p>
+          </div>
+        </div>
+        <h1 className="tmm-result__summary-title">{t('s3RevealTitle')}</h1>
+        <p className="tmm-result__summary-desc">{t('s3RevealSub')}</p>
       </section>
 
       {recommendedFoodCulture && recommendation && recommendedTitleKey && recommendedDescriptionKey ? (
@@ -157,10 +174,23 @@ export function ResultPage() {
           <div className="tmm-result-card tmm-result-card--hero">
             <div className="tmm-result-card__media" aria-hidden="true">
               <span className="tmm-result-card__media-mark">{t(recommendedTitleKey)}</span>
+              <div className="tmm-result-match">
+                <span className="tmm-result-match__percent">{t('s3MatchPercent')}</span>
+                <span className="tmm-result-match__label">{t('s3MatchLabel')}</span>
+              </div>
             </div>
             <div className="tmm-result-card__body">
+              {recommendedFoodCulture.area in AREA_LABEL_KEY ? (
+                <span className="tmm-result-card__region">
+                  {t(AREA_LABEL_KEY[recommendedFoodCulture.area])}
+                </span>
+              ) : null}
               <div className="tmm-result-card__title">{t(recommendedTitleKey)}</div>
               <p className="tmm-result-card__desc">{t(recommendedDescriptionKey)}</p>
+
+              <p className="tmm-result-match__note" role="note">
+                {t('s3MatchNote')}
+              </p>
 
               <div className="tmm-result__tags">
                 {tags.length > 0

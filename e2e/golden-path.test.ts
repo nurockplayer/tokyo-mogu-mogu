@@ -1,20 +1,25 @@
 /**
- * Golden-path browser release gate (Issue #120).
+ * Golden-path browser release gate (Issue #120 → Issue #217 Phase 1).
  *
- * One deterministic walkthrough of the 8/23 demo core flow, in a real browser
- * at the 375px mobile baseline with Japanese as the blocking locale:
+ * One deterministic walkthrough of the 8/23 Phase 1 guided-conversation core
+ * flow, in a real browser at the 375px mobile baseline with Japanese as the
+ * blocking locale:
  *
- *   Home → Food Profile (first use) → Exploration → Result → Story → Route →
- *   Spot → Save → My Saved Routes
+ *   Landing → Food Profile conversation (nickname + dietary) → Exploration
+ *   conversation → Result (96% presentation) → Story → Route → Spot → Save
  *
- * The test also verifies the lifecycle / persistence boundaries that unit
- * coverage alone cannot catch:
- *   - a Result auto-records a MOGU Recent entry (distinct semantic from Save)
- *   - the Route → Spot leg renders and the Spot save CTA writes the same
- *     itinerary contract the Route save button uses
- *   - a page reload restores Food Profile / MOGU Recent / Saved Route
- *   - a returning Home flow does not re-ask for the Food Profile
- *   - Discover browse-only use never writes MOGU Recent (raw value, not count)
+ * Phase 1 (Issue #217) renders the journey as a LINE / ChatGPT-style
+ * conversation inside the PrototypeShell, so the production bottom navigation
+ * (Home / Discover / MOGU / My) must never appear and Ome/Sawai must never
+ * leak into the demo path. The test also verifies the Phase 1 contracts unit
+ * coverage cannot catch:
+ *   - the session-only nickname is used in later MOGU messages and does NOT
+ *     persist as an account/profile (sessionStorage only, never localStorage)
+ *   - every allowed choice in the guided conversation leads to Okutama ×
+ *     東京わさび (deterministic Phase 1 candidate set)
+ *   - the Result auto-records a MOGU Recent entry (Phase 2 data preserved,
+ *     hidden from the demo UI)
+ *   - a page reload restores the durable Food Profile
  *
  * Deterministic by construction: no external booking, realtime transit,
  * geolocation, or network dependence — the recommended result and the model
@@ -30,6 +35,7 @@ import { test, expect, type Page } from '@playwright/test';
 const FOOD_PROFILE_KEY = 'tmm:foodProfile:v1';
 const MOGU_RECENT_KEY = 'tmm:moguRecent:v1';
 const SAVED_ROUTES_KEY = 'tmm:savedRoutes';
+const NICKNAME_KEY = 'tmm:nickname:v1';
 
 /** A fresh, deterministic pre-condition: no persisted demo state. */
 async function resetDemoState(page: Page): Promise<void> {
@@ -44,6 +50,11 @@ async function resetDemoState(page: Page): Promise<void> {
 /** Read a persisted value (or null) without leaking JSON shape into the test. */
 async function persisted(page: Page, key: string): Promise<unknown | null> {
   return page.evaluate((k) => localStorage.getItem(k), key);
+}
+
+/** Read a sessionStorage value (or null). */
+async function sessionPersisted(page: Page, key: string): Promise<unknown | null> {
+  return page.evaluate((k) => sessionStorage.getItem(k), key);
 }
 
 /** Number of entries stored under a persistence key, or 0 when unset. */
@@ -61,7 +72,7 @@ async function storedCount(page: Page, key: string): Promise<number> {
 test.describe('golden path (ja, 375px)', () => {
   test.use({ locale: 'ja-JP' });
 
-  test('first-use flow completes and state survives reload; Discover stays browse-only', async ({
+  test('first-use guided conversation completes and hides the production nav', async ({
     page,
   }) => {
     // ---- precondition: clean state, mobile viewport already set by config ----
@@ -69,52 +80,75 @@ test.describe('golden path (ja, 375px)', () => {
     await resetDemoState(page);
     await page.reload();
 
-    // ---- 1. Home / Landing → start journey (first use routes to Food Profile) ----
+    // ---- 1. Landing → start journey (first use routes to Food Profile) ----
     await page.getByRole('heading', { name: '東京の食文化と出会う旅' }).waitFor();
     await page.getByRole('link', { name: 'わたしの食文化の旅をはじめる' }).click();
     await page.waitForURL('**/food-profile');
 
-    // ---- 2. Food Profile (first use) → save → straight into Exploration ----
-    await page.getByRole('heading', { name: 'フードプロフィールをつくる' }).waitFor();
-    await page.getByRole('button', { name: '制限はありません' }).click();
+    // ---- 2. Food Profile conversation — intro → nickname → dietary ----
+    await page.getByText('MOGU MOGUへようこそ！').waitFor();
+    await page.getByRole('button', { name: 'はじめる！' }).click();
+    await page.getByText('まず、なんてお呼びすればいいですか？').waitFor();
+    await page.getByLabel('ニックネーム').fill('ナナミ');
+    await page.getByRole('button', { name: 'これでお願いします！' }).click();
+    // Phase 1 first-use does not collect dietary conditions or free text: MOGU
+    // explains that dietary compatibility is not evaluated in this prototype and
+    // offers a single continue acknowledgement (Issue #220).
+    await page.getByText('お食事についてのご案内').waitFor();
+    await expect(page.getByText('食物アレルギーはありますか？')).toHaveCount(0);
+    await expect(page.getByText('ベジタリアン・ビーガンなどの食事スタイルはありますか？')).toHaveCount(0);
+    await expect(page.getByText('宗教上の理由などで、避けている食べものはありますか？')).toHaveCount(0);
+    await expect(page.getByText('苦手な食材や味はありますか？')).toHaveCount(0);
+    // No unrestricted free-text dietary field is exposed on the Phase 1 path.
+    await expect(page.locator('#fp-other')).toHaveCount(0);
+    await expect(page.getByText('その他、避けているもの・気になることがあれば入力してください（任意）。')).toHaveCount(0);
+    // Session-only nickname: stored in sessionStorage, never localStorage.
+    expect(await sessionPersisted(page, NICKNAME_KEY)).toBe('ナナミ');
+    expect(await persisted(page, NICKNAME_KEY)).toBeNull();
+
+    // Acknowledge the prototype dietary limitation and continue.
+    await page.getByRole('button', { name: '了解しました' }).click();
+    await page.getByText('ありがとうございます、ナナミさん！').waitFor();
     await page.getByRole('button', { name: '保存してつぎへ' }).click();
     await page.waitForURL('**/explore');
-    // Returning flow must not re-ask the profile; persisted immediately.
     expect(await persisted(page, FOOD_PROFILE_KEY)).not.toBeNull();
 
-    // ---- 3. Exploration — 5 deterministic answers (one chip per step) ----
-    // Step 1/5: taste
+    // ---- 3. Exploration conversation — greeting reuses the nickname ----
+    await page.getByText('こんにちは、ナナミさん。あなたに合う東京の食旅を探します。').waitFor();
     await page.getByRole('button', { name: 'さっぱり・爽やか' }).click();
     await page.getByRole('button', { name: '次へ' }).click();
-    // Step 2/5: experience (optional multi-select)
     await page.getByRole('button', { name: '食べる' }).click();
     await page.getByRole('button', { name: '次へ' }).click();
-    // Step 3/5: base area + travel time (single-select radios on this step)
-    await page.getByRole('radio', { name: '奥多摩' }).click();
-    await page.getByRole('radio', { name: '60分以内' }).click();
+    await page.getByRole('button', { name: '奥多摩' }).click();
+    await page.getByRole('button', { name: '60分以内' }).click();
     await page.getByRole('button', { name: '次へ' }).click();
-    // Step 4/5: interests
     await page.getByRole('button', { name: '自然・景色' }).click();
     await page.getByRole('button', { name: '次へ' }).click();
-    // Step 5/5: duration (single-select radio)
-    await page.getByRole('radio', { name: '半日（日帰り）' }).click();
+    await page.getByRole('button', { name: '半日（日帰り）' }).click();
     await page.getByRole('button', { name: '結果を見る' }).click();
     await page.waitForURL('**/explore/result');
 
-    // ---- 4. Result — deterministic 東京わさび + MOGU Recent hand-off ----
-    await page.getByRole('heading', { name: 'あなたへのおすすめ' }).waitFor();
-    // The result title appears in the feature card; "東京わさび" also matches
-    // the Story CTA below it, so scope to the card title for a strict check.
+    // ---- 4. Result — nickname greeting + reveal + 96% presentation ----
+    await page
+      .getByText('こんにちは、ナナミさん。あなたにぴったりの食文化の旅が見つかりました。')
+      .waitFor();
+    await page.getByRole('heading', { name: '今回のあなたに合う食文化の旅を見つけました！' }).waitFor();
     await page
       .locator('.tmm-result-card__title')
       .filter({ hasText: '東京わさび' })
       .first()
       .waitFor();
+    // 96% マッチ度 is Figma presentation only.
+    const match = page.locator('.tmm-result-match');
+    await match.waitFor();
+    await expect(match).toContainText('96%');
+    await expect(match).toContainText('マッチ度');
+    await page.getByText('このマッチ度はデモ用のプロトタイプ表示です').waitFor();
     await page.getByText('このおすすめを「MOGU」の最近の履歴に保存しました。').waitFor();
-    // Result auto-records a MOGU Recent entry (explicit user Save not involved).
     expect(await storedCount(page, MOGU_RECENT_KEY)).toBe(1);
-    // The Story link now carries the canonical candidate id (#123) so the
-    // Story → Route flow keeps resolving the recorded journey.
+    // Ome/Sawai never leaks into the Phase 1 Result.
+    await expect(page.locator('body')).not.toContainText('青梅・沢井の日本酒');
+
     await page.getByRole('link', { name: '東京わさびの物語を読む' }).click();
     await page.waitForURL('**/story/wasabi-okutama*');
 
@@ -123,8 +157,6 @@ test.describe('golden path (ja, 375px)', () => {
     await page.waitForURL('**/route*');
 
     // ---- 6. Route → Spot leg (representative stop) ----
-    // Step 1 of the model route is the tourism office; open it via the
-    // timeline pin so the Route → Spot link is exercised in a real browser.
     await page
       .locator('.s5-timeline__pin-link')
       .filter({ hasText: '奥多摩観光案内所' })
@@ -135,83 +167,68 @@ test.describe('golden path (ja, 375px)', () => {
     // ---- 7. Spot save CTA → writes the same itinerary contract ----
     await page.getByRole('button', { name: '➕ 旅程に追加する' }).click();
     await page.getByText('旅程に追加しました').waitFor();
-    // The toast overlays the lower part of the screen; close it so it does not
-    // intercept the Back link below (the spot Back sits above the bottom nav).
     await page.getByRole('button', { name: '閉じる' }).click();
-    // The Spot save CTA writes the shared tmm:savedRoutes contract.
     expect(await storedCount(page, SAVED_ROUTES_KEY)).toBe(1);
 
     // ---- 8. Back to Route → Route save reflects the existing save ----
     await page.getByRole('link', { name: /ルートに戻る/ }).click();
     await page.waitForURL('**/route*');
     await page.getByRole('heading', { name: '奥多摩わさび紀行' }).waitFor();
-    // The itinerary is already saved via the Spot CTA, so the Route button
-    // shows the saved state. Toggle it off, then back on so the Route-level
-    // save button (Issue #120's Route Save semantic) is itself exercised and
-    // the Saved Routes state is deterministic for the My step below.
     await page.getByRole('button', { name: '旅程を保存済み ✓' }).click();
     await page.getByText('旅程の保存を解除しました').waitFor();
     expect(await storedCount(page, SAVED_ROUTES_KEY)).toBe(0);
     await page.getByRole('button', { name: '🔖 この旅程を保存する' }).click();
     await page.getByText('旅程を保存しました').waitFor();
-    // Explicit user Save writes the Saved Routes contract (distinct semantic).
     expect(await storedCount(page, SAVED_ROUTES_KEY)).toBe(1);
-    await page.getByRole('link', { name: 'マイ' }).click();
-    await page.waitForURL('**/my');
 
-    // ---- 9. My — saved route visible under 保存した旅程 ----
-    await page.getByRole('heading', { name: '保存した旅程' }).waitFor();
-    await page.getByText('奥多摩わさび紀行').waitFor();
-
-    // ---- 10. reload → Food Profile / MOGU Recent / Saved Route restored ----
+    // ---- 9. reload → durable Food Profile / MOGU Recent / Saved Route restored;
+    //          nickname stays session-only (survives reload, never localStorage,
+    //          cleared when the tab/session closes) ----
     await page.reload();
-    await page.getByRole('heading', { name: '保存した旅程' }).waitFor();
-    await page.getByText('奥多摩わさび紀行').waitFor();
+    await page.getByRole('heading', { name: '奥多摩わさび紀行' }).waitFor();
     expect(await storedCount(page, MOGU_RECENT_KEY)).toBe(1);
     expect(await storedCount(page, SAVED_ROUTES_KEY)).toBe(1);
+    expect(await sessionPersisted(page, NICKNAME_KEY)).toBe('ナナミ');
+    expect(await persisted(page, NICKNAME_KEY)).toBeNull();
+  });
 
-    // ---- 11. returning Home flow must not re-ask the Food Profile ----
-    await page.getByRole('link', { name: 'ホーム' }).click();
-    await page.waitForURL('**/');
+  test('production navigation never appears during the Phase 1 demo path', async ({
+    page,
+  }) => {
+    await page.goto('/');
+    await resetDemoState(page);
+    await page.reload();
+
+    // Landing (first-use) — no bottom nav.
+    await page.getByRole('heading', { name: '東京の食文化と出会う旅' }).waitFor();
+    await expect(page.locator('.tmm-nav')).toHaveCount(0);
+    // No production links reachable from the demo surfaces.
+    await expect(page.locator('a[href="/discover"], a[href="/mogu"], a[href="/my"]')).toHaveCount(0);
+
+    // Inside the conversations — still no production nav.
     await page.getByRole('link', { name: 'わたしの食文化の旅をはじめる' }).click();
-    // Returning user skips /food-profile and goes straight into Exploration.
+    await page.waitForURL('**/food-profile');
+    await expect(page.locator('.tmm-nav')).toHaveCount(0);
+    await page.getByRole('button', { name: 'はじめる！' }).click();
+    await page.getByLabel('ニックネーム').fill('ナナミ');
+    await page.getByRole('button', { name: 'これでお願いします！' }).click();
+    await page.getByRole('button', { name: '了解しました' }).click();
+    await page.getByRole('button', { name: '保存してつぎへ' }).click();
     await page.waitForURL('**/explore');
-    expect(new URL(page.url()).pathname).not.toContain('/food-profile');
-
-    // ---- 12. Discover browse-only must not pollute MOGU Recent ----
-    // Snapshot the raw persisted value (not just the array length): recording
-    // the same wasabi-okutama result again would REPLACE the entry and leave
-    // the count unchanged, so comparing the count alone would miss it.
-    await page.getByRole('link', { name: 'さがす' }).click();
-    await page.waitForURL('**/discover');
-    await page.getByRole('heading', { name: 'さがす', exact: true }).waitFor();
-    const recentBefore = await persisted(page, MOGU_RECENT_KEY);
-    await page.getByRole('link', { name: '東京わさび', exact: true }).first().click();
-    await expect(page).toHaveURL(/\/story\/wasabi-okutama/);
-    await page.getByText('味わうことが、継承になる').waitFor();
-    await page.goto('/discover');
-    // Browse-only must leave the persisted entry byte-for-byte unchanged.
-    expect(await persisted(page, MOGU_RECENT_KEY)).toBe(recentBefore);
-
-    // ---- 13. MOGU reopen preserves the recorded candidate/journey identity (#123) ----
-    // Reopening history carries the candidate id forward, so Result → Story →
-    // Route keeps resolving the recorded journey (never the wrong route) and
-    // Back from the story returns to MOGU, not a fresh diagnosis.
-    await page.getByRole('link', { name: 'MOGU' }).click();
-    await page.waitForURL('**/mogu');
-    await page.getByRole('button', { name: 'このおすすめを見る' }).click();
-    await page.waitForURL('**/explore/result*');
-    await page.getByRole('heading', { name: 'あなたへのおすすめ' }).waitFor();
-    await page.getByRole('link', { name: '東京わさびの物語を読む' }).click();
-    await page.waitForURL('**/story/wasabi-okutama*');
-    await page.getByText('味わうことが、継承になる').waitFor();
-    await page.getByRole('link', { name: 'モデルルートを見る' }).click();
-    await page.waitForURL('**/route*');
-    await page.getByRole('heading', { name: '奥多摩わさび紀行' }).waitFor();
-    // Back from the reopened Route returns to the Story (caller-context aware)
-    // with the recorded journey intact.
-    await page.getByRole('link', { name: /物語に戻る/ }).click();
-    await page.waitForURL('**/story/wasabi-okutama*');
-    await page.getByText('味わうことが、継承になる').waitFor();
+    await expect(page.locator('.tmm-nav')).toHaveCount(0);
+    await page.getByRole('button', { name: 'さっぱり・爽やか' }).click();
+    await page.getByRole('button', { name: '次へ' }).click();
+    await page.getByRole('button', { name: '食べる' }).click();
+    await page.getByRole('button', { name: '次へ' }).click();
+    await page.getByRole('button', { name: '奥多摩' }).click();
+    await page.getByRole('button', { name: '60分以内' }).click();
+    await page.getByRole('button', { name: '次へ' }).click();
+    await page.getByRole('button', { name: '自然・景色' }).click();
+    await page.getByRole('button', { name: '次へ' }).click();
+    await page.getByRole('button', { name: '半日（日帰り）' }).click();
+    await page.getByRole('button', { name: '結果を見る' }).click();
+    await page.waitForURL('**/explore/result');
+    await page.getByRole('heading', { name: '今回のあなたに合う食文化の旅を見つけました！' }).waitFor();
+    await expect(page.locator('.tmm-nav')).toHaveCount(0);
   });
 });

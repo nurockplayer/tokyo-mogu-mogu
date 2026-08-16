@@ -5,6 +5,7 @@
  * through one consistent structure without creating their own root/router.
  */
 export { AppShell } from './AppShell';
+export { PrototypeShell } from './PrototypeShell';
 export { AppRouter } from './AppRouter';
 export { AppProviders } from './AppProviders';
 export { ErrorBoundary } from './ErrorBoundary';

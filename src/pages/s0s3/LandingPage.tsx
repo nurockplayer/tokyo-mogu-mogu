@@ -1,22 +1,27 @@
 /**
- * S0 Landing page (Issue #43, reframed by Issue #78).
+ * S0 Landing / Home (Issue #43, reframed by Issue #78; Issue #181 Figma
+ * parity → Issue #217 Phase 1).
  *
- * Entry of the S0–S8 journey: hero + service name + tagline, a 3-step value
- * explanation, and a short "why now" section. The main CTA communicates
- * starting a personalized food-culture journey (not a one-time quiz) and routes
- * by flow contract:
+ * The entry of the Phase 1 guided prototype. Returning-aware:
  *
- *   - First-time user (no Food Profile) → Food Profile setup, then Exploration
- *   - Returning user (valid Food Profile) → Exploration 5 questions directly
+ *   - First-time user (no Food Profile) → the Figma `1:95` welcome
+ *     composition: a media-forward hero, tagline, one dominant CTA, a 3-step
+ *     value explanation, and a short "why now" section. The CTA routes by flow
+ *     contract (profile setup, then Exploration).
+ *   - Returning user (valid Food Profile) → a conversational MOGU greeting
+ *     (reusing the session-only nickname when present) plus one dominant
+ *     "continue" CTA straight into Exploration. Phase 1 hides the
+ *     production-oriented MOGU Recent surface from the demo journey (#201 /
+ *     #217), so no recent-history section and no production navigation leak.
  *
- * Home is the start-new-recommendation destination from #92; recent-result
- * history is NOT duplicated here (MOGU owns Recent). Accountless and
- * geolocation-free.
+ * Accountless and geolocation-free.
  */
 import { Link } from 'react-router-dom';
 import { useI18n } from '../../i18n';
 import { StorySection } from '../../ui';
 import { hasFoodProfile } from '../../lib/food-profile-storage';
+import { loadNickname } from '../../lib/nickname';
+import { fillTemplate } from '../../lib/exploration';
 import { beginNewExploration } from './exploration-session';
 import './onboarding.css';
 
@@ -25,6 +30,10 @@ export function LandingPage() {
 
   // Returning users skip the Food Profile re-ask and start a new Exploration.
   const journeyTarget = hasFoodProfile() ? '/explore' : '/food-profile';
+
+  if (hasFoodProfile()) {
+    return <ReturningHome journeyTarget={journeyTarget} />;
+  }
 
   const steps = [
     { id: 's0Step1', title: t('s0Step1Title'), desc: t('s0Step1Desc') },
@@ -85,6 +94,42 @@ export function LandingPage() {
           <p>{t('s0WhyBody2')}</p>
         </div>
       </section>
+    </div>
+  );
+}
+
+/**
+ * Returning Home — conversational MOGU greeting (Issue #217 Phase 1). The
+ * production-oriented MOGU Recent section is hidden from the demo journey, so
+ * this is a slim chat-style greeting + one continue CTA into Exploration.
+ */
+function ReturningHome({ journeyTarget }: { journeyTarget: string }) {
+  const { t } = useI18n();
+  const nickname = loadNickname();
+  const greeting = nickname
+    ? fillTemplate(t('homeGreetingName'), { name: nickname })
+    : t('homeGreeting');
+
+  return (
+    <div className="tmm-page tmm-landing-return">
+      <div className="fp-convo__msg fp-convo__msg--assistant tmm-landing-return__greet">
+        <span className="fp-convo__avatar" aria-hidden="true">
+          🌿
+        </span>
+        <div className="fp-convo__bubble">
+          <p className="fp-convo__title">{t('homeGreetingTitle')}</p>
+          <p className="fp-convo__body">{greeting}</p>
+        </div>
+      </div>
+      <div className="tmm-landing-return__cta">
+        <Link
+          to={journeyTarget}
+          className="tmm-btn tmm-btn--primary tmm-btn--block"
+          onClick={beginNewExploration}
+        >
+          {t('homeCtaContinue')}
+        </Link>
+      </div>
     </div>
   );
 }
