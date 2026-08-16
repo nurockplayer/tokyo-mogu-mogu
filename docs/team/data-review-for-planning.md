@@ -3,11 +3,12 @@
 > Team review version for planning / route feasibility discussion  
 > Updated: 2026-08-16  
 > Audience: 企画・PM・デザイン・現地視点のレビュー担当  
+> **調べた44件の一覧:** [`docs/team/data-catalog.md`](./data-catalog.md)  
 > Detailed research source of truth: [`docs/data-opportunity-map.md`](../data-opportunity-map.md)
 
 ## 1. まず結論
 
-AIを使った調査により、東京都・自治体・国・観光公式サイト等から **40件以上の Open Data / official public sources** を確認している。
+AIを使った調査により、東京都・自治体・国・観光公式サイト等から **44件の Open Data / official public sources** を評価している。
 
 現時点では、データをさらに広く探すことよりも、すでに確認できている情報を使って次の2つを判断する段階に入っている。
 
@@ -20,7 +21,7 @@ AIを使った調査により、東京都・自治体・国・観光公式サイ
 - **Secondary playable proof:** 青梅・沢井 × 日本酒 × 文化財
 - Product 全体は東京都全域 × 複数地域 × 複数食文化を対象とする
 
-この資料では、40件以上のデータセットを全部読む必要はない。企画判断に必要な情報だけを、**「何が分かっているか → どの旅行体験に使えるか → 何がまだ分からないか」** の順に整理する。
+44件を一件ずつ確認したい場合は [`Data Catalog`](./data-catalog.md) を参照。この資料では、企画判断に必要な情報だけを、**「何が分かっているか → どの旅行体験に使えるか → 何がまだ分からないか」** の順に整理する。
 
 ---
 
@@ -167,7 +168,7 @@ AIによる広域 data research では、奥多摩よりも青梅・沢井周辺
 
 ## 5. AIで確認したその他のデータ
 
-詳細な40件以上の record は [`docs/data-opportunity-map.md`](../data-opportunity-map.md) に保存している。人間が企画判断をする際は、次の5カテゴリだけ把握すれば十分。
+**調査した44件を一件ずつ見たい場合は [`Data Catalog`](./data-catalog.md) を参照。** ここでは企画判断に使いやすいカテゴリだけを簡単にまとめる。
 
 ### A. 観光需要・分散
 
@@ -234,6 +235,20 @@ AIによる広域 data research では、奥多摩よりも青梅・沢井周辺
 
 **使い道:** Spot / Route の practical UX。
 
+### F. 水辺・水産・島しょ
+
+東京の島や水辺を旅行体験にするための data / official sources。
+
+- 東京都卸売市場日報（水産）
+- 伊豆・小笠原諸島ライブカメラ位置情報
+- 東京おさかな図鑑 / 島の特産農産物図鑑
+- UMISORA / 東海汽船ダイヤ
+- アユ遡上・水質データ
+- 漁業センサス
+- 八丈島観光スポット
+
+**使い道:** 島の Food Story、Live preview、船の運航を含む route feasibility。
+
 ---
 
 ## 6. 今、新井SDさんに確認してほしいこと
@@ -281,8 +296,9 @@ AIでは「どの data が存在するか」「公式 source があるか」は�
 
 ## 7. この資料と詳細資料の使い分け
 
+- [`docs/team/data-catalog.md`](./data-catalog.md): **調査した44件を人が一件ずつ確認する一覧**
 - **この Brief:** チームが5分程度で全体を理解し、企画・route判断をするための資料
-- [`docs/data-opportunity-map.md`](../data-opportunity-map.md): AI / engineering / PM が40件以上の dataset、license、format、制約まで追跡する研究 source of truth
+- [`docs/data-opportunity-map.md`](../data-opportunity-map.md): AI / engineering / PM が dataset、license、format、制約まで追跡する研究 source of truth
 - [`docs/analytics/tokyo-tourism-baseline.md`](../analytics/tokyo-tourism-baseline.md): 観光集中に関する quantitative evidence の詳細
 - [Issue #211](https://github.com/nurockplayer/tokyo-mogu-mogu/issues/211): 既に見つけた source-backed data を Web App の Story / Route / Spot に反映する current P0 work
 
