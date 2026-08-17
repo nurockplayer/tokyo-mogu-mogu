@@ -48,6 +48,7 @@ import { Link, useParams, useSearchParams } from 'react-router-dom';
 import {
   getFoodCultureById,
   getMunicipalityAgricultureById,
+  getRelatedPlaces,
   MUNICIPALITY_INDICATOR_KEYS,
   municipalityIndicatorValue,
   resolveStoryJourney,
@@ -56,7 +57,7 @@ import { FoodCultureImage } from '../components/FoodCultureImage';
 import { SupportPanel } from '../components/SupportPanel';
 import { Card, StorySection, Tag } from '../ui';
 import { useI18n, type Locale } from '../i18n';
-import { storyContent } from '../i18n/data-content';
+import { placeNameKey, storyContent } from '../i18n/data-content';
 import { deriveVerificationStatus, sourceDateLabel } from '../lib/verification';
 import { readingMinutes, resolveBackTo, storyRouteHref } from './story-reading';
 import './StoryPage.css';
@@ -166,6 +167,13 @@ export function StoryPage() {
     ? storyRouteHref(backTo, identity.candidateId)
     : undefined;
 
+  // Issue #224: nearby-spots section uses the food culture's own verified
+  // source-backed places; the Figma's illustrative place names are never used
+  // as factual runtime content.
+  const relatedPlaces = record ? getRelatedPlaces(record) : [];
+  const localized = (key: ReturnType<typeof placeNameKey>, ja: string, en: string): string =>
+    key ? t(key) : locale === 'ja' ? ja : en;
+
   return (
     <article className="s4-page">
       {/* Section 1 — Hero (dark-green / media-forward) */}
@@ -271,6 +279,41 @@ export function StoryPage() {
           </blockquote>
         </StorySection>
       </div>
+
+      {/* Issue #224: latest-Figma MOGUMOGU ポイント presentation callout.
+          Wasabi-specific demo presentation detail (Figma 52:3995); only rendered
+          on the wasabi demo journey so Ome/Sawai semantics stay isolated. */}
+      {record.id === 'wasabi-okutama' ? (
+        <details className="s4-point" open>
+          <summary className="s4-point__summary">
+            <span className="s4-point__badge">{t('s4PointTitle')}</span>
+            <span className="s4-point__question">{t('s4PointQuestion')}</span>
+          </summary>
+          <p className="s4-point__body">{t('s4PointBody')}</p>
+        </details>
+      ) : null}
+
+      {/* Issue #224: latest-Figma nearby-spots presentation, built from the
+          food culture's own verified source-backed places (never unverified
+          Figma place names). */}
+      {relatedPlaces.length > 0 ? (
+        <section className="s4-nearby" aria-labelledby="s4-nearby-title">
+          <h2 id="s4-nearby-title" className="s4-nearby__title">
+            {t('s4NearbySpots')}
+          </h2>
+          <ul className="s4-nearby__list">
+            {relatedPlaces.map((place) => (
+              <li key={place.id} className="s4-nearby__item">
+                <Link to={`/spot/${place.id}`} className="s4-nearby__card">
+                  <span className="s4-nearby__name">
+                    {localized(placeNameKey(place.id), place.nameJa, place.nameEn)}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       {/* Support actions (Issues #68/#79) — the story's "tasting is succession"
           beat made concrete: how to actually act on that interest. Shared
