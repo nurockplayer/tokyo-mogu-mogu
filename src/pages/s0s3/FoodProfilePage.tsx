@@ -151,6 +151,24 @@ export function interviewSelectionLabels(
 }
 
 /**
+ * Resolved lines for the setup interview summary (Issue #224). Zero selections
+ * render the neutral "not evaluated" copy — never "no restrictions": the
+ * presentation interview is not persisted and the durable profile is always
+ * saved as a non-claiming "not evaluated" record, so a skipped interview must
+ * not be converted into a no-restrictions claim.
+ */
+export function interviewSummaryLines(
+  interviewAnswers: InterviewAnswers,
+  t: (key: LocaleKey) => string,
+): string[] {
+  const selections = PHASE1_INTERVIEW.map((_, index) =>
+    interviewSelectionLabels(interviewAnswers, index, t),
+  ).filter((labels) => labels.length > 0);
+  if (selections.length === 0) return [t('fpNotEvaluated')];
+  return selections.map((labels) => labels.join('、'));
+}
+
+/**
  * Mutually-exclusive "none" toggle for one presentation interview question.
  * Selecting `none` clears every substantive choice; selecting a substantive
  * choice clears `none`.
@@ -943,9 +961,7 @@ function SetupSummaryStep({
   const confirm = nickname
     ? fillTemplate(t('fpSummaryConfirmName'), { name: nickname })
     : t('fpSummaryConfirm');
-  const selections = PHASE1_INTERVIEW.map((_, index) =>
-    interviewSelectionLabels(interviewAnswers, index, t),
-  ).filter((labels) => labels.length > 0);
+  const lines = interviewSummaryLines(interviewAnswers, t);
   return (
     <div className="fp-convo">
       <div className="fp-convo__msg fp-convo__msg--assistant">
@@ -957,15 +973,11 @@ function SetupSummaryStep({
           <p className="fp-convo__body">{confirm}</p>
           <p className="fp-convo__body">{t('fpSummaryTitle')}</p>
           <div className="tmm-profile-summary">
-            {selections.length > 0 ? (
-              selections.map((labels, index) => (
-                <p key={index} className="tmm-profile-summary__line">
-                  {labels.join('、')}
-                </p>
-              ))
-            ) : (
-              <p className="tmm-profile-summary__line">{t('fpNoRestrictions')}</p>
-            )}
+            {lines.map((line, index) => (
+              <p key={index} className="tmm-profile-summary__line">
+                {line}
+              </p>
+            ))}
           </div>
           <p className="fp-convo__trust">{t('fpSummaryTrust')}</p>
           <p className="fp-convo__note">{t('fpEditNote')}</p>

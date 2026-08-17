@@ -13,6 +13,7 @@ import {
   PHASE1_INTERVIEW,
   createEmptyInterviewAnswers,
   interviewSelectionLabels,
+  interviewSummaryLines,
   toggleInterviewAnswer,
   createPhase1NeutralProfile,
 } from './FoodProfilePage';
@@ -82,6 +83,29 @@ describe('interviewSelectionLabels (Issue #224)', () => {
 
   it('returns empty for an unanswered question', () => {
     expect(interviewSelectionLabels(createEmptyInterviewAnswers(), 1, keyAsLabel as never)).toEqual([]);
+  });
+});
+
+describe('interviewSummaryLines — zero-selection safety (Issue #224)', () => {
+  const keyAsLabel = (key: string): string => key;
+
+  it('all four questions skipped renders neutral "not evaluated" copy, never "no restrictions"', () => {
+    const lines = interviewSummaryLines(createEmptyInterviewAnswers(), keyAsLabel as never);
+    expect(lines).toEqual(['fpNotEvaluated']);
+    expect(lines).not.toContain('fpNoRestrictions');
+  });
+
+  it('renders the selected labels when at least one question is answered', () => {
+    const answers = createEmptyInterviewAnswers();
+    answers[0] = ['egg'];
+    const lines = interviewSummaryLines(answers, keyAsLabel as never);
+    expect(lines).toEqual(['fpIvEgg']);
+  });
+
+  it('keeps the neutral durable profile non-claiming after a skipped interview', () => {
+    const profile = createPhase1NeutralProfile('2026-08-16T00:00:00.000Z');
+    expect(profile.hasNoRestrictions).toBe(false);
+    expect(profile.dietary).toEqual([]);
   });
 });
 
