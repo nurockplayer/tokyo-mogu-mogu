@@ -122,13 +122,9 @@ test.describe('golden path (ja, 375px)', () => {
     // Latest-Figma question order: Experience → Departure → Travel → Duration →
     // Taste + Theme.
     await page.getByRole('button', { name: '食べる' }).click();
-    await page.getByRole('button', { name: '次へ' }).click();
     await page.getByRole('button', { name: '東京都' }).click();
-    await page.getByRole('button', { name: '次へ' }).click();
     await page.getByRole('button', { name: '1時間以内' }).click();
-    await page.getByRole('button', { name: '次へ' }).click();
     await page.getByRole('button', { name: '半日' }).click();
-    await page.getByRole('button', { name: '次へ' }).click();
     await page.getByRole('button', { name: 'さっぱりした味' }).click();
     await page.getByRole('button', { name: '自然' }).click();
     await page.getByRole('button', { name: '結果を見る' }).click();
@@ -231,13 +227,9 @@ test.describe('golden path (ja, 375px)', () => {
     await page.waitForURL('**/explore');
     await expect(page.locator('.tmm-nav')).toHaveCount(0);
     await page.getByRole('button', { name: '食べる' }).click();
-    await page.getByRole('button', { name: '次へ' }).click();
     await page.getByRole('button', { name: '東京都' }).click();
-    await page.getByRole('button', { name: '次へ' }).click();
     await page.getByRole('button', { name: '1時間以内' }).click();
-    await page.getByRole('button', { name: '次へ' }).click();
     await page.getByRole('button', { name: '半日' }).click();
-    await page.getByRole('button', { name: '次へ' }).click();
     await page.getByRole('button', { name: '自然' }).click();
     await page.getByRole('button', { name: '結果を見る' }).click();
     await page.waitForURL('**/explore/result');

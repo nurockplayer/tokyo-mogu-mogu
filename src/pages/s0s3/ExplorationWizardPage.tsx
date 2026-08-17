@@ -17,7 +17,7 @@
  * (phase1-exploration.ts), so believability is preserved by clamping travel
  * time to what the demo route supports.
  */
-import { useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useI18n, type LocaleKey } from '../../i18n';
 import { Button, Chip, ProgressBar, StepDots } from '../../ui';
@@ -217,50 +217,68 @@ function ExplorationWizardInner() {
   // station API and never persisted as canonical data.
   const [departureSearch, setDepartureSearch] = useState('');
 
-  /** Update visual selection and persist the derived canonical answers. */
-  function commit(next: VisualAnswers) {
-    setVisual(next);
-    saveExplorationAnswers(deriveAnswers(next));
-  }
+  // Latest committed step, used to reject stale activations (rapid/double tap)
+  // so one reply can never commit twice or skip a turn.
+  const stepRef = useRef(step);
+  stepRef.current = step;
 
-  function toggleMulti(key: 'tastes' | 'experiences' | 'themes', id: string) {
-    commit({ ...visual, [key]: toggleValue(visual[key], id) });
-  }
-
-  function selectSingle(key: 'departure' | 'travel' | 'duration', id: string) {
-    commit({ ...visual, [key]: visual[key] === id ? null : id });
-  }
-
-  const canProceed = (() => {
-    switch (step) {
-      case 0:
-        return visual.experiences.length > 0;
-      case 1:
-        return visual.departure !== null;
-      case 2:
-        return visual.travel !== null;
-      case 3:
-        return visual.duration !== null;
-      case 4:
-        return visual.tastes.length > 0 || visual.themes.length > 0;
-      default:
-        return true;
+  // Auto-scroll target for the newly revealed turn (Issue #230). The first
+  // render is skipped so the initial question does not scroll past the greeting.
+  const activeTurnRef = useRef<HTMLDivElement>(null);
+  const firstRender = useRef(true);
+  useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
     }
-  })();
+    const node = activeTurnRef.current;
+    if (!node) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    node.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  }, [step]);
+
+  // Persist the derived canonical answers whenever the visual selection changes.
+  useEffect(() => {
+    saveExplorationAnswers(deriveAnswers(visual));
+  }, [visual]);
+
+  /** Commit an answer and reveal exactly the next turn (stale taps are ignored). */
+  function advance(toStep: number, next: VisualAnswers) {
+    if (toStep !== stepRef.current + 1) return;
+    setVisual(next);
+    setStep(toStep);
+  }
+
+  /** Single-choice quick reply: selecting it is the answer and advances. */
+  function chooseSingle(key: 'departure' | 'travel' | 'duration', id: string) {
+    advance(step + 1, { ...visual, [key]: id });
+  }
+
+  /** Experience tile: the tapped tile is the answer and advances. */
+  function chooseExperience(id: string) {
+    advance(1, { ...visual, experiences: [id] });
+  }
+
+  /**
+   * Taste / theme remain multi-select; toggles use the functional update so a
+   * rapid sequence of activations can never drop an earlier selection.
+   */
+  function toggleMulti(key: 'tastes' | 'themes', id: string) {
+    setVisual((prev) => ({ ...prev, [key]: toggleValue(prev[key], id) }));
+  }
+
+  const canConfirmTasteTheme = visual.tastes.length > 0 || visual.themes.length > 0;
+
+  function confirmTasteTheme() {
+    if (!canConfirmTasteTheme) return;
+    navigate('/explore/result');
+  }
 
   function goBack() {
     if (step > 0) {
       setStep(step - 1);
     } else {
       navigate('/');
-    }
-  }
-
-  function goNext() {
-    if (step < WIZARD_STEP_COUNT - 1) {
-      setStep(step + 1);
-    } else {
-      navigate('/explore/result');
     }
   }
 
@@ -345,8 +363,8 @@ function ExplorationWizardInner() {
     );
   }
 
-  /** Large 2-column experience tiles (Figma `4:2101` parity). */
-  function renderTiles(options: readonly FpOption<string>[], selected: string[], onToggle: (id: string) => void) {
+  /** Large 2-column experience tiles (Figma `4:2101`); tapping one is the answer. */
+  function renderTiles(options: readonly FpOption<string>[], selected: string[], onSelect: (id: string) => void) {
     return (
       <div className="tmm-wizard__tiles">
         {options.map((option) => {
@@ -357,7 +375,7 @@ function ExplorationWizardInner() {
               type="button"
               aria-pressed={isSel}
               className={`tmm-wizard__tile ${isSel ? 'tmm-wizard__tile--selected' : ''}`.trim()}
-              onClick={() => onToggle(option.id)}
+              onClick={() => onSelect(option.id)}
             >
               <span className="tmm-wizard__tile-icon" aria-hidden="true">
                 {option.icon}
@@ -371,7 +389,7 @@ function ExplorationWizardInner() {
     );
   }
 
-  function ChatQuestion({ title, children }: { title: string; children: ReactNode }) {
+  function ChatQuestion({ title, children }: { title: string; children?: ReactNode }) {
     return (
       <div className="fp-convo__msg fp-convo__msg--assistant">
         <span className="fp-convo__avatar" aria-hidden="true">
@@ -385,24 +403,15 @@ function ExplorationWizardInner() {
     );
   }
 
-  function ChatReply({ children }: { children: ReactNode }) {
-    return (
-      <div className="fp-convo__msg fp-convo__msg--user" aria-hidden="true">
-        <div className="fp-convo__bubble">{children}</div>
-      </div>
-    );
-  }
-
   function renderStepConversation() {
     switch (step) {
       case 0:
-        // Experience tiles (Figma 4:2101).
+        // Experience tiles (Figma 4:2101): tapping one commits it and advances.
         return (
           <>
             <ChatQuestion title={t(S2_TITLES[0])}>
-              {renderTiles(EXP_OPTIONS, visual.experiences, (id) => toggleMulti('experiences', id))}
+              {renderTiles(EXP_OPTIONS, visual.experiences, chooseExperience)}
             </ChatQuestion>
-            {visual.experiences.length > 0 ? <ChatReply>{labelsFor(visual.experiences, EXP_OPTIONS)}</ChatReply> : null}
             <p className="fp-convo__hint">{t(S2_HINTS[0])}</p>
           </>
         );
@@ -411,7 +420,7 @@ function ExplorationWizardInner() {
         return (
           <>
             <ChatQuestion title={t(S2_TITLES[1])}>
-              {renderSingle(DEPARTURE_OPTIONS, visual.departure, (id) => selectSingle('departure', id))}
+              {renderSingle(DEPARTURE_OPTIONS, visual.departure, (id) => chooseSingle('departure', id))}
               <label htmlFor="fp-departure-search" className="fp-convo__label">
                 {t('exAreaSearchLabel')}
               </label>
@@ -424,7 +433,6 @@ function ExplorationWizardInner() {
                 placeholder={t('exAreaSearchPlaceholder')}
               />
             </ChatQuestion>
-            {visual.departure !== null ? <ChatReply>{labelFor(visual.departure, DEPARTURE_OPTIONS)}</ChatReply> : null}
             <p className="fp-convo__hint">{t(S2_HINTS[1])}</p>
           </>
         );
@@ -433,9 +441,8 @@ function ExplorationWizardInner() {
         return (
           <>
             <ChatQuestion title={t(S2_TITLES[2])}>
-              {renderSingle(TRAVEL_OPTIONS, visual.travel, (id) => selectSingle('travel', id))}
+              {renderSingle(TRAVEL_OPTIONS, visual.travel, (id) => chooseSingle('travel', id))}
             </ChatQuestion>
-            {visual.travel !== null ? <ChatReply>{labelFor(visual.travel, TRAVEL_OPTIONS)}</ChatReply> : null}
             <p className="fp-convo__hint">{t(S2_HINTS[2])}</p>
           </>
         );
@@ -444,30 +451,29 @@ function ExplorationWizardInner() {
         return (
           <>
             <ChatQuestion title={t(S2_TITLES[3])}>
-              {renderSingle(DURATION_OPTIONS, visual.duration, (id) => selectSingle('duration', id))}
+              {renderSingle(DURATION_OPTIONS, visual.duration, (id) => chooseSingle('duration', id))}
             </ChatQuestion>
-            {visual.duration !== null ? <ChatReply>{labelFor(visual.duration, DURATION_OPTIONS)}</ChatReply> : null}
             <p className="fp-convo__hint">{t(S2_HINTS[3])}</p>
           </>
         );
       case 4:
-        // Taste + theme as the 2/2 sub-steps of one conversation turn (Figma 23:3262).
+        // Taste + theme (Figma 23:3262): the turn opens with the main question,
+        // then the 2/2 multi-select sub-steps, then a local confirm that commits
+        // the turn and moves to the Result (not a persistent page-level CTA).
         return (
           <>
+            <ChatQuestion title={t(S2_TITLES[4])} />
             <ChatQuestion title={`${t('exQ5TasteLabel')} ${fillTemplate(t('exSubStep'), { n: '1', total: '2' })}`}>
               {renderMulti(TASTE_OPTIONS, visual.tastes, (id) => toggleMulti('tastes', id))}
             </ChatQuestion>
             <ChatQuestion title={`${t('exQ5ThemeLabel')} ${fillTemplate(t('exSubStep'), { n: '2', total: '2' })}`}>
               {renderMulti(THEME_OPTIONS, visual.themes, (id) => toggleMulti('themes', id))}
             </ChatQuestion>
-            {visual.tastes.length > 0 || visual.themes.length > 0 ? (
-              <ChatReply>
-                {[
-                  ...visual.tastes.map((id) => labelFor(id, TASTE_OPTIONS)),
-                  ...visual.themes.map((id) => labelFor(id, THEME_OPTIONS)),
-                ].join('、')}
-              </ChatReply>
-            ) : null}
+            <div className="fp-convo__confirm">
+              <Button variant="primary" onClick={confirmTasteTheme} disabled={!canConfirmTasteTheme}>
+                {t('exDone')}
+              </Button>
+            </div>
             <p className="fp-convo__hint">{t(S2_HINTS[4])}</p>
           </>
         );
@@ -504,18 +510,9 @@ function ExplorationWizardInner() {
 
         <div className="fp-convo">
           <ChatTranscript items={transcript} />
-          {renderStepConversation()}
-        </div>
-
-        <div className="tmm-wizard__actions fp-convo-actions">
-          <Button
-            variant="primary"
-            className="tmm-btn--block"
-            onClick={goNext}
-            disabled={!canProceed}
-          >
-            {step === WIZARD_STEP_COUNT - 1 ? t('exDone') : t('exNext')}
-          </Button>
+          <div ref={activeTurnRef} className="fp-convo__active">
+            {renderStepConversation()}
+          </div>
         </div>
       </div>
     </div>
