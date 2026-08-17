@@ -860,6 +860,13 @@
   line-height: var(--tmm-leading-caption);
 }
 
+/* Interview question inline step label, e.g. (1/4). */
+.fp-convo__step {
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-faint);
+  white-space: nowrap;
+}
+
 /* Browse escape hatch (no-profile path) below the intro card. */
 .fp-convo__browse {
   align-self: center;

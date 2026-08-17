@@ -86,48 +86,51 @@ test.describe('golden path (ja, 375px)', () => {
     await page.getByRole('link', { name: '食旅をはじめる' }).click();
     await page.waitForURL('**/food-profile');
 
-    // ---- 2. Food Profile conversation — intro → nickname → dietary ----
+    // ---- 2. Food Profile conversation — intro → nickname → 4-step interview ----
     await page.getByText('MOGU MOGUへようこそ！').waitFor();
     await page.getByRole('button', { name: 'はじめる！' }).click();
     await page.getByText('まず、なんてお呼びすればいいですか？').waitFor();
     await page.getByLabel('ニックネーム').fill('ナナミ');
     await page.getByRole('button', { name: 'これでお願いします！' }).click();
-    // Phase 1 first-use shows the Figma dietary category chips as proposed
-    // input, but the prototype still does not collect or evaluate them: MOGU
-    // keeps the safety acknowledgement (Issue #220/#226).
-    await page.getByText('お食事についてお聞かせください（プロトタイプ表示）').waitFor();
-    await page.getByRole('button', { name: '🥚 卵' }).waitFor();
-    await page.getByRole('button', { name: 'アレルギーはありません' }).waitFor();
-    await page.getByRole('button', { name: '🥗 ベジタリアン' }).waitFor();
-    // A proposed chip can be selected as preview input.
+    // Latest-Figma four-question dietary interview (presentation-only fixture):
+    // allergy (1/4) → diet (2/4) → religion (3/4) → dislikes (4/4).
+    await page.getByText('まず、食物アレルギーはありますか？(複数選択)').waitFor();
     await page.getByRole('button', { name: '🥚 卵' }).click();
-    // No free-text dietary field is exposed on the Phase 1 path.
-    await expect(page.locator('#fp-other')).toHaveCount(0);
-    await expect(page.getByText('その他、避けているもの・気になることがあれば入力してください（任意）。')).toHaveCount(0);
+    await page.getByRole('button', { name: '送信' }).click();
+    await page.getByText('普段の食事で、当てはまるものはありますか？').waitFor();
+    await page.getByRole('button', { name: '送信' }).click();
+    await page.getByText('宗教上の理由などで、避けている食べものはありますか？(複数選択)').waitFor();
+    await page.getByRole('button', { name: '送信' }).click();
+    await page.getByText('苦手な食材や味はありましたら、教えてください！(複数選択)').waitFor();
+    await page.getByRole('button', { name: '送信' }).click();
+    // Interview summary with the recommendation-only trust copy.
+    await page.getByText('ありがとうございます！🌿 あなたの食のプロフィールを登録しました。').waitFor();
     // Prototype-continuity nickname (Issue #226): localStorage, cleared on demo
     // reset, never an account/profile.
     expect(await persisted(page, NICKNAME_KEY)).toBe('ナナミ');
     expect(await sessionPersisted(page, NICKNAME_KEY)).toBeNull();
 
-    // Acknowledge the prototype dietary limitation and continue.
-    await page.getByRole('button', { name: '了解しました' }).click();
-    await page.getByText('ありがとうございます、ナナミさん！').waitFor();
+    // Save → latest-Figma post-profile fork → recommend.
     await page.getByRole('button', { name: '保存してつぎへ' }).click();
+    await page.getByText('では、今回はどんな食旅にしましょう？').waitFor();
+    await page.getByRole('button', { name: '自分に合った旅をおすすめしてもらう！' }).click();
     await page.waitForURL('**/explore');
     expect(await persisted(page, FOOD_PROFILE_KEY)).not.toBeNull();
 
     // ---- 3. Exploration conversation — greeting reuses the nickname ----
     await page.getByText('こんにちは、ナナミさん。あなたに合う東京の食旅を探します。').waitFor();
-    await page.getByRole('button', { name: 'さっぱりした味' }).click();
-    await page.getByRole('button', { name: '次へ' }).click();
+    // Latest-Figma question order: Experience → Departure → Travel → Duration →
+    // Taste + Theme.
     await page.getByRole('button', { name: '食べる' }).click();
     await page.getByRole('button', { name: '次へ' }).click();
     await page.getByRole('button', { name: '東京都' }).click();
+    await page.getByRole('button', { name: '次へ' }).click();
     await page.getByRole('button', { name: '1時間以内' }).click();
     await page.getByRole('button', { name: '次へ' }).click();
-    await page.getByRole('button', { name: '自然' }).click();
-    await page.getByRole('button', { name: '次へ' }).click();
     await page.getByRole('button', { name: '半日' }).click();
+    await page.getByRole('button', { name: '次へ' }).click();
+    await page.getByRole('button', { name: 'さっぱりした味' }).click();
+    await page.getByRole('button', { name: '自然' }).click();
     await page.getByRole('button', { name: '結果を見る' }).click();
     await page.waitForURL('**/explore/result');
 
@@ -155,7 +158,12 @@ test.describe('golden path (ja, 375px)', () => {
     await page.getByRole('link', { name: '東京わさびの物語を読む' }).click();
     await page.waitForURL('**/story/wasabi-okutama*');
 
-    // ---- 5. Story → Route ----
+    // ---- 5. Story — latest-Figma nearby-spots + MOGUMOGU point (Issue #224) ----
+    await page.getByRole('heading', { name: '周辺観光スポット' }).waitFor();
+    await page.getByRole('link', { name: '奥多摩観光案内所' }).first().waitFor();
+    await page.getByText('MOGUMOGU ポイント！').waitFor();
+    await page.getByText('奥多摩わさびは、どんな味？').waitFor();
+    // Story → Route.
     await page.getByRole('link', { name: 'モデルルートを見る' }).click();
     await page.waitForURL('**/route*');
 
@@ -214,20 +222,23 @@ test.describe('golden path (ja, 375px)', () => {
     await page.getByRole('button', { name: 'はじめる！' }).click();
     await page.getByLabel('ニックネーム').fill('ナナミ');
     await page.getByRole('button', { name: 'これでお願いします！' }).click();
-    await page.getByRole('button', { name: '了解しました' }).click();
+    await page.getByRole('button', { name: '送信' }).click();
+    await page.getByRole('button', { name: '送信' }).click();
+    await page.getByRole('button', { name: '送信' }).click();
+    await page.getByRole('button', { name: '送信' }).click();
     await page.getByRole('button', { name: '保存してつぎへ' }).click();
+    await page.getByRole('button', { name: '自分に合った旅をおすすめしてもらう！' }).click();
     await page.waitForURL('**/explore');
     await expect(page.locator('.tmm-nav')).toHaveCount(0);
-    await page.getByRole('button', { name: 'さっぱりした味' }).click();
-    await page.getByRole('button', { name: '次へ' }).click();
     await page.getByRole('button', { name: '食べる' }).click();
     await page.getByRole('button', { name: '次へ' }).click();
     await page.getByRole('button', { name: '東京都' }).click();
+    await page.getByRole('button', { name: '次へ' }).click();
     await page.getByRole('button', { name: '1時間以内' }).click();
     await page.getByRole('button', { name: '次へ' }).click();
-    await page.getByRole('button', { name: '自然' }).click();
-    await page.getByRole('button', { name: '次へ' }).click();
     await page.getByRole('button', { name: '半日' }).click();
+    await page.getByRole('button', { name: '次へ' }).click();
+    await page.getByRole('button', { name: '自然' }).click();
     await page.getByRole('button', { name: '結果を見る' }).click();
     await page.waitForURL('**/explore/result');
     await page.getByRole('heading', { name: 'あなたに合う食の旅を見つけました！' }).waitFor();

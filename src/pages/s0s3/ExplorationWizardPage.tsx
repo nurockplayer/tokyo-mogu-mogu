@@ -21,6 +21,7 @@ import { useState, type ReactNode } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useI18n, type LocaleKey } from '../../i18n';
 import { Button, Chip, ProgressBar, StepDots } from '../../ui';
+import { fillTemplate } from '../../lib/exploration';
 import {
   WIZARD_STEP_COUNT,
   type BaseArea,
@@ -212,6 +213,9 @@ function ExplorationWizardInner() {
 
   const [visual, setVisual] = useState<VisualAnswers>(initialVisual);
   const [step, setStep] = useState(0);
+  // Presentation-only departure search text (Figma 8:2608); never a geocoder /
+  // station API and never persisted as canonical data.
+  const [departureSearch, setDepartureSearch] = useState('');
 
   /** Update visual selection and persist the derived canonical answers. */
   function commit(next: VisualAnswers) {
@@ -230,15 +234,15 @@ function ExplorationWizardInner() {
   const canProceed = (() => {
     switch (step) {
       case 0:
-        return visual.tastes.length > 0;
+        return visual.experiences.length > 0;
       case 1:
-        return true; // multi-select, optional
+        return visual.departure !== null;
       case 2:
-        return visual.departure !== null && visual.travel !== null;
+        return visual.travel !== null;
       case 3:
-        return visual.themes.length > 0;
-      case 4:
         return visual.duration !== null;
+      case 4:
+        return visual.tastes.length > 0 || visual.themes.length > 0;
       default:
         return true;
     }
@@ -284,22 +288,34 @@ function ExplorationWizardInner() {
       children: <AssistantQuestion title={t(S2_TITLES[i] ?? 'exQ1Title')} />,
     });
     if (i === 0) {
-      transcript.push({ id: `a${i}`, role: 'user', children: labelsFor(visual.tastes, TASTE_OPTIONS) });
-    } else if (i === 1) {
+      // Experience tiles.
       if (visual.experiences.length > 0) {
         transcript.push({ id: `a${i}`, role: 'user', children: labelsFor(visual.experiences, EXP_OPTIONS) });
       }
-    } else if (i === 2) {
+    } else if (i === 1) {
+      // Departure.
       if (visual.departure !== null) {
-        transcript.push({ id: 'a2a', role: 'user', children: labelFor(visual.departure, DEPARTURE_OPTIONS) });
+        transcript.push({ id: `a${i}`, role: 'user', children: labelFor(visual.departure, DEPARTURE_OPTIONS) });
       }
+    } else if (i === 2) {
+      // Travel time.
       if (visual.travel !== null) {
-        transcript.push({ id: 'a2b', role: 'user', children: labelFor(visual.travel, TRAVEL_OPTIONS) });
+        transcript.push({ id: `a${i}`, role: 'user', children: labelFor(visual.travel, TRAVEL_OPTIONS) });
       }
     } else if (i === 3) {
-      transcript.push({ id: `a${i}`, role: 'user', children: labelsFor(visual.themes, THEME_OPTIONS) });
-    } else if (i === 4 && visual.duration !== null) {
-      transcript.push({ id: `a${i}`, role: 'user', children: labelFor(visual.duration, DURATION_OPTIONS) });
+      // Duration.
+      if (visual.duration !== null) {
+        transcript.push({ id: `a${i}`, role: 'user', children: labelFor(visual.duration, DURATION_OPTIONS) });
+      }
+    } else if (i === 4) {
+      // Taste + theme (combined step).
+      const picks = [
+        ...visual.tastes.map((id) => labelFor(id, TASTE_OPTIONS)),
+        ...visual.themes.map((id) => labelFor(id, THEME_OPTIONS)),
+      ];
+      if (picks.length > 0) {
+        transcript.push({ id: `a${i}`, role: 'user', children: picks.join('、') });
+      }
     }
   }
 
@@ -380,33 +396,43 @@ function ExplorationWizardInner() {
   function renderStepConversation() {
     switch (step) {
       case 0:
+        // Experience tiles (Figma 4:2101).
         return (
           <>
             <ChatQuestion title={t(S2_TITLES[0])}>
-              {renderMulti(TASTE_OPTIONS, visual.tastes, (id) => toggleMulti('tastes', id))}
+              {renderTiles(EXP_OPTIONS, visual.experiences, (id) => toggleMulti('experiences', id))}
             </ChatQuestion>
-            {visual.tastes.length > 0 ? <ChatReply>{labelsFor(visual.tastes, TASTE_OPTIONS)}</ChatReply> : null}
+            {visual.experiences.length > 0 ? <ChatReply>{labelsFor(visual.experiences, EXP_OPTIONS)}</ChatReply> : null}
             <p className="fp-convo__hint">{t(S2_HINTS[0])}</p>
           </>
         );
       case 1:
+        // Departure (Figma 8:2436 / 8:2608) — search input is presentation-only.
         return (
           <>
             <ChatQuestion title={t(S2_TITLES[1])}>
-              {renderTiles(EXP_OPTIONS, visual.experiences, (id) => toggleMulti('experiences', id))}
+              {renderSingle(DEPARTURE_OPTIONS, visual.departure, (id) => selectSingle('departure', id))}
+              <label htmlFor="fp-departure-search" className="fp-convo__label">
+                {t('exAreaSearchLabel')}
+              </label>
+              <input
+                id="fp-departure-search"
+                className="tmm-wizard__text"
+                type="text"
+                value={departureSearch}
+                onChange={(e) => setDepartureSearch(e.target.value)}
+                placeholder={t('exAreaSearchPlaceholder')}
+              />
             </ChatQuestion>
-            {visual.experiences.length > 0 ? <ChatReply>{labelsFor(visual.experiences, EXP_OPTIONS)}</ChatReply> : null}
+            {visual.departure !== null ? <ChatReply>{labelFor(visual.departure, DEPARTURE_OPTIONS)}</ChatReply> : null}
             <p className="fp-convo__hint">{t(S2_HINTS[1])}</p>
           </>
         );
       case 2:
+        // Travel time (Figma 23:3131).
         return (
           <>
-            <ChatQuestion title={t('exQ3AreaLabel')}>
-              {renderSingle(DEPARTURE_OPTIONS, visual.departure, (id) => selectSingle('departure', id))}
-            </ChatQuestion>
-            {visual.departure !== null ? <ChatReply>{labelFor(visual.departure, DEPARTURE_OPTIONS)}</ChatReply> : null}
-            <ChatQuestion title={t('exQ3TravelLabel')}>
+            <ChatQuestion title={t(S2_TITLES[2])}>
               {renderSingle(TRAVEL_OPTIONS, visual.travel, (id) => selectSingle('travel', id))}
             </ChatQuestion>
             {visual.travel !== null ? <ChatReply>{labelFor(visual.travel, TRAVEL_OPTIONS)}</ChatReply> : null}
@@ -414,22 +440,34 @@ function ExplorationWizardInner() {
           </>
         );
       case 3:
+        // Duration (Figma 23:3207).
         return (
           <>
             <ChatQuestion title={t(S2_TITLES[3])}>
-              {renderMulti(THEME_OPTIONS, visual.themes, (id) => toggleMulti('themes', id))}
+              {renderSingle(DURATION_OPTIONS, visual.duration, (id) => selectSingle('duration', id))}
             </ChatQuestion>
-            {visual.themes.length > 0 ? <ChatReply>{labelsFor(visual.themes, THEME_OPTIONS)}</ChatReply> : null}
+            {visual.duration !== null ? <ChatReply>{labelFor(visual.duration, DURATION_OPTIONS)}</ChatReply> : null}
             <p className="fp-convo__hint">{t(S2_HINTS[3])}</p>
           </>
         );
       case 4:
+        // Taste + theme as the 2/2 sub-steps of one conversation turn (Figma 23:3262).
         return (
           <>
-            <ChatQuestion title={t(S2_TITLES[4])}>
-              {renderSingle(DURATION_OPTIONS, visual.duration, (id) => selectSingle('duration', id))}
+            <ChatQuestion title={`${t('exQ5TasteLabel')} ${fillTemplate(t('exSubStep'), { n: '1', total: '2' })}`}>
+              {renderMulti(TASTE_OPTIONS, visual.tastes, (id) => toggleMulti('tastes', id))}
             </ChatQuestion>
-            {visual.duration !== null ? <ChatReply>{labelFor(visual.duration, DURATION_OPTIONS)}</ChatReply> : null}
+            <ChatQuestion title={`${t('exQ5ThemeLabel')} ${fillTemplate(t('exSubStep'), { n: '2', total: '2' })}`}>
+              {renderMulti(THEME_OPTIONS, visual.themes, (id) => toggleMulti('themes', id))}
+            </ChatQuestion>
+            {visual.tastes.length > 0 || visual.themes.length > 0 ? (
+              <ChatReply>
+                {[
+                  ...visual.tastes.map((id) => labelFor(id, TASTE_OPTIONS)),
+                  ...visual.themes.map((id) => labelFor(id, THEME_OPTIONS)),
+                ].join('、')}
+              </ChatReply>
+            ) : null}
             <p className="fp-convo__hint">{t(S2_HINTS[4])}</p>
           </>
         );
