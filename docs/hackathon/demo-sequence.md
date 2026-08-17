@@ -1,33 +1,37 @@
 # Deterministic Demo Sequence（決定論デモ手順）/ Play Sheet
 
-**Status**: 2026-08-16 更新（Issue #217 Phase 1 会話型ガイド）。実行順は
-`e2e/golden-path.test.ts` の操作と 1:1 対応。production bottom-nav は demo path
-に表示されない（My / MOGU / Discover は direct URL で到達する Phase 2 面）。
-ナレーション台本は `docs/demo-script.md`、審査軸との対応は
-`docs/hackathon/judging-axis-evidence.md`。
+**Status**: 2026-08-17 更新（Issue #224 latest-Figma parity マージ後、main `9c0d404`）。実行順は
+`src/pages/s0s3/phase1-parity.test.ts` と `e2e/golden-path.test.ts` の操作に一致。
+production bottom-nav は demo path に表示されない（My / MOGU / Discover は direct URL で到達する Phase 2 面）。
+ナレーション台本は `docs/demo-script.md`、当日オペは `docs/hackathon/2026-08-23-demo-runbook.md`、
+審査軸との対応は `docs/hackathon/judging-axis-evidence.md`。
 
 **デモ前に必ず実行**:
 1. Header の **demo reset control**（`DemoResetButton`）→ 確認 → `localStorage` と
-   session nickname をクリア（`tmm:foodProfile:v1` / `tmm:moguRecent:v1` /
-   `tmm:savedRoutes` / `tmm:nickname:v1`）。
+   nickname をクリア（`tmm:foodProfile:v1` / `tmm:moguRecent:v1` /
+   `tmm:savedRoutes` / `tmm:nickname:v1`。`tmm:locale` は残るので手動で ja へ）。
 2. ロケール **ja**、ビューポート **375px**（mobile）。
 3. 端末 / ブラウザのネットワークは不必要（コア journey はすべてローカルに同梱。
 
    Spot の外部リンク CTA だけネットワークが要る。`demo-fallbacks.md` 参照）。
 
-## Sequence（目安 80 s / 上限 90 s）
+## Sequence（目安 85 s / 上限 90 s）
 
 | # | Step | 操作（exact tap / click） | 確認ポイント | 時間 |
 |---|---|---|---|---|
 | 0 | 前準備 | DemoResetButton → 確認、ja、375px | 空状態 | 5 s |
-| 1 | **Landing** | `/` で CTA `わたしの食文化の旅をはじめる` | h1 `東京の食文化と出会う旅`、bottom-nav なし | 5 s |
-| 2 | **Food Profile 会話** | `MOGU MOGUへようこそ！` → `はじめる！` → nickname `ナナミ` → `これでお願いします！` → お食事のご案内 `了解しました` → `保存してつぎへ` | URL → `/explore`、`tmm:nickname:v1` は localStorage のみ（デモリセット時に消去） | 12 s |
-| 3 | **Exploration 会話** | 挨拶確認 → ①`さっぱり・爽やか`→`次へ` ②`食べる`→`次へ` ③`奥多摩`+`60分以内`→`次へ` ④`自然・景色`→`次へ` ⑤`半日（日帰り）`→`結果を見る` | URL → `/explore/result`、挨拶に `ナナミ` | 20 s |
-| 4 | **Result** | カード `東京わさび` + `.tmm-result-match` = `96%` `マッチ度` + prototype 注記 | `.tmm-result-card__title` = 東京わさび | 10 s |
-| 5 | **Story** | `東京わさびの物語を読む` | `/story/wasabi-okutama`、`味わうことが、継承になる` | 15 s |
-| 6 | **Route** | `モデルルートを見る` | `/route`、h1 `奥多摩わさび紀行` | 10 s |
-| 7 | **Spot** | timeline ピン `奥多摩観光案内所` → `➕ 旅程に追加する` → `旅程に追加しました` → `閉じる` | `/spot/okutama-tourism-office`、h1 `奥多摩観光案内所` | 10 s |
-| 8 | **Save** | `ルートに戻る` → `🔖 この旅程を保存する` → `旅程を保存しました` | `tmm:savedRoutes` に `奥多摩わさび紀行` | 5 s |
+| 1 | **Landing** | `/` で CTA `食旅をはじめる` | h1 `東京のローカルな食文化を体験しよう。`、bottom-nav なし | 5 s |
+| 2 | **Food Profile 導入** | `はじめる！` | h1 `フードプロフィールをつくる`。`登録なし、自分で見てみる` は未確定（押さない） | 3 s |
+| 3 | **Nickname** | 入力 `ナナミ` → `これでお願いします！`（`スキップ` 可） | `tmm:nickname:v1` は localStorage（デモリセットで消去） | 5 s |
+| 4 | **Dietary Interview（4 ステップ）** | ①アレルギー `アレルギーはありません`→`送信` ②食生活 `特になし`→`送信` ③宗教 `特になし`→`送信` ④苦手 `特になし`→`送信` | ステップカウンタ `n/4`。回答は評価・保存されない | 12 s |
+| 5 | **Summary** | `保存してつぎへ` | 選択内容の確認 | 5 s |
+| 6 | **Post-profile fork** | `自分に合った旅をおすすめしてもらう！` | `自分で旅を探す` は未確定スタブ（`おすすめの旅へ戻る` のみ） | 3 s |
+| 7 | **Exploration（5 ステップ）** | 1/5 `食べる`→`次へ` 2/5 `東京都`→`次へ` 3/5 `1時間以内`→`次へ` 4/5 `半日`→`次へ` 5/5 味 `やさしい味`→`送信` テーマ `自然`→`送信`→`結果を見る` | URL → `/explore`。挨拶に `ナナミ` | 22 s |
+| 8 | **Result** | カード `東京わさび`（`96%` `マッチ度`）＋ `奥多摩やまめ`（`91%`） | prototype 注記 `※ このマッチ度はデモ用のプロトタイプ表示…` | 8 s |
+| 9 | **Story** | `東京わさびの物語を読む` | `/story/wasabi-okutama`、`味わうことが、継承になる` | 12 s |
+| 10 | **Route** | `モデルルートを見る` | `/route`、h1 `奥多摩わさび紀行`、`デモ用ルート` | 8 s |
+| 11 | **Spot** | timeline ピン `奥多摩観光案内所` → `➕ 旅程に追加する` → `旅程に追加しました` → `閉じる` | `/spot/okutama-tourism-office`、h1 `奥多摩観光案内所` | 8 s |
+| 12 | **Save** | `ルートに戻る` → `🔖 この旅程を保存する` → `旅程を保存しました` | `tmm:savedRoutes` に `奥多摩わさび紀行` | 4 s |
 
 **合計: 約 85 s**。production bottom-nav は Phase 1 の demo path に表示されない。
 
@@ -42,7 +46,7 @@
 
 ## Fixture（demo-scoped）/ Deterministic fixtures
 
-- Result: **東京わさび**（`wasabi-okutama`）
+- Result: **東京わさび**（`wasabi-okutama`）＋ secondary **奥多摩やまめ**（`91%`）
 - Route: **奥多摩わさび紀行**（`okutama-wasabi-journey`、half-day default）
 - Spot: **奥多摩観光案内所**（`okutama-tourism-office`）
 - Story tagline: `味わうことが、継承になる`
@@ -58,5 +62,6 @@ official source 由来の editorial コンテンツ）。optional ビート（�
 ## 関連
 
 - 台本: `docs/demo-script.md`
+- 当日オペ: `docs/hackathon/2026-08-23-demo-runbook.md`
 - 失敗時: `docs/hackathon/demo-fallbacks.md`
-- 検証: `e2e/golden-path.test.ts`（ja, 375px）、`docs/ia-qa-report.md`
+- 検証: `e2e/golden-path.test.ts`（ja, 375px）、`src/pages/s0s3/phase1-parity.test.ts`

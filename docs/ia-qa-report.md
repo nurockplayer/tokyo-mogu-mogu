@@ -1,5 +1,11 @@
 # App IA QA Verification Report (Issue #82)
 
+> **Status: HISTORICAL / DEPRECATED for 8/23 (2026-08-17).** This report
+> verifies the pre-Phase-1 production App IA (`Home / Discover / MOGU / My`,
+> Issue #92), which is preserved but hidden from the 8/23 Phase 1 demo path.
+> The current 8/23 conversational guided journey is documented in
+> `docs/hackathon/2026-08-23-demo-runbook.md` and `docs/demo-script.md`.
+
 Tracking Issue: #82
 
 This report records the real-browser verification of the current App IA
