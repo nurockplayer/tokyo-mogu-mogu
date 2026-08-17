@@ -27,7 +27,6 @@ interface Journey {
   nicknameConfirm: string;
   interviewSend: string;
   forkRecommend: string;
-  next: string;
   taste: string;
   eat: string;
   okutama: string;
@@ -52,7 +51,6 @@ const JOURNEY: Record<Locale, Journey> = {
     nicknameConfirm: 'That’s me!',
     interviewSend: 'Send',
     forkRecommend: 'Recommend a journey for me!',
-    next: 'Next',
     taste: 'Refreshing',
     eat: 'Eat',
     okutama: 'Tokyo',
@@ -75,7 +73,6 @@ const JOURNEY: Record<Locale, Journey> = {
     nicknameConfirm: '就用這個！',
     interviewSend: '送出',
     forkRecommend: '推薦適合我的旅程！',
-    next: '下一步',
     taste: '清爽',
     eat: '吃',
     okutama: '東京都',
@@ -137,15 +134,12 @@ async function completeJourney(page: Page, locale: Locale): Promise<void> {
   await page.waitForURL('**/explore');
 
   // Exploration conversation (latest-Figma order: Experience → Departure →
-  // Travel → Duration → Taste + Theme).
+  // Travel → Duration → Taste + Theme). Selecting a quick reply advances the
+  // turn; only the multi-select Taste + Theme stage uses its local confirm.
   await page.getByRole('button', { name: j.eat }).click();
-  await page.getByRole('button', { name: j.next }).click();
   await page.getByRole('button', { name: j.okutama }).click();
-  await page.getByRole('button', { name: j.next }).click();
   await page.getByRole('button', { name: j.travel60 }).click();
-  await page.getByRole('button', { name: j.next }).click();
   await page.getByRole('button', { name: j.halfDay }).click();
-  await page.getByRole('button', { name: j.next }).click();
   await page.getByRole('button', { name: j.taste }).click();
   await page.getByRole('button', { name: j.nature }).click();
   await page.getByRole('button', { name: j.done }).click();
@@ -203,17 +197,14 @@ test.describe('Phase 1 constrained options (ja, 375px)', () => {
     await page.getByRole('button', { name: '作る' }).waitFor();
     await page.getByRole('button', { name: '産地を訪ねる' }).waitFor();
     await page.getByRole('button', { name: '作る' }).click();
-    await page.getByRole('button', { name: '次へ' }).click();
-    // Departure: Figma controls, every choice selectable.
-    await page.getByRole('button', { name: '東京都' }).click();
+    // Departure: Figma controls, every choice selectable (tapping one advances).
+    await page.getByRole('button', { name: '東京都' }).waitFor();
     await page.getByRole('button', { name: '周辺' }).waitFor();
-    await page.getByRole('button', { name: '次へ' }).click();
+    await page.getByRole('button', { name: '東京都' }).click();
     // Travel: every Figma choice selectable.
     await page.getByRole('button', { name: '2時間以内', exact: true }).click();
-    await page.getByRole('button', { name: '次へ' }).click();
     // Duration: including "not decided yet".
     await page.getByRole('button', { name: 'まだ決めていない' }).click();
-    await page.getByRole('button', { name: '次へ' }).click();
     // Taste + theme: the full chip sets, including daily-life theme.
     await page.getByRole('button', { name: '濃厚な味' }).waitFor();
     await page.getByRole('button', { name: '甘いもの' }).waitFor();
@@ -277,7 +268,6 @@ async function jaReachExplorationFirstStep(page: Page): Promise<void> {
 async function jaReachDepartureStep(page: Page): Promise<void> {
   await jaReachExplorationFirstStep(page);
   await page.getByRole('button', { name: '食べる' }).click();
-  await page.getByRole('button', { name: '次へ' }).click();
   await page.getByRole('button', { name: '東京都' }).waitFor();
 }
 
@@ -292,16 +282,13 @@ test.describe('Phase 1 Figma departure × travel-time choices (ja, 375px)', () =
     await page.getByRole('button', { name: '東京都' }).waitFor();
     await page.getByRole('button', { name: '周辺' }).waitFor();
     await page.getByRole('button', { name: '東京都' }).click();
-    await page.getByRole('button', { name: '次へ' }).click();
     // Travel is its own step with every Figma choice selectable.
     for (const label of ['30分以内', '1時間以内', '1時間30分以内', '2時間以内', '時間は気にしない']) {
       await page.getByRole('button', { name: label, exact: true }).waitFor();
     }
     // A long travel choice is selectable and the Result still converges to wasabi.
     await page.getByRole('button', { name: '2時間以内', exact: true }).click();
-    await page.getByRole('button', { name: '次へ' }).click();
     await page.getByRole('button', { name: '半日' }).click();
-    await page.getByRole('button', { name: '次へ' }).click();
     await page.getByRole('button', { name: '自然' }).click();
     await page.getByRole('button', { name: '結果を見る' }).click();
     await page.waitForURL('**/explore/result');

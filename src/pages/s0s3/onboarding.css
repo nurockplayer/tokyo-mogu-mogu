@@ -818,6 +818,17 @@
   line-height: var(--tmm-leading-caption);
 }
 
+/* Active Exploration turn: auto-scroll target that clears the sticky shell bar. */
+.fp-convo__active {
+  scroll-margin-top: 72px;
+}
+
+/* Local multi-select confirm inside the Taste + Theme turn (Issue #230). */
+.fp-convo__confirm {
+  align-self: flex-start;
+  margin-top: var(--tmm-space-1);
+}
+
 /* Figma dietary category chips (Issue #226): grouped proposed-input chips. */
 .fp-dietary {
   margin-top: var(--tmm-space-3);
