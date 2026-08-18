@@ -1,11 +1,12 @@
 /**
- * Food Profile sequential interview regression gate (375px, ja).
+ * Food Profile sequential interview regression gates (375px, ja).
  *
- * One user activation must advance at most one interview turn — the same
- * stale/double-activation protection the Exploration uses (#230). Two
- * activations ~80ms apart on the same `送信` button must NOT skip a question
- * (Q1 → Q3). Interaction/state assertions only — no brittle full-page
- * snapshots.
+ * One user activation must advance at most one interview turn. The earlier
+ * guard only rejected stale closures; a realistic accidental second tap
+ * (50–120ms) lands on the *newly rendered* live 送信 button whose fresh closure
+ * passes the stale-step guard. These tests reproduce that real failure mode
+ * across 50/80/120ms and lock the transition cooldown that rejects it, plus
+ * the deliberate Q2 → Q3 progression that must still work after the window.
  */
 import { test, expect, type Page } from '@playwright/test';
 
@@ -39,30 +40,48 @@ async function reachFirstInterviewQuestion(page: Page): Promise<void> {
 test.describe('Food Profile sequential interview (ja, 375px)', () => {
   test.use({ locale: 'ja-JP' });
 
-  test('1. Rapid/double activation on 送信 advances at most one turn (no Q1→Q3 skip)', async ({
+  // Realistic rapid double activation across the reproduced 50–120ms window.
+  for (const delay of [50, 80, 120]) {
+    test(`rapid double activation (${delay}ms, live button) advances at most one turn (no Q1→Q3 skip)`, async ({
+      page,
+    }) => {
+      await reachFirstInterviewQuestion(page);
+      await expect(page.getByText('食物アレルギーはありますか')).toBeVisible();
+
+      // Click the live 送信, then ~delay ms later re-query and click the newly
+      // rendered live 送信 button. The second tap is dispatched via evaluate so
+      // it stays inside the real failure window (Playwright's actionability
+      // wait would push it past the transition cooldown).
+      await page.getByRole('button', { name: '送信' }).click();
+      await page.waitForTimeout(delay);
+      await page.evaluate(() => {
+        const send = Array.from(document.querySelectorAll('button')).find(
+          (el) => el.textContent?.trim() === '送信',
+        ) as HTMLButtonElement | undefined;
+        if (send) send.click();
+      });
+
+      // Q2 (diet) stays the active turn; Q3 (religious) must not appear.
+      await expect(page.getByText('普段の食事で、当てはまるものはありますか？').first()).toBeVisible();
+      await expect(page.getByText('宗教上の理由などで')).toHaveCount(0);
+
+      // Exactly one user reply was appended (nickname + Q1 reply = 2); a skip
+      // would have produced 3.
+      await expect(page.locator('.fp-convo__msg--user')).toHaveCount(2);
+    });
+  }
+
+  test('2. After the protection window, deliberate Q2 → Q3 progression still works', async ({
     page,
   }) => {
     await reachFirstInterviewQuestion(page);
-    await expect(page.getByText('食物アレルギーはありますか')).toBeVisible();
-
-    // Two synchronous activations on the same 送信 button (as a fast double
-    // tap would dispatch) must commit one answer and advance exactly one turn.
-    await page.evaluate(() => {
-      const send = Array.from(document.querySelectorAll('button')).find(
-        (el) => el.textContent?.trim() === '送信',
-      ) as HTMLButtonElement | undefined;
-      if (!send) throw new Error('send button not found');
-      send.click();
-      send.click();
-    });
-
-    // Exactly one step advanced: Q2 (diet) is the current turn, Q3 (religious)
-    // must not appear — a double-advance would have skipped straight to Q3.
+    await page.getByRole('button', { name: '送信' }).click();
     await expect(page.getByText('普段の食事で、当てはまるものはありますか？').first()).toBeVisible();
-    await expect(page.getByText('宗教上の理由などで')).toHaveCount(0);
 
-    // One user-answer bubble joined the transcript (nickname + Q1 reply = 2);
-    // a Q1 → Q3 skip would have produced 3.
-    await expect(page.locator('.fp-convo__msg--user')).toHaveCount(2);
+    // Wait past the short transition cooldown, then a single deliberate
+    // activation must advance Q2 → Q3.
+    await page.waitForTimeout(300);
+    await page.getByRole('button', { name: '送信' }).click();
+    await expect(page.getByText('宗教上の理由などで、避けている食べものはありますか？(複数選択)').first()).toBeVisible();
   });
 });

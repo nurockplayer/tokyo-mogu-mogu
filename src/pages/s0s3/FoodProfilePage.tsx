@@ -261,6 +261,22 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   // skip a question (same stale-activation protection as the Exploration).
   const stepRef = useRef(step);
   stepRef.current = step;
+  // Transition lock: a realistic accidental second tap (50–120ms) lands on the
+  // *newly rendered* live `送信` button whose fresh closure already passes the
+  // stale-step guard — so the stale guard alone cannot stop it. While the lock
+  // is held the reveal button is disabled, so a second tap is inert. Playwright
+  // (and a deliberate user reading the next question) waits for the short
+  // window to pass, so no legitimate progression is blocked. Deliberate reading
+  // always exceeds this window, so no real delay is introduced.
+  const [advanceLocked, setAdvanceLocked] = useState(false);
+  const unlockTimerRef = useRef<number | null>(null);
+  const ADVANCE_COOLDOWN_MS = 150;
+  useEffect(
+    () => () => {
+      if (unlockTimerRef.current !== null) window.clearTimeout(unlockTimerRef.current);
+    },
+    [],
+  );
   const [answered, setAnswered] = useState<Set<number>>(new Set());
   const [introChoice, setIntroChoice] = useState<IntroChoice | null>(null);
   const [nicknameInput, setNicknameInput] = useState(() => loadNickname() ?? '');
@@ -446,6 +462,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
         // One activation advances exactly one turn; a stale/double activation
         // is rejected so it cannot skip a question (Issue #230 protection).
         if (next !== stepRef.current + 1) return;
+        lockAdvance();
         setStep(next);
       }
       return;
@@ -462,11 +479,26 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
     if (step >= FIRST_CATEGORY_STEP && step < lastCategoryStep) {
       const next = step + 1;
       if (next !== stepRef.current + 1) return;
+      lockAdvance();
       setStep(next);
       return;
     }
     // After the last category step → the post-category step.
     setStep(postCategoryStep);
+  }
+
+  /** Hold the transition lock so the freshly revealed next-turn control is
+   *  inert against a rapid accidental second activation, then release it after
+   *  the short window. */
+  function lockAdvance() {
+    if (unlockTimerRef.current !== null) {
+      window.clearTimeout(unlockTimerRef.current);
+    }
+    setAdvanceLocked(true);
+    unlockTimerRef.current = window.setTimeout(() => {
+      setAdvanceLocked(false);
+      unlockTimerRef.current = null;
+    }, ADVANCE_COOLDOWN_MS);
   }
 
   /** Save the session nickname (blank = skip) and continue to the first question. */
@@ -613,6 +645,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
               }));
             }}
             onSend={goNext}
+            disabled={advanceLocked}
           />
         ) : null}
 
@@ -901,6 +934,7 @@ function InterviewStep({
   onToggle,
   onOtherChange,
   onSend,
+  disabled = false,
 }: {
   question: InterviewQuestion;
   stepNumber: number;
@@ -910,6 +944,7 @@ function InterviewStep({
   onToggle: (value: string) => void;
   onOtherChange: (value: string) => void;
   onSend: () => void;
+  disabled?: boolean;
 }) {
   const { t } = useI18n();
   const [showOther, setShowOther] = useState(other.length > 0);
@@ -967,7 +1002,7 @@ function InterviewStep({
             </>
           ) : null}
           <div className="fp-convo__choices">
-            <Button variant="primary" className="tmm-btn--block" onClick={onSend}>
+            <Button variant="primary" className="tmm-btn--block" onClick={onSend} disabled={disabled}>
               {t('fpIvSend')}
             </Button>
           </div>
