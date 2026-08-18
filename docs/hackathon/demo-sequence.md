@@ -1,6 +1,6 @@
 # Deterministic Demo Sequence（決定論デモ手順）/ Play Sheet
 
-**Status**: 2026-08-17 更新（Issue #224 latest-Figma parity マージ後、main `9c0d404`）。実行順は
+**Status**: 2026-08-19 更新（current main `63fdbb4` 時点の runtime に一致）。実行順は
 `src/pages/s0s3/phase1-parity.test.ts` と `e2e/golden-path.test.ts` の操作に一致。
 production bottom-nav は demo path に表示されない（My / MOGU / Discover は direct URL で到達する Phase 2 面）。
 ナレーション台本は `docs/demo-script.md`、当日オペは `docs/hackathon/2026-08-23-demo-runbook.md`、
@@ -26,10 +26,10 @@ production bottom-nav は demo path に表示されない（My / MOGU / Discover
 | 4 | **Dietary Interview（4 ステップ）** | ①アレルギー `アレルギーはありません`→`送信` ②食生活 `特になし`→`送信` ③宗教 `特になし`→`送信` ④苦手 `特になし`→`送信` | ステップカウンタ `n/4`。回答は評価・保存されない | 12 s |
 | 5 | **Summary** | `保存してつぎへ` | 選択内容の確認 | 5 s |
 | 6 | **Post-profile fork** | `自分に合った旅をおすすめしてもらう！` | `自分で旅を探す` は未確定スタブ（`おすすめの旅へ戻る` のみ） | 3 s |
-| 7 | **Exploration（5 ステップ）** | 1/5 `食べる`→`次へ` 2/5 `東京都`→`次へ` 3/5 `1時間以内`→`次へ` 4/5 `半日`→`次へ` 5/5 味 `やさしい味`→`送信` テーマ `自然`→`送信`→`結果を見る` | URL → `/explore`。挨拶に `ナナミ` | 22 s |
+| 7 | **Exploration（5 ステップ）** | 1/5 `食べる` 2/5 `東京都` 3/5 `1時間以内` 4/5 `半日` 5/5 味 `さっぱりした味`・テーマ `自然`（1/2・2/2）→ `結果を見る` | URL → `/explore`。挨拶に `ナナミ` | 22 s |
 | 8 | **Result** | カード `東京わさび`（`96%` `マッチ度`）＋ `奥多摩やまめ`（`91%`） | prototype 注記 `※ このマッチ度はデモ用のプロトタイプ表示…` | 8 s |
 | 9 | **Story** | `東京わさびの物語を読む` | `/story/wasabi-okutama`、`味わうことが、継承になる` | 12 s |
-| 10 | **Route** | `モデルルートを見る` | `/route`、h1 `奥多摩わさび紀行`、`デモ用ルート` | 8 s |
+| 10 | **Route** | `この食文化の観光ルートを作成する` | `/route`、h1 `奥多摩わさび紀行`、`デモ用ルート` | 8 s |
 | 11 | **Spot** | timeline ピン `奥多摩観光案内所` → `➕ 旅程に追加する` → `旅程に追加しました` → `閉じる` | `/spot/okutama-tourism-office`、h1 `奥多摩観光案内所` | 8 s |
 | 12 | **Save** | `ルートに戻る` → `🔖 この旅程を保存する` → `旅程を保存しました` | `tmm:savedRoutes` に `奥多摩わさび紀行` | 4 s |
 
@@ -41,7 +41,7 @@ production bottom-nav は demo path に表示されない（My / MOGU / Discover
 |---|---|---|
 | MOGU | `/mogu` を直接開く → `このおすすめを見る` → `東京わさびの物語を読む` | `/mogu` → `/explore/result` → `/story/wasabi-okutama`。戻ると MOGU 方向へ |
 | Discover | `/discover` を直接開く → `東京わさび` → Story | `/discover` 閲覧では MOGU Recent が増えない |
-| Discover（第2スライス #163） | `/discover` を直接開く → `青梅・沢井の日本酒` → Story → `モデルルートを見る` → timeline ピン `小澤酒造` → Spot | `/discover` → `/story/sake-ome` → `/route` → `/spot/sawai-ozawa-shuzo`。source-backed の playable slice（fixture ではない） |
+| Discover（第2スライス #163） | `/discover` を直接開く → `青梅・沢井の日本酒` → Story → `この食文化の観光ルートを作成する` → timeline ピン `小澤酒造` → Spot | `/discover` → `/story/sake-ome` → `/route` → `/spot/sawai-ozawa-shuzo`。source-backed の playable slice（fixture ではない） |
 | Badges | `/my` を直接開く → Badges entry | **Stretch**。時間があるときのみ |
 
 ## Fixture（demo-scoped）/ Deterministic fixtures

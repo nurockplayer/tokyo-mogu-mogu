@@ -2,7 +2,7 @@
 
 **対象**: 8/23 ハッカソン審査デモの当日運用。プレゼンター（エンジニア以外も可）が 60 秒で読んで回せるように作った。**この手帳は 8/23 のデモ実行だけに使う。** 永続 Product の仕様は `docs/specs/product/product-scope-invariant.md` を正とする。
 
-**検証対象ビルド**: https://tokyo-mogu-mogu.pages.dev （commit `9c0d404` = `main` HEAD、#228 merge 後に 2026-08-17 再実測）
+**検証対象ビルド**: https://tokyo-mogu-mogu.pages.dev （current main commit `63fdbb4`、2026-08-19 時点）
 
 - 詳細なタップ手順は `docs/hackathon/demo-sequence.md`、台本（ナレーション）は `docs/demo-script.md` を参照。この手帳は手順を重複させず、**当日に必要な確定事実・境界・リカバリだけ**を載せる。
 - 失敗時フローは `docs/hackathon/demo-fallbacks.md`、リハーサルは `docs/hackathon/rehearsal-checklist.md`。
@@ -20,9 +20,9 @@
 
 ## 1. 当日の流れ
 
-デモ順とタップは `docs/hackathon/demo-sequence.md` の表どおり。**当日の実際のボタン文言は下記が正**（2026-08-17、`9c0d404` で実測）。
+デモ順とタップは `docs/hackathon/demo-sequence.md` の表どおり。**当日の実際のボタン文言は下記が正**（2026-08-19 時点、current main `63fdbb4`）。
 
-| 画面 | 当日の文言（実測） | 確定チェックポイント |
+| 画面 | 当日の文言 | 確定チェックポイント |
 |---|---|---|
 | Landing | CTA `食旅をはじめる` | h1 `東京のローカルな食文化を体験しよう。` |
 | Food Profile 導入 | `はじめる！` / `登録なし、自分で見てみる` | h1 `フードプロフィールをつくる` |
@@ -33,11 +33,11 @@
 | Exploration（5 ステップ） | 1/5 体験（🍽️ などタイル）→ 2/5 出発（`東京都`/`周辺`）→ 3/5 移動（`1時間以内` など）→ 4/5 長さ（`半日`/`1日`）→ 5/5 味+テーマ（1/2 味・2/2 テーマ）→ `結果を見る` | URL → `/explore` |
 | Result | `96%マッチ度` カード（primary・東京わさび）＋ `91%` カード（secondary・奥多摩やまめ） | `※ このマッチ度はデモ用のプロトタイプ表示…` の注記あり |
 | Story | `東京わさびの物語を読む` | `味わうことが、継承になる`、`周辺観光スポット`、`MOGUMOGU ポイント！` |
-| Route | `モデルルートを見る` | h1 `奥多摩わさび紀行`、`デモ用ルート` ラベル |
+| Route | `この食文化の観光ルートを作成する` | h1 `奥多摩わさび紀行`、`デモ用ルート` ラベル |
 | Spot | timeline ピン `奥多摩観光案内所` → `➕ 旅程に追加する` | h1 `奥多摩観光案内所` |
 | Save | `ルートに戻る` → `🔖 この旅程を保存する` | 保存で `tmm:savedRoutes` に書き込み |
 
-**決定論**: どの選択肢の組み合わせでも 96% 東京わさびになる（candidate set は `wasabi-okutama` 単一。`9c0d404` 実測で代替選択パスも収束）。
+**決定論**: どの選択肢の組み合わせでも 96% 東京わさび（primary）＋ 91% 奥多摩やまめ（secondary）の 2 件表示に収束する（Result は固定 2 件の fixture。`63fdbb4` の e2e で検証）。
 
 **補足（実測）**:
 - nickname は `tmm:nickname:v1`（localStorage）に保存（デモリセットで消去）。再訪時は Landing が `こんにちは、ナナミさん！ あなただけの食旅を見つけよう!` ＋ `私の食旅（過去の旅）` になる（回帰確認済み）。
@@ -75,12 +75,12 @@
 
 ## 4. 検証済み事実（エビデンス）
 
-2026-08-17、本番ビルド https://tokyo-mogu-mogu.pages.dev（commit `9c0d404`、#228 マージ後）に Playwright（chromium、375px）で実測。**正規パス各ステップ PASS、console / page error 0**。
+2026-08-17、本番ビルド https://tokyo-mogu-mogu.pages.dev（commit `9c0d404`、#228 マージ後）に Playwright（chromium、375px）で実測し、正規パス各ステップ PASS、console / page error 0。2026-08-19 時点の current main `63fdbb4` では、以下の文言・挙動を i18n ソース / e2e / vitest で再確認（ブラウザ再実測は本更新では未実施）。
 
 - ✅ **正規パス**（ja/375px）: Landing → Food Profile 導入（`はじめる！`/`登録なし、自分で見てみる`）→ nickname → Dietary Interview 4 ステップ（ステップカウンタ 1/4–4/4、各 `送信`）→ Summary（`保存してつぎへ`）→ Post-profile fork（`自分に合った旅をおすすめしてもらう！`）→ Exploration 5 ステップ（体験 → 出発 → 移動 → 長さ → 味+テーマ）→ Result（96% primary ＋ 91% secondary、prototype 注記）→ Story → Route（`デモ用ルート` ＋ `リアルタイムの混雑情報ではありません`）→ Spot → 旅程保存。全て PASS。
 - ✅ **Dietary 順序**: アレルギー → 食生活・スタイル → 宗教 → 苦手（実測）。
 - ✅ **fork**: `自分で旅を探す` は `おすすめの旅へ戻る` のみ（destination 未確定のまま、発明していない）。
-- ✅ **決定論**: candidate set 単一のためどの選択でも 96% 東京わさびに収束。
+- ✅ **決定論**: Result は固定 2 件 fixture（96% 東京わさび primary ＋ 91% 奥多摩やまめ secondary）。どの選択でも同じ 2 件表示に収束。
 - ✅ **デモリセット**: 2 段階確認 → 4 キー消去 → クリーン初回表示。
 - ✅ **nickname 永続化 / 再訪**: `tmm:nickname:v1`（localStorage）。再訪で `こんにちは、ナナミさん！` ＋ `私の食旅（過去の旅）`。
 - ✅ **ブラウザ back / reload**: 状態保持・クラッシュなし。
@@ -101,7 +101,7 @@
 
 ## 6. Final Content Package 対応（presentation 用の一致・差異）
 
-8/23 の台本・Design Spec・Judge Q&A は **Final Content Package を content authority** とする。`9c0d404`（#228 マージ後）では **runtime の journey が Package の canonical 記述と一致**している。
+8/23 の台本・Design Spec・Judge Q&A は **Final Content Package を content authority** とする。current main `63fdbb4`（2026-08-19 時点）では **runtime の journey が Package の canonical 記述と一致**している。
 
 **一致している（画面表示が Package と整合）**:
 

@@ -1,6 +1,6 @@
 # Demo Script（60–90秒）/ Demo Script (60–90 s)
 
-**Status**: 2026-08-17 更新（Issue #224 latest-Figma parity マージ後、main `9c0d404`）。
+**Status**: 2026-08-19 更新（current main `63fdbb4` 時点の runtime に一致）。
 実行 journey は `src/pages/s0s3/*`（FoodProfilePage / ExplorationWizardPage / ResultPage）
 と `e2e/golden-path.test.ts` の実装に一致。Product scope / demo boundary は
 `docs/specs/product/product-scope-invariant.md` + #112、current App IA は #92 / KiKi。
@@ -39,7 +39,8 @@ fixture（東京わさび result・奥多摩わさび紀行 route）は **8/23 d
   `tmm:savedRoutes`）。会話の nickname は **`localStorage`**（`tmm:nickname:v1`、
   #201 で許可、デモリセット時に消去）。アカウント / durable profile にならない。
 - **会話型ガイド（Phase 1）**: 旅程は LINE / ChatGPT 風の逐步対話
-  （MOGU のメッセージ → チップ / タイル選択 → 次へ）。従来の form wizard ではない。
+  （MOGU のメッセージ → チップ / タイル選択で進行。ページ単位の「次へ」はなく、
+  選択 / 送信で進む）。従来の form wizard ではない。
   production bottom-nav は demo path に表示されない。
 - **96% / 91% は presentation-only**: Result のマッチ度は Figma の prototype
   表示であり、実際の適合度・安全性の保証でも AI の信頼度でもない。
@@ -59,8 +60,8 @@ Landing → FP 導入 → Nickname → Dietary Interview(4) → Summary → Post
 | # | Step | 画面 / route | タイム | 話すこと（Speaker note） |
 |---|---|---|---|---|
 | 1 | **Home（Landing）** | `/`（`東京のローカルな食文化を体験しよう。` / `食旅をはじめる`） | 5 s | 「東京23区に観光は集中しています。このアプリは食を入口に、まだ知らない東京へ『行ってみたい』理由を作ります。」初回は Food Profile 会話へ。 |
-| 2 | **Food Profile 会話（初回のみ）** | `/food-profile`（`はじめる！` → nickname `ナナミ` → `これでお願いします！` → Dietary 4 ステップ［アレルギー→食生活・スタイル→宗教→苦手、各 `送信`］→ Summary `保存してつぎへ` → fork `自分に合った旅をおすすめしてもらう！`） | 15 s | 「LINE のような対話で、呼び名（セッション限定、localStorage）を聞き、食事の希望・制約を 4 ステップで確認します。これはおすすめの条件の確認であり、アレルギー対応や安全性を判定するものではありません。選択は保存されません。」 |
-| 3 | **Exploration 会話（今回の旅）** | `/explore`（1/5 体験 `食べる` → 2/5 出発 `東京都` → 3/5 移動 `1時間以内` → 4/5 長さ `半日` → 5/5 味 `やさしい味` ＋ テーマ `自然` → `結果を見る`） | 20 s | 「今回は『食べる』『東京都から出発』『1時間以内』『半日』『やさしい味・自然』。これは今回の旅行の条件で、永続の好み診断ではありません。出発地はデモ用の固定選択で、住所検索ではありません。」 |
+| 2 | **Food Profile 会話（初回のみ）** | `/food-profile`（`はじめる！` → nickname `ナナミ` → `これでお願いします！` → Dietary 4 ステップ［アレルギー→食生活・スタイル→宗教→苦手、各 `送信`］→ Summary `保存してつぎへ` → fork `自分に合った旅をおすすめしてもらう！`） | 15 s | 「LINE のような対話で、呼び名（prototype 内のみ、localStorage。デモリセットで消去）を聞き、食事の希望・制約を 4 ステップで確認します。これはおすすめの条件の確認であり、アレルギー対応や安全性を判定するものではありません。選択は保存されません。」 |
+| 3 | **Exploration 会話（今回の旅）** | `/explore`（1/5 体験 `食べる` → 2/5 出発 `東京都` → 3/5 移動 `1時間以内` → 4/5 長さ `半日` → 5/5 味 `さっぱりした味` ＋ テーマ `自然` → `結果を見る`） | 20 s | 「今回は『食べる』『東京都から出発』『1時間以内』『半日』『さっぱりした味・自然』。これは今回の旅行の条件で、永続の好み診断ではありません。出発地はデモ用の固定選択で、住所検索ではありません。」 |
 | 4 | **Result** | `/explore/result`（`96% マッチ度` 東京わさび ＋ `91%` 奥多摩やまめ） | 8 s | 「あなたの条件に合う地域×食文化の候補が複数出ました。96%・91% は Figma の prototype 表示で、実際の適合度・AI 精度の保証ではありません。東京わさびは今日のデモの代表例で、これだけが Product の結果ではありません。」 |
 | 5 | **Story** | `/story/wasabi-okutama`（`味わうことが、継承になる` ＋ 周辺観光スポット ＋ MOGUMOGU ポイント） | 12 s | 「水・作り手・歴史・技と、継承の課題を一つの物語として見せます。」 |
 | 6 | **Route** | `/route`（`奥多摩わさび紀行`、`デモ用ルート`） | 8 s | 「半日/1日の実行可能なモデル旅程です。公共交通と徒歩の移動、地図ピンが時系列に並びます。これはデモ用ルートで、リアルタイムの交通・混雑ではありません。」 |
