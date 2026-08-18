@@ -1,7 +1,7 @@
 /**
  * S6 Spot Detail page (Issue #45).
  *
- * Shows one place on the wasabi route: stylized photo, local name +
+ * Shows one place on a food-culture route: stylized photo, local name +
  * romanization, category, an editorial story excerpt, practical info
  * (address / access / hours / closed days / price / reservation) ONLY where
  * source data exists — otherwise an explicit unknown/unverified state — tags,
@@ -109,11 +109,11 @@ interface SpotAction {
 /**
  * Verified external destinations for spot primary actions (#80, #10).
  *
- * No fieldwork booking/EC/farm-visit URLs exist yet. The generic official
- * Okutama Tourism Association site is a truthful destination for the tourism
- * information office only; it must not masquerade as spot-specific farm or
- * booking information. Every unverified action uses the disabled fallback.
- * The frozen-journey spots (Issue #127) are the real Okutama facilities.
+ * The generic official Okutama Tourism Association site is a truthful
+ * destination for the tourism information office only; it must not masquerade
+ * as spot-specific farm or booking information. Source-backed Ome/Sawai and
+ * Hachioji destinations use their own official pages; every remaining
+ * unverified action uses the disabled fallback.
  */
 const CONFIRMED_VISIT_URL = 'https://www.okutokanko.jp/';
 
@@ -123,6 +123,25 @@ export const SPOT_ACTIONS: Record<string, SpotAction> = {
   'soba-isshintei': { kind: 'disabled', type: 'restaurant' },
   'shishiguchiya': { kind: 'disabled', type: 'shop' },
   'odanba-fishing': { kind: 'disabled', type: 'visit' },
+  'sawai-ozawa-shuzo': {
+    kind: 'external',
+    url: 'https://www.sawanoi-sake.com/service/kengaku/',
+    type: 'workshop',
+  },
+  'sawanoien-garden': {
+    kind: 'external',
+    url: 'https://www.sawanoi-sake.com/service/sawanoien/',
+    type: 'restaurant',
+  },
+  // Hachioji slice: the roadside station's own site is a truthful destination
+  // for current stock and facility information; the contextual heritage stop
+  // has no invented booking/visit URL.
+  'hachioji-takiyama-roadside-station': {
+    kind: 'external',
+    url: 'https://www.michinoeki-hachioji.net/',
+    type: 'shop',
+  },
+  'hachioji-takiyama-castle': { kind: 'disabled', type: 'visit' },
 };
 
 /** Default action type for a place category when no per-spot action exists. */
@@ -172,10 +191,9 @@ export function SpotPage() {
     );
   }
 
-  // Reserved for record fields that are never populated in the current demo
-  // seed (hours / closed days / price). Only the `ja` variant exists as data;
-  // non-Japanese locales keep the record's English variant when present. The
-  // callers guard on the `ja` value, so the fallback string is never rendered.
+  // Only source-backed fields are populated in the seed. The `ja` value is
+  // the presence guard; non-Japanese locales use the English variant when
+  // present and otherwise fall back to Japanese rather than inventing copy.
   const recordField = (ja?: string, en?: string): string =>
     locale === 'ja' ? ja ?? '' : en ?? ja ?? '';
 
@@ -211,8 +229,11 @@ export function SpotPage() {
   const infoItems: { label: string; value: string }[] = [];
   infoItems.push({ label: t('s6InfoAddress'), value: place.address });
   const accessKey = spotAccessKey(place.id);
-  if (practical?.accessJa && accessKey) {
-    infoItems.push({ label: t('s6InfoAccess'), value: t(accessKey) });
+  if (practical?.accessJa) {
+    infoItems.push({
+      label: t('s6InfoAccess'),
+      value: accessKey ? t(accessKey) : recordField(practical.accessJa, practical.accessEn),
+    });
   }
   if (practical?.hoursJa) {
     infoItems.push({ label: t('s6InfoHours'), value: recordField(practical.hoursJa, practical.hoursEn) });
@@ -239,9 +260,9 @@ export function SpotPage() {
     tags.push(<Tag key="access" tone="info">♿ {t('s6TagAccessibility')}</Tag>);
   }
 
-  // Open / closed / reservation-needed state — only when reliable data exists.
-  // Today no spot detail carries verified hours/closed-day data, so an
-  // explicit unverified state is shown instead (never a fabricated claim).
+  // Open / closed / reservation-needed state — only when source-backed data
+  // exists. The verification badge still exposes `needs_confirmation` until
+  // a stakeholder confirms the current practical details.
 
   const handleToggleItinerary = () => {
     if (routeId === undefined) {
@@ -286,7 +307,7 @@ export function SpotPage() {
       {/* Tags where data exists */}
       {tags.length > 0 ? <div className="s6-tags">{tags}</div> : null}
 
-      {/* Story excerpt — the spot's role in the wasabi journey (editorial) */}
+      {/* Story excerpt — the spot's role in its food-culture journey (editorial) */}
       <StorySection kicker={t('s6StoryKicker')} title={t('s6StoryTitle')}>
         {detail?.roleJa ? (
           <p>{spotRole}</p>
@@ -294,6 +315,16 @@ export function SpotPage() {
           <p>{t('s6StoryUnavailable')}</p>
         )}
         <p className="s6-provenance">{t('s6EditorialNote')}</p>
+        {detail?.source.url ? (
+          <a
+            className="s6-provenance"
+            href={detail.source.url}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {t('sourceLink')}
+          </a>
+        ) : null}
       </StorySection>
 
       {/* Practical info */}

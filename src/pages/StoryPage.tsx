@@ -26,9 +26,9 @@
  *
  * Content provenance:
  *   - All story copy resolves through the per-culture S4 content map
- *     (`storyContent` in `src/i18n/data-content.ts`); the 8/23 demo supplies
- *     the 東京わさび entry only, so a future verified Region × FoodCulture adds
- *     its own story as data/config rather than editing this screen.
+ *     (`storyContent` in `src/i18n/data-content.ts`); each playable Region ×
+ *     FoodCulture slice supplies its own story as data/config rather than
+ *     editing this screen.
  *   - The challenge section and its "tasting is succession" framing are
  *     clearly-marked editorial composition (s4EditorialNote). The section
  *     names the succession challenge generically without fabricating specific

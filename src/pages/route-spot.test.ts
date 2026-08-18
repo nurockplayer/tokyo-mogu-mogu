@@ -20,6 +20,7 @@ import { spotActionType, SPOT_ACTIONS } from './SpotPage';
 import { getPlaceById, places } from '../data';
 import { resolveKey } from '../i18n/fallback';
 import { strings } from '../i18n/resources';
+import { spotAccessKey } from '../i18n/data-content';
 import { deriveVerificationStatus } from '../lib/verification';
 
 describe('Route back-target resolution (#80)', () => {
@@ -165,11 +166,21 @@ describe('spot primary-action mapping (#80)', () => {
   });
 
   it('never fakes a booking/EC destination for unverified spots', () => {
-    // No fieldwork booking URLs exist yet (#10): restaurant / shop / fishing
-    // pond must render the disabled fallback, not an invented link.
+    // Unverified Okutama actions still render the disabled fallback, while
+    // official Ome/Sawai pages are now usable source-backed destinations.
     expect(SPOT_ACTIONS['soba-isshintei']).toMatchObject({ kind: 'disabled', type: 'restaurant' });
     expect(SPOT_ACTIONS['shishiguchiya']).toMatchObject({ kind: 'disabled', type: 'shop' });
     expect(SPOT_ACTIONS['odanba-fishing']).toMatchObject({ kind: 'disabled', type: 'visit' });
+    expect(SPOT_ACTIONS['sawai-ozawa-shuzo']).toMatchObject({
+      kind: 'external',
+      type: 'workshop',
+      url: 'https://www.sawanoi-sake.com/service/kengaku/',
+    });
+    expect(SPOT_ACTIONS['sawanoien-garden']).toMatchObject({
+      kind: 'external',
+      type: 'restaurant',
+      url: 'https://www.sawanoi-sake.com/service/sawanoien/',
+    });
   });
 
   it('uses the official site only where it is a truthful destination', () => {
@@ -180,6 +191,25 @@ describe('spot primary-action mapping (#80)', () => {
     expect(garden.kind).toBe('disabled');
     expect(garden.type).toBe('farm');
     expect(garden.url).toBeUndefined();
+
+    const hachiojiMarket = SPOT_ACTIONS['hachioji-takiyama-roadside-station'];
+    expect(hachiojiMarket).toMatchObject({
+      kind: 'external',
+      type: 'shop',
+      url: 'https://www.michinoeki-hachioji.net/',
+    });
+    expect(SPOT_ACTIONS['hachioji-takiyama-castle']).toMatchObject({
+      kind: 'disabled',
+      type: 'visit',
+    });
+  });
+
+  it('localizes source-backed access notes without opening an unverified claim', () => {
+    expect(spotAccessKey('sawai-ozawa-shuzo')).toBe('dataOzawaAccess');
+    expect(spotAccessKey('sawanoien-garden')).toBeUndefined();
+    expect(strings.ja.dataOzawaAccess).toContain('予約制');
+    expect(strings.en.dataOzawaAccess).toContain('reservations');
+    expect(strings['zh-TW'].dataOzawaAccess).toContain('預約');
   });
 
   it('resolves per-spot action type, then falls back to the place category default', () => {

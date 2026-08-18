@@ -11,21 +11,23 @@ and may point to a Journey/Route. Candidate generation is data/config supplied
 by the caller; the shared filter/ranker contains no Okutama or Tokyo Wasabi
 identifier.
 
-The 2026-08-23 demo ships two production-ready candidates — **Okutama ×
-Tokyo Wasabi** (primary) and **Ome/Sawai × sake** (secondary) — both registered
-in `src/data/slice-manifest.ts` as enabled and recommendation-eligible. The
-shared engine selects deterministically among them: the fixed golden-path
-answers match only the wasabi profile, so the demo Result returns **Okutama ×
-Tokyo Wasabi**, while a rich/sweet, tradition-focused trip reaches the sake
-journey through the same engine. This is a demo data choice, not the durable
-selection domain.
+The current release ships three production-ready candidates — **Okutama ×
+Tokyo Wasabi** (primary), **Ome/Sawai × sake** (secondary), and **Hachioji ×
+ginger** (secondary) — registered in `src/data/slice-manifest.ts` as enabled
+and recommendation-eligible. The shared engine selects deterministically
+among them: the fixed golden-path answers match only the wasabi profile, so
+the demo Result returns **Okutama × Tokyo Wasabi**, while rich/sweet,
+tradition-focused answers reach the sake journey and rich, daily-life,
+market-focused answers reach the Hachioji journey through the same engine.
+This is a release data choice, not the durable selection domain.
 
-推薦対象は「東京都全域 × 複数地域 × 複数食文化」です。8/23 デモには本番候補が
-2 件（奥多摩 × 東京わさび＝primary / 青梅・沢井 × 日本酒＝secondary）あり、
-両者とも `src/data/slice-manifest.ts` で enabled かつ recommendation-eligible
-です。golden path の固定回答はわさび profile のみにマッチするため Result は
-決定的に奥多摩 × 東京わさび が選ばれますが、rich / sweet・伝統志向の回答では
-同じエンジンで青梅・沢井 × 日本酒 に到達できます。これはデモデータの制約であり
+推薦対象は「東京都全域 × 複数地域 × 複数食文化」です。現行リリースには本番候補が
+3 件（奥多摩 × 東京わさび＝primary / 青梅・沢井 × 日本酒＝secondary /
+八王子 × ショウガ＝secondary）あり、`src/data/slice-manifest.ts` で enabled かつ
+recommendation-eligible です。golden path の固定回答はわさび profile のみに
+マッチするため Result は決定的に奥多摩 × 東京わさびが選ばれますが、rich /
+sweet・伝統志向の回答では青梅・沢井 × 日本酒、rich・日常志向・買い物の回答では
+八王子 × ショウガに同じエンジンで到達できます。これはリリースデータの選択であり、
 共有ロジックの制約ではありません。
 
 ## Inputs and pipeline / 入力と処理順

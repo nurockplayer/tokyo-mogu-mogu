@@ -3,7 +3,7 @@
  *
  * This is demo data/config, not the durable recommendation domain. The shared
  * engine accepts any Tokyo Region × FoodCulture candidates with the same
- * shape. Two production-ready candidates ship for the 8/23 demo:
+ * shape. Three production-ready candidates ship in the current release:
  * - Okutama × Tokyo Wasabi — the deterministic Hackathon Demo Golden Path
  *   (Issue #127). Its answer profile keeps it selected for the fixed golden
  *   path answers, so the e2e result stays deterministic.
@@ -11,6 +11,8 @@
  *   mainly through data/config; no shared-contract redesign). Its profile is
  *   chosen so the golden-path answers still select wasabi, while users who
  *   answer for a rich/sweet tradition-focused trip can reach the sake journey.
+ * - Hachioji × Hachioji Ginger — the source-backed Tokyo-wide slice (Issue
+ *   #238), reachable for a market / daily-life journey.
  */
 import {
   MAX_RECOMMENDATION_REASONS,
@@ -24,6 +26,9 @@ export const DEMO_RECOMMENDATION_CANDIDATE_ID = 'demo-okutama-wasabi';
 
 /** Issue #163: the source-backed Ome/Sawai × sake playable slice. */
 export const DEMO_OME_SAKE_CANDIDATE_ID = 'demo-ome-sake';
+
+/** Issue #238: the source-backed Hachioji ginger journey. */
+export const DEMO_HACHIOJI_GINGER_CANDIDATE_ID = 'demo-tokyo-hachioji-ginger';
 
 export const DEMO_RECOMMENDATION_CANDIDATES: readonly RecommendationCandidate[] = [
   {
@@ -64,6 +69,22 @@ export const DEMO_RECOMMENDATION_CANDIDATES: readonly RecommendationCandidate[] 
     // durable dispersion bonus; it stays unknown rather than fabricated.
     tourismDispersion: { status: 'unknown' },
   },
+  {
+    id: DEMO_HACHIOJI_GINGER_CANDIDATE_ID,
+    regionId: 'hachioji',
+    foodCultureId: 'hachioji-ginger',
+    journeyId: 'hachioji-ginger-journey',
+    availability: 'ready',
+    // Distinct from the wasabi and sake profiles: market / daily-life answers
+    // can reach this slice, while the fixed refreshing/nature golden path keeps
+    // selecting wasabi by a wide margin.
+    tastes: ['rich'],
+    experiences: ['buy', 'eat'],
+    interests: ['daily-life'],
+    durations: ['half-day', 'full-day'],
+    travelTimeByBaseArea: {},
+    tourismDispersion: { status: 'unknown' },
+  },
 ];
 
 /**
@@ -81,6 +102,9 @@ export function demoRecommendationMatchTags(
   }
   if (candidateId === DEMO_OME_SAKE_CANDIDATE_ID) {
     return matchSakeTags(reasons);
+  }
+  if (candidateId === DEMO_HACHIOJI_GINGER_CANDIDATE_ID) {
+    return matchHachiojiTags(reasons);
   }
   return [];
 }
@@ -142,6 +166,30 @@ function matchSakeTags(reasons: readonly RankingFactor[]): MatchTagKey[] {
     if (reason.code === 'interest-match') {
       if (reason.values.includes('tradition')) add('tradition-edo');
       if (reason.values.includes('craft')) add('make-craft');
+    }
+    if (reason.code === 'duration-match') {
+      if (reason.values.includes('half-day')) add('half-day');
+      if (reason.values.includes('full-day')) add('full-day');
+    }
+  }
+
+  return tags.slice(0, MAX_RECOMMENDATION_REASONS);
+}
+
+/** Hachioji journey tags: market / daily-life matches only. */
+function matchHachiojiTags(reasons: readonly RankingFactor[]): MatchTagKey[] {
+  const tags: MatchTagKey[] = [];
+  const add = (tag: MatchTagKey) => {
+    if (!tags.includes(tag)) tags.push(tag);
+  };
+
+  for (const reason of reasons) {
+    if (reason.code === 'experience-match' && reason.values.includes('buy')) {
+      add('buy-gift');
+    }
+    if (reason.code === 'interest-match') {
+      if (reason.values.includes('daily-life')) add('daily-life');
+      if (reason.values.includes('tradition')) add('tradition-edo');
     }
     if (reason.code === 'duration-match') {
       if (reason.values.includes('half-day')) add('half-day');

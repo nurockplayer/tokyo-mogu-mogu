@@ -4,10 +4,10 @@
  * Covers the contract checks the single ja golden path cannot:
  *   - en / zh-TW complete the same guided conversation to the Result with the
  *     96% match presentation and no horizontal overflow
- *   - the Phase 1 conversation offers no option that could select Ome/Sawai
- *     (rich/sweet taste, make experience, daily-life interest are absent)
- *   - the hidden Phase 2 surfaces stay preserved and reachable by direct URL,
- *     but never appear inside the Phase 1 demo path
+ *   - the Phase 1 conversation keeps the full Figma option set while distinct
+ *     answers can route to the enabled source-backed journeys
+ *   - direct-link surfaces stay preserved and reachable without changing the
+ *     Okutama golden path
  */
 import { test, expect, type Page } from '@playwright/test';
 
@@ -170,7 +170,7 @@ for (const locale of ['en', 'zh-TW'] as const) {
 test.describe('Phase 1 constrained options (ja, 375px)', () => {
   test.use({ locale: 'ja-JP' });
 
-  test('conversation shows the full Figma option set yet still converges to wasabi', async ({
+  test('conversation shows the full Figma option set and routes daily produce answers to Hachioji', async ({
     page,
   }) => {
     await page.goto('/');
@@ -210,16 +210,18 @@ test.describe('Phase 1 constrained options (ja, 375px)', () => {
     await page.getByRole('button', { name: '甘いもの' }).waitFor();
     await page.getByRole('button', { name: 'おまかせ' }).waitFor();
     await page.getByRole('button', { name: '地域の日常' }).waitFor();
-    await page.getByRole('button', { name: '甘いもの' }).click();
+    await page.getByRole('button', { name: '濃厚な味' }).click();
     await page.getByRole('button', { name: '地域の日常' }).click();
     await page.getByRole('button', { name: '結果を見る' }).click();
     await page.waitForURL('**/explore/result');
-    // The Result is still deterministically Okutama × Tokyo Wasabi.
+    // A rich + daily-life answer is a real multi-region route, not a Wasabi
+    // fallback; the default refreshing + nature path remains the golden path.
     await page
       .locator('.tmm-result-card__title')
-      .filter({ hasText: '奥多摩のわさび文化をたどる' })
+      .filter({ hasText: '八王子ショウガと八王子野菜' })
       .first()
       .waitFor();
+    await expect(page.locator('body')).not.toContainText('奥多摩のわさび文化をたどる');
     await expect(page.locator('body')).not.toContainText('青梅・沢井の日本酒');
   });
 });
@@ -274,7 +276,7 @@ async function jaReachDepartureStep(page: Page): Promise<void> {
 test.describe('Phase 1 Figma departure × travel-time choices (ja, 375px)', () => {
   test.use({ locale: 'ja-JP' });
 
-  test('departure and travel show the Figma controls and every choice still reaches wasabi', async ({
+  test('departure and travel show the Figma controls and the golden path remains wasabi', async ({
     page,
   }) => {
     await jaReachDepartureStep(page);
@@ -286,7 +288,7 @@ test.describe('Phase 1 Figma departure × travel-time choices (ja, 375px)', () =
     for (const label of ['30分以内', '1時間以内', '1時間30分以内', '2時間以内', '時間は気にしない']) {
       await page.getByRole('button', { name: label, exact: true }).waitFor();
     }
-    // A long travel choice is selectable and the Result still converges to wasabi.
+    // A long travel choice is selectable and the golden answers still select wasabi.
     await page.getByRole('button', { name: '2時間以内', exact: true }).click();
     await page.getByRole('button', { name: '半日' }).click();
     await page.getByRole('button', { name: '自然' }).click();

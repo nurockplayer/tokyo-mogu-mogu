@@ -1,5 +1,5 @@
 /**
- * Seed data: Tama food cultures.
+ * Seed data: Tokyo food cultures.
  *
  * NOTE ON PROVENANCE:
  * - Food culture facts (what/where) are based on publicly available tourism
@@ -292,7 +292,7 @@ export const FOOD_CULTURES: FoodCulture[] = [
   // Provenance: 小澤酒造 (sake brewery, brand 澤乃井), the brewery-run garden
   // restaurant 澤乃井園, and 御嶽神社 are all REAL facilities. Names, addresses,
   // function and setting are transcribed from the cited official / open-data
-  // sources (retrieved 2026-08-14): 小澤酒造 official site (sawanoi-sake.com),
+  // sources (retrieved 2026-08-19 for the official site): 小澤酒造 official site (sawanoi-sake.com),
   // GO TOKYO 日本酒ガイド (東京都観光公式サイト, gotokyo.org), and the 青梅市観光スポット
   // 一覧 open data (CC BY 4.0, t132055d0000000027). The narrative fields below
   // are team-editorial copy (origin: 'editorial') grounded strictly in those
@@ -339,7 +339,7 @@ export const FOOD_CULTURES: FoodCulture[] = [
         name: '小澤酒造（公式サイト）',
         url: 'https://www.sawanoi-sake.com/',
         sourceType: 'official_web',
-        retrievedAt: '2026-08-14',
+        retrievedAt: '2026-08-19',
         verificationStatus: 'needs_confirmation',
         originalId: 'ozawa-shuzo',
       },
@@ -360,6 +360,69 @@ export const FOOD_CULTURES: FoodCulture[] = [
         retrievedAt: '2026-08-14',
         verificationStatus: 'needs_confirmation',
         originalId: 't132055d0000000027',
+      },
+    ],
+    origin: 'editorial',
+  },
+  // ---- 八王子 slice (Issue #238) ---------------------------------------
+  // The narrative is editorial copy grounded in the JA Tokyo Central Union
+  // Edo-Tokyo vegetable page, Hachioji City's food-culture-museum notice, and
+  // the roadside station's own public site. Availability and cultivation are
+  // seasonal, so no farm visit or daily stock claim is made here.
+  {
+    id: 'hachioji-ginger',
+    nameJa: '八王子ショウガと八王子野菜',
+    nameEn: 'Hachioji Ginger & Local Produce',
+    category: 'produce',
+    area: 'hachioji',
+    descriptionJa: '八王子で受け継がれてきたショウガと、旬の八王子野菜を訪ねる食文化。',
+    descriptionEn:
+      'A journey into Hachioji ginger and the city’s seasonal local produce.',
+    storyJa:
+      '八王子ショウガは加住町などで生産が続く江戸東京野菜です。道の駅八王子滝山では、市内の生産者が届ける野菜や地域の食文化に出会えます。',
+    storyEn:
+      'Hachioji ginger is an Edo-Tokyo vegetable still grown around Kazumi and other parts of the city. Michi-no-Eki Hachioji Takiyama connects visitors with local produce and food traditions.',
+    historyJa:
+      'JA東京中央会によると、八王子ショウガは昭和初期に伝わって以来80年以上途切れず生産され、しょうが祭にも奉納されてきました。',
+    historyEn:
+      'JA Tokyo Central Union records that Hachioji ginger has been grown continuously for more than 80 years since it arrived in the early Showa period, and is offered at the local ginger festival.',
+    makerJa:
+      '八王子市内の生産者たち。八王子市の公式案内は、道の駅の直売所に市内各地の生産者が農産物を持ち寄ると紹介しています。',
+    makerEn:
+      'Hachioji producers bring seasonal crops to the roadside station’s farm market, according to the city’s official guide.',
+    howToEnjoyJa:
+      '旬の時期に八王子ショウガを探し、直売所や地場食材の料理を選んでみよう。品揃えは季節や当日の入荷で変わります。',
+    howToEnjoyEn:
+      'In season, look for Hachioji ginger and choose local produce or a dish made with it. Availability changes with the season and the day’s deliveries.',
+    image: 'hachioji-ginger',
+    hintJa: 'まずは道の駅八王子滝山で、八王子の食文化を知るところから。',
+    hintEn: 'Start at Michi-no-Eki Hachioji Takiyama to meet Hachioji food culture.',
+    placeIds: ['hachioji-takiyama-roadside-station'],
+    unlockMethod: 'location-checkin',
+    sources: [
+      {
+        name: 'JA東京中央会「江戸東京野菜」八王子ショウガ',
+        url: 'https://www.tokyo-ja.or.jp/farm/edo/41.php',
+        sourceType: 'official_web',
+        retrievedAt: '2026-08-19',
+        verificationStatus: 'needs_confirmation',
+        originalId: 'edo-tokyo-vegetable-hachioji-ginger',
+      },
+      {
+        name: '八王子市「道の駅八王子滝山が『食文化ミュージアム』に認定」',
+        url: 'https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/003/p035222.html',
+        sourceType: 'official_web',
+        retrievedAt: '2026-08-19',
+        verificationStatus: 'needs_confirmation',
+        originalId: 'hachioji-food-culture-museum-p035222',
+      },
+      {
+        name: '道の駅八王子滝山（公式）',
+        url: 'https://www.michinoeki-hachioji.net/',
+        sourceType: 'official_web',
+        retrievedAt: '2026-08-19',
+        verificationStatus: 'needs_confirmation',
+        originalId: 'michi-no-eki-hachioji-takiyama',
       },
     ],
     origin: 'editorial',

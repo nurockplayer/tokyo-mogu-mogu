@@ -11,7 +11,7 @@ import { getRouteById as _getRouteById, getRouteIdForPlace as _getRouteIdForPlac
 import type { FoodCulture, Place } from './model';
 import type { ModelRoute, SpotDetail } from './seed-routes';
 
-export type { FoodCulture, Place, DataSource, DataOrigin, VerificationStatus, UnlockMethod, FoodCultureCategory, PlaceType, TamaArea } from './model';
+export type { FoodCulture, Place, DataSource, DataOrigin, VerificationStatus, UnlockMethod, FoodCultureCategory, PlaceType, RegionId } from './model';
 export type { ModelRoute, RouteDuration, RouteMobilityMode, RouteStepData, RouteMobilitySegment, RouteVariant, SpotDetail, SpotPracticalInfo, SpotTags } from './seed-routes';
 export { UNLOCK_RADIUS_METERS } from './model';
 
@@ -60,6 +60,7 @@ export {
   DEMO_RECOMMENDATION_CANDIDATES,
   DEMO_RECOMMENDATION_CANDIDATE_ID,
   DEMO_OME_SAKE_CANDIDATE_ID,
+  DEMO_HACHIOJI_GINGER_CANDIDATE_ID,
   demoRecommendationMatchTags,
 } from './demo-recommendation';
 export {

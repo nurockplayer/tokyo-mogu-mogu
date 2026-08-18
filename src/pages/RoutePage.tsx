@@ -1,8 +1,8 @@
 /**
  * S5 Model Route page (Issue #45).
  *
- * Renders the deterministic editorial Tama-pilot route
- * (`okutama-wasabi-journey`, currently the 奥多摩わさび model route):
+ * Renders deterministic editorial Tokyo food-culture routes, including the
+ * frozen 奥多摩わさび golden path and the source-backed regional journeys:
  * course header (name / duration / transport / total time), a half-day ⇄ 1-day
  * switch, a stylized SVG map with numbered pins (pin number == timeline step
  * number), the vertical timeline of steps with mobility between them, warning

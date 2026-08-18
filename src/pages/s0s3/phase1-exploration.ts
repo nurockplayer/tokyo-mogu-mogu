@@ -1,23 +1,20 @@
 /**
  * Phase 1 constrained choice sets (Issue #217).
  *
- * The guided conversation deliberately offers only the values the fixed
- * Okutama × Tokyo Wasabi demo journey actually supports, so every allowed
- * answer path deterministically reaches 奥多摩 × 東京わさび with believable
- * match reasons — and no selectable option contradicts the final route or
- * implies a real recommendation engine.
+ * The guided conversation keeps the canonical values represented by the
+ * current Figma options, while the recommendation set is allowed to route a
+ * traveler to any ready source-backed journey. The default refreshing /
+ * nature answers still reach 奥多摩 × 東京わさび, preserving the 8/23 golden
+ * path; rich / tradition and rich / daily-life answers can now reach the
+ * source-backed Ome/Sawai and Hachioji journeys respectively.
  *
  * The canonical `ExplorationAnswers` value types and the durable
  * recommendation / Slice Manifest / data contracts stay unchanged; this module
- * only narrows what the Phase 1 UI offers and what the Phase 1 Result may
- * select. Ome/Sawai × sake remains in the durable data and manifest but never
- * surfaces in the Phase 1 conversation or Result.
+ * only defines the Phase 1 presentation boundary and the recommendation
+ * candidate set. The Slice Manifest remains the fail-closed release authority
+ * for what the Result may select.
  */
-import {
-  DEMO_RECOMMENDATION_CANDIDATE_ID,
-  DEMO_RECOMMENDATION_CANDIDATES,
-  recommendableCandidates,
-} from '../../data';
+import { DEMO_RECOMMENDATION_CANDIDATES, recommendableCandidates } from '../../data';
 import type {
   BaseArea,
   Experience,
@@ -27,21 +24,21 @@ import type {
   TripDuration,
 } from '../../lib/exploration';
 
-/** Taste values the wasabi journey offers (canonical values, narrowed). */
-export const PHASE1_TASTES: readonly Taste[] = ['refreshing', 'spicy'];
-/** Experience values the wasabi journey offers (canonical values, narrowed). */
-export const PHASE1_EXPERIENCES: readonly Experience[] = ['eat', 'buy', 'meet'];
-/** Interest values the wasabi journey offers (canonical values, narrowed). */
-export const PHASE1_INTERESTS: readonly Interest[] = ['nature', 'tradition', 'craft'];
-/** Duration values the wasabi journey offers (canonical values, narrowed). */
+/** Canonical taste values represented by the current Figma option set. */
+export const PHASE1_TASTES: readonly Taste[] = ['refreshing', 'rich', 'spicy', 'sweet'];
+/** Canonical experience values represented by the current Figma option set. */
+export const PHASE1_EXPERIENCES: readonly Experience[] = ['eat', 'make', 'buy', 'meet'];
+/** Canonical interest values represented by the current Figma option set. */
+export const PHASE1_INTERESTS: readonly Interest[] = ['tradition', 'nature', 'daily-life', 'craft'];
+/** Canonical duration values represented by the current Figma option set. */
 export const PHASE1_DURATIONS: readonly TripDuration[] = ['half-day', 'full-day'];
 
 /**
  * Phase 1 allowed departure × travel-time pairs (Issue #220).
  *
  * A small explicit allow-list instead of a travel-time engine. Every pair is
- * believable for reaching 奥多摩 from the departure area, so no selectable
- * combination obviously contradicts the fixed Okutama × Tokyo Wasabi result.
+ * believable for reaching the current western-Tokyo journeys, while no
+ * source-backed travel matrix is invented for any candidate.
  * A central-Tokyo/Shinjuku departure (`tokyo-west`) is only paired with
  * `over-60`; a Tama-area departure with `within-60` / `over-60`; an Okutama
  * departure with `within-30` / `within-60`. The obviously implausible pairs
@@ -70,13 +67,10 @@ export function phase1TravelTimesFor(baseArea: BaseArea): readonly TravelTime[] 
 }
 
 /**
- * The Phase 1 recommendation candidate set: only the Okutama × Tokyo Wasabi
- * demo golden path. Still fail-closed through the Slice Manifest so a future
- * `enabled: false` on the wasabi slice is honored; Ome/Sawai × sake and any
- * other slice can never be selected by the Phase 1 Result.
+ * The Phase 1 recommendation candidate set. It is fail-closed through the
+ * Slice Manifest, so disabled or non-eligible slices never surface; the
+ * current manifest exposes the Okutama, Ome/Sawai, and Hachioji journeys.
  */
 export function phase1RecommendableCandidates() {
-  return recommendableCandidates(
-    DEMO_RECOMMENDATION_CANDIDATES.filter((c) => c.id === DEMO_RECOMMENDATION_CANDIDATE_ID),
-  );
+  return recommendableCandidates(DEMO_RECOMMENDATION_CANDIDATES);
 }

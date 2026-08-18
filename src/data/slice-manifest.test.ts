@@ -5,6 +5,7 @@ import { recommendCandidates } from '../lib/recommendation';
 import { deriveVerificationStatus } from '../lib/verification';
 import {
   DEMO_OME_SAKE_CANDIDATE_ID,
+  DEMO_HACHIOJI_GINGER_CANDIDATE_ID,
   DEMO_RECOMMENDATION_CANDIDATES,
   DEMO_RECOMMENDATION_CANDIDATE_ID,
 } from './demo-recommendation';
@@ -90,28 +91,35 @@ const DISCOVER_ONLY_MANIFEST: readonly SliceManifestEntry[] = [
 ];
 
 describe('Slice Manifest registry (#170)', () => {
-  it('registers Okutama × Tokyo Wasabi as primary and Ome/Sawai × sake as secondary', () => {
+  it('registers the playable slices with one primary and secondary journeys', () => {
     expect(releaseRoleOf(DEMO_RECOMMENDATION_CANDIDATE_ID)).toBe('primary');
     expect(releaseRoleOf(DEMO_OME_SAKE_CANDIDATE_ID)).toBe('secondary');
     expect(maturityOf(DEMO_RECOMMENDATION_CANDIDATE_ID)).toBe('playable');
     expect(maturityOf(DEMO_OME_SAKE_CANDIDATE_ID)).toBe('playable');
     expect(discoverVisibilityOf(DEMO_RECOMMENDATION_CANDIDATE_ID)).toBe('visible');
     expect(discoverVisibilityOf(DEMO_OME_SAKE_CANDIDATE_ID)).toBe('visible');
+    expect(releaseRoleOf(DEMO_HACHIOJI_GINGER_CANDIDATE_ID)).toBe('secondary');
+    expect(maturityOf(DEMO_HACHIOJI_GINGER_CANDIDATE_ID)).toBe('playable');
+    expect(discoverVisibilityOf(DEMO_HACHIOJI_GINGER_CANDIDATE_ID)).toBe('visible');
   });
 
-  it('exposes both slices on Discover and recommendation by default', () => {
+  it('exposes all playable slices on Discover and recommendation by default', () => {
     expect(isCandidateRecommendable(DEMO_RECOMMENDATION_CANDIDATE_ID)).toBe(true);
     expect(isCandidateDiscoverable(DEMO_RECOMMENDATION_CANDIDATE_ID)).toBe(true);
     expect(isCandidateRecommendable(DEMO_OME_SAKE_CANDIDATE_ID)).toBe(true);
     expect(isCandidateDiscoverable(DEMO_OME_SAKE_CANDIDATE_ID)).toBe(true);
+    expect(isCandidateRecommendable(DEMO_HACHIOJI_GINGER_CANDIDATE_ID)).toBe(true);
+    expect(isCandidateDiscoverable(DEMO_HACHIOJI_GINGER_CANDIDATE_ID)).toBe(true);
 
     expect(recommendableCandidates(DEMO_RECOMMENDATION_CANDIDATES).map((c) => c.id)).toEqual([
       DEMO_RECOMMENDATION_CANDIDATE_ID,
       DEMO_OME_SAKE_CANDIDATE_ID,
+      DEMO_HACHIOJI_GINGER_CANDIDATE_ID,
     ]);
     expect(discoverableCandidates(DEMO_RECOMMENDATION_CANDIDATES).map((c) => c.id)).toEqual([
       DEMO_RECOMMENDATION_CANDIDATE_ID,
       DEMO_OME_SAKE_CANDIDATE_ID,
+      DEMO_HACHIOJI_GINGER_CANDIDATE_ID,
     ]);
   });
 
@@ -167,7 +175,7 @@ describe('Slice Manifest registry (#170)', () => {
     );
     expect(
       hiddenManagedFoodCultureIds(DEMO_RECOMMENDATION_CANDIDATES, RESEARCH_HIDDEN_MANIFEST),
-    ).toEqual(new Set(['sake-ome']));
+    ).toEqual(new Set(['sake-ome', 'hachioji-ginger']));
   });
 
   it('playable maturity never claims record-level verification (#129 stays authoritative)', () => {
@@ -250,6 +258,6 @@ describe('Slice Manifest release boundary (#171 migration)', () => {
     // editorial "other cultures" section (#171).
     expect(
       hiddenManagedFoodCultureIds(DEMO_RECOMMENDATION_CANDIDATES, DISABLED_OME_MANIFEST),
-    ).toEqual(new Set(['sake-ome']));
+    ).toEqual(new Set(['sake-ome', 'hachioji-ginger']));
   });
 });

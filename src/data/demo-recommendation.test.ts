@@ -4,6 +4,7 @@ import { createDefaultFoodProfile } from '../lib/food-profile';
 import { recommendCandidates } from '../lib/recommendation';
 import {
   DEMO_OME_SAKE_CANDIDATE_ID,
+  DEMO_HACHIOJI_GINGER_CANDIDATE_ID,
   DEMO_RECOMMENDATION_CANDIDATES,
   DEMO_RECOMMENDATION_CANDIDATE_ID,
   demoRecommendationMatchTags,
@@ -11,8 +12,8 @@ import {
 import { PILOT_JOURNEY } from './pilot-journey';
 
 describe('8/23 demo recommendation configuration (#123 / #127 / #163)', () => {
-  it('keeps the two production-ready demo candidates aligned with their journeys', () => {
-    expect(DEMO_RECOMMENDATION_CANDIDATES).toHaveLength(2);
+  it('keeps the production-ready candidates aligned with their journeys', () => {
+    expect(DEMO_RECOMMENDATION_CANDIDATES).toHaveLength(3);
 
     // The frozen Okutama × Tokyo Wasabi demo golden path (#127) stays the
     // deterministic default.
@@ -34,6 +35,17 @@ describe('8/23 demo recommendation configuration (#123 / #127 / #163)', () => {
     expect(sake).toMatchObject({
       foodCultureId: 'sake-ome',
       journeyId: 'ome-sawai-sake-journey',
+      availability: 'ready',
+      tourismDispersion: { status: 'unknown' },
+    });
+
+    const hachioji = DEMO_RECOMMENDATION_CANDIDATES.find(
+      (c) => c.id === DEMO_HACHIOJI_GINGER_CANDIDATE_ID,
+    );
+    expect(hachioji).toMatchObject({
+      regionId: 'hachioji',
+      foodCultureId: 'hachioji-ginger',
+      journeyId: 'hachioji-ginger-journey',
       availability: 'ready',
       tourismDispersion: { status: 'unknown' },
     });
@@ -72,7 +84,6 @@ describe('8/23 demo recommendation configuration (#123 / #127 / #163)', () => {
       {
         ...createDefaultExplorationAnswers(),
         experiences: ['make'],
-        interests: ['daily-life'],
       },
       DEMO_RECOMMENDATION_CANDIDATES,
     ).selected!;
@@ -102,5 +113,23 @@ describe('8/23 demo recommendation configuration (#123 / #127 / #163)', () => {
     expect(
       demoRecommendationMatchTags(matching.candidate.id, matching.explanation.reasons),
     ).toEqual(['buy-gift', 'tradition-edo']);
+  });
+
+  it('selects the Hachioji ginger candidate for a produce-market trip (#238)', () => {
+    const decision = recommendCandidates(
+      createDefaultFoodProfile('2026-08-12T00:00:00.000Z'),
+      {
+        ...createDefaultExplorationAnswers(),
+        tastes: [],
+        experiences: ['buy'],
+        interests: ['daily-life'],
+        duration: 'full-day',
+      },
+      DEMO_RECOMMENDATION_CANDIDATES,
+    );
+    expect(decision.selected?.candidate.id).toBe(DEMO_HACHIOJI_GINGER_CANDIDATE_ID);
+    expect(
+      demoRecommendationMatchTags(decision.selected!.candidate.id, decision.selected!.explanation.reasons),
+    ).toEqual(['buy-gift', 'daily-life', 'full-day']);
   });
 });

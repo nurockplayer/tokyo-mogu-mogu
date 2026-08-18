@@ -7,7 +7,7 @@
 > `docs/specs/product/hackathon-product-contract.md`; the S0–S9 child Issues
 > (#43–#49) are the historical linear screen framing that #92 re-maps onto
 > `Home / Discover / MOGU / My`. The modules below remain valid shared
-> infrastructure and may be reused where compatible. Its `TamaArea` enum and
+> infrastructure and may be reused where compatible. Its former `TamaArea`
 > Okutama fixtures describe the legacy implementation, not the durable
 > geographic boundary; future `Region` / `FoodCulture` / `Place` / `Route` work
 > must remain extensible without requiring a multi-region platform for the
@@ -20,7 +20,7 @@ Sub-agents MUST read this file and the modules it references before writing code
 
 | Path | Exports | Notes |
 |---|---|---|
-| `src/data/model.ts` | `FoodCulture`, `Place`, `DataSource`, `DataOrigin`, `UnlockMethod`, `FoodCultureCategory`, `TamaArea`, `PlaceType`, `UNLOCK_RADIUS_METERS` | Core types. Do not modify. |
+| `src/data/model.ts` | `FoodCulture`, `Place`, `DataSource`, `DataOrigin`, `UnlockMethod`, `FoodCultureCategory`, `RegionId`, `PlaceType`, `UNLOCK_RADIUS_METERS` | Core types. `RegionId` keeps the shared contract geography-independent. |
 | `src/data/index.ts` | `foodCultures`, `places`, `getFoodCultureById(id)`, `getPlaceById(id)`, `getRelatedPlaces(fc)`, `getRelatedFoodCultures(place)` | Data access. Do not modify. |
 | `src/store/collection.tsx` | `CollectionProvider`, `useCollection()` → `{ collected, visitedPlaces, isCollected(id), isVisited(id), collect(id), visitPlace(id), reset() }` | Collection state. `collect`/`visitPlace` are idempotent (duplicates ignored). Do not modify (persistence lands in #7). |
 | `src/i18n.tsx` | `I18nProvider`, `useI18n()` → `{ locale, setLocale, t(key) }`, `strings` | Append-only for new keys. See i18n rule below. |
@@ -34,7 +34,7 @@ Sub-agents MUST read this file and the modules it references before writing code
 interface FoodCulture {
   id: string; nameJa: string; nameEn: string;
   category: 'produce'|'seafood'|'sweets'|'processed-food'|'craft';
-  area: 'okutama'|'ome'|'hamura'|'akiruno'|'hinode';
+  area: RegionId;
   descriptionJa/En; storyJa/En; historyJa/En; makerJa/En; howToEnjoyJa/En;
   image: string; hintJa: string; hintEn: string;
   placeIds: string[];

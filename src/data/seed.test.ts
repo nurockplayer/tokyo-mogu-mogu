@@ -116,6 +116,36 @@ describe('seed data contract (#2)', () => {
     }
   });
 
+  it('registers the Hachioji ginger slice as source-backed Tokyo-wide data (#238)', () => {
+    const culture = getFoodCultureById('hachioji-ginger');
+    expect(culture).toMatchObject({
+      area: 'hachioji',
+      category: 'produce',
+      origin: 'editorial',
+      placeIds: ['hachioji-takiyama-roadside-station'],
+    });
+    expect(culture?.sources.map((source) => source.sourceType)).toContain('official_web');
+
+    const market = getPlaceById('hachioji-takiyama-roadside-station');
+    expect(market).toMatchObject({
+      type: 'shop',
+      origin: 'source',
+      foodCultureIds: ['hachioji-ginger'],
+      coordinatePrecision: 'approximate',
+    });
+    expect(market?.source.url).toMatch(/^https:\/\//);
+    expect(market?.source.verificationStatus).toBe('needs_confirmation');
+
+    const heritage = getPlaceById('hachioji-takiyama-castle');
+    expect(heritage).toMatchObject({
+      foodCultureIds: [],
+      origin: 'source',
+      coordinatePrecision: 'approximate',
+    });
+    expect(heritage?.source.sourceDatasetId).toBe('t132012d3000000018');
+    expect(heritage?.source.license).toContain('CC BY 4.0');
+  });
+
   it('every source timestamp is a parseable ISO date (#129)', () => {
     const dates: string[] = [];
     for (const fc of foodCultures) {

@@ -6,14 +6,16 @@
  */
 import { useMemo } from 'react';
 import { foodCultures } from '../data';
+import type { RegionId } from '../data';
 import { getAreaCompletion, getCategoryCompletion } from '../lib/progression';
 import { useCollection } from '../store/collection';
 import { useI18n, type LocaleKey } from '../i18n';
 import './ProgressBreakdown.css';
 
-const AREA_LABEL_KEY: Record<string, LocaleKey> = {
+const AREA_LABEL_KEY: Partial<Record<RegionId, LocaleKey>> = {
   okutama: 'areaOkutama',
   ome: 'areaOme',
+  hachioji: 'areaHachioji',
   hamura: 'areaHamura',
   akiruno: 'areaAkiruno',
   hinode: 'areaHinode',
@@ -42,6 +44,11 @@ function Row({ label, collected, total }: { label: string; collected: number; to
   );
 }
 
+function areaLabel(area: RegionId, t: (key: LocaleKey) => string): string {
+  const key = AREA_LABEL_KEY[area];
+  return key ? t(key) : area;
+}
+
 export function ProgressBreakdown() {
   const { t } = useI18n();
   const { isCollected } = useCollection();
@@ -64,7 +71,7 @@ export function ProgressBreakdown() {
         {areas.map((a) => (
           <Row
             key={a.area}
-            label={t(AREA_LABEL_KEY[a.area])}
+            label={areaLabel(a.area, t)}
             collected={a.collected}
             total={a.total}
           />

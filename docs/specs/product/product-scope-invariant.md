@@ -104,7 +104,7 @@ This invariant does **not** require implementing a second region before 2026-08-
 
 The durable recommendation contract selects among Region × FoodCulture / journey candidates. It must not assume Tokyo Wasabi is the only possible result, and it must not depend on a nationality-specific persona assumption.
 
-The Hackathon demo ships two production-ready candidates (Okutama × Tokyo Wasabi primary, Ome/Sawai × sake secondary); the fixed golden-path answers match only the wasabi profile, so it returns Okutama × Tokyo Wasabi deterministically. That deterministic result is a **demo behavior**, not a Product-domain rule.
+The current release ships three production-ready candidates (Okutama × Tokyo Wasabi primary, Ome/Sawai × sake secondary, and Hachioji × ginger secondary); the fixed golden-path answers match only the wasabi profile, so it returns Okutama × Tokyo Wasabi deterministically. That deterministic result is a **demo behavior**, not a Product-domain rule.
 
 ## Terminology guardrail / 用語ルール
 

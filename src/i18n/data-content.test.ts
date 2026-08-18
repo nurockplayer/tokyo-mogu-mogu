@@ -32,6 +32,29 @@ describe('S4 story content availability (#123)', () => {
     expect(content?.support).toBe('dataStorySupport');
   });
 
+  it('resolves a complete, region-specific Hachioji story and route mapping (#238)', () => {
+    const content = storyContent('hachioji-ginger');
+    expect(content).toBeDefined();
+    expect(content?.name).toBe('dataHachiojiName');
+    expect(content?.area).toBe('areaHachioji');
+    expect(content?.challengeEvidence).toBeUndefined();
+    expect(routeNameKey('hachioji-ginger-journey')).toBe('dataHachiojiRouteName');
+    expect(routeAreaKey('hachioji-ginger-journey')).toBe('areaHachioji');
+    expect(routeTransportKey('hachioji-ginger-journey')).toBe('dataHachiojiRouteTransport');
+    expect(placeNameKey('hachioji-takiyama-roadside-station')).toBe(
+      'dataPlaceHachiojiRoadsideStationName',
+    );
+    expect(placeNameKey('hachioji-takiyama-castle')).toBe('dataPlaceHachiojiCastleName');
+    expect(stepRoleKey('hachioji-ginger-journey', 'hachioji-takiyama-castle', '1-day')).toBe(
+      'dataHachiojiStopRoleCastleFullDay',
+    );
+    expect(mobilityLabelKey('hachioji-ginger-journey', 1, 2)).toBe('dataRouteMobilityWalk');
+    for (const locale of ['ja', 'en', 'zh-TW'] as const) {
+      expect(resolveKey(strings, locale, 'dataHachiojiName')).not.toMatch(/^missing:/);
+      expect(resolveKey(strings, locale, 'dataHachiojiStickyCta')).not.toMatch(/^missing:/);
+    }
+  });
+
   it('treats cultures without full story copy as unavailable (honest empty state)', () => {
     // yamame/soba/konnyaku have a name key but no authored story; unknown ids
     // have nothing. None may render wasabi fallback copy.

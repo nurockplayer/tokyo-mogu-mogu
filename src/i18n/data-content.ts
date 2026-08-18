@@ -39,6 +39,15 @@ export const FOOD_CULTURE_DATA_KEYS: Record<string, Partial<Record<FoodCultureFi
     maker: 'dataSakeMaker',
     howToEnjoy: 'dataSakeHowToEnjoy',
   },
+  // Hachioji ginger / local-produce slice (Issue #238).
+  'hachioji-ginger': {
+    name: 'dataHachiojiName',
+    description: 'dataHachiojiDescription',
+    story: 'dataHachiojiStory',
+    history: 'dataHachiojiHistory',
+    maker: 'dataHachiojiMaker',
+    howToEnjoy: 'dataHachiojiHowToEnjoy',
+  },
   // Names for the other cultures surfaced on the S6 route spots' "related food
   // cultures" list (Issue #67). Only `name` is mapped — the full record content
   // for these cultures is out of the S3–S8 demo journey scope.
@@ -65,6 +74,11 @@ export const ROUTE_DATA_KEYS = {
     area: 'areaOme',
     transport: 'dataSakeRouteTransport',
   },
+  'hachioji-ginger-journey': {
+    name: 'dataHachiojiRouteName',
+    area: 'areaHachioji',
+    transport: 'dataHachiojiRouteTransport',
+  },
 } as const satisfies Record<string, Record<string, LocaleKey>>;
 
 /** A route step's role, keyed by `{ routeId }.{ placeId }` and duration. */
@@ -89,6 +103,15 @@ export const ROUTE_STEP_ROLE_KEYS: Record<string, LocaleKey> = {
   'ome-sawai-sake-journey.mitake-shrine.1-day': 'dataSakeStopRoleMitakeShrine',
   'ome-sawai-sake-journey.baba-oshijutaku.half-day': 'dataSakeStopRoleBaba',
   'ome-sawai-sake-journey.baba-oshijutaku.1-day': 'dataSakeStopRoleBaba',
+  // Hachioji ginger / local-produce journey (Issue #238).
+  'hachioji-ginger-journey.hachioji-takiyama-roadside-station.half-day':
+    'dataHachiojiStopRoleMarketHalfDay',
+  'hachioji-ginger-journey.hachioji-takiyama-roadside-station.1-day':
+    'dataHachiojiStopRoleMarketFullDay',
+  'hachioji-ginger-journey.hachioji-takiyama-castle.half-day':
+    'dataHachiojiStopRoleCastleHalfDay',
+  'hachioji-ginger-journey.hachioji-takiyama-castle.1-day':
+    'dataHachiojiStopRoleCastleFullDay',
 } as const satisfies Record<string, LocaleKey>;
 
 /** A place keyed by its record id. */
@@ -106,12 +129,19 @@ export const PLACE_DATA_KEYS = {
   'sawanoien-garden': { name: 'dataPlaceSawanoienName' },
   'mitake-shrine': { name: 'dataPlaceMitakeShrineName' },
   'baba-oshijutaku': { name: 'dataPlaceBabaName' },
+  // Hachioji ginger / local-produce journey places (Issue #238).
+  'hachioji-takiyama-roadside-station': { name: 'dataPlaceHachiojiRoadsideStationName' },
+  'hachioji-takiyama-castle': { name: 'dataPlaceHachiojiCastleName' },
 } as const satisfies Record<string, Record<string, LocaleKey>>;
 
-/** Spot practical-info access label, keyed by place id (none on the frozen
- *  journey: practical info is unverified and renders the explicit unknown
- *  state). */
-export const SPOT_ACCESS_KEYS: Record<string, LocaleKey> = {} as const;
+/** Spot practical-info access label, keyed by place id.
+ *
+ * Only source-backed practical notes are mapped here. The frozen Okutama
+ * journey remains unmapped where access claims are still unverified.
+ */
+export const SPOT_ACCESS_KEYS: Record<string, LocaleKey> = {
+  'sawai-ozawa-shuzo': 'dataOzawaAccess',
+} as const satisfies Record<string, LocaleKey>;
 
 /** Spot demo-note label, keyed by place id (none on the frozen journey). */
 export const SPOT_DEMO_NOTE_KEYS: Record<string, LocaleKey> = {} as const;
@@ -128,6 +158,8 @@ export const SPOT_ROLE_KEYS: Record<string, LocaleKey> = {
   'sawanoien-garden': 'dataSawanoienRole',
   'mitake-shrine': 'dataMitakeShrineRole',
   'baba-oshijutaku': 'dataBabaRole',
+  'hachioji-takiyama-roadside-station': 'dataHachiojiMarketRole',
+  'hachioji-takiyama-castle': 'dataHachiojiCastleRole',
 } as const satisfies Record<string, LocaleKey>;
 
 /**
@@ -145,6 +177,7 @@ const ROUTE_MOBILITY_LABEL_KEYS: Record<string, LocaleKey> = {
   'ome-sawai-sake-journey.1-2': 'dataRouteMobilityWalk',
   'ome-sawai-sake-journey.2-3': 'dataSakeMobilityCableCar',
   'ome-sawai-sake-journey.3-4': 'dataRouteMobilityWalk',
+  'hachioji-ginger-journey.1-2': 'dataRouteMobilityWalk',
 } as const satisfies Record<string, LocaleKey>;
 
 /** The bridge helpers below are pure id → key lookups (used by page code). */
@@ -265,8 +298,9 @@ export interface StoryContentKeys {
  */
 const OKUTAMA_MUNICIPALITY_CODE = '133086';
 
-/** The 8/23 demo supplies full story content for 東京わさび and the Ome/Sawai
- *  sake slice (Issue #163). The sake story carries its own culture chrome keys
+/** The current release supplies full story content for 東京わさび, the Ome/Sawai
+ * sake slice (Issue #163), and the Hachioji ginger slice (Issue #238). Each
+ * non-pilot story carries its own culture chrome keys
  *  (dataSakeHeroKicker etc.) — never wasabi's shared s4* chrome — and no
  *  municipalityId (no Ome municipality-agriculture profile exists).
  *
@@ -319,6 +353,24 @@ export const STORY_DATA_KEYS: Record<
     craftMediaAlt: 'dataSakeCraftMediaAlt',
     ctaSub: 'dataSakeCtaSub',
     stickyCta: 'dataSakeStickyCta',
+  },
+  'hachioji-ginger': {
+    name: 'dataHachiojiName',
+    lead: 'dataHachiojiStoryLead',
+    area: 'areaHachioji',
+    history: 'dataHachiojiHistory',
+    story: 'dataHachiojiStory',
+    makerName: 'dataHachiojiStoryMakerName',
+    makerRole: 'dataHachiojiStoryMakerRole',
+    maker: 'dataHachiojiMaker',
+    craft: 'dataHachiojiStoryCraft',
+    howToEnjoy: 'dataHachiojiHowToEnjoy',
+    challenge: 'dataHachiojiStoryChallenge',
+    support: 'dataHachiojiStorySupport',
+    heroKicker: 'dataHachiojiHeroKicker',
+    craftMediaAlt: 'dataHachiojiCraftMediaAlt',
+    ctaSub: 'dataHachiojiCtaSub',
+    stickyCta: 'dataHachiojiStickyCta',
   },
 };
 
