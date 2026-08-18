@@ -33,7 +33,7 @@
 | Exploration（5 ステップ） | 1/5 体験（🍽️ などタイル）→ 2/5 出発（`東京都`/`周辺`）→ 3/5 移動（`1時間以内` など）→ 4/5 長さ（`半日`/`1日`）→ 5/5 味+テーマ（1/2 味・2/2 テーマ）→ `結果を見る` | URL → `/explore` |
 | Result | `96%マッチ度` カード（primary・東京わさび）＋ `91%` カード（secondary・奥多摩やまめ） | `※ このマッチ度はデモ用のプロトタイプ表示…` の注記あり |
 | Story | `東京わさびの物語を読む` | `味わうことが、継承になる`、`周辺観光スポット`、`MOGUMOGU ポイント！` |
-| Route | `この食文化の観光ルートを作成する` | h1 `奥多摩わさび紀行`、`デモ用ルート` ラベル |
+| Route | `この食文化の観光ルートを作成する` | h1 `奥多摩わさび紀行`、`デモ用ルート` ラベル、latest Figma の prototype-only bottom nav |
 | Spot | timeline ピン `奥多摩観光案内所` → `➕ 旅程に追加する` | h1 `奥多摩観光案内所` |
 | Save | `ルートに戻る` → `🔖 この旅程を保存する` | 保存で `tmm:savedRoutes` に書き込み |
 
@@ -52,7 +52,7 @@
 
 1. **ネットワークが切れてもコア journey は継続できる**（実測済み）。ただし**一度開いたページ内で**戻る/進む操作をする。ページを丸ごと再読込（reload）はネットワークが必要なことがあるので避ける。
 2. **状態が汚れたら**: ヘッダー `デモデータをリセット` → もう一度タップ → 初回フローからやり直す。壊れた `tmm:*` JSON が入っていてもクラッシュせず復旧 journey が動く（実測）。
-3. **Result が出ない**: `/explore/result` を直接開いても、保存状態がなければ `/food-profile` に自動で戻る（実測）。その場合は 5 問をやり直す（決定論なので同じ結果）。
+3. **Result が出ない**: `/explore/result` を直接開いても、保存状態がなければ `/food-profile` に自動で戻る（実測）。その場合は **Food Profile から正規フローをやり直す**（Result は決定論なので同じ 2 件に収束）。
 
 ---
 
@@ -75,7 +75,7 @@
 
 ## 4. 検証済み事実（エビデンス）
 
-2026-08-17、本番ビルド https://tokyo-mogu-mogu.pages.dev（commit `9c0d404`、#228 マージ後）に Playwright（chromium、375px）で実測し、正規パス各ステップ PASS、console / page error 0。2026-08-19 時点の current main `63fdbb4` では、以下の文言・挙動を i18n ソース / e2e / vitest で再確認（ブラウザ再実測は本更新では未実施）。
+2026-08-17、本番ビルド https://tokyo-mogu-mogu.pages.dev（commit `9c0d404`、#228 マージ後）に Playwright（chromium、375px）で実測し、正規パス各ステップ PASS、console / page error 0。2026-08-19 時点の current main `63fdbb4` では clean exact-head validation と Playwright **43/43** が PASS し、以下の文言・挙動を再確認済み。
 
 - ✅ **正規パス**（ja/375px）: Landing → Food Profile 導入（`はじめる！`/`登録なし、自分で見てみる`）→ nickname → Dietary Interview 4 ステップ（ステップカウンタ 1/4–4/4、各 `送信`）→ Summary（`保存してつぎへ`）→ Post-profile fork（`自分に合った旅をおすすめしてもらう！`）→ Exploration 5 ステップ（体験 → 出発 → 移動 → 長さ → 味+テーマ）→ Result（96% primary ＋ 91% secondary、prototype 注記）→ Story → Route（`デモ用ルート` ＋ `リアルタイムの混雑情報ではありません`）→ Spot → 旅程保存。全て PASS。
 - ✅ **Dietary 順序**: アレルギー → 食生活・スタイル → 宗教 → 苦手（実測）。
