@@ -35,7 +35,7 @@ import {
 import { loadExplorationAnswers, saveExplorationAnswers } from './exploration-session';
 import { hasFoodProfile } from '../../lib/food-profile-storage';
 import { loadNickname } from '../../lib/nickname';
-import { ChatTranscript, AssistantQuestion, type ChatItem } from './conversation';
+import { ChatTranscript, AssistantQuestion, scrollTurnIntoView, type ChatItem } from './conversation';
 import expEat from '../../assets/figma/exp-eat.png';
 import expMake from '../../assets/figma/exp-make.png';
 import expBuy from '../../assets/figma/exp-buy.png';
@@ -250,7 +250,7 @@ function ExplorationWizardInner() {
     const node = activeTurnRef.current;
     if (!node) return;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    node.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    scrollTurnIntoView(node, reduce ? 'auto' : 'smooth');
   }, [step]);
 
   // Persist the derived canonical answers whenever the visual selection changes.

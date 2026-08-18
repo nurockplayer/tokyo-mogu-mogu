@@ -25,7 +25,7 @@
  * Phase 2. Input is recommendation-only, never a safety guarantee (product
  * contract "Safety Boundary").
  */
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useI18n } from '../../i18n';
 import { type LocaleKey } from '../../i18n/resources';
@@ -43,6 +43,7 @@ import {
   ChatTranscript,
   AssistantMessage,
   AssistantQuestion,
+  scrollTurnIntoView,
   type ChatItem,
 } from './conversation';
 import './onboarding.css';
@@ -286,6 +287,30 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
     setBrowseNote(false);
   }, [mode]);
 
+  // LINE-like reveal (Issue #230 motion): keep the newly revealed setup step
+  // near the viewport bottom as the conversation grows — same motion as the
+  // Exploration. The edit surface keeps its own header flow and is left alone.
+  const stepScrollRef = useRef<HTMLDivElement>(null);
+  const stepScrollFirst = useRef(true);
+  useEffect(() => {
+    if (editing) return;
+    if (stepScrollFirst.current) {
+      stepScrollFirst.current = false;
+      return;
+    }
+    const container = stepScrollRef.current;
+    if (!container) return;
+    // The current setup step is the last `.fp-convo` in the container (the
+    // transcript renders `.fp-chat`, not `.fp-convo`), so the step stays a
+    // direct child of `.tmm-food-profile` and the pinned conversation selectors
+    // keep matching.
+    const steps = Array.from(container.querySelectorAll<HTMLElement>('.fp-convo'));
+    const node = steps[steps.length - 1] ?? (container.lastElementChild as HTMLElement | null);
+    if (!node) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    scrollTurnIntoView(node, reduce ? 'auto' : 'smooth');
+  }, [step, editing]);
+
   const choices: Choice[] = [
     { value: 'allergy', label: t('fpAllergy') },
     { value: 'vegetarian-vegan', label: t('fpVegan') },
@@ -527,7 +552,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   // First-use setup: no profile exists yet.
   if (view === 'setup') {
     return (
-      <div className="tmm-page tmm-food-profile">
+      <div ref={stepScrollRef} className="tmm-page tmm-food-profile">
         <ConversationHeader editing={false} onBack={goBack} />
         <ChatTranscript items={transcript} />
 
