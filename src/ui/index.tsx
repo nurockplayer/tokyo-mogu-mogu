@@ -180,7 +180,7 @@ export function StorySection({
         <h2 className="tmm-story-section__title">
           {number !== undefined ? (
             <span className="tmm-story-section__num" aria-hidden="true">
-              {number}
+              {String(number).padStart(2, '0')}
             </span>
           ) : null}
           {title}
