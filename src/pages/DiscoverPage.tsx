@@ -6,10 +6,12 @@
  * completing a Food Profile or the per-trip Exploration.
  *
  * Content honesty (product contract / #93 / #163):
- * - 東京わさび (wasabi-okutama) is the verified first-pilot story: `origin:
+ * - 東京わさび (wasabi-okutama) is the frozen first-pilot story: `origin:
  *   'editorial'` written from the recorded public sources.
  * - 青梅・沢井の日本酒 (sake-ome, Issue #163) is the source-backed second slice:
  *   `origin: 'editorial'` written from the recorded official/Open Data sources.
+ * - 八王子ショウガと八王子野菜 (Issue #238) is a source-backed
+ *   Tokyo-wide third slice with a public market and contextual heritage stop.
  * - Playable journeys are DERIVED from the ready recommendation candidates
  *   (the same config Result reads), so Discover and Result can never diverge on
  *   what is playable. A culture/place whose record is missing is skipped
@@ -19,8 +21,9 @@
  *   `origin: 'source'` with `needs_confirmation` — addresses are source-backed,
  *   coordinates are approximate (marked in the seed). Spot Detail renders only
  *   source-backed practical info or an explicit unverified state.
- * - No future/second region is presented as implemented. Browse-only use never
- *   writes MOGU Recent history (only a generated Result does).
+ * - Every production-visible journey is registered in the Slice Manifest.
+ *   Browse-only use never writes MOGU Recent history (only a generated Result
+ *   does).
  *
  * Back navigation preserves the Discover context: Story is reached with
  * `?backTo=/discover` (StoryPage allowlists it) and Spots with `?from=discover`
@@ -42,7 +45,7 @@ import {
 } from '../data';
 import { foodCultureKey, placeNameKey } from '../i18n/data-content';
 import { deriveVerificationStatus } from '../lib/verification';
-import type { FoodCulture, ModelRoute, VerificationStatus, TamaArea } from '../data';
+import type { FoodCulture, ModelRoute, VerificationStatus, RegionId } from '../data';
 import './DiscoverPage.css';
 
 /** Verification status → i18n label key (kept honest on place cards). */
@@ -58,9 +61,10 @@ const VERIFICATION_LABEL_KEY: Record<VerificationStatus, LocaleKey> = {
  * Area label key per seed area. Only areas with a three-locale bundle key are
  * mapped; an unmapped area falls back to the culture's canonical name.
  */
-const AREA_LABEL_KEY: Partial<Record<TamaArea, LocaleKey>> = {
+const AREA_LABEL_KEY: Partial<Record<RegionId, LocaleKey>> = {
   okutama: 'areaOkutama',
   ome: 'areaOme',
+  hachioji: 'areaHachioji',
 };
 
 /**
@@ -69,7 +73,7 @@ const AREA_LABEL_KEY: Partial<Record<TamaArea, LocaleKey>> = {
  * never inherits another region's label.
  */
 function areaLabel(
-  fc: { area: TamaArea; nameJa: string; nameEn: string },
+  fc: { area: RegionId; nameJa: string; nameEn: string },
   locale: string,
   t: (key: LocaleKey) => string,
 ): string {
@@ -132,11 +136,11 @@ export function DiscoverPage() {
     .filter((j): j is { culture: FoodCulture; route: ModelRoute } => j !== undefined);
 
   // Additional cultures present in the seed but outside the playable journeys
-  // (yamame, soba, konnyaku, ...). They are editorial/demo records only — they
-  // do not imply another region or a production journey. Release-managed slices
-  // that are hidden from Discover (disabled, #171) are excluded here too, so a
-  // disabled slice never resurfaces as a future card. Keep this list
-  // deterministic and tied to what the seed actually contains.
+  // (yamame, soba, konnyaku, ...). They are editorial/demo records only and do
+  // not imply a production journey. Release-managed slices that are hidden from
+  // Discover (disabled, #171) are excluded here too, so a disabled slice never
+  // resurfaces as a future card. Keep this list deterministic and tied to what
+  // the seed actually contains.
   const playableCultureIds = new Set(playableJourneys.map((j) => j.culture.id));
   const otherCultures = discoverOtherCultures(
     foodCultures,
@@ -169,7 +173,7 @@ export function DiscoverPage() {
       <p className="page-sub">{t('discoverPageBody')}</p>
       <p className="discover-intro">{t('discoverIntro')}</p>
 
-      {/* Playable stories — the verified entry points (first = demo golden path) */}
+      {/* Playable stories — source-backed entry points (first = demo golden path) */}
       {playableJourneys.length > 0 ? (
         <section className="tmm-section" aria-label={t('discoverStoriesTitle')}>
           <h2 className="discover-section-title">{t('discoverStoriesTitle')}</h2>
@@ -251,8 +255,8 @@ export function DiscoverPage() {
         </section>
       ) : null}
 
-      {/* Editorial/demo cultures outside the first-pilot story — clearly not a
-          second production region. */}
+      {/* Editorial/demo cultures outside the currently playable journeys —
+          clearly not an additional production slice. */}
       {otherCultures.length > 0 ? (
         <section className="tmm-section" aria-label={t('discoverMoreTitle')}>
           <h2 className="discover-section-title">{t('discoverMoreTitle')}</h2>

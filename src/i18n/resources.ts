@@ -106,7 +106,7 @@ export const strings = {
     back: '戻る',
     byArea: 'エリア',
     byCategory: 'カテゴリ',
-    pokedexSub: '多摩の食文化を集めて、図鑑を完成させよう。',
+    pokedexSub: '東京の食文化を集めて、図鑑を完成させよう。',
     catProduce: '食材',
     catSeafood: '魚介',
     catSweets: '菓子',
@@ -125,6 +125,12 @@ export const strings = {
     detailLicense: 'ライセンス',
     detailLastVerified: '最終確認',
     detailRetrieved: '取得日',
+    sourceTypeOfficialWeb: '公式ウェブサイト',
+    sourceTypeOpenData: 'オープンデータ',
+    sourceTypeFieldwork: '現地調査',
+    sourceTypeBusiness: '事業者からの確認',
+    sourceTypeManual: '手動入力',
+    sourceTypeDemo: 'デモデータ',
     detailVisitOnMap: '地図で見る',
     detailLockedNoticeBody: 'この食文化はまだ見つかっていません。体験できる場所へ行ってチェックインすると、ストーリーや情報源が公開されます。',
     detailNotFoundTitle: '見つかりませんでした',
@@ -139,6 +145,7 @@ export const strings = {
     verificationDemo: 'デモデータ',
     areaOkutama: '奥多摩',
     areaOme: '青梅',
+    areaHachioji: '八王子',
     areaHamura: '羽村',
     areaAkiruno: 'あきる野',
     areaHinode: '日の出',
@@ -500,7 +507,7 @@ export const strings = {
     s3RevealTitle: 'あなたに合う食の旅を見つけました！',
     s3RevealSub: 'あなたの答えから導いた、最初のおすすめです。',
     // Result fixture candidates (latest Figma parity, Issue #226)
-    s3ResultCount: '結果:2件',
+    s3ResultCount: '東京の3つの食旅からおすすめ',
     s3CardRegion: '奥多摩地区 (東京西部)',
     s3CardTitlePrimary: '水がつなぐ、江戸から続く辛味\n奥多摩のわさび文化をたどる',
     s3CardTitleSecondary: '水が育てる、幻の川魚\n奥多摩やまめの食文化',
@@ -661,6 +668,7 @@ export const strings = {
     dataPlaceBabaName: '馬場家御師住宅',
     dataOzawaRole:
       '小澤酒造は沢井にある酒蔵で、日本酒「澤乃井」を醸しています。多摩川の清流が流れる渓谷のほとりに位置します。',
+    dataOzawaAccess: '酒蔵見学は予約制。個人見学は公式予約ページから申し込みます。',
     dataSawanoienRole:
       '澤乃井園は小澤酒造が営む清流ガーデンです。多摩川の清流を見下ろすオープンガーデンで、軽食や澤乃井の生原酒を楽しめます。',
     dataMitakeShrineRole:
@@ -668,6 +676,51 @@ export const strings = {
     dataBabaRole:
       '馬場家御師住宅は、かつて御嶽神社への参拝者を迎えた御師の住宅で、東京都指定有形文化財です。',
     dataSakeMobilityCableCar: 'JR青梅線・御岳登山鉄道ケーブル',
+    // Hachioji ginger / local-produce slice (Issue #238).
+    dataHachiojiName: '八王子ショウガと八王子野菜',
+    dataHachiojiDescription: '八王子で受け継がれてきたショウガと、旬の八王子野菜を訪ねる食文化。',
+    dataHachiojiStory:
+      '八王子ショウガは加住町などで生産が続く江戸東京野菜です。道の駅八王子滝山では、市内の生産者が届ける野菜や地域の食文化に出会えます。',
+    dataHachiojiHistory:
+      'JA東京中央会によると、八王子ショウガは昭和初期に伝わって以来80年以上途切れず生産され、しょうが祭にも奉納されてきました。',
+    dataHachiojiMaker:
+      '八王子市内の生産者たち。八王子市の公式案内は、道の駅の直売所に市内各地の生産者が農産物を持ち寄ると紹介しています。',
+    dataHachiojiHowToEnjoy:
+      '旬の時期に八王子ショウガを探し、直売所や地場食材の料理を選んでみよう。品揃えは季節や当日の入荷で変わります。',
+    dataHachiojiStoryLead:
+      '八王子で受け継がれてきたショウガと、旬の野菜。その背景を、読み物としてたどってみましょう。',
+    dataHachiojiStoryMakerName: '八王子の生産者',
+    dataHachiojiStoryMakerRole:
+      '市内各地で野菜を育て、直売所へ届ける生産者たち。八王子市の公式案内に基づく紹介です。',
+    dataHachiojiStoryCraft:
+      '八王子ショウガは、JA東京中央会が紹介する江戸東京野菜のひとつです。昭和初期に伝わって以来、80年以上にわたり生産が続き、しょうが祭にも登場します。',
+    dataHachiojiStoryChallenge:
+      '農産物の品揃えは季節と当日の入荷に左右されます。だからこそ、直売所で旬を選び、地域の生産者や食文化に関心を向けることが、営みを知る入口になります。',
+    dataHachiojiStorySupport:
+      '八王子の旬を味わい、買い物や訪問を通して地域の生産者に関心を寄せてみましょう。',
+    dataHachiojiHeroKicker: '八王子ショウガと八王子野菜の物語',
+    dataHachiojiCraftMediaAlt: '八王子の農産物と滝山の風景のイメージ',
+    dataHachiojiCtaSub:
+      '道の駅八王子滝山と滝山城跡をめぐり、八王子の食文化と土地の背景に出会うルートです。',
+    dataHachiojiStickyCta: '八王子の旅を見る',
+    dataHachiojiRouteName: '八王子ショウガと滝山の食文化をたどる旅',
+    dataHachiojiRouteTransport: '徒歩（現地の案内を確認）',
+    dataHachiojiRouteEstimate:
+      '所要時間・滞在時間・徒歩時間は編集部の目安です。現地の案内と当日の状況を確認してください。',
+    dataHachiojiStopRoleMarketHalfDay:
+      '八王子市の食文化ミュージアムに認定された道の駅。市内の生産者が届ける野菜や、旬の八王子ショウガを探します。品揃えは季節と当日の入荷で変わります。',
+    dataHachiojiStopRoleMarketFullDay:
+      '直売所と地場食材の料理をゆっくり見て、八王子ショウガが入荷しているか現地で確認します。品揃えは季節と当日の入荷で変わります。',
+    dataHachiojiStopRoleCastleHalfDay:
+      '滝山城跡で加住・滝山の文化景観をたどります。食材の販売場所ではなく、八王子の土地の背景を知るための文化財ストップです。',
+    dataHachiojiStopRoleCastleFullDay:
+      '滝山城跡を歩き、加住地域の文化景観をたどります。城跡は食材の販売場所ではないため、食文化を支える土地の背景として訪ねます。',
+    dataPlaceHachiojiRoadsideStationName: '道の駅八王子滝山',
+    dataPlaceHachiojiCastleName: '滝山城跡',
+    dataHachiojiMarketRole:
+      '市内の農産物や地域の食文化に出会える道の駅です。八王子ショウガは季節商品として扱われるため、当日の入荷は現地で確認します。',
+    dataHachiojiCastleRole:
+      '八王子市の文化財一覧に掲載される滝山城跡。食材を買う場所ではなく、八王子ショウガを育ててきた加住・滝山の土地の背景をたどる文化財ストップです。',
   },
   en: {
     appName: 'Tokyo Mogu Mogu',
@@ -752,7 +805,7 @@ export const strings = {
     back: 'Back',
     byArea: 'Area',
     byCategory: 'Category',
-    pokedexSub: 'Collect Tama\'s food cultures and complete your field guide.',
+    pokedexSub: 'Collect Tokyo\'s food cultures and complete your field guide.',
     catProduce: 'Produce',
     catSeafood: 'Fish',
     catSweets: 'Sweets',
@@ -771,6 +824,12 @@ export const strings = {
     detailLicense: 'License',
     detailLastVerified: 'Last verified',
     detailRetrieved: 'Retrieved',
+    sourceTypeOfficialWeb: 'Official website',
+    sourceTypeOpenData: 'Open data',
+    sourceTypeFieldwork: 'Fieldwork',
+    sourceTypeBusiness: 'Business confirmation',
+    sourceTypeManual: 'Manual entry',
+    sourceTypeDemo: 'Demo data',
     detailVisitOnMap: 'View on map',
     detailLockedNoticeBody: 'This food culture is still locked. Visit one of the places below and check in to reveal its story and sources.',
     detailNotFoundTitle: 'Not found',
@@ -785,6 +844,7 @@ export const strings = {
     verificationDemo: 'Demo data',
     areaOkutama: 'Okutama',
     areaOme: 'Ome',
+    areaHachioji: 'Hachioji',
     areaHamura: 'Hamura',
     areaAkiruno: 'Akiruno',
     areaHinode: 'Hinode',
@@ -1150,7 +1210,7 @@ export const strings = {
     s3RevealTitle: 'We found a food journey that fits you!',
     s3RevealSub: 'Our first recommendation, shaped by your answers.',
     // Result fixture candidates (latest Figma parity, Issue #226)
-    s3ResultCount: '2 results',
+    s3ResultCount: 'A recommendation from 3 Tokyo food journeys',
     s3CardRegion: 'Okutama area (western Tokyo)',
     s3CardTitlePrimary: 'Water ties it together\nTracing Okutama\'s wasabi culture',
     s3CardTitleSecondary: 'Water-raised, rare river fish\nThe food culture of Okutama yamame',
@@ -1321,6 +1381,7 @@ export const strings = {
     dataPlaceBabaName: 'Baba House Oshi Residence',
     dataOzawaRole:
       'Ozawa Shuzo is a sake brewery in Sawai that brews the "Sawanoi" label, on the banks of the clear Tama River valley.',
+    dataOzawaAccess: 'Brewery tours require reservations; individual tours use the official booking page.',
     dataSawanoienRole:
       'Sawanoien is the brewery-run Clear Stream Garden overlooking the Tama River, serving light meals and Sawanoi nama genshu.',
     dataMitakeShrineRole:
@@ -1328,6 +1389,52 @@ export const strings = {
     dataBabaRole:
       'The Baba House is a former oshi (pilgrim-host) residence that once received Mitake Shrine pilgrims — a Tokyo-designated cultural property.',
     dataSakeMobilityCableCar: 'JR Ome Line & Mitake Tozan cable car',
+    // Hachioji ginger / local-produce slice (Issue #238).
+    dataHachiojiName: 'Hachioji Ginger & Local Produce',
+    dataHachiojiDescription:
+      'A journey into Hachioji ginger and the city’s seasonal local produce.',
+    dataHachiojiStory:
+      'Hachioji ginger is an Edo-Tokyo vegetable still grown around Kazumi and other parts of the city. Michi-no-Eki Hachioji Takiyama connects visitors with local produce and food traditions.',
+    dataHachiojiHistory:
+      'JA Tokyo Central Union records that Hachioji ginger has been grown continuously for more than 80 years since it arrived in the early Showa period, and is offered at the local ginger festival.',
+    dataHachiojiMaker:
+      'Hachioji producers bring seasonal crops to the roadside station’s farm market, according to the city’s official guide.',
+    dataHachiojiHowToEnjoy:
+      'In season, look for Hachioji ginger and choose local produce or a dish made with it. Availability changes with the season and the day’s deliveries.',
+    dataHachiojiStoryLead:
+      'Ginger and seasonal vegetables carried forward in Hachioji. Follow their story as a read.',
+    dataHachiojiStoryMakerName: 'Hachioji producers',
+    dataHachiojiStoryMakerRole:
+      'Growers across the city who raise vegetables and bring them to the farm market, as described in Hachioji’s official guide.',
+    dataHachiojiStoryCraft:
+      'Hachioji ginger is one of the Edo-Tokyo vegetables introduced by JA Tokyo Central Union. It has continued in production for more than 80 years since arriving in the early Showa period, and appears at the local ginger festival.',
+    dataHachiojiStoryChallenge:
+      'What the farm market carries depends on the season and the day’s deliveries. Choosing what is in season and paying attention to local producers is a small way into the living food culture behind the shelves.',
+    dataHachiojiStorySupport:
+      'Taste Hachioji in season, and show interest in its producers through a thoughtful visit or purchase.',
+    dataHachiojiHeroKicker: 'The Story of Hachioji Ginger & Local Produce',
+    dataHachiojiCraftMediaAlt: 'Illustrative image of Hachioji produce and the Takiyama landscape',
+    dataHachiojiCtaSub:
+      'A route through Michi-no-Eki Hachioji Takiyama and Takiyama Castle Ruins, connecting food culture with the land behind it.',
+    dataHachiojiStickyCta: 'Start the Hachioji journey',
+    dataHachiojiRouteName: 'Hachioji Ginger & Takiyama Food Culture Journey',
+    dataHachiojiRouteTransport: 'Walking (check local guidance)',
+    dataHachiojiRouteEstimate:
+      'Total, stay, and walking times are editorial estimates; check local guidance and conditions on the day.',
+    dataHachiojiStopRoleMarketHalfDay:
+      'Start at the city-recognized food culture museum and farm market. Look for Hachioji produce and seasonal ginger; stock changes with the season and day.',
+    dataHachiojiStopRoleMarketFullDay:
+      'Take time with the farm market and local-food options, then check on site whether Hachioji ginger has arrived. Stock changes with the season and day.',
+    dataHachiojiStopRoleCastleHalfDay:
+      'Trace the cultural landscape of Kazumi and Takiyama at the castle ruins. This is a heritage context stop, not a place to buy food.',
+    dataHachiojiStopRoleCastleFullDay:
+      'Walk through the castle ruins and the Kazumi landscape. The site is not a food venue; visit it as context for the land behind the food culture.',
+    dataPlaceHachiojiRoadsideStationName: 'Michi-no-Eki Hachioji Takiyama',
+    dataPlaceHachiojiCastleName: 'Takiyama Castle Ruins',
+    dataHachiojiMarketRole:
+      'A roadside station where visitors can meet Hachioji produce and local food culture. Hachioji ginger is seasonal, so check the day’s stock on site.',
+    dataHachiojiCastleRole:
+      'Listed in Hachioji’s cultural-property data, Takiyama Castle Ruins provide heritage context for the Kazumi and Takiyama land behind Hachioji ginger; they are not a food venue.',
   },
   'zh-TW': {
     appName: '東京もぐもぐ',
@@ -1412,7 +1519,7 @@ export const strings = {
     back: '返回',
     byArea: '地區',
     byCategory: '類別',
-    pokedexSub: '收集多摩的飲食文化，完成你的美食圖鑑。',
+    pokedexSub: '收集東京的飲食文化，完成你的美食圖鑑。',
     catProduce: '食材',
     catSeafood: '海鮮',
     catSweets: '甜點',
@@ -1431,6 +1538,12 @@ export const strings = {
     detailLicense: '授權',
     detailLastVerified: '最後確認',
     detailRetrieved: '取得日期',
+    sourceTypeOfficialWeb: '官方網站',
+    sourceTypeOpenData: '開放資料',
+    sourceTypeFieldwork: '現地調查',
+    sourceTypeBusiness: '業者確認',
+    sourceTypeManual: '手動輸入',
+    sourceTypeDemo: '示範資料',
     detailVisitOnMap: '在地圖上查看',
     detailLockedNoticeBody: '這項飲食文化尚未被發現。前往下列可體驗的地點簽到後，即可解鎖故事與資料來源。',
     detailNotFoundTitle: '找不到',
@@ -1445,6 +1558,7 @@ export const strings = {
     verificationDemo: '示範資料',
     areaOkutama: '奧多摩',
     areaOme: '青梅',
+    areaHachioji: '八王子',
     areaHamura: '羽村',
     areaAkiruno: 'あきる野',
     areaHinode: '日の出',
@@ -1805,7 +1919,7 @@ export const strings = {
     s3RevealTitle: '我們找到了適合你的飲食之旅！',
     s3RevealSub: '根據你的回答，為你挑選的第一項推薦。',
     // Result fixture candidates (latest Figma parity, Issue #226)
-    s3ResultCount: '結果：2 個',
+    s3ResultCount: '從東京 3 條飲食文化之旅中推薦',
     s3CardRegion: '奧多摩地區（東京西部）',
     s3CardTitlePrimary: '由水串起的辛味\n探訪奧多摩的山葵文化',
     s3CardTitleSecondary: '水所養育的珍稀川魚\n奧多摩山女魚的飲食文化',
@@ -1959,6 +2073,7 @@ export const strings = {
     dataPlaceBabaName: '馬場家御師住宅',
     dataOzawaRole:
       '小澤酒造是位於沢井的酒藏，釀造日本酒「澤乃井」，坐落在多摩川清流流淌的溪谷河畔。',
+    dataOzawaAccess: '酒藏見學需預約；個人見學請透過官方預約頁面申請。',
     dataSawanoienRole:
       '澤乃井園是小澤酒造經營的清流花園。在俯瞰多摩川清流的開放庭園中，可以享用輕食與澤乃井的生原酒。',
     dataMitakeShrineRole:
@@ -1966,6 +2081,49 @@ export const strings = {
     dataBabaRole:
       '馬場家御師住宅是過去曾接待御嶽神社參拜者的御師宅邸，為東京都指定有形文化財。',
     dataSakeMobilityCableCar: 'JR青梅線・御岳登山鐵道纜車',
+    // Hachioji ginger / local-produce slice (Issue #238).
+    dataHachiojiName: '八王子薑與八王子在地蔬菜',
+    dataHachiojiDescription: '探訪八王子流傳至今的薑，以及當季八王子在地蔬菜的飲食文化。',
+    dataHachiojiStory:
+      '八王子薑是持續在加住町等地生產的江戶東京蔬菜。在道之驛八王子滝山，可以遇見市內生產者送來的蔬菜與地方飲食文化。',
+    dataHachiojiHistory:
+      '根據 JA 東京中央會的介紹，八王子薑自昭和初期傳入後，已持續生產超過80年，也會在當地的薑祭中供奉。',
+    dataHachiojiMaker:
+      '八王子市內的生產者們。八王子市官方說明指出，道之驛的直賣所會收到市內各地生產者帶來的農產品。',
+    dataHachiojiHowToEnjoy:
+      '在當季尋找八王子薑，挑選直賣所的在地農產或使用在地食材的料理。品項會隨季節與當日進貨變動。',
+    dataHachiojiStoryLead: '八王子流傳至今的薑與當季蔬菜。讓我們以閱讀的方式走進它們的故事。',
+    dataHachiojiStoryMakerName: '八王子在地生產者',
+    dataHachiojiStoryMakerRole:
+      '在市內各地種植蔬菜、再送到直賣所的生產者們。這是根據八王子市官方說明所整理的介紹。',
+    dataHachiojiStoryCraft:
+      '八王子薑是 JA 東京中央會介紹的江戶東京蔬菜之一。自昭和初期傳入後，已持續生產超過80年，也會出現在當地的薑祭中。',
+    dataHachiojiStoryChallenge:
+      '直賣所的品項會受到季節與當日進貨影響。選擇當季食材、留意在地生產者，是理解貨架背後活生生飲食文化的一個入口。',
+    dataHachiojiStorySupport: '品嚐八王子當季風味，透過用心的到訪或購買，表達對在地生產者的關心。',
+    dataHachiojiHeroKicker: '八王子薑與八王子在地蔬菜的故事',
+    dataHachiojiCraftMediaAlt: '八王子農產品與滝山景觀的示意圖',
+    dataHachiojiCtaSub:
+      '走訪道之驛八王子滝山與滝山城跡，將八王子的飲食文化與背後的土地連結起來。',
+    dataHachiojiStickyCta: '展開八王子之旅',
+    dataHachiojiRouteName: '八王子薑與滝山飲食文化之旅',
+    dataHachiojiRouteTransport: '步行（請確認現地指引）',
+    dataHachiojiRouteEstimate:
+      '總時間、停留時間與步行時間為編輯部估算；請確認現地指引與當日狀況。',
+    dataHachiojiStopRoleMarketHalfDay:
+      '從獲認定為食文化博物館的道之驛與農產直賣所開始，尋找八王子農產與當季八王子薑；品項會隨季節與當日進貨變動。',
+    dataHachiojiStopRoleMarketFullDay:
+      '慢慢逛直賣所與在地食材料理，並在現場確認八王子薑是否到貨。品項會隨季節與當日進貨變動。',
+    dataHachiojiStopRoleCastleHalfDay:
+      '在滝山城跡追尋加住・滝山的文化景觀。這裡不是購買食材的地方，而是理解八王子土地背景的文化財景點。',
+    dataHachiojiStopRoleCastleFullDay:
+      '漫步滝山城跡，追尋加住地區的文化景觀。城跡不是食材販售場所，請把它當成支撐飲食文化的土地背景來造訪。',
+    dataPlaceHachiojiRoadsideStationName: '道之驛八王子滝山',
+    dataPlaceHachiojiCastleName: '滝山城跡',
+    dataHachiojiMarketRole:
+      '可以遇見市內農產品與地方飲食文化的道之驛。八王子薑是季節商品，當日是否進貨請在現場確認。',
+    dataHachiojiCastleRole:
+      '滝山城跡登載於八王子市文化財資料。這裡不是購買食材的地方，而是追尋孕育八王子薑的加住・滝山土地背景的文化財景點。',
   },
 } as const;
 

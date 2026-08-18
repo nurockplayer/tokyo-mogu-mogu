@@ -1,7 +1,7 @@
 /**
  * S6 Spot Detail page (Issue #45).
  *
- * Shows one place on the wasabi route: stylized photo, local name +
+ * Shows one place on a food-culture route: stylized photo, local name +
  * romanization, category, an editorial story excerpt, practical info
  * (address / access / hours / closed days / price / reservation) ONLY where
  * source data exists — otherwise an explicit unknown/unverified state — tags,
@@ -30,7 +30,7 @@ import {
   getRelatedFoodCultures,
   getSpotDetail,
 } from '../data';
-import type { PlaceType } from '../data';
+import type { DataSource, PlaceType } from '../data';
 import { useI18n, type LocaleKey } from '../i18n';
 import {
   placeNameKey,
@@ -41,7 +41,7 @@ import {
 } from '../i18n/data-content';
 import { googleMapsDirectionsUrl, appleMapsDirectionsUrl, type DirectionsPlace } from '../lib/map-links';
 import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
-import { deriveVerificationStatus } from '../lib/verification';
+import { deriveVerificationStatus, sourceDateLabel } from '../lib/verification';
 import { routeBackTarget, resolveSpotRouteId, spotBackHref } from './route-context';
 import './route-spot.css';
 
@@ -65,6 +65,15 @@ const VERIFICATION_LABEL_KEY: Record<
   stale: 'verificationStale',
   conflict: 'verificationConflict',
   demo: 'verificationDemo',
+};
+
+const SOURCE_TYPE_LABEL: Record<NonNullable<DataSource['sourceType']>, LocaleKey> = {
+  official_web: 'sourceTypeOfficialWeb',
+  open_data: 'sourceTypeOpenData',
+  fieldwork: 'sourceTypeFieldwork',
+  business: 'sourceTypeBusiness',
+  manual: 'sourceTypeManual',
+  demo: 'sourceTypeDemo',
 };
 
 /**
@@ -109,11 +118,11 @@ interface SpotAction {
 /**
  * Verified external destinations for spot primary actions (#80, #10).
  *
- * No fieldwork booking/EC/farm-visit URLs exist yet. The generic official
- * Okutama Tourism Association site is a truthful destination for the tourism
- * information office only; it must not masquerade as spot-specific farm or
- * booking information. Every unverified action uses the disabled fallback.
- * The frozen-journey spots (Issue #127) are the real Okutama facilities.
+ * The generic official Okutama Tourism Association site is a truthful
+ * destination for the tourism information office only; it must not masquerade
+ * as spot-specific farm or booking information. Source-backed Ome/Sawai and
+ * Hachioji destinations use their own official pages; every remaining
+ * unverified action uses the disabled fallback.
  */
 const CONFIRMED_VISIT_URL = 'https://www.okutokanko.jp/';
 
@@ -123,6 +132,25 @@ export const SPOT_ACTIONS: Record<string, SpotAction> = {
   'soba-isshintei': { kind: 'disabled', type: 'restaurant' },
   'shishiguchiya': { kind: 'disabled', type: 'shop' },
   'odanba-fishing': { kind: 'disabled', type: 'visit' },
+  'sawai-ozawa-shuzo': {
+    kind: 'external',
+    url: 'https://www.sawanoi-sake.com/service/kengaku/',
+    type: 'workshop',
+  },
+  'sawanoien-garden': {
+    kind: 'external',
+    url: 'https://www.sawanoi-sake.com/service/sawanoien/',
+    type: 'restaurant',
+  },
+  // Hachioji slice: the roadside station's own site is a truthful destination
+  // for current stock and facility information; the contextual heritage stop
+  // has no invented booking/visit URL.
+  'hachioji-takiyama-roadside-station': {
+    kind: 'external',
+    url: 'https://www.michinoeki-hachioji.net/',
+    type: 'shop',
+  },
+  'hachioji-takiyama-castle': { kind: 'disabled', type: 'visit' },
 };
 
 /** Default action type for a place category when no per-spot action exists. */
@@ -172,10 +200,9 @@ export function SpotPage() {
     );
   }
 
-  // Reserved for record fields that are never populated in the current demo
-  // seed (hours / closed days / price). Only the `ja` variant exists as data;
-  // non-Japanese locales keep the record's English variant when present. The
-  // callers guard on the `ja` value, so the fallback string is never rendered.
+  // Only source-backed fields are populated in the seed. The `ja` value is
+  // the presence guard; non-Japanese locales use the English variant when
+  // present and otherwise fall back to Japanese rather than inventing copy.
   const recordField = (ja?: string, en?: string): string =>
     locale === 'ja' ? ja ?? '' : en ?? ja ?? '';
 
@@ -193,6 +220,21 @@ export function SpotPage() {
 
   const practical = detail?.practical;
   const relatedCultures = getRelatedFoodCultures(place);
+  const reservationAction = SPOT_ACTIONS[place.id];
+  const reservationUrl = practical?.reservationAvailable && reservationAction?.kind === 'external'
+    ? reservationAction.url
+    : undefined;
+  const sourceRecords = [
+    { source: place.source, origin: place.origin },
+    ...(place.coordinateSource ? [{ source: place.coordinateSource, origin: place.origin }] : []),
+    ...(detail?.source ? [{ source: detail.source, origin: detail.origin }] : []),
+  ].filter((entry, index, entries) => {
+    const identity = `${entry.source.url ?? entry.source.name}|${entry.source.originalId ?? ''}`;
+    return entries.findIndex((candidate) => {
+      const candidateIdentity = `${candidate.source.url ?? candidate.source.name}|${candidate.source.originalId ?? ''}`;
+      return candidateIdentity === identity;
+    }) === index;
+  });
 
   // Direction CTAs (external map apps). Approximate places (district-centroid
   // coordinates) navigate by the sourced name/address, not the centroid (Issue
@@ -211,8 +253,11 @@ export function SpotPage() {
   const infoItems: { label: string; value: string }[] = [];
   infoItems.push({ label: t('s6InfoAddress'), value: place.address });
   const accessKey = spotAccessKey(place.id);
-  if (practical?.accessJa && accessKey) {
-    infoItems.push({ label: t('s6InfoAccess'), value: t(accessKey) });
+  if (practical?.accessJa) {
+    infoItems.push({
+      label: t('s6InfoAccess'),
+      value: accessKey ? t(accessKey) : recordField(practical.accessJa, practical.accessEn),
+    });
   }
   if (practical?.hoursJa) {
     infoItems.push({ label: t('s6InfoHours'), value: recordField(practical.hoursJa, practical.hoursEn) });
@@ -239,9 +284,9 @@ export function SpotPage() {
     tags.push(<Tag key="access" tone="info">♿ {t('s6TagAccessibility')}</Tag>);
   }
 
-  // Open / closed / reservation-needed state — only when reliable data exists.
-  // Today no spot detail carries verified hours/closed-day data, so an
-  // explicit unverified state is shown instead (never a fabricated claim).
+  // Open / closed / reservation-needed state — only when source-backed data
+  // exists. The verification badge still exposes `needs_confirmation` until
+  // a stakeholder confirms the current practical details.
 
   const handleToggleItinerary = () => {
     if (routeId === undefined) {
@@ -286,7 +331,7 @@ export function SpotPage() {
       {/* Tags where data exists */}
       {tags.length > 0 ? <div className="s6-tags">{tags}</div> : null}
 
-      {/* Story excerpt — the spot's role in the wasabi journey (editorial) */}
+      {/* Story excerpt — the spot's role in its food-culture journey (editorial) */}
       <StorySection kicker={t('s6StoryKicker')} title={t('s6StoryTitle')}>
         {detail?.roleJa ? (
           <p>{spotRole}</p>
@@ -295,6 +340,50 @@ export function SpotPage() {
         )}
         <p className="s6-provenance">{t('s6EditorialNote')}</p>
       </StorySection>
+
+      {/* Compact provenance disclosure: source type, link, retrieval date,
+          license and verification state stay visible without implying that
+          editorial copy or approximate coordinates are stakeholder-verified. */}
+      <details className="s6-sources">
+        <summary className="s6-sources__summary">
+          <span>{t('sources')}</span>
+          <Tag tone="warning">
+            {t(VERIFICATION_LABEL_KEY[deriveVerificationStatus(place.source, place.origin)])}
+          </Tag>
+        </summary>
+        <ul className="s6-sources__list">
+          {sourceRecords.map(({ source, origin }, index) => {
+            const status = deriveVerificationStatus(source, origin);
+            const date = sourceDateLabel(source, origin);
+            return (
+              <li key={`${source.originalId ?? source.name}-${index}`} className="s6-sources__item">
+                <span className="s6-sources__name">{source.name}</span>
+                {source.sourceType ? (
+                  <span className="s6-sources__meta">{t(SOURCE_TYPE_LABEL[source.sourceType])}</span>
+                ) : null}
+                {source.url ? (
+                  <a href={source.url} target="_blank" rel="noreferrer" className="s6-sources__link">
+                    {t('sourceLink')}
+                  </a>
+                ) : null}
+                <Tag tone={status === 'verified' ? 'success' : 'warning'}>
+                  {t(VERIFICATION_LABEL_KEY[status])}
+                </Tag>
+                {source.license ? (
+                  <span className="s6-sources__meta">
+                    {t('detailLicense')}: {source.license}
+                  </span>
+                ) : null}
+                {date ? (
+                  <span className="s6-sources__meta">
+                    {t(date.label)}: {date.date}
+                  </span>
+                ) : null}
+              </li>
+            );
+          })}
+        </ul>
+      </details>
 
       {/* Practical info */}
       <StorySection kicker={t('s6InfoKicker')} title={t('s6InfoTitle')}>
@@ -379,10 +468,16 @@ export function SpotPage() {
             <p className="s6-info-unverified">{t('s6AddToItineraryHint')}</p>
           </>
         ) : null}
-        {detail?.practical?.reservationAvailable ? (
-          <Button variant="secondary" className="tmm-btn--block">
+        {reservationUrl ? (
+          <ButtonLink
+            variant="secondary"
+            href={reservationUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="tmm-btn--block"
+          >
             📅 {t('s6ReserveCta')}
-          </Button>
+          </ButtonLink>
         ) : (
           <Button variant="secondary" className="tmm-btn--block" disabled>
             📅 {t('s6ReserveDisabled')}

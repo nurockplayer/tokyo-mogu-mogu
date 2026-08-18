@@ -1,5 +1,5 @@
 /**
- * Seed data: Tama places.
+ * Seed data: Tokyo places.
  *
  * NOTE ON PROVENANCE:
  * - The FROZEN pilot journey (Issue #127) uses real Okutama facilities:
@@ -24,6 +24,26 @@
  *   never read as official_web data awaiting confirmation.
  */
 import type { Place } from './model';
+
+const HACHIOJI_ROADSIDE_COORDINATE_SOURCE = {
+  name: 'OpenStreetMap',
+  url: 'https://www.openstreetmap.org/?mlat=35.6864699&mlon=139.3414479#map=19/35.6864699/139.3414479',
+  license: 'ODbL 1.0',
+  sourceType: 'open_data' as const,
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'geocoded-hachioji-takiyama-roadside-station',
+};
+
+const HACHIOJI_CASTLE_COORDINATE_SOURCE = {
+  name: 'OpenStreetMap',
+  url: 'https://www.openstreetmap.org/?mlat=35.6973812&mlon=139.3252639#map=17/35.6973812/139.3252639',
+  license: 'ODbL 1.0',
+  sourceType: 'open_data' as const,
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'geocoded-hachioji-takiyama-castle',
+};
 
 export const PLACES: Place[] = [
   {
@@ -285,7 +305,7 @@ export const PLACES: Place[] = [
   // ---- 青梅・沢井 slice (Issue #163) ----------------------------------------
   // Real Ome/Sawai facilities for the source-backed `ome-sawai-sake-journey`.
   // Names/addresses are transcribed from the cited official / open-data sources
-  // (retrieved 2026-08-14): 小澤酒造 official site (sawanoi-sake.com), its 澤乃井園
+  // (official pages refreshed 2026-08-19): 小澤酒造 official site (sawanoi-sake.com), its 澤乃井園
   // page, and 東京都教育庁 文化財一覧 (東京都指定文化財, CC BY 4.0,
   // 130001_cultural_property.csv). These records are origin: 'source' with
   // verificationStatus: 'needs_confirmation' — coordinates for the brewery and
@@ -308,7 +328,7 @@ export const PLACES: Place[] = [
       name: '小澤酒造（公式サイト）',
       url: 'https://www.sawanoi-sake.com/',
       sourceType: 'official_web',
-      retrievedAt: '2026-08-14',
+      retrievedAt: '2026-08-19',
       verificationStatus: 'needs_confirmation',
       originalId: 'ozawa-shuzo',
     },
@@ -330,7 +350,7 @@ export const PLACES: Place[] = [
       name: '小澤酒造 澤乃井園（公式）',
       url: 'https://www.sawanoi-sake.com/service/sawanoien/',
       sourceType: 'official_web',
-      retrievedAt: '2026-08-14',
+      retrievedAt: '2026-08-19',
       verificationStatus: 'needs_confirmation',
       originalId: 'sawanoien',
     },
@@ -384,6 +404,57 @@ export const PLACES: Place[] = [
       retrievedAt: '2026-08-14',
       verificationStatus: 'needs_confirmation',
       originalId: '馬場家御師住宅',
+    },
+    origin: 'source',
+  },
+  // ---- 八王子 slice (Issue #238) -------------------------------------------
+  // The roadside station is a public, source-backed food-culture destination.
+  // Its map point is an approximate OpenStreetMap point; use the sourced name
+  // and address for directions rather than treating it as field-verified.
+  {
+    id: 'hachioji-takiyama-roadside-station',
+    nameJa: '道の駅八王子滝山',
+    nameEn: 'Michi-no-Eki Hachioji Takiyama',
+    address: '東京都八王子市滝山町1-592-2',
+    latitude: 35.6864699,
+    longitude: 139.3414479,
+    coordinatePrecision: 'approximate',
+    coordinateSource: HACHIOJI_ROADSIDE_COORDINATE_SOURCE,
+    foodCultureIds: ['hachioji-ginger'],
+    type: 'shop',
+    source: {
+      name: '道の駅八王子滝山（公式）／OpenStreetMap',
+      url: 'https://www.michinoeki-hachioji.net/',
+      sourceType: 'official_web',
+      retrievedAt: '2026-08-19',
+      verificationStatus: 'needs_confirmation',
+      originalId: 'michi-no-eki-hachioji-takiyama',
+    },
+    origin: 'source',
+  },
+  // This is a contextual heritage stop on the route, not a place where the
+  // ginger is sold. The cultural-property row is CC BY 4.0; the displayed map
+  // point is an approximate OpenStreetMap point for the broad castle site.
+  {
+    id: 'hachioji-takiyama-castle',
+    nameJa: '滝山城跡',
+    nameEn: 'Takiyama Castle Ruins',
+    address: '東京都八王子市丹木町2丁目・丹木町3丁目・高月町・加住町1丁目',
+    latitude: 35.6973812,
+    longitude: 139.3252639,
+    coordinatePrecision: 'approximate',
+    coordinateSource: HACHIOJI_CASTLE_COORDINATE_SOURCE,
+    foodCultureIds: [],
+    type: 'other',
+    source: {
+      name: '八王子市文化財一覧（オープンデータ）／OpenStreetMap',
+      url: 'https://catalog.data.metro.tokyo.lg.jp/dataset/t132012d3000000018',
+      license: 'CC BY 4.0',
+      sourceType: 'open_data',
+      sourceDatasetId: 't132012d3000000018',
+      retrievedAt: '2026-08-15',
+      verificationStatus: 'needs_confirmation',
+      originalId: 'cp-t132012d3000000018-0000000003',
     },
     origin: 'source',
   },

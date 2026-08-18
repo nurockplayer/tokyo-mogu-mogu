@@ -74,11 +74,11 @@ export type FoodCultureCategory =
   | 'processed-food'
   | 'craft';
 
-/** Tama areas referenced by the seed data. */
-export type TamaArea = 'okutama' | 'ome' | 'hamura' | 'akiruno' | 'hinode';
+/** Stable identifier for a Tokyo region. */
+export type RegionId = string;
 
 /**
- * A collectible food culture: a Tama local food, product, or regional culture
+ * A collectible food culture: a Tokyo local food, product, or regional culture
  * that a user discovers, learns about, and collects by visiting in person.
  */
 export interface FoodCulture {
@@ -88,8 +88,8 @@ export interface FoodCulture {
   nameEn: string;
   /** Main category shown as a badge in the Pokédex. */
   category: FoodCultureCategory;
-  /** Primary area. */
-  area: TamaArea;
+  /** Primary region. */
+  area: RegionId;
   /** One-to-two sentence summary shown on cards. */
   descriptionJa: string;
   descriptionEn: string;
@@ -140,8 +140,10 @@ export interface Place {
    * as a turn-by-turn navigation destination (the app uses the sourced
    * name/address for directions instead). Absent ⇒ unspecified (treated as
    * coordinate-based by the map-link helpers).
-   */
+  */
   coordinatePrecision?: 'precise' | 'approximate';
+  /** Optional provenance for coordinates when it differs from the place source. */
+  coordinateSource?: DataSource;
   /** Food cultures that can be experienced here. */
   foodCultureIds: string[];
   type: PlaceType;

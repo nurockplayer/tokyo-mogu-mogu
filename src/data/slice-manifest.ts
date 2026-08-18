@@ -42,6 +42,7 @@
  */
 import type { RecommendationCandidate } from '../lib/recommendation';
 import {
+  DEMO_HACHIOJI_GINGER_CANDIDATE_ID,
   DEMO_OME_SAKE_CANDIDATE_ID,
   DEMO_RECOMMENDATION_CANDIDATE_ID,
 } from './demo-recommendation';
@@ -81,9 +82,10 @@ export interface SliceManifestEntry {
  * The Slice Manifest registry, keyed by demo candidate identity.
  *
  * Team decision (unchanged from the 8/23 release): Okutama × Tokyo Wasabi is
- * the `primary` playable slice; Ome/Sawai × sake is the `secondary` playable
- * slice. Both are production-visible and recommendation-eligible. `playable`
- * records their maturity — it is not a verification claim.
+ * the `primary` playable slice; Ome/Sawai × sake and Hachioji × ginger are
+ * `secondary` playable slices. All three are production-visible and
+ * recommendation-eligible. `playable` records their maturity — it is not a
+ * verification claim.
  */
 export const SLICE_MANIFEST: readonly SliceManifestEntry[] = [
   {
@@ -96,6 +98,14 @@ export const SLICE_MANIFEST: readonly SliceManifestEntry[] = [
   },
   {
     candidateId: DEMO_OME_SAKE_CANDIDATE_ID,
+    maturity: 'playable',
+    enabled: true,
+    releaseRole: 'secondary',
+    discover: 'visible',
+    recommendationEligible: true,
+  },
+  {
+    candidateId: DEMO_HACHIOJI_GINGER_CANDIDATE_ID,
     maturity: 'playable',
     enabled: true,
     releaseRole: 'secondary',

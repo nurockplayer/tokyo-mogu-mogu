@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { foodCultures, getPlaceById, places } from '../data';
+import type { FoodCulture, RegionId } from '../data';
 import { GTFS_FIXTURE } from '../data/gtfs-fixture';
 import type { GtfsDataset } from './gtfs';
 import {
@@ -29,6 +30,22 @@ describe('progression logic (#8)', () => {
     }
     // Every food culture is counted exactly once across areas.
     expect(areas.reduce((sum, a) => sum + a.total, 0)).toBe(allIds.length);
+  });
+
+  it('represents a non-Tama RegionId without changing area progress behavior', () => {
+    const hachioji: RegionId = 'hachioji';
+    const sourceCulture = foodCultures.find((fc) => fc.id === 'wasabi-okutama');
+    expect(sourceCulture).toBeDefined();
+
+    const hachiojiCulture: FoodCulture = {
+      ...sourceCulture!,
+      id: 'test-food-culture-hachioji',
+      area: hachioji,
+    };
+
+    expect(getAreaCompletion([], [hachiojiCulture])).toEqual([
+      { area: hachioji, total: 1, collected: 0 },
+    ]);
   });
 
   it('getCategoryCompletion counts per category', () => {

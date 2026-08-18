@@ -4,7 +4,7 @@
  * Pure functions for area/category completion and "next discovery"
  * suggestions. No framework dependencies — unit-testable.
  */
-import type { FoodCulture, FoodCultureCategory, Place, TamaArea } from '../data/model';
+import type { FoodCulture, FoodCultureCategory, Place, RegionId } from '../data/model';
 import { distanceInMeters } from './geo';
 import { findNearbyStops, getNextDepartures } from './gtfs';
 import type { GtfsDataset, GtfsDeparture, GtfsStop } from './gtfs';
@@ -19,7 +19,7 @@ export function getUndiscovered(
 }
 
 export interface AreaCompletion {
-  area: TamaArea;
+  area: RegionId;
   /** Human-readable area label handled by the UI (i18n). */
   total: number;
   collected: number;
@@ -31,7 +31,7 @@ export function getAreaCompletion(
   foodCultures: FoodCulture[],
 ): AreaCompletion[] {
   const collected = new Set(collectedIds);
-  const byArea = new Map<TamaArea, { total: number; collected: number }>();
+  const byArea = new Map<RegionId, { total: number; collected: number }>();
   for (const fc of foodCultures) {
     const entry = byArea.get(fc.area) ?? { total: 0, collected: 0 };
     entry.total += 1;

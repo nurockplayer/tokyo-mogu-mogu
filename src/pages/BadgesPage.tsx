@@ -140,7 +140,8 @@ export function BadgesPage() {
         })}
       </ul>
 
-      {/* Optional next-region discovery CTA — no second production journey invented */}
+      {/* Optional next-region discovery CTA — Discover remains the source of
+          truth for the currently playable journeys. */}
       <div className="badge-next">
         <Link to="/discover" className="tmm-btn tmm-btn--secondary tmm-btn--block">
           {t('badgeNextCta')}

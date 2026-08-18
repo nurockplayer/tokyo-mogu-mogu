@@ -3,8 +3,8 @@
  *
  * The durable contract ranks caller-supplied Tokyo Region × FoodCulture /
  * journey candidates. It contains no Okutama or Tokyo Wasabi identifiers; the
- * 8/23 demo supplies its production-ready candidates from demo data (Okutama ×
- * Tokyo Wasabi primary + Ome/Sawai × sake secondary).
+ * the current demo/release data supplies production-ready candidates for
+ * Okutama × Tokyo Wasabi, Ome/Sawai × sake, and Hachioji × ginger.
  */
 import type { FoodProfile } from './food-profile';
 import type {
@@ -234,9 +234,9 @@ function evaluateCandidate(
  * Filter → rank → select, with a stable candidate-id tie-break.
  *
  * The caller owns candidate generation and production-readiness. The fixed
- * golden-path answers match only the wasabi profile, so passing the two demo
- * candidates still yields the deterministic 8/23 result; other candidate lists
- * exercise the same durable contract without changing this code.
+ * golden-path answers match the wasabi profile most strongly, so passing the
+ * configured candidates still yields the deterministic 8/23 result; other
+ * answer sets exercise additional journeys without changing this code.
  */
 export function recommendCandidates(
   profile: FoodProfile,

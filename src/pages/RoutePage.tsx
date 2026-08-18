@@ -1,8 +1,8 @@
 /**
  * S5 Model Route page (Issue #45).
  *
- * Renders the deterministic editorial Tama-pilot route
- * (`okutama-wasabi-journey`, currently the 奥多摩わさび model route):
+ * Renders deterministic editorial Tokyo food-culture routes, including the
+ * frozen 奥多摩わさび golden path and the source-backed regional journeys:
  * course header (name / duration / transport / total time), a half-day ⇄ 1-day
  * switch, a stylized SVG map with numbered pins (pin number == timeline step
  * number), the vertical timeline of steps with mobility between them, warning
@@ -39,6 +39,7 @@ import {
   stepRoleKey,
   mobilityLabelKey,
   routeAdvisoryKeys,
+  routeEstimateKey,
   routeTransportKey,
 } from '../i18n/data-content';
 import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
@@ -114,6 +115,7 @@ export function RoutePage() {
   // today; any other route renders no advisory rather than Okutama's hedged
   // field note (honest unknown).
   const advisory = routeAdvisoryKeys(route.id);
+  const estimateKey = routeEstimateKey(route.id);
 
   // Preserve the caller through every Route → Spot link. The helper allowlists
   // origins and the Story's own back target before forwarding them.
@@ -162,6 +164,7 @@ export function RoutePage() {
             ⏱ {formatTotalMinutes(variant.totalMinutes, locale)}
           </span>
         </div>
+        {estimateKey ? <p className="s5-hero__note">{t(estimateKey)}</p> : null}
       </div>
 
       {/* Route-specific crowding advisory (#83) — hedged field observation,

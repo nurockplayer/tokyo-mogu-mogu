@@ -32,7 +32,7 @@ export interface RouteStepData {
   stepNumber: number;
   /** Recommended time spent at this stop, in minutes. */
   stayMinutes: number;
-  /** Short narrative of the step's role in the wasabi journey (editorial). */
+  /** Short narrative of the step's role in its food-culture journey (editorial). */
   roleJa: string;
   roleEn: string;
 }
@@ -74,6 +74,8 @@ export interface ModelRoute {
   variants: Record<RouteDuration, RouteVariant>;
   /** Provenance of the editorial route. */
   source: DataSource;
+  /** Additional sources used by this route's stops or contextual facts. */
+  sources?: readonly DataSource[];
   /** True only for the frozen 8/23 Okutama golden-path demo route. */
   isDemo?: boolean;
 }
@@ -112,7 +114,7 @@ export interface SpotTags {
  */
 export interface SpotDetail {
   placeId: string;
-  /** Editorial story of the spot's role in the wasabi journey. */
+  /** Editorial story of the spot's role in its food-culture journey. */
   roleJa: string;
   roleEn: string;
   /** Practical info verified from a source; absent ⇒ unverified state. */
@@ -149,35 +151,34 @@ const SOURCE_OKUTAMA: DataSource = {
  * origin: 'source', needs_confirmation). Mobility for the 沢井 → 御岳 leg
  * combines JR青梅線 with the 御岳登山鉄道 cable car; run information is
  * editorial/hedged and no transit times are claimed. Practical spot details
- * (hours / price / reservation) are deliberately NOT populated: even where an
- * official source states them (e.g. GO TOKYO tour fee, 澤乃井園 hours), the
- * canonical seed keeps them absent so the S6 screen renders the honest
- * unknown/unverified state (seed-routes.test.ts asserts absence for all spots).
+ * are populated only where the current official source states them. The
+ * brewery tour and Sawanoien fields remain needs_confirmation at the record
+ * boundary; unsourced dietary/accessibility claims stay absent.
  * isDemo is intentionally ABSENT — this is a source-backed route, not demo.
  */
 const SOURCE_OME_ROUTE: DataSource = {
   name: '編集部（青梅・沢井の酒蔵と御嶽の文化財）',
   url: 'https://www.sawanoi-sake.com/',
   sourceType: 'official_web',
-  retrievedAt: '2026-08-14',
+  retrievedAt: '2026-08-19',
   verificationStatus: 'needs_confirmation',
   originalId: 'seed-route-ome',
 };
 
 const SOURCE_SAWANOI: DataSource = {
-  name: '小澤酒造（公式サイト）',
-  url: 'https://www.sawanoi-sake.com/',
+  name: '小澤酒造 酒蔵見学（公式）',
+  url: 'https://www.sawanoi-sake.com/service/kengaku/',
   sourceType: 'official_web',
-  retrievedAt: '2026-08-14',
+  retrievedAt: '2026-08-19',
   verificationStatus: 'needs_confirmation',
-  originalId: 'ozawa-shuzo',
+  originalId: 'sawanoi-brewery-tour',
 };
 
 const SOURCE_SAWANOIEN: DataSource = {
   name: '小澤酒造 澤乃井園（公式）',
   url: 'https://www.sawanoi-sake.com/service/sawanoien/',
   sourceType: 'official_web',
-  retrievedAt: '2026-08-14',
+  retrievedAt: '2026-08-19',
   verificationStatus: 'needs_confirmation',
   originalId: 'sawanoien',
 };
@@ -191,6 +192,46 @@ const SOURCE_MITAKE_HERITAGE: DataSource = {
   retrievedAt: '2026-08-14',
   verificationStatus: 'needs_confirmation',
   originalId: '御嶽神社旧本殿',
+};
+
+/** Hachioji × ginger/produce slice (Issue #238). */
+const SOURCE_HACHIOJI_ROUTE: DataSource = {
+  name: '編集部（八王子ショウガと滝山の食文化）',
+  url: 'https://www.tokyo-ja.or.jp/farm/edo/41.php',
+  sourceType: 'official_web',
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation',
+  originalId: 'seed-route-hachioji-ginger',
+};
+
+const SOURCE_HACHIOJI_MARKET: DataSource = {
+  name: '道の駅八王子滝山（公式）',
+  url: 'https://www.michinoeki-hachioji.net/',
+  sourceType: 'official_web',
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation',
+  originalId: 'michi-no-eki-hachioji-takiyama',
+};
+
+const SOURCE_HACHIOJI_HERITAGE: DataSource = {
+  name: '八王子市文化財一覧（オープンデータ）',
+  url: 'https://catalog.data.metro.tokyo.lg.jp/dataset/t132012d3000000018',
+  license: 'CC BY 4.0',
+  sourceType: 'open_data',
+  sourceDatasetId: 't132012d3000000018',
+  retrievedAt: '2026-08-15',
+  verificationStatus: 'needs_confirmation',
+  originalId: 'cp-t132012d3000000018-0000000003',
+};
+
+const SOURCE_HACHIOJI_COORDINATES: DataSource = {
+  name: 'OpenStreetMap（八王子滝山・滝山城跡の概略座標）',
+  url: 'https://www.openstreetmap.org/?mlat=35.6864699&mlon=139.3414479#map=13/35.692/139.333',
+  license: 'ODbL 1.0',
+  sourceType: 'open_data',
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation',
+  originalId: 'geocoded-hachioji-places',
 };
 
 /** Deterministic editorial model route — 奥多摩 × 東京わさび. */
@@ -481,6 +522,89 @@ export const MODEL_ROUTES: ModelRoute[] = [
       },
     },
   },
+  {
+    id: 'hachioji-ginger-journey',
+    nameJa: '八王子ショウガと滝山の食文化をたどる旅',
+    nameEn: 'Hachioji Ginger & Takiyama Food Culture Journey',
+    areaJa: '八王子',
+    areaEn: 'Hachioji',
+    defaultDuration: 'half-day',
+    source: SOURCE_HACHIOJI_ROUTE,
+    sources: [SOURCE_HACHIOJI_ROUTE, SOURCE_HACHIOJI_MARKET, SOURCE_HACHIOJI_HERITAGE, SOURCE_HACHIOJI_COORDINATES],
+    // Source-backed route, not part of the frozen 8/23 demo.
+    variants: {
+      'half-day': {
+        transportJa: '徒歩（現地の案内を確認）',
+        transportEn: 'Walking (check local guidance)',
+        totalMinutes: 145,
+        steps: [
+          {
+            placeId: 'hachioji-takiyama-roadside-station',
+            stepNumber: 1,
+            stayMinutes: 75,
+            roleJa:
+              '八王子市の食文化ミュージアムに認定された道の駅。市内の生産者が届ける野菜や、旬の八王子ショウガを探します。品揃えは季節と当日の入荷で変わります。',
+            roleEn:
+              'Start at the city-recognized food culture museum and farm market. Look for Hachioji produce and seasonal ginger; stock changes with the season and day.',
+          },
+          {
+            placeId: 'hachioji-takiyama-castle',
+            stepNumber: 2,
+            stayMinutes: 45,
+            roleJa:
+              '滝山城跡で加住・滝山の文化景観をたどります。食材の販売場所ではなく、八王子の土地の背景を知るための文化財ストップです。',
+            roleEn:
+              'Trace the cultural landscape of Kazumi and Takiyama at the castle ruins. This is a heritage context stop, not a place to buy food.',
+          },
+        ],
+        mobility: [
+          {
+            fromStep: 1,
+            toStep: 2,
+            mode: 'walk',
+            durationMinutes: 25,
+            labelJa: '徒歩（目安）',
+            labelEn: 'Walk (editorial estimate)',
+          },
+        ],
+      },
+      '1-day': {
+        transportJa: '徒歩（現地の案内を確認）',
+        transportEn: 'Walking (check local guidance)',
+        totalMinutes: 220,
+        steps: [
+          {
+            placeId: 'hachioji-takiyama-roadside-station',
+            stepNumber: 1,
+            stayMinutes: 100,
+            roleJa:
+              '直売所と地場食材の料理をゆっくり見て、八王子ショウガが入荷しているか現地で確認します。品揃えは季節と当日の入荷で変わります。',
+            roleEn:
+              'Take time with the farm market and local-food options, then check on site whether Hachioji ginger has arrived. Stock changes with the season and day.',
+          },
+          {
+            placeId: 'hachioji-takiyama-castle',
+            stepNumber: 2,
+            stayMinutes: 90,
+            roleJa:
+              '滝山城跡を歩き、加住地域の文化景観をたどります。城跡は食材の販売場所ではないため、食文化を支える土地の背景として訪ねます。',
+            roleEn:
+              'Walk through the castle ruins and the Kazumi landscape. The site is not a food venue; visit it as context for the land behind the food culture.',
+          },
+        ],
+        mobility: [
+          {
+            fromStep: 1,
+            toStep: 2,
+            mode: 'walk',
+            durationMinutes: 30,
+            labelJa: '徒歩（目安）',
+            labelEn: 'Walk (editorial estimate)',
+          },
+        ],
+      },
+    },
+  },
 ];
 
 /**
@@ -540,17 +664,25 @@ export const SPOT_DETAILS: Record<string, SpotDetail> = {
     source: SOURCE_OKUTAMA,
   },
   // ---- 青梅・沢井 slice (Issue #163) spot details ---------------------------
-  // practical is deliberately ABSENT: hours/price/reservation stay unstated so
-  // the S6 screen renders the honest unknown/unverified state (verified facts
-  // like the GO TOKYO tour fee or 澤乃井園 hours are recorded in the handoff,
-  // not claimed in the canonical seed). tags stay {} — no dietary / language /
-  // accessibility claims are sourced.
+  // Practical fields below are transcribed from the current official pages and
+  // stay needs_confirmation until stakeholder confirmation. tags stay {} — no
+  // dietary / language / accessibility claims are sourced.
   'sawai-ozawa-shuzo': {
     placeId: 'sawai-ozawa-shuzo',
     roleJa:
       '小澤酒造は沢井にある酒蔵で、日本酒「澤乃井」を醸しています。多摩川の清流が流れる渓谷のほとりに位置します。',
     roleEn:
       'Ozawa Shuzo is a sake brewery in Sawai that brews the "Sawanoi" label, on the banks of the clear Tama River valley.',
+    practical: {
+      accessJa: '酒蔵見学は予約制。個人見学は公式予約ページから申し込みます。',
+      accessEn: 'Brewery tours require reservations; individual tours use the official booking page.',
+      hoursJa: '酒蔵見学：平日 11:00・13:00／土日祝 11:00・12:30・14:00（予約制）',
+      hoursEn:
+        'Brewery tours: weekdays at 11:00 and 13:00; weekends and holidays at 11:00, 12:30, and 14:00 (reservation required)',
+      priceJa: '700円（税込）／1人（20歳未満は無料）',
+      priceEn: '¥700 per person (tax included; free for visitors under 20)',
+      reservationAvailable: true,
+    },
     tags: {},
     origin: 'editorial',
     source: SOURCE_SAWANOI,
@@ -561,6 +693,13 @@ export const SPOT_DETAILS: Record<string, SpotDetail> = {
       '澤乃井園は小澤酒造が営む清流ガーデンです。多摩川の清流を見下ろすオープンガーデンで、軽食や澤乃井の生原酒を楽しめます。',
     roleEn:
       'Sawanoien is the brewery-run Clear Stream Garden overlooking the Tama River, serving light meals and Sawanoi nama genshu.',
+    practical: {
+      hoursJa: '10:00〜17:00',
+      hoursEn: '10:00 a.m.–5:00 p.m.',
+      closedDaysJa: '月曜日（祝日の場合は火曜日）・年末年始、その他休業あり（営業カレンダー）',
+      closedDaysEn:
+        'Mondays (Tuesday when Monday is a holiday) and year-end/New Year; other closures may apply (see the operating calendar)',
+    },
     tags: {},
     origin: 'editorial',
     source: SOURCE_SAWANOIEN,
@@ -584,6 +723,33 @@ export const SPOT_DETAILS: Record<string, SpotDetail> = {
     tags: {},
     origin: 'editorial',
     source: SOURCE_MITAKE_HERITAGE,
+  },
+  // ---- 八王子 slice (Issue #238) -------------------------------------------
+  'hachioji-takiyama-roadside-station': {
+    placeId: 'hachioji-takiyama-roadside-station',
+    roleJa:
+      '市内の農産物や地域の食文化に出会える道の駅です。八王子ショウガは季節商品として扱われるため、当日の入荷は現地で確認します。',
+    roleEn:
+      'A roadside station where visitors can meet Hachioji produce and local food culture. Hachioji ginger is seasonal, so check the day’s stock on site.',
+    practical: {
+      hoursJa: '8:00〜19:00（施設内一部店舗を除く）',
+      hoursEn: '8:00 a.m.–7:00 p.m. (some facilities have separate hours)',
+      closedDaysJa: '年中無休（施設内一部店舗を除く）',
+      closedDaysEn: 'Open year-round (some facilities have separate schedules)',
+    },
+    tags: {},
+    origin: 'editorial',
+    source: SOURCE_HACHIOJI_MARKET,
+  },
+  'hachioji-takiyama-castle': {
+    placeId: 'hachioji-takiyama-castle',
+    roleJa:
+      '八王子市の文化財一覧に掲載される滝山城跡。食材を買う場所ではなく、八王子ショウガを育ててきた加住・滝山の土地の背景をたどる文化財ストップです。',
+    roleEn:
+      'Listed in Hachioji’s cultural-property data, Takiyama Castle Ruins provide heritage context for the Kazumi and Takiyama land behind Hachioji ginger; they are not a food venue.',
+    tags: {},
+    origin: 'editorial',
+    source: SOURCE_HACHIOJI_HERITAGE,
   },
 };
 
@@ -819,8 +985,7 @@ export function projectRoutePins(
  * The route id whose variants include the given place, when that is
  * unambiguous. A place shared by multiple model routes has no single parent,
  * so it resolves to `undefined` — the Spot "save" action must never pick one
- * route arbitrarily. (The current demo places each belong to exactly one
- * route, so this returns the pilot route for them.)
+ * route arbitrarily. (Current seed places belong to exactly one route.)
  */
 export function getRouteIdForPlace(
   placeId: string,

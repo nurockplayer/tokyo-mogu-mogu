@@ -12,10 +12,11 @@
  * chips, experience tiles, departure + travel-time, theme chips, duration) as
  * prototype-only fixture presentation. Visual selection is local state; the
  * internal `ExplorationAnswers` is derived by mapping each Figma option onto an
- * existing canonical value — no canonical taxonomy is expanded. Every path
- * still converges to the deterministic Okutama × Tokyo Wasabi Result
- * (phase1-exploration.ts), so believability is preserved by clamping travel
- * time to what the demo route supports.
+ * existing canonical value — no canonical taxonomy is expanded. The default
+ * refreshing / nature path remains the deterministic Okutama × Tokyo Wasabi
+ * golden path, while the reusable Result can route distinct preference sets to
+ * other enabled source-backed journeys. Departure and travel remain
+ * presentation-only inputs until source-backed matrices exist.
  */
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
@@ -189,9 +190,9 @@ function initialVisual(): VisualAnswers {
 
 /**
  * Derive the canonical internal answers from the visual selection. Every option
- * maps onto an existing canonical value; the demo departure is Okutama and
- * travel time is clamped to what the wasabi route supports, so any path still
- * converges to the deterministic Okutama × Tokyo Wasabi Result.
+ * maps onto an existing canonical value; the current departure control remains
+ * the conservative Okutama presentation value and travel choices remain
+ * within the existing canonical buckets.
  */
 function deriveAnswers(visual: VisualAnswers): ExplorationAnswers {
   return {

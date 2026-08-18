@@ -1,20 +1,19 @@
 /**
- * Ome/Sawai sake semantic-isolation browser gate (Issue #163 / #177 →
- * Issue #217 Phase 1).
+ * Ome/Sawai sake playable-slice browser gate (Issue #163 / #177 → #238).
  *
- * Phase 1 (Issue #217) hides the Ome/Sawai secondary slice from the guided
- * demo journey: the Phase 1 conversation only offers wasabi-matching options
- * and the Phase 1 Result only selects the Okutama × Tokyo Wasabi candidate.
- * The sake canonical data, Story / Route / Spot content, and its semantic
- * isolation remain preserved and directly reachable by URL (Phase 2).
+ * The fixed golden path still selects Okutama × Tokyo Wasabi, while distinct
+ * rich/tradition answers can reach this secondary slice through the same
+ * recommendation engine. The canonical data, Story / Route / Spot content,
+ * and semantic isolation remain preserved.
  *
  * This gate therefore verifies the preservation boundary:
  *   - the sake content stays semantically isolated (no Wasabi / Okutama copy,
  *     no Okutama external destinations) when opened directly
  *   - focused en / zh-TW Story + Support smokes guard the same shared boundary
  *
- * The "cannot reach sake through the Phase 1 UI" half is covered by the
- * deterministic outcome test (phase1-contracts).
+ * The fixed-golden-path outcome is covered by phase1-contracts; the distinct
+ * secondary recommendation path is covered by the unit contract and the
+ * direct Story → Route → Spot path below.
  */
 import { test, expect, type Page } from '@playwright/test';
 
@@ -71,6 +70,11 @@ test.describe('Ome/Sawai sake semantic isolation (ja, 375px)', () => {
       .click();
     await page.waitForURL('**/spot/sawai-ozawa-shuzo*');
     await page.getByRole('heading', { name: '小澤酒造（沢井・澤乃井）' }).waitFor();
+    await expect(page.locator('body')).toContainText('予約制');
+    await expect(page.locator('body')).toContainText('700円');
+    await expect(
+      page.getByRole('link', { name: '予約する' }),
+    ).toHaveAttribute('href', 'https://www.sawanoi-sake.com/service/kengaku/');
     await expect(page.locator('body')).not.toContainText('わさび');
     await expect(page.locator('body')).not.toContainText('奥多摩');
     await expectNoOkutamaDestination(page);

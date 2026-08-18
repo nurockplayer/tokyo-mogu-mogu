@@ -1,11 +1,11 @@
 /**
  * Result page (Issue #78 reframe of S3; Issue #217 Phase 1).
  *
- * Selects through the reusable #123 recommendation contract. Phase 1 restricts
- * the candidate set to the Okutama × Tokyo Wasabi demo golden path
- * (phase1-exploration.ts), so every allowed guided-conversation path
- * deterministically reveals 東京わさび without making the durable Product
- * contract single-region or surfacing Ome/Sawai in the demo journey.
+ * Selects through the reusable #123 recommendation contract. Phase 1 keeps the
+ * Okutama × Tokyo Wasabi journey as the default golden path while allowing the
+ * enabled source-backed Ome/Sawai and Hachioji journeys to be selected from
+ * distinct current-trip answers. The durable Product contract remains
+ * geography-independent; the Slice Manifest gates production exposure.
  * The result reflects the durable Food Profile (dietary-consideration state) +
  * the current-trip Exploration answers (match-reason tags). On successful
  * result creation it hands off to the MOGU Recent contract (#94).
@@ -19,7 +19,13 @@
  */
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, Navigate, useSearchParams } from 'react-router-dom';
-import { demoRecommendationMatchTags, getFoodCultureById } from '../../data';
+import {
+  DEMO_RECOMMENDATION_CANDIDATE_ID,
+  demoRecommendationMatchTags,
+  getFoodCultureById,
+  getRouteById,
+} from '../../data';
+import { FoodCultureImage } from '../../components/FoodCultureImage';
 import { useI18n } from '../../i18n';
 import { EmptyState, Tag, type TagTone } from '../../ui';
 import { fillTemplate, type MatchTagKey } from '../../lib/exploration';
@@ -30,7 +36,7 @@ import { loadNickname } from '../../lib/nickname';
 import { phase1RecommendableCandidates } from './phase1-exploration';
 import { recordMoguRecent } from '../../lib/mogu-recent';
 import { type LocaleKey } from '../../i18n/resources';
-import { foodCultureKey } from '../../i18n/data-content';
+import { foodCultureKey, routeAreaKey } from '../../i18n/data-content';
 import resultHeroWasabi from '../../assets/figma/result-hero-wasabi.png';
 import resultCardYamame from '../../assets/figma/result-card-yamame.png';
 import './onboarding.css';
@@ -67,7 +73,7 @@ function storyHref(foodCultureId: string, candidateId: string, isReopen: boolean
 }
 
 export function ResultPage() {
-  const { t } = useI18n();
+  const { locale, t } = useI18n();
   const [searchParams] = useSearchParams();
 
   // MOGU recent cards reopen this page with `?from=mogu` (Issue #94). A reopen
@@ -80,10 +86,9 @@ export function ResultPage() {
 
   const answers = useMemo(() => loadExplorationAnswers(), []);
   const profile = useMemo(() => loadFoodProfile(), []);
-  // Phase 1 reads only the Okutama × Tokyo Wasabi candidate (issue #217): the
-  // demo journey must deterministically reach wasabi, and Ome/Sawai / future
-  // slices must never surface in the Phase 1 Result. Still fail-closed through
-  // the Slice Manifest via phase1RecommendableCandidates().
+  // Phase 1 reads the enabled recommendation candidates through the Slice
+  // Manifest. The default answers still rank the Wasabi candidate first, while
+  // distinct answers can select another source-backed journey.
   const decision = useMemo(
     () =>
       profile && answers
@@ -110,6 +115,13 @@ export function ResultPage() {
   const recommendedDescriptionKey = recommendation
     ? foodCultureKey(recommendation.foodCultureId, 'description')
     : undefined;
+  const recommendedRoute = recommendation?.journeyId
+    ? getRouteById(recommendation.journeyId)
+    : undefined;
+  const recommendedAreaKey = recommendation?.journeyId
+    ? routeAreaKey(recommendation.journeyId)
+    : undefined;
+  const isGoldenPath = recommendation?.id === DEMO_RECOMMENDATION_CANDIDATE_ID;
   const tags = useMemo(
     () =>
       recommendationEvaluation
@@ -168,16 +180,36 @@ export function ResultPage() {
       {recommendedFoodCulture && recommendation && recommendedTitleKey && recommendedDescriptionKey ? (
         <>
           <div className="tmm-result-card tmm-result-card--hero">
-            <div className="tmm-result-card__media" aria-hidden="true">
-              <img src={resultHeroWasabi} alt="" className="tmm-result-card__img" />
+            <div className="tmm-result-card__media">
+              {isGoldenPath ? (
+                <img src={resultHeroWasabi} alt="" className="tmm-result-card__img" />
+              ) : (
+                <FoodCultureImage
+                  image={recommendedFoodCulture.image}
+                  name={t(recommendedTitleKey)}
+                  nameJa={recommendedFoodCulture.nameJa}
+                  category={recommendedFoodCulture.category}
+                  alt={t(recommendedTitleKey)}
+                />
+              )}
               <div className="tmm-result-match">
                 <span className="tmm-result-match__percent">{t('s3MatchPercent')}</span>
                 <span className="tmm-result-match__label">{t('s3MatchLabel')}</span>
               </div>
             </div>
             <div className="tmm-result-card__body">
-              <span className="tmm-result-card__region">{t('s3CardRegion')}</span>
-              <div className="tmm-result-card__title">{t('s3CardTitlePrimary')}</div>
+              <span className="tmm-result-card__region">
+                {recommendedAreaKey
+                  ? t(recommendedAreaKey)
+                  : recommendedRoute
+                    ? locale === 'ja'
+                      ? recommendedRoute.areaJa
+                      : recommendedRoute.areaEn
+                    : t(recommendedTitleKey)}
+              </span>
+              <div className="tmm-result-card__title">
+                {isGoldenPath ? t('s3CardTitlePrimary') : t(recommendedTitleKey)}
+              </div>
               <p className="tmm-result-card__desc">{t(recommendedDescriptionKey)}</p>
 
               <p className="tmm-result-match__note" role="note">
@@ -212,26 +244,28 @@ export function ResultPage() {
             </div>
           </div>
 
-          {/* Secondary fixture candidate (Figma `23:3380` 91% card, Issue #226).
-              Presentation-only: Okutama yamame, no CTA, no ranking/scoring. */}
-          <div className="tmm-result-card" aria-label={t('s3CardTitleSecondary')}>
-            <div className="tmm-result-card__media" aria-hidden="true">
-              <img src={resultCardYamame} alt="" className="tmm-result-card__img" />
-              <div className="tmm-result-match">
-                <span className="tmm-result-match__percent">{t('s3MatchPercentSecondary')}</span>
-                <span className="tmm-result-match__label">{t('s3MatchLabel')}</span>
+          {isGoldenPath ? (
+            /* Secondary fixture candidate (Figma `23:3380` 91% card, Issue #226).
+               Presentation-only: Okutama yamame, no CTA, no ranking/scoring. */
+            <div className="tmm-result-card" aria-label={t('s3CardTitleSecondary')}>
+              <div className="tmm-result-card__media" aria-hidden="true">
+                <img src={resultCardYamame} alt="" className="tmm-result-card__img" />
+                <div className="tmm-result-match">
+                  <span className="tmm-result-match__percent">{t('s3MatchPercentSecondary')}</span>
+                  <span className="tmm-result-match__label">{t('s3MatchLabel')}</span>
+                </div>
+              </div>
+              <div className="tmm-result-card__body">
+                <span className="tmm-result-card__region">{t('s3CardRegion')}</span>
+                <div className="tmm-result-card__title">{t('s3CardTitleSecondary')}</div>
+                <div className="tmm-result__tags">
+                  <Tag tone="info">{t('s3TagNature')}</Tag>
+                  <Tag tone="info">{t('s3TagTradition')}</Tag>
+                  <Tag tone="info">{t('s3TagHalfDay')}</Tag>
+                </div>
               </div>
             </div>
-            <div className="tmm-result-card__body">
-              <span className="tmm-result-card__region">{t('s3CardRegion')}</span>
-              <div className="tmm-result-card__title">{t('s3CardTitleSecondary')}</div>
-              <div className="tmm-result__tags">
-                <Tag tone="info">{t('s3TagNature')}</Tag>
-                <Tag tone="info">{t('s3TagTradition')}</Tag>
-                <Tag tone="info">{t('s3TagHalfDay')}</Tag>
-              </div>
-            </div>
-          </div>
+          ) : null}
 
           <div className="tmm-result__actions">
             <Link

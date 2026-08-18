@@ -21,6 +21,32 @@ describe('model routes (#45 S5)', () => {
     expect(route?.nameEn).toMatch(/Wasabi/);
   });
 
+  it('exposes a source-backed Hachioji ginger journey with public places (#238)', () => {
+    const route = getRouteById('hachioji-ginger-journey');
+    expect(route).toMatchObject({
+      areaEn: 'Hachioji',
+      defaultDuration: 'half-day',
+    });
+    expect(route?.isDemo).toBeUndefined();
+    expect(route?.source.verificationStatus).toBe('needs_confirmation');
+    expect(route?.sources?.map((source) => source.sourceType)).toEqual(
+      expect.arrayContaining(['official_web', 'open_data']),
+    );
+    expect(route?.sources?.map((source) => source.name)).toEqual([
+      '編集部（八王子ショウガと滝山の食文化）',
+      '道の駅八王子滝山（公式）',
+      '八王子市文化財一覧（オープンデータ）',
+      'OpenStreetMap（八王子滝山・滝山城跡の概略座標）',
+    ]);
+    expect(route?.sources?.at(-1)?.license).toBe('ODbL 1.0');
+    expect(route?.variants['half-day'].steps.map((step) => step.placeId)).toEqual([
+      'hachioji-takiyama-roadside-station',
+      'hachioji-takiyama-castle',
+    ]);
+    expect(route?.variants['1-day'].steps.length).toBeGreaterThanOrEqual(2);
+    expect(route?.variants['half-day'].mobility[0].mode).toBe('walk');
+  });
+
   it('marks only the frozen 8/23 demo route as demo content', () => {
     const demoRoutes = MODEL_ROUTES.filter((r) => r.isDemo);
     expect(demoRoutes).toHaveLength(1);
@@ -87,18 +113,34 @@ describe('spot details (#45 S6)', () => {
     }
   });
 
-  it('practical info is never fabricated — hours/price/closed are absent when unverified', () => {
-    // The route seed deliberately has NO verified hours/price/closed-day data,
-    // so no spot detail may claim them. Access labels are demo-marked strings.
+  it('keeps practical details bounded to source-backed fields', () => {
+    // Practical data is allowed only for fields transcribed from the official
+    // pages: the Hachioji roadside station, the Ozawa brewery tour, and
+    // Sawanoien. Every other spot keeps the explicit unknown state.
     for (const detail of Object.values(SPOT_DETAILS)) {
       const p = detail.practical;
       if (p) {
-        expect(p.hoursJa).toBeUndefined();
-        expect(p.hoursEn).toBeUndefined();
-        expect(p.priceJa).toBeUndefined();
-        expect(p.priceEn).toBeUndefined();
-        expect(p.closedDaysJa).toBeUndefined();
-        expect(p.closedDaysEn).toBeUndefined();
+        if (detail.placeId === 'hachioji-takiyama-roadside-station') {
+          expect(p.hoursJa).toContain('8');
+          expect(p.hoursEn).toContain('7:00');
+          expect(p.closedDaysJa).toContain('年中無休');
+        } else if (detail.placeId === 'sawai-ozawa-shuzo') {
+          expect(p.hoursJa).toContain('11:00');
+          expect(p.hoursEn).toContain('reservation required');
+          expect(p.priceJa).toContain('700円');
+          expect(p.reservationAvailable).toBe(true);
+        } else if (detail.placeId === 'sawanoien-garden') {
+          expect(p.hoursJa).toBe('10:00〜17:00');
+          expect(p.hoursEn).toContain('5:00 p.m.');
+          expect(p.closedDaysJa).toContain('月曜日');
+        } else {
+          expect(p.hoursJa).toBeUndefined();
+          expect(p.hoursEn).toBeUndefined();
+          expect(p.closedDaysJa).toBeUndefined();
+          expect(p.closedDaysEn).toBeUndefined();
+          expect(p.priceJa).toBeUndefined();
+          expect(p.priceEn).toBeUndefined();
+        }
       }
     }
   });
