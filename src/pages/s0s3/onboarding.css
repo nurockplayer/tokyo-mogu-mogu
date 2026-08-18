@@ -475,13 +475,18 @@
 
 /* Exploration question inside the chat: the Figma exploration step title is
    20px ExtraBold centered (Figma `4:2298`); keep the food-profile turns at the
-   uniform 16px chat rhythm. */
-.tmm-wizard .fp-convo__q {
+   uniform 16px chat rhythm. White-on-sage fails WCAG AA (~2:1), so the question
+   text is the app's ink on the green bubbles (8.3:1 active / 6.7:1 completed) —
+   the Figma exploration question is dark-on-light, so dark text preserves the
+   design language. Scoped to the wizard so the food-profile bubbles are
+   untouched. */
+.tmm-wizard .fp-convo__active .fp-convo__q,
+.tmm-wizard .fp-chat .fp-convo__q {
   font-size: 20px;
   font-weight: 800;
   line-height: 1.4;
   text-align: center;
-  color: #ffffff;
+  color: var(--tmm-color-ink);
 }
 
 /* Question: stronger display hierarchy that still wraps safely at 375px. */
@@ -539,10 +544,7 @@
 
 .tmm-wizard__tile {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: flex-start;
+  aspect-ratio: 133 / 166;
   padding: 0;
   border-radius: var(--tmm-radius-md);
   border: var(--tmm-border-strong);
@@ -571,19 +573,28 @@
   transform: scale(0.98);
 }
 
+/* Image-forward vertical tile (Figma `4:2101` 133×166): the photo fills the
+   tile and the localized caption overlays the bottom, instead of a square
+   photo with the caption below. The bottom scrim keeps the dark-green label
+   legible over the imagery. */
 .tmm-wizard__tile-img {
-  display: block;
+  position: absolute;
+  inset: 0;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 .tmm-wizard__tile-caption {
+  position: absolute;
+  inset: auto 0 0 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  padding: var(--tmm-space-2) var(--tmm-space-2) var(--tmm-space-3);
+  padding: var(--tmm-space-2) var(--tmm-space-2) var(--tmm-space-2);
+  background: linear-gradient(to top, rgb(255 253 246 / 0.95), rgb(255 253 246 / 0.4) 65%, transparent);
 }
 
 .tmm-wizard__tile--selected {
@@ -593,15 +604,15 @@
 
 .tmm-wizard__tile-label {
   font-weight: 700;
-  font-size: 0.98rem;
+  font-size: 0.92rem;
   line-height: 1.3;
   color: #667a48;
   overflow-wrap: anywhere;
 }
 
 .tmm-wizard__tile-sub {
-  font-size: var(--tmm-text-caption);
-  line-height: 1.4;
+  font-size: 0.78rem;
+  line-height: 1.35;
   color: var(--tmm-color-ink-soft);
   overflow-wrap: anywhere;
 }

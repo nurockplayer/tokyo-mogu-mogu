@@ -257,6 +257,10 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   }, [mode]);
 
   const [step, setStep] = useState(editing ? FIRST_CATEGORY_STEP : STEP_INTRO);
+  // Latest committed step — mirrors `step` so rapid/double activation can never
+  // skip a question (same stale-activation protection as the Exploration).
+  const stepRef = useRef(step);
+  stepRef.current = step;
   const [answered, setAnswered] = useState<Set<number>>(new Set());
   const [introChoice, setIntroChoice] = useState<IntroChoice | null>(null);
   const [nicknameInput, setNicknameInput] = useState(() => loadNickname() ?? '');
@@ -438,7 +442,11 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
       if (step === SETUP_SUMMARY) {
         handleSave();
       } else {
-        setStep(step + 1);
+        const next = step + 1;
+        // One activation advances exactly one turn; a stale/double activation
+        // is rejected so it cannot skip a question (Issue #230 protection).
+        if (next !== stepRef.current + 1) return;
+        setStep(next);
       }
       return;
     }
@@ -452,7 +460,9 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
       return;
     }
     if (step >= FIRST_CATEGORY_STEP && step < lastCategoryStep) {
-      setStep(step + 1);
+      const next = step + 1;
+      if (next !== stepRef.current + 1) return;
+      setStep(next);
       return;
     }
     // After the last category step → the post-category step.
