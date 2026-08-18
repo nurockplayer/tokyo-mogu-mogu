@@ -12,6 +12,11 @@ test-results
 playwright-report
 playwright/.cache
 
+# Secrets (Issue #233) — Figma access token lives in the environment, never in git
+.env
+.env.*
+!.env.example
+
 # local tool state (oh-my-claudecode)
 .omc
 .claude/worktrees
