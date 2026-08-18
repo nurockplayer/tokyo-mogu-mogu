@@ -74,6 +74,8 @@ export interface ModelRoute {
   variants: Record<RouteDuration, RouteVariant>;
   /** Provenance of the editorial route. */
   source: DataSource;
+  /** Additional sources used by this route's stops or contextual facts. */
+  sources?: readonly DataSource[];
   /** True only for the frozen 8/23 Okutama golden-path demo route. */
   isDemo?: boolean;
 }
@@ -214,12 +216,22 @@ const SOURCE_HACHIOJI_MARKET: DataSource = {
 const SOURCE_HACHIOJI_HERITAGE: DataSource = {
   name: '八王子市文化財一覧（オープンデータ）',
   url: 'https://catalog.data.metro.tokyo.lg.jp/dataset/t132012d3000000018',
-  license: 'CC BY 4.0（文化財データ）／ODbL 1.0（座標）',
+  license: 'CC BY 4.0',
   sourceType: 'open_data',
   sourceDatasetId: 't132012d3000000018',
   retrievedAt: '2026-08-15',
   verificationStatus: 'needs_confirmation',
   originalId: 'cp-t132012d3000000018-0000000003',
+};
+
+const SOURCE_HACHIOJI_COORDINATES: DataSource = {
+  name: 'OpenStreetMap（八王子滝山・滝山城跡の概略座標）',
+  url: 'https://www.openstreetmap.org/?mlat=35.6864699&mlon=139.3414479#map=13/35.692/139.333',
+  license: 'ODbL 1.0',
+  sourceType: 'open_data',
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation',
+  originalId: 'geocoded-hachioji-places',
 };
 
 /** Deterministic editorial model route — 奥多摩 × 東京わさび. */
@@ -518,6 +530,7 @@ export const MODEL_ROUTES: ModelRoute[] = [
     areaEn: 'Hachioji',
     defaultDuration: 'half-day',
     source: SOURCE_HACHIOJI_ROUTE,
+    sources: [SOURCE_HACHIOJI_ROUTE, SOURCE_HACHIOJI_MARKET, SOURCE_HACHIOJI_HERITAGE, SOURCE_HACHIOJI_COORDINATES],
     // Source-backed route, not part of the frozen 8/23 demo.
     variants: {
       'half-day': {

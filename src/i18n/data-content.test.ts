@@ -14,6 +14,7 @@ import {
   placeNameKey,
   routeAdvisoryKeys,
   routeAreaKey,
+  routeEstimateKey,
   routeNameKey,
   routeTransportKey,
   stepRoleKey,
@@ -41,6 +42,7 @@ describe('S4 story content availability (#123)', () => {
     expect(routeNameKey('hachioji-ginger-journey')).toBe('dataHachiojiRouteName');
     expect(routeAreaKey('hachioji-ginger-journey')).toBe('areaHachioji');
     expect(routeTransportKey('hachioji-ginger-journey')).toBe('dataHachiojiRouteTransport');
+    expect(routeEstimateKey('hachioji-ginger-journey')).toBe('dataHachiojiRouteEstimate');
     expect(placeNameKey('hachioji-takiyama-roadside-station')).toBe(
       'dataPlaceHachiojiRoadsideStationName',
     );

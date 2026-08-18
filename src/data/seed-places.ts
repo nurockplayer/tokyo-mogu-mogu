@@ -25,6 +25,26 @@
  */
 import type { Place } from './model';
 
+const HACHIOJI_ROADSIDE_COORDINATE_SOURCE = {
+  name: 'OpenStreetMap',
+  url: 'https://www.openstreetmap.org/?mlat=35.6864699&mlon=139.3414479#map=19/35.6864699/139.3414479',
+  license: 'ODbL 1.0',
+  sourceType: 'open_data' as const,
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'geocoded-hachioji-takiyama-roadside-station',
+};
+
+const HACHIOJI_CASTLE_COORDINATE_SOURCE = {
+  name: 'OpenStreetMap',
+  url: 'https://www.openstreetmap.org/?mlat=35.6973812&mlon=139.3252639#map=17/35.6973812/139.3252639',
+  license: 'ODbL 1.0',
+  sourceType: 'open_data' as const,
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'geocoded-hachioji-takiyama-castle',
+};
+
 export const PLACES: Place[] = [
   {
     id: 'okutama-wasabi-field',
@@ -399,12 +419,12 @@ export const PLACES: Place[] = [
     latitude: 35.6864699,
     longitude: 139.3414479,
     coordinatePrecision: 'approximate',
+    coordinateSource: HACHIOJI_ROADSIDE_COORDINATE_SOURCE,
     foodCultureIds: ['hachioji-ginger'],
     type: 'shop',
     source: {
       name: '道の駅八王子滝山（公式）／OpenStreetMap',
       url: 'https://www.michinoeki-hachioji.net/',
-      license: 'ODbL 1.0（座標）／施設情報は公式サイト',
       sourceType: 'official_web',
       retrievedAt: '2026-08-19',
       verificationStatus: 'needs_confirmation',
@@ -423,12 +443,13 @@ export const PLACES: Place[] = [
     latitude: 35.6973812,
     longitude: 139.3252639,
     coordinatePrecision: 'approximate',
+    coordinateSource: HACHIOJI_CASTLE_COORDINATE_SOURCE,
     foodCultureIds: [],
     type: 'other',
     source: {
       name: '八王子市文化財一覧（オープンデータ）／OpenStreetMap',
       url: 'https://catalog.data.metro.tokyo.lg.jp/dataset/t132012d3000000018',
-      license: 'CC BY 4.0（文化財データ）／ODbL 1.0（座標）',
+      license: 'CC BY 4.0',
       sourceType: 'open_data',
       sourceDatasetId: 't132012d3000000018',
       retrievedAt: '2026-08-15',

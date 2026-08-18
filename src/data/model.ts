@@ -140,8 +140,10 @@ export interface Place {
    * as a turn-by-turn navigation destination (the app uses the sourced
    * name/address for directions instead). Absent ⇒ unspecified (treated as
    * coordinate-based by the map-link helpers).
-   */
+  */
   coordinatePrecision?: 'precise' | 'approximate';
+  /** Optional provenance for coordinates when it differs from the place source. */
+  coordinateSource?: DataSource;
   /** Food cultures that can be experienced here. */
   foodCultureIds: string[];
   type: PlaceType;

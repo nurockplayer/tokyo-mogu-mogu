@@ -30,7 +30,7 @@ import {
   getRelatedFoodCultures,
   getSpotDetail,
 } from '../data';
-import type { PlaceType } from '../data';
+import type { DataSource, PlaceType } from '../data';
 import { useI18n, type LocaleKey } from '../i18n';
 import {
   placeNameKey,
@@ -41,7 +41,7 @@ import {
 } from '../i18n/data-content';
 import { googleMapsDirectionsUrl, appleMapsDirectionsUrl, type DirectionsPlace } from '../lib/map-links';
 import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
-import { deriveVerificationStatus } from '../lib/verification';
+import { deriveVerificationStatus, sourceDateLabel } from '../lib/verification';
 import { routeBackTarget, resolveSpotRouteId, spotBackHref } from './route-context';
 import './route-spot.css';
 
@@ -65,6 +65,15 @@ const VERIFICATION_LABEL_KEY: Record<
   stale: 'verificationStale',
   conflict: 'verificationConflict',
   demo: 'verificationDemo',
+};
+
+const SOURCE_TYPE_LABEL: Record<NonNullable<DataSource['sourceType']>, LocaleKey> = {
+  official_web: 'sourceTypeOfficialWeb',
+  open_data: 'sourceTypeOpenData',
+  fieldwork: 'sourceTypeFieldwork',
+  business: 'sourceTypeBusiness',
+  manual: 'sourceTypeManual',
+  demo: 'sourceTypeDemo',
 };
 
 /**
@@ -211,6 +220,17 @@ export function SpotPage() {
 
   const practical = detail?.practical;
   const relatedCultures = getRelatedFoodCultures(place);
+  const sourceRecords = [
+    { source: place.source, origin: place.origin },
+    ...(place.coordinateSource ? [{ source: place.coordinateSource, origin: place.origin }] : []),
+    ...(detail?.source ? [{ source: detail.source, origin: detail.origin }] : []),
+  ].filter((entry, index, entries) => {
+    const identity = `${entry.source.url ?? entry.source.name}|${entry.source.originalId ?? ''}`;
+    return entries.findIndex((candidate) => {
+      const candidateIdentity = `${candidate.source.url ?? candidate.source.name}|${candidate.source.originalId ?? ''}`;
+      return candidateIdentity === identity;
+    }) === index;
+  });
 
   // Direction CTAs (external map apps). Approximate places (district-centroid
   // coordinates) navigate by the sourced name/address, not the centroid (Issue
@@ -315,17 +335,51 @@ export function SpotPage() {
           <p>{t('s6StoryUnavailable')}</p>
         )}
         <p className="s6-provenance">{t('s6EditorialNote')}</p>
-        {detail?.source.url ? (
-          <a
-            className="s6-provenance"
-            href={detail.source.url}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {t('sourceLink')}
-          </a>
-        ) : null}
       </StorySection>
+
+      {/* Compact provenance disclosure: source type, link, retrieval date,
+          license and verification state stay visible without implying that
+          editorial copy or approximate coordinates are stakeholder-verified. */}
+      <details className="s6-sources">
+        <summary className="s6-sources__summary">
+          <span>{t('sources')}</span>
+          <Tag tone="warning">
+            {t(VERIFICATION_LABEL_KEY[deriveVerificationStatus(place.source, place.origin)])}
+          </Tag>
+        </summary>
+        <ul className="s6-sources__list">
+          {sourceRecords.map(({ source, origin }, index) => {
+            const status = deriveVerificationStatus(source, origin);
+            const date = sourceDateLabel(source, origin);
+            return (
+              <li key={`${source.originalId ?? source.name}-${index}`} className="s6-sources__item">
+                <span className="s6-sources__name">{source.name}</span>
+                {source.sourceType ? (
+                  <span className="s6-sources__meta">{t(SOURCE_TYPE_LABEL[source.sourceType])}</span>
+                ) : null}
+                {source.url ? (
+                  <a href={source.url} target="_blank" rel="noreferrer" className="s6-sources__link">
+                    {t('sourceLink')}
+                  </a>
+                ) : null}
+                <Tag tone={status === 'verified' ? 'success' : 'warning'}>
+                  {t(VERIFICATION_LABEL_KEY[status])}
+                </Tag>
+                {source.license ? (
+                  <span className="s6-sources__meta">
+                    {t('detailLicense')}: {source.license}
+                  </span>
+                ) : null}
+                {date ? (
+                  <span className="s6-sources__meta">
+                    {t(date.label)}: {date.date}
+                  </span>
+                ) : null}
+              </li>
+            );
+          })}
+        </ul>
+      </details>
 
       {/* Practical info */}
       <StorySection kicker={t('s6InfoKicker')} title={t('s6InfoTitle')}>

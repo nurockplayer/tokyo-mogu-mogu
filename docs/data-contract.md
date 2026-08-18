@@ -21,7 +21,7 @@ Sub-agents MUST read this file and the modules it references before writing code
 | Path | Exports | Notes |
 |---|---|---|
 | `src/data/model.ts` | `FoodCulture`, `Place`, `DataSource`, `DataOrigin`, `UnlockMethod`, `FoodCultureCategory`, `RegionId`, `PlaceType`, `UNLOCK_RADIUS_METERS` | Core types. `RegionId` keeps the shared contract geography-independent. |
-| `src/data/index.ts` | `foodCultures`, `places`, `getFoodCultureById(id)`, `getPlaceById(id)`, `getRelatedPlaces(fc)`, `getRelatedFoodCultures(place)` | Data access. Do not modify. |
+| `src/data/index.ts` | `foodCultures`, `places`, `getFoodCultureById(id)`, `getPlaceById(id)`, `getRelatedPlaces(fc)`, `getRelatedFoodCultures(place)` | Data access. Shared-contract integrations may add additive exports; preserve existing access semantics. |
 | `src/store/collection.tsx` | `CollectionProvider`, `useCollection()` → `{ collected, visitedPlaces, isCollected(id), isVisited(id), collect(id), visitPlace(id), reset() }` | Collection state. `collect`/`visitPlace` are idempotent (duplicates ignored). Do not modify (persistence lands in #7). |
 | `src/i18n.tsx` | `I18nProvider`, `useI18n()` → `{ locale, setLocale, t(key) }`, `strings` | Append-only for new keys. See i18n rule below. |
 | `src/lib/geo.ts` | `distanceInMeters(lat1,lon1,lat2,lon2)`, `isWithinRadius(lat1,lon1,lat2,lon2,radiusMeters)` | Use for check-in distance logic. Do not modify. |
@@ -44,6 +44,7 @@ interface FoodCulture {
 interface Place {
   id: string; nameJa: string; nameEn: string; address: string;
   latitude: number; longitude: number;
+  coordinateSource?: DataSource;
   foodCultureIds: string[];
   type: PlaceType; source: DataSource; origin: DataOrigin;
 }

@@ -78,6 +78,11 @@ describe('seed data contract (#2)', () => {
       expect(p.source.sourceType, `${p.id} source missing sourceType`).toBeDefined();
       expect(p.source.retrievedAt, `${p.id} source missing retrievedAt`).toBeDefined();
       expect(p.source.originalId, `${p.id} source missing originalId`).toBeDefined();
+      if (p.coordinateSource) {
+        expect(p.coordinateSource.sourceType, `${p.id} coordinate source missing sourceType`).toBeDefined();
+        expect(p.coordinateSource.retrievedAt, `${p.id} coordinate source missing retrievedAt`).toBeDefined();
+        expect(p.coordinateSource.originalId, `${p.id} coordinate source missing originalId`).toBeDefined();
+      }
     }
   });
 
@@ -135,6 +140,18 @@ describe('seed data contract (#2)', () => {
     });
     expect(market?.source.url).toMatch(/^https:\/\//);
     expect(market?.source.verificationStatus).toBe('needs_confirmation');
+    expect(market?.coordinateSource).toMatchObject({
+      name: 'OpenStreetMap',
+      license: 'ODbL 1.0',
+      originalId: 'geocoded-hachioji-takiyama-roadside-station',
+    });
+    expect(market?.coordinateSource).toMatchObject({
+      name: 'OpenStreetMap',
+      sourceType: 'open_data',
+      license: 'ODbL 1.0',
+      retrievedAt: '2026-08-19',
+    });
+    expect(market?.coordinateSource?.url).toContain('openstreetmap.org');
 
     const heritage = getPlaceById('hachioji-takiyama-castle');
     expect(heritage).toMatchObject({
@@ -143,7 +160,9 @@ describe('seed data contract (#2)', () => {
       coordinatePrecision: 'approximate',
     });
     expect(heritage?.source.sourceDatasetId).toBe('t132012d3000000018');
-    expect(heritage?.source.license).toContain('CC BY 4.0');
+    expect(heritage?.source.license).toBe('CC BY 4.0');
+    expect(heritage?.coordinateSource?.license).toBe('ODbL 1.0');
+    expect(heritage?.coordinateSource?.url).toContain('openstreetmap.org');
   });
 
   it('every source timestamp is a parseable ISO date (#129)', () => {
@@ -159,6 +178,9 @@ describe('seed data contract (#2)', () => {
       if (p.source.sourceUpdatedAt) dates.push(p.source.sourceUpdatedAt);
       if (p.source.confirmedAt) dates.push(p.source.confirmedAt);
       if (p.source.retrievedAt) dates.push(p.source.retrievedAt);
+      if (p.coordinateSource?.sourceUpdatedAt) dates.push(p.coordinateSource.sourceUpdatedAt);
+      if (p.coordinateSource?.confirmedAt) dates.push(p.coordinateSource.confirmedAt);
+      if (p.coordinateSource?.retrievedAt) dates.push(p.coordinateSource.retrievedAt);
     }
     for (const d of dates) {
       expect(Number.isNaN(Date.parse(d)), `${d} is not parseable`).toBe(false);
@@ -177,6 +199,7 @@ describe('seed data contract (#2)', () => {
     }
     for (const p of places) {
       expect(p.source.sourceUpdatedAt, `${p.id} source has an unsupported sourceUpdatedAt`).toBeUndefined();
+      expect(p.coordinateSource?.sourceUpdatedAt, `${p.id} coordinate source has an unsupported sourceUpdatedAt`).toBeUndefined();
     }
   });
 
@@ -199,6 +222,13 @@ describe('seed data contract (#2)', () => {
         expect(s.sourceUpdatedAt === s.retrievedAt, `${p.id} sourceUpdatedAt copies retrievedAt`).toBe(
           false,
         );
+      }
+      const coordinateSource = p.coordinateSource;
+      if (coordinateSource?.sourceUpdatedAt && coordinateSource.retrievedAt) {
+        expect(
+          coordinateSource.sourceUpdatedAt === coordinateSource.retrievedAt,
+          `${p.id} coordinate sourceUpdatedAt copies retrievedAt`,
+        ).toBe(false);
       }
     }
   });

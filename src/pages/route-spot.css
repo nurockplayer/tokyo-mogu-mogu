@@ -91,6 +91,14 @@
   overflow-wrap: anywhere;
 }
 
+.s5-hero__note {
+  margin: 10px 0 0;
+  font-size: var(--tmm-text-caption);
+  line-height: 1.6;
+  color: var(--tmm-color-ink-soft);
+  overflow-wrap: anywhere;
+}
+
 /* Half-day / 1-day toggle — segmented control from the tmm-chip primitive */
 .s5-duration-switch {
   display: flex;
@@ -516,4 +524,59 @@
   line-height: 1.6;
   border-top: var(--tmm-border);
   padding-top: 12px;
+}
+
+.s6-sources {
+  margin-top: 18px;
+  border-top: var(--tmm-border);
+  padding-top: 12px;
+}
+
+.s6-sources__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  cursor: pointer;
+  font-size: var(--tmm-text-caption);
+  color: var(--tmm-color-ink-soft);
+}
+
+.s6-sources__summary::-webkit-details-marker {
+  display: none;
+}
+
+.s6-sources__list {
+  display: grid;
+  gap: 12px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.s6-sources__item {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  font-size: var(--tmm-text-caption);
+  line-height: 1.5;
+}
+
+.s6-sources__name,
+.s6-sources__meta,
+.s6-sources__link {
+  overflow-wrap: anywhere;
+}
+
+.s6-sources__name {
+  color: var(--tmm-color-ink);
+}
+
+.s6-sources__meta {
+  color: var(--tmm-color-ink-soft);
+}
+
+.s6-sources__link {
+  color: var(--tmm-color-forest-deep);
+  text-decoration: underline;
 }

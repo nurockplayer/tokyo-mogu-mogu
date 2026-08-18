@@ -125,6 +125,12 @@ export const strings = {
     detailLicense: 'ライセンス',
     detailLastVerified: '最終確認',
     detailRetrieved: '取得日',
+    sourceTypeOfficialWeb: '公式ウェブサイト',
+    sourceTypeOpenData: 'オープンデータ',
+    sourceTypeFieldwork: '現地調査',
+    sourceTypeBusiness: '事業者からの確認',
+    sourceTypeManual: '手動入力',
+    sourceTypeDemo: 'デモデータ',
     detailVisitOnMap: '地図で見る',
     detailLockedNoticeBody: 'この食文化はまだ見つかっていません。体験できる場所へ行ってチェックインすると、ストーリーや情報源が公開されます。',
     detailNotFoundTitle: '見つかりませんでした',
@@ -699,6 +705,8 @@ export const strings = {
     dataHachiojiStickyCta: '八王子の旅を見る',
     dataHachiojiRouteName: '八王子ショウガと滝山の食文化をたどる旅',
     dataHachiojiRouteTransport: '徒歩（現地の案内を確認）',
+    dataHachiojiRouteEstimate:
+      '所要時間・滞在時間・徒歩時間は編集部の目安です。現地の案内と当日の状況を確認してください。',
     dataHachiojiStopRoleMarketHalfDay:
       '八王子市の食文化ミュージアムに認定された道の駅。市内の生産者が届ける野菜や、旬の八王子ショウガを探します。品揃えは季節と当日の入荷で変わります。',
     dataHachiojiStopRoleMarketFullDay:
@@ -816,6 +824,12 @@ export const strings = {
     detailLicense: 'License',
     detailLastVerified: 'Last verified',
     detailRetrieved: 'Retrieved',
+    sourceTypeOfficialWeb: 'Official website',
+    sourceTypeOpenData: 'Open data',
+    sourceTypeFieldwork: 'Fieldwork',
+    sourceTypeBusiness: 'Business confirmation',
+    sourceTypeManual: 'Manual entry',
+    sourceTypeDemo: 'Demo data',
     detailVisitOnMap: 'View on map',
     detailLockedNoticeBody: 'This food culture is still locked. Visit one of the places below and check in to reveal its story and sources.',
     detailNotFoundTitle: 'Not found',
@@ -1405,6 +1419,8 @@ export const strings = {
     dataHachiojiStickyCta: 'Start the Hachioji journey',
     dataHachiojiRouteName: 'Hachioji Ginger & Takiyama Food Culture Journey',
     dataHachiojiRouteTransport: 'Walking (check local guidance)',
+    dataHachiojiRouteEstimate:
+      'Total, stay, and walking times are editorial estimates; check local guidance and conditions on the day.',
     dataHachiojiStopRoleMarketHalfDay:
       'Start at the city-recognized food culture museum and farm market. Look for Hachioji produce and seasonal ginger; stock changes with the season and day.',
     dataHachiojiStopRoleMarketFullDay:
@@ -1522,6 +1538,12 @@ export const strings = {
     detailLicense: '授權',
     detailLastVerified: '最後確認',
     detailRetrieved: '取得日期',
+    sourceTypeOfficialWeb: '官方網站',
+    sourceTypeOpenData: '開放資料',
+    sourceTypeFieldwork: '現地調查',
+    sourceTypeBusiness: '業者確認',
+    sourceTypeManual: '手動輸入',
+    sourceTypeDemo: '示範資料',
     detailVisitOnMap: '在地圖上查看',
     detailLockedNoticeBody: '這項飲食文化尚未被發現。前往下列可體驗的地點簽到後，即可解鎖故事與資料來源。',
     detailNotFoundTitle: '找不到',
@@ -2086,6 +2108,8 @@ export const strings = {
     dataHachiojiStickyCta: '展開八王子之旅',
     dataHachiojiRouteName: '八王子薑與滝山飲食文化之旅',
     dataHachiojiRouteTransport: '步行（請確認現地指引）',
+    dataHachiojiRouteEstimate:
+      '總時間、停留時間與步行時間為編輯部估算；請確認現地指引與當日狀況。',
     dataHachiojiStopRoleMarketHalfDay:
       '從獲認定為食文化博物館的道之驛與農產直賣所開始，尋找八王子農產與當季八王子薑；品項會隨季節與當日進貨變動。',
     dataHachiojiStopRoleMarketFullDay:

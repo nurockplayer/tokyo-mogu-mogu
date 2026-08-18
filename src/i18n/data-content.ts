@@ -429,3 +429,13 @@ export const ROUTE_ADVISORY_KEYS: Record<
 export function routeAdvisoryKeys(routeId: string): { advisory: LocaleKey; source: LocaleKey } | undefined {
   return ROUTE_ADVISORY_KEYS[routeId];
 }
+
+/** Route-specific estimate disclosure, keyed by route id. */
+export const ROUTE_ESTIMATE_KEYS: Record<string, LocaleKey> = {
+  'hachioji-ginger-journey': 'dataHachiojiRouteEstimate',
+};
+
+/** Resolve a route's editorial estimate disclosure, if the route has one. */
+export function routeEstimateKey(routeId: string): LocaleKey | undefined {
+  return ROUTE_ESTIMATE_KEYS[routeId];
+}

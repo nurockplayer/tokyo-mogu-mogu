@@ -29,6 +29,16 @@ describe('model routes (#45 S5)', () => {
     });
     expect(route?.isDemo).toBeUndefined();
     expect(route?.source.verificationStatus).toBe('needs_confirmation');
+    expect(route?.sources?.map((source) => source.sourceType)).toEqual(
+      expect.arrayContaining(['official_web', 'open_data']),
+    );
+    expect(route?.sources?.map((source) => source.name)).toEqual([
+      '編集部（八王子ショウガと滝山の食文化）',
+      '道の駅八王子滝山（公式）',
+      '八王子市文化財一覧（オープンデータ）',
+      'OpenStreetMap（八王子滝山・滝山城跡の概略座標）',
+    ]);
+    expect(route?.sources?.at(-1)?.license).toBe('ODbL 1.0');
     expect(route?.variants['half-day'].steps.map((step) => step.placeId)).toEqual([
       'hachioji-takiyama-roadside-station',
       'hachioji-takiyama-castle',

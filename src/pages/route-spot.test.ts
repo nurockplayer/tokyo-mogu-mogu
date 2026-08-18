@@ -20,7 +20,7 @@ import { spotActionType, SPOT_ACTIONS } from './SpotPage';
 import { getPlaceById, places } from '../data';
 import { resolveKey } from '../i18n/fallback';
 import { strings } from '../i18n/resources';
-import { spotAccessKey } from '../i18n/data-content';
+import { routeEstimateKey, spotAccessKey } from '../i18n/data-content';
 import { deriveVerificationStatus } from '../lib/verification';
 
 describe('Route back-target resolution (#80)', () => {
@@ -270,6 +270,16 @@ describe('weekend-morning crowding advisory (#83)', () => {
     for (const locale of ['ja', 'en', 'zh-TW'] as const) {
       expect(strings[locale].s5CrowdingSource).toContain('2026-08-09');
     }
+  });
+});
+
+describe('route estimate disclosures (#238)', () => {
+  it('labels Hachioji route timings as editorial estimates in all locales', () => {
+    const key = routeEstimateKey('hachioji-ginger-journey');
+    expect(key).toBe('dataHachiojiRouteEstimate');
+    expect(strings.ja[key!]).toContain('目安');
+    expect(strings.en[key!]).toContain('editorial estimates');
+    expect(strings['zh-TW'][key!]).toContain('估算');
   });
 });
 
