@@ -174,6 +174,13 @@ export function StoryPage() {
   const relatedPlaces = record ? getRelatedPlaces(record) : [];
   const localized = (key: ReturnType<typeof placeNameKey>, ja: string, en: string): string =>
     key ? t(key) : locale === 'ja' ? ja : en;
+  const nearbySpotHref = (placeId: string): string => {
+    const params = new URLSearchParams({ from: 'story', backTo });
+    if (identity?.journeyId && identity.candidateId) {
+      params.set('candidateId', identity.candidateId);
+    }
+    return `/spot/${placeId}?${params.toString()}`;
+  };
 
   return (
     <article className="s4-page">
@@ -311,7 +318,7 @@ export function StoryPage() {
           <ul className="s4-nearby__list">
             {relatedPlaces.map((place) => (
               <li key={place.id} className="s4-nearby__item">
-                <Link to={`/spot/${place.id}`} className="s4-nearby__card">
+                <Link to={nearbySpotHref(place.id)} className="s4-nearby__card">
                   <span className="s4-nearby__name">
                     {localized(placeNameKey(place.id), place.nameJa, place.nameEn)}
                   </span>

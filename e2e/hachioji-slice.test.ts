@@ -97,6 +97,15 @@ for (const locale of ['ja', 'en', 'zh-TW'] as const) {
       await expect(page.locator('body')).toContainText(copy.story);
       await expectNoHorizontalOverflow(page);
 
+      // Nearby-spot navigation keeps the selected Hachioji candidate, so Back
+      // never falls through to the Okutama pilot route.
+      await page.locator('.s4-nearby__card').first().click();
+      await page.waitForURL(/\/spot\/hachioji-takiyama-roadside-station\?from=story/);
+      await page.locator('a.s6-back').click();
+      await page.waitForURL(/\/route\?.*candidateId=demo-tokyo-hachioji-ginger/);
+      await expect(page.getByRole('heading', { name: copy.route })).toBeVisible();
+      await page.goto('/story/hachioji-ginger?backTo=%2Fdiscover&candidateId=demo-tokyo-hachioji-ginger');
+
       await page.getByRole('link', { name: copy.cta }).click();
       await page.waitForURL(/\/route\?/);
       await expect(page.getByRole('heading', { name: copy.route })).toBeVisible();

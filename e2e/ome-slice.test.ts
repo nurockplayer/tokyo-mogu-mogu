@@ -72,6 +72,9 @@ test.describe('Ome/Sawai sake semantic isolation (ja, 375px)', () => {
     await page.getByRole('heading', { name: '小澤酒造（沢井・澤乃井）' }).waitFor();
     await expect(page.locator('body')).toContainText('予約制');
     await expect(page.locator('body')).toContainText('700円');
+    await expect(
+      page.getByRole('link', { name: '予約する' }),
+    ).toHaveAttribute('href', 'https://www.sawanoi-sake.com/service/kengaku/');
     await expect(page.locator('body')).not.toContainText('わさび');
     await expect(page.locator('body')).not.toContainText('奥多摩');
     await expectNoOkutamaDestination(page);

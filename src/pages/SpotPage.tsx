@@ -220,6 +220,10 @@ export function SpotPage() {
 
   const practical = detail?.practical;
   const relatedCultures = getRelatedFoodCultures(place);
+  const reservationAction = SPOT_ACTIONS[place.id];
+  const reservationUrl = practical?.reservationAvailable && reservationAction?.kind === 'external'
+    ? reservationAction.url
+    : undefined;
   const sourceRecords = [
     { source: place.source, origin: place.origin },
     ...(place.coordinateSource ? [{ source: place.coordinateSource, origin: place.origin }] : []),
@@ -464,10 +468,16 @@ export function SpotPage() {
             <p className="s6-info-unverified">{t('s6AddToItineraryHint')}</p>
           </>
         ) : null}
-        {detail?.practical?.reservationAvailable ? (
-          <Button variant="secondary" className="tmm-btn--block">
+        {reservationUrl ? (
+          <ButtonLink
+            variant="secondary"
+            href={reservationUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="tmm-btn--block"
+          >
             📅 {t('s6ReserveCta')}
-          </Button>
+          </ButtonLink>
         ) : (
           <Button variant="secondary" className="tmm-btn--block" disabled>
             📅 {t('s6ReserveDisabled')}
