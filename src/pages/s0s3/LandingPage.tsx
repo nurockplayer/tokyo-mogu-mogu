@@ -22,6 +22,7 @@ import { beginNewExploration } from './exploration-session';
 import { HistorySection } from './history-section';
 import './onboarding.css';
 import './history-section.css';
+import mascot from '../../assets/figma/mascot.svg';
 
 export function LandingPage() {
   // Returning users skip the Food Profile re-ask and start a new Exploration.
@@ -43,21 +44,20 @@ function FirstTimeHome({ journeyTarget }: { journeyTarget: string }) {
   const { t } = useI18n();
   return (
     <div className="tmm-page tmm-landing">
-      <section className="tmm-landing-hero">
+      <section className="tmm-landing-hero tmm-landing-hero--welcome">
         <div
           className="tmm-landing-hero__media"
           role="img"
           aria-label={t('appName')}
         >
-          <span className="tmm-landing-hero__media-glyph" aria-hidden="true">🌿</span>
-          <span className="tmm-landing-hero__media-name">{t('appName')}</span>
+          <img src={mascot} alt="" className="tmm-landing-hero__mascot" />
         </div>
         <div className="tmm-landing-hero__body">
           <h1 className="tmm-landing-hero__title">{t('s0Title')}</h1>
           <div className="tmm-landing-hero__cta">
             <Link
               to={journeyTarget}
-              className="tmm-btn tmm-btn--primary tmm-btn--block"
+              className="tmm-btn tmm-btn--primary"
               onClick={beginNewExploration}
             >
               {t('s0Cta')}

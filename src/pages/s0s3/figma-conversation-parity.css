@@ -1,0 +1,124 @@
+/* Latest KiKi Figma conversation parity for the 8/23 presentation prototype.
+ *
+ * Keep this deliberately scoped to the Phase 1 conversational surfaces. The
+ * shared production tokens stay AA-hardened and Phase 2 remains untouched.
+ * These values come from the live-Figma arbitration handoff and are presentation
+ * roles, not a new global token ramp.
+ */
+
+:root {
+  --fp-figma-bot: #9dbc64;
+  --fp-figma-question: #b1cf7a;
+  --fp-figma-user: #ffffff;
+  --fp-figma-text: #222222;
+  --fp-figma-primary: #667a47;
+  --fp-figma-selected: #667f37;
+  --fp-figma-send: #e9811d;
+  --fp-figma-mascot-orange: #e07d23;
+  --fp-figma-welcome-shadow: #3a5509;
+}
+
+/* Conversation history: completed bot turns are the darker sage bubble. */
+.fp-chat .fp-convo__msg--assistant .fp-convo__bubble,
+.tmm-result__greeting.fp-convo__msg--assistant .fp-convo__bubble {
+  background: var(--fp-figma-bot);
+  border: 0;
+  border-radius: 0 10px 10px 10px;
+  box-shadow: none;
+  padding: 12px;
+}
+
+.fp-chat .fp-convo__msg--assistant .fp-convo__q,
+.fp-chat .fp-convo__msg--assistant .fp-convo__title,
+.fp-chat .fp-convo__msg--assistant .fp-convo__body,
+.tmm-result__greeting .fp-convo__body {
+  color: #ffffff;
+  font-weight: 400;
+}
+
+/* Food-profile live turn. Plain welcome/summary messages use the bot color;
+ * turns with a question line use the lighter interactive-question variant. */
+.tmm-food-profile > .fp-convo > .fp-convo__msg--assistant .fp-convo__bubble {
+  background: var(--fp-figma-bot);
+  border: 0;
+  border-radius: 0 10px 10px 10px;
+  box-shadow: none;
+  padding: 12px;
+}
+
+.tmm-food-profile > .fp-convo:has(.fp-convo__q) > .fp-convo__msg--assistant .fp-convo__bubble {
+  background: var(--fp-figma-question);
+}
+
+.tmm-food-profile > .fp-convo > .fp-convo__msg--assistant .fp-convo__q,
+.tmm-food-profile > .fp-convo > .fp-convo__msg--assistant .fp-convo__title,
+.tmm-food-profile > .fp-convo > .fp-convo__msg--assistant .fp-convo__body,
+.tmm-food-profile > .fp-convo > .fp-convo__msg--assistant .fp-convo__label {
+  color: #ffffff;
+}
+
+/* Exploration live turn: all currently interactive question cards use the
+ * lighter sage. Completed turns above remain the darker bot bubble. */
+.fp-convo__active .fp-convo__msg--assistant .fp-convo__bubble {
+  background: var(--fp-figma-question);
+  border: 0;
+  border-radius: 0 10px 10px 10px;
+  box-shadow: none;
+  padding: 12px;
+}
+
+.fp-convo__active .fp-convo__msg--assistant .fp-convo__q,
+.fp-convo__active .fp-convo__msg--assistant .fp-convo__body,
+.fp-convo__active .fp-convo__msg--assistant .fp-convo__label {
+  color: #ffffff;
+}
+
+/* User replies are white right-aligned bubbles, not green answer cards. */
+.tmm-food-profile .fp-convo__msg--user .fp-convo__bubble,
+.tmm-wizard .fp-convo__msg--user .fp-convo__bubble {
+  background: var(--fp-figma-user);
+  border: 0;
+  border-radius: 10px 0 10px 10px;
+  box-shadow: none;
+  color: var(--fp-figma-text);
+  font-weight: 400;
+  padding: 12px;
+}
+
+/* Chips keep the existing accessible interaction contract, but mirror the
+ * Figma selected/unselected fills inside the presentation conversation. */
+.tmm-food-profile .fp-convo .tmm-chip,
+.tmm-wizard .fp-convo .tmm-chip {
+  background: #ffffff;
+  color: var(--fp-figma-text);
+}
+
+.tmm-food-profile .fp-convo .tmm-chip[aria-pressed='true'],
+.tmm-wizard .fp-convo .tmm-chip[aria-pressed='true'] {
+  background: var(--fp-figma-selected);
+  border-color: var(--fp-figma-selected);
+  color: #ffffff;
+}
+
+/* Signature welcome sticker CTA. This selector intentionally only matches the
+ * welcome card, whose title/body is followed by the stacked start/browse row. */
+.tmm-food-profile > .fp-convo:has(.fp-convo__title) .fp-convo__choices--stack .tmm-btn--primary {
+  background: var(--fp-figma-primary);
+  box-shadow: 0 4px 0 var(--fp-figma-welcome-shadow);
+}
+
+/* Question-card send/confirm actions are the verified orange with regular text.
+ * `fp-convo__step` uniquely marks the four dietary interview send buttons;
+ * `fp-convo__confirm` is the final Taste + Theme confirmation. */
+.tmm-food-profile > .fp-convo:has(.fp-convo__step) .tmm-btn--primary,
+.fp-convo__confirm .tmm-btn--primary {
+  background: var(--fp-figma-send);
+  border-radius: 12px;
+  box-shadow: none;
+  color: #ffffff;
+  font-weight: 400;
+}
+
+/* The conversation avatar renders the exported KiKi mascot (`avatar.svg`) via
+   `.fp-convo__avatar` in onboarding.css — the mascot asset was exported from
+   the Figma (Figma `2:314`), replacing the earlier CSS proxy. */

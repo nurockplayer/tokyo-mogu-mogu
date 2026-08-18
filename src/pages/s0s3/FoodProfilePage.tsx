@@ -25,7 +25,7 @@
  * Phase 2. Input is recommendation-only, never a safety guarantee (product
  * contract "Safety Boundary").
  */
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useI18n } from '../../i18n';
 import { type LocaleKey } from '../../i18n/resources';
@@ -43,6 +43,7 @@ import {
   ChatTranscript,
   AssistantMessage,
   AssistantQuestion,
+  scrollTurnIntoView,
   type ChatItem,
 } from './conversation';
 import './onboarding.css';
@@ -256,6 +257,26 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   }, [mode]);
 
   const [step, setStep] = useState(editing ? FIRST_CATEGORY_STEP : STEP_INTRO);
+  // Latest committed step — mirrors `step` so rapid/double activation can never
+  // skip a question (same stale-activation protection as the Exploration).
+  const stepRef = useRef(step);
+  stepRef.current = step;
+  // Transition lock: a realistic accidental second tap (50–120ms) lands on the
+  // *newly rendered* live `送信` button whose fresh closure already passes the
+  // stale-step guard — so the stale guard alone cannot stop it. While the lock
+  // is held the reveal button is disabled, so a second tap is inert. Playwright
+  // (and a deliberate user reading the next question) waits for the short
+  // window to pass, so no legitimate progression is blocked. Deliberate reading
+  // always exceeds this window, so no real delay is introduced.
+  const [advanceLocked, setAdvanceLocked] = useState(false);
+  const unlockTimerRef = useRef<number | null>(null);
+  const ADVANCE_COOLDOWN_MS = 150;
+  useEffect(
+    () => () => {
+      if (unlockTimerRef.current !== null) window.clearTimeout(unlockTimerRef.current);
+    },
+    [],
+  );
   const [answered, setAnswered] = useState<Set<number>>(new Set());
   const [introChoice, setIntroChoice] = useState<IntroChoice | null>(null);
   const [nicknameInput, setNicknameInput] = useState(() => loadNickname() ?? '');
@@ -285,6 +306,30 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
     setInterviewAnswers(createEmptyInterviewAnswers());
     setBrowseNote(false);
   }, [mode]);
+
+  // LINE-like reveal (Issue #230 motion): keep the newly revealed setup step
+  // near the viewport bottom as the conversation grows — same motion as the
+  // Exploration. The edit surface keeps its own header flow and is left alone.
+  const stepScrollRef = useRef<HTMLDivElement>(null);
+  const stepScrollFirst = useRef(true);
+  useEffect(() => {
+    if (editing) return;
+    if (stepScrollFirst.current) {
+      stepScrollFirst.current = false;
+      return;
+    }
+    const container = stepScrollRef.current;
+    if (!container) return;
+    // The current setup step is the last `.fp-convo` in the container (the
+    // transcript renders `.fp-chat`, not `.fp-convo`), so the step stays a
+    // direct child of `.tmm-food-profile` and the pinned conversation selectors
+    // keep matching.
+    const steps = Array.from(container.querySelectorAll<HTMLElement>('.fp-convo'));
+    const node = steps[steps.length - 1] ?? (container.lastElementChild as HTMLElement | null);
+    if (!node) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    scrollTurnIntoView(node, reduce ? 'auto' : 'smooth');
+  }, [step, editing]);
 
   const choices: Choice[] = [
     { value: 'allergy', label: t('fpAllergy') },
@@ -413,7 +458,12 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
       if (step === SETUP_SUMMARY) {
         handleSave();
       } else {
-        setStep(step + 1);
+        const next = step + 1;
+        // One activation advances exactly one turn; a stale/double activation
+        // is rejected so it cannot skip a question (Issue #230 protection).
+        if (next !== stepRef.current + 1) return;
+        lockAdvance();
+        setStep(next);
       }
       return;
     }
@@ -427,11 +477,28 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
       return;
     }
     if (step >= FIRST_CATEGORY_STEP && step < lastCategoryStep) {
-      setStep(step + 1);
+      const next = step + 1;
+      if (next !== stepRef.current + 1) return;
+      lockAdvance();
+      setStep(next);
       return;
     }
     // After the last category step → the post-category step.
     setStep(postCategoryStep);
+  }
+
+  /** Hold the transition lock so the freshly revealed next-turn control is
+   *  inert against a rapid accidental second activation, then release it after
+   *  the short window. */
+  function lockAdvance() {
+    if (unlockTimerRef.current !== null) {
+      window.clearTimeout(unlockTimerRef.current);
+    }
+    setAdvanceLocked(true);
+    unlockTimerRef.current = window.setTimeout(() => {
+      setAdvanceLocked(false);
+      unlockTimerRef.current = null;
+    }, ADVANCE_COOLDOWN_MS);
   }
 
   /** Save the session nickname (blank = skip) and continue to the first question. */
@@ -527,7 +594,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   // First-use setup: no profile exists yet.
   if (view === 'setup') {
     return (
-      <div className="tmm-page tmm-food-profile">
+      <div ref={stepScrollRef} className="tmm-page tmm-food-profile">
         <ConversationHeader editing={false} onBack={goBack} />
         <ChatTranscript items={transcript} />
 
@@ -578,6 +645,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
               }));
             }}
             onSend={goNext}
+            disabled={advanceLocked}
           />
         ) : null}
 
@@ -866,6 +934,7 @@ function InterviewStep({
   onToggle,
   onOtherChange,
   onSend,
+  disabled = false,
 }: {
   question: InterviewQuestion;
   stepNumber: number;
@@ -875,6 +944,7 @@ function InterviewStep({
   onToggle: (value: string) => void;
   onOtherChange: (value: string) => void;
   onSend: () => void;
+  disabled?: boolean;
 }) {
   const { t } = useI18n();
   const [showOther, setShowOther] = useState(other.length > 0);
@@ -932,7 +1002,7 @@ function InterviewStep({
             </>
           ) : null}
           <div className="fp-convo__choices">
-            <Button variant="primary" className="tmm-btn--block" onClick={onSend}>
+            <Button variant="primary" className="tmm-btn--block" onClick={onSend} disabled={disabled}>
               {t('fpIvSend')}
             </Button>
           </div>

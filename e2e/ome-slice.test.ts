@@ -57,7 +57,7 @@ test.describe('Ome/Sawai sake semantic isolation (ja, 375px)', () => {
     await expectNoOkutamaDestination(page);
 
     // ---- 2. Route — only Ome/Sawai route/places ----
-    await page.getByRole('link', { name: 'モデルルートを見る' }).click();
+    await page.getByRole('link', { name: 'この食文化の観光ルートを作成する' }).click();
     await page.waitForURL('**/route*');
     await page.getByRole('heading', { name: '沢井の酒蔵と御嶽の文化財をめぐる旅' }).waitFor();
     await expect(page.locator('body')).not.toContainText('わさび');

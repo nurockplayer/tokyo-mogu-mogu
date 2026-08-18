@@ -416,6 +416,15 @@
   overflow-wrap: anywhere;
 }
 
+/* Spot category pill — Figma spot cards (`62:4549`) use the orange
+   presentation accent (#ea811e) for the place-type label. */
+.s6-type-tag {
+  background: #ea811e;
+  border-color: #ea811e;
+  color: #ffffff;
+  border-radius: var(--tmm-radius-pill);
+}
+
 .s6-tags {
   display: flex;
   flex-wrap: wrap;
