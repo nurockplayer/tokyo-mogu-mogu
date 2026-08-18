@@ -91,7 +91,7 @@ test.describe('preserved Product browser regressions (Issue #221, ja, 375px)', (
     expect(storyUrl.searchParams.get('candidateId')).toBe('demo-okutama-wasabi');
     await page.getByText('味わうことが、継承になる').waitFor();
 
-    await page.getByRole('link', { name: 'この文化の食旅ルートを生成する' }).click();
+    await page.getByRole('link', { name: 'この食文化の観光ルートを作成する' }).click();
     await page.waitForURL('**/route?*');
     const routeUrl = new URL(page.url());
     expect(routeUrl.searchParams.get('from')).toBe('story');

@@ -160,7 +160,7 @@ test.describe('golden path (ja, 375px)', () => {
     await page.getByText('MOGUMOGU ポイント！').waitFor();
     await page.getByText('奥多摩わさびは、どんな味？').waitFor();
     // Story → Route.
-    await page.getByRole('link', { name: 'この文化の食旅ルートを生成する' }).click();
+    await page.getByRole('link', { name: 'この食文化の観光ルートを作成する' }).click();
     await page.waitForURL('**/route*');
 
     // ---- 6. Route → Spot leg (representative stop) ----
