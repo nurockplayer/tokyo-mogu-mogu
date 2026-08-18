@@ -2,7 +2,8 @@
 
 **Status**: 2026-08-19 更新（current main `63fdbb4` 時点の runtime に一致）。実行順は
 `src/pages/s0s3/phase1-parity.test.ts` と `e2e/golden-path.test.ts` の操作に一致。
-production bottom-nav は demo path に表示されない（My / MOGU / Discover は direct URL で到達する Phase 2 面）。
+production `Home / Discover / MOGU / My` nav は guided conversation には表示されない。
+latest Figma の **prototype-only bottom nav** は returning Home と Route だけに表示される。
 ナレーション台本は `docs/demo-script.md`、当日オペは `docs/hackathon/2026-08-23-demo-runbook.md`、
 審査軸との対応は `docs/hackathon/judging-axis-evidence.md`。
 
@@ -11,9 +12,10 @@ production bottom-nav は demo path に表示されない（My / MOGU / Discover
    nickname をクリア（`tmm:foodProfile:v1` / `tmm:moguRecent:v1` /
    `tmm:savedRoutes` / `tmm:nickname:v1`。`tmm:locale` は残るので手動で ja へ）。
 2. ロケール **ja**、ビューポート **375px**（mobile）。
-3. 端末 / ブラウザのネットワークは不必要（コア journey はすべてローカルに同梱。
-
-   Spot の外部リンク CTA だけネットワークが要る。`demo-fallbacks.md` 参照）。
+3. **デモはオンラインで開始する**。一度読み込んだコア journey は一時的な回線断でも
+   継続できるが、cold reload / 未読 lazy chunk / Google Fonts にはネットワークが必要。
+   Spot の外部リンク CTA もネットワークが要る。`demo-fallbacks.md` と
+   `docs/hackathon/2026-08-23-demo-runbook.md` §2・§5 を参照。
 
 ## Sequence（目安 85 s / 上限 90 s）
 
@@ -29,11 +31,12 @@ production bottom-nav は demo path に表示されない（My / MOGU / Discover
 | 7 | **Exploration（5 ステップ）** | 1/5 `食べる` 2/5 `東京都` 3/5 `1時間以内` 4/5 `半日` 5/5 味 `さっぱりした味`・テーマ `自然`（1/2・2/2）→ `結果を見る` | URL → `/explore`。挨拶に `ナナミ` | 22 s |
 | 8 | **Result** | カード `東京わさび`（`96%` `マッチ度`）＋ `奥多摩やまめ`（`91%`） | prototype 注記 `※ このマッチ度はデモ用のプロトタイプ表示…` | 8 s |
 | 9 | **Story** | `東京わさびの物語を読む` | `/story/wasabi-okutama`、`味わうことが、継承になる` | 12 s |
-| 10 | **Route** | `この食文化の観光ルートを作成する` | `/route`、h1 `奥多摩わさび紀行`、`デモ用ルート` | 8 s |
+| 10 | **Route** | `この食文化の観光ルートを作成する` | `/route`、h1 `奥多摩わさび紀行`、`デモ用ルート`、prototype bottom-nav | 8 s |
 | 11 | **Spot** | timeline ピン `奥多摩観光案内所` → `➕ 旅程に追加する` → `旅程に追加しました` → `閉じる` | `/spot/okutama-tourism-office`、h1 `奥多摩観光案内所` | 8 s |
 | 12 | **Save** | `ルートに戻る` → `🔖 この旅程を保存する` → `旅程を保存しました` | `tmm:savedRoutes` に `奥多摩わさび紀行` | 4 s |
 
-**合計: 約 85 s**。production bottom-nav は Phase 1 の demo path に表示されない。
+**合計: 約 85 s**。production nav は guided conversation には表示されず、
+prototype-only bottom nav は latest Figma どおり returning Home / Route のみに表示される。
 
 ### 任意（+10 s、時間が許せば）— Phase 2 面は direct URL で到達
 
