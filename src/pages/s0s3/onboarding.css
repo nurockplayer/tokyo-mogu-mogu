@@ -94,6 +94,66 @@
   line-height: var(--tmm-leading-caption);
 }
 
+/* Latest KiKi Figma welcome (Figma `1:95`): full-bleed photo ground with the
+   mascot illustration, one 16px statement and the pill CTA overlaid — not the
+   earlier 16:10 gradient plate. Scoped to the first-time landing only. */
+.tmm-landing-hero--welcome {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: calc(100vh - 87px);
+  margin-left: calc(var(--tmm-gutter) * -1);
+  margin-right: calc(var(--tmm-gutter) * -1);
+  margin-bottom: 0;
+  padding: 56px var(--tmm-gutter) var(--tmm-space-6);
+  background-image: url('../../assets/figma/landing-bg.png');
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  text-align: center;
+}
+
+.tmm-landing-hero--welcome .tmm-landing-hero__media {
+  aspect-ratio: auto;
+  margin: 0;
+  background: none;
+  display: block;
+  color: inherit;
+}
+
+.tmm-landing-hero__mascot {
+  display: block;
+  width: 186px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.tmm-landing-hero--welcome .tmm-landing-hero__body {
+  margin-top: 28px;
+}
+
+.tmm-landing-hero--welcome .tmm-landing-hero__title {
+  font-family: 'M PLUS Rounded 1c', var(--tmm-font-body);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: #667a47;
+  max-width: 300px;
+  margin: 0 0 var(--tmm-space-4);
+  overflow-wrap: anywhere;
+}
+
+.tmm-landing-hero--welcome .tmm-btn--primary {
+  padding: 12px 24px;
+  font-size: 19px;
+  line-height: 1.5;
+  border-radius: var(--tmm-radius-pill);
+  background: #667a47;
+  box-shadow: 0 4px 0 #3a5509;
+}
+
 /* 3-step value explanation — hairline separators, editorial rhythm. */
 .tmm-landing-steps {
   display: grid;
@@ -187,9 +247,26 @@
 .tmm-wizard__header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: var(--tmm-space-3);
   margin-bottom: var(--tmm-space-4);
+}
+
+/* Figma exploration header (Figma `4:2255`): back arrow + centered
+   `食旅を見つけ` title; the spacer keeps the back tap target balanced. */
+.tmm-wizard__title {
+  flex: 1;
+  font-family: var(--tmm-font-body);
+  font-size: var(--tmm-text-body);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--tmm-color-ink);
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.tmm-wizard__header-spacer {
+  flex: 0 0 44px;
 }
 
 .tmm-wizard__back {
@@ -396,6 +473,22 @@
   box-shadow: 0 0 0 5px var(--tmm-color-forest-tint);
 }
 
+/* Exploration question inside the chat: the Figma exploration step title is
+   20px ExtraBold centered (Figma `4:2298`); keep the food-profile turns at the
+   uniform 16px chat rhythm. White-on-sage fails WCAG AA (~2:1), so the question
+   text is the app's ink on the green bubbles (8.3:1 active / 6.7:1 completed) —
+   the Figma exploration question is dark-on-light, so dark text preserves the
+   design language. Scoped to the wizard so the food-profile bubbles are
+   untouched. */
+.tmm-wizard .fp-convo__active .fp-convo__q,
+.tmm-wizard .fp-chat .fp-convo__q {
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.4;
+  text-align: center;
+  color: var(--tmm-color-ink);
+}
+
 /* Question: stronger display hierarchy that still wraps safely at 375px. */
 .tmm-wizard__question {
   font-size: 1.7rem;
@@ -433,13 +526,12 @@
   line-height: var(--tmm-leading-caption);
 }
 
-/* Large touchable selection surfaces (Issue #181 Figma parity): wizard chips
-   grow past the 44px floor so multi-select steps read as generous choices
-   while staying >=44px for the tap-target rule. */
+/* Figma conversation chips: 46px-scale, 16px text, no border (Figma `3:731`). */
 .tmm-wizard .tmm-chip {
-  min-height: 50px;
-  padding: 12px 22px;
-  font-size: 0.98rem;
+  min-height: 46px;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 0;
 }
 
 /* Experience choices: image-forward 2-column tiles (Figma `4:2101`). */
@@ -451,13 +543,9 @@
 }
 
 .tmm-wizard__tile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--tmm-space-1);
-  min-height: 132px;
-  padding: var(--tmm-space-3);
+  position: relative;
+  aspect-ratio: 133 / 166;
+  padding: 0;
   border-radius: var(--tmm-radius-md);
   border: var(--tmm-border-strong);
   background: var(--tmm-color-card);
@@ -465,6 +553,7 @@
   cursor: pointer;
   font-family: var(--tmm-font-body);
   text-align: center;
+  overflow: hidden;
   transition:
     background 0.15s var(--tmm-ease),
     color 0.15s var(--tmm-ease),
@@ -484,33 +573,48 @@
   transform: scale(0.98);
 }
 
-.tmm-wizard__tile--selected {
-  background: var(--tmm-color-forest);
-  border-color: var(--tmm-color-forest);
-  color: var(--tmm-color-card);
+/* Image-forward vertical tile (Figma `4:2101` 133×166): the photo fills the
+   tile and the localized caption overlays the bottom, instead of a square
+   photo with the caption below. The bottom scrim keeps the dark-green label
+   legible over the imagery. */
+.tmm-wizard__tile-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-.tmm-wizard__tile-icon {
-  font-size: 1.7rem;
-  line-height: 1;
+.tmm-wizard__tile-caption {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: var(--tmm-space-2) var(--tmm-space-2) var(--tmm-space-2);
+  background: linear-gradient(to top, rgb(255 253 246 / 0.95), rgb(255 253 246 / 0.4) 65%, transparent);
+}
+
+.tmm-wizard__tile--selected {
+  border-color: var(--tmm-color-forest);
+  box-shadow: inset 0 0 0 2px var(--tmm-color-forest);
 }
 
 .tmm-wizard__tile-label {
   font-weight: 700;
-  font-size: 1.02rem;
+  font-size: 0.92rem;
   line-height: 1.3;
+  color: #667a48;
   overflow-wrap: anywhere;
 }
 
 .tmm-wizard__tile-sub {
-  font-size: var(--tmm-text-caption);
-  line-height: 1.4;
+  font-size: 0.78rem;
+  line-height: 1.35;
   color: var(--tmm-color-ink-soft);
   overflow-wrap: anywhere;
-}
-
-.tmm-wizard__tile--selected .tmm-wizard__tile-sub {
-  color: rgb(255 253 246 / 0.9);
 }
 
 /* Result hero: feature card with a cover band and stronger body hierarchy. */
@@ -539,6 +643,14 @@
    moment (Figma `23:3380` / `23:3527` 350×240 hero) rather than a thin band. */
 .tmm-result .tmm-result-card__media {
   aspect-ratio: 10 / 7;
+}
+
+.tmm-result-card__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
 }
 
 .tmm-result-card__region {
@@ -733,11 +845,15 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: var(--tmm-color-leaf-tint);
-  border: 1px solid rgb(157 188 100 / 0.5);
+  background-color: #ffffff;
+  background-image: url('../../assets/figma/avatar.svg');
+  background-size: 100% 100%;
+  background-position: center;
+  border: 0;
   display: grid;
   place-items: center;
-  font-size: 1.4rem;
+  font-size: 0;
+  overflow: hidden;
 }
 
 .fp-convo__bubble {
@@ -761,32 +877,34 @@
   color: var(--tmm-color-card);
   border-radius: var(--tmm-radius-lg);
   border-top-right-radius: var(--tmm-radius-sm);
-  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 400;
 }
 
 .fp-convo__title {
-  font-family: var(--tmm-font-display);
-  font-weight: 700;
-  font-size: 1.08rem;
-  line-height: var(--tmm-leading-title);
+  font-family: var(--tmm-font-body);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.4;
   color: var(--tmm-color-ink);
   margin: 0;
 }
 
 .fp-convo__q {
-  font-family: var(--tmm-font-display);
-  font-weight: 700;
-  font-size: 1.12rem;
-  line-height: var(--tmm-leading-title);
+  font-family: var(--tmm-font-body);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.4;
   color: var(--tmm-color-ink);
   margin: 0;
   overflow-wrap: anywhere;
 }
 
 .fp-convo__body {
-  font-size: var(--tmm-text-body);
+  font-size: 16px;
+  line-height: 1.4;
   color: var(--tmm-color-ink);
-  line-height: var(--tmm-leading-body);
   margin: 0;
   overflow-wrap: anywhere;
 }
@@ -806,8 +924,9 @@
 
 .fp-convo .tmm-chip {
   min-height: 46px;
-  padding: 12px 22px;
-  font-size: 0.95rem;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 0;
 }
 
 .fp-convo__hint {

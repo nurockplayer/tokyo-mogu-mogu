@@ -42,3 +42,39 @@
 .tmm-nav--proto .tmm-nav__link[aria-disabled='true'] {
   opacity: 0.5;
 }
+
+/* Compact prototype bar at mobile widths: the locale toggle + a compact icon
+   reset fit on one row so the demo chrome stops eating the 375px viewport
+   (the Figma journey frames carry only the status bar, no demo header). The
+   reset keeps its 44px tap target and accessible label; the confirm state
+   swaps the icon to a check. */
+@media (max-width: 480px) {
+  .tmm-prototype__bar {
+    padding: 8px var(--tmm-gutter);
+  }
+
+  .tmm-prototype__bar .demo-reset {
+    width: 44px;
+    height: 44px;
+    margin: 0;
+    padding: 0;
+    font-size: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-style: solid;
+    border-color: var(--tmm-color-line-strong);
+    border-radius: 999px;
+  }
+
+  .tmm-prototype__bar .demo-reset::before {
+    content: '↻';
+    font-size: 1.15rem;
+    line-height: 1;
+  }
+
+  .tmm-prototype__bar .demo-reset.confirming::before {
+    content: '✓';
+    color: var(--tmm-color-danger);
+  }
+}

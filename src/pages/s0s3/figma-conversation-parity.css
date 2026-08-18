@@ -119,41 +119,6 @@
   font-weight: 400;
 }
 
-/* The repository does not contain KiKi's exported mascot asset. Replace the
- * leaf placeholder with a small CSS proxy using the verified mascot colors so
- * the Phase 1 conversation reads as MOGU-led until the vector is exported. */
-.fp-convo__avatar {
-  position: relative;
-  overflow: hidden;
-  background: #ffffff;
-  border-color: rgb(102 122 71 / 0.22);
-  color: transparent;
-  font-size: 0;
-}
-
-.fp-convo__avatar::before {
-  content: '';
-  position: absolute;
-  left: 8px;
-  top: 14px;
-  width: 34px;
-  height: 23px;
-  border-radius: 48% 52% 45% 48%;
-  background:
-    radial-gradient(circle at 39% 43%, #ffffff 0 1.5px, transparent 2px),
-    radial-gradient(circle at 62% 43%, #ffffff 0 1.5px, transparent 2px),
-    var(--fp-figma-primary);
-  transform: rotate(-2deg);
-}
-
-.fp-convo__avatar::after {
-  content: '';
-  position: absolute;
-  left: 11px;
-  top: 27px;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--fp-figma-mascot-orange);
-  box-shadow: 22px 0 0 var(--fp-figma-mascot-orange);
-}
+/* The conversation avatar renders the exported KiKi mascot (`avatar.svg`) via
+   `.fp-convo__avatar` in onboarding.css — the mascot asset was exported from
+   the Figma (Figma `2:314`), replacing the earlier CSS proxy. */

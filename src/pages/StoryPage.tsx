@@ -60,6 +60,7 @@ import { useI18n, type Locale } from '../i18n';
 import { placeNameKey, storyContent } from '../i18n/data-content';
 import { deriveVerificationStatus, sourceDateLabel } from '../lib/verification';
 import { readingMinutes, resolveBackTo, storyRouteHref } from './story-reading';
+import storyHero from '../assets/figma/story-hero.png';
 import './StoryPage.css';
 
 /** Source-review label for the census context surfaced in this story (#128/#129). */
@@ -179,13 +180,19 @@ export function StoryPage() {
       {/* Section 1 — Hero (dark-green / media-forward) */}
       <header className="s4-hero">
         <div className="s4-hero__media">
-          <FoodCultureImage
-            image={record.image}
-            name={heroName}
-            nameJa={record.nameJa}
-            category={record.category}
-            alt={heroName}
-          />
+          {/* 8/23 demo: the wasabi story renders the exported Figma hero photo
+              (Figma `52:3995`); other cultures keep the placeholder plate. */}
+          {record.id === 'wasabi-okutama' ? (
+            <img src={storyHero} alt={heroName} className="s4-hero__img" />
+          ) : (
+            <FoodCultureImage
+              image={record.image}
+              name={heroName}
+              nameJa={record.nameJa}
+              category={record.category}
+              alt={heroName}
+            />
+          )}
           {/* Editorial photo-caption overlay on the placeholder media (the
               "※画像はイメージです" provenance note sits on the plate, not the body). */}
           <p className="s4-hero__caption">{t('s4MediaCaption')}</p>

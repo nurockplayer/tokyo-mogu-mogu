@@ -20,7 +20,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useI18n, type LocaleKey } from '../../i18n';
-import { Button, Chip, ProgressBar, StepDots } from '../../ui';
+import { Button, Chip, StepDots } from '../../ui';
 import { fillTemplate } from '../../lib/exploration';
 import {
   WIZARD_STEP_COUNT,
@@ -35,8 +35,24 @@ import {
 import { loadExplorationAnswers, saveExplorationAnswers } from './exploration-session';
 import { hasFoodProfile } from '../../lib/food-profile-storage';
 import { loadNickname } from '../../lib/nickname';
-import { ChatTranscript, AssistantQuestion, type ChatItem } from './conversation';
+import { ChatTranscript, AssistantQuestion, scrollTurnIntoView, type ChatItem } from './conversation';
+import expEat from '../../assets/figma/exp-eat.png';
+import expMake from '../../assets/figma/exp-make.png';
+import expBuy from '../../assets/figma/exp-buy.png';
+import expMeet from '../../assets/figma/exp-meet.png';
+import expVisit from '../../assets/figma/exp-visit.png';
+import expLearn from '../../assets/figma/exp-learn.png';
 import './onboarding.css';
+
+/** Figma experience-tile imagery (`4:2101`), keyed by the FpOption id. */
+const EXP_IMAGES: Record<string, string> = {
+  eat: expEat,
+  make: expMake,
+  buy: expBuy,
+  meet: expMeet,
+  'visit-origin': expVisit,
+  learn: expLearn,
+};
 
 /** One selectable option: a Figma fixture identity + a canonical internal value. */
 interface FpOption<V extends string> {
@@ -234,7 +250,7 @@ function ExplorationWizardInner() {
     const node = activeTurnRef.current;
     if (!node) return;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    node.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    scrollTurnIntoView(node, reduce ? 'auto' : 'smooth');
   }, [step]);
 
   // Persist the derived canonical answers whenever the visual selection changes.
@@ -363,7 +379,9 @@ function ExplorationWizardInner() {
     );
   }
 
-  /** Large 2-column experience tiles (Figma `4:2101`); tapping one is the answer. */
+  /** Large 2-column image-forward experience tiles (Figma `4:2101`); tapping
+   *  one is the answer. The Figma tile media renders the exported imagery with
+   *  the localized label below. */
   function renderTiles(options: readonly FpOption<string>[], selected: string[], onSelect: (id: string) => void) {
     return (
       <div className="tmm-wizard__tiles">
@@ -377,11 +395,11 @@ function ExplorationWizardInner() {
               className={`tmm-wizard__tile ${isSel ? 'tmm-wizard__tile--selected' : ''}`.trim()}
               onClick={() => onSelect(option.id)}
             >
-              <span className="tmm-wizard__tile-icon" aria-hidden="true">
-                {option.icon}
+              <img src={EXP_IMAGES[option.id]} alt="" className="tmm-wizard__tile-img" />
+              <span className="tmm-wizard__tile-caption">
+                <span className="tmm-wizard__tile-label">{t(option.labelKey)}</span>
+                {option.subKey ? <span className="tmm-wizard__tile-sub">{t(option.subKey)}</span> : null}
               </span>
-              <span className="tmm-wizard__tile-label">{t(option.labelKey)}</span>
-              {option.subKey ? <span className="tmm-wizard__tile-sub">{t(option.subKey)}</span> : null}
             </button>
           );
         })}
@@ -497,9 +515,8 @@ function ExplorationWizardInner() {
           >
             ‹
           </button>
-          <div className="tmm-wizard__progress">
-            <ProgressBar value={step + 1} max={WIZARD_STEP_COUNT} />
-          </div>
+          <h2 className="tmm-wizard__title">{t('protoNavDiscover')}</h2>
+          <span className="tmm-wizard__header-spacer" aria-hidden="true" />
         </div>
 
         <p className="tmm-wizard__step" aria-hidden="true">

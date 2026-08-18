@@ -274,7 +274,7 @@ export function SpotPage() {
         {place.nameEn !== placeName ? (
           <span className="s6-roman">{place.nameEn}</span>
         ) : null}
-        <span className="tmm-tag tmm-tag--info">{t(PLACE_TYPE_LABEL[place.type])}</span>
+        <span className="tmm-tag tmm-tag--info s6-type-tag">{t(PLACE_TYPE_LABEL[place.type])}</span>
         {/* Provenance / verification badge (Issue #129): a place is never shown
             as verified without a source that says so. Demo-origin spots render
             the demo label even when practical data is absent. */}

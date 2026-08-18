@@ -31,6 +31,8 @@ import { phase1RecommendableCandidates } from './phase1-exploration';
 import { recordMoguRecent } from '../../lib/mogu-recent';
 import { type LocaleKey } from '../../i18n/resources';
 import { foodCultureKey } from '../../i18n/data-content';
+import resultHeroWasabi from '../../assets/figma/result-hero-wasabi.png';
+import resultCardYamame from '../../assets/figma/result-card-yamame.png';
 import './onboarding.css';
 
 /** Match-tag key → i18n copy key + tone. */
@@ -167,7 +169,7 @@ export function ResultPage() {
         <>
           <div className="tmm-result-card tmm-result-card--hero">
             <div className="tmm-result-card__media" aria-hidden="true">
-              <span className="tmm-result-card__media-mark">{t(recommendedTitleKey)}</span>
+              <img src={resultHeroWasabi} alt="" className="tmm-result-card__img" />
               <div className="tmm-result-match">
                 <span className="tmm-result-match__percent">{t('s3MatchPercent')}</span>
                 <span className="tmm-result-match__label">{t('s3MatchLabel')}</span>
@@ -214,7 +216,7 @@ export function ResultPage() {
               Presentation-only: Okutama yamame, no CTA, no ranking/scoring. */}
           <div className="tmm-result-card" aria-label={t('s3CardTitleSecondary')}>
             <div className="tmm-result-card__media" aria-hidden="true">
-              <span className="tmm-result-card__media-mark">{t('s3CardTitleSecondary')}</span>
+              <img src={resultCardYamame} alt="" className="tmm-result-card__img" />
               <div className="tmm-result-match">
                 <span className="tmm-result-match__percent">{t('s3MatchPercentSecondary')}</span>
                 <span className="tmm-result-match__label">{t('s3MatchLabel')}</span>
