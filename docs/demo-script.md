@@ -4,8 +4,9 @@
 実行 journey は `src/pages/s0s3/*`（FoodProfilePage / ExplorationWizardPage / ResultPage）
 と `e2e/golden-path.test.ts` の実装に一致。Product scope / demo boundary は
 `docs/specs/product/product-scope-invariant.md` + #112、current App IA は #92 / KiKi。
-Phase 1 は production bottom-nav（Home / Discover / MOGU / My）を demo path から隠す
-presentation mode であり、Phase 2 の既存 code / data / 契約は保持される（direct URL で到達可能）。
+production `Home / Discover / MOGU / My` nav は guided conversation には表示されない。
+latest Figma の prototype-only bottom nav は returning Home と Route のみに表示される。
+Phase 2 の既存 code / data / 契約は保持される（direct URL で到達可能）。
 
 > **Product scope = 東京都全域 × 複数地域 × 複数食文化。**
 >
@@ -41,11 +42,12 @@ fixture（東京わさび result・奥多摩わさび紀行 route）は **8/23 d
 - **会話型ガイド（Phase 1）**: 旅程は LINE / ChatGPT 風の逐步対話
   （MOGU のメッセージ → チップ / タイル選択で進行。ページ単位の「次へ」はなく、
   選択 / 送信で進む）。従来の form wizard ではない。
-  production bottom-nav は demo path に表示されない。
+  production nav は conversation screens に表示されず、prototype-only bottom nav は
+  latest Figma どおり returning Home / Route のみに表示される。
 - **96% / 91% は presentation-only**: Result のマッチ度は Figma の prototype
   表示であり、実際の適合度・安全性の保証でも AI の信頼度でもない。
 - **Dietary は申告・確認**: Dietary Interview は希望・制約の capture。
-  安全性の判定・保証をしない（`docs/demo-script.md` の該当箇所を参照）。
+  安全性の判定・保証をしない。
 
 ## 主シーケンス / Primary sequence（目標 ≤90 秒）
 
@@ -64,12 +66,12 @@ Landing → FP 導入 → Nickname → Dietary Interview(4) → Summary → Post
 | 3 | **Exploration 会話（今回の旅）** | `/explore`（1/5 体験 `食べる` → 2/5 出発 `東京都` → 3/5 移動 `1時間以内` → 4/5 長さ `半日` → 5/5 味 `さっぱりした味` ＋ テーマ `自然` → `結果を見る`） | 20 s | 「今回は『食べる』『東京都から出発』『1時間以内』『半日』『さっぱりした味・自然』。これは今回の旅行の条件で、永続の好み診断ではありません。出発地はデモ用の固定選択で、住所検索ではありません。」 |
 | 4 | **Result** | `/explore/result`（`96% マッチ度` 東京わさび ＋ `91%` 奥多摩やまめ） | 8 s | 「あなたの条件に合う地域×食文化の候補が複数出ました。96%・91% は Figma の prototype 表示で、実際の適合度・AI 精度の保証ではありません。東京わさびは今日のデモの代表例で、これだけが Product の結果ではありません。」 |
 | 5 | **Story** | `/story/wasabi-okutama`（`味わうことが、継承になる` ＋ 周辺観光スポット ＋ MOGUMOGU ポイント） | 12 s | 「水・作り手・歴史・技と、継承の課題を一つの物語として見せます。」 |
-| 6 | **Route** | `/route`（`奥多摩わさび紀行`、`デモ用ルート`） | 8 s | 「半日/1日の実行可能なモデル旅程です。公共交通と徒歩の移動、地図ピンが時系列に並びます。これはデモ用ルートで、リアルタイムの交通・混雑ではありません。」 |
+| 6 | **Route** | `/route`（`奥多摩わさび紀行`、`デモ用ルート`） | 8 s | 「半日/1日のモデル旅程です。公共交通と徒歩の移動、地図ピンが時系列に並びます。これはデモ用ルートで、リアルタイムの交通・混雑ではありません。」 |
 | 7 | **Spot Detail** | `/spot/okutama-tourism-office`（実務情報 + 旅程に追加） | 8 s | 「実在する施設の実務情報（source がある範囲）。予約・購入など未検証の行動は『準備中』と表示し、偽の導線を作りません。」 |
-| 8 | **Save（検証）** | `/route` の `🔖 この旅程を保存する` | 5 s | 「保存した旅程は `tmm:savedRoutes` に残ります。My は Phase 1 の demo path には出しません。」 |
+| 8 | **Save（検証）** | `/route` の `🔖 この旅程を保存する` | 5 s | 「保存した旅程は `tmm:savedRoutes` に残ります。My は Phase 1 の guided conversation には出しません。」 |
 
-**計: 約 85 秒**（presenter time）。production bottom-nav は demo path に
-表示されない（`/my` / `/mogu` / `/discover` は direct URL でのみ到達）。
+**計: 約 85 秒**（presenter time）。production nav は guided conversation に
+表示されず、prototype-only bottom nav は returning Home / Route のみに表示される。
 
 ## 初回 / 再訪の違い / First-time vs returning
 
@@ -81,7 +83,7 @@ Landing → FP 導入 → Nickname → Dietary Interview(4) → Summary → Post
 
 ## 任意の締めのビート（時間が許せば +10 秒）/ Optional closing beats
 
-Phase 1 の demo path には出さないが、**direct URL で到達可能**（Phase 2 面は
+Phase 1 の guided conversation には出さないが、**direct URL で到達可能**（Phase 2 面は
 preserved / 非削除）。時間と文脈が許せば直接遷移で見せられる：
 
 - **MOGU**（`/mogu`）— 自動記録された「最近のおすすめ」（最大5件）が **Saved と
