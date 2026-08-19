@@ -26,9 +26,9 @@ describe('lookupMapEntry', () => {
 });
 
 describe('watchedMapEntries', () => {
-  it('exposes exactly the 24 watched surfaces with node ids', () => {
+  it('exposes exactly the 41 current watched surfaces with node ids', () => {
     const watched = watchedMapEntries();
-    expect(watched).toHaveLength(24);
+    expect(watched).toHaveLength(41);
     for (const entry of watched) {
       expect(entry.nodeId).not.toBeNull();
       expect(entry.watched).toBe(true);
