@@ -33,7 +33,7 @@
  */
 import { Link } from 'react-router-dom';
 import { Card, Tag } from '../ui';
-import { FoodCultureImage } from '../components/FoodCultureImage';
+import { JourneyCard } from '../components/JourneyCard';
 import { useI18n, type LocaleKey } from '../i18n';
 import {
   foodCultures,
@@ -44,10 +44,12 @@ import {
   discoverableCandidates,
   hiddenManagedFoodCultureIds,
   pilotDiscoverPlaceIds,
+  buildJourneyPresentation,
 } from '../data';
 import { foodCultureKey, placeNameKey } from '../i18n/data-content';
 import { deriveVerificationStatus } from '../lib/verification';
-import type { FoodCulture, ModelRoute, VerificationStatus, RegionId } from '../data';
+import { fillTemplate } from '../lib/exploration';
+import type { FoodCulture, JourneyPresentation, VerificationStatus, RegionId } from '../data';
 import './DiscoverPage.css';
 
 /** Verification status → i18n label key (kept honest on place cards). */
@@ -129,15 +131,14 @@ export function DiscoverPage() {
   // playable journeys without touching its canonical data. A journey whose
   // culture or route record is missing is skipped gracefully (honest partial
   // state, never a dead link).
-  const playableJourneys = discoverableCandidates(DEMO_RECOMMENDATION_CANDIDATES).filter(
-    (c) => c.availability === 'ready' && c.journeyId,
-  )
+  const playableJourneys = discoverableCandidates(DEMO_RECOMMENDATION_CANDIDATES)
+    .filter((c) => c.availability === 'ready' && c.journeyId)
     .map((c) => {
       const culture = getFoodCultureById(c.foodCultureId);
       const route = c.journeyId ? getRouteById(c.journeyId) : undefined;
-      return culture && route ? { culture, route } : undefined;
+      return culture && route ? buildJourneyPresentation(c, culture, route, places) : undefined;
     })
-    .filter((j): j is { culture: FoodCulture; route: ModelRoute } => j !== undefined);
+    .filter((j): j is JourneyPresentation => j !== undefined);
 
   // Additional cultures present in the seed but outside the playable journeys
   // (yamame, soba, konnyaku, ...). They are editorial/demo records only and do
@@ -145,7 +146,7 @@ export function DiscoverPage() {
   // Discover (disabled, #171) are excluded here too, so a disabled slice never
   // resurfaces as a future card. Keep this list deterministic and tied to what
   // the seed actually contains.
-  const playableCultureIds = new Set(playableJourneys.map((j) => j.culture.id));
+  const playableCultureIds = new Set(playableJourneys.map((j) => j.foodCultureId));
   const otherCultures = discoverOtherCultures(
     foodCultures,
     playableCultureIds,
@@ -159,8 +160,11 @@ export function DiscoverPage() {
   // the first journey's area).
   const seenPlaceIds = new Set<string>();
   const playablePlaces = playableJourneys.flatMap((j) => {
-    const area = areaLabel(j.culture, locale, t);
-    return pilotDiscoverPlaceIds(j.route)
+    const culture = getFoodCultureById(j.foodCultureId);
+    const route = getRouteById(j.routeId);
+    if (!culture || !route) return [];
+    const area = areaLabel(culture, locale, t);
+    return pilotDiscoverPlaceIds(route)
       .map((id) => places.find((p) => p.id === id))
       .filter((p): p is NonNullable<typeof p> => Boolean(p))
       .filter((p) => {
@@ -180,41 +184,20 @@ export function DiscoverPage() {
       {/* Playable stories — source-backed entry points (first = demo golden path) */}
       {playableJourneys.length > 0 ? (
         <section className="tmm-section" aria-label={t('discoverStoriesTitle')}>
-          <h2 className="discover-section-title">{t('discoverStoriesTitle')}</h2>
+          <h2 className="discover-section-title">
+            <span>{t('discoverStoriesTitle')}</span>
+            <span className="discover-section-count">
+              {fillTemplate(t('discoverJourneyCount'), { count: String(playableJourneys.length) })}
+            </span>
+          </h2>
           <ul className="discover-list">
-            {playableJourneys.map(({ culture }) => {
-              const name = cultureName(culture, locale, t);
-              const descKey = foodCultureKey(culture.id, 'description');
-              const desc = descKey
-                ? t(descKey)
-                : locale === 'ja' ? culture.descriptionJa : culture.descriptionEn;
+            {playableJourneys.map((journey) => {
               return (
-                <li key={culture.id}>
-                  <Link
-                    to={`/story/${culture.id}?backTo=/discover`}
-                    className="discover-link"
-                    aria-label={name}
-                  >
-                    <Card button className="discover-card discover-card--media">
-                      <div className="discover-card__media">
-                        <FoodCultureImage
-                          image={culture.image}
-                          name={name}
-                          nameJa={culture.nameJa}
-                          category={culture.category}
-                          alt={name}
-                        />
-                      </div>
-                      <div className="discover-card__body">
-                        <div className="discover-card__title">{name}</div>
-                        <p className="discover-card__desc">{desc}</p>
-                        <div className="discover-card__meta">
-                          <span className="discover-card__area">{areaLabel(culture, locale, t)}</span>
-                          <Tag tone="success">{t('originEditorial')}</Tag>
-                        </div>
-                      </div>
-                    </Card>
-                  </Link>
+                <li key={journey.foodCultureId}>
+                  <JourneyCard
+                    presentation={journey}
+                    href={`/story/${journey.foodCultureId}?backTo=/discover&candidateId=${journey.candidateId}`}
+                  />
                 </li>
               );
             })}
@@ -224,8 +207,16 @@ export function DiscoverPage() {
 
       {/* Visit destinations on the playable journeys */}
       {playablePlaces.length > 0 ? (
-        <section className="tmm-section" aria-label={t('discoverPlacesTitle')}>
-          <h2 className="discover-section-title">{t('discoverPlacesTitle')}</h2>
+        <details className="tmm-section discover-destinations">
+          <summary className="discover-destinations__summary">
+            <span className="discover-section-title">
+              <span>{t('discoverPlacesTitle')}</span>
+              <span className="discover-section-count">
+                {fillTemplate(t('discoverPlacesSummary'), { count: String(playablePlaces.length) })}
+              </span>
+            </span>
+          </summary>
+          <p className="discover-destinations__hint">{t('discoverPlacesHint')}</p>
           <ul className="discover-list">
             {playablePlaces.map(({ place, area }) => {
               const placeKey = placeNameKey(place.id);
@@ -256,7 +247,7 @@ export function DiscoverPage() {
               );
             })}
           </ul>
-        </section>
+        </details>
       ) : null}
 
       {/* Editorial/demo cultures outside the currently playable journeys —

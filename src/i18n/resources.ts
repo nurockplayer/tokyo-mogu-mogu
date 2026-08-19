@@ -48,6 +48,14 @@ export const strings = {
     discoverPlacesTitle: '行き先',
     discoverMoreTitle: 'ほかの食文化（今後）',
     discoverFutureTag: '今後追加予定',
+    discoverJourneyCount: '{count}つの旅',
+    discoverPlacesSummary: '{count}か所',
+    discoverPlacesHint: '各旅の立ち寄り先を一覧で確認できます。',
+    journeyRouteLabel: 'モデルルート',
+    journeyTransportLabel: '移動',
+    journeyPlacesLabel: '主な立ち寄り先',
+    journeyMetaFacts: '{duration}・{count}か所・{time}',
+    journeyViewStory: 'この旅の物語を見る',
     moguPageTitle: 'MOGU',
     moguPageBody: '最近のおすすめ履歴です。保存操作なしで、おすすめを出すたびに自動で記録されます。',
     /* #94 MOGU Recent list (max 5, newest first, distinct from My Saved) */
@@ -514,7 +522,7 @@ export const strings = {
     s3RevealTitle: 'あなたに合う食の旅を見つけました！',
     s3RevealSub: 'あなたの答えから導いた、最初のおすすめです。',
     // Result fixture candidates (latest Figma parity, Issue #226)
-    s3ResultCount: '東京の3つの食旅からおすすめ',
+    s3ResultCount: '東京の{count}つの食旅からおすすめ',
     s3CardRegion: '奥多摩地区 (東京西部)',
     s3CardTitlePrimary: '水がつなぐ、江戸から続く辛味\n奥多摩のわさび文化をたどる',
     s3CardTitleSecondary: '水が育てる、幻の川魚\n奥多摩やまめの食文化',
@@ -661,6 +669,7 @@ export const strings = {
     dataSakeStickyCta: '酒蔵の旅を見る',
     dataSakeRouteName: '沢井の酒蔵と御嶽の文化財をめぐる旅',
     dataSakeRouteTransport: 'JR青梅線・徒歩',
+    dataSakeRouteOperationalNote: '酒蔵見学や営業・交通の条件は、出発前に公式情報を確認してください。',
     dataSakeStopRoleOzawa:
       '沢井駅から徒歩で、澤乃井を醸す小澤酒造へ。多摩川の清流が流れる渓谷のほとりに酒蔵があります。',
     dataSakeStopRoleSawanoien:
@@ -714,6 +723,7 @@ export const strings = {
     dataHachiojiRouteTransport: '徒歩（現地の案内を確認）',
     dataHachiojiRouteEstimate:
       '所要時間・滞在時間・徒歩時間は編集部の目安です。現地の案内と当日の状況を確認してください。',
+    dataHachiojiRouteOperationalNote: '品揃えは季節と当日の入荷で変わります。現地の案内を確認してください。',
     dataHachiojiStopRoleMarketHalfDay:
       '八王子市の食文化ミュージアムに認定された道の駅。市内の生産者が届ける野菜や、旬の八王子ショウガを探します。品揃えは季節と当日の入荷で変わります。',
     dataHachiojiStopRoleMarketFullDay:
@@ -760,6 +770,7 @@ export const strings = {
     dataFussaSakeRouteTransport: '徒歩・JR青梅線（目安、現地の案内を確認）',
     dataFussaSakeRouteEstimate:
       '所要時間・滞在時間・移動時間は編集部の目安です。見学・営業・交通の最新情報を確認してください。',
+    dataFussaSakeOperationalNote: '見学・営業・交通の最新情報を確認してください。',
     dataFussaSakeStopRoleTamura:
       '福生駅から田村酒造場へ。文政5年（1822年）創業と紹介される酒蔵の物語をたどり、見学や販売の条件は公式情報で確認します。',
     dataFussaSakeStopRoleKurumiru:
@@ -811,6 +822,7 @@ export const strings = {
     dataAkirunoRouteTransport: 'JR五日市線・西東京バス（目安、現地の案内を確認）',
     dataAkirunoRouteEstimate:
       '所要時間・滞在時間・移動時間は編集部の目安です。季節・営業・交通の最新情報を確認してください。',
+    dataAkirunoRouteOperationalNote: '季節・営業・交通の最新情報を確認してください。',
     dataAkirunoStopRoleFarmersHalfDay:
       '秋川ファーマーズセンターで、生産者が持ち寄る農産物と季節の直売に出会います。のらぼう菜や旬の品は時期と当日の入荷を確認します。',
     dataAkirunoStopRoleFarmersFullDay:
@@ -855,6 +867,14 @@ export const strings = {
     discoverPlacesTitle: 'Destinations',
     discoverMoreTitle: 'Other food cultures (coming later)',
     discoverFutureTag: 'Coming later',
+    discoverJourneyCount: '{count} journeys',
+    discoverPlacesSummary: '{count} destinations',
+    discoverPlacesHint: 'Browse every stop included in the available journeys.',
+    journeyRouteLabel: 'Model route',
+    journeyTransportLabel: 'Transport',
+    journeyPlacesLabel: 'Key stops',
+    journeyMetaFacts: '{duration} · {count} stops · {time}',
+    journeyViewStory: 'Open this journey’s story',
     moguPageTitle: 'MOGU',
     moguPageBody: 'Your recent recommendations. Recorded automatically whenever a result is generated — no Save needed.',
     /* #94 MOGU Recent list (max 5, newest first, distinct from My Saved) */
@@ -1325,7 +1345,7 @@ export const strings = {
     s3RevealTitle: 'We found a food journey that fits you!',
     s3RevealSub: 'Our first recommendation, shaped by your answers.',
     // Result fixture candidates (latest Figma parity, Issue #226)
-    s3ResultCount: 'A recommendation from 3 Tokyo food journeys',
+    s3ResultCount: 'A recommendation from {count} Tokyo food journeys',
     s3CardRegion: 'Okutama area (western Tokyo)',
     s3CardTitlePrimary: 'Water ties it together\nTracing Okutama\'s wasabi culture',
     s3CardTitleSecondary: 'Water-raised, rare river fish\nThe food culture of Okutama yamame',
@@ -1482,6 +1502,7 @@ export const strings = {
     dataSakeStickyCta: 'Start the sake journey',
     dataSakeRouteName: 'Sawai Sake & Mitake Heritage Journey',
     dataSakeRouteTransport: 'JR Ome Line & walking',
+    dataSakeRouteOperationalNote: 'Before setting out, check official information for brewery tours, opening conditions, and transport details.',
     dataSakeStopRoleOzawa:
       'Walk from Sawai Station to Ozawa Shuzo, the brewery behind the Sawanoi label, on the banks of the clear Tama River valley.',
     dataSakeStopRoleSawanoien:
@@ -1536,6 +1557,7 @@ export const strings = {
     dataHachiojiRouteTransport: 'Walking (check local guidance)',
     dataHachiojiRouteEstimate:
       'Total, stay, and walking times are editorial estimates; check local guidance and conditions on the day.',
+    dataHachiojiRouteOperationalNote: 'Stock changes by season and day; check current local guidance.',
     dataHachiojiStopRoleMarketHalfDay:
       'Start at the city-recognized food culture museum and farm market. Look for Hachioji produce and seasonal ginger; stock changes with the season and day.',
     dataHachiojiStopRoleMarketFullDay:
@@ -1582,6 +1604,7 @@ export const strings = {
     dataFussaSakeRouteTransport: 'Walking & JR Ome Line (estimate; check local guidance)',
     dataFussaSakeRouteEstimate:
       'Total, stay, and travel times are editorial estimates; check current tour, opening, and transport information.',
+    dataFussaSakeOperationalNote: 'Check current tour, opening, and transport information.',
     dataFussaSakeStopRoleTamura:
       'Walk from Fussa Station to Tamura Shuzojo. Follow the story of a brewery founded in 1822, and check the official site for current visit and sales conditions.',
     dataFussaSakeStopRoleKurumiru:
@@ -1633,6 +1656,7 @@ export const strings = {
     dataAkirunoRouteTransport: 'JR Itsukaichi Line & Nishi Tokyo Bus (estimate; check local guidance)',
     dataAkirunoRouteEstimate:
       'Total, stay, and travel times are editorial estimates; check current seasonal, opening, and transport information.',
+    dataAkirunoRouteOperationalNote: 'Check current seasonal, opening, and transport information.',
     dataAkirunoStopRoleFarmersHalfDay:
       'Meet seasonal direct sales from local producers at Akikawa Farmers Center. Check the season and day’s stock for norabō greens and other produce.',
     dataAkirunoStopRoleFarmersFullDay:
@@ -1677,6 +1701,14 @@ export const strings = {
     discoverPlacesTitle: '目的地',
     discoverMoreTitle: '其他飲食文化（未來）',
     discoverFutureTag: '即將推出',
+    discoverJourneyCount: '{count} 段旅程',
+    discoverPlacesSummary: '{count} 個目的地',
+    discoverPlacesHint: '查看目前旅程包含的所有停留點。',
+    journeyRouteLabel: '示範路線',
+    journeyTransportLabel: '交通',
+    journeyPlacesLabel: '主要停留點',
+    journeyMetaFacts: '{duration}・{count} 個停留點・{time}',
+    journeyViewStory: '查看這段旅程的故事',
     moguPageTitle: 'MOGU',
     moguPageBody: '最近推薦的歷史紀錄。不需儲存操作，每次產生推薦時會自動記錄。',
     /* #94 MOGU Recent list (max 5, newest first, distinct from My Saved) */
@@ -2142,7 +2174,7 @@ export const strings = {
     s3RevealTitle: '我們找到了適合你的飲食之旅！',
     s3RevealSub: '根據你的回答，為你挑選的第一項推薦。',
     // Result fixture candidates (latest Figma parity, Issue #226)
-    s3ResultCount: '從東京 3 條飲食文化之旅中推薦',
+    s3ResultCount: '從東京 {count} 條飲食文化之旅中推薦',
     s3CardRegion: '奧多摩地區（東京西部）',
     s3CardTitlePrimary: '由水串起的辛味\n探訪奧多摩的山葵文化',
     s3CardTitleSecondary: '水所養育的珍稀川魚\n奧多摩山女魚的飲食文化',
@@ -2282,6 +2314,7 @@ export const strings = {
     dataSakeStickyCta: '展開酒藏之旅',
     dataSakeRouteName: '沢井酒藏與御嶽文化財之旅',
     dataSakeRouteTransport: 'JR青梅線・步行',
+    dataSakeRouteOperationalNote: '出發前請查看官方資訊，確認酒藏參訪、營業與交通條件。',
     dataSakeStopRoleOzawa:
       '從沢井站步行前往釀造澤乃井的小澤酒造。酒藏就位在多摩川清流流淌的溪谷河畔。',
     dataSakeStopRoleSawanoien:
@@ -2333,6 +2366,7 @@ export const strings = {
     dataHachiojiRouteTransport: '步行（請確認現地指引）',
     dataHachiojiRouteEstimate:
       '總時間、停留時間與步行時間為編輯部估算；請確認現地指引與當日狀況。',
+    dataHachiojiRouteOperationalNote: '品項會隨季節與當日進貨變動；請確認現地指引。',
     dataHachiojiStopRoleMarketHalfDay:
       '從獲認定為食文化博物館的道之驛與農產直賣所開始，尋找八王子農產與當季八王子薑；品項會隨季節與當日進貨變動。',
     dataHachiojiStopRoleMarketFullDay:
@@ -2379,6 +2413,7 @@ export const strings = {
     dataFussaSakeRouteTransport: '步行・JR青梅線（估算，請確認現地指引）',
     dataFussaSakeRouteEstimate:
       '總時間、停留時間與移動時間為編輯部估算；請確認最新的見學、營業與交通資訊。',
+    dataFussaSakeOperationalNote: '請確認最新的見學、營業與交通資訊。',
     dataFussaSakeStopRoleTamura:
       '從福生站步行前往田村酒造場。追尋一座官方介紹為1822年創業的酒藏故事，參訪與販售條件請查看官方網站。',
     dataFussaSakeStopRoleKurumiru:
@@ -2428,6 +2463,7 @@ export const strings = {
     dataAkirunoRouteTransport: 'JR五日市線・西東京巴士（估算，請確認現地指引）',
     dataAkirunoRouteEstimate:
       '總時間、停留時間與移動時間為編輯部估算；請確認最新的季節、營業與交通資訊。',
+    dataAkirunoRouteOperationalNote: '請確認最新的季節、營業與交通資訊。',
     dataAkirunoStopRoleFarmersHalfDay:
       '在秋川 Farmers Center 遇見生產者帶來的農產與當季直賣。野良坊菜等品項請確認季節與當日進貨。',
     dataAkirunoStopRoleFarmersFullDay:

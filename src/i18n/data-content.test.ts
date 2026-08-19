@@ -16,6 +16,7 @@ import {
   routeAreaKey,
   routeEstimateKey,
   routeNameKey,
+  routeOperationalNoteKey,
   routeTransportKey,
   stepRoleKey,
   storyContent,
@@ -43,6 +44,7 @@ describe('S4 story content availability (#123)', () => {
     expect(routeAreaKey('hachioji-ginger-journey')).toBe('areaHachioji');
     expect(routeTransportKey('hachioji-ginger-journey')).toBe('dataHachiojiRouteTransport');
     expect(routeEstimateKey('hachioji-ginger-journey')).toBe('dataHachiojiRouteEstimate');
+    expect(routeOperationalNoteKey('hachioji-ginger-journey')).toBe('dataHachiojiRouteOperationalNote');
     expect(placeNameKey('hachioji-takiyama-roadside-station')).toBe(
       'dataPlaceHachiojiRoadsideStationName',
     );
@@ -55,6 +57,14 @@ describe('S4 story content availability (#123)', () => {
       expect(resolveKey(strings, locale, 'dataHachiojiName')).not.toMatch(/^missing:/);
       expect(resolveKey(strings, locale, 'dataHachiojiStickyCta')).not.toMatch(/^missing:/);
     }
+  });
+
+  it('keeps operational cautions specific to each playable journey', () => {
+    expect(routeOperationalNoteKey('okutama-wasabi-journey')).toBe('s5ReservationNote');
+    expect(routeOperationalNoteKey('ome-sawai-sake-journey')).toBe('dataSakeRouteOperationalNote');
+    expect(routeOperationalNoteKey('fussa-sake-journey')).toBe('dataFussaSakeOperationalNote');
+    expect(routeOperationalNoteKey('akiruno-seasonal-produce-journey')).toBe('dataAkirunoRouteOperationalNote');
+    expect(routeOperationalNoteKey('unknown-route')).toBeUndefined();
   });
 
   it('treats cultures without full story copy as unavailable (honest empty state)', () => {

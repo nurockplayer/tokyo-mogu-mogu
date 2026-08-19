@@ -527,6 +527,20 @@ export function routeAdvisoryKeys(routeId: string): { advisory: LocaleKey; sourc
   return ROUTE_ADVISORY_KEYS[routeId];
 }
 
+/** Route-specific operational caution, using only existing route disclosures. */
+export const ROUTE_OPERATIONAL_NOTE_KEYS: Record<string, LocaleKey> = {
+  'okutama-wasabi-journey': 's5ReservationNote',
+  'ome-sawai-sake-journey': 'dataSakeRouteOperationalNote',
+  'hachioji-ginger-journey': 'dataHachiojiRouteOperationalNote',
+  'fussa-sake-journey': 'dataFussaSakeOperationalNote',
+  'akiruno-seasonal-produce-journey': 'dataAkirunoRouteOperationalNote',
+};
+
+/** Resolve the route's existing operational caution, if one is configured. */
+export function routeOperationalNoteKey(routeId: string): LocaleKey | undefined {
+  return ROUTE_OPERATIONAL_NOTE_KEYS[routeId];
+}
+
 /** Route-specific estimate disclosure, keyed by route id. */
 export const ROUTE_ESTIMATE_KEYS: Record<string, LocaleKey> = {
   'hachioji-ginger-journey': 'dataHachiojiRouteEstimate',

@@ -21,11 +21,14 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, Navigate, useSearchParams } from 'react-router-dom';
 import {
   DEMO_RECOMMENDATION_CANDIDATE_ID,
+  buildJourneyPresentation,
   demoRecommendationMatchTags,
   getFoodCultureById,
   getRouteById,
+  places,
 } from '../../data';
 import { FoodCultureImage } from '../../components/FoodCultureImage';
+import { JourneyMeta } from '../../components/JourneyCard';
 import { useI18n } from '../../i18n';
 import { EmptyState, Tag, type TagTone } from '../../ui';
 import { fillTemplate, type MatchTagKey } from '../../lib/exploration';
@@ -86,15 +89,19 @@ export function ResultPage() {
 
   const answers = useMemo(() => loadExplorationAnswers(), []);
   const profile = useMemo(() => loadFoodProfile(), []);
+  const recommendableCandidateSet = useMemo(() => phase1RecommendableCandidates(), []);
+  const availableJourneyCount = recommendableCandidateSet.filter(
+    (candidate) => candidate.availability === 'ready' && candidate.journeyId,
+  ).length;
   // Phase 1 reads the enabled recommendation candidates through the Slice
   // Manifest. The default answers still rank the Wasabi candidate first, while
   // distinct answers can select another source-backed journey.
   const decision = useMemo(
     () =>
       profile && answers
-        ? recommendCandidates(profile, answers, phase1RecommendableCandidates())
+        ? recommendCandidates(profile, answers, recommendableCandidateSet)
         : null,
-    [answers, profile],
+    [answers, profile, recommendableCandidateSet],
   );
   // MOGU is recommendation history, not a request to re-rank. New entries use
   // candidateId; legacy v1 entries fall back to the food-culture resultId. If
@@ -118,6 +125,10 @@ export function ResultPage() {
   const recommendedRoute = recommendation?.journeyId
     ? getRouteById(recommendation.journeyId)
     : undefined;
+  const journeyPresentation =
+    recommendation && recommendedFoodCulture && recommendedRoute
+      ? buildJourneyPresentation(recommendation, recommendedFoodCulture, recommendedRoute, places)
+      : undefined;
   const recommendedAreaKey = recommendation?.journeyId
     ? routeAreaKey(recommendation.journeyId)
     : undefined;
@@ -174,7 +185,9 @@ export function ResultPage() {
           </div>
         </div>
         <h1 className="tmm-result__summary-title">{t('s3RevealTitle')}</h1>
-        <p className="tmm-result__summary-desc">{t('s3ResultCount')}</p>
+        <p className="tmm-result__summary-desc">
+          {fillTemplate(t('s3ResultCount'), { count: String(availableJourneyCount) })}
+        </p>
       </section>
 
       {recommendedFoodCulture && recommendation && recommendedTitleKey && recommendedDescriptionKey ? (
@@ -225,6 +238,8 @@ export function ResultPage() {
                     ))
                   : null}
               </div>
+
+              {journeyPresentation ? <JourneyMeta presentation={journeyPresentation} compact /> : null}
 
               <div className="tmm-result__section">
                 <h2 className="tmm-result__section-title">{t('s3DietaryTitle')}</h2>
