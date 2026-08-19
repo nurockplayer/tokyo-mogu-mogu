@@ -397,7 +397,7 @@ export const IMPLEMENTATION_MAP: MapEntry[] = [
     issues: ['#201', '#208', '#242'],
     status: 'INTENTIONALLY_DIFFERENT',
     watched: true,
-    note: 'Reference component is accounted for; the unresolved behavior is the separate 119:254 loading state.',
+    note: 'Reference component is accounted for; the separate 119:254 frame is documented as a presentation-only transition reference.',
   },
   {
     nodeId: '8:2608',
