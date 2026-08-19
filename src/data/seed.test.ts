@@ -190,16 +190,41 @@ describe('seed data contract (#2)', () => {
   });
 
   it('sourceUpdatedAt is absent from seed records unless the publisher supplies it (#129)', () => {
-    // sourceUpdatedAt means the source document's own update date. The current
-    // seed only records retrieval dates — do not invent publisher update dates.
+    // sourceUpdatedAt means the source document's own update date. Keep an
+    // explicit allow-list for the publisher markers observed for the current
+    // Fussa/Akiruno slices; do not infer or copy dates for other records.
+    const publisherSuppliedSourceIds = new Set([
+      'fussa-tokyo-sake-brewery-1005934',
+      'fussa-water-heritage-course-1004236',
+      'kurumiru-fussa-1001605',
+      'akiruno-specialty-foods-1109',
+      'akiruno-farmers-center-3556',
+      'gotokyo-seoto-no-yu-397',
+      'kurumiru-fussa-honcho23',
+    ]);
     for (const fc of foodCultures) {
       for (const s of fc.sources) {
-        expect(s.sourceUpdatedAt, `${fc.id} source has an unsupported sourceUpdatedAt`).toBeUndefined();
+        if (s.sourceUpdatedAt) {
+          expect(
+            publisherSuppliedSourceIds.has(s.originalId ?? ''),
+            `${fc.id} source has an unsupported sourceUpdatedAt`,
+          ).toBe(true);
+        }
       }
     }
     for (const p of places) {
-      expect(p.source.sourceUpdatedAt, `${p.id} source has an unsupported sourceUpdatedAt`).toBeUndefined();
-      expect(p.coordinateSource?.sourceUpdatedAt, `${p.id} coordinate source has an unsupported sourceUpdatedAt`).toBeUndefined();
+      if (p.source.sourceUpdatedAt) {
+        expect(
+          publisherSuppliedSourceIds.has(p.source.originalId ?? ''),
+          `${p.id} source has an unsupported sourceUpdatedAt`,
+        ).toBe(true);
+      }
+      if (p.coordinateSource?.sourceUpdatedAt) {
+        expect(
+          publisherSuppliedSourceIds.has(p.coordinateSource.originalId ?? ''),
+          `${p.id} coordinate source has an unsupported sourceUpdatedAt`,
+        ).toBe(true);
+      }
     }
   });
 

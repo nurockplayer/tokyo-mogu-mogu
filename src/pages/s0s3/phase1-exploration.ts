@@ -5,8 +5,8 @@
  * current Figma options, while the recommendation set is allowed to route a
  * traveler to any ready source-backed journey. The default refreshing /
  * nature answers still reach 奥多摩 × 東京わさび, preserving the 8/23 golden
- * path; rich / tradition and rich / daily-life answers can now reach the
- * source-backed Ome/Sawai and Hachioji journeys respectively.
+ * path; distinct answer sets can also reach the source-backed Ome/Sawai,
+ * Hachioji, Fussa, and Akiruno journeys.
  *
  * The canonical `ExplorationAnswers` value types and the durable
  * recommendation / Slice Manifest / data contracts stay unchanged; this module
@@ -69,7 +69,8 @@ export function phase1TravelTimesFor(baseArea: BaseArea): readonly TravelTime[] 
 /**
  * The Phase 1 recommendation candidate set. It is fail-closed through the
  * Slice Manifest, so disabled or non-eligible slices never surface; the
- * current manifest exposes the Okutama, Ome/Sawai, and Hachioji journeys.
+ * current manifest exposes the Okutama, Ome/Sawai, Hachioji, Fussa, and
+ * Akiruno journeys.
  */
 export function phase1RecommendableCandidates() {
   return recommendableCandidates(DEMO_RECOMMENDATION_CANDIDATES);

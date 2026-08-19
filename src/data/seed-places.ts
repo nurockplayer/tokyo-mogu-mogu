@@ -45,6 +45,44 @@ const HACHIOJI_CASTLE_COORDINATE_SOURCE = {
   originalId: 'geocoded-hachioji-takiyama-castle',
 };
 
+const FUSSA_STATION_AREA_COORDINATE_SOURCE = {
+  name: 'MapFan（福生駅周辺の概略座標）',
+  url: 'https://mapfan.com/spots/SCH%2CJ%2CSN',
+  sourceType: 'business' as const,
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'geocoded-fussa-station-area',
+};
+
+const FUSSA_ISHIKAWA_COORDINATE_SOURCE = {
+  name: 'OpenStreetMap（石川酒造）',
+  url: 'https://www.openstreetmap.org/node/2365654277',
+  license: 'ODbL 1.0',
+  sourceType: 'open_data' as const,
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'geocoded-fussa-ishikawa-shuzo',
+};
+
+const AKIRUNO_FARMERS_COORDINATE_SOURCE = {
+  name: 'OpenStreetMap（秋川ファーマーズセンター）',
+  url: 'https://www.openstreetmap.org/node/1668525947',
+  license: 'ODbL 1.0',
+  sourceType: 'open_data' as const,
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'geocoded-akiruno-farmers-center',
+};
+
+const AKIRUNO_SEOTO_COORDINATE_SOURCE = {
+  name: 'NAVITIME（瀬音の湯の概略座標）',
+  url: 'https://www.navitime.co.jp/poi?spot=02301-3000011',
+  sourceType: 'business' as const,
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'geocoded-akiruno-seoto-no-yu',
+};
+
 export const PLACES: Place[] = [
   {
     id: 'okutama-wasabi-field',
@@ -404,6 +442,118 @@ export const PLACES: Place[] = [
       retrievedAt: '2026-08-14',
       verificationStatus: 'needs_confirmation',
       originalId: '馬場家御師住宅',
+    },
+    origin: 'source',
+  },
+  // ---- 福生 × 東京の日本酒 slice (#243) -------------------------------
+  // Brewery addresses are from the operator / city sources. Map points are
+  // approximate and must not be treated as turn-by-turn destinations until
+  // field verification is complete.
+  {
+    id: 'fussa-tamura-shuzo',
+    nameJa: '田村酒造場',
+    nameEn: 'Tamura Shuzojo',
+    address: '東京都福生市福生626',
+    latitude: 35.7424525,
+    longitude: 139.3278187,
+    coordinatePrecision: 'approximate',
+    coordinateSource: FUSSA_STATION_AREA_COORDINATE_SOURCE,
+    foodCultureIds: ['sake-fussa'],
+    type: 'brewery',
+    source: {
+      name: '田村酒造場（公式）',
+      url: 'https://www.tamurashuzojo.com/page/kura',
+      sourceType: 'business',
+      retrievedAt: '2026-08-19',
+      verificationStatus: 'needs_confirmation',
+      originalId: 'tamura-shuzojo-fussa626',
+    },
+    origin: 'source',
+  },
+  {
+    id: 'fussa-ishikawa-shuzo',
+    nameJa: '石川酒造',
+    nameEn: 'Ishikawa Brewery',
+    address: '東京都福生市熊川1番地',
+    latitude: 35.7192612,
+    longitude: 139.3326,
+    coordinatePrecision: 'approximate',
+    coordinateSource: FUSSA_ISHIKAWA_COORDINATE_SOURCE,
+    foodCultureIds: ['sake-fussa'],
+    type: 'brewery',
+    source: {
+      name: '石川酒造（公式）',
+      url: 'https://www.tamajiman.co.jp/access/',
+      sourceType: 'business',
+      retrievedAt: '2026-08-19',
+      verificationStatus: 'needs_confirmation',
+      originalId: 'ishikawa-shuzo-fussa-kumagawa1',
+    },
+    origin: 'source',
+  },
+  {
+    id: 'fussa-kurumiru',
+    nameJa: 'くるみる ふっさ',
+    nameEn: 'Kurumiru Fussa Tourist Information Center',
+    address: '東京都福生市本町23',
+    latitude: 35.7424525,
+    longitude: 139.3278187,
+    coordinatePrecision: 'approximate',
+    coordinateSource: FUSSA_STATION_AREA_COORDINATE_SOURCE,
+    foodCultureIds: [],
+    type: 'info-center',
+    source: {
+      name: '福生市「くるみる ふっさ」',
+      url: 'https://www.city.fussa.tokyo.jp/map/shiyakusho/1001605.html',
+      sourceType: 'official_web',
+      retrievedAt: '2026-08-19',
+      sourceUpdatedAt: '2021-06-16',
+      verificationStatus: 'needs_confirmation',
+      originalId: 'kurumiru-fussa-honcho23',
+    },
+    origin: 'source',
+  },
+  // ---- あきる野 × 秋川の旬の農産物 slice (#244) ----------------------
+  {
+    id: 'akiruno-farmers-center',
+    nameJa: '秋川ファーマーズセンター',
+    nameEn: 'Akikawa Farmers Center',
+    address: '東京都あきる野市二宮811',
+    latitude: 35.72863,
+    longitude: 139.30771,
+    coordinatePrecision: 'approximate',
+    coordinateSource: AKIRUNO_FARMERS_COORDINATE_SOURCE,
+    foodCultureIds: ['produce-akiruno'],
+    type: 'farm',
+    source: {
+      name: 'あきる野市「秋川ファーマーズセンター」',
+      url: 'https://www.city.akiruno.tokyo.jp/0000003556.html',
+      sourceType: 'official_web',
+      retrievedAt: '2026-08-19',
+      sourceUpdatedAt: '2026-04-02',
+      verificationStatus: 'needs_confirmation',
+      originalId: 'akiruno-farmers-center-3556',
+    },
+    origin: 'source',
+  },
+  {
+    id: 'akiruno-seoto-no-yu',
+    nameJa: '秋川渓谷 瀬音の湯',
+    nameEn: 'Akikawa Keikoku Seoto-no-Yu',
+    address: '東京都あきる野市乙津565',
+    latitude: 35.727174,
+    longitude: 139.187924,
+    coordinatePrecision: 'approximate',
+    coordinateSource: AKIRUNO_SEOTO_COORDINATE_SOURCE,
+    foodCultureIds: ['produce-akiruno'],
+    type: 'restaurant',
+    source: {
+      name: '秋川渓谷 瀬音の湯（公式）',
+      url: 'https://www.seotonoyu.jp/access',
+      sourceType: 'business',
+      retrievedAt: '2026-08-19',
+      verificationStatus: 'needs_confirmation',
+      originalId: 'seoto-no-yu-otsu565',
     },
     origin: 'source',
   },

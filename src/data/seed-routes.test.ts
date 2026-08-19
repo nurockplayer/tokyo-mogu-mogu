@@ -63,6 +63,18 @@ describe('model routes (#45 S5)', () => {
     }
   });
 
+  it('keeps displayed route totals equal to stop and mobility durations', () => {
+    for (const route of MODEL_ROUTES) {
+      for (const duration of ['half-day', '1-day'] as RouteDuration[]) {
+        const variant = route.variants[duration];
+        const componentMinutes =
+          variant.steps.reduce((sum, step) => sum + step.stayMinutes, 0) +
+          variant.mobility.reduce((sum, segment) => sum + segment.durationMinutes, 0);
+        expect(variant.totalMinutes, `${route.id} ${duration}`).toBe(componentMinutes);
+      }
+    }
+  });
+
   it('route step numbers are 1-based and consecutive', () => {
     const route = getRouteById('okutama-wasabi-journey');
     for (const duration of ['half-day', '1-day'] as RouteDuration[]) {
@@ -133,6 +145,21 @@ describe('spot details (#45 S6)', () => {
           expect(p.hoursJa).toBe('10:00〜17:00');
           expect(p.hoursEn).toContain('5:00 p.m.');
           expect(p.closedDaysJa).toContain('月曜日');
+        } else if (detail.placeId === 'fussa-tamura-shuzo') {
+          expect(p.accessJa).toContain('徒歩約10分');
+          expect(p.accessEn).toContain('10-minute walk');
+          expect(p.hoursJa).toContain('営業カレンダー');
+          expect(p.hoursEn).toContain('calendar');
+        } else if (detail.placeId === 'fussa-ishikawa-shuzo') {
+          expect(p.accessJa).toContain('熊川1番地');
+          expect(p.accessEn).toContain('Kumagawa 1');
+        } else if (detail.placeId === 'akiruno-farmers-center') {
+          expect(p.hoursJa).toBe('9:00〜17:00');
+          expect(p.hoursEn).toContain('5:00 p.m.');
+          expect(p.closedDaysJa).toContain('12月31日');
+        } else if (detail.placeId === 'akiruno-seoto-no-yu') {
+          expect(p.accessJa).toContain('瀬音の湯');
+          expect(p.accessEn).toContain('Seoto-no-Yu');
         } else {
           expect(p.hoursJa).toBeUndefined();
           expect(p.hoursEn).toBeUndefined();

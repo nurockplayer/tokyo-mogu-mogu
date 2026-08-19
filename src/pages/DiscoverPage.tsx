@@ -12,6 +12,8 @@
  *   `origin: 'editorial'` written from the recorded official/Open Data sources.
  * - 八王子ショウガと八王子野菜 (Issue #238) is a source-backed
  *   Tokyo-wide third slice with a public market and contextual heritage stop.
+ * - 福生の日本酒 (Issue #243) and 秋川の旬の農産物 (Issue #244) extend the
+ *   same source-backed Discover surface without changing its shared contract.
  * - Playable journeys are DERIVED from the ready recommendation candidates
  *   (the same config Result reads), so Discover and Result can never diverge on
  *   what is playable. A culture/place whose record is missing is skipped
@@ -65,6 +67,8 @@ const AREA_LABEL_KEY: Partial<Record<RegionId, LocaleKey>> = {
   okutama: 'areaOkutama',
   ome: 'areaOme',
   hachioji: 'areaHachioji',
+  fussa: 'areaFussa',
+  akiruno: 'areaAkiruno',
 };
 
 /**
