@@ -43,6 +43,7 @@
 .discover-section-title {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: var(--tmm-space-2);
   font-family: var(--tmm-font-display);
   font-size: var(--tmm-text-title);
@@ -51,6 +52,14 @@
   color: var(--tmm-color-ink);
   margin: 0 0 var(--tmm-space-3);
   overflow-wrap: anywhere;
+}
+
+.discover-section-count {
+  color: var(--tmm-color-ink-soft);
+  font-family: var(--tmm-font-body);
+  font-size: var(--tmm-text-caption);
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 .discover-section-title::before {
@@ -71,6 +80,50 @@
   display: flex;
   flex-direction: column;
   gap: var(--tmm-space-3);
+}
+
+.discover-destinations {
+  margin-top: var(--tmm-space-6);
+}
+
+.discover-destinations__summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.discover-destinations__summary::-webkit-details-marker {
+  display: none;
+}
+
+.discover-destinations__summary::after {
+  content: '＋';
+  display: inline-block;
+  margin-left: auto;
+  color: var(--tmm-color-forest-deep);
+  font-size: var(--tmm-text-title);
+  font-weight: 700;
+  transition: transform 160ms ease;
+}
+
+.discover-destinations[open] .discover-destinations__summary::after {
+  transform: rotate(45deg);
+}
+
+.discover-destinations__summary:focus-visible {
+  outline: var(--tmm-focus-ring);
+  outline-offset: var(--tmm-focus-offset);
+  border-radius: var(--tmm-radius-sm);
+}
+
+.discover-destinations__summary .discover-section-title {
+  margin-bottom: 0;
+}
+
+.discover-destinations__hint {
+  margin: 0 0 var(--tmm-space-3);
+  color: var(--tmm-color-ink-soft);
+  font-size: var(--tmm-text-caption);
+  line-height: var(--tmm-leading-caption);
 }
 
 .discover-link {

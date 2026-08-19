@@ -40,6 +40,7 @@ import {
   mobilityLabelKey,
   routeAdvisoryKeys,
   routeEstimateKey,
+  routeOperationalNoteKey,
   routeTransportKey,
 } from '../i18n/data-content';
 import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
@@ -116,6 +117,7 @@ export function RoutePage() {
   // field note (honest unknown).
   const advisory = routeAdvisoryKeys(route.id);
   const estimateKey = routeEstimateKey(route.id);
+  const operationalNoteKey = routeOperationalNoteKey(route.id);
 
   // Preserve the caller through every Route → Spot link. The helper allowlists
   // origins and the Story's own back target before forwarding them.
@@ -287,10 +289,12 @@ export function RoutePage() {
       {/* Warning / reservation badge (not color-alone: Tag carries an icon).
           The demo marker applies only to the 8/23 Okutama golden-path route. */}
       <section className="tmm-section">
-        <Tag tone="warning">
-          {t('s5ReservationNote')}
-          {route.isDemo ? ` — ${t('s5DemoNote')}` : ''}
-        </Tag>
+        {operationalNoteKey ? (
+          <Tag tone="warning">
+            {t(operationalNoteKey)}
+            {route.isDemo ? ` — ${t('s5DemoNote')}` : ''}
+          </Tag>
+        ) : null}
       </section>
 
       {/* Route-local support meaning (#80): 訪れる / 保存する / 行程を実行する

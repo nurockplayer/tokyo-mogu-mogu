@@ -121,8 +121,9 @@ interface SpotAction {
  * The generic official Okutama Tourism Association site is a truthful
  * destination for the tourism information office only; it must not masquerade
  * as spot-specific farm or booking information. Source-backed Ome/Sawai and
- * Hachioji destinations use their own official pages; every remaining
- * unverified action uses the disabled fallback.
+ * Hachioji, Fussa, and Akiruno destinations use their own official information
+ * pages. These are visit/shop information exits, not booking guarantees;
+ * every remaining unverified action uses the disabled fallback.
  */
 const CONFIRMED_VISIT_URL = 'https://www.okutokanko.jp/';
 
@@ -151,6 +152,37 @@ export const SPOT_ACTIONS: Record<string, SpotAction> = {
     type: 'shop',
   },
   'hachioji-takiyama-castle': { kind: 'disabled', type: 'visit' },
+  // Fussa slice: existing operator/city source URLs are truthful information
+  // destinations. Do not imply that a tour or reservation is available.
+  'fussa-tamura-shuzo': {
+    kind: 'external',
+    url: 'https://www.tamurashuzojo.com/page/kura',
+    type: 'visit',
+  },
+  'fussa-kurumiru': {
+    kind: 'external',
+    url: 'https://www.city.fussa.tokyo.jp/map/shiyakusho/1001605.html',
+    type: 'visit',
+  },
+  'fussa-ishikawa-shuzo': {
+    kind: 'external',
+    url: 'https://www.tamajiman.co.jp/access/',
+    type: 'visit',
+  },
+  // Akiruno slice: the city direct-sale page and the facility's official
+  // access page support the action while current stock/operations stay unknown.
+  'akiruno-farmers-center': {
+    kind: 'external',
+    url: 'https://www.city.akiruno.tokyo.jp/0000003556.html',
+    type: 'shop',
+  },
+  'akiruno-seoto-no-yu': {
+    kind: 'external',
+    // The recorded GO TOKYO source is used because the facility access URL
+    // currently fails a clean TLS request; this page was rechecked 2026-08-20.
+    url: 'https://www.gotokyo.org/jp/spot/397/index.html',
+    type: 'visit',
+  },
 };
 
 /** Default action type for a place category when no per-spot action exists. */

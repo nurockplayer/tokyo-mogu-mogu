@@ -231,8 +231,8 @@ const SETUP_INTERVIEW_LAST = SETUP_INTERVIEW_FIRST + PHASE1_INTERVIEW.length - 1
 const SETUP_SUMMARY = SETUP_INTERVIEW_LAST + 1;
 const SETUP_FORK = SETUP_SUMMARY + 1;
 
-/** Which intro action the user chose (drives the intro transcript bubble). */
-type IntroChoice = 'start' | 'browse';
+/** Whether the guided setup was started (drives the intro transcript bubble). */
+type IntroChoice = 'start';
 
 export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   const { t } = useI18n();
@@ -286,11 +286,6 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   const [interviewAnswers, setInterviewAnswers] = useState<InterviewAnswers>(() =>
     createEmptyInterviewAnswers(),
   );
-  // Presentation-only browse note ("自分で見てみる" / "自分で旅を探す" has no
-  // demo branch yet — Figma defines no browse frame, so no destination is
-  // invented; D4 stays a KiKi question).
-  const [browseNote, setBrowseNote] = useState(false);
-
   // The conversation restarts from the saved profile whenever the route/mode
   // changes so edit always reflects the latest persisted state. The same
   // component instance is reused when React Router swaps `/food-profile` ⇄
@@ -306,7 +301,6 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
     setNicknameInput(loadNickname() ?? '');
     setNicknameModalOpen(false);
     setInterviewAnswers(createEmptyInterviewAnswers());
-    setBrowseNote(false);
   }, [mode]);
 
   // LINE-like reveal (Issue #230 motion): keep the newly revealed setup step
@@ -532,7 +526,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
     transcript.push({
       id: 'intro-user',
       role: 'user',
-      children: introChoice === 'start' ? t('fpStartCta') : t('fpBrowseCta'),
+      children: t('fpStartCta'),
     });
   }
   if (introChoice === 'start' && step > STEP_NICKNAME) {
@@ -601,21 +595,14 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
         <ConversationHeader editing={false} onBack={goBack} />
         <ChatTranscript items={transcript} />
 
-        {step === STEP_INTRO && browseNote ? (
-          <DemoNote message={t('fpBrowseComingSoon')} onBack={() => setBrowseNote(false)} />
-        ) : null}
-
-        {step === STEP_INTRO && !browseNote ? (
+        {step === STEP_INTRO ? (
           <IntroCard
             onStart={() => {
               setIntroChoice('start');
               setStep(STEP_NICKNAME);
               setNicknameModalOpen(true);
             }}
-            onBrowse={() => {
-              setIntroChoice('browse');
-              setBrowseNote(true);
-            }}
+            onBrowse={() => navigate('/discover')}
           />
         ) : null}
 
@@ -666,7 +653,12 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
           <SetupSummaryStep interviewAnswers={interviewAnswers} nickname={nickname} onSave={handleSave} />
         ) : null}
 
-        {step === SETUP_FORK ? <ForkStep onRecommend={() => navigate('/explore')} /> : null}
+        {step === SETUP_FORK ? (
+          <ForkStep
+            onRecommend={() => navigate('/explore')}
+            onBrowse={() => navigate('/discover')}
+          />
+        ) : null}
       </div>
     );
   }
@@ -1262,17 +1254,17 @@ function SetupSummaryStep({
 
 /**
  * Post-profile fork (Figma Talk12 3:1835): recommend-for-me vs browse-myself.
- * "Browse myself" has no demo branch in the live Figma (no browse frame /
- * prototype connection exists), so it stays a presentation-only note rather
- * than routing to a Phase 2 surface (#201 / #204 deferred; D4 stays a KiKi
- * question — no destination is invented).
+ * Browse uses the already-established #93 Discover surface; it does not add a
+ * new #203-#208 feature contract.
  */
-function ForkStep({ onRecommend }: { onRecommend: () => void }) {
+function ForkStep({
+  onRecommend,
+  onBrowse,
+}: {
+  onRecommend: () => void;
+  onBrowse: () => void;
+}) {
   const { t } = useI18n();
-  const [browseNote, setBrowseNote] = useState(false);
-  if (browseNote) {
-    return <DemoNote message={t('fpBrowseComingSoon')} onBack={() => setBrowseNote(false)} />;
-  }
   return (
     <div className="fp-convo">
       <div className="fp-convo__msg fp-convo__msg--assistant">
@@ -1285,30 +1277,8 @@ function ForkStep({ onRecommend }: { onRecommend: () => void }) {
             <Button variant="primary" className="tmm-btn--block" onClick={onRecommend}>
               {t('fpForkRecommend')}
             </Button>
-            <Button variant="secondary" className="tmm-btn--block" onClick={() => setBrowseNote(true)}>
+            <Button variant="secondary" className="tmm-btn--block" onClick={onBrowse}>
               {t('fpForkBrowse')}
-            </Button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/** Presentation-only "not in this demo yet" note with a back action. */
-function DemoNote({ message, onBack }: { message: string; onBack: () => void }) {
-  const { t } = useI18n();
-  return (
-    <div className="fp-convo">
-      <div className="fp-convo__msg fp-convo__msg--assistant">
-        <span className="fp-convo__avatar" aria-hidden="true">
-          🌿
-        </span>
-        <div className="fp-convo__bubble">
-          <p className="fp-convo__body">{message}</p>
-          <div className="fp-convo__choices">
-            <Button variant="secondary" className="tmm-btn--block" onClick={onBack}>
-              {t('fpBrowseBack')}
             </Button>
           </div>
         </div>

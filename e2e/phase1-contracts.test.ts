@@ -155,8 +155,8 @@ for (const locale of ['en', 'zh-TW'] as const) {
       await expect(match).toContainText(j.matchLabel);
       await page.getByText(j.matchNote).waitFor();
       await assertNoHorizontalOverflow(page);
-      // No production nav on the Phase 1 Result.
-      await expect(page.locator('.tmm-nav')).toHaveCount(0);
+      // Result is product content, so the established primary IA is actionable.
+      await expect(page.locator('.tmm-nav a')).toHaveCount(4);
     });
   });
 }

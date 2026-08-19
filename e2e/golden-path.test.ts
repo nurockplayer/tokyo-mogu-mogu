@@ -8,10 +8,11 @@
  *   Landing → Food Profile conversation (nickname + dietary) → Exploration
  *   conversation → Result (96% presentation) → Story → Route → Spot → Save
  *
- * Phase 1 (Issue #217) renders the journey as a LINE / ChatGPT-style
- * conversation inside the PrototypeShell, so the production bottom navigation
- * (Home / Discover / MOGU / My) must never appear and Ome/Sawai must never
- * leak into the demo path. The test also verifies the Phase 1 contracts unit
+ * Phase 1 (Issue #217) renders setup as a LINE / ChatGPT-style conversation
+ * inside the PrototypeShell. Issue #252 keeps setup focused, then exposes the
+ * established Home / Discover / MOGU / My navigation on product content.
+ * Ome/Sawai must never leak into the demo path. The test also verifies the
+ * Phase 1 contracts unit
  * coverage cannot catch:
  *   - the prototype-continuity nickname is used in later MOGU messages and
  *     never becomes an account/profile (localStorage, cleared on demo reset)
@@ -73,7 +74,7 @@ async function storedCount(page: Page, key: string): Promise<number> {
 test.describe('golden path (ja, 375px)', () => {
   test.use({ locale: 'ja-JP' });
 
-  test('first-use guided conversation completes and hides the production nav', async ({
+  test('first-use guided conversation completes', async ({
     page,
   }) => {
     // ---- precondition: clean state, mobile viewport already set by config ----
@@ -198,7 +199,7 @@ test.describe('golden path (ja, 375px)', () => {
     expect(await sessionPersisted(page, NICKNAME_KEY)).toBeNull();
   });
 
-  test('production navigation never appears during the Phase 1 demo path', async ({
+  test('keeps setup focused and exposes product navigation on Result', async ({
     page,
   }) => {
     await page.goto('/');
@@ -208,7 +209,7 @@ test.describe('golden path (ja, 375px)', () => {
     // Landing (first-use) — no bottom nav.
     await page.getByRole('heading', { name: '東京のローカルな食文化を体験しよう。' }).waitFor();
     await expect(page.locator('.tmm-nav')).toHaveCount(0);
-    // No production links reachable from the demo surfaces.
+    // Primary destinations stay out of the first-use landing chrome.
     await expect(page.locator('a[href="/discover"], a[href="/mogu"], a[href="/my"]')).toHaveCount(0);
 
     // Inside the conversations — still no production nav.
@@ -234,6 +235,9 @@ test.describe('golden path (ja, 375px)', () => {
     await page.getByRole('button', { name: '結果を見る' }).click();
     await page.waitForURL('**/explore/result');
     await page.getByRole('heading', { name: 'あなたに合う食の旅を見つけました！' }).waitFor();
-    await expect(page.locator('.tmm-nav')).toHaveCount(0);
+    await expect(page.locator('.tmm-nav a')).toHaveCount(4);
+    await expect(page.locator('.tmm-nav a[href="/discover"]')).toBeVisible();
+    await expect(page.locator('.tmm-nav a[href="/mogu"]')).toBeVisible();
+    await expect(page.locator('.tmm-nav a[href="/my"]')).toBeVisible();
   });
 });

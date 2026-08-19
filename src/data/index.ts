@@ -84,6 +84,8 @@ export type {
 } from './slice-manifest';
 export { resolveJourneyIdentity, resolveRouteId, resolveStoryJourney } from './journey';
 export type { JourneyIdentity } from './journey';
+export { buildJourneyPresentation } from './journey-presentation';
+export type { JourneyPresentation, JourneyPresentationPlace } from './journey-presentation';
 export type { PilotJourney } from './pilot-journey';
 
 export function getFoodCultureById(id: string): FoodCulture | undefined {
