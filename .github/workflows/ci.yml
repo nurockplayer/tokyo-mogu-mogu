@@ -104,6 +104,12 @@ jobs:
     name: Golden-path E2E (375px, ja)
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    # Keep this tag aligned with @playwright/test in package.json. The official
+    # image includes the matching browsers and OS libraries, avoiding a
+    # release-gate dependency on a live Ubuntu apt mirror.
+    container:
+      image: mcr.microsoft.com/playwright:v1.62.1-noble
+      options: --user 1001
     # Runs only for core-risk changes, after Quality Gates classifies the change
     # and proves the normal runtime gates pass.
     needs: quality-gates
@@ -125,9 +131,6 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-
-      - name: Install Playwright browser
-        run: npx playwright install --with-deps chromium
 
       # E2E builds the Vite production bundle it needs via `vite build` only,
       # without rerunning the TypeScript typecheck (`pnpm build` would run

@@ -63,10 +63,16 @@ for path in "${files[@]}"; do
       risk="core"
       break
       ;;
+    .github/workflows/ci.yml)
+      # Changes to the release gate must exercise the gate itself. Treating
+      # this workflow as docs-only would skip the E2E job being changed.
+      risk="core"
+      break
+      ;;
   esac
-  # docs / policy-only: documentation, issue/PR templates, CI workflows, and
-  # agent guidance. scripts/ is not policy: data-ingest logic is covered by
-  # vitest and falls through to "normal".
+  # docs / policy-only: documentation, issue/PR templates, non-release-gate
+  # workflows, and agent guidance. scripts/ is not policy: data-ingest logic
+  # is covered by vitest and falls through to "normal".
   if [[ "$path" == docs/* || "$path" == .github/* || "$path" == .claude/* \
     || "$path" == .omc/* || "$path" == *.md ]]; then
     continue

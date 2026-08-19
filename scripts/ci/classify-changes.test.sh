@@ -27,6 +27,7 @@ assert_risk core 'routing' 'src/app/AppRouter.tsx'
 assert_risk core 'persistence' 'src/lib/mogu-recent.ts'
 assert_risk core 'shared interaction' 'src/ui/index.tsx'
 assert_risk core 'E2E contract' 'e2e/golden-path.test.ts'
+assert_risk core 'CI workflow' '.github/workflows/ci.yml'
 assert_risk normal 'unknown runtime path' 'tools/new-runtime-check.ts'
 assert_risk core 'mixed normal and core' $'src/pages/BadgesPage.css\nsrc/pages/RoutePage.tsx'
 # CI uses git diff --no-renames, so both sides are classified. A rename from an
