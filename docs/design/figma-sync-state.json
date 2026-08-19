@@ -28,7 +28,7 @@
     { "id": "23:3262", "name": "Taste + Theme", "hash": null },
     { "id": "23:3380", "name": "Result", "hash": null },
     { "id": "52:3995", "name": "Story", "hash": null },
-    { "id": "119:254", "name": "Story route-generation loading overlay", "hash": null },
+    { "id": "119:254", "name": "Story route transition presentation reference", "hash": null },
     { "id": "119:681", "name": "Route", "hash": null },
     { "id": "122:889", "name": "Route saved state", "hash": null },
     { "id": "125:1752", "name": "Spot", "hash": null },

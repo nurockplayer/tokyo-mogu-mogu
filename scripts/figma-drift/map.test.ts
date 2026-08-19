@@ -23,6 +23,14 @@ describe('lookupMapEntry', () => {
   it('returns null for an unknown node id', () => {
     expect(lookupMapEntry('999:999')).toBeNull();
   });
+
+  it('records the Story transition as a presentation-only adaptation', () => {
+    const entry = lookupMapEntry('119:254');
+    expect(entry?.surface).toBe('Story route transition presentation reference');
+    expect(entry?.status).toBe('INTENTIONALLY_DIFFERENT');
+    expect(entry?.note).toContain('PRESENTATION_ONLY');
+    expect(watchedMapEntries().some((surface) => surface.status === 'UNRESOLVED')).toBe(false);
+  });
 });
 
 describe('watchedMapEntries', () => {
