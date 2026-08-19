@@ -22,9 +22,7 @@ interface Journey {
   cta: string;
   intro: string;
   start: string;
-  nicknameTitle: string;
   nickname: string;
-  nicknameConfirm: string;
   interviewSend: string;
   forkRecommend: string;
   taste: string;
@@ -46,9 +44,7 @@ const JOURNEY: Record<Locale, Journey> = {
     cta: 'Start a food journey',
     intro: 'Welcome to MOGU MOGU!',
     start: "Let's start!",
-    nicknameTitle: 'First, what should we call you?',
     nickname: 'Nana',
-    nicknameConfirm: 'That’s me!',
     interviewSend: 'Send',
     forkRecommend: 'Recommend a journey for me!',
     taste: 'Refreshing',
@@ -68,9 +64,7 @@ const JOURNEY: Record<Locale, Journey> = {
     cta: '開始飲食之旅',
     intro: '歡迎來到 MOGU MOGU！',
     start: '開始！',
-    nicknameTitle: '首先，該怎麼稱呼你呢？',
     nickname: '奈奈美',
-    nicknameConfirm: '就用這個！',
     interviewSend: '送出',
     forkRecommend: '推薦適合我的旅程！',
     taste: '清爽',
@@ -122,9 +116,9 @@ async function completeJourney(page: Page, locale: Locale): Promise<void> {
   await page.waitForURL('**/food-profile');
   await page.getByText(j.intro).waitFor();
   await page.getByRole('button', { name: j.start }).click();
-  await page.getByText(j.nicknameTitle).waitFor();
+  await expect(page.getByRole('dialog')).toBeVisible();
   await page.getByLabel(/nickname|暱稱/i).fill(j.nickname);
-  await page.getByRole('button', { name: j.nicknameConfirm }).click();
+  await page.getByTestId('fp-modal-submit').click();
   // Latest-Figma four-question dietary interview (presentation-only) → summary → fork.
   for (let i = 0; i < 4; i += 1) {
     await page.getByRole('button', { name: j.interviewSend }).click();
@@ -180,7 +174,7 @@ test.describe('Phase 1 constrained options (ja, 375px)', () => {
     await page.waitForURL('**/food-profile');
     await page.getByRole('button', { name: 'はじめる！' }).click();
     await page.getByLabel('ニックネーム').fill('ナナミ');
-    await page.getByRole('button', { name: 'これでお願いします！' }).click();
+    await page.getByTestId('fp-modal-submit').click();
     // Four-question dietary interview (latest Figma), presentation-only.
     await page.getByRole('button', { name: '🥚 卵' }).click();
     await page.getByRole('button', { name: '送信' }).click();
@@ -255,7 +249,7 @@ async function jaReachExplorationFirstStep(page: Page): Promise<void> {
   await page.waitForURL('**/food-profile');
   await page.getByRole('button', { name: 'はじめる！' }).click();
   await page.getByLabel('ニックネーム').fill('ナナミ');
-  await page.getByRole('button', { name: 'これでお願いします！' }).click();
+  await page.getByTestId('fp-modal-submit').click();
   // Four-question dietary interview (latest Figma), presentation-only.
   await page.getByRole('button', { name: '送信' }).click();
   await page.getByRole('button', { name: '送信' }).click();

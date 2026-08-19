@@ -89,9 +89,9 @@ test.describe('golden path (ja, 375px)', () => {
     // ---- 2. Food Profile conversation — intro → nickname → 4-step interview ----
     await page.getByText('MOGU MOGUへようこそ！').waitFor();
     await page.getByRole('button', { name: 'はじめる！' }).click();
-    await page.getByText('まず、なんてお呼びすればいいですか？').waitFor();
+    await page.getByRole('dialog').waitFor();
     await page.getByLabel('ニックネーム').fill('ナナミ');
-    await page.getByRole('button', { name: 'これでお願いします！' }).click();
+    await page.getByTestId('fp-modal-submit').click();
     // Latest-Figma four-question dietary interview (presentation-only fixture):
     // allergy (1/4) → diet (2/4) → religion (3/4) → dislikes (4/4).
     await page.getByText('まず、食物アレルギーはありますか？(複数選択)').waitFor();
@@ -217,7 +217,7 @@ test.describe('golden path (ja, 375px)', () => {
     await expect(page.locator('.tmm-nav')).toHaveCount(0);
     await page.getByRole('button', { name: 'はじめる！' }).click();
     await page.getByLabel('ニックネーム').fill('ナナミ');
-    await page.getByRole('button', { name: 'これでお願いします！' }).click();
+    await page.getByTestId('fp-modal-submit').click();
     await page.getByRole('button', { name: '送信' }).click();
     await page.getByRole('button', { name: '送信' }).click();
     await page.getByRole('button', { name: '送信' }).click();

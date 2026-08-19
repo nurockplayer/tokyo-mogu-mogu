@@ -25,7 +25,7 @@
  * Phase 2. Input is recommendation-only, never a safety guarantee (product
  * contract "Safety Boundary").
  */
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type FormEvent, type MouseEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useI18n } from '../../i18n';
 import { type LocaleKey } from '../../i18n/resources';
@@ -280,6 +280,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   const [answered, setAnswered] = useState<Set<number>>(new Set());
   const [introChoice, setIntroChoice] = useState<IntroChoice | null>(null);
   const [nicknameInput, setNicknameInput] = useState(() => loadNickname() ?? '');
+  const [nicknameModalOpen, setNicknameModalOpen] = useState(false);
   // Phase 1 presentation-only interview answers (Issue #224): local fixture
   // state only — never the durable profile, never a safety claim.
   const [interviewAnswers, setInterviewAnswers] = useState<InterviewAnswers>(() =>
@@ -303,6 +304,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
     setAnswered(new Set());
     setIntroChoice(null);
     setNicknameInput(loadNickname() ?? '');
+    setNicknameModalOpen(false);
     setInterviewAnswers(createEmptyInterviewAnswers());
     setBrowseNote(false);
   }, [mode]);
@@ -507,6 +509,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
       saveNickname(nicknameInput);
     }
     // Setup → first interview question; edit → first category question.
+    setNicknameModalOpen(false);
     setStep(editing ? FIRST_CATEGORY_STEP : SETUP_INTERVIEW_FIRST);
   }
 
@@ -607,6 +610,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
             onStart={() => {
               setIntroChoice('start');
               setStep(STEP_NICKNAME);
+              setNicknameModalOpen(true);
             }}
             onBrowse={() => {
               setIntroChoice('browse');
@@ -620,7 +624,16 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
             value={nicknameInput}
             onChange={setNicknameInput}
             onConfirm={submitNickname}
-            onSkip={() => setStep(SETUP_INTERVIEW_FIRST)}
+            onSkip={() => {
+              setNicknameModalOpen(false);
+              setStep(SETUP_INTERVIEW_FIRST);
+            }}
+            open={nicknameModalOpen}
+            onOpen={() => setNicknameModalOpen(true)}
+            onCancel={() => {
+              setNicknameInput(loadNickname() ?? '');
+              setNicknameModalOpen(false);
+            }}
           />
         ) : null}
 
@@ -828,47 +841,214 @@ function IntroCard({
   );
 }
 
-/** Session-only nickname step: input + confirm / skip (both continue to Q1). */
+/** Session-only nickname step: the current Figma input modal plus a safe reopen state. */
 function NicknameStep({
   value,
   onChange,
   onConfirm,
   onSkip,
+  open,
+  onOpen,
+  onCancel,
 }: {
   value: string;
   onChange: (value: string) => void;
   onConfirm: () => void;
   onSkip: () => void;
+  open: boolean;
+  onOpen: () => void;
+  onCancel: () => void;
 }) {
   const { t } = useI18n();
+  if (open) {
+    return (
+      <FigmaInputModal
+        inputId="fp-nickname"
+        title={t('fpNicknameModalTitle')}
+        label={t('fpNicknameLabel')}
+        value={value}
+        onChange={onChange}
+        placeholder={t('fpNicknamePlaceholder')}
+        suffix={t('fpNicknameModalSuffix')}
+        maxLength={32}
+        submitLabel={t('fpNicknameModalSubmit')}
+        returnFocusSelector='[data-testid="fp-nickname-reopen"], [data-testid="fp-interview-step-0"] button'
+        onSubmit={onConfirm}
+        onCancel={onCancel}
+      />
+    );
+  }
+
   return (
-    <div className="fp-convo">
+    <div className="fp-convo" data-testid="fp-nickname-step">
       <div className="fp-convo__msg fp-convo__msg--assistant">
         <span className="fp-convo__avatar" aria-hidden="true">
           🌿
         </span>
         <div className="fp-convo__bubble">
           <p className="fp-convo__q">{t('fpNicknameTitle')}</p>
-          <label htmlFor="fp-nickname" className="fp-convo__label">
-            {t('fpNicknameLabel')}
-          </label>
-          <input
-            id="fp-nickname"
-            className="tmm-wizard__text"
-            type="text"
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder={t('fpNicknamePlaceholder')}
-            maxLength={32}
-          />
           <div className="fp-convo__choices">
-            <Chip selected onClick={onConfirm}>
-              {t('fpNicknameConfirm')}
-            </Chip>
+            <Button variant="secondary" onClick={onOpen} data-testid="fp-nickname-reopen">
+              {t('fpNicknameReopen')}
+            </Button>
             <Chip onClick={onSkip}>{t('fpNicknameSkip')}</Chip>
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+/**
+ * The two current Food Profile Figma modal states share one presentation shell.
+ * The component owns only transient input/focus mechanics; callers retain the
+ * nickname and interview contracts and decide when a deliberate submit advances.
+ */
+function FigmaInputModal({
+  inputId,
+  title,
+  label,
+  value,
+  onChange,
+  placeholder,
+  suffix,
+  maxLength,
+  submitLabel,
+  returnFocusSelector,
+  onSubmit,
+  onCancel,
+}: {
+  inputId: string;
+  title: string;
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder: string;
+  suffix?: string;
+  maxLength?: number;
+  submitLabel: string;
+  returnFocusSelector?: string;
+  onSubmit: () => void;
+  onCancel: () => void;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const submitRef = useRef<HTMLButtonElement>(null);
+  const submitGuardRef = useRef(false);
+  const submitHandlerRef = useRef(onSubmit);
+  const cancelHandlerRef = useRef(onCancel);
+  submitHandlerRef.current = onSubmit;
+  cancelHandlerRef.current = onCancel;
+
+  useEffect(() => {
+    submitGuardRef.current = false;
+    const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    inputRef.current?.focus();
+
+    const focusables = () =>
+      [inputRef.current, submitRef.current].filter(
+        (element): element is HTMLInputElement | HTMLButtonElement =>
+          element !== null && !element.disabled,
+      );
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        cancelHandlerRef.current();
+        return;
+      }
+      if (event.key !== 'Tab') return;
+
+      const elements = focusables();
+      if (elements.length === 0) return;
+      const current = document.activeElement;
+      const currentIndex = elements.indexOf(current as HTMLInputElement | HTMLButtonElement);
+      const nextIndex = event.shiftKey
+        ? currentIndex <= 0 ? elements.length - 1 : currentIndex - 1
+        : currentIndex === elements.length - 1 ? 0 : currentIndex + 1;
+      event.preventDefault();
+      elements[nextIndex]?.focus();
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+      if (
+        previousFocus?.isConnected &&
+        previousFocus !== document.body &&
+        previousFocus !== document.documentElement
+      ) {
+        previousFocus.focus();
+      } else if (returnFocusSelector) {
+        // The nickname launcher is intentionally replaced by the modal while
+        // it is open, so the original active element may be detached before
+        // cleanup. Let the next render expose the logical return target first.
+        window.setTimeout(() => {
+          document.querySelector<HTMLElement>(returnFocusSelector)?.focus();
+        }, 0);
+      }
+    };
+  }, [returnFocusSelector]);
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (submitGuardRef.current) return;
+    submitGuardRef.current = true;
+    submitHandlerRef.current();
+  }
+
+  function handleBackdropClick(event: MouseEvent<HTMLDivElement>) {
+    if (event.target === event.currentTarget) onCancel();
+  }
+
+  return (
+    <div className="fp-modal__backdrop" role="presentation" onClick={handleBackdropClick}>
+      <form
+        className="fp-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={`${inputId}-title`}
+        onClick={(event) => event.stopPropagation()}
+        onSubmit={handleSubmit}
+        data-testid="fp-modal"
+      >
+        <div className="fp-modal__body">
+          <h2 id={`${inputId}-title`} className="fp-modal__title">
+            {title}
+          </h2>
+          <div className="fp-modal__input">
+            <label htmlFor={inputId} className="fp-modal__label">
+              {label}
+            </label>
+            <input
+              ref={inputRef}
+              id={inputId}
+              data-testid="fp-modal-input"
+              className="fp-modal__field"
+              type="text"
+              value={value}
+              onChange={(event) => onChange(event.target.value)}
+              placeholder={placeholder}
+              maxLength={maxLength}
+            />
+            {suffix ? (
+              <span className="fp-modal__suffix" aria-hidden="true">
+                {suffix}
+              </span>
+            ) : null}
+          </div>
+        </div>
+        <button
+          ref={submitRef}
+          type="submit"
+          className="fp-modal__submit"
+          data-testid="fp-modal-submit"
+        >
+          {submitLabel}
+        </button>
+      </form>
     </div>
   );
 }
@@ -948,8 +1128,17 @@ function InterviewStep({
 }) {
   const { t } = useI18n();
   const [showOther, setShowOther] = useState(other.length > 0);
+  const [otherModalOpen, setOtherModalOpen] = useState(false);
+  const [otherDraft, setOtherDraft] = useState(other);
+
+  useEffect(() => {
+    setShowOther(other.length > 0);
+    setOtherModalOpen(false);
+    setOtherDraft(other);
+  }, [stepNumber, other]);
+
   return (
-    <div className="fp-convo">
+    <div className="fp-convo" data-testid={`fp-interview-step-${stepNumber}`}>
       <div className="fp-convo__msg fp-convo__msg--assistant">
         <span className="fp-convo__avatar" aria-hidden="true">
           🌿
@@ -975,32 +1164,23 @@ function InterviewStep({
               <Chip
                 selected={showOther}
                 onClick={() => {
-                  const next = !showOther;
-                  setShowOther(next);
+                  if (!showOther) {
+                    setShowOther(true);
+                    setOtherDraft(other);
+                    setOtherModalOpen(true);
+                    return;
+                  }
+                  setShowOther(false);
+                  setOtherDraft('');
                   // Closing the "other" input must not leave a hidden stale value
                   // that would still surface in the summary.
-                  if (!next) onOtherChange('');
+                  onOtherChange('');
                 }}
               >
                 {t('fpIvOther')}
               </Chip>
             ) : null}
           </div>
-          {showOther ? (
-            <>
-              <label htmlFor={`fp-iv-other-${stepNumber}`} className="fp-convo__label">
-                {t('fpIvFreeTextLabel')}
-              </label>
-              <input
-                id={`fp-iv-other-${stepNumber}`}
-                className="tmm-wizard__text"
-                type="text"
-                value={other}
-                onChange={(e) => onOtherChange(e.target.value)}
-                placeholder={t('fpIvFreeTextLabel')}
-              />
-            </>
-          ) : null}
           <div className="fp-convo__choices">
             <Button variant="primary" className="tmm-btn--block" onClick={onSend} disabled={disabled}>
               {t('fpIvSend')}
@@ -1008,6 +1188,28 @@ function InterviewStep({
           </div>
         </div>
       </div>
+      {otherModalOpen ? (
+        <FigmaInputModal
+          inputId={`fp-iv-other-${stepNumber}`}
+          title={t('fpIvFreeTextLabel')}
+          label={t('fpIvFreeTextLabel')}
+          value={otherDraft}
+          onChange={setOtherDraft}
+          placeholder={t('fpIvFreeTextPlaceholder')}
+          submitLabel={t('fpIvModalSubmit')}
+          returnFocusSelector={`[data-testid="fp-interview-step-${stepNumber}"] button, [data-testid="fp-interview-step-${stepNumber + 1}"] button`}
+          onSubmit={() => {
+            onOtherChange(otherDraft);
+            setOtherModalOpen(false);
+            onSend();
+          }}
+          onCancel={() => {
+            setOtherDraft(other);
+            setOtherModalOpen(false);
+            if (other.trim().length === 0) setShowOther(false);
+          }}
+        />
+      ) : null}
     </div>
   );
 }
