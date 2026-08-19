@@ -2,12 +2,12 @@
 
 ## Authority and scope
 
-This audit was rerun after PR #247 merged to live `main` at
-`35ccec07d277a01c2801aef51d13e1bcb19a9b4a`. The implementation truth is that
-commit; the visible KiKi Figma is the prototype authority. The audit covers
-coverage accounting only. It does not open another Region × FoodCulture lane
-and it does not turn the prototype into a CMS, crawler, route optimizer, or
-recommendation platform.
+This audit was rerun against live `main` at
+`68ba4d4b3301b238081fdaec2dbc8dcaa1410ee7` after PRs #247 and #248 merged.
+The visible KiKi Figma is the prototype authority. The audit covers coverage
+accounting only. It does not open another Region × FoodCulture lane and it does
+not turn the prototype into a CMS, crawler, route optimizer, or recommendation
+platform.
 
 The primary Figma connector was rate-limited on the Starter plan. The connected
 Figma bridge still exposed the current Page 1 inventory and exact node trees,
@@ -21,8 +21,8 @@ unversioned bridge snapshot.
 - Current product-facing meaningful nodes: 41.
 - Non-product board/asset infrastructure: 4 (`1:832`, `1:467`, `34:236`, `23:3623`).
 - Full screens / alternate states: 29.
-- Full-screen states now covered by implementation or explicit deliberate deviation: 28.
-- Full-screen state still unresolved: 1 (`119:254`).
+- Full-screen states now covered by implementation or explicit deliberate/presentation-only deviation: 29.
+- Full-screen states still unresolved or missing: 0.
 - No current frame is wholly absent from the runtime; the remaining gap is behavior/semantics, not an invented missing page.
 
 The previous #242 audit at main `e559819f7dba50228586b17ca4a1fda518e40542`
@@ -60,7 +60,7 @@ for reconciliation rather than silently being rewritten.
 | `23:3262` | Implemented | Exploration Q5. |
 | `23:3380` | Implemented | Result candidate and Story transition. |
 | `52:3995` | Implemented | Story page and nearby content. |
-| `119:254` | **Unresolved** | Dimmed Story + mascot/spinner/loading copy is visible, but behavior is not specified. |
+| `119:254` | **Presentation-only / deliberate adaptation** | The existing Story → Route CTA conceptually triggers direct navigation to the current source-backed Route; the dimmed mascot/spinner is a transition reference only. No runtime generation, artificial delay, async lifecycle, or new persistence is added. |
 | `119:681` | Implemented | Route timeline, spots, save action. |
 | `122:889` | Implemented | Route saved state / My Route affordance. |
 | `125:1752` | Implemented | Spot detail and sourced action boundary. |
@@ -98,22 +98,22 @@ instance, `1:467` logo asset, `34:236` UX decision board, and `23:3623`
 requirements/reference board. They are recorded here because the audit must be
 complete, but they are not product screens and are not watched.
 
-## Conservative #242 verdict
+## Final #242 verdict
 
-`MISSING_IMPLEMENTATION_FOUND` remains the safe verdict, and #242 stays open.
-The two concrete implementation gaps (`2:383`, `3:772`) are closed by merged
-PR #247. The remaining `119:254` frame is visually understandable but not
-behaviorally specified:
+`FULL_COVERAGE` is now supported by the Product decision recorded in the #242
+issue thread. The two concrete implementation gaps (`2:383`, `3:772`) were
+closed by merged PR #247. The remaining `119:254` frame is explicitly a
+presentation-only reference, represented in the machine map by the existing
+`INTENTIONALLY_DIFFERENT` status with a `PRESENTATION_ONLY` decision note:
 
-- What action starts the overlay?
-- Is the generation real, deterministic, or only a presentation transition?
-- What completes it, and how does the user cancel or recover from an error?
-- Which route identity and persistence contract does completion carry?
+- Existing Story → Route CTA is the conceptual trigger.
+- Destination is the existing source-backed route for the current journey/candidate.
+- No artificial delay, route-generation service, optimizer, background job, or overlay-specific async lifecycle is added.
+- No new persistence is written; saved-route persistence remains the explicit Route action under #92.
+- Existing safe missing-data/navigation behavior applies if the route cannot be resolved; no route is fabricated.
 
-Adding an artificial timer, speculative route generation, or generic loading
-platform would violate the #201/#208 engineering-adaptation boundary. A
-Product/Design decision for that one frame is the next required input before
-#242 can close.
+No other meaningful current frame is unresolved or missing. The final audit
+verdict is `FULL_COVERAGE`, and #242 can close.
 
 ## Validation
 
@@ -123,5 +123,8 @@ Product/Design decision for that one frame is the next required input before
 - PR #247 hosted CI passed on its final retry: Quality Gates, Golden-path E2E,
   and Merge Gate.
 - Local full E2E after merge-base reconciliation: 61 passed.
-- Map/state/doc synchronization and the focused map tests are run with the
-  repository Vitest gate before the reconciliation PR is opened.
+- Closeout focused map/gate tests: 19 passed.
+- Closeout repository gates: typecheck passed; lint passed with 0 errors and 25
+  existing warnings; full unit suite passed (639 tests); build passed.
+- No runtime files changed in this closeout, so browser E2E was not required by
+  the change classifier; the prior live-main full E2E evidence remains 61/61.

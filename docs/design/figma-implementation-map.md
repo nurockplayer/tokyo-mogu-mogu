@@ -7,7 +7,7 @@ this mirror and `docs/design/figma-sync-state.json` synchronized.
 
 ## Reconciliation baseline
 
-- Implementation base: live `origin/main` at `35ccec07d277a01c2801aef51d13e1bcb19a9b4a` (PR #247 merged).
+- Implementation base: live `origin/main` at `68ba4d4b3301b238081fdaec2dbc8dcaa1410ee7` (PRs #247 and #248 merged).
 - Live visible-prototype inventory: 45 top-level Page 1 nodes from the connected KiKi Figma bridge.
 - Current product-facing watchlist: 41 nodes, including full screens, meaningful alternate states, and content/reference groups.
 - Four current top-level nodes are non-product board/asset infrastructure (`1:832`, `1:467`, `34:236`, `23:3623`) and are accounted for in the audit document, not watched.
@@ -22,8 +22,8 @@ this mirror and `docs/design/figma-sync-state.json` synchronized.
 | `FIGMA_CHANGED` | Live Figma moved; implementation may be behind. |
 | `IMPLEMENTATION_BEHIND` | An accepted Figma revision is not yet implemented. |
 | `ISSUE_MISSING` | A current change has no owning Issue. |
-| `INTENTIONALLY_DIFFERENT` | Deliberate, documented engineering/product/reference deviation. |
-| `UNRESOLVED` | Human Product/Design behavior is required before implementation. |
+| `INTENTIONALLY_DIFFERENT` | Deliberate, documented engineering/product/reference deviation; this is the repository-equivalent map status for #242's `PRESENTATION_ONLY` classification. |
+| `UNRESOLVED` | Human Product/Design behavior is required before implementation; no current watched surface uses this status after the #242 decision. |
 
 ## Current watched surfaces (41)
 
@@ -54,7 +54,7 @@ this mirror and `docs/design/figma-sync-state.json` synchronized.
 | `23:3262` | Taste + Theme | Exploration Q5 | `ExplorationWizardPage` / #201, #206, #230 | `MATCH` |
 | `23:3380` | Result | Match result | `ResultPage` / #201, #217, #241 | `MATCH` |
 | `52:3995` | Story | Food-culture story | `StoryPage` / #201, #224, #241 | `MATCH` |
-| `119:254` | Story route-generation loading overlay | Story → Route transition | Pending Product/Design decision / #201, #208, #242 | `UNRESOLVED` |
+| `119:254` | Story route transition presentation reference | Story → Route presentation transition | Existing Story CTA → source-backed Route; no runtime generation / #201, #208, #242 | `INTENTIONALLY_DIFFERENT` (`PRESENTATION_ONLY`) |
 | `119:681` | Route | Generated route page | `RoutePage` / #201, #92, #242 | `MATCH` |
 | `122:889` | Route saved state | Save confirmation / My Route affordance | `RoutePage`, `MyRoutePage` / #92, #201, #242 | `MATCH` |
 | `125:1752` | Spot | Route → Spot detail | `SpotPage` / #92, #201, #242 | `MATCH` |
@@ -95,16 +95,21 @@ The current bridge inventory also exposes `1:832` (status-bar instance),
 reference board). These are design/asset infrastructure rather than product
 surfaces and are intentionally not watched.
 
-## The remaining #242 blocker
+## #242 decision and final coverage
 
-`119:254` is visually legible as a dimmed Story page with a mascot, spinner, and
-“観光ルートを生成中” message. The visible frame does not establish what
-starts it, how long it lasts, what completes it, whether it can be cancelled,
-what happens on error, or whether route generation is real or only a prototype
-transition. Implementing an artificial delay, route optimizer, or speculative
-completion state would cross the #201/#208 boundary. #242 therefore remains
-open with conservative verdict `MISSING_IMPLEMENTATION_FOUND` until
-Product/Design supplies that behavior decision.
+`119:254` is a presentation-only Story → Route transition reference. The
+existing Story → Route CTA is the conceptual trigger, and the destination is
+the existing source-backed Route for the current journey/candidate. The
+runtime does not generate or optimize a route, add an artificial delay, create
+an async generation lifecycle, or write new persistence. If the existing route
+cannot be resolved, current safe missing-data/navigation behavior applies; a
+route is never fabricated. Saving remains the explicit Route action under #92.
+
+The previous `UNRESOLVED` classification is therefore reconciled as the
+existing repository status `INTENTIONALLY_DIFFERENT`, with the machine-map note
+explicitly recording the #242 `PRESENTATION_ONLY` decision. All 41 current
+product-facing watched nodes are now classified as implemented or documented
+deliberate/presentation-only adaptations. Final verdict: `FULL_COVERAGE`.
 
 ## Keeping the map fresh
 
