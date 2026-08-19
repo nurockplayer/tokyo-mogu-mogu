@@ -202,6 +202,27 @@ describe('spot primary-action mapping (#80)', () => {
       kind: 'disabled',
       type: 'visit',
     });
+
+    expect(SPOT_ACTIONS['fussa-tamura-shuzo']).toMatchObject({
+      kind: 'external',
+      type: 'visit',
+      url: 'https://www.tamurashuzojo.com/page/kura',
+    });
+    expect(SPOT_ACTIONS['fussa-ishikawa-shuzo']).toMatchObject({
+      kind: 'external',
+      type: 'visit',
+      url: 'https://www.tamajiman.co.jp/access/',
+    });
+    expect(SPOT_ACTIONS['akiruno-farmers-center']).toMatchObject({
+      kind: 'external',
+      type: 'shop',
+      url: 'https://www.city.akiruno.tokyo.jp/0000003556.html',
+    });
+    expect(SPOT_ACTIONS['akiruno-seoto-no-yu']).toMatchObject({
+      kind: 'external',
+      type: 'visit',
+      url: 'https://www.gotokyo.org/jp/spot/397/index.html',
+    });
   });
 
   it('localizes source-backed access notes without opening an unverified claim', () => {

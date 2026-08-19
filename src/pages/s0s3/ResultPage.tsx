@@ -205,10 +205,12 @@ export function ResultPage() {
                   alt={t(recommendedTitleKey)}
                 />
               )}
-              <div className="tmm-result-match">
-                <span className="tmm-result-match__percent">{t('s3MatchPercent')}</span>
-                <span className="tmm-result-match__label">{t('s3MatchLabel')}</span>
-              </div>
+              {isGoldenPath ? (
+                <div className="tmm-result-match">
+                  <span className="tmm-result-match__percent">{t('s3MatchPercent')}</span>
+                  <span className="tmm-result-match__label">{t('s3MatchLabel')}</span>
+                </div>
+              ) : null}
             </div>
             <div className="tmm-result-card__body">
               <span className="tmm-result-card__region">
@@ -225,9 +227,11 @@ export function ResultPage() {
               </div>
               <p className="tmm-result-card__desc">{t(recommendedDescriptionKey)}</p>
 
-              <p className="tmm-result-match__note" role="note">
-                {t('s3MatchNote')}
-              </p>
+              {isGoldenPath ? (
+                <p className="tmm-result-match__note" role="note">
+                  {t('s3MatchNote')}
+                </p>
+              ) : null}
 
               <div className="tmm-result__tags">
                 {tags.length > 0

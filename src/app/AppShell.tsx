@@ -18,12 +18,13 @@
  * system. Feature screens render inside <main> and never build their own app
  * root.
  */
-import { Link, NavLink, Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { useI18n } from '../i18n';
 import { AuthControl } from '../components/AuthControl';
 import { DemoResetButton } from '../components/DemoResetButton';
 import { LocaleToggle } from '../components/LocaleToggle';
 import { ErrorBoundary } from './ErrorBoundary';
+import { PrimaryNav } from './PrimaryNav';
 
 /**
  * Production shell — used as a React Router layout route for the Phase 2
@@ -51,24 +52,7 @@ export function AppShell() {
           <Outlet />
         </ErrorBoundary>
       </main>
-      <nav className="tmm-nav">
-        <NavLink to="/" end className="tmm-nav__link">
-          <span className="tmm-nav__icon" aria-hidden="true">🏠</span>
-          {t('navHome')}
-        </NavLink>
-        <NavLink to="/discover" className="tmm-nav__link">
-          <span className="tmm-nav__icon" aria-hidden="true">🔍</span>
-          {t('navDiscover')}
-        </NavLink>
-        <NavLink to="/mogu" className="tmm-nav__link">
-          <span className="tmm-nav__icon" aria-hidden="true">🍽️</span>
-          {t('navMogu')}
-        </NavLink>
-        <NavLink to="/my" className="tmm-nav__link">
-          <span className="tmm-nav__icon" aria-hidden="true">👤</span>
-          {t('navMy')}
-        </NavLink>
-      </nav>
+      <PrimaryNav />
     </div>
   );
 }

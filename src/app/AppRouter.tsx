@@ -5,9 +5,9 @@
  * never create their own root/router. Pages are lazy-loaded so Suspense-based
  * route-level loading (LoadingBoundary) is meaningful.
  *
- * Phase 1 (Issue #217) renders the guided conversational journey inside the
- * slim PrototypeShell (no production bottom nav); the production surfaces stay
- * under the AppShell and remain reachable by direct URL for Phase 2.
+ * The guided journey renders inside the compact PrototypeShell; Issue #252
+ * exposes the established primary IA once the traveler reaches product
+ * content. Directory/history/settings surfaces stay under AppShell.
  */
 import { lazy, type ReactNode } from 'react';
 import { Routes, Route } from 'react-router-dom';
@@ -78,7 +78,7 @@ function withBoundary(element: ReactNode) {
 export function AppRouter() {
   return (
     <Routes>
-      {/* Phase 1 — guided conversational prototype (Issue #217): no production nav. */}
+      {/* Guided conversation + journey content (Issues #217 / #252). */}
       <Route element={<PrototypeShell />}>
         <Route path="/" element={withBoundary(<LandingPage />)} />
         <Route path="/food-profile" element={withBoundary(<FoodProfilePage mode="view" />)} />
@@ -91,7 +91,7 @@ export function AppRouter() {
         <Route path="/spot/:placeId" element={withBoundary(<SpotPage />)} />
       </Route>
 
-      {/* Phase 2 — production surfaces (preserved, direct-URL reachable only). */}
+      {/* Product directory, history, and settings surfaces. */}
       <Route element={<AppShell />}>
         <Route path="/home" element={withBoundary(<HomePage />)} />
         <Route path="/pokedex" element={withBoundary(<PokedexPage />)} />

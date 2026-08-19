@@ -34,6 +34,7 @@ export const strings = {
     navDiscover: 'さがす',
     navMogu: 'MOGU',
     navMy: 'マイ',
+    primaryNavLabel: 'メインナビゲーション',
     /* Prototype bottom-nav labels (latest Figma parity, Issue #226) */
     protoNavDiscover: '食旅を見つけ',
     protoNavMogu: 'モグモグる',
@@ -403,15 +404,11 @@ export const strings = {
     fpIvModalSubmit: '確定',
     fpIvSummaryTitle: 'ありがとうございます！🌿 あなたの食のプロフィールを登録しました。',
     fpNotEvaluated: '食事条件は未評価（デモのプロトタイプでは評価しません）',
-    // Post-profile fork + accountless browse note (Issue #224 — Figma Talk12
-    // 3:1835). "自分で旅を探す" has no demo branch in the live Figma, so it is
-    // presentation-only and stays a KiKi question.
+    // Post-profile fork + accountless Discover entry (Issue #252).
     fpForkTitle: 'では、今回はどんな食旅にしましょう？',
     fpForkRecommend: '自分に合った旅をおすすめしてもらう！',
     fpForkBrowse: '自分で旅を探す',
     fpBrowseCta: '登録なし、自分で見てみる',
-    fpBrowseComingSoon: '「自分で探す」はデモでは準備中です。今回はおすすめの旅を体験してみてください。',
-    fpBrowseBack: 'おすすめの旅へ戻る',
     fpQ1Title: 'まず、食物アレルギーはありますか？',
     fpQ2Title: 'ベジタリアン・ビーガンなどの食事スタイルはありますか？',
     fpQ3Title: '宗教上の理由などで、避けている食べものはありますか？',
@@ -853,6 +850,7 @@ export const strings = {
     navDiscover: 'Discover',
     navMogu: 'MOGU',
     navMy: 'My',
+    primaryNavLabel: 'Primary navigation',
     /* Prototype bottom-nav labels (latest Figma parity, Issue #226) */
     protoNavDiscover: 'Discover',
     protoNavMogu: 'MOGU',
@@ -1224,15 +1222,11 @@ export const strings = {
     fpIvModalSubmit: 'Confirm',
     fpIvSummaryTitle: 'Thank you! 🌿 Your food profile is registered.',
     fpNotEvaluated: 'Dietary conditions not evaluated (this demo prototype does not assess them)',
-    // Post-profile fork + accountless browse note (Issue #224 — Figma Talk12
-    // 3:1835). "Browse by myself" has no demo branch in the live Figma, so it is
-    // presentation-only and stays a KiKi question.
+    // Post-profile fork + accountless Discover entry (Issue #252).
     fpForkTitle: 'So, what kind of food journey do you want this time?',
     fpForkRecommend: 'Recommend a journey for me!',
     fpForkBrowse: 'Let me browse by myself',
     fpBrowseCta: 'No registration, let me browse',
-    fpBrowseComingSoon: 'Browsing on your own is not part of this demo yet — try the recommended journey instead.',
-    fpBrowseBack: 'Back to the recommended journey',
     fpQ1Title: 'First, do you have any food allergies?',
     fpQ2Title: 'Do you follow a vegetarian or vegan style of eating?',
     fpQ3Title: 'Are there foods you avoid for religious or other reasons?',
@@ -1687,6 +1681,7 @@ export const strings = {
     navDiscover: '探索',
     navMogu: 'MOGU',
     navMy: '我的',
+    primaryNavLabel: '主要導覽',
     /* Prototype bottom-nav labels (latest Figma parity, Issue #226) */
     protoNavDiscover: '探索',
     protoNavMogu: 'MOGU',
@@ -2055,15 +2050,11 @@ export const strings = {
     fpIvModalSubmit: '確認',
     fpIvSummaryTitle: '謝謝你！🌿 你的飲食檔案已登錄。',
     fpNotEvaluated: '飲食條件未評估（此示範原型不進行評估）',
-    // Post-profile fork + accountless browse note (Issue #224 — Figma Talk12
-    // 3:1835). "自己探索旅程" has no demo branch in the live Figma, so it is
-    // presentation-only and stays a KiKi question.
+    // Post-profile fork + accountless Discover entry (Issue #252).
     fpForkTitle: '那麼，這次想來趟什麼樣的飲食之旅呢？',
     fpForkRecommend: '推薦適合我的旅程！',
     fpForkBrowse: '我自己探索旅程',
     fpBrowseCta: '免註冊，自己逛逛看',
-    fpBrowseComingSoon: '「自己探索」在示範中尚未提供，請先體驗推薦旅程。',
-    fpBrowseBack: '返回推薦旅程',
     fpQ1Title: '首先，你有食物過敏嗎？',
     fpQ2Title: '你有素食或純素等飲食習慣嗎？',
     fpQ3Title: '是否有因為宗教等原因而避免的食物？',
