@@ -3,7 +3,7 @@
  *
  * This is demo data/config, not the durable recommendation domain. The shared
  * engine accepts any Tokyo Region × FoodCulture candidates with the same
- * shape. Three production-ready candidates ship in the current release:
+ * shape. Five production-ready candidates ship in the current release:
  * - Okutama × Tokyo Wasabi — the deterministic Hackathon Demo Golden Path
  *   (Issue #127). Its answer profile keeps it selected for the fixed golden
  *   path answers, so the e2e result stays deterministic.
@@ -13,6 +13,9 @@
  *   answer for a rich/sweet tradition-focused trip can reach the sake journey.
  * - Hachioji × Hachioji Ginger — the source-backed Tokyo-wide slice (Issue
  *   #238), reachable for a market / daily-life journey.
+ * - Fussa × Tokyo Sake — the source-backed two-brewery slice (Issue #243).
+ * - Akiruno × seasonal produce — the source-backed direct-sale / valley slice
+ *   (Issue #244).
  */
 import {
   MAX_RECOMMENDATION_REASONS,
@@ -29,6 +32,12 @@ export const DEMO_OME_SAKE_CANDIDATE_ID = 'demo-ome-sake';
 
 /** Issue #238: the source-backed Hachioji ginger journey. */
 export const DEMO_HACHIOJI_GINGER_CANDIDATE_ID = 'demo-tokyo-hachioji-ginger';
+
+/** Issue #243: the source-backed Fussa × Tokyo Sake journey. */
+export const DEMO_FUSSA_SAKE_CANDIDATE_ID = 'demo-tokyo-west-fussa-sake';
+
+/** Issue #244: the source-backed Akiruno seasonal-produce journey. */
+export const DEMO_AKIRUNO_PRODUCE_CANDIDATE_ID = 'demo-tokyo-west-akiruno-produce';
 
 export const DEMO_RECOMMENDATION_CANDIDATES: readonly RecommendationCandidate[] = [
   {
@@ -85,6 +94,36 @@ export const DEMO_RECOMMENDATION_CANDIDATES: readonly RecommendationCandidate[] 
     travelTimeByBaseArea: {},
     tourismDispersion: { status: 'unknown' },
   },
+  {
+    id: DEMO_FUSSA_SAKE_CANDIDATE_ID,
+    regionId: 'fussa',
+    foodCultureId: 'sake-fussa',
+    journeyId: 'fussa-sake-journey',
+    availability: 'ready',
+    // Sweet / maker / craft answers distinguish the Fussa brewery journey
+    // from the existing Ome/Sawai profile while keeping the shared engine.
+    tastes: ['sweet'],
+    experiences: ['buy', 'meet'],
+    interests: ['tradition', 'craft', 'daily-life'],
+    durations: ['half-day', 'full-day'],
+    travelTimeByBaseArea: {},
+    tourismDispersion: { status: 'unknown' },
+  },
+  {
+    id: DEMO_AKIRUNO_PRODUCE_CANDIDATE_ID,
+    regionId: 'akiruno',
+    foodCultureId: 'produce-akiruno',
+    journeyId: 'akiruno-seasonal-produce-journey',
+    availability: 'ready',
+    // A seasonal direct-sale / valley trip: its sweet taste + nature profile
+    // lets it win a distinct answer set without changing the ranking engine.
+    tastes: ['sweet', 'refreshing'],
+    experiences: ['buy', 'eat'],
+    interests: ['nature'],
+    durations: ['half-day', 'full-day'],
+    travelTimeByBaseArea: {},
+    tourismDispersion: { status: 'unknown' },
+  },
 ];
 
 /**
@@ -105,6 +144,12 @@ export function demoRecommendationMatchTags(
   }
   if (candidateId === DEMO_HACHIOJI_GINGER_CANDIDATE_ID) {
     return matchHachiojiTags(reasons);
+  }
+  if (candidateId === DEMO_FUSSA_SAKE_CANDIDATE_ID) {
+    return matchSakeTags(reasons);
+  }
+  if (candidateId === DEMO_AKIRUNO_PRODUCE_CANDIDATE_ID) {
+    return matchProduceTags(reasons);
   }
   return [];
 }
@@ -166,6 +211,7 @@ function matchSakeTags(reasons: readonly RankingFactor[]): MatchTagKey[] {
     if (reason.code === 'interest-match') {
       if (reason.values.includes('tradition')) add('tradition-edo');
       if (reason.values.includes('craft')) add('make-craft');
+      if (reason.values.includes('daily-life')) add('daily-life');
     }
     if (reason.code === 'duration-match') {
       if (reason.values.includes('half-day')) add('half-day');
@@ -190,6 +236,30 @@ function matchHachiojiTags(reasons: readonly RankingFactor[]): MatchTagKey[] {
     if (reason.code === 'interest-match') {
       if (reason.values.includes('daily-life')) add('daily-life');
       if (reason.values.includes('tradition')) add('tradition-edo');
+    }
+    if (reason.code === 'duration-match') {
+      if (reason.values.includes('half-day')) add('half-day');
+      if (reason.values.includes('full-day')) add('full-day');
+    }
+  }
+
+  return tags.slice(0, MAX_RECOMMENDATION_REASONS);
+}
+
+/** Akiruno journey tags: direct-sale and valley context only. */
+function matchProduceTags(reasons: readonly RankingFactor[]): MatchTagKey[] {
+  const tags: MatchTagKey[] = [];
+  const add = (tag: MatchTagKey) => {
+    if (!tags.includes(tag)) tags.push(tag);
+  };
+
+  for (const reason of reasons) {
+    if (reason.code === 'experience-match' && reason.values.includes('buy')) {
+      add('buy-gift');
+    }
+    if (reason.code === 'interest-match') {
+      if (reason.values.includes('nature')) add('nature-valley');
+      if (reason.values.includes('daily-life')) add('daily-life');
     }
     if (reason.code === 'duration-match') {
       if (reason.values.includes('half-day')) add('half-day');

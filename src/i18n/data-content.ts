@@ -48,6 +48,24 @@ export const FOOD_CULTURE_DATA_KEYS: Record<string, Partial<Record<FoodCultureFi
     maker: 'dataHachiojiMaker',
     howToEnjoy: 'dataHachiojiHowToEnjoy',
   },
+  // Fussa × Tokyo Sake (Issue #243).
+  'sake-fussa': {
+    name: 'dataFussaSakeName',
+    description: 'dataFussaSakeDescription',
+    story: 'dataFussaSakeStory',
+    history: 'dataFussaSakeHistory',
+    maker: 'dataFussaSakeMaker',
+    howToEnjoy: 'dataFussaSakeHowToEnjoy',
+  },
+  // Akiruno seasonal produce (Issue #244).
+  'produce-akiruno': {
+    name: 'dataAkirunoProduceName',
+    description: 'dataAkirunoProduceDescription',
+    story: 'dataAkirunoProduceStory',
+    history: 'dataAkirunoProduceHistory',
+    maker: 'dataAkirunoProduceMaker',
+    howToEnjoy: 'dataAkirunoProduceHowToEnjoy',
+  },
   // Names for the other cultures surfaced on the S6 route spots' "related food
   // cultures" list (Issue #67). Only `name` is mapped — the full record content
   // for these cultures is out of the S3–S8 demo journey scope.
@@ -78,6 +96,16 @@ export const ROUTE_DATA_KEYS = {
     name: 'dataHachiojiRouteName',
     area: 'areaHachioji',
     transport: 'dataHachiojiRouteTransport',
+  },
+  'fussa-sake-journey': {
+    name: 'dataFussaSakeRouteName',
+    area: 'areaFussa',
+    transport: 'dataFussaSakeRouteTransport',
+  },
+  'akiruno-seasonal-produce-journey': {
+    name: 'dataAkirunoRouteName',
+    area: 'areaAkiruno',
+    transport: 'dataAkirunoRouteTransport',
   },
 } as const satisfies Record<string, Record<string, LocaleKey>>;
 
@@ -112,6 +140,22 @@ export const ROUTE_STEP_ROLE_KEYS: Record<string, LocaleKey> = {
     'dataHachiojiStopRoleCastleHalfDay',
   'hachioji-ginger-journey.hachioji-takiyama-castle.1-day':
     'dataHachiojiStopRoleCastleFullDay',
+  // Fussa × Tokyo Sake (Issue #243).
+  'fussa-sake-journey.fussa-tamura-shuzo.half-day': 'dataFussaSakeStopRoleTamura',
+  'fussa-sake-journey.fussa-tamura-shuzo.1-day': 'dataFussaSakeStopRoleTamura',
+  'fussa-sake-journey.fussa-kurumiru.half-day': 'dataFussaSakeStopRoleKurumiru',
+  'fussa-sake-journey.fussa-kurumiru.1-day': 'dataFussaSakeStopRoleKurumiru',
+  'fussa-sake-journey.fussa-ishikawa-shuzo.half-day': 'dataFussaSakeStopRoleIshikawa',
+  'fussa-sake-journey.fussa-ishikawa-shuzo.1-day': 'dataFussaSakeStopRoleIshikawa',
+  // Akiruno seasonal produce (Issue #244).
+  'akiruno-seasonal-produce-journey.akiruno-farmers-center.half-day':
+    'dataAkirunoStopRoleFarmersHalfDay',
+  'akiruno-seasonal-produce-journey.akiruno-farmers-center.1-day':
+    'dataAkirunoStopRoleFarmersFullDay',
+  'akiruno-seasonal-produce-journey.akiruno-seoto-no-yu.half-day':
+    'dataAkirunoStopRoleSeotoHalfDay',
+  'akiruno-seasonal-produce-journey.akiruno-seoto-no-yu.1-day':
+    'dataAkirunoStopRoleSeotoFullDay',
 } as const satisfies Record<string, LocaleKey>;
 
 /** A place keyed by its record id. */
@@ -132,6 +176,11 @@ export const PLACE_DATA_KEYS = {
   // Hachioji ginger / local-produce journey places (Issue #238).
   'hachioji-takiyama-roadside-station': { name: 'dataPlaceHachiojiRoadsideStationName' },
   'hachioji-takiyama-castle': { name: 'dataPlaceHachiojiCastleName' },
+  'fussa-tamura-shuzo': { name: 'dataPlaceFussaTamuraName' },
+  'fussa-kurumiru': { name: 'dataPlaceFussaKurumiruName' },
+  'fussa-ishikawa-shuzo': { name: 'dataPlaceFussaIshikawaName' },
+  'akiruno-farmers-center': { name: 'dataPlaceAkirunoFarmersName' },
+  'akiruno-seoto-no-yu': { name: 'dataPlaceAkirunoSeotoName' },
 } as const satisfies Record<string, Record<string, LocaleKey>>;
 
 /** Spot practical-info access label, keyed by place id.
@@ -141,6 +190,10 @@ export const PLACE_DATA_KEYS = {
  */
 export const SPOT_ACCESS_KEYS: Record<string, LocaleKey> = {
   'sawai-ozawa-shuzo': 'dataOzawaAccess',
+  'fussa-tamura-shuzo': 'dataFussaTamuraAccess',
+  'fussa-ishikawa-shuzo': 'dataFussaIshikawaAccess',
+  'akiruno-farmers-center': 'dataAkirunoFarmersAccess',
+  'akiruno-seoto-no-yu': 'dataAkirunoSeotoAccess',
 } as const satisfies Record<string, LocaleKey>;
 
 /** Spot demo-note label, keyed by place id (none on the frozen journey). */
@@ -160,6 +213,11 @@ export const SPOT_ROLE_KEYS: Record<string, LocaleKey> = {
   'baba-oshijutaku': 'dataBabaRole',
   'hachioji-takiyama-roadside-station': 'dataHachiojiMarketRole',
   'hachioji-takiyama-castle': 'dataHachiojiCastleRole',
+  'fussa-tamura-shuzo': 'dataFussaTamuraRole',
+  'fussa-kurumiru': 'dataFussaKurumiruRole',
+  'fussa-ishikawa-shuzo': 'dataFussaIshikawaRole',
+  'akiruno-farmers-center': 'dataAkirunoFarmersRole',
+  'akiruno-seoto-no-yu': 'dataAkirunoSeotoRole',
 } as const satisfies Record<string, LocaleKey>;
 
 /**
@@ -178,6 +236,9 @@ const ROUTE_MOBILITY_LABEL_KEYS: Record<string, LocaleKey> = {
   'ome-sawai-sake-journey.2-3': 'dataSakeMobilityCableCar',
   'ome-sawai-sake-journey.3-4': 'dataRouteMobilityWalk',
   'hachioji-ginger-journey.1-2': 'dataRouteMobilityWalk',
+  'fussa-sake-journey.1-2': 'dataRouteMobilityWalk',
+  'fussa-sake-journey.2-3': 'dataFussaMobilityTrain',
+  'akiruno-seasonal-produce-journey.1-2': 'dataAkirunoMobilityBus',
 } as const satisfies Record<string, LocaleKey>;
 
 /** The bridge helpers below are pure id → key lookups (used by page code). */
@@ -372,6 +433,42 @@ export const STORY_DATA_KEYS: Record<
     ctaSub: 'dataHachiojiCtaSub',
     stickyCta: 'dataHachiojiStickyCta',
   },
+  'sake-fussa': {
+    name: 'dataFussaSakeName',
+    lead: 'dataFussaSakeStoryLead',
+    area: 'areaFussa',
+    history: 'dataFussaSakeHistory',
+    story: 'dataFussaSakeStory',
+    makerName: 'dataFussaSakeStoryMakerName',
+    makerRole: 'dataFussaSakeStoryMakerRole',
+    maker: 'dataFussaSakeMaker',
+    craft: 'dataFussaSakeStoryCraft',
+    howToEnjoy: 'dataFussaSakeHowToEnjoy',
+    challenge: 'dataFussaSakeStoryChallenge',
+    support: 'dataFussaSakeStorySupport',
+    heroKicker: 'dataFussaSakeHeroKicker',
+    craftMediaAlt: 'dataFussaSakeCraftMediaAlt',
+    ctaSub: 'dataFussaSakeCtaSub',
+    stickyCta: 'dataFussaSakeStickyCta',
+  },
+  'produce-akiruno': {
+    name: 'dataAkirunoProduceName',
+    lead: 'dataAkirunoProduceStoryLead',
+    area: 'areaAkiruno',
+    history: 'dataAkirunoProduceHistory',
+    story: 'dataAkirunoProduceStory',
+    makerName: 'dataAkirunoProduceStoryMakerName',
+    makerRole: 'dataAkirunoProduceStoryMakerRole',
+    maker: 'dataAkirunoProduceMaker',
+    craft: 'dataAkirunoProduceStoryCraft',
+    howToEnjoy: 'dataAkirunoProduceHowToEnjoy',
+    challenge: 'dataAkirunoProduceStoryChallenge',
+    support: 'dataAkirunoProduceStorySupport',
+    heroKicker: 'dataAkirunoProduceHeroKicker',
+    craftMediaAlt: 'dataAkirunoProduceCraftMediaAlt',
+    ctaSub: 'dataAkirunoProduceCtaSub',
+    stickyCta: 'dataAkirunoProduceStickyCta',
+  },
 };
 
 const STORY_REQUIRED_FIELDS: readonly StoryField[] = [
@@ -433,6 +530,8 @@ export function routeAdvisoryKeys(routeId: string): { advisory: LocaleKey; sourc
 /** Route-specific estimate disclosure, keyed by route id. */
 export const ROUTE_ESTIMATE_KEYS: Record<string, LocaleKey> = {
   'hachioji-ginger-journey': 'dataHachiojiRouteEstimate',
+  'fussa-sake-journey': 'dataFussaSakeRouteEstimate',
+  'akiruno-seasonal-produce-journey': 'dataAkirunoRouteEstimate',
 };
 
 /** Resolve a route's editorial estimate disclosure, if the route has one. */

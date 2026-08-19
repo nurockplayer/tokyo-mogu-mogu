@@ -234,6 +234,152 @@ const SOURCE_HACHIOJI_COORDINATES: DataSource = {
   originalId: 'geocoded-hachioji-places',
 };
 
+/** Fussa × Tokyo Sake journey sources (Issue #243). */
+const SOURCE_FUSSA_ROUTE: DataSource = {
+  name: '編集部（福生の2つの酒蔵と水のまち）',
+  url: 'https://www.city.fussa.tokyo.jp/sightseeing/amuse/1005934.html',
+  sourceType: 'official_web',
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation',
+  originalId: 'seed-route-fussa-sake',
+};
+
+const SOURCE_FUSSA_CITY_SAKE: DataSource = {
+  name: '福生市「Tokyo SAKE Brewery」',
+  url: 'https://www.city.fussa.tokyo.jp/sightseeing/amuse/1005934.html',
+  sourceType: 'official_web',
+  sourceUpdatedAt: '2017-01-10',
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation',
+  originalId: 'fussa-tokyo-sake-brewery-1005934',
+};
+
+const SOURCE_FUSSA_WATER: DataSource = {
+  name: '福生市「水と緑の味わいコース」',
+  url: 'https://www.city.fussa.tokyo.jp/sightseeing/jousui/1004236.html',
+  sourceType: 'official_web',
+  sourceUpdatedAt: '2016-07-28',
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation',
+  originalId: 'fussa-water-heritage-course-1004236',
+};
+
+const SOURCE_FUSSA_TAMURA: DataSource = {
+  name: '田村酒造場（公式）',
+  url: 'https://www.tamurashuzojo.com/page/kura',
+  sourceType: 'business',
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation',
+  originalId: 'tamura-shuzojo-kura',
+};
+
+const SOURCE_FUSSA_ISHIKAWA: DataSource = {
+  name: '石川酒造（公式アクセス）',
+  url: 'https://www.tamajiman.co.jp/access/',
+  sourceType: 'business',
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation',
+  originalId: 'ishikawa-shuzo-access',
+};
+
+const SOURCE_FUSSA_KURUMIRU: DataSource = {
+  name: '福生市「くるみる ふっさ」',
+  url: 'https://www.city.fussa.tokyo.jp/map/shiyakusho/1001605.html',
+  sourceType: 'official_web',
+  sourceUpdatedAt: '2021-06-16',
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation',
+  originalId: 'kurumiru-fussa-1001605',
+};
+
+const SOURCE_FUSSA_COORDINATES: DataSource = {
+  name: 'MapFan（福生駅周辺の概略座標）',
+  url: 'https://mapfan.com/spots/SCH%2CJ%2CSN',
+  sourceType: 'business',
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation',
+  originalId: 'geocoded-fussa-station-area',
+};
+
+const SOURCE_FUSSA_ISHIKAWA_COORDINATES: DataSource = {
+  name: 'OpenStreetMap（石川酒造）',
+  url: 'https://www.openstreetmap.org/node/2365654277',
+  license: 'ODbL 1.0',
+  sourceType: 'open_data',
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation',
+  originalId: 'geocoded-fussa-ishikawa-shuzo',
+};
+
+/** Akiruno seasonal-produce journey sources (Issue #244). */
+const SOURCE_AKIRUNO_ROUTE: DataSource = {
+  name: '編集部（秋川の旬の農産物）',
+  url: 'https://www.city.akiruno.tokyo.jp/kanko/0000001109.html',
+  sourceType: 'official_web',
+  sourceUpdatedAt: '2024-04-09',
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation',
+  originalId: 'seed-route-akiruno-seasonal-produce',
+};
+
+const SOURCE_AKIRUNO_SPECIALTIES: DataSource = {
+  name: 'あきる野市「特産品」',
+  url: 'https://www.city.akiruno.tokyo.jp/kanko/0000001109.html',
+  sourceType: 'official_web',
+  sourceUpdatedAt: '2024-04-09',
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation',
+  originalId: 'akiruno-specialty-foods-1109',
+};
+
+const SOURCE_AKIRUNO_FARMERS: DataSource = {
+  name: 'あきる野市「秋川ファーマーズセンター」',
+  url: 'https://www.city.akiruno.tokyo.jp/0000003556.html',
+  sourceType: 'official_web',
+  sourceUpdatedAt: '2026-04-02',
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation',
+  originalId: 'akiruno-farmers-center-3556',
+};
+
+const SOURCE_AKIRUNO_SEOTO: DataSource = {
+  name: '秋川渓谷 瀬音の湯（公式アクセス）',
+  url: 'https://www.seotonoyu.jp/access',
+  sourceType: 'business',
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation',
+  originalId: 'seoto-no-yu-access',
+};
+
+const SOURCE_AKIRUNO_GOTOKYO: DataSource = {
+  name: '東京の観光公式サイト GO TOKYO「秋川渓谷 瀬音の湯」',
+  url: 'https://www.gotokyo.org/jp/spot/397/index.html',
+  sourceType: 'official_web',
+  sourceUpdatedAt: '2025-10-31',
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation',
+  originalId: 'gotokyo-seoto-no-yu-397',
+};
+
+const SOURCE_AKIRUNO_FARMERS_COORDINATES: DataSource = {
+  name: 'OpenStreetMap（秋川ファーマーズセンター）',
+  url: 'https://www.openstreetmap.org/node/1668525947',
+  license: 'ODbL 1.0',
+  sourceType: 'open_data',
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation',
+  originalId: 'geocoded-akiruno-farmers-center',
+};
+
+const SOURCE_AKIRUNO_SEOTO_COORDINATES: DataSource = {
+  name: 'NAVITIME（瀬音の湯の概略座標）',
+  url: 'https://www.navitime.co.jp/poi?spot=02301-3000011',
+  sourceType: 'business',
+  retrievedAt: '2026-08-19',
+  verificationStatus: 'needs_confirmation',
+  originalId: 'geocoded-akiruno-seoto-no-yu',
+};
+
 /** Deterministic editorial model route — 奥多摩 × 東京わさび. */
 export const MODEL_ROUTES: ModelRoute[] = [
   {
@@ -605,6 +751,221 @@ export const MODEL_ROUTES: ModelRoute[] = [
       },
     },
   },
+  {
+    id: 'fussa-sake-journey',
+    nameJa: '福生の2つの酒蔵と水のまちをめぐる旅',
+    nameEn: 'Fussa Two Breweries & Water Heritage Journey',
+    areaJa: '福生',
+    areaEn: 'Fussa',
+    defaultDuration: 'half-day',
+    source: SOURCE_FUSSA_ROUTE,
+    sources: [
+      SOURCE_FUSSA_ROUTE,
+      SOURCE_FUSSA_CITY_SAKE,
+      SOURCE_FUSSA_WATER,
+      SOURCE_FUSSA_TAMURA,
+      SOURCE_FUSSA_ISHIKAWA,
+      SOURCE_FUSSA_KURUMIRU,
+      SOURCE_FUSSA_COORDINATES,
+      SOURCE_FUSSA_ISHIKAWA_COORDINATES,
+    ],
+    variants: {
+      'half-day': {
+        transportJa: '徒歩・JR青梅線（目安、現地の案内を確認）',
+        transportEn: 'Walking & JR Ome Line (estimate; check local guidance)',
+        totalMinutes: 230,
+        steps: [
+          {
+            placeId: 'fussa-tamura-shuzo',
+            stepNumber: 1,
+            stayMinutes: 55,
+            roleJa:
+              '福生駅から田村酒造場へ。文政5年（1822年）創業と紹介される酒蔵の物語をたどり、見学や販売の条件は公式情報で確認します。',
+            roleEn:
+              'Walk from Fussa Station to Tamura Shuzojo. Follow the story of a brewery founded in 1822, and check the official site for current visit and sales conditions.',
+          },
+          {
+            placeId: 'fussa-kurumiru',
+            stepNumber: 2,
+            stayMinutes: 25,
+            roleJa:
+              'くるみる ふっさで、市内の観光情報や名産品の情報を集めます。2つの酒蔵をめぐる最新の案内を出発前に確認しましょう。',
+            roleEn:
+              'Use Kurumiru Fussa to gather current sightseeing and local-product information before continuing to the second brewery.',
+          },
+          {
+            placeId: 'fussa-ishikawa-shuzo',
+            stepNumber: 3,
+            stayMinutes: 70,
+            roleJa:
+              '石川酒造で、福生に続く酒造りのもう一つの系譜をたどります。施設ごとの営業・見学条件は公式サイトで確認してください。',
+            roleEn:
+              'Trace Fussa’s other brewing lineage at Ishikawa Brewery. Check the operator site for current conditions by facility and visit type.',
+          },
+        ],
+        mobility: [
+          {
+            fromStep: 1,
+            toStep: 2,
+            mode: 'walk',
+            durationMinutes: 10,
+            labelJa: '徒歩（目安）',
+            labelEn: 'Walk (estimate)',
+          },
+          {
+            fromStep: 2,
+            toStep: 3,
+            mode: 'train',
+            durationMinutes: 35,
+            labelJa: 'JR青梅線・徒歩（目安）',
+            labelEn: 'JR Ome Line & walk (estimate)',
+          },
+        ],
+      },
+      '1-day': {
+        transportJa: '徒歩・JR青梅線（目安、現地の案内を確認）',
+        transportEn: 'Walking & JR Ome Line (estimate; check local guidance)',
+        totalMinutes: 320,
+        steps: [
+          {
+            placeId: 'fussa-tamura-shuzo',
+            stepNumber: 1,
+            stayMinutes: 80,
+            roleJa:
+              '田村酒造場で、福生の水と酒造りの歴史を知ります。見学・予約・販売の条件は当日の公式情報を確認してください。',
+            roleEn:
+              'Spend time with Fussa’s water and brewing history at Tamura Shuzojo. Confirm tours, reservations, and sales conditions from the current official information.',
+          },
+          {
+            placeId: 'fussa-kurumiru',
+            stepNumber: 2,
+            stayMinutes: 40,
+            roleJa:
+              '観光案内所で、酒蔵や水のまちに関する最新情報と、当日立ち寄れる場所を確認します。',
+            roleEn:
+              'At the tourist information center, check current options for the breweries and Fussa’s water heritage.',
+          },
+          {
+            placeId: 'fussa-ishikawa-shuzo',
+            stepNumber: 3,
+            stayMinutes: 100,
+            roleJa:
+              '石川酒造の酒造りと地域に根づく施設を訪ねます。食事・売店・見学の営業条件は施設ごとに異なるため、公式サイトで確認します。',
+            roleEn:
+              'Explore Ishikawa Brewery and its place in the local area. Dining, retail, and tour conditions vary by facility, so check the current official site.',
+          },
+        ],
+        mobility: [
+          {
+            fromStep: 1,
+            toStep: 2,
+            mode: 'walk',
+            durationMinutes: 10,
+            labelJa: '徒歩（目安）',
+            labelEn: 'Walk (estimate)',
+          },
+          {
+            fromStep: 2,
+            toStep: 3,
+            mode: 'train',
+            durationMinutes: 35,
+            labelJa: 'JR青梅線・徒歩（目安）',
+            labelEn: 'JR Ome Line & walk (estimate)',
+          },
+        ],
+      },
+    },
+  },
+  {
+    id: 'akiruno-seasonal-produce-journey',
+    nameJa: 'あきる野の旬と秋川渓谷をめぐる旅',
+    nameEn: 'Akiruno Seasonal Produce & Akikawa Valley Journey',
+    areaJa: 'あきる野',
+    areaEn: 'Akiruno',
+    defaultDuration: 'half-day',
+    source: SOURCE_AKIRUNO_ROUTE,
+    sources: [
+      SOURCE_AKIRUNO_ROUTE,
+      SOURCE_AKIRUNO_SPECIALTIES,
+      SOURCE_AKIRUNO_FARMERS,
+      SOURCE_AKIRUNO_SEOTO,
+      SOURCE_AKIRUNO_GOTOKYO,
+      SOURCE_AKIRUNO_FARMERS_COORDINATES,
+      SOURCE_AKIRUNO_SEOTO_COORDINATES,
+    ],
+    variants: {
+      'half-day': {
+        transportJa: 'JR五日市線・西東京バス（目安、現地の案内を確認）',
+        transportEn: 'JR Itsukaichi Line & Nishi Tokyo Bus (estimate; check local guidance)',
+        totalMinutes: 240,
+        steps: [
+          {
+            placeId: 'akiruno-farmers-center',
+            stepNumber: 1,
+            stayMinutes: 70,
+            roleJa:
+              '秋川ファーマーズセンターで、生産者が持ち寄る農産物と季節の直売に出会います。のらぼう菜や旬の品は時期と当日の入荷を確認します。',
+            roleEn:
+              'Meet seasonal direct sales from local producers at Akikawa Farmers Center. Check the season and day’s stock for norabō greens and other produce.',
+          },
+          {
+            placeId: 'akiruno-seoto-no-yu',
+            stepNumber: 2,
+            stayMinutes: 90,
+            roleJa:
+              '瀬音の湯で、秋川渓谷の自然と、地元食材の料理・物産販売につながる食の場を訪ねます。営業内容は公式サイトで確認してください。',
+            roleEn:
+              'Continue to Seoto-no-Yu, where the Akikawa valley setting meets local-food dining and specialty sales. Check the official site for current operations.',
+          },
+        ],
+        mobility: [
+          {
+            fromStep: 1,
+            toStep: 2,
+            mode: 'bus',
+            durationMinutes: 35,
+            labelJa: '西東京バス（目安）',
+            labelEn: 'Nishi Tokyo Bus (estimate)',
+          },
+        ],
+      },
+      '1-day': {
+        transportJa: 'JR五日市線・西東京バス（目安、現地の案内を確認）',
+        transportEn: 'JR Itsukaichi Line & Nishi Tokyo Bus (estimate; check local guidance)',
+        totalMinutes: 360,
+        steps: [
+          {
+            placeId: 'akiruno-farmers-center',
+            stepNumber: 1,
+            stayMinutes: 100,
+            roleJa:
+              '直売所で、のらぼう菜やとうもろこし、梨など、季節に応じた秋川の農産物を探します。品揃えは季節と当日の入荷で変わります。',
+            roleEn:
+              'Take time with Akikawa’s seasonal produce, from norabō greens to corn and pears when in season. Stock changes with the season and day.',
+          },
+          {
+            placeId: 'akiruno-seoto-no-yu',
+            stepNumber: 2,
+            stayMinutes: 150,
+            roleJa:
+              '秋川渓谷の景色と、地元食材を使う料理・物産販売の情報をつなげます。最新の営業・交通情報を出発前に確認してください。',
+            roleEn:
+              'Connect the Akikawa valley landscape with local-food dining and specialty sales. Check current operations and transport before setting out.',
+          },
+        ],
+        mobility: [
+          {
+            fromStep: 1,
+            toStep: 2,
+            mode: 'bus',
+            durationMinutes: 35,
+            labelJa: '西東京バス（目安）',
+            labelEn: 'Nishi Tokyo Bus (estimate)',
+          },
+        ],
+      },
+    },
+  },
 ];
 
 /**
@@ -750,6 +1111,80 @@ export const SPOT_DETAILS: Record<string, SpotDetail> = {
     tags: {},
     origin: 'editorial',
     source: SOURCE_HACHIOJI_HERITAGE,
+  },
+  // ---- 福生 × 東京の日本酒 slice (#243) -------------------------------
+  'fussa-tamura-shuzo': {
+    placeId: 'fussa-tamura-shuzo',
+    roleJa:
+      '田村酒造場は福生で酒造りを続ける酒蔵です。見学・販売・営業日の条件は、当日の公式情報を確認してください。',
+    roleEn:
+      'Tamura Shuzojo is a Fussa brewery with a long brewing history. Check the current official information for tours, sales, and opening conditions.',
+    practical: {
+      accessJa: 'JR青梅線「福生駅」から徒歩約10分（公式案内）。',
+      accessEn: 'About a 10-minute walk from JR Ome Line Fussa Station (official guidance).',
+      hoursJa: '営業時間は公式案内の営業カレンダーを確認してください。',
+      hoursEn: 'Check the operator’s calendar for current opening hours.',
+    },
+    tags: {},
+    origin: 'editorial',
+    source: SOURCE_FUSSA_TAMURA,
+  },
+  'fussa-kurumiru': {
+    placeId: 'fussa-kurumiru',
+    roleJa:
+      'くるみる ふっさは、福生の観光情報や名産品の情報を集める案内所です。酒蔵めぐりの最新情報を確認する中継点にします。',
+    roleEn:
+      'Kurumiru Fussa is a visitor center for local sightseeing information and products — a useful checkpoint for current brewery-visit details.',
+    tags: {},
+    origin: 'editorial',
+    source: SOURCE_FUSSA_KURUMIRU,
+  },
+  'fussa-ishikawa-shuzo': {
+    placeId: 'fussa-ishikawa-shuzo',
+    roleJa:
+      '石川酒造は福生・熊川にある酒蔵です。日本酒を軸にした施設や飲食・販売の条件は、公式サイトで確認してください。',
+    roleEn:
+      'Ishikawa Brewery is a Fussa brewery in Kumagawa. Check the official site for current conditions across its sake, dining, and retail facilities.',
+    practical: {
+      accessJa: '東京都福生市熊川1番地。施設ごとの営業条件は公式アクセスページを確認してください。',
+      accessEn: 'Kumagawa 1, Fussa. Check the official access page for current conditions by facility.',
+    },
+    tags: {},
+    origin: 'editorial',
+    source: SOURCE_FUSSA_ISHIKAWA,
+  },
+  // ---- あきる野 × 秋川の旬の農産物 slice (#244) ----------------------
+  'akiruno-farmers-center': {
+    placeId: 'akiruno-farmers-center',
+    roleJa:
+      '秋川ファーマーズセンターは、生産者の農産物を季節ごとに買える直売所です。品揃えと不定休の有無は当日に確認します。',
+    roleEn:
+      'Akikawa Farmers Center is a direct-sale market for producers’ seasonal farm products. Check stock and any irregular closure on the day.',
+    practical: {
+      accessJa: 'JR五日市線「東秋留駅」から徒歩約8分（公式案内）。',
+      accessEn: 'About an 8-minute walk from JR Itsukaichi Line Higashi-Akiru Station (official guidance).',
+      hoursJa: '9:00〜17:00',
+      hoursEn: '9:00 a.m.–5:00 p.m.',
+      closedDaysJa: '12月31日〜1月4日。不定休あり。',
+      closedDaysEn: 'Closed December 31–January 4; irregular closures may apply.',
+    },
+    tags: {},
+    origin: 'editorial',
+    source: SOURCE_AKIRUNO_FARMERS,
+  },
+  'akiruno-seoto-no-yu': {
+    placeId: 'akiruno-seoto-no-yu',
+    roleJa:
+      '瀬音の湯は、秋川渓谷の自然の中で地元食材の料理や地域の物産販売につながる施設です。最新の営業内容と交通を公式サイトで確認します。',
+    roleEn:
+      'Seoto-no-Yu sits in the Akikawa valley and connects the landscape with local-food dining and regional products. Check the official site for current operations and transport.',
+    practical: {
+      accessJa: '武蔵五日市駅から西東京バス「瀬音の湯」下車すぐ。バス時刻は当日確認してください。',
+      accessEn: 'From Musashi-Itsukaichi Station, take a Nishi Tokyo Bus to the Seoto-no-Yu stop. Check bus times on the day.',
+    },
+    tags: {},
+    origin: 'editorial',
+    source: SOURCE_AKIRUNO_SEOTO,
   },
 };
 

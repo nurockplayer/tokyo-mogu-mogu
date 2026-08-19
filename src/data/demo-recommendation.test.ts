@@ -5,6 +5,8 @@ import { recommendCandidates } from '../lib/recommendation';
 import {
   DEMO_OME_SAKE_CANDIDATE_ID,
   DEMO_HACHIOJI_GINGER_CANDIDATE_ID,
+  DEMO_FUSSA_SAKE_CANDIDATE_ID,
+  DEMO_AKIRUNO_PRODUCE_CANDIDATE_ID,
   DEMO_RECOMMENDATION_CANDIDATES,
   DEMO_RECOMMENDATION_CANDIDATE_ID,
   demoRecommendationMatchTags,
@@ -13,7 +15,7 @@ import { PILOT_JOURNEY } from './pilot-journey';
 
 describe('8/23 demo recommendation configuration (#123 / #127 / #163)', () => {
   it('keeps the production-ready candidates aligned with their journeys', () => {
-    expect(DEMO_RECOMMENDATION_CANDIDATES).toHaveLength(3);
+    expect(DEMO_RECOMMENDATION_CANDIDATES).toHaveLength(5);
 
     // The frozen Okutama × Tokyo Wasabi demo golden path (#127) stays the
     // deterministic default.
@@ -46,6 +48,28 @@ describe('8/23 demo recommendation configuration (#123 / #127 / #163)', () => {
       regionId: 'hachioji',
       foodCultureId: 'hachioji-ginger',
       journeyId: 'hachioji-ginger-journey',
+      availability: 'ready',
+      tourismDispersion: { status: 'unknown' },
+    });
+
+    const fussa = DEMO_RECOMMENDATION_CANDIDATES.find(
+      (c) => c.id === DEMO_FUSSA_SAKE_CANDIDATE_ID,
+    );
+    expect(fussa).toMatchObject({
+      regionId: 'fussa',
+      foodCultureId: 'sake-fussa',
+      journeyId: 'fussa-sake-journey',
+      availability: 'ready',
+      tourismDispersion: { status: 'unknown' },
+    });
+
+    const akiruno = DEMO_RECOMMENDATION_CANDIDATES.find(
+      (c) => c.id === DEMO_AKIRUNO_PRODUCE_CANDIDATE_ID,
+    );
+    expect(akiruno).toMatchObject({
+      regionId: 'akiruno',
+      foodCultureId: 'produce-akiruno',
+      journeyId: 'akiruno-seasonal-produce-journey',
       availability: 'ready',
       tourismDispersion: { status: 'unknown' },
     });

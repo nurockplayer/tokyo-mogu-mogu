@@ -6,6 +6,8 @@ import { deriveVerificationStatus } from '../lib/verification';
 import {
   DEMO_OME_SAKE_CANDIDATE_ID,
   DEMO_HACHIOJI_GINGER_CANDIDATE_ID,
+  DEMO_FUSSA_SAKE_CANDIDATE_ID,
+  DEMO_AKIRUNO_PRODUCE_CANDIDATE_ID,
   DEMO_RECOMMENDATION_CANDIDATES,
   DEMO_RECOMMENDATION_CANDIDATE_ID,
 } from './demo-recommendation';
@@ -39,17 +41,9 @@ const WASABI_ENTRY: SliceManifestEntry = {
  * the 8/23 release surface via a single `enabled: false` change. Pure selector
  * tests supply a manifest instead of mutating global runtime state.
  */
-const DISABLED_OME_MANIFEST: readonly SliceManifestEntry[] = [
-  WASABI_ENTRY,
-  {
-    candidateId: DEMO_OME_SAKE_CANDIDATE_ID,
-    maturity: 'playable',
-    enabled: false,
-    releaseRole: 'secondary',
-    discover: 'visible',
-    recommendationEligible: true,
-  },
-];
+const DISABLED_OME_MANIFEST: readonly SliceManifestEntry[] = SLICE_MANIFEST.map((entry) =>
+  entry.candidateId === DEMO_OME_SAKE_CANDIDATE_ID ? { ...entry, enabled: false } : entry,
+);
 
 /** A playable Ome slice that is only preview-visible (never production Discover). */
 const PREVIEW_OME_MANIFEST: readonly SliceManifestEntry[] = [
@@ -115,11 +109,15 @@ describe('Slice Manifest registry (#170)', () => {
       DEMO_RECOMMENDATION_CANDIDATE_ID,
       DEMO_OME_SAKE_CANDIDATE_ID,
       DEMO_HACHIOJI_GINGER_CANDIDATE_ID,
+      DEMO_FUSSA_SAKE_CANDIDATE_ID,
+      DEMO_AKIRUNO_PRODUCE_CANDIDATE_ID,
     ]);
     expect(discoverableCandidates(DEMO_RECOMMENDATION_CANDIDATES).map((c) => c.id)).toEqual([
       DEMO_RECOMMENDATION_CANDIDATE_ID,
       DEMO_OME_SAKE_CANDIDATE_ID,
       DEMO_HACHIOJI_GINGER_CANDIDATE_ID,
+      DEMO_FUSSA_SAKE_CANDIDATE_ID,
+      DEMO_AKIRUNO_PRODUCE_CANDIDATE_ID,
     ]);
   });
 
@@ -175,7 +173,7 @@ describe('Slice Manifest registry (#170)', () => {
     );
     expect(
       hiddenManagedFoodCultureIds(DEMO_RECOMMENDATION_CANDIDATES, RESEARCH_HIDDEN_MANIFEST),
-    ).toEqual(new Set(['sake-ome', 'hachioji-ginger']));
+    ).toEqual(new Set(['sake-ome', 'hachioji-ginger', 'sake-fussa', 'produce-akiruno']));
   });
 
   it('playable maturity never claims record-level verification (#129 stays authoritative)', () => {
@@ -202,10 +200,15 @@ describe('Slice Manifest release boundary (#171 migration)', () => {
       DEMO_RECOMMENDATION_CANDIDATES,
       DISABLED_OME_MANIFEST,
     );
-    expect(recommended.map((c) => c.id)).toEqual([DEMO_RECOMMENDATION_CANDIDATE_ID]);
+    expect(recommended.map((c) => c.id)).toEqual([
+      DEMO_RECOMMENDATION_CANDIDATE_ID,
+      DEMO_HACHIOJI_GINGER_CANDIDATE_ID,
+      DEMO_FUSSA_SAKE_CANDIDATE_ID,
+      DEMO_AKIRUNO_PRODUCE_CANDIDATE_ID,
+    ]);
 
-    // The answers that would select sake when enabled now see only the wasabi
-    // candidate through the same reusable engine — no engine redesign.
+    // The answers that would select Ome when enabled now see the remaining
+    // candidates through the same reusable engine — no engine redesign.
     const decision = recommendCandidates(
       createDefaultFoodProfile('2026-08-12T00:00:00.000Z'),
       {
@@ -217,8 +220,8 @@ describe('Slice Manifest release boundary (#171 migration)', () => {
       },
       recommended,
     );
-    expect(decision.selected?.candidate.id).toBe(DEMO_RECOMMENDATION_CANDIDATE_ID);
-    expect(decision.ranked.map((e) => e.candidate.id)).toEqual([DEMO_RECOMMENDATION_CANDIDATE_ID]);
+    expect(decision.selected?.candidate.id).not.toBe(DEMO_OME_SAKE_CANDIDATE_ID);
+    expect(decision.ranked.map((e) => e.candidate.id)).not.toContain(DEMO_OME_SAKE_CANDIDATE_ID);
   });
 
   it('a single enabled:false change removes Ome from Discover playable-slice selection', () => {
@@ -226,7 +229,12 @@ describe('Slice Manifest release boundary (#171 migration)', () => {
       DEMO_RECOMMENDATION_CANDIDATES,
       DISABLED_OME_MANIFEST,
     );
-    expect(discoverable.map((c) => c.id)).toEqual([DEMO_RECOMMENDATION_CANDIDATE_ID]);
+    expect(discoverable.map((c) => c.id)).toEqual([
+      DEMO_RECOMMENDATION_CANDIDATE_ID,
+      DEMO_HACHIOJI_GINGER_CANDIDATE_ID,
+      DEMO_FUSSA_SAKE_CANDIDATE_ID,
+      DEMO_AKIRUNO_PRODUCE_CANDIDATE_ID,
+    ]);
   });
 
   it('disabling Ome does not delete or invalidate its canonical Story/Route/Spot path', () => {
@@ -258,6 +266,6 @@ describe('Slice Manifest release boundary (#171 migration)', () => {
     // editorial "other cultures" section (#171).
     expect(
       hiddenManagedFoodCultureIds(DEMO_RECOMMENDATION_CANDIDATES, DISABLED_OME_MANIFEST),
-    ).toEqual(new Set(['sake-ome', 'hachioji-ginger']));
+    ).toEqual(new Set(['sake-ome']));
   });
 });

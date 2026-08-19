@@ -146,6 +146,7 @@ export const strings = {
     areaOkutama: '奥多摩',
     areaOme: '青梅',
     areaHachioji: '八王子',
+    areaFussa: '福生',
     areaHamura: '羽村',
     areaAkiruno: 'あきる野',
     areaHinode: '日の出',
@@ -721,6 +722,107 @@ export const strings = {
       '市内の農産物や地域の食文化に出会える道の駅です。八王子ショウガは季節商品として扱われるため、当日の入荷は現地で確認します。',
     dataHachiojiCastleRole:
       '八王子市の文化財一覧に掲載される滝山城跡。食材を買う場所ではなく、八王子ショウガを育ててきた加住・滝山の土地の背景をたどる文化財ストップです。',
+    // Fussa × Tokyo Sake slice (Issue #243).
+    dataFussaSakeName: '福生の日本酒',
+    dataFussaSakeDescription:
+      '田村酒造場と石川酒造。多摩川と水の記憶をたどりながら、福生の日本酒文化に出会う。',
+    dataFussaSakeStory:
+      '福生には、江戸時代から続く田村酒造場と石川酒造という2つの酒蔵があります。酒蔵の歴史と多摩川・玉川上水の水の記憶を、歩いてたどる食文化の旅です。',
+    dataFussaSakeHistory:
+      '福生市の公式案内では、田村酒造場は文政5年（1822年）、石川酒造は文久3年（1863年）の創業と紹介されています。',
+    dataFussaSakeMaker:
+      '田村酒造場は「嘉泉」、石川酒造は「多満自慢」などを醸す、福生の2つの酒蔵です。見学・販売の条件は各公式サイトで確認します。',
+    dataFussaSakeHowToEnjoy:
+      'まず観光案内所で最新情報を集め、2つの酒蔵を訪ねます。見学・試飲・飲食・商品の在庫や営業条件は当日に各公式サイトで確認してください。',
+    dataFussaSakeStoryLead:
+      '福生に続く2つの酒蔵と、水のまちの記憶。その背景を、読み物としてたどってみましょう。',
+    dataFussaSakeStoryMakerName: '福生の2つの酒蔵',
+    dataFussaSakeStoryMakerRole:
+      '田村酒造場と石川酒造。福生で長く酒造りを続ける、2つの作り手です。',
+    dataFussaSakeStoryCraft:
+      '田村酒造場は1822年、石川酒造は1863年の創業と福生市に紹介されています。酒蔵を訪ねるときは、見学・販売・営業の最新条件を確認します。',
+    dataFussaSakeStoryChallenge:
+      '酒蔵の営業内容や見学条件、商品の在庫は時期や施設ごとに変わります。古い案内をそのまま旅程にせず、出発前と当日に公式情報を確認することが大切です。',
+    dataFussaSakeStorySupport:
+      '福生の酒蔵を知り、無理のない形で訪ねたり購入したりすることが、地域の作り手を知る入口になります。',
+    dataFussaSakeHeroKicker: '福生の日本酒の物語',
+    dataFussaSakeCraftMediaAlt: '福生の2つの酒蔵と多摩川・水のまちのイメージ',
+    dataFussaSakeCtaSub:
+      '田村酒造場、くるみる ふっさ、石川酒造をめぐり、福生の日本酒と水のまちの背景に出会うルートです。',
+    dataFussaSakeStickyCta: '福生の酒蔵の旅を見る',
+    dataFussaSakeRouteName: '福生の2つの酒蔵と水のまちをめぐる旅',
+    dataFussaSakeRouteTransport: '徒歩・JR青梅線（目安、現地の案内を確認）',
+    dataFussaSakeRouteEstimate:
+      '所要時間・滞在時間・移動時間は編集部の目安です。見学・営業・交通の最新情報を確認してください。',
+    dataFussaSakeStopRoleTamura:
+      '福生駅から田村酒造場へ。文政5年（1822年）創業と紹介される酒蔵の物語をたどり、見学や販売の条件は公式情報で確認します。',
+    dataFussaSakeStopRoleKurumiru:
+      'くるみる ふっさで、市内の観光情報や名産品の情報を集めます。2つの酒蔵をめぐる最新の案内を確認しましょう。',
+    dataFussaSakeStopRoleIshikawa:
+      '石川酒造で、福生に続く酒造りのもう一つの系譜をたどります。施設ごとの営業・見学条件は公式サイトで確認してください。',
+    dataPlaceFussaTamuraName: '田村酒造場',
+    dataPlaceFussaKurumiruName: 'くるみる ふっさ',
+    dataPlaceFussaIshikawaName: '石川酒造',
+    dataFussaTamuraRole:
+      '田村酒造場は福生で酒造りを続ける酒蔵です。見学・販売・営業日の条件は、当日の公式情報を確認してください。',
+    dataFussaTamuraAccess: 'JR青梅線「福生駅」から徒歩約10分（公式案内）。',
+    dataFussaKurumiruRole:
+      'くるみる ふっさは、福生の観光情報や名産品の情報を集める案内所です。酒蔵めぐりの最新情報を確認する中継点にします。',
+    dataFussaIshikawaRole:
+      '石川酒造は福生・熊川にある酒蔵です。日本酒を軸にした施設や飲食・販売の条件は、公式サイトで確認してください。',
+    dataFussaIshikawaAccess:
+      '東京都福生市熊川1番地。施設ごとの営業条件は公式アクセスページを確認してください。',
+    dataFussaMobilityTrain: 'JR青梅線・徒歩（目安）',
+    // Akiruno seasonal-produce slice (Issue #244).
+    dataAkirunoProduceName: '秋川の旬の農産物',
+    dataAkirunoProduceDescription:
+      'のらぼう菜や旬の農産物を入口に、あきる野の直売所と秋川渓谷を訪ねる食文化。',
+    dataAkirunoProduceStory:
+      'あきる野の五日市地区では、江戸時代からのらぼう菜の栽培が続いてきました。とうもろこしや梨など季節ごとの農産物を、直売所と秋川渓谷の食の場からたどります。',
+    dataAkirunoProduceHistory:
+      'あきる野市の公式案内は、のらぼう菜を江戸時代から五日市地区で栽培されてきた野菜として紹介しています。とうもろこしの収穫期は初夏、梨は夏から秋が目安です。',
+    dataAkirunoProduceMaker:
+      '秋川ファーマーズセンターでは、生産者が自ら育てた農畜産物を持ち寄り、季節の品を販売しています。入荷は日や季節で変わります。',
+    dataAkirunoProduceHowToEnjoy:
+      '直売所で当日の旬を探し、瀬音の湯の地元食材の料理や物産販売につなげます。季節・営業・在庫は出発前と現地で確認してください。',
+    dataAkirunoProduceStoryLead:
+      'のらぼう菜をはじめとする秋川の旬。その背景を、読み物としてたどってみましょう。',
+    dataAkirunoProduceStoryMakerName: '秋川の生産者',
+    dataAkirunoProduceStoryMakerRole:
+      '自ら育てた農産物を直売所へ届ける、あきる野の生産者たち。',
+    dataAkirunoProduceStoryCraft:
+      'あきる野市は、五日市地区で江戸時代から栽培されてきたのらぼう菜や、季節ごとの農産物を紹介しています。',
+    dataAkirunoProduceStoryChallenge:
+      '旬の農産物は、季節や当日の入荷で出会えるものが変わります。確実な在庫を約束するのではなく、現地で旬を探すこと自体を旅の一部にします。',
+    dataAkirunoProduceStorySupport:
+      '直売所で季節の品を選び、地域の食の場を訪ねることが、生産者と土地の営みに関心を寄せる一歩になります。',
+    dataAkirunoProduceHeroKicker: '秋川の旬の農産物の物語',
+    dataAkirunoProduceCraftMediaAlt: '秋川の季節の農産物と秋川渓谷のイメージ',
+    dataAkirunoProduceCtaSub:
+      '秋川ファーマーズセンターと瀬音の湯をめぐり、旬の農産物と秋川渓谷の食の場に出会うルートです。',
+    dataAkirunoProduceStickyCta: 'あきる野の旅を見る',
+    dataAkirunoRouteName: 'あきる野の旬と秋川渓谷をめぐる旅',
+    dataAkirunoRouteTransport: 'JR五日市線・西東京バス（目安、現地の案内を確認）',
+    dataAkirunoRouteEstimate:
+      '所要時間・滞在時間・移動時間は編集部の目安です。季節・営業・交通の最新情報を確認してください。',
+    dataAkirunoStopRoleFarmersHalfDay:
+      '秋川ファーマーズセンターで、生産者が持ち寄る農産物と季節の直売に出会います。のらぼう菜や旬の品は時期と当日の入荷を確認します。',
+    dataAkirunoStopRoleFarmersFullDay:
+      '直売所で、のらぼう菜やとうもろこし、梨など、季節に応じた秋川の農産物を探します。品揃えは季節と当日の入荷で変わります。',
+    dataAkirunoStopRoleSeotoHalfDay:
+      '瀬音の湯で、秋川渓谷の自然と、地元食材の料理・物産販売につながる食の場を訪ねます。営業内容は公式サイトで確認してください。',
+    dataAkirunoStopRoleSeotoFullDay:
+      '秋川渓谷の景色と、地元食材を使う料理・物産販売の情報をつなげます。最新の営業・交通情報を出発前に確認してください。',
+    dataPlaceAkirunoFarmersName: '秋川ファーマーズセンター',
+    dataPlaceAkirunoSeotoName: '秋川渓谷 瀬音の湯',
+    dataAkirunoFarmersRole:
+      '秋川ファーマーズセンターは、生産者の農産物を季節ごとに買える直売所です。品揃えと不定休の有無は当日に確認します。',
+    dataAkirunoFarmersAccess: 'JR五日市線「東秋留駅」から徒歩約8分（公式案内）。',
+    dataAkirunoSeotoRole:
+      '瀬音の湯は、秋川渓谷の自然の中で地元食材の料理や地域の物産販売につながる施設です。最新の営業内容と交通を公式サイトで確認します。',
+    dataAkirunoSeotoAccess:
+      '武蔵五日市駅から西東京バス「瀬音の湯」下車すぐ。バス時刻は当日確認してください。',
+    dataAkirunoMobilityBus: '西東京バス（目安）',
   },
   en: {
     appName: 'Tokyo Mogu Mogu',
@@ -845,6 +947,7 @@ export const strings = {
     areaOkutama: 'Okutama',
     areaOme: 'Ome',
     areaHachioji: 'Hachioji',
+    areaFussa: 'Fussa',
     areaHamura: 'Hamura',
     areaAkiruno: 'Akiruno',
     areaHinode: 'Hinode',
@@ -1435,6 +1538,107 @@ export const strings = {
       'A roadside station where visitors can meet Hachioji produce and local food culture. Hachioji ginger is seasonal, so check the day’s stock on site.',
     dataHachiojiCastleRole:
       'Listed in Hachioji’s cultural-property data, Takiyama Castle Ruins provide heritage context for the Kazumi and Takiyama land behind Hachioji ginger; they are not a food venue.',
+    // Fussa × Tokyo Sake slice (Issue #243).
+    dataFussaSakeName: 'Fussa Sake',
+    dataFussaSakeDescription:
+      'Meet Fussa sake through Tamura Shuzojo and Ishikawa Brewery, following the city’s water and brewing heritage.',
+    dataFussaSakeStory:
+      'Fussa is home to two breweries with Edo-period roots: Tamura Shuzojo and Ishikawa Brewery. This food-culture journey follows their history and the city’s relationship with Tama River water and canals.',
+    dataFussaSakeHistory:
+      'Fussa City identifies Tamura Shuzojo as founded in 1822 and Ishikawa Brewery as founded in 1863.',
+    dataFussaSakeMaker:
+      'Fussa’s two breweries include Tamura Shuzojo, maker of Kasen, and Ishikawa Brewery, maker of Tamajiman. Check each operator’s current site for visits and sales.',
+    dataFussaSakeHowToEnjoy:
+      'Start by checking current information at the tourist center, then visit both breweries. Confirm tours, tastings, dining, stock, and opening conditions with each operator on the day.',
+    dataFussaSakeStoryLead:
+      'Two breweries and a water-shaped town in Fussa. Follow their background as a story.',
+    dataFussaSakeStoryMakerName: 'Fussa’s two breweries',
+    dataFussaSakeStoryMakerRole:
+      'Tamura Shuzojo and Ishikawa Brewery — two makers with a long brewing history in Fussa.',
+    dataFussaSakeStoryCraft:
+      'Fussa City introduces Tamura Shuzojo as founded in 1822 and Ishikawa Brewery as founded in 1863. Check current tour, sales, and opening conditions before visiting.',
+    dataFussaSakeStoryChallenge:
+      'Opening details, tour conditions, and stock vary by season and facility. Instead of treating an old guide as a promise, check official information before and during the trip.',
+    dataFussaSakeStorySupport:
+      'Learning about Fussa’s breweries, then visiting or buying thoughtfully, is one way to connect with the makers and the place.',
+    dataFussaSakeHeroKicker: 'The Story of Fussa Sake',
+    dataFussaSakeCraftMediaAlt: 'Illustrative image of Fussa’s two breweries, the Tama River, and its water heritage',
+    dataFussaSakeCtaSub:
+      'A route through Tamura Shuzojo, Kurumiru Fussa, and Ishikawa Brewery, connecting Fussa sake with the city’s water heritage.',
+    dataFussaSakeStickyCta: 'Start the Fussa brewery journey',
+    dataFussaSakeRouteName: 'Fussa Two Breweries & Water Heritage Journey',
+    dataFussaSakeRouteTransport: 'Walking & JR Ome Line (estimate; check local guidance)',
+    dataFussaSakeRouteEstimate:
+      'Total, stay, and travel times are editorial estimates; check current tour, opening, and transport information.',
+    dataFussaSakeStopRoleTamura:
+      'Walk from Fussa Station to Tamura Shuzojo. Follow the story of a brewery founded in 1822, and check the official site for current visit and sales conditions.',
+    dataFussaSakeStopRoleKurumiru:
+      'Use Kurumiru Fussa to gather current sightseeing and local-product information before continuing to the second brewery.',
+    dataFussaSakeStopRoleIshikawa:
+      'Trace Fussa’s other brewing lineage at Ishikawa Brewery. Check the operator site for current conditions by facility and visit type.',
+    dataPlaceFussaTamuraName: 'Tamura Shuzojo',
+    dataPlaceFussaKurumiruName: 'Kurumiru Fussa',
+    dataPlaceFussaIshikawaName: 'Ishikawa Brewery',
+    dataFussaTamuraRole:
+      'Tamura Shuzojo is a Fussa brewery with a long brewing history. Check the current official information for tours, sales, and opening conditions.',
+    dataFussaTamuraAccess: 'About a 10-minute walk from JR Ome Line Fussa Station (official guidance).',
+    dataFussaKurumiruRole:
+      'Kurumiru Fussa is a visitor center for local sightseeing information and products — a useful checkpoint for current brewery-visit details.',
+    dataFussaIshikawaRole:
+      'Ishikawa Brewery is a Fussa brewery in Kumagawa. Check the official site for current conditions across its sake, dining, and retail facilities.',
+    dataFussaIshikawaAccess:
+      'Kumagawa 1, Fussa. Check the official access page for current conditions by facility.',
+    dataFussaMobilityTrain: 'JR Ome Line & walk (estimate)',
+    // Akiruno seasonal-produce slice (Issue #244).
+    dataAkirunoProduceName: 'Akikawa Seasonal Produce',
+    dataAkirunoProduceDescription:
+      'Discover Akiruno through seasonal produce such as norabō greens, direct sales, and the Akikawa valley.',
+    dataAkirunoProduceStory:
+      'In Akiruno’s Itsukaichi area, norabō greens have been cultivated since the Edo period. Follow seasonal produce such as corn and pears through direct-sale and local-food places in the Akikawa valley.',
+    dataAkirunoProduceHistory:
+      'Akiruno City describes norabō greens as a vegetable cultivated in the Itsukaichi area since the Edo period. The city’s seasonal guide places corn in early summer and pears in summer to autumn.',
+    dataAkirunoProduceMaker:
+      'At Akikawa Farmers Center, producers bring their own farm products for seasonal direct sale. What is available changes by day and season.',
+    dataAkirunoProduceHowToEnjoy:
+      'Look for what is in season at the farmers center, then connect it with local-food dining and specialty sales at Seoto-no-Yu. Confirm season, operations, and stock before and during the trip.',
+    dataAkirunoProduceStoryLead:
+      'Akikawa’s seasonal produce, including norabō greens. Follow its background as a story.',
+    dataAkirunoProduceStoryMakerName: 'Akikawa producers',
+    dataAkirunoProduceStoryMakerRole:
+      'Akiruno producers who grow farm products and bring them to direct-sale markets.',
+    dataAkirunoProduceStoryCraft:
+      'Akiruno City introduces norabō greens cultivated in the Itsukaichi area since the Edo period, alongside other seasonal produce.',
+    dataAkirunoProduceStoryChallenge:
+      'The produce available changes with the season and the day’s deliveries. Instead of promising stock, make the search for what is in season part of the trip.',
+    dataAkirunoProduceStorySupport:
+      'Choosing seasonal goods at a direct-sale market and visiting local-food places is a way to pay attention to producers and the land.',
+    dataAkirunoProduceHeroKicker: 'The Story of Akikawa Seasonal Produce',
+    dataAkirunoProduceCraftMediaAlt: 'Illustrative image of Akikawa seasonal produce and the Akikawa valley',
+    dataAkirunoProduceCtaSub:
+      'A route through Akikawa Farmers Center and Seoto-no-Yu, connecting seasonal produce with food places in the valley.',
+    dataAkirunoProduceStickyCta: 'Start the Akiruno journey',
+    dataAkirunoRouteName: 'Akiruno Seasonal Produce & Akikawa Valley Journey',
+    dataAkirunoRouteTransport: 'JR Itsukaichi Line & Nishi Tokyo Bus (estimate; check local guidance)',
+    dataAkirunoRouteEstimate:
+      'Total, stay, and travel times are editorial estimates; check current seasonal, opening, and transport information.',
+    dataAkirunoStopRoleFarmersHalfDay:
+      'Meet seasonal direct sales from local producers at Akikawa Farmers Center. Check the season and day’s stock for norabō greens and other produce.',
+    dataAkirunoStopRoleFarmersFullDay:
+      'Take time with Akikawa’s seasonal produce, from norabō greens to corn and pears when in season. Stock changes with the season and day.',
+    dataAkirunoStopRoleSeotoHalfDay:
+      'Continue to Seoto-no-Yu, where the Akikawa valley setting meets local-food dining and specialty sales. Check the official site for current operations.',
+    dataAkirunoStopRoleSeotoFullDay:
+      'Connect the Akikawa valley landscape with local-food dining and specialty sales. Check current operations and transport before setting out.',
+    dataPlaceAkirunoFarmersName: 'Akikawa Farmers Center',
+    dataPlaceAkirunoSeotoName: 'Akikawa Keikoku Seoto-no-Yu',
+    dataAkirunoFarmersRole:
+      'Akikawa Farmers Center is a direct-sale market for producers’ seasonal farm products. Check stock and any irregular closure on the day.',
+    dataAkirunoFarmersAccess: 'About an 8-minute walk from JR Itsukaichi Line Higashi-Akiru Station (official guidance).',
+    dataAkirunoSeotoRole:
+      'Seoto-no-Yu sits in the Akikawa valley and connects the landscape with local-food dining and regional products. Check the official site for current operations and transport.',
+    dataAkirunoSeotoAccess:
+      'From Musashi-Itsukaichi Station, take a Nishi Tokyo Bus to the Seoto-no-Yu stop. Check bus times on the day.',
+    dataAkirunoMobilityBus: 'Nishi Tokyo Bus (estimate)',
   },
   'zh-TW': {
     appName: '東京もぐもぐ',
@@ -1559,6 +1763,7 @@ export const strings = {
     areaOkutama: '奧多摩',
     areaOme: '青梅',
     areaHachioji: '八王子',
+    areaFussa: '福生',
     areaHamura: '羽村',
     areaAkiruno: 'あきる野',
     areaHinode: '日の出',
@@ -2124,6 +2329,104 @@ export const strings = {
       '可以遇見市內農產品與地方飲食文化的道之驛。八王子薑是季節商品，當日是否進貨請在現場確認。',
     dataHachiojiCastleRole:
       '滝山城跡登載於八王子市文化財資料。這裡不是購買食材的地方，而是追尋孕育八王子薑的加住・滝山土地背景的文化財景點。',
+    // Fussa × Tokyo Sake slice (Issue #243).
+    dataFussaSakeName: '福生的日本酒',
+    dataFussaSakeDescription:
+      '透過田村酒造場與石川酒造，沿著福生的水與釀酒歷史認識當地日本酒文化。',
+    dataFussaSakeStory:
+      '福生有兩座可追溯至江戶時代的酒藏：田村酒造場與石川酒造。這趟飲食文化旅程，將沿著酒藏歷史與多摩川、水道所形塑的城市記憶前進。',
+    dataFussaSakeHistory:
+      '福生市官方介紹指出，田村酒造場創業於1822年，石川酒造創業於1863年。',
+    dataFussaSakeMaker:
+      '福生的兩座酒藏包括釀造「嘉泉」的田村酒造場，以及釀造「多満自慢」的石川酒造。參訪與販售條件請查看各經營者的最新網站。',
+    dataFussaSakeHowToEnjoy:
+      '先在觀光服務中心確認最新資訊，再造訪兩座酒藏。見學、試飲、餐飲、庫存與營業條件，請於當天向各經營者確認。',
+    dataFussaSakeStoryLead:
+      '福生延續至今的兩座酒藏，以及水之城的記憶。讓我們以閱讀的方式走進它們的背景。',
+    dataFussaSakeStoryMakerName: '福生的兩座酒藏',
+    dataFussaSakeStoryMakerRole:
+      '田村酒造場與石川酒造——在福生長久延續釀酒文化的兩位釀酒者。',
+    dataFussaSakeStoryCraft:
+      '福生市介紹田村酒造場創業於1822年、石川酒造創業於1863年。造訪前請確認最新的見學、販售與營業條件。',
+    dataFussaSakeStoryChallenge:
+      '營業內容、見學條件與商品庫存會因季節與設施而變動。不要把舊資訊當成保證，請在出發前與旅途中確認官方資訊。',
+    dataFussaSakeStorySupport:
+      '先認識福生的酒藏，再以合適的方式造訪或購買，是與作り手及這片土地建立連結的一步。',
+    dataFussaSakeHeroKicker: '福生日本酒的故事',
+    dataFussaSakeCraftMediaAlt: '福生兩座酒藏、多摩川與水之城背景的示意圖',
+    dataFussaSakeCtaSub:
+      '走訪田村酒造場、くるみる ふっさ與石川酒造，將福生日本酒與水之城的背景連結起來。',
+    dataFussaSakeStickyCta: '展開福生酒藏之旅',
+    dataFussaSakeRouteName: '福生兩座酒藏與水之城之旅',
+    dataFussaSakeRouteTransport: '步行・JR青梅線（估算，請確認現地指引）',
+    dataFussaSakeRouteEstimate:
+      '總時間、停留時間與移動時間為編輯部估算；請確認最新的見學、營業與交通資訊。',
+    dataFussaSakeStopRoleTamura:
+      '從福生站步行前往田村酒造場。追尋一座官方介紹為1822年創業的酒藏故事，參訪與販售條件請查看官方網站。',
+    dataFussaSakeStopRoleKurumiru:
+      '在くるみる ふっさ收集最新觀光與在地名產資訊，再前往第二座酒藏。',
+    dataFussaSakeStopRoleIshikawa:
+      '在石川酒造追尋福生另一條釀酒脈絡。各設施與參訪形式的最新條件請查看經營者網站。',
+    dataPlaceFussaTamuraName: '田村酒造場',
+    dataPlaceFussaKurumiruName: 'くるみる ふっさ',
+    dataPlaceFussaIshikawaName: '石川酒造',
+    dataFussaTamuraRole:
+      '田村酒造場是在福生延續釀酒歷史的酒藏。見學、販售與營業日條件請確認當天的官方資訊。',
+    dataFussaTamuraAccess: '從JR青梅線福生站步行約10分鐘（官方指引）。',
+    dataFussaKurumiruRole:
+      'くるみる ふっさ是收集福生觀光與名產資訊的服務中心，也可作為確認酒藏最新資訊的中繼點。',
+    dataFussaIshikawaRole:
+      '石川酒造位於福生熊川。以日本酒為主的設施、餐飲與販售條件請查看官方網站。',
+    dataFussaIshikawaAccess: '東京都福生市熊川1番地。各設施的營業條件請查看官方交通頁面。',
+    dataFussaMobilityTrain: 'JR青梅線・步行（估算）',
+    // Akiruno seasonal-produce slice (Issue #244).
+    dataAkirunoProduceName: '秋川當季農產',
+    dataAkirunoProduceDescription:
+      '以野良坊菜等當季農產為入口，走訪秋留野的直賣所與秋川溪谷飲食場景。',
+    dataAkirunoProduceStory:
+      '秋留野五日市地區自江戶時代起持續栽培野良坊菜。從直賣所與秋川溪谷的飲食場景，追尋玉米、梨等隨季節而變的農產。',
+    dataAkirunoProduceHistory:
+      '秋留野市官方將野良坊菜介紹為自江戶時代起在五日市地區栽培的蔬菜。市方季節指南將玉米的採收期放在初夏，梨則約為夏季至秋季。',
+    dataAkirunoProduceMaker:
+      '秋川 Farmers Center 由生產者帶來自己栽培的農畜產品，販售當季商品。可買到的品項會隨日期與季節變動。',
+    dataAkirunoProduceHowToEnjoy:
+      '先在直賣所尋找當日當季的品項，再連結到瀨音之湯的在地食材料理與物產販售。季節、營業與庫存請在出發前及現場確認。',
+    dataAkirunoProduceStoryLead:
+      '以野良坊菜為代表的秋川當季風味。讓我們以閱讀的方式走進它們的背景。',
+    dataAkirunoProduceStoryMakerName: '秋川的生產者',
+    dataAkirunoProduceStoryMakerRole: '在秋留野栽培農產，並將商品帶到直賣所的生產者們。',
+    dataAkirunoProduceStoryCraft:
+      '秋留野市介紹五日市地區自江戶時代起栽培的野良坊菜，以及隨季節變化的其他農產。',
+    dataAkirunoProduceStoryChallenge:
+      '直賣所能遇到的農產會受季節與當日進貨影響。與其保證庫存，不如把尋找當季品本身當成旅程的一部分。',
+    dataAkirunoProduceStorySupport:
+      '在直賣所選購當季商品，再造訪在地飲食場景，是關心生產者與土地生活的一種方式。',
+    dataAkirunoProduceHeroKicker: '秋川當季農產的故事',
+    dataAkirunoProduceCraftMediaAlt: '秋川當季農產與秋川溪谷景色的示意圖',
+    dataAkirunoProduceCtaSub:
+      '走訪秋川 Farmers Center 與瀨音之湯，將當季農產與溪谷中的飲食場景連結起來。',
+    dataAkirunoProduceStickyCta: '展開秋留野之旅',
+    dataAkirunoRouteName: '秋留野當季農產與秋川溪谷之旅',
+    dataAkirunoRouteTransport: 'JR五日市線・西東京巴士（估算，請確認現地指引）',
+    dataAkirunoRouteEstimate:
+      '總時間、停留時間與移動時間為編輯部估算；請確認最新的季節、營業與交通資訊。',
+    dataAkirunoStopRoleFarmersHalfDay:
+      '在秋川 Farmers Center 遇見生產者帶來的農產與當季直賣。野良坊菜等品項請確認季節與當日進貨。',
+    dataAkirunoStopRoleFarmersFullDay:
+      '慢慢尋找野良坊菜、玉米、梨等隨季節而變的秋川農產。品項會隨季節與當日進貨變動。',
+    dataAkirunoStopRoleSeotoHalfDay:
+      '在瀨音之湯走進秋川溪谷的自然，連結地元食材料理與物產販售。最新營業內容請查看官方網站。',
+    dataAkirunoStopRoleSeotoFullDay:
+      '將秋川溪谷景色與在地食材料理、物產販售的資訊連結起來。出發前請確認最新營業與交通資訊。',
+    dataPlaceAkirunoFarmersName: '秋川 Farmers Center',
+    dataPlaceAkirunoSeotoName: '秋川溪谷 瀨音之湯',
+    dataAkirunoFarmersRole:
+      '秋川 Farmers Center 是可按季節購買生產者農產的直賣所。庫存與臨時休業請在當天確認。',
+    dataAkirunoFarmersAccess: '從JR五日市線東秋留站步行約8分鐘（官方指引）。',
+    dataAkirunoSeotoRole:
+      '瀨音之湯位於秋川溪谷自然中，連結在地食材料理與地區物產販售。最新營業內容與交通請查看官方網站。',
+    dataAkirunoSeotoAccess: '從武藏五日市站搭乘西東京巴士，在「瀨音之湯」下車即達。公車時刻請於當天確認。',
+    dataAkirunoMobilityBus: '西東京巴士（估算）',
   },
 } as const;
 

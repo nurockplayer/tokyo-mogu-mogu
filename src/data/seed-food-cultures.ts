@@ -427,4 +427,157 @@ export const FOOD_CULTURES: FoodCulture[] = [
     ],
     origin: 'editorial',
   },
+  // ---- 福生 × 東京の日本酒 slice (#243) -------------------------------
+  // Two active breweries, city heritage context, and current operator pages
+  // make this a distinct, source-backed Fussa journey. Official-web sources
+  // without an explicit reuse license are paraphrased only.
+  {
+    id: 'sake-fussa',
+    nameJa: '福生の日本酒',
+    nameEn: 'Fussa Sake',
+    category: 'processed-food',
+    area: 'fussa',
+    descriptionJa: '田村酒造場と石川酒造。多摩川と水の記憶をたどりながら、福生の日本酒文化に出会う。',
+    descriptionEn:
+      'Meet Fussa sake through Tamura Shuzojo and Ishikawa Brewery, following the city’s water and brewing heritage.',
+    storyJa:
+      '福生には、江戸時代から続く田村酒造場と石川酒造という2つの酒蔵があります。酒蔵の歴史と多摩川・玉川上水の水の記憶を、歩いてたどる食文化の旅です。',
+    storyEn:
+      'Fussa is home to two breweries with Edo-period roots: Tamura Shuzojo and Ishikawa Brewery. This food-culture journey follows their history and the city’s relationship with Tama River water and canals.',
+    historyJa:
+      '福生市の公式案内では、田村酒造場は文政5年（1822年）、石川酒造は文久3年（1863年）の創業と紹介されています。',
+    historyEn:
+      'Fussa City identifies Tamura Shuzojo as founded in 1822 and Ishikawa Brewery as founded in 1863.',
+    makerJa:
+      '田村酒造場は「嘉泉」、石川酒造は「多満自慢」などを醸す、福生の2つの酒蔵です。見学・販売の条件は各公式サイトで確認します。',
+    makerEn:
+      'Fussa’s two breweries include Tamura Shuzojo, maker of Kasen, and Ishikawa Brewery, maker of Tamajiman. Check each operator’s current site for visits and sales.',
+    howToEnjoyJa:
+      'まず観光案内所で最新情報を集め、2つの酒蔵を訪ねます。見学・試飲・飲食・商品の在庫や営業条件は当日に各公式サイトで確認してください。',
+    howToEnjoyEn:
+      'Start by checking current information at the tourist center, then visit both breweries. Confirm tours, tastings, dining, stock, and opening conditions with each operator on the day.',
+    image: 'sake-fussa',
+    hintJa: '福生駅周辺の案内所から、2つの酒蔵と水のまちの物語をたどろう。',
+    hintEn: 'Start near Fussa Station and follow the story of two breweries and a water-shaped town.',
+    placeIds: ['fussa-tamura-shuzo', 'fussa-ishikawa-shuzo'],
+    unlockMethod: 'location-checkin',
+    sources: [
+      {
+        name: '福生市「Tokyo SAKE Brewery」',
+        url: 'https://www.city.fussa.tokyo.jp/sightseeing/amuse/1005934.html',
+        sourceType: 'official_web',
+        sourceUpdatedAt: '2017-01-10',
+        retrievedAt: '2026-08-19',
+        verificationStatus: 'needs_confirmation',
+        originalId: 'fussa-tokyo-sake-brewery-1005934',
+      },
+      {
+        name: '福生市「福生の名刹（寺院）と分水、水と緑の味わいコース」',
+        url: 'https://www.city.fussa.tokyo.jp/sightseeing/jousui/1004236.html',
+        sourceType: 'official_web',
+        sourceUpdatedAt: '2016-07-28',
+        retrievedAt: '2026-08-19',
+        verificationStatus: 'needs_confirmation',
+        originalId: 'fussa-water-heritage-course-1004236',
+      },
+      {
+        name: '田村酒造場（公式）',
+        url: 'https://www.tamurashuzojo.com/page/kura',
+        sourceType: 'business',
+        retrievedAt: '2026-08-19',
+        verificationStatus: 'needs_confirmation',
+        originalId: 'tamura-shuzojo-kura',
+      },
+      {
+        name: '石川酒造（公式アクセス）',
+        url: 'https://www.tamajiman.co.jp/access/',
+        sourceType: 'business',
+        retrievedAt: '2026-08-19',
+        verificationStatus: 'needs_confirmation',
+        originalId: 'ishikawa-shuzo-access',
+      },
+      {
+        name: '福生市「くるみる ふっさ」',
+        url: 'https://www.city.fussa.tokyo.jp/map/shiyakusho/1001605.html',
+        sourceType: 'official_web',
+        sourceUpdatedAt: '2021-06-16',
+        retrievedAt: '2026-08-19',
+        verificationStatus: 'needs_confirmation',
+        originalId: 'kurumiru-fussa-1001605',
+      },
+    ],
+    origin: 'editorial',
+  },
+  // ---- あきる野 × 秋川の旬の農産物 slice (#244) ----------------------
+  // The 2024 specialty-food page is retained with its own sourceUpdatedAt so
+  // seasonal claims stay honest; the Farmers Center page was refreshed in 2026.
+  {
+    id: 'produce-akiruno',
+    nameJa: '秋川の旬の農産物',
+    nameEn: 'Akikawa Seasonal Produce',
+    category: 'produce',
+    area: 'akiruno',
+    descriptionJa: 'のらぼう菜や旬の農産物を入口に、あきる野の直売所と秋川渓谷を訪ねる食文化。',
+    descriptionEn:
+      'Discover Akiruno through seasonal produce such as norabō greens, direct sales, and the Akikawa valley.',
+    storyJa:
+      'あきる野の五日市地区では、江戸時代からのらぼう菜の栽培が続いてきました。とうもろこしや梨など季節ごとの農産物を、直売所と秋川渓谷の食の場からたどります。',
+    storyEn:
+      'In Akiruno’s Itsukaichi area, norabō greens have been cultivated since the Edo period. Follow seasonal produce such as corn and pears through direct-sale and local-food places in the Akikawa valley.',
+    historyJa:
+      'あきる野市の公式案内は、のらぼう菜を江戸時代から五日市地区で栽培されてきた野菜として紹介しています。とうもろこしの収穫期は初夏、梨は夏から秋が目安です。',
+    historyEn:
+      'Akiruno City describes norabō greens as a vegetable cultivated in the Itsukaichi area since the Edo period. The city’s seasonal guide places corn in early summer and pears in summer to autumn.',
+    makerJa:
+      '秋川ファーマーズセンターでは、生産者が自ら育てた農畜産物を持ち寄り、季節の品を販売しています。入荷は日や季節で変わります。',
+    makerEn:
+      'At Akikawa Farmers Center, producers bring their own farm products for seasonal direct sale. What is available changes by day and season.',
+    howToEnjoyJa:
+      '直売所で当日の旬を探し、瀬音の湯の地元食材の料理や物産販売につなげます。季節・営業・在庫は出発前と現地で確認してください。',
+    howToEnjoyEn:
+      'Look for what is in season at the farmers center, then connect it with local-food dining and specialty sales at Seoto-no-Yu. Confirm season, operations, and stock before and during the trip.',
+    image: 'produce-akiruno',
+    hintJa: '秋川ファーマーズセンターで旬を探し、渓谷の食の場へ向かおう。',
+    hintEn: 'Begin at Akikawa Farmers Center, then continue to a local-food place in the valley.',
+    placeIds: ['akiruno-farmers-center', 'akiruno-seoto-no-yu'],
+    unlockMethod: 'location-checkin',
+    sources: [
+      {
+        name: 'あきる野市「特産品」',
+        url: 'https://www.city.akiruno.tokyo.jp/kanko/0000001109.html',
+        sourceType: 'official_web',
+        sourceUpdatedAt: '2024-04-09',
+        retrievedAt: '2026-08-19',
+        verificationStatus: 'needs_confirmation',
+        originalId: 'akiruno-specialty-foods-1109',
+      },
+      {
+        name: 'あきる野市「秋川ファーマーズセンター」',
+        url: 'https://www.city.akiruno.tokyo.jp/0000003556.html',
+        sourceType: 'official_web',
+        sourceUpdatedAt: '2026-04-02',
+        retrievedAt: '2026-08-19',
+        verificationStatus: 'needs_confirmation',
+        originalId: 'akiruno-farmers-center-3556',
+      },
+      {
+        name: '秋川渓谷 瀬音の湯（公式アクセス）',
+        url: 'https://www.seotonoyu.jp/access',
+        sourceType: 'business',
+        retrievedAt: '2026-08-19',
+        verificationStatus: 'needs_confirmation',
+        originalId: 'seoto-no-yu-access',
+      },
+      {
+        name: '東京の観光公式サイト GO TOKYO「秋川渓谷 瀬音の湯」',
+        url: 'https://www.gotokyo.org/jp/spot/397/index.html',
+        sourceType: 'official_web',
+        sourceUpdatedAt: '2025-10-31',
+        retrievedAt: '2026-08-19',
+        verificationStatus: 'needs_confirmation',
+        originalId: 'gotokyo-seoto-no-yu-397',
+      },
+    ],
+    origin: 'editorial',
+  },
 ];

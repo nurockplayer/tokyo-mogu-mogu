@@ -10,9 +10,8 @@
 import { describe, expect, it } from 'vitest';
 import {
   DEMO_OME_SAKE_CANDIDATE_ID,
-  DEMO_HACHIOJI_GINGER_CANDIDATE_ID,
   DEMO_RECOMMENDATION_CANDIDATES,
-  DEMO_RECOMMENDATION_CANDIDATE_ID,
+  SLICE_MANIFEST,
   discoverableCandidates,
   foodCultures,
   hiddenManagedFoodCultureIds,
@@ -35,32 +34,9 @@ const PILOT_PLACES = [
  * A test-only manifest simulating the team decision to keep Ome/Sawai out of
  * the 8/23 production Discover surface via a single `enabled: false` change.
  */
-const DISABLED_OME_MANIFEST: readonly SliceManifestEntry[] = [
-  {
-    candidateId: DEMO_RECOMMENDATION_CANDIDATE_ID,
-    maturity: 'playable',
-    enabled: true,
-    releaseRole: 'primary',
-    discover: 'visible',
-    recommendationEligible: true,
-  },
-  {
-    candidateId: DEMO_OME_SAKE_CANDIDATE_ID,
-    maturity: 'playable',
-    enabled: false,
-    releaseRole: 'secondary',
-    discover: 'visible',
-    recommendationEligible: true,
-  },
-  {
-    candidateId: DEMO_HACHIOJI_GINGER_CANDIDATE_ID,
-    maturity: 'playable',
-    enabled: true,
-    releaseRole: 'secondary',
-    discover: 'visible',
-    recommendationEligible: true,
-  },
-];
+const DISABLED_OME_MANIFEST: readonly SliceManifestEntry[] = SLICE_MANIFEST.map((entry) =>
+  entry.candidateId === DEMO_OME_SAKE_CANDIDATE_ID ? { ...entry, enabled: false } : entry,
+);
 
 describe('Discover selection (#93)', () => {
   it('features the verified first-pilot food culture', () => {
@@ -72,6 +48,8 @@ describe('Discover selection (#93)', () => {
       'wasabi-okutama',
       'sake-ome',
       'hachioji-ginger',
+      'sake-fussa',
+      'produce-akiruno',
     ]);
   });
 
@@ -136,12 +114,20 @@ describe('Discover release gating (#171)', () => {
   it('keeps release-managed cultures out of the future section whenever they are playable', () => {
     // Default config: both slices are playable, so neither falls back into the
     // editorial "other cultures" list.
-    const playableCultureIds = new Set(['wasabi-okutama', 'sake-ome', 'hachioji-ginger']);
+    const playableCultureIds = new Set([
+      'wasabi-okutama',
+      'sake-ome',
+      'hachioji-ginger',
+      'sake-fussa',
+      'produce-akiruno',
+    ]);
     const hiddenManaged = hiddenManagedFoodCultureIds(DEMO_RECOMMENDATION_CANDIDATES);
     const other = discoverOtherCultures(foodCultures, playableCultureIds, hiddenManaged);
     const ids = other.map((fc) => fc.id);
     expect(ids).not.toContain('wasabi-okutama');
     expect(ids).not.toContain('sake-ome');
     expect(ids).not.toContain('hachioji-ginger');
+    expect(ids).not.toContain('sake-fussa');
+    expect(ids).not.toContain('produce-akiruno');
   });
 });

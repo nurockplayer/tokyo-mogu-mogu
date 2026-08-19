@@ -133,6 +133,21 @@ describe('spot details (#45 S6)', () => {
           expect(p.hoursJa).toBe('10:00〜17:00');
           expect(p.hoursEn).toContain('5:00 p.m.');
           expect(p.closedDaysJa).toContain('月曜日');
+        } else if (detail.placeId === 'fussa-tamura-shuzo') {
+          expect(p.accessJa).toContain('徒歩約10分');
+          expect(p.accessEn).toContain('10-minute walk');
+          expect(p.hoursJa).toContain('営業カレンダー');
+          expect(p.hoursEn).toContain('calendar');
+        } else if (detail.placeId === 'fussa-ishikawa-shuzo') {
+          expect(p.accessJa).toContain('熊川1番地');
+          expect(p.accessEn).toContain('Kumagawa 1');
+        } else if (detail.placeId === 'akiruno-farmers-center') {
+          expect(p.hoursJa).toBe('9:00〜17:00');
+          expect(p.hoursEn).toContain('5:00 p.m.');
+          expect(p.closedDaysJa).toContain('12月31日');
+        } else if (detail.placeId === 'akiruno-seoto-no-yu') {
+          expect(p.accessJa).toContain('瀬音の湯');
+          expect(p.accessEn).toContain('Seoto-no-Yu');
         } else {
           expect(p.hoursJa).toBeUndefined();
           expect(p.hoursEn).toBeUndefined();
