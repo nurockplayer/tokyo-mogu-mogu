@@ -35,7 +35,7 @@ async function reachExploration(page: Page): Promise<void> {
   await page.waitForURL('**/food-profile');
   await page.getByRole('button', { name: 'はじめる！' }).click();
   await page.getByLabel('ニックネーム').fill('ナナミ');
-  await page.getByRole('button', { name: 'これでお願いします！' }).click();
+  await page.getByTestId('fp-modal-submit').click();
   // Four-question dietary interview (presentation-only fixture).
   for (let i = 0; i < 4; i += 1) {
     await page.getByRole('button', { name: '送信' }).click();

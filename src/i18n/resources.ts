@@ -354,6 +354,10 @@ export const strings = {
     fpNicknamePlaceholder: '例：ナナミ',
     fpNicknameConfirm: 'これでお願いします！',
     fpNicknameSkip: 'スキップ',
+    fpNicknameModalTitle: '私は...',
+    fpNicknameModalSuffix: 'です',
+    fpNicknameModalSubmit: '送信',
+    fpNicknameReopen: 'ニックネームを入力する',
     // Phase 1 presentation-only dietary interview (Issue #224 — Figma 2:623 /
     // 3:959 / 3:1203 / 3:1500). Answers are local fixture state: never persisted
     // into the durable Food Profile, never a safety/compatibility claim.
@@ -386,7 +390,9 @@ export const strings = {
     fpIvNoDislike: '特になし',
     fpIvOther: '✏️ その他',
     fpIvFreeTextLabel: '食材を入力してください',
+    fpIvFreeTextPlaceholder: 'アレルギー食材',
     fpIvSend: '送信',
+    fpIvModalSubmit: '確定',
     fpIvSummaryTitle: 'ありがとうございます！🌿 あなたの食のプロフィールを登録しました。',
     fpNotEvaluated: '食事条件は未評価（デモのプロトタイプでは評価しません）',
     // Post-profile fork + accountless browse note (Issue #224 — Figma Talk12
@@ -1157,6 +1163,10 @@ export const strings = {
     fpNicknamePlaceholder: 'e.g. Nana',
     fpNicknameConfirm: 'That’s me!',
     fpNicknameSkip: 'Skip',
+    fpNicknameModalTitle: 'I am...',
+    fpNicknameModalSuffix: '.',
+    fpNicknameModalSubmit: 'Send',
+    fpNicknameReopen: 'Enter a nickname',
     // Phase 1 presentation-only dietary interview (Issue #224 — Figma 2:623 /
     // 3:959 / 3:1203 / 3:1500). Answers are local fixture state: never persisted
     // into the durable Food Profile, never a safety/compatibility claim.
@@ -1189,7 +1199,9 @@ export const strings = {
     fpIvNoDislike: 'None of these',
     fpIvOther: '✏️ Other',
     fpIvFreeTextLabel: 'Enter an ingredient',
+    fpIvFreeTextPlaceholder: 'Allergy ingredient',
     fpIvSend: 'Send',
+    fpIvModalSubmit: 'Confirm',
     fpIvSummaryTitle: 'Thank you! 🌿 Your food profile is registered.',
     fpNotEvaluated: 'Dietary conditions not evaluated (this demo prototype does not assess them)',
     // Post-profile fork + accountless browse note (Issue #224 — Figma Talk12
@@ -1970,6 +1982,10 @@ export const strings = {
     fpNicknamePlaceholder: '例如：奈奈美',
     fpNicknameConfirm: '就用這個！',
     fpNicknameSkip: '略過',
+    fpNicknameModalTitle: '我是...',
+    fpNicknameModalSuffix: '。',
+    fpNicknameModalSubmit: '送出',
+    fpNicknameReopen: '輸入暱稱',
     // Phase 1 presentation-only dietary interview (Issue #224 — Figma 2:623 /
     // 3:959 / 3:1203 / 3:1500). Answers are local fixture state: never persisted
     // into the durable Food Profile, never a safety/compatibility claim.
@@ -2002,7 +2018,9 @@ export const strings = {
     fpIvNoDislike: '都沒有',
     fpIvOther: '✏️ 其他',
     fpIvFreeTextLabel: '請輸入食材',
+    fpIvFreeTextPlaceholder: '過敏食材',
     fpIvSend: '送出',
+    fpIvModalSubmit: '確認',
     fpIvSummaryTitle: '謝謝你！🌿 你的飲食檔案已登錄。',
     fpNotEvaluated: '飲食條件未評估（此示範原型不進行評估）',
     // Post-profile fork + accountless browse note (Issue #224 — Figma Talk12
