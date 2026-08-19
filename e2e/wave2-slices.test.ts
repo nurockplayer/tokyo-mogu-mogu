@@ -20,6 +20,7 @@ const COPY = {
       cultureId: 'sake-fussa',
       candidateId: 'demo-tokyo-west-fussa-sake',
       story: '福生の日本酒',
+      area: '福生',
       route: '福生の2つの酒蔵と水のまちをめぐる旅',
       spot: '田村酒造場',
       resultCta: '福生の日本酒の物語を読む',
@@ -29,6 +30,7 @@ const COPY = {
       cultureId: 'produce-akiruno',
       candidateId: 'demo-tokyo-west-akiruno-produce',
       story: '秋川の旬の農産物',
+      area: 'あきる野',
       route: 'あきる野の旬と秋川渓谷をめぐる旅',
       spot: '秋川ファーマーズセンター',
       resultCta: '秋川の旬の農産物の物語を読む',
@@ -43,6 +45,7 @@ const COPY = {
       cultureId: 'sake-fussa',
       candidateId: 'demo-tokyo-west-fussa-sake',
       story: 'Fussa Sake',
+      area: 'Fussa',
       route: 'Fussa Two Breweries & Water Heritage Journey',
       spot: 'Tamura Shuzojo',
       resultCta: 'Read the Fussa Sake story',
@@ -52,6 +55,7 @@ const COPY = {
       cultureId: 'produce-akiruno',
       candidateId: 'demo-tokyo-west-akiruno-produce',
       story: 'Akikawa Seasonal Produce',
+      area: 'Akiruno',
       route: 'Akiruno Seasonal Produce & Akikawa Valley Journey',
       spot: 'Akikawa Farmers Center',
       resultCta: 'Read the Akikawa Seasonal Produce story',
@@ -66,6 +70,7 @@ const COPY = {
       cultureId: 'sake-fussa',
       candidateId: 'demo-tokyo-west-fussa-sake',
       story: '福生的日本酒',
+      area: '福生',
       route: '福生兩座酒藏與水之城之旅',
       spot: '田村酒造場',
       resultCta: '閱讀福生的日本酒的故事',
@@ -75,6 +80,7 @@ const COPY = {
       cultureId: 'produce-akiruno',
       candidateId: 'demo-tokyo-west-akiruno-produce',
       story: '秋川當季農產',
+      area: 'あきる野',
       route: '秋留野當季農產與秋川溪谷之旅',
       spot: '秋川 Farmers Center',
       resultCta: '閱讀秋川當季農產的故事',
@@ -145,7 +151,9 @@ async function playDiscoverChain(page: Page, locale: Locale, lane: Lane): Promis
 
   await setLocale(page, locale);
   await page.goto('/discover');
-  await page.getByRole('link', { name: copy.story }).click();
+  const storyLink = page.getByRole('link', { name: copy.story });
+  await expect(storyLink.locator('.discover-card__area')).toHaveText(copy.area);
+  await storyLink.click();
   await page.waitForURL(new RegExp(`/story/${copy.cultureId}`));
   await expect(page.getByRole('heading', { name: copy.story })).toBeVisible();
   await expect(page.locator('.s4-sources__summary')).toContainText(common.sources);

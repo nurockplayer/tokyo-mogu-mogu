@@ -16,6 +16,7 @@ const AREA_LABEL_KEY: Partial<Record<RegionId, LocaleKey>> = {
   okutama: 'areaOkutama',
   ome: 'areaOme',
   hachioji: 'areaHachioji',
+  fussa: 'areaFussa',
   hamura: 'areaHamura',
   akiruno: 'areaAkiruno',
   hinode: 'areaHinode',

@@ -773,7 +773,7 @@ export const MODEL_ROUTES: ModelRoute[] = [
       'half-day': {
         transportJa: '徒歩・JR青梅線（目安、現地の案内を確認）',
         transportEn: 'Walking & JR Ome Line (estimate; check local guidance)',
-        totalMinutes: 230,
+        totalMinutes: 195,
         steps: [
           {
             placeId: 'fussa-tamura-shuzo',
@@ -825,7 +825,7 @@ export const MODEL_ROUTES: ModelRoute[] = [
       '1-day': {
         transportJa: '徒歩・JR青梅線（目安、現地の案内を確認）',
         transportEn: 'Walking & JR Ome Line (estimate; check local guidance)',
-        totalMinutes: 320,
+        totalMinutes: 265,
         steps: [
           {
             placeId: 'fussa-tamura-shuzo',
@@ -897,7 +897,7 @@ export const MODEL_ROUTES: ModelRoute[] = [
       'half-day': {
         transportJa: 'JR五日市線・西東京バス（目安、現地の案内を確認）',
         transportEn: 'JR Itsukaichi Line & Nishi Tokyo Bus (estimate; check local guidance)',
-        totalMinutes: 240,
+        totalMinutes: 195,
         steps: [
           {
             placeId: 'akiruno-farmers-center',
@@ -932,7 +932,7 @@ export const MODEL_ROUTES: ModelRoute[] = [
       '1-day': {
         transportJa: 'JR五日市線・西東京バス（目安、現地の案内を確認）',
         transportEn: 'JR Itsukaichi Line & Nishi Tokyo Bus (estimate; check local guidance)',
-        totalMinutes: 360,
+        totalMinutes: 285,
         steps: [
           {
             placeId: 'akiruno-farmers-center',

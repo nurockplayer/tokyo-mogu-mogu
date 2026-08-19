@@ -63,6 +63,18 @@ describe('model routes (#45 S5)', () => {
     }
   });
 
+  it('keeps displayed route totals equal to stop and mobility durations', () => {
+    for (const route of MODEL_ROUTES) {
+      for (const duration of ['half-day', '1-day'] as RouteDuration[]) {
+        const variant = route.variants[duration];
+        const componentMinutes =
+          variant.steps.reduce((sum, step) => sum + step.stayMinutes, 0) +
+          variant.mobility.reduce((sum, segment) => sum + segment.durationMinutes, 0);
+        expect(variant.totalMinutes, `${route.id} ${duration}`).toBe(componentMinutes);
+      }
+    }
+  });
+
   it('route step numbers are 1-based and consecutive', () => {
     const route = getRouteById('okutama-wasabi-journey');
     for (const duration of ['half-day', '1-day'] as RouteDuration[]) {
