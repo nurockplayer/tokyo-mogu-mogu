@@ -62,7 +62,7 @@ describe('codeChangedSurfaces', () => {
     ]);
     const bySurface = new Map(surfaces.map((s) => [s.surface, s.codeFiles]));
     expect(bySurface.get('Landing')).toContain('src/pages/s0s3/LandingPage.tsx');
-    expect(bySurface.has('Story footer CTA')).toBe(true); // via resources.ts
+    expect(bySurface.has('Sticky story CTA')).toBe(true); // via resources.ts
   });
 
   it('ignores non-watched surfaces (cross-cutting deviations)', () => {
