@@ -130,16 +130,18 @@ Each eligible evaluation exposes:
 
 Each excluded evaluation exposes explicit hard-exclusion codes. Cautions are
 never converted into positive match reasons. Scores must not be rendered as a
-percentage; the approved meaning of a match percentage remains unresolved.
+percentage; Product UI exposes ordinal rank and bounded reasons only (#255).
 
 ## Demo integration / デモ実装境界
 
-`src/data/demo-recommendation.ts` contains the Hackathon demo candidate list
-(Okutama × Tokyo Wasabi primary + Ome/Sawai × sake secondary). `ResultPage`
-sends Food Profile + Exploration Conditions + that candidate list through the
-shared contract. Adding a future verified `青梅 × 日本酒` or
-`八王子 × 地域野菜` candidate requires data/config, not new region-specific
-branches in the ranker.
+`src/data/demo-recommendation.ts` contains the Hackathon release candidate list;
+the Slice Manifest currently exposes five source-backed, playable journeys.
+`ResultPage` sends Food Profile + Exploration Conditions + that candidate list
+through the shared contract and renders the selected journey plus the next two
+eligible evaluations from the same deterministic decision. Internal additive
+scores remain ordering-only and are never rendered as percentages. Adding a
+future verified Region × FoodCulture candidate requires data/config, not new
+region-specific branches in the ranker.
 
 The existing Result tags remain localized presentation for the approved S3
 screen, but are now derived only from the selected candidate's bounded reason

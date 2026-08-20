@@ -1,21 +1,18 @@
 /**
  * Result page (Issue #78 reframe of S3; Issue #217 Phase 1).
  *
- * Selects through the reusable #123 recommendation contract. Phase 1 keeps the
- * Okutama × Tokyo Wasabi journey as the default golden path while allowing the
- * enabled source-backed Ome/Sawai and Hachioji journeys to be selected from
- * distinct current-trip answers. The durable Product contract remains
- * geography-independent; the Slice Manifest gates production exposure.
+ * Selects and ranks through the reusable #123 recommendation contract. The
+ * first card is the selected journey; the next two are real, release-eligible
+ * alternatives from the same deterministic decision (Issue #255). Phase 1
+ * keeps Okutama × Tokyo Wasabi as the default golden path while the durable
+ * Product contract remains geography-independent.
  * The result reflects the durable Food Profile (dietary-consideration state) +
  * the current-trip Exploration answers (match-reason tags). On successful
  * result creation it hands off to the MOGU Recent contract (#94).
  *
- * The `96%` match is Figma prototype presentation only — it is not a real
- * recommendation-accuracy metric and no scoring infrastructure backs it.
- * The primary CTA routes to the S4 story (/story/<foodCultureId>) and the
- * secondary CTA lets the user re-run the current Exploration. The dietary
- * disclaimer states that details must be confirmed with the venue —
- * recommendation-only, never a safety guarantee.
+ * Internal scores are ordering-only and are never exposed as percentages.
+ * Every visible journey routes to its own Story identity. The dietary
+ * disclaimer remains recommendation-only, never a safety guarantee.
  */
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, Navigate, useSearchParams } from 'react-router-dom';
@@ -32,17 +29,21 @@ import { JourneyMeta } from '../../components/JourneyCard';
 import { useI18n } from '../../i18n';
 import { EmptyState, Tag, type TagTone } from '../../ui';
 import { fillTemplate, type MatchTagKey } from '../../lib/exploration';
-import { recommendCandidates, resolveHistoricalRecommendation } from '../../lib/recommendation';
+import {
+  recommendCandidates,
+  resolveHistoricalRecommendation,
+  type CandidateEvaluation,
+} from '../../lib/recommendation';
 import { loadExplorationAnswers } from './exploration-session';
 import { loadFoodProfile } from '../../lib/food-profile-storage';
 import { loadNickname } from '../../lib/nickname';
 import { phase1RecommendableCandidates } from './phase1-exploration';
 import { recordMoguRecent } from '../../lib/mogu-recent';
 import { completeGuidedTutorial, isGuidedTutorialActive } from './tutorial-session';
+import { buildResultRanking } from './result-ranking';
 import { type LocaleKey } from '../../i18n/resources';
 import { foodCultureKey, routeAreaKey } from '../../i18n/data-content';
-import resultHeroWasabi from '../../assets/figma/result-hero-wasabi.png';
-import resultCardYamame from '../../assets/figma/result-card-yamame.png';
+import wasabiHero from '../../assets/figma/story-hero.png';
 import './onboarding.css';
 
 /** Match-tag key → i18n copy key + tone. */
@@ -77,7 +78,7 @@ function storyHref(foodCultureId: string, candidateId: string, isReopen: boolean
 }
 
 export function ResultPage() {
-  const { locale, t } = useI18n();
+  const { t } = useI18n();
   const [searchParams] = useSearchParams();
 
   // MOGU recent cards reopen this page with `?from=mogu` (Issue #94). A reopen
@@ -120,21 +121,14 @@ export function ResultPage() {
   const recommendedTitleKey = recommendation
     ? foodCultureKey(recommendation.foodCultureId, 'name')
     : undefined;
-  const recommendedDescriptionKey = recommendation
-    ? foodCultureKey(recommendation.foodCultureId, 'description')
-    : undefined;
-  const recommendedRoute = recommendation?.journeyId
-    ? getRouteById(recommendation.journeyId)
-    : undefined;
-  const journeyPresentation =
-    recommendation && recommendedFoodCulture && recommendedRoute
-      ? buildJourneyPresentation(recommendation, recommendedFoodCulture, recommendedRoute, places)
-      : undefined;
-  const recommendedAreaKey = recommendation?.journeyId
-    ? routeAreaKey(recommendation.journeyId)
-    : undefined;
-  const isGoldenPath = recommendation?.id === DEMO_RECOMMENDATION_CANDIDATE_ID;
-  const tags = useMemo(
+  const rankedResults = useMemo(
+    () =>
+      decision && recommendationEvaluation
+        ? buildResultRanking(decision, recommendationEvaluation)
+        : [],
+    [decision, recommendationEvaluation],
+  );
+  const primaryTags = useMemo(
     () =>
       recommendationEvaluation
         ? demoRecommendationMatchTags(
@@ -150,11 +144,6 @@ export function ResultPage() {
       completeGuidedTutorial();
     }
   }, [isReopen, recommendationEvaluation]);
-  const hasUnknownTravelTime =
-    recommendationEvaluation?.explanation.cautions.some(
-      (caution) => caution.code === 'travel-time-unknown',
-    ) ?? false;
-
   // Dietary-consideration state comes from the durable Food Profile, which the
   // returning flow preserves; missing profile → "no restrictions".
   const dietary = useMemo(() => {
@@ -197,109 +186,28 @@ export function ResultPage() {
         </p>
       </section>
 
-      {recommendedFoodCulture && recommendation && recommendedTitleKey && recommendedDescriptionKey ? (
+      {recommendedFoodCulture && recommendation && recommendedTitleKey && rankedResults.length > 0 ? (
         <>
-          <div className="tmm-result-card tmm-result-card--hero">
-            <div className="tmm-result-card__media">
-              {isGoldenPath ? (
-                <img src={resultHeroWasabi} alt="" className="tmm-result-card__img" />
-              ) : (
-                <FoodCultureImage
-                  image={recommendedFoodCulture.image}
-                  name={t(recommendedTitleKey)}
-                  nameJa={recommendedFoodCulture.nameJa}
-                  category={recommendedFoodCulture.category}
-                  alt={t(recommendedTitleKey)}
-                />
-              )}
-              {isGoldenPath ? (
-                <div className="tmm-result-match">
-                  <span className="tmm-result-match__percent">{t('s3MatchPercent')}</span>
-                  <span className="tmm-result-match__label">{t('s3MatchLabel')}</span>
-                </div>
-              ) : null}
-            </div>
-            <div className="tmm-result-card__body">
-              <span className="tmm-result-card__region">
-                {recommendedAreaKey
-                  ? t(recommendedAreaKey)
-                  : recommendedRoute
-                    ? locale === 'ja'
-                      ? recommendedRoute.areaJa
-                      : recommendedRoute.areaEn
-                    : t(recommendedTitleKey)}
-              </span>
-              <div className="tmm-result-card__title">
-                {isGoldenPath ? t('s3CardTitlePrimary') : t(recommendedTitleKey)}
-              </div>
-              <p className="tmm-result-card__desc">{t(recommendedDescriptionKey)}</p>
-
-              {isGoldenPath ? (
-                <p className="tmm-result-match__note" role="note">
-                  {t('s3MatchNote')}
-                </p>
-              ) : null}
-
-              <div className="tmm-result__tags">
-                {tags.length > 0
-                  ? tags.map((key) => (
-                      <Tag key={key} tone={TAG_COPY[key].tone}>
-                        {t(TAG_COPY[key].labelKey)}
-                      </Tag>
-                    ))
-                  : null}
-              </div>
-
-              {journeyPresentation ? <JourneyMeta presentation={journeyPresentation} compact /> : null}
-
-              <div className="tmm-result__section">
-                <h2 className="tmm-result__section-title">{t('s3DietaryTitle')}</h2>
-                <Tag tone={dietary ? 'warning' : 'info'}>
-                  {dietary ? t('s3DietaryKnown') : t('s3DietaryUnknown')}
-                </Tag>
-              </div>
-
-              {hasUnknownTravelTime ? (
-                <p className="tmm-result__disclaimer" role="note">
-                  {t('s3TravelTimeUnknown')}
-                </p>
-              ) : null}
-              <p className="tmm-result__disclaimer" role="note">
-                {t('s3Disclaimer')}
-              </p>
-            </div>
-          </div>
-
-          {isGoldenPath ? (
-            /* Secondary fixture candidate (Figma `23:3380` 91% card, Issue #226).
-               Presentation-only: Okutama yamame, no CTA, no ranking/scoring. */
-            <div className="tmm-result-card" aria-label={t('s3CardTitleSecondary')}>
-              <div className="tmm-result-card__media" aria-hidden="true">
-                <img src={resultCardYamame} alt="" className="tmm-result-card__img" />
-                <div className="tmm-result-match">
-                  <span className="tmm-result-match__percent">{t('s3MatchPercentSecondary')}</span>
-                  <span className="tmm-result-match__label">{t('s3MatchLabel')}</span>
-                </div>
-              </div>
-              <div className="tmm-result-card__body">
-                <span className="tmm-result-card__region">{t('s3CardRegion')}</span>
-                <div className="tmm-result-card__title">{t('s3CardTitleSecondary')}</div>
-                <div className="tmm-result__tags">
-                  <Tag tone="info">{t('s3TagNature')}</Tag>
-                  <Tag tone="info">{t('s3TagTradition')}</Tag>
-                  <Tag tone="info">{t('s3TagHalfDay')}</Tag>
-                </div>
-              </div>
-            </div>
-          ) : null}
+          <section className="tmm-result-ranking" aria-labelledby="tmm-result-ranking-title">
+            <h2 id="tmm-result-ranking-title" className="tmm-result-ranking__title">
+              {t('s3RankingTitle')}
+            </h2>
+            <ol className="tmm-result-ranking__list">
+              {rankedResults.map((evaluation, index) => (
+                <li className="tmm-result-ranking__item" key={evaluation.candidate.id}>
+                  <ResultJourneyCard
+                    evaluation={evaluation}
+                    rank={index + 1}
+                    primary={index === 0}
+                    dietary={dietary}
+                    isReopen={isReopen}
+                  />
+                </li>
+              ))}
+            </ol>
+          </section>
 
           <div className="tmm-result__actions">
-            <Link
-              to={storyHref(recommendation.foodCultureId, recommendation.id, isReopen)}
-              className="tmm-btn tmm-btn--primary tmm-btn--block"
-            >
-              {resultStoryCta(t('s3PrimaryCta'), t(recommendedTitleKey))}
-            </Link>
             <Link to="/explore" className="tmm-btn tmm-btn--secondary tmm-btn--block">
               {t('s3EditCta')}
             </Link>
@@ -308,7 +216,7 @@ export function ResultPage() {
           {!isReopen ? (
             <ResultRecorder
               answers={answers}
-              tags={tags}
+              tags={primaryTags}
               hasDietaryConsiderations={dietary}
               candidateId={recommendation.id}
               resultId={recommendation.foodCultureId}
@@ -320,6 +228,107 @@ export function ResultPage() {
         <EmptyFallback />
       )}
     </div>
+  );
+}
+
+function ResultJourneyCard({
+  evaluation,
+  rank,
+  primary,
+  dietary,
+  isReopen,
+}: {
+  evaluation: CandidateEvaluation;
+  rank: number;
+  primary: boolean;
+  dietary: boolean;
+  isReopen: boolean;
+}) {
+  const { locale, t } = useI18n();
+  const candidate = evaluation.candidate;
+  const foodCulture = getFoodCultureById(candidate.foodCultureId);
+  const titleKey = foodCultureKey(candidate.foodCultureId, 'name');
+  const descriptionKey = foodCultureKey(candidate.foodCultureId, 'description');
+  const route = candidate.journeyId ? getRouteById(candidate.journeyId) : undefined;
+  const areaKey = candidate.journeyId ? routeAreaKey(candidate.journeyId) : undefined;
+
+  if (!foodCulture || !titleKey || !descriptionKey || !route) return null;
+
+  const presentation = buildJourneyPresentation(candidate, foodCulture, route, places);
+  const tags = demoRecommendationMatchTags(candidate.id, evaluation.explanation.reasons);
+  const isGoldenPath = candidate.id === DEMO_RECOMMENDATION_CANDIDATE_ID;
+  const hasUnknownTravelTime = evaluation.explanation.cautions.some(
+    (caution) => caution.code === 'travel-time-unknown',
+  );
+  const title = isGoldenPath ? t('s3CardTitlePrimary') : t(titleKey);
+
+  return (
+    <article
+      className={`tmm-result-card ${primary ? 'tmm-result-card--hero' : ''}`.trim()}
+      aria-label={`${fillTemplate(t('s3RankLabel'), { rank: String(rank) })}: ${title}`}
+    >
+      <div className="tmm-result-card__media">
+        {isGoldenPath ? (
+          <img src={wasabiHero} alt="" className="tmm-result-card__img" />
+        ) : (
+          <FoodCultureImage
+            image={foodCulture.image}
+            name={t(titleKey)}
+            nameJa={foodCulture.nameJa}
+            category={foodCulture.category}
+            alt={t(titleKey)}
+          />
+        )}
+      </div>
+      <div className="tmm-result-card__body">
+        <span className="tmm-result-card__rank">
+          {fillTemplate(t('s3RankLabel'), { rank: String(rank) })}
+        </span>
+        <span className="tmm-result-card__region">
+          {areaKey ? t(areaKey) : locale === 'ja' ? route.areaJa : route.areaEn}
+        </span>
+        <h3 className="tmm-result-card__title">{title}</h3>
+        <p className="tmm-result-card__desc">{t(descriptionKey)}</p>
+
+        {tags.length > 0 ? (
+          <div className="tmm-result__tags">
+            {tags.map((key) => (
+              <Tag key={key} tone={TAG_COPY[key].tone}>
+                {t(TAG_COPY[key].labelKey)}
+              </Tag>
+            ))}
+          </div>
+        ) : null}
+
+        {presentation ? <JourneyMeta presentation={presentation} compact /> : null}
+
+        {primary ? (
+          <>
+            <div className="tmm-result__section">
+              <h3 className="tmm-result__section-title">{t('s3DietaryTitle')}</h3>
+              <Tag tone={dietary ? 'warning' : 'info'}>
+                {dietary ? t('s3DietaryKnown') : t('s3DietaryUnknown')}
+              </Tag>
+            </div>
+            {hasUnknownTravelTime ? (
+              <p className="tmm-result__disclaimer" role="note">
+                {t('s3TravelTimeUnknown')}
+              </p>
+            ) : null}
+            <p className="tmm-result__disclaimer" role="note">
+              {t('s3Disclaimer')}
+            </p>
+          </>
+        ) : null}
+
+        <Link
+          to={storyHref(candidate.foodCultureId, candidate.id, isReopen)}
+          className={`tmm-result-card__action tmm-btn ${primary ? 'tmm-btn--primary' : 'tmm-btn--secondary'} tmm-btn--block`}
+        >
+          {resultStoryCta(t('s3PrimaryCta'), t(titleKey))}
+        </Link>
+      </div>
+    </article>
   );
 }
 

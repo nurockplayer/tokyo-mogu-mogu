@@ -1,6 +1,6 @@
 # Demo Script（60–90秒）/ Demo Script (60–90 s)
 
-**Status**: 2026-08-19 更新（current main `63fdbb4` 時点の runtime に一致）。
+**Status**: 2026-08-20 release candidate（#257 guided tutorial + #255 ranked Top 3）。
 実行 journey は `src/pages/s0s3/*`（FoodProfilePage / ExplorationWizardPage / ResultPage）
 と `e2e/golden-path.test.ts` の実装に一致。Product scope / demo boundary は
 `docs/specs/product/product-scope-invariant.md` + #112、current App IA は #92 / KiKi。
@@ -31,21 +31,21 @@ fixture（東京わさび result・奥多摩わさび紀行 route）は **8/23 d
 - **Accountless（アカウント不要）**: どの step もサインイン不要。Google Auth は補助
   infrastructure であり pitch journey に含めない。
 - **No geolocation**: 実位置情報・偽位置 override・`?at=place:` demo URL 不要。
-- **Deterministic（決定論的）**: Result は決定論的に **東京わさび**
-  （`wasabi-okutama`）を primary として表示（secondary は 奥多摩やまめ `91%`）。
-  これは **8/23 demo golden path の fixture** であり、「唯一の Product outcome」
-  「唯一の未来 geography」ではない。
+- **Deterministic（決定論的）**: ガイドの入力は **東京わさび**
+  （`demo-okutama-wasabi`）を第1候補にし、同じ recommendation decision の
+  source-backed Top 3 を安定表示する。これは **8/23 demo golden path** であり、
+  「唯一の Product outcome」「唯一の未来 geography」ではない。
 - **Local persistence**: Food Profile（neutral）/ MOGU Recent / Saved Routes は
   `localStorage` のみ（`tmm:foodProfile:v1` / `tmm:moguRecent:v1` /
   `tmm:savedRoutes`）。会話の nickname は **`localStorage`**（`tmm:nickname:v1`、
   #201 で許可、デモリセット時に消去）。アカウント / durable profile にならない。
 - **会話型ガイド（Phase 1）**: 旅程は LINE / ChatGPT 風の逐步対話
-  （MOGU のメッセージ → チップ / タイル選択で進行。ページ単位の「次へ」はなく、
-  選択 / 送信で進む）。従来の form wizard ではない。
+  （MOGU のメッセージ → 每回光っている 1 操作で進行）。チュートリアル完了後は
+  通常の全選択肢が操作できる。
   production nav は conversation screens に表示されず、prototype-only bottom nav は
   latest Figma どおり returning Home / Route のみに表示される。
-- **96% / 91% は presentation-only**: Result のマッチ度は Figma の prototype
-  表示であり、実際の適合度・安全性の保証でも AI の信頼度でもない。
+- **Result 順位**: 内部加算 score は並び順にのみ使い、パーセント・AI 信頼度・
+  適合率・安全性保証として表示しない。
 - **Dietary は申告・確認**: Dietary Interview は希望・制約の capture。
   安全性の判定・保証をしない。
 
@@ -56,15 +56,15 @@ journey と一致）:
 
 ```text
 Landing → FP 導入 → Nickname → Dietary Interview(4) → Summary → Post-profile fork
-→ Exploration(5) → Result(96% + 91%) → Story → Route → Spot → Save
+→ Exploration(5) → Result(real Top 3) → Story → Route → Spot → Save
 ```
 
 | # | Step | 画面 / route | タイム | 話すこと（Speaker note） |
 |---|---|---|---|---|
 | 1 | **Home（Landing）** | `/`（`東京のローカルな食文化を体験しよう。` / `食旅をはじめる`） | 5 s | 「東京23区に観光は集中しています。このアプリは食を入口に、まだ知らない東京へ『行ってみたい』理由を作ります。」初回は Food Profile 会話へ。 |
-| 2 | **Food Profile 会話（初回のみ）** | `/food-profile`（`はじめる！` → nickname `ナナミ` → `これでお願いします！` → Dietary 4 ステップ［アレルギー→食生活・スタイル→宗教→苦手、各 `送信`］→ Summary `保存してつぎへ` → fork `自分に合った旅をおすすめしてもらう！`） | 15 s | 「LINE のような対話で、呼び名（prototype 内のみ、localStorage。デモリセットで消去）を聞き、食事の希望・制約を 4 ステップで確認します。これはおすすめの条件の確認であり、アレルギー対応や安全性を判定するものではありません。選択は保存されません。」 |
+| 2 | **Food Profile 会話（初回のみ）** | `/food-profile`（光っている `はじめる！` → nickname `ナナミ` → Dietary 4 問で毎回光っている `なし` → `送信` → Summary → recommend fork） | 15 s | 「初回は、ガイドされた 1 つの操作だけで完走できます。食事の希望・制約はおすすめ条件の確認であり、アレルギー対応や安全性を判定するものではありません。」 |
 | 3 | **Exploration 会話（今回の旅）** | `/explore`（1/5 体験 `食べる` → 2/5 出発 `東京都` → 3/5 移動 `1時間以内` → 4/5 長さ `半日` → 5/5 味 `さっぱりした味` ＋ テーマ `自然` → `結果を見る`） | 20 s | 「今回は『食べる』『東京都から出発』『1時間以内』『半日』『さっぱりした味・自然』。これは今回の旅行の条件で、永続の好み診断ではありません。出発地はデモ用の固定選択で、住所検索ではありません。」 |
-| 4 | **Result** | `/explore/result`（`96% マッチ度` 東京わさび ＋ `91%` 奥多摩やまめ） | 8 s | 「あなたの条件に合う地域×食文化の候補が複数出ました。96%・91% は Figma の prototype 表示で、実際の適合度・AI 精度の保証ではありません。東京わさびは今日のデモの代表例で、これだけが Product の結果ではありません。」 |
+| 4 | **Result** | `/explore/result`（`あなたへのおすすめ Top 3`：東京わさび → 秋川の旬の農産物 → 青梅・沢井の日本酒） | 8 s | 「今回の条件から、実在する 3 つの食文化の旅を順番に提案します。数値の適合率ではなく、選んだ理由と実際の Story / Route に繋ぎます。東京わさびは今日のゴールデンパスで、Product の唯一の結果ではありません。」 |
 | 5 | **Story** | `/story/wasabi-okutama`（`味わうことが、継承になる` ＋ 周辺観光スポット ＋ MOGUMOGU ポイント） | 12 s | 「水・作り手・歴史・技と、継承の課題を一つの物語として見せます。」 |
 | 6 | **Route** | `/route`（`奥多摩わさび紀行`、`デモ用ルート`） | 8 s | 「半日/1日のモデル旅程です。公共交通と徒歩の移動、地図ピンが時系列に並びます。これはデモ用ルートで、リアルタイムの交通・混雑ではありません。」 |
 | 7 | **Spot Detail** | `/spot/okutama-tourism-office`（実務情報 + 旅程に追加） | 8 s | 「実在する施設の実務情報（source がある範囲）。予約・購入など未検証の行動は『準備中』と表示し、偽の導線を作りません。」 |
@@ -96,7 +96,7 @@ preserved / 非削除）。時間と文脈が許せば直接遷移で見せら�
 
 Header の **demo reset control**（`src/components/DemoResetButton.tsx`、確認付き）を
 タップするか、private window / 新しいブラウザプロファイルを開く。Food Profile /
-MOGU Recent / Saved Routes / nickname は `localStorage` のみに保存。
+MOGU Recent / Saved Routes / nickname は `localStorage`、tutorial 状態は `sessionStorage` のみに保存。
 
 ## 言語 / Languages
 

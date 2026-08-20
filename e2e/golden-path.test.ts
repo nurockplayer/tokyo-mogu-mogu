@@ -6,18 +6,19 @@
  * blocking locale:
  *
  *   Landing → Food Profile conversation (nickname + dietary) → Exploration
- *   conversation → Result (96% presentation) → Story → Route → Spot → Save
+ *   conversation → Result (real ranked Top 3) → Story → Route → Spot → Save
  *
  * Phase 1 (Issue #217) renders setup as a LINE / ChatGPT-style conversation
  * inside the PrototypeShell. Issue #252 keeps setup focused, then exposes the
  * established Home / Discover / MOGU / My navigation on product content.
- * Ome/Sawai must never leak into the demo path. The test also verifies the
+ * The selected Wasabi journey stays first while ranked alternatives remain
+ * real source-backed journeys. The test also verifies the
  * Phase 1 contracts unit
  * coverage cannot catch:
  *   - the prototype-continuity nickname is used in later MOGU messages and
  *     never becomes an account/profile (localStorage, cleared on demo reset)
- *   - every allowed choice in the guided conversation leads to Okutama ×
- *     東京わさび (deterministic Phase 1 candidate set)
+ *   - the guided choices rank Okutama × 東京わさび first while two real
+ *     source-backed alternatives remain actionable
  *   - the Result auto-records a MOGU Recent entry (Phase 2 data preserved,
  *     hidden from the demo UI)
  *   - a page reload restores the durable Food Profile
@@ -127,7 +128,7 @@ test.describe('golden path (ja, 375px)', () => {
     await page.getByRole('button', { name: '結果を見る' }).click();
     await page.waitForURL('**/explore/result');
 
-    // ---- 4. Result — nickname greeting + reveal + 96% presentation ----
+    // ---- 4. Result — nickname greeting + real deterministic Top 3 ----
     await page
       .getByText('こんにちは、ナナミさん。あなたにぴったりの食文化の旅が見つかりました。')
       .waitFor();
@@ -137,16 +138,18 @@ test.describe('golden path (ja, 375px)', () => {
       .filter({ hasText: '奥多摩のわさび文化をたどる' })
       .first()
       .waitFor();
-    // 96% マッチ度 is Figma presentation only.
-    const match = page.locator('.tmm-result-match').first();
-    await match.waitFor();
-    await expect(match).toContainText('96%');
-    await expect(match).toContainText('マッチ度');
-    await page.getByText('このマッチ度はデモ用のプロトタイプ表示です').waitFor();
+    const rankedCards = page.locator('.tmm-result-ranking__item');
+    await expect(rankedCards).toHaveCount(3);
+    await expect(rankedCards.nth(0)).toContainText('第1候補');
+    await expect(rankedCards.nth(0)).toContainText('奥多摩のわさび文化をたどる');
+    await expect(rankedCards.nth(1)).toContainText('秋川の旬の農産物');
+    await expect(rankedCards.nth(2)).toContainText('青梅・沢井の日本酒');
+    await expect(page.locator('.tmm-result-match')).toHaveCount(0);
+    await expect(page.locator('body')).not.toContainText(/(?:96|91)%/);
+    await expect(page.locator('a.tmm-result-card__action')).toHaveCount(3);
     await page.getByText('このおすすめを「MOGU」の最近の履歴に保存しました。').waitFor();
     expect(await storedCount(page, MOGU_RECENT_KEY)).toBe(1);
-    // Ome/Sawai never leaks into the Phase 1 Result.
-    await expect(page.locator('body')).not.toContainText('青梅・沢井の日本酒');
+    await expect(page.locator('body')).not.toContainText('奥多摩やまめの食文化');
 
     await page.getByRole('link', { name: '東京わさびの物語を読む' }).click();
     await page.waitForURL('**/story/wasabi-okutama*');

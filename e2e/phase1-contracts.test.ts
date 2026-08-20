@@ -2,8 +2,8 @@
  * Phase 1 contract gates (Issue #217) — 375px.
  *
  * Covers the contract checks the single ja golden path cannot:
- *   - en / zh-TW complete the same guided conversation to the Result with the
- *     96% match presentation and no horizontal overflow
+ *   - en / zh-TW complete the same guided conversation to the real ranked Top 3
+ *     with no horizontal overflow
  *   - the Phase 1 conversation keeps the full Figma option set while distinct
  *     answers can route to the enabled source-backed journeys
  *   - direct-link surfaces stay preserved and reachable without changing the
@@ -36,8 +36,7 @@ interface Journey {
   done: string;
   save: string;
   reveal: string;
-  matchLabel: string;
-  matchNote: string;
+  rankingTitle: string;
   resultGreeting: string;
 }
 
@@ -58,8 +57,7 @@ const JOURNEY: Record<Locale, Journey> = {
     done: 'See my result',
     save: 'Save & continue',
     reveal: 'We found a food journey that fits you!',
-    matchLabel: 'Match',
-    matchNote: 'demo prototype display',
+    rankingTitle: 'Your Top 3 food journeys',
     resultGreeting: 'Hi, Nana! I found a food-culture journey that suits you.',
   },
   'zh-TW': {
@@ -78,8 +76,7 @@ const JOURNEY: Record<Locale, Journey> = {
     done: '查看結果',
     save: '儲存並繼續',
     reveal: '我們找到了適合你的飲食之旅！',
-    matchLabel: '相符度',
-    matchNote: '示範用的原型顯示',
+    rankingTitle: '為你推薦的 Top 3 飲食之旅',
     resultGreeting: '你好，奈奈美！我為你找到了適合的飲食文化之旅。',
   },
 };
@@ -167,16 +164,16 @@ for (const locale of ['en', 'zh-TW'] as const) {
   test.describe(`Phase 1 locale parity (${locale}, 375px)`, () => {
     test.use({ locale: locale === 'en' ? 'en-US' : 'zh-TW' });
 
-    test('guided conversation completes with 96% match and no overflow', async ({ page }) => {
+    test('guided conversation completes with a real Top 3 and no overflow', async ({ page }) => {
       await completeJourney(page, locale);
       const j = JOURNEY[locale];
       await page.getByText(j.resultGreeting).waitFor();
       await page.getByRole('heading', { name: j.reveal }).waitFor();
-      const match = page.locator('.tmm-result-match').first();
-      await match.waitFor();
-      await expect(match).toContainText('96%');
-      await expect(match).toContainText(j.matchLabel);
-      await page.getByText(j.matchNote).waitFor();
+      await page.getByRole('heading', { name: j.rankingTitle }).waitFor();
+      await expect(page.locator('.tmm-result-ranking__item')).toHaveCount(3);
+      await expect(page.locator('a.tmm-result-card__action')).toHaveCount(3);
+      await expect(page.locator('.tmm-result-match')).toHaveCount(0);
+      await expect(page.locator('body')).not.toContainText(/(?:96|91)%/);
       await assertNoHorizontalOverflow(page);
       // Result is product content, so the established primary IA is actionable.
       await expect(page.locator('.tmm-nav a')).toHaveCount(4);
@@ -217,15 +214,11 @@ test.describe('Phase 1 constrained options (ja, 375px)', () => {
     await page.getByRole('button', { name: '地域の日常' }).click();
     await page.getByRole('button', { name: '結果を見る' }).click();
     await page.waitForURL('**/explore/result');
-    // A rich + daily-life answer is a real multi-region route, not a Wasabi
-    // fallback; the default refreshing + nature path remains the golden path.
-    await page
-      .locator('.tmm-result-card__title')
-      .filter({ hasText: '八王子ショウガと八王子野菜' })
-      .first()
-      .waitFor();
-    await expect(page.locator('body')).not.toContainText('奥多摩のわさび文化をたどる');
-    await expect(page.locator('body')).not.toContainText('青梅・沢井の日本酒');
+    // A rich + daily-life answer is selected first; the remaining cards are
+    // legitimate alternatives from the same deterministic decision.
+    const rankedCards = page.locator('.tmm-result-ranking__item');
+    await expect(rankedCards).toHaveCount(3);
+    await expect(rankedCards.first()).toContainText('八王子ショウガと八王子野菜');
   });
 });
 

@@ -38,7 +38,18 @@ const wasabiRecent = [
   },
 ];
 
-async function seedPreservedProductState(page: Page): Promise<void> {
+// Deliberately pairs a historical Hachioji identity with answers that would
+// rank Wasabi first today. Reopen must preserve history instead of reranking.
+const historicalHachiojiRecent = [
+  {
+    ...wasabiRecent[0],
+    candidateId: 'demo-tokyo-hachioji-ginger',
+    resultId: 'hachioji-ginger',
+    titleKey: 'dataHachiojiName',
+  },
+];
+
+async function seedPreservedProductState(page: Page, recent = wasabiRecent): Promise<void> {
   await page.goto('/');
   await page.evaluate(
     ({ profileKey, recentKey, profile, recent }) => {
@@ -50,7 +61,7 @@ async function seedPreservedProductState(page: Page): Promise<void> {
       profileKey: FOOD_PROFILE_KEY,
       recentKey: MOGU_RECENT_KEY,
       profile: foodProfile,
-      recent: wasabiRecent,
+      recent,
     },
   );
 }
@@ -124,6 +135,28 @@ test.describe('preserved Product browser regressions (Issue #221, ja, 375px)', (
     await page.getByText('味わうことが、継承になる').waitFor();
     await expect(page.locator('.s4-cta__back')).toHaveAttribute('href', '/discover');
 
+    expect(await rawMoguRecent(page)).toBe(recentBefore);
+  });
+
+  test('MOGU keeps a historical candidate first and does not rerank or re-record it', async ({
+    page,
+  }) => {
+    await seedPreservedProductState(page, historicalHachiojiRecent);
+    const recentBefore = await rawMoguRecent(page);
+
+    await page.goto('/mogu');
+    await page.getByRole('button', { name: 'このおすすめを見る' }).click();
+    await page.waitForURL('**/explore/result?*');
+
+    const rankedCards = page.locator('.tmm-result-ranking__item');
+    await expect(rankedCards).toHaveCount(3);
+    await expect(rankedCards.first()).toContainText('八王子ショウガと八王子野菜');
+    await expect(
+      rankedCards.first().locator(
+        'a[href^="/story/hachioji-ginger"][href*="candidateId=demo-tokyo-hachioji-ginger"]',
+      ),
+    ).toBeVisible();
+    await expect(page.locator('a.tmm-result-card__action')).toHaveCount(3);
     expect(await rawMoguRecent(page)).toBe(recentBefore);
   });
 });
