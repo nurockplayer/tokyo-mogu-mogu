@@ -41,10 +41,11 @@ import { loadNickname, saveNickname } from '../../lib/nickname';
 import { beginNewExploration } from './exploration-session';
 import {
   isGuidedTutorialActive,
-  isGuidedTutorialComplete,
+  shouldStartGuidedTutorial,
   startGuidedTutorial,
 } from './tutorial-session';
-import { TutorialGuide, tutorialControlProps } from './tutorial-ui';
+import { tutorialControlProps } from './tutorial-controls';
+import { TutorialGuide } from './tutorial-ui';
 import {
   ChatTranscript,
   AssistantMessage,
@@ -257,7 +258,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   const [tutorialActive] = useState(
     () =>
       isGuidedTutorialActive() ||
-      (!editing && existing === null && !isGuidedTutorialComplete()),
+      (!editing && existing === null && shouldStartGuidedTutorial()),
   );
 
   useEffect(() => {

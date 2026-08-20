@@ -1,0 +1,26 @@
+import type { ButtonHTMLAttributes } from 'react';
+
+export const TUTORIAL_GUIDE_ID = 'tmm-tutorial-guide';
+
+/**
+ * Shared attributes for a tutorial decision group.
+ *
+ * Every visible option remains in the DOM for product comprehension, but only
+ * the current target is enabled. Once a target is consumed it becomes inert so
+ * the next beat can expose exactly one new action.
+ */
+export function tutorialControlProps(
+  active: boolean,
+  target: boolean,
+  consumed = false,
+): ButtonHTMLAttributes<HTMLButtonElement> {
+  if (!active) return {};
+  const actionable = target && !consumed;
+  return {
+    disabled: !actionable,
+    'aria-describedby': target ? TUTORIAL_GUIDE_ID : undefined,
+    className: actionable ? 'tmm-tutorial-target' : 'tmm-tutorial-choice',
+    'data-tutorial-choice': 'true',
+    'data-tutorial-target': actionable ? 'true' : undefined,
+  } as ButtonHTMLAttributes<HTMLButtonElement>;
+}

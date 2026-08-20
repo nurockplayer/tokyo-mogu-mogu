@@ -35,6 +35,15 @@ export function isGuidedTutorialComplete(): boolean {
   }
 }
 
+/** First-use fallback that can distinguish absent state from blocked storage. */
+export function shouldStartGuidedTutorial(): boolean {
+  try {
+    return sessionStorage.getItem(STORAGE_KEY) !== COMPLETE;
+  } catch {
+    return false;
+  }
+}
+
 export function completeGuidedTutorial(): void {
   try {
     sessionStorage.setItem(STORAGE_KEY, COMPLETE);

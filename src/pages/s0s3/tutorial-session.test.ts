@@ -4,6 +4,7 @@ import {
   isGuidedTutorialActive,
   isGuidedTutorialComplete,
   resetGuidedTutorial,
+  shouldStartGuidedTutorial,
   startGuidedTutorial,
 } from './tutorial-session';
 
@@ -48,6 +49,7 @@ afterAll(() => {
 describe('guided tutorial session (#257)', () => {
   it('activates only when the first-use flow explicitly starts it', () => {
     expect(isGuidedTutorialActive()).toBe(false);
+    expect(shouldStartGuidedTutorial()).toBe(true);
 
     startGuidedTutorial();
 
@@ -61,6 +63,7 @@ describe('guided tutorial session (#257)', () => {
 
     expect(isGuidedTutorialActive()).toBe(false);
     expect(isGuidedTutorialComplete()).toBe(true);
+    expect(shouldStartGuidedTutorial()).toBe(false);
   });
 
   it('demo reset removes tutorial state so the next first-use flow can restart it', () => {
@@ -89,6 +92,7 @@ describe('guided tutorial session (#257)', () => {
 
     expect(() => startGuidedTutorial()).not.toThrow();
     expect(isGuidedTutorialActive()).toBe(false);
+    expect(shouldStartGuidedTutorial()).toBe(false);
     expect(() => completeGuidedTutorial()).not.toThrow();
     expect(() => resetGuidedTutorial()).not.toThrow();
   });
