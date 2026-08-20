@@ -40,6 +40,13 @@ import { fillTemplate } from '../../lib/exploration';
 import { loadNickname, saveNickname } from '../../lib/nickname';
 import { beginNewExploration } from './exploration-session';
 import {
+  isGuidedTutorialActive,
+  shouldStartGuidedTutorial,
+  startGuidedTutorial,
+} from './tutorial-session';
+import { tutorialControlProps } from './tutorial-controls';
+import { TutorialGuide } from './tutorial-ui';
+import {
   ChatTranscript,
   AssistantMessage,
   AssistantQuestion,
@@ -248,6 +255,17 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   );
 
   const editing = mode === 'edit';
+  const [tutorialActive] = useState(
+    () =>
+      isGuidedTutorialActive() ||
+      (!editing && existing === null && shouldStartGuidedTutorial()),
+  );
+
+  useEffect(() => {
+    if (tutorialActive && !editing && existing === null) {
+      startGuidedTutorial();
+    }
+  }, [editing, existing, tutorialActive]);
 
   useEffect(() => {
     // Route navigation (view ⇄ edit) can reuse the same component instance, so
@@ -592,7 +610,8 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   if (view === 'setup') {
     return (
       <div ref={stepScrollRef} className="tmm-page tmm-food-profile">
-        <ConversationHeader editing={false} onBack={goBack} />
+        <ConversationHeader editing={false} onBack={goBack} tutorialActive={tutorialActive} />
+        {tutorialActive ? <TutorialGuide /> : null}
         <ChatTranscript items={transcript} />
 
         {step === STEP_INTRO ? (
@@ -603,6 +622,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
               setNicknameModalOpen(true);
             }}
             onBrowse={() => navigate('/discover')}
+            tutorialActive={tutorialActive}
           />
         ) : null}
 
@@ -621,6 +641,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
               setNicknameInput(loadNickname() ?? '');
               setNicknameModalOpen(false);
             }}
+            tutorialActive={tutorialActive}
           />
         ) : null}
 
@@ -646,17 +667,24 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
             }}
             onSend={goNext}
             disabled={advanceLocked}
+            tutorialActive={tutorialActive}
           />
         ) : null}
 
         {step === SETUP_SUMMARY ? (
-          <SetupSummaryStep interviewAnswers={interviewAnswers} nickname={nickname} onSave={handleSave} />
+          <SetupSummaryStep
+            interviewAnswers={interviewAnswers}
+            nickname={nickname}
+            onSave={handleSave}
+            tutorialActive={tutorialActive}
+          />
         ) : null}
 
         {step === SETUP_FORK ? (
           <ForkStep
             onRecommend={() => navigate('/explore')}
             onBrowse={() => navigate('/discover')}
+            tutorialActive={tutorialActive}
           />
         ) : null}
       </div>
@@ -765,9 +793,11 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
 function ConversationHeader({
   editing,
   onBack,
+  tutorialActive = false,
 }: {
   editing: boolean;
   onBack: () => void;
+  tutorialActive?: boolean;
 }) {
   const { t } = useI18n();
   return (
@@ -777,6 +807,7 @@ function ConversationHeader({
         className="tmm-wizard__back"
         onClick={onBack}
         aria-label={t('back')}
+        disabled={tutorialActive}
       >
         ‹
       </button>
@@ -807,11 +838,15 @@ function ProgressHeader({ step, categoryCount }: { step: number; categoryCount: 
 function IntroCard({
   onStart,
   onBrowse,
+  tutorialActive,
 }: {
   onStart: () => void;
   onBrowse: () => void;
+  tutorialActive: boolean;
 }) {
   const { t } = useI18n();
+  const startProps = tutorialControlProps(tutorialActive, true);
+  const browseProps = tutorialControlProps(tutorialActive, false);
   return (
     <div className="fp-convo">
       <div className="fp-convo__msg fp-convo__msg--assistant">
@@ -822,10 +857,17 @@ function IntroCard({
           <p className="fp-convo__title">{t('fpIntroTitle')}</p>
           <p className="fp-convo__body">{t('fpIntroBody')}</p>
           <div className="fp-convo__choices fp-convo__choices--stack">
-            <Button variant="primary" className="tmm-btn--block" onClick={onStart}>
+            <Button
+              {...startProps}
+              variant="primary"
+              className={`tmm-btn--block ${startProps.className ?? ''}`.trim()}
+              onClick={onStart}
+            >
               {t('fpStartCta')}
             </Button>
-            <Chip onClick={onBrowse}>{t('fpBrowseCta')}</Chip>
+            <Chip {...browseProps} onClick={onBrowse}>
+              {t('fpBrowseCta')}
+            </Chip>
           </div>
         </div>
       </div>
@@ -842,6 +884,7 @@ function NicknameStep({
   open,
   onOpen,
   onCancel,
+  tutorialActive,
 }: {
   value: string;
   onChange: (value: string) => void;
@@ -850,6 +893,7 @@ function NicknameStep({
   open: boolean;
   onOpen: () => void;
   onCancel: () => void;
+  tutorialActive: boolean;
 }) {
   const { t } = useI18n();
   if (open) {
@@ -867,6 +911,7 @@ function NicknameStep({
         returnFocusSelector='[data-testid="fp-nickname-reopen"], [data-testid="fp-interview-step-0"] button'
         onSubmit={onConfirm}
         onCancel={onCancel}
+        tutorialTarget={tutorialActive}
       />
     );
   }
@@ -880,10 +925,17 @@ function NicknameStep({
         <div className="fp-convo__bubble">
           <p className="fp-convo__q">{t('fpNicknameTitle')}</p>
           <div className="fp-convo__choices">
-            <Button variant="secondary" onClick={onOpen} data-testid="fp-nickname-reopen">
+            <Button
+              {...tutorialControlProps(tutorialActive, true)}
+              variant="secondary"
+              onClick={onOpen}
+              data-testid="fp-nickname-reopen"
+            >
               {t('fpNicknameReopen')}
             </Button>
-            <Chip onClick={onSkip}>{t('fpNicknameSkip')}</Chip>
+            <Chip {...tutorialControlProps(tutorialActive, false)} onClick={onSkip}>
+              {t('fpNicknameSkip')}
+            </Chip>
           </div>
         </div>
       </div>
@@ -909,6 +961,7 @@ function FigmaInputModal({
   returnFocusSelector,
   onSubmit,
   onCancel,
+  tutorialTarget = false,
 }: {
   inputId: string;
   title: string;
@@ -922,6 +975,7 @@ function FigmaInputModal({
   returnFocusSelector?: string;
   onSubmit: () => void;
   onCancel: () => void;
+  tutorialTarget?: boolean;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const submitRef = useRef<HTMLButtonElement>(null);
@@ -1033,9 +1087,10 @@ function FigmaInputModal({
           </div>
         </div>
         <button
+          {...tutorialControlProps(tutorialTarget, true)}
           ref={submitRef}
           type="submit"
-          className="fp-modal__submit"
+          className={`fp-modal__submit ${tutorialTarget ? 'tmm-tutorial-target' : ''}`.trim()}
           data-testid="fp-modal-submit"
         >
           {submitLabel}
@@ -1107,6 +1162,7 @@ function InterviewStep({
   onOtherChange,
   onSend,
   disabled = false,
+  tutorialActive = false,
 }: {
   question: InterviewQuestion;
   stepNumber: number;
@@ -1117,11 +1173,13 @@ function InterviewStep({
   onOtherChange: (value: string) => void;
   onSend: () => void;
   disabled?: boolean;
+  tutorialActive?: boolean;
 }) {
   const { t } = useI18n();
   const [showOther, setShowOther] = useState(other.length > 0);
   const [otherModalOpen, setOtherModalOpen] = useState(false);
   const [otherDraft, setOtherDraft] = useState(other);
+  const tutorialAnswerSelected = selected.includes('none');
 
   useEffect(() => {
     setShowOther(other.length > 0);
@@ -1145,6 +1203,10 @@ function InterviewStep({
           <div className="fp-convo__choices">
             {question.options.map((opt) => (
               <Chip
+                {...tutorialControlProps(
+                  tutorialActive,
+                  opt.value === 'none' && !tutorialAnswerSelected,
+                )}
                 key={opt.value}
                 selected={selected.includes(opt.value)}
                 onClick={() => onToggle(opt.value)}
@@ -1154,6 +1216,7 @@ function InterviewStep({
             ))}
             {question.allowOther ? (
               <Chip
+                {...tutorialControlProps(tutorialActive, false)}
                 selected={showOther}
                 onClick={() => {
                   if (!showOther) {
@@ -1174,9 +1237,23 @@ function InterviewStep({
             ) : null}
           </div>
           <div className="fp-convo__choices">
-            <Button variant="primary" className="tmm-btn--block" onClick={onSend} disabled={disabled}>
-              {t('fpIvSend')}
-            </Button>
+            {(() => {
+              const sendProps = tutorialControlProps(
+                tutorialActive,
+                tutorialAnswerSelected,
+              );
+              return (
+                <Button
+                  {...sendProps}
+                  variant="primary"
+                  className={`tmm-btn--block ${sendProps.className ?? ''}`.trim()}
+                  onClick={onSend}
+                  disabled={disabled || Boolean(sendProps.disabled)}
+                >
+                  {t('fpIvSend')}
+                </Button>
+              );
+            })()}
           </div>
         </div>
       </div>
@@ -1216,10 +1293,12 @@ function SetupSummaryStep({
   interviewAnswers,
   nickname,
   onSave,
+  tutorialActive,
 }: {
   interviewAnswers: InterviewAnswers;
   nickname: string | null;
   onSave: () => void;
+  tutorialActive: boolean;
 }) {
   const { t } = useI18n();
   const confirm = nickname
@@ -1247,7 +1326,11 @@ function SetupSummaryStep({
           <p className="fp-convo__note">{t('fpEditNote')}</p>
         </div>
       </div>
-      <WizardActions onNext={onSave} nextLabel={t('fpSave')} />
+      <WizardActions
+        onNext={onSave}
+        nextLabel={t('fpSave')}
+        tutorialTarget={tutorialActive}
+      />
     </div>
   );
 }
@@ -1260,11 +1343,15 @@ function SetupSummaryStep({
 function ForkStep({
   onRecommend,
   onBrowse,
+  tutorialActive,
 }: {
   onRecommend: () => void;
   onBrowse: () => void;
+  tutorialActive: boolean;
 }) {
   const { t } = useI18n();
+  const recommendProps = tutorialControlProps(tutorialActive, true);
+  const browseProps = tutorialControlProps(tutorialActive, false);
   return (
     <div className="fp-convo">
       <div className="fp-convo__msg fp-convo__msg--assistant">
@@ -1274,10 +1361,20 @@ function ForkStep({
         <div className="fp-convo__bubble">
           <p className="fp-convo__q">{t('fpForkTitle')}</p>
           <div className="fp-convo__choices fp-convo__choices--stack">
-            <Button variant="primary" className="tmm-btn--block" onClick={onRecommend}>
+            <Button
+              {...recommendProps}
+              variant="primary"
+              className={`tmm-btn--block ${recommendProps.className ?? ''}`.trim()}
+              onClick={onRecommend}
+            >
               {t('fpForkRecommend')}
             </Button>
-            <Button variant="secondary" className="tmm-btn--block" onClick={onBrowse}>
+            <Button
+              {...browseProps}
+              variant="secondary"
+              className={`tmm-btn--block ${browseProps.className ?? ''}`.trim()}
+              onClick={onBrowse}
+            >
               {t('fpForkBrowse')}
             </Button>
           </div>
@@ -1384,14 +1481,23 @@ function WizardActions({
   onNext,
   nextLabel,
   disabled = false,
+  tutorialTarget = false,
 }: {
   onNext: () => void;
   nextLabel: string;
   disabled?: boolean;
+  tutorialTarget?: boolean;
 }) {
+  const targetProps = tutorialControlProps(tutorialTarget, true);
   return (
     <div className="tmm-wizard__actions fp-convo-actions">
-      <Button variant="primary" className="tmm-btn--block" onClick={onNext} disabled={disabled}>
+      <Button
+        {...targetProps}
+        variant="primary"
+        className={`tmm-btn--block ${targetProps.className ?? ''}`.trim()}
+        onClick={onNext}
+        disabled={disabled || Boolean(targetProps.disabled)}
+      >
         {nextLabel}
       </Button>
     </div>

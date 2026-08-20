@@ -15,6 +15,8 @@ const FOOD_PROFILE_KEY = 'tmm:foodProfile:v1';
 const MOGU_RECENT_KEY = 'tmm:moguRecent:v1';
 const SAVED_ROUTES_KEY = 'tmm:savedRoutes';
 const LOCALE_KEY = 'tmm:locale';
+const NICKNAME_KEY = 'tmm:nickname:v1';
+const TUTORIAL_KEY = 'tmm:tutorial:v1';
 
 type Locale = 'en' | 'zh-TW';
 
@@ -119,9 +121,10 @@ async function completeJourney(page: Page, locale: Locale): Promise<void> {
   await expect(page.getByRole('dialog')).toBeVisible();
   await page.getByLabel(/nickname|暱稱/i).fill(j.nickname);
   await page.getByTestId('fp-modal-submit').click();
-  // Latest-Figma four-question dietary interview (presentation-only) → summary → fork.
+  // First-run tutorial: one highlighted safe reply, then one highlighted Send.
   for (let i = 0; i < 4; i += 1) {
-    await page.getByRole('button', { name: j.interviewSend }).click();
+    await page.locator('[data-tutorial-target="true"]').click();
+    await page.locator('[data-tutorial-target="true"]').click();
   }
   await page.getByRole('button', { name: j.save }).click();
   await page.getByRole('button', { name: j.forkRecommend }).click();
@@ -138,6 +141,26 @@ async function completeJourney(page: Page, locale: Locale): Promise<void> {
   await page.getByRole('button', { name: j.nature }).click();
   await page.getByRole('button', { name: j.done }).click();
   await page.waitForURL('**/explore/result');
+}
+
+async function reachFreeExploration(page: Page): Promise<void> {
+  await page.goto('/');
+  await resetDemoState(page);
+  await page.evaluate(([profileKey, nicknameKey, tutorialKey]) => {
+    localStorage.setItem(
+      profileKey,
+      JSON.stringify({
+        dietary: [],
+        dietaryOther: '',
+        hasNoRestrictions: true,
+        savedAt: '2026-08-20T00:00:00.000Z',
+        version: 1,
+      }),
+    );
+    localStorage.setItem(nicknameKey, 'ナナミ');
+    sessionStorage.setItem(tutorialKey, 'complete');
+  }, [FOOD_PROFILE_KEY, NICKNAME_KEY, TUTORIAL_KEY] as const);
+  await page.goto('/explore');
 }
 
 for (const locale of ['en', 'zh-TW'] as const) {
@@ -167,23 +190,9 @@ test.describe('Phase 1 constrained options (ja, 375px)', () => {
   test('conversation shows the full Figma option set and routes daily produce answers to Hachioji', async ({
     page,
   }) => {
-    await page.goto('/');
-    await resetDemoState(page);
-    await page.reload();
-    await page.getByRole('link', { name: '食旅をはじめる' }).click();
-    await page.waitForURL('**/food-profile');
-    await page.getByRole('button', { name: 'はじめる！' }).click();
-    await page.getByLabel('ニックネーム').fill('ナナミ');
-    await page.getByTestId('fp-modal-submit').click();
-    // Four-question dietary interview (latest Figma), presentation-only.
-    await page.getByRole('button', { name: '🥚 卵' }).click();
-    await page.getByRole('button', { name: '送信' }).click();
-    await page.getByRole('button', { name: '送信' }).click();
-    await page.getByRole('button', { name: '送信' }).click();
-    await page.getByRole('button', { name: '送信' }).click();
-    await page.getByRole('button', { name: '保存してつぎへ' }).click();
-    await page.getByRole('button', { name: '自分に合った旅をおすすめしてもらう！' }).click();
-    await page.waitForURL('**/explore');
+    // The complete option set belongs to normal/free exploration after the
+    // first-run tutorial has finished.
+    await reachFreeExploration(page);
 
     // Latest-Figma question order: Experience → Departure → Travel → Duration →
     // Taste + Theme.
@@ -242,22 +251,7 @@ test.describe('Phase 1 hidden Phase 2 surfaces (ja, 375px)', () => {
 
 /** ja: complete the Food Profile setup (interview) and reach the first Exploration step. */
 async function jaReachExplorationFirstStep(page: Page): Promise<void> {
-  await page.goto('/');
-  await resetDemoState(page);
-  await page.reload();
-  await page.getByRole('link', { name: '食旅をはじめる' }).click();
-  await page.waitForURL('**/food-profile');
-  await page.getByRole('button', { name: 'はじめる！' }).click();
-  await page.getByLabel('ニックネーム').fill('ナナミ');
-  await page.getByTestId('fp-modal-submit').click();
-  // Four-question dietary interview (latest Figma), presentation-only.
-  await page.getByRole('button', { name: '送信' }).click();
-  await page.getByRole('button', { name: '送信' }).click();
-  await page.getByRole('button', { name: '送信' }).click();
-  await page.getByRole('button', { name: '送信' }).click();
-  await page.getByRole('button', { name: '保存してつぎへ' }).click();
-  await page.getByRole('button', { name: '自分に合った旅をおすすめしてもらう！' }).click();
-  await page.waitForURL('**/explore');
+  await reachFreeExploration(page);
 }
 
 /** ja: complete Food Profile + the Experience step → departure step. */

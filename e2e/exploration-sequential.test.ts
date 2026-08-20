@@ -15,6 +15,7 @@ const FOOD_PROFILE_KEY = 'tmm:foodProfile:v1';
 const MOGU_RECENT_KEY = 'tmm:moguRecent:v1';
 const SAVED_ROUTES_KEY = 'tmm:savedRoutes';
 const NICKNAME_KEY = 'tmm:nickname:v1';
+const TUTORIAL_KEY = 'tmm:tutorial:v1';
 
 async function resetDemoState(page: Page): Promise<void> {
   await page.evaluate(([fp, recent, saved, nickname]) => {
@@ -36,13 +37,36 @@ async function reachExploration(page: Page): Promise<void> {
   await page.getByRole('button', { name: 'はじめる！' }).click();
   await page.getByLabel('ニックネーム').fill('ナナミ');
   await page.getByTestId('fp-modal-submit').click();
-  // Four-question dietary interview (presentation-only fixture).
+  // Four-question first-run tutorial: choose the highlighted "none" reply,
+  // then use the highlighted Send action for each turn.
   for (let i = 0; i < 4; i += 1) {
-    await page.getByRole('button', { name: '送信' }).click();
+    await page.locator('[data-tutorial-target="true"]').click();
+    await page.locator('[data-tutorial-target="true"]').click();
   }
   await page.getByRole('button', { name: '保存してつぎへ' }).click();
   await page.getByRole('button', { name: '自分に合った旅をおすすめしてもらう！' }).click();
   await page.waitForURL('**/explore');
+}
+
+/** Reach unrestricted Exploration after first-run tutorial completion. */
+async function reachFreeExploration(page: Page): Promise<void> {
+  await page.goto('/');
+  await resetDemoState(page);
+  await page.evaluate(([profileKey, nicknameKey, tutorialKey]) => {
+    localStorage.setItem(
+      profileKey,
+      JSON.stringify({
+        dietary: [],
+        dietaryOther: '',
+        hasNoRestrictions: true,
+        savedAt: '2026-08-20T00:00:00.000Z',
+        version: 1,
+      }),
+    );
+    localStorage.setItem(nicknameKey, 'ナナミ');
+    sessionStorage.setItem(tutorialKey, 'complete');
+  }, [FOOD_PROFILE_KEY, NICKNAME_KEY, TUTORIAL_KEY] as const);
+  await page.goto('/explore');
 }
 
 const departureQ = 'どこから出発しますか？';
@@ -70,7 +94,7 @@ test.describe('sequential Exploration (ja, 375px)', () => {
   });
 
   test('2. Experience choices are interactive controls, not static text', async ({ page }) => {
-    await reachExploration(page);
+    await reachFreeExploration(page);
 
     for (const label of EXPERIENCE_OPTIONS) {
       const tile = page.getByRole('button', { name: label });
@@ -176,7 +200,9 @@ test.describe('sequential Exploration (ja, 375px)', () => {
   });
 
   test('7. Keyboard activation works for every quick reply', async ({ page }) => {
-    await reachExploration(page);
+    // Keyboard traversal of every option is a normal/free-exploration contract;
+    // the first-run tutorial intentionally exposes only its current target.
+    await reachFreeExploration(page);
 
     // Enter activates an Experience tile.
     await page.getByRole('button', { name: '食べる' }).focus();

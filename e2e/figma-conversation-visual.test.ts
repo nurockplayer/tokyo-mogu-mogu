@@ -13,6 +13,7 @@ const MOGU_RECENT_KEY = 'tmm:moguRecent:v1';
 const SAVED_ROUTES_KEY = 'tmm:savedRoutes';
 const NICKNAME_KEY = 'tmm:nickname:v1';
 const LOCALE_KEY = 'tmm:locale';
+const TUTORIAL_KEY = 'tmm:tutorial:v1';
 
 async function resetDemoState(page: Page): Promise<void> {
   await page.evaluate(([fp, recent, saved, nickname]) => {
@@ -82,9 +83,8 @@ test.describe('latest KiKi Figma conversation visuals (ja, 375px)', () => {
     expect(await css(send, 'background-color')).toBe('rgb(233, 129, 29)');
     expect(await css(send, 'font-weight')).toBe('400');
 
-    // Pick a visible allergen so the completed turn produces an explicit user reply.
-    const egg = page.getByRole('button', { name: /卵/ }).first();
-    await egg.click();
+    // The first-run tutorial highlights the deterministic no-restrictions reply.
+    await page.locator('[data-tutorial-target="true"]').click();
     await send.click();
 
     const completedBot = page.locator('.fp-chat .fp-convo__msg--assistant .fp-convo__bubble').last();
@@ -157,7 +157,10 @@ test.describe('current Figma Food Profile modal behavior (375px)', () => {
       test('free-input modal cancels safely and double submit advances one question', async ({ page }) => {
         await page.goto('/');
         await resetDemoState(page);
-        await page.evaluate(([key, value]) => localStorage.setItem(key, value), [LOCALE_KEY, locale.value]);
+        await page.evaluate(([localeKey, value, tutorialKey]) => {
+          localStorage.setItem(localeKey, value);
+          sessionStorage.setItem(tutorialKey, 'complete');
+        }, [LOCALE_KEY, locale.value, TUTORIAL_KEY] as const);
         await page.goto('/food-profile');
         await page.getByRole('button', { name: locale.start }).click();
         await page.getByTestId('fp-modal-submit').click();

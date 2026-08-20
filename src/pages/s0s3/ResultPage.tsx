@@ -38,6 +38,7 @@ import { loadFoodProfile } from '../../lib/food-profile-storage';
 import { loadNickname } from '../../lib/nickname';
 import { phase1RecommendableCandidates } from './phase1-exploration';
 import { recordMoguRecent } from '../../lib/mogu-recent';
+import { completeGuidedTutorial, isGuidedTutorialActive } from './tutorial-session';
 import { type LocaleKey } from '../../i18n/resources';
 import { foodCultureKey, routeAreaKey } from '../../i18n/data-content';
 import resultHeroWasabi from '../../assets/figma/result-hero-wasabi.png';
@@ -143,6 +144,12 @@ export function ResultPage() {
         : [],
     [recommendationEvaluation],
   );
+
+  useEffect(() => {
+    if (!isReopen && recommendationEvaluation && isGuidedTutorialActive()) {
+      completeGuidedTutorial();
+    }
+  }, [isReopen, recommendationEvaluation]);
   const hasUnknownTravelTime =
     recommendationEvaluation?.explanation.cautions.some(
       (caution) => caution.code === 'travel-time-unknown',
