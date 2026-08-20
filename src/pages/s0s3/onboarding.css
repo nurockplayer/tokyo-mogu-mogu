@@ -1061,3 +1061,39 @@
     padding: var(--tmm-space-5);
   }
 }
+
+/* First-run tutorial (#257): a compact status note plus one unmistakable
+   actionable target. The visible option set stays intact while disabled
+   alternatives explain the wider product without competing with the demo. */
+.tmm-tutorial-guide {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--tmm-space-2);
+  margin: 0 0 var(--tmm-space-4);
+  padding: var(--tmm-space-3) var(--tmm-space-4);
+  color: var(--tmm-color-forest-deep);
+  background: var(--tmm-color-warm);
+  border: var(--tmm-border);
+  border-left: 4px solid var(--tmm-color-leaf);
+  border-radius: var(--tmm-radius-md);
+  font-size: var(--tmm-text-caption);
+  line-height: var(--tmm-leading-caption);
+}
+
+.tmm-tutorial-guide__label {
+  flex: 0 0 auto;
+  color: var(--tmm-color-forest-deep);
+}
+
+.tmm-tutorial-target {
+  position: relative;
+  outline: 3px solid var(--tmm-color-leaf);
+  outline-offset: 3px;
+  box-shadow: var(--tmm-shadow-lift);
+}
+
+@media (max-width: 374px) {
+  .tmm-tutorial-guide {
+    flex-direction: column;
+  }
+}

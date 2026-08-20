@@ -10,6 +10,7 @@ import { test, expect, type Page } from '@playwright/test';
 const LOCALE_KEY = 'tmm:locale';
 const FOOD_PROFILE_KEY = 'tmm:foodProfile:v1';
 const EXPLORATION_KEY = 'tmm:exploration:v1';
+const TUTORIAL_KEY = 'tmm:tutorial:v1';
 
 type Locale = 'ja' | 'en' | 'zh-TW';
 
@@ -109,6 +110,7 @@ for (const locale of LOCALES) {
 
     test('makes accountless browse and the established primary IA actionable', async ({ page }) => {
       await setLocale(page, locale.value);
+      await page.evaluate((key) => sessionStorage.setItem(key, 'complete'), TUTORIAL_KEY);
       await page.goto('/food-profile');
       await page.getByRole('button', { name: locale.browse }).click();
       await page.waitForURL('**/discover');
@@ -191,6 +193,8 @@ test.describe('Issue #252 post-profile browse entry (ja, 375px)', () => {
   test.use({ locale: 'ja-JP' });
 
   test('routes the saved-profile browse choice to Discover', async ({ page }) => {
+    await page.goto('/');
+    await page.evaluate((key) => sessionStorage.setItem(key, 'complete'), TUTORIAL_KEY);
     await page.goto('/food-profile');
     await page.getByRole('button', { name: 'はじめる！' }).click();
     await page.getByTestId('fp-modal-submit').click();

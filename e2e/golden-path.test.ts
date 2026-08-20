@@ -93,17 +93,13 @@ test.describe('golden path (ja, 375px)', () => {
     await page.getByRole('dialog').waitFor();
     await page.getByLabel('ニックネーム').fill('ナナミ');
     await page.getByTestId('fp-modal-submit').click();
-    // Latest-Figma four-question dietary interview (presentation-only fixture):
-    // allergy (1/4) → diet (2/4) → religion (3/4) → dislikes (4/4).
+    // First-run tutorial keeps the latest-Figma four-question interview while
+    // highlighting one safe, deterministic reply at a time.
     await page.getByText('まず、食物アレルギーはありますか？(複数選択)').waitFor();
-    await page.getByRole('button', { name: '🥚 卵' }).click();
-    await page.getByRole('button', { name: '送信' }).click();
-    await page.getByText('普段の食事で、当てはまるものはありますか？').waitFor();
-    await page.getByRole('button', { name: '送信' }).click();
-    await page.getByText('宗教上の理由などで、避けている食べものはありますか？(複数選択)').waitFor();
-    await page.getByRole('button', { name: '送信' }).click();
-    await page.getByText('苦手な食材や味はありましたら、教えてください！(複数選択)').waitFor();
-    await page.getByRole('button', { name: '送信' }).click();
+    for (let step = 0; step < 4; step += 1) {
+      await page.locator('[data-tutorial-target="true"]').click();
+      await page.locator('[data-tutorial-target="true"]').click();
+    }
     // Interview summary with the recommendation-only trust copy.
     await page.getByText('ありがとうございます！🌿 あなたの食のプロフィールを登録しました。').waitFor();
     // Prototype-continuity nickname (Issue #226): localStorage, cleared on demo
@@ -219,10 +215,10 @@ test.describe('golden path (ja, 375px)', () => {
     await page.getByRole('button', { name: 'はじめる！' }).click();
     await page.getByLabel('ニックネーム').fill('ナナミ');
     await page.getByTestId('fp-modal-submit').click();
-    await page.getByRole('button', { name: '送信' }).click();
-    await page.getByRole('button', { name: '送信' }).click();
-    await page.getByRole('button', { name: '送信' }).click();
-    await page.getByRole('button', { name: '送信' }).click();
+    for (let step = 0; step < 4; step += 1) {
+      await page.locator('[data-tutorial-target="true"]').click();
+      await page.locator('[data-tutorial-target="true"]').click();
+    }
     await page.getByRole('button', { name: '保存してつぎへ' }).click();
     await page.getByRole('button', { name: '自分に合った旅をおすすめしてもらう！' }).click();
     await page.waitForURL('**/explore');
@@ -231,6 +227,7 @@ test.describe('golden path (ja, 375px)', () => {
     await page.getByRole('button', { name: '東京都' }).click();
     await page.getByRole('button', { name: '1時間以内' }).click();
     await page.getByRole('button', { name: '半日' }).click();
+    await page.getByRole('button', { name: 'さっぱりした味' }).click();
     await page.getByRole('button', { name: '自然' }).click();
     await page.getByRole('button', { name: '結果を見る' }).click();
     await page.waitForURL('**/explore/result');

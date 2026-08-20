@@ -37,6 +37,10 @@ async function reachFirstInterviewQuestion(page: Page): Promise<void> {
   await page.getByTestId('fp-modal-submit').click();
 }
 
+async function selectTutorialNone(page: Page): Promise<void> {
+  await page.locator('[data-tutorial-target="true"]').click();
+}
+
 test.describe('Food Profile sequential interview (ja, 375px)', () => {
   test.use({ locale: 'ja-JP' });
 
@@ -47,6 +51,8 @@ test.describe('Food Profile sequential interview (ja, 375px)', () => {
     }) => {
       await reachFirstInterviewQuestion(page);
       await expect(page.getByText('食物アレルギーはありますか')).toBeVisible();
+      await selectTutorialNone(page);
+      const repliesBeforeSend = await page.locator('.fp-convo__msg--user').count();
 
       // Click the live 送信, then ~delay ms later re-query and click the newly
       // rendered live 送信 button. The second tap is dispatched via evaluate so
@@ -65,9 +71,8 @@ test.describe('Food Profile sequential interview (ja, 375px)', () => {
       await expect(page.getByText('普段の食事で、当てはまるものはありますか？').first()).toBeVisible();
       await expect(page.getByText('宗教上の理由などで')).toHaveCount(0);
 
-      // Exactly one user reply was appended (nickname + Q1 reply = 2); a skip
-      // would have produced 3.
-      await expect(page.locator('.fp-convo__msg--user')).toHaveCount(2);
+      // Exactly one user reply was appended; a skip would append a second one.
+      await expect(page.locator('.fp-convo__msg--user')).toHaveCount(repliesBeforeSend + 1);
     });
   }
 
@@ -75,12 +80,14 @@ test.describe('Food Profile sequential interview (ja, 375px)', () => {
     page,
   }) => {
     await reachFirstInterviewQuestion(page);
+    await selectTutorialNone(page);
     await page.getByRole('button', { name: '送信' }).click();
     await expect(page.getByText('普段の食事で、当てはまるものはありますか？').first()).toBeVisible();
 
     // Wait past the short transition cooldown, then a single deliberate
     // activation must advance Q2 → Q3.
     await page.waitForTimeout(300);
+    await selectTutorialNone(page);
     await page.getByRole('button', { name: '送信' }).click();
     await expect(page.getByText('宗教上の理由などで、避けている食べものはありますか？(複数選択)').first()).toBeVisible();
   });

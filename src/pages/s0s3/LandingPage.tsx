@@ -19,6 +19,7 @@ import { useI18n } from '../../i18n';
 import { hasFoodProfile } from '../../lib/food-profile-storage';
 import { loadNickname } from '../../lib/nickname';
 import { beginNewExploration } from './exploration-session';
+import { startGuidedTutorial } from './tutorial-session';
 import { HistorySection } from './history-section';
 import './onboarding.css';
 import './history-section.css';
@@ -58,7 +59,12 @@ function FirstTimeHome({ journeyTarget }: { journeyTarget: string }) {
             <Link
               to={journeyTarget}
               className="tmm-btn tmm-btn--primary"
-              onClick={beginNewExploration}
+              data-tutorial-choice="true"
+              data-tutorial-target="true"
+              onClick={() => {
+                beginNewExploration();
+                startGuidedTutorial();
+              }}
             >
               {t('s0Cta')}
             </Link>

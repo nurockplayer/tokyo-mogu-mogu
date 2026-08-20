@@ -14,6 +14,7 @@ import { clearExplorationAnswers } from '../pages/s0s3/exploration-session';
 import { clearFoodProfile } from '../lib/food-profile-storage';
 import { clearMoguRecent } from '../lib/mogu-recent';
 import { clearNickname } from '../lib/nickname';
+import { resetGuidedTutorial } from '../pages/s0s3/tutorial-session';
 
 export function DemoResetButton() {
   const { t } = useI18n();
@@ -34,6 +35,7 @@ export function DemoResetButton() {
     clearFoodProfile();
     clearMoguRecent();
     clearNickname();
+    resetGuidedTutorial();
     setConfirming(false);
   };
 

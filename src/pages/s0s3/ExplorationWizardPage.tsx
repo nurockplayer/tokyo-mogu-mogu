@@ -37,6 +37,8 @@ import { loadExplorationAnswers, saveExplorationAnswers } from './exploration-se
 import { hasFoodProfile } from '../../lib/food-profile-storage';
 import { loadNickname } from '../../lib/nickname';
 import { ChatTranscript, AssistantQuestion, scrollTurnIntoView, type ChatItem } from './conversation';
+import { isGuidedTutorialActive } from './tutorial-session';
+import { TutorialGuide, tutorialControlProps } from './tutorial-ui';
 import expEat from '../../assets/figma/exp-eat.png';
 import expMake from '../../assets/figma/exp-make.png';
 import expBuy from '../../assets/figma/exp-buy.png';
@@ -135,6 +137,16 @@ const DURATION_OPTIONS: readonly FpOption<TripDuration>[] = [
   { id: 'undecided', labelKey: 'exFpDurationUndecided', internal: 'half-day' },
 ];
 
+/** Legitimate golden-path inputs highlighted by the first-run tutorial. */
+const TUTORIAL_TARGETS = {
+  experience: 'eat',
+  departure: 'tokyo',
+  travel: 'within60',
+  duration: 'half',
+  taste: 'refreshing',
+  theme: 'nature',
+} as const;
+
 function optionBy<V extends string>(options: readonly FpOption<V>[], id: string): FpOption<V> | undefined {
   return options.find((o) => o.id === id);
 }
@@ -230,6 +242,7 @@ function ExplorationWizardInner() {
 
   const [visual, setVisual] = useState<VisualAnswers>(initialVisual);
   const [step, setStep] = useState(0);
+  const [tutorialActive] = useState(isGuidedTutorialActive);
   // Presentation-only departure search text (Figma 8:2608); never a geocoder /
   // station API and never persisted as canonical data.
   const [departureSearch, setDepartureSearch] = useState('');
@@ -284,7 +297,11 @@ function ExplorationWizardInner() {
     setVisual((prev) => ({ ...prev, [key]: toggleValue(prev[key], id) }));
   }
 
-  const canConfirmTasteTheme = visual.tastes.length > 0 || visual.themes.length > 0;
+  const tutorialTasteSelected = visual.tastes.includes(TUTORIAL_TARGETS.taste);
+  const tutorialThemeSelected = visual.themes.includes(TUTORIAL_TARGETS.theme);
+  const canConfirmTasteTheme = tutorialActive
+    ? tutorialTasteSelected && tutorialThemeSelected
+    : visual.tastes.length > 0 || visual.themes.length > 0;
 
   function confirmTasteTheme() {
     if (!canConfirmTasteTheme) return;
@@ -356,11 +373,21 @@ function ExplorationWizardInner() {
 
   // --- Renderers ---
 
-  function renderSingle(options: readonly { id: string; labelKey: LocaleKey }[], selected: string | null, onSelect: (id: string) => void) {
+  function renderSingle(
+    options: readonly { id: string; labelKey: LocaleKey }[],
+    selected: string | null,
+    onSelect: (id: string) => void,
+    tutorialTargetId: string,
+  ) {
     return (
       <div className="fp-convo__choices">
         {options.map((option) => (
-          <Chip key={option.id} selected={selected === option.id} onClick={() => onSelect(option.id)}>
+          <Chip
+            {...tutorialControlProps(tutorialActive, option.id === tutorialTargetId)}
+            key={option.id}
+            selected={selected === option.id}
+            onClick={() => onSelect(option.id)}
+          >
             {t(option.labelKey)}
           </Chip>
         ))}
@@ -368,11 +395,25 @@ function ExplorationWizardInner() {
     );
   }
 
-  function renderMulti(options: readonly FpOption<string>[], selected: string[], onToggle: (id: string) => void) {
+  function renderMulti(
+    options: readonly FpOption<string>[],
+    selected: string[],
+    onToggle: (id: string) => void,
+    tutorialTargetId: string,
+    tutorialBeatActive: boolean,
+  ) {
     return (
       <div className="fp-convo__choices">
         {options.map((option) => (
-          <Chip key={option.id} selected={isSelected(selected, option.id)} onClick={() => onToggle(option.id)}>
+          <Chip
+            {...tutorialControlProps(
+              tutorialActive,
+              tutorialBeatActive && option.id === tutorialTargetId,
+            )}
+            key={option.id}
+            selected={isSelected(selected, option.id)}
+            onClick={() => onToggle(option.id)}
+          >
             {t(option.labelKey)}
           </Chip>
         ))}
@@ -383,17 +424,27 @@ function ExplorationWizardInner() {
   /** Large 2-column image-forward experience tiles (Figma `4:2101`); tapping
    *  one is the answer. The Figma tile media renders the exported imagery with
    *  the localized label below. */
-  function renderTiles(options: readonly FpOption<string>[], selected: string[], onSelect: (id: string) => void) {
+  function renderTiles(
+    options: readonly FpOption<string>[],
+    selected: string[],
+    onSelect: (id: string) => void,
+    tutorialTargetId: string,
+  ) {
     return (
       <div className="tmm-wizard__tiles">
         {options.map((option) => {
           const isSel = isSelected(selected, option.id);
+          const tutorialProps = tutorialControlProps(
+            tutorialActive,
+            option.id === tutorialTargetId,
+          );
           return (
             <button
+              {...tutorialProps}
               key={option.id}
               type="button"
               aria-pressed={isSel}
-              className={`tmm-wizard__tile ${isSel ? 'tmm-wizard__tile--selected' : ''}`.trim()}
+              className={`tmm-wizard__tile ${isSel ? 'tmm-wizard__tile--selected' : ''} ${tutorialProps.className ?? ''}`.trim()}
               onClick={() => onSelect(option.id)}
             >
               <img src={EXP_IMAGES[option.id]} alt="" className="tmm-wizard__tile-img" />
@@ -429,7 +480,12 @@ function ExplorationWizardInner() {
         return (
           <>
             <ChatQuestion title={t(S2_TITLES[0])}>
-              {renderTiles(EXP_OPTIONS, visual.experiences, chooseExperience)}
+              {renderTiles(
+                EXP_OPTIONS,
+                visual.experiences,
+                chooseExperience,
+                TUTORIAL_TARGETS.experience,
+              )}
             </ChatQuestion>
             <p className="fp-convo__hint">{t(S2_HINTS[0])}</p>
           </>
@@ -439,7 +495,12 @@ function ExplorationWizardInner() {
         return (
           <>
             <ChatQuestion title={t(S2_TITLES[1])}>
-              {renderSingle(DEPARTURE_OPTIONS, visual.departure, (id) => chooseSingle('departure', id))}
+              {renderSingle(
+                DEPARTURE_OPTIONS,
+                visual.departure,
+                (id) => chooseSingle('departure', id),
+                TUTORIAL_TARGETS.departure,
+              )}
               <label htmlFor="fp-departure-search" className="fp-convo__label">
                 {t('exAreaSearchLabel')}
               </label>
@@ -450,6 +511,7 @@ function ExplorationWizardInner() {
                 value={departureSearch}
                 onChange={(e) => setDepartureSearch(e.target.value)}
                 placeholder={t('exAreaSearchPlaceholder')}
+                disabled={tutorialActive}
               />
             </ChatQuestion>
             <p className="fp-convo__hint">{t(S2_HINTS[1])}</p>
@@ -460,7 +522,12 @@ function ExplorationWizardInner() {
         return (
           <>
             <ChatQuestion title={t(S2_TITLES[2])}>
-              {renderSingle(TRAVEL_OPTIONS, visual.travel, (id) => chooseSingle('travel', id))}
+              {renderSingle(
+                TRAVEL_OPTIONS,
+                visual.travel,
+                (id) => chooseSingle('travel', id),
+                TUTORIAL_TARGETS.travel,
+              )}
             </ChatQuestion>
             <p className="fp-convo__hint">{t(S2_HINTS[2])}</p>
           </>
@@ -470,7 +537,12 @@ function ExplorationWizardInner() {
         return (
           <>
             <ChatQuestion title={t(S2_TITLES[3])}>
-              {renderSingle(DURATION_OPTIONS, visual.duration, (id) => chooseSingle('duration', id))}
+              {renderSingle(
+                DURATION_OPTIONS,
+                visual.duration,
+                (id) => chooseSingle('duration', id),
+                TUTORIAL_TARGETS.duration,
+              )}
             </ChatQuestion>
             <p className="fp-convo__hint">{t(S2_HINTS[3])}</p>
           </>
@@ -483,15 +555,41 @@ function ExplorationWizardInner() {
           <>
             <ChatQuestion title={t(S2_TITLES[4])} />
             <ChatQuestion title={`${t('exQ5TasteLabel')} ${fillTemplate(t('exSubStep'), { n: '1', total: '2' })}`}>
-              {renderMulti(TASTE_OPTIONS, visual.tastes, (id) => toggleMulti('tastes', id))}
+              {renderMulti(
+                TASTE_OPTIONS,
+                visual.tastes,
+                (id) => toggleMulti('tastes', id),
+                TUTORIAL_TARGETS.taste,
+                !tutorialTasteSelected,
+              )}
             </ChatQuestion>
             <ChatQuestion title={`${t('exQ5ThemeLabel')} ${fillTemplate(t('exSubStep'), { n: '2', total: '2' })}`}>
-              {renderMulti(THEME_OPTIONS, visual.themes, (id) => toggleMulti('themes', id))}
+              {renderMulti(
+                THEME_OPTIONS,
+                visual.themes,
+                (id) => toggleMulti('themes', id),
+                TUTORIAL_TARGETS.theme,
+                tutorialTasteSelected && !tutorialThemeSelected,
+              )}
             </ChatQuestion>
             <div className="fp-convo__confirm">
-              <Button variant="primary" onClick={confirmTasteTheme} disabled={!canConfirmTasteTheme}>
-                {t('exDone')}
-              </Button>
+              {(() => {
+                const confirmProps = tutorialControlProps(
+                  tutorialActive,
+                  tutorialTasteSelected && tutorialThemeSelected,
+                );
+                return (
+                  <Button
+                    {...confirmProps}
+                    variant="primary"
+                    className={confirmProps.className}
+                    onClick={confirmTasteTheme}
+                    disabled={!canConfirmTasteTheme || Boolean(confirmProps.disabled)}
+                  >
+                    {t('exDone')}
+                  </Button>
+                );
+              })()}
             </div>
             <p className="fp-convo__hint">{t(S2_HINTS[4])}</p>
           </>
@@ -513,12 +611,15 @@ function ExplorationWizardInner() {
             className="tmm-wizard__back"
             onClick={goBack}
             aria-label={t('back')}
+            disabled={tutorialActive}
           >
             ‹
           </button>
           <h2 className="tmm-wizard__title">{t('protoNavDiscover')}</h2>
           <span className="tmm-wizard__header-spacer" aria-hidden="true" />
         </div>
+
+        {tutorialActive ? <TutorialGuide /> : null}
 
         <p className="tmm-wizard__step" aria-hidden="true">
           {progressLabel}
