@@ -58,7 +58,7 @@ for reconciliation rather than silently being rewritten.
 | `23:3131` | Implemented | Exploration Q3. |
 | `23:3207` | Implemented | Exploration Q4. |
 | `23:3262` | Implemented | Exploration Q5. |
-| `23:3380` | Implemented | Result candidate and Story transition. |
+| `23:3380` | **Deliberate Product adaptation (#255)** | The 96%/91% fixture is superseded by a deterministic source-backed Top 3; every candidate has a real Story transition and internal scores are not displayed. |
 | `52:3995` | Implemented | Story page and nearby content. |
 | `119:254` | **Presentation-only / deliberate adaptation** | The existing Story → Route CTA conceptually triggers direct navigation to the current source-backed Route; the dimmed mascot/spinner is a transition reference only. No runtime generation, artificial delay, async lifecycle, or new persistence is added. |
 | `119:681` | Implemented | Route timeline, spots, save action. |

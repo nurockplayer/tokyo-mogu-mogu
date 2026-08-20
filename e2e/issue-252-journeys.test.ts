@@ -25,31 +25,26 @@ const JOURNEYS = [
     candidateId: 'demo-okutama-wasabi',
     cultureId: 'wasabi-okutama',
     answers: { tastes: ['refreshing'], experiences: ['eat'], interests: ['nature'], duration: 'half-day' },
-    golden: true,
   },
   {
     candidateId: 'demo-ome-sake',
     cultureId: 'sake-ome',
     answers: { tastes: ['rich'], experiences: ['buy'], interests: ['tradition'], duration: 'full-day' },
-    golden: false,
   },
   {
     candidateId: 'demo-tokyo-hachioji-ginger',
     cultureId: 'hachioji-ginger',
     answers: { tastes: ['rich'], experiences: ['buy'], interests: ['daily-life'], duration: 'half-day' },
-    golden: false,
   },
   {
     candidateId: 'demo-tokyo-west-fussa-sake',
     cultureId: 'sake-fussa',
     answers: { tastes: ['sweet'], experiences: ['meet'], interests: ['daily-life'], duration: 'half-day' },
-    golden: false,
   },
   {
     candidateId: 'demo-tokyo-west-akiruno-produce',
     cultureId: 'produce-akiruno',
     answers: { tastes: ['sweet'], experiences: ['buy'], interests: ['nature'], duration: 'half-day' },
-    golden: false,
   },
 ] as const;
 
@@ -163,31 +158,70 @@ for (const locale of LOCALES) {
       }
     });
 
-    test('shows all five Results without fake non-golden scores', async ({ page }) => {
+    test('shows every selected journey first in a real, score-free Top 3', async ({ page }) => {
       test.setTimeout(60_000);
 
       for (const journey of JOURNEYS) {
         await seedRecommendation(page, locale.value, journey.answers);
         await page.goto('/explore/result');
 
-        const storyLink = page.locator(
+        const rankedCards = page.locator('.tmm-result-ranking__item');
+        await expect(rankedCards).toHaveCount(3);
+        const primaryCard = rankedCards.first();
+        const storyLink = primaryCard.locator(
           `a[href^="/story/${journey.cultureId}"][href*="candidateId=${journey.candidateId}"]`,
         );
         await expect(storyLink).toBeVisible();
-        await expect(page.locator('.journey-meta__route')).toBeVisible();
+        await expect(primaryCard.locator('.journey-meta__route')).toBeVisible();
         await expect(page.locator('.tmm-result__summary-desc')).toContainText('5');
-        await expect(page.locator('.tmm-result-card--hero .tmm-result-match')).toHaveCount(
-          journey.golden ? 1 : 0,
+        await expect(page.locator('.tmm-result-match')).toHaveCount(0);
+        await expect(page.locator('body')).not.toContainText(/(?:96|91)%/);
+        const candidateHrefs = await page.locator('a.tmm-result-card__action').evaluateAll(
+          (links) => links.map((link) => link.getAttribute('href')),
         );
-        await expect(page.locator('.tmm-result-card--hero .tmm-result-match__note')).toHaveCount(
-          journey.golden ? 1 : 0,
-        );
+        expect(candidateHrefs).toHaveLength(3);
+        expect(new Set(candidateHrefs).size).toBe(3);
         await expectPrimaryNav(page);
         await expectNoHorizontalOverflow(page);
       }
     });
   });
 }
+
+test.describe('Issue #255 ranked Result identity (ja, 375px)', () => {
+  test.use({ locale: 'ja-JP' });
+
+  test('carries every Top 3 candidate through Result -> Story -> Route -> Spot', async ({
+    page,
+  }) => {
+    await seedRecommendation(page, 'ja', JOURNEYS[0].answers);
+    await page.goto('/explore/result');
+    const storyLinks = page.locator('a.tmm-result-card__action');
+    await expect(storyLinks).toHaveCount(3);
+    const storyHrefs = await storyLinks.evaluateAll((links) =>
+      links.map((link) => link.getAttribute('href')).filter((href): href is string => href !== null),
+    );
+    expect(storyHrefs).toHaveLength(3);
+
+    for (const storyHref of storyHrefs) {
+      const expectedCandidateId = new URL(storyHref, page.url()).searchParams.get('candidateId');
+      expect(expectedCandidateId).toBeTruthy();
+      await page.goto(storyHref);
+      expect(new URL(page.url()).searchParams.get('candidateId')).toBe(expectedCandidateId);
+
+      const routeLink = page.locator(
+        `a[href^="/route?"][href*="candidateId=${expectedCandidateId}"]`,
+      ).first();
+      await expect(routeLink).toBeVisible();
+      await routeLink.click();
+      expect(new URL(page.url()).searchParams.get('candidateId')).toBe(expectedCandidateId);
+
+      await page.locator('.s5-timeline__pin-link').first().click();
+      expect(new URL(page.url()).searchParams.get('candidateId')).toBe(expectedCandidateId);
+      await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+    }
+  });
+});
 
 test.describe('Issue #252 post-profile browse entry (ja, 375px)', () => {
   test.use({ locale: 'ja-JP' });

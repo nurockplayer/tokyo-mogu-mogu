@@ -198,14 +198,16 @@ screens import these primitives instead of building their own visual system.
 
 ## S3 Diagnosis Result
 
-- Result is a **feature card**: title, description, match-reason `Tag`s derived
-  from the S2 answers, and a dietary-consideration tag. It carries the
-  dietary disclaimer equivalent to 「詳細は現地・店舗に直接確認してください」
-  (product contract "Safety Boundary").
-- Primary CTA → S4 story; secondary CTA → re-edit diagnosis.
-- The meaning of the S3 match score is unresolved (see below); do not display a
-  score whose semantics are not defined. The S3 secondary candidate card
-  interactivity is unresolved.
+- Result is a **ranked Top 3** (#255): the selected source-backed journey first,
+  followed by the next two distinct eligible evaluations from the same
+  deterministic recommendation decision. Every card carries title,
+  description, bounded match-reason `Tag`s, route metadata, and its own S4 Story
+  CTA with canonical candidate identity.
+- The first card carries the dietary-consideration tag and the Safety Boundary
+  disclaimer equivalent to 「詳細は現地・店舗に直接確認してください」。The page-level
+  secondary CTA re-runs Exploration.
+- Internal additive scores are ordering-only. Do not render them as percentages,
+  probability, confidence, safety, or recommendation-accuracy claims.
 
 ## S4 Food Culture Story
 

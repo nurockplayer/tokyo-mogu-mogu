@@ -514,21 +514,15 @@ export const strings = {
     exQ5TasteLabel: '1.好きな味は？(複数選択)',
     exQ5ThemeLabel: '2.気になるものテーマは？(複数選択)',
     exSubStep: '{n}/{total}',
-    // S3 result (Issue #43, reframed by Issue #78; Issue #181 reveal moment →
-    // Issue #217 nickname + 96% presentation)
+    // S3 result (Issue #43, reframed by Issue #78; real ranked Top 3 in #255)
     s3Greeting: 'こんにちは！あなたにぴったりの食文化の旅が見つかりました。',
     s3GreetingName: 'こんにちは、{name}さん。あなたにぴったりの食文化の旅が見つかりました。',
     s3RevealTitle: 'あなたに合う食の旅を見つけました！',
     s3RevealSub: 'あなたの答えから導いた、最初のおすすめです。',
-    // Result fixture candidates (latest Figma parity, Issue #226)
     s3ResultCount: '東京の{count}つの食旅からおすすめ',
-    s3CardRegion: '奥多摩地区 (東京西部)',
+    s3RankingTitle: 'あなたへのおすすめ Top 3',
+    s3RankLabel: '第{rank}候補',
     s3CardTitlePrimary: '水がつなぐ、江戸から続く辛味\n奥多摩のわさび文化をたどる',
-    s3CardTitleSecondary: '水が育てる、幻の川魚\n奥多摩やまめの食文化',
-    s3MatchPercent: '96%',
-    s3MatchPercentSecondary: '91%',
-    s3MatchLabel: 'マッチ度',
-    s3MatchNote: '※ このマッチ度はデモ用のプロトタイプ表示です。実際の適合度や安全性を保証するものではありません。',
     s3DietaryTitle: '食事制限の考慮',
     s3DietaryKnown: '食事制限の入力があります（対応可否は未確認です）',
     s3DietaryUnknown: '制限なしのご入力でした',
@@ -1336,22 +1330,15 @@ export const strings = {
     exQ5TasteLabel: '1. What tastes do you like? (multi-select)',
     exQ5ThemeLabel: '2. What themes interest you? (multi-select)',
     exSubStep: '{n}/{total}',
-    // S3 result (Issue #43, reframed by Issue #78; Issue #181 reveal moment →
-    // Issue #217 nickname + 96% presentation)
+    // S3 result (Issue #43, reframed by Issue #78; real ranked Top 3 in #255)
     s3Greeting: 'Hi! I found a food-culture journey that suits you.',
     s3GreetingName: 'Hi, {name}! I found a food-culture journey that suits you.',
     s3RevealTitle: 'We found a food journey that fits you!',
     s3RevealSub: 'Our first recommendation, shaped by your answers.',
-    // Result fixture candidates (latest Figma parity, Issue #226)
     s3ResultCount: 'A recommendation from {count} Tokyo food journeys',
-    s3CardRegion: 'Okutama area (western Tokyo)',
+    s3RankingTitle: 'Your Top 3 food journeys',
+    s3RankLabel: 'Recommendation {rank}',
     s3CardTitlePrimary: 'Water ties it together\nTracing Okutama\'s wasabi culture',
-    s3CardTitleSecondary: 'Water-raised, rare river fish\nThe food culture of Okutama yamame',
-    s3MatchPercent: '96%',
-    s3MatchPercentSecondary: '91%',
-    s3MatchLabel: 'Match',
-    s3MatchNote:
-      '* This match percentage is a demo prototype display. It is not a real accuracy score or a safety guarantee.',
     s3DietaryTitle: 'Dietary considerations',
     s3DietaryKnown: 'Dietary restrictions recorded; compatibility is unverified',
     s3DietaryUnknown: 'No restrictions entered',
@@ -2164,21 +2151,15 @@ export const strings = {
     exQ5TasteLabel: '1.喜歡什麼味道？(可複選)',
     exQ5ThemeLabel: '2.對什麼主題感興趣？(可複選)',
     exSubStep: '{n}/{total}',
-    // S3 result (Issue #43, reframed by Issue #78; Issue #181 reveal moment →
-    // Issue #217 nickname + 96% presentation)
+    // S3 result (Issue #43, reframed by Issue #78; real ranked Top 3 in #255)
     s3Greeting: '你好！我為你找到了適合的飲食文化之旅。',
     s3GreetingName: '你好，{name}！我為你找到了適合的飲食文化之旅。',
     s3RevealTitle: '我們找到了適合你的飲食之旅！',
     s3RevealSub: '根據你的回答，為你挑選的第一項推薦。',
-    // Result fixture candidates (latest Figma parity, Issue #226)
     s3ResultCount: '從東京 {count} 條飲食文化之旅中推薦',
-    s3CardRegion: '奧多摩地區（東京西部）',
+    s3RankingTitle: '為你推薦的 Top 3 飲食之旅',
+    s3RankLabel: '第 {rank} 名',
     s3CardTitlePrimary: '由水串起的辛味\n探訪奧多摩的山葵文化',
-    s3CardTitleSecondary: '水所養育的珍稀川魚\n奧多摩山女魚的飲食文化',
-    s3MatchPercent: '96%',
-    s3MatchPercentSecondary: '91%',
-    s3MatchLabel: '相符度',
-    s3MatchNote: '※ 此相符度為示範用的原型顯示，不代表實際的準確度或安全性保證。',
     s3DietaryTitle: '飲食限制的考量',
     s3DietaryKnown: '已記錄飲食限制；是否適用尚未確認',
     s3DietaryUnknown: '未輸入飲食限制',

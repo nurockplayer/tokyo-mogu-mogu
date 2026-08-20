@@ -639,10 +639,45 @@
   overflow-wrap: anywhere;
 }
 
-/* Result hero: taller media so the reveal reads as an image-led discovery
-   moment (Figma `23:3380` / `23:3527` 350×240 hero) rather than a thin band. */
+.tmm-result-ranking__title {
+  margin: 0 0 var(--tmm-space-3);
+  font-family: var(--tmm-font-display);
+  font-size: var(--tmm-text-title);
+  color: var(--tmm-color-forest-deep);
+}
+
+.tmm-result-ranking__list {
+  display: grid;
+  gap: var(--tmm-space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tmm-result-card__rank {
+  color: var(--tmm-color-forest);
+  font-size: var(--tmm-text-caption);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tmm-result-card__action {
+  margin-top: var(--tmm-space-2);
+}
+
+.tmm-result-ranking__item:not(:first-child) .tmm-result-card__media {
+  aspect-ratio: 16 / 9;
+}
+
+.tmm-result-ranking__item:not(:first-child) .tmm-result-card__title {
+  font-size: 1.25rem;
+}
+
+/* A 16:9 Result media frame keeps rank and journey identity above the fixed
+   mobile navigation while retaining an image-led reveal. */
 .tmm-result .tmm-result-card__media {
-  aspect-ratio: 10 / 7;
+  aspect-ratio: 16 / 9;
 }
 
 .tmm-result-card__img {
@@ -692,8 +727,7 @@
   font-weight: 700;
 }
 
-/* Phase 1 match presentation (Issue #217): Figma's circular 96% マッチ度 is a
-   prototype presentation badge over the result hero — no scoring semantics. */
+/* Result greeting retained from the approved conversation composition. */
 .tmm-result__greeting {
   justify-content: center;
   margin-bottom: var(--tmm-space-4);
@@ -702,48 +736,6 @@
 .tmm-result__greeting .fp-convo__bubble {
   flex: 0 1 auto;
   text-align: left;
-}
-
-.tmm-result .tmm-result-card__media {
-  position: relative;
-}
-
-.tmm-result-match {
-  position: absolute;
-  right: var(--tmm-space-3);
-  bottom: var(--tmm-space-3);
-  width: 74px;
-  height: 74px;
-  border-radius: 50%;
-  background: var(--tmm-color-card);
-  border: 2px solid var(--tmm-color-leaf);
-  box-shadow: var(--tmm-shadow-card);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.tmm-result-match__percent {
-  font-family: var(--tmm-font-display);
-  font-weight: 800;
-  font-size: 1.18rem;
-  line-height: 1.1;
-  color: var(--tmm-color-forest-deep);
-}
-
-.tmm-result-match__label {
-  font-size: 0.66rem;
-  font-weight: 700;
-  color: var(--tmm-color-forest);
-  letter-spacing: 0.04em;
-}
-
-.tmm-result-match__note {
-  margin: 0;
-  font-size: var(--tmm-text-caption);
-  color: var(--tmm-color-ink-faint);
-  line-height: var(--tmm-leading-caption);
 }
 
 /* Desktop: contain the full-bleed hero as a rounded plate (same treatment as
