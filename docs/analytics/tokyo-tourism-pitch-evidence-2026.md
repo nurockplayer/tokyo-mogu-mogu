@@ -1,7 +1,7 @@
 # Tokyo Tourism Pitch Evidence 2026 — 提案用観光エビデンス
 
-Status: **Current pitch-evidence supplement**  
-Last verified: **2026-08-22**  
+Status: **Current pitch-evidence supplement**
+Last verified: **2026-08-22**
 Purpose: 2026-08-23 都知事杯オープンデータ・ハッカソンの提案書・発表で使う quantitative evidence を、最新の東京都 / TCVB 公開資料に基づいて整理する。
 
 > この文書は「地域の食文化が外国人旅行者に伝わっていない」ことを直接証明するものではない。公開データが直接示すのは、(1) 日本食体験の高い実施率、(2) 訪問先・宿泊の都心集中、(3) 文化体験後の高い満足度、(4) 外国語コミュニケーションの相対的な弱さ、(5) 訪都外国人の大きな消費規模である。Pitch では観測事実と Product interpretation を分ける。
