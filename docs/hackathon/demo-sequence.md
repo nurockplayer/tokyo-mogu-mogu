@@ -1,7 +1,7 @@
 # Deterministic Demo Sequence（決定論デモ手順）/ Play Sheet
 
 **Status**: 2026-08-20 release candidate（#257 guided tutorial + #255 ranked Top 3）。実行順は `e2e/guided-tutorial.test.ts` と `e2e/golden-path.test.ts` の操作に一致。
-production `Home / Discover / MOGU / My` nav は guided conversation には表示されない。
+production `Home / Discover / MOGU / My` nav は guided setup / diagnosis には表示されない。
 latest Figma の **prototype-only bottom nav** は returning Home と Route だけに表示される。
 ナレーション台本は `docs/demo-script.md`、当日オペは `docs/hackathon/2026-08-23-demo-runbook.md`、
 審査軸との対応は `docs/hackathon/judging-axis-evidence.md`。
@@ -27,14 +27,14 @@ latest Figma の **prototype-only bottom nav** は returning Home と Route だ�
 | 4 | **Dietary Interview（4 ステップ）** | 毎回、光っている `なし` 回答 → 光った `送信` | ステップカウンタ `n/4`。1 beat に 1 操作のみ | 12 s |
 | 5 | **Summary** | `保存してつぎへ` | 選択内容の確認 | 5 s |
 | 6 | **Post-profile fork** | 光っている `自分に合った旅をおすすめしてもらう！` | 通常モードの browse は `/discover`。ガイド中は disabled | 3 s |
-| 7 | **Exploration（5 ステップ）** | 1/5 `食べる` 2/5 `東京都` 3/5 `1時間以内` 4/5 `半日` 5/5 味 `さっぱりした味`・テーマ `自然`（1/2・2/2）→ `結果を見る` | URL → `/explore`。挨拶に `ナナミ` | 22 s |
+| 7 | **食旅診断（5 ステップ）** | 1/5 `食べる` 2/5 `東京都` 3/5 `1時間以内` 4/5 `半日` 5/5 味 `さっぱりした味`・テーマ `自然`（1/2・2/2）→ `結果を見る` | URL → `/explore`。Food Profile 会話とは別の再実行可能なセッション | 22 s |
 | 8 | **Result** | `あなたへのおすすめ Top 3`。第1候補 `東京わさび` の Story CTA をタップ | 第2候補 `秋川の旬の農産物`、第3候補 `青梅・沢井の日本酒`。全て実 candidate、パーセントなし | 8 s |
 | 9 | **Story** | `東京わさびの物語を読む` | `/story/wasabi-okutama`、`味わうことが、継承になる` | 12 s |
 | 10 | **Route** | `この食文化の観光ルートを作成する` | `/route`、h1 `奥多摩わさび紀行`、`デモ用ルート`、prototype bottom-nav | 8 s |
 | 11 | **Spot** | timeline ピン `奥多摩観光案内所` → `➕ 旅程に追加する` → `旅程に追加しました` → `閉じる` | `/spot/okutama-tourism-office`、h1 `奥多摩観光案内所` | 8 s |
 | 12 | **Save** | `ルートに戻る` → `🔖 この旅程を保存する` → `旅程を保存しました` | `tmm:savedRoutes` に `奥多摩わさび紀行` | 4 s |
 
-**合計: 約 85 s**。production nav は guided conversation には表示されず、
+**合計: 約 85 s**。production nav は guided setup / diagnosis には表示されず、
 prototype-only bottom nav は latest Figma どおり returning Home / Route のみに表示される。
 
 ### 任意（+10 s、時間が許せば）— Phase 2 面は direct URL で到達

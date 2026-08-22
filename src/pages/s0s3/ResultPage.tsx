@@ -30,11 +30,15 @@ import { useI18n } from '../../i18n';
 import { EmptyState, Tag, type TagTone } from '../../ui';
 import { fillTemplate, type MatchTagKey } from '../../lib/exploration';
 import {
+  foodProfileDietaryState,
+  type FoodProfileDietaryState,
+} from '../../lib/food-profile';
+import {
   recommendCandidates,
   resolveHistoricalRecommendation,
   type CandidateEvaluation,
 } from '../../lib/recommendation';
-import { loadExplorationAnswers } from './exploration-session';
+import { beginNewExploration, loadExplorationAnswers } from './exploration-session';
 import { loadFoodProfile } from '../../lib/food-profile-storage';
 import { loadNickname } from '../../lib/nickname';
 import { phase1RecommendableCandidates } from './phase1-exploration';
@@ -144,11 +148,12 @@ export function ResultPage() {
       completeGuidedTutorial();
     }
   }, [isReopen, recommendationEvaluation]);
-  // Dietary-consideration state comes from the durable Food Profile, which the
-  // returning flow preserves; missing profile → "no restrictions".
-  const dietary = useMemo(() => {
-    return profile !== null && (profile.dietary.length > 0 || profile.dietaryOther.trim().length > 0);
+  // Preserve all three durable meanings: recorded restrictions, explicit
+  // no-restrictions input, and guided/skipped input that was not evaluated.
+  const dietaryState = useMemo<FoodProfileDietaryState>(() => {
+    return profile === null ? 'not-evaluated' : foodProfileDietaryState(profile);
   }, [profile]);
+  const hasDietaryConsiderations = dietaryState === 'restrictions-recorded';
 
   // First-time flow must set up the Food Profile before Exploration. A direct
   // visit with no durable profile redirects to setup instead of recommending.
@@ -199,7 +204,7 @@ export function ResultPage() {
                     evaluation={evaluation}
                     rank={index + 1}
                     primary={index === 0}
-                    dietary={dietary}
+                    dietaryState={dietaryState}
                     isReopen={isReopen}
                   />
                 </li>
@@ -208,7 +213,11 @@ export function ResultPage() {
           </section>
 
           <div className="tmm-result__actions">
-            <Link to="/explore" className="tmm-btn tmm-btn--secondary tmm-btn--block">
+            <Link
+              to="/explore"
+              className="tmm-btn tmm-btn--secondary tmm-btn--block"
+              onClick={beginNewExploration}
+            >
               {t('s3EditCta')}
             </Link>
           </div>
@@ -217,7 +226,7 @@ export function ResultPage() {
             <ResultRecorder
               answers={answers}
               tags={primaryTags}
-              hasDietaryConsiderations={dietary}
+              hasDietaryConsiderations={hasDietaryConsiderations}
               candidateId={recommendation.id}
               resultId={recommendation.foodCultureId}
               titleKey={recommendedTitleKey}
@@ -235,13 +244,13 @@ function ResultJourneyCard({
   evaluation,
   rank,
   primary,
-  dietary,
+  dietaryState,
   isReopen,
 }: {
   evaluation: CandidateEvaluation;
   rank: number;
   primary: boolean;
-  dietary: boolean;
+  dietaryState: FoodProfileDietaryState;
   isReopen: boolean;
 }) {
   const { locale, t } = useI18n();
@@ -306,8 +315,12 @@ function ResultJourneyCard({
           <>
             <div className="tmm-result__section">
               <h3 className="tmm-result__section-title">{t('s3DietaryTitle')}</h3>
-              <Tag tone={dietary ? 'warning' : 'info'}>
-                {dietary ? t('s3DietaryKnown') : t('s3DietaryUnknown')}
+              <Tag tone={dietaryState === 'restrictions-recorded' ? 'warning' : 'info'}>
+                {dietaryState === 'restrictions-recorded'
+                  ? t('s3DietaryKnown')
+                  : dietaryState === 'no-restrictions'
+                    ? t('s3DietaryUnknown')
+                    : t('fpNotEvaluated')}
               </Tag>
             </div>
             {hasUnknownTravelTime ? (
@@ -384,7 +397,11 @@ function EmptyFallback() {
       title={t('s3MissingTitle')}
       description={t('s3Missing')}
       action={
-        <Link to="/explore" className="tmm-btn tmm-btn--secondary tmm-btn--sm">
+        <Link
+          to="/explore"
+          className="tmm-btn tmm-btn--secondary tmm-btn--sm"
+          onClick={beginNewExploration}
+        >
           {t('back')}
         </Link>
       }

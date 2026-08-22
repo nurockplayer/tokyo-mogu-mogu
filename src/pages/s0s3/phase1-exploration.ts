@@ -1,7 +1,7 @@
 /**
  * Phase 1 constrained choice sets (Issue #217).
  *
- * The guided conversation keeps the canonical values represented by the
+ * The guided diagnosis keeps the canonical values represented by the
  * current Figma options, while the recommendation set is allowed to route a
  * traveler to any ready source-backed journey. The default refreshing /
  * nature answers still reach 奥多摩 × 東京わさび, preserving the 8/23 golden

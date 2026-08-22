@@ -473,20 +473,77 @@
   box-shadow: 0 0 0 5px var(--tmm-color-forest-tint);
 }
 
-/* Exploration question inside the chat: the Figma exploration step title is
-   20px ExtraBold centered (Figma `4:2298`); keep the food-profile turns at the
-   uniform 16px chat rhythm. White-on-sage fails WCAG AA (~2:1), so the question
-   text is the app's ink on the green bubbles (8.3:1 active / 6.7:1 completed) —
-   the Figma exploration question is dark-on-light, so dark text preserves the
-   design language. Scoped to the wizard so the food-profile bubbles are
-   untouched. */
-.tmm-wizard .fp-convo__active .fp-convo__q,
-.tmm-wizard .fp-chat .fp-convo__q {
+/* Issue #268: per-trip diagnosis is a standalone repeatable function, not a
+   continuation of the dietary Food Profile chat. Only the current diagnosis
+   screen renders. Its dark-on-light question hierarchy follows the established
+   Figma exploration treatment and keeps contrast comfortably above AA. */
+.tmm-diagnosis__active {
+  min-width: 0;
+}
+
+.tmm-diagnosis__screen {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.tmm-diagnosis__screen:focus-visible {
+  outline: 3px solid var(--tmm-color-focus, #126b50);
+  outline-offset: var(--tmm-space-2);
+}
+
+.tmm-diagnosis__question {
+  margin: 0 0 var(--tmm-space-2);
+  font-family: var(--tmm-font-body);
   font-size: 20px;
   font-weight: 800;
   line-height: 1.4;
   text-align: center;
   color: var(--tmm-color-ink);
+  overflow-wrap: anywhere;
+}
+
+.tmm-diagnosis__hint {
+  margin: 0 0 var(--tmm-space-4);
+  color: var(--tmm-color-ink-soft);
+  font-size: var(--tmm-text-caption);
+  line-height: var(--tmm-leading-caption);
+  text-align: center;
+}
+
+.tmm-diagnosis__choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tmm-space-2);
+  margin-bottom: var(--tmm-space-4);
+}
+
+.tmm-diagnosis__label {
+  display: block;
+  margin: var(--tmm-space-1) 0 var(--tmm-space-2);
+  color: var(--tmm-color-forest-deep);
+  font-size: var(--tmm-text-caption);
+  font-weight: 700;
+  line-height: var(--tmm-leading-caption);
+}
+
+.tmm-diagnosis__group + .tmm-diagnosis__group {
+  margin-top: var(--tmm-space-2);
+}
+
+.tmm-diagnosis__group-title {
+  margin: 0 0 var(--tmm-space-3);
+  color: var(--tmm-color-ink);
+  font-family: var(--tmm-font-body);
+  font-size: var(--tmm-text-body);
+  font-weight: 700;
+  line-height: var(--tmm-leading-body);
+}
+
+.tmm-diagnosis__confirm {
+  display: flex;
+  justify-content: center;
+  padding-top: var(--tmm-space-2);
 }
 
 /* Question: stronger display hierarchy that still wraps safely at 375px. */
@@ -798,10 +855,10 @@
 }
 
 /* ============================================================
-   Conversational guided prototype (Issue #181 Figma parity →
-   Issue #217 Phase 1). Assistant-led chat rhythm: left avatar +
-   bubble, 46px-scale embedded choices, user confirmation bubble.
-   Shared by the Food Profile and Exploration conversations.
+   Dietary Food Profile conversation (Issue #181 Figma parity →
+   Issue #217 Phase 1 → Issue #268 lifecycle). Assistant-led chat
+   rhythm: left avatar + bubble, 46px-scale embedded choices, user
+   confirmation bubble. Per-trip diagnosis is intentionally separate.
    Built on the shared `tmm-*` foundation only.
    ============================================================ */
 
@@ -927,17 +984,6 @@
   font-size: var(--tmm-text-caption);
   color: var(--tmm-color-ink-faint);
   line-height: var(--tmm-leading-caption);
-}
-
-/* Active Exploration turn: auto-scroll target that clears the sticky shell bar. */
-.fp-convo__active {
-  scroll-margin-top: 72px;
-}
-
-/* Local multi-select confirm inside the Taste + Theme turn (Issue #230). */
-.fp-convo__confirm {
-  align-self: flex-start;
-  margin-top: var(--tmm-space-1);
 }
 
 /* Figma dietary category chips (Issue #226): grouped proposed-input chips. */

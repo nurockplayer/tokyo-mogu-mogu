@@ -6,7 +6,7 @@
  * the current demo/release data supplies production-ready candidates for
  * Okutama × Tokyo Wasabi, Ome/Sawai × sake, and Hachioji × ginger.
  */
-import type { FoodProfile } from './food-profile';
+import { foodProfileDietaryState, type FoodProfile } from './food-profile';
 import type {
   BaseArea,
   Experience,
@@ -68,6 +68,7 @@ export interface RankingFactor {
 
 export type RecommendationCautionCode =
   | 'dietary-confirmation-required'
+  | 'dietary-profile-unassessed'
   | 'travel-time-unknown';
 
 export interface RecommendationCaution {
@@ -117,10 +118,6 @@ const TRAVEL_TIME_ORDER: Record<TravelTime, number> = {
 function intersection<T extends string>(selected: readonly T[], offered: readonly T[]): T[] {
   const offeredSet = new Set(offered);
   return selected.filter((value) => offeredSet.has(value));
-}
-
-function hasDietaryConsiderations(profile: FoodProfile): boolean {
-  return profile.dietary.length > 0 || profile.dietaryOther.trim().length > 0;
 }
 
 function evaluateCandidate(
@@ -207,11 +204,14 @@ function evaluateCandidate(
   }
 
   const cautions: RecommendationCaution[] = [];
-  if (hasDietaryConsiderations(profile)) {
+  const dietaryState = foodProfileDietaryState(profile);
+  if (dietaryState === 'restrictions-recorded') {
     cautions.push({
       code: 'dietary-confirmation-required',
       values: [...profile.dietary, ...(profile.dietaryOther.trim() ? ['other'] : [])],
     });
+  } else if (dietaryState === 'not-evaluated') {
+    cautions.push({ code: 'dietary-profile-unassessed', values: [] });
   }
   if (answers.baseArea !== null && answers.travelTime !== null && knownTravelTime === undefined) {
     cautions.push({ code: 'travel-time-unknown', values: [answers.baseArea] });

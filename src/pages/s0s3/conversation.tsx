@@ -1,12 +1,10 @@
 /**
  * Shared conversational UI primitives (Issue #217 Phase 1).
  *
- * The guided prototype reads as a LINE / ChatGPT-style conversation: MOGU
- * (assistant) messages with embedded quick replies, and the user's selected
- * choices appended as confirmation bubbles that stay in the transcript. The
- * Food Profile and Exploration conversations both render through these
- * primitives so the chat rhythm and the 46px-scale touch affordance stay
- * consistent across the journey.
+ * The persistent dietary Food Profile reads as a LINE / ChatGPT-style
+ * conversation: MOGU messages use embedded quick replies and the user's
+ * selections stay in the transcript. Per-trip diagnosis is intentionally a
+ * separate screen flow and does not render through these chat primitives.
  *
  * Presentation classes come from the shared `fp-convo-*` vocabulary in
  * onboarding.css / FoodProfilePage.css (Figma conversation parity).

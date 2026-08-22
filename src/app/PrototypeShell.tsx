@@ -1,10 +1,10 @@
 /**
  * Guided-journey shell (Issue #217; productized by Issue #252).
  *
- * The guided conversational journey renders inside this slim shell instead of
+ * The guided setup and diagnosis render inside this slim shell instead of
  * the production AppShell: it keeps only the MOGU wordmark, the locale switch,
  * and the demo reset control. The production bottom navigation stays out of the
- * conversation screens.
+ * focused setup screens.
  *
  * The first-use interview remains focused, while returning Home and the
  * Result / Story / Route / Spot product surfaces expose the established #92
@@ -27,7 +27,7 @@ export function PrototypeShell() {
   const { t } = useI18n();
   const location = useLocation();
 
-  // Keep first-use setup and the per-trip interview focused. Once a traveler
+  // Keep first-use setup and the per-trip diagnosis focused. Once a traveler
   // reaches product content, the durable primary IA is always available.
   const returningHome = location.pathname === '/' && hasFoodProfile();
   const showNav =
