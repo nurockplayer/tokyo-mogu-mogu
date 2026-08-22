@@ -1,48 +1,49 @@
 /* ============================================================
-   Tokyo Mogu Mogu — design system
-   Aesthetic: washi paper × sumi ink × mountain green.
-   Washi paper base, deep green primary, wasabi green accent,
-   azure stream accent, vermilion "GET" seal.
+   Tokyo Mogu Mogu — legacy compatibility layer
+   Canonical live-Figma roles live in `src/ui/tokens.css` and
+   `docs/design/figma-design-system.md` (#263). Keep older variable names as
+   aliases while their consumers migrate; values here are not a second design
+   system.
    ============================================================ */
 
 :root {
-  /* Color — paper & ink (mirrors the tmm-* Figma-aligned palette) */
-  --paper: #fff4e4;
-  --paper-deep: #f5e8d0;
-  --ink: #2c2a24;
-  --ink-soft: #6b4d3e;
-  --ink-faint: #6b6350;
+  /* Color — compatibility aliases */
+  --paper: var(--tmm-color-warm);
+  --paper-deep: var(--tmm-color-warm-deep);
+  --ink: var(--tmm-color-ink);
+  --ink-soft: var(--tmm-color-ink-soft);
+  --ink-faint: var(--tmm-color-ink-faint);
 
-  /* Color — Tama greens & accents */
-  --forest: #61733f;
-  --forest-deep: #4d5c30;
-  --wasabi: #9dbc64;
+  /* Color — shared greens and compatibility accents */
+  --forest: var(--tmm-color-forest);
+  --forest-deep: var(--tmm-color-forest-deep);
+  --wasabi: var(--tmm-color-leaf);
   --stream: #4a8fb0;
-  --vermillion: #c44a2c;
-  --vermillion-deep: #a03a22;
+  --vermillion: var(--tmm-color-orange);
+  --vermillion-deep: var(--tmm-color-orange-deep);
   --gold: #c8a24a;
 
   /* Surfaces */
-  --card: #fffdf6;
+  --card: var(--tmm-color-card);
   --card-locked: #f0ead9;
-  --line: #efe7d8;
-  --line-strong: #d6cbb4;
+  --line: var(--tmm-color-line);
+  --line-strong: var(--tmm-color-line-strong);
 
   /* Typography */
-  --font-display: 'Shippori Mincho', 'Hiragino Mincho ProN', serif;
-  --font-body: 'Zen Kaku Gothic New', 'Hiragino Sans', system-ui, sans-serif;
+  --font-display: var(--tmm-font-display);
+  --font-body: var(--tmm-font-body);
 
   /* Shadows */
-  --shadow-card: 0 2px 10px rgb(44 42 36 / 0.08);
-  --shadow-lift: 0 6px 22px rgb(44 42 36 / 0.16);
+  --shadow-card: var(--tmm-shadow-card);
+  --shadow-lift: var(--tmm-shadow-lift);
 
   /* Layout */
-  --radius: 14px;
-  --radius-sm: 8px;
-  --nav-h: 68px;
-  --max-w: 480px;
+  --radius: var(--tmm-radius-md);
+  --radius-sm: var(--tmm-radius-sm);
+  --nav-h: var(--tmm-nav-h);
+  --max-w: var(--tmm-content-max);
 
-  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease: var(--tmm-ease);
 }
 
 * {
@@ -55,9 +56,8 @@ html {
 
 body {
   margin: 0;
-  /* Clean warm-cream ground (Figma parity). The earlier leaf/blue radial tints
-     and washi grain were dropped so the app reads as one flat warm-cream
-     editorial surface, not a tinted dashboard. */
+  /* Canonical warm-cream ground. The legacy texture below remains an explicit
+     #262 migration item rather than live-Figma authority. */
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font-body);
@@ -65,7 +65,7 @@ body {
   min-height: 100vh;
 }
 
-/* Subtle washi grain overlay */
+/* Legacy texture: not part of the extracted live-Figma design system. */
 body::before {
   content: '';
   position: fixed;
