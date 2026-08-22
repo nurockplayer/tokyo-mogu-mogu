@@ -37,7 +37,7 @@ async function seedGoldenPath(page: Page): Promise<void> {
   );
 }
 
-async function seedProfileOnly(page: Page): Promise<void> {
+async function seedGuidedProfile(page: Page): Promise<void> {
   await page.goto('/');
   await page.evaluate(
     ([profileKey, explorationKey, tutorialKey]) => {
@@ -54,7 +54,7 @@ async function seedProfileOnly(page: Page): Promise<void> {
         }),
       );
       sessionStorage.removeItem(explorationKey);
-      sessionStorage.setItem(tutorialKey, 'complete');
+      sessionStorage.setItem(tutorialKey, 'active');
     },
     [FOOD_PROFILE_KEY, EXPLORATION_KEY, TUTORIAL_KEY] as const,
   );
@@ -146,7 +146,7 @@ test.describe('Issue #270 judged-journey navigation continuity', () => {
   });
 
   test('lets a single-choice reply visibly settle before revealing the next turn', async ({ page }) => {
-    await seedProfileOnly(page);
+    await seedGuidedProfile(page);
     await page.goto('/explore');
 
     const currentQuestion = page.getByRole('heading', {
