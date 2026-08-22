@@ -110,6 +110,18 @@ test.describe('Issue #270 judged-journey navigation continuity', () => {
       'scroll-snap-type',
       'x mandatory',
     );
+    const storyRailGeometry = await storyRail.locator('.s4-fieldwork__rail').evaluate((rail) => {
+      const cards = Array.from(rail.children) as HTMLElement[];
+      return {
+        viewportWidth: document.documentElement.clientWidth,
+        firstCardWidth: cards[0]?.getBoundingClientRect().width ?? 0,
+        secondCardLeft: cards[1]?.getBoundingClientRect().left ?? Number.POSITIVE_INFINITY,
+      };
+    });
+    expect(storyRailGeometry.firstCardWidth).toBeGreaterThanOrEqual(
+      storyRailGeometry.viewportWidth * 0.72,
+    );
+    expect(storyRailGeometry.secondCardLeft).toBeLessThan(storyRailGeometry.viewportWidth);
 
     await page.getByRole('link', { name: 'この食文化の観光ルートを作成する' }).click();
     await page.waitForURL('**/route*');

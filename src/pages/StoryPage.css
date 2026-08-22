@@ -281,7 +281,10 @@
 .s4-fieldwork__rail {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: minmax(0, 84%);
+  /* A concrete responsive track keeps each photograph editorially large.
+     Percentage max tracks were redistributed by Grid to fit all three cards,
+     which collapsed the intended swipe rail into thumbnail tiles at 375px. */
+  grid-auto-columns: clamp(268px, 80vw, 308px);
   gap: var(--tmm-space-3);
   margin: 0 calc(var(--tmm-gutter) * -1);
   padding: 0 var(--tmm-gutter) var(--tmm-space-2);
