@@ -345,6 +345,9 @@ export function SpotPage() {
           type={place.type}
           alt={placeName}
         />
+        <Link to={spotBackHref(location.search)} className="s6-hero-back" aria-label={t('back')}>
+          ‹
+        </Link>
       </div>
       <div className="s6-title-row">
         <h1>{placeName}</h1>

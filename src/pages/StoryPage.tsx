@@ -191,6 +191,9 @@ export function StoryPage() {
     <article className="s4-page">
       {/* Section 1 — Hero (dark-green / media-forward) */}
       <header className="s4-hero">
+        <Link to={backTo} className="s4-hero__back" aria-label={t('back')}>
+          ‹
+        </Link>
         <div className="s4-hero__media">
           {/* 8/23 demo: the wasabi story renders the exported Figma hero photo
               (Figma `52:3995`); other cultures keep the placeholder plate. */}

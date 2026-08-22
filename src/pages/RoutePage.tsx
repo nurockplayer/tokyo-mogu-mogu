@@ -143,6 +143,10 @@ export function RoutePage() {
 
   return (
     <div className="tmm-page">
+      <header className="s5-figma-header">
+        <Link to={routeBackHref(location.search)} aria-label={t('back')} className="s5-figma-header__back">‹</Link>
+        <p>{localized(routeNameKey(route.id), route.nameJa, route.nameEn)}</p>
+      </header>
       {/* Caller-aware back link (#80): Story, Discover, MOGU, and My contexts
           all remain reachable after Route/Spot traversal. */}
       {routeBackTarget(location.search) !== 'home' ? (

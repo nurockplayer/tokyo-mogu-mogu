@@ -31,16 +31,41 @@
    media-forward masthead. */
 
 .s4-hero {
+  position: relative;
   margin-left: calc(var(--tmm-gutter) * -1);
   margin-right: calc(var(--tmm-gutter) * -1);
-  background: var(--tmm-color-forest-deep);
-  color: var(--tmm-color-warm);
+  background: var(--tmm-color-card);
+  color: var(--tmm-color-ink);
   overflow: hidden;
+}
+
+/* Live KiKi Story uses a photo-first hero with an orange overlay back affordance
+ * and a white reading surface. The article content and provenance below remain
+ * Product-owned; this is presentation only. */
+.s4-hero__back {
+  position: absolute;
+  z-index: 2;
+  top: 16px;
+  left: 12px;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--tmm-color-orange-visual);
+  color: var(--tmm-color-ink);
+  font-size: 32px;
+  line-height: 1;
+}
+
+.s4-hero__back:focus-visible {
+  outline: var(--tmm-focus-ring);
+  outline-offset: 2px;
 }
 
 .s4-hero__media {
   position: relative;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 1.326 / 1;
 }
 
 .s4-hero__media .fc-image {
@@ -73,6 +98,7 @@
 
 .s4-hero__body {
   padding: var(--tmm-space-5) var(--tmm-gutter) var(--tmm-space-5);
+  background: var(--tmm-color-card);
 }
 
 .s4-hero__kicker {
@@ -80,7 +106,7 @@
   font-size: var(--tmm-text-caption);
   font-weight: 700;
   letter-spacing: 0.14em;
-  color: var(--tmm-color-leaf);
+  color: var(--tmm-color-ink-soft);
   margin-bottom: var(--tmm-space-2);
 }
 
@@ -90,17 +116,17 @@
   width: 16px;
   height: 2px;
   border-radius: 2px;
-  background: var(--tmm-color-leaf);
+  background: var(--tmm-color-orange-visual);
   margin-right: 8px;
   vertical-align: 0.18em;
 }
 
 .s4-hero__title {
   font-family: var(--tmm-font-display);
-  font-size: 2.2rem;
+  font-size: 24px;
   font-weight: 700;
-  color: var(--tmm-color-warm);
-  line-height: 1.25;
+  color: var(--tmm-color-ink);
+  line-height: 29px;
   margin-bottom: var(--tmm-space-3);
   overflow-wrap: anywhere;
   text-wrap: balance;
@@ -108,8 +134,8 @@
 
 .s4-hero__lead {
   font-size: var(--tmm-text-body);
-  color: rgb(246 241 230 / 0.85);
-  line-height: 1.9;
+  color: var(--tmm-color-ink-soft);
+  line-height: 22px;
   max-width: 34em;
   margin-bottom: var(--tmm-space-4);
   overflow-wrap: anywhere;
@@ -123,7 +149,7 @@
   gap: var(--tmm-space-3);
   flex-wrap: wrap;
   padding-top: var(--tmm-space-3);
-  border-top: 1px solid rgb(246 241 230 / 0.18);
+  border-top: 1px solid var(--tmm-color-nav-line);
 }
 
 .s4-hero__meta-item {
@@ -131,7 +157,7 @@
   align-items: center;
   gap: 6px;
   font-size: var(--tmm-text-caption);
-  color: var(--tmm-color-warm);
+  color: var(--tmm-color-ink-soft);
   font-weight: 600;
 }
 
@@ -146,9 +172,9 @@
 /* The origin tag uses the shared Tag component; on the dark hero surface the
    success tone's pale green still reads against the deep green. */
 .s4-hero__meta-item--tag .tmm-tag {
-  background: rgb(246 241 230 / 0.12);
-  border-color: rgb(246 241 230 / 0.3);
-  color: var(--tmm-color-warm);
+  background: var(--tmm-color-card);
+  border-color: var(--tmm-color-forest-visual);
+  color: var(--tmm-color-forest-visual);
 }
 
 /* ---------- Editorial body ---------- */

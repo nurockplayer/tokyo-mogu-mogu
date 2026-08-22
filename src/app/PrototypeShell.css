@@ -10,6 +10,39 @@
   padding-bottom: calc(var(--tmm-nav-h) + env(safe-area-inset-bottom));
 }
 
+/* The locale/reset bar is demo infrastructure, not a KiKi journey surface.
+ * Keep its controls in the DOM for the deterministic demo contract, but do
+ * not spend the first 68px of the 375px Figma composition on it. */
+.tmm-prototype--figma .tmm-prototype__bar {
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  right: 0;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  /* The reset remains a minimal visible Product adaptation: it is required to
+     restore the controlled #257 demo state and must not become an invisible
+     keyboard/pointer target. Locale and wordmark chrome stay out of frame. */
+}
+
+.tmm-prototype--figma .tmm-main {
+  padding: 0 var(--tmm-gutter) 24px;
+}
+
+.tmm-prototype--figma .tmm-prototype__bar > .tmm-header__logo,
+.tmm-prototype--figma .tmm-prototype__bar .tmm-locale-toggle {
+  display: none;
+}
+
+.tmm-prototype--figma .tmm-prototype__bar .tmm-header__actions,
+.tmm-prototype--figma .tmm-prototype__bar .demo-reset {
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+}
+
 .tmm-prototype__bar {
   display: flex;
   align-items: center;

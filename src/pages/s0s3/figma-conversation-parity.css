@@ -35,7 +35,7 @@
 .fp-chat .fp-convo__msg--assistant .fp-convo__title,
 .fp-chat .fp-convo__msg--assistant .fp-convo__body,
 .tmm-result__greeting .fp-convo__body {
-  color: #ffffff;
+  color: var(--fp-figma-text);
   font-weight: 400;
 }
 
@@ -58,7 +58,7 @@
 .tmm-food-profile > .fp-convo > .fp-convo__msg--assistant .fp-convo__title,
 .tmm-food-profile > .fp-convo > .fp-convo__msg--assistant .fp-convo__body,
 .tmm-food-profile > .fp-convo > .fp-convo__msg--assistant .fp-convo__label {
-  color: #ffffff;
+  color: var(--fp-figma-text);
 }
 
 /* Current implementation compatibility only: live Exploration does not use the
@@ -74,7 +74,7 @@
 .fp-convo__active .fp-convo__msg--assistant .fp-convo__q,
 .fp-convo__active .fp-convo__msg--assistant .fp-convo__body,
 .fp-convo__active .fp-convo__msg--assistant .fp-convo__label {
-  color: #ffffff;
+  color: var(--fp-figma-text);
 }
 
 /* User replies are white right-aligned bubbles, not green answer cards. */
@@ -121,7 +121,7 @@
   background: var(--fp-figma-send);
   border-radius: 12px;
   box-shadow: none;
-  color: #ffffff;
+  color: var(--fp-figma-text);
   font-weight: 400;
 }
 
@@ -235,7 +235,7 @@
   border: 0;
   border-radius: 12px;
   background: var(--fp-figma-send);
-  color: #ffffff;
+  color: var(--fp-figma-text);
   font-family: var(--tmm-font-body);
   font-size: 16px;
   font-weight: 400;

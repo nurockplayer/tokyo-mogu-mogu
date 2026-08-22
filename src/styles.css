@@ -67,14 +67,10 @@ body {
 
 /* Legacy texture: not part of the extracted live-Figma design system. */
 body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    radial-gradient(rgb(44 42 36 / 0.035) 1px, transparent 1px);
-  background-size: 3px 3px;
-  z-index: 0;
+  /* The prior washi grain is not present in the inspected KiKi mobile
+     surfaces. Keep the pseudo-element inert so older stacking assumptions
+     remain harmless without overlaying every Figma-owned screen. */
+  content: none;
 }
 
 #root {
