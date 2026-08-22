@@ -28,19 +28,19 @@ async function expectOneTutorialTarget(scope: Locator | Page): Promise<Locator> 
   return target;
 }
 
-/** Fixed demo reset chrome must not cover the currently actionable chat turn. */
-async function expectResetClearOfActiveConversation(page: Page): Promise<void> {
+/** Fixed demo reset chrome must not cover the actionable diagnosis screen. */
+async function expectResetClearOfActiveDiagnosis(page: Page): Promise<void> {
   await expect.poll(async () => page.evaluate(() => {
     const reset = document.querySelector<HTMLElement>('.demo-reset');
-    const activeTurn = document.querySelector<HTMLElement>('.fp-convo__active .fp-convo__msg');
-    if (!reset || !activeTurn) return true;
+    const activeScreen = document.querySelector<HTMLElement>('.tmm-diagnosis__active .tmm-diagnosis__screen');
+    if (!reset || !activeScreen) return true;
     const resetBox = reset.getBoundingClientRect();
-    const turnBox = activeTurn.getBoundingClientRect();
-    return resetBox.left < turnBox.right
-      && resetBox.right > turnBox.left
-      && resetBox.top < turnBox.bottom
-      && resetBox.bottom > turnBox.top;
-  }), 'the fixed demo reset must not cover the active conversation turn').toBe(false);
+    const screenBox = activeScreen.getBoundingClientRect();
+    return resetBox.left < screenBox.right
+      && resetBox.right > screenBox.left
+      && resetBox.top < screenBox.bottom
+      && resetBox.bottom > screenBox.top;
+  }), 'the fixed demo reset must not cover the active diagnosis screen').toBe(false);
 }
 
 test.describe('guided tutorial (#257, ja, 375px)', () => {
@@ -84,12 +84,12 @@ test.describe('guided tutorial (#257, ja, 375px)', () => {
     await expect(forkTarget).toHaveText('自分に合った旅をおすすめしてもらう！');
     await forkTarget.click();
     await page.waitForURL('**/explore');
-    await expectResetClearOfActiveConversation(page);
+    await expectResetClearOfActiveDiagnosis(page);
 
     const targetLabels = ['食べる', '東京都', '1時間以内', '半日', 'さっぱりした味', '自然', '結果を見る'];
     for (const [index, label] of targetLabels.entries()) {
-      const activeTurn = page.locator('.fp-convo__active');
-      const target = await expectOneTutorialTarget(activeTurn);
+      const activeScreen = page.locator('.tmm-diagnosis__active');
+      const target = await expectOneTutorialTarget(activeScreen);
       await expect(target).toContainText(label);
       if (index === 0) {
         await target.focus();

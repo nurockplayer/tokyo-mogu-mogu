@@ -1,12 +1,12 @@
 /**
  * Golden-path browser release gate (Issue #120 → Issue #217 Phase 1).
  *
- * One deterministic walkthrough of the 8/23 Phase 1 guided-conversation core
+ * One deterministic walkthrough of the 8/23 Phase 1 guided core
  * flow, in a real browser at the 375px mobile baseline with Japanese as the
  * blocking locale:
  *
- *   Landing → Food Profile conversation (nickname + dietary) → Exploration
- *   conversation → Result (real ranked Top 3) → Story → Route → Spot → Save
+ *   Landing → Food Profile conversation (nickname + dietary) → repeatable
+ *   diagnosis → Result (real ranked Top 3) → Story → Route → Spot → Save
  *
  * Phase 1 (Issue #217) renders setup as a LINE / ChatGPT-style conversation
  * inside the PrototypeShell. Issue #252 keeps setup focused, then exposes the
@@ -75,7 +75,7 @@ async function storedCount(page: Page, key: string): Promise<number> {
 test.describe('golden path (ja, 375px)', () => {
   test.use({ locale: 'ja-JP' });
 
-  test('first-use guided conversation completes', async ({
+  test('first-use guided journey completes', async ({
     page,
   }) => {
     // ---- precondition: clean state, mobile viewport already set by config ----
@@ -113,10 +113,16 @@ test.describe('golden path (ja, 375px)', () => {
     await page.getByText('では、今回はどんな食旅にしましょう？').waitFor();
     await page.getByRole('button', { name: '自分に合った旅をおすすめしてもらう！' }).click();
     await page.waitForURL('**/explore');
-    expect(await persisted(page, FOOD_PROFILE_KEY)).not.toBeNull();
+    expect(JSON.parse(String(await persisted(page, FOOD_PROFILE_KEY)))).toMatchObject({
+      dietary: [],
+      dietaryOther: '',
+      hasNoRestrictions: true,
+      version: 1,
+    });
 
-    // ---- 3. Exploration conversation — greeting reuses the nickname ----
-    await page.getByText('こんにちは、ナナミさん。あなたに合う東京の食旅を探します。').waitFor();
+    // ---- 3. Repeatable diagnosis — separate from dietary onboarding ----
+    await expect(page.getByTestId('diagnosis-session')).toBeVisible();
+    await expect(page.locator('.fp-chat, .fp-convo__msg')).toHaveCount(0);
     // Latest-Figma question order: Experience → Departure → Travel → Duration →
     // Taste + Theme.
     await page.getByRole('button', { name: '食べる' }).click();

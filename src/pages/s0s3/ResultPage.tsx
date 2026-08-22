@@ -34,7 +34,7 @@ import {
   resolveHistoricalRecommendation,
   type CandidateEvaluation,
 } from '../../lib/recommendation';
-import { loadExplorationAnswers } from './exploration-session';
+import { beginNewExploration, loadExplorationAnswers } from './exploration-session';
 import { loadFoodProfile } from '../../lib/food-profile-storage';
 import { loadNickname } from '../../lib/nickname';
 import { phase1RecommendableCandidates } from './phase1-exploration';
@@ -208,7 +208,11 @@ export function ResultPage() {
           </section>
 
           <div className="tmm-result__actions">
-            <Link to="/explore" className="tmm-btn tmm-btn--secondary tmm-btn--block">
+            <Link
+              to="/explore"
+              className="tmm-btn tmm-btn--secondary tmm-btn--block"
+              onClick={beginNewExploration}
+            >
               {t('s3EditCta')}
             </Link>
           </div>
@@ -384,7 +388,11 @@ function EmptyFallback() {
       title={t('s3MissingTitle')}
       description={t('s3Missing')}
       action={
-        <Link to="/explore" className="tmm-btn tmm-btn--secondary tmm-btn--sm">
+        <Link
+          to="/explore"
+          className="tmm-btn tmm-btn--secondary tmm-btn--sm"
+          onClick={beginNewExploration}
+        >
           {t('back')}
         </Link>
       }

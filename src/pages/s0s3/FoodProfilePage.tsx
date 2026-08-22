@@ -15,14 +15,10 @@
  * conversation: the assistant welcome, an optional session-only nickname step,
  * the latest-Figma four-question dietary interview (allergy / diet / religion /
  * dislikes with emoji quick-reply chips + free input), an interview summary,
- * and the post-profile recommend-vs-browse fork. The interview answers are
- * presentation-only fixture state — they are never written into the durable
- * Food Profile, never claim dietary safety, and never drive the recommendation
- * engine (#201 / #220 / #224). The durable profile is saved as a neutral
- * non-claiming record (`hasNoRestrictions: false`, empty dietary = "not
- * evaluated") so a visibly declared restriction is never stored as its
- * opposite. The edit surface keeps all four categories plus free text for
- * Phase 2. Input is recommendation-only, never a safety guarantee (product
+ * and the post-profile recommend-vs-browse fork. First-use answers are mapped
+ * to the existing durable Food Profile categories so returning users do not
+ * repeat dietary onboarding. Detailed free input is preserved in the existing
+ * note field. Input is recommendation-only, never a safety guarantee (product
  * contract "Safety Boundary").
  */
 import { useEffect, useRef, useState, type FormEvent, type MouseEvent } from 'react';
@@ -62,11 +58,10 @@ interface Choice {
 }
 
 /**
- * Phase 1 presentation-only dietary interview (Issue #224 — Figma 2:623, 3:959,
- * 3:1203, 3:1500). Answers are local/presentation fixture state only: they never
- * join the durable Food Profile, never claim dietary safety, and never drive
- * the recommendation engine. The demo outcome stays the fixed Okutama × Tokyo
- * Wasabi golden path (#201 / #220).
+ * Phase 1 dietary interview (Issue #224 — Figma 2:623, 3:959, 3:1203,
+ * 3:1500). The detailed chips map conservatively onto the existing four durable
+ * Food Profile categories; they never claim dietary safety. The deterministic
+ * demo outcome remains governed separately by #255 / #257.
  */
 export interface InterviewOption {
   value: string;
@@ -130,7 +125,7 @@ export const PHASE1_INTERVIEW: readonly InterviewQuestion[] = [
   },
 ];
 
-/** One question's presentation-only answer set. */
+/** One question's first-use dietary answer set. */
 export interface InterviewAnswers {
   [questionIndex: number]: string[];
   /** Free-input "other" text per question, keyed by question index. */
@@ -160,10 +155,8 @@ export function interviewSelectionLabels(
 
 /**
  * Resolved lines for the setup interview summary (Issue #224). Zero selections
- * render the neutral "not evaluated" copy — never "no restrictions": the
- * presentation interview is not persisted and the durable profile is always
- * saved as a non-claiming "not evaluated" record, so a skipped interview must
- * not be converted into a no-restrictions claim.
+ * render the neutral "not evaluated" copy — never "no restrictions". A skipped
+ * or incomplete interview must not be converted into a no-restrictions claim.
  */
 export function interviewSummaryLines(
   interviewAnswers: InterviewAnswers,
@@ -190,19 +183,44 @@ export function toggleInterviewAnswer(current: readonly string[], value: string)
 }
 
 /**
- * Phase 1 neutral, non-claiming durable profile (Issue #224).
+ * Build the durable Food Profile from the first-use dietary interview (#268).
  *
- * The prototype dietary interview is presentation-only and is never mapped into
- * production dietary semantics. Because the prototype does not evaluate
- * restrictions, the durable profile must NOT claim "no restrictions" — that
- * would store the opposite of a visibly declared allergy/restriction. This
- * profile (`hasNoRestrictions: false`, empty dietary) means "not evaluated".
+ * The detailed choices map onto the four existing profile categories; free
+ * input is retained in the existing note field. `hasNoRestrictions` is true
+ * only when every question was explicitly answered with its mutually exclusive
+ * `none` option and no free input exists. Incomplete input remains the
+ * conservative "not evaluated" state.
  */
-export function createPhase1NeutralProfile(now = new Date().toISOString()): FoodProfile {
+export function createFoodProfileFromInterviewAnswers(
+  answers: InterviewAnswers,
+  now = new Date().toISOString(),
+): FoodProfile {
+  const categoryByQuestion: readonly DietaryRestriction[] = [
+    'allergy',
+    'vegetarian-vegan',
+    'religious',
+    'dislike',
+  ];
+  const dietary = categoryByQuestion.filter((_, questionIndex) => {
+    const selections = answers[questionIndex] ?? [];
+    return selections.some((value) => value !== 'none') || Boolean(answers.other[questionIndex]?.trim());
+  });
+  const dietaryOther = PHASE1_INTERVIEW.map((_, questionIndex) =>
+    answers.other[questionIndex]?.trim() ?? '',
+  )
+    .filter(Boolean)
+    .join(' / ');
+  const explicitlyNoRestrictions = PHASE1_INTERVIEW.every(
+    (_, questionIndex) =>
+      (answers[questionIndex] ?? []).length === 1 &&
+      answers[questionIndex]?.[0] === 'none' &&
+      !answers.other[questionIndex]?.trim(),
+  );
+
   return {
-    dietary: [],
-    dietaryOther: '',
-    hasNoRestrictions: false,
+    dietary,
+    dietaryOther,
+    hasNoRestrictions: explicitlyNoRestrictions,
     savedAt: now,
     version: 1,
   };
@@ -299,8 +317,8 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   const [introChoice, setIntroChoice] = useState<IntroChoice | null>(null);
   const [nicknameInput, setNicknameInput] = useState(() => loadNickname() ?? '');
   const [nicknameModalOpen, setNicknameModalOpen] = useState(false);
-  // Phase 1 presentation-only interview answers (Issue #224): local fixture
-  // state only — never the durable profile, never a safety claim.
+  // First-use interview draft. It becomes the durable Food Profile only after
+  // explicit save; it never represents a dietary safety guarantee.
   const [interviewAnswers, setInterviewAnswers] = useState<InterviewAnswers>(() =>
     createEmptyInterviewAnswers(),
   );
@@ -321,9 +339,9 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
     setInterviewAnswers(createEmptyInterviewAnswers());
   }, [mode]);
 
-  // LINE-like reveal (Issue #230 motion): keep the newly revealed setup step
-  // near the viewport bottom as the conversation grows — same motion as the
-  // Exploration. The edit surface keeps its own header flow and is left alone.
+  // LINE-like reveal (Issue #230 motion): keep the newly revealed Food Profile
+  // step near the viewport bottom as the conversation grows. The separate
+  // diagnosis flow owns its own screen transitions.
   const stepScrollRef = useRef<HTMLDivElement>(null);
   const stepScrollFirst = useRef(true);
   useEffect(() => {
@@ -423,14 +441,11 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
       navigate('/food-profile');
       return;
     }
-    // Phase 1 setup: the dietary interview is presentation-only (never mapped
-    // into production dietary semantics). The durable profile must NOT claim
-    // "no restrictions" (that would contradict a visibly declared restriction),
-    // so we persist a neutral, non-claiming profile — `hasNoRestrictions: false`
-    // with empty dietary — then continue to the latest-Figma post-profile fork
-    // (Figma Talk12 3:1835). A later visit re-reads the persisted profile and
-    // shows the summary.
-    saveFoodProfile(createPhase1NeutralProfile());
+    // First-use setup: persist the dietary answers before beginning the
+    // independent, repeatable diagnosis session. A later visit re-reads this
+    // profile and never requires dietary onboarding again unless the user
+    // explicitly enters edit mode.
+    saveFoodProfile(createFoodProfileFromInterviewAnswers(interviewAnswers));
     beginNewExploration();
     setStep(SETUP_FORK);
   }
@@ -561,7 +576,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
   }
 
   if (view === 'setup') {
-    // Phase 1 presentation-only interview turns (Issue #224).
+    // First-use dietary interview turns (Issue #224 / #268).
     for (let i = SETUP_INTERVIEW_FIRST; i < step && i <= SETUP_INTERVIEW_LAST; i += 1) {
       const q = PHASE1_INTERVIEW[i - SETUP_INTERVIEW_FIRST];
       transcript.push({
@@ -755,9 +770,8 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
         {existing.hasNoRestrictions ? (
           <p className="tmm-profile-summary__line">{t('fpNoRestrictions')}</p>
         ) : existing.dietary.length === 0 && existing.dietaryOther.trim().length === 0 ? (
-          // Phase 1 neutral profile: the interview is presentation-only, so the
-          // durable record explicitly means "not evaluated", never "no
-          // restrictions" (Issue #224).
+          // A skipped or incomplete interview is persisted conservatively as
+          // "not evaluated", never as a no-restrictions claim.
           <p className="tmm-profile-summary__line">{t('fpNotEvaluated')}</p>
         ) : (
           <ul className="tmm-profile-summary__list">
@@ -1147,10 +1161,10 @@ function CategoryStep({
 }
 
 /**
- * Phase 1 presentation-only interview question (Issue #224 / Figma 2:623,
+ * Phase 1 dietary interview question (Issue #224 / Figma 2:623,
  * 3:959, 3:1203, 3:1500). Emoji quick-reply chips + a "other" free-input
- * affordance + a send button. Answers are local fixture state and never claim
- * dietary safety (#201 / #220).
+ * affordance + a send button. Answers become the recommendation-only Food
+ * Profile after explicit save and never claim dietary safety (#201 / #268).
  */
 function InterviewStep({
   question,
@@ -1285,9 +1299,8 @@ function InterviewStep({
 
 /**
  * Phase 1 setup summary (Figma Talk11 3:1702): the registered-profile
- * confirmation with the presentation-only interview selections + the
- * recommendation-only trust copy. Saving persists the durable neutral profile
- * (interview is presentation-only) before the fork step.
+ * confirmation with the interview selections + recommendation-only trust copy.
+ * Saving persists the durable Food Profile before the fork step.
  */
 function SetupSummaryStep({
   interviewAnswers,

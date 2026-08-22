@@ -2,7 +2,7 @@
  * Phase 1 contract gates (Issue #217) — 375px.
  *
  * Covers the contract checks the single ja golden path cannot:
- *   - en / zh-TW complete the same guided conversation to the real ranked Top 3
+ *   - en / zh-TW complete the same guided journey to the real ranked Top 3
  *     with no horizontal overflow
  *   - the Phase 1 conversation keeps the full Figma option set while distinct
  *     answers can route to the enabled source-backed journeys
@@ -102,7 +102,7 @@ async function assertNoHorizontalOverflow(page: Page): Promise<void> {
   ).toBeLessThanOrEqual(clientWidth);
 }
 
-/** Complete the guided conversation in the given locale and reach the Result. */
+/** Complete Food Profile setup + repeatable diagnosis and reach the Result. */
 async function completeJourney(page: Page, locale: Locale): Promise<void> {
   const j = JOURNEY[locale];
   await page.goto('/');
@@ -127,7 +127,7 @@ async function completeJourney(page: Page, locale: Locale): Promise<void> {
   await page.getByRole('button', { name: j.forkRecommend }).click();
   await page.waitForURL('**/explore');
 
-  // Exploration conversation (latest-Figma order: Experience → Departure →
+  // Repeatable diagnosis (latest-Figma order: Experience → Departure →
   // Travel → Duration → Taste + Theme). Selecting a quick reply advances the
   // turn; only the multi-select Taste + Theme stage uses its local confirm.
   await page.getByRole('button', { name: j.eat }).click();
@@ -164,7 +164,7 @@ for (const locale of ['en', 'zh-TW'] as const) {
   test.describe(`Phase 1 locale parity (${locale}, 375px)`, () => {
     test.use({ locale: locale === 'en' ? 'en-US' : 'zh-TW' });
 
-    test('guided conversation completes with a real Top 3 and no overflow', async ({ page }) => {
+    test('guided diagnosis completes with a real Top 3 and no overflow', async ({ page }) => {
       await completeJourney(page, locale);
       const j = JOURNEY[locale];
       await page.getByText(j.resultGreeting).waitFor();
@@ -184,7 +184,7 @@ for (const locale of ['en', 'zh-TW'] as const) {
 test.describe('Phase 1 constrained options (ja, 375px)', () => {
   test.use({ locale: 'ja-JP' });
 
-  test('conversation shows the full Figma option set and routes daily produce answers to Hachioji', async ({
+  test('diagnosis shows the full Figma option set and routes daily produce answers to Hachioji', async ({
     page,
   }) => {
     // The complete option set belongs to normal/free exploration after the

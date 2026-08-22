@@ -1,12 +1,11 @@
 /**
  * Phase 1 latest-Figma parity regression tests (Issue #224).
  *
- * Locks the presentation-only boundaries introduced for the latest-Figma
- * convergence that is not covered by the durable recommendation contract:
- *   - the dietary interview is presentation-only data (structure + label
- *     resolution + none-exclusivity), never a safety claim;
- *   - the Phase 1 neutral durable profile means "not evaluated", never "no
- *     restrictions".
+ * Locks the dietary Food Profile boundaries introduced for the latest-Figma
+ * convergence that are not covered by the recommendation contract:
+ *   - the interview keeps its structure, label resolution and none-exclusivity;
+ *   - first-use answers are mapped to the existing durable coarse categories;
+ *   - persistence remains recommendation-only and never becomes a safety claim.
  */
 import { describe, expect, it } from 'vitest';
 import {
@@ -15,7 +14,7 @@ import {
   interviewSelectionLabels,
   interviewSummaryLines,
   toggleInterviewAnswer,
-  createPhase1NeutralProfile,
+  createFoodProfileFromInterviewAnswers,
 } from './FoodProfilePage';
 import { isFoodProfile } from '../../lib/food-profile';
 
@@ -102,20 +101,69 @@ describe('interviewSummaryLines — zero-selection safety (Issue #224)', () => {
     expect(lines).toEqual(['fpIvEgg']);
   });
 
-  it('keeps the neutral durable profile non-claiming after a skipped interview', () => {
-    const profile = createPhase1NeutralProfile('2026-08-16T00:00:00.000Z');
+  it('keeps the durable profile non-claiming after a skipped interview', () => {
+    const profile = createFoodProfileFromInterviewAnswers(
+      createEmptyInterviewAnswers(),
+      '2026-08-16T00:00:00.000Z',
+    );
     expect(profile.hasNoRestrictions).toBe(false);
     expect(profile.dietary).toEqual([]);
   });
 });
 
-describe('createPhase1NeutralProfile (Issue #224)', () => {
-  it('persists a valid non-claiming profile: no restrictions claim, empty dietary', () => {
-    const profile = createPhase1NeutralProfile('2026-08-16T00:00:00.000Z');
+describe('createFoodProfileFromInterviewAnswers (Issue #268)', () => {
+  it('maps first-use interview answers into the existing durable profile categories', () => {
+    const answers = createEmptyInterviewAnswers();
+    answers[0] = ['egg', 'nuts'];
+    answers[1] = ['vegan'];
+    answers[2] = ['pork'];
+    answers[3] = ['spicy'];
+    answers.other[0] = 'そば';
+    answers.other[2] = 'ゼラチン';
+
+    const profile = createFoodProfileFromInterviewAnswers(
+      answers,
+      '2026-08-16T00:00:00.000Z',
+    );
+
     expect(isFoodProfile(profile)).toBe(true);
     expect(profile.hasNoRestrictions).toBe(false);
+    expect(profile.dietary).toEqual([
+      'allergy',
+      'vegetarian-vegan',
+      'religious',
+      'dislike',
+    ]);
+    expect(profile.dietaryOther).toBe('そば / ゼラチン');
+    expect(profile.savedAt).toBe('2026-08-16T00:00:00.000Z');
+  });
+
+  it('stores an explicit all-none interview as no restrictions', () => {
+    const answers = createEmptyInterviewAnswers();
+    for (let index = 0; index < PHASE1_INTERVIEW.length; index += 1) {
+      answers[index] = ['none'];
+    }
+
+    const profile = createFoodProfileFromInterviewAnswers(answers);
+
+    expect(profile.hasNoRestrictions).toBe(true);
     expect(profile.dietary).toEqual([]);
     expect(profile.dietaryOther).toBe('');
-    expect(profile.savedAt).toBe('2026-08-16T00:00:00.000Z');
+  });
+
+  it('does not convert incomplete or contradictory answers into a no-restrictions claim', () => {
+    const incomplete = createFoodProfileFromInterviewAnswers(createEmptyInterviewAnswers());
+    expect(incomplete.hasNoRestrictions).toBe(false);
+
+    const answers = createEmptyInterviewAnswers();
+    for (let index = 0; index < PHASE1_INTERVIEW.length; index += 1) {
+      answers[index] = ['none'];
+    }
+    answers.other[3] = 'パクチー';
+
+    const withOther = createFoodProfileFromInterviewAnswers(answers);
+    expect(withOther.hasNoRestrictions).toBe(false);
+    expect(withOther.dietary).toEqual(['dislike']);
+    expect(withOther.dietaryOther).toBe('パクチー');
   });
 });

@@ -1,7 +1,7 @@
 /**
  * Phase 1 determinism contract (Issue #217).
  *
- * The guided conversation preserves the canonical Figma values and the Phase
+ * The guided diagnosis preserves the canonical Figma values and the Phase
  * 1 Result selects among the enabled source-backed candidates. The default
  * refreshing / nature answers remain deterministic for 奥多摩 × 東京わさび,
  * while distinct rich/tradition and rich/daily-life answers route to Ome/Sawai

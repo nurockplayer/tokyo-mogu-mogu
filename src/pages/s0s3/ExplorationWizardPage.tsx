@@ -1,12 +1,11 @@
 /**
- * Exploration Conditions conversation (Issue #78 reframe of S2; Issue #217
- * Phase 1 guided prototype; Issue #226 Figma fixture options).
+ * Repeatable trip diagnosis (Issue #78 reframe of S2; Issue #217 guided
+ * prototype; Issue #226 Figma fixture options; Issue #268 lifecycle fix).
  *
- * The five per-trip Exploration questions render as a LINE / ChatGPT-style
- * conversation: MOGU greets the user (reusing the local nickname when present)
- * and each question appears as an assistant bubble with embedded quick replies;
- * the user's selection appends as a confirmation bubble and stays in the
- * transcript.
+ * The five per-trip questions are a standalone diagnosis session. They are not
+ * a continuation of the persistent dietary Food Profile conversation: only the
+ * current question renders, and returning users can start it again without
+ * repeating dietary onboarding.
  *
  * Phase 1 shows the **full option set from the latest KiKi Figma** (taste
  * chips, experience tiles, departure + travel-time, theme chips, duration) as
@@ -18,7 +17,7 @@
  * other enabled source-backed journeys. Departure and travel remain
  * presentation-only inputs until source-backed matrices exist.
  */
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useI18n, type LocaleKey } from '../../i18n';
 import { Button, Chip, StepDots } from '../../ui';
@@ -35,8 +34,7 @@ import {
 } from '../../lib/exploration';
 import { loadExplorationAnswers, saveExplorationAnswers } from './exploration-session';
 import { hasFoodProfile } from '../../lib/food-profile-storage';
-import { loadNickname } from '../../lib/nickname';
-import { ChatTranscript, AssistantQuestion, scrollTurnIntoView, type ChatItem } from './conversation';
+import { scrollTurnIntoView } from './conversation';
 import { isGuidedTutorialActive } from './tutorial-session';
 import { tutorialControlProps } from './tutorial-controls';
 import { TutorialGuide } from './tutorial-ui';
@@ -65,12 +63,6 @@ interface FpOption<V extends string> {
   subKey?: LocaleKey;
   icon?: string;
   internal: V;
-}
-
-/** A selectable option that only needs a visible label (fixture presentation). */
-interface LabelOption {
-  id: string;
-  labelKey: LocaleKey;
 }
 
 /** Visual selection state — Figma option ids, kept separate from canonical answers. */
@@ -253,13 +245,13 @@ function ExplorationWizardInner() {
   const stepRef = useRef(step);
   stepRef.current = step;
 
-  // Auto-scroll target for the newly revealed turn (Issue #230). The first
-  // render is skipped so the initial question does not scroll past the greeting.
+  // Auto-scroll target for the newly revealed diagnosis screen. The first
+  // render is skipped so the initial question remains at the page top.
   const activeTurnRef = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true);
-  // Route transitions preserve the Food Profile transcript's scroll position.
-  // Start Exploration at its own top so the fixed 44px demo reset cannot cover
-  // the first actionable turn.
+  // Route transitions preserve the Food Profile page's scroll position. Start
+  // diagnosis at its own top so the fixed 44px demo reset cannot cover the
+  // first actionable screen.
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'auto' });
   }, []);
@@ -279,7 +271,7 @@ function ExplorationWizardInner() {
     saveExplorationAnswers(deriveAnswers(visual));
   }, [visual]);
 
-  /** Commit an answer and reveal exactly the next turn (stale taps are ignored). */
+  /** Commit an answer and reveal exactly the next screen (stale taps are ignored). */
   function advance(toStep: number, next: VisualAnswers) {
     if (toStep !== stepRef.current + 1) return;
     setVisual(next);
@@ -323,61 +315,6 @@ function ExplorationWizardInner() {
     }
   }
 
-  // --- Conversation transcript (greeting + every completed turn) ---
-
-  const nickname = loadNickname();
-  const greeting = nickname
-    ? t('exIntroName').replace('{name}', nickname)
-    : t('exIntro');
-
-  const labelFor = (id: string, options: readonly LabelOption[]): string =>
-    t(options.find((o) => o.id === id)?.labelKey ?? ('exIntro' as LocaleKey));
-
-  const labelsFor = (ids: string[], options: readonly LabelOption[]): string =>
-    ids.map((id) => labelFor(id, options)).join(', ');
-
-  const transcript: ChatItem[] = [
-    { id: 'intro', role: 'assistant', children: <p className="fp-convo__body">{greeting}</p> },
-  ];
-
-  for (let i = 0; i < step && i < WIZARD_STEP_COUNT; i += 1) {
-    transcript.push({
-      id: `q${i}`,
-      role: 'assistant',
-      children: <AssistantQuestion title={t(S2_TITLES[i] ?? 'exQ1Title')} />,
-    });
-    if (i === 0) {
-      // Experience tiles.
-      if (visual.experiences.length > 0) {
-        transcript.push({ id: `a${i}`, role: 'user', children: labelsFor(visual.experiences, EXP_OPTIONS) });
-      }
-    } else if (i === 1) {
-      // Departure.
-      if (visual.departure !== null) {
-        transcript.push({ id: `a${i}`, role: 'user', children: labelFor(visual.departure, DEPARTURE_OPTIONS) });
-      }
-    } else if (i === 2) {
-      // Travel time.
-      if (visual.travel !== null) {
-        transcript.push({ id: `a${i}`, role: 'user', children: labelFor(visual.travel, TRAVEL_OPTIONS) });
-      }
-    } else if (i === 3) {
-      // Duration.
-      if (visual.duration !== null) {
-        transcript.push({ id: `a${i}`, role: 'user', children: labelFor(visual.duration, DURATION_OPTIONS) });
-      }
-    } else if (i === 4) {
-      // Taste + theme (combined step).
-      const picks = [
-        ...visual.tastes.map((id) => labelFor(id, TASTE_OPTIONS)),
-        ...visual.themes.map((id) => labelFor(id, THEME_OPTIONS)),
-      ];
-      if (picks.length > 0) {
-        transcript.push({ id: `a${i}`, role: 'user', children: picks.join('、') });
-      }
-    }
-  }
-
   // --- Renderers ---
 
   function renderSingle(
@@ -387,7 +324,7 @@ function ExplorationWizardInner() {
     tutorialTargetId: string,
   ) {
     return (
-      <div className="fp-convo__choices">
+      <div className="tmm-diagnosis__choices">
         {options.map((option) => (
           <Chip
             {...tutorialControlProps(tutorialActive, option.id === tutorialTargetId)}
@@ -410,7 +347,7 @@ function ExplorationWizardInner() {
     tutorialBeatActive: boolean,
   ) {
     return (
-      <div className="fp-convo__choices">
+      <div className="tmm-diagnosis__choices">
         {options.map((option) => (
           <Chip
             {...tutorialControlProps(
@@ -466,102 +403,97 @@ function ExplorationWizardInner() {
     );
   }
 
-  function ChatQuestion({ title, children }: { title: string; children?: ReactNode }) {
-    return (
-      <div className="fp-convo__msg fp-convo__msg--assistant">
-        <span className="fp-convo__avatar" aria-hidden="true">
-          🌿
-        </span>
-        <div className="fp-convo__bubble">
-          <p className="fp-convo__q">{title}</p>
-          {children}
-        </div>
-      </div>
-    );
-  }
-
-  function renderStepConversation() {
+  function renderDiagnosisScreen() {
     switch (step) {
       case 0:
         // Experience tiles (Figma 4:2101): tapping one commits it and advances.
         return (
-          <>
-            <ChatQuestion title={t(S2_TITLES[0])}>
-              {renderTiles(
-                EXP_OPTIONS,
-                visual.experiences,
-                chooseExperience,
-                TUTORIAL_TARGETS.experience,
-              )}
-            </ChatQuestion>
-            <p className="fp-convo__hint">{t(S2_HINTS[0])}</p>
-          </>
+          <section className="tmm-diagnosis__screen" aria-labelledby="diagnosis-question">
+            <h1 id="diagnosis-question" className="tmm-diagnosis__question">
+              {t(S2_TITLES[0])}
+            </h1>
+            <p className="tmm-diagnosis__hint">{t(S2_HINTS[0])}</p>
+            {renderTiles(
+              EXP_OPTIONS,
+              visual.experiences,
+              chooseExperience,
+              TUTORIAL_TARGETS.experience,
+            )}
+          </section>
         );
       case 1:
         // Departure (Figma 8:2436 / 8:2608) — search input is presentation-only.
         return (
-          <>
-            <ChatQuestion title={t(S2_TITLES[1])}>
-              {renderSingle(
-                DEPARTURE_OPTIONS,
-                visual.departure,
-                (id) => chooseSingle('departure', id),
-                TUTORIAL_TARGETS.departure,
-              )}
-              <label htmlFor="fp-departure-search" className="fp-convo__label">
-                {t('exAreaSearchLabel')}
-              </label>
-              <input
-                id="fp-departure-search"
-                className="tmm-wizard__text"
-                type="text"
-                value={departureSearch}
-                onChange={(e) => setDepartureSearch(e.target.value)}
-                placeholder={t('exAreaSearchPlaceholder')}
-                disabled={tutorialActive}
-              />
-            </ChatQuestion>
-            <p className="fp-convo__hint">{t(S2_HINTS[1])}</p>
-          </>
+          <section className="tmm-diagnosis__screen" aria-labelledby="diagnosis-question">
+            <h1 id="diagnosis-question" className="tmm-diagnosis__question">
+              {t(S2_TITLES[1])}
+            </h1>
+            <p className="tmm-diagnosis__hint">{t(S2_HINTS[1])}</p>
+            {renderSingle(
+              DEPARTURE_OPTIONS,
+              visual.departure,
+              (id) => chooseSingle('departure', id),
+              TUTORIAL_TARGETS.departure,
+            )}
+            <label htmlFor="fp-departure-search" className="tmm-diagnosis__label">
+              {t('exAreaSearchLabel')}
+            </label>
+            <input
+              id="fp-departure-search"
+              className="tmm-wizard__text"
+              type="text"
+              value={departureSearch}
+              onChange={(e) => setDepartureSearch(e.target.value)}
+              placeholder={t('exAreaSearchPlaceholder')}
+              disabled={tutorialActive}
+            />
+          </section>
         );
       case 2:
         // Travel time (Figma 23:3131).
         return (
-          <>
-            <ChatQuestion title={t(S2_TITLES[2])}>
-              {renderSingle(
-                TRAVEL_OPTIONS,
-                visual.travel,
-                (id) => chooseSingle('travel', id),
-                TUTORIAL_TARGETS.travel,
-              )}
-            </ChatQuestion>
-            <p className="fp-convo__hint">{t(S2_HINTS[2])}</p>
-          </>
+          <section className="tmm-diagnosis__screen" aria-labelledby="diagnosis-question">
+            <h1 id="diagnosis-question" className="tmm-diagnosis__question">
+              {t(S2_TITLES[2])}
+            </h1>
+            <p className="tmm-diagnosis__hint">{t(S2_HINTS[2])}</p>
+            {renderSingle(
+              TRAVEL_OPTIONS,
+              visual.travel,
+              (id) => chooseSingle('travel', id),
+              TUTORIAL_TARGETS.travel,
+            )}
+          </section>
         );
       case 3:
         // Duration (Figma 23:3207).
         return (
-          <>
-            <ChatQuestion title={t(S2_TITLES[3])}>
-              {renderSingle(
-                DURATION_OPTIONS,
-                visual.duration,
-                (id) => chooseSingle('duration', id),
-                TUTORIAL_TARGETS.duration,
-              )}
-            </ChatQuestion>
-            <p className="fp-convo__hint">{t(S2_HINTS[3])}</p>
-          </>
+          <section className="tmm-diagnosis__screen" aria-labelledby="diagnosis-question">
+            <h1 id="diagnosis-question" className="tmm-diagnosis__question">
+              {t(S2_TITLES[3])}
+            </h1>
+            <p className="tmm-diagnosis__hint">{t(S2_HINTS[3])}</p>
+            {renderSingle(
+              DURATION_OPTIONS,
+              visual.duration,
+              (id) => chooseSingle('duration', id),
+              TUTORIAL_TARGETS.duration,
+            )}
+          </section>
         );
       case 4:
-        // Taste + theme (Figma 23:3262): the turn opens with the main question,
-        // then the 2/2 multi-select sub-steps, then a local confirm that commits
-        // the turn and moves to the Result (not a persistent page-level CTA).
+        // Taste + theme (Figma 23:3262): one diagnosis screen contains the 2/2
+        // multi-select sub-steps, then a local confirm moves to the Result.
         return (
-          <>
-            <ChatQuestion title={t(S2_TITLES[4])} />
-            <ChatQuestion title={`${t('exQ5TasteLabel')} ${fillTemplate(t('exSubStep'), { n: '1', total: '2' })}`}>
+          <section className="tmm-diagnosis__screen" aria-labelledby="diagnosis-question">
+            <h1 id="diagnosis-question" className="tmm-diagnosis__question">
+              {t(S2_TITLES[4])}
+            </h1>
+            <p className="tmm-diagnosis__hint">{t(S2_HINTS[4])}</p>
+            <div className="tmm-diagnosis__group">
+              <h2 className="tmm-diagnosis__group-title">
+                {`${t('exQ5TasteLabel')} ${fillTemplate(t('exSubStep'), { n: '1', total: '2' })}`}
+              </h2>
               {renderMulti(
                 TASTE_OPTIONS,
                 visual.tastes,
@@ -569,8 +501,11 @@ function ExplorationWizardInner() {
                 TUTORIAL_TARGETS.taste,
                 !tutorialTasteSelected,
               )}
-            </ChatQuestion>
-            <ChatQuestion title={`${t('exQ5ThemeLabel')} ${fillTemplate(t('exSubStep'), { n: '2', total: '2' })}`}>
+            </div>
+            <div className="tmm-diagnosis__group">
+              <h2 className="tmm-diagnosis__group-title">
+                {`${t('exQ5ThemeLabel')} ${fillTemplate(t('exSubStep'), { n: '2', total: '2' })}`}
+              </h2>
               {renderMulti(
                 THEME_OPTIONS,
                 visual.themes,
@@ -578,8 +513,8 @@ function ExplorationWizardInner() {
                 TUTORIAL_TARGETS.theme,
                 tutorialTasteSelected && !tutorialThemeSelected,
               )}
-            </ChatQuestion>
-            <div className="fp-convo__confirm">
+            </div>
+            <div className="tmm-diagnosis__confirm">
               {(() => {
                 const confirmProps = tutorialControlProps(
                   tutorialActive,
@@ -598,8 +533,7 @@ function ExplorationWizardInner() {
                 );
               })()}
             </div>
-            <p className="fp-convo__hint">{t(S2_HINTS[4])}</p>
-          </>
+          </section>
         );
       default:
         return null;
@@ -634,10 +568,9 @@ function ExplorationWizardInner() {
 
         <StepDots total={WIZARD_STEP_COUNT} current={step} label={ariaProgress} />
 
-        <div className="fp-convo">
-          <ChatTranscript items={transcript} />
-          <div ref={activeTurnRef} className="fp-convo__active">
-            {renderStepConversation()}
+        <div className="tmm-diagnosis" data-testid="diagnosis-session">
+          <div ref={activeTurnRef} className="tmm-diagnosis__active">
+            {renderDiagnosisScreen()}
           </div>
         </div>
       </div>

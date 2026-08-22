@@ -30,7 +30,7 @@
 | Dietary Interview（4 ステップ） | 各問で光っている `なし` 回答 → 光った `送信` | ステップカウンタ `n/4`。回答は recommendation-only |
 | Summary | `保存してつぎへ` | 選択内容の確認表示 |
 | Post-profile fork | `自分に合った旅をおすすめしてもらう！`（ガイド対象） | 通常モードの `自分で旅を探す` は `/discover` |
-| Exploration（5 ステップ） | 1/5 体験（🍽️ などタイル）→ 2/5 出発（`東京都`/`周辺`）→ 3/5 移動（`1時間以内` など）→ 4/5 長さ（`半日`/`1日`）→ 5/5 味+テーマ（1/2 味・2/2 テーマ）→ `結果を見る` | URL → `/explore` |
+| 食旅診断（5 ステップ） | 1/5 体験（🍽️ などタイル）→ 2/5 出発（`東京都`/`周辺`）→ 3/5 移動（`1時間以内` など）→ 4/5 長さ（`半日`/`1日`）→ 5/5 味+テーマ（1/2 味・2/2 テーマ）→ `結果を見る` | URL → `/explore`。Dietary の会話とは別の、再実行可能な診断セッション |
 | Result | `あなたへのおすすめ Top 3`：東京わさび → 秋川の旬の農産物 → 青梅・沢井の日本酒 | 3 件すべて source-backed、それぞれ Story CTA あり。パーセント表示なし |
 | Story | `東京わさびの物語を読む` | `味わうことが、継承になる`、`周辺観光スポット`、`MOGUMOGU ポイント！` |
 | Route | `この食文化の観光ルートを作成する` | h1 `奥多摩わさび紀行`、`デモ用ルート` ラベル、latest Figma の prototype-only bottom nav |
@@ -41,7 +41,8 @@
 
 **補足（実測）**:
 - nickname は `tmm:nickname:v1`（localStorage）に保存（デモリセットで消去）。再訪時は Landing が `こんにちは、ナナミさん！ あなただけの食旅を見つけよう!` ＋ `私の食旅（過去の旅）` になる（回帰確認済み）。
-- Dietary Interview は **4 ステップ連続**（アレルギー → 食生活・スタイル → 宗教上の制約 → 苦手なもの）。回答は **presentation-only fixture 状態**（durable Food Profile には書き込まれず、安全性の判定は一切しない）。
+- Dietary Interview は **4 ステップ連続**（アレルギー → 食生活・スタイル → 宗教上の制約 → 苦手なもの）。回答は既存の coarse category と free-text note に変換して **durable Food Profile に保存**する。recommendation-only であり、安全性の判定は一切しない。
+- Result の `今回の探索をもう一度` は食旅診断だけをリセットする。durable Food Profile は保持され、Dietary Interview は明示的な編集時以外は繰り返さない。
 - `登録なし、自分で見てみる` / `自分で旅を探す` は通常モードで `/discover` へ遷移する。初回ガイド中はゴールデンパスに集中させるため disabled。
 
 ---
@@ -116,7 +117,7 @@
 
 **presentation で語る際のニュアンス**:
 
-1. Dietary 4 ステップの回答は **durable には保存されない**（presentation-only fixture 状態）。Summary では選択内容を確認できる。
+1. Dietary 4 ステップの回答は既存の coarse category と free-text note に変換して **durable Food Profile に保存**する。Summary では選択内容を確認でき、再診断時も保持される。
 2. browse 分岐は `/discover` に接続済み。ガイド中は意図的に disabled。
 3. 順位は deterministic recommendation の並びであり、確率・AI 信頼度・安全性保証ではない。
 

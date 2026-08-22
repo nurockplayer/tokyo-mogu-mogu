@@ -61,25 +61,8 @@
   color: var(--fp-figma-text);
 }
 
-/* Current implementation compatibility only: live Exploration does not use the
- * pale Food Profile multi-select-panel role. Selector convergence stays #262. */
-.fp-convo__active .fp-convo__msg--assistant .fp-convo__bubble {
-  background: var(--fp-figma-question);
-  border: 0;
-  border-radius: 0 10px 10px 10px;
-  box-shadow: none;
-  padding: 12px;
-}
-
-.fp-convo__active .fp-convo__msg--assistant .fp-convo__q,
-.fp-convo__active .fp-convo__msg--assistant .fp-convo__body,
-.fp-convo__active .fp-convo__msg--assistant .fp-convo__label {
-  color: var(--fp-figma-text);
-}
-
 /* User replies are white right-aligned bubbles, not green answer cards. */
-.tmm-food-profile .fp-convo__msg--user .fp-convo__bubble,
-.tmm-wizard .fp-convo__msg--user .fp-convo__bubble {
+.tmm-food-profile .fp-convo__msg--user .fp-convo__bubble {
   background: var(--fp-figma-user);
   border: 0;
   border-radius: 10px 0 10px 10px;
@@ -91,14 +74,12 @@
 
 /* Chips keep the existing accessible interaction contract, but mirror the
  * Figma selected/unselected fills inside the presentation conversation. */
-.tmm-food-profile .fp-convo .tmm-chip,
-.tmm-wizard .fp-convo .tmm-chip {
+.tmm-food-profile .fp-convo .tmm-chip {
   background: #ffffff;
   color: var(--fp-figma-text);
 }
 
-.tmm-food-profile .fp-convo .tmm-chip[aria-pressed='true'],
-.tmm-wizard .fp-convo .tmm-chip[aria-pressed='true'] {
+.tmm-food-profile .fp-convo .tmm-chip[aria-pressed='true'] {
   background: var(--fp-figma-selected);
   border-color: var(--fp-figma-selected);
   color: #ffffff;
@@ -112,12 +93,9 @@
 }
 
 /* Current implementation compatibility: send/confirm actions use the live raw
- * orange but still carry white text. The #263 contract requires dark ink (or an
- * equivalently verified treatment); applying that screen delta remains #262.
- * `fp-convo__step` uniquely marks the four dietary interview send buttons;
- * `fp-convo__confirm` is the final Taste + Theme confirmation. */
-.tmm-food-profile > .fp-convo:has(.fp-convo__step) .tmm-btn--primary,
-.fp-convo__confirm .tmm-btn--primary {
+ * orange. `fp-convo__step` uniquely marks the four dietary interview send
+ * buttons; diagnosis actions are styled independently. */
+.tmm-food-profile > .fp-convo:has(.fp-convo__step) .tmm-btn--primary {
   background: var(--fp-figma-send);
   border-radius: 12px;
   box-shadow: none;
