@@ -10,11 +10,12 @@
  * content. Directory/history/settings surfaces stay under AppShell.
  */
 import { lazy, type ReactNode } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { AppShell, PrototypeShell } from './index';
 import { LoadingBoundary } from './LoadingBoundary';
 import { NotFoundPage } from './NotFoundPage';
 import { JourneyNavigationManager } from './JourneyNavigationManager';
+import { ReferenceApp } from '../features/netlify-parity/ReferenceApp';
 
 const HomePage = lazy(() => import('../pages/HomePage').then((m) => ({ default: m.HomePage })));
 const LandingPage = lazy(() =>
@@ -77,6 +78,25 @@ function withBoundary(element: ReactNode) {
 }
 
 export function AppRouter() {
+  const { pathname } = useLocation();
+  const referencePath =
+    pathname === '/' ||
+    pathname === '/food-profile' ||
+    pathname === '/food-profile/edit' ||
+    pathname === '/home' ||
+    pathname === '/explore' ||
+    pathname === '/explore/result' ||
+    pathname === '/story' ||
+    pathname.startsWith('/story/') ||
+    pathname === '/route' ||
+    pathname.startsWith('/spot/') ||
+    pathname === '/discover' ||
+    pathname === '/mogu' ||
+    pathname === '/my-route' ||
+    pathname === '/my';
+
+  if (referencePath) return <ReferenceApp />;
+
   return (
     <>
       <JourneyNavigationManager />
