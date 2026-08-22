@@ -30,6 +30,11 @@ import {
   getRelatedFoodCultures,
   getSpotDetail,
 } from '../data';
+import {
+  FIELDWORK_GALLERY_COPY,
+  FIELDWORK_MEDIA_BY_PLACE_ID,
+  fieldworkText,
+} from '../data/fieldwork-media';
 import type { DataSource, PlaceType } from '../data';
 import { useI18n, type LocaleKey } from '../i18n';
 import {
@@ -203,6 +208,7 @@ export function SpotPage() {
 
   const place = placeId ? getPlaceById(placeId) : undefined;
   const detail = placeId ? getSpotDetail(placeId) : undefined;
+  const gallery = placeId ? FIELDWORK_MEDIA_BY_PLACE_ID[placeId] : undefined;
 
   // The S6 "add to itinerary" CTA saves the itinerary the traveler is on into
   // the shared `tmm:savedRoutes` contract (the same entry the S5 save button
@@ -215,6 +221,9 @@ export function SpotPage() {
     routeId !== undefined ? isRouteSaved(routeId) : false,
   );
   const [toast, setToast] = useState<string | null>(null);
+  const [selectedMediaId, setSelectedMediaId] = useState<string | undefined>(
+    () => gallery?.[0]?.id,
+  );
 
   if (!place) {
     return (
@@ -254,6 +263,7 @@ export function SpotPage() {
   const practical = detail?.practical;
   const relatedCultures = getRelatedFoodCultures(place);
   const reservationAction = SPOT_ACTIONS[place.id];
+  const selectedMedia = gallery?.find((media) => media.id === selectedMediaId) ?? gallery?.[0];
   const reservationUrl = practical?.reservationAvailable && reservationAction?.kind === 'external'
     ? reservationAction.url
     : undefined;
@@ -338,14 +348,31 @@ export function SpotPage() {
 
   return (
     <div className="tmm-page">
-      {/* Hero: photo placeholder + local name + romanization + category */}
+      {/* Hero: source-matched fieldwork gallery where available; otherwise the
+          honest generated place visual remains. */}
       <div className="s6-visual-wrap">
-        <PlaceVisual
-          name={placeName}
-          nameJa={place.nameJa}
-          type={place.type}
-          alt={placeName}
-        />
+        {selectedMedia ? (
+          <figure className="s6-gallery__hero">
+            <img
+              key={selectedMedia.id}
+              className="s6-gallery__hero-image"
+              src={selectedMedia.src}
+              alt={fieldworkText(selectedMedia.alt, locale)}
+              loading="eager"
+              decoding="async"
+            />
+            <figcaption className="s6-gallery__caption">
+              {fieldworkText(selectedMedia.caption, locale)}
+            </figcaption>
+          </figure>
+        ) : (
+          <PlaceVisual
+            name={placeName}
+            nameJa={place.nameJa}
+            type={place.type}
+            alt={placeName}
+          />
+        )}
         <Link
           to={spotBackHref(location.search)}
           state={journeyScrollRestoreState}
@@ -355,6 +382,31 @@ export function SpotPage() {
           ‹
         </Link>
       </div>
+
+      {gallery && selectedMedia ? (
+        <section
+          className="s6-gallery"
+          aria-label={fieldworkText(FIELDWORK_GALLERY_COPY.spotLabel, locale)}
+        >
+          <div className="s6-gallery__rail">
+            {gallery.map((media) => {
+              const selected = media.id === selectedMedia.id;
+              return (
+                <button
+                  key={media.id}
+                  type="button"
+                  className="s6-gallery__thumb"
+                  aria-label={`${fieldworkText(FIELDWORK_GALLERY_COPY.showPhoto, locale)}: ${fieldworkText(media.title, locale)}`}
+                  aria-pressed={selected}
+                  onClick={() => setSelectedMediaId(media.id)}
+                >
+                  <img src={media.src} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      ) : null}
       <div className="s6-title-row">
         <h1>{placeName}</h1>
         {place.nameEn !== placeName ? (

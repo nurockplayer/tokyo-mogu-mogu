@@ -159,6 +159,34 @@
   flex: 1;
 }
 
+.s5-journey-photo {
+  position: relative;
+  margin: var(--tmm-space-4) 0 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--tmm-radius-lg);
+  background: var(--tmm-color-warm-deep);
+  box-shadow: var(--tmm-shadow-card);
+}
+
+.s5-journey-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.s5-journey-photo figcaption {
+  position: absolute;
+  inset: auto 0 0;
+  margin: 0;
+  padding: var(--tmm-space-6) var(--tmm-space-3) var(--tmm-space-3);
+  color: #fff;
+  background: linear-gradient(to top, rgb(14 32 22 / 0.82), transparent);
+  font-size: var(--tmm-text-caption);
+  font-weight: 700;
+  line-height: 1.5;
+}
+
 /* ---------- Route map with numbered pins ---------- */
 
 .s5-map {
@@ -344,6 +372,16 @@
   overflow-wrap: anywhere;
 }
 
+.s5-timeline__photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  margin-top: var(--tmm-space-3);
+  border-radius: var(--tmm-radius-md);
+  object-fit: cover;
+  box-shadow: var(--tmm-shadow-card);
+}
+
 /* Mobility hangs off the spine, aligned with the step body text (the spine
    itself is the continuity cue, so no per-segment arrow is needed). */
 .s5-mobility {
@@ -453,9 +491,47 @@
 }
 
 .s6-visual-wrap .pv-visual--hero,
-.s6-visual-wrap .pv-visual {
+.s6-visual-wrap .pv-visual,
+.s6-gallery__hero {
   aspect-ratio: 1.693 / 1;
   border-radius: 0;
+}
+
+.s6-gallery__hero {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  background: var(--tmm-color-warm-deep);
+}
+
+.s6-gallery__hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: s6-photo-settle 0.36s var(--tmm-ease) both;
+}
+
+.s6-gallery__caption {
+  position: absolute;
+  inset: auto 0 0;
+  margin: 0;
+  padding: var(--tmm-space-6) var(--tmm-space-4) var(--tmm-space-3);
+  color: #fff;
+  background: linear-gradient(to top, rgb(14 32 22 / 0.82), transparent);
+  font-size: var(--tmm-text-caption);
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+@keyframes s6-photo-settle {
+  from {
+    opacity: 0.35;
+    transform: scale(1.018);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .s6-hero-back {
@@ -471,6 +547,77 @@
   color: var(--tmm-color-ink);
   font-size: 32px;
   line-height: 1;
+  z-index: 2;
+}
+
+.s6-gallery {
+  min-width: 0;
+  margin: 0 0 var(--tmm-space-4);
+}
+
+.s6-gallery__rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 82px;
+  gap: var(--tmm-space-2);
+  min-width: 0;
+  padding: 2px 2px var(--tmm-space-2);
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+}
+
+.s6-gallery__rail::-webkit-scrollbar {
+  display: none;
+}
+
+.s6-gallery__thumb {
+  position: relative;
+  width: 82px;
+  aspect-ratio: 1;
+  padding: 0;
+  overflow: hidden;
+  border: 2px solid transparent;
+  border-radius: var(--tmm-radius-md);
+  background: var(--tmm-color-warm-deep);
+  opacity: 0.68;
+  scroll-snap-align: start;
+  transition:
+    transform 0.18s var(--tmm-ease),
+    opacity 0.18s var(--tmm-ease),
+    border-color 0.18s var(--tmm-ease);
+}
+
+.s6-gallery__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.s6-gallery__thumb[aria-pressed='true'] {
+  border-color: var(--tmm-color-orange-visual);
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.s6-gallery__thumb:active {
+  transform: scale(0.96);
+}
+
+.s6-gallery__thumb:focus-visible {
+  outline: var(--tmm-focus-ring);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .s6-gallery__hero-image {
+    animation: none;
+  }
+
+  .s6-gallery__thumb {
+    transition: none;
+  }
 }
 
 .s6-title-row {

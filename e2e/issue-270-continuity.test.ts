@@ -75,5 +75,50 @@ test.describe('Issue #270 judged-journey navigation continuity', () => {
       .poll(() => page.evaluate(() => window.scrollY))
       .toBeGreaterThanOrEqual(routeScrollY - 2);
   });
-});
 
+  test('carries truthful Okutama fieldwork photography through Story, Route, and Spot', async ({ page }) => {
+    await seedGoldenPath(page);
+
+    await page.goto('/story/wasabi-okutama?candidateId=demo-okutama-wasabi');
+    const storyRail = page.getByRole('region', { name: '奥多摩の景色' });
+    await expect(storyRail).toBeVisible();
+    await expect(storyRail.locator('img')).toHaveCount(3);
+    await expect(storyRail.locator('.s4-fieldwork__rail')).toHaveCSS(
+      'scroll-snap-type',
+      'x mandatory',
+    );
+
+    await page.getByRole('link', { name: 'この食文化の観光ルートを作成する' }).click();
+    await page.waitForURL('**/route*');
+    await expect(
+      page.getByRole('img', { name: '奥多摩観光案内所の内観' }),
+    ).toBeVisible();
+
+    await page
+      .locator('.s5-timeline__pin-link')
+      .filter({ hasText: '奥多摩観光案内所' })
+      .click();
+    await page.waitForURL('**/spot/okutama-tourism-office*');
+
+    const gallery = page.getByRole('region', { name: '奥多摩観光案内所の写真' });
+    const gelatoThumb = gallery.getByRole('button', {
+      name: '写真を表示: 案内所のわさびジェラート',
+    });
+    await expect(gallery.getByRole('button')).toHaveCount(4);
+    await expect(gelatoThumb).toHaveAttribute('aria-pressed', 'false');
+    await gelatoThumb.click();
+    await expect(gelatoThumb).toHaveAttribute('aria-pressed', 'true');
+    await expect(
+      page.getByRole('img', { name: '案内所で提供される奥多摩わさびジェラート' }),
+    ).toBeVisible();
+    await expect(page.locator('.s6-gallery__caption')).toContainText(
+      '案内所で出会える奥多摩わさびジェラート',
+    );
+
+    const widths = await page.evaluate(() => ({
+      content: document.documentElement.scrollWidth,
+      viewport: document.documentElement.clientWidth,
+    }));
+    expect(widths.content).toBeLessThanOrEqual(widths.viewport);
+  });
+});

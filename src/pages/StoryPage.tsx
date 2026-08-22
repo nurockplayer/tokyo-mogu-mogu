@@ -54,6 +54,11 @@ import {
   municipalityIndicatorValue,
   resolveStoryJourney,
 } from '../data';
+import {
+  FIELDWORK_GALLERY_COPY,
+  OKUTAMA_STORY_MEDIA,
+  fieldworkText,
+} from '../data/fieldwork-media';
 import { FoodCultureImage } from '../components/FoodCultureImage';
 import { SupportPanel } from '../components/SupportPanel';
 import { Card, StorySection, Tag } from '../ui';
@@ -276,6 +281,34 @@ export function StoryPage() {
             </aside>
           ) : null}
         </StorySection>
+
+        {record.id === 'wasabi-okutama' ? (
+          <section
+            className="s4-fieldwork"
+            aria-label={fieldworkText(FIELDWORK_GALLERY_COPY.storyLabel, locale)}
+          >
+            <div className="s4-fieldwork__heading">
+              <span className="s4-fieldwork__rule" aria-hidden="true" />
+              <p>{fieldworkText(FIELDWORK_GALLERY_COPY.swipeHint, locale)}</p>
+              <span className="s4-fieldwork__arrow" aria-hidden="true">→</span>
+            </div>
+            <ul className="s4-fieldwork__rail">
+              {OKUTAMA_STORY_MEDIA.map((media) => (
+                <li key={media.id} className="s4-fieldwork__item">
+                  <figure className="s4-fieldwork__figure">
+                    <img
+                      src={media.src}
+                      alt={fieldworkText(media.alt, locale)}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <figcaption>{fieldworkText(media.caption, locale)}</figcaption>
+                  </figure>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
 
         {/* Section 3 — The maker (the maker is the visual lead of the section) */}
         <StorySection number={2} kicker={t('s4KickerMaker')} title={t('s4TitleMaker')}>

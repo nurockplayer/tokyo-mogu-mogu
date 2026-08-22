@@ -32,6 +32,11 @@ import {
   resolveRouteId,
 } from '../data';
 import type { RouteDuration } from '../data';
+import {
+  FIELDWORK_MEDIA_BY_PLACE_ID,
+  OKUTAMA_ROUTE_MEDIA,
+  fieldworkText,
+} from '../data/fieldwork-media';
 import { useI18n, type Locale, type LocaleKey } from '../i18n';
 import {
   routeNameKey,
@@ -123,6 +128,7 @@ export function RoutePage() {
   // Preserve the caller through every Route → Spot link. The helper allowlists
   // origins and the Story's own back target before forwarding them.
   const originQuery = routeContextSearch(location.search);
+  const routeMedia = route.id === 'okutama-wasabi-journey' ? OKUTAMA_ROUTE_MEDIA : undefined;
 
   const handleToggle = (next: RouteDuration) => {
     if (next === duration) return;
@@ -193,6 +199,18 @@ export function RoutePage() {
         ))}
       </div>
 
+      {routeMedia ? (
+        <figure className="s5-journey-photo">
+          <img
+            src={routeMedia.src}
+            alt={fieldworkText(routeMedia.alt, locale)}
+            loading="eager"
+            decoding="async"
+          />
+          <figcaption>{fieldworkText(routeMedia.caption, locale)}</figcaption>
+        </figure>
+      ) : null}
+
       {/* Stylized route map with numbered pins */}
       <section className="tmm-section" aria-label={t('s5MapLabel')}>
         <div className="s5-map">
@@ -251,6 +269,7 @@ export function RoutePage() {
               (seg) => seg.fromStep === step.stepNumber,
             );
             const placeName = localized(placeNameKey(place.id), place.nameJa, place.nameEn);
+            const placeMedia = FIELDWORK_MEDIA_BY_PLACE_ID[place.id]?.[0];
             return (
               <div key={step.placeId}>
                 <Link
@@ -267,6 +286,15 @@ export function RoutePage() {
                       step.roleEn,
                     )}
                   >
+                    {placeMedia ? (
+                      <img
+                        className="s5-timeline__photo"
+                        src={placeMedia.src}
+                        alt={fieldworkText(placeMedia.alt, locale)}
+                        loading="eager"
+                        decoding="async"
+                      />
+                    ) : null}
                     <span className="s5-timeline__stay">
                       ⏱ {t('s5Stay')}: {step.stayMinutes}min
                     </span>

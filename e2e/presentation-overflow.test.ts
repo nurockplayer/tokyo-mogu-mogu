@@ -104,7 +104,7 @@ const ROUTE_PATHS: { path: string; label: string; signal: string }[] = [
 ];
 
 const SPOT_PATHS: { path: string; label: string; signal: string }[] = [
-  { path: '/spot/okutama-tourism-office', label: 'Okutama tourism office spot', signal: '.pv-visual' },
+  { path: '/spot/okutama-tourism-office', label: 'Okutama tourism office spot', signal: '.s6-gallery__hero-image' },
   { path: '/spot/sawai-ozawa-shuzo', label: 'Ozawa Shuzo spot', signal: '.pv-visual' },
 ];
 

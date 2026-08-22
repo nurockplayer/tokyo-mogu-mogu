@@ -245,6 +245,90 @@
   overflow-wrap: anywhere;
 }
 
+/* Source-matched fieldwork rail: editorial scale with a visible next-card
+   peek. The document remains 375px-safe while the rail itself can be swiped. */
+.s4-fieldwork {
+  margin-top: var(--tmm-space-5);
+}
+
+.s4-fieldwork__heading {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--tmm-space-2);
+  margin-bottom: var(--tmm-space-3);
+  color: var(--tmm-color-forest-deep);
+  font-size: var(--tmm-text-caption);
+  font-weight: 700;
+}
+
+.s4-fieldwork__heading p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.s4-fieldwork__rule {
+  width: 18px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--tmm-color-orange-visual);
+}
+
+.s4-fieldwork__arrow {
+  font-size: 1.1rem;
+}
+
+.s4-fieldwork__rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 84%);
+  gap: var(--tmm-space-3);
+  margin: 0 calc(var(--tmm-gutter) * -1);
+  padding: 0 var(--tmm-gutter) var(--tmm-space-2);
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scroll-padding-inline: var(--tmm-gutter);
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  list-style: none;
+}
+
+.s4-fieldwork__rail::-webkit-scrollbar {
+  display: none;
+}
+
+.s4-fieldwork__item {
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+.s4-fieldwork__figure {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: var(--tmm-radius-lg);
+  background: var(--tmm-color-warm-deep);
+  box-shadow: var(--tmm-shadow-card);
+}
+
+.s4-fieldwork__figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.s4-fieldwork__figure figcaption {
+  position: absolute;
+  inset: auto 0 0;
+  padding: var(--tmm-space-5) var(--tmm-space-3) var(--tmm-space-3);
+  color: #fff;
+  background: linear-gradient(to top, rgb(14 32 22 / 0.82), transparent);
+  font-size: var(--tmm-text-caption);
+  font-weight: 700;
+  line-height: 1.5;
+}
+
 /* Compact source-backed regional context for the existing "Why" section
    (#264). The note stays within the editorial flow instead of becoming a
    second Result card or a chart. */
