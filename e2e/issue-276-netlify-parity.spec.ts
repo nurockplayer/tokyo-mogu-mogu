@@ -118,6 +118,13 @@ test.describe('Issue #276 authoritative Netlify choreography', () => {
       page.getByRole('button', { name: '自分に合った旅をおすすめしてもらう！' }),
     ).toBeVisible({ timeout: 500 });
     await expect(page.getByText(/MOGU MOGUへようこそ/)).toBeVisible();
+    await expect
+      .poll(() =>
+        page.locator('.chat-body').evaluate((element) =>
+          Math.round(element.scrollHeight - element.clientHeight - element.scrollTop),
+        ),
+      )
+      .toBeLessThanOrEqual(1);
     await capture(page, '04-profile-complete-ja-375');
 
     await page
@@ -129,6 +136,22 @@ test.describe('Issue #276 authoritative Netlify choreography', () => {
       'true',
     );
     await capture(page, '05-home-ja-375');
+
+    await page.goBack();
+    await expect(page.locator('[data-screen="food-profile"]')).toHaveAttribute(
+      'data-screen-active',
+      'true',
+    );
+    await expect(page.getByText(/MOGU MOGUへようこそ/)).toBeVisible();
+    await expect(
+      page.getByRole('button', { name: '自分に合った旅をおすすめしてもらう！' }),
+    ).toBeVisible();
+    await page.goForward();
+    await expect(page.locator('[data-screen="home"]')).toHaveAttribute(
+      'data-screen-active',
+      'true',
+    );
+
     await page.getByRole('button', { name: /Let's Go!/ }).click();
 
     await expect(page).toHaveURL(/\/explore$/);
