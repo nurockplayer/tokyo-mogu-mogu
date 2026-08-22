@@ -1,6 +1,6 @@
 # Issue #262 — 375px visual evidence
 
-Baseline: `92961451eab824f11c784f99204d45951bd31c7a`  
+Baseline: `92961451eab824f11c784f99204d45951bd31c7a`
 Implementation head: recorded in the pull request.
 
 The `figma-*.png` files are read-only exports captured from the live KiKi
