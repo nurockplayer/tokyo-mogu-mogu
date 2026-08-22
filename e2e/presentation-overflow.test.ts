@@ -103,10 +103,40 @@ const ROUTE_PATHS: { path: string; label: string; signal: string }[] = [
   },
 ];
 
+const STORY_PATHS: { path: string; label: string; signal: string }[] = [
+  {
+    path: '/story/wasabi-okutama?candidateId=demo-okutama-wasabi',
+    label: 'Okutama × Tokyo Wasabi story',
+    signal: '.s4-fieldwork',
+  },
+];
+
 const SPOT_PATHS: { path: string; label: string; signal: string }[] = [
   { path: '/spot/okutama-tourism-office', label: 'Okutama tourism office spot', signal: '.s6-gallery__hero-image' },
   { path: '/spot/sawai-ozawa-shuzo', label: 'Ozawa Shuzo spot', signal: '.pv-visual' },
 ];
+
+const FIELDWORK_GALLERY_COPY: Record<Locale, {
+  story: string;
+  spot: string;
+  gelato: string;
+}> = {
+  ja: {
+    story: '奥多摩の景色',
+    spot: '奥多摩観光案内所の写真',
+    gelato: '写真を表示: 案内所のわさびジェラート',
+  },
+  en: {
+    story: 'Scenes from Okutama',
+    spot: 'Photos of the Okutama Tourism Office',
+    gelato: 'Show photo: Wasabi gelato at the office',
+  },
+  'zh-TW': {
+    story: '奧多摩風景',
+    spot: '奧多摩遊客服務中心照片',
+    gelato: '顯示照片: 服務中心的山葵義式冰淇淋',
+  },
+};
 
 for (const locale of ['ja', 'en', 'zh-TW'] as const) {
   test.describe(`Route / Spot / My overflow (${locale}, 375px)`, () => {
@@ -125,6 +155,20 @@ for (const locale of ['ja', 'en', 'zh-TW'] as const) {
       });
     }
 
+    for (const { path, label, signal } of STORY_PATHS) {
+      test(`no horizontal overflow on ${label}`, async ({ page }) => {
+        await setLocale(page, locale);
+        await page.goto(path);
+        await page.waitForURL(/\/story\//);
+        await page.waitForSelector(signal);
+        const gallery = page.getByRole('region', {
+          name: FIELDWORK_GALLERY_COPY[locale].story,
+        });
+        await expect(gallery.locator('img')).toHaveCount(3);
+        await assertNoHorizontalOverflow(page);
+      });
+    }
+
     for (const { path, label, signal } of SPOT_PATHS) {
       test(`no horizontal overflow on ${label}`, async ({ page }) => {
         await setLocale(page, locale);
@@ -132,6 +176,24 @@ for (const locale of ['ja', 'en', 'zh-TW'] as const) {
         await page.waitForURL(/\/spot\//);
         // Same code-split guard: wait for the spot visual before measuring.
         await page.waitForSelector(signal);
+        if (path.includes('okutama-tourism-office')) {
+          const gallery = page.getByRole('region', {
+            name: FIELDWORK_GALLERY_COPY[locale].spot,
+          });
+          const gelato = gallery.getByRole('button', {
+            name: FIELDWORK_GALLERY_COPY[locale].gelato,
+          });
+          await expect(gallery.getByRole('button')).toHaveCount(4);
+          await expect
+            .poll(() =>
+              gallery.locator('img').evaluateAll((images) =>
+                images.every((image) => image.complete && image.naturalWidth > 0),
+              ),
+            )
+            .toBe(true);
+          await gelato.click();
+          await expect(gelato).toHaveAttribute('aria-pressed', 'true');
+        }
         await assertNoHorizontalOverflow(page);
       });
     }

@@ -400,7 +400,7 @@ export function SpotPage() {
                   aria-pressed={selected}
                   onClick={() => setSelectedMediaId(media.id)}
                 >
-                  <img src={media.src} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                  <img src={media.src} alt="" aria-hidden="true" loading="eager" decoding="async" />
                 </button>
               );
             })}
