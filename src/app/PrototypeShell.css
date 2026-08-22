@@ -61,6 +61,24 @@
   font-size: 1.3rem;
 }
 
+/* Product screens enter as one continuous journey surface. Screen-local
+   reveals can add hierarchy inside this quiet, shared fade. */
+.tmm-prototype .tmm-result,
+.tmm-prototype .s4-page,
+.tmm-prototype .s5-page,
+.tmm-prototype .s6-page {
+  animation: tmm-journey-screen-enter 0.28s var(--tmm-ease) both;
+}
+
+@keyframes tmm-journey-screen-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* Compact prototype bar at mobile widths: the locale toggle + a compact icon
    reset fit on one row so the demo chrome stops eating the 375px viewport
    (the Figma journey frames carry only the status bar, no demo header). The
@@ -94,5 +112,14 @@
   .tmm-prototype__bar .demo-reset.confirming::before {
     content: '✓';
     color: var(--tmm-color-danger);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tmm-prototype .tmm-result,
+  .tmm-prototype .s4-page,
+  .tmm-prototype .s5-page,
+  .tmm-prototype .s6-page {
+    animation: none;
   }
 }

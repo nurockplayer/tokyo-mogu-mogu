@@ -149,7 +149,7 @@ export function RoutePage() {
   };
 
   return (
-    <div className="tmm-page">
+    <div className="tmm-page s5-page">
       <header className="s5-figma-header">
         <Link
           to={routeBackHref(location.search)}

@@ -37,6 +37,29 @@ async function seedGoldenPath(page: Page): Promise<void> {
   );
 }
 
+async function seedProfileOnly(page: Page): Promise<void> {
+  await page.goto('/');
+  await page.evaluate(
+    ([profileKey, explorationKey, tutorialKey]) => {
+      localStorage.clear();
+      sessionStorage.clear();
+      localStorage.setItem(
+        profileKey,
+        JSON.stringify({
+          dietary: [],
+          dietaryOther: '',
+          hasNoRestrictions: true,
+          savedAt: '2026-08-22T00:00:00.000Z',
+          version: 1,
+        }),
+      );
+      sessionStorage.removeItem(explorationKey);
+      sessionStorage.setItem(tutorialKey, 'complete');
+    },
+    [FOOD_PROFILE_KEY, EXPLORATION_KEY, TUTORIAL_KEY] as const,
+  );
+}
+
 async function expectAtPageTop(page: Page): Promise<void> {
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
 }
@@ -120,5 +143,45 @@ test.describe('Issue #270 judged-journey navigation continuity', () => {
       viewport: document.documentElement.clientWidth,
     }));
     expect(widths.content).toBeLessThanOrEqual(widths.viewport);
+  });
+
+  test('lets a single-choice reply visibly settle before revealing the next turn', async ({ page }) => {
+    await seedProfileOnly(page);
+    await page.goto('/explore');
+
+    const currentQuestion = page.getByRole('heading', {
+      level: 1,
+      name: '今回は、どんな食体験をしてみたいですか？',
+    });
+    const choice = page.getByRole('button', { name: '食べる' });
+    await choice.click();
+
+    await expect(choice).toHaveAttribute('aria-pressed', 'true');
+    await expect(currentQuestion).toBeVisible();
+    await expect(
+      page.getByRole('heading', { level: 1, name: 'どこから出発しますか？' }),
+    ).toBeVisible();
+  });
+
+  test('keeps the primary Story action in the initial Result viewport', async ({ page }) => {
+    await seedGoldenPath(page);
+    await page.goto('/explore/result');
+    await page.getByRole('heading', { name: 'あなたに合う食の旅を見つけました！' }).waitFor();
+
+    const primaryCard = page.locator('.tmm-result-ranking__item').first();
+    const primaryAction = primaryCard.getByRole('link', {
+      name: '東京わさびの物語を読む',
+    });
+    await expect(primaryAction).toBeInViewport({ ratio: 1 });
+
+    const [actionBox, navBox] = await Promise.all([
+      primaryAction.boundingBox(),
+      page.locator('.tmm-nav').boundingBox(),
+    ]);
+    expect(actionBox).not.toBeNull();
+    expect(navBox).not.toBeNull();
+    expect((actionBox?.y ?? 0) + (actionBox?.height ?? 0)).toBeLessThanOrEqual(
+      (navBox?.y ?? 0) - 8,
+    );
   });
 });

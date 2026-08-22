@@ -481,6 +481,27 @@
   min-width: 0;
 }
 
+.tmm-diagnosis__active[data-settling='true'] {
+  pointer-events: none;
+}
+
+.tmm-diagnosis__active[data-settling='true'] .tmm-chip[aria-pressed='true'],
+.tmm-diagnosis__active[data-settling='true'] .tmm-wizard__tile--selected {
+  animation: tmm-choice-settle 0.18s var(--tmm-ease) both;
+}
+
+@keyframes tmm-choice-settle {
+  0% {
+    transform: scale(1);
+  }
+  55% {
+    transform: scale(0.965);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 .tmm-diagnosis__screen {
   display: flex;
   flex-direction: column;
@@ -711,6 +732,14 @@
   list-style: none;
 }
 
+.tmm-result-card__eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--tmm-space-2);
+  min-width: 0;
+}
+
 .tmm-result-card__rank {
   color: var(--tmm-color-forest);
   font-size: var(--tmm-text-caption);
@@ -721,6 +750,10 @@
 
 .tmm-result-card__action {
   margin-top: var(--tmm-space-2);
+}
+
+.tmm-result-card__action--primary {
+  margin: var(--tmm-space-1) 0 var(--tmm-space-1);
 }
 
 .tmm-result-ranking__item:not(:first-child) .tmm-result-card__media {
@@ -734,15 +767,26 @@
 /* A 16:9 Result media frame keeps rank and journey identity above the fixed
    mobile navigation while retaining an image-led reveal. */
 .tmm-result .tmm-result-card__media {
+  position: relative;
   aspect-ratio: 16 / 9;
+  overflow: hidden;
 }
 
 .tmm-result-card__img {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: inherit;
+}
+
+.tmm-result .tmm-result-card__media > .fc-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .tmm-result-card__region {
@@ -793,6 +837,77 @@
 .tmm-result__greeting .fp-convo__bubble {
   flex: 0 1 auto;
   text-align: left;
+}
+
+/* Result is a reveal, not a hard page replacement. The sequence follows the
+   content hierarchy: conversation → result heading → ranking → cards. */
+.tmm-result__greeting,
+.tmm-result__summary-title,
+.tmm-result__summary-desc,
+.tmm-result-ranking__title,
+.tmm-result-ranking__item {
+  animation: tmm-result-reveal 0.46s var(--tmm-ease) both;
+}
+
+.tmm-result__summary-title {
+  animation-delay: 70ms;
+}
+
+.tmm-result__summary-desc {
+  animation-delay: 120ms;
+}
+
+.tmm-result-ranking__title {
+  animation-delay: 170ms;
+}
+
+.tmm-result-ranking__item:nth-child(1) {
+  animation-delay: 230ms;
+}
+
+.tmm-result-ranking__item:nth-child(2) {
+  animation-delay: 300ms;
+}
+
+.tmm-result-ranking__item:nth-child(3) {
+  animation-delay: 360ms;
+}
+
+.tmm-result-ranking__item:first-child .tmm-result-card__img {
+  animation: tmm-result-image-settle 0.72s var(--tmm-ease) 180ms both;
+}
+
+@keyframes tmm-result-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tmm-result-image-settle {
+  from {
+    transform: scale(1.035);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tmm-diagnosis__active[data-settling='true'] .tmm-chip[aria-pressed='true'],
+  .tmm-diagnosis__active[data-settling='true'] .tmm-wizard__tile--selected,
+  .tmm-result__greeting,
+  .tmm-result__summary-title,
+  .tmm-result__summary-desc,
+  .tmm-result-ranking__title,
+  .tmm-result-ranking__item,
+  .tmm-result-ranking__item:first-child .tmm-result-card__img {
+    animation: none;
+  }
 }
 
 /* Desktop: contain the full-bleed hero as a rounded plate (same treatment as

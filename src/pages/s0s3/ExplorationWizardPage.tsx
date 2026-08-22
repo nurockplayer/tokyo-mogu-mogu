@@ -235,6 +235,7 @@ function ExplorationWizardInner() {
 
   const [visual, setVisual] = useState<VisualAnswers>(initialVisual);
   const [step, setStep] = useState(0);
+  const [settling, setSettling] = useState(false);
   const [tutorialActive] = useState(isGuidedTutorialActive);
   // Presentation-only departure search text (Figma 8:2608); never a geocoder /
   // station API and never persisted as canonical data.
@@ -243,7 +244,15 @@ function ExplorationWizardInner() {
   // Latest committed step, used to reject stale activations (rapid/double tap)
   // so one reply can never commit twice or skip a turn.
   const stepRef = useRef(step);
+  const advancingRef = useRef(false);
+  const settleTimerRef = useRef<number | null>(null);
   stepRef.current = step;
+
+  useEffect(() => () => {
+    if (settleTimerRef.current !== null) {
+      window.clearTimeout(settleTimerRef.current);
+    }
+  }, []);
 
   // Auto-scroll target for the newly revealed diagnosis screen. The first
   // render is skipped so the initial question remains at the page top.
@@ -278,9 +287,19 @@ function ExplorationWizardInner() {
 
   /** Commit an answer and reveal exactly the next screen (stale taps are ignored). */
   function advance(toStep: number, next: VisualAnswers) {
-    if (toStep !== stepRef.current + 1) return;
+    if (toStep !== stepRef.current + 1 || advancingRef.current) return;
+    advancingRef.current = true;
     setVisual(next);
-    setStep(toStep);
+    setSettling(true);
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    settleTimerRef.current = window.setTimeout(() => {
+      stepRef.current = toStep;
+      setStep(toStep);
+      setSettling(false);
+      advancingRef.current = false;
+      settleTimerRef.current = null;
+    }, reduce ? 0 : 180);
   }
 
   /** Single-choice quick reply: selecting it is the answer and advances. */
@@ -313,6 +332,7 @@ function ExplorationWizardInner() {
   }
 
   function goBack() {
+    if (settling) return;
     if (step > 0) {
       setStep(step - 1);
     } else {
@@ -582,7 +602,7 @@ function ExplorationWizardInner() {
             className="tmm-wizard__back"
             onClick={goBack}
             aria-label={t('back')}
-            disabled={tutorialActive}
+            disabled={tutorialActive || settling}
           >
             ‹
           </button>
@@ -599,7 +619,12 @@ function ExplorationWizardInner() {
         <StepDots total={WIZARD_STEP_COUNT} current={step} label={ariaProgress} />
 
         <div className="tmm-diagnosis" data-testid="diagnosis-session">
-          <div ref={activeTurnRef} className="tmm-diagnosis__active">
+          <div
+            ref={activeTurnRef}
+            className="tmm-diagnosis__active"
+            data-settling={settling ? 'true' : 'false'}
+            aria-busy={settling}
+          >
             {renderDiagnosisScreen()}
           </div>
         </div>

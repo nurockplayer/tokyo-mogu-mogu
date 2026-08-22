@@ -270,6 +270,14 @@ function ResultJourneyCard({
     (caution) => caution.code === 'travel-time-unknown',
   );
   const title = isGoldenPath ? t('s3CardTitlePrimary') : t(titleKey);
+  const storyAction = (
+    <Link
+      to={storyHref(candidate.foodCultureId, candidate.id, isReopen)}
+      className={`tmm-result-card__action tmm-btn ${primary ? 'tmm-result-card__action--primary tmm-btn--primary' : 'tmm-btn--secondary'} tmm-btn--block`}
+    >
+      {resultStoryCta(t('s3PrimaryCta'), t(titleKey))}
+    </Link>
+  );
 
   return (
     <article
@@ -290,13 +298,16 @@ function ResultJourneyCard({
         )}
       </div>
       <div className="tmm-result-card__body">
-        <span className="tmm-result-card__rank">
-          {fillTemplate(t('s3RankLabel'), { rank: String(rank) })}
-        </span>
-        <span className="tmm-result-card__region">
-          {areaKey ? t(areaKey) : locale === 'ja' ? route.areaJa : route.areaEn}
-        </span>
+        <div className="tmm-result-card__eyebrow">
+          <span className="tmm-result-card__rank">
+            {fillTemplate(t('s3RankLabel'), { rank: String(rank) })}
+          </span>
+          <span className="tmm-result-card__region">
+            {areaKey ? t(areaKey) : locale === 'ja' ? route.areaJa : route.areaEn}
+          </span>
+        </div>
         <h3 className="tmm-result-card__title">{title}</h3>
+        {primary ? storyAction : null}
         <p className="tmm-result-card__desc">{t(descriptionKey)}</p>
 
         {tags.length > 0 ? (
@@ -334,12 +345,7 @@ function ResultJourneyCard({
           </>
         ) : null}
 
-        <Link
-          to={storyHref(candidate.foodCultureId, candidate.id, isReopen)}
-          className={`tmm-result-card__action tmm-btn ${primary ? 'tmm-btn--primary' : 'tmm-btn--secondary'} tmm-btn--block`}
-        >
-          {resultStoryCta(t('s3PrimaryCta'), t(titleKey))}
-        </Link>
+        {primary ? null : storyAction}
       </div>
     </article>
   );

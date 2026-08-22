@@ -347,7 +347,7 @@ export function SpotPage() {
   };
 
   return (
-    <div className="tmm-page">
+    <div className="tmm-page s6-page">
       {/* Hero: source-matched fieldwork gallery where available; otherwise the
           honest generated place visual remains. */}
       <div className="s6-visual-wrap">
