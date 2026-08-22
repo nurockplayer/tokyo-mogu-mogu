@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Locale } from '../../../i18n';
-import { BottomNavigation } from '../components/BottomNavigation';
 import {
   demoSpots,
   referenceAssets,
@@ -48,7 +47,8 @@ const routeStepText: Record<string, RouteStepText[]> = {
     { walk: t('徒歩 約 1 分', 'About 1 min on foot', '步行約 1 分鐘'), description: t('・土日のみ営業\n・¥900〜', 'Weekends only · From ¥900', '僅週末營業・¥900 起'), note: t('※平日はあかべこ推奨', 'Akabeko is recommended on weekdays', '平日建議前往 AKABEKO') },
     { walk: t('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: t('・わさびジェラート', 'Wasabi gelato', '山葵義式冰淇淋') },
     { walk: t('徒歩 約 10 分', 'About 10 min on foot', '步行約 10 分鐘'), description: t('川辺で涼む', 'Cool off beside the river', '在河畔納涼') },
-    { walk: t('徒歩 約 10 分', 'About 10 min on foot', '步行約 10 分鐘'), description: t('カフェ・雑貨でゆったり！', 'Relax with coffee and local goods', '在咖啡與雜貨中悠閒休息！') },
+    { walk: t('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: t('お参り！', 'Visit the shrine', '參拜神社！') },
+    { walk: t('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: t('カフェ・雑貨でゆったり！', 'Relax with coffee and local goods', '在咖啡與雜貨中悠閒休息！') },
   ],
   'demo-okutama-wasabi:full-day': [
     { description: t('JR青梅線・旅のスタート地点', 'JR Ome Line · Starting point', 'JR 青梅線・旅程起點') },
@@ -68,9 +68,9 @@ const routeStepText: Record<string, RouteStepText[]> = {
 
 const routeStats: Record<string, Record<Locale, { time: string; distance: string; spots: string; station: string; minutes: string }>> = {
   'demo-okutama-wasabi:half-day': {
-    ja: { time: '約 2.5 時間', distance: '徒歩約 6 km', spots: '5 スポット', station: '東京駅', minutes: '60 分' },
-    en: { time: 'About 2.5 hr', distance: 'Walk about 6 km', spots: '5 spots', station: 'Tokyo Station', minutes: '60 min' },
-    'zh-TW': { time: '約 2.5 小時', distance: '步行約 6 km', spots: '5 個景點', station: '東京站', minutes: '60 分鐘' },
+    ja: { time: '約 2.5 時間', distance: '徒歩約 6 km', spots: '6 スポット', station: '東京駅', minutes: '60 分' },
+    en: { time: 'About 2.5 hr', distance: 'Walk about 6 km', spots: '6 spots', station: 'Tokyo Station', minutes: '60 min' },
+    'zh-TW': { time: '約 2.5 小時', distance: '步行約 6 km', spots: '6 個景點', station: '東京站', minutes: '60 分鐘' },
   },
   'demo-okutama-wasabi:full-day': {
     ja: { time: '約 7 時間', distance: '電車 + 徒歩', spots: '6 スポット', station: '東京駅', minutes: '90 分' },
@@ -107,14 +107,11 @@ const missionSpotIds = new Set([
   'wasabi-experience',
 ]);
 
-const mapPinPositions: Array<[number, number]> = [
-  [16, 22],
-  [46, 42],
-  [68, 62],
-  [34, 72],
-  [60, 20],
-  [80, 42],
-];
+const routeGenerationLabel: Record<Locale, [string, string]> = {
+  ja: ['あなたにぴったりの', '観光ルートを生成中！'],
+  en: ['Creating a sightseeing route', 'just for you!'],
+  'zh-TW': ['正在建立最適合你的', '觀光路線！'],
+};
 
 export interface RouteScreenProps {
   active: boolean;
@@ -129,7 +126,6 @@ export interface RouteScreenProps {
   onOpenSpot: (spot: SpotPresentation) => void;
   onSaveRoute: (journey: JourneyPresentation) => void;
   onViewSavedRoutes: () => void;
-  onNavigate: (path: string) => void;
 }
 
 export function RouteScreen({
@@ -145,10 +141,11 @@ export function RouteScreen({
   onOpenSpot,
   onSaveRoute,
   onViewSavedRoutes,
-  onNavigate,
 }: RouteScreenProps) {
   const [variantId, setVariantId] = useState<RouteVariantId>('half-day');
+  const [regenerating, setRegenerating] = useState(false);
   const wasActiveRef = useRef(active);
+  const regenerationTimerRef = useRef<number | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const labels = routeLabels[locale];
   const variants = journey.routeVariants;
@@ -165,6 +162,30 @@ export function RouteScreen({
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: 0 });
   }, [journey.id, variant.id]);
+
+  useEffect(
+    () => () => {
+      if (regenerationTimerRef.current !== null) window.clearTimeout(regenerationTimerRef.current);
+    },
+    [],
+  );
+
+  useEffect(() => {
+    if (active || regenerationTimerRef.current === null) return;
+    window.clearTimeout(regenerationTimerRef.current);
+    regenerationTimerRef.current = null;
+    setRegenerating(false);
+  }, [active]);
+
+  const startRegeneration = () => {
+    if (regenerating) return;
+    setRegenerating(true);
+    regenerationTimerRef.current = window.setTimeout(() => {
+      regenerationTimerRef.current = null;
+      setRegenerating(false);
+      onRegenerate?.(journey, variant);
+    }, 1_200);
+  };
 
   if (!variant) return null;
 
@@ -204,19 +225,6 @@ export function RouteScreen({
       <div className="scroll" ref={scrollRef}>
         <div className="route-map">
           <img src={referenceAssets[variant.imageAssetId]} alt={copy.route.mapAlt} />
-          {variant.steps.slice(1).map((step, index) => {
-            const position = mapPinPositions[index] ?? [50, 50];
-            return (
-              <span
-                className="map-pin"
-                key={`${step.spotId}-${index}`}
-                style={{ left: `${position[0]}%`, top: `${position[1]}%` }}
-              >
-                <i />
-                <span>{index + 1}</span>
-              </span>
-            );
-          })}
         </div>
 
         <div className="route-info">
@@ -225,7 +233,7 @@ export function RouteScreen({
             <br />
             <TrainIcon /> <em>{stats.station}</em> {labels.from} <em>{stats.minutes}</em>
           </div>
-          <button className="regen" onClick={() => onRegenerate?.(journey, variant)} type="button">
+          <button className="regen" disabled={regenerating} onClick={startRegeneration} type="button">
             {labels.regenerate[0]}
             <br />
             {labels.regenerate[1]}
@@ -304,18 +312,44 @@ export function RouteScreen({
         <div className="route-actions">
           <button
             className="save"
-            onClick={() => onSaveRoute(journey)}
+            disabled={saved}
+            onClick={() => {
+              if (!saved) onSaveRoute(journey);
+            }}
             type="button"
             aria-pressed={saved}
           >
-            <BookmarkIcon /> {copy.actions.saveRoute}
+            <BookmarkIcon /> {saved ? copy.route.saved : copy.actions.saveRoute}
           </button>
           <button className="view" onClick={onViewSavedRoutes} type="button">
             {copy.actions.viewSavedRoute}
           </button>
         </div>
       </div>
-      <BottomNavigation active="mogu" copy={copy.nav} onNavigate={onNavigate} />
+
+      <div
+        className={`reference-loading${regenerating ? ' on' : ''}`}
+        data-loading={regenerating}
+        data-route-loading
+        aria-hidden={!regenerating}
+        aria-live="polite"
+      >
+        <div className="face">
+          <img src={referenceAssets.logoFace} alt="" />
+        </div>
+        <div className="dots" aria-hidden="true">
+          <i />
+          <i />
+          <i />
+          <i />
+          <i />
+        </div>
+        <p>
+          {routeGenerationLabel[locale][0]}
+          <br />
+          {routeGenerationLabel[locale][1]}
+        </p>
+      </div>
     </section>
   );
 }

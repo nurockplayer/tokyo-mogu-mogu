@@ -46,6 +46,33 @@ const storySpotGroups: Record<string, { nearby: StorySpotReference[]; nature: St
           'zh-TW': '創業 172 年、傳承至第六代的山葵加工老店',
         },
       },
+      {
+        spotId: 'wasabi-kitchen', imageAssetId: 'wasabiKitchen', badgeColor: '#E98A1C',
+        badge: { ja: '飲食店', en: 'Restaurant', 'zh-TW': '餐廳' },
+        description: {
+          ja: '飲食・キッチンカー／土日中心',
+          en: 'Food and a mobile kitchen, mainly on weekends',
+          'zh-TW': '餐飲與行動餐車／主要於週末營業',
+        },
+      },
+      {
+        spotId: 'okutama-kitchen', imageAssetId: 'okutamaKitchen', badgeColor: '#E98A1C',
+        badge: { ja: 'カフェ', en: 'Café', 'zh-TW': '咖啡廳' },
+        description: {
+          ja: 'わさびジェラートが名物',
+          en: 'Known for its wasabi gelato',
+          'zh-TW': '以山葵義式冰淇淋聞名',
+        },
+      },
+      {
+        spotId: 'port-okutama', imageAssetId: 'portCafe', badgeColor: '#E98A1C',
+        badge: { ja: 'カフェ', en: 'Café', 'zh-TW': '咖啡廳' },
+        description: {
+          ja: 'カフェと雑貨の複合スポット',
+          en: 'A combined café and lifestyle-goods spot',
+          'zh-TW': '結合咖啡與生活雜貨的複合空間',
+        },
+      },
     ],
     nature: [
       {
@@ -61,6 +88,15 @@ const storySpotGroups: Record<string, { nearby: StorySpotReference[]; nature: St
           ja: '多摩川と日原川が合流する、奥多摩駅近くの自然豊かな渓谷',
           en: 'A lush valley near Okutama Station where the Tama and Nippara rivers meet',
           'zh-TW': '多摩川與日原川交會、鄰近奧多摩站的自然溪谷',
+        },
+      },
+      {
+        spotId: 'oku-hikawa-shrine', imageAssetId: 'okuHikawaShrine', badgeColor: '#5E7239',
+        badge: { ja: '神社', en: 'Shrine', 'zh-TW': '神社' },
+        description: {
+          ja: '奥多摩駅近くに佇む、地域の歴史と自然を感じられる静かな神社',
+          en: 'A quiet shrine near Okutama Station, alive with the area’s history and nature',
+          'zh-TW': '靜靜坐落於奧多摩站附近，能感受地方歷史與自然的神社',
         },
       },
     ],
