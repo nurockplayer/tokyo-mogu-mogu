@@ -30,6 +30,34 @@
   padding: 0 var(--tmm-gutter) 24px;
 }
 
+/* A quiet continuity cue for genuine route changes. It never delays content
+ * or blocks input, and disappears entirely for reduced-motion preferences. */
+.tmm-route-transition {
+  animation: tmm-route-enter 180ms ease-out;
+}
+
+/* Route focus is an announcement/continuity target, not an interactive
+ * control. Keep keyboard position without drawing a button-like ring on h1. */
+.tmm-route-focus-target:focus {
+  outline: none;
+}
+
+@keyframes tmm-route-enter {
+  from {
+    opacity: 0.92;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tmm-route-transition {
+    animation: none;
+  }
+}
+
 .tmm-prototype--figma .tmm-prototype__bar > .tmm-header__logo,
 .tmm-prototype--figma .tmm-prototype__bar .tmm-locale-toggle {
   display: none;

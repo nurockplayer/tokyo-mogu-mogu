@@ -148,6 +148,30 @@
   overflow-wrap: anywhere;
 }
 
+.s5-fieldwork-scenery {
+  margin: 16px 0 4px;
+  overflow: hidden;
+  border-radius: var(--tmm-radius-lg);
+  background: var(--tmm-color-warm-deep);
+  box-shadow: var(--tmm-shadow-card);
+}
+
+.s5-fieldwork-scenery img {
+  display: block;
+  width: 100%;
+  height: clamp(190px, 56vw, 220px);
+  object-fit: cover;
+  object-position: center 65%;
+}
+
+.s5-fieldwork-scenery figcaption {
+  padding: 8px 12px;
+  color: var(--tmm-color-ink-soft);
+  font-size: 0.68rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
 /* Half-day / 1-day toggle — segmented control from the tmm-chip primitive */
 .s5-duration-switch {
   display: flex;
@@ -444,21 +468,87 @@
 }
 
 /* Figma 122:889 saved state, adapted to the accepted My → Saved Routes IA. */
-.s5-saved-actions {
+.s5-page {
+  padding-bottom: 171px;
+}
+
+.s5-save-section {
+  min-height: 155px;
+}
+
+.s5-sticky-actions {
+  position: fixed;
+  z-index: 500;
+  right: 0;
+  bottom: calc(var(--tmm-nav-h) + env(safe-area-inset-bottom));
+  left: 0;
   display: grid;
-  grid-template-columns: minmax(0, 180fr) minmax(0, 152fr);
-  gap: 10px;
-  min-height: 73px;
-  margin-inline: -16px;
-  padding: 10px 12px;
+  align-content: center;
+  gap: 8px;
+  width: min(100%, var(--tmm-content-max));
+  min-height: 155px;
+  margin-inline: auto;
+  padding: 10px 16px;
   background: var(--tmm-color-card);
   box-shadow: var(--tmm-shadow-sticky-footer);
 }
 
+.s5-sticky-actions--saved {
+  min-height: 73px;
+}
+
+.s5-save-summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+
+.s5-save-summary strong {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--tmm-color-ink);
+  font-family: var(--tmm-font-display);
+  font-size: 0.9rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.s5-save-summary span {
+  flex: 0 0 auto;
+  color: var(--tmm-color-ink-soft);
+  font-size: 0.72rem;
+}
+
+.s5-sticky-actions > .s6-info-unverified {
+  margin: 0;
+  text-align: center;
+}
+
+/* Keep save feedback above, never on top of, the currently rendered action
+ * surface. The close button remains reachable and the adjacent My link cannot
+ * be intercepted by the status toast. */
+.s5-page--saved .tmm-toast {
+  bottom: calc(var(--tmm-nav-h) + 73px + var(--tmm-space-4) + env(safe-area-inset-bottom));
+}
+
+.s5-page--unsaved .tmm-toast {
+  bottom: calc(var(--tmm-nav-h) + 155px + var(--tmm-space-4) + env(safe-area-inset-bottom));
+}
+
+.s5-saved-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 180fr) minmax(0, 152fr);
+  gap: 10px;
+}
+
 .s5-saved-actions .tmm-btn {
   min-width: 0;
+  height: 49px;
   min-height: 49px;
-  padding-inline: 10px;
+  padding: 4px 8px;
+  font-size: 0.8rem;
   line-height: 1.25;
   text-align: center;
 }
@@ -475,6 +565,10 @@
 .s6-visual-wrap .pv-visual--hero,
 .s6-visual-wrap .pv-visual {
   aspect-ratio: 1.693 / 1;
+  border-radius: 0;
+}
+
+.s6-fieldwork-gallery {
   border-radius: 0;
 }
 

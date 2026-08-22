@@ -26,6 +26,7 @@ import {
 } from '../../data';
 import { FoodCultureImage } from '../../components/FoodCultureImage';
 import { JourneyMeta } from '../../components/JourneyCard';
+import { JourneyProgress } from '../../components/JourneyProgress';
 import { useI18n } from '../../i18n';
 import { EmptyState, Tag, type TagTone } from '../../ui';
 import { fillTemplate, type MatchTagKey } from '../../lib/exploration';
@@ -175,7 +176,7 @@ export function ResultPage() {
     : t('s3Greeting');
 
   return (
-    <div className="tmm-page tmm-result">
+    <div className="tmm-page tmm-result tmm-page--journey-progress-with-nav">
       <section className="tmm-result__summary">
         <div className="fp-convo__msg fp-convo__msg--assistant tmm-result__greeting">
           <span className="fp-convo__avatar" aria-hidden="true">
@@ -236,6 +237,7 @@ export function ResultPage() {
       ) : (
         <EmptyFallback />
       )}
+      <JourneyProgress current={6} abovePrimaryNav />
     </div>
   );
 }

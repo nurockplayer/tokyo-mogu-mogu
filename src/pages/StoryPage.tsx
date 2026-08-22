@@ -55,6 +55,7 @@ import {
   resolveStoryJourney,
 } from '../data';
 import { FoodCultureImage } from '../components/FoodCultureImage';
+import { MediaGallery } from '../components/MediaGallery';
 import { SupportPanel } from '../components/SupportPanel';
 import { Card, StorySection, Tag } from '../ui';
 import { useI18n, type Locale } from '../i18n';
@@ -62,7 +63,14 @@ import { placeNameKey, storyContent } from '../i18n/data-content';
 import { deriveVerificationStatus, sourceDateLabel } from '../lib/verification';
 import { readingMinutes, resolveBackTo, storyRouteHref } from './story-reading';
 import storyHero from '../assets/figma/story-hero.png';
+import { RESTORE_JOURNEY_SCROLL_STATE } from '../app/JourneyNavigationManager';
+import { FIELDWORK_MEDIA } from '../data/fieldwork-media';
 import './StoryPage.css';
+
+const OKUTAMA_STORY_SCENERY = [
+  FIELDWORK_MEDIA['okutama-forest-valley'],
+  FIELDWORK_MEDIA['okutama-forest-bridge'],
+] as const;
 
 /** Source-review label for the census context surfaced in this story (#128/#129). */
 const CENSUS_STATUS_LABEL = {
@@ -125,7 +133,11 @@ export function StoryPage() {
           <div className="tmm-empty__title">{t('s4EmptyTitle')}</div>
           <p className="tmm-empty__desc">{t('s4EmptyBody')}</p>
           <div className="tmm-empty__action">
-            <Link to={backTo} className="tmm-btn tmm-btn--secondary">
+          <Link
+            to={backTo}
+            state={{ [RESTORE_JOURNEY_SCROLL_STATE]: true }}
+            className="tmm-btn tmm-btn--secondary"
+          >
               {t('s4EmptyBack')}
             </Link>
           </div>
@@ -191,7 +203,12 @@ export function StoryPage() {
     <article className="s4-page">
       {/* Section 1 — Hero (dark-green / media-forward) */}
       <header className="s4-hero">
-        <Link to={backTo} className="s4-hero__back" aria-label={t('back')}>
+        <Link
+          to={backTo}
+          state={{ [RESTORE_JOURNEY_SCROLL_STATE]: true }}
+          className="s4-hero__back"
+          aria-label={t('back')}
+        >
           ‹
         </Link>
         <div className="s4-hero__media">
@@ -270,6 +287,14 @@ export function StoryPage() {
             </aside>
           ) : null}
         </StorySection>
+
+        {record.id === 'wasabi-okutama' ? (
+          <MediaGallery
+            media={OKUTAMA_STORY_SCENERY}
+            label={t('storyFieldworkGalleryLabel')}
+            className="s4-fieldwork-gallery"
+          />
+        ) : null}
 
         {/* Section 3 — The maker (the maker is the visual lead of the section) */}
         <StorySection number={2} kicker={t('s4KickerMaker')} title={t('s4TitleMaker')}>
@@ -389,7 +414,13 @@ export function StoryPage() {
             <p className="s4-cta__sub">{t(content.ctaSub)}</p>
           </>
         ) : null}
-        <Link to={backTo} className="s4-cta__back">{t('s4BackToResult')}</Link>
+          <Link
+            to={backTo}
+            state={{ [RESTORE_JOURNEY_SCROLL_STATE]: true }}
+            className="s4-cta__back"
+          >
+            {t('s4BackToResult')}
+          </Link>
       </footer>
 
       {/* Compact provenance — preserves the record's sources without breaking the editorial UI */}

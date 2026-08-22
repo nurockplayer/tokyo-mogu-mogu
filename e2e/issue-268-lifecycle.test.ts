@@ -84,7 +84,7 @@ test.describe('Food Profile → repeatable diagnosis lifecycle (#268)', () => {
     }, [EXPLORATION_KEY, completedExploration] as const);
     await page.goto('/explore/result');
 
-    await page.getByRole('link', { name: '今回の探索をもう一度' }).click();
+    await page.getByRole('link', { name: 'もう一度食旅を見つける' }).click();
     await page.waitForURL('**/explore');
 
     const state = await page.evaluate(([profileKey, explorationKey]) => ({
