@@ -1,4 +1,11 @@
-import { useMemo, useRef, useState } from 'react';
+import {
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+  type KeyboardEvent as ReactKeyboardEvent,
+} from 'react';
 import type { Locale } from '../../../i18n';
 import { referenceAssets, type ReferenceCopy } from '../content';
 import {
@@ -141,7 +148,11 @@ export function ExplorationFlow({
 }: ExplorationFlowProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const [search, setSearch] = useState('');
+  const departureButtonRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const dialogId = useId();
+  const dialogTitleId = `${dialogId}-title`;
   const valid = canAdvanceExploration(state);
   const departures = useMemo(
     () => departureIds.map((id, index) => ({ id, label: copy.exploration.departureSuggestions[index] ?? id })),
@@ -154,6 +165,53 @@ export function ExplorationFlow({
   const selectedDeparture = state.answers.departure === 'tokyo'
     ? defaultDeparture
     : shortDepartureLabel(departures.find(({ id }) => id === state.answers.departure)?.label ?? defaultDeparture);
+
+  useEffect(() => {
+    if (!modalOpen) return undefined;
+
+    const frame = window.requestAnimationFrame(() => searchInputRef.current?.focus());
+    return () => window.cancelAnimationFrame(frame);
+  }, [modalOpen]);
+
+  const closeDepartureDialog = () => {
+    setModalOpen(false);
+    window.requestAnimationFrame(() => departureButtonRef.current?.focus());
+  };
+
+  const handleDepartureDialogKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      event.stopPropagation();
+      closeDepartureDialog();
+      return;
+    }
+
+    if (event.key !== 'Tab') return;
+
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    const focusable = Array.from(
+      dialog.querySelectorAll<HTMLElement>(
+        'button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])',
+      ),
+    );
+    const first = focusable.at(0);
+    const last = focusable.at(-1);
+    if (!first || !last) {
+      event.preventDefault();
+      return;
+    }
+
+    const activeElement = document.activeElement;
+    if (event.shiftKey && (activeElement === first || !dialog.contains(activeElement))) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && (activeElement === last || !dialog.contains(activeElement))) {
+      event.preventDefault();
+      first.focus();
+    }
+  };
 
   const goNext = () => {
     if (!valid) return;
@@ -197,11 +255,12 @@ export function ExplorationFlow({
           <QuestionHeading locale={locale} step={state.step} copy={copy} />
           <button
             className="searchbar"
-            onClick={() => {
-              setModalOpen(true);
-              window.requestAnimationFrame(() => searchInputRef.current?.focus());
-            }}
+            ref={departureButtonRef}
+            onClick={() => setModalOpen(true)}
             type="button"
+            aria-haspopup="dialog"
+            aria-expanded={modalOpen}
+            aria-controls={dialogId}
           >
             <PinIcon />
             <span className="val">{selectedDeparture}</span>
@@ -360,9 +419,17 @@ export function ExplorationFlow({
       </div>
 
       <div className="reference-modal" data-open={modalOpen} aria-hidden={!modalOpen}>
-        <div className="sheet">
-          <h3>{copy.exploration.chooseArea}</h3>
-          <button className="x" onClick={() => setModalOpen(false)} type="button" aria-label={copy.actions.back}>✕</button>
+        <div
+          className="sheet"
+          id={dialogId}
+          ref={dialogRef}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={dialogTitleId}
+          onKeyDown={handleDepartureDialogKeyDown}
+        >
+          <h3 id={dialogTitleId}>{copy.exploration.chooseArea}</h3>
+          <button className="x" onClick={closeDepartureDialog} type="button" aria-label={copy.actions.back}>✕</button>
           <div className="field">
             <PinIcon />
             <input
@@ -378,7 +445,7 @@ export function ExplorationFlow({
                 <button
                   onClick={() => {
                     dispatch({ type: 'SELECT_DEPARTURE', value: id });
-                    setModalOpen(false);
+                    closeDepartureDialog();
                   }}
                   type="button"
                 >
