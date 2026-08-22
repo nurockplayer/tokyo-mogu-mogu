@@ -28,6 +28,15 @@ const completedExploration = {
   duration: 'half-day',
 } as const;
 
+const emptyExploration = {
+  tastes: [],
+  experiences: [],
+  baseArea: null,
+  travelTime: null,
+  interests: [],
+  duration: null,
+} as const;
+
 async function seedReturningUser(page: Page): Promise<void> {
   await page.goto('/');
   await page.evaluate(([profileKey, profile, tutorialKey]) => {
@@ -71,14 +80,13 @@ test.describe('Food Profile → repeatable diagnosis lifecycle (#268)', () => {
     }), [FOOD_PROFILE_KEY, EXPLORATION_KEY] as const);
 
     expect(state.profile).toEqual(foodProfile);
-    expect(state.exploration).toEqual({
-      tastes: [],
-      experiences: [],
-      baseArea: null,
-      travelTime: null,
-      interests: [],
-      duration: null,
-    });
+    // `beginNewExploration` removes the payload synchronously. The newly
+    // mounted diagnosis may then persist its empty derived state in an effect;
+    // both observable timings represent the same reset contract.
+    expect(
+      state.exploration === null ||
+        JSON.stringify(state.exploration) === JSON.stringify(emptyExploration),
+    ).toBe(true);
     await expect(page).toHaveURL(/\/explore$/);
     await expect(page.getByTestId('diagnosis-session')).toBeVisible();
     await expect(page.getByRole('button', { name: '食べる' })).toHaveAttribute('aria-pressed', 'false');
