@@ -118,7 +118,7 @@ the 8/23 demo golden path, not the durable Product boundary.
 | Tap / press | Strong tactile scaling and hard-shadow movement. | Consistent 0.97/0.98 feedback retained; disabled controls do not move. |
 | Page transitions | Continuous but sometimes paired with simulated work. | Short opacity continuity only; content and input are immediate. |
 | Scroll continuity | Strong within conversation; route transitions were not an authoritative browser-history model. | Height-aware turn scrolling plus top-on-forward and restore-on-Back. |
-| Overlays / modals | Origin sheet is visually effective but lacked a complete accessibility contract. | Nickname and departure overlays trap focus, support Escape/close, and return focus. |
+| Overlays / modals | Origin sheet is visually effective but lacked a complete accessibility contract. | Nickname and departure overlays trap focus, support Escape/close, return focus, and remain above every fixed journey surface across the viewport. |
 | Sticky / fixed UI | Strong sense of persistent actions; some overlap defects. | Nav, journey rail, Story action, and Route action have measured adjacent geometry and safe-area clearance. |
 | Progress | Highly visible but tied to obsolete scores/reveal semantics in places. | Real five-question + Result progress only. |
 | Success | Short save/reward confirmation. | Durable pressed state and truthful toasts; no invented reward or contribution. |
@@ -174,9 +174,11 @@ whose venue/content association could not be established.
 
 Release-gate checks completed against the final working tree:
 
-- Issue #270 convergence Playwright: 6/6 passed.
+- Issue #270 convergence Playwright: 8/8 passed, including full-viewport modal
+  stacking, keyboard/pointer gallery behavior, route continuity, localization,
+  and reduced motion.
 - Fresh screenshot walkthrough: 1/1 passed and produced 13 captures.
-- Full Playwright/E2E: 98 passed, 1 intentional evidence-capture skip, 0
+- Full Playwright/E2E: 99 passed, 1 intentional evidence-capture skip, 0
   failures (4.6 minutes).
 - `pnpm validate`: typecheck passed; lint passed with 0 errors and the same 26
   baseline warnings; all 69 Vitest files / 678 tests passed; production bundle

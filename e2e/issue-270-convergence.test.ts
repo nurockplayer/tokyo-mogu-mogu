@@ -129,6 +129,39 @@ test.describe('Issue #270 interaction convergence', () => {
     ).toBeVisible();
   });
 
+  test('keeps the departure modal above fixed journey chrome across the viewport', async ({
+    page,
+  }) => {
+    await seedGoldenPath(page);
+    await page.goto('/explore');
+
+    await page.getByRole('button', { name: '食べる' }).click();
+    await page.getByRole('button', { name: '次へ' }).click();
+    await page.getByRole('button', { name: 'エリアを検索' }).click();
+
+    const backdrop = page.locator('.tmm-departure-search__backdrop');
+    const progress = page.getByTestId('journey-progress');
+    await expect(backdrop).toBeVisible();
+    await expect(progress).toBeVisible();
+    await expect(page.getByRole('dialog', { name: 'エリアを検索' })).toBeVisible();
+
+    const layers = await page.evaluate(() => {
+      const backdropNode = document.querySelector<HTMLElement>(
+        '.tmm-departure-search__backdrop',
+      )!;
+      const progressNode = document.querySelector<HTMLElement>('.tmm-journey-progress')!;
+      const hitTarget = document.elementFromPoint(window.innerWidth / 2, window.innerHeight - 8);
+      return {
+        backdropZ: Number(getComputedStyle(backdropNode).zIndex),
+        progressZ: Number(getComputedStyle(progressNode).zIndex),
+        bottomPointIsModal: Boolean(hitTarget?.closest('.tmm-departure-search__backdrop')),
+      };
+    });
+
+    expect(layers.backdropZ).toBeGreaterThan(layers.progressZ);
+    expect(layers.bottomPointIsModal).toBe(true);
+  });
+
   test('keeps measured Story/Route actions attached to navigation and restores explicit Back', async ({
     page,
   }) => {
