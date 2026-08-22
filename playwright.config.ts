@@ -1,11 +1,11 @@
 /**
  * Playwright E2E configuration (Issue #120).
  *
- * One deterministic golden path through the hackathon demo, run in a real
- * browser at the mobile baseline viewport (375px). This is deliberately a
- * minimal single-flow release gate — no full E2E suite, no visual-regression
- * infrastructure, no locale matrix (ja is the blocking path; en / zh-TW stay
- * covered by #82's real-browser smoke / manual release gate).
+ * The Issue #276 Netlify-authoritative golden path, run in a real browser at
+ * the mobile baseline viewport (375px). The suite covers the complete timed
+ * Food Profile choreography and Result → Story → Route → Spot, plus a
+ * ja/en/zh-TW overflow and primary-action matrix. Sequential screenshots are
+ * captured when ISSUE_276_EVIDENCE=1; trace/video are enabled by that spec.
  *
  * A `webServer` boots `vite preview` from the production build so the browser
  * exercises the same bundle that ships (dist/) rather than the dev server.

@@ -10,11 +10,13 @@
  * content. Directory/history/settings surfaces stay under AppShell.
  */
 import { lazy, type ReactNode } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { AppShell, PrototypeShell } from './index';
 import { LoadingBoundary } from './LoadingBoundary';
 import { NotFoundPage } from './NotFoundPage';
 import { JourneyNavigationManager } from './JourneyNavigationManager';
+import { ReferenceApp } from '../features/netlify-parity/ReferenceApp';
+import { demoJourneys, demoSpots } from '../features/netlify-parity/content';
 
 const HomePage = lazy(() => import('../pages/HomePage').then((m) => ({ default: m.HomePage })));
 const LandingPage = lazy(() =>
@@ -77,6 +79,43 @@ function withBoundary(element: ReactNode) {
 }
 
 export function AppRouter() {
+  const { pathname, search } = useLocation();
+  const searchParams = new URLSearchParams(search);
+  const referenceCandidateIds = new Set(demoJourneys.map((journey) => journey.id));
+  const referenceRouteIds = new Set(demoJourneys.map((journey) => journey.routeId));
+  const referenceResultIds = new Set(
+    demoJourneys.flatMap((journey) => [journey.foodCultureId, journey.storyId]),
+  );
+  const candidateId = searchParams.get('candidateId');
+  const routeId = searchParams.get('routeId');
+  const resultId = searchParams.get('resultId');
+  const referenceJourneyQuery =
+    (!candidateId || referenceCandidateIds.has(candidateId)) &&
+    (!routeId || referenceRouteIds.has(routeId)) &&
+    (!resultId || referenceResultIds.has(resultId));
+  const referenceStoryPath =
+    pathname === '/story' ||
+    demoJourneys.some((journey) => pathname === `/story/${journey.storyId}`);
+  const referenceSpotPath =
+    pathname.startsWith('/spot/') &&
+    Object.hasOwn(demoSpots, decodeURIComponent(pathname.slice('/spot/'.length)));
+  const referencePath =
+    pathname === '/' ||
+    pathname === '/food-profile' ||
+    pathname === '/food-profile/edit' ||
+    pathname === '/home' ||
+    pathname === '/explore' ||
+    (pathname === '/explore/result' && referenceJourneyQuery) ||
+    referenceStoryPath ||
+    (pathname === '/route' && referenceJourneyQuery) ||
+    referenceSpotPath ||
+    pathname === '/discover' ||
+    pathname === '/mogu' ||
+    pathname === '/my-route' ||
+    pathname === '/my';
+
+  if (referencePath) return <ReferenceApp />;
+
   return (
     <>
       <JourneyNavigationManager />

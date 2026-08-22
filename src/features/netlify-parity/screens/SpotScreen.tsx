@@ -1,0 +1,200 @@
+import { useEffect, useState } from 'react';
+import type { Locale } from '../../../i18n';
+import { BottomNavigation } from '../components/BottomNavigation';
+import { referenceAssets, type ReferenceCopy, type SpotPresentation } from '../content';
+import { BackIcon, ClockIcon, InformationIcon, TrainIcon } from './screenIcons';
+
+const tagColors = ['#8FAE5C', '#F0A24C', '#5D9BEF', '#F2879B', '#5E7239'];
+
+interface LocalizedText {
+  ja: string;
+  en: string;
+  'zh-TW': string;
+}
+
+interface ReferenceSpotDetail {
+  tags: Array<{ color: string; label: LocalizedText }>;
+  description: LocalizedText;
+  information: Array<{ icon: 'clock' | 'train' | 'information'; label: LocalizedText; value: LocalizedText }>;
+  guide?: { title: LocalizedText; body: LocalizedText; action: LocalizedText };
+  caution: LocalizedText[];
+}
+
+const local = (ja: string, en: string, zhTW: string): LocalizedText => ({ ja, en, 'zh-TW': zhTW });
+
+const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> = {
+  'okutama-tourism-office': {
+    tags: [
+      { color: '#8FAE5C', label: local('観光案内', 'Visitor information', '觀光案內') },
+      { color: '#F0A24C', label: local('おみやげ', 'Souvenirs', '伴手禮') },
+      { color: '#5D9BEF', label: local('Wi-Fi', 'Wi-Fi', 'Wi-Fi') },
+      { color: '#F2879B', label: local('トイレあり', 'Restroom', '設有洗手間') },
+    ],
+    description: local(
+      '奥多摩の観光情報がそろう案内所。観光マップの配布や、おすすめコースの相談もできます。\nゆるキャラ「わさぴー」にも会えるかも！',
+      'Okutama visitor information, sightseeing maps, and help choosing a route are all available here. You may even meet the local character Wasapy!',
+      '這裡備有奧多摩觀光資訊與地圖，也能諮詢推薦路線。說不定還能遇見地方吉祥物「Wasapy」！',
+    ),
+    information: [
+      { icon: 'clock', label: local('営業時間', 'Hours', '營業時間'), value: local('9:00 - 17:00（年中無休）', '9:00–17:00 (open year-round)', '9:00–17:00（全年無休）') },
+      { icon: 'information', label: local('住所', 'Address', '地址'), value: local('東京都西多摩郡奥多摩町氷川205', '205 Hikawa, Okutama, Nishitama, Tokyo', '東京都西多摩郡奧多摩町冰川 205') },
+      { icon: 'information', label: local('電話', 'Phone', '電話'), value: local('0428-83-2152', '0428-83-2152', '0428-83-2152') },
+      { icon: 'train', label: local('アクセス', 'Access', '交通'), value: local('奥多摩駅から徒歩 約1分', 'About 1 minute on foot from Okutama Station', '從奧多摩站步行約 1 分鐘') },
+    ],
+    guide: {
+      title: local('ガイドサービス（予約制）', 'Guided service (reservation required)', '導覽服務（預約制）'),
+      body: local(
+        '奥多摩の自然や歴史を、地元ガイドがご案内します。\n所要時間：約90分 / 料金：1,500円〜（1名あたり）',
+        'A local guide introduces Okutama’s nature and history. About 90 minutes / From ¥1,500 per person.',
+        '由在地導遊介紹奧多摩的自然與歷史。約 90 分鐘／每人 1,500 日圓起。',
+      ),
+      action: local('公式サイトでガイドを予約する　＞', 'Book a guide on the official site  ›', '前往官方網站預約導覽　›'),
+    },
+    caution: [
+      local('・駐車場は近隣の有料駐車場をご利用ください。', '• Please use a nearby paid car park.', '・請使用附近的付費停車場。'),
+      local('・混雑時は案内までお待ちいただく場合があります。', '• You may need to wait for assistance when it is busy.', '・人潮眾多時可能需等候服務。'),
+    ],
+  },
+};
+
+const cautionHeading: Record<Locale, string> = {
+  ja: 'ご注意',
+  en: 'Please note',
+  'zh-TW': '注意事項',
+};
+
+function SpotInformationIcon({ icon }: { icon: ReferenceSpotDetail['information'][number]['icon'] }) {
+  if (icon === 'clock') return <ClockIcon />;
+  if (icon === 'train') return <TrainIcon />;
+  return <InformationIcon />;
+}
+
+export interface SpotScreenProps {
+  active: boolean;
+  copy: ReferenceCopy;
+  locale: Locale;
+  spot: SpotPresentation;
+  onBack: () => void;
+  onOpenGuide?: (spot: SpotPresentation) => void;
+  onNavigate: (path: string) => void;
+}
+
+export function SpotScreen({
+  active,
+  copy,
+  locale,
+  spot,
+  onBack,
+  onOpenGuide,
+  onNavigate,
+}: SpotScreenProps) {
+  const photos = [spot.imageAssetId, ...spot.thumbnailAssetIds];
+  const [photoIndex, setPhotoIndex] = useState(0);
+  const localized = spot.copy[locale];
+  const referenceDetail = referenceSpotDetails[spot.id];
+  const displayTags = referenceDetail?.tags.map((tag) => ({ color: tag.color, label: tag.label[locale] }))
+    ?? localized.tags.map((label, index) => ({ color: tagColors[index % tagColors.length], label }));
+  const information = referenceDetail?.information.map((row) => ({
+    icon: row.icon,
+    label: row.label[locale],
+    value: row.value[locale],
+  })) ?? localized.practicalInfo.map((row) => ({ icon: 'information' as const, ...row }));
+  const guide = referenceDetail?.guide
+    ? {
+        title: referenceDetail.guide.title[locale],
+        body: referenceDetail.guide.body[locale],
+        action: referenceDetail.guide.action[locale],
+      }
+    : localized.guide;
+  const cautions = referenceDetail?.caution.map((item) => item[locale]) ?? localized.caution;
+
+  useEffect(() => setPhotoIndex(0), [spot.id]);
+
+  return (
+    <section
+      className={`reference-screen${active ? ' on' : ''}`}
+      data-screen="spot"
+      data-screen-active={active}
+      data-spot-id={spot.id}
+      aria-hidden={!active}
+    >
+      <button className="fab-back" onClick={onBack} type="button" aria-label={copy.actions.back}>
+        <BackIcon />
+      </button>
+      <div className="scroll">
+        <div className="spot-hero">
+          <span className="bkm" aria-hidden="true" />
+          <img src={referenceAssets[photos[photoIndex] ?? spot.imageAssetId]} alt={localized.name} />
+        </div>
+        <div className="thumbs" aria-label={`${localized.name} photos`}>
+          {photos.map((assetId, index) => (
+            <img
+              className={photoIndex === index ? 'active' : undefined}
+              key={`${assetId}-${index}`}
+              onClick={() => setPhotoIndex(index)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  setPhotoIndex(index);
+                }
+              }}
+              src={referenceAssets[assetId]}
+              alt=""
+              role="button"
+              tabIndex={active ? 0 : -1}
+              aria-label={`${index + 1}/${photos.length}`}
+              aria-pressed={photoIndex === index}
+            />
+          ))}
+        </div>
+        <div className="spot-main">
+          <h1>{localized.name}</h1>
+          <div className="lead">{localized.lead}</div>
+          <div className="spot-tags">
+            {displayTags.map((tag) => (
+              <span key={tag.label} style={{ background: tag.color }}>
+                {tag.label}
+              </span>
+            ))}
+          </div>
+          <div className="desc" style={{ whiteSpace: 'pre-line' }}>
+            {referenceDetail?.description[locale] ?? localized.description}
+          </div>
+        </div>
+
+        <section className="info-sec">
+          <h2>{copy.spot.practicalInfo}</h2>
+          {information.map((row) => (
+            <div className="info-row" key={`${row.label}-${row.value}`}>
+              <span className="ic">
+                <SpotInformationIcon icon={row.icon} />
+              </span>
+              <span className="k">{row.label}</span>
+              <span>{row.value}</span>
+            </div>
+          ))}
+        </section>
+
+        {guide ? (
+          <section className="guide-box">
+            <h2>{guide.title}</h2>
+            <p style={{ whiteSpace: 'pre-line' }}>{guide.body}</p>
+            <button className="book" onClick={() => onOpenGuide?.(spot)} type="button">
+              {guide.action}
+            </button>
+          </section>
+        ) : null}
+
+        <aside className="caution">
+          <h3>{cautionHeading[locale]}</h3>
+          <ul>
+            {cautions.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </aside>
+      </div>
+      <BottomNavigation active="mogu" copy={copy.nav} onNavigate={onNavigate} />
+    </section>
+  );
+}
