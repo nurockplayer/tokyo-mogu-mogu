@@ -40,9 +40,9 @@ export interface FieldworkMedia {
     driveFileId: string;
     originalFileName: string;
     originalSha256: string;
-    reviewedAt: '2026-08-23';
-    authorizationBasis: 'project-demo-issues-258-270';
-    publicLicense: null;
+    reviewedAt: string;
+    authorizationBasis: string;
+    publicLicense: string | null;
   };
   mapping:
     | {

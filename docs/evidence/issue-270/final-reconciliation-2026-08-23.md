@@ -161,7 +161,10 @@ whose venue/content association could not be established.
   decorative duplicates; their buttons carry localized titles.
 - The shared media mapping accepts reusable Place and Region identifiers; only
   the current records carry Okutama-specific IDs and constraints, so adding a
-  future Tokyo region does not require redesigning the contract.
+  future Tokyo region does not require redesigning the contract. Provenance
+  fields likewise accept future review dates, authorization bases, and an
+  optional public license while the current demo records retain their exact
+  narrow values.
 - Story uses the same gallery primitive for two explicitly generic landscapes.
   Route uses one responsive generic landscape with a visible limitation
   caption. Result retains the approved wasabi-specific hero rather than
@@ -176,7 +179,7 @@ Release-gate checks completed against the final working tree:
 - Full Playwright/E2E: 98 passed, 1 intentional evidence-capture skip, 0
   failures (4.6 minutes).
 - `pnpm validate`: typecheck passed; lint passed with 0 errors and the same 26
-  baseline warnings; all 69 Vitest files / 677 tests passed; production bundle
+  baseline warnings; all 69 Vitest files / 678 tests passed; production bundle
   built successfully.
 - Fieldwork derivatives: no EXIF/XMP/GPS/device/timestamp/ICC metadata found.
 - Measured 375px geometry: Story 73px footer and Result 84px rail meet the

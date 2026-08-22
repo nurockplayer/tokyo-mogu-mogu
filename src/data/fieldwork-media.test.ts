@@ -18,6 +18,21 @@ describe('fieldwork media mapping contract', () => {
     expect(futurePlace.placeId).toBe('hachioji-example-place');
   });
 
+  it('can record future review and rights evidence without changing the shared type', () => {
+    const futureProvenance: FieldworkMedia['provenance'] = {
+      sourceFolderUrl: 'https://example.com/fieldwork',
+      driveFileId: 'future-file',
+      originalFileName: 'future-photo.jpg',
+      originalSha256: 'future-sha256',
+      reviewedAt: '2027-01-15',
+      authorizationBasis: 'creator-release-2027',
+      publicLicense: 'CC BY 4.0',
+    };
+
+    expect(futureProvenance.reviewedAt).toBe('2027-01-15');
+    expect(futureProvenance.publicLicense).toBe('CC BY 4.0');
+  });
+
   it('keeps the current demo records explicitly scoped to Okutama', () => {
     const mappings = Object.values(FIELDWORK_MEDIA).map((media) => media.mapping);
 
