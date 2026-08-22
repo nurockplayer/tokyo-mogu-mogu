@@ -1,8 +1,8 @@
 # Live KiKi Figma Engineering Design System
 
-Status: **canonical engineering baseline for the inspected mobile journey**  
-Live source inspected: 2026-08-22  
-Issue: #263  
+Status: **canonical engineering baseline for the inspected mobile journey**
+Live source inspected: 2026-08-22
+Issue: #263
 Downstream implementation: #262
 
 This document turns repeated visual decisions in the live KiKi Figma into an
