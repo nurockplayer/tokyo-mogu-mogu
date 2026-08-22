@@ -73,8 +73,17 @@ async function expectTextContrast(action: Locator, minimum: number): Promise<voi
       return 0.2126 * r + 0.7152 * g + 0.0722 * b;
     };
     const style = getComputedStyle(element);
+    let backgroundElement: Element | null = element;
+    let backgroundColor = style.backgroundColor;
+    while (
+      backgroundElement.parentElement &&
+      (backgroundColor === 'transparent' || /rgba\([^)]*,\s*0(?:\.0+)?\)$/.test(backgroundColor))
+    ) {
+      backgroundElement = backgroundElement.parentElement;
+      backgroundColor = getComputedStyle(backgroundElement).backgroundColor;
+    }
     const foreground = luminance(parse(style.color));
-    const background = luminance(parse(style.backgroundColor));
+    const background = luminance(parse(backgroundColor));
     return (Math.max(foreground, background) + 0.05) /
       (Math.min(foreground, background) + 0.05);
   });
@@ -282,7 +291,7 @@ test.describe('Issue #276 authoritative Netlify choreography', () => {
       const localeSelect = page.locator('.locale-control select');
       await localeSelect.selectOption(locale);
       await expectNoHorizontalOverflow(page);
-      await expectHitTarget(page.locator('.locale-control'));
+      await expectHitTarget(localeSelect);
       await expectVisibleFocusRing(localeSelect);
       const profileStart = page.locator(
         '[data-screen="food-profile"][data-screen-active="true"] .choice-card .orange',
@@ -312,9 +321,13 @@ test.describe('Issue #276 authoritative Netlify choreography', () => {
         if (step === 2) await explore.locator('.opt').last().click();
         if (step === 3) await explore.locator('.opt').first().click();
         if (step === 4) {
-          await explore.locator('.chip-group').first().locator('.chip').first().click();
+          const firstTasteChip = explore.locator('.chip-group').first().locator('.chip').first();
+          await firstTasteChip.click();
+          await expectHitTarget(firstTasteChip);
           await explore.locator('.chip-group').nth(1).locator('.chip').first().click();
         }
+
+        await expectTextContrast(explore.locator('.wiz-q em'), 4.5);
 
         const next = explore.locator('.wiz-nav .next');
         await expectActionWithinViewport(next);
@@ -347,6 +360,11 @@ test.describe('Issue #276 authoritative Netlify choreography', () => {
           await expectHitTarget(back);
           await expectHitTarget(share);
           await expectNonOverlapping(localeSelect, share);
+          await expectTextContrast(activeScreen.locator('.tl-row .num.start'), 4.5);
+          await expectTextContrast(activeScreen.locator('.goal-row .num.goal'), 4.5);
+        }
+        if (path === '/explore/result') {
+          await expectTextContrast(activeScreen.locator('.res-head em'), 4.5);
         }
         if (path === '/story/wasabi-okutama') {
           await expectHitTarget(activeScreen.locator('.fab-back'));
@@ -405,6 +423,21 @@ test.describe('Issue #276 authoritative Netlify choreography', () => {
     await page.goBack();
     await expect(page).toHaveURL(/\/food-profile\/edit$/);
     await expect(returnToMy).toBeVisible();
+
+    await page.goForward();
+    await expect(page).toHaveURL(/\/my$/);
+    await page.getByRole('button', { name: '編集する' }).click();
+    await expect(page).toHaveURL(/\/food-profile\/edit$/);
+    const freshEdit = page.locator(
+      '[data-screen="food-profile"][data-screen-active="true"]',
+    );
+    await expect(freshEdit.getByRole('button', { name: 'マイページへ戻る' })).toHaveCount(0);
+    await expect(freshEdit.locator('[data-question-index="0"]')).toHaveCount(0);
+    await expect(freshEdit.locator('[data-question-index="0"]')).toBeVisible({ timeout: 800 });
+    await expect(freshEdit.locator('[data-question-index="0"]')).not.toHaveAttribute(
+      'data-frozen',
+      'true',
+    );
   });
 
   test('cancels route generation when Story is no longer active', async ({ page }) => {
@@ -449,5 +482,66 @@ test.describe('Issue #276 authoritative Netlify choreography', () => {
         ),
       )
       .not.toBe('');
+
+    await page.getByRole('link', { name: '酒蔵の旅を見る' }).click();
+    await expect(page).toHaveURL(
+      /\/route\?from=story&backTo=%2Fexplore%2Fresult&candidateId=demo-ome-sake$/,
+    );
+    await expect(page.locator('.reference-app')).toHaveCount(0);
+    await expect(
+      page.getByRole('heading', {
+        level: 1,
+        name: '沢井の酒蔵と御嶽の文化財をめぐる旅',
+      }),
+    ).toBeVisible();
+
+    await page
+      .getByRole('link', { name: 'スポット 1: 小澤酒造（沢井・澤乃井）' })
+      .click();
+    await expect(page).toHaveURL(
+      /\/spot\/sawai-ozawa-shuzo\?from=story&backTo=%2Fexplore%2Fresult&candidateId=demo-ome-sake$/,
+    );
+    await expect(page.locator('.reference-app')).toHaveCount(0);
+    await expect(
+      page.getByRole('heading', { level: 1, name: '小澤酒造（沢井・澤乃井）' }),
+    ).toBeVisible();
+
+    await page.evaluate(() => {
+      localStorage.setItem(
+        'tmm:foodProfile:v1',
+        JSON.stringify({
+          dietary: [],
+          dietaryOther: '',
+          hasNoRestrictions: true,
+          savedAt: '2026-08-23T00:00:00.000Z',
+          version: 1,
+        }),
+      );
+      sessionStorage.setItem(
+        'tmm:exploration:v1',
+        JSON.stringify({
+          tastes: [],
+          experiences: [],
+          baseArea: null,
+          travelTime: null,
+          interests: [],
+          duration: null,
+        }),
+      );
+    });
+    await page.goto(
+      '/explore/result?from=mogu&resultId=sake-ome&candidateId=demo-ome-sake',
+    );
+    await expect(page.locator('.reference-app')).toHaveCount(0);
+    await expect(page.getByText('青梅・沢井の日本酒').first()).toBeVisible();
+
+    await page.goto('/route?from=my&routeId=ome-sawai-sake-journey');
+    await expect(page.locator('.reference-app')).toHaveCount(0);
+    await expect(
+      page.getByRole('heading', {
+        level: 1,
+        name: '沢井の酒蔵と御嶽の文化財をめぐる旅',
+      }),
+    ).toBeVisible();
   });
 });

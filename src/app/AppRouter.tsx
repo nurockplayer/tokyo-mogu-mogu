@@ -79,7 +79,20 @@ function withBoundary(element: ReactNode) {
 }
 
 export function AppRouter() {
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
+  const searchParams = new URLSearchParams(search);
+  const referenceCandidateIds = new Set(demoJourneys.map((journey) => journey.id));
+  const referenceRouteIds = new Set(demoJourneys.map((journey) => journey.routeId));
+  const referenceResultIds = new Set(
+    demoJourneys.flatMap((journey) => [journey.foodCultureId, journey.storyId]),
+  );
+  const candidateId = searchParams.get('candidateId');
+  const routeId = searchParams.get('routeId');
+  const resultId = searchParams.get('resultId');
+  const referenceJourneyQuery =
+    (!candidateId || referenceCandidateIds.has(candidateId)) &&
+    (!routeId || referenceRouteIds.has(routeId)) &&
+    (!resultId || referenceResultIds.has(resultId));
   const referenceStoryPath =
     pathname === '/story' ||
     demoJourneys.some((journey) => pathname === `/story/${journey.storyId}`);
@@ -92,9 +105,9 @@ export function AppRouter() {
     pathname === '/food-profile/edit' ||
     pathname === '/home' ||
     pathname === '/explore' ||
-    pathname === '/explore/result' ||
+    (pathname === '/explore/result' && referenceJourneyQuery) ||
     referenceStoryPath ||
-    pathname === '/route' ||
+    (pathname === '/route' && referenceJourneyQuery) ||
     referenceSpotPath ||
     pathname === '/discover' ||
     pathname === '/mogu' ||

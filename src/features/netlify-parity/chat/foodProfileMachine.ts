@@ -364,8 +364,7 @@ export function foodProfileToDurableProfile(
   const hasNoRestrictions = FOOD_PROFILE_QUESTIONS.every(
     (question) =>
       state.answers[question.key].length === 1 &&
-      state.answers[question.key][0] === question.noneValue &&
-      state.customAnswers[question.key].length === 0,
+      state.answers[question.key][0] === question.noneValue,
   );
 
   return {

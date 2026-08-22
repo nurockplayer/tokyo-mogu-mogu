@@ -67,6 +67,7 @@ export function ReferenceApp() {
     createExplorationState,
   );
   const [currentJourney, setCurrentJourney] = useState<JourneyPresentation>(() => demoJourneys[0]);
+  const [editSessionId, setEditSessionId] = useState(0);
   const [storyBack, setStoryBack] = useState('/explore/result');
   const [routeBack, setRouteBack] = useState('/story/wasabi-okutama');
   const [spotBack, setSpotBack] = useState('/route');
@@ -186,7 +187,7 @@ export function ReferenceApp() {
           active={isProfileEdit}
           copy={copy}
           initialName={nickname}
-          key={`profile-edit-${nickname}`}
+          key={`profile-edit-${nickname}-${editSessionId}`}
           locale={locale}
           mode="edit"
           onProfileSaved={(name, profile) => {
@@ -292,7 +293,10 @@ export function ReferenceApp() {
           nickname={nickname}
           profileSummary={profileSummary(foodProfile, locale)}
           savedJourneys={savedJourneys}
-          onEditProfile={() => navigate('/food-profile/edit')}
+          onEditProfile={() => {
+            setEditSessionId((sessionId) => sessionId + 1);
+            navigate('/food-profile/edit');
+          }}
           onOpenSavedJourney={(journey) => {
             setCurrentJourney(journey);
             setRouteBack('/my');

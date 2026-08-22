@@ -139,7 +139,19 @@ describe('Netlify Food Profile conversation choreography', () => {
     expect(state.answers.allergy).toEqual([]);
     // Netlify keeps the custom chip visible so it can be selected again.
     expect(state.customAnswers.allergy).toEqual(['そば']);
-    expect(foodProfileToDurableProfile(state, '2026-08-23T00:00:00.000Z').dietaryOther).toBe('');
+
+    for (let questionIndex = 0; questionIndex < FOOD_PROFILE_QUESTIONS.length; questionIndex += 1) {
+      state = foodProfileReducer(state, { type: 'SUBMIT_QUESTION' });
+      state = dispatchPending(state);
+    }
+
+    expect(foodProfileToDurableProfile(state, '2026-08-23T00:00:00.000Z')).toEqual({
+      dietary: [],
+      dietaryOther: '',
+      hasNoRestrictions: true,
+      savedAt: '2026-08-23T00:00:00.000Z',
+      version: 1,
+    });
   });
 
   it('uses the explicit none answer when Send is pressed empty and waits 500ms', () => {
