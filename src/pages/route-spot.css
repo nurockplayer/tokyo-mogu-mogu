@@ -481,6 +481,26 @@
   overflow-wrap: anywhere;
 }
 
+/* Figma 122:889 saved state, adapted to the accepted My → Saved Routes IA. */
+.s5-saved-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 180fr) minmax(0, 152fr);
+  gap: 10px;
+  min-height: 73px;
+  margin-inline: -16px;
+  padding: 10px 12px;
+  background: var(--tmm-color-card);
+  box-shadow: var(--tmm-shadow-sticky-footer);
+}
+
+.s5-saved-actions .tmm-btn {
+  min-width: 0;
+  min-height: 49px;
+  padding-inline: 10px;
+  line-height: 1.25;
+  text-align: center;
+}
+
 /* ---------- S6 spot detail ---------- */
 
 .s6-visual-wrap {

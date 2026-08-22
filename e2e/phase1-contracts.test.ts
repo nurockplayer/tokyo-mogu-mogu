@@ -197,14 +197,18 @@ test.describe('Phase 1 constrained options (ja, 375px)', () => {
     await page.getByRole('button', { name: '作る' }).waitFor();
     await page.getByRole('button', { name: '産地を訪ねる' }).waitFor();
     await page.getByRole('button', { name: '作る' }).click();
-    // Departure: Figma controls, every choice selectable (tapping one advances).
+    await page.getByRole('button', { name: '次へ' }).click();
+    // Departure: Figma controls, every choice selectable before explicit advance.
     await page.getByRole('button', { name: '東京都' }).waitFor();
     await page.getByRole('button', { name: '周辺' }).waitFor();
     await page.getByRole('button', { name: '東京都' }).click();
+    await page.getByRole('button', { name: '次へ' }).click();
     // Travel: every Figma choice selectable.
     await page.getByRole('button', { name: '2時間以内', exact: true }).click();
+    await page.getByRole('button', { name: '次へ' }).click();
     // Duration: including "not decided yet".
     await page.getByRole('button', { name: 'まだ決めていない' }).click();
+    await page.getByRole('button', { name: '次へ' }).click();
     // Taste + theme: the full chip sets, including daily-life theme.
     await page.getByRole('button', { name: '濃厚な味' }).waitFor();
     await page.getByRole('button', { name: '甘いもの' }).waitFor();
@@ -212,7 +216,7 @@ test.describe('Phase 1 constrained options (ja, 375px)', () => {
     await page.getByRole('button', { name: '地域の日常' }).waitFor();
     await page.getByRole('button', { name: '濃厚な味' }).click();
     await page.getByRole('button', { name: '地域の日常' }).click();
-    await page.getByRole('button', { name: '結果を見る' }).click();
+    await page.getByRole('button', { name: '次へ' }).click();
     await page.waitForURL('**/explore/result');
     // A rich + daily-life answer is selected first; the remaining cards are
     // legitimate alternatives from the same deterministic decision.
@@ -251,6 +255,7 @@ async function jaReachExplorationFirstStep(page: Page): Promise<void> {
 async function jaReachDepartureStep(page: Page): Promise<void> {
   await jaReachExplorationFirstStep(page);
   await page.getByRole('button', { name: '食べる' }).click();
+  await page.getByRole('button', { name: '次へ' }).click();
   await page.getByRole('button', { name: '東京都' }).waitFor();
 }
 
@@ -265,15 +270,18 @@ test.describe('Phase 1 Figma departure × travel-time choices (ja, 375px)', () =
     await page.getByRole('button', { name: '東京都' }).waitFor();
     await page.getByRole('button', { name: '周辺' }).waitFor();
     await page.getByRole('button', { name: '東京都' }).click();
+    await page.getByRole('button', { name: '次へ' }).click();
     // Travel is its own step with every Figma choice selectable.
     for (const label of ['30分以内', '1時間以内', '1時間30分以内', '2時間以内', '時間は気にしない']) {
       await page.getByRole('button', { name: label, exact: true }).waitFor();
     }
     // A long travel choice is selectable and the golden answers still select wasabi.
     await page.getByRole('button', { name: '2時間以内', exact: true }).click();
+    await page.getByRole('button', { name: '次へ' }).click();
     await page.getByRole('button', { name: '半日' }).click();
+    await page.getByRole('button', { name: '次へ' }).click();
     await page.getByRole('button', { name: '自然' }).click();
-    await page.getByRole('button', { name: '結果を見る' }).click();
+    await page.getByRole('button', { name: '次へ' }).click();
     await page.waitForURL('**/explore/result');
     await page
       .locator('.tmm-result-card__title')
@@ -285,6 +293,47 @@ test.describe('Phase 1 Figma departure × travel-time choices (ja, 375px)', () =
 
 test.describe('Phase 2 Food Profile edit surface (ja, 375px)', () => {
   test.use({ locale: 'ja-JP' });
+
+  test('My renders all three dietary states truthfully and re-enters edit', async ({ page }) => {
+    await page.goto('/');
+    await resetDemoState(page);
+
+    const states = [
+      {
+        profile: { dietary: ['allergy'], dietaryOther: '', hasNoRestrictions: false },
+        expected: 'アレルギーあり',
+      },
+      {
+        profile: { dietary: [], dietaryOther: '', hasNoRestrictions: true },
+        expected: '制限はありません',
+      },
+      {
+        profile: { dietary: [], dietaryOther: '', hasNoRestrictions: false },
+        expected: '食事条件は未評価（デモのプロトタイプでは評価しません）',
+      },
+    ] as const;
+
+    for (const { profile, expected } of states) {
+      await page.evaluate(
+        ([key, value]) => localStorage.setItem(key, JSON.stringify(value)),
+        [
+          FOOD_PROFILE_KEY,
+          {
+            ...profile,
+            savedAt: '2026-08-22T00:00:00.000Z',
+            version: 1,
+          },
+        ] as const,
+      );
+      await page.goto('/my');
+      await expect(page.getByText(expected, { exact: true })).toBeVisible();
+      await expect(page.getByText('まだフードプロフィールがありません')).toHaveCount(0);
+    }
+
+    await page.getByRole('link', { name: '編集する' }).click();
+    await page.waitForURL('**/food-profile/edit');
+    await expect(page.getByText('まず、食物アレルギーはありますか？')).toBeVisible();
+  });
 
   test('retains the full durable dietary categories with unselected yes/no until answered', async ({
     page,

@@ -364,14 +364,29 @@ export function RoutePage() {
 
       {/* Primary CTA: save this itinerary */}
       <section className="tmm-section">
-        <Button
-          variant={saved ? 'secondary' : 'primary'}
-          className="tmm-btn--block"
-          onClick={handleSave}
-          aria-pressed={saved}
-        >
-          {saved ? `${t('s5Saved')} ✓` : `🔖 ${t('s5SaveCta')}`}
-        </Button>
+        {saved ? (
+          <div
+            className="s5-saved-actions"
+            role="group"
+            aria-label={t('s5SavedActionsLabel')}
+          >
+            <Button variant="secondary" onClick={handleSave} aria-pressed="true">
+              {t('s5Saved')} ✓
+            </Button>
+            <Link to="/my" className="tmm-btn tmm-btn--primary">
+              {t('s5ViewSavedRoutes')}
+            </Link>
+          </div>
+        ) : (
+          <Button
+            variant="primary"
+            className="tmm-btn--block"
+            onClick={handleSave}
+            aria-pressed="false"
+          >
+            🔖 {t('s5SaveCta')}
+          </Button>
+        )}
         <p className="s6-info-unverified">{t('s5SaveHint')}</p>
       </section>
 
