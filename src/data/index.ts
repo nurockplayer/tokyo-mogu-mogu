@@ -84,6 +84,13 @@ export type {
 } from './slice-manifest';
 export { resolveJourneyIdentity, resolveRouteId, resolveStoryJourney } from './journey';
 export type { JourneyIdentity } from './journey';
+export {
+  STORY_REGIONAL_EVIDENCE,
+  getDisplayableStoryRegionalEvidence,
+  getStoryRegionalEvidence,
+  isStoryRegionalEvidenceDisplayable,
+} from './regional-evidence';
+export type { StoryRegionalEvidence } from './regional-evidence';
 export { buildJourneyPresentation } from './journey-presentation';
 export type { JourneyPresentation, JourneyPresentationPlace } from './journey-presentation';
 export type { PilotJourney } from './pilot-journey';

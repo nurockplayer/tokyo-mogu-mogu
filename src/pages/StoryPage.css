@@ -219,6 +219,67 @@
   overflow-wrap: anywhere;
 }
 
+/* Compact source-backed regional context for the existing "Why" section
+   (#264). The note stays within the editorial flow instead of becoming a
+   second Result card or a chart. */
+.s4-evidence {
+  margin-top: var(--tmm-space-4);
+  padding: var(--tmm-space-3) var(--tmm-space-4);
+  border-left: 3px solid var(--tmm-color-leaf);
+  border-radius: 0 var(--tmm-radius-md) var(--tmm-radius-md) 0;
+  background: var(--tmm-color-leaf-tint);
+  overflow-wrap: anywhere;
+}
+
+.s4-evidence__label {
+  margin: 0 0 var(--tmm-space-1);
+  font-size: var(--tmm-text-caption);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--tmm-color-forest-deep);
+}
+
+.s4-evidence__summary {
+  margin: 0;
+  color: var(--tmm-color-ink);
+  line-height: 1.75;
+}
+
+.s4-evidence__metric {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--tmm-space-3);
+  margin-top: var(--tmm-space-3);
+  padding-top: var(--tmm-space-2);
+  border-top: 1px solid rgb(49 91 64 / 0.18);
+  color: var(--tmm-color-ink-soft);
+  font-size: var(--tmm-text-caption);
+}
+
+.s4-evidence__metric strong {
+  color: var(--tmm-color-forest-deep);
+  font-family: var(--tmm-font-display);
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.s4-evidence__context,
+.s4-evidence__source {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--tmm-space-2);
+  margin: var(--tmm-space-2) 0 0;
+  color: var(--tmm-color-ink-faint);
+  font-size: var(--tmm-text-caption);
+  line-height: 1.6;
+}
+
+.s4-evidence__source a {
+  color: var(--tmm-color-forest-deep);
+  text-underline-offset: 2px;
+}
+
 /* Inline media slot interleaved with story text (#79). */
 .s4-inline-media {
   margin: 0 0 var(--tmm-space-3);
