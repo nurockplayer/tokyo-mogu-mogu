@@ -162,6 +162,13 @@ test.describe('golden path (ja, 375px)', () => {
     // Story → Route.
     await page.getByRole('link', { name: 'この食文化の観光ルートを作成する' }).click();
     await page.waitForURL('**/route*');
+    // The compact Figma header is the only Route-level Back control. It keeps
+    // the Story caller context without rendering the legacy full-width action
+    // beneath the header.
+    const routeHeaderBack = page.locator('.s5-figma-header__back');
+    await expect(routeHeaderBack).toHaveCount(1);
+    await expect(routeHeaderBack).toHaveAttribute('href', /\/story\/wasabi-okutama/);
+    await expect(page.locator('.s6-back')).toHaveCount(0);
 
     // ---- 6. Route → Spot leg (representative stop) ----
     await page

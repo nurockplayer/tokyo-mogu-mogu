@@ -59,16 +59,22 @@
 }
 
 .s5-figma-header p {
+  flex: 1 1 auto;
+  min-width: 0;
   margin: 0;
   color: inherit;
   font-family: var(--tmm-font-body);
   font-size: 20px;
   font-weight: 600;
   line-height: 29px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .s5-figma-header__back {
   display: grid;
+  flex: 0 0 44px;
   width: 44px;
   height: 44px;
   place-items: center;
@@ -81,6 +87,13 @@
 .s6-hero-back:focus-visible {
   outline: var(--tmm-focus-ring);
   outline-offset: 2px;
+}
+
+/* Prototype-only demo reset occupies the top-right 44px. Reserve that lane in
+ * the Route bar so localized titles ellipsize before, rather than beneath, the
+ * required reset control. */
+.tmm-prototype--figma .s5-figma-header {
+  padding-right: 56px;
 }
 
 .s5-hero {

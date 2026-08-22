@@ -44,7 +44,7 @@ import {
   routeTransportKey,
 } from '../i18n/data-content';
 import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
-import { routeBackHref, routeBackTarget, routeContextSearch } from './route-context';
+import { routeBackHref, routeContextSearch } from './route-context';
 import './route-spot.css';
 
 const DURATIONS: RouteDuration[] = ['half-day', '1-day'];
@@ -147,13 +147,6 @@ export function RoutePage() {
         <Link to={routeBackHref(location.search)} aria-label={t('back')} className="s5-figma-header__back">‹</Link>
         <p>{localized(routeNameKey(route.id), route.nameJa, route.nameEn)}</p>
       </header>
-      {/* Caller-aware back link (#80): Story, Discover, MOGU, and My contexts
-          all remain reachable after Route/Spot traversal. */}
-      {routeBackTarget(location.search) !== 'home' ? (
-        <Link to={routeBackHref(location.search)} className="tmm-btn tmm-btn--secondary s6-back">
-          ← {routeBackTarget(location.search) === 'story' ? t('s5BackToStory') : t('back')}
-        </Link>
-      ) : null}
 
       {/* Course header */}
       <div className="s5-hero">

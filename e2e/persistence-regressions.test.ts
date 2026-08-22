@@ -110,9 +110,13 @@ test.describe('preserved Product browser regressions (Issue #221, ja, 375px)', (
     expect(routeUrl.searchParams.get('candidateId')).toBe('demo-okutama-wasabi');
     await page.getByRole('heading', { name: '奥多摩わさび紀行' }).waitFor();
 
-    // Route Back must restore the same Story identity, whose caller-aware Back
-    // target is still MOGU rather than a fresh diagnosis.
-    await page.getByRole('link', { name: /物語に戻る/ }).click();
+    // The compact Route header Back target restores the same Story identity,
+    // whose caller-aware Back target is still MOGU rather than a fresh
+    // diagnosis. The former full-width Route Back control is intentionally
+    // absent for Figma convergence.
+    const routeHeaderBack = page.locator('.s5-figma-header__back');
+    await expect(routeHeaderBack).toHaveAttribute('href', /\/story\/wasabi-okutama/);
+    await routeHeaderBack.click();
     await page.waitForURL('**/story/wasabi-okutama?*');
     await expect(page.locator('.s4-cta__back')).toHaveAttribute('href', '/mogu');
 
