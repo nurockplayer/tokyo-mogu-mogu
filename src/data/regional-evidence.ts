@@ -4,8 +4,9 @@
  * This is deliberately a content/config slice, not an analytics framework:
  * each entry belongs to one existing food-culture identity and carries the
  * exact regional context, metric, localized display keys, and source needed
- * to explain that journey. The selector returns only stakeholder-confirmed
- * evidence so an unverified or stale number cannot reach the UI.
+ * to explain that journey. Display eligibility rejects untraceable, demo,
+ * conflicting, and stale evidence, while source-backed `needs_confirmation`
+ * facts remain renderable with honest provenance.
  */
 import type { LocaleKey } from '../i18n/resources';
 import { deriveVerificationStatus } from '../lib/verification';
@@ -39,8 +40,7 @@ const TOKYO_FOREIGN_VISITOR_SURVEY_SOURCE: DataSource = {
   sourceDatasetId: '令和7年 国・地域別外国人旅行者行動特性調査 (9)',
   sourceUpdatedAt: '2026-06-30',
   retrievedAt: '2026-08-22',
-  confirmedAt: '2026-08-22',
-  verificationStatus: 'verified',
+  verificationStatus: 'needs_confirmation',
   originalId: 'tokyo-r7-foreign-visitor-survey-9',
 };
 
@@ -72,23 +72,39 @@ export const STORY_REGIONAL_EVIDENCE: Readonly<Record<string, StoryRegionalEvide
   },
 };
 
-/** Return configured evidence for a Story culture, without verification filtering. */
+/** Return configured evidence for a Story culture, without display filtering. */
 export function getStoryRegionalEvidence(foodCultureId: string): StoryRegionalEvidence | undefined {
   return STORY_REGIONAL_EVIDENCE[foodCultureId];
 }
 
 /**
- * Return evidence safe for user-facing rendering.
+ * Return whether evidence has enough provenance for user-facing rendering.
  *
- * `deriveVerificationStatus` also catches a source that becomes stale after
- * confirmation, so the UI fails closed if the source metadata is changed.
+ * `needs_confirmation` is intentionally allowed here: #211 permits
+ * source-backed factual data to render with its source and retrieval context.
+ * The hard exclusions keep demo, conflict, stale, and untraceable data out of
+ * the Story surface without pretending stakeholder confirmation exists.
  */
-export function getVerifiedStoryRegionalEvidence(
+export function isStoryRegionalEvidenceDisplayable(evidence: StoryRegionalEvidence): boolean {
+  const source = evidence.source;
+  const hasNonEmpty = (value: string | undefined): boolean => Boolean(value?.trim());
+  const hasTraceableSource =
+    hasNonEmpty(source.name) &&
+    (hasNonEmpty(source.url) || hasNonEmpty(source.sourceDatasetId)) &&
+    source.sourceType !== undefined &&
+    (hasNonEmpty(source.retrievedAt) || hasNonEmpty(source.lastVerified));
+
+  if (!hasTraceableSource) return false;
+
+  const status = deriveVerificationStatus(source, 'source');
+  return status !== 'demo' && status !== 'conflict' && status !== 'stale';
+}
+
+/** Return traceable, non-demo, non-conflicting, non-stale Story evidence. */
+export function getDisplayableStoryRegionalEvidence(
   foodCultureId: string,
 ): StoryRegionalEvidence | undefined {
   const evidence = getStoryRegionalEvidence(foodCultureId);
   if (!evidence) return undefined;
-  return deriveVerificationStatus(evidence.source, 'source') === 'verified'
-    ? evidence
-    : undefined;
+  return isStoryRegionalEvidenceDisplayable(evidence) ? evidence : undefined;
 }

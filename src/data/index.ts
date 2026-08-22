@@ -86,8 +86,9 @@ export { resolveJourneyIdentity, resolveRouteId, resolveStoryJourney } from './j
 export type { JourneyIdentity } from './journey';
 export {
   STORY_REGIONAL_EVIDENCE,
+  getDisplayableStoryRegionalEvidence,
   getStoryRegionalEvidence,
-  getVerifiedStoryRegionalEvidence,
+  isStoryRegionalEvidenceDisplayable,
 } from './regional-evidence';
 export type { StoryRegionalEvidence } from './regional-evidence';
 export { buildJourneyPresentation } from './journey-presentation';

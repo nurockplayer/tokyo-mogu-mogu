@@ -49,7 +49,7 @@ import {
   getFoodCultureById,
   getMunicipalityAgricultureById,
   getRelatedPlaces,
-  getVerifiedStoryRegionalEvidence,
+  getDisplayableStoryRegionalEvidence,
   MUNICIPALITY_INDICATOR_KEYS,
   municipalityIndicatorValue,
   resolveStoryJourney,
@@ -148,7 +148,10 @@ export function StoryPage() {
         MUNICIPALITY_INDICATOR_KEYS.agriculturalEntities,
       )
     : undefined;
-  const regionalEvidence = getVerifiedStoryRegionalEvidence(record.id);
+  const regionalEvidence = getDisplayableStoryRegionalEvidence(record.id);
+  const regionalEvidenceStatus = regionalEvidence
+    ? deriveVerificationStatus(regionalEvidence.source, 'source')
+    : undefined;
 
   const heroName = t(content.name);
   const lead = t(content.lead);
@@ -419,7 +422,11 @@ export function StoryPage() {
                   {t('sourceLink')}
                 </a>
               ) : null}
-              <Tag tone="success">{t('verificationVerified')}</Tag>
+              {regionalEvidenceStatus ? (
+                <Tag tone={regionalEvidenceStatus === 'verified' ? 'success' : 'warning'}>
+                  {t(CENSUS_STATUS_LABEL[regionalEvidenceStatus])}
+                </Tag>
+              ) : null}
               {(() => {
                 const meta = sourceDateLabel(regionalEvidence.source, 'source');
                 return meta ? (

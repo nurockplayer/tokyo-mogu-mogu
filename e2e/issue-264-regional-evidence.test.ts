@@ -19,6 +19,10 @@ const CASES = [
     value: '1.1%',
     region: '奥多摩',
     sourceLink: '出典を見る',
+    retrievedLabel: '取得日',
+    lastVerifiedLabel: '最終確認',
+    needsConfirmationLabel: '要確認',
+    verifiedLabel: '検証済み',
   },
   {
     locale: 'en' as const,
@@ -28,6 +32,10 @@ const CASES = [
     value: '0.8%',
     region: 'Ome and Mitakesan',
     sourceLink: 'View source',
+    retrievedLabel: 'Retrieved',
+    lastVerifiedLabel: 'Last verified',
+    needsConfirmationLabel: 'Needs confirmation',
+    verifiedLabel: 'Verified',
   },
   {
     locale: 'zh-TW' as const,
@@ -37,6 +45,10 @@ const CASES = [
     value: '0.8%',
     region: '青梅・御岳山',
     sourceLink: '查看來源',
+    retrievedLabel: '取得日期',
+    lastVerifiedLabel: '最後確認',
+    needsConfirmationLabel: '待確認',
+    verifiedLabel: '已驗證',
   },
 ] as const;
 
@@ -72,6 +84,12 @@ for (const scenario of CASES) {
         'https://www.sangyo-rodo.metro.tokyo.lg.jp/documents/d/sangyo-rodo/01_r7kekka',
       );
       await expect(evidence).toContainText('2026');
+      await expect(evidence).toContainText(scenario.retrievedLabel);
+      await expect(evidence).not.toContainText(scenario.lastVerifiedLabel);
+      const sources = page.locator('details.s4-sources');
+      await sources.locator('summary').click();
+      await expect(sources).toContainText(scenario.needsConfirmationLabel);
+      await expect(sources).not.toContainText(scenario.verifiedLabel);
       await expectNoHorizontalOverflow(page);
 
       if (scenario.cultureId === 'sake-ome') {
