@@ -1,4 +1,5 @@
 import type { Locale } from '../i18n/resources';
+import type { RegionId } from './model';
 
 import office640 from '../assets/fieldwork/okutama/office-640.webp';
 import office960 from '../assets/fieldwork/okutama/office-960.webp';
@@ -46,11 +47,12 @@ export interface FieldworkMedia {
   mapping:
     | {
         scope: 'place';
-        placeId: 'okutama-tourism-office';
+        placeId: string;
         constraint: string;
       }
     | {
-        scope: 'generic-okutama-scenery';
+        scope: 'region-scenery';
+        regionId: RegionId;
         constraint: string;
       };
 }
@@ -218,7 +220,8 @@ export const FIELDWORK_MEDIA = {
       publicLicense: null,
     },
     mapping: {
-      scope: 'generic-okutama-scenery',
+      scope: 'region-scenery',
+      regionId: 'okutama',
       constraint: 'Do not name the bridge or infer its location, ownership, safety, or access.',
     },
   },
@@ -258,7 +261,8 @@ export const FIELDWORK_MEDIA = {
       publicLicense: null,
     },
     mapping: {
-      scope: 'generic-okutama-scenery',
+      scope: 'region-scenery',
+      regionId: 'okutama',
       constraint: 'Do not name the river or viewpoint or infer access, water, weather, or safety conditions.',
     },
   },
