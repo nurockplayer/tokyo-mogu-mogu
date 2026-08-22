@@ -325,9 +325,11 @@ shadow is reserved for selected/overlaid surfaces.
 - Six inspected Exploration/Result states (`23:3706`, `128:2163`, `23:3630`,
   `23:3730`, `23:3778`, `23:3826`) use the same bottom journey tracker: 390 ×
   84, leaf fill, padding `8px 16px 16px`, and a 358 × 60 inner region.
-  Its 274px forest rail is 9px thick; six 18px markers are distributed with a
-  32px rhythm and the current MOGU marker is 28 × 44. Progress meaning must also
-  be exposed programmatically, not by marker color/mascot position alone.
+  Its 274px forest rail is 9px thick and carries six milestone positions with a
+  32px rhythm. Exploration states show four 18 × 18 dots, one 28 × 44 current
+  MOGU marker, and one 44 × 44 terminal marker; Result shows five 18 × 18 dots
+  plus the terminal marker. Progress meaning must also be exposed
+  programmatically, not by marker color/mascot position alone.
 - Story (`62:5021`) uses a leaf sticky action footer at 390 × 73 with 12px
   padding and a centered 280 × 49 CTA. Route (`119:838`) uses the same
   surface/shadow language at 390 × 155 for its summary/actions. The separate
