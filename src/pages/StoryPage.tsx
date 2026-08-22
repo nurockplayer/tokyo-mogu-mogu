@@ -49,6 +49,7 @@ import {
   getFoodCultureById,
   getMunicipalityAgricultureById,
   getRelatedPlaces,
+  getVerifiedStoryRegionalEvidence,
   MUNICIPALITY_INDICATOR_KEYS,
   municipalityIndicatorValue,
   resolveStoryJourney,
@@ -147,6 +148,7 @@ export function StoryPage() {
         MUNICIPALITY_INDICATOR_KEYS.agriculturalEntities,
       )
     : undefined;
+  const regionalEvidence = getVerifiedStoryRegionalEvidence(record.id);
 
   const heroName = t(content.name);
   const lead = t(content.lead);
@@ -229,6 +231,38 @@ export function StoryPage() {
         <StorySection number={1} kicker={t('s4KickerWhy')} title={format(t('s4TitleWhy'), { area: areaName })}>
           <p className="s4-p">{t(content.history)}</p>
           <p className="s4-p">{t(content.story)}</p>
+          {regionalEvidence ? (
+            <aside className="s4-evidence" aria-label={t('s4EvidenceLabel')}>
+              <p className="s4-evidence__label">{t('s4EvidenceLabel')}</p>
+              <p className="s4-evidence__summary">
+                {format(t(regionalEvidence.summary), {
+                  region: t(regionalEvidence.regionName),
+                  value: regionalEvidence.value,
+                })}
+              </p>
+              <div className="s4-evidence__metric">
+                <span>{t(regionalEvidence.metricLabel)}</span>
+                <strong>{regionalEvidence.value}{regionalEvidence.unit}</strong>
+              </div>
+              <p className="s4-evidence__context">
+                {format(t(regionalEvidence.context), { year: regionalEvidence.sourceYear })}
+              </p>
+              <p className="s4-evidence__source">
+                <span>{t('s4EvidenceSourceLabel')}: {regionalEvidence.source.name}</span>
+                {regionalEvidence.source.url ? (
+                  <a href={regionalEvidence.source.url} target="_blank" rel="noreferrer">
+                    {t('sourceLink')}
+                  </a>
+                ) : null}
+                {(() => {
+                  const meta = sourceDateLabel(regionalEvidence.source, 'source');
+                  return meta ? (
+                    <span>{t(meta.label)}: {meta.date}</span>
+                  ) : null;
+                })()}
+              </p>
+            </aside>
+          ) : null}
         </StorySection>
 
         {/* Section 3 — The maker (the maker is the visual lead of the section) */}
@@ -377,6 +411,25 @@ export function StoryPage() {
               })()}
             </li>
           ))}
+          {regionalEvidence ? (
+            <li key="regional-evidence" className="s4-sources__item">
+              <span className="s4-sources__name">{regionalEvidence.source.name}</span>
+              {regionalEvidence.source.url ? (
+                <a href={regionalEvidence.source.url} target="_blank" rel="noreferrer" className="s4-sources__link">
+                  {t('sourceLink')}
+                </a>
+              ) : null}
+              <Tag tone="success">{t('verificationVerified')}</Tag>
+              {(() => {
+                const meta = sourceDateLabel(regionalEvidence.source, 'source');
+                return meta ? (
+                  <span className="s4-sources__meta">
+                    {t(meta.label)}: {meta.date}
+                  </span>
+                ) : null;
+              })()}
+            </li>
+          ) : null}
           {/* Issue #128: when the story's own municipality census context is
               shown, surface its provenance (e-Stat dataset / date / status). */}
           {municipalityAgri ? (

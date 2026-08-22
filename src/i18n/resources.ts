@@ -285,6 +285,8 @@ export const strings = {
     s4KickerChallenge: 'いまの課題',
     s4KickerSupport: '食べることが継承に',
     s4TitleWhy: 'なぜ{area}で生まれたのか',
+    s4EvidenceLabel: 'なぜこの地域？',
+    s4EvidenceSourceLabel: '出典',
     s4TitleMaker: '誰が作っているのか',
     s4TitleCraft: '受け継がれてきた技術・知恵',
     s4TitleChallenge: 'いま直面している課題',
@@ -588,6 +590,12 @@ export const strings = {
     dataWasabiMaker:
       '奥多摩のわさび農家は、渓流を守りながら少量・高品質のわさびを育てています。収穫は秋から冬が中心です。',
     dataWasabiHowToEnjoy: '新鮮なわさびはおろしたてを刺身やそばに。葉わさびは漬け物で楽しめます。',
+    dataRegionalEvidenceOkutama: '奥多摩',
+    dataRegionalEvidenceOmeMitake: '青梅・御岳山',
+    dataRegionalEvidenceSummary:
+      '東京都の調査では、訪都外国人のうち{region}を訪れた人は{value}%。東京の食・作り手・文化を入口に、まだ知らない地域へ行ってみる理由を見つけます。',
+    dataRegionalEvidenceVisitRate: '訪問率',
+    dataRegionalEvidenceContext: '{year}年の東京都調査。訪都外国人の訪問率',
     dataStoryLead:
       '清らかな冷水でしか育たない、東京都奥多摩の特別なわさび。その物語を、読み物としてたどってみましょう。',
     dataStoryMakerName: '奥多摩のわさび農家',
@@ -1099,6 +1107,8 @@ export const strings = {
     s4KickerChallenge: 'THE CHALLENGE TODAY',
     s4KickerSupport: 'TASTING IS PASSING IT ON',
     s4TitleWhy: 'Why was it born in {area}?',
+    s4EvidenceLabel: 'Why this region?',
+    s4EvidenceSourceLabel: 'Source',
     s4TitleMaker: 'Who grows it',
     s4TitleCraft: 'Craft and wisdom, passed down',
     s4TitleChallenge: 'The challenge it faces today',
@@ -1402,6 +1412,12 @@ export const strings = {
     dataWasabiMaker:
       'Okutama\'s wasabi farmers grow small-batch, high-quality wasabi while protecting the mountain streams. Harvest runs mainly from autumn to winter.',
     dataWasabiHowToEnjoy: 'Grate fresh wasabi for sashimi or soba; enjoy leaf wasabi as a pickle.',
+    dataRegionalEvidenceOkutama: 'Okutama',
+    dataRegionalEvidenceOmeMitake: 'Ome and Mitakesan',
+    dataRegionalEvidenceSummary:
+      'In a Tokyo survey, {value}% of international visitors reported visiting {region}. Local food, makers, and culture offer a reason to discover another side of Tokyo.',
+    dataRegionalEvidenceVisitRate: 'Visit rate',
+    dataRegionalEvidenceContext: '{year} survey of international visitors to Tokyo',
     dataStoryLead:
       'A special wasabi that grows only in clear, cold water — raised in Okutama, Tokyo. Follow its story as a read.',
     dataStoryMakerName: 'The wasabi farmers of Okutama',
@@ -1922,6 +1938,8 @@ export const strings = {
     s4KickerChallenge: '現今的課題',
     s4KickerSupport: '品嚐就是傳承',
     s4TitleWhy: '為什麼會在{area}誕生？',
+    s4EvidenceLabel: '為什麼是這個地區？',
+    s4EvidenceSourceLabel: '資料來源',
     s4TitleMaker: '是誰在種植',
     s4TitleCraft: '代代相傳的技術與智慧',
     s4TitleChallenge: '現今面臨的挑戰',
@@ -2222,6 +2240,12 @@ export const strings = {
     dataWasabiMaker:
       '奧多摩的山葵農家一面守護山間溪流，一面種植少量高品質的山葵。收成主要集中在秋季到冬季。',
     dataWasabiHowToEnjoy: '新鮮山葵現磨後搭配生魚片或蕎麥麵；葉山葵則適合做成漬物享用。',
+    dataRegionalEvidenceOkutama: '奧多摩',
+    dataRegionalEvidenceOmeMitake: '青梅・御岳山',
+    dataRegionalEvidenceSummary:
+      '東京都調查顯示，曾造訪{region}的訪都外國旅客占{value}%。從在地飲食、職人與文化出發，找到探索東京另一面的理由。',
+    dataRegionalEvidenceVisitRate: '訪問率',
+    dataRegionalEvidenceContext: '{year}年東京都訪都外國旅客調查',
     dataStoryLead: '這種特別的山葵，只有在清澈冷水中才能生長，產自東京都奧多摩。就讓我們用閱讀的方式，走進它的故事。',
     dataStoryMakerName: '奧多摩的山葵農家',
     dataStoryMakerRole: '一面守護山間溪流，一面種植少量高品質山葵的生產者們。收成主要集中在秋季到冬季。',
