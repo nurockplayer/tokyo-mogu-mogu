@@ -213,6 +213,8 @@ test.describe('Issue #276 authoritative Netlify choreography', () => {
       for (const path of ['/home', '/explore/result', '/story/wasabi-okutama', '/route', '/spot/okutama-tourism-office']) {
         await page.goto(path);
         await expectNoHorizontalOverflow(page);
+        if (path === '/home' && locale === 'en') await capture(page, '11-home-en-375');
+        if (path === '/home' && locale === 'zh-TW') await capture(page, '12-home-zh-TW-375');
         const activeScreen = page.locator('.reference-screen[data-screen-active="true"]');
         await expect(activeScreen).toBeVisible();
         const primaryAction = activeScreen.locator('button:visible, a:visible').last();

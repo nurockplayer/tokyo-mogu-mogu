@@ -57,7 +57,7 @@ body { overflow:hidden; }
 .reference-app .locale-control {
   position:absolute;
   top:8px;
-  right:48px;
+  right:8px;
   z-index:45;
   min-width:44px;
   min-height:44px;
@@ -136,7 +136,8 @@ body { overflow:hidden; }
 /* ============ home ============ */
 .reference-screen[data-screen="home"] .hero { position:relative; flex:none; height:420px; overflow:hidden; }
 .reference-screen[data-screen="home"] .hero > img { width:100%; height:100%; object-fit:cover; object-position:center bottom; }
-.reference-screen[data-screen="home"] .hero .greet { position:absolute; top:26px; left:0; right:0; text-align:center; color:#fff; font-weight:700; font-size:19px; line-height:1.6; text-shadow:0 1px 8px rgba(30,60,80,.6); }
+.reference-screen[data-screen="home"] .hero .greet { position:absolute; top:26px; left:0; right:0; padding-right:18px; text-align:center; color:#fff; font-weight:700; font-size:19px; line-height:1.6; text-shadow:0 1px 8px rgba(30,60,80,.6); }
+.reference-app[data-locale="en"] .reference-screen[data-screen="home"] .hero .greet { padding-right:60px; font-size:18px; }
 .reference-screen[data-screen="home"] .hero .greet .nm { color:#FFE24A; }
 .reference-screen[data-screen="home"] .hero .letsgo { position:absolute; top:96px; left:50%; transform:translateX(-50%); background:#8FAE5C; color:#fff; font-weight:700; font-size:21px; border-radius:99px; padding:15px 44px; box-shadow:0 4px 0 #6F833F, 0 4px 14px rgba(0,0,0,.25); display:flex; align-items:center; gap:12px; white-space:nowrap; }
 .reference-screen[data-screen="home"] .hero .letsgo:active { filter:brightness(.93); }

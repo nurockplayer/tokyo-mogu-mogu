@@ -162,7 +162,7 @@ export function ReferenceApp() {
   const isMy = pathname === '/my';
 
   return (
-    <main className="reference-app">
+    <main className="reference-app" data-locale={locale}>
       <div className="reference-phone">
         <SplashScreen
           active={isSplash}
