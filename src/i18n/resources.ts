@@ -513,6 +513,10 @@ export const strings = {
     // presentation-only; the taste/theme step shows the 2/2 sub-steps)
     exAreaSearchLabel: 'エリアを検索',
     exAreaSearchPlaceholder: 'エリア、場所、駅を入力',
+    exAreaSearchClose: 'エリア検索を閉じる',
+    exAreaSearchEmpty: 'エリア名、場所、駅名を入力してください。',
+    exAreaSearchUseQuery: '「{query}」を出発地として表示',
+    exAreaSearchSelected: '選択中の出発地: {query}',
     exQ5TasteLabel: '1.好きな味は？(複数選択)',
     exQ5ThemeLabel: '2.気になるものテーマは？(複数選択)',
     exSubStep: '{n}/{total}',
@@ -1337,6 +1341,10 @@ export const strings = {
     // presentation-only; the taste/theme step shows the 2/2 sub-steps)
     exAreaSearchLabel: 'Search an area',
     exAreaSearchPlaceholder: 'Enter an area, place, or station',
+    exAreaSearchClose: 'Close area search',
+    exAreaSearchEmpty: 'Enter an area, place, or station.',
+    exAreaSearchUseQuery: 'Show “{query}” as the departure',
+    exAreaSearchSelected: 'Selected departure: {query}',
     exQ5TasteLabel: '1. What tastes do you like? (multi-select)',
     exQ5ThemeLabel: '2. What themes interest you? (multi-select)',
     exSubStep: '{n}/{total}',
@@ -2166,6 +2174,10 @@ export const strings = {
     // presentation-only; the taste/theme step shows the 2/2 sub-steps)
     exAreaSearchLabel: '搜尋地區',
     exAreaSearchPlaceholder: '輸入地區、地點或車站',
+    exAreaSearchClose: '關閉地區搜尋',
+    exAreaSearchEmpty: '請輸入地區、地點或車站。',
+    exAreaSearchUseQuery: '將「{query}」顯示為出發地',
+    exAreaSearchSelected: '已選出發地：{query}',
     exQ5TasteLabel: '1.喜歡什麼味道？(可複選)',
     exQ5ThemeLabel: '2.對什麼主題感興趣？(可複選)',
     exSubStep: '{n}/{total}',

@@ -292,4 +292,48 @@ test.describe('sequential repeatable diagnosis (ja, 375px)', () => {
     await page.keyboard.press('Tab');
     await expect(page.getByRole('button', { name: '周辺' })).toBeFocused();
   });
+
+  test('8. Repeat departure overlay exposes empty/populated states and keeps the selection', async ({
+    page,
+  }) => {
+    await reachFreeExploration(page);
+    await page.getByRole('button', { name: '食べる' }).click();
+    await page.getByRole('button', { name: '次へ' }).click();
+
+    const openSearch = page.getByRole('button', { name: 'エリアを検索' });
+    await openSearch.click();
+
+    const dialog = page.getByRole('dialog', { name: 'エリアを検索' });
+    const input = page.getByRole('textbox', { name: 'エリアを検索' });
+    await expect(dialog).toBeVisible();
+    await expect(dialog).toHaveAttribute('data-state', 'empty');
+    await expect(input).toBeFocused();
+
+    await page.keyboard.press('Escape');
+    await expect(dialog).toHaveCount(0);
+    await expect(openSearch).toBeFocused();
+
+    await openSearch.click();
+    await input.fill('東京駅');
+    await expect(dialog).toHaveAttribute('data-state', 'populated');
+
+    await input.focus();
+    await page.keyboard.press('Shift+Tab');
+    await expect(page.getByRole('button', { name: 'エリア検索を閉じる' })).toBeFocused();
+    await page.keyboard.press('Tab');
+    await expect(input).toBeFocused();
+
+    await page.getByRole('button', { name: '「東京駅」を出発地として表示' }).click();
+    await expect(dialog).toHaveCount(0);
+    await expect(page.getByText('選択中の出発地: 東京駅')).toBeVisible();
+    await expect(page.getByRole('button', { name: '東京都' })).toHaveAttribute('aria-pressed', 'false');
+    await expect(page.getByRole('button', { name: '次へ' })).toBeEnabled();
+
+    await page.getByRole('button', { name: '次へ' }).click();
+    await page
+      .getByTestId('diagnosis-session')
+      .getByRole('button', { name: '戻る' })
+      .click();
+    await expect(page.getByText('選択中の出発地: 東京駅')).toBeVisible();
+  });
 });

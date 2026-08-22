@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { applySingleSelection, type VisualAnswers } from './exploration-navigation';
+import {
+  applySingleSelection,
+  departurePresentationState,
+  type VisualAnswers,
+} from './exploration-navigation';
 
 const emptyVisual: VisualAnswers = {
   tastes: [],
@@ -35,5 +39,12 @@ describe('Exploration finder interaction mode (P1-01)', () => {
       step: 2,
       visual: { ...emptyVisual, departure: 'tokyo' },
     });
+  });
+});
+
+describe('Departure overlay presentation state (P1-02)', () => {
+  it('distinguishes empty and populated input without resolving a place', () => {
+    expect(departurePresentationState('   ')).toBe('empty');
+    expect(departurePresentationState('東京駅')).toBe('populated');
   });
 });

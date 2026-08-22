@@ -12,6 +12,16 @@ type SingleSelection =
   | { key: 'experiences'; id: string }
   | { key: 'departure' | 'travel' | 'duration'; id: string };
 
+export type DeparturePresentationState = 'empty' | 'populated';
+
+/**
+ * Figma 8:2608 / 8:2903 presentation state only. The user's input controls
+ * what the overlay shows; it never resolves a station, place, or provider id.
+ */
+export function departurePresentationState(query: string): DeparturePresentationState {
+  return query.trim() === '' ? 'empty' : 'populated';
+}
+
 /**
  * Apply a single-choice finder answer without coupling selection to navigation.
  * Guided first use advances immediately; normal/repeat use stays on the step so
