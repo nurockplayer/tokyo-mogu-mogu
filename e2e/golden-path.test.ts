@@ -75,6 +75,30 @@ async function storedCount(page: Page, key: string): Promise<number> {
 test.describe('golden path (ja, 375px)', () => {
   test.use({ locale: 'ja-JP' });
 
+  test('route save hands off to My Saved Routes and reopens the route', async ({ page }) => {
+    await page.goto('/route');
+    await resetDemoState(page);
+    await page.reload();
+
+    await page.getByRole('button', { name: '🔖 この旅程を保存する' }).click();
+    await expect(page.getByText('旅程を保存しました')).toBeVisible();
+
+    const savedActions = page.getByRole('group', { name: '保存した旅程の操作' });
+    await expect(savedActions.getByRole('button', { name: '旅程を保存済み ✓' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+    await savedActions.getByRole('link', { name: 'マイの保存した旅程を見る' }).click();
+
+    await page.waitForURL('**/my');
+    await expect(page.getByRole('heading', { name: '保存した旅程' })).toBeVisible();
+    await page.getByRole('link', { name: 'ルートを見る' }).click();
+
+    await page.waitForURL(/\/route\?from=my&routeId=okutama-wasabi-journey/);
+    await expect(page.getByRole('heading', { name: '奥多摩わさび紀行' })).toBeVisible();
+    await expect(page.getByRole('group', { name: '保存した旅程の操作' })).toBeVisible();
+  });
+
   test('first-use guided journey completes', async ({
     page,
   }) => {

@@ -92,6 +92,7 @@ test.describe('guided tutorial (#257, ja, 375px)', () => {
     await forkTarget.click();
     await page.waitForURL('**/explore');
     await expectResetClearOfActiveDiagnosis(page);
+    await expect(page.locator('.tmm-diagnosis__actions')).toHaveCount(0);
 
     const targetLabels = ['食べる', '東京都', '1時間以内', '半日', 'さっぱりした味', '自然', '結果を見る'];
     for (const [index, label] of targetLabels.entries()) {

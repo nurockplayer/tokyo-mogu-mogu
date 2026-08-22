@@ -17,7 +17,7 @@
  * other enabled source-backed journeys. Departure and travel remain
  * presentation-only inputs until source-backed matrices exist.
  */
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useI18n, type LocaleKey } from '../../i18n';
 import { Button, Chip, StepDots } from '../../ui';
@@ -38,6 +38,11 @@ import { scrollTurnIntoView } from './conversation';
 import { isGuidedTutorialActive } from './tutorial-session';
 import { tutorialControlProps } from './tutorial-controls';
 import { TutorialGuide } from './tutorial-ui';
+import {
+  applySingleSelection,
+  departurePresentationState,
+  type VisualAnswers,
+} from './exploration-navigation';
 import expEat from '../../assets/figma/exp-eat.png';
 import expMake from '../../assets/figma/exp-make.png';
 import expBuy from '../../assets/figma/exp-buy.png';
@@ -63,16 +68,6 @@ interface FpOption<V extends string> {
   subKey?: LocaleKey;
   icon?: string;
   internal: V;
-}
-
-/** Visual selection state — Figma option ids, kept separate from canonical answers. */
-interface VisualAnswers {
-  tastes: string[];
-  experiences: string[];
-  departure: string | null;
-  travel: string | null;
-  themes: string[];
-  duration: string | null;
 }
 
 /** The full option set shown in the current KiKi Figma (fixture presentation). */
@@ -239,6 +234,11 @@ function ExplorationWizardInner() {
   // Presentation-only departure search text (Figma 8:2608); never a geocoder /
   // station API and never persisted as canonical data.
   const [departureSearch, setDepartureSearch] = useState('');
+  const [departureOverlayOpen, setDepartureOverlayOpen] = useState(false);
+  const [departurePresentationSelection, setDeparturePresentationSelection] = useState<string | null>(null);
+  const departureOpenRef = useRef<HTMLButtonElement>(null);
+  const departureDialogRef = useRef<HTMLDivElement>(null);
+  const departureInputRef = useRef<HTMLInputElement>(null);
 
   // Latest committed step, used to reject stale activations (rapid/double tap)
   // so one reply can never commit twice or skip a turn.
@@ -276,6 +276,10 @@ function ExplorationWizardInner() {
     saveExplorationAnswers(deriveAnswers(visual));
   }, [visual]);
 
+  useEffect(() => {
+    if (departureOverlayOpen) departureInputRef.current?.focus();
+  }, [departureOverlayOpen]);
+
   /** Commit an answer and reveal exactly the next screen (stale taps are ignored). */
   function advance(toStep: number, next: VisualAnswers) {
     if (toStep !== stepRef.current + 1) return;
@@ -283,14 +287,72 @@ function ExplorationWizardInner() {
     setStep(toStep);
   }
 
-  /** Single-choice quick reply: selecting it is the answer and advances. */
+  /** Single-choice quick reply: guided taps advance; repeat taps only select. */
   function chooseSingle(key: 'departure' | 'travel' | 'duration', id: string) {
-    advance(step + 1, { ...visual, [key]: id });
+    const next = applySingleSelection({ step, visual }, { key, id }, tutorialActive);
+    if (tutorialActive) {
+      advance(next.step, next.visual);
+    } else {
+      setVisual(next.visual);
+    }
   }
 
-  /** Experience tile: the tapped tile is the answer and advances. */
+  function chooseDeparture(id: string) {
+    setDeparturePresentationSelection(null);
+    chooseSingle('departure', id);
+  }
+
+  function closeDepartureOverlay() {
+    setDepartureOverlayOpen(false);
+    window.requestAnimationFrame(() => departureOpenRef.current?.focus());
+  }
+
+  function trapDepartureOverlayFocus(event: KeyboardEvent<HTMLDivElement>) {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeDepartureOverlay();
+      return;
+    }
+    if (event.key !== 'Tab') return;
+
+    const focusable = departureDialogRef.current?.querySelectorAll<HTMLElement>(
+      'button:not(:disabled), input:not(:disabled)',
+    );
+    if (!focusable?.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
+  function useDepartureSearchPresentation() {
+    const query = departureSearch.trim();
+    if (!query) return;
+    setDeparturePresentationSelection(query);
+    // The Figma search result has no accepted provider/canonical identity yet.
+    // Keep it visible for this diagnosis without mapping it onto a real answer
+    // or changing recommendation behavior.
+    setVisual((previous) => ({ ...previous, departure: null }));
+    closeDepartureOverlay();
+  }
+
+  /** Experience tile follows the same guided versus repeat selection contract. */
   function chooseExperience(id: string) {
-    advance(1, { ...visual, experiences: [id] });
+    const next = applySingleSelection(
+      { step, visual },
+      { key: 'experiences', id },
+      tutorialActive,
+    );
+    if (tutorialActive) {
+      advance(next.step, next.visual);
+    } else {
+      setVisual(next.visual);
+    }
   }
 
   /**
@@ -310,6 +372,23 @@ function ExplorationWizardInner() {
   function confirmTasteTheme() {
     if (!canConfirmTasteTheme) return;
     navigate('/explore/result');
+  }
+
+  const canAdvanceCurrentStep = (() => {
+    if (step === 0) return visual.experiences.length > 0;
+    if (step === 1) return visual.departure !== null || departurePresentationSelection !== null;
+    if (step === 2) return visual.travel !== null;
+    if (step === 3) return visual.duration !== null;
+    return canConfirmTasteTheme;
+  })();
+
+  function advanceFromNext() {
+    if (tutorialActive || !canAdvanceCurrentStep) return;
+    if (step === WIZARD_STEP_COUNT - 1) {
+      navigate('/explore/result');
+      return;
+    }
+    advance(step + 1, visual);
   }
 
   function goBack() {
@@ -411,7 +490,8 @@ function ExplorationWizardInner() {
   function renderDiagnosisScreen() {
     switch (step) {
       case 0:
-        // Experience tiles (Figma 4:2101): tapping one commits it and advances.
+        // Experience tiles (Figma 4:2101): repeat use selects before Next;
+        // guided first use keeps the #257 tap-to-advance exception.
         return (
           <section
             key="experience"
@@ -447,21 +527,90 @@ function ExplorationWizardInner() {
             {renderSingle(
               DEPARTURE_OPTIONS,
               visual.departure,
-              (id) => chooseSingle('departure', id),
+              chooseDeparture,
               TUTORIAL_TARGETS.departure,
             )}
-            <label htmlFor="fp-departure-search" className="tmm-diagnosis__label">
-              {t('exAreaSearchLabel')}
-            </label>
-            <input
-              id="fp-departure-search"
-              className="tmm-wizard__text"
-              type="text"
-              value={departureSearch}
-              onChange={(e) => setDepartureSearch(e.target.value)}
-              placeholder={t('exAreaSearchPlaceholder')}
-              disabled={tutorialActive}
-            />
+            {tutorialActive ? (
+              <input
+                className="tmm-wizard__text"
+                type="text"
+                aria-label={t('exAreaSearchLabel')}
+                placeholder={t('exAreaSearchPlaceholder')}
+                disabled
+              />
+            ) : (
+              <>
+                <button
+                  ref={departureOpenRef}
+                  type="button"
+                  className="tmm-departure-search__trigger"
+                  aria-label={t('exAreaSearchLabel')}
+                  onClick={() => setDepartureOverlayOpen(true)}
+                >
+                  <span>{departurePresentationSelection ?? t('exAreaSearchPlaceholder')}</span>
+                  <span aria-hidden="true">⌕</span>
+                </button>
+                {departurePresentationSelection ? (
+                  <p className="tmm-departure-search__selection" role="status">
+                    {fillTemplate(t('exAreaSearchSelected'), { query: departurePresentationSelection })}
+                  </p>
+                ) : null}
+              </>
+            )}
+            {departureOverlayOpen ? (
+              <div
+                className="tmm-departure-search__backdrop"
+                role="presentation"
+                onMouseDown={(event) => {
+                  if (event.target === event.currentTarget) closeDepartureOverlay();
+                }}
+              >
+                <div
+                  ref={departureDialogRef}
+                  className="tmm-departure-search__dialog"
+                  role="dialog"
+                  aria-modal="true"
+                  aria-label={t('exAreaSearchLabel')}
+                  data-state={departurePresentationState(departureSearch)}
+                  onKeyDown={trapDepartureOverlayFocus}
+                >
+                  <div className="tmm-departure-search__header">
+                    <button
+                      type="button"
+                      className="tmm-departure-search__close"
+                      aria-label={t('exAreaSearchClose')}
+                      onClick={closeDepartureOverlay}
+                    >
+                      ×
+                    </button>
+                    <h2>{t('exAreaSearchLabel')}</h2>
+                  </div>
+                  <label htmlFor="fp-departure-search" className="tmm-diagnosis__label">
+                    {t('exAreaSearchLabel')}
+                  </label>
+                  <input
+                    ref={departureInputRef}
+                    id="fp-departure-search"
+                    className="tmm-wizard__text"
+                    type="text"
+                    value={departureSearch}
+                    onChange={(event) => setDepartureSearch(event.target.value)}
+                    placeholder={t('exAreaSearchPlaceholder')}
+                  />
+                  {departurePresentationState(departureSearch) === 'empty' ? (
+                    <p className="tmm-departure-search__empty">{t('exAreaSearchEmpty')}</p>
+                  ) : (
+                    <button
+                      type="button"
+                      className="tmm-departure-search__result"
+                      onClick={useDepartureSearchPresentation}
+                    >
+                      {fillTemplate(t('exAreaSearchUseQuery'), { query: departureSearch.trim() })}
+                    </button>
+                  )}
+                </div>
+              </div>
+            ) : null}
           </section>
         );
       case 2:
@@ -544,7 +693,7 @@ function ExplorationWizardInner() {
                 tutorialTasteSelected && !tutorialThemeSelected,
               )}
             </div>
-            <div className="tmm-diagnosis__confirm">
+            {tutorialActive ? <div className="tmm-diagnosis__confirm">
               {(() => {
                 const confirmProps = tutorialControlProps(
                   tutorialActive,
@@ -562,7 +711,7 @@ function ExplorationWizardInner() {
                   </Button>
                 );
               })()}
-            </div>
+            </div> : null}
           </section>
         );
       default:
@@ -601,6 +750,31 @@ function ExplorationWizardInner() {
         <div className="tmm-diagnosis" data-testid="diagnosis-session">
           <div ref={activeTurnRef} className="tmm-diagnosis__active">
             {renderDiagnosisScreen()}
+            {!tutorialActive ? (
+              <div
+                className="tmm-diagnosis__actions"
+                role="group"
+                aria-label={ariaProgress}
+              >
+                <Button
+                  variant="orange"
+                  className="tmm-diagnosis__next"
+                  onClick={advanceFromNext}
+                  disabled={!canAdvanceCurrentStep}
+                >
+                  {t('exNext')}
+                </Button>
+                {step > 0 ? (
+                  <Button
+                    variant="primary"
+                    className="tmm-diagnosis__previous"
+                    onClick={goBack}
+                  >
+                    {t('back')}
+                  </Button>
+                ) : null}
+              </div>
+            ) : null}
           </div>
         </div>
       </div>

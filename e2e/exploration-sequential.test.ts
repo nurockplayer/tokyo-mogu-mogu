@@ -2,9 +2,9 @@
  * Issue #230 / #268 regression gate — sequential trip diagnosis (375px, ja).
  *
  * Locks the standalone repeatable diagnosis contract: only one question screen
- * is shown at a time, and selecting a quick reply advances exactly once. No
- * dietary chat transcript is continued here. Future questions stay hidden and
- * the page-level `次へ` button is never the normal progression mechanism.
+ * is shown at a time. Guided first use advances from its one highlighted
+ * selection; normal/repeat use retains the selected state and advances only
+ * from the Figma Next/Back action stack.
  *
  * Interaction/state assertions only — no brittle full-page snapshots.
  */
@@ -93,7 +93,7 @@ test.describe('sequential repeatable diagnosis (ja, 375px)', () => {
     await expect(page.getByText(tasteThemeQ)).toHaveCount(0);
   });
 
-  test('2. Experience choices are interactive controls, not static text', async ({ page }) => {
+  test('2. Repeat-mode selection stays visible until Next is pressed', async ({ page }) => {
     await reachFreeExploration(page);
 
     for (const label of EXPERIENCE_OPTIONS) {
@@ -101,9 +101,24 @@ test.describe('sequential repeatable diagnosis (ja, 375px)', () => {
       await expect(tile).toBeVisible();
       await expect(tile).toBeEnabled();
     }
+
+    const next = page.getByRole('button', { name: '次へ' });
+    await expect(next).toBeVisible();
+    await expect(next).toBeDisabled();
+
+    const eat = page.getByRole('button', { name: '食べる' });
+    await eat.click();
+
+    await expect(eat).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.getByText('今回は、どんな食体験を')).toBeVisible();
+    await expect(page.getByText(departureQ)).toHaveCount(0);
+    await expect(next).toBeEnabled();
+
+    await next.click();
+    await expect(page.getByText(departureQ).first()).toBeVisible();
   });
 
-  test('3. One selection advances exactly one standalone diagnosis screen', async ({
+  test('3. Guided selection advances exactly one standalone diagnosis screen', async ({
     page,
   }) => {
     await reachExploration(page);
@@ -147,52 +162,76 @@ test.describe('sequential repeatable diagnosis (ja, 375px)', () => {
     await expect(page.getByText(tasteThemeQ).first()).toBeVisible();
   });
 
-  test('5. Keyboard progression focuses and names each replacement screen', async ({ page }) => {
+  test('5. Repeat-mode keyboard selection waits for keyboard activation of Next', async ({ page }) => {
     await reachFreeExploration(page);
 
-    await page.getByRole('button', { name: '食べる' }).focus();
+    const eat = page.getByRole('button', { name: '食べる' });
+    await eat.focus();
+    await page.keyboard.press('Enter');
+
+    await expect(eat).toBeFocused();
+    await expect(eat).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.getByText(departureQ)).toHaveCount(0);
+
+    const next = page.getByRole('button', { name: '次へ' });
+    await next.focus();
     await page.keyboard.press('Enter');
 
     const departureScreen = page.getByRole('region', { name: departureQ });
     await expect(departureScreen).toBeFocused();
     await expect(departureScreen).toHaveAccessibleName(departureQ);
 
-    await page.getByRole('button', { name: '東京都' }).focus();
+    const tokyo = page.getByRole('button', { name: '東京都' });
+    await tokyo.focus();
     await page.keyboard.press('Space');
+
+    await expect(tokyo).toBeFocused();
+    await expect(tokyo).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.getByText(travelQ)).toHaveCount(0);
+
+    await next.focus();
+    await page.keyboard.press('Enter');
 
     const travelScreen = page.getByRole('region', { name: travelAccessibleName });
     await expect(travelScreen).toBeFocused();
     await expect(travelScreen).toHaveAccessibleName(travelAccessibleName);
   });
 
-  test('6. The full five-stage Exploration completes without the page-level 次へ', async ({
+  test('6. Repeat mode uses Next/Back and preserves selections when moving backward', async ({
     page,
   }) => {
-    await reachExploration(page);
+    await reachFreeExploration(page);
 
-    // No persistent page-level wizard CTA exists anywhere in the journey.
     const next = page.getByRole('button', { name: '次へ' });
-    await expect(next).toHaveCount(0);
+    const back = page
+      .getByTestId('diagnosis-session')
+      .getByRole('button', { name: '戻る' });
 
-    // Experience → Departure → Travel → Duration advance by quick-reply tap.
     await page.getByRole('button', { name: '食べる' }).click();
-    await expect(next).toHaveCount(0);
-    await page.getByRole('button', { name: '東京都' }).click();
-    await expect(next).toHaveCount(0);
-    await page.getByRole('button', { name: '1時間以内' }).click();
-    await expect(next).toHaveCount(0);
-    await page.getByRole('button', { name: '半日' }).click();
-    await expect(next).toHaveCount(0);
+    await next.click();
 
-    // Taste + Theme is the only multi-select stage: its local confirm is
-    // disabled until a selection exists, then commits to the Result.
-    const confirm = page.getByRole('button', { name: '結果を見る' });
-    await expect(confirm).toBeVisible();
-    await expect(confirm).toBeDisabled();
+    await page.getByRole('button', { name: '東京都' }).click();
+    await expect(page.getByText(departureQ).first()).toBeVisible();
+    await expect(page.getByRole('button', { name: '東京都' })).toHaveAttribute('aria-pressed', 'true');
+    await next.click();
+
+    await back.click();
+    await expect(page.getByText(departureQ).first()).toBeVisible();
+    await expect(page.getByRole('button', { name: '東京都' })).toHaveAttribute('aria-pressed', 'true');
+    await expect(next).toBeEnabled();
+    await next.click();
+
+    await page.getByRole('button', { name: '1時間以内' }).click();
+    await next.click();
+
+    await page.getByRole('button', { name: '半日' }).click();
+    await next.click();
+
+    await expect(next).toBeDisabled();
     await page.getByRole('button', { name: 'さっぱりした味' }).click();
     await page.getByRole('button', { name: '自然' }).click();
-    await expect(confirm).toBeEnabled();
-    await confirm.click();
+    await expect(next).toBeEnabled();
+    await next.click();
 
     await page.waitForURL('**/explore/result');
   });
@@ -215,6 +254,20 @@ test.describe('sequential repeatable diagnosis (ja, 375px)', () => {
     await expect(page.getByText('今回は、どんな食体験を')).toHaveCount(0);
     await expect(page.getByText(departureQ).first()).toBeVisible();
     await expect(page.getByText(travelQ)).toHaveCount(0);
+
+    await reachFreeExploration(page);
+    await page.getByRole('button', { name: '食べる' }).click();
+    await page.evaluate(() => {
+      const next = Array.from(document.querySelectorAll('button')).find(
+        (button) => button.textContent?.trim() === '次へ',
+      );
+      if (!(next instanceof HTMLButtonElement)) throw new Error('next button not found');
+      next.click();
+      next.click();
+    });
+
+    await expect(page.getByText(departureQ).first()).toBeVisible();
+    await expect(page.getByText(travelQ)).toHaveCount(0);
   });
 
   test('7. Keyboard activation works for every quick reply', async ({ page }) => {
@@ -222,19 +275,65 @@ test.describe('sequential repeatable diagnosis (ja, 375px)', () => {
     // the first-run tutorial intentionally exposes only its current target.
     await reachFreeExploration(page);
 
-    // Enter activates an Experience tile.
+    // Enter selects an Experience tile, then Next advances.
     await page.getByRole('button', { name: '食べる' }).focus();
     await page.keyboard.press('Enter');
+    await expect(page.getByText(departureQ)).toHaveCount(0);
+    await page.getByRole('button', { name: '次へ' }).click();
     await expect(page.getByText(departureQ).first()).toBeVisible();
 
-    // Space activates a Departure quick reply.
+    // Space selects a Departure quick reply without advancing.
     await page.getByRole('button', { name: '東京都' }).focus();
     await page.keyboard.press('Space');
-    await expect(page.getByText(travelQ).first()).toBeVisible();
+    await expect(page.getByText(travelQ)).toHaveCount(0);
 
-    // Tab reaches the remaining quick replies in the active turn.
-    await page.getByRole('button', { name: '1時間以内' }).focus();
+    // Tab reaches the other choices in the active step.
+    await page.getByRole('button', { name: '東京都' }).focus();
     await page.keyboard.press('Tab');
-    await expect(page.getByRole('button', { name: '1時間30分以内' })).toBeFocused();
+    await expect(page.getByRole('button', { name: '周辺' })).toBeFocused();
+  });
+
+  test('8. Repeat departure overlay exposes empty/populated states and keeps the selection', async ({
+    page,
+  }) => {
+    await reachFreeExploration(page);
+    await page.getByRole('button', { name: '食べる' }).click();
+    await page.getByRole('button', { name: '次へ' }).click();
+
+    const openSearch = page.getByRole('button', { name: 'エリアを検索' });
+    await openSearch.click();
+
+    const dialog = page.getByRole('dialog', { name: 'エリアを検索' });
+    const input = page.getByRole('textbox', { name: 'エリアを検索' });
+    await expect(dialog).toBeVisible();
+    await expect(dialog).toHaveAttribute('data-state', 'empty');
+    await expect(input).toBeFocused();
+
+    await page.keyboard.press('Escape');
+    await expect(dialog).toHaveCount(0);
+    await expect(openSearch).toBeFocused();
+
+    await openSearch.click();
+    await input.fill('東京駅');
+    await expect(dialog).toHaveAttribute('data-state', 'populated');
+
+    await input.focus();
+    await page.keyboard.press('Shift+Tab');
+    await expect(page.getByRole('button', { name: 'エリア検索を閉じる' })).toBeFocused();
+    await page.keyboard.press('Tab');
+    await expect(input).toBeFocused();
+
+    await page.getByRole('button', { name: '「東京駅」を出発地として表示' }).click();
+    await expect(dialog).toHaveCount(0);
+    await expect(page.getByText('選択中の出発地: 東京駅')).toBeVisible();
+    await expect(page.getByRole('button', { name: '東京都' })).toHaveAttribute('aria-pressed', 'false');
+    await expect(page.getByRole('button', { name: '次へ' })).toBeEnabled();
+
+    await page.getByRole('button', { name: '次へ' }).click();
+    await page
+      .getByTestId('diagnosis-session')
+      .getByRole('button', { name: '戻る' })
+      .click();
+    await expect(page.getByText('選択中の出発地: 東京駅')).toBeVisible();
   });
 });

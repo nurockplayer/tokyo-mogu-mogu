@@ -89,6 +89,12 @@ const MY_HEADINGS: Record<Locale, { my: string; myRoute: string }> = {
   'zh-TW': { my: '已儲存的旅程', myRoute: '我的路線' },
 };
 
+const SAVED_ACTION_LABELS: Record<Locale, string> = {
+  ja: '保存した旅程の操作',
+  en: 'Saved itinerary actions',
+  'zh-TW': '已儲存行程操作',
+};
+
 const ROUTE_PATHS: { path: string; label: string; signal: string }[] = [
   { path: '/route', label: 'Okutama × Tokyo Wasabi route', signal: '.s5-timeline' },
   {
@@ -111,6 +117,14 @@ const SPOT_PATHS: { path: string; label: string; signal: string }[] = [
 for (const locale of ['ja', 'en', 'zh-TW'] as const) {
   test.describe(`Route / Spot / My overflow (${locale}, 375px)`, () => {
     test.use({ locale: locale === 'ja' ? 'ja-JP' : locale === 'en' ? 'en-US' : 'zh-TW' });
+
+    test('saved Route actions stay usable without horizontal overflow', async ({ page }) => {
+      await setLocale(page, locale);
+      await seedSavedRoutes(page);
+      await page.goto('/route');
+      await expect(page.getByRole('group', { name: SAVED_ACTION_LABELS[locale] })).toBeVisible();
+      await assertNoHorizontalOverflow(page);
+    });
 
     for (const { path, label, signal } of ROUTE_PATHS) {
       test(`no horizontal overflow on ${label}`, async ({ page }) => {
