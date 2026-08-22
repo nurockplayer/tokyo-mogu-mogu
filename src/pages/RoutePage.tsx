@@ -46,6 +46,7 @@ import {
 import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
 import { routeBackHref, routeContextSearch } from './route-context';
 import './route-spot.css';
+import { journeyScrollRestoreState } from '../app/JourneyScrollManager';
 
 const DURATIONS: RouteDuration[] = ['half-day', '1-day'];
 
@@ -144,7 +145,14 @@ export function RoutePage() {
   return (
     <div className="tmm-page">
       <header className="s5-figma-header">
-        <Link to={routeBackHref(location.search)} aria-label={t('back')} className="s5-figma-header__back">‹</Link>
+        <Link
+          to={routeBackHref(location.search)}
+          state={journeyScrollRestoreState}
+          aria-label={t('back')}
+          className="s5-figma-header__back"
+        >
+          ‹
+        </Link>
         <p>{localized(routeNameKey(route.id), route.nameJa, route.nameEn)}</p>
       </header>
 

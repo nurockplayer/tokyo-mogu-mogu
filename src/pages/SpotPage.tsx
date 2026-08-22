@@ -44,6 +44,7 @@ import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
 import { deriveVerificationStatus, sourceDateLabel } from '../lib/verification';
 import { routeBackTarget, resolveSpotRouteId, spotBackHref } from './route-context';
 import './route-spot.css';
+import { journeyScrollRestoreState } from '../app/JourneyScrollManager';
 
 /** Maps a place type to its i18n label key. */
 const PLACE_TYPE_LABEL: Record<PlaceType, LocaleKey> = {
@@ -345,7 +346,12 @@ export function SpotPage() {
           type={place.type}
           alt={placeName}
         />
-        <Link to={spotBackHref(location.search)} className="s6-hero-back" aria-label={t('back')}>
+        <Link
+          to={spotBackHref(location.search)}
+          state={journeyScrollRestoreState}
+          className="s6-hero-back"
+          aria-label={t('back')}
+        >
           ‹
         </Link>
       </div>
@@ -525,6 +531,7 @@ export function SpotPage() {
 
       <Link
         to={spotBackHref(location.search)}
+        state={journeyScrollRestoreState}
         className="tmm-btn tmm-btn--secondary s6-back"
       >
         ← {routeBackTarget(location.search) === 'discover' ? t('back') : t('s6BackToRoute')}

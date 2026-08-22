@@ -63,6 +63,7 @@ import { deriveVerificationStatus, sourceDateLabel } from '../lib/verification';
 import { readingMinutes, resolveBackTo, storyRouteHref } from './story-reading';
 import storyHero from '../assets/figma/story-hero.png';
 import './StoryPage.css';
+import { journeyScrollRestoreState } from '../app/JourneyScrollManager';
 
 /** Source-review label for the census context surfaced in this story (#128/#129). */
 const CENSUS_STATUS_LABEL = {
@@ -191,7 +192,12 @@ export function StoryPage() {
     <article className="s4-page">
       {/* Section 1 — Hero (dark-green / media-forward) */}
       <header className="s4-hero">
-        <Link to={backTo} className="s4-hero__back" aria-label={t('back')}>
+        <Link
+          to={backTo}
+          state={journeyScrollRestoreState}
+          className="s4-hero__back"
+          aria-label={t('back')}
+        >
           ‹
         </Link>
         <div className="s4-hero__media">
@@ -389,7 +395,9 @@ export function StoryPage() {
             <p className="s4-cta__sub">{t(content.ctaSub)}</p>
           </>
         ) : null}
-        <Link to={backTo} className="s4-cta__back">{t('s4BackToResult')}</Link>
+        <Link to={backTo} state={journeyScrollRestoreState} className="s4-cta__back">
+          {t('s4BackToResult')}
+        </Link>
       </footer>
 
       {/* Compact provenance — preserves the record's sources without breaking the editorial UI */}

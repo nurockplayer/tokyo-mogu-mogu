@@ -21,6 +21,7 @@ import { DemoResetButton } from '../components/DemoResetButton';
 import { hasFoodProfile } from '../lib/food-profile-storage';
 import { ErrorBoundary } from './ErrorBoundary';
 import { PrimaryNav } from './PrimaryNav';
+import { JourneyScrollManager } from './JourneyScrollManager';
 import './PrototypeShell.css';
 
 export function PrototypeShell() {
@@ -39,6 +40,7 @@ export function PrototypeShell() {
 
   return (
     <div className={`tmm-shell tmm-prototype tmm-prototype--figma${showNav ? ' tmm-prototype--nav' : ''}`}>
+      <JourneyScrollManager />
       <header className="tmm-prototype__bar" aria-label={t('appName')}>
         <Link to="/" className="tmm-header__logo">
           {t('appName')}
