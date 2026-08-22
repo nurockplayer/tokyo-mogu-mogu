@@ -38,6 +38,7 @@ import { scrollTurnIntoView } from './conversation';
 import { isGuidedTutorialActive } from './tutorial-session';
 import { tutorialControlProps } from './tutorial-controls';
 import { TutorialGuide } from './tutorial-ui';
+import { applySingleSelection, type VisualAnswers } from './exploration-navigation';
 import expEat from '../../assets/figma/exp-eat.png';
 import expMake from '../../assets/figma/exp-make.png';
 import expBuy from '../../assets/figma/exp-buy.png';
@@ -63,16 +64,6 @@ interface FpOption<V extends string> {
   subKey?: LocaleKey;
   icon?: string;
   internal: V;
-}
-
-/** Visual selection state — Figma option ids, kept separate from canonical answers. */
-interface VisualAnswers {
-  tastes: string[];
-  experiences: string[];
-  departure: string | null;
-  travel: string | null;
-  themes: string[];
-  duration: string | null;
 }
 
 /** The full option set shown in the current KiKi Figma (fixture presentation). */
@@ -283,14 +274,28 @@ function ExplorationWizardInner() {
     setStep(toStep);
   }
 
-  /** Single-choice quick reply: selecting it is the answer and advances. */
+  /** Single-choice quick reply: guided taps advance; repeat taps only select. */
   function chooseSingle(key: 'departure' | 'travel' | 'duration', id: string) {
-    advance(step + 1, { ...visual, [key]: id });
+    const next = applySingleSelection({ step, visual }, { key, id }, tutorialActive);
+    if (tutorialActive) {
+      advance(next.step, next.visual);
+    } else {
+      setVisual(next.visual);
+    }
   }
 
-  /** Experience tile: the tapped tile is the answer and advances. */
+  /** Experience tile follows the same guided versus repeat selection contract. */
   function chooseExperience(id: string) {
-    advance(1, { ...visual, experiences: [id] });
+    const next = applySingleSelection(
+      { step, visual },
+      { key: 'experiences', id },
+      tutorialActive,
+    );
+    if (tutorialActive) {
+      advance(next.step, next.visual);
+    } else {
+      setVisual(next.visual);
+    }
   }
 
   /**
@@ -310,6 +315,23 @@ function ExplorationWizardInner() {
   function confirmTasteTheme() {
     if (!canConfirmTasteTheme) return;
     navigate('/explore/result');
+  }
+
+  const canAdvanceCurrentStep = (() => {
+    if (step === 0) return visual.experiences.length > 0;
+    if (step === 1) return visual.departure !== null;
+    if (step === 2) return visual.travel !== null;
+    if (step === 3) return visual.duration !== null;
+    return canConfirmTasteTheme;
+  })();
+
+  function advanceFromNext() {
+    if (tutorialActive || !canAdvanceCurrentStep) return;
+    if (step === WIZARD_STEP_COUNT - 1) {
+      navigate('/explore/result');
+      return;
+    }
+    advance(step + 1, visual);
   }
 
   function goBack() {
@@ -411,7 +433,8 @@ function ExplorationWizardInner() {
   function renderDiagnosisScreen() {
     switch (step) {
       case 0:
-        // Experience tiles (Figma 4:2101): tapping one commits it and advances.
+        // Experience tiles (Figma 4:2101): repeat use selects before Next;
+        // guided first use keeps the #257 tap-to-advance exception.
         return (
           <section
             key="experience"
@@ -544,7 +567,7 @@ function ExplorationWizardInner() {
                 tutorialTasteSelected && !tutorialThemeSelected,
               )}
             </div>
-            <div className="tmm-diagnosis__confirm">
+            {tutorialActive ? <div className="tmm-diagnosis__confirm">
               {(() => {
                 const confirmProps = tutorialControlProps(
                   tutorialActive,
@@ -562,7 +585,7 @@ function ExplorationWizardInner() {
                   </Button>
                 );
               })()}
-            </div>
+            </div> : null}
           </section>
         );
       default:
@@ -601,6 +624,31 @@ function ExplorationWizardInner() {
         <div className="tmm-diagnosis" data-testid="diagnosis-session">
           <div ref={activeTurnRef} className="tmm-diagnosis__active">
             {renderDiagnosisScreen()}
+            {!tutorialActive ? (
+              <div
+                className="tmm-diagnosis__actions"
+                role="group"
+                aria-label={ariaProgress}
+              >
+                <Button
+                  variant="orange"
+                  className="tmm-diagnosis__next"
+                  onClick={advanceFromNext}
+                  disabled={!canAdvanceCurrentStep}
+                >
+                  {t('exNext')}
+                </Button>
+                {step > 0 ? (
+                  <Button
+                    variant="primary"
+                    className="tmm-diagnosis__previous"
+                    onClick={goBack}
+                  >
+                    {t('back')}
+                  </Button>
+                ) : null}
+              </div>
+            ) : null}
           </div>
         </div>
       </div>

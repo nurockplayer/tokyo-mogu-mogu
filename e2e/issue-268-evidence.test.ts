@@ -22,13 +22,16 @@ async function capture(page: Page, name: string, scrollToTop = true): Promise<vo
 }
 
 async function completeDiagnosis(page: Page): Promise<void> {
-  await page.getByRole('button', { name: '食べる' }).click();
-  await page.getByRole('button', { name: '東京都' }).click();
-  await page.getByRole('button', { name: '1時間以内' }).click();
-  await page.getByRole('button', { name: '半日' }).click();
+  for (const label of ['食べる', '東京都', '1時間以内', '半日']) {
+    await page.getByRole('button', { name: label }).click();
+    const next = page.getByRole('button', { name: '次へ' });
+    if (await next.isVisible()) await next.click();
+  }
   await page.getByRole('button', { name: 'さっぱりした味' }).click();
   await page.getByRole('button', { name: '自然' }).click();
-  await page.getByRole('button', { name: '結果を見る' }).click();
+  const guidedDone = page.getByRole('button', { name: '結果を見る' });
+  if (await guidedDone.isVisible()) await guidedDone.click();
+  else await page.getByRole('button', { name: '次へ' }).click();
   await page.waitForURL('**/explore/result');
 }
 

@@ -546,6 +546,46 @@
   padding-top: var(--tmm-space-2);
 }
 
+/* P1-01: live-Figma navigation for normal/repeat diagnosis. Guided first use
+   keeps its single highlighted tap target and does not render this stack. */
+.tmm-diagnosis__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--tmm-space-6);
+  margin-top: var(--tmm-space-5);
+  padding-bottom: var(--tmm-space-4);
+}
+
+.tmm-diagnosis__actions .tmm-btn {
+  width: min(156px, 100%);
+  min-height: 45px;
+  border-radius: var(--tmm-radius-pill);
+}
+
+.tmm-diagnosis__actions .tmm-diagnosis__next {
+  color: var(--tmm-color-ink);
+  background: var(--tmm-color-orange-strong-visual);
+  box-shadow: var(--tmm-shadow-orange-action);
+}
+
+.tmm-diagnosis__actions .tmm-diagnosis__previous {
+  color: var(--tmm-color-ink);
+  background: var(--tmm-color-leaf);
+  box-shadow: var(--tmm-shadow-green-action);
+}
+
+.tmm-diagnosis__actions .tmm-btn:not(:disabled):active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tmm-diagnosis__actions .tmm-btn {
+    transition: none;
+  }
+}
+
 /* Question: stronger display hierarchy that still wraps safely at 375px. */
 .tmm-wizard__question {
   font-size: 1.7rem;
