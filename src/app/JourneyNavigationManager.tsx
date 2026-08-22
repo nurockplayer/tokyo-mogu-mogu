@@ -46,6 +46,7 @@ export function JourneyNavigationManager() {
   const navigationType = useNavigationType();
   const entryPositions = useRef(new Map<string, number>());
   const hrefPositions = useRef(new Map<string, number>());
+  const previousPathname = useRef<string | null>(null);
 
   useLayoutEffect(() => {
     const previousRestoration = window.history.scrollRestoration;
@@ -61,6 +62,8 @@ export function JourneyNavigationManager() {
     const href = locationHref(location.pathname, location.search, location.hash);
     const state = (location.state ?? {}) as JourneyLocationState;
     const restoreByHref = state[RESTORE_JOURNEY_SCROLL_STATE] === true;
+    const isDestinationChange = previousPathname.current !== location.pathname;
+    previousPathname.current = location.pathname;
     const restorePosition =
       navigationType === 'POP'
         ? positionsByEntry.get(location.key) ?? positionsByHref.get(href)
@@ -68,11 +71,6 @@ export function JourneyNavigationManager() {
           ? positionsByHref.get(href)
           : undefined;
     const destinationY = restorePosition ?? 0;
-
-    // Reset synchronously so the old page's offset never flashes underneath a
-    // newly selected route. Apply it again once lazy content has mounted, when
-    // the document is tall enough to accept a restored deep offset.
-    window.scrollTo({ top: destinationY, behavior: 'auto' });
 
     let cancelled = false;
     let frame = 0;
@@ -84,14 +82,21 @@ export function JourneyNavigationManager() {
       if (focusPageHeading()) observer?.disconnect();
     };
 
-    frame = window.requestAnimationFrame(() => {
-      settleDestination();
-      if (!document.querySelector('main h1, main [data-route-focus-target]')) {
-        observer = new MutationObserver(settleDestination);
-        const main = document.querySelector('main');
-        if (main) observer.observe(main, { childList: true, subtree: true });
-      }
-    });
+    if (isDestinationChange) {
+      // Reset synchronously so the old page's offset never flashes underneath
+      // a newly selected route. Query-only URL state (for example a selected
+      // map marker) remains in place and keeps its current focus.
+      window.scrollTo({ top: destinationY, behavior: 'auto' });
+
+      frame = window.requestAnimationFrame(() => {
+        settleDestination();
+        if (!document.querySelector('main h1, main [data-route-focus-target]')) {
+          observer = new MutationObserver(settleDestination);
+          const main = document.querySelector('main');
+          if (main) observer.observe(main, { childList: true, subtree: true });
+        }
+      });
+    }
 
     return () => {
       cancelled = true;

@@ -173,7 +173,7 @@ Release-gate checks completed against the final working tree:
 
 - Issue #270 convergence Playwright: 6/6 passed.
 - Fresh screenshot walkthrough: 1/1 passed and produced 13 captures.
-- Full Playwright/E2E: 97 passed, 1 intentional evidence-capture skip, 0
+- Full Playwright/E2E: 98 passed, 1 intentional evidence-capture skip, 0
   failures (4.6 minutes).
 - `pnpm validate`: typecheck passed; lint passed with 0 errors and the same 26
   baseline warnings; all 69 Vitest files / 677 tests passed; production bundle

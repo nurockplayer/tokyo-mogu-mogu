@@ -85,6 +85,32 @@ test.describe('Issue #270 interaction convergence', () => {
       .toBeGreaterThan(resultScroll - 80);
   });
 
+  test('leaves focus and scroll intact for in-place search-parameter updates', async ({ page }) => {
+    await page.goto('/map');
+    const heading = page.getByRole('heading', { level: 1, name: '地図' });
+    const locationButton = page.getByRole('button', { name: '現在地を表示' });
+    const marker = page.locator('.leaflet-marker-icon').first();
+    await expect(heading).toBeVisible();
+    await expect(marker).toBeVisible();
+
+    // Give the document a deterministic scroll range without changing any app
+    // routing behavior, then keep focus on a stable control outside MapView.
+    await page.locator('.page').evaluate((node) => {
+      (node as HTMLElement).style.minHeight = '1600px';
+    });
+    await locationButton.focus();
+    await page.evaluate(() => window.scrollTo({ top: 400, behavior: 'auto' }));
+    await expect(locationButton).toBeFocused();
+
+    await marker.evaluate((node) => {
+      node.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
+    await expect(page).toHaveURL(/\/map\?place=/);
+    await expect(locationButton).toBeFocused();
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(390);
+    await expect(heading).not.toBeFocused();
+  });
+
   test('exposes all six measured journey stages from diagnosis through Result', async ({ page }) => {
     await seedGoldenPath(page);
     await page.goto('/explore');
