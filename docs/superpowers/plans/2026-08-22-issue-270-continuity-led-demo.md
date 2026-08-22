@@ -25,4 +25,3 @@
 6. **Validate and sign off**
    - Run `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build:bundle`, and focused/full Playwright.
    - Save 375px evidence, update the Draft PR after each checkpoint, and mark `READY_TO_DEMO` only after the full flow passes.
-

@@ -33,4 +33,3 @@ Ship a stable 375px judged Golden Path that keeps KiKi's approved hierarchy and 
 - Test the complete accountless Golden Path at 375px in ja/en/zh-TW.
 - Add regression coverage for forward scroll reset, restored back context, one-step-per-action, interactive gallery state, and reduced motion.
 - Run typecheck, lint, unit tests, build, focused Playwright, then the full relevant E2E suite.
-
