@@ -70,6 +70,7 @@ async function reachFreeExploration(page: Page): Promise<void> {
 
 const departureQ = 'どこから出発しますか？';
 const travelQ = '片道どのくらいまでなら';
+const travelAccessibleName = '片道どのくらいまでなら移動できそうですか？';
 const durationQ = 'どのくらいの時間で';
 const tasteThemeQ = '味とモチーフ';
 
@@ -146,7 +147,25 @@ test.describe('sequential repeatable diagnosis (ja, 375px)', () => {
     await expect(page.getByText(tasteThemeQ).first()).toBeVisible();
   });
 
-  test('5. The full five-stage Exploration completes without the page-level 次へ', async ({
+  test('5. Keyboard progression focuses and names each replacement screen', async ({ page }) => {
+    await reachFreeExploration(page);
+
+    await page.getByRole('button', { name: '食べる' }).focus();
+    await page.keyboard.press('Enter');
+
+    const departureScreen = page.getByRole('region', { name: departureQ });
+    await expect(departureScreen).toBeFocused();
+    await expect(departureScreen).toHaveAccessibleName(departureQ);
+
+    await page.getByRole('button', { name: '東京都' }).focus();
+    await page.keyboard.press('Space');
+
+    const travelScreen = page.getByRole('region', { name: travelAccessibleName });
+    await expect(travelScreen).toBeFocused();
+    await expect(travelScreen).toHaveAccessibleName(travelAccessibleName);
+  });
+
+  test('6. The full five-stage Exploration completes without the page-level 次へ', async ({
     page,
   }) => {
     await reachExploration(page);

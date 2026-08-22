@@ -183,6 +183,29 @@ export function toggleInterviewAnswer(current: readonly string[], value: string)
 }
 
 /**
+ * Update one interview answer without retaining contradictory free text.
+ * Choosing `none` means the whole question is explicitly clear, including a
+ * stale Other value entered before navigating back to that question.
+ */
+export function updateInterviewAnswer(
+  answers: InterviewAnswers,
+  questionIndex: number,
+  value: string,
+): InterviewAnswers {
+  const selection = toggleInterviewAnswer(answers[questionIndex] ?? [], value);
+  const clearsOther = value === 'none' && selection.includes('none');
+  return {
+    ...answers,
+    [questionIndex]: selection,
+    other: clearsOther
+      ? { ...answers.other, [questionIndex]: '' }
+      : answers.other,
+  };
+}
+
+export type InterviewAnswerOrigin = 'user' | 'guided-tutorial';
+
+/**
  * Build the durable Food Profile from the first-use dietary interview (#268).
  *
  * The detailed choices map onto the four existing profile categories; free
@@ -194,6 +217,7 @@ export function toggleInterviewAnswer(current: readonly string[], value: string)
 export function createFoodProfileFromInterviewAnswers(
   answers: InterviewAnswers,
   now = new Date().toISOString(),
+  origin: InterviewAnswerOrigin = 'user',
 ): FoodProfile {
   const categoryByQuestion: readonly DietaryRestriction[] = [
     'allergy',
@@ -220,7 +244,9 @@ export function createFoodProfileFromInterviewAnswers(
   return {
     dietary,
     dietaryOther,
-    hasNoRestrictions: explicitlyNoRestrictions,
+    // Guided-demo choices are deliberately constrained by #257, so they are
+    // not truthful evidence for a durable "no restrictions" claim.
+    hasNoRestrictions: origin === 'user' && explicitlyNoRestrictions,
     savedAt: now,
     version: 1,
   };
@@ -445,7 +471,13 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
     // independent, repeatable diagnosis session. A later visit re-reads this
     // profile and never requires dietary onboarding again unless the user
     // explicitly enters edit mode.
-    saveFoodProfile(createFoodProfileFromInterviewAnswers(interviewAnswers));
+    saveFoodProfile(
+      createFoodProfileFromInterviewAnswers(
+        interviewAnswers,
+        new Date().toISOString(),
+        tutorialActive ? 'guided-tutorial' : 'user',
+      ),
+    );
     beginNewExploration();
     setStep(SETUP_FORK);
   }
@@ -670,8 +702,7 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
             onToggle={(value) => {
               setInterviewAnswers((prev) => {
                 const idx = step - SETUP_INTERVIEW_FIRST;
-                const cur = prev[idx] ?? [];
-                return { ...prev, [idx]: toggleInterviewAnswer(cur, value) };
+                return updateInterviewAnswer(prev, idx, value);
               });
             }}
             onOtherChange={(value) => {

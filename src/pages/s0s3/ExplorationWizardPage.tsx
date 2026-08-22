@@ -262,8 +262,13 @@ function ExplorationWizardInner() {
     }
     const node = activeTurnRef.current;
     if (!node) return;
+    const screen = node.querySelector<HTMLElement>('.tmm-diagnosis__screen');
+    if (!screen) return;
+    // Each keyed screen is newly mounted. Moving focus to its named region
+    // announces the replacement to keyboard and screen-reader users.
+    screen.focus({ preventScroll: true });
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    scrollTurnIntoView(node, reduce ? 'auto' : 'smooth');
+    scrollTurnIntoView(screen, reduce ? 'auto' : 'smooth');
   }, [step]);
 
   // Persist the derived canonical answers whenever the visual selection changes.
@@ -408,7 +413,12 @@ function ExplorationWizardInner() {
       case 0:
         // Experience tiles (Figma 4:2101): tapping one commits it and advances.
         return (
-          <section className="tmm-diagnosis__screen" aria-labelledby="diagnosis-question">
+          <section
+            key="experience"
+            className="tmm-diagnosis__screen"
+            aria-labelledby="diagnosis-question"
+            tabIndex={-1}
+          >
             <h1 id="diagnosis-question" className="tmm-diagnosis__question">
               {t(S2_TITLES[0])}
             </h1>
@@ -424,7 +434,12 @@ function ExplorationWizardInner() {
       case 1:
         // Departure (Figma 8:2436 / 8:2608) — search input is presentation-only.
         return (
-          <section className="tmm-diagnosis__screen" aria-labelledby="diagnosis-question">
+          <section
+            key="departure"
+            className="tmm-diagnosis__screen"
+            aria-labelledby="diagnosis-question"
+            tabIndex={-1}
+          >
             <h1 id="diagnosis-question" className="tmm-diagnosis__question">
               {t(S2_TITLES[1])}
             </h1>
@@ -452,7 +467,12 @@ function ExplorationWizardInner() {
       case 2:
         // Travel time (Figma 23:3131).
         return (
-          <section className="tmm-diagnosis__screen" aria-labelledby="diagnosis-question">
+          <section
+            key="travel"
+            className="tmm-diagnosis__screen"
+            aria-labelledby="diagnosis-question"
+            tabIndex={-1}
+          >
             <h1 id="diagnosis-question" className="tmm-diagnosis__question">
               {t(S2_TITLES[2])}
             </h1>
@@ -468,7 +488,12 @@ function ExplorationWizardInner() {
       case 3:
         // Duration (Figma 23:3207).
         return (
-          <section className="tmm-diagnosis__screen" aria-labelledby="diagnosis-question">
+          <section
+            key="duration"
+            className="tmm-diagnosis__screen"
+            aria-labelledby="diagnosis-question"
+            tabIndex={-1}
+          >
             <h1 id="diagnosis-question" className="tmm-diagnosis__question">
               {t(S2_TITLES[3])}
             </h1>
@@ -485,7 +510,12 @@ function ExplorationWizardInner() {
         // Taste + theme (Figma 23:3262): one diagnosis screen contains the 2/2
         // multi-select sub-steps, then a local confirm moves to the Result.
         return (
-          <section className="tmm-diagnosis__screen" aria-labelledby="diagnosis-question">
+          <section
+            key="taste-theme"
+            className="tmm-diagnosis__screen"
+            aria-labelledby="diagnosis-question"
+            tabIndex={-1}
+          >
             <h1 id="diagnosis-question" className="tmm-diagnosis__question">
               {t(S2_TITLES[4])}
             </h1>

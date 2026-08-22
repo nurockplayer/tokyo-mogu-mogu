@@ -116,7 +116,9 @@ test.describe('golden path (ja, 375px)', () => {
     expect(JSON.parse(String(await persisted(page, FOOD_PROFILE_KEY)))).toMatchObject({
       dietary: [],
       dietaryOther: '',
-      hasNoRestrictions: true,
+      // #257 constrains these tutorial replies, so they must not become a
+      // durable user claim even though the deterministic journey continues.
+      hasNoRestrictions: false,
       version: 1,
     });
 

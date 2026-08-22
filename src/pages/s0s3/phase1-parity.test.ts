@@ -14,6 +14,7 @@ import {
   interviewSelectionLabels,
   interviewSummaryLines,
   toggleInterviewAnswer,
+  updateInterviewAnswer,
   createFoodProfileFromInterviewAnswers,
 } from './FoodProfilePage';
 import { isFoodProfile } from '../../lib/food-profile';
@@ -59,6 +60,18 @@ describe('toggleInterviewAnswer — none exclusivity (Issue #224)', () => {
   it('deselects an already-selected value and toggles none off', () => {
     expect(toggleInterviewAnswer(['egg', 'nuts'], 'egg')).toEqual(['nuts']);
     expect(toggleInterviewAnswer(['none'], 'none')).toEqual([]);
+  });
+
+  it('clears stale Other text when a user goes back and selects none', () => {
+    const answers = createEmptyInterviewAnswers();
+    answers[0] = ['egg'];
+    answers.other[0] = 'そば';
+
+    const updated = updateInterviewAnswer(answers, 0, 'none');
+
+    expect(updated[0]).toEqual(['none']);
+    expect(updated.other[0]).toBe('');
+    expect(createFoodProfileFromInterviewAnswers(updated).dietaryOther).toBe('');
   });
 });
 
@@ -147,6 +160,23 @@ describe('createFoodProfileFromInterviewAnswers (Issue #268)', () => {
     const profile = createFoodProfileFromInterviewAnswers(answers);
 
     expect(profile.hasNoRestrictions).toBe(true);
+    expect(profile.dietary).toEqual([]);
+    expect(profile.dietaryOther).toBe('');
+  });
+
+  it('keeps tutorial-forced all-none answers non-claiming', () => {
+    const answers = createEmptyInterviewAnswers();
+    for (let index = 0; index < PHASE1_INTERVIEW.length; index += 1) {
+      answers[index] = ['none'];
+    }
+
+    const profile = createFoodProfileFromInterviewAnswers(
+      answers,
+      '2026-08-16T00:00:00.000Z',
+      'guided-tutorial',
+    );
+
+    expect(profile.hasNoRestrictions).toBe(false);
     expect(profile.dietary).toEqual([]);
     expect(profile.dietaryOther).toBe('');
   });

@@ -39,6 +39,23 @@ export interface FoodProfile {
   version: 1;
 }
 
+export type FoodProfileDietaryState =
+  | 'restrictions-recorded'
+  | 'no-restrictions'
+  | 'not-evaluated';
+
+/**
+ * Resolve the durable three-state dietary meaning. Empty fields alone are not
+ * a no-restrictions claim: the explicit flag distinguishes truthful `none`
+ * input from guided-demo or skipped input that was never evaluated.
+ */
+export function foodProfileDietaryState(profile: FoodProfile): FoodProfileDietaryState {
+  if (profile.dietary.length > 0 || profile.dietaryOther.trim().length > 0) {
+    return 'restrictions-recorded';
+  }
+  return profile.hasNoRestrictions ? 'no-restrictions' : 'not-evaluated';
+}
+
 /** Starting (unset) profile state: no restrictions, skip path on. */
 export function createDefaultFoodProfile(now = new Date().toISOString()): FoodProfile {
   return {

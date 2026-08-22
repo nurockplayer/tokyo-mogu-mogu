@@ -1,6 +1,7 @@
 import { afterAll, beforeEach, describe, expect, it } from 'vitest';
 import {
   createDefaultFoodProfile,
+  foodProfileDietaryState,
   isFoodProfile,
   type FoodProfile,
 } from './food-profile';
@@ -53,6 +54,25 @@ describe('Food Profile defaults (#78)', () => {
     expect(p.hasNoRestrictions).toBe(true);
     expect(p.version).toBe(1);
     expect(p.savedAt).toBe('2026-08-10T00:00:00.000Z');
+  });
+});
+
+describe('Food Profile dietary state (#268)', () => {
+  it('distinguishes recorded restrictions, explicit none, and not evaluated', () => {
+    const explicitNone = createDefaultFoodProfile('2026-08-10T00:00:00.000Z');
+    const restrictions: FoodProfile = {
+      ...explicitNone,
+      dietary: ['allergy'],
+      hasNoRestrictions: false,
+    };
+    const notEvaluated: FoodProfile = {
+      ...explicitNone,
+      hasNoRestrictions: false,
+    };
+
+    expect(foodProfileDietaryState(restrictions)).toBe('restrictions-recorded');
+    expect(foodProfileDietaryState(explicitNone)).toBe('no-restrictions');
+    expect(foodProfileDietaryState(notEvaluated)).toBe('not-evaluated');
   });
 });
 

@@ -47,6 +47,19 @@ async function seedReturningUser(page: Page): Promise<void> {
   }, [FOOD_PROFILE_KEY, foodProfile, TUTORIAL_KEY] as const);
 }
 
+async function startUnrestrictedFirstUse(page: Page): Promise<void> {
+  await page.goto('/');
+  await page.evaluate((tutorialKey) => {
+    localStorage.clear();
+    sessionStorage.clear();
+    sessionStorage.setItem(tutorialKey, 'complete');
+  }, TUTORIAL_KEY);
+  await page.goto('/food-profile');
+  await page.getByRole('button', { name: 'はじめる！' }).click();
+  await page.getByLabel('ニックネーム').fill('ナナミ');
+  await page.getByTestId('fp-modal-submit').click();
+}
+
 test.describe('Food Profile → repeatable diagnosis lifecycle (#268)', () => {
   test.use({ locale: 'ja-JP' });
 
@@ -90,5 +103,34 @@ test.describe('Food Profile → repeatable diagnosis lifecycle (#268)', () => {
     await expect(page).toHaveURL(/\/explore$/);
     await expect(page.getByTestId('diagnosis-session')).toBeVisible();
     await expect(page.getByRole('button', { name: '食べる' })).toHaveAttribute('aria-pressed', 'false');
+  });
+
+  test('Other → back → none clears stale text before Food Profile persistence', async ({
+    page,
+  }) => {
+    await startUnrestrictedFirstUse(page);
+
+    const allergy = page.getByTestId('fp-interview-step-0');
+    await allergy.getByRole('button', { name: '✏️ その他' }).click();
+    await page.getByTestId('fp-modal-input').fill('そば');
+    await page.getByRole('button', { name: '確定' }).click();
+
+    await expect(page.getByTestId('fp-interview-step-1')).toBeVisible();
+    await page.getByRole('button', { name: '戻る' }).click();
+    await allergy.getByRole('button', { name: 'アレルギーはありません' }).click();
+    await allergy.getByRole('button', { name: '送信' }).click();
+
+    for (let step = 1; step < 4; step += 1) {
+      const question = page.getByTestId(`fp-interview-step-${step}`);
+      await question.getByRole('button', { name: '特になし' }).click();
+      await question.getByRole('button', { name: '送信' }).click();
+    }
+
+    await page.getByRole('button', { name: '保存してつぎへ' }).click();
+    const stored = await page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? 'null'), FOOD_PROFILE_KEY);
+
+    expect(stored.dietary).toEqual([]);
+    expect(stored.dietaryOther).toBe('');
+    expect(stored.hasNoRestrictions).toBe(true);
   });
 });

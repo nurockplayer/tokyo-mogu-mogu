@@ -487,6 +487,11 @@
   min-width: 0;
 }
 
+.tmm-diagnosis__screen:focus-visible {
+  outline: 3px solid var(--tmm-color-focus, #126b50);
+  outline-offset: var(--tmm-space-2);
+}
+
 .tmm-diagnosis__question {
   margin: 0 0 var(--tmm-space-2);
   font-family: var(--tmm-font-body);

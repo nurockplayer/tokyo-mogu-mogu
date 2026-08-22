@@ -73,6 +73,22 @@ describe('explainable recommendation contract (#123)', () => {
     }
   });
 
+  it('keeps a tutorial-forced, unassessed Food Profile explicit in the explanation', () => {
+    const notEvaluated: FoodProfile = {
+      ...profile,
+      dietary: [],
+      dietaryOther: '',
+      hasNoRestrictions: false,
+    };
+
+    const decision = recommendCandidates(notEvaluated, answers, [candidate('unassessed')]);
+
+    expect(decision.selected?.explanation.cautions[0]).toEqual({
+      code: 'dietary-profile-unassessed',
+      values: [],
+    });
+  });
+
   it('never lets tourism dispersion rescue an infeasible candidate', () => {
     const trip: ExplorationAnswers = {
       ...answers,

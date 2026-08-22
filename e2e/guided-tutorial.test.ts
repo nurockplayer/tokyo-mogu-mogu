@@ -80,6 +80,13 @@ test.describe('guided tutorial (#257, ja, 375px)', () => {
     await expect(summaryTarget).toHaveText('保存してつぎへ');
     await summaryTarget.click();
 
+    await expect
+      .poll(() => page.evaluate((key) => {
+        const stored = localStorage.getItem(key);
+        return stored ? JSON.parse(stored).hasNoRestrictions : null;
+      }, FOOD_PROFILE_KEY))
+      .toBe(false);
+
     const forkTarget = await expectOneTutorialTarget(page.locator('.fp-convo').last());
     await expect(forkTarget).toHaveText('自分に合った旅をおすすめしてもらう！');
     await forkTarget.click();
@@ -102,6 +109,9 @@ test.describe('guided tutorial (#257, ja, 375px)', () => {
       }
     }
     await page.waitForURL('**/explore/result');
+    await expect(
+      page.getByText('食事条件は未評価（デモのプロトタイプでは評価しません）'),
+    ).toBeVisible();
 
     await expect
       .poll(() => page.evaluate((key) => sessionStorage.getItem(key), TUTORIAL_KEY))
