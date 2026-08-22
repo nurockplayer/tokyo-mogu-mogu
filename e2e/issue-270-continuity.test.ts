@@ -76,7 +76,26 @@ test.describe('Issue #270 judged-journey navigation continuity', () => {
     await page.getByRole('heading', { level: 1, name: '東京わさび' }).waitFor();
     await expectAtPageTop(page);
 
-    await page.getByRole('link', { name: 'この食文化の観光ルートを作成する' }).click();
+    const storyRouteAction = page.getByRole('link', {
+      name: 'この食文化の観光ルートを作成する',
+    });
+    await storyRouteAction.scrollIntoViewIfNeeded();
+    const storyScrollY = await page.evaluate(() => window.scrollY);
+    expect(storyScrollY).toBeGreaterThan(100);
+
+    await storyRouteAction.click();
+    await page.waitForURL('**/route*');
+    await page.getByRole('heading', { level: 1, name: '奥多摩わさび紀行' }).waitFor();
+    await expectAtPageTop(page);
+
+    await page.locator('.s5-figma-header__back').click();
+    await page.waitForURL('**/story/wasabi-okutama*');
+    await page.getByRole('heading', { level: 1, name: '東京わさび' }).waitFor();
+    await expect
+      .poll(() => page.evaluate(() => window.scrollY))
+      .toBeGreaterThanOrEqual(storyScrollY - 2);
+
+    await storyRouteAction.click();
     await page.waitForURL('**/route*');
     await page.getByRole('heading', { level: 1, name: '奥多摩わさび紀行' }).waitFor();
     await expectAtPageTop(page);
@@ -136,18 +155,18 @@ test.describe('Issue #270 judged-journey navigation continuity', () => {
     await page.waitForURL('**/spot/okutama-tourism-office*');
 
     const gallery = page.getByRole('region', { name: '奥多摩観光案内所の写真' });
-    const gelatoThumb = gallery.getByRole('button', {
-      name: '写真を表示: 案内所のわさびジェラート',
+    const wasapyThumb = gallery.getByRole('button', {
+      name: '写真を表示: 案内所のわさぴー',
     });
-    await expect(gallery.getByRole('button')).toHaveCount(4);
-    await expect(gelatoThumb).toHaveAttribute('aria-pressed', 'false');
-    await gelatoThumb.click();
-    await expect(gelatoThumb).toHaveAttribute('aria-pressed', 'true');
+    await expect(gallery.getByRole('button')).toHaveCount(3);
+    await expect(wasapyThumb).toHaveAttribute('aria-pressed', 'false');
+    await wasapyThumb.click();
+    await expect(wasapyThumb).toHaveAttribute('aria-pressed', 'true');
     await expect(
-      page.getByRole('img', { name: '案内所で提供される奥多摩わさびジェラート' }),
+      page.getByRole('img', { name: '奥多摩観光案内所のわさぴー' }),
     ).toBeVisible();
     await expect(page.locator('.s6-gallery__caption')).toContainText(
-      '案内所で出会える奥多摩わさびジェラート',
+      '東京わさびをモチーフにした「わさぴー」',
     );
 
     const widths = await page.evaluate(() => ({

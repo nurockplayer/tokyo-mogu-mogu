@@ -125,22 +125,22 @@ const SPOT_PATHS: { path: string; label: string; signal: string }[] = [
 const FIELDWORK_GALLERY_COPY: Record<Locale, {
   story: string;
   spot: string;
-  gelato: string;
+  wasapy: string;
 }> = {
   ja: {
     story: '奥多摩の景色',
     spot: '奥多摩観光案内所の写真',
-    gelato: '写真を表示: 案内所のわさびジェラート',
+    wasapy: '写真を表示: 案内所のわさぴー',
   },
   en: {
     story: 'Scenes from Okutama',
     spot: 'Photos of the Okutama Tourism Office',
-    gelato: 'Show photo: Wasabi gelato at the office',
+    wasapy: 'Show photo: Wasapy at the office',
   },
   'zh-TW': {
     story: '奧多摩風景',
     spot: '奧多摩遊客服務中心照片',
-    gelato: '顯示照片: 服務中心的山葵義式冰淇淋',
+    wasapy: '顯示照片: 服務中心的Wasapy',
   },
 };
 
@@ -194,10 +194,10 @@ for (const locale of ['ja', 'en', 'zh-TW'] as const) {
           const gallery = page.getByRole('region', {
             name: FIELDWORK_GALLERY_COPY[locale].spot,
           });
-          const gelato = gallery.getByRole('button', {
-            name: FIELDWORK_GALLERY_COPY[locale].gelato,
+          const wasapy = gallery.getByRole('button', {
+            name: FIELDWORK_GALLERY_COPY[locale].wasapy,
           });
-          await expect(gallery.getByRole('button')).toHaveCount(4);
+          await expect(gallery.getByRole('button')).toHaveCount(3);
           await expect
             .poll(() =>
               gallery.locator('img').evaluateAll((images) =>
@@ -205,8 +205,8 @@ for (const locale of ['ja', 'en', 'zh-TW'] as const) {
               ),
             )
             .toBe(true);
-          await gelato.click();
-          await expect(gelato).toHaveAttribute('aria-pressed', 'true');
+          await wasapy.click();
+          await expect(wasapy).toHaveAttribute('aria-pressed', 'true');
         }
         await assertNoHorizontalOverflow(page);
       });

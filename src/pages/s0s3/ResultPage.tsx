@@ -76,7 +76,11 @@ function resultStoryCta(template: string, foodCultureName: string): string {
  */
 function storyHref(foodCultureId: string, candidateId: string, isReopen: boolean): string {
   const params = new URLSearchParams();
-  if (isReopen) params.set('backTo', '/mogu');
+  // Carry the default explicitly as well as the MOGU override. Route Back
+  // reconstructs this canonical Story href, so keeping both directions byte-
+  // equivalent lets the journey scroll manager restore the exact article
+  // position instead of treating the return as a new URL.
+  params.set('backTo', isReopen ? '/mogu' : '/explore/result');
   params.set('candidateId', candidateId);
   return `/story/${foodCultureId}?${params.toString()}`;
 }

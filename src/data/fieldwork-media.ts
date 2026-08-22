@@ -8,12 +8,9 @@
  */
 import type { Locale } from '../i18n';
 import hikawaBridge from '../assets/fieldwork/okutama/hikawa-bridge.jpg';
-import hikawaRiver from '../assets/fieldwork/okutama/hikawa-river.jpg';
 import hikawaValley from '../assets/fieldwork/okutama/hikawa-valley.jpg';
-import okutamaStation from '../assets/fieldwork/okutama/okutama-station.jpg';
 import tourismOffice from '../assets/fieldwork/okutama/tourism-office.jpg';
 import tourismOfficeStamps from '../assets/fieldwork/okutama/tourism-office-stamps.jpg';
-import tourismOfficeWasabiGelato from '../assets/fieldwork/okutama/tourism-office-wasabi-gelato.jpg';
 import tourismOfficeWasapy from '../assets/fieldwork/okutama/tourism-office-wasapy.jpg';
 
 export type LocalizedMediaText = Readonly<Record<Locale, string>>;
@@ -54,20 +51,12 @@ export const FIELDWORK_GALLERY_COPY = {
 
 export const OKUTAMA_STORY_MEDIA: readonly FieldworkMedia[] = [
   {
-    id: 'okutama-station',
-    src: okutamaStation,
-    title: copy('奥多摩駅', 'Okutama Station', '奧多摩站'),
-    alt: copy('山あいに立つJR奥多摩駅', 'JR Okutama Station among the mountains', '座落山間的JR奧多摩站'),
-    caption: copy('旅の入口、JR奥多摩駅', 'JR Okutama Station, the journey\'s starting point', '旅程入口：JR奧多摩站'),
-    originalFilename: '駅.JPG',
-  },
-  {
-    id: 'okutama-river',
-    src: hikawaRiver,
-    title: copy('川辺の風景', 'Riverside', '河畔風景'),
-    alt: copy('奥多摩で出会った川と森の風景', 'A river and forest scene encountered in Okutama', '在奧多摩遇見的河川與森林風景'),
-    caption: copy('奥多摩で出会った川辺の風景', 'A riverside scene encountered in Okutama', '在奧多摩遇見的河畔風景'),
-    originalFilename: '川.JPG',
+    id: 'okutama-valley',
+    src: hikawaValley,
+    title: copy('奥多摩の谷あい', 'Okutama valley', '奧多摩山谷'),
+    alt: copy('川と山が続く奥多摩の風景', 'Okutama landscape with river and mountains', '河川與山巒延伸的奧多摩風景'),
+    caption: copy('川と山が続く奥多摩の谷あい', 'A valley shaped by Okutama’s river and mountains', '河川與山巒交織的奧多摩山谷'),
+    originalFilename: '川2.JPG',
   },
   {
     id: 'okutama-bridge',
@@ -76,6 +65,14 @@ export const OKUTAMA_STORY_MEDIA: readonly FieldworkMedia[] = [
     alt: copy('奥多摩で出会った橋と森の風景', 'A bridge and forest scene encountered in Okutama', '在奧多摩遇見的橋與森林風景'),
     caption: copy('橋を渡り、土地の風景へ', 'Crossing into the landscape', '越過橋，走進地方風景'),
     originalFilename: '橋.JPG',
+  },
+  {
+    id: 'okutama-tourism-office',
+    src: tourismOffice,
+    title: copy('奥多摩観光案内所', 'Okutama Tourism Office', '奧多摩遊客服務中心'),
+    alt: copy('奥多摩観光案内所の内観', 'Inside the Okutama Tourism Office', '奧多摩遊客服務中心內部'),
+    caption: copy('旅の情報に出会う、奥多摩観光案内所', 'Local context for the journey at the tourism office', '在奧多摩遊客服務中心認識旅程資訊'),
+    originalFilename: '案内所_様子.JPG',
   },
 ] as const;
 
@@ -112,14 +109,6 @@ export const OKUTAMA_TOURISM_OFFICE_MEDIA: readonly FieldworkMedia[] = [
     alt: copy('奥多摩観光案内所のわさぴー', 'Wasapy at the Okutama Tourism Office', '奧多摩遊客服務中心的Wasapy'),
     caption: copy('東京わさびをモチーフにした「わさぴー」', 'Wasapy, a character inspired by Tokyo wasabi', '以東京山葵為靈感的角色「Wasapy」'),
     originalFilename: '案内所_わさび.JPG',
-  },
-  {
-    id: 'tourism-office-wasabi-gelato',
-    src: tourismOfficeWasabiGelato,
-    title: copy('案内所のわさびジェラート', 'Wasabi gelato at the office', '服務中心的山葵義式冰淇淋'),
-    alt: copy('案内所で提供される奥多摩わさびジェラート', 'Okutama wasabi gelato offered at the tourism office', '服務中心提供的奧多摩山葵義式冰淇淋'),
-    caption: copy('案内所で出会える奥多摩わさびジェラート', 'Okutama wasabi gelato found at the tourism office', '在服務中心遇見的奧多摩山葵義式冰淇淋'),
-    originalFilename: '案内所_わさびジェラート.JPG',
   },
 ] as const;
 
