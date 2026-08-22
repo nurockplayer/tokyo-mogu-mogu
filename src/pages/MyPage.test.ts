@@ -14,6 +14,8 @@ import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import type { FoodProfile } from '../lib/food-profile';
+import { foodProfileSummaryState } from './my-food-profile';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const myPageSource = readFileSync(resolve(here, 'MyPage.tsx'), 'utf8');
@@ -25,5 +27,26 @@ describe('My Food Profile edit CTA (#81)', () => {
     expect(myPageSource).toMatch(/<Link\s+to="\/food-profile\/edit"/);
     // Guard against a regression to the view route.
     expect(myPageSource).not.toMatch(/<Link\s+to="\/food-profile"\s/);
+  });
+});
+
+describe('My Food Profile summary state (P1-04)', () => {
+  const base: FoodProfile = {
+    dietary: [],
+    dietaryOther: '',
+    hasNoRestrictions: false,
+    savedAt: '2026-08-22T00:00:00.000Z',
+    version: 1,
+  };
+
+  it('distinguishes restrictions, explicit none, guided-neutral, and no profile', () => {
+    expect(foodProfileSummaryState({ ...base, dietary: ['allergy'] })).toBe(
+      'restrictions-recorded',
+    );
+    expect(foodProfileSummaryState({ ...base, hasNoRestrictions: true })).toBe(
+      'no-restrictions',
+    );
+    expect(foodProfileSummaryState(base)).toBe('not-evaluated');
+    expect(foodProfileSummaryState(null)).toBe('missing');
   });
 });

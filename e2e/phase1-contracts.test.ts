@@ -294,6 +294,47 @@ test.describe('Phase 1 Figma departure × travel-time choices (ja, 375px)', () =
 test.describe('Phase 2 Food Profile edit surface (ja, 375px)', () => {
   test.use({ locale: 'ja-JP' });
 
+  test('My renders all three dietary states truthfully and re-enters edit', async ({ page }) => {
+    await page.goto('/');
+    await resetDemoState(page);
+
+    const states = [
+      {
+        profile: { dietary: ['allergy'], dietaryOther: '', hasNoRestrictions: false },
+        expected: 'アレルギーあり',
+      },
+      {
+        profile: { dietary: [], dietaryOther: '', hasNoRestrictions: true },
+        expected: '制限はありません',
+      },
+      {
+        profile: { dietary: [], dietaryOther: '', hasNoRestrictions: false },
+        expected: '食事条件は未評価（デモのプロトタイプでは評価しません）',
+      },
+    ] as const;
+
+    for (const { profile, expected } of states) {
+      await page.evaluate(
+        ([key, value]) => localStorage.setItem(key, JSON.stringify(value)),
+        [
+          FOOD_PROFILE_KEY,
+          {
+            ...profile,
+            savedAt: '2026-08-22T00:00:00.000Z',
+            version: 1,
+          },
+        ] as const,
+      );
+      await page.goto('/my');
+      await expect(page.getByText(expected, { exact: true })).toBeVisible();
+      await expect(page.getByText('まだフードプロフィールがありません')).toHaveCount(0);
+    }
+
+    await page.getByRole('link', { name: '編集する' }).click();
+    await page.waitForURL('**/food-profile/edit');
+    await expect(page.getByText('まず、食物アレルギーはありますか？')).toBeVisible();
+  });
+
   test('retains the full durable dietary categories with unselected yes/no until answered', async ({
     page,
   }) => {

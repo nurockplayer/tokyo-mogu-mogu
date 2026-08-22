@@ -24,6 +24,7 @@ import { loadSavedRoutes, unsaveRoute, type SavedRouteEntry } from '../lib/saved
 import { loadFoodProfile } from '../lib/food-profile-storage';
 import type { DietaryRestriction } from '../lib/food-profile';
 import { buildEntries, durationLabel, routeAreaLabel } from './MyRoutePage';
+import { foodProfileSummaryState } from './my-food-profile';
 import './MyPage.css';
 
 /** Dietary restriction → i18n label key (kept in sync with FoodProfilePage). */
@@ -158,17 +159,18 @@ function FoodProfileSummary() {
   if (!profile) {
     return <p className="my-card__desc">{t('myFoodProfileNone')}</p>;
   }
-  if (profile.hasNoRestrictions) {
+  const state = foodProfileSummaryState(profile);
+  if (state === 'no-restrictions') {
     return <p className="my-card__desc">{t('fpNoRestrictions')}</p>;
+  }
+  if (state === 'not-evaluated') {
+    return <p className="my-card__desc">{t('fpNotEvaluated')}</p>;
   }
   const items: string[] = profile.dietary.map(
     (value: DietaryRestriction) => t(DIETARY_LABEL_KEY[value]),
   );
   if (profile.dietaryOther.trim().length > 0) {
     items.push(profile.dietaryOther);
-  }
-  if (items.length === 0) {
-    return <p className="my-card__desc">{t('myFoodProfileNone')}</p>;
   }
   return (
     <ul className="my-profile-list">
