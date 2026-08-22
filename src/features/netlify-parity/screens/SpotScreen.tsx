@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import type { Locale } from '../../../i18n';
 import { BottomNavigation } from '../components/BottomNavigation';
 import { referenceAssets, type ReferenceCopy, type SpotPresentation } from '../content';
-import { BackIcon, ClockIcon, InformationIcon, TrainIcon } from './screenIcons';
+import { BackIcon, BookmarkIcon, ClockIcon, InformationIcon, TrainIcon } from './screenIcons';
 
 const tagColors = ['#8FAE5C', '#F0A24C', '#5D9BEF', '#F2879B', '#5E7239'];
 
@@ -74,8 +74,10 @@ export interface SpotScreenProps {
   copy: ReferenceCopy;
   locale: Locale;
   spot: SpotPresentation;
+  saved?: boolean;
   onBack: () => void;
   onOpenGuide?: (spot: SpotPresentation) => void;
+  onToggleSaved?: (spot: SpotPresentation) => void;
   onNavigate: (path: string) => void;
 }
 
@@ -84,8 +86,10 @@ export function SpotScreen({
   copy,
   locale,
   spot,
+  saved = false,
   onBack,
   onOpenGuide,
+  onToggleSaved,
   onNavigate,
 }: SpotScreenProps) {
   const photos = [spot.imageAssetId, ...spot.thumbnailAssetIds];
@@ -123,7 +127,17 @@ export function SpotScreen({
       </button>
       <div className="scroll">
         <div className="spot-hero">
-          <span className="bkm" aria-hidden="true" />
+          <button
+            className={`bkm${saved ? ' saved' : ''}`}
+            onClick={() => onToggleSaved?.(spot)}
+            type="button"
+            aria-label={saved
+              ? locale === 'ja' ? 'お気に入りから削除' : locale === 'zh-TW' ? '從收藏移除' : 'Remove from favorites'
+              : locale === 'ja' ? 'お気に入りに保存' : locale === 'zh-TW' ? '儲存至收藏' : 'Save to favorites'}
+            aria-pressed={saved}
+          >
+            <BookmarkIcon />
+          </button>
           <img src={referenceAssets[photos[photoIndex] ?? spot.imageAssetId]} alt={localized.name} />
         </div>
         <div className="thumbs" aria-label={`${localized.name} photos`}>

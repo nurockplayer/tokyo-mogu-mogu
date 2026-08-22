@@ -46,6 +46,65 @@ const editCopy: Record<Locale, { intro: string; returnToMy: string }> = {
   },
 };
 
+const inputModalCopy: Record<
+  Locale,
+  {
+    nameLabel: string;
+    nameSuffix: string;
+    otherLabel: string;
+    confirm: string;
+  }
+> = {
+  ja: {
+    nameLabel: '私は...',
+    nameSuffix: 'です',
+    otherLabel: '食材を入力してください',
+    confirm: '確定',
+  },
+  en: {
+    nameLabel: 'My name is...',
+    nameSuffix: '.',
+    otherLabel: 'Enter an ingredient',
+    confirm: 'Confirm',
+  },
+  'zh-TW': {
+    nameLabel: '我是...',
+    nameSuffix: '。',
+    otherLabel: '請輸入食材',
+    confirm: '確定',
+  },
+};
+
+interface ProfileInputModalProps {
+  label: string;
+  children: ReactNode;
+  onSubmit: (event: FormEvent) => void;
+  submitLabel: string;
+}
+
+function ProfileInputModal({
+  label,
+  children,
+  onSubmit,
+  submitLabel,
+}: ProfileInputModalProps) {
+  return (
+    <div className="profile-input-modal">
+      <form
+        className="profile-input-card"
+        role="dialog"
+        aria-modal="true"
+        aria-label={label}
+        onSubmit={onSubmit}
+      >
+        <span className="profile-input-label">{label}</span>
+        {children}
+        <button className="btn orange" type="submit">{submitLabel}</button>
+      </form>
+    </div>
+  );
+}
+
 function BreakText({ value }: { value: string }) {
   const parts = value.split('<br>');
   return (
@@ -131,6 +190,7 @@ function profileSummaryLines(
 
 interface QuestionBubbleProps {
   copy: ReferenceCopy;
+  locale: Locale;
   entry: ConversationEntry;
   state: FoodProfileConversationState;
   onToggle: (value: string) => void;
@@ -141,6 +201,7 @@ interface QuestionBubbleProps {
 
 function QuestionBubble({
   copy,
+  locale,
   entry,
   state,
   onToggle,
@@ -231,15 +292,21 @@ function QuestionBubble({
           ) : null}
         </div>
         {isCurrent && state.otherInputOpen ? (
-          <form className="other-row" onSubmit={addOther}>
-            <input
-              ref={otherInputRef}
-              value={otherValue}
-              onChange={(event) => setOtherValue(event.target.value)}
-              placeholder={copy.profile.otherPlaceholder}
-            />
-            <button type="submit">{copy.profile.add}</button>
-          </form>
+          <ProfileInputModal
+            label={inputModalCopy[locale].otherLabel}
+            onSubmit={addOther}
+            submitLabel={inputModalCopy[locale].confirm}
+          >
+            <div className="profile-other-field">
+              <input
+                ref={otherInputRef}
+                value={otherValue}
+                onChange={(event) => setOtherValue(event.target.value)}
+                placeholder={copy.profile.otherPlaceholder}
+                aria-label={inputModalCopy[locale].otherLabel}
+              />
+            </div>
+          </ProfileInputModal>
         ) : null}
         {isCurrent ? (
           <button
@@ -355,6 +422,7 @@ export function FoodProfileConversation({
               <QuestionBubble
                 key={entry.id}
                 copy={copy}
+                locale={locale}
                 entry={entry}
                 state={state}
                 onToggle={(value) => dispatch({ type: 'TOGGLE_OPTION', value })}
@@ -437,22 +505,28 @@ export function FoodProfileConversation({
         ) : null}
 
         {state.phase === 'name' ? (
-          <form className="name-input" onSubmit={submitName}>
-            <input
-              ref={nameInputRef}
-              value={nameValue}
-              onChange={(event) => {
-                setNameValue(event.target.value);
-                setNameInvalid(false);
-              }}
-              placeholder={copy.profile.nicknamePlaceholder}
-              aria-invalid={nameInvalid}
-              aria-label={copy.profile.nicknamePlaceholder}
-              title={nameInvalid ? copy.profile.nameError : undefined}
-              style={nameInvalid ? { borderColor: '#F05B5B' } : undefined}
-            />
-            <button className="glow" type="submit">{copy.actions.submitName}</button>
-          </form>
+          <ProfileInputModal
+            label={inputModalCopy[locale].nameLabel}
+            onSubmit={submitName}
+            submitLabel={copy.actions.submitName}
+          >
+            <div className="profile-name-sentence">
+              <input
+                ref={nameInputRef}
+                value={nameValue}
+                onChange={(event) => {
+                  setNameValue(event.target.value);
+                  setNameInvalid(false);
+                }}
+                placeholder={copy.profile.nicknamePlaceholder}
+                aria-invalid={nameInvalid}
+                aria-label={copy.profile.nicknamePlaceholder}
+                title={nameInvalid ? copy.profile.nameError : undefined}
+                style={nameInvalid ? { borderColor: '#F05B5B' } : undefined}
+              />
+              <span>{inputModalCopy[locale].nameSuffix}</span>
+            </div>
+          </ProfileInputModal>
         ) : null}
       </div>
     </section>

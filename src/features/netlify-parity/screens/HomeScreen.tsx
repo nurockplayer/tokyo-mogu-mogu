@@ -27,8 +27,10 @@ interface HomeScreenProps {
   copy: ReferenceCopy;
   locale: Locale;
   nickname: string;
+  favoriteJourneyIds?: readonly string[];
   onNavigate: (path: string) => void;
   onOpenJourney: (journey: JourneyPresentation) => void;
+  onToggleFavorite: (journey: JourneyPresentation) => void;
   onStartExploration: () => void;
 }
 
@@ -54,8 +56,10 @@ export function HomeScreen({
   copy,
   locale,
   nickname,
+  favoriteJourneyIds = [],
   onNavigate,
   onOpenJourney,
+  onToggleFavorite,
   onStartExploration,
 }: HomeScreenProps) {
   return (
@@ -90,30 +94,35 @@ export function HomeScreen({
           <div>
             {demoJourneys.map((journey, index) => {
               const card = homeJourneyCards[locale][index] ?? journey.copy[locale];
+              const favorite = favoriteJourneyIds.includes(journey.id);
               return (
-                <article
-                  className="trip-card"
-                  key={journey.id}
-                  onClick={() => onOpenJourney(journey)}
-                  role="button"
-                  tabIndex={active ? 0 : -1}
-                  onKeyDown={(event) => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                      event.preventDefault();
-                      onOpenJourney(journey);
-                    }
-                  }}
-                >
-                  <div className="ph">
-                    <img src={index === 0 ? referenceAssets.river : referenceAssets.valley} alt="" />
-                    <span className="bk">
+                <article className="trip-card" key={journey.id}>
+                  <button
+                    className="trip-card-open"
+                    onClick={() => onOpenJourney(journey)}
+                    tabIndex={active ? 0 : -1}
+                    type="button"
+                  >
+                    <div className="ph">
+                      <img src={index === 0 ? referenceAssets.river : referenceAssets.valley} alt="" />
+                    </div>
+                    <div className="tx">
+                      <b>{card.title}</b>
+                      <p>{card.description}</p>
+                    </div>
+                  </button>
+                  <button
+                    className={`bk${favorite ? ' saved' : ''}`}
+                    onClick={() => onToggleFavorite(journey)}
+                    tabIndex={active ? 0 : -1}
+                    type="button"
+                    aria-label={favorite
+                      ? locale === 'ja' ? 'お気に入りから削除' : locale === 'zh-TW' ? '從收藏移除' : 'Remove from favorites'
+                      : locale === 'ja' ? 'お気に入りに保存' : locale === 'zh-TW' ? '儲存至收藏' : 'Save to favorites'}
+                    aria-pressed={favorite}
+                  >
                       <BookmarkIcon />
-                    </span>
-                  </div>
-                  <div className="tx">
-                    <b>{card.title}</b>
-                    <p>{card.description}</p>
-                  </div>
+                  </button>
                 </article>
               );
             })}

@@ -69,6 +69,39 @@ function profileSummary(profile: FoodProfile | null, locale: 'ja' | 'en' | 'zh-T
   return lines;
 }
 
+interface ReferenceFavorites {
+  journeyIds: string[];
+  spotIds: string[];
+}
+
+const REFERENCE_FAVORITES_KEY = 'tmm:figmaFavorites:v1';
+
+function loadReferenceFavorites(): ReferenceFavorites {
+  try {
+    const value: unknown = JSON.parse(localStorage.getItem(REFERENCE_FAVORITES_KEY) ?? '{}');
+    if (!value || typeof value !== 'object') return { journeyIds: [], spotIds: [] };
+    const record = value as Record<string, unknown>;
+    return {
+      journeyIds: Array.isArray(record.journeyIds)
+        ? record.journeyIds.filter((id): id is string => typeof id === 'string')
+        : [],
+      spotIds: Array.isArray(record.spotIds)
+        ? record.spotIds.filter((id): id is string => typeof id === 'string')
+        : [],
+    };
+  } catch {
+    return { journeyIds: [], spotIds: [] };
+  }
+}
+
+function saveReferenceFavorites(value: ReferenceFavorites) {
+  try {
+    localStorage.setItem(REFERENCE_FAVORITES_KEY, JSON.stringify(value));
+  } catch {
+    // Accountless demo persistence can safely degrade when storage is unavailable.
+  }
+}
+
 export function ReferenceApp() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -87,6 +120,7 @@ export function ReferenceApp() {
   const [routeBack, setRouteBack] = useState('/story/wasabi-okutama');
   const [spotBack, setSpotBack] = useState('/route');
   const [savedRouteIds, setSavedRouteIds] = useState(() => loadSavedRoutes().map((entry) => entry.routeId));
+  const [favorites, setFavorites] = useState<ReferenceFavorites>(loadReferenceFavorites);
   const [toast, setToast] = useState('');
   const pathJourney = journeyForStoryPath(location.pathname);
   const queryJourney = journeyForSearch(location.search);
@@ -94,8 +128,14 @@ export function ReferenceApp() {
   const shownJourney = pathJourney ?? currentJourney;
   const routeJourney = queryJourney ?? currentJourney;
   const savedJourneys = useMemo(
-    () => demoJourneys.filter((journey) => savedRouteIds.includes(journey.routeId)),
-    [savedRouteIds],
+    () => demoJourneys.filter(
+      (journey) => savedRouteIds.includes(journey.routeId) || favorites.journeyIds.includes(journey.id),
+    ),
+    [favorites.journeyIds, savedRouteIds],
+  );
+  const savedSpots = useMemo(
+    () => Object.values(demoSpots).filter((spot) => favorites.spotIds.includes(spot.id)),
+    [favorites.spotIds],
   );
 
   useEffect(() => {
@@ -152,6 +192,36 @@ export function ReferenceApp() {
     const next = saveRoute(routeJourney.routeId);
     setSavedRouteIds(next.map((entry) => entry.routeId));
     setToast(locale === 'ja' ? 'マイルートに保存しました！' : locale === 'zh-TW' ? '已儲存到我的路線！' : 'Saved to My Routes!');
+  };
+
+  const toggleJourneyFavorite = (journey: JourneyPresentation) => {
+    const removing = favorites.journeyIds.includes(journey.id);
+    const next = {
+      ...favorites,
+      journeyIds: removing
+        ? favorites.journeyIds.filter((id) => id !== journey.id)
+        : [...favorites.journeyIds, journey.id],
+    };
+    setFavorites(next);
+    saveReferenceFavorites(next);
+    setToast(removing
+      ? locale === 'ja' ? 'お気に入りから削除しました' : locale === 'zh-TW' ? '已從收藏移除' : 'Removed from favorites'
+      : locale === 'ja' ? 'お気に入りに保存しました！' : locale === 'zh-TW' ? '已儲存至收藏！' : 'Saved to favorites!');
+  };
+
+  const toggleSpotFavorite = (spot: SpotPresentation) => {
+    const removing = favorites.spotIds.includes(spot.id);
+    const next = {
+      ...favorites,
+      spotIds: removing
+        ? favorites.spotIds.filter((id) => id !== spot.id)
+        : [...favorites.spotIds, spot.id],
+    };
+    setFavorites(next);
+    saveReferenceFavorites(next);
+    setToast(removing
+      ? locale === 'ja' ? 'スポットをお気に入りから削除しました' : locale === 'zh-TW' ? '已從收藏移除景點' : 'Spot removed from favorites'
+      : locale === 'ja' ? 'スポットをお気に入りに保存しました！' : locale === 'zh-TW' ? '已將景點儲存至收藏！' : 'Spot saved to favorites!');
   };
 
   const shareCurrentRoute = async () => {
@@ -227,8 +297,10 @@ export function ReferenceApp() {
           copy={copy}
           locale={locale}
           nickname={nickname}
+          favoriteJourneyIds={favorites.journeyIds}
           onNavigate={navigate}
           onOpenJourney={openJourney}
+          onToggleFavorite={toggleJourneyFavorite}
           onStartExploration={() => {
             dispatchExploration({ type: 'OPEN' });
             navigate('/explore');
@@ -253,7 +325,6 @@ export function ReferenceApp() {
             navigate('/explore');
           }}
           onOpenJourney={openJourney}
-          onNavigate={navigate}
         />
         <StoryScreen
           active={isStory}
@@ -286,15 +357,16 @@ export function ReferenceApp() {
             persistCurrentRoute();
             navigate('/my-route');
           }}
-          onNavigate={navigate}
         />
         <SpotScreen
           active={isSpot}
           copy={copy}
           locale={locale}
           spot={currentSpot}
+          saved={favorites.spotIds.includes(currentSpot.id)}
           onBack={() => navigate(queryJourney ? `/route${location.search}` : spotBack)}
           onOpenGuide={() => setToast(locale === 'ja' ? '外部サイトへ（プロトタイプ）' : locale === 'zh-TW' ? '前往外部網站（原型）' : 'External site (prototype)')}
+          onToggleSaved={toggleSpotFavorite}
           onNavigate={navigate}
         />
         <MoguScreen
@@ -309,7 +381,9 @@ export function ReferenceApp() {
           copy={copy}
           locale={locale}
           savedJourneys={savedJourneys}
+          savedSpots={savedSpots}
           onOpenJourney={openJourney}
+          onOpenSpot={openSpot}
           onNavigate={navigate}
         />
         <MyScreen

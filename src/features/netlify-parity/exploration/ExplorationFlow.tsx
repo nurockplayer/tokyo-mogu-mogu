@@ -158,8 +158,9 @@ export function ExplorationFlow({
     () => departureIds.map((id, index) => ({ id, label: copy.exploration.departureSuggestions[index] ?? id })),
     [copy],
   );
+  const normalizedSearch = search.trim().toLocaleLowerCase(locale);
   const filteredDepartures = departures.filter(({ label }) =>
-    !search.trim() || label.toLocaleLowerCase(locale).includes(search.trim().toLocaleLowerCase(locale)),
+    normalizedSearch && label.toLocaleLowerCase(locale).includes(normalizedSearch),
   );
   const defaultDeparture = locale === 'ja' ? '東京都' : locale === 'zh-TW' ? '東京都' : 'Tokyo';
   const selectedDeparture = state.answers.departure === 'tokyo'
@@ -175,6 +176,7 @@ export function ExplorationFlow({
 
   const closeDepartureDialog = () => {
     setModalOpen(false);
+    setSearch('');
     window.requestAnimationFrame(() => departureButtonRef.current?.focus());
   };
 
@@ -365,7 +367,7 @@ export function ExplorationFlow({
 
   return (
     <section
-      className={`reference-screen${active ? ' on' : ''}`}
+      className={`reference-screen${active ? ' on' : ''}${modalOpen ? ' departure-modal-open' : ''}`}
       data-screen="explore"
       data-screen-active={active}
       aria-hidden={!active}
@@ -440,20 +442,22 @@ export function ExplorationFlow({
             />
           </div>
           <ul className="sug">
-            {filteredDepartures.length > 0 ? filteredDepartures.map(({ id, label }) => (
-              <li key={id}>
-                <button
-                  onClick={() => {
-                    dispatch({ type: 'SELECT_DEPARTURE', value: id });
-                    closeDepartureDialog();
-                  }}
-                  type="button"
-                >
-                  <span className="gpin"><PinIcon muted /></span>
-                  <span>{label}</span>
-                </button>
-              </li>
-            )) : <li>{copy.exploration.noDepartureResults}</li>}
+            {normalizedSearch ? (
+              filteredDepartures.length > 0 ? filteredDepartures.map(({ id, label }) => (
+                <li key={id}>
+                  <button
+                    onClick={() => {
+                      dispatch({ type: 'SELECT_DEPARTURE', value: id });
+                      closeDepartureDialog();
+                    }}
+                    type="button"
+                  >
+                    <span className="gpin"><PinIcon muted /></span>
+                    <span>{label}</span>
+                  </button>
+                </li>
+              )) : <li>{copy.exploration.noDepartureResults}</li>
+            ) : null}
           </ul>
         </div>
       </div>
