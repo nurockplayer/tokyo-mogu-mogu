@@ -257,6 +257,12 @@ function ExplorationWizardInner() {
   // render is skipped so the initial question does not scroll past the greeting.
   const activeTurnRef = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true);
+  // Route transitions preserve the Food Profile transcript's scroll position.
+  // Start Exploration at its own top so the fixed 44px demo reset cannot cover
+  // the first actionable turn.
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }, []);
   useEffect(() => {
     if (firstRender.current) {
       firstRender.current = false;

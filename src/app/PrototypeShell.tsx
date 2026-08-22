@@ -38,8 +38,8 @@ export function PrototypeShell() {
     location.pathname.startsWith('/spot/');
 
   return (
-    <div className={`tmm-shell tmm-prototype${showNav ? ' tmm-prototype--nav' : ''}`}>
-      <header className="tmm-prototype__bar">
+    <div className={`tmm-shell tmm-prototype tmm-prototype--figma${showNav ? ' tmm-prototype--nav' : ''}`}>
+      <header className="tmm-prototype__bar" aria-label={t('appName')}>
         <Link to="/" className="tmm-header__logo">
           {t('appName')}
         </Link>

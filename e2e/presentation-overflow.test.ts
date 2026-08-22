@@ -54,6 +54,34 @@ async function assertNoHorizontalOverflow(page: Page): Promise<void> {
   ).toBeLessThanOrEqual(clientWidth);
 }
 
+/** The Figma Route bar stays a 53px, single-line mobile control in every locale. */
+async function assertStableRouteHeader(page: Page): Promise<void> {
+  const header = page.locator('.s5-figma-header');
+  const title = header.locator('p');
+  const back = header.locator('.s5-figma-header__back');
+  const reset = page.locator('.demo-reset');
+
+  await expect(header).toBeVisible();
+  await expect(back).toHaveCount(1);
+  await expect(title).toHaveCSS('white-space', 'nowrap');
+
+  const [headerBox, backBox, titleBox, resetBox, titleMetrics] = await Promise.all([
+    header.boundingBox(),
+    back.boundingBox(),
+    title.boundingBox(),
+    reset.boundingBox(),
+    title.evaluate((element) => ({
+      clientHeight: element.clientHeight,
+      scrollHeight: element.scrollHeight,
+    })),
+  ]);
+  expect(headerBox?.height).toBe(53);
+  expect(backBox?.width).toBeGreaterThanOrEqual(44);
+  expect(backBox?.height).toBeGreaterThanOrEqual(44);
+  expect((titleBox?.x ?? 0) + (titleBox?.width ?? 0)).toBeLessThanOrEqual(resetBox?.x ?? 0);
+  expect(titleMetrics.scrollHeight).toBeLessThanOrEqual(titleMetrics.clientHeight);
+}
+
 /** Localized heading used as a "content rendered" signal on the My screens. */
 const MY_HEADINGS: Record<Locale, { my: string; myRoute: string }> = {
   ja: { my: '保存した旅程', myRoute: 'マイルート' },
@@ -66,6 +94,11 @@ const ROUTE_PATHS: { path: string; label: string; signal: string }[] = [
   {
     path: '/route?from=my&routeId=ome-sawai-sake-journey',
     label: 'Ome/Sawai route',
+    signal: '.s5-timeline',
+  },
+  {
+    path: '/route?from=my&candidateId=demo-tokyo-west-fussa-sake',
+    label: 'Fussa long-label route',
     signal: '.s5-timeline',
   },
 ];
@@ -88,6 +121,7 @@ for (const locale of ['ja', 'en', 'zh-TW'] as const) {
         // not just the URL, so an unrendered page cannot false-pass the measure.
         await page.waitForSelector(signal);
         await assertNoHorizontalOverflow(page);
+        await assertStableRouteHeader(page);
       });
     }
 
