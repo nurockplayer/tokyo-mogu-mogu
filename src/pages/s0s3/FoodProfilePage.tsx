@@ -183,17 +183,28 @@ export function toggleInterviewAnswer(current: readonly string[], value: string)
 }
 
 /**
- * Update one interview answer without retaining contradictory free text.
- * Choosing `none` means the whole question is explicitly clear, including a
- * stale Other value entered before navigating back to that question.
+ * Update one interview question without retaining contradictory state.
+ * Choosing `none` clears stale Other text; committing nonempty Other text
+ * clears `none` so the summary and durable profile have one meaning.
  */
 export function updateInterviewAnswer(
   answers: InterviewAnswers,
   questionIndex: number,
-  value: string,
+  update: string | { other: string },
 ): InterviewAnswers {
-  const selection = toggleInterviewAnswer(answers[questionIndex] ?? [], value);
-  const clearsOther = value === 'none' && selection.includes('none');
+  const current = answers[questionIndex] ?? [];
+  if (typeof update !== 'string') {
+    return {
+      ...answers,
+      [questionIndex]: update.other.trim()
+        ? current.filter((value) => value !== 'none')
+        : current,
+      other: { ...answers.other, [questionIndex]: update.other },
+    };
+  }
+
+  const selection = toggleInterviewAnswer(current, update);
+  const clearsOther = update === 'none' && selection.includes('none');
   return {
     ...answers,
     [questionIndex]: selection,
@@ -706,10 +717,9 @@ export function FoodProfilePage({ mode = 'view' }: { mode?: 'view' | 'edit' }) {
               });
             }}
             onOtherChange={(value) => {
-              setInterviewAnswers((prev) => ({
-                ...prev,
-                other: { ...prev.other, [step - SETUP_INTERVIEW_FIRST]: value },
-              }));
+              setInterviewAnswers((prev) =>
+                updateInterviewAnswer(prev, step - SETUP_INTERVIEW_FIRST, { other: value }),
+              );
             }}
             onSend={goNext}
             disabled={advanceLocked}

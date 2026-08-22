@@ -73,6 +73,21 @@ describe('toggleInterviewAnswer — none exclusivity (Issue #224)', () => {
     expect(updated.other[0]).toBe('');
     expect(createFoodProfileFromInterviewAnswers(updated).dietaryOther).toBe('');
   });
+
+  it('clears none before committing a nonempty Other answer', () => {
+    const answers = createEmptyInterviewAnswers();
+    answers[0] = ['none'];
+
+    const updated = updateInterviewAnswer(answers, 0, { other: 'そば' });
+
+    expect(updated[0]).toEqual([]);
+    expect(updated.other[0]).toBe('そば');
+    expect(createFoodProfileFromInterviewAnswers(updated)).toMatchObject({
+      dietary: ['allergy'],
+      dietaryOther: 'そば',
+      hasNoRestrictions: false,
+    });
+  });
 });
 
 describe('interviewSelectionLabels (Issue #224)', () => {

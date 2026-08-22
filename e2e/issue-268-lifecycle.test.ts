@@ -133,4 +133,33 @@ test.describe('Food Profile → repeatable diagnosis lifecycle (#268)', () => {
     expect(stored.dietaryOther).toBe('');
     expect(stored.hasNoRestrictions).toBe(true);
   });
+
+  test('none → Other clears the contradictory none choice before persistence', async ({
+    page,
+  }) => {
+    await startUnrestrictedFirstUse(page);
+
+    const allergy = page.getByTestId('fp-interview-step-0');
+    await allergy.getByRole('button', { name: 'アレルギーはありません' }).click();
+    await allergy.getByRole('button', { name: '✏️ その他' }).click();
+    await page.getByTestId('fp-modal-input').fill('そば');
+    await page.getByRole('button', { name: '確定' }).click();
+
+    for (let step = 1; step < 4; step += 1) {
+      const question = page.getByTestId(`fp-interview-step-${step}`);
+      await question.getByRole('button', { name: '特になし' }).click();
+      await question.getByRole('button', { name: '送信' }).click();
+    }
+
+    await expect(page.getByText('アレルギーはありません')).toHaveCount(0);
+    await page.getByRole('button', { name: '保存してつぎへ' }).click();
+    const stored = await page.evaluate(
+      (key) => JSON.parse(localStorage.getItem(key) ?? 'null'),
+      FOOD_PROFILE_KEY,
+    );
+
+    expect(stored.dietary).toEqual(['allergy']);
+    expect(stored.dietaryOther).toBe('そば');
+    expect(stored.hasNoRestrictions).toBe(false);
+  });
 });
