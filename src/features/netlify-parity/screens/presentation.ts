@@ -1,5 +1,7 @@
 import type { ExplorationAnswers } from '../../../lib/exploration';
 import type { MoguRecentEntry } from '../../../lib/mogu-recent';
+import { foodCultureKey } from '../../../i18n/data-content';
+import type { LocaleKey } from '../../../i18n/resources';
 import type { JourneyPresentation } from '../content';
 
 export const bottomNavigationPaths = {
@@ -21,11 +23,16 @@ export function journeyToMoguRecent(
   journey: JourneyPresentation,
   exploration: ExplorationAnswers,
   hasDietaryConsiderations: boolean,
-): Omit<MoguRecentEntry, 'createdAt'> {
+): Omit<MoguRecentEntry, 'createdAt' | 'titleKey'> & { titleKey: LocaleKey } {
+  const titleKey = foodCultureKey(journey.foodCultureId, 'name');
+  if (!titleKey) {
+    throw new Error(`Missing localized food-culture name for ${journey.foodCultureId}`);
+  }
+
   return {
     candidateId: journey.id,
     resultId: journey.foodCultureId,
-    titleKey: `reference.${journey.id}.title`,
+    titleKey,
     summary: [...journey.copy.ja.tags],
     exploration,
     hasDietaryConsiderations,

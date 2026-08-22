@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { strings } from '../../../i18n/resources';
 import { demoJourneys } from '../content';
 import { createDefaultExplorationAnswers } from '../../../lib/exploration';
 import {
@@ -35,10 +36,28 @@ describe('Issue #276 presentation adapters', () => {
     ).toEqual({
       candidateId: 'demo-okutama-wasabi',
       resultId: 'wasabi-okutama',
-      titleKey: 'reference.demo-okutama-wasabi.title',
+      titleKey: 'dataWasabiName',
       summary: ['自然', '伝統', '半日巡り'],
       exploration: createDefaultExplorationAnswers(),
       hasDietaryConsiderations: true,
     });
+  });
+
+  it('persists only title keys that resolve in every supported locale', () => {
+    const locales = ['ja', 'en', 'zh-TW'] as const;
+
+    for (const journey of demoJourneys) {
+      const recent = journeyToMoguRecent(
+        journey,
+        createDefaultExplorationAnswers(),
+        false,
+      );
+      const titleKey = recent.titleKey;
+
+      for (const locale of locales) {
+        expect(strings[locale][titleKey]).toEqual(expect.any(String));
+        expect(strings[locale][titleKey]).not.toHaveLength(0);
+      }
+    }
   });
 });
