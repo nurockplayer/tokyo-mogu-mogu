@@ -374,7 +374,10 @@ test.describe('Issue #276 authoritative Netlify choreography', () => {
     const remainingUntilEarlyCheck = 300 - (Date.now() - editStartedAt);
     if (remainingUntilEarlyCheck > 0) await page.waitForTimeout(remainingUntilEarlyCheck);
     await expect(editScreen.locator('[data-question-index="0"]')).toHaveCount(0);
-    await expect(editScreen.locator('[data-question-index="0"]')).toBeVisible({ timeout: 350 });
+    await expect(editScreen.locator('[data-question-index="0"]')).toBeVisible({ timeout: 800 });
+    const editQuestionElapsed = Date.now() - editStartedAt;
+    expect(editQuestionElapsed).toBeGreaterThanOrEqual(450);
+    expect(editQuestionElapsed).toBeLessThan(1_300);
     await capture(page, '14-profile-edit-question-ja-375');
 
     for (let questionIndex = 0; questionIndex < 4; questionIndex += 1) {
