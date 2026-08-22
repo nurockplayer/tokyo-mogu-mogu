@@ -1,7 +1,7 @@
 # Issue #270 final Figma + interaction-quality reconciliation
 
-Date: 2026-08-23 JST  
-Base: `origin/main@1797a890a84523e7f49dbe0f231a5c333b68cea3`  
+Date: 2026-08-23 JST
+Base: `origin/main@1797a890a84523e7f49dbe0f231a5c333b68cea3`
 Primary branch: `codex/fix-270-primary-convergence`
 
 This report is the implementation ledger for Issue #270. Product, data,
