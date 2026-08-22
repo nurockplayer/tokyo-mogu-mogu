@@ -7,18 +7,21 @@
  */
 
 :root {
-  --fp-figma-bot: #9dbc64;
-  --fp-figma-question: #b1cf7a;
-  --fp-figma-user: #ffffff;
-  --fp-figma-text: #222222;
-  --fp-figma-primary: #667a47;
-  --fp-figma-selected: #667f37;
-  --fp-figma-send: #e9811d;
+  --fp-figma-bot: var(--tmm-color-leaf);
+  /* Legacy local name. The live #B1CF7A role is specifically the large Food
+     Profile embedded multi-select/send panel; #262 must narrow the selectors
+     below without mixing that screen convergence into #263. */
+  --fp-figma-question: var(--tmm-color-multi-select-panel);
+  --fp-figma-user: var(--tmm-color-card);
+  --fp-figma-text: var(--tmm-color-ink);
+  --fp-figma-primary: var(--tmm-color-forest-visual);
+  --fp-figma-selected: var(--tmm-color-selection);
+  --fp-figma-send: var(--tmm-color-orange-visual);
   --fp-figma-mascot-orange: #e07d23;
-  --fp-figma-welcome-shadow: #3a5509;
 }
 
-/* Conversation history: completed bot turns are the darker sage bubble. */
+/* Standard assistant surface. Live evidence does not encode completed/current
+ * lifecycle with this fill. */
 .fp-chat .fp-convo__msg--assistant .fp-convo__bubble,
 .tmm-result__greeting.fp-convo__msg--assistant .fp-convo__bubble {
   background: var(--fp-figma-bot);
@@ -36,8 +39,9 @@
   font-weight: 400;
 }
 
-/* Food-profile live turn. Plain welcome/summary messages use the bot color;
- * turns with a question line use the lighter interactive-question variant. */
+/* Food-profile compatibility styling. The broad `:has(.fp-convo__q)` selector
+ * predates #263 and over-applies the pale source role; the live role is limited
+ * to the large allergy/religion/dislikes multi-select + send panels. */
 .tmm-food-profile > .fp-convo > .fp-convo__msg--assistant .fp-convo__bubble {
   background: var(--fp-figma-bot);
   border: 0;
@@ -57,8 +61,8 @@
   color: #ffffff;
 }
 
-/* Exploration live turn: all currently interactive question cards use the
- * lighter sage. Completed turns above remain the darker bot bubble. */
+/* Current implementation compatibility only: live Exploration does not use the
+ * pale Food Profile multi-select-panel role. Selector convergence stays #262. */
 .fp-convo__active .fp-convo__msg--assistant .fp-convo__bubble {
   background: var(--fp-figma-question);
   border: 0;
@@ -104,10 +108,12 @@
  * welcome card, whose title/body is followed by the stacked start/browse row. */
 .tmm-food-profile > .fp-convo:has(.fp-convo__title) .fp-convo__choices--stack .tmm-btn--primary {
   background: var(--fp-figma-primary);
-  box-shadow: 0 4px 0 var(--fp-figma-welcome-shadow);
+  box-shadow: var(--tmm-shadow-landing-action);
 }
 
-/* Question-card send/confirm actions are the verified orange with regular text.
+/* Current implementation compatibility: send/confirm actions use the live raw
+ * orange but still carry white text. The #263 contract requires dark ink (or an
+ * equivalently verified treatment); applying that screen delta remains #262.
  * `fp-convo__step` uniquely marks the four dietary interview send buttons;
  * `fp-convo__confirm` is the final Taste + Theme confirmation. */
 .tmm-food-profile > .fp-convo:has(.fp-convo__step) .tmm-btn--primary,
@@ -129,7 +135,7 @@
   display: grid;
   place-items: center;
   padding: 16px;
-  background: rgb(136 136 136 / 69%);
+  background: var(--tmm-color-modal-scrim);
   overscroll-behavior: contain;
 }
 
