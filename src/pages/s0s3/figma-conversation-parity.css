@@ -7,15 +7,14 @@
  */
 
 :root {
-  --fp-figma-bot: #9dbc64;
-  --fp-figma-question: #b1cf7a;
-  --fp-figma-user: #ffffff;
-  --fp-figma-text: #222222;
-  --fp-figma-primary: #667a47;
-  --fp-figma-selected: #667f37;
-  --fp-figma-send: #e9811d;
+  --fp-figma-bot: var(--tmm-color-leaf);
+  --fp-figma-question: var(--tmm-color-question);
+  --fp-figma-user: var(--tmm-color-card);
+  --fp-figma-text: var(--tmm-color-ink);
+  --fp-figma-primary: var(--tmm-color-forest-visual);
+  --fp-figma-selected: var(--tmm-color-selection);
+  --fp-figma-send: var(--tmm-color-orange-visual);
   --fp-figma-mascot-orange: #e07d23;
-  --fp-figma-welcome-shadow: #3a5509;
 }
 
 /* Conversation history: completed bot turns are the darker sage bubble. */
@@ -104,7 +103,7 @@
  * welcome card, whose title/body is followed by the stacked start/browse row. */
 .tmm-food-profile > .fp-convo:has(.fp-convo__title) .fp-convo__choices--stack .tmm-btn--primary {
   background: var(--fp-figma-primary);
-  box-shadow: 0 4px 0 var(--fp-figma-welcome-shadow);
+  box-shadow: var(--tmm-shadow-landing-action);
 }
 
 /* Question-card send/confirm actions are the verified orange with regular text.
@@ -129,7 +128,7 @@
   display: grid;
   place-items: center;
   padding: 16px;
-  background: rgb(136 136 136 / 69%);
+  background: var(--tmm-color-modal-scrim);
   overscroll-behavior: contain;
 }
 

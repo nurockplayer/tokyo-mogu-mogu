@@ -81,8 +81,8 @@
 .tmm-btn--primary {
   background: var(--tmm-color-forest);
   color: var(--tmm-color-card);
-  /* Figma parity: the primary action carries a quiet hard offset in the deep
-     olive (Figma `0 4px 0 #667A47`), read as a tactile candy button. */
+  /* Compatibility default. Live buttons use component-specific hard-shadow
+     roles documented in figma-design-system.md; #262 owns their convergence. */
   box-shadow: 0 3px 0 var(--tmm-color-forest-deep);
 }
 
@@ -301,7 +301,8 @@
   transform: none;
 }
 
-/* Result / food-culture card primitive */
+/* Result / food-culture card compatibility primitive. The live Result media
+   is ~1.455:1 rather than 16:9; #262 owns that surface-specific convergence. */
 .tmm-result-card {
   background: var(--tmm-color-card);
   border: var(--tmm-border);
@@ -713,13 +714,12 @@
   margin-top: var(--tmm-space-2);
 }
 
-/* ---------- Shared header (S0–S9) ---------- */
+/* ---------- Fallback/shared demo header ---------- */
 
 /*
- * Approved header hierarchy (Issue #77): the wordmark logo sits on the left,
- * the locale switch on the right, in the `app-header-top` row; the tagline and
- * the demo controls row live below. The logo is the wordmark text, not a final
- * asset; auth controls stay out of the core header.
+ * This is fallback/demo chrome, not the canonical header for every live-Figma
+ * surface. Exploration/Result/Route use a green band; Story/Spot use a hero
+ * overlay control. See docs/design/figma-design-system.md.
  */
 .tmm-header {
   max-width: var(--tmm-content-max);
@@ -841,7 +841,7 @@
   z-index: 1;
 }
 
-/* ---------- Bottom navigation (Home / Diagnosis / Support / My Route) ---------- */
+/* ---------- Bottom navigation (Home / Discover / MOGU / My) ---------- */
 
 .tmm-nav {
   position: fixed;
@@ -855,7 +855,8 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  /* Figma parity: a solid warm-white bar with a hairline top border. */
+  /* Current compatibility styling. Live node 1:23 is solid white with a
+     #EFEFEF rule and no blur; #262 owns the visual convergence. */
   background: rgb(255 253 246 / 0.94);
   backdrop-filter: blur(10px);
   border-top: var(--tmm-border);

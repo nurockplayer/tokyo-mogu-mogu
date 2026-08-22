@@ -20,6 +20,11 @@ const here = dirname(fileURLToPath(import.meta.url));
 const tokensCss = readFileSync(resolve(here, 'tokens.css'), 'utf8');
 const uiCss = readFileSync(resolve(here, 'ui.css'), 'utf8');
 const uiSource = readFileSync(resolve(here, 'index.tsx'), 'utf8');
+const legacyCss = readFileSync(resolve(here, '../styles.css'), 'utf8');
+const figmaContract = readFileSync(
+  resolve(here, '../../docs/design/figma-design-system.md'),
+  'utf8',
+);
 
 describe('design tokens (#42)', () => {
   it('defines the required palette, spacing, and layout tokens', () => {
@@ -52,6 +57,54 @@ describe('design tokens (#42)', () => {
     }
     // Sanity: ui.css actually references tokens.
     expect(referenced.size).toBeGreaterThan(20);
+  });
+
+  it('keeps live-Figma source roles distinct from accessibility adaptations (#263)', () => {
+    for (const declaration of [
+      '--tmm-color-forest-visual: #667a47',
+      '--tmm-color-forest: #61733f',
+      '--tmm-color-selection: #667f37',
+      '--tmm-color-question: #b1cf7a',
+      '--tmm-color-orange-visual: #e9811d',
+      '--tmm-color-orange: #c44a2c',
+      '--tmm-color-modal-scrim: rgb(136 136 136 / 0.69)',
+      "--tmm-font-body: 'Roboto'",
+      "--tmm-font-accent-rounded: 'M PLUS Rounded 1c'",
+      '--tmm-space-6: 24px',
+      '--tmm-space-7: 32px',
+      '--tmm-gap-chip: 10px',
+      '--tmm-radius-md: 12px',
+      '--tmm-shadow-modal: 0 4px 10px',
+    ]) {
+      expect(tokensCss).toContain(declaration);
+    }
+  });
+
+  it('keeps legacy CSS aliases mapped to the canonical token namespace (#263)', () => {
+    for (const alias of [
+      '--paper: var(--tmm-color-warm)',
+      '--ink: var(--tmm-color-ink)',
+      '--forest: var(--tmm-color-forest)',
+      '--wasabi: var(--tmm-color-leaf)',
+      '--card: var(--tmm-color-card)',
+      '--font-display: var(--tmm-font-display)',
+      '--font-body: var(--tmm-font-body)',
+    ]) {
+      expect(legacyCss).toContain(alias);
+    }
+  });
+
+  it('documents every required Figma audit classification (#263)', () => {
+    for (const classification of [
+      'CONSISTENT_STANDARD',
+      'LIKELY_ACCIDENTAL_DRIFT',
+      'INTENTIONAL_VARIANT',
+      'PRODUCT_OVERRIDE',
+      'ACCESSIBILITY_ADAPTATION',
+      'UNRESOLVED',
+    ]) {
+      expect(figmaContract).toContain(`\`${classification}\``);
+    }
   });
 });
 
