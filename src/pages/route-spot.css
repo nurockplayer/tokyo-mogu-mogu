@@ -434,9 +434,9 @@
 
 .s6-visual-wrap {
   position: relative;
-  margin-left: -16px;
-  margin-right: -16px;
-  margin-bottom: 14px;
+  /* The Spot hero is a true edge-to-edge visual: cancel the shared page's
+     16px top and horizontal gutters, then restore only the content gap. */
+  margin: -16px -16px 14px;
 }
 
 .s6-visual-wrap .pv-visual--hero,
