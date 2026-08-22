@@ -141,14 +141,18 @@ defines them; everything else is listed under
 - Canonical source and accessible engineering roles are defined in
   `docs/design/figma-design-system.md` and `src/ui/tokens.css`: warm `#FFF4E4`,
   white surfaces, ink `#222222`, live forest `#667A47`, selection `#667F37`,
-  leaf `#9DBC64`, active-question `#B1CF7A`, and the documented orange family.
-  Semantic forest/orange text-bearing roles remain AA-hardened where the raw
-  prototype combination fails.
+  leaf `#9DBC64`, multi-select-panel `#B1CF7A`, experience field `#B2D083`,
+  Taste/Theme panel `#F5EEDB` at 80%, and the documented orange family. These
+  greens are component roles, not completed/current conversation states.
+  Semantic text-bearing roles remain AA-hardened where the raw prototype
+  combination fails.
 - Status tones success / warning / danger / info are semantic; they are always
   paired with an icon or label, never color alone (warning/danger/success tags
   carry a glyph).
-- Orange is used as an **accent and primary-action surface** (with white text),
-  never as body text.
+- Orange is used as an **accent and primary-action surface**, never as body
+  text. Preserve the live orange fill with dark ink where that is sufficient
+  for AA; the darker `#C44A2C` is a compatibility fallback for existing
+  white-text controls, not an extracted KiKi action color.
 - **Typography hierarchy**: Roboto is the dominant live family, with CJK
   fallbacks. Shared sizes are 12 / 14 / 16 / 18 / 20 / 22 / 24px. M PLUS
   Rounded is a limited Landing/experience accent; SF Pro is device chrome.
@@ -176,8 +180,14 @@ defaults are implementation state. The live per-component contract in
   the measured component role.
 - **Status / compatibility tags** `.tmm-tag`: pill, tones success / warning /
   danger / info, each with an icon glyph so state never relies on color alone.
-- **Progress**: `.tmm-progress` bar (leaf→forest gradient fill) and
-  `.tmm-steps` step dots (done / current states).
+- **Progress**: `.tmm-progress` and `.tmm-steps` remain generic fallback
+  primitives. The inspected journey instead uses a measured 390 × 84
+  leaf/forest tracker; #262 must implement that role explicitly rather than
+  treating the generic bar as live-Figma proof.
+- **Sticky actions**: Story and the saved state use measured 390 × 73 leaf
+  footers; Route uses a 390 × 155 summary/action footer. Their shared upward
+  separator shadow is distinct from bottom-nav elevation and is canonicalized
+  by #263; implementation remains #262 scope.
 - **State hierarchy** (selected / unselected / disabled / warning) is
   consistent across chips, cards, buttons, and tags: selected = forest fill,
   unselected = card + strong border, disabled = 55% opacity, warning = icon +
@@ -196,8 +206,9 @@ defaults are implementation state. The live per-component contract in
   bubbles, right-aligned user replies, chip/action bubbles, and a measured
   307px modal/input state. Dietary input remains recommendation-only.
 - Exploration uses one question per state plus measured experience cards,
-  centered 280px choices, Taste + Theme chips, Back/Next actions, and progress.
-  The component geometry is resolved in the Issue #263 extraction.
+  centered 280px choices, Taste + Theme chips, a centered vertical Next-then-
+  Back action stack, and the shared journey tracker. The component geometry is
+  resolved in the Issue #263 extraction.
 - #257 overlays exactly one actionable highlighted target on first run;
   returning/free exploration restores normal controls. Progress never implies
   a safety guarantee.
@@ -335,9 +346,9 @@ defaults are implementation state. The live per-component contract in
 - **WCAG AA** contrast and **≥44px interactive targets** remain the minimum
   quality bar (product contract). Interactive targets default to 44px
   (`--tmm-tap-min`), including Figma's visually 34px hero-back control. Small
-  informational tags may remain noninteractive. Raw leaf/question/orange/nav
-  combinations are adapted as documented by #263. Focus is always visible (3px
-  orange outline). `prefers-reduced-motion` disables motion.
+  informational tags may remain noninteractive. Raw leaf/multi-select/orange/
+  route-secondary/nav combinations are adapted as documented by #263. Focus is
+  always visible (3px orange outline). `prefers-reduced-motion` disables motion.
 
 ## Unresolved / Must Not Be Invented
 

@@ -51,6 +51,11 @@ therefore measured from nodes rather than inferred from named Figma tokens.
 | Spot | `125:1752` | 390 × 1107 |
 | Bottom navigation | `1:23` | 390 × 84 |
 
+Nested shared-chrome evidence was inspected in addition to those roots. The six
+journey trackers are `23:3706`, `128:2163`, `23:3630`, `23:3730`, `23:3778`,
+and `23:3826`; the sticky Story, Route, and saved-state surfaces are `62:5021`,
+`119:838`, and `122:889` respectively.
+
 The intermediate Food Profile states are material evidence: they establish
 completed versus active bubbles, user replies, chips, modal/input treatment,
 action sizing, long-copy growth, and the transition into free exploration. The
@@ -72,11 +77,15 @@ shipping value or rule after #208 accessibility adaptation.
 | Forest visual `--tmm-color-forest-visual` | `#667A47` / `#667A48` | `#667A47` | Exact header/fill/active-nav source role |
 | Semantic forest `--tmm-color-forest` / `--tmm-color-forest-ink` | `#667A47` | `#61733F` | Safe shared default, including normal text on `#FFF4E4` |
 | Selected `--tmm-color-selection` | `#667F37` | `#667F37` | Selected chips/options; retain a non-color indicator |
-| Assistant leaf `--tmm-color-leaf` | `#9DBC64` | `#9DBC64` + dark text | Completed assistant bubble/decorative field |
-| Active question `--tmm-color-question` | `#B1CF7A` | `#B1CF7A` + dark text | Current assistant question only |
-| Raw orange `--tmm-color-orange-visual` | `#E9811D` | decorative only | Figma orange reference; not a white-text control surface |
-| Strong raw orange `--tmm-color-orange-strong-visual` | `#FF8313` | decorative only | High-emphasis Figma action reference |
-| Accessible orange `--tmm-color-orange` | raw family | `#C44A2C` | Text-bearing orange controls and focus ring |
+| Leaf surface `--tmm-color-leaf` | `#9DBC64` | `#9DBC64` + dark text | Dominant assistant bubble, journey tracker, sticky action/footer |
+| Multi-select panel `--tmm-color-multi-select-panel` | `#B1CF7A` | `#B1CF7A` + dark text | Large Food Profile allergy/religion/dislikes panel with embedded choices/send |
+| Experience field `--tmm-color-feature-field` | `#B2D083` | `#B2D083` | Lower illustration field on five experience cards |
+| Taste/Theme panel `--tmm-color-choice-panel` | `#F5EEDB` at 80% | `rgb(245 238 219 / 80%)` | Group surface behind each chip set |
+| Raw orange `--tmm-color-orange-visual` | `#E9811D` | same fill + dark ink | Food Profile action/source-orange role |
+| Strong raw orange `--tmm-color-orange-strong-visual` | `#FF8313` | same fill + dark ink | Story/Route high-emphasis action source role |
+| Compatibility orange `--tmm-color-orange` | absent | `#C44A2C` | Existing white-text/focus fallback; not canonical live action fill |
+| Route secondary `--tmm-color-route-secondary-visual` | `#85A053` | same fill + dark ink | Route-regenerate control only; do not generalize |
+| Danger visual `--tmm-color-danger-visual` | `#FF5A5A` | graphical accent; accessible semantic danger for text | Warning/location icons and short warning label |
 | Input surface `--tmm-color-input` | `#ECECEC` | `#ECECEC` | Modal/text-input well |
 | Info surface `--tmm-color-info-surface` | `#F4FAEA` | `#F4FAEA` | Quiet information/warning panel |
 | Modal scrim `--tmm-color-modal-scrim` | `#888888` at 69% | `rgb(136 136 136 / 69%)` | Blocking Food Profile modal overlay |
@@ -89,18 +98,28 @@ general UI-action token. Spot tag colors (`#A6C477`, `#FFA14C`, `#65A4FF`, and
 `#FF8A8A`) are semantic content variants; keep their labels and do not promote
 them into unlabeled global states.
 
+Representative role evidence includes Taste/Theme panels `23:3375` and
+`23:3376`, Route-regenerate control `125:1421`, and repeated `#FF5A5A`
+warning/location marks. Their proximity to the main green/orange families is
+not sufficient reason to merge roles that differ by component and semantics.
+
 ### Contrast and interaction states
 
 - White on the exact Figma forest is 4.73:1 and passes WCAG AA. The shared
   semantic forest is the slightly darker `#61733F` so the same token also stays
   AA on the cream canvas (4.79:1); use `--tmm-color-forest-visual` only where
   the measured fill is explicitly required.
-- White on leaf is 2.14:1 and white on the active-question green is 1.74:1.
-  Shipping assistant bubbles must use dark ink, or an equivalently verified
-  accessible treatment, while retaining their green role distinction.
-- White on the live oranges ranges from 2.31:1 to 2.75:1. Text-bearing orange
-  controls use the AA-hardened `#C44A2C` (4.81:1 with white). Raw orange remains
-  valid for artwork or non-text accents.
+- White on leaf is 2.14:1 and white on the multi-select green is 1.74:1.
+  Shipping assistant/multi-select panels use dark ink, or an equivalently
+  verified accessible treatment, while retaining their source fills.
+- White on the live oranges ranges from 2.31:1 to 2.75:1, while dark ink on
+  those same fills ranges from 5.78:1 to 6.88:1. The smallest supported #208
+  adaptation is therefore the live fill plus dark text. `#C44A2C` remains an
+  existing AA fallback when white text is required, not an extracted or
+  mandatory KiKi action color; a broader fill change needs Design approval.
+- White on the Route secondary green is 2.94:1; dark ink is 5.42:1. `#FF5A5A`
+  is 3.06:1 on white and may mark a sufficiently large graphical object, but
+  normal-size warning text uses the accessible semantic danger role.
 - The Figma inactive-nav green is 1.38:1 on white. Use accessible muted ink for
   labels/icons and keep active state distinguishable by more than color.
 - Unselected controls use white surfaces. Selected controls use the selection
@@ -213,6 +232,7 @@ generic card shadow to every live-Figma surface.
 | Selected experience card | `0 3px 7px #A7A190` |
 | Modal | `0 4px 10px rgb(0 0 0 / 25%)` |
 | Map information overlay | `0 2px 6px rgb(0 0 0 / 14%)` |
+| Sticky Story/Route/saved footer | `0 -1px 4px #888B85` |
 
 Use these by component role. They are not interchangeable `card` and `lift`
 levels. A hard zero-blur shadow is part of the tactile-button language; a soft
@@ -229,9 +249,10 @@ shadow is reserved for selected/overlaid surfaces.
   label at 20px.
 - Food Profile send/confirm: fluid 249–264px × 46px, 12px radius, orange role.
   Welcome/modal primary actions are 54px high.
-- Exploration navigation: two 156 × 45 pill controls at 390px. Back is leaf
-  green with a green hard shadow; Next is strong orange with a brown hard
-  shadow. At 375px they shrink fluidly with their gap rather than scale.
+- Exploration navigation: a centered 156 × 114 vertical stack: Next (156 × 45)
+  first, then a 24px gap, then Back (156 × 45). Back is leaf green with a green
+  hard shadow; Next is strong orange with a brown hard shadow. Preserve this
+  composition at 375px; cap width to available space instead of making a row.
 - Story CTA: 280 × 49, 12px radius. Route/Spot actions use the denser 8/12px
   contextual radius where shown.
 - Labels wrap naturally in ja/en/zh-TW; no fixed height may clip a second line.
@@ -245,8 +266,10 @@ shadow is reserved for selected/overlaid surfaces.
   Unselected is translucent white with a 2px white edge; selected is forest,
   about 45px high, with the compact selected shadow.
 - Experience choices are roughly 133 × 166px, radius 18, with a title area and
-  a clipped illustration field. The selected state adds a 2px forest border
-  and the selected-experience shadow.
+  a clipped `#B2D083` lower illustration field. The selected state adds a 2px
+  forest border and the selected-experience shadow.
+- Taste and Theme each sit in a 356px, radius-12 `#F5EEDB`/80% panel with 12px
+  padding/gaps. At 375px the panel becomes the available `viewport - 34px`.
 - Small category/match pills (22–35px high in Figma) are display tags. If they
   become actionable, their hit area must expand to at least 44px.
 
@@ -275,8 +298,13 @@ shadow is reserved for selected/overlaid surfaces.
 ### Conversation bubbles
 
 - Assistant bubble: left aligned after the 50px avatar; 12px padding; radius
-  `0 10px 10px 10px`; regular 16/22 text. Completed assistant turns use leaf;
-  the current question uses the lighter question green.
+  `0 10px 10px 10px`; regular 16/22 text. `#9DBC64` is the standard assistant
+  surface, including current nickname (`2:380`) and Diet (`3:1062`)
+  interactions; it is not a completed/current lifecycle code.
+- `#B1CF7A` is limited to the large active Food Profile allergy, religion, and
+  dislikes panels (`2:727`, `3:1262`, `3:1559`) that embed multi-select chips
+  plus a send action. Preserve it as a component variant, not a generic
+  current-question color.
 - User bubble: right aligned; white; radius `10px 0 10px 10px`; 12px padding;
   dark 16/22 text.
 - Action bubble: white with the user-tail radius; approximately 20px vertical /
@@ -284,7 +312,7 @@ shadow is reserved for selected/overlaid surfaces.
 - Bubbles size to content within available width. Preserve the tail side in RTL
   only if RTL becomes a supported locale; ja/en/zh-TW remain LTR.
 
-### Header and bottom navigation
+### Header, journey progress, sticky actions, and bottom navigation
 
 - The iOS 48px status bar is prototype chrome and is not rendered by the app.
 - Exploration, Result, and Route use a 53px forest app header immediately below
@@ -294,6 +322,18 @@ shadow is reserved for selected/overlaid surfaces.
   control over the hero image. Its engineering hit area still reaches 44px.
 - Food Profile conversation frames use focused journey chrome; a generic
   logo/locale toolbar is demo infrastructure, not a canonical in-product header.
+- Six inspected Exploration/Result states (`23:3706`, `128:2163`, `23:3630`,
+  `23:3730`, `23:3778`, `23:3826`) use the same bottom journey tracker: 390 ×
+  84, leaf fill, padding `8px 16px 16px`, and a 358 × 60 inner region.
+  Its 274px forest rail is 9px thick; six 18px markers are distributed with a
+  32px rhythm and the current MOGU marker is 28 × 44. Progress meaning must also
+  be exposed programmatically, not by marker color/mascot position alone.
+- Story (`62:5021`) uses a leaf sticky action footer at 390 × 73 with 12px
+  padding and a centered 280 × 49 CTA. Route (`119:838`) uses the same
+  surface/shadow language at 390 × 155 for its summary/actions. The separate
+  saved state `122:889` is
+  390 × 73 with 12px padding, a 10px gap, and 180px/152px actions. All three use
+  the upward `0 -1px 4px #888B85` separator shadow.
 - Bottom nav source node `1:23` is 390 × 84: solid white, 1px top rule, padding
   8px 16px 16px, four equal 89.5 × 60px slots, 4px icon/label gap, approximately
   24px icons, and 12px medium labels. The content height is 68px plus a 16px
@@ -335,15 +375,16 @@ The live source frames are 390px wide. The Product contract and #208 require a
   measured `max-width` for centered 280px choice columns.
 - A 350px Result card becomes the available `viewport - 40px` width (335px at
   375); its internal media ratio and padding remain stable.
-- The paired 156px Exploration buttons share the available row and shrink
-  evenly. Allow stacked actions if translated labels cannot fit without
-  clipping.
+- Preserve the live centered vertical Exploration action stack: 156px-wide
+  Next, 24px gap, then Back. Convert fixed heights to minimums if translated
+  labels wrap, but do not turn the stack into a row.
 - Use `min-height: 100dvh`, content-driven document height, and normal vertical
   scrolling. Never pin a screen to 844px or clip a transcript because the
   source capture stops there.
-- Fixed/sticky actions and bottom navigation include
-  `env(safe-area-inset-bottom)`. Preserve the 68px content zone; the illustrated
-  16px bottom allowance is not an additional fixed inset on every device.
+- Fixed/sticky regions include `env(safe-area-inset-bottom)` without conflating
+  their source geometries. Journey tracker and bottom nav each use a 68px
+  content zone plus the illustrated 16px allowance; Story/saved actions are
+  73px and the Route summary/action footer is 155px before device adaptation.
 - Horizontal Story carousels may intentionally extend beyond the content
   column, but must be a contained scroll region and must not create document
   horizontal overflow.
@@ -366,8 +407,9 @@ the corresponding live node plus this reflow contract.
   hero back control. Informational tags may remain visually smaller.
 - Keyboard focus is visible. Selected, current, warning, error, and disabled
   states have text, icon, shape, or ARIA support rather than color alone.
-- Maintain WCAG AA using the color adaptations above. The raw Figma bubble,
-  orange, and inactive-nav text combinations are not shippable as-is.
+- Maintain WCAG AA using the color adaptations above. Prefer dark ink on the
+  live leaf/multi-select/orange/route-secondary fills; inactive-nav text also
+  needs its accessible mapping.
 - Honor `prefers-reduced-motion`; no information may depend on animation.
 - Sticky/fixed controls must not cover focused content at 200% zoom or with
   enlarged text.
@@ -383,10 +425,14 @@ the corresponding live node plus this reflow contract.
 | `CONSISTENT_STANDARD` | 12px internal padding, 8/12/16px component gaps, 24/32px section rhythm | Use the shared 4px spacing scale |
 | `LIKELY_ACCIDENTAL_DRIFT` | `#667A47` and `#667A48` are visually indistinguishable duplicates | Canonical `#667A47`, the dominant value |
 | `INTENTIONAL_VARIANT` | Selected controls use `#667F37`, distinct from forest across five inspected states | Preserve as `--tmm-color-selection`; do not merge silently |
-| `INTENTIONAL_VARIANT` | `#9DBC64` completed-assistant and `#B1CF7A` active-question bubbles | Preserve the conversational state distinction |
+| `INTENTIONAL_VARIANT` | `#9DBC64` is the standard assistant/footer surface; `#B1CF7A` is limited to three large embedded multi-select/send panels | Preserve the component distinction; do not encode it as completed/current lifecycle |
+| `INTENTIONAL_VARIANT` | `#B2D083` is the repeated experience illustration field next to near-duplicate `#B1CF7A` | Preserve because the roles and repeated nodes differ; do not merge silently |
+| `INTENTIONAL_VARIANT` | `#F5EEDB` at 80% groups Taste/Theme chip sets | Preserve as the choice-panel surface rather than mapping to legacy warm-deep |
+| `INTENTIONAL_VARIANT` | Route regenerate alone uses `#85A053`; warning/location accents use `#FF5A5A` | Keep component/semantic roles local and apply accessible text rules; do not expand them into the primary green/orange ramps |
 | `LIKELY_ACCIDENTAL_DRIFT` | `#E9811D` and `#EA811E` differ by one channel and serve the same muted-orange family | Canonical raw reference `#E9811D` |
-| `LIKELY_ACCIDENTAL_DRIFT` | Bright actions use `#FF8313` and `#FF8D20` without a stable semantic difference | Canonical raw strong-orange reference `#FF8313`; use accessible semantic orange for text controls |
+| `LIKELY_ACCIDENTAL_DRIFT` | Bright actions use `#FF8313` and `#FF8D20` without a stable semantic difference | Canonical raw strong-orange reference `#FF8313`; retain live fill with dark text pending Design approval of any fill change |
 | `INTENTIONAL_VARIANT` | Hard zero-blur button shadows versus soft selected/modal/map shadows | Preserve by component role, not a generic elevation scale |
+| `CONSISTENT_STANDARD` | Six journey trackers repeat 390 × 84 leaf/16px-edge geometry; Story/Route/saved footers repeat leaf plus the upward separator shadow | Implement tracker and sticky-action roles explicitly; do not substitute generic progress/nav geometry |
 | `INTENTIONAL_VARIANT` | 45/46/49/54px actions and 76px wrapped fork action | Treat 44px as minimum; preserve emphasis/content-driven growth |
 | `INTENTIONAL_VARIANT` | 10px repeats in chip-wrap/input groups while the main rhythm follows 4px steps | Preserve as the named chip gap; do not generalize it into a second spacing scale |
 | `INTENTIONAL_VARIANT` | Main insets vary 14/18/20/22px around a 16px shell rhythm | Preserve measured surface composition; do not mint global gutter tokens for each |
@@ -397,7 +443,7 @@ the corresponding live node plus this reflow contract.
 | `PRODUCT_OVERRIDE` | Live frames allow several choices simultaneously | #257 first run exposes exactly one actionable highlighted target; returning/free exploration restores normal choice behavior |
 | `PRODUCT_OVERRIDE` | Figma bottom-nav labels/roles are presentation fixtures | #92 fixes `Home / Discover / MOGU / My`; reuse geometry only |
 | `PRODUCT_OVERRIDE` | Demo imagery/copy centers Okutama × Tokyo Wasabi | #112 keeps shared Product contracts Tokyo-wide and multi-region × multi-food-culture |
-| `ACCESSIBILITY_ADAPTATION` | White text on leaf/question greens and live oranges fails AA | Use dark bubble text and accessible orange for text-bearing actions |
+| `ACCESSIBILITY_ADAPTATION` | White text on leaf/multi-select/route-secondary/live-orange fills fails AA | Preserve source fills and use dark ink; treat the darker compatibility orange as optional pending Design approval |
 | `ACCESSIBILITY_ADAPTATION` | `#CEE3A8` inactive nav content fails contrast on white | Use accessible muted ink and a redundant active indicator |
 | `ACCESSIBILITY_ADAPTATION` | 34px hero back control and small tags are below the touch target | Expand interactive hit area to 44px; small noninteractive tags may remain visual-only |
 | `ACCESSIBILITY_ADAPTATION` | Fixed source dimensions cannot guarantee ja/en/zh-TW or zoom fit | Convert heights to minimums and permit wrapping/stacking |
@@ -436,13 +482,14 @@ remain reusable for another Tokyo Region × FoodCulture without redesign.
 | Canonical colors, fonts, type/space/radius roles | `src/ui/tokens.css` | Source roles and clear AA adaptations are canonicalized by #263 |
 | Shared buttons, chips, cards, tags, modal, shell | `src/ui/ui.css` | Reusable behavior remains; component-specific visual convergence belongs to #262 |
 | Legacy aliases | `src/styles.css` | Aliased to `--tmm-*` by #263; old grain, generic header/nav, and legacy component rules are not design authority |
-| Exact conversation source roles | `src/pages/s0s3/figma-conversation-parity.css` | Scoped aliases now point to shared tokens; raw low-contrast bubble text remains an explicit #262 accessibility migration |
+| Exact conversation source roles | `src/pages/s0s3/figma-conversation-parity.css` | Scoped aliases point to shared tokens, but the current broad pale-panel selectors overgeneralize `#B1CF7A`; selector/contrast convergence remains #262 |
 | Rounded accent family | `src/pages/s0s3/onboarding.css` | Existing M PLUS usage matches its limited live role |
 | Generic `.tmm-result-card__media` | `src/ui/ui.css` | Current 16:9 abstraction conflicts with ≈1.455:1 Result media; change with Result convergence in #262 |
 | Generic `.tmm-card` shadow/border | `src/ui/ui.css` | Live default is flat white; apply border/elevation by role during #262, not globally here |
 | Generic `.tmm-modal` | `src/ui/ui.css` | Generic 18px modal differs; scoped Food Profile `.fp-modal` already carries the live 8px/307px geometry |
 | Generic `.tmm-header` | `src/ui/ui.css` / app shells | Fallback/demo chrome only; live surfaces use green-band or hero-overlay modes |
 | `.tmm-nav` | `src/ui/ui.css` | Content height/four-slot structure is close; translucent warm fill, blur, and active background are not live-node proof |
+| Journey tracker / sticky action footer | generic progress and page-local footers | No shared class yet captures the measured tracker, 73/155px action surfaces, or upward separator shadow; #262 owns implementation |
 | Fallback presentation spec | `docs/specs/product/approved-ui-fidelity.md` | Defers to this document for inspected live standards |
 
 ## 13. Migration notes for #262
@@ -457,11 +504,14 @@ These are downstream convergence tasks, not changes made by #263:
    #92 destinations and safe-area behavior.
 4. Replace generic 16:9 media and universal card elevation with the measured
    per-component crop/elevation roles.
-5. Adapt low-contrast bubble, orange-button, and inactive-nav combinations
-   before visual sign-off.
-6. Preserve #255 real Top 3 and #257 tutorial behavior throughout screenshot
+5. Add the measured journey tracker and Story/Route/saved sticky-footer roles;
+   do not reuse the generic progress bar or 68px nav for the 73/155px actions.
+6. Adapt low-contrast bubble, orange-button, route-secondary, warning-text, and
+   inactive-nav combinations before visual sign-off, preserving live fills when
+   dark ink is sufficient.
+7. Preserve #255 real Top 3 and #257 tutorial behavior throughout screenshot
    convergence.
-7. Record any new live-Figma divergence in this ledger instead of silently
+8. Record any new live-Figma divergence in this ledger instead of silently
    inventing a token or component variant.
 
 ## References

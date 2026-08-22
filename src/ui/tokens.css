@@ -11,11 +11,13 @@
    - forest-ink / warm      4.79 : 1
    - white / forest         5.21 : 1
    - white / selection      4.51 : 1
-   - white / orange         4.81 : 1
+   - ink / raw orange       5.78 : 1 (lowest live orange)
+   - white / compat orange  4.81 : 1
 
-   Raw Figma leaf/question/orange/nav-inactive colors do not pass for their
-   visible white/text combinations. Keep them as visual source roles and use
-   the documented accessible text/action mapping in production.
+   Raw Figma leaf/multi-select/orange/nav-inactive colors do not pass with the
+   visible white/text combinations. Keep the source fills and use the documented
+   accessible text mapping first; the darker orange is a compatibility fallback,
+   not an extracted live action color.
    ============================================================ */
 
 :root {
@@ -28,8 +30,10 @@
   --tmm-color-selection: #667f37;
   --tmm-color-leaf: #9dbc64;
   --tmm-color-leaf-tint: rgb(157 188 100 / 0.14);
-  --tmm-color-question: #b1cf7a;
+  --tmm-color-multi-select-panel: #b1cf7a;
+  --tmm-color-feature-field: #b2d083;
   --tmm-color-warm: #fff4e4;
+  --tmm-color-choice-panel: rgb(245 238 219 / 0.8);
   /* Compatibility neutral: not promoted to a live-Figma source value. */
   --tmm-color-warm-deep: #f5e8d0;
   --tmm-color-card: #ffffff;
@@ -38,9 +42,13 @@
   --tmm-color-ink-faint: #6b6350;
   --tmm-color-orange-visual: #e9811d;
   --tmm-color-orange-strong-visual: #ff8313;
-  /* AA-hardened semantic orange for white text and the shared focus ring. */
+  /* Existing AA fallback for white text/focus, absent from the inspected live
+     nodes. Prefer dark ink on a live orange fill when design has not approved a
+     fill change. */
   --tmm-color-orange: #c44a2c;
   --tmm-color-orange-deep: #a03a22;
+  --tmm-color-danger-visual: #ff5a5a;
+  --tmm-color-route-secondary-visual: #85a053;
   --tmm-color-input: #ececec;
   --tmm-color-info-surface: #f4faea;
   --tmm-color-modal-scrim: rgb(136 136 136 / 0.69);
@@ -120,6 +128,7 @@
   --tmm-shadow-selected-feature: 0 3px 7px #a7a190;
   --tmm-shadow-modal: 0 4px 10px rgb(0 0 0 / 0.25);
   --tmm-shadow-map-overlay: 0 2px 6px rgb(0 0 0 / 0.14);
+  --tmm-shadow-sticky-footer: 0 -1px 4px #888b85;
 
   /* Focus (Issue #182: one visible keyboard-focus ring shared by every control) */
   --tmm-focus-ring: 3px solid var(--tmm-color-orange);

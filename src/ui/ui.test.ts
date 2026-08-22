@@ -64,9 +64,13 @@ describe('design tokens (#42)', () => {
       '--tmm-color-forest-visual: #667a47',
       '--tmm-color-forest: #61733f',
       '--tmm-color-selection: #667f37',
-      '--tmm-color-question: #b1cf7a',
+      '--tmm-color-multi-select-panel: #b1cf7a',
+      '--tmm-color-feature-field: #b2d083',
+      '--tmm-color-choice-panel: rgb(245 238 219 / 0.8)',
       '--tmm-color-orange-visual: #e9811d',
       '--tmm-color-orange: #c44a2c',
+      '--tmm-color-danger-visual: #ff5a5a',
+      '--tmm-color-route-secondary-visual: #85a053',
       '--tmm-color-modal-scrim: rgb(136 136 136 / 0.69)',
       "--tmm-font-body: 'Roboto'",
       "--tmm-font-accent-rounded: 'M PLUS Rounded 1c'",
@@ -75,6 +79,7 @@ describe('design tokens (#42)', () => {
       '--tmm-gap-chip: 10px',
       '--tmm-radius-md: 12px',
       '--tmm-shadow-modal: 0 4px 10px',
+      '--tmm-shadow-sticky-footer: 0 -1px 4px #888b85',
     ]) {
       expect(tokensCss).toContain(declaration);
     }
