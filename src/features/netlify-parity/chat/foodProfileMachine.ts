@@ -4,6 +4,7 @@ export const CHAT_DELAYS = {
   namePrompt: 450,
   greeting: 450,
   firstQuestion: 400,
+  editFirstQuestion: 500,
   nextQuestion: 500,
   finalChoice: 700,
 } as const;
@@ -62,6 +63,7 @@ export type FoodProfilePhase =
 
 export type ConversationEntryKind =
   | 'welcome'
+  | 'edit-intro'
   | 'user'
   | 'name-prompt'
   | 'greeting'
@@ -98,6 +100,7 @@ export interface PendingConversationEvent {
 export type ProfileAnswerMap = Record<FoodProfileQuestionKey, string[]>;
 
 export interface FoodProfileConversationState {
+  isEditing: boolean;
   phase: FoodProfilePhase;
   name: string;
   questionIndex: number | null;
@@ -115,6 +118,7 @@ function emptyAnswerMap(): ProfileAnswerMap {
 
 export function createFoodProfileState(): FoodProfileConversationState {
   return {
+    isEditing: false,
     phase: 'start',
     name: '',
     questionIndex: null,
@@ -123,6 +127,24 @@ export function createFoodProfileState(): FoodProfileConversationState {
     customAnswers: emptyAnswerMap(),
     otherInputOpen: false,
     pending: null,
+    nextEntryId: 1,
+  };
+}
+
+export function createEditFoodProfileState(name: string): FoodProfileConversationState {
+  return {
+    isEditing: true,
+    phase: 'waiting-question',
+    name,
+    questionIndex: null,
+    entries: [{ id: 0, kind: 'edit-intro' }],
+    answers: emptyAnswerMap(),
+    customAnswers: emptyAnswerMap(),
+    otherInputOpen: false,
+    pending: {
+      event: { type: 'SHOW_QUESTION', questionIndex: 0 },
+      delayMs: CHAT_DELAYS.editFirstQuestion,
+    },
     nextEntryId: 1,
   };
 }
@@ -150,6 +172,15 @@ function withPending(
 function currentQuestion(state: FoodProfileConversationState): FoodProfileQuestion | undefined {
   if (state.questionIndex === null) return undefined;
   return FOOD_PROFILE_QUESTIONS[state.questionIndex];
+}
+
+export function selectedRestrictionValues(
+  state: Pick<FoodProfileConversationState, 'answers'>,
+  key: FoodProfileQuestionKey,
+): string[] {
+  const question = FOOD_PROFILE_QUESTIONS.find((candidate) => candidate.key === key);
+  if (!question) return [];
+  return state.answers[key].filter((value) => value !== question.noneValue);
 }
 
 function sanitizeOtherAnswer(value: string): string {
@@ -286,6 +317,12 @@ export function foodProfileReducer(
         { ...state, phase: 'summary', questionIndex: null, pending: null },
         { kind: 'summary' },
       );
+      if (state.isEditing) {
+        return appendEntry(
+          { ...next, phase: 'complete', pending: null },
+          { kind: 'final-choice' },
+        );
+      }
       return withPending(
         next,
         'summary',
@@ -319,8 +356,10 @@ export function foodProfileToDurableProfile(
   const dietary = FOOD_PROFILE_QUESTIONS.filter((question) =>
     state.answers[question.key].some((value) => value !== question.noneValue),
   ).map((question) => CATEGORY_BY_QUESTION[question.key]);
-  const dietaryOther = FOOD_PROFILE_QUESTIONS.flatMap(
-    (question) => state.customAnswers[question.key],
+  const dietaryOther = FOOD_PROFILE_QUESTIONS.flatMap((question) =>
+    state.customAnswers[question.key].filter((custom) =>
+      state.answers[question.key].includes(`custom:${custom}`),
+    ),
   ).join(' / ');
   const hasNoRestrictions = FOOD_PROFILE_QUESTIONS.every(
     (question) =>

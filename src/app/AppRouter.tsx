@@ -16,6 +16,7 @@ import { LoadingBoundary } from './LoadingBoundary';
 import { NotFoundPage } from './NotFoundPage';
 import { JourneyNavigationManager } from './JourneyNavigationManager';
 import { ReferenceApp } from '../features/netlify-parity/ReferenceApp';
+import { demoJourneys, demoSpots } from '../features/netlify-parity/content';
 
 const HomePage = lazy(() => import('../pages/HomePage').then((m) => ({ default: m.HomePage })));
 const LandingPage = lazy(() =>
@@ -79,6 +80,12 @@ function withBoundary(element: ReactNode) {
 
 export function AppRouter() {
   const { pathname } = useLocation();
+  const referenceStoryPath =
+    pathname === '/story' ||
+    demoJourneys.some((journey) => pathname === `/story/${journey.storyId}`);
+  const referenceSpotPath =
+    pathname.startsWith('/spot/') &&
+    Object.hasOwn(demoSpots, decodeURIComponent(pathname.slice('/spot/'.length)));
   const referencePath =
     pathname === '/' ||
     pathname === '/food-profile' ||
@@ -86,10 +93,9 @@ export function AppRouter() {
     pathname === '/home' ||
     pathname === '/explore' ||
     pathname === '/explore/result' ||
-    pathname === '/story' ||
-    pathname.startsWith('/story/') ||
+    referenceStoryPath ||
     pathname === '/route' ||
-    pathname.startsWith('/spot/') ||
+    referenceSpotPath ||
     pathname === '/discover' ||
     pathname === '/mogu' ||
     pathname === '/my-route' ||

@@ -1,14 +1,14 @@
 import { mkdir } from 'node:fs/promises';
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Locator, type Page } from '@playwright/test';
 
 const EVIDENCE_DIR = 'docs/evidence/issue-276';
 const CAPTURE_EVIDENCE = process.env.ISSUE_276_EVIDENCE === '1';
 
-async function capture(page: Page, name: string): Promise<void> {
+async function capture(page: Page, name: string, settleMs = 450): Promise<void> {
   if (!CAPTURE_EVIDENCE) return;
   await mkdir(EVIDENCE_DIR, { recursive: true });
   await page.evaluate(() => document.fonts.ready);
-  await page.waitForTimeout(450);
+  if (settleMs > 0) await page.waitForTimeout(settleMs);
   await page.screenshot({ path: `${EVIDENCE_DIR}/${name}.png`, animations: 'allow' });
 }
 
@@ -28,6 +28,67 @@ async function expectNoHorizontalOverflow(page: Page): Promise<void> {
       phoneClientWidth: 375,
       phoneScrollWidth: 375,
     });
+}
+
+async function expectActionWithinViewport(action: Locator): Promise<void> {
+  await action.scrollIntoViewIfNeeded();
+  await expect(action).toBeVisible();
+  await expect(action).toBeEnabled();
+  const box = await action.boundingBox();
+  expect(box).not.toBeNull();
+  expect(box!.x).toBeGreaterThanOrEqual(0);
+  expect(box!.x + box!.width).toBeLessThanOrEqual(375);
+  expect(box!.y + box!.height).toBeGreaterThan(0);
+  expect(box!.y).toBeLessThan(812);
+}
+
+async function expectHitTarget(action: Locator): Promise<void> {
+  await expectActionWithinViewport(action);
+  const box = await action.boundingBox();
+  expect(box!.width).toBeGreaterThanOrEqual(44);
+  expect(box!.height).toBeGreaterThanOrEqual(44);
+}
+
+async function expectNonOverlapping(first: Locator, second: Locator): Promise<void> {
+  const [a, b] = await Promise.all([first.boundingBox(), second.boundingBox()]);
+  expect(a).not.toBeNull();
+  expect(b).not.toBeNull();
+  const overlaps =
+    a!.x < b!.x + b!.width &&
+    a!.x + a!.width > b!.x &&
+    a!.y < b!.y + b!.height &&
+    a!.y + a!.height > b!.y;
+  expect(overlaps).toBe(false);
+}
+
+async function expectTextContrast(action: Locator, minimum: number): Promise<void> {
+  const ratio = await action.evaluate((element) => {
+    const parse = (color: string) =>
+      (color.match(/[\d.]+/g) ?? []).slice(0, 3).map(Number);
+    const luminance = ([red, green, blue]: number[]) => {
+      const [r, g, b] = [red, green, blue].map((channel) => {
+        const value = channel / 255;
+        return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+      });
+      return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    };
+    const style = getComputedStyle(element);
+    const foreground = luminance(parse(style.color));
+    const background = luminance(parse(style.backgroundColor));
+    return (Math.max(foreground, background) + 0.05) /
+      (Math.min(foreground, background) + 0.05);
+  });
+  expect(ratio).toBeGreaterThanOrEqual(minimum);
+}
+
+async function expectVisibleFocusRing(control: Locator): Promise<void> {
+  await control.focus();
+  const focusStyle = await control.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return { outlineStyle: style.outlineStyle, outlineWidth: Number.parseFloat(style.outlineWidth) };
+  });
+  expect(focusStyle.outlineStyle).not.toBe('none');
+  expect(focusStyle.outlineWidth).toBeGreaterThanOrEqual(3);
 }
 
 test.use({
@@ -120,7 +181,9 @@ test.describe('Issue #276 authoritative Netlify choreography', () => {
     await expect(page.getByText(/MOGU MOGUへようこそ/)).toBeVisible();
     await expect
       .poll(() =>
-        page.locator('.chat-body').evaluate((element) =>
+        page
+          .locator('[data-screen="food-profile"][data-screen-active="true"] .chat-body')
+          .evaluate((element) =>
           Math.round(element.scrollHeight - element.clientHeight - element.scrollTop),
         ),
       )
@@ -138,10 +201,9 @@ test.describe('Issue #276 authoritative Netlify choreography', () => {
     await capture(page, '05-home-ja-375');
 
     await page.goBack();
-    await expect(page.locator('[data-screen="food-profile"]')).toHaveAttribute(
-      'data-screen-active',
-      'true',
-    );
+    await expect(
+      page.locator('[data-screen="food-profile"][data-screen-active="true"]'),
+    ).toBeVisible();
     await expect(page.getByText(/MOGU MOGUへようこそ/)).toBeVisible();
     await expect(
       page.getByRole('button', { name: '自分に合った旅をおすすめしてもらう！' }),
@@ -151,6 +213,16 @@ test.describe('Issue #276 authoritative Netlify choreography', () => {
       'data-screen-active',
       'true',
     );
+
+    await page
+      .locator('[data-screen="home"][data-screen-active="true"] .trip-card')
+      .first()
+      .click();
+    await expect(page).toHaveURL(/\/story\/wasabi-okutama$/);
+    await page
+      .locator('[data-screen="story"][data-screen-active="true"] .fab-back')
+      .click();
+    await expect(page).toHaveURL(/\/home$/);
 
     await page.getByRole('button', { name: /Let's Go!/ }).click();
 
@@ -182,12 +254,13 @@ test.describe('Issue #276 authoritative Netlify choreography', () => {
     await expect(page).toHaveURL(/\/story\/wasabi-okutama/);
     await expect(page.getByRole('heading', { name: '水がつなぐ、江戸から続く辛味' })).toBeVisible();
     await capture(page, '08-story-ja-375');
+    const routeGenerationStartedAt = Date.now();
     await page.getByRole('button', { name: 'この食文化の観光ルートを作成する' }).click();
     await expect(page.locator('[data-route-loading]')).toBeVisible();
-    await page.waitForTimeout(1_500);
-    await expect(page).toHaveURL(/\/story\/wasabi-okutama/);
-    await expect(page.locator('[data-route-loading]')).toBeVisible();
-    await expect(page).toHaveURL(/\/route/, { timeout: 1_200 });
+    await expect(page).toHaveURL(/\/route/, { timeout: 3_500 });
+    const routeGenerationElapsed = Date.now() - routeGenerationStartedAt;
+    expect(routeGenerationElapsed).toBeGreaterThanOrEqual(2_100);
+    expect(routeGenerationElapsed).toBeLessThan(3_500);
 
     await expect(page.locator('[data-screen="route"]')).toHaveAttribute(
       'data-screen-active',
@@ -204,26 +277,174 @@ test.describe('Issue #276 authoritative Netlify choreography', () => {
   });
 
   test('keeps ja/en/zh-TW primary actions and navigation usable at 375px', async ({ page }) => {
-    await page.goto('/home');
-
     for (const locale of ['ja', 'en', 'zh-TW'] as const) {
-      await page.locator('.locale-control select').selectOption(locale);
+      await page.goto('/food-profile');
+      const localeSelect = page.locator('.locale-control select');
+      await localeSelect.selectOption(locale);
       await expectNoHorizontalOverflow(page);
+      await expectHitTarget(page.locator('.locale-control'));
+      await expectVisibleFocusRing(localeSelect);
+      const profileStart = page.locator(
+        '[data-screen="food-profile"][data-screen-active="true"] .choice-card .orange',
+      );
+      await expectActionWithinViewport(profileStart);
+      await expectTextContrast(profileStart, 4.5);
 
-      for (const path of ['/home', '/explore/result', '/story/wasabi-okutama', '/route', '/spot/okutama-tourism-office']) {
+      await page.goto('/explore');
+      await page.locator('.locale-control select').selectOption(locale);
+      const explore = page.locator('[data-screen="explore"][data-screen-active="true"]');
+
+      for (let step = 0; step < 5; step += 1) {
+        await expect(explore.locator(`[data-exploration-step="${step}"]`)).toBeVisible();
+        await expectNoHorizontalOverflow(page);
+
+        if (step === 0) await explore.locator('.exp-card').first().click();
+        if (step === 1) {
+          const opener = explore.locator('.searchbar');
+          await opener.click();
+          const dialog = page.getByRole('dialog');
+          await expect(dialog).toBeVisible();
+          await expect(dialog.locator('input')).toBeFocused();
+          await page.keyboard.press('Escape');
+          await expect(dialog).toBeHidden();
+          await expect(opener).toBeFocused();
+        }
+        if (step === 2) await explore.locator('.opt').last().click();
+        if (step === 3) await explore.locator('.opt').first().click();
+        if (step === 4) {
+          await explore.locator('.chip-group').first().locator('.chip').first().click();
+          await explore.locator('.chip-group').nth(1).locator('.chip').first().click();
+        }
+
+        const next = explore.locator('.wiz-nav .next');
+        await expectActionWithinViewport(next);
+        await expectTextContrast(next, 4.5);
+        if (step < 4) await next.click();
+      }
+
+      const primaryActions = [
+        ['/home', '.letsgo'],
+        ['/explore/result', '[data-journey-id="demo-okutama-wasabi"]'],
+        ['/story/wasabi-okutama', '.story-cta'],
+        ['/route', '.route-actions .save'],
+        ['/spot/okutama-tourism-office', '.guide-box .book'],
+      ] as const;
+      for (const [path, actionSelector] of primaryActions) {
         await page.goto(path);
         await expectNoHorizontalOverflow(page);
         if (path === '/home' && locale === 'en') await capture(page, '11-home-en-375');
         if (path === '/home' && locale === 'zh-TW') await capture(page, '12-home-zh-TW-375');
         const activeScreen = page.locator('.reference-screen[data-screen-active="true"]');
         await expect(activeScreen).toBeVisible();
-        const primaryAction = activeScreen.locator('button:visible, a:visible').last();
-        await expect(primaryAction).toBeVisible();
-        const box = await primaryAction.boundingBox();
-        expect(box).not.toBeNull();
-        expect(box!.x).toBeGreaterThanOrEqual(0);
-        expect(box!.x + box!.width).toBeLessThanOrEqual(375);
+        const primaryAction = activeScreen.locator(actionSelector);
+        await expectActionWithinViewport(primaryAction);
+        if (path !== '/explore/result') await expectTextContrast(primaryAction, 4.5);
+
+        if (path === '/route') {
+          const back = activeScreen.locator('.back');
+          const share = activeScreen.locator('.share-btn');
+          const localeSelect = page.locator('.locale-control select');
+          await expectHitTarget(back);
+          await expectHitTarget(share);
+          await expectNonOverlapping(localeSelect, share);
+        }
+        if (path === '/story/wasabi-okutama') {
+          await expectHitTarget(activeScreen.locator('.fab-back'));
+        }
       }
     }
+  });
+
+  test('replays the authoritative Food Profile edit choreography and returns to My', async ({
+    page,
+  }) => {
+    await page.goto('/my');
+    const editStartedAt = Date.now();
+    await page.getByRole('button', { name: '編集する' }).click();
+    await expect(page).toHaveURL(/\/food-profile\/edit$/);
+    await expect(page.getByText(/Food Profileを編集しましょう/)).toBeVisible();
+    await expect(page.getByPlaceholder('ニックネームを入力')).toHaveCount(0);
+    await expect(page.getByText(/MOGU MOGUへようこそ/)).toBeHidden();
+    await capture(page, '13-profile-edit-intro-ja-375', 0);
+
+    const editScreen = page.locator(
+      '[data-screen="food-profile"][data-screen-active="true"]',
+    );
+    await expect(editScreen.locator('[data-question-index="0"]')).toHaveCount(0);
+    const remainingUntilEarlyCheck = 300 - (Date.now() - editStartedAt);
+    if (remainingUntilEarlyCheck > 0) await page.waitForTimeout(remainingUntilEarlyCheck);
+    await expect(editScreen.locator('[data-question-index="0"]')).toHaveCount(0);
+    await expect(editScreen.locator('[data-question-index="0"]')).toBeVisible({ timeout: 350 });
+    await capture(page, '14-profile-edit-question-ja-375');
+
+    for (let questionIndex = 0; questionIndex < 4; questionIndex += 1) {
+      const question = editScreen.locator(`[data-question-index="${questionIndex}"]`);
+      await question.getByRole('button', { name: '送信', exact: true }).click();
+      if (questionIndex < 3) {
+        await expect(
+          editScreen.locator(`[data-question-index="${questionIndex + 1}"]`),
+        ).toBeVisible({ timeout: 650 });
+      }
+    }
+
+    await expect(page.getByText(/食のプロフィールを更新しました/)).toBeVisible({ timeout: 650 });
+    const returnToMy = page.getByRole('button', { name: 'マイページへ戻る' });
+    await expect(returnToMy).toBeVisible();
+    await capture(page, '15-profile-edit-complete-ja-375');
+    await returnToMy.click();
+    await expect(page).toHaveURL(/\/my$/);
+    await expect(
+      page
+        .locator('[data-screen="my"][data-screen-active="true"]')
+        .getByText('特別な制限はありません'),
+    ).toBeVisible();
+
+    await page.goBack();
+    await expect(page).toHaveURL(/\/food-profile\/edit$/);
+    await expect(returnToMy).toBeVisible();
+  });
+
+  test('cancels route generation when Story is no longer active', async ({ page }) => {
+    await page.goto('/story/wasabi-okutama');
+    await page.getByRole('button', { name: 'この食文化の観光ルートを作成する' }).click();
+    await expect(page.locator('[data-route-loading]')).toBeVisible();
+    await page.goto('/home');
+    await page.waitForTimeout(2_300);
+    await expect(page).toHaveURL(/\/home$/);
+    await expect(page.locator('[data-screen="home"][data-screen-active="true"]')).toBeVisible();
+  });
+
+  test('keeps a saved route across reload and exposes it through My Routes', async ({ page }) => {
+    await page.goto('/route');
+    const activeRoute = page.locator('[data-screen="route"][data-screen-active="true"]');
+    const save = activeRoute.getByRole('button', { name: 'マイルートに保存' });
+    await save.scrollIntoViewIfNeeded();
+    await save.click();
+    await expect(save).toHaveAttribute('aria-pressed', 'true');
+
+    await page.reload();
+    const reloadedRoute = page.locator('[data-screen="route"][data-screen-active="true"]');
+    await expect(
+      reloadedRoute.getByRole('button', { name: 'マイルートに保存' }),
+    ).toHaveAttribute('aria-pressed', 'true');
+    await reloadedRoute.getByRole('button', { name: 'マイルートを見る' }).click();
+    await expect(page).toHaveURL(/\/my-route$/);
+    await expect(
+      page.locator('[data-screen="favorites"] [data-journey-id="demo-okutama-wasabi"]'),
+    ).toBeVisible();
+  });
+
+  test('delegates non-demo Tokyo content to the established data-backed routes', async ({ page }) => {
+    await page.goto('/story/sake-ome');
+
+    await expect(page.locator('.reference-app')).toHaveCount(0);
+    await expect(page.getByText('青梅・沢井の日本酒').first()).toBeVisible();
+    await expect
+      .poll(() =>
+        page.evaluate(() =>
+          getComputedStyle(document.documentElement).getPropertyValue('--tmm-color-warm').trim(),
+        ),
+      )
+      .not.toBe('');
   });
 });

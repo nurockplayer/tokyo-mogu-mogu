@@ -5,9 +5,14 @@ Netlify experience as the visible UX authority. The browser gate is therefore
 `issue-276-netlify-parity.spec.ts`, which covers:
 
 - the complete progressive Food Profile conversation and its exact delays;
+- the reference Food Profile edit conversation and retained browser history;
 - the authoritative five-step Exploration sequence;
 - Result → Story → 2.2-second route generation → Route → Spot;
-- 375px overflow/action checks for ja, en, and zh-TW;
+- named primary-action, focus, contrast, hit-target, and 375px overflow checks
+  for Food Profile, every Exploration state, and the major screens in ja, en,
+  and zh-TW;
+- saved-route reload behavior and non-demo route delegation to the established
+  Tokyo-wide data-backed pages;
 - trace/video output and opt-in sequential screenshot evidence.
 
 The removed pre-#276 browser specs asserted superseded question orders,

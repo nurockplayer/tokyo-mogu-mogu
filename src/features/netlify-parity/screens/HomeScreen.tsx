@@ -2,6 +2,7 @@ import { BottomNavigation } from '../components/BottomNavigation';
 import {
   demoJourneys,
   referenceAssets,
+  type JourneyPresentation,
   type ReferenceCopy,
 } from '../content';
 import type { Locale } from '../../../i18n';
@@ -27,6 +28,7 @@ interface HomeScreenProps {
   locale: Locale;
   nickname: string;
   onNavigate: (path: string) => void;
+  onOpenJourney: (journey: JourneyPresentation) => void;
   onStartExploration: () => void;
 }
 
@@ -53,6 +55,7 @@ export function HomeScreen({
   locale,
   nickname,
   onNavigate,
+  onOpenJourney,
   onStartExploration,
 }: HomeScreenProps) {
   return (
@@ -91,11 +94,14 @@ export function HomeScreen({
                 <article
                   className="trip-card"
                   key={journey.id}
-                  onClick={() => onNavigate(`/story/${journey.storyId}`)}
+                  onClick={() => onOpenJourney(journey)}
                   role="button"
                   tabIndex={active ? 0 : -1}
                   onKeyDown={(event) => {
-                    if (event.key === 'Enter') onNavigate(`/story/${journey.storyId}`);
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      onOpenJourney(journey);
+                    }
                   }}
                 >
                   <div className="ph">

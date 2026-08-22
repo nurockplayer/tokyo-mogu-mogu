@@ -225,6 +225,13 @@ export function StoryScreen({
     [],
   );
 
+  useEffect(() => {
+    if (active || timerRef.current === null) return;
+    window.clearTimeout(timerRef.current);
+    timerRef.current = null;
+    setLoading(false);
+  }, [active]);
+
   const startRouteGeneration = () => {
     if (loading) return;
     setLoading(true);

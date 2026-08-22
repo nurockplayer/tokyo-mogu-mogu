@@ -150,7 +150,8 @@ export function ReferenceApp() {
 
   const pathname = location.pathname;
   const isSplash = pathname === '/';
-  const isProfile = pathname === '/food-profile' || pathname === '/food-profile/edit';
+  const isProfileOnboarding = pathname === '/food-profile';
+  const isProfileEdit = pathname === '/food-profile/edit';
   const isHome = pathname === '/home';
   const isExplore = pathname === '/explore';
   const isResult = pathname === '/explore/result';
@@ -162,7 +163,7 @@ export function ReferenceApp() {
   const isMy = pathname === '/my';
 
   return (
-    <main className="reference-app" data-locale={locale}>
+    <main className="reference-app" data-locale={locale} data-pathname={pathname}>
       <div className="reference-phone">
         <SplashScreen
           active={isSplash}
@@ -170,7 +171,7 @@ export function ReferenceApp() {
           onStart={() => navigate(nickname || loadNickname() ? '/home' : '/food-profile')}
         />
         <FoodProfileConversation
-          active={isProfile}
+          active={isProfileOnboarding}
           copy={copy}
           locale={locale}
           onProfileSaved={(name, profile) => {
@@ -181,12 +182,29 @@ export function ReferenceApp() {
           onSkipProfile={() => navigate('/home')}
           onBrowse={() => navigate('/mogu')}
         />
+        <FoodProfileConversation
+          active={isProfileEdit}
+          copy={copy}
+          initialName={nickname}
+          key={`profile-edit-${nickname}`}
+          locale={locale}
+          mode="edit"
+          onProfileSaved={(name, profile) => {
+            if (name) setNickname(name);
+            setFoodProfile(profile);
+          }}
+          onRecommend={() => navigate('/home')}
+          onSkipProfile={() => navigate('/my')}
+          onBrowse={() => navigate('/mogu')}
+          onFinishEdit={() => navigate('/my')}
+        />
         <HomeScreen
           active={isHome}
           copy={copy}
           locale={locale}
           nickname={nickname}
           onNavigate={navigate}
+          onOpenJourney={openJourney}
           onStartExploration={() => {
             dispatchExploration({ type: 'OPEN' });
             navigate('/explore');
@@ -274,7 +292,7 @@ export function ReferenceApp() {
           nickname={nickname}
           profileSummary={profileSummary(foodProfile, locale)}
           savedJourneys={savedJourneys}
-          onEditProfile={() => window.location.assign('/food-profile')}
+          onEditProfile={() => navigate('/food-profile/edit')}
           onOpenSavedJourney={(journey) => {
             setCurrentJourney(journey);
             setRouteBack('/my');

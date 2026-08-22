@@ -4,6 +4,7 @@ import type { Locale } from '../../../i18n';
 import { referenceAssets, type ReferenceCopy } from '../content';
 import {
   FOOD_PROFILE_QUESTIONS,
+  selectedRestrictionValues,
   type ConversationEntry,
   type FoodProfileConversationState,
   type FoodProfileQuestionKey,
@@ -14,10 +15,13 @@ interface FoodProfileConversationProps {
   active: boolean;
   copy: ReferenceCopy;
   locale: Locale;
+  mode?: 'onboarding' | 'edit';
+  initialName?: string;
   onProfileSaved?: (name: string, profile: FoodProfile) => void;
   onRecommend: () => void;
   onSkipProfile: () => void;
   onBrowse: () => void;
+  onFinishEdit?: () => void;
 }
 
 const QUESTION_OPTION_KEYS = {
@@ -26,6 +30,21 @@ const QUESTION_OPTION_KEYS = {
   religion: ['pork', 'beef', 'halal', 'alcohol', 'none'],
   dislike: ['raw', 'spicy', 'fermented', 'bitter', 'shellfish', 'none'],
 } as const;
+
+const editCopy: Record<Locale, { intro: string; returnToMy: string }> = {
+  ja: {
+    intro: 'Food Profileを編集しましょう！<br>あらためて選び直してください。',
+    returnToMy: 'マイページへ戻る',
+  },
+  en: {
+    intro: 'Let’s update your Food Profile!<br>Please make your selections again.',
+    returnToMy: 'Return to My page',
+  },
+  'zh-TW': {
+    intro: '一起更新你的飲食檔案吧！<br>請重新選擇。',
+    returnToMy: '返回我的頁面',
+  },
+};
 
 function BreakText({ value }: { value: string }) {
   const parts = value.split('<br>');
@@ -92,11 +111,9 @@ function profileSummaryLines(
 ) {
   const lines: string[] = [];
   const labels = (key: FoodProfileQuestionKey) =>
-    state.answers[key].map((value) => optionLabel(copy, key, value));
-  const hasAnswer = (key: FoodProfileQuestionKey) => {
-    const question = FOOD_PROFILE_QUESTIONS.find((candidate) => candidate.key === key);
-    return question ? state.answers[key][0] !== question.noneValue : false;
-  };
+    selectedRestrictionValues(state, key).map((value) => optionLabel(copy, key, value));
+  const hasAnswer = (key: FoodProfileQuestionKey) =>
+    selectedRestrictionValues(state, key).length > 0;
 
   if (locale === 'ja') {
     if (hasAnswer('allergy')) lines.push(`・${labels('allergy').join('と')}アレルギー`);
@@ -242,12 +259,15 @@ export function FoodProfileConversation({
   active,
   copy,
   locale,
+  mode = 'onboarding',
+  initialName = '',
   onProfileSaved,
   onRecommend,
   onSkipProfile,
   onBrowse,
+  onFinishEdit,
 }: FoodProfileConversationProps) {
-  const { state, dispatch } = useFoodProfileConversation({ onProfileSaved });
+  const { state, dispatch } = useFoodProfileConversation({ active, mode, initialName, onProfileSaved });
   const [nameValue, setNameValue] = useState('');
   const [nameInvalid, setNameInvalid] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -293,6 +313,13 @@ export function FoodProfileConversation({
       </div>
       <div className="chat-body" ref={scrollRef} aria-live="polite">
         {state.entries.map((entry) => {
+          if (entry.kind === 'edit-intro') {
+            return (
+              <BotRow key={entry.id}>
+                <BreakText value={editCopy[locale].intro} />
+              </BotRow>
+            );
+          }
           if (entry.kind === 'welcome') {
             return (
               <BotRow key={entry.id}>
@@ -351,8 +378,10 @@ export function FoodProfileConversation({
                 {copy.profile.summaryThanks}
                 <br />
                 {locale === 'ja'
-                  ? `あなたの食のプロフィールを${copy.profile.summaryRegistered}しました。`
-                  : copy.profile.summaryRegistered}
+                  ? `あなたの食のプロフィールを${state.isEditing ? copy.profile.summaryUpdated : copy.profile.summaryRegistered}しました。`
+                  : state.isEditing
+                    ? copy.profile.summaryUpdated
+                    : copy.profile.summaryRegistered}
                 <div className="profile-box">
                   {copy.profile.summaryTitle}
                   <br />
@@ -370,6 +399,15 @@ export function FoodProfileConversation({
             );
           }
           if (entry.kind === 'final-choice') {
+            if (state.isEditing) {
+              return (
+                <div className="choice-card" key={entry.id}>
+                  <button className="btn orange" onClick={onFinishEdit} type="button">
+                    {editCopy[locale].returnToMy}
+                  </button>
+                </div>
+              );
+            }
             return (
               <Fragment key={entry.id}>
                 <BotRow>{copy.profile.finalPrompt}</BotRow>
