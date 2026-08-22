@@ -34,6 +34,21 @@ function journeyForStoryPath(pathname: string): JourneyPresentation | undefined 
   return demoJourneys.find((journey) => journey.storyId === storyId);
 }
 
+function journeyForSearch(search: string): JourneyPresentation | undefined {
+  const params = new URLSearchParams(search);
+  const candidateId = params.get('candidateId');
+  const routeId = params.get('routeId');
+  const resultId = params.get('resultId');
+
+  return demoJourneys.find(
+    (journey) =>
+      journey.id === candidateId ||
+      journey.routeId === routeId ||
+      journey.foodCultureId === resultId ||
+      journey.storyId === resultId,
+  );
+}
+
 function spotForPath(pathname: string): SpotPresentation | undefined {
   if (!pathname.startsWith('/spot/')) return undefined;
   return demoSpots[decodeURIComponent(pathname.slice('/spot/'.length))];
@@ -74,8 +89,10 @@ export function ReferenceApp() {
   const [savedRouteIds, setSavedRouteIds] = useState(() => loadSavedRoutes().map((entry) => entry.routeId));
   const [toast, setToast] = useState('');
   const pathJourney = journeyForStoryPath(location.pathname);
+  const queryJourney = journeyForSearch(location.search);
   const currentSpot = spotForPath(location.pathname) ?? demoSpots['okutama-tourism-office'];
   const shownJourney = pathJourney ?? currentJourney;
+  const routeJourney = queryJourney ?? currentJourney;
   const savedJourneys = useMemo(
     () => demoJourneys.filter((journey) => savedRouteIds.includes(journey.routeId)),
     [savedRouteIds],
@@ -86,8 +103,11 @@ export function ReferenceApp() {
   }, [locale]);
 
   useEffect(() => {
-    if (pathJourney && pathJourney.id !== currentJourney.id) setCurrentJourney(pathJourney);
-  }, [currentJourney.id, pathJourney]);
+    const locationJourney = pathJourney ?? queryJourney;
+    if (locationJourney && locationJourney.id !== currentJourney.id) {
+      setCurrentJourney(locationJourney);
+    }
+  }, [currentJourney.id, pathJourney, queryJourney]);
 
   useEffect(() => {
     const activeScroll = document.querySelector<HTMLElement>('.reference-screen[data-screen-active="true"] .scroll');
@@ -107,8 +127,11 @@ export function ReferenceApp() {
   };
 
   const openSpot = (spot: SpotPresentation) => {
-    setSpotBack(location.pathname);
-    navigate(`/spot/${spot.id}`);
+    setSpotBack(`${location.pathname}${location.search}`);
+    const routeIdentity = location.pathname === '/route'
+      ? location.search || `?candidateId=${encodeURIComponent(routeJourney.id)}`
+      : '';
+    navigate(`/spot/${spot.id}${routeIdentity}`);
   };
 
   const completeExploration = (answers: NetlifyExplorationAnswers) => {
@@ -126,13 +149,13 @@ export function ReferenceApp() {
   };
 
   const persistCurrentRoute = () => {
-    const next = saveRoute(currentJourney.routeId);
+    const next = saveRoute(routeJourney.routeId);
     setSavedRouteIds(next.map((entry) => entry.routeId));
     setToast(locale === 'ja' ? 'マイルートに保存しました！' : locale === 'zh-TW' ? '已儲存到我的路線！' : 'Saved to My Routes!');
   };
 
   const shareCurrentRoute = async () => {
-    const localized = currentJourney.copy[locale];
+    const localized = routeJourney.copy[locale];
     const shareData = {
       title: 'TOKYO MOGU MOGU',
       text: `「${localized.title}」 ${copy.app.tagline}`,
@@ -241,7 +264,7 @@ export function ReferenceApp() {
           onCreateRoute={(journey) => {
             setCurrentJourney(journey);
             setRouteBack(`/story/${journey.storyId}`);
-            navigate('/route');
+            navigate(`/route?candidateId=${encodeURIComponent(journey.id)}`);
           }}
           onOpenSpot={openSpot}
         />
@@ -249,9 +272,12 @@ export function ReferenceApp() {
           active={isRoute}
           copy={copy}
           locale={locale}
-          journey={currentJourney}
-          saved={savedRouteIds.includes(currentJourney.routeId)}
-          onBack={() => navigate(routeBack)}
+          journey={routeJourney}
+          saved={savedRouteIds.includes(routeJourney.routeId)}
+          onBack={() => {
+            const from = new URLSearchParams(location.search).get('from');
+            navigate(from === 'my' ? '/my' : queryJourney ? `/story/${queryJourney.storyId}` : routeBack);
+          }}
           onShare={() => void shareCurrentRoute()}
           onRegenerate={() => setToast(locale === 'ja' ? 'ルートを再生成しました！' : locale === 'zh-TW' ? '已重新建立路線！' : 'Route regenerated!')}
           onOpenSpot={openSpot}
@@ -267,7 +293,7 @@ export function ReferenceApp() {
           copy={copy}
           locale={locale}
           spot={currentSpot}
-          onBack={() => navigate(spotBack)}
+          onBack={() => navigate(queryJourney ? `/route${location.search}` : spotBack)}
           onOpenGuide={() => setToast(locale === 'ja' ? '外部サイトへ（プロトタイプ）' : locale === 'zh-TW' ? '前往外部網站（原型）' : 'External site (prototype)')}
           onNavigate={navigate}
         />
@@ -300,7 +326,7 @@ export function ReferenceApp() {
           onOpenSavedJourney={(journey) => {
             setCurrentJourney(journey);
             setRouteBack('/my');
-            navigate('/route');
+            navigate(`/route?from=my&routeId=${encodeURIComponent(journey.routeId)}`);
           }}
           onNavigate={navigate}
         />

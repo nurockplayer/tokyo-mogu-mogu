@@ -470,6 +470,51 @@ test.describe('Issue #276 authoritative Netlify choreography', () => {
     ).toBeVisible();
   });
 
+  test('preserves the visible Yamame journey identity through Story and Route reloads', async ({
+    page,
+  }) => {
+    const yamameRoute = page.locator(
+      '[data-screen="route"][data-screen-active="true"]',
+    );
+    const yamameRouteTitle = '新宿から約90分、奥多摩やまめを味わう旅';
+
+    await page.goto('/route?candidateId=demo-okutama-yamame');
+    await expect(yamameRoute.getByText(yamameRouteTitle, { exact: true })).toBeVisible();
+    await page.reload();
+    await expect(yamameRoute.getByText(yamameRouteTitle, { exact: true })).toBeVisible();
+
+    await page.goto('/route?routeId=okutama-yamame-journey');
+    await expect(yamameRoute.getByText(yamameRouteTitle, { exact: true })).toBeVisible();
+    await yamameRoute.getByRole('button', { name: 'マイルートに保存' }).click();
+    await expect
+      .poll(() =>
+        page.evaluate(() =>
+          JSON.parse(localStorage.getItem('tmm:savedRoutes') ?? '[]').map(
+            (entry: { routeId: string }) => entry.routeId,
+          ),
+        ),
+      )
+      .toContain('okutama-yamame-journey');
+
+    await page.goto('/story/yamame-okutama');
+    await page.getByRole('button', { name: 'この食文化の観光ルートを作成する' }).click();
+    await expect(page.locator('[data-route-loading]')).toBeVisible();
+    await expect(page).toHaveURL(/\/route\?candidateId=demo-okutama-yamame$/, {
+      timeout: 3_500,
+    });
+    await expect(yamameRoute.getByText(yamameRouteTitle, { exact: true })).toBeVisible();
+    await page.reload();
+    await expect(yamameRoute.getByText(yamameRouteTitle, { exact: true })).toBeVisible();
+
+    await yamameRoute.locator('[data-spot-id="okutama-tourism-office"]').click();
+    await expect(page).toHaveURL(
+      /\/spot\/okutama-tourism-office\?candidateId=demo-okutama-yamame$/,
+    );
+    await page.locator('[data-screen="spot"][data-screen-active="true"] .fab-back').click();
+    await expect(page).toHaveURL(/\/route\?candidateId=demo-okutama-yamame$/);
+    await expect(yamameRoute.getByText(yamameRouteTitle, { exact: true })).toBeVisible();
+  });
+
   test('delegates non-demo Tokyo content to the established data-backed routes', async ({ page }) => {
     await page.goto('/story/sake-ome');
 
