@@ -1366,8 +1366,7 @@ function SetupSummaryStep({
           🌿
         </span>
         <div className="fp-convo__bubble">
-          <p className="fp-convo__title">{t('fpIvSummaryTitle')}</p>
-          <p className="fp-convo__body">{confirm}</p>
+          <p className="fp-convo__title">{confirm}</p>
           <p className="fp-convo__body">{t('fpSummaryTitle')}</p>
           <div className="tmm-profile-summary">
             {lines.map((line, index) => (

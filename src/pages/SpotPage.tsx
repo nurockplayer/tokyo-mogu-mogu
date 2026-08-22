@@ -25,6 +25,9 @@ import {
   Toast,
 } from '../ui';
 import { PlaceVisual } from '../components/PlaceVisual';
+import { MediaGallery } from '../components/MediaGallery';
+import { FIELDWORK_MEDIA } from '../data/fieldwork-media';
+import { RESTORE_JOURNEY_SCROLL_STATE } from '../app/JourneyNavigationManager';
 import {
   getPlaceById,
   getRelatedFoodCultures,
@@ -44,6 +47,12 @@ import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
 import { deriveVerificationStatus, sourceDateLabel } from '../lib/verification';
 import { routeBackTarget, resolveSpotRouteId, spotBackHref } from './route-context';
 import './route-spot.css';
+
+const OKUTAMA_TOURISM_OFFICE_GALLERY = [
+  FIELDWORK_MEDIA['okutama-tourism-office-interior'],
+  FIELDWORK_MEDIA['okutama-tourism-office-stamps'],
+  FIELDWORK_MEDIA['okutama-tourism-office-character'],
+] as const;
 
 /** Maps a place type to its i18n label key. */
 const PLACE_TYPE_LABEL: Record<PlaceType, LocaleKey> = {
@@ -223,6 +232,7 @@ export function SpotPage() {
           <p>{t('s6NotFoundBody')}</p>
           <Link
             to={spotBackHref(location.search)}
+            state={{ [RESTORE_JOURNEY_SCROLL_STATE]: true }}
             className="tmm-btn tmm-btn--secondary"
           >
             {t('back')}
@@ -337,15 +347,30 @@ export function SpotPage() {
 
   return (
     <div className="tmm-page">
-      {/* Hero: photo placeholder + local name + romanization + category */}
+      {/* Matching fieldwork gallery where provenance supports the place;
+          reusable illustration remains the honest fallback elsewhere. */}
       <div className="s6-visual-wrap">
-        <PlaceVisual
-          name={placeName}
-          nameJa={place.nameJa}
-          type={place.type}
-          alt={placeName}
-        />
-        <Link to={spotBackHref(location.search)} className="s6-hero-back" aria-label={t('back')}>
+        {place.id === 'okutama-tourism-office' ? (
+          <MediaGallery
+            media={OKUTAMA_TOURISM_OFFICE_GALLERY}
+            label={t('spotGalleryLabel')}
+            testId="spot-gallery"
+            className="s6-fieldwork-gallery"
+          />
+        ) : (
+          <PlaceVisual
+            name={placeName}
+            nameJa={place.nameJa}
+            type={place.type}
+            alt={placeName}
+          />
+        )}
+        <Link
+          to={spotBackHref(location.search)}
+          state={{ [RESTORE_JOURNEY_SCROLL_STATE]: true }}
+          className="s6-hero-back"
+          aria-label={t('back')}
+        >
           ‹
         </Link>
       </div>
@@ -525,6 +550,7 @@ export function SpotPage() {
 
       <Link
         to={spotBackHref(location.search)}
+        state={{ [RESTORE_JOURNEY_SCROLL_STATE]: true }}
         className="tmm-btn tmm-btn--secondary s6-back"
       >
         ← {routeBackTarget(location.search) === 'discover' ? t('back') : t('s6BackToRoute')}

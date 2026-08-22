@@ -564,7 +564,7 @@
 .tmm-departure-search__backdrop {
   position: fixed;
   inset: 0;
-  z-index: 30;
+  z-index: 1000;
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -880,17 +880,16 @@
 }
 
 .tmm-result-ranking__item:not(:first-child) .tmm-result-card__media {
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 1.455 / 1;
 }
 
 .tmm-result-ranking__item:not(:first-child) .tmm-result-card__title {
   font-size: 1.25rem;
 }
 
-/* A 16:9 Result media frame keeps rank and journey identity above the fixed
-   mobile navigation while retaining an image-led reveal. */
+/* KiKi Result cards use the measured 1.455:1 media plate. */
 .tmm-result .tmm-result-card__media {
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 1.455 / 1;
 }
 
 .tmm-result-card__img {
@@ -949,6 +948,14 @@
 .tmm-result__greeting .fp-convo__bubble {
   flex: 0 1 auto;
   text-align: left;
+}
+
+.tmm-page--journey-progress {
+  padding-bottom: calc(100px + env(safe-area-inset-bottom));
+}
+
+.tmm-page--journey-progress-with-nav {
+  padding-bottom: 100px;
 }
 
 /* Desktop: contain the full-bleed hero as a rounded plate (same treatment as

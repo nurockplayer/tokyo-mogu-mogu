@@ -1,0 +1,90 @@
+.tmm-journey-progress {
+  position: fixed;
+  z-index: 440;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: min(100%, 390px);
+  min-height: 84px;
+  margin-inline: auto;
+  padding: 8px 16px calc(16px + env(safe-area-inset-bottom));
+  background: var(--tmm-color-leaf);
+  box-shadow: var(--tmm-shadow-sticky-footer);
+}
+
+.tmm-journey-progress--with-nav {
+  bottom: calc(var(--tmm-nav-h) + env(safe-area-inset-bottom));
+  padding-bottom: 16px;
+}
+
+.tmm-journey-progress__inner {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 274px);
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 60px;
+}
+
+.tmm-journey-progress__count {
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--tmm-color-forest-deep);
+  white-space: nowrap;
+}
+
+.tmm-journey-progress__rail {
+  position: relative;
+  width: 100%;
+  height: 9px;
+  border-radius: 999px;
+  background: rgb(255 253 246 / 0.75);
+}
+
+.tmm-journey-progress__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: inherit;
+  background: var(--tmm-color-forest-visual);
+  transition: width 180ms ease-out;
+}
+
+.tmm-journey-progress__milestone {
+  position: absolute;
+  top: 50%;
+  width: 13px;
+  height: 13px;
+  border: 2px solid var(--tmm-color-forest-visual);
+  border-radius: 50%;
+  background: var(--tmm-color-card);
+  transform: translate(-50%, -50%);
+}
+
+.tmm-journey-progress__milestone--reached {
+  background: var(--tmm-color-forest-visual);
+}
+
+.tmm-journey-progress__mascot {
+  position: absolute;
+  bottom: 8px;
+  width: 43px;
+  height: 43px;
+  object-fit: contain;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 2px 3px rgb(28 60 44 / 0.2));
+  transition: left 180ms ease-out;
+}
+
+@media (max-width: 360px) {
+  .tmm-journey-progress__inner {
+    grid-template-columns: 42px minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tmm-journey-progress__fill,
+  .tmm-journey-progress__mascot {
+    transition: none;
+  }
+}

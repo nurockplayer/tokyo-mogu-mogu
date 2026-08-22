@@ -14,6 +14,7 @@ import { Routes, Route } from 'react-router-dom';
 import { AppShell, PrototypeShell } from './index';
 import { LoadingBoundary } from './LoadingBoundary';
 import { NotFoundPage } from './NotFoundPage';
+import { JourneyNavigationManager } from './JourneyNavigationManager';
 
 const HomePage = lazy(() => import('../pages/HomePage').then((m) => ({ default: m.HomePage })));
 const LandingPage = lazy(() =>
@@ -77,7 +78,9 @@ function withBoundary(element: ReactNode) {
 
 export function AppRouter() {
   return (
-    <Routes>
+    <>
+      <JourneyNavigationManager />
+      <Routes>
       {/* Guided conversation + journey content (Issues #217 / #252). */}
       <Route element={<PrototypeShell />}>
         <Route path="/" element={withBoundary(<LandingPage />)} />
@@ -110,6 +113,7 @@ export function AppRouter() {
         ) : null}
         <Route path="*" element={<NotFoundPage />} />
       </Route>
-    </Routes>
+      </Routes>
+    </>
   );
 }

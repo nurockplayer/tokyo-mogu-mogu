@@ -1,12 +1,13 @@
 /**
- * Reproducible 375px screenshot capture for Issue #268.
+ * Reproducible 375px screenshot capture for Issues #268 / #270.
  *
- * Run explicitly with `ISSUE_268_EVIDENCE=1`; the normal release suite skips
- * this artifact-only walkthrough.
+ * Run explicitly with `ISSUE_268_EVIDENCE=1` or `ISSUE_270_EVIDENCE=1`; the
+ * normal release suite skips this artifact-only walkthrough.
  */
 import { expect, test, type Page } from '@playwright/test';
 
-const EVIDENCE_DIR = 'docs/evidence/issue-268';
+const EVIDENCE_ISSUE = process.env.ISSUE_270_EVIDENCE === '1' ? '270' : '268';
+const EVIDENCE_DIR = `docs/evidence/issue-${EVIDENCE_ISSUE}`;
 const FOOD_PROFILE_KEY = 'tmm:foodProfile:v1';
 const EXPLORATION_KEY = 'tmm:exploration:v1';
 const LOCALE_KEY = 'tmm:locale';
@@ -35,8 +36,11 @@ async function completeDiagnosis(page: Page): Promise<void> {
   await page.waitForURL('**/explore/result');
 }
 
-test.describe('Issue #268 screenshot evidence', () => {
-  test.skip(process.env.ISSUE_268_EVIDENCE !== '1', 'artifact capture only');
+test.describe(`Issue #${EVIDENCE_ISSUE} screenshot evidence`, () => {
+  test.skip(
+    process.env.ISSUE_268_EVIDENCE !== '1' && process.env.ISSUE_270_EVIDENCE !== '1',
+    'artifact capture only',
+  );
   test.use({ locale: 'ja-JP', viewport: { width: 375, height: 812 } });
 
   test('captures the lifecycle and downstream identity surfaces', async ({ page }) => {
@@ -67,12 +71,13 @@ test.describe('Issue #268 screenshot evidence', () => {
     await page.getByRole('button', { name: '保存してつぎへ' }).click();
     await page.getByRole('button', { name: '自分に合った旅をおすすめしてもらう！' }).click();
     await page.waitForURL('**/explore');
+    await page.getByTestId('diagnosis-session').waitFor();
     await capture(page, '05-diagnosis-entry-ja-375');
 
     await completeDiagnosis(page);
     await page.getByRole('heading', { name: 'あなたに合う食の旅を見つけました！' }).waitFor();
     await capture(page, '06-result-ja-375');
-    await page.getByRole('link', { name: '今回の探索をもう一度' }).click();
+    await page.getByRole('link', { name: 'もう一度食旅を見つける' }).click();
     await page.waitForURL('**/explore');
     await capture(page, '07-repeat-diagnosis-ja-375');
     await completeDiagnosis(page);

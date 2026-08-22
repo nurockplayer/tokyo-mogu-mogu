@@ -126,7 +126,7 @@ test.describe('golden path (ja, 375px)', () => {
       await page.locator('[data-tutorial-target="true"]').click();
     }
     // Interview summary with the recommendation-only trust copy.
-    await page.getByText('ありがとうございます！🌿 あなたの食のプロフィールを登録しました。').waitFor();
+    await page.getByText('ありがとうございます、ナナミさん！あなたの食のプロフィールを登録しました。').waitFor();
     // Prototype-continuity nickname (Issue #226): localStorage, cleared on demo
     // reset, never an account/profile.
     expect(await persisted(page, NICKNAME_KEY)).toBe('ナナミ');

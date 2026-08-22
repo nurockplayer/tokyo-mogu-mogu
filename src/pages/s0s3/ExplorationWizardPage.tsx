@@ -20,7 +20,8 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useI18n, type LocaleKey } from '../../i18n';
-import { Button, Chip, StepDots } from '../../ui';
+import { Button, Chip } from '../../ui';
+import { JourneyProgress } from '../../components/JourneyProgress';
 import { fillTemplate } from '../../lib/exploration';
 import {
   WIZARD_STEP_COUNT,
@@ -723,7 +724,7 @@ function ExplorationWizardInner() {
   const ariaProgress = t('explorationProgressAria').replace('{n}', String(step + 1)).replace('{total}', String(WIZARD_STEP_COUNT));
 
   return (
-    <div className="tmm-page">
+    <div className="tmm-page tmm-page--journey-progress">
       <div className="tmm-wizard">
         <div className="tmm-wizard__header">
           <button
@@ -744,8 +745,6 @@ function ExplorationWizardInner() {
         <p className="tmm-wizard__step" aria-hidden="true">
           {progressLabel}
         </p>
-
-        <StepDots total={WIZARD_STEP_COUNT} current={step} label={ariaProgress} />
 
         <div className="tmm-diagnosis" data-testid="diagnosis-session">
           <div ref={activeTurnRef} className="tmm-diagnosis__active">
@@ -778,6 +777,7 @@ function ExplorationWizardInner() {
           </div>
         </div>
       </div>
+      <JourneyProgress current={step + 1} />
     </div>
   );
 }

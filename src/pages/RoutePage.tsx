@@ -45,6 +45,12 @@ import {
 } from '../i18n/data-content';
 import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
 import { routeBackHref, routeContextSearch } from './route-context';
+import { RESTORE_JOURNEY_SCROLL_STATE } from '../app/JourneyNavigationManager';
+import {
+  FIELDWORK_MEDIA,
+  fieldworkMediaSrcSet,
+  fieldworkMediaText,
+} from '../data/fieldwork-media';
 import './route-spot.css';
 
 const DURATIONS: RouteDuration[] = ['half-day', '1-day'];
@@ -86,6 +92,7 @@ export function RoutePage() {
           <p>{t('s5NotFoundBody')}</p>
           <Link
             to={routeBackHref(location.search)}
+            state={{ [RESTORE_JOURNEY_SCROLL_STATE]: true }}
             className="tmm-btn tmm-btn--secondary"
           >
             {t('back')}
@@ -111,6 +118,8 @@ export function RoutePage() {
   const transport = transportKey
     ? t(transportKey)
     : locale === 'ja' ? variant.transportJa : variant.transportEn || variant.transportJa;
+  const routeScenery =
+    route.id === 'okutama-wasabi-journey' ? FIELDWORK_MEDIA['okutama-forest-valley'] : null;
 
   // Route-specific advisory/observation copy. Only the demo route carries one
   // today; any other route renders no advisory rather than Okutama's hedged
@@ -142,9 +151,16 @@ export function RoutePage() {
   };
 
   return (
-    <div className="tmm-page">
+    <div className={`tmm-page s5-page ${saved ? 's5-page--saved' : 's5-page--unsaved'}`}>
       <header className="s5-figma-header">
-        <Link to={routeBackHref(location.search)} aria-label={t('back')} className="s5-figma-header__back">‹</Link>
+        <Link
+          to={routeBackHref(location.search)}
+          state={{ [RESTORE_JOURNEY_SCROLL_STATE]: true }}
+          aria-label={t('back')}
+          className="s5-figma-header__back"
+        >
+          ‹
+        </Link>
         <p>{localized(routeNameKey(route.id), route.nameJa, route.nameEn)}</p>
       </header>
 
@@ -165,6 +181,21 @@ export function RoutePage() {
         </div>
         {estimateKey ? <p className="s5-hero__note">{t(estimateKey)}</p> : null}
       </div>
+
+      {routeScenery ? (
+        <figure className="s5-fieldwork-scenery">
+          <img
+            src={routeScenery.fallbackSrc}
+            srcSet={fieldworkMediaSrcSet(routeScenery)}
+            sizes="(max-width: 480px) calc(100vw - 32px), 640px"
+            width={routeScenery.width}
+            height={routeScenery.height}
+            alt={fieldworkMediaText(routeScenery, locale).alt}
+            decoding="async"
+          />
+          <figcaption>{fieldworkMediaText(routeScenery, locale).caption}</figcaption>
+        </figure>
+      ) : null}
 
       {/* Route-specific crowding advisory (#83) — hedged field observation,
           never stated as a verified fact or realtime data. Only routes that
@@ -326,32 +357,44 @@ export function RoutePage() {
         </StorySection>
       </section>
 
-      {/* Primary CTA: save this itinerary */}
-      <section className="tmm-section">
+      {/* Measured Route action surface (Figma 119:681 / 122:889). */}
+      <section className="tmm-section s5-save-section">
         {saved ? (
-          <div
-            className="s5-saved-actions"
-            role="group"
-            aria-label={t('s5SavedActionsLabel')}
-          >
-            <Button variant="secondary" onClick={handleSave} aria-pressed="true">
-              {t('s5Saved')} ✓
-            </Button>
-            <Link to="/my" className="tmm-btn tmm-btn--primary">
-              {t('s5ViewSavedRoutes')}
-            </Link>
+          <div className="s5-sticky-actions s5-sticky-actions--saved">
+            <div
+              className="s5-saved-actions"
+              role="group"
+              aria-label={t('s5SavedActionsLabel')}
+            >
+              <Button variant="secondary" onClick={handleSave} aria-pressed="true">
+                {t('s5Saved')} ✓
+              </Button>
+              <Link to="/my" className="tmm-btn tmm-btn--primary">
+                {t('s5ViewSavedRoutes')}
+              </Link>
+            </div>
           </div>
         ) : (
-          <Button
-            variant="primary"
-            className="tmm-btn--block"
-            onClick={handleSave}
-            aria-pressed="false"
-          >
-            🔖 {t('s5SaveCta')}
-          </Button>
+          <div className="s5-sticky-actions">
+            <div className="s5-save-summary">
+              <strong>{localized(routeNameKey(route.id), route.nameJa, route.nameEn)}</strong>
+              <span>
+                {t(duration === 'half-day' ? 's5DurationHalfDay' : 's5DurationFullDay')}
+                {' · '}
+                {formatTotalMinutes(variant.totalMinutes, locale)}
+              </span>
+            </div>
+            <Button
+              variant="primary"
+              className="tmm-btn--block"
+              onClick={handleSave}
+              aria-pressed="false"
+            >
+              🔖 {t('s5SaveCta')}
+            </Button>
+            <p className="s6-info-unverified">{t('s5SaveHint')}</p>
+          </div>
         )}
-        <p className="s6-info-unverified">{t('s5SaveHint')}</p>
       </section>
 
       {toast ? (

@@ -49,9 +49,11 @@ export function PrototypeShell() {
         </div>
       </header>
       <main className="tmm-main">
-        <ErrorBoundary>
-          <Outlet />
-        </ErrorBoundary>
+        <div className="tmm-route-transition" key={location.key}>
+          <ErrorBoundary>
+            <Outlet />
+          </ErrorBoundary>
+        </div>
       </main>
       {showNav ? <PrimaryNav className="tmm-nav--proto" /> : null}
     </div>
