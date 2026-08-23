@@ -9,8 +9,10 @@ import yamameResult from '../../assets/netlify-parity/crop_yamame_clean.png';
 import okutamaKitchen from '../../assets/netlify-parity/daidokoro_new.jpg';
 import okutamaKitchenDetail from '../../assets/netlify-parity/daidokoro2.jpg';
 import station from '../../assets/netlify-parity/eki.jpg';
+import explorationBackground from '../../assets/netlify-parity/exploration-background.png';
 import wasabiExperience from '../../assets/netlify-parity/experience_new.jpg';
 import favicon from '../../assets/netlify-parity/favicon.png';
+import figmaRouteMap from '../../assets/netlify-parity/figma-route-map.png';
 import wasabiGelato from '../../assets/netlify-parity/gelato.jpg';
 import hanamaru from '../../assets/netlify-parity/hanamaru.png';
 import valleyBridge from '../../assets/netlify-parity/hashi.jpg';
@@ -28,6 +30,9 @@ import valley from '../../assets/netlify-parity/keikoku.jpg';
 import logoFace from '../../assets/netlify-parity/logo_face_t.png';
 import logoFull from '../../assets/netlify-parity/logo_full_t.png';
 import routeMap from '../../assets/netlify-parity/map.jpg';
+import okuHikawaShrine from '../../assets/netlify-parity/oku-hikawa-shrine.png';
+import tourismOfficeExterior from '../../assets/netlify-parity/okutama-tourism-office-exterior.png';
+import tourismOfficeRoute from '../../assets/netlify-parity/okutama-tourism-office-route.png';
 import openGraphImage from '../../assets/netlify-parity/og.png';
 import portCafe from '../../assets/netlify-parity/port_cafe.jpg';
 import port from '../../assets/netlify-parity/port.jpg';
@@ -246,9 +251,11 @@ export const referenceAssetFiles = {
   makerIllustration: '../../assets/netlify-parity/ill_shokunin.png',
   originIllustration: '../../assets/netlify-parity/ill_sanchi.png',
   learnIllustration: '../../assets/netlify-parity/ill_manabu.png',
+  explorationBackground: '../../assets/netlify-parity/exploration-background.png',
   wasabiHero: '../../assets/netlify-parity/wasabi_photo.jpg',
   yamameResult: '../../assets/netlify-parity/crop_yamame_clean.png',
   routeMap: '../../assets/netlify-parity/map.jpg',
+  figmaRouteMap: '../../assets/netlify-parity/figma-route-map.png',
   akabeko: '../../assets/netlify-parity/akabeko_new.jpg',
   akabekoYamame: '../../assets/netlify-parity/akabeko_yamame.jpg',
   akabekoYamameDetail: '../../assets/netlify-parity/akabeko_yamame2.jpg',
@@ -262,6 +269,9 @@ export const referenceAssetFiles = {
   riverPortrait: '../../assets/netlify-parity/kawa_new.jpg',
   station: '../../assets/netlify-parity/eki.jpg',
   tourismOffice: '../../assets/netlify-parity/annaijo.jpg',
+  tourismOfficeExterior: '../../assets/netlify-parity/okutama-tourism-office-exterior.png',
+  tourismOfficeRoute: '../../assets/netlify-parity/okutama-tourism-office-route.png',
+  okuHikawaShrine: '../../assets/netlify-parity/oku-hikawa-shrine.png',
   wasabiKitchen: '../../assets/netlify-parity/shokudo_new.jpg',
   okutamaKitchen: '../../assets/netlify-parity/daidokoro_new.jpg',
   okutamaKitchenDetail: '../../assets/netlify-parity/daidokoro2.jpg',
@@ -291,9 +301,11 @@ export const referenceAssets: Record<ReferenceAssetId, string> = {
   makerIllustration,
   originIllustration,
   learnIllustration,
+  explorationBackground,
   wasabiHero,
   yamameResult,
   routeMap,
+  figmaRouteMap,
   akabeko: akabekoNew,
   akabekoYamame,
   akabekoYamameDetail,
@@ -307,6 +319,9 @@ export const referenceAssets: Record<ReferenceAssetId, string> = {
   riverPortrait,
   station,
   tourismOffice,
+  tourismOfficeExterior,
+  tourismOfficeRoute,
+  okuHikawaShrine,
   wasabiKitchen,
   okutamaKitchen,
   okutamaKitchenDetail,
@@ -396,8 +411,8 @@ export const demoJourneys: JourneyPresentation[] = [
       'zh-TW': [{ number: '01.', title: '為什麼是山葵？', body: '清澈冰冷的水孕育出香氣與辛味。' }, { number: '02.', title: '誰在製作？', body: '職人的照料與地方智慧守護著田地和味道。' }, { number: '03.', title: '傳承的技術', body: '適合這片土地的方法，一代一代地傳下來。' }, { number: '04.', title: '當前的課題', body: '環境變化與接班人不足，讓傳承面臨挑戰。' }, { number: '05.', title: '你能做什麼', body: '在這裡品嚐與造訪，可以支持下一代。' }],
     },
     routeVariants: [
-      { id: 'half-day', durationMinutes: 150, imageAssetId: 'routeMap', steps: [{ spotId: 'okutama-station', imageAssetId: 'station' }, { spotId: 'okutama-tourism-office', imageAssetId: 'tourismOffice' }, { spotId: 'wasabi-kitchen', imageAssetId: 'wasabiKitchen' }, { spotId: 'okutama-kitchen', imageAssetId: 'wasabiGelato' }, { spotId: 'hikawa-valley', imageAssetId: 'valley' }, { spotId: 'port-okutama', imageAssetId: 'port' }] },
-      { id: 'full-day', durationMinutes: 420, imageAssetId: 'routeMap', steps: [{ spotId: 'mitake-station', imageAssetId: 'station' }, { spotId: 'wasabi-experience', imageAssetId: 'wasabiExperience' }, { spotId: 'okutama-station', imageAssetId: 'station' }, { spotId: 'akabeko', imageAssetId: 'akabekoYamame' }, { spotId: 'yamashiroya', imageAssetId: 'yamashiroyaGoods' }, { spotId: 'port-okutama', imageAssetId: 'portDetail' }] },
+      { id: 'half-day', durationMinutes: 150, imageAssetId: 'figmaRouteMap', steps: [{ spotId: 'okutama-station', imageAssetId: 'station' }, { spotId: 'okutama-tourism-office', imageAssetId: 'tourismOfficeRoute' }, { spotId: 'wasabi-kitchen', imageAssetId: 'wasabiKitchen' }, { spotId: 'okutama-kitchen', imageAssetId: 'wasabiGelato' }, { spotId: 'hikawa-valley', imageAssetId: 'valley' }, { spotId: 'oku-hikawa-shrine', imageAssetId: 'okuHikawaShrine' }, { spotId: 'port-okutama', imageAssetId: 'port' }] },
+      { id: 'full-day', durationMinutes: 420, imageAssetId: 'figmaRouteMap', steps: [{ spotId: 'mitake-station', imageAssetId: 'station' }, { spotId: 'wasabi-experience', imageAssetId: 'wasabiExperience' }, { spotId: 'okutama-station', imageAssetId: 'station' }, { spotId: 'akabeko', imageAssetId: 'akabekoYamame' }, { spotId: 'yamashiroya', imageAssetId: 'yamashiroyaGoods' }, { spotId: 'port-okutama', imageAssetId: 'portDetail' }] },
     ],
   },
   {
@@ -428,7 +443,7 @@ const spot = (id: string, imageAssetId: ReferenceAssetId, thumbnailAssetIds: Ref
 });
 
 export const demoSpots: Record<string, SpotPresentation> = {
-  'okutama-tourism-office': spot('okutama-tourism-office', 'tourismOffice', ['wasapy', 'station', 'valley', 'port'], { ja: { name: '奥多摩観光案内所', lead: 'わさぴーが迎えてくれる、旅のはじまりスポット', description: '奥多摩の観光情報に出会う、旅の最初の立ち寄り先です。' }, en: { name: 'Okutama Tourist Information Center', lead: 'A welcoming first stop for the journey', description: 'A first stop for discovering Okutama visitor information.' }, 'zh-TW': { name: '奧多摩觀光案內所', lead: '迎接旅程開始的第一站', description: '認識奧多摩旅遊資訊的第一個停靠點。' } }),
+  'okutama-tourism-office': spot('okutama-tourism-office', 'tourismOfficeExterior', ['tourismOffice', 'wasapy', 'station', 'valley'], { ja: { name: '奥多摩観光案内所', lead: 'わさぴーが迎えてくれる、旅のはじまりスポット', description: '奥多摩の観光情報に出会う、旅の最初の立ち寄り先です。' }, en: { name: 'Okutama Tourist Information Center', lead: 'A welcoming first stop for the journey', description: 'A first stop for discovering Okutama visitor information.' }, 'zh-TW': { name: '奧多摩觀光案內所', lead: '迎接旅程開始的第一站', description: '認識奧多摩旅遊資訊的第一個停靠點。' } }),
   akabeko: spot('akabeko', 'akabeko', ['akabekoYamame', 'akabekoYamameDetail', 'wasabiGelato', 'okutamaKitchenDetail'], { ja: { name: '炉ばた あかべこ', lead: '地域の味に出会う炉ばた料理店', description: '地域の食材を味わうための、参考スポットです。' }, en: { name: 'Robata Akabeko', lead: 'A hearth-grill restaurant for local flavors', description: 'A reference stop for tasting ingredients from the area.' }, 'zh-TW': { name: '爐端燒 AKABEKO', lead: '遇見在地風味的爐端料理店', description: '品嚐在地食材的參考景點。' } }),
   yamashiroya: spot('yamashiroya', 'yamashiroya', ['yamashiroyaGoods', 'yamashiroyaSign'], { ja: { name: '山城屋', lead: 'わさび加工の店を訪ねる', description: 'わさびにまつわる品を探すための、参考スポットです。' }, en: { name: 'Yamashiroya', lead: 'Visit a wasabi-specialty shop', description: 'A reference stop for finding wasabi-related goods.' }, 'zh-TW': { name: '山城屋', lead: '造訪山葵加工專門店', description: '尋找山葵相關商品的參考景點。' } }),
   'wasabi-kitchen': spot('wasabi-kitchen', 'wasabiKitchen', ['station', 'wasabiGelato'], { ja: { name: 'わさび食堂', lead: '駅前で味わうわさびの一皿', description: 'わさびの味を試すための、参考スポットです。' }, en: { name: 'Wasabi Shokudo', lead: 'A wasabi dish near the station', description: 'A reference stop for trying a wasabi flavor.' }, 'zh-TW': { name: '山葵食堂', lead: '在車站前品嚐一道山葵料理', description: '嘗試山葵風味的參考景點。' } }),
@@ -436,6 +451,7 @@ export const demoSpots: Record<string, SpotPresentation> = {
   'hikawa-valley': spot('hikawa-valley', 'valley', ['river', 'valleyBridge'], { ja: { name: '氷川渓谷', lead: '水と土地に触れる散策', description: '食文化を支える水辺の風景に出会う、参考スポットです。' }, en: { name: 'Hikawa Valley', lead: 'A walk that meets water and landscape', description: 'A reference stop for waterside scenery behind the food culture.' }, 'zh-TW': { name: '冰川溪谷', lead: '親近水與土地的散步', description: '遇見支撐飲食文化的水岸風景之參考景點。' } }),
   'port-okutama': spot('port-okutama', 'portCafe', ['port', 'portDetail'], { ja: { name: 'PORT OKUTAMA', lead: '旅の締めのコーヒーと土産探しに', description: '旅の最後に立ち寄るための、参考スポットです。' }, en: { name: 'PORT OKUTAMA', lead: 'Coffee and gifts to close the journey', description: 'A reference stop for the final part of the journey.' }, 'zh-TW': { name: 'PORT OKUTAMA', lead: '以咖啡與伴手禮為旅程收尾', description: '在旅程最後停靠的參考景點。' } }),
   'wasabi-experience': spot('wasabi-experience', 'wasabiExperience', ['river'], { ja: { name: 'Wasabi Experience', lead: 'わさび田の体験を知る', description: 'わさびの生産風景に触れるための、参考スポットです。' }, en: { name: 'Wasabi Experience', lead: 'Learn about a wasabi-field experience', description: 'A reference stop for meeting wasabi growing landscapes.' }, 'zh-TW': { name: 'Wasabi Experience', lead: '認識山葵田體驗', description: '親近山葵生產景觀的參考景點。' } }),
+  'oku-hikawa-shrine': spot('oku-hikawa-shrine', 'okuHikawaShrine', ['valley', 'station'], { ja: { name: '奥氷川神社', lead: '奥多摩駅近くで地域の歴史にふれる', description: '地域の歴史と自然を感じられる静かな神社です。' }, en: { name: 'Oku-Hikawa Shrine', lead: 'Meet local history near Okutama Station', description: 'A quiet shrine where the area’s history and nature meet.' }, 'zh-TW': { name: '奧冰川神社', lead: '在奧多摩站附近感受地方歷史', description: '能感受地方歷史與自然的寧靜神社。' } }),
   'okutama-station': spot('okutama-station', 'station', ['tourismOffice'], { ja: { name: '奥多摩駅', lead: '旅のスタート地点', description: '旅程の起点として示す、参考スポットです。' }, en: { name: 'Okutama Station', lead: 'The journey’s starting point', description: 'A reference stop shown as the route’s starting point.' }, 'zh-TW': { name: '奧多摩站', lead: '旅程的起點', description: '作為行程起點顯示的參考景點。' } }),
   'mitake-station': spot('mitake-station', 'station', ['wasabiExperience'], { ja: { name: '御岳駅', lead: 'わさび体験へ向かう起点', description: '体験ルートの起点として示す、参考スポットです。' }, en: { name: 'Mitake Station', lead: 'A starting point for the wasabi experience', description: 'A reference stop shown as the experience route’s starting point.' }, 'zh-TW': { name: '御嶽站', lead: '前往山葵體驗的起點', description: '作為體驗路線起點顯示的參考景點。' } }),
 };

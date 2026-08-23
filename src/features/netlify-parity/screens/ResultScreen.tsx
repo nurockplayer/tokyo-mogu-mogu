@@ -1,6 +1,10 @@
 import type { Locale } from '../../../i18n';
-import { BottomNavigation } from '../components/BottomNavigation';
-import { demoJourneys, type JourneyPresentation, type ReferenceCopy } from '../content';
+import {
+  demoJourneys,
+  referenceAssets,
+  type JourneyPresentation,
+  type ReferenceCopy,
+} from '../content';
 import { JourneyResultCard } from './JourneyResultCard';
 
 const resultHeading: Record<Locale, { prefix: string; accent: string; suffix: string }> = {
@@ -17,7 +21,6 @@ export interface ResultScreenProps {
   onBack: () => void;
   onRepeatSearch: () => void;
   onOpenJourney: (journey: JourneyPresentation) => void;
-  onNavigate: (path: string) => void;
 }
 
 export function ResultScreen({
@@ -28,7 +31,6 @@ export function ResultScreen({
   onBack,
   onRepeatSearch,
   onOpenJourney,
-  onNavigate,
 }: ResultScreenProps) {
   const heading = resultHeading[locale];
 
@@ -69,8 +71,19 @@ export function ResultScreen({
             />
           ))}
         </div>
+        <div className="progress result-progress" aria-label="5 / 5">
+          <div className="rail">
+            {[0, 1, 2, 3, 4].map((index) => <i className="dot" key={index} />)}
+            <img
+              className="fork"
+              src={referenceAssets.forkIllustration}
+              alt=""
+              style={{ left: '100%' }}
+            />
+          </div>
+          <div className="plate" />
+        </div>
       </div>
-      <BottomNavigation active="home" copy={copy.nav} onNavigate={onNavigate} />
     </section>
   );
 }
