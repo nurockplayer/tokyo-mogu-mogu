@@ -10,13 +10,18 @@
  * content. Directory/history/settings surfaces stay under AppShell.
  */
 import { lazy, type ReactNode } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Navigate, Routes, Route, useLocation } from 'react-router-dom';
 import { AppShell, PrototypeShell } from './index';
 import { LoadingBoundary } from './LoadingBoundary';
 import { NotFoundPage } from './NotFoundPage';
 import { JourneyNavigationManager } from './JourneyNavigationManager';
 import { ReferenceApp } from '../features/netlify-parity/ReferenceApp';
 import { demoJourneys, demoSpots } from '../features/netlify-parity/content';
+import { DEMO_RECOMMENDATION_CANDIDATES } from '../data/demo-recommendation';
+import {
+  classifyJourneyQuery,
+  type JourneyQueryIdentity,
+} from './reference-journey-query';
 
 const HomePage = lazy(() => import('../pages/HomePage').then((m) => ({ default: m.HomePage })));
 const LandingPage = lazy(() =>
@@ -81,18 +86,25 @@ function withBoundary(element: ReactNode) {
 export function AppRouter() {
   const { pathname, search } = useLocation();
   const searchParams = new URLSearchParams(search);
-  const referenceCandidateIds = new Set(demoJourneys.map((journey) => journey.id));
-  const referenceRouteIds = new Set(demoJourneys.map((journey) => journey.routeId));
-  const referenceResultIds = new Set(
-    demoJourneys.flatMap((journey) => [journey.foodCultureId, journey.storyId]),
-  );
-  const candidateId = searchParams.get('candidateId');
-  const routeId = searchParams.get('routeId');
-  const resultId = searchParams.get('resultId');
-  const referenceJourneyQuery =
-    (!candidateId || referenceCandidateIds.has(candidateId)) &&
-    (!routeId || referenceRouteIds.has(routeId)) &&
-    (!resultId || referenceResultIds.has(resultId));
+  const referenceJourneys: JourneyQueryIdentity[] = demoJourneys.map((journey) => ({
+    candidateId: journey.id,
+    resultId: journey.foodCultureId,
+    routeId: journey.routeId,
+  }));
+  const legacyJourneys: JourneyQueryIdentity[] = DEMO_RECOMMENDATION_CANDIDATES
+    .filter((candidate) => !referenceJourneys.some((journey) => journey.candidateId === candidate.id))
+    .map((candidate) => ({
+      candidateId: candidate.id,
+      resultId: candidate.foodCultureId,
+      routeId: candidate.journeyId ?? '',
+    }))
+    .filter((journey) => journey.routeId.length > 0);
+  const journeyQuery = classifyJourneyQuery(search, referenceJourneys, legacyJourneys);
+  const hasExplicitRouteId = Boolean(searchParams.get('routeId'));
+  const invalidResultIdentity = pathname === '/explore/result' && journeyQuery === 'invalid';
+  const invalidRouteIdentity =
+    pathname === '/route' && journeyQuery === 'invalid' && !hasExplicitRouteId;
+  const referenceJourneyQuery = journeyQuery === 'reference';
   const referenceStoryPath =
     pathname === '/story' ||
     demoJourneys.some((journey) => pathname === `/story/${journey.storyId}`);
@@ -114,6 +126,9 @@ export function AppRouter() {
     pathname === '/my-route' ||
     pathname === '/my' ||
     pathname === '/badges';
+
+  if (invalidResultIdentity) return <Navigate to="/explore/result" replace />;
+  if (invalidRouteIdentity) return <Navigate to="/route" replace />;
 
   if (referencePath) return <ReferenceApp />;
 

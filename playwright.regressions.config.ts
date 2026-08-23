@@ -11,6 +11,7 @@ import canonicalConfig from './playwright.config';
 export default defineConfig({
   ...canonicalConfig,
   testMatch: [
+    'issue-281-current-route-guard.spec.ts',
     'issue-281-saved-route-owner.spec.ts',
     'issue-283-visual-parity.spec.ts',
     'issue-296-my-badges.spec.ts',

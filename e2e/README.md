@@ -23,12 +23,13 @@ Current live KiKi Figma and current merged `main` remain the authorities.
 | Classification | Files | Execution |
 | --- | --- | --- |
 | Canonical release gate | `current-mvp-smoke.spec.ts` | `pnpm exec playwright test e2e/current-mvp-smoke.spec.ts` |
-| Focused current regression | `issue-281-saved-route-owner.spec.ts`, `issue-283-visual-parity.spec.ts`, `issue-296-my-badges.spec.ts` | `pnpm exec playwright test --config playwright.regressions.config.ts` |
+| Focused current regression | `issue-281-current-route-guard.spec.ts`, `issue-281-saved-route-owner.spec.ts`, `issue-283-visual-parity.spec.ts`, `issue-296-my-badges.spec.ts` | `pnpm exec playwright test --config playwright.regressions.config.ts` |
 | Historical / non-authoritative | Issue #276 Netlify parity suite | Removed after the #297 audit; never restore it as a current gate |
 
-The #281 suite protects the single saved-route persistence owner: Support's
-stale saved toggle must not rewrite unrelated saved routes. The retained #283
-suite checks focused CTA, autofocus, card geometry,
+The #281 suite protects tuple-coherent current Result/Route identity routing
+and the single saved-route persistence owner: malformed Result identities must
+never reach the historical ranked surface, and Support's stale saved toggle
+must not rewrite unrelated saved routes. The retained #283 suite checks focused CTA, autofocus, card geometry,
 departure-field, progress-art, and translated-card regressions that still match
 current `main`. The #296 suite protects the current My/Badge interactions,
 safe-area behavior, and shared shell geometry. These suites are intentionally
