@@ -176,13 +176,27 @@ test('keeps both Badge binder states aligned to the shared shell width', async (
 test('uses 言語設定 as the persisted language entry surface', async ({ page }) => {
   await page.goto('/my');
   const my = page.locator('[data-screen="my"][data-screen-active="true"]');
+  const languageEntry = my.getByRole('button', { name: '言語設定' });
 
-  await my.getByRole('button', { name: '言語設定' }).click();
+  await languageEntry.focus();
+  await page.keyboard.press('Enter');
   const languageDialog = my.getByRole('dialog', { name: '言語を選択' });
   await expect(languageDialog).toBeVisible();
+  await expect(languageDialog.getByRole('button', { name: '日本語' })).toBeFocused();
+
+  await page.keyboard.press('Shift+Tab');
+  await expect(languageDialog.getByRole('button', { name: '閉じる' })).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(languageDialog.getByRole('button', { name: '日本語' })).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(languageDialog).toBeHidden();
+  await expect(languageEntry).toBeFocused();
+
+  await languageEntry.click();
   await languageDialog.getByRole('button', { name: 'English' }).click();
 
   await expect(my.getByRole('heading', { name: 'My' })).toBeVisible();
+  await expect(my.getByRole('button', { name: 'Language' })).toBeFocused();
   await expect(page.locator('.locale-control')).toHaveCount(0);
   await expect.poll(() => page.evaluate(() => localStorage.getItem('tmm:locale'))).toBe('en');
 });

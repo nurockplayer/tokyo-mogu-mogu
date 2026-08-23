@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react';
 import badgeArtwork from '../../../assets/figma-296/food-badge.png';
 import cameraIcon from '../../../assets/figma-296/camera.svg';
 import helpIcon from '../../../assets/figma-296/help.svg';
@@ -77,6 +77,51 @@ export function MyScreen({
 }: MyScreenProps) {
   const labels = myLabels[locale];
   const [languageOpen, setLanguageOpen] = useState(false);
+  const languageEntryRef = useRef<HTMLButtonElement>(null);
+  const languageDialogRef = useRef<HTMLElement>(null);
+  const languageWasOpenRef = useRef(false);
+
+  useEffect(() => {
+    if (languageOpen) {
+      const selectedLanguage = languageDialogRef.current?.querySelector<HTMLButtonElement>(
+        'button[aria-pressed="true"]',
+      );
+      selectedLanguage?.focus();
+      languageWasOpenRef.current = true;
+      return;
+    }
+
+    if (languageWasOpenRef.current) {
+      languageEntryRef.current?.focus();
+      languageWasOpenRef.current = false;
+    }
+  }, [languageOpen]);
+
+  const closeLanguageDialog = () => setLanguageOpen(false);
+  const handleLanguageDialogKeyDown = (event: ReactKeyboardEvent<HTMLElement>) => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeLanguageDialog();
+      return;
+    }
+
+    if (event.key !== 'Tab') return;
+
+    const buttons = Array.from(
+      event.currentTarget.querySelectorAll<HTMLButtonElement>('button:not(:disabled)'),
+    );
+    const firstButton = buttons.at(0);
+    const lastButton = buttons.at(-1);
+    if (!firstButton || !lastButton) return;
+
+    if (event.shiftKey && document.activeElement === firstButton) {
+      event.preventDefault();
+      lastButton.focus();
+    } else if (!event.shiftKey && document.activeElement === lastButton) {
+      event.preventDefault();
+      firstButton.focus();
+    }
+  };
   const notifyUnavailable = () => {
     onNotify(locale === 'ja' ? '準備中です' : locale === 'zh-TW' ? '功能準備中' : 'Coming soon');
   };
@@ -120,7 +165,7 @@ export function MyScreen({
           </div>
 
           <div className="issue-296-menu">
-            <button type="button" onClick={() => setLanguageOpen(true)}>
+            <button ref={languageEntryRef} type="button" onClick={() => setLanguageOpen(true)}>
               <img src={languageIcon} alt="" /><span>{labels.language}</span><i aria-hidden="true" />
             </button>
             <button type="button" onClick={notifyUnavailable}>
@@ -139,13 +184,15 @@ export function MyScreen({
       <BottomNavigation active="my" copy={copy.nav} onNavigate={onNavigate} variant="issue-296-my" />
 
       {languageOpen ? (
-        <div className="issue-296-language-backdrop" role="presentation" onMouseDown={() => setLanguageOpen(false)}>
+        <div className="issue-296-language-backdrop" role="presentation" onMouseDown={closeLanguageDialog}>
           <section
+            ref={languageDialogRef}
             className="issue-296-language-dialog"
             role="dialog"
             aria-modal="true"
             aria-labelledby="issue-296-language-title"
             onMouseDown={(event) => event.stopPropagation()}
+            onKeyDown={handleLanguageDialogKeyDown}
           >
             <h2 id="issue-296-language-title">{labels.languageDialog}</h2>
             {localeOptions.map((option) => (
@@ -155,14 +202,14 @@ export function MyScreen({
                 key={option.value}
                 onClick={() => {
                   onChangeLocale(option.value);
-                  setLanguageOpen(false);
+                  closeLanguageDialog();
                 }}
                 aria-pressed={option.value === locale}
               >
                 {option.label}
               </button>
             ))}
-            <button className="issue-296-language-close" type="button" onClick={() => setLanguageOpen(false)}>
+            <button className="issue-296-language-close" type="button" onClick={closeLanguageDialog}>
               {labels.close}
             </button>
           </section>
