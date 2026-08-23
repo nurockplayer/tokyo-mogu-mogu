@@ -16,6 +16,7 @@ const badgeLabels: Record<Locale, {
   title: string;
   back: string;
   intro: string;
+  disclosure: string;
   countLabel: string;
   acquired: string;
   emptyTitle: string;
@@ -29,6 +30,7 @@ const badgeLabels: Record<Locale, {
 }> = {
   ja: {
     title: '食のバッジ', back: 'マイページに戻る', intro: '東京の食文化を巡って、\n旅の印を集めよう。',
+    disclosure: 'デモ表示・実際の訪問・購入・体験は未確認',
     countLabel: '獲得した食バッジ', acquired: '2026/08/23 獲得', emptyTitle: 'まだバッジがありません',
     emptyBodyBefore: '地域の食文化を体験したら、対象店舗・スポットに\nある', emptyBodyAccent: 'QRコード',
     emptyBodyAfter: 'を読み取ってバッジを集めよう！',
@@ -37,6 +39,7 @@ const badgeLabels: Record<Locale, {
   },
   en: {
     title: 'Food Badges', back: 'Back to My', intro: 'Explore Tokyo food culture\nand collect marks of your journey.',
+    disclosure: 'Demo display · no real-world verification',
     countLabel: 'Badges earned', acquired: 'Earned 2026/08/23', emptyTitle: 'No badge here yet',
     emptyBodyBefore: 'Scan the ', emptyBodyAccent: 'QR code', emptyBodyAfter: ' at the shop\nto earn a badge.',
     previous: 'Previous badge', next: 'Next badge', earnedAlt: 'Earned Okutama wasabi badge',
@@ -44,6 +47,7 @@ const badgeLabels: Record<Locale, {
   },
   'zh-TW': {
     title: '美食徽章', back: '返回我的頁面', intro: '走訪東京飲食文化，\n收集旅途的印記吧。',
+    disclosure: '示範畫面・不代表造訪／購買／體驗已驗證',
     countLabel: '已獲得徽章', acquired: '2026/08/23 獲得', emptyTitle: '這一頁還沒有徽章',
     emptyBodyBefore: '掃描店內的', emptyBodyAccent: 'QR Code', emptyBodyAfter: '，\n即可獲得徽章。',
     previous: '上一枚徽章', next: '下一枚徽章', earnedAlt: '已獲得的奧多摩山葵徽章',
@@ -73,7 +77,10 @@ export function BadgesScreen({ active, locale, onBack }: BadgesScreenProps) {
     >
       <Issue296Header title={labels.title} backLabel={labels.back} onBack={onBack} />
       <div className="issue-296-badge-body scroll">
-        <p className="issue-296-badge-intro">{labels.intro}</p>
+        <p className="issue-296-badge-intro">
+          <span>{labels.intro}</span>
+          <small className="issue-296-badge-disclosure">{labels.disclosure}</small>
+        </p>
         <div className="issue-296-badge-count" aria-label={`1 ${labels.countLabel}`}>
           <img src={countStamp} alt="" />
           <p><strong>1</strong><span>{locale === 'ja' ? '枚' : ''}</span></p>

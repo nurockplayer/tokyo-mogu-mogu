@@ -97,6 +97,10 @@
   position:absolute; top:47px; left:7.948717949cqw; width:223px; height:59px;
   color:#667A47; white-space:pre-line; font:600 20px/29px Roboto,"Noto Sans JP",sans-serif;
 }
+.reference-app .issue-296-badge-disclosure {
+  position:absolute; top:-36px; left:0; width:205px; color:#667A47;
+  white-space:normal; font:500 10px/14px Roboto,"Noto Sans JP",sans-serif;
+}
 .reference-app .issue-296-badge-count {
   position:absolute; top:19px; left:62.051282051cqw; width:145px; height:116.886px;
   text-align:center;

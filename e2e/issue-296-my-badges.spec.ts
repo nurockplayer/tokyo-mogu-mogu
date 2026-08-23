@@ -14,6 +14,81 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
+test('labels both Badge binder states as localized demo examples', async ({ page }) => {
+  const disclosures = [
+    {
+      locale: 'ja',
+      copy: 'デモ表示・実際の訪問・購入・体験は未確認',
+      languageEntry: '言語設定',
+      languageOption: '日本語',
+      badgesEntry: '食のバッジ',
+      next: '次のバッジ',
+      back: 'マイページに戻る',
+    },
+    {
+      locale: 'en',
+      copy: 'Demo display · no real-world verification',
+      languageEntry: '言語設定',
+      languageOption: 'English',
+      badgesEntry: 'Food badges',
+      next: 'Next badge',
+      back: 'Back to My',
+    },
+    {
+      locale: 'zh-TW',
+      copy: '示範畫面・不代表造訪／購買／體驗已驗證',
+      languageEntry: 'Language',
+      languageOption: '繁體中文',
+      badgesEntry: '美食徽章',
+      next: '下一枚徽章',
+      back: '返回我的頁面',
+    },
+  ] as const;
+
+  await page.setViewportSize({ width: 375, height: 844 });
+  await page.goto('/my');
+
+  for (const [index, disclosure] of disclosures.entries()) {
+    if (index > 0) {
+      const my = page.locator('[data-screen="my"][data-screen-active="true"]');
+      await my.getByRole('button', { name: disclosure.languageEntry }).click();
+      await my.getByRole('button', { name: disclosure.languageOption }).click();
+    }
+
+    const my = page.locator('[data-screen="my"][data-screen-active="true"]');
+    await my.getByRole('button', { name: disclosure.badgesEntry }).click();
+
+    const badges = page.locator('[data-screen="badges"][data-screen-active="true"]');
+    const introDisclosure = badges.locator(
+      '.issue-296-badge-intro .issue-296-badge-disclosure',
+    );
+
+    await expect(introDisclosure).toHaveCount(1);
+    await expect(introDisclosure).toBeVisible();
+    await expect(introDisclosure).toHaveText(disclosure.copy);
+    const disclosureBounds = await introDisclosure.boundingBox();
+    const binderBounds = await badges.locator('.issue-296-binder').boundingBox();
+    expect(disclosureBounds).not.toBeNull();
+    expect(binderBounds).not.toBeNull();
+    expect((disclosureBounds?.y ?? 0) + (disclosureBounds?.height ?? 0)).toBeLessThanOrEqual(
+      binderBounds?.y ?? 0,
+    );
+    await expect(
+      badges.locator('.issue-296-earned-date .issue-296-badge-disclosure'),
+    ).toHaveCount(0);
+
+    await badges.getByRole('button', { name: disclosure.next }).click();
+    await expect(badges).toHaveAttribute('data-badge-page', '2');
+    await expect(introDisclosure).toHaveCount(1);
+    await expect(introDisclosure).toBeVisible();
+    await expect(introDisclosure).toHaveText(disclosure.copy);
+    await expect(
+      badges.locator('.issue-296-empty-copy .issue-296-badge-disclosure'),
+    ).toHaveCount(0);
+    await badges.getByRole('button', { name: disclosure.back }).click();
+  }
+});
+
 test('matches My and 食のバッジ navigation at 375px and 390px', async ({ page }) => {
   for (const width of [375, 390]) {
     await page.setViewportSize({ width, height: 844 });
