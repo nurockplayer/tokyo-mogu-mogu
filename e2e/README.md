@@ -52,11 +52,12 @@ current Reference SPA, localized destination announcements, and query-only
 updates that must retain the traveler's interactive focus.
 
 The #208 locale/responsive suite characterizes every current MVP route at
-375×812 after UI-driven ja → en → zh-TW → ja switches. It verifies the active
-screen and a key control remain reachable, and checks the document, body,
-shared phone shell, and active screen for horizontal overflow. It is a focused
-non-gating regression while #208's durable Phase 2+ responsive and locale
-ownership decisions remain open.
+375×812 while driving ja → en → zh-TW → ja through My, including every route
+again after returning to Japanese. It verifies the active screen and a named,
+route-semantic key control remain in the viewport, and checks the document,
+body, shared phone shell, and active screen for horizontal overflow. It is a
+focused non-gating regression while #208's durable Phase 2+ responsive and
+locale ownership decisions remain open.
 
 The removed #276 suite encoded the superseded Netlify authority model, fixed
 animation windows, obsolete selectors, and historical contrast/layout

@@ -16,6 +16,16 @@ interface LocaleExpectation {
   myHeading: string;
 }
 
+type LocalizedControlName = Record<Locale, string | RegExp>;
+
+function controlName(
+  ja: string | RegExp,
+  en: string | RegExp,
+  zhTW: string | RegExp,
+): LocalizedControlName {
+  return { ja, en, 'zh-TW': zhTW };
+}
+
 const localeExpectations: Record<Locale, LocaleExpectation> = {
   ja: {
     locale: 'ja',
@@ -38,22 +48,79 @@ const localeExpectations: Record<Locale, LocaleExpectation> = {
 };
 
 const routes = [
-  { path: '/', screen: 'splash' },
-  { path: '/food-profile', screen: 'food-profile' },
-  { path: '/food-profile/edit', screen: 'food-profile' },
-  { path: '/home', screen: 'home' },
-  { path: '/explore', screen: 'explore' },
-  { path: '/explore/result', screen: 'result' },
-  { path: '/story/wasabi-okutama', screen: 'story' },
-  { path: '/route?candidateId=demo-okutama-wasabi', screen: 'route' },
+  {
+    path: '/',
+    screen: 'splash',
+    keyControlName: controlName('はじめる！', 'Start!', '開始！'),
+  },
+  {
+    path: '/food-profile',
+    screen: 'food-profile',
+    keyControlName: controlName('はじめる！', 'Start!', '開始！'),
+  },
+  {
+    path: '/food-profile/edit',
+    screen: 'food-profile',
+    keyControlName: controlName('🥚 卵', '🥚 Egg', '🥚 蛋'),
+  },
+  {
+    path: '/home',
+    screen: 'home',
+    keyControlName: controlName(/Let's Go!/, /Let's Go!/, /Let's Go!/),
+  },
+  {
+    path: '/explore',
+    screen: 'explore',
+    keyControlName: controlName(/^食べる/, /^Eat/, /^品嚐/),
+  },
+  {
+    path: '/explore/result',
+    screen: 'result',
+    keyControlName: controlName(/^この物語を読む:/, /^Read this story:/, /^閱讀這段故事:/),
+  },
+  {
+    path: '/story/wasabi-okutama',
+    screen: 'story',
+    keyControlName: controlName(
+      'この食文化の観光ルートを作成する',
+      'Create a sightseeing route for this food culture',
+      '建立這項飲食文化的觀光路線',
+    ),
+  },
+  {
+    path: '/route?candidateId=demo-okutama-wasabi',
+    screen: 'route',
+    keyControlName: controlName('ルートをシェア', 'Share route', '分享路線'),
+  },
   {
     path: '/spot/okutama-tourism-office?candidateId=demo-okutama-wasabi',
     screen: 'spot',
+    keyControlName: controlName(
+      'お気に入りに保存',
+      'Save to favorites',
+      '儲存至收藏',
+    ),
   },
-  { path: '/mogu', screen: 'mogu' },
-  { path: '/my-route', screen: 'favorites' },
-  { path: '/my', screen: 'my' },
-  { path: '/badges', screen: 'badges' },
+  {
+    path: '/mogu',
+    screen: 'mogu',
+    keyControlName: controlName(/^この物語を読む:/, /^Read this story:/, /^閱讀這段故事:/),
+  },
+  {
+    path: '/my-route',
+    screen: 'favorites',
+    keyControlName: controlName('お気に入り', 'Favorites', '收藏'),
+  },
+  {
+    path: '/my',
+    screen: 'my',
+    keyControlName: controlName('言語設定', 'Language', '語言設定'),
+  },
+  {
+    path: '/badges',
+    screen: 'badges',
+    keyControlName: controlName('次のバッジ', 'Next badge', '下一枚徽章'),
+  },
 ] as const;
 
 test.beforeEach(async ({ page }) => {
@@ -152,11 +219,12 @@ async function expectRouteReachable(
   );
   await expect(activeScreen).toBeVisible();
 
-  const keyControl = route.screen === 'splash'
-    ? activeScreen
-    : activeScreen.getByRole('button').first();
+  const keyControl = page
+    .getByRole('button', { name: route.keyControlName[locale], exact: true })
+    .first();
   await expect(keyControl).toBeVisible();
   await expect(keyControl).toBeEnabled();
+  await expect(keyControl).toBeInViewport();
   await expectHorizontalBounds(page, activeScreen);
 }
 
@@ -214,4 +282,7 @@ test('keeps every current MVP route reachable and bounded while switching all lo
     '日本語',
     localeExpectations.ja,
   );
+  for (const route of routes) {
+    await expectRouteReachable(page, route, 'ja');
+  }
 });
