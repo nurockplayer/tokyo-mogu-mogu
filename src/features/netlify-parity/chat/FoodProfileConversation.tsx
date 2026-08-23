@@ -222,10 +222,6 @@ function QuestionBubble({
   const recommendedLeft = question.recommendedValues.filter((value) => !selected.includes(value));
   const shouldGlowSend = isCurrent && selected.length > 0 && (deviated || recommendedLeft.length === 0);
 
-  useEffect(() => {
-    if (isCurrent && state.otherInputOpen) otherInputRef.current?.focus();
-  }, [isCurrent, state.otherInputOpen]);
-
   const addOther = (event: FormEvent) => {
     event.preventDefault();
     if (!otherValue.trim()) {
@@ -300,6 +296,7 @@ function QuestionBubble({
             <div className="profile-other-field">
               <input
                 ref={otherInputRef}
+                autoFocus
                 value={otherValue}
                 onChange={(event) => setOtherValue(event.target.value)}
                 placeholder={copy.profile.otherPlaceholder}
@@ -350,10 +347,6 @@ export function FoodProfileConversation({
     });
     return () => window.cancelAnimationFrame(frame);
   }, [state.entries.length, state.otherInputOpen]);
-
-  useEffect(() => {
-    if (state.phase === 'name') nameInputRef.current?.focus();
-  }, [state.phase]);
 
   const submitName = (event: FormEvent) => {
     event.preventDefault();
@@ -510,9 +503,10 @@ export function FoodProfileConversation({
             onSubmit={submitName}
             submitLabel={copy.actions.submitName}
           >
-            <div className="profile-name-sentence">
+            <div className={`profile-name-sentence${nameInvalid ? ' invalid' : ''}`}>
               <input
                 ref={nameInputRef}
+                autoFocus
                 value={nameValue}
                 onChange={(event) => {
                   setNameValue(event.target.value);
@@ -522,7 +516,6 @@ export function FoodProfileConversation({
                 aria-invalid={nameInvalid}
                 aria-label={copy.profile.nicknamePlaceholder}
                 title={nameInvalid ? copy.profile.nameError : undefined}
-                style={nameInvalid ? { borderColor: '#F05B5B' } : undefined}
               />
               <span>{inputModalCopy[locale].nameSuffix}</span>
             </div>
