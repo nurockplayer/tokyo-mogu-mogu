@@ -170,68 +170,100 @@ test('matches the My and 食のバッジ navigation at 375px and 390px', async (
   }
 });
 
-test('keeps Issue #296 on the canonical KiKi canvas in tall viewports', async ({ page }) => {
+test('uses one shared shell across current Dock routes and Badge', async ({ page }) => {
+  const routes = [
+    { path: '/home', screen: 'home' },
+    { path: '/mogu', screen: 'mogu' },
+    { path: '/my-route', screen: 'favorites' },
+    { path: '/my', screen: 'my' },
+    { path: '/badges', screen: 'badges' },
+  ];
+
   for (const viewport of [
-    { width: 1440, height: 1100 },
+    { width: 375, height: 844 },
+    { width: 390, height: 844 },
     { width: 430, height: 1000 },
-    { width: 600, height: 1100 },
-    { width: 390, height: 932 },
+    { width: 1440, height: 1100 },
   ]) {
     await page.setViewportSize(viewport);
-    await page.goto('/my');
+    const expectedWidth = Math.min(viewport.width, 430);
 
-    const app = page.locator('.reference-app');
-    const phone = page.locator('.reference-phone');
-    const phoneBounds = await phone.boundingBox();
-    expect(phoneBounds).not.toBeNull();
-    expect(phoneBounds?.width).toBeCloseTo(390, 0);
-    expect(phoneBounds?.height).toBeCloseTo(844, 0);
-    expect(phoneBounds?.x).toBeCloseTo((viewport.width - 390) / 2, 0);
-    expect(phoneBounds?.y).toBeCloseTo((viewport.height - 844) / 2, 0);
-    if (viewport.width > 390) {
-      await expect(app).toHaveCSS('background-color', 'rgb(232, 226, 210)');
-    }
+    for (const route of routes) {
+      await page.goto(route.path);
 
-    const my = page.locator('[data-screen="my"][data-screen-active="true"]');
-    await expect(my).toHaveCSS('background-size', 'cover');
-    const myBounds = await my.boundingBox();
-    expect(myBounds).toEqual(phoneBounds);
+      const phone = page.locator('.reference-phone');
+      const phoneBounds = await phone.boundingBox();
+      expect(phoneBounds).not.toBeNull();
+      expect(phoneBounds?.width).toBeCloseTo(expectedWidth, 0);
+      expect(phoneBounds?.height).toBeCloseTo(viewport.height, 0);
+      expect(phoneBounds?.x).toBeCloseTo((viewport.width - expectedWidth) / 2, 0);
+      expect(phoneBounds?.y).toBeCloseTo(0, 0);
 
-    const myStatusBounds = await my.locator('.issue-296-status-bar').boundingBox();
-    const myHeaderBounds = await my.locator('.issue-296-header').boundingBox();
-    const myDockBounds = await my.getByRole('navigation', { name: 'Primary' }).boundingBox();
-    for (const bounds of [myStatusBounds, myHeaderBounds, myDockBounds]) {
-      expect(bounds?.x).toBeCloseTo(phoneBounds?.x ?? 0, 0);
-      expect(bounds?.width).toBeCloseTo(390, 0);
-      expect((bounds?.x ?? 0) + (bounds?.width ?? 0)).toBeCloseTo(
-        (phoneBounds?.x ?? 0) + (phoneBounds?.width ?? 0),
-        0,
+      const screen = page.locator(
+        `[data-screen="${route.screen}"][data-screen-active="true"]`,
       );
-    }
-    expect((myDockBounds?.y ?? 0) + (myDockBounds?.height ?? 0)).toBeCloseTo(
-      (phoneBounds?.y ?? 0) + (phoneBounds?.height ?? 0),
-      0,
-    );
+      expect(await screen.boundingBox()).toEqual(phoneBounds);
 
-    await my.getByRole('button', { name: '食のバッジ' }).click();
+      if (route.screen === 'my') {
+        await expect(screen).toHaveCSS('background-size', 'cover');
+        const myStatusBounds = await screen.locator('.issue-296-status-bar').boundingBox();
+        const myHeaderBounds = await screen.locator('.issue-296-header').boundingBox();
+        const myDockBounds = await screen
+          .getByRole('navigation', { name: 'Primary' })
+          .boundingBox();
+        for (const bounds of [myStatusBounds, myHeaderBounds, myDockBounds]) {
+          expect(bounds?.x).toBeCloseTo(phoneBounds?.x ?? 0, 0);
+          expect(bounds?.width).toBeCloseTo(expectedWidth, 0);
+        }
+        expect((myDockBounds?.y ?? 0) + (myDockBounds?.height ?? 0)).toBeCloseTo(
+          viewport.height,
+          0,
+        );
+      }
+
+      if (route.screen === 'badges') {
+        await expect(screen).toHaveCSS('background-size', 'cover');
+        const badgeStatusBounds = await screen.locator('.issue-296-status-bar').boundingBox();
+        const badgeHeaderBounds = await screen.locator('.issue-296-header').boundingBox();
+        for (const bounds of [badgeStatusBounds, badgeHeaderBounds]) {
+          expect(bounds?.x).toBeCloseTo(phoneBounds?.x ?? 0, 0);
+          expect(bounds?.width).toBeCloseTo(expectedWidth, 0);
+        }
+      }
+    }
+  }
+});
+
+test('keeps both Badge binder states aligned to the shared shell width', async ({ page }) => {
+  for (const viewport of [
+    { width: 375, height: 844 },
+    { width: 390, height: 844 },
+    { width: 430, height: 1000 },
+    { width: 1440, height: 1100 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.goto('/badges');
+
+    const expectedWidth = Math.min(viewport.width, 430);
     const badges = page.locator('[data-screen="badges"][data-screen-active="true"]');
-    await expect(badges).toHaveCSS('background-size', 'cover');
+    const binder = badges.locator('.issue-296-binder');
     const badgesBounds = await badges.boundingBox();
-    const badgeStatusBounds = await badges.locator('.issue-296-status-bar').boundingBox();
-    const badgeHeaderBounds = await badges.locator('.issue-296-header').boundingBox();
-    const binderBounds = await badges.locator('.issue-296-binder').boundingBox();
-    for (const bounds of [badgesBounds, badgeStatusBounds, badgeHeaderBounds, binderBounds]) {
-      expect(bounds?.x).toBeCloseTo(phoneBounds?.x ?? 0, 0);
-      expect(bounds?.width).toBeCloseTo(390, 0);
-      expect((bounds?.x ?? 0) + (bounds?.width ?? 0)).toBeCloseTo(
-        (phoneBounds?.x ?? 0) + (phoneBounds?.width ?? 0),
-        0,
-      );
-    }
+    const earnedBinderBounds = await binder.boundingBox();
+    expect(earnedBinderBounds?.x).toBeCloseTo(badgesBounds?.x ?? 0, 0);
+    expect(earnedBinderBounds?.width).toBeCloseTo(expectedWidth, 0);
+    expect(
+      (earnedBinderBounds?.x ?? 0) + (earnedBinderBounds?.width ?? 0),
+    ).toBeCloseTo((badgesBounds?.x ?? 0) + (badgesBounds?.width ?? 0), 0);
 
     await badges.getByRole('button', { name: '次のバッジ' }).click();
     await expect(badges).toHaveAttribute('data-badge-page', '2');
     await expect(badges.getByText('2/100')).toBeVisible();
+    const emptyBinderBounds = await binder.boundingBox();
+    expect(emptyBinderBounds?.x).toBeCloseTo(badgesBounds?.x ?? 0, 0);
+    expect(emptyBinderBounds?.width).toBeCloseTo(expectedWidth, 0);
+    expect(
+      (emptyBinderBounds?.x ?? 0) + (emptyBinderBounds?.width ?? 0),
+    ).toBeCloseTo((badgesBounds?.x ?? 0) + (badgesBounds?.width ?? 0), 0);
   }
 });
 

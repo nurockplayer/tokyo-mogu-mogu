@@ -101,13 +101,6 @@ body:has(.reference-app) { overflow:hidden; }
   container-type:inline-size;
 }
 
-.reference-app.issue-296-app { align-items:center; }
-.reference-phone.issue-296-phone {
-  width:min(100%, 390px);
-  max-width:390px;
-  height:min(844px, 100dvh);
-}
-
 .reference-screen { position:absolute; inset:0; display:none; flex-direction:column; background:var(--cream); min-width:0; }
 .reference-screen.on, .reference-screen[data-screen-active="true"] { display:flex; }
 .reference-scroll, .scroll { flex:1; overflow-y:auto; overscroll-behavior:contain; scrollbar-width:none; min-height:0; }
@@ -525,16 +518,11 @@ body:has(.reference-app) { overflow:hidden; }
 }
 
 @media (max-width:430px) {
-  .reference-app:not(.issue-296-app) { background:var(--cream); }
-  .reference-phone:not(.issue-296-phone) { max-width:none; box-shadow:none; }
+  .reference-app { background:var(--cream); }
+  .reference-phone { max-width:none; box-shadow:none; }
 }
 
 /* Only safety adaptations for 375px and translated copy; Japanese geometry remains source-faithful. */
-@media (max-width:389px) {
-  .reference-app.issue-296-app { background:var(--cream); }
-  .reference-phone.issue-296-phone { box-shadow:none; }
-}
-
 @media (max-width:375px) {
   .reference-app .choice-card { margin-left:52px; }
   .reference-app .bubble { max-width:calc(100% - 60px); }

@@ -85,7 +85,13 @@ export function BadgesScreen({ active, locale, onBack }: BadgesScreenProps) {
           <img className="issue-296-binder-shadow" src={binderShadow} alt="" />
           <img className="issue-296-binder-page" src={binderPage} alt="" />
           {ringPositions.map((top) => (
-            <img className="issue-296-binder-ring" src={binderRing} alt="" style={{ top }} key={top} />
+            <img
+              className="issue-296-binder-ring"
+              src={binderRing}
+              alt=""
+              style={{ top: `${(top / 564) * 100}%` }}
+              key={top}
+            />
           ))}
 
           {page === 1 ? (

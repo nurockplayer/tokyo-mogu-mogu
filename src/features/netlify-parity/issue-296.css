@@ -90,7 +90,9 @@
 
 /* Food badges — frames 269:1210 and 269:1451. Coordinates are relative to y=101. */
 .reference-app .issue-296-badge-body { position:relative; padding:0; background:transparent; }
-.reference-app .issue-296-badge-body::before { content:""; display:block; min-height:743px; }
+.reference-app .issue-296-badge-body::before {
+  content:""; display:block; min-height:max(743px, calc(179px + 144.615384615cqw));
+}
 .reference-app .issue-296-badge-intro {
   position:absolute; top:47px; left:7.948717949cqw; width:223px; height:59px;
   color:#667A47; white-space:pre-line; font:600 20px/29px Roboto,"Noto Sans JP",sans-serif;
@@ -113,21 +115,23 @@
   position:absolute; top:87.956px; left:15.251px; width:114.866px; height:14px;
   color:#5D5D5D; font:400 12px/14px Roboto,"Noto Sans JP",sans-serif; white-space:nowrap;
 }
-.reference-app .issue-296-binder { position:absolute; top:153px; left:0; width:390px; height:564px; overflow:hidden; }
+.reference-app .issue-296-binder {
+  position:absolute; top:153px; left:0; width:100%; height:144.615384615cqw; overflow:hidden;
+}
 .reference-app .issue-296-binder > img { position:absolute; max-width:none; }
-.reference-app .issue-296-binder-green { left:-365px; top:0; width:746px; height:564px; }
-.reference-app .issue-296-binder-shadow { left:15.166px; top:21.278px; width:354.127px; height:457.103px; }
-.reference-app .issue-296-binder-page { left:12.946px; top:21.278px; width:349.605px; height:457.103px; }
-.reference-app .issue-296-binder-ring { left:-23.233px; width:59.39px; height:13.585px; }
-.reference-app .issue-296-earned-stamp { left:47px; top:54px; width:303px; height:300px; }
+.reference-app .issue-296-binder-green { left:-93.58974359%; top:0; width:191.282051282%; height:100%; }
+.reference-app .issue-296-binder-shadow { left:3.888717949%; top:3.772695035%; width:90.801794872%; height:81.046631206%; }
+.reference-app .issue-296-binder-page { left:3.319487179%; top:3.772695035%; width:89.642307692%; height:81.046631206%; }
+.reference-app .issue-296-binder-ring { left:-5.957179487%; width:15.228205128%; height:2.408687943%; }
+.reference-app .issue-296-earned-stamp { left:12.051282051%; top:9.574468085%; width:77.692307692%; height:53.191489362%; }
 .reference-app .issue-296-earned-date {
-  position:absolute; left:123px; top:351px; width:152px; height:29px;
+  position:absolute; left:31.538461538%; top:62.234042553%; width:38.974358974%; height:5.141843972%;
   color:#667A47; font:600 20px/29px Roboto,"Noto Sans JP",sans-serif; white-space:nowrap;
 }
-.reference-app .issue-296-store-card { left:84px; top:372px; width:252px; height:107px; }
-.reference-app .issue-296-empty-stamp { left:31.939px; top:40px; width:341px; height:341px; }
+.reference-app .issue-296-store-card { left:21.538461538%; top:65.957446809%; width:64.615384615%; height:18.971631206%; }
+.reference-app .issue-296-empty-stamp { left:8.189487179%; top:7.092198582%; width:87.435897436%; height:60.460992908%; }
 .reference-app .issue-296-empty-copy {
-  position:absolute; left:61px; top:380px; width:289px; height:68px; text-align:center; color:#667A47;
+  position:absolute; left:15.641025641%; top:67.375886525%; width:74.102564103%; height:12.056737589%; text-align:center; color:#667A47;
 }
 .reference-app .issue-296-empty-copy strong { display:block; font:700 16px/23px Roboto,"Noto Sans JP",sans-serif; }
 .reference-app .issue-296-empty-copy p {
@@ -135,13 +139,13 @@
 }
 .reference-app .issue-296-empty-copy em { color:#FF8D20; font-style:normal; font-weight:700; }
 .reference-app .issue-296-badge-previous,
-.reference-app .issue-296-badge-next { position:absolute; top:498px; width:46px; height:44px; }
-.reference-app .issue-296-badge-previous { left:84px; }
-.reference-app .issue-296-badge-next { left:260px; }
+.reference-app .issue-296-badge-next { position:absolute; top:88.29787234%; width:11.794871795%; height:7.80141844%; }
+.reference-app .issue-296-badge-previous { left:21.538461538%; }
+.reference-app .issue-296-badge-next { left:66.666666667%; }
 .reference-app .issue-296-badge-previous img,
-.reference-app .issue-296-badge-next img { width:46px; height:44px; max-width:none; }
+.reference-app .issue-296-badge-next img { width:100%; height:100%; max-width:none; }
 .reference-app .issue-296-page-indicator {
-  position:absolute; left:168px; top:505px; width:54px; height:29px;
+  position:absolute; left:43.076923077%; top:89.539007092%; width:13.846153846%; height:5.141843972%;
   color:#fff; text-align:center; font:600 20px/29px Roboto,sans-serif;
 }
 
