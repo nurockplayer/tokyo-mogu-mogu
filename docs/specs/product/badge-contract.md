@@ -13,6 +13,13 @@ Durable behavior contract for the Badge / Achievement collection as a
 - **Status**: Proposed contract for Issue #38. This Issue defines the contract
   only; it does **not** implement any code.
 
+> **Current shipped interface / deferred ownership:** the Figma-visible Dock is
+> **食旅を見つけ / モグモグる / お気に入り / マイ**, localized at runtime. Issues #203/#204
+> leave durable navigation and state/lifecycle ownership unresolved. This
+> proposed Badge contract neither changes the current Dock nor decides those
+> deferred boundaries; prior `Home / Discover / MOGU / My` references below are
+> historical context, not current Dock authority.
+
 ## Purpose / 目的
 
 Badge is a **Stretch, optional retention / discovery layer** owned by the `My`
@@ -83,7 +90,7 @@ cross-device sync is introduced.
 | `id` | `string` | yes | Stable identifier, e.g. `badge-wasabi-okutama`. |
 | `name` | i18n key / text | yes | Display name (ja / en / zh-TW). |
 | `description` | i18n key / text | yes | What the badge represents. |
-| `icon` / `artwork` | asset / image key | yes | Resolved by the UI; follows the placeholder rule in `approved-ui-fidelity.md` when no approved asset exists. |
+| `icon` / `artwork` | asset / image key | yes | Resolved by the UI from an approved asset/image key; an unavailable asset uses a current Figma/main-consistent neutral fallback, not a rule from the historical UI record. |
 | `status` | `'earned' \| 'unearned'` | yes | Achievement state. |
 | `earnedAt?` | ISO 8601 `string` | no | Set when `status === 'earned'`. |
 | `regionId?` | `string` | no | Region the badge is tied to, when the durable `Region` domain can identify it. **Does not imply that region is implemented.** |

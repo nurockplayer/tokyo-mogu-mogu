@@ -12,18 +12,20 @@ by #262.
 
 ## 1. Authority and scope
 
-Use this order when sources disagree:
+Use this order when resolving Product, UI, interaction, and runtime questions:
 
-1. Product behavior, data, safety, audience, and IA: current `main` and
-   `docs/specs/product/hackathon-product-contract.md`. Historical Issue #255 /
-   Top-3 material is not current authority.
-2. The latest approved **live KiKi Figma** for visible design and interaction
-   intent.
-3. This extracted cross-screen design contract.
-4. `src/ui/tokens.css` and `src/ui/ui.css` for reusable implementation roles.
-5. `docs/specs/product/approved-ui-fidelity.md` only as historical context;
-   never as a fallback authority for current behavior.
-6. Existing runtime CSS as implementation state, not design proof.
+1. the currently connected **live KiKi Figma**, inspected directly through the
+   local Hopp `figma-bridge`;
+2. current merged `main`;
+3. `docs/specs/product/hackathon-product-contract.md`.
+
+Figma establishes visible design and interaction intent; it cannot override
+evidence/provenance, factual-verification, dietary/safety, or durable Product
+scope constraints. This extracted cross-screen contract follows the three
+sources above; `src/ui/tokens.css` and `src/ui/ui.css` are implementation roles,
+`docs/specs/product/approved-ui-fidelity.md` is historical context only, and
+existing runtime CSS is not design proof. Historical Issue #255 / Top-3
+material is not current authority.
 
 Issue #201 limits the inspected flow to proposal-prototype presentation. Issue
 #208 permits responsive, i18n, accessibility, and technically safe adaptations
@@ -341,9 +343,10 @@ shadow is reserved for selected/overlaid surfaces.
   8px 16px 16px, four equal 89.5 × 60px slots, 4px icon/label gap, approximately
   24px icons, and 12px medium labels. The content height is 68px plus a 16px
   illustrated safe-area allowance.
-- Product labels and destinations are always `Home / Discover / MOGU / My`
-  under #92. The Figma labels/icons are geometry evidence, not authority to
-  restore an older IA.
+- The current shipped Figma-visible Dock is `食旅を見つけ / モグモグる / お気に入り /
+  マイ`, localized at runtime. It is current presentation evidence; Issues
+  #203/#204 leave durable navigation and state/lifecycle ownership unresolved,
+  so the Dock must not be used to settle those decisions.
 
 ## 7. Imagery and crop behavior
 
@@ -444,7 +447,7 @@ the corresponding live node plus this reflow contract.
 | `LIKELY_ACCIDENTAL_DRIFT` | Top-level frames commonly carry opacity ≈0.99 | Engineering root opacity is 1; do not reproduce the export artifact |
 | `CURRENT_PRESENTATION` | Result `23:3380` shows two fixture cards with 96/91 indicators | The two cards and indicators are live-Figma presentation fixtures only. `96` / `91` are not calculated scores, confidence, accuracy, dietary compatibility, or safety semantics; durable semantics are deferred to #206/#207. Historical #255 / Top-3 direction is superseded. |
 | `PRODUCT_OVERRIDE` | Live frames allow several choices simultaneously | #257 first run exposes exactly one actionable highlighted target; returning/free exploration restores normal choice behavior |
-| `PRODUCT_OVERRIDE` | Figma bottom-nav labels/roles are presentation fixtures | #92 fixes `Home / Discover / MOGU / My`; reuse geometry only |
+| `CURRENT_PRESENTATION` | Figma-visible Dock labels/roles | Current shipped Dock is `食旅を見つけ / モグモグる / お気に入り / マイ`, localized at runtime. Issues #203/#204 leave durable navigation and state/lifecycle ownership unresolved; do not infer or decide them from the visible Dock. |
 | `PRODUCT_OVERRIDE` | Demo imagery/copy centers Okutama × Tokyo Wasabi | #112 keeps shared Product contracts Tokyo-wide and multi-region × multi-food-culture |
 | `ACCESSIBILITY_ADAPTATION` | White text on leaf/multi-select/route-secondary/live-orange fills fails AA | Preserve source fills and use dark ink; treat the darker compatibility orange as optional pending Design approval |
 | `ACCESSIBILITY_ADAPTATION` | `#CEE3A8` inactive nav content fails contrast on white | Use accessible muted ink and a redundant active indicator |
@@ -474,11 +477,14 @@ highlight needs a non-color cue and correct disabled semantics. This is not a
 new permanent single-choice design; returning/free exploration retains the
 normal controls.
 
-### #92 / #112 — IA and Product scope
+### Current Dock / deferred durable ownership
 
-Bottom-nav geometry comes from `1:23`, but destinations and labels remain
-`Home / Discover / MOGU / My`. Shared naming, content contracts, and components
-remain reusable for another Tokyo Region × FoodCulture without redesign.
+Bottom-nav geometry comes from `1:23`. The current shipped Figma-visible Dock
+is `食旅を見つけ / モグモグる / お気に入り / マイ`, localized at runtime. Issues #203/#204
+have not decided durable navigation or state/lifecycle ownership; this design
+system records the visible presentation and must not settle those decisions.
+Shared naming, content contracts, and components remain reusable for another
+Tokyo Region × FoodCulture without redesign.
 
 ## 12. Mapping to current code
 
