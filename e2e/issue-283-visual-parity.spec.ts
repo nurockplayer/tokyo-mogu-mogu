@@ -274,12 +274,24 @@ test('sizes Figma experience geometry from the phone container at mobile and des
   }
 });
 
-test('keeps translated experience-card titles and subtitles fully visible at 375px', async ({ page }) => {
-  await page.setViewportSize({ width: 375, height: 812 });
+test('keeps translated experience-card titles and subtitles fully visible at 375px', async ({ browser }, testInfo) => {
+  const baseURL = testInfo.project.use.baseURL;
+  if (typeof baseURL !== 'string') throw new Error('Playwright baseURL is required');
 
   for (const locale of ['en', 'zh-TW'] as const) {
+    const context = await browser.newContext({
+      baseURL,
+      viewport: { width: 375, height: 812 },
+      storageState: {
+        cookies: [],
+        origins: [{
+          origin: new URL(baseURL).origin,
+          localStorage: [{ name: 'tmm:locale', value: locale }],
+        }],
+      },
+    });
+    const page = await context.newPage();
     await page.goto('/explore');
-    await page.locator('.locale-control select').selectOption(locale);
     await expect(page.locator('.reference-app')).toHaveAttribute('data-locale', locale);
 
     const textBounds = await page.locator('.exp-card').evaluateAll((cards) => cards.flatMap((card) => {
@@ -302,5 +314,6 @@ test('keeps translated experience-card titles and subtitles fully visible at 375
       expect(text.scrollWidth).toBeLessThanOrEqual(text.clientWidth);
       expect(text.contained).toBe(true);
     }
+    await context.close();
   }
 });
