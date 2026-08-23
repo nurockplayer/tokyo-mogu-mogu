@@ -79,6 +79,10 @@ async function expectFigmaModalInputAppearance(input: Locator, field: Locator) {
   await expect(field).toHaveCSS('outline-style', 'none');
 }
 
+async function expectCompositeFieldFocus(field: Locator, color = 'rgb(23, 63, 138)') {
+  await expect(field).toHaveCSS('box-shadow', new RegExp(color.replace(/[()]/g, '\\$&')));
+}
+
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
     localStorage.clear();
@@ -125,16 +129,24 @@ test('uses the live-Figma foreground on filled CTAs without recoloring orange ro
   await expectForeground(page.locator('.tl-row .num:not(.start)').first(), DARK_ORANGE_FOREGROUND);
 });
 
-test('keeps autofocus typing-ready without splitting the Figma modal fields', async ({ page }) => {
+test('keeps composite modal fields visibly focused and keyboard-contained', async ({ page }) => {
   await page.goto('/food-profile');
   const profile = page.locator('[data-screen="food-profile"][data-screen-active="true"]');
 
   await profile.getByRole('button', { name: 'はじめる！' }).click();
+  const nicknameDialog = profile.getByRole('dialog', { name: '私は...' });
   const nicknameInput = profile.getByRole('textbox', { name: 'ニックネームを入力' });
   const nicknameField = profile.locator('.profile-name-sentence');
+  const nicknameSend = nicknameDialog.getByRole('button', { name: '送信' });
   await expect(nicknameInput).toBeVisible();
   await expect(nicknameInput).toBeFocused();
   await expectFigmaModalInputAppearance(nicknameInput, nicknameField);
+
+  await page.keyboard.press('Shift+Tab');
+  await expect(nicknameSend).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(nicknameInput).toBeFocused();
+  await expectCompositeFieldFocus(nicknameField);
 
   await nicknameInput.click();
   await expect(nicknameInput).toBeFocused();
@@ -142,7 +154,10 @@ test('keeps autofocus typing-ready without splitting the Figma modal fields', as
   await nicknameInput.fill('ナ');
   await expect(nicknameInput).toHaveValue('ナ');
   await page.keyboard.press('Tab');
-  const nicknameSend = profile.getByRole('dialog', { name: '私は...' }).getByRole('button', { name: '送信' });
+  await expect(nicknameSend).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(nicknameInput).toBeFocused();
+  await page.keyboard.press('Shift+Tab');
   await expect(nicknameSend).toBeFocused();
   await page.keyboard.press('Shift+Tab');
   await expect(nicknameInput).toBeFocused();
@@ -152,6 +167,8 @@ test('keeps autofocus typing-ready without splitting the Figma modal fields', as
   await nicknameSend.click();
   await expect(nicknameInput).toBeFocused();
   await expectFigmaModalInputAppearance(nicknameInput, nicknameField);
+  await expectCompositeFieldFocus(nicknameField);
+  await expectCompositeFieldFocus(nicknameField, 'rgb(240, 91, 91)');
 
   await nicknameInput.fill('ナナミ');
   await profile.getByRole('dialog', { name: '私は...' }).getByRole('button', { name: '送信' }).click();
@@ -162,18 +179,35 @@ test('keeps autofocus typing-ready without splitting the Figma modal fields', as
   const ingredientDialog = profile.getByRole('dialog', { name: '食材を入力してください' });
   const ingredientInput = ingredientDialog.getByRole('textbox', { name: '食材を入力してください' });
   const ingredientField = ingredientDialog.locator('.profile-other-field');
+  const ingredientConfirm = ingredientDialog.getByRole('button', { name: '確定' });
   await expect(ingredientInput).toBeVisible();
   await expect(ingredientInput).toBeFocused();
   await expectFigmaModalInputAppearance(ingredientInput, ingredientField);
-  await expectForeground(ingredientDialog.getByRole('button', { name: '確定' }), WHITE);
+  await expectCompositeFieldFocus(ingredientField);
+  await expectForeground(ingredientConfirm, WHITE);
+
+  await page.keyboard.press('Shift+Tab');
+  await expect(ingredientConfirm).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(ingredientInput).toBeFocused();
 
   await ingredientInput.click();
   await expect(ingredientInput).toBeFocused();
   await expectFigmaModalInputAppearance(ingredientInput, ingredientField);
 
-  await ingredientDialog.getByRole('button', { name: '確定' }).click();
+  await page.keyboard.press('Tab');
+  await expect(ingredientConfirm).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(ingredientInput).toBeFocused();
+  await page.keyboard.press('Shift+Tab');
+  await expect(ingredientConfirm).toBeFocused();
+  await page.keyboard.press('Shift+Tab');
+  await expect(ingredientInput).toBeFocused();
+
+  await ingredientConfirm.click();
   await expect(ingredientInput).toBeFocused();
   await expectFigmaModalInputAppearance(ingredientInput, ingredientField);
+  await expectCompositeFieldFocus(ingredientField);
 });
 
 test('matches Hopp Figma card geometry, departure input, and result progress at 375px', async ({ page }) => {

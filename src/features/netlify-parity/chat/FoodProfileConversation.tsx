@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState, type FormEvent, type KeyboardEvent, type ReactNode } from 'react';
 import type { FoodProfile } from '../../../lib/food-profile';
 import type { Locale } from '../../../i18n';
 import { referenceAssets, type ReferenceCopy } from '../content';
@@ -82,6 +82,24 @@ interface ProfileInputModalProps {
   submitLabel: string;
 }
 
+function containModalFocus(event: KeyboardEvent<HTMLFormElement>) {
+  if (event.key !== 'Tab') return;
+
+  const controls = event.currentTarget.querySelectorAll<HTMLElement>(
+    'input:not([disabled]), button:not([disabled])',
+  );
+  if (controls.length === 0) return;
+
+  const firstControl = controls[0];
+  const lastControl = controls[controls.length - 1];
+  const leavingBeforeFirst = event.shiftKey && document.activeElement === firstControl;
+  const leavingAfterLast = !event.shiftKey && document.activeElement === lastControl;
+  if (!leavingBeforeFirst && !leavingAfterLast) return;
+
+  event.preventDefault();
+  (event.shiftKey ? lastControl : firstControl).focus();
+}
+
 function ProfileInputModal({
   label,
   children,
@@ -95,6 +113,7 @@ function ProfileInputModal({
         role="dialog"
         aria-modal="true"
         aria-label={label}
+        onKeyDown={containModalFocus}
         onSubmit={onSubmit}
       >
         <span className="profile-input-label">{label}</span>

@@ -509,6 +509,14 @@ body:has(.reference-app) { overflow:hidden; }
   outline-offset:2px;
 }
 
+.reference-app .profile-name-sentence:focus-within,
+.reference-app .profile-other-field:focus-within {
+  box-shadow:0 0 0 3px #173F8A;
+}
+.reference-app .profile-name-sentence.invalid:focus-within {
+  box-shadow:inset 0 0 0 1.5px #F05B5B, 0 0 0 3px #173F8A;
+}
+
 .reference-app .profile-name-sentence input:focus,
 .reference-app .profile-other-field input:focus,
 .reference-app .profile-name-sentence input:focus-visible,
