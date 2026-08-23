@@ -84,4 +84,15 @@ describe('playwright preview-server guard (#188)', () => {
   it('exits 0 when no port is given', async () => {
     expect((await runGuard()).code).toBe(0);
   });
+
+  it('keeps the canonical gate separate from focused browser regressions', async () => {
+    const canonical = (await import('../../playwright.config.ts')).default;
+    const focused = (await import('../../playwright.regressions.config.ts')).default;
+
+    expect(canonical.testMatch).toBe('current-mvp-smoke.spec.ts');
+    expect(focused.testMatch).toEqual([
+      'issue-283-visual-parity.spec.ts',
+      'issue-296-my-badges.spec.ts',
+    ]);
+  });
 });

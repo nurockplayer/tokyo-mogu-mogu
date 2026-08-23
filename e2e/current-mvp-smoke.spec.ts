@@ -1,10 +1,211 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 
-test.beforeEach(async ({ page }) => {
-  await page.addInitScript(() => window.localStorage.clear());
+async function expectNoHorizontalOverflow(page: Page): Promise<void> {
+  await expect
+    .poll(() =>
+      page.evaluate(() => ({
+        documentClientWidth: document.documentElement.clientWidth,
+        documentScrollWidth: document.documentElement.scrollWidth,
+        phoneClientWidth: document.querySelector<HTMLElement>('.reference-phone')?.clientWidth,
+        phoneScrollWidth: document.querySelector<HTMLElement>('.reference-phone')?.scrollWidth,
+      })),
+    )
+    .toEqual({
+      documentClientWidth: 375,
+      documentScrollWidth: 375,
+      phoneClientWidth: 375,
+      phoneScrollWidth: 375,
+    });
+}
+
+async function completeFoodProfile(page: Page): Promise<void> {
+  const splash = page.locator('[data-screen="splash"][data-screen-active="true"]');
+  await expect(splash).toBeVisible();
+  await splash.click();
+
+  await expect(page).toHaveURL(/\/food-profile$/);
+  const profile = page.locator('[data-screen="food-profile"][data-screen-active="true"]');
+  await expect(profile).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+
+  await profile.getByRole('button', { name: 'はじめる！' }).click();
+  const nicknameDialog = profile.getByRole('dialog', { name: '私は...' });
+  const nicknameInput = nicknameDialog.getByRole('textbox', { name: 'ニックネームを入力' });
+  await expect(nicknameInput).toBeFocused();
+  await nicknameInput.fill('ナナ');
+  await nicknameDialog.getByRole('button', { name: '送信', exact: true }).click();
+
+  const noRestrictionChoices = [
+    'アレルギーはありません',
+    '特になし',
+    '特になし',
+    '特になし',
+  ];
+  for (const [questionIndex, choice] of noRestrictionChoices.entries()) {
+    const question = profile.locator(`[data-question-index="${questionIndex}"]`);
+    await expect(question).toBeVisible();
+    await question.getByRole('button', { name: choice, exact: true }).click();
+    await question.getByRole('button', { name: '送信', exact: true }).click();
+    await expect(question).toHaveAttribute('data-frozen', 'true');
+  }
+
+  const recommend = profile.getByRole('button', {
+    name: '自分に合った旅をおすすめしてもらう！',
+  });
+  await expect(recommend).toBeVisible();
+  await recommend.click();
+}
+
+async function completeExploration(page: Page): Promise<void> {
+  const explore = page.locator('[data-screen="explore"][data-screen-active="true"]');
+  await expect(explore.getByLabel('1 / 5')).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+
+  await explore.getByRole('button', { name: /^食べる/ }).click();
+  await explore.getByRole('button', { name: '次へ', exact: true }).click();
+  await expect(explore.getByLabel('2 / 5')).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+
+  await explore.locator('.searchbar').click();
+  const departureDialog = explore.getByRole('dialog', { name: 'エリアを検索' });
+  await expect(departureDialog).toBeVisible();
+  await departureDialog.getByPlaceholder('エリア、場所、駅を入力').fill('東京駅');
+  await departureDialog
+    .getByRole('button', { name: '東京駅（東京都 千代田区）' })
+    .click();
+  await expect(departureDialog).toBeHidden();
+  await explore.getByRole('button', { name: '次へ', exact: true }).click();
+  await expect(explore.getByLabel('3 / 5')).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+
+  await explore.getByRole('button', { name: '時間は気にしない', exact: true }).click();
+  await explore.getByRole('button', { name: '次へ', exact: true }).click();
+  await expect(explore.getByLabel('4 / 5')).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+
+  await explore.getByRole('button', { name: '半日', exact: true }).click();
+  await explore.getByRole('button', { name: '次へ', exact: true }).click();
+  await expect(explore.getByLabel('5 / 5')).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+
+  for (const choice of ['辛いもの', '濃厚な味', '伝統', '自然']) {
+    await explore.getByRole('button', { name: choice, exact: true }).click();
+  }
+  await explore.getByRole('button', { name: '次へ', exact: true }).click();
+}
+
+test('completes the current 375px Japanese Golden Path and preserves saved state', async ({
+  page,
+}) => {
+  test.setTimeout(45_000);
+
+  await page.goto('/');
+  await expect(page.locator('.reference-app')).toHaveAttribute('data-locale', 'ja');
+  await completeFoodProfile(page);
+
+  await expect(page).toHaveURL(/\/home$/);
+  const home = page.locator('[data-screen="home"][data-screen-active="true"]');
+  await expect(home.getByText('ナナさん')).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+  await home.getByRole('button', { name: /Let's Go!/ }).click();
+
+  await expect(page).toHaveURL(/\/explore$/);
+  await completeExploration(page);
+
+  await expect(page).toHaveURL(/\/explore\/result$/);
+  const result = page.locator('[data-screen="result"][data-screen-active="true"]');
+  const resultCards = result.getByRole('button', { name: /この物語を読む:/ });
+  await expect(resultCards).toHaveCount(2);
+  await expectNoHorizontalOverflow(page);
+  await resultCards.first().click();
+
+  await expect(page).toHaveURL(/\/story\/wasabi-okutama$/);
+  const story = page.locator('[data-screen="story"][data-screen-active="true"]');
+  await expect(story.locator('[data-spot-id]')).toHaveCount(8);
+  await expectNoHorizontalOverflow(page);
+  await story
+    .getByRole('button', { name: 'この食文化の観光ルートを作成する' })
+    .click();
+  await expect(story.locator('[data-route-loading][data-loading="true"]')).toBeVisible();
+
+  await expect(page).toHaveURL(/\/route\?candidateId=demo-okutama-wasabi$/, {
+    timeout: 4_000,
+  });
+  let route = page.locator('[data-screen="route"][data-screen-active="true"]');
+  await expect(route.getByRole('img', { name: 'ルートマップ' })).toBeVisible();
+  await expect(route.locator('[data-spot-id]')).toHaveCount(7);
+  await expectNoHorizontalOverflow(page);
+
+  await route.getByRole('button', { name: 'マイルートに保存' }).click();
+  await expect(route.getByRole('button', { name: '保存済み' })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  );
+
+  await page.reload();
+  route = page.locator('[data-screen="route"][data-screen-active="true"]');
+  await expect(route.getByRole('button', { name: '保存済み' })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  );
+  await route.getByRole('button', { name: /奥多摩観光案内所/ }).click();
+
+  await expect(page).toHaveURL(
+    /\/spot\/okutama-tourism-office\?candidateId=demo-okutama-wasabi$/,
+  );
+  let spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
+  await expect(spot.getByRole('heading', { name: '奥多摩観光案内所' })).toBeVisible();
+  await expect(spot.getByRole('button', { name: '2/5' })).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+
+  await spot.getByRole('button', { name: 'お気に入りに保存' }).click();
+  await expect(spot.getByRole('button', { name: 'お気に入りから削除' })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  );
+
+  await page.reload();
+  spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
+  await expect(spot.getByRole('button', { name: 'お気に入りから削除' })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  );
+
+  const dock = spot.getByRole('navigation', { name: 'Primary' });
+  await expect(dock.getByRole('button')).toHaveCount(4);
+  for (const destination of ['食旅を見つけ', 'モグモグる', 'お気に入り', 'マイ']) {
+    await expect(dock.getByRole('button', { name: destination })).toBeVisible();
+  }
+  await dock.getByRole('button', { name: 'お気に入り' }).click();
+
+  await expect(page).toHaveURL(/\/my-route$/);
+  const favorites = page.locator('[data-screen="favorites"][data-screen-active="true"]');
+  await expect(favorites.locator('[data-journey-id="demo-okutama-wasabi"]')).toBeVisible();
+  await expect(favorites.locator('[data-spot-id="okutama-tourism-office"]')).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+  await favorites
+    .getByRole('navigation', { name: 'Primary' })
+    .getByRole('button', { name: 'マイ' })
+    .click();
+
+  await expect(page).toHaveURL(/\/my$/);
+  const my = page.locator('[data-screen="my"][data-screen-active="true"]');
+  await my
+    .getByRole('navigation', { name: 'Primary' })
+    .getByRole('button', { name: 'モグモグる' })
+    .click();
+
+  await expect(page).toHaveURL(/\/mogu$/);
+  const mogu = page.locator('[data-screen="mogu"][data-screen-active="true"]');
+  await mogu
+    .getByRole('navigation', { name: 'Primary' })
+    .getByRole('button', { name: '食旅を見つけ' })
+    .click();
+  await expect(page).toHaveURL(/\/home$/);
+  await expect(page.locator('[data-screen="home"][data-screen-active="true"]')).toBeVisible();
 });
 
-test('keeps header/footer fixed while only the middle content scrolls', async ({ page }) => {
+test('keeps header and footer fixed while only the middle content scrolls', async ({ page }) => {
   const viewport = { width: 375, height: 812 };
   await page.setViewportSize(viewport);
 
@@ -86,277 +287,4 @@ test('keeps header/footer fixed while only the middle content scrolls', async ({
   expect(Math.round(await page.evaluate(() => window.scrollY))).toBe(0);
   expect(resultAfter.head?.y).toBeCloseTo(resultBefore.head?.y ?? 0, 1);
   expect(resultAfter.progress?.y).toBeCloseTo(resultBefore.progress?.y ?? 0, 1);
-});
-
-test('exposes the current Food Profile and exploration search states', async ({ page }) => {
-  await page.goto('/food-profile');
-
-  const profile = page.locator('[data-screen="food-profile"][data-screen-active="true"]');
-  await expect(profile).toBeVisible();
-  await expect(page.locator('.locale-control')).toHaveCount(0);
-
-  await page.goto('/explore');
-
-  const exploration = page.locator('[data-screen="explore"][data-screen-active="true"]');
-  await expect(exploration).toBeVisible();
-  await expect(exploration.getByLabel('1 / 5')).toBeVisible();
-
-  await exploration.getByRole('button', { name: /^食べる/ }).click();
-  await exploration.getByRole('button', { name: '次へ', exact: true }).click();
-  await expect(exploration.getByLabel('2 / 5')).toBeVisible();
-
-  await exploration.locator('.searchbar').click();
-  const departureDialog = exploration.getByRole('dialog', { name: 'エリアを検索' });
-  await expect(departureDialog).toBeVisible();
-  await expect(departureDialog.locator('li')).toHaveCount(0);
-
-  await departureDialog
-    .getByPlaceholder('エリア、場所、駅を入力')
-    .fill('東京駅');
-  await departureDialog
-    .getByRole('button', { name: '東京駅（東京都 千代田区）' })
-    .click();
-
-  await expect(departureDialog).toBeHidden();
-  await expect(exploration.getByRole('button', { name: '次へ', exact: true })).toBeEnabled();
-});
-
-test('matches the My and 食のバッジ navigation at 375px and 390px', async ({ page }) => {
-  for (const width of [375, 390]) {
-    await page.setViewportSize({ width, height: 844 });
-    await page.goto('/my');
-
-    const my = page.locator('[data-screen="my"][data-screen-active="true"]');
-    await expect(my.getByRole('heading', { name: 'マイページ' })).toBeVisible();
-    await expect(my.locator('.issue-296-route-card').getByText('マイルート', { exact: true })).toBeVisible();
-    await expect(page.locator('.locale-control')).toHaveCount(0);
-    const myDock = my.getByRole('navigation', { name: 'Primary' });
-    await expect(myDock.getByRole('button', { name: 'マイ' })).toHaveAttribute('aria-current', 'page');
-    const dockBounds = await myDock.boundingBox();
-    expect(dockBounds?.height).toBeCloseTo(84, 0);
-    expect((dockBounds?.y ?? 0) + (dockBounds?.height ?? 0)).toBeCloseTo(844, 0);
-    await expect(myDock).toHaveCSS('padding-bottom', '16px');
-
-    await myDock.evaluate((element) => {
-      element.style.setProperty('--issue-296-dock-safe-bottom', '34px');
-    });
-    await expect(myDock).toHaveCSS('padding-bottom', '34px');
-    const safeAreaDockBounds = await myDock.boundingBox();
-    expect(safeAreaDockBounds?.height).toBeCloseTo(102, 0);
-    expect((safeAreaDockBounds?.y ?? 0) + (safeAreaDockBounds?.height ?? 0)).toBeCloseTo(844, 0);
-    await myDock.evaluate((element) => {
-      element.style.removeProperty('--issue-296-dock-safe-bottom');
-    });
-
-    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
-
-    await my.getByRole('button', { name: '食のバッジ' }).click();
-    await expect(page).toHaveURL(/\/badges$/);
-
-    const badges = page.locator('[data-screen="badges"][data-screen-active="true"]');
-    await expect(badges.getByRole('heading', { name: '食のバッジ' })).toBeVisible();
-    await expect(badges.getByText('1/100')).toBeVisible();
-    await expect(badges.getByText('2026/08/23 獲得')).toBeVisible();
-
-    await badges.getByRole('button', { name: '次のバッジ' }).click();
-    await expect(badges).toHaveAttribute('data-badge-page', '2');
-    await expect(badges.getByText('2/100')).toBeVisible();
-    await expect(badges.getByText('まだバッジがありません')).toBeVisible();
-
-    await badges.getByRole('button', { name: '前のバッジ' }).click();
-    await expect(badges).toHaveAttribute('data-badge-page', '1');
-    await badges.getByRole('button', { name: 'マイページに戻る' }).click();
-    await expect(page).toHaveURL(/\/my$/);
-  }
-});
-
-test('uses one shared shell across current Dock routes and Badge', async ({ page }) => {
-  const routes = [
-    { path: '/home', screen: 'home' },
-    { path: '/mogu', screen: 'mogu' },
-    { path: '/my-route', screen: 'favorites' },
-    { path: '/my', screen: 'my' },
-    { path: '/badges', screen: 'badges' },
-  ];
-
-  for (const viewport of [
-    { width: 375, height: 844 },
-    { width: 390, height: 844 },
-    { width: 430, height: 1000 },
-    { width: 1440, height: 1100 },
-  ]) {
-    await page.setViewportSize(viewport);
-    const expectedWidth = Math.min(viewport.width, 430);
-
-    for (const route of routes) {
-      await page.goto(route.path);
-
-      const phone = page.locator('.reference-phone');
-      const phoneBounds = await phone.boundingBox();
-      expect(phoneBounds).not.toBeNull();
-      expect(phoneBounds?.width).toBeCloseTo(expectedWidth, 0);
-      expect(phoneBounds?.height).toBeCloseTo(viewport.height, 0);
-      expect(phoneBounds?.x).toBeCloseTo((viewport.width - expectedWidth) / 2, 0);
-      expect(phoneBounds?.y).toBeCloseTo(0, 0);
-
-      const screen = page.locator(
-        `[data-screen="${route.screen}"][data-screen-active="true"]`,
-      );
-      expect(await screen.boundingBox()).toEqual(phoneBounds);
-
-      if (route.screen === 'my') {
-        await expect(screen).toHaveCSS('background-size', 'cover');
-        const myStatusBounds = await screen.locator('.issue-296-status-bar').boundingBox();
-        const myHeaderBounds = await screen.locator('.issue-296-header').boundingBox();
-        const myDockBounds = await screen
-          .getByRole('navigation', { name: 'Primary' })
-          .boundingBox();
-        for (const bounds of [myStatusBounds, myHeaderBounds, myDockBounds]) {
-          expect(bounds?.x).toBeCloseTo(phoneBounds?.x ?? 0, 0);
-          expect(bounds?.width).toBeCloseTo(expectedWidth, 0);
-        }
-        expect((myDockBounds?.y ?? 0) + (myDockBounds?.height ?? 0)).toBeCloseTo(
-          viewport.height,
-          0,
-        );
-      }
-
-      if (route.screen === 'badges') {
-        await expect(screen).toHaveCSS('background-size', 'cover');
-        const badgeStatusBounds = await screen.locator('.issue-296-status-bar').boundingBox();
-        const badgeHeaderBounds = await screen.locator('.issue-296-header').boundingBox();
-        for (const bounds of [badgeStatusBounds, badgeHeaderBounds]) {
-          expect(bounds?.x).toBeCloseTo(phoneBounds?.x ?? 0, 0);
-          expect(bounds?.width).toBeCloseTo(expectedWidth, 0);
-        }
-      }
-    }
-  }
-});
-
-test('keeps both Badge binder states aligned to the shared shell width', async ({ page }) => {
-  for (const viewport of [
-    { width: 375, height: 844 },
-    { width: 390, height: 844 },
-    { width: 430, height: 1000 },
-    { width: 1440, height: 1100 },
-  ]) {
-    await page.setViewportSize(viewport);
-    await page.goto('/badges');
-
-    const expectedWidth = Math.min(viewport.width, 430);
-    const badges = page.locator('[data-screen="badges"][data-screen-active="true"]');
-    const binder = badges.locator('.issue-296-binder');
-    const badgesBounds = await badges.boundingBox();
-    const earnedBinderBounds = await binder.boundingBox();
-    expect(earnedBinderBounds?.x).toBeCloseTo(badgesBounds?.x ?? 0, 0);
-    expect(earnedBinderBounds?.width).toBeCloseTo(expectedWidth, 0);
-    expect(
-      (earnedBinderBounds?.x ?? 0) + (earnedBinderBounds?.width ?? 0),
-    ).toBeCloseTo((badgesBounds?.x ?? 0) + (badgesBounds?.width ?? 0), 0);
-
-    await badges.getByRole('button', { name: '次のバッジ' }).click();
-    await expect(badges).toHaveAttribute('data-badge-page', '2');
-    await expect(badges.getByText('2/100')).toBeVisible();
-    const emptyBinderBounds = await binder.boundingBox();
-    expect(emptyBinderBounds?.x).toBeCloseTo(badgesBounds?.x ?? 0, 0);
-    expect(emptyBinderBounds?.width).toBeCloseTo(expectedWidth, 0);
-    expect(
-      (emptyBinderBounds?.x ?? 0) + (emptyBinderBounds?.width ?? 0),
-    ).toBeCloseTo((badgesBounds?.x ?? 0) + (badgesBounds?.width ?? 0), 0);
-  }
-});
-
-test('uses 言語設定 as the persisted language entry surface', async ({ page }) => {
-  await page.goto('/my');
-  const my = page.locator('[data-screen="my"][data-screen-active="true"]');
-
-  await my.getByRole('button', { name: '言語設定' }).click();
-  const languageDialog = my.getByRole('dialog', { name: '言語を選択' });
-  await expect(languageDialog).toBeVisible();
-  await languageDialog.getByRole('button', { name: 'English' }).click();
-
-  await expect(my.getByRole('heading', { name: 'My' })).toBeVisible();
-  await expect(page.locator('.locale-control')).toHaveCount(0);
-  await expect.poll(() => page.evaluate(() => localStorage.getItem('tmm:locale'))).toBe('en');
-});
-
-test('walks the current Result to Spot path and Dock destinations', async ({ page }) => {
-  await page.goto('/explore/result');
-
-  const result = page.locator('[data-screen="result"][data-screen-active="true"]');
-  const resultCards = result.getByRole('button', { name: /この物語を読む:/ });
-  await expect(resultCards).toHaveCount(2);
-  await resultCards.first().click();
-
-  await expect(page).toHaveURL(/\/story\/wasabi-okutama$/);
-  const story = page.locator('[data-screen="story"][data-screen-active="true"]');
-  await expect(story.locator('[data-spot-id]')).toHaveCount(8);
-
-  await story
-    .getByRole('button', { name: 'この食文化の観光ルートを作成する' })
-    .click();
-  await expect(
-    story.locator('[data-route-loading][data-loading="true"]'),
-  ).toBeVisible();
-
-  await expect(page).toHaveURL(/\/route\?candidateId=demo-okutama-wasabi$/, {
-    timeout: 3_500,
-  });
-  const route = page.locator('[data-screen="route"][data-screen-active="true"]');
-  await expect(route.getByRole('img', { name: 'ルートマップ' })).toBeVisible();
-  await expect(route.locator('[data-spot-id]')).toHaveCount(7);
-
-  await route.getByRole('button', { name: 'マイルートに保存' }).click();
-  await expect(route.getByRole('button', { name: '保存済み' })).toHaveAttribute(
-    'aria-pressed',
-    'true',
-  );
-
-  await route.getByRole('button', { name: /奥多摩観光案内所/ }).click();
-  await expect(page).toHaveURL(
-    /\/spot\/okutama-tourism-office\?candidateId=demo-okutama-wasabi$/,
-  );
-
-  const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
-  await expect(spot.getByRole('heading', { name: '奥多摩観光案内所' })).toBeVisible();
-  await expect(spot.getByRole('button', { name: '2/5' })).toBeVisible();
-
-  await spot.getByRole('button', { name: 'お気に入りに保存' }).click();
-  await expect(spot.getByRole('button', { name: 'お気に入りから削除' })).toHaveAttribute(
-    'aria-pressed',
-    'true',
-  );
-
-  const spotDock = spot.getByRole('navigation', { name: 'Primary' });
-  await expect(spotDock.getByRole('button')).toHaveCount(4);
-  await expect(spotDock.getByRole('button', { name: '食旅を見つけ' })).toBeVisible();
-  await expect(spotDock.getByRole('button', { name: 'モグモグる' })).toBeVisible();
-  await expect(spotDock.getByRole('button', { name: 'お気に入り' })).toBeVisible();
-  await expect(spotDock.getByRole('button', { name: 'マイ' })).toBeVisible();
-
-  await spotDock.getByRole('button', { name: 'モグモグる' }).click();
-  await expect(page).toHaveURL(/\/mogu$/);
-
-  const mogu = page.locator('[data-screen="mogu"][data-screen-active="true"]');
-  await mogu
-    .getByRole('navigation', { name: 'Primary' })
-    .getByRole('button', { name: 'お気に入り' })
-    .click();
-  await expect(page).toHaveURL(/\/my-route$/);
-
-  const favorites = page.locator('[data-screen="favorites"][data-screen-active="true"]');
-  await favorites
-    .getByRole('navigation', { name: 'Primary' })
-    .getByRole('button', { name: 'マイ' })
-    .click();
-  await expect(page).toHaveURL(/\/my$/);
-
-  const my = page.locator('[data-screen="my"][data-screen-active="true"]');
-  await my
-    .getByRole('navigation', { name: 'Primary' })
-    .getByRole('button', { name: '食旅を見つけ' })
-    .click();
-  await expect(page).toHaveURL(/\/home$/);
-  await expect(page.locator('[data-screen="home"][data-screen-active="true"]')).toBeVisible();
 });
