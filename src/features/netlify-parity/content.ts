@@ -218,7 +218,22 @@ export interface JourneyPresentation {
     durationMinutes: number;
     imageAssetId: ReferenceAssetId;
     steps: Array<{ spotId: string; imageAssetId: ReferenceAssetId }>;
+    facts: PresentationFacts;
   }>;
+}
+
+export type PresentationLocalizedText = Record<Locale, string>;
+
+export interface PresentationSource {
+  label: PresentationLocalizedText;
+  url: string;
+  retrievedAt: '2026-08-24';
+  verificationStatus: 'needs_confirmation' | 'demo';
+}
+
+export interface PresentationFacts {
+  disclosure: PresentationLocalizedText;
+  sources: readonly PresentationSource[];
 }
 
 export interface SpotPresentation {
@@ -227,6 +242,7 @@ export interface SpotPresentation {
   foodCultureId: string;
   imageAssetId: ReferenceAssetId;
   thumbnailAssetIds: ReferenceAssetId[];
+  facts: PresentationFacts;
   copy: Record<Locale, {
     name: string;
     lead: string;
@@ -391,10 +407,100 @@ export function referenceCopy(locale: Locale): ReferenceCopy {
   return copies[locale];
 }
 
-const demoSourceNotes: Record<Locale, string> = {
-  ja: 'Netlify の参照画面をもとにしたデモ用編集情報です。訪問前に施設の最新情報をご確認ください。',
-  en: 'Demo editorial presentation transcribed from the authoritative Netlify reference; verify current venue details before travel.',
-  'zh-TW': '此為依 Netlify 參考畫面整理的示範編輯資訊；造訪前請確認場所的最新資料。',
+const presentationText = (ja: string, en: string, zhTW: string): PresentationLocalizedText => ({
+  ja,
+  en,
+  'zh-TW': zhTW,
+});
+
+const presentationSource = (
+  label: PresentationLocalizedText,
+  url: string,
+): PresentationSource => ({
+  label,
+  url,
+  retrievedAt: '2026-08-24',
+  verificationStatus: 'needs_confirmation',
+});
+
+export const presentationSources = {
+  okutamaTourismAssociation: presentationSource(
+    presentationText('奥多摩観光協会', 'Okutama Tourism Association', '奧多摩觀光協會'),
+    'https://www.okutama.gr.jp/site/about/',
+  ),
+  okutamaTown: presentationSource(
+    presentationText('奥多摩町', 'Okutama Town', '奧多摩町'),
+    'https://www.town.okutama.tokyo.jp/1/kankosangyoka/shisetsuosagasu/2/1108.html',
+  ),
+  wasabiExperience: presentationSource(
+    presentationText('TOKYO WASABI わさび体験', 'TOKYO WASABI Experience', 'TOKYO WASABI 山葵體驗'),
+    'https://tokyowasabi.com/wasabi-experience/',
+  ),
+  wasabiFoodTruck: presentationSource(
+    presentationText('TOKYO WASABI わさび食堂', 'TOKYO WASABI Food Truck', 'TOKYO WASABI 山葵餐車'),
+    'https://tokyowasabi.com/foodtruck/',
+  ),
+  wasabiFoodTruckSchedule: presentationSource(
+    presentationText('TOKYO WASABI 2026年8月出店予定', 'TOKYO WASABI August 2026 schedule', 'TOKYO WASABI 2026 年 8 月行程'),
+    'https://tokyowasabi.com/information/2751/260728/',
+  ),
+  yamashiroya: presentationSource(
+    presentationText('山城屋 店舗案内', 'Yamashiroya shop information', '山城屋店舖資訊'),
+    'https://www.yamasiroya.co.jp/shop.html',
+  ),
+  jrEastOkutamaTimetable: presentationSource(
+    presentationText('JR東日本 奥多摩駅時刻表', 'JR East Okutama Station timetable', 'JR 東日本奧多摩站時刻表'),
+    'https://timetables.jreast.co.jp/timetable/list0368.html',
+  ),
+} satisfies Record<string, PresentationSource>;
+
+const neutralDemoDisclosure = presentationText(
+  'デモ用に編集した参考情報です。訪問前に各施設の公式情報をご確認ください。',
+  'Demo editorial reference information. Verify current venue details with official sources before travel.',
+  '此為示範用途的編輯參考資訊；造訪前請向各場所官方來源確認最新資料。',
+);
+
+const routeEstimateDisclosure = presentationText(
+  'デモ用のモデル推定です。所要時間・距離・乗換・営業状況は、交通機関と各運営者の最新情報をご確認ください。',
+  'Demo/model estimates. Check current transit, operator schedules, and venue availability before travel.',
+  '此為示範／模型估算。造訪前請向交通機構與各營運者確認最新時間、轉乘與營業狀況。',
+);
+
+const tourismOfficeDisclosure = presentationText(
+  '公式情報を2026-08-24に取得しました。営業時間・連絡先・アクセス・現在のガイドや体験は、訪問前に再確認してください。',
+  'Official information retrieved 2026-08-24. Recheck hours, contact details, access, and current guide or experience options before travel.',
+  '官方資訊擷取於 2026-08-24。造訪前請重新確認營業時間、聯絡方式、交通與最新導覽／體驗選項。',
+);
+
+const presentationFacts = (
+  disclosure: PresentationLocalizedText,
+  sources: readonly PresentationSource[] = [],
+): PresentationFacts => ({ disclosure, sources });
+
+const demoPresentationFacts = presentationFacts(neutralDemoDisclosure);
+const tourismOfficeFacts = presentationFacts(tourismOfficeDisclosure, [
+  presentationSources.okutamaTourismAssociation,
+  presentationSources.okutamaTown,
+]);
+
+const routeFacts = {
+  wasabiHalfDay: presentationFacts(routeEstimateDisclosure, [
+    presentationSources.okutamaTourismAssociation,
+    presentationSources.okutamaTown,
+    presentationSources.wasabiFoodTruck,
+    presentationSources.wasabiFoodTruckSchedule,
+    presentationSources.jrEastOkutamaTimetable,
+  ]),
+  wasabiFullDay: presentationFacts(routeEstimateDisclosure, [
+    presentationSources.wasabiExperience,
+    presentationSources.yamashiroya,
+    presentationSources.jrEastOkutamaTimetable,
+  ]),
+  yamameHalfDay: presentationFacts(routeEstimateDisclosure, [
+    presentationSources.okutamaTourismAssociation,
+    presentationSources.okutamaTown,
+    presentationSources.jrEastOkutamaTimetable,
+  ]),
 };
 
 export const demoJourneys: JourneyPresentation[] = [
@@ -411,8 +517,8 @@ export const demoJourneys: JourneyPresentation[] = [
       'zh-TW': [{ number: '01.', title: '為什麼是山葵？', body: '清澈冰冷的水孕育出香氣與辛味。' }, { number: '02.', title: '誰在製作？', body: '職人的照料與地方智慧守護著田地和味道。' }, { number: '03.', title: '傳承的技術', body: '適合這片土地的方法，一代一代地傳下來。' }, { number: '04.', title: '當前的課題', body: '環境變化與接班人不足，讓傳承面臨挑戰。' }, { number: '05.', title: '你能做什麼', body: '在這裡品嚐與造訪，可以支持下一代。' }],
     },
     routeVariants: [
-      { id: 'half-day', durationMinutes: 150, imageAssetId: 'figmaRouteMap', steps: [{ spotId: 'okutama-station', imageAssetId: 'station' }, { spotId: 'okutama-tourism-office', imageAssetId: 'tourismOfficeRoute' }, { spotId: 'wasabi-kitchen', imageAssetId: 'wasabiKitchen' }, { spotId: 'okutama-kitchen', imageAssetId: 'wasabiGelato' }, { spotId: 'hikawa-valley', imageAssetId: 'valley' }, { spotId: 'oku-hikawa-shrine', imageAssetId: 'okuHikawaShrine' }, { spotId: 'port-okutama', imageAssetId: 'port' }] },
-      { id: 'full-day', durationMinutes: 420, imageAssetId: 'figmaRouteMap', steps: [{ spotId: 'mitake-station', imageAssetId: 'station' }, { spotId: 'wasabi-experience', imageAssetId: 'wasabiExperience' }, { spotId: 'okutama-station', imageAssetId: 'station' }, { spotId: 'akabeko', imageAssetId: 'akabekoYamame' }, { spotId: 'yamashiroya', imageAssetId: 'yamashiroyaGoods' }, { spotId: 'port-okutama', imageAssetId: 'portDetail' }] },
+      { id: 'half-day', durationMinutes: 150, imageAssetId: 'figmaRouteMap', facts: routeFacts.wasabiHalfDay, steps: [{ spotId: 'okutama-station', imageAssetId: 'station' }, { spotId: 'okutama-tourism-office', imageAssetId: 'tourismOfficeRoute' }, { spotId: 'wasabi-kitchen', imageAssetId: 'wasabiKitchen' }, { spotId: 'okutama-kitchen', imageAssetId: 'wasabiGelato' }, { spotId: 'hikawa-valley', imageAssetId: 'valley' }, { spotId: 'oku-hikawa-shrine', imageAssetId: 'okuHikawaShrine' }, { spotId: 'port-okutama', imageAssetId: 'port' }] },
+      { id: 'full-day', durationMinutes: 420, imageAssetId: 'figmaRouteMap', facts: routeFacts.wasabiFullDay, steps: [{ spotId: 'mitake-station', imageAssetId: 'station' }, { spotId: 'wasabi-experience', imageAssetId: 'wasabiExperience' }, { spotId: 'okutama-station', imageAssetId: 'station' }, { spotId: 'akabeko', imageAssetId: 'akabekoYamame' }, { spotId: 'yamashiroya', imageAssetId: 'yamashiroyaGoods' }, { spotId: 'port-okutama', imageAssetId: 'portDetail' }] },
     ],
   },
   {
@@ -427,30 +533,36 @@ export const demoJourneys: JourneyPresentation[] = [
       en: [{ number: '01.', title: 'A taste raised by water', body: 'Clear water supports this river-fish food culture.' }],
       'zh-TW': [{ number: '01.', title: '由水孕育的味道', body: '清澈的水支撐著這份河魚飲食文化。' }],
     },
-    routeVariants: [{ id: 'half-day', durationMinutes: 240, imageAssetId: 'routeMap', steps: [{ spotId: 'okutama-station', imageAssetId: 'station' }, { spotId: 'okutama-tourism-office', imageAssetId: 'tourismOffice' }, { spotId: 'hikawa-valley', imageAssetId: 'valley' }, { spotId: 'akabeko', imageAssetId: 'akabekoYamame' }] }],
+    routeVariants: [{ id: 'half-day', durationMinutes: 240, imageAssetId: 'routeMap', facts: routeFacts.yamameHalfDay, steps: [{ spotId: 'okutama-station', imageAssetId: 'station' }, { spotId: 'okutama-tourism-office', imageAssetId: 'tourismOffice' }, { spotId: 'hikawa-valley', imageAssetId: 'valley' }, { spotId: 'akabeko', imageAssetId: 'akabekoYamame' }] }],
   },
 ];
 
 type SpotCopy = Pick<SpotPresentation['copy'][Locale], 'name' | 'lead' | 'description'>;
 
-const spot = (id: string, imageAssetId: ReferenceAssetId, thumbnailAssetIds: ReferenceAssetId[], localized: Record<Locale, SpotCopy>): SpotPresentation => ({
-  id, regionId: 'okutama', foodCultureId: 'wasabi-okutama', imageAssetId, thumbnailAssetIds,
+const spot = (
+  id: string,
+  imageAssetId: ReferenceAssetId,
+  thumbnailAssetIds: ReferenceAssetId[],
+  localized: Record<Locale, SpotCopy>,
+  facts: PresentationFacts = demoPresentationFacts,
+): SpotPresentation => ({
+  id, regionId: 'okutama', foodCultureId: 'wasabi-okutama', imageAssetId, thumbnailAssetIds, facts,
   copy: {
-    ja: { ...localized.ja, tags: ['デモ参考情報'], practicalInfo: [{ label: '情報の扱い', value: demoSourceNotes.ja }], caution: ['営業・予約・価格・アクセスなどは、訪問前に公式情報をご確認ください。'] },
-    en: { ...localized.en, tags: ['Demo reference'], practicalInfo: [{ label: 'Information handling', value: demoSourceNotes.en }], caution: ['Please confirm hours, booking, prices, and access with official sources before visiting.'] },
-    'zh-TW': { ...localized['zh-TW'], tags: ['示範參考資訊'], practicalInfo: [{ label: '資訊說明', value: demoSourceNotes['zh-TW'] }], caution: ['造訪前請以官方資訊確認營業時間、預約、價格與交通。'] },
+    ja: { ...localized.ja, tags: ['デモ参考情報'], practicalInfo: [], caution: ['営業・予約・価格・アクセスなどは、訪問前に公式情報をご確認ください。'] },
+    en: { ...localized.en, tags: ['Demo reference'], practicalInfo: [], caution: ['Please confirm hours, booking, prices, and access with official sources before visiting.'] },
+    'zh-TW': { ...localized['zh-TW'], tags: ['示範參考資訊'], practicalInfo: [], caution: ['造訪前請以官方資訊確認營業時間、預約、價格與交通。'] },
   },
 });
 
 export const demoSpots: Record<string, SpotPresentation> = {
-  'okutama-tourism-office': spot('okutama-tourism-office', 'tourismOfficeExterior', ['tourismOffice', 'wasapy', 'station', 'valley'], { ja: { name: '奥多摩観光案内所', lead: 'わさぴーが迎えてくれる、旅のはじまりスポット', description: '奥多摩の観光情報に出会う、旅の最初の立ち寄り先です。' }, en: { name: 'Okutama Tourist Information Center', lead: 'A welcoming first stop for the journey', description: 'A first stop for discovering Okutama visitor information.' }, 'zh-TW': { name: '奧多摩觀光案內所', lead: '迎接旅程開始的第一站', description: '認識奧多摩旅遊資訊的第一個停靠點。' } }),
+  'okutama-tourism-office': spot('okutama-tourism-office', 'tourismOfficeExterior', ['tourismOffice', 'wasapy', 'station', 'valley'], { ja: { name: '奥多摩観光案内所', lead: '旅のはじまりに立ち寄る観光案内所', description: '奥多摩の観光情報に出会う、旅の最初の立ち寄り先です。' }, en: { name: 'Okutama Tourist Information Center', lead: 'A visitor-information stop at the start of the journey', description: 'A first stop for discovering Okutama visitor information.' }, 'zh-TW': { name: '奧多摩觀光案內所', lead: '旅程開始時造訪的觀光案內所', description: '認識奧多摩旅遊資訊的第一個停靠點。' } }, tourismOfficeFacts),
   akabeko: spot('akabeko', 'akabeko', ['akabekoYamame', 'akabekoYamameDetail', 'wasabiGelato', 'okutamaKitchenDetail'], { ja: { name: '炉ばた あかべこ', lead: '地域の味に出会う炉ばた料理店', description: '地域の食材を味わうための、参考スポットです。' }, en: { name: 'Robata Akabeko', lead: 'A hearth-grill restaurant for local flavors', description: 'A reference stop for tasting ingredients from the area.' }, 'zh-TW': { name: '爐端燒 AKABEKO', lead: '遇見在地風味的爐端料理店', description: '品嚐在地食材的參考景點。' } }),
-  yamashiroya: spot('yamashiroya', 'yamashiroya', ['yamashiroyaGoods', 'yamashiroyaSign'], { ja: { name: '山城屋', lead: 'わさび加工の店を訪ねる', description: 'わさびにまつわる品を探すための、参考スポットです。' }, en: { name: 'Yamashiroya', lead: 'Visit a wasabi-specialty shop', description: 'A reference stop for finding wasabi-related goods.' }, 'zh-TW': { name: '山城屋', lead: '造訪山葵加工專門店', description: '尋找山葵相關商品的參考景點。' } }),
-  'wasabi-kitchen': spot('wasabi-kitchen', 'wasabiKitchen', ['station', 'wasabiGelato'], { ja: { name: 'わさび食堂', lead: '駅前で味わうわさびの一皿', description: 'わさびの味を試すための、参考スポットです。' }, en: { name: 'Wasabi Shokudo', lead: 'A wasabi dish near the station', description: 'A reference stop for trying a wasabi flavor.' }, 'zh-TW': { name: '山葵食堂', lead: '在車站前品嚐一道山葵料理', description: '嘗試山葵風味的參考景點。' } }),
+  yamashiroya: spot('yamashiroya', 'yamashiroya', ['yamashiroyaGoods', 'yamashiroyaSign'], { ja: { name: '山城屋', lead: 'わさび加工の店を訪ねる', description: 'わさびにまつわる品を探すための、参考スポットです。' }, en: { name: 'Yamashiroya', lead: 'Visit a wasabi-specialty shop', description: 'A reference stop for finding wasabi-related goods.' }, 'zh-TW': { name: '山城屋', lead: '造訪山葵加工專門店', description: '尋找山葵相關商品的參考景點。' } }, presentationFacts(neutralDemoDisclosure, [presentationSources.yamashiroya])),
+  'wasabi-kitchen': spot('wasabi-kitchen', 'wasabiKitchen', ['station', 'wasabiGelato'], { ja: { name: 'わさび食堂', lead: '駅前でわさびの味を知る', description: 'わさびの味を知るための、参考スポットです。' }, en: { name: 'Wasabi Shokudo', lead: 'Explore wasabi flavors near the station', description: 'A reference stop for exploring wasabi flavors.' }, 'zh-TW': { name: '山葵食堂', lead: '在車站前認識山葵風味', description: '認識山葵風味的參考景點。' } }, presentationFacts(neutralDemoDisclosure, [presentationSources.wasabiFoodTruck, presentationSources.wasabiFoodTruckSchedule])),
   'okutama-kitchen': spot('okutama-kitchen', 'okutamaKitchen', ['wasabiGelato', 'okutamaKitchenDetail'], { ja: { name: '奥多摩の台所', lead: '歩き旅の途中でひと休み', description: '地域の味わいに出会うための、参考スポットです。' }, en: { name: 'Okutama no Daidokoro', lead: 'A pause along a walking journey', description: 'A reference stop for meeting local flavors.' }, 'zh-TW': { name: '奧多摩的廚房', lead: '步行旅途中的小歇', description: '遇見地方風味的參考景點。' } }),
   'hikawa-valley': spot('hikawa-valley', 'valley', ['river', 'valleyBridge'], { ja: { name: '氷川渓谷', lead: '水と土地に触れる散策', description: '食文化を支える水辺の風景に出会う、参考スポットです。' }, en: { name: 'Hikawa Valley', lead: 'A walk that meets water and landscape', description: 'A reference stop for waterside scenery behind the food culture.' }, 'zh-TW': { name: '冰川溪谷', lead: '親近水與土地的散步', description: '遇見支撐飲食文化的水岸風景之參考景點。' } }),
   'port-okutama': spot('port-okutama', 'portCafe', ['port', 'portDetail'], { ja: { name: 'PORT OKUTAMA', lead: '旅の締めのコーヒーと土産探しに', description: '旅の最後に立ち寄るための、参考スポットです。' }, en: { name: 'PORT OKUTAMA', lead: 'Coffee and gifts to close the journey', description: 'A reference stop for the final part of the journey.' }, 'zh-TW': { name: 'PORT OKUTAMA', lead: '以咖啡與伴手禮為旅程收尾', description: '在旅程最後停靠的參考景點。' } }),
-  'wasabi-experience': spot('wasabi-experience', 'wasabiExperience', ['river'], { ja: { name: 'Wasabi Experience', lead: 'わさび田の体験を知る', description: 'わさびの生産風景に触れるための、参考スポットです。' }, en: { name: 'Wasabi Experience', lead: 'Learn about a wasabi-field experience', description: 'A reference stop for meeting wasabi growing landscapes.' }, 'zh-TW': { name: 'Wasabi Experience', lead: '認識山葵田體驗', description: '親近山葵生產景觀的參考景點。' } }),
+  'wasabi-experience': spot('wasabi-experience', 'wasabiExperience', ['river'], { ja: { name: 'Wasabi Experience', lead: 'わさび田の体験を知る', description: 'わさびの生産風景に触れるための、参考スポットです。' }, en: { name: 'Wasabi Experience', lead: 'Learn about a wasabi-field experience', description: 'A reference stop for meeting wasabi growing landscapes.' }, 'zh-TW': { name: 'Wasabi Experience', lead: '認識山葵田體驗', description: '親近山葵生產景觀的參考景點。' } }, presentationFacts(neutralDemoDisclosure, [presentationSources.wasabiExperience])),
   'oku-hikawa-shrine': spot('oku-hikawa-shrine', 'okuHikawaShrine', ['valley', 'station'], { ja: { name: '奥氷川神社', lead: '奥多摩駅近くで地域の歴史にふれる', description: '地域の歴史と自然を感じられる静かな神社です。' }, en: { name: 'Oku-Hikawa Shrine', lead: 'Meet local history near Okutama Station', description: 'A quiet shrine where the area’s history and nature meet.' }, 'zh-TW': { name: '奧冰川神社', lead: '在奧多摩站附近感受地方歷史', description: '能感受地方歷史與自然的寧靜神社。' } }),
   'okutama-station': spot('okutama-station', 'station', ['tourismOffice'], { ja: { name: '奥多摩駅', lead: '旅のスタート地点', description: '旅程の起点として示す、参考スポットです。' }, en: { name: 'Okutama Station', lead: 'The journey’s starting point', description: 'A reference stop shown as the route’s starting point.' }, 'zh-TW': { name: '奧多摩站', lead: '旅程的起點', description: '作為行程起點顯示的參考景點。' } }),
   'mitake-station': spot('mitake-station', 'station', ['wasabiExperience'], { ja: { name: '御岳駅', lead: 'わさび体験へ向かう起点', description: '体験ルートの起点として示す、参考スポットです。' }, en: { name: 'Mitake Station', lead: 'A starting point for the wasabi experience', description: 'A reference stop shown as the experience route’s starting point.' }, 'zh-TW': { name: '御嶽站', lead: '前往山葵體驗的起點', description: '作為體驗路線起點顯示的參考景點。' } }),

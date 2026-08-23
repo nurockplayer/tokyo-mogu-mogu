@@ -7,6 +7,7 @@ import {
   type ReferenceCopy,
   type SpotPresentation,
 } from '../content';
+import { PresentationFactsBlock } from './SpotScreen';
 import {
   BookmarkIcon,
   ClockIcon,
@@ -42,26 +43,26 @@ const routeNames: Record<string, LocalizedText> = {
 const routeStepText: Record<string, RouteStepText[]> = {
   'demo-okutama-wasabi:half-day': [
     { description: t('旅のスタート地点', 'Starting point', '旅程起點') },
-    { walk: t('徒歩 約1分', 'About 1 min on foot', '步行約 1 分鐘'), description: t('わさぴーと観光案内で情報をチェック！', 'Check maps and local tips with Wasapy!', '和 Wasapy 一起確認觀光資訊！') },
-    { walk: t('徒歩 約 1 分', 'About 1 min on foot', '步行約 1 分鐘'), description: t('・土日のみ営業\n・¥900〜', 'Weekends only · From ¥900', '僅週末營業・¥900 起'), note: t('※平日はあかべこ推奨', 'Akabeko is recommended on weekdays', '平日建議前往 AKABEKO') },
-    { walk: t('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: t('・わさびジェラート', 'Wasabi gelato', '山葵義式冰淇淋') },
+    { walk: t('徒歩 約1分', 'About 1 min on foot', '步行約 1 分鐘'), description: t('観光案内所で最新情報を確認', 'Check current information at the visitor center', '在觀光案內所確認最新資訊') },
+    { walk: t('徒歩 約 1 分', 'About 1 min on foot', '步行約 1 分鐘'), description: t('土日を中心に出店・最新の出店予定を確認', 'Operates mainly on weekends · Check the current schedule', '主要於週末出店・請確認最新行程') },
+    { walk: t('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: t('地域の味を探すデモ参考スポット', 'A demo reference stop for exploring local flavors', '探索地方風味的示範參考景點') },
     { walk: t('徒歩 約 10 分', 'About 10 min on foot', '步行約 10 分鐘'), description: t('川辺で涼む', 'Cool off beside the river', '在河畔納涼') },
     { walk: t('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: t('お参り！', 'Visit the shrine', '參拜神社！') },
-    { walk: t('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: t('カフェ・雑貨でゆったり！', 'Relax with coffee and local goods', '在咖啡與雜貨中悠閒休息！') },
+    { walk: t('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: t('旅の締めに立ち寄るデモ参考スポット', 'A demo reference stop at the end of the journey', '旅程最後停靠的示範參考景點') },
   ],
   'demo-okutama-wasabi:full-day': [
     { description: t('JR青梅線・旅のスタート地点', 'JR Ome Line · Starting point', 'JR 青梅線・旅程起點') },
-    { walk: t('集合 8:30', 'Meet at 8:30', '8:30 集合'), description: t('わさび田プライベートツアー\n・2〜2.5時間・1日1組', 'Private wasabi-field tour · 2–2.5 hours · One group daily', '山葵田私人導覽・2～2.5 小時・每日一組') },
+    { walk: t('集合時間は季節・予約時に確認', 'Confirm seasonal meeting time when booking', '集合時間依季節調整・預約時確認'), description: t('わさび田プライベートツアー\n・2〜2.5時間・1日1組\n・料金・空き状況は要確認', 'Private wasabi-field tour\n· 2–2.5 hours · One group daily\n· Confirm current price and availability', '山葵田私人導覽\n・2～2.5 小時・每日一組\n・請確認最新價格與名額') },
     { walk: t('御岳駅から電車', 'Train from Mitake Station', '從御嶽站搭電車'), description: t('青梅線 約20分', 'About 20 min on the Ome Line', '青梅線約 20 分鐘') },
-    { walk: t('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: t('昼食・13:30 L.O.注意', 'Lunch · Last order 13:30', '午餐・13:30 最後點餐') },
-    { walk: t('徒歩 約 3 分', 'About 3 min on foot', '步行約 3 分鐘'), description: t('わさび漬・チーズわさび', 'Pickled and cheese wasabi', '山葵漬・起司山葵') },
-    { walk: t('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: t('締めのコーヒー', 'Coffee to close the journey', '以咖啡為旅程收尾') },
+    { walk: t('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: t('地域の味を探すデモ参考スポット', 'A demo reference stop for exploring local flavors', '探索地方風味的示範參考景點') },
+    { walk: t('徒歩 約 3 分', 'About 3 min on foot', '步行約 3 分鐘'), description: t('長くわさび栽培・加工を続ける奥多摩のわさび専門店', 'A long-running Okutama shop specializing in wasabi', '長期從事山葵栽培與加工的奧多摩山葵專門店') },
+    { walk: t('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: t('旅の締めに立ち寄るデモ参考スポット', 'A demo reference stop at the end of the journey', '旅程最後停靠的示範參考景點') },
   ],
   'demo-okutama-yamame:half-day': [
     { description: t('旅のスタート地点', 'Starting point', '旅程起點') },
     { walk: t('徒歩 約 1 分', 'About 1 min on foot', '步行約 1 分鐘'), description: t('情報収集 30分', 'Gather information · 30 min', '蒐集資訊・30 分鐘') },
     { walk: t('徒歩 約 10 分', 'About 10 min on foot', '步行約 10 分鐘'), description: t('渓流さんぽ 60分', 'Streamside walk · 60 min', '溪流散步・60 分鐘') },
-    { walk: t('徒歩 約 15 分', 'About 15 min on foot', '步行約 15 分鐘'), description: t('やまめの昼食 60分', 'Yamame lunch · 60 min', '山女魚午餐・60 分鐘') },
+    { walk: t('徒歩 約 15 分', 'About 15 min on foot', '步行約 15 分鐘'), description: t('地域の味を探すデモ参考スポット', 'A demo reference stop for exploring local flavors', '探索地方風味的示範參考景點') },
   ],
 };
 
@@ -237,7 +238,7 @@ export function RouteScreen({
             return (
               <div key={`${step.spotId}-${index}`}>
                 {stepText?.walk ? (
-                  <div className="seg">
+                  <div className="seg" data-route-segment-for={step.spotId}>
                     <WalkIcon /> {stepText.walk[locale]}
                   </div>
                 ) : null}
@@ -288,6 +289,11 @@ export function RouteScreen({
             <b>{stats.spots}</b>
           </div>
         </div>
+        <PresentationFactsBlock
+          className="route-presentation-facts"
+          facts={variant.facts}
+          locale={locale}
+        />
         <div className="route-actions">
           <button
             className="save"

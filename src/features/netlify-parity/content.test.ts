@@ -4,8 +4,10 @@ import { describe, expect, it } from 'vitest';
 import {
   demoJourneys,
   demoSpots,
+  presentationSources,
   referenceAssetFiles,
   referenceCopy,
+  type PresentationFacts,
 } from './content';
 
 const locales = ['ja', 'en', 'zh-TW'] as const;
@@ -110,5 +112,29 @@ describe('Netlify parity presentation content', () => {
     for (const assetFile of Object.values(referenceAssetFiles)) {
       expect(existsSync(fileURLToPath(new URL(assetFile, import.meta.url)))).toBe(true);
     }
+  });
+
+  it('keeps operational presentation facts dated, localized, and non-verified (#281)', () => {
+    expect(Object.keys(presentationSources)).toHaveLength(7);
+    for (const source of Object.values(presentationSources)) {
+      expect(source.url).toMatch(/^https:\/\//);
+      expect(source.retrievedAt).toBe('2026-08-24');
+      expect(source.verificationStatus).toBe('needs_confirmation');
+      expect(locales.every((locale) => source.label[locale]?.trim().length > 0)).toBe(true);
+    }
+
+    const routeFacts: PresentationFacts[] = demoJourneys
+      .flatMap((journey) => journey.routeVariants)
+      .map((variant) => variant.facts);
+    const spotFacts: PresentationFacts[] = Object.values(demoSpots).map((spot) => spot.facts);
+    expect(routeFacts.every(Boolean)).toBe(true);
+    expect(spotFacts.every(Boolean)).toBe(true);
+    for (const facts of [...routeFacts, ...spotFacts]) {
+      expect(locales.every((locale) => facts.disclosure[locale].trim().length > 0)).toBe(true);
+    }
+
+    expect(JSON.stringify({ demoJourneys, demoSpots, presentationSources })).not.toMatch(
+      /authoritative Netlify|Netlify の参照画面|依 Netlify 參考畫面/,
+    );
   });
 });

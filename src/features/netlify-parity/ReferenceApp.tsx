@@ -351,7 +351,6 @@ export function ReferenceApp() {
           spot={currentSpot}
           saved={favorites.spotIds.includes(currentSpot.id)}
           onBack={() => navigate(queryJourney ? `/route${location.search}` : spotBack)}
-          onOpenGuide={() => setToast(locale === 'ja' ? '外部サイトへ（プロトタイプ）' : locale === 'zh-TW' ? '前往外部網站（原型）' : 'External site (prototype)')}
           onToggleSaved={toggleSpotFavorite}
           onNavigate={navigate}
         />

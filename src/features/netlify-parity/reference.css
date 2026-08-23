@@ -426,7 +426,12 @@ body:has(.reference-app) { overflow:hidden; }
 .reference-app .guide-box { background:#FDF8EC; margin-top:12px; padding:18px; }
 .reference-app .guide-box h2 { font-size:18px; }
 .reference-app .guide-box p { font-size:13.5px; line-height:1.9; margin-top:8px; }
-.reference-app .guide-box .book { width:100%; margin-top:12px; background:var(--header); color:#fff; border-radius:10px; padding:13px; font-weight:500; font-size:14.5px; }
+.reference-app .guide-box .book { display:block; width:100%; margin-top:12px; background:var(--header); color:#fff; border-radius:10px; padding:13px; font-weight:500; font-size:14.5px; text-align:center; text-decoration:none; }
+.reference-app .presentation-facts { background:#F3F1DE; border-left:3px solid var(--green-mid); border-radius:10px; margin:14px 18px 20px; padding:12px 14px; }
+.reference-app .presentation-facts p { color:var(--ink); font-size:11.5px; font-weight:400; line-height:1.7; }
+.reference-app .presentation-source-links { display:flex; flex-wrap:wrap; gap:5px 12px; margin-top:7px; }
+.reference-app .presentation-source-links a { color:var(--green); font-size:11.5px; font-weight:500; line-height:1.5; text-decoration:underline; overflow-wrap:anywhere; }
+.reference-app .route-presentation-facts { margin:8px 14px 0; }
 .reference-app .caution { background:#F3F1DE; border-radius:12px; padding:14px; margin:14px 18px 20px; }
 .reference-app .caution h3 { color:#E05B5B; font-size:14.5px; }
 .reference-app .caution ul { list-style:none; margin-top:6px; padding:0; }

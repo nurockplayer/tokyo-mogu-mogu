@@ -14,5 +14,6 @@ export default defineConfig({
     'issue-283-visual-parity.spec.ts',
     'issue-296-my-badges.spec.ts',
     'issue-298-route-mission-parity.spec.ts',
+    'issue-281-operational-provenance.spec.ts',
   ],
 });

@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import type { Locale } from '../../../i18n';
 import { BottomNavigation } from '../components/BottomNavigation';
-import { referenceAssets, type ReferenceCopy, type SpotPresentation } from '../content';
+import {
+  referenceAssets,
+  type PresentationFacts,
+  type ReferenceCopy,
+  type SpotPresentation,
+} from '../content';
 import { BackIcon, BookmarkIcon, ClockIcon, InformationIcon, TrainIcon } from './screenIcons';
 
 const tagColors = ['#8FAE5C', '#F0A24C', '#5D9BEF', '#F2879B', '#5E7239'];
@@ -16,7 +21,7 @@ interface ReferenceSpotDetail {
   tags: Array<{ color: string; label: LocalizedText }>;
   description: LocalizedText;
   information: Array<{ icon: 'clock' | 'train' | 'information'; label: LocalizedText; value: LocalizedText }>;
-  guide?: { title: LocalizedText; body: LocalizedText; action: LocalizedText };
+  guide?: { title: LocalizedText; body: LocalizedText; action: LocalizedText; href: string };
   caution: LocalizedText[];
 }
 
@@ -26,34 +31,29 @@ const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> = {
   'okutama-tourism-office': {
     tags: [
       { color: '#8FAE5C', label: local('観光案内', 'Visitor information', '觀光案內') },
-      { color: '#F0A24C', label: local('おみやげ', 'Souvenirs', '伴手禮') },
-      { color: '#5D9BEF', label: local('Wi-Fi', 'Wi-Fi', 'Wi-Fi') },
-      { color: '#F2879B', label: local('トイレあり', 'Restroom', '設有洗手間') },
     ],
     description: local(
-      '奥多摩の観光情報がそろう案内所。観光マップの配布や、おすすめコースの相談もできます。\nゆるキャラ「わさぴー」にも会えるかも！',
-      'Okutama visitor information, sightseeing maps, and help choosing a route are all available here. You may even meet the local character Wasapy!',
-      '這裡備有奧多摩觀光資訊與地圖，也能諮詢推薦路線。說不定還能遇見地方吉祥物「Wasapy」！',
+      '奥多摩の観光情報を確認できる案内所です。',
+      'A visitor-information center for checking current Okutama travel details.',
+      '可確認奧多摩最新旅遊資訊的觀光案內所。',
     ),
     information: [
-      { icon: 'clock', label: local('営業時間', 'Hours', '營業時間'), value: local('9:00 - 17:00（年中無休）', '9:00–17:00 (open year-round)', '9:00–17:00（全年無休）') },
-      { icon: 'information', label: local('住所', 'Address', '地址'), value: local('東京都西多摩郡奥多摩町氷川205', '205 Hikawa, Okutama, Nishitama, Tokyo', '東京都西多摩郡奧多摩町冰川 205') },
+      { icon: 'clock', label: local('営業時間', 'Hours', '營業時間'), value: local('8:30–17:00（年末年始を除く）', '8:30–17:00 (closed over New Year)', '8:30–17:00（年末年始休息）') },
+      { icon: 'information', label: local('住所', 'Address', '地址'), value: local('東京都西多摩郡奥多摩町氷川210', '210 Hikawa, Okutama, Nishitama, Tokyo', '東京都西多摩郡奧多摩町冰川 210') },
       { icon: 'information', label: local('電話', 'Phone', '電話'), value: local('0428-83-2152', '0428-83-2152', '0428-83-2152') },
       { icon: 'train', label: local('アクセス', 'Access', '交通'), value: local('奥多摩駅から徒歩 約1分', 'About 1 minute on foot from Okutama Station', '從奧多摩站步行約 1 分鐘') },
     ],
     guide: {
-      title: local('ガイドサービス（予約制）', 'Guided service (reservation required)', '導覽服務（預約制）'),
+      title: local('ガイド・体験の最新情報', 'Current guide and experience information', '最新導覽與體驗資訊'),
       body: local(
-        '奥多摩の自然や歴史を、地元ガイドがご案内します。\n所要時間：約90分 / 料金：1,500円〜（1名あたり）',
-        'A local guide introduces Okutama’s nature and history. About 90 minutes / From ¥1,500 per person.',
-        '由在地導遊介紹奧多摩的自然與歷史。約 90 分鐘／每人 1,500 日圓起。',
+        '現在のガイド・体験・予約方法は、奥多摩観光案内所へお問い合わせください。',
+        'Ask the visitor center about current guide, experience, and booking options.',
+        '請向觀光案內所洽詢最新導覽、體驗與預約方式。',
       ),
-      action: local('公式サイトでガイドを予約する　＞', 'Book a guide on the official site  ›', '前往官方網站預約導覽　›'),
+      action: local('公式情報を確認する　＞', 'Check official information  ›', '確認官方資訊　›'),
+      href: 'https://www.okutama.gr.jp/site/about/',
     },
-    caution: [
-      local('・駐車場は近隣の有料駐車場をご利用ください。', '• Please use a nearby paid car park.', '・請使用附近的付費停車場。'),
-      local('・混雑時は案内までお待ちいただく場合があります。', '• You may need to wait for assistance when it is busy.', '・人潮眾多時可能需等候服務。'),
-    ],
+    caution: [],
   },
 };
 
@@ -69,6 +69,49 @@ function SpotInformationIcon({ icon }: { icon: ReferenceSpotDetail['information'
   return <InformationIcon />;
 }
 
+export function PresentationFactsBlock({
+  facts,
+  locale,
+  className = '',
+}: {
+  facts: PresentationFacts;
+  locale: Locale;
+  className?: string;
+}) {
+  const verificationStatus = facts.sources.some(
+    (source) => source.verificationStatus === 'needs_confirmation',
+  ) ? 'needs_confirmation' : 'demo';
+  const retrievalDates = [...new Set(facts.sources.map((source) => source.retrievedAt))];
+  const retrievedAt = retrievalDates.length === 1 ? retrievalDates[0] : undefined;
+
+  return (
+    <aside
+      className={`presentation-facts${className ? ` ${className}` : ''}`}
+      data-presentation-facts
+      data-verification-status={verificationStatus}
+      data-source-retrieved-at={retrievedAt}
+    >
+      <p>{facts.disclosure[locale]}</p>
+      {facts.sources.length > 0 ? (
+        <div className="presentation-source-links">
+          {facts.sources.map((source) => (
+            <a
+              data-source-retrieved-at={source.retrievedAt}
+              data-verification-status={source.verificationStatus}
+              href={source.url}
+              key={source.url}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {source.label[locale]}
+            </a>
+          ))}
+        </div>
+      ) : null}
+    </aside>
+  );
+}
+
 export interface SpotScreenProps {
   active: boolean;
   copy: ReferenceCopy;
@@ -76,7 +119,6 @@ export interface SpotScreenProps {
   spot: SpotPresentation;
   saved?: boolean;
   onBack: () => void;
-  onOpenGuide?: (spot: SpotPresentation) => void;
   onToggleSaved?: (spot: SpotPresentation) => void;
   onNavigate: (path: string) => void;
 }
@@ -88,7 +130,6 @@ export function SpotScreen({
   spot,
   saved = false,
   onBack,
-  onOpenGuide,
   onToggleSaved,
   onNavigate,
 }: SpotScreenProps) {
@@ -108,8 +149,9 @@ export function SpotScreen({
         title: referenceDetail.guide.title[locale],
         body: referenceDetail.guide.body[locale],
         action: referenceDetail.guide.action[locale],
+        href: referenceDetail.guide.href,
       }
-    : localized.guide;
+    : localized.guide ? { ...localized.guide, href: undefined } : undefined;
   const cautions = referenceDetail?.caution.map((item) => item[locale]) ?? localized.caution;
 
   useEffect(() => setPhotoIndex(0), [spot.id]);
@@ -176,37 +218,45 @@ export function SpotScreen({
           </div>
         </div>
 
-        <section className="info-sec">
-          <h2>{copy.spot.practicalInfo}</h2>
-          {information.map((row) => (
-            <div className="info-row" key={`${row.label}-${row.value}`}>
-              <span className="ic">
-                <SpotInformationIcon icon={row.icon} />
-              </span>
-              <span className="k">{row.label}</span>
-              <span>{row.value}</span>
-            </div>
-          ))}
-        </section>
+        {information.length > 0 ? (
+          <section className="info-sec">
+            <h2>{copy.spot.practicalInfo}</h2>
+            {information.map((row) => (
+              <div className="info-row" key={`${row.label}-${row.value}`}>
+                <span className="ic">
+                  <SpotInformationIcon icon={row.icon} />
+                </span>
+                <span className="k">{row.label}</span>
+                <span>{row.value}</span>
+              </div>
+            ))}
+          </section>
+        ) : null}
 
         {guide ? (
           <section className="guide-box">
             <h2>{guide.title}</h2>
             <p style={{ whiteSpace: 'pre-line' }}>{guide.body}</p>
-            <button className="book" onClick={() => onOpenGuide?.(spot)} type="button">
-              {guide.action}
-            </button>
+            {guide.href ? (
+              <a className="book" href={guide.href} rel="noopener noreferrer" target="_blank">
+                {guide.action}
+              </a>
+            ) : null}
           </section>
         ) : null}
 
-        <aside className="caution">
-          <h3>{cautionHeading[locale]}</h3>
-          <ul>
-            {cautions.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </aside>
+        <PresentationFactsBlock facts={spot.facts} locale={locale} />
+
+        {cautions.length > 0 ? (
+          <aside className="caution">
+            <h3>{cautionHeading[locale]}</h3>
+            <ul>
+              {cautions.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </aside>
+        ) : null}
       </div>
       <BottomNavigation active="mogu" copy={copy.nav} onNavigate={onNavigate} />
     </section>
