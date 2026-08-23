@@ -7,6 +7,11 @@ async function expectForeground(locator: Locator, color: string) {
   await expect.soft(locator).toHaveCSS('color', color, { timeout: 1_500 });
 }
 
+function expectCloseTo(actual: number, expected: number, tolerance = 1) {
+  expect(actual).toBeGreaterThanOrEqual(expected - tolerance);
+  expect(actual).toBeLessThanOrEqual(expected + tolerance);
+}
+
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
     localStorage.clear();
@@ -108,4 +113,62 @@ test('keeps modal field focus unified and accessible without native input outlin
   await expect(ingredientInput).toBeFocused();
   await expect(ingredientInput).toHaveCSS('outline-style', 'none');
   await expect(ingredientField).toHaveCSS('outline-width', '3px');
+});
+
+test('matches the shared Figma geometry for discovery cards, departure input, and result progress', async ({ page }) => {
+  await page.goto('/explore');
+  const explore = page.locator('[data-screen="explore"][data-screen-active="true"]');
+  const cards = explore.locator('.exp-card');
+  await expect(cards).toHaveCount(6);
+
+  const cardGeometry = await cards.evaluateAll((nodes) => nodes.map((node) => {
+    const card = node.getBoundingClientRect();
+    const band = node.querySelector<HTMLElement>('.band')!.getBoundingClientRect();
+    const image = node.querySelector<HTMLImageElement>('img')!.getBoundingClientRect();
+    const title = node.querySelector('b')!.getBoundingClientRect();
+    return {
+      label: node.querySelector('b')?.textContent,
+      card: { top: card.top, bottom: card.bottom, width: card.width, height: card.height },
+      band: { bottom: band.bottom, height: band.height },
+      image: { height: image.height },
+      title: { top: title.top },
+    };
+  }));
+
+  await expect(explore.locator('.exp-grid')).toHaveCSS('width', '279px');
+  for (const geometry of cardGeometry) {
+    expectCloseTo(geometry.card.width, 133.5);
+    expectCloseTo(geometry.card.height, 168);
+    expectCloseTo(geometry.band.bottom, geometry.card.bottom, 3);
+    expect(geometry.image.height).toBeGreaterThan(100);
+    expectCloseTo(geometry.title.top - geometry.card.top, 16);
+  }
+  for (const label of ['買う', '産地を訪ねる']) {
+    const geometry = cardGeometry.find((card) => card.label === label);
+    expect(geometry).toBeDefined();
+    expectCloseTo(geometry!.card.height, 168);
+    expectCloseTo(geometry!.band.bottom, geometry!.card.bottom, 3);
+  }
+
+  await cards.first().click();
+  await explore.getByRole('button', { name: /次へ/ }).click();
+  const departure = explore.locator('.searchbar');
+  await expect(departure).toBeVisible();
+  const departureBox = await departure.boundingBox();
+  expect(departureBox).not.toBeNull();
+  expectCloseTo(departureBox!.x, 16);
+  expectCloseTo(departureBox!.width, 343);
+  expectCloseTo(departureBox!.height, 52);
+
+  await page.goto('/explore/result');
+  const resultProgress = page.locator('[data-screen="result"][data-screen-active="true"] .result-progress');
+  const plateware = resultProgress.locator('.plateware');
+  await expect(plateware).toHaveCount(1);
+  const plate = plateware.locator('.plate');
+  const fork = plateware.locator('.fork');
+  const [plateBox, forkBox] = await Promise.all([plate.boundingBox(), fork.boundingBox()]);
+  expect(plateBox).not.toBeNull();
+  expect(forkBox).not.toBeNull();
+  expect(forkBox!.x).toBeGreaterThan(plateBox!.x);
+  expect(forkBox!.x + forkBox!.width).toBeLessThan(plateBox!.x + plateBox!.width);
 });
