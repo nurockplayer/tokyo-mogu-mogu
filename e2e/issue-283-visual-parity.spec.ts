@@ -49,6 +49,21 @@ function expectCloseTo(actual: number, expected: number, tolerance = 1) {
   expect(actual).toBeLessThanOrEqual(expected + tolerance);
 }
 
+async function experienceLayoutAt(page: import('@playwright/test').Page, viewportWidth: number) {
+  await page.setViewportSize({ width: viewportWidth, height: 812 });
+  await page.goto('/explore');
+  return page.evaluate(() => {
+    const phone = document.querySelector<HTMLElement>('.reference-phone')!.getBoundingClientRect();
+    const grid = document.querySelector<HTMLElement>('.exp-grid')!.getBoundingClientRect();
+    const card = document.querySelector<HTMLElement>('.exp-card')!.getBoundingClientRect();
+    return {
+      phoneWidth: phone.width,
+      grid: { left: grid.left - phone.left, width: grid.width },
+      card: { width: card.width, height: card.height },
+    };
+  });
+}
+
 async function expectFigmaModalInputAppearance(input: Locator, field: Locator) {
   await expect(input).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
   await expect(input).toHaveCSS('border-top-color', 'rgba(0, 0, 0, 0)');
@@ -236,4 +251,49 @@ test('matches Hopp Figma card geometry, departure input, and result progress at 
   expect(forkBox).not.toBeNull();
   expect(forkBox!.x).toBeGreaterThan(plateBox!.x);
   expect(forkBox!.x + forkBox!.width).toBeLessThan(plateBox!.x + plateBox!.width);
+});
+
+test('sizes Figma experience geometry from the phone container at mobile and desktop viewports', async ({ page }) => {
+  for (const viewportWidth of [375, 430, 768]) {
+    const layout = await experienceLayoutAt(page, viewportWidth);
+    const phoneWidth = Math.min(viewportWidth, 430);
+    const scale = phoneWidth / 390;
+
+    expectCloseTo(layout.phoneWidth, phoneWidth, 0.01);
+    expectCloseTo(layout.grid.left, FIGMA_CARD.gridLeft * scale, 0.25);
+    expectCloseTo(layout.grid.width, FIGMA_CARD.gridWidth * scale, 0.25);
+    expectCloseTo(layout.card.width, FIGMA_SELECTED_CARD.width * scale, 0.25);
+    expectCloseTo(layout.card.height, FIGMA_SELECTED_CARD.height * scale, 0.25);
+  }
+});
+
+test('keeps translated experience-card titles and subtitles fully visible at 375px', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+
+  for (const locale of ['en', 'zh-TW'] as const) {
+    await page.goto('/explore');
+    await page.locator('.locale-control select').selectOption(locale);
+    await expect(page.locator('.reference-app')).toHaveAttribute('data-locale', locale);
+
+    const textBounds = await page.locator('.exp-card').evaluateAll((cards) => cards.flatMap((card) => {
+      const cardBox = card.getBoundingClientRect();
+      return Array.from(card.querySelectorAll<HTMLElement>('b, p')).map((text) => {
+        const box = text.getBoundingClientRect();
+        const style = getComputedStyle(text);
+        return {
+          clientWidth: text.clientWidth,
+          scrollWidth: text.scrollWidth,
+          visible: style.visibility !== 'hidden' && style.display !== 'none' && Number(style.opacity) > 0,
+          contained: box.left >= cardBox.left && box.right <= cardBox.right && box.top >= cardBox.top && box.bottom <= cardBox.bottom,
+        };
+      });
+    }));
+
+    expect(textBounds).toHaveLength(12);
+    for (const text of textBounds) {
+      expect(text.visible).toBe(true);
+      expect(text.scrollWidth).toBeLessThanOrEqual(text.clientWidth);
+      expect(text.contained).toBe(true);
+    }
+  }
 });

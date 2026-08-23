@@ -45,14 +45,14 @@ const experienceCards: Array<{
   figmaNodeId: string;
   art: CSSProperties;
 }> = [
-  // Live Figma frame 4:2101 is 390px wide. These values are each node bound / 390 × 100vw.
-  { id: 'eat', copyKey: 'eat', image: figmaEatIllustration, figmaNodeId: '4:2313', art: { '--figma-art-left': '-0.326976134vw', '--figma-art-top': '12.850536444vw', '--figma-art-width': '33.986476018vw', '--figma-art-height': '33.986476018vw' } as CSSProperties },
+  // Live Figma frame 4:2101 is 390px wide. These values are each node bound / 390 × 100cqw.
+  { id: 'eat', copyKey: 'eat', image: figmaEatIllustration, figmaNodeId: '4:2313', art: { '--figma-art-left': '-0.326976134cqw', '--figma-art-top': '12.850536444cqw', '--figma-art-width': '33.986476018cqw', '--figma-art-height': '33.986476018cqw' } as CSSProperties },
   // Node 4:2349 is rotated in Figma; its x is centered from the Figma card/image widths.
-  { id: 'make', copyKey: 'make', image: figmaMakeIllustration, figmaNodeId: '4:2349', art: { '--figma-art-left': '3.420717288vw', '--figma-art-top': '15.889782050vw', '--figma-art-width': '27.365734394vw', '--figma-art-height': '27.365734394vw' } as CSSProperties },
-  { id: 'buy', copyKey: 'buy', image: figmaBuyIllustration, figmaNodeId: '4:2375', art: { '--figma-art-left': '2.427607675vw', '--figma-art-top': '15.889778691vw', '--figma-art-width': '29.351957272vw', '--figma-art-height': '29.351957272vw' } as CSSProperties },
-  { id: 'meet', copyKey: 'meetMaker', image: figmaMeetIllustration, figmaNodeId: '8:2417', art: { '--figma-art-left': '7.435897436vw', '--figma-art-top': '21.752771785vw', '--figma-art-width': '19.487179487vw', '--figma-art-height': '16.666666667vw' } as CSSProperties },
-  { id: 'visit', copyKey: 'visitOrigin', image: figmaVisitIllustration, figmaNodeId: '8:2423', art: { '--figma-art-left': '2.710807132vw', '--figma-art-top': '17.179485777vw', '--figma-art-width': '28.717948718vw', '--figma-art-height': '28.717948718vw' } as CSSProperties },
-  { id: 'learn', copyKey: 'learn', image: figmaLearnIllustration, figmaNodeId: '23:3884', art: { '--figma-art-left': '6.818472170vw', '--figma-art-top': '21.622657352vw', '--figma-art-width': '20.512820513vw', '--figma-art-height': '17.435897436vw' } as CSSProperties },
+  { id: 'make', copyKey: 'make', image: figmaMakeIllustration, figmaNodeId: '4:2349', art: { '--figma-art-left': '3.420717288cqw', '--figma-art-top': '15.889782050cqw', '--figma-art-width': '27.365734394cqw', '--figma-art-height': '27.365734394cqw' } as CSSProperties },
+  { id: 'buy', copyKey: 'buy', image: figmaBuyIllustration, figmaNodeId: '4:2375', art: { '--figma-art-left': '2.427607675cqw', '--figma-art-top': '15.889778691cqw', '--figma-art-width': '29.351957272cqw', '--figma-art-height': '29.351957272cqw' } as CSSProperties },
+  { id: 'meet', copyKey: 'meetMaker', image: figmaMeetIllustration, figmaNodeId: '8:2417', art: { '--figma-art-left': '7.435897436cqw', '--figma-art-top': '21.752771785cqw', '--figma-art-width': '19.487179487cqw', '--figma-art-height': '16.666666667cqw' } as CSSProperties },
+  { id: 'visit', copyKey: 'visitOrigin', image: figmaVisitIllustration, figmaNodeId: '8:2423', art: { '--figma-art-left': '2.710807132cqw', '--figma-art-top': '17.179485777cqw', '--figma-art-width': '28.717948718cqw', '--figma-art-height': '28.717948718cqw' } as CSSProperties },
+  { id: 'learn', copyKey: 'learn', image: figmaLearnIllustration, figmaNodeId: '23:3884', art: { '--figma-art-left': '6.818472170cqw', '--figma-art-top': '21.622657352cqw', '--figma-art-width': '20.512820513cqw', '--figma-art-height': '17.435897436cqw' } as CSSProperties },
 ];
 
 const movementIds: ExplorationMovement[] = [
