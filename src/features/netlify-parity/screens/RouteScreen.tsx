@@ -9,7 +9,6 @@ import {
 } from '../content';
 import {
   BookmarkIcon,
-  CameraIcon,
   ClockIcon,
   GearIcon,
   PinIcon,
@@ -91,21 +90,11 @@ const routeLabels: Record<Locale, {
   start: string;
   goal: string;
   completed: string;
-  mission: string;
-  missionDone: string;
 }> = {
-  ja: { region: '奥多摩・東京都 (東京西部)', from: 'から', regenerate: ['ルートを', '再生成する'], start: '発', goal: 'Goal', completed: 'お疲れ様でした！', mission: 'ミッション', missionDone: 'ミッション達成！' },
-  en: { region: 'Okutama, Tokyo (Western Tokyo)', from: 'from', regenerate: ['Regenerate', 'route'], start: 'Go', goal: 'Goal', completed: 'Well done!', mission: 'Mission', missionDone: 'Mission complete!' },
-  'zh-TW': { region: '東京都奧多摩（東京西部）', from: '出發', regenerate: ['重新建立', '路線'], start: '發', goal: 'Goal', completed: '辛苦了！', mission: '任務', missionDone: '任務完成！' },
+  ja: { region: '奥多摩・東京都 (東京西部)', from: 'から', regenerate: ['ルートを', '再生成する'], start: '発', goal: 'Goal', completed: 'お疲れ様でした！' },
+  en: { region: 'Okutama, Tokyo (Western Tokyo)', from: 'from', regenerate: ['Regenerate', 'route'], start: 'Go', goal: 'Goal', completed: 'Well done!' },
+  'zh-TW': { region: '東京都奧多摩（東京西部）', from: '出發', regenerate: ['重新建立', '路線'], start: '發', goal: 'Goal', completed: '辛苦了！' },
 };
-
-const missionSpotIds = new Set([
-  'akabeko',
-  'yamashiroya',
-  'wasabi-kitchen',
-  'hikawa-valley',
-  'wasabi-experience',
-]);
 
 const routeGenerationLabel: Record<Locale, [string, string]> = {
   ja: ['あなたにぴったりの', '観光ルートを生成中！'],
@@ -119,7 +108,6 @@ export interface RouteScreenProps {
   locale: Locale;
   journey: JourneyPresentation;
   saved?: boolean;
-  completedMissionSpotIds?: readonly string[];
   onBack: () => void;
   onShare?: (journey: JourneyPresentation) => void;
   onRegenerate?: (journey: JourneyPresentation, variant: RouteVariant) => void;
@@ -134,7 +122,6 @@ export function RouteScreen({
   locale,
   journey,
   saved = false,
-  completedMissionSpotIds = [],
   onBack,
   onShare,
   onRegenerate,
@@ -247,8 +234,6 @@ export function RouteScreen({
             if (!spot) return null;
             const stepText = steps[index];
             const isStart = index === 0;
-            const mission = missionSpotIds.has(step.spotId);
-            const missionDone = completedMissionSpotIds.includes(step.spotId);
             return (
               <div key={`${step.spotId}-${index}`}>
                 {stepText?.walk ? (
@@ -271,12 +256,6 @@ export function RouteScreen({
                     role="button"
                     tabIndex={active ? 0 : -1}
                   >
-                    {mission ? (
-                      <span className={`mission-tag${missionDone ? ' done' : ''}`}>
-                        <CameraIcon />
-                        {missionDone ? labels.missionDone : labels.mission}
-                      </span>
-                    ) : null}
                     <img src={referenceAssets[step.imageAssetId]} alt="" />
                     <div className="tx">
                       <b>{spot.copy[locale].name}</b>
