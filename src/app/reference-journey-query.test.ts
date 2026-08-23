@@ -1,8 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import {
   classifyJourneyQuery,
+  referenceJourneyQueryIdentities,
   type JourneyQueryIdentity,
 } from './reference-journey-query';
+import { demoJourneys } from '../features/netlify-parity/content';
 
 const referenceJourneys: readonly JourneyQueryIdentity[] = [
   {
@@ -62,12 +64,36 @@ describe('reference journey query classification', () => {
     ).toBe(true);
   });
 
+  it('derives every current result alias from the demo journey inventory', () => {
+    const identities = referenceJourneyQueryIdentities(demoJourneys);
+
+    for (const journey of demoJourneys) {
+      expect(classifyJourneyQuery(`?resultId=${journey.foodCultureId}`, identities, [])).toBe(
+        'reference',
+      );
+      expect(classifyJourneyQuery(`?resultId=${journey.storyId}`, identities, [])).toBe(
+        'reference',
+      );
+    }
+
+    const storyAlias = 'wasabi-story-alias';
+    const mutatedInventory = [{ ...demoJourneys[0], storyId: storyAlias }];
+    expect(
+      classifyJourneyQuery(
+        `?resultId=${storyAlias}`,
+        referenceJourneyQueryIdentities(mutatedInventory),
+        [],
+      ),
+    ).toBe('reference');
+  });
+
   it.each([
     ['queryless entry', '', 'reference'],
     ['context-only entry', '?from=mogu&backTo=%2Fdiscover', 'reference'],
     ['wasabi candidate-only entry', '?candidateId=demo-okutama-wasabi', 'reference'],
     ['wasabi result-only entry', '?resultId=wasabi-okutama', 'reference'],
     ['wasabi route-only entry', '?routeId=okutama-wasabi-journey', 'reference'],
+    ['wasabi complete tuple', '?candidateId=demo-okutama-wasabi&resultId=wasabi-okutama&routeId=okutama-wasabi-journey', 'reference'],
     ['yamame candidate-only entry', '?candidateId=demo-okutama-yamame', 'reference'],
     ['yamame result-only entry', '?resultId=yamame-okutama', 'reference'],
     ['yamame route-only entry', '?routeId=okutama-yamame-journey', 'reference'],
@@ -80,10 +106,12 @@ describe('reference journey query classification', () => {
     ['unknown result', '?resultId=unknown-result', 'invalid'],
     ['empty candidate', '?candidateId=', 'invalid'],
     ['empty result', '?resultId=', 'invalid'],
+    ['empty route', '?routeId=', 'invalid'],
     ['explicit stale route', '?routeId=stale-route', 'invalid'],
     ['Ome model candidate', '?candidateId=demo-ome-sake', 'legacy'],
     ['Ome model result', '?resultId=sake-ome', 'legacy'],
     ['Ome model route', '?routeId=ome-sawai-sake-journey', 'legacy'],
+    ['mismatched legacy model tuple', '?candidateId=demo-ome-sake&resultId=hachioji-ginger', 'invalid'],
     ['Hachioji model candidate', '?candidateId=demo-tokyo-hachioji-ginger', 'legacy'],
     ['Hachioji model result', '?resultId=hachioji-ginger', 'legacy'],
     ['Hachioji model route', '?routeId=hachioji-ginger-journey', 'legacy'],

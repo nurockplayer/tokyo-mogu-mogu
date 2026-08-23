@@ -2,12 +2,34 @@
 export interface JourneyQueryIdentity {
   candidateId: string;
   resultId: string;
+  /** All current Result aliases accepted for this journey. */
+  resultAliases?: readonly string[];
+  routeId: string;
+}
+
+/** The current Reference journey fields needed for query identity derivation. */
+export interface ReferenceJourneyQuerySource {
+  id: string;
+  foodCultureId: string;
+  storyId: string;
   routeId: string;
 }
 
 export type JourneyQueryClassification = 'reference' | 'legacy' | 'invalid';
 
 const IDENTITY_FIELDS = ['candidateId', 'resultId', 'routeId'] as const;
+
+/** Derive Reference Result aliases directly from the current demo inventory. */
+export function referenceJourneyQueryIdentities(
+  journeys: readonly ReferenceJourneyQuerySource[],
+): JourneyQueryIdentity[] {
+  return journeys.map((journey) => ({
+    candidateId: journey.id,
+    resultId: journey.foodCultureId,
+    resultAliases: [...new Set([journey.foodCultureId, journey.storyId])],
+    routeId: journey.routeId,
+  }));
+}
 
 /**
  * Classify the optional Result/Route identity fields as one coherent journey.
@@ -33,7 +55,14 @@ export function classifyJourneyQuery(
   if (supplied.length === 0) return 'reference';
 
   const matches = (journeys: readonly JourneyQueryIdentity[]) =>
-    journeys.some((journey) => supplied.every(([field, value]) => journey[field] === value));
+    journeys.some((journey) =>
+      supplied.every(([field, value]) => {
+        if (field === 'resultId') {
+          return (journey.resultAliases ?? [journey.resultId]).includes(value);
+        }
+        return journey[field] === value;
+      }),
+    );
 
   if (matches(referenceJourneys)) return 'reference';
   if (matches(legacyJourneys)) return 'legacy';

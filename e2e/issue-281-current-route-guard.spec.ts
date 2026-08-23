@@ -47,3 +47,26 @@ test('canonicalizes a mismatched Result identity instead of exposing the obsolet
     page.locator('[data-screen="result"][data-screen-active="true"]'),
   ).toBeVisible();
 });
+
+test('keeps an unknown explicit Route candidate on the honest not-found surface', async ({ page }) => {
+  await page.goto('/route?candidateId=unknown-candidate');
+
+  await expect(page).toHaveURL(/\/route\?candidateId=unknown-candidate$/);
+  await expect(page.getByRole('heading', { name: /ルートが見つかりません|Route not found/ })).toBeVisible();
+  await expect(page.locator('[data-screen="route"][data-screen-active="true"]')).toHaveCount(0);
+});
+
+test('canonicalizes an empty Route identity to the current Route', async ({ page }) => {
+  await page.goto('/route?routeId=');
+
+  await expect(page).toHaveURL(/\/route$/);
+  await expect(page.locator('[data-screen="route"][data-screen-active="true"]')).toBeVisible();
+});
+
+test('keeps an explicit stale Route identity on the honest not-found surface', async ({ page }) => {
+  await page.goto('/route?routeId=stale-route');
+
+  await expect(page).toHaveURL(/\/route\?routeId=stale-route$/);
+  await expect(page.getByRole('heading', { name: /ルートが見つかりません|Route not found/ })).toBeVisible();
+  await expect(page.locator('[data-screen="route"][data-screen-active="true"]')).toHaveCount(0);
+});

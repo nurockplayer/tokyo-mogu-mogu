@@ -20,6 +20,7 @@ import { demoJourneys, demoSpots } from '../features/netlify-parity/content';
 import { DEMO_RECOMMENDATION_CANDIDATES } from '../data/demo-recommendation';
 import {
   classifyJourneyQuery,
+  referenceJourneyQueryIdentities,
   type JourneyQueryIdentity,
 } from './reference-journey-query';
 
@@ -86,11 +87,7 @@ function withBoundary(element: ReactNode) {
 export function AppRouter() {
   const { pathname, search } = useLocation();
   const searchParams = new URLSearchParams(search);
-  const referenceJourneys: JourneyQueryIdentity[] = demoJourneys.map((journey) => ({
-    candidateId: journey.id,
-    resultId: journey.foodCultureId,
-    routeId: journey.routeId,
-  }));
+  const referenceJourneys = referenceJourneyQueryIdentities(demoJourneys);
   const legacyJourneys: JourneyQueryIdentity[] = DEMO_RECOMMENDATION_CANDIDATES
     .filter((candidate) => !referenceJourneys.some((journey) => journey.candidateId === candidate.id))
     .map((candidate) => ({
@@ -100,10 +97,19 @@ export function AppRouter() {
     }))
     .filter((journey) => journey.routeId.length > 0);
   const journeyQuery = classifyJourneyQuery(search, referenceJourneys, legacyJourneys);
+  const candidateId = searchParams.get('candidateId');
   const hasExplicitRouteId = Boolean(searchParams.get('routeId'));
+  const hasUnknownCandidate =
+    Boolean(candidateId) &&
+    ![...referenceJourneys, ...legacyJourneys].some(
+      (journey) => journey.candidateId === candidateId,
+    );
   const invalidResultIdentity = pathname === '/explore/result' && journeyQuery === 'invalid';
   const invalidRouteIdentity =
-    pathname === '/route' && journeyQuery === 'invalid' && !hasExplicitRouteId;
+    pathname === '/route' &&
+    journeyQuery === 'invalid' &&
+    !hasExplicitRouteId &&
+    !hasUnknownCandidate;
   const referenceJourneyQuery = journeyQuery === 'reference';
   const referenceStoryPath =
     pathname === '/story' ||
