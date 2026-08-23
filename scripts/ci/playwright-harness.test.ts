@@ -97,6 +97,7 @@ describe('playwright preview-server guard (#188)', () => {
       'issue-281-operational-provenance.spec.ts',
       'issue-281-story-factual-honesty.spec.ts',
       'issue-208-screen-focus.spec.ts',
+      'issue-208-locale-responsive.spec.ts',
     ]);
   });
 });

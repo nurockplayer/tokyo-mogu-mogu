@@ -23,7 +23,7 @@ Current live KiKi Figma and current merged `main` remain the authorities.
 | Classification | Files | Execution |
 | --- | --- | --- |
 | Canonical release gate | `current-mvp-smoke.spec.ts` | `pnpm exec playwright test e2e/current-mvp-smoke.spec.ts` |
-| Focused current regression | `issue-283-visual-parity.spec.ts`, `issue-296-my-badges.spec.ts`, `issue-298-route-mission-parity.spec.ts`, `issue-281-operational-provenance.spec.ts`, `issue-281-story-factual-honesty.spec.ts`, `issue-208-screen-focus.spec.ts` | `pnpm exec playwright test --config playwright.regressions.config.ts` |
+| Focused current regression | `issue-283-visual-parity.spec.ts`, `issue-296-my-badges.spec.ts`, `issue-298-route-mission-parity.spec.ts`, `issue-281-operational-provenance.spec.ts`, `issue-281-story-factual-honesty.spec.ts`, `issue-208-screen-focus.spec.ts`, `issue-208-locale-responsive.spec.ts` | `pnpm exec playwright test --config playwright.regressions.config.ts` |
 | Historical / non-authoritative | Issue #276 Netlify parity suite | Removed after the #297 audit; never restore it as a current gate |
 
 The retained #283 suite checks focused CTA, autofocus, card geometry,
@@ -50,6 +50,13 @@ sticky-CTA usability, and the 375px overflow boundary.
 The #208 screen-focus suite protects programmatic focus continuity across the
 current Reference SPA, localized destination announcements, and query-only
 updates that must retain the traveler's interactive focus.
+
+The #208 locale/responsive suite characterizes every current MVP route at
+375×812 after UI-driven ja → en → zh-TW → ja switches. It verifies the active
+screen and a key control remain reachable, and checks the document, body,
+shared phone shell, and active screen for horizontal overflow. It is a focused
+non-gating regression while #208's durable Phase 2+ responsive and locale
+ownership decisions remain open.
 
 The removed #276 suite encoded the superseded Netlify authority model, fixed
 animation windows, obsolete selectors, and historical contrast/layout
