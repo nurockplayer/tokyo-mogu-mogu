@@ -12,6 +12,14 @@ function expectCloseTo(actual: number, expected: number, tolerance = 1) {
   expect(actual).toBeLessThanOrEqual(expected + tolerance);
 }
 
+async function expectFigmaModalInputAppearance(input: Locator, field: Locator) {
+  await expect(input).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+  await expect(input).toHaveCSS('border-top-color', 'rgba(0, 0, 0, 0)');
+  await expect(input).toHaveCSS('outline-style', 'none');
+  await expect(field).toHaveCSS('background-color', 'rgb(239, 239, 240)');
+  await expect(field).toHaveCSS('outline-style', 'none');
+}
+
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
     localStorage.clear();
@@ -58,7 +66,7 @@ test('uses the live-Figma foreground on filled CTAs without recoloring orange ro
   await expectForeground(page.locator('.tl-row .num:not(.start)').first(), DARK_ORANGE_FOREGROUND);
 });
 
-test('keeps modal field focus unified and accessible without native input outlines', async ({ page }) => {
+test('keeps autofocus typing-ready without splitting the Figma modal fields', async ({ page }) => {
   await page.goto('/food-profile');
   const profile = page.locator('[data-screen="food-profile"][data-screen-active="true"]');
 
@@ -66,13 +74,12 @@ test('keeps modal field focus unified and accessible without native input outlin
   const nicknameInput = profile.getByRole('textbox', { name: 'ニックネームを入力' });
   const nicknameField = profile.locator('.profile-name-sentence');
   await expect(nicknameInput).toBeVisible();
-  await expect(nicknameInput).not.toBeFocused();
+  await expect(nicknameInput).toBeFocused();
+  await expectFigmaModalInputAppearance(nicknameInput, nicknameField);
 
   await nicknameInput.click();
   await expect(nicknameInput).toBeFocused();
-  await expect(nicknameInput).toHaveCSS('outline-style', 'none');
-  await expect(nicknameField).toHaveCSS('outline-width', '3px');
-  await expect(nicknameField).toHaveCSS('outline-color', 'rgb(102, 122, 72)');
+  await expectFigmaModalInputAppearance(nicknameInput, nicknameField);
   await nicknameInput.fill('ナ');
   await expect(nicknameInput).toHaveValue('ナ');
   await page.keyboard.press('Tab');
@@ -80,15 +87,12 @@ test('keeps modal field focus unified and accessible without native input outlin
   await expect(nicknameSend).toBeFocused();
   await page.keyboard.press('Shift+Tab');
   await expect(nicknameInput).toBeFocused();
-  await expect(nicknameInput).toHaveCSS('outline-style', 'none');
-  await expect(nicknameField).toHaveCSS('outline-width', '3px');
-  await expect(nicknameField).toHaveCSS('outline-color', 'rgb(102, 122, 72)');
+  await expectFigmaModalInputAppearance(nicknameInput, nicknameField);
 
   await nicknameInput.fill('');
   await nicknameSend.click();
   await expect(nicknameInput).toBeFocused();
-  await expect(nicknameInput).toHaveCSS('outline-style', 'none');
-  await expect(nicknameField).toHaveCSS('outline-width', '3px');
+  await expectFigmaModalInputAppearance(nicknameInput, nicknameField);
 
   await nicknameInput.fill('ナナミ');
   await profile.getByRole('dialog', { name: '私は...' }).getByRole('button', { name: '送信' }).click();
@@ -100,19 +104,17 @@ test('keeps modal field focus unified and accessible without native input outlin
   const ingredientInput = ingredientDialog.getByRole('textbox', { name: '食材を入力してください' });
   const ingredientField = ingredientDialog.locator('.profile-other-field');
   await expect(ingredientInput).toBeVisible();
-  await expect(ingredientInput).not.toBeFocused();
+  await expect(ingredientInput).toBeFocused();
+  await expectFigmaModalInputAppearance(ingredientInput, ingredientField);
   await expectForeground(ingredientDialog.getByRole('button', { name: '確定' }), WHITE);
 
   await ingredientInput.click();
   await expect(ingredientInput).toBeFocused();
-  await expect(ingredientInput).toHaveCSS('outline-style', 'none');
-  await expect(ingredientField).toHaveCSS('outline-width', '3px');
-  await expect(ingredientField).toHaveCSS('outline-color', 'rgb(102, 122, 72)');
+  await expectFigmaModalInputAppearance(ingredientInput, ingredientField);
 
   await ingredientDialog.getByRole('button', { name: '確定' }).click();
   await expect(ingredientInput).toBeFocused();
-  await expect(ingredientInput).toHaveCSS('outline-style', 'none');
-  await expect(ingredientField).toHaveCSS('outline-width', '3px');
+  await expectFigmaModalInputAppearance(ingredientInput, ingredientField);
 });
 
 test('matches the shared Figma geometry for discovery cards, departure input, and result progress', async ({ page }) => {

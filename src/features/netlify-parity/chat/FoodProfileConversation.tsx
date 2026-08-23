@@ -296,6 +296,7 @@ function QuestionBubble({
             <div className="profile-other-field">
               <input
                 ref={otherInputRef}
+                autoFocus
                 value={otherValue}
                 onChange={(event) => setOtherValue(event.target.value)}
                 placeholder={copy.profile.otherPlaceholder}
@@ -505,6 +506,7 @@ export function FoodProfileConversation({
             <div className={`profile-name-sentence${nameInvalid ? ' invalid' : ''}`}>
               <input
                 ref={nameInputRef}
+                autoFocus
                 value={nameValue}
                 onChange={(event) => {
                   setNameValue(event.target.value);
