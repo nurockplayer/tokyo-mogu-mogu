@@ -19,6 +19,12 @@ import { foodProfileSummaryState } from './my-food-profile';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const myPageSource = readFileSync(resolve(here, 'MyPage.tsx'), 'utf8');
+const localeToggleSource = readFileSync(resolve(here, '..', 'i18n', 'LocaleToggle.tsx'), 'utf8');
+const appShellSource = readFileSync(resolve(here, '..', 'app', 'AppShell.tsx'), 'utf8');
+const prototypeShellSource = readFileSync(resolve(here, '..', 'app', 'PrototypeShell.tsx'), 'utf8');
+const referenceAppSource = readFileSync(resolve(here, '..', 'features', 'netlify-parity', 'ReferenceApp.tsx'), 'utf8');
+const referenceMySource = readFileSync(resolve(here, '..', 'features', 'netlify-parity', 'screens', 'MyScreen.tsx'), 'utf8');
+const referenceLocaleControlSource = readFileSync(resolve(here, '..', 'features', 'netlify-parity', 'components', 'LocaleControl.tsx'), 'utf8');
 
 describe('My Food Profile edit CTA (#81)', () => {
   it('resolves to /food-profile/edit (the actual edit route), not /food-profile', () => {
@@ -27,6 +33,30 @@ describe('My Food Profile edit CTA (#81)', () => {
     expect(myPageSource).toMatch(/<Link\s+to="\/food-profile\/edit"/);
     // Guard against a regression to the view route.
     expect(myPageSource).not.toMatch(/<Link\s+to="\/food-profile"\s/);
+  });
+});
+
+describe('Language preference placement (#285)', () => {
+  it('keeps the selector in My and out of reachable MVP headers', () => {
+    expect(myPageSource).toMatch(
+      /import\s*\{[^}]*\bLocaleToggle\b[^}]*\}\s*from\s*'\.\.\/i18n'/,
+    );
+    expect(myPageSource).toMatch(/<section[^>]*aria-label=\{t\('myLanguageTitle'\)\}/);
+    expect(myPageSource).toMatch(/<LocaleToggle\s*\/>/);
+    expect(appShellSource).not.toContain('LocaleToggle');
+    expect(prototypeShellSource).not.toContain('LocaleToggle');
+    expect(referenceAppSource).not.toContain('<LocaleControl');
+    expect(referenceAppSource).toContain('onChangeLocale={setLocale}');
+    expect(referenceMySource).toMatch(/<LocaleControl\s+locale=\{locale\}/);
+  });
+
+  it('offers each supported locale by its native name', () => {
+    expect(localeToggleSource).toContain("label: '日本語'");
+    expect(localeToggleSource).toContain("label: 'English'");
+    expect(localeToggleSource).toContain("label: '繁體中文'");
+    expect(referenceLocaleControlSource).toContain("ja: '日本語'");
+    expect(referenceLocaleControlSource).toContain("en: 'English'");
+    expect(referenceLocaleControlSource).toContain("'zh-TW': '繁體中文'");
   });
 });
 

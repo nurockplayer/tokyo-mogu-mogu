@@ -7,9 +7,9 @@ interface LocaleControlProps {
 }
 
 const localeLabels: Record<Locale, string> = {
-  ja: 'JA',
-  en: 'EN',
-  'zh-TW': '繁中',
+  ja: '日本語',
+  en: 'English',
+  'zh-TW': '繁體中文',
 };
 
 export function LocaleControl({ locale, label, onChange }: LocaleControlProps) {
