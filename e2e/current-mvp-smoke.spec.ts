@@ -172,12 +172,14 @@ test('matches the My and 食のバッジ navigation at 375px and 390px', async (
 test('keeps Issue #296 on the canonical KiKi canvas in tall viewports', async ({ page }) => {
   for (const viewport of [
     { width: 1440, height: 1100 },
+    { width: 430, height: 1000 },
     { width: 600, height: 1100 },
     { width: 390, height: 932 },
   ]) {
     await page.setViewportSize(viewport);
     await page.goto('/my');
 
+    const app = page.locator('.reference-app');
     const phone = page.locator('.reference-phone');
     const phoneBounds = await phone.boundingBox();
     expect(phoneBounds).not.toBeNull();
@@ -185,13 +187,26 @@ test('keeps Issue #296 on the canonical KiKi canvas in tall viewports', async ({
     expect(phoneBounds?.height).toBeCloseTo(844, 0);
     expect(phoneBounds?.x).toBeCloseTo((viewport.width - 390) / 2, 0);
     expect(phoneBounds?.y).toBeCloseTo((viewport.height - 844) / 2, 0);
+    if (viewport.width > 390) {
+      await expect(app).toHaveCSS('background-color', 'rgb(232, 226, 210)');
+    }
 
     const my = page.locator('[data-screen="my"][data-screen-active="true"]');
     await expect(my).toHaveCSS('background-size', 'cover');
     const myBounds = await my.boundingBox();
     expect(myBounds).toEqual(phoneBounds);
 
+    const myStatusBounds = await my.locator('.issue-296-status-bar').boundingBox();
+    const myHeaderBounds = await my.locator('.issue-296-header').boundingBox();
     const myDockBounds = await my.getByRole('navigation', { name: 'Primary' }).boundingBox();
+    for (const bounds of [myStatusBounds, myHeaderBounds, myDockBounds]) {
+      expect(bounds?.x).toBeCloseTo(phoneBounds?.x ?? 0, 0);
+      expect(bounds?.width).toBeCloseTo(390, 0);
+      expect((bounds?.x ?? 0) + (bounds?.width ?? 0)).toBeCloseTo(
+        (phoneBounds?.x ?? 0) + (phoneBounds?.width ?? 0),
+        0,
+      );
+    }
     expect((myDockBounds?.y ?? 0) + (myDockBounds?.height ?? 0)).toBeCloseTo(
       (phoneBounds?.y ?? 0) + (phoneBounds?.height ?? 0),
       0,
@@ -200,13 +215,18 @@ test('keeps Issue #296 on the canonical KiKi canvas in tall viewports', async ({
     await my.getByRole('button', { name: '食のバッジ' }).click();
     const badges = page.locator('[data-screen="badges"][data-screen-active="true"]');
     await expect(badges).toHaveCSS('background-size', 'cover');
+    const badgesBounds = await badges.boundingBox();
+    const badgeStatusBounds = await badges.locator('.issue-296-status-bar').boundingBox();
+    const badgeHeaderBounds = await badges.locator('.issue-296-header').boundingBox();
     const binderBounds = await badges.locator('.issue-296-binder').boundingBox();
-    expect(binderBounds?.x).toBeCloseTo(phoneBounds?.x ?? 0, 0);
-    expect(binderBounds?.width).toBeCloseTo(phoneBounds?.width ?? 0, 0);
-    expect((binderBounds?.x ?? 0) + (binderBounds?.width ?? 0)).toBeCloseTo(
-      (phoneBounds?.x ?? 0) + (phoneBounds?.width ?? 0),
-      0,
-    );
+    for (const bounds of [badgesBounds, badgeStatusBounds, badgeHeaderBounds, binderBounds]) {
+      expect(bounds?.x).toBeCloseTo(phoneBounds?.x ?? 0, 0);
+      expect(bounds?.width).toBeCloseTo(390, 0);
+      expect((bounds?.x ?? 0) + (bounds?.width ?? 0)).toBeCloseTo(
+        (phoneBounds?.x ?? 0) + (phoneBounds?.width ?? 0),
+        0,
+      );
+    }
 
     await badges.getByRole('button', { name: '次のバッジ' }).click();
     await expect(badges).toHaveAttribute('data-badge-page', '2');

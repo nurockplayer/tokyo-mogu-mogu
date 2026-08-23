@@ -101,10 +101,9 @@ body:has(.reference-app) { overflow:hidden; }
   container-type:inline-size;
 }
 
-.reference-app[data-pathname="/my"],
-.reference-app[data-pathname="/badges"] { align-items:center; }
-.reference-app[data-pathname="/my"] .reference-phone,
-.reference-app[data-pathname="/badges"] .reference-phone {
+.reference-app.issue-296-app { align-items:center; }
+.reference-phone.issue-296-phone {
+  width:min(100%, 390px);
   max-width:390px;
   height:min(844px, 100dvh);
 }
@@ -526,11 +525,16 @@ body:has(.reference-app) { overflow:hidden; }
 }
 
 @media (max-width:430px) {
-  .reference-app { background:var(--cream); }
-  .reference-phone { max-width:none; box-shadow:none; }
+  .reference-app:not(.issue-296-app) { background:var(--cream); }
+  .reference-phone:not(.issue-296-phone) { max-width:none; box-shadow:none; }
 }
 
 /* Only safety adaptations for 375px and translated copy; Japanese geometry remains source-faithful. */
+@media (max-width:389px) {
+  .reference-app.issue-296-app { background:var(--cream); }
+  .reference-phone.issue-296-phone { box-shadow:none; }
+}
+
 @media (max-width:375px) {
   .reference-app .choice-card { margin-left:52px; }
   .reference-app .bubble { max-width:calc(100% - 60px); }

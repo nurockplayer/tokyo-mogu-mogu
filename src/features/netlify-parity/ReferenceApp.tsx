@@ -241,10 +241,15 @@ export function ReferenceApp() {
   const isFavorites = pathname === '/my-route';
   const isMy = pathname === '/my';
   const isBadges = pathname === '/badges';
+  const usesIssue296Canvas = isMy || isBadges;
 
   return (
-    <main className="reference-app" data-locale={locale} data-pathname={pathname}>
-      <div className="reference-phone">
+    <main
+      className={`reference-app${usesIssue296Canvas ? ' issue-296-app' : ''}`}
+      data-locale={locale}
+      data-pathname={pathname}
+    >
+      <div className={`reference-phone${usesIssue296Canvas ? ' issue-296-phone' : ''}`}>
         <SplashScreen
           active={isSplash}
           copy={copy}
