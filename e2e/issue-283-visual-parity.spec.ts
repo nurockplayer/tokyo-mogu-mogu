@@ -1,3 +1,10 @@
+/**
+ * Focused current-Product regressions retained from Issue #283.
+ *
+ * These checks are intentionally outside the canonical merge/release gate.
+ * Run them with `playwright.regressions.config.ts`; current live Figma and
+ * current main remain authoritative when an expectation needs reconciliation.
+ */
 import { expect, test, type Locator } from '@playwright/test';
 
 const WHITE = 'rgb(255, 255, 255)';
