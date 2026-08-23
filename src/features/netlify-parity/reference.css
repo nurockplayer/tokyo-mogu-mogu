@@ -82,22 +82,6 @@ body:has(.reference-app) { overflow:hidden; }
 }
 .reference-app[data-pathname="/route"] .locale-control { top:126px; right:8px; }
 .reference-app[data-pathname^="/spot/"] .locale-control { right:58px; }
-.reference-app .locale-preference .locale-control {
-  position:static;
-  z-index:auto;
-  width:100%;
-  min-width:0;
-  justify-content:flex-start;
-}
-.reference-app .locale-preference .locale-control select {
-  width:100%;
-  padding:0 12px;
-  border-color:var(--line);
-  background:var(--paper);
-  color:var(--green);
-  font-size:13px;
-  text-align:left;
-}
 .reference-app .ghead > span {
   flex:1;
   min-width:0;

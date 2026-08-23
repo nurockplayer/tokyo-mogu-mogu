@@ -4,10 +4,10 @@
  * Common layout container: header + bottom nav shown on every screen.
  *
  * The S0–S9 journey shares the approved header hierarchy from
- * `docs/specs/product/approved-ui-fidelity.md`: wordmark logo in the
- * `app-header-top` row, then the tagline and the demo controls row below. The
- * optional Google Auth entry stays in the secondary demo controls row, out of
- * the approved core header (product
+ * `docs/specs/product/approved-ui-fidelity.md`: wordmark logo (left) and locale
+ * switch (right) in the `app-header-top` row, then the tagline and the demo
+ * controls row below. The optional Google Auth entry stays in the secondary
+ * demo controls row, out of the approved brand + locale core header (product
  * contract "Account / Persistence"); the persistent bottom nav is
  * Home / Discover / MOGU / My (Issue #95 / current #92 App IA). The older
  * Diagnosis / Support / My Route screens stay registered as routes and remain
@@ -22,6 +22,7 @@ import { Link, Outlet } from 'react-router-dom';
 import { useI18n } from '../i18n';
 import { AuthControl } from '../components/AuthControl';
 import { DemoResetButton } from '../components/DemoResetButton';
+import { LocaleToggle } from '../components/LocaleToggle';
 import { ErrorBoundary } from './ErrorBoundary';
 import { PrimaryNav } from './PrimaryNav';
 
@@ -36,6 +37,9 @@ export function AppShell() {
       <header className="tmm-header">
         <div className="tmm-header__top">
           <Link to="/" className="tmm-header__logo">{t('appName')}</Link>
+          <div className="tmm-header__actions">
+            <LocaleToggle />
+          </div>
         </div>
         <span className="tmm-header__tagline">{t('appTagline')}</span>
         <div className="tmm-header__demo">

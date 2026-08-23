@@ -1,10 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
-  // Clear once before each scenario. An init script would run again after a
-  // reload and erase the locale preference that this suite needs to verify.
-  await page.goto('/');
-  await page.evaluate(() => window.localStorage.clear());
+  await page.addInitScript(() => window.localStorage.clear());
 });
 
 test('exposes the current Food Profile and exploration search states', async ({ page }) => {
@@ -12,7 +9,7 @@ test('exposes the current Food Profile and exploration search states', async ({ 
 
   const profile = page.locator('[data-screen="food-profile"][data-screen-active="true"]');
   await expect(profile).toBeVisible();
-  await expect(page.locator('.locale-control:visible')).toHaveCount(0);
+  await expect(page.getByRole('combobox', { name: '言語' })).toBeVisible();
 
   await page.goto('/explore');
 
@@ -40,47 +37,16 @@ test('exposes the current Food Profile and exploration search states', async ({ 
   await expect(exploration.getByRole('button', { name: '次へ', exact: true })).toBeEnabled();
 });
 
-test('keeps language selection in My and persists it after reload', async ({ page }) => {
-  await page.goto('/my');
-
-  const my = page.locator('[data-screen="my"][data-screen-active="true"]');
-  const language = my.getByRole('combobox', { name: '表示言語' });
-  await expect(language).toBeVisible();
-  await expect(language.locator('option')).toHaveText(['日本語', 'English', '繁體中文']);
-
-  const languageBox = await language.boundingBox();
-  expect(languageBox).not.toBeNull();
-  expect(languageBox!.width).toBeLessThanOrEqual(343);
-
-  await language.selectOption('en');
-  await expect(page.locator('.reference-app')).toHaveAttribute('data-locale', 'en');
-  await expect(my.getByRole('combobox', { name: 'Language' })).toHaveValue('en');
-  expect(await page.evaluate(() => window.localStorage.getItem('tmm:locale'))).toBe('en');
-
-  await page.reload();
-  await expect(page).toHaveURL(/\/my$/);
-  await expect(page.locator('.reference-app')).toHaveAttribute('data-locale', 'en');
-  await expect(my.getByRole('combobox', { name: 'Language' })).toHaveValue('en');
-
-  await page.goto('/explore');
-  await expect(page.locator('.locale-control:visible')).toHaveCount(0);
-  expect(await page.locator('.reference-phone').evaluate(
-    (phone) => phone.scrollWidth <= phone.clientWidth,
-  )).toBe(true);
-});
-
 test('walks the current Result to Spot path and Dock destinations', async ({ page }) => {
   await page.goto('/explore/result');
 
   const result = page.locator('[data-screen="result"][data-screen-active="true"]');
-  await expect(page.locator('.locale-control:visible')).toHaveCount(0);
   const resultCards = result.getByRole('button', { name: /この物語を読む:/ });
   await expect(resultCards).toHaveCount(2);
   await resultCards.first().click();
 
   await expect(page).toHaveURL(/\/story\/wasabi-okutama$/);
   const story = page.locator('[data-screen="story"][data-screen-active="true"]');
-  await expect(page.locator('.locale-control:visible')).toHaveCount(0);
   await expect(story.locator('[data-spot-id]')).toHaveCount(8);
 
   await story
@@ -94,7 +60,6 @@ test('walks the current Result to Spot path and Dock destinations', async ({ pag
     timeout: 3_500,
   });
   const route = page.locator('[data-screen="route"][data-screen-active="true"]');
-  await expect(page.locator('.locale-control:visible')).toHaveCount(0);
   await expect(route.getByRole('img', { name: 'ルートマップ' })).toBeVisible();
   await expect(route.locator('[data-spot-id]')).toHaveCount(7);
 
@@ -110,7 +75,6 @@ test('walks the current Result to Spot path and Dock destinations', async ({ pag
   );
 
   const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
-  await expect(page.locator('.locale-control:visible')).toHaveCount(0);
   await expect(spot.getByRole('heading', { name: '奥多摩観光案内所' })).toBeVisible();
   await expect(spot.getByRole('button', { name: '2/5' })).toBeVisible();
 
