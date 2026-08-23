@@ -502,7 +502,7 @@ export function FoodProfileConversation({
             onSubmit={submitName}
             submitLabel={copy.actions.submitName}
           >
-            <div className="profile-name-sentence">
+            <div className={`profile-name-sentence${nameInvalid ? ' invalid' : ''}`}>
               <input
                 ref={nameInputRef}
                 value={nameValue}
@@ -514,7 +514,6 @@ export function FoodProfileConversation({
                 aria-invalid={nameInvalid}
                 aria-label={copy.profile.nicknamePlaceholder}
                 title={nameInvalid ? copy.profile.nameError : undefined}
-                style={nameInvalid ? { borderColor: '#F05B5B' } : undefined}
               />
               <span>{inputModalCopy[locale].nameSuffix}</span>
             </div>

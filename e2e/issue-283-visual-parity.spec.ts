@@ -53,24 +53,37 @@ test('uses the live-Figma foreground on filled CTAs without recoloring orange ro
   await expectForeground(page.locator('.tl-row .num:not(.start)').first(), DARK_ORANGE_FOREGROUND);
 });
 
-test('opens nickname and custom-ingredient modals unfocused, then refocuses invalid fields', async ({ page }) => {
+test('keeps modal field focus unified and accessible without native input outlines', async ({ page }) => {
   await page.goto('/food-profile');
   const profile = page.locator('[data-screen="food-profile"][data-screen-active="true"]');
 
   await profile.getByRole('button', { name: 'はじめる！' }).click();
   const nicknameInput = profile.getByRole('textbox', { name: 'ニックネームを入力' });
+  const nicknameField = profile.locator('.profile-name-sentence');
   await expect(nicknameInput).toBeVisible();
   await expect(nicknameInput).not.toBeFocused();
 
   await nicknameInput.click();
   await expect(nicknameInput).toBeFocused();
+  await expect(nicknameInput).toHaveCSS('outline-style', 'none');
+  await expect(nicknameField).toHaveCSS('outline-width', '3px');
+  await expect(nicknameField).toHaveCSS('outline-color', 'rgb(102, 122, 72)');
+  await nicknameInput.fill('ナ');
+  await expect(nicknameInput).toHaveValue('ナ');
   await page.keyboard.press('Tab');
   const nicknameSend = profile.getByRole('dialog', { name: '私は...' }).getByRole('button', { name: '送信' });
   await expect(nicknameSend).toBeFocused();
-  await expect(nicknameSend).toHaveCSS('outline-width', '3px');
+  await page.keyboard.press('Shift+Tab');
+  await expect(nicknameInput).toBeFocused();
+  await expect(nicknameInput).toHaveCSS('outline-style', 'none');
+  await expect(nicknameField).toHaveCSS('outline-width', '3px');
+  await expect(nicknameField).toHaveCSS('outline-color', 'rgb(102, 122, 72)');
 
+  await nicknameInput.fill('');
   await nicknameSend.click();
   await expect(nicknameInput).toBeFocused();
+  await expect(nicknameInput).toHaveCSS('outline-style', 'none');
+  await expect(nicknameField).toHaveCSS('outline-width', '3px');
 
   await nicknameInput.fill('ナナミ');
   await profile.getByRole('dialog', { name: '私は...' }).getByRole('button', { name: '送信' }).click();
@@ -80,10 +93,19 @@ test('opens nickname and custom-ingredient modals unfocused, then refocuses inva
 
   const ingredientDialog = profile.getByRole('dialog', { name: '食材を入力してください' });
   const ingredientInput = ingredientDialog.getByRole('textbox', { name: '食材を入力してください' });
+  const ingredientField = ingredientDialog.locator('.profile-other-field');
   await expect(ingredientInput).toBeVisible();
   await expect(ingredientInput).not.toBeFocused();
   await expectForeground(ingredientDialog.getByRole('button', { name: '確定' }), WHITE);
 
+  await ingredientInput.click();
+  await expect(ingredientInput).toBeFocused();
+  await expect(ingredientInput).toHaveCSS('outline-style', 'none');
+  await expect(ingredientField).toHaveCSS('outline-width', '3px');
+  await expect(ingredientField).toHaveCSS('outline-color', 'rgb(102, 122, 72)');
+
   await ingredientDialog.getByRole('button', { name: '確定' }).click();
   await expect(ingredientInput).toBeFocused();
+  await expect(ingredientInput).toHaveCSS('outline-style', 'none');
+  await expect(ingredientField).toHaveCSS('outline-width', '3px');
 });

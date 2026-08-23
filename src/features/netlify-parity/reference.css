@@ -173,6 +173,7 @@ body:has(.reference-app) { overflow:hidden; }
 .reference-app .profile-input-label { color:var(--ink); font-size:15px; font-weight:500; }
 .reference-app .profile-name-sentence,
 .reference-app .profile-other-field { min-height:46px; display:flex; align-items:center; background:#EFEFF0; border-radius:12px; overflow:hidden; }
+.reference-app .profile-name-sentence.invalid { box-shadow:inset 0 0 0 1.5px #F05B5B; }
 .reference-app .profile-name-sentence input,
 .reference-app .profile-other-field input {
   flex:1;
@@ -483,6 +484,18 @@ body:has(.reference-app) { overflow:hidden; }
 .reference-app a:focus-visible {
   outline:3px solid #173F8A;
   outline-offset:2px;
+}
+
+/* Composite modal fields own their focus state so a child input cannot split the visual control. */
+.reference-app .profile-name-sentence:focus-within,
+.reference-app .profile-other-field:focus-within {
+  outline:3px solid #667A48;
+  outline-offset:2px;
+}
+.reference-app .profile-name-sentence input:focus-visible,
+.reference-app .profile-other-field input:focus-visible {
+  outline:none;
+  outline-offset:0;
 }
 
 @media (max-width:430px) {
