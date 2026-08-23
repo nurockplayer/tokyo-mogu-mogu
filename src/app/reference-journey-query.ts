@@ -19,6 +19,7 @@ export type JourneyQueryClassification =
   | 'reference'
   | 'legacy'
   | 'reference-conflict'
+  | 'duplicate-conflict'
   | 'invalid';
 
 const IDENTITY_FIELDS = ['candidateId', 'resultId', 'routeId'] as const;
@@ -37,6 +38,8 @@ export function referenceJourneyQueryIdentities(
 
 /**
  * Classify the optional Result/Route identity fields as one coherent journey.
+ * Identical repeated identity values normalize to one value; divergent
+ * repetitions are an explicit fail-closed conflict.
  * Context parameters (for example `from` and `backTo`) deliberately do not
  * participate, so historical navigation context stays compatible.
  */
@@ -46,14 +49,14 @@ export function classifyJourneyQuery(
   legacyJourneys: readonly JourneyQueryIdentity[],
 ): JourneyQueryClassification {
   const params = new URLSearchParams(search);
-  const supplied = IDENTITY_FIELDS.flatMap((field) => {
-    if (!params.has(field)) return [];
-    const value = params.get(field);
-    return value ? [[field, value] as const] : [];
-  });
+  const supplied: Array<readonly [(typeof IDENTITY_FIELDS)[number], string]> = [];
 
-  if (supplied.length !== IDENTITY_FIELDS.filter((field) => params.has(field)).length) {
-    return 'invalid';
+  for (const field of IDENTITY_FIELDS) {
+    const values = [...new Set(params.getAll(field))];
+    if (values.length > 1) return 'duplicate-conflict';
+    if (values.length === 0) continue;
+    if (!values[0]) return 'invalid';
+    supplied.push([field, values[0]]);
   }
 
   if (supplied.length === 0) return 'reference';

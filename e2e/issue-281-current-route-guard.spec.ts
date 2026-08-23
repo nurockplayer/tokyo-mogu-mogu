@@ -71,6 +71,42 @@ test('keeps an explicit stale Route identity on the honest not-found surface', a
   await expect(page.locator('[data-screen="route"][data-screen-active="true"]')).toHaveCount(0);
 });
 
+test('canonicalizes contradictory repeated current candidate identities', async ({ page }) => {
+  await page.goto(
+    '/route?candidateId=demo-okutama-wasabi&candidateId=demo-okutama-yamame&routeId=okutama-wasabi-journey',
+  );
+
+  await expect(page).toHaveURL(/\/route$/);
+  await expect(
+    page.locator('[data-screen="route"][data-screen-active="true"]'),
+  ).toBeVisible();
+  await expect(page.locator('.tmm-page')).toHaveCount(0);
+});
+
+test('accepts identical repeated current candidate identities as one value', async ({ page }) => {
+  const search =
+    '?candidateId=demo-okutama-wasabi&candidateId=demo-okutama-wasabi&routeId=okutama-wasabi-journey';
+  await page.goto(`/route${search}`);
+
+  await expect(page).toHaveURL(`/route${search}`);
+  await expect(
+    page.locator('[data-screen="route"][data-screen-active="true"]'),
+  ).toBeVisible();
+});
+
+test('keeps identical repeated stale Route identities on the honest not-found surface', async ({
+  page,
+}) => {
+  const search = '?routeId=stale-route&routeId=stale-route';
+  await page.goto(`/route${search}`);
+
+  await expect(page).toHaveURL(`/route${search}`);
+  await expect(
+    page.getByRole('heading', { name: /ルートが見つかりません|Route not found/ }),
+  ).toBeVisible();
+  await expect(page.locator('[data-screen="route"][data-screen-active="true"]')).toHaveCount(0);
+});
+
 test.describe('known current Route tuple conflicts', () => {
   for (const [description, search] of [
     [

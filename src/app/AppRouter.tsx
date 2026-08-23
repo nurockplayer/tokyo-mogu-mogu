@@ -104,12 +104,14 @@ export function AppRouter() {
     ![...referenceJourneys, ...legacyJourneys].some(
       (journey) => journey.candidateId === candidateId,
     );
+  const failClosedJourneyQuery =
+    journeyQuery === 'reference-conflict' || journeyQuery === 'duplicate-conflict';
   const invalidResultIdentity =
     pathname === '/explore/result' &&
-    (journeyQuery === 'invalid' || journeyQuery === 'reference-conflict');
+    (journeyQuery === 'invalid' || failClosedJourneyQuery);
   const invalidRouteIdentity =
     pathname === '/route' &&
-    (journeyQuery === 'reference-conflict' ||
+    (failClosedJourneyQuery ||
       (journeyQuery === 'invalid' && !hasExplicitRouteId && !hasUnknownCandidate));
   const referenceJourneyQuery = journeyQuery === 'reference';
   const referenceStoryPath =
@@ -118,7 +120,7 @@ export function AppRouter() {
   const referenceSpotPath =
     pathname.startsWith('/spot/') &&
     Object.hasOwn(demoSpots, decodeURIComponent(pathname.slice('/spot/'.length)));
-  const invalidSpotIdentity = referenceSpotPath && journeyQuery === 'reference-conflict';
+  const invalidSpotIdentity = referenceSpotPath && failClosedJourneyQuery;
   const referencePath =
     pathname === '/' ||
     pathname === '/food-profile' ||
