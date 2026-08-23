@@ -1,0 +1,167 @@
+/* Issue #296 — measured from live KiKi Figma frames 269:1031, 269:1210, and 269:1451. */
+.reference-app .issue-296-screen {
+  background:#FFF4E4 url("../../assets/figma-296/background.png") center / 100% 100% no-repeat;
+  color:#222;
+  font-family:Roboto,"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif;
+}
+
+.reference-app .issue-296-chrome { flex:none; height:101px; position:relative; z-index:2; }
+.reference-app .issue-296-status-bar { width:100%; height:48px; max-width:none; object-fit:fill; }
+.reference-app .issue-296-header { height:53px; position:relative; background:#667A48; color:#fff; }
+.reference-app .issue-296-header h1 {
+  position:absolute; top:12px; left:12px; height:29px; margin:0;
+  font:600 20px/29px Roboto,"Noto Sans JP",sans-serif;
+  white-space:nowrap;
+}
+.reference-app .issue-296-back {
+  position:absolute; inset:0 auto 0 0; z-index:1; width:35px; height:53px;
+  display:flex; align-items:center; justify-content:flex-start; padding-left:12px;
+}
+.reference-app .issue-296-back img { width:12px; height:19px; max-width:none; }
+.reference-app .issue-296-back + h1 { left:43.173px; }
+
+/* My / マイページ — frame 269:1031. Coordinates below are relative to y=101. */
+.reference-app .issue-296-my-scroll { position:relative; padding:0; background:transparent; }
+.reference-app .issue-296-my-canvas { position:relative; min-height:659px; }
+.reference-app .issue-296-profile-edit {
+  position:absolute; top:19px; left:66.923076923cqw; width:29.230769231cqw; height:32px;
+  border:1px solid #667A47; border-radius:100px; background:#fff;
+  color:#667A47; font:400 12px/14px Roboto,"Noto Sans JP",sans-serif;
+}
+.reference-app .issue-296-avatar { position:absolute; top:35px; left:36.666666667cqw; width:103px; height:103px; }
+.reference-app .issue-296-avatar-art { width:103px; height:103px; max-width:none; }
+.reference-app .issue-296-camera { position:absolute; left:82px; top:70px; width:26px; height:26px; max-width:none; }
+.reference-app .issue-296-nickname {
+  position:absolute; top:150px; left:0; width:100%; height:23px; margin:0;
+  color:#222; text-align:center; font:700 20px/23px Roboto,"Noto Sans JP",sans-serif;
+}
+.reference-app .issue-296-action-grid { position:absolute; top:193.721px; left:6.923076923cqw; display:flex; gap:4.102564103cqw; }
+.reference-app .issue-296-action-card {
+  position:relative; width:41.282051282cqw; height:166.114px; overflow:hidden;
+  border:1px solid #fff; border-radius:18px; background:#fff; text-align:center;
+}
+.reference-app .issue-296-action-card > img { position:absolute; top:9.279px; left:50%; transform:translateX(-50%); width:76px; height:76px; object-fit:contain; }
+.reference-app .issue-296-action-card:nth-child(2) > img { top:9.279px; width:74px; height:74px; }
+.reference-app .issue-296-action-card strong {
+  position:absolute; top:87.279px; left:5px; width:calc(100% - 10px); height:29px;
+  color:#222; font:700 20px/29px Roboto,"Noto Sans JP",sans-serif; white-space:nowrap;
+}
+.reference-app .issue-296-action-card span {
+  position:absolute; top:117.279px; left:5px; width:calc(100% - 10px); height:28px;
+  color:#5D5D5D; font:400 12px/14px Roboto,"Noto Sans JP",sans-serif; white-space:pre-line;
+}
+.reference-app .issue-296-menu { position:absolute; top:381px; left:6.410256410cqw; width:87.435897436cqw; display:grid; gap:3.636px; }
+.reference-app .issue-296-menu button {
+  position:relative; width:100%; height:42.364px; display:flex; align-items:center;
+  border-radius:12px; background:#fff; padding:8px 12px 8px 20px; text-align:left;
+}
+.reference-app .issue-296-menu button:last-child { height:44px; }
+.reference-app .issue-296-menu button > img { width:26px; height:26px; flex:none; object-fit:contain; }
+.reference-app .issue-296-menu button:last-child > img { width:28px; height:28px; margin-left:-1px; }
+.reference-app .issue-296-menu button span {
+  margin-left:12px; color:#222; font:400 16px/24px Roboto,"Noto Sans JP",sans-serif; white-space:nowrap;
+}
+.reference-app .issue-296-menu button i {
+  position:absolute; right:12px; top:12px; width:8px; height:14px;
+  background:#667A47; mask:url("../../assets/figma-296/back.svg") center / contain no-repeat;
+  transform:rotate(180deg);
+}
+.reference-app .issue-296-logout {
+  position:absolute; top:559px; left:6.410256410cqw; width:87.435897436cqw; height:32px;
+  border:1px solid #667A47; border-radius:100px; background:#F3ECDA;
+  color:#667A47; font:400 12px/14px Roboto,"Noto Sans JP",sans-serif;
+}
+
+.reference-app .tabbar.issue-296-tabbar {
+  width:100%; height:84px; min-height:84px; padding:8px 16px 16px;
+  border-top:1px solid #EFEFEF; background:#fff;
+}
+.reference-app .tabbar.issue-296-tabbar button {
+  height:60px; padding:8px 0; gap:4px; justify-content:center;
+  color:#CEE3A8; font:500 12px/14px Roboto,"Noto Sans JP",sans-serif;
+}
+.reference-app .tabbar.issue-296-tabbar button:nth-child(n+2) { height:58px; margin-top:1px; }
+.reference-app .tabbar.issue-296-tabbar button img { width:24px; height:24px; max-width:none; object-fit:contain; }
+.reference-app .tabbar.issue-296-tabbar button:first-child img { width:23px; height:22px; }
+.reference-app .tabbar.issue-296-tabbar button.on { color:#657948; }
+
+/* Food badges — frames 269:1210 and 269:1451. Coordinates are relative to y=101. */
+.reference-app .issue-296-badge-body { position:relative; padding:0; background:transparent; }
+.reference-app .issue-296-badge-body::before { content:""; display:block; min-height:743px; }
+.reference-app .issue-296-badge-intro {
+  position:absolute; top:47px; left:7.948717949cqw; width:223px; height:59px;
+  color:#667A47; white-space:pre-line; font:600 20px/29px Roboto,"Noto Sans JP",sans-serif;
+}
+.reference-app .issue-296-badge-count {
+  position:absolute; top:19px; left:62.051282051cqw; width:145px; height:116.886px;
+  text-align:center;
+}
+.reference-app .issue-296-badge-count::before {
+  content:""; position:absolute; top:0; left:11.447px; width:122.473px; height:116.886px;
+  border:1px solid #9DBC64; border-radius:18px; background:#fff;
+}
+.reference-app .issue-296-badge-count > img { position:absolute; top:18.988px; left:56.835px; width:33.229px; height:32.28px; max-width:none; }
+.reference-app .issue-296-badge-count p {
+  position:absolute; top:56.886px; left:0; width:145px; height:29px; font:700 20px/29px Roboto,"Noto Sans JP",sans-serif;
+}
+.reference-app .issue-296-badge-count p strong { color:#FF8D20; font-size:40px; vertical-align:-5px; }
+.reference-app .issue-296-badge-count p span { color:#222; margin-left:2px; }
+.reference-app .issue-296-badge-count small {
+  position:absolute; top:87.956px; left:15.251px; width:114.866px; height:14px;
+  color:#5D5D5D; font:400 12px/14px Roboto,"Noto Sans JP",sans-serif; white-space:nowrap;
+}
+.reference-app .issue-296-binder { position:absolute; top:153px; left:0; width:390px; height:564px; overflow:hidden; }
+.reference-app .issue-296-binder > img { position:absolute; max-width:none; }
+.reference-app .issue-296-binder-green { left:-365px; top:0; width:746px; height:564px; }
+.reference-app .issue-296-binder-shadow { left:15.166px; top:21.278px; width:354.127px; height:457.103px; }
+.reference-app .issue-296-binder-page { left:12.946px; top:21.278px; width:349.605px; height:457.103px; }
+.reference-app .issue-296-binder-ring { left:-23.233px; width:59.39px; height:13.585px; }
+.reference-app .issue-296-earned-stamp { left:47px; top:54px; width:303px; height:300px; }
+.reference-app .issue-296-earned-date {
+  position:absolute; left:123px; top:351px; width:152px; height:29px;
+  color:#667A47; font:600 20px/29px Roboto,"Noto Sans JP",sans-serif; white-space:nowrap;
+}
+.reference-app .issue-296-store-card { left:84px; top:372px; width:252px; height:107px; }
+.reference-app .issue-296-empty-stamp { left:31.939px; top:40px; width:341px; height:341px; }
+.reference-app .issue-296-empty-copy {
+  position:absolute; left:61px; top:380px; width:289px; height:68px; text-align:center; color:#667A47;
+}
+.reference-app .issue-296-empty-copy strong { display:block; font:700 16px/23px Roboto,"Noto Sans JP",sans-serif; }
+.reference-app .issue-296-empty-copy p {
+  margin-top:4px; color:#667A47; white-space:pre-line; font:400 12px/17px Roboto,"Noto Sans JP",sans-serif;
+}
+.reference-app .issue-296-empty-copy em { color:#FF8D20; font-style:normal; font-weight:700; }
+.reference-app .issue-296-badge-previous,
+.reference-app .issue-296-badge-next { position:absolute; top:498px; width:46px; height:44px; }
+.reference-app .issue-296-badge-previous { left:84px; }
+.reference-app .issue-296-badge-next { left:260px; }
+.reference-app .issue-296-badge-previous img,
+.reference-app .issue-296-badge-next img { width:46px; height:44px; max-width:none; }
+.reference-app .issue-296-page-indicator {
+  position:absolute; left:168px; top:505px; width:54px; height:29px;
+  color:#fff; text-align:center; font:600 20px/29px Roboto,sans-serif;
+}
+
+.reference-app .issue-296-language-backdrop {
+  position:absolute; inset:0; z-index:50; display:flex; align-items:flex-end; padding:16px;
+  background:rgba(34,34,34,.3);
+}
+.reference-app .issue-296-language-dialog {
+  width:100%; padding:22px; border-radius:18px; background:#FFFDF7; box-shadow:0 8px 28px rgba(34,34,34,.2);
+}
+.reference-app .issue-296-language-dialog h2 { margin-bottom:14px; color:#667A47; font:600 20px/29px Roboto,"Noto Sans JP",sans-serif; }
+.reference-app .issue-296-language-dialog button {
+  display:block; width:100%; min-height:44px; border-bottom:1px solid #EAE2CF;
+  color:#222; text-align:left; font:500 16px/24px Roboto,"Noto Sans JP",sans-serif;
+}
+.reference-app .issue-296-language-dialog button.selected { color:#667A47; font-weight:700; }
+.reference-app .issue-296-language-dialog .issue-296-language-close { margin-top:10px; border:0; color:#667A47; text-align:center; }
+
+@media (max-width:389px) {
+  .reference-app .issue-296-avatar { left:calc(50% - 51.5px); }
+  .reference-app .issue-296-badge-count { left:auto; right:3px; transform:scale(.96); transform-origin:top right; }
+  .reference-app .issue-296-badge-intro { left:6.923076923cqw; }
+}
+
+.reference-app [data-badge-page="2"] .issue-296-badge-intro { left:35px; }
+.reference-app [data-badge-page="2"] .issue-296-badge-count { left:62.307692308cqw; }

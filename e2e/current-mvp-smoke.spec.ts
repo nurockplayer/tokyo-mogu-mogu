@@ -93,7 +93,7 @@ test('exposes the current Food Profile and exploration search states', async ({ 
 
   const profile = page.locator('[data-screen="food-profile"][data-screen-active="true"]');
   await expect(profile).toBeVisible();
-  await expect(page.getByRole('combobox', { name: '言語' })).toBeVisible();
+  await expect(page.locator('.locale-control')).toHaveCount(0);
 
   await page.goto('/explore');
 
@@ -119,6 +119,54 @@ test('exposes the current Food Profile and exploration search states', async ({ 
 
   await expect(departureDialog).toBeHidden();
   await expect(exploration.getByRole('button', { name: '次へ', exact: true })).toBeEnabled();
+});
+
+test('matches the My and 食のバッジ navigation at 375px and 390px', async ({ page }) => {
+  for (const width of [375, 390]) {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto('/my');
+
+    const my = page.locator('[data-screen="my"][data-screen-active="true"]');
+    await expect(my.getByRole('heading', { name: 'マイページ' })).toBeVisible();
+    await expect(page.locator('.locale-control')).toHaveCount(0);
+    const myDock = my.getByRole('navigation', { name: 'Primary' });
+    await expect(myDock.getByRole('button', { name: 'マイ' })).toHaveAttribute('aria-current', 'page');
+    const dockBounds = await myDock.boundingBox();
+    expect((dockBounds?.y ?? 0) + (dockBounds?.height ?? 0)).toBeCloseTo(844, 0);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+
+    await my.getByRole('button', { name: '食のバッジ' }).click();
+    await expect(page).toHaveURL(/\/badges$/);
+
+    const badges = page.locator('[data-screen="badges"][data-screen-active="true"]');
+    await expect(badges.getByRole('heading', { name: '食のバッジ' })).toBeVisible();
+    await expect(badges.getByText('1/100')).toBeVisible();
+    await expect(badges.getByText('2026/08/23 獲得')).toBeVisible();
+
+    await badges.getByRole('button', { name: '次のバッジ' }).click();
+    await expect(badges).toHaveAttribute('data-badge-page', '2');
+    await expect(badges.getByText('2/100')).toBeVisible();
+    await expect(badges.getByText('まだバッジがありません')).toBeVisible();
+
+    await badges.getByRole('button', { name: '前のバッジ' }).click();
+    await expect(badges).toHaveAttribute('data-badge-page', '1');
+    await badges.getByRole('button', { name: 'マイページに戻る' }).click();
+    await expect(page).toHaveURL(/\/my$/);
+  }
+});
+
+test('uses 言語設定 as the persisted language entry surface', async ({ page }) => {
+  await page.goto('/my');
+  const my = page.locator('[data-screen="my"][data-screen-active="true"]');
+
+  await my.getByRole('button', { name: '言語設定' }).click();
+  const languageDialog = my.getByRole('dialog', { name: '言語を選択' });
+  await expect(languageDialog).toBeVisible();
+  await languageDialog.getByRole('button', { name: 'English' }).click();
+
+  await expect(my.getByRole('heading', { name: 'My' })).toBeVisible();
+  await expect(page.locator('.locale-control')).toHaveCount(0);
+  await expect.poll(() => page.evaluate(() => localStorage.getItem('tmm:locale'))).toBe('en');
 });
 
 test('walks the current Result to Spot path and Dock destinations', async ({ page }) => {

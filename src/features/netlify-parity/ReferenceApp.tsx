@@ -8,7 +8,6 @@ import { recordMoguRecent } from '../../lib/mogu-recent';
 import { loadSavedRoutes, saveRoute } from '../../lib/saved-routes';
 import { saveExplorationAnswers } from '../../pages/s0s3/exploration-session';
 import { FoodProfileConversation } from './chat/FoodProfileConversation';
-import { LocaleControl } from './components/LocaleControl';
 import { demoJourneys, demoSpots, referenceCopy, type JourneyPresentation, type SpotPresentation } from './content';
 import { ExplorationFlow } from './exploration/ExplorationFlow';
 import {
@@ -18,6 +17,7 @@ import {
   type NetlifyExplorationAnswers,
 } from './exploration/explorationMachine';
 import { FavoritesScreen } from './screens/FavoritesScreen';
+import { BadgesScreen } from './screens/BadgesScreen';
 import { HomeScreen } from './screens/HomeScreen';
 import { MoguScreen } from './screens/MoguScreen';
 import { MyScreen } from './screens/MyScreen';
@@ -52,21 +52,6 @@ function journeyForSearch(search: string): JourneyPresentation | undefined {
 function spotForPath(pathname: string): SpotPresentation | undefined {
   if (!pathname.startsWith('/spot/')) return undefined;
   return demoSpots[decodeURIComponent(pathname.slice('/spot/'.length))];
-}
-
-function profileSummary(profile: FoodProfile | null, locale: 'ja' | 'en' | 'zh-TW'): string[] {
-  if (!profile) return [];
-  if (profile.hasNoRestrictions) {
-    return [locale === 'ja' ? '特別な制限はありません' : locale === 'zh-TW' ? '沒有特別限制' : 'No particular restrictions'];
-  }
-  const labels = {
-    ja: { allergy: 'アレルギーあり', 'vegetarian-vegan': '食事スタイルあり', religious: '避けるものあり', dislike: '苦手なものあり' },
-    en: { allergy: 'Allergies recorded', 'vegetarian-vegan': 'Diet style recorded', religious: 'Religious restrictions recorded', dislike: 'Dislikes recorded' },
-    'zh-TW': { allergy: '已記錄過敏原', 'vegetarian-vegan': '已記錄飲食型態', religious: '已記錄宗教飲食限制', dislike: '已記錄不喜歡的食物' },
-  } as const;
-  const lines: string[] = profile.dietary.map((item) => labels[locale][item]);
-  if (profile.dietaryOther) lines.push(profile.dietaryOther);
-  return lines;
 }
 
 interface ReferenceFavorites {
@@ -255,6 +240,7 @@ export function ReferenceApp() {
   const isMogu = pathname === '/mogu' || pathname === '/discover';
   const isFavorites = pathname === '/my-route';
   const isMy = pathname === '/my';
+  const isBadges = pathname === '/badges';
 
   return (
     <main className="reference-app" data-locale={locale} data-pathname={pathname}>
@@ -391,23 +377,16 @@ export function ReferenceApp() {
           copy={copy}
           locale={locale}
           nickname={nickname}
-          profileSummary={profileSummary(foodProfile, locale)}
-          savedJourneys={savedJourneys}
           onEditProfile={() => {
             setEditSessionId((sessionId) => sessionId + 1);
             navigate('/food-profile/edit');
           }}
-          onOpenSavedJourney={(journey) => {
-            setCurrentJourney(journey);
-            setRouteBack('/my');
-            navigate(`/route?from=my&routeId=${encodeURIComponent(journey.routeId)}`);
-          }}
+          onChangeLocale={setLocale}
           onNavigate={navigate}
+          onNotify={setToast}
         />
+        <BadgesScreen active={isBadges} locale={locale} onBack={() => navigate('/my')} />
 
-        {!isSplash ? (
-          <LocaleControl locale={locale} label={copy.app.localeLabel} onChange={setLocale} />
-        ) : null}
         {toast ? <div className="reference-toast" role="status">{toast}</div> : null}
       </div>
     </main>

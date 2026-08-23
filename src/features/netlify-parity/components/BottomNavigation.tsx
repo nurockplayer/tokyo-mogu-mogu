@@ -1,4 +1,8 @@
 import type { ReactNode } from 'react';
+import discoverIcon from '../../../assets/figma-296/nav-discover.svg';
+import favoritesIcon from '../../../assets/figma-296/nav-favorites.svg';
+import moguIcon from '../../../assets/figma-296/nav-mogu.svg';
+import myIcon from '../../../assets/figma-296/nav-my.svg';
 import type { ReferenceCopy } from '../content';
 
 export type ReferenceTab = 'home' | 'mogu' | 'favorites' | 'my';
@@ -7,6 +11,7 @@ interface BottomNavigationProps {
   active: ReferenceTab;
   copy: ReferenceCopy['nav'];
   onNavigate: (path: string) => void;
+  variant?: 'default' | 'issue-296-my';
 }
 
 const tabs: Array<{
@@ -56,9 +61,16 @@ const tabs: Array<{
   },
 ];
 
-export function BottomNavigation({ active, copy, onNavigate }: BottomNavigationProps) {
+const issue296Icons: Record<ReferenceTab, string> = {
+  home: discoverIcon,
+  mogu: moguIcon,
+  favorites: favoritesIcon,
+  my: myIcon,
+};
+
+export function BottomNavigation({ active, copy, onNavigate, variant = 'default' }: BottomNavigationProps) {
   return (
-    <nav className="tabbar" aria-label="Primary">
+    <nav className={`tabbar${variant === 'issue-296-my' ? ' issue-296-tabbar' : ''}`} aria-label="Primary">
       {tabs.map((tab) => (
         <button
           className={tab.id === active ? 'on' : undefined}
@@ -67,9 +79,13 @@ export function BottomNavigation({ active, copy, onNavigate }: BottomNavigationP
           type="button"
           aria-current={tab.id === active ? 'page' : undefined}
         >
-          <svg viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            {tab.icon}
-          </svg>
+          {variant === 'issue-296-my' ? (
+            <img src={issue296Icons[tab.id]} alt="" aria-hidden="true" />
+          ) : (
+            <svg viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              {tab.icon}
+            </svg>
+          )}
           <span>{copy[tab.labelKey]}</span>
         </button>
       ))}
