@@ -219,9 +219,13 @@ async function expectRouteReachable(
   );
   await expect(activeScreen).toBeVisible();
 
-  const keyControl = page
-    .getByRole('button', { name: route.keyControlName[locale], exact: true })
-    .first();
+  const keyControl = route.screen === 'splash'
+    ? activeScreen
+    : activeScreen
+        .getByRole('button', { name: route.keyControlName[locale], exact: true })
+        .first();
+  await expect(keyControl).toHaveRole('button');
+  await expect(keyControl).toHaveAccessibleName(route.keyControlName[locale]);
   await expect(keyControl).toBeVisible();
   await expect(keyControl).toBeEnabled();
   await expect(keyControl).toBeInViewport();
