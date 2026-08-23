@@ -222,10 +222,6 @@ function QuestionBubble({
   const recommendedLeft = question.recommendedValues.filter((value) => !selected.includes(value));
   const shouldGlowSend = isCurrent && selected.length > 0 && (deviated || recommendedLeft.length === 0);
 
-  useEffect(() => {
-    if (isCurrent && state.otherInputOpen) otherInputRef.current?.focus();
-  }, [isCurrent, state.otherInputOpen]);
-
   const addOther = (event: FormEvent) => {
     event.preventDefault();
     if (!otherValue.trim()) {
@@ -350,10 +346,6 @@ export function FoodProfileConversation({
     });
     return () => window.cancelAnimationFrame(frame);
   }, [state.entries.length, state.otherInputOpen]);
-
-  useEffect(() => {
-    if (state.phase === 'name') nameInputRef.current?.focus();
-  }, [state.phase]);
 
   const submitName = (event: FormEvent) => {
     event.preventDefault();
