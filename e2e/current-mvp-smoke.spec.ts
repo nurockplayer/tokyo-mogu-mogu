@@ -128,6 +128,7 @@ test('matches the My and 食のバッジ navigation at 375px and 390px', async (
 
     const my = page.locator('[data-screen="my"][data-screen-active="true"]');
     await expect(my.getByRole('heading', { name: 'マイページ' })).toBeVisible();
+    await expect(my.locator('.issue-296-route-card').getByText('マイルート', { exact: true })).toBeVisible();
     await expect(page.locator('.locale-control')).toHaveCount(0);
     const myDock = my.getByRole('navigation', { name: 'Primary' });
     await expect(myDock.getByRole('button', { name: 'マイ' })).toHaveAttribute('aria-current', 'page');

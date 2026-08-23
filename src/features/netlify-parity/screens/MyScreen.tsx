@@ -109,6 +109,7 @@ export function MyScreen({
               onClick={() => onNavigate('/my-route')}
             >
               <img src={routesArtwork} alt="" />
+              <strong>{labels.savedRoutes}</strong>
               <span>{labels.savedRoutesDescription}</span>
             </button>
             <button className="issue-296-action-card" type="button" onClick={() => onNavigate('/badges')}>
