@@ -59,6 +59,17 @@ describe('saved-routes persistence (#45)', () => {
     ]);
   });
 
+  it('generates and persists an ISO-8601 timestamp when saving without one', () => {
+    const [entry] = saveRoute('route-with-generated-timestamp');
+
+    expect(entry.routeId).toBe('route-with-generated-timestamp');
+    expect(entry.savedAt).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
+    expect(Number.isNaN(Date.parse(entry.savedAt))).toBe(false);
+    expect(new Date(entry.savedAt).toISOString()).toBe(entry.savedAt);
+    expect(loadSavedRoutes()).toEqual([entry]);
+    expect(JSON.parse(localStorage.getItem(SAVED_ROUTES_KEY) ?? '[]')).toEqual([entry]);
+  });
+
   it('save is idempotent — no duplicate routeIds', () => {
     saveRoute('route-a');
     saveRoute('route-a');
