@@ -132,7 +132,21 @@ test('matches the My and 食のバッジ navigation at 375px and 390px', async (
     const myDock = my.getByRole('navigation', { name: 'Primary' });
     await expect(myDock.getByRole('button', { name: 'マイ' })).toHaveAttribute('aria-current', 'page');
     const dockBounds = await myDock.boundingBox();
+    expect(dockBounds?.height).toBeCloseTo(84, 0);
     expect((dockBounds?.y ?? 0) + (dockBounds?.height ?? 0)).toBeCloseTo(844, 0);
+    await expect(myDock).toHaveCSS('padding-bottom', '16px');
+
+    await myDock.evaluate((element) => {
+      element.style.setProperty('--issue-296-dock-safe-bottom', '34px');
+    });
+    await expect(myDock).toHaveCSS('padding-bottom', '34px');
+    const safeAreaDockBounds = await myDock.boundingBox();
+    expect(safeAreaDockBounds?.height).toBeCloseTo(102, 0);
+    expect((safeAreaDockBounds?.y ?? 0) + (safeAreaDockBounds?.height ?? 0)).toBeCloseTo(844, 0);
+    await myDock.evaluate((element) => {
+      element.style.removeProperty('--issue-296-dock-safe-bottom');
+    });
+
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
 
     await my.getByRole('button', { name: '食のバッジ' }).click();
