@@ -137,9 +137,9 @@ const storySpotGroups: Record<string, { nearby: StorySpotReference[]; nature: St
         spotId: 'hikawa-valley', imageAssetId: 'riverPortrait', badgeColor: '#5E7239',
         badge: { ja: '自然', en: 'Nature', 'zh-TW': '自然' },
         description: {
-          ja: 'やまめも、わさびも、はじまりは多摩川の水',
-          en: 'Both yamame and wasabi begin with the Tama River’s water',
-          'zh-TW': '山女魚與山葵，都源自多摩川的水',
+          ja: '氷川渓谷の水辺をたどる散策',
+          en: 'A walk through Hikawa Valley’s waterside landscape',
+          'zh-TW': '沿著冰川溪谷水岸景觀散步',
         },
       },
     ],

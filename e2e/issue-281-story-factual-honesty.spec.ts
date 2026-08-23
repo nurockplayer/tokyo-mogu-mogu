@@ -22,6 +22,7 @@ const locales = [
       intro: '「奥多摩やまめ」は、東京都水産試験場奥多摩分場が研究・作出した全雌三倍体の養殖ヤマメです。',
       naming: '全雌三倍体ヤマメの商品名は1998年7月に選定され、同年11月に奥多摩町で新ブランドとして発表されました。',
       center: '奥多摩さかな養殖センターは、入川と海沢の2か所の飼育池を運営しています。',
+      nature: '氷川渓谷の水辺をたどる散策',
     },
     disclosure: '2026年8月24日に取得した公式情報をもとに編集したデモ記事です。未確認の人物・数値・因果関係は掲載していません。最新情報は各公式サイトをご確認ください。',
     homeYamame: '研究から生まれた、大型のヤマメ',
@@ -42,6 +43,7 @@ const locales = [
       intro: 'Okutama Yamame is an all-female triploid farmed yamame created through research at the Tokyo Metropolitan Fisheries Experiment Station’s Okutama Branch.',
       naming: 'The product name for the all-female triploid yamame was selected in July 1998 and presented as a new brand in Okutama that November.',
       center: 'The Okutama Fish Farming Center operates pond sites at Irikawa and Unazawa.',
+      nature: 'A walk through Hikawa Valley’s waterside landscape',
     },
     disclosure: 'Demo editorial story based on official sources retrieved 24 Aug 2026. Unverified biographies, figures, and causal claims are not presented as facts.',
     homeYamame: 'A large yamame born from research',
@@ -62,6 +64,7 @@ const locales = [
       intro: '「奧多摩山女魚」是東京都水產試驗場奧多摩分場經研究培育出的全雌三倍體養殖山女魚。',
       naming: '這款全雌三倍體山女魚的商品名稱於1998年7月選定，並於同年11月在奧多摩以新品牌對外發表。',
       center: '奧多摩魚類養殖中心營運入川與海澤兩處養殖池',
+      nature: '沿著冰川溪谷水岸景觀散步',
     },
     disclosure: '本示範編輯故事依據 2026 年 8 月 24 日取得的官方資料整理；未確認的人物經歷、數字與因果關係不作為事實呈現。',
     homeYamame: '從研究中誕生的大型山女魚',
@@ -69,7 +72,7 @@ const locales = [
   },
 ] as const;
 
-const bannedClaims = /デイビッド・ヒューム|約10人|30代|約1年半|塩や醤油|生産者の収入|約120年|4代目|山梨出身|病気に弱い|養殖研究施設が2か所|希少な川魚|日帰り中心|宿泊客|David Hume|rare river fish|two research facilities|faster growth|珍稀河魚|兩處研究設施/;
+const bannedClaims = /デイビッド・ヒューム|約10人|30代|約1年半|塩や醤油|生産者の収入|約120年|4代目|山梨出身|病気に弱い|養殖研究施設が2か所|希少な川魚|日帰り中心|宿泊客|やまめも、わさびも、はじまりは多摩川の水|David Hume|rare river fish|two research facilities|faster growth|Both yamame and wasabi begin with the Tama River’s water|珍稀河魚|兩處研究設施|山女魚與山葵，都源自多摩川的水/;
 
 async function openAs(page: Page, locale: string, path: string): Promise<Locator> {
   await page.goto('/');
@@ -174,6 +177,7 @@ test('shows source-backed five-chapter Story fixtures for both identities in eve
     await expect(story.getByText(expected.yamame.intro, { exact: true })).toBeVisible();
     await expect(story.getByText(expected.yamame.naming, { exact: true })).toBeVisible();
     await expect(story.locator('.page-card').getByText(expected.yamame.center, { exact: false })).toBeVisible();
+    await expect(story.getByText(expected.yamame.nature, { exact: true })).toBeVisible();
     await expect(story.getByText(bannedClaims)).toHaveCount(0);
     facts = story.locator('[data-presentation-facts]');
     await expect(facts.getByText(expected.disclosure, { exact: true })).toBeVisible();
