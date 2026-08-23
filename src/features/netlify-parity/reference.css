@@ -225,16 +225,24 @@ body:has(.reference-app) { overflow:hidden; }
 .reference-app .wiz-body { flex:1; overflow-y:auto; padding:22px 18px 30px; position:relative; background:transparent; min-height:0; }
 .reference-app .wiz-q { text-align:center; font-size:19px; font-weight:700; color:var(--green); line-height:1.6; margin-bottom:22px; }
 .reference-app .wiz-q em { color:var(--orange-text); font-style:normal; }
-.reference-app .exp-grid { display:grid; grid-template-columns:1fr 1fr; grid-auto-rows:168px; gap:12px; width:min(100%,279px); margin-inline:auto; }
-.reference-app .exp-card { position:relative; display:flex; flex-direction:column; justify-content:flex-start; height:168px; background:#FFFDF6; border-radius:18px; overflow:hidden; box-shadow:var(--shadow); text-align:center; padding-top:14px; border:2px solid transparent; cursor:pointer; transition:.15s; min-width:0; }
-.reference-app .exp-card b { position:relative; z-index:1; font-size:18px; color:var(--green); display:block; overflow-wrap:anywhere; }
-.reference-app .exp-card p { position:relative; z-index:1; color:var(--ink); margin:5px 4px 0; font-size:11px; font-weight:500; line-height:1.4; white-space:nowrap; }
+/* Hopp Figma frame 4:2101 is 390px wide; every vw value is a live node bound / 390. */
+.reference-app .exp-grid { display:grid; grid-template-columns:34.207168970vw 34.207168970vw; grid-auto-rows:43.034836207vw; gap:3.076923077vw; width:71.538461538vw; margin-left:calc(13.846153846vw - 18px); }
+.reference-app .exp-card { position:relative; height:43.034836207vw; background:rgba(255,255,255,.52); border-radius:4.615384615vw; overflow:hidden; text-align:center; padding:0; border:.256410256vw solid #fff; cursor:pointer; transition:.15s; min-width:0; }
+.reference-app .exp-card .exp-copy { position:absolute; z-index:1; left:calc(1.103458160vw - 1px); top:calc(4.634518257vw - 1px); width:32.000255096vw; height:13.462176201vw; }
+.reference-app .exp-card b { color:#667A48; display:block; font-size:5.128205128vw; font-weight:700; line-height:7.435897436vw; white-space:nowrap; }
+.reference-app .exp-card p { color:#667A47; margin:2.307692308vw 0 0; font-size:3.076923077vw; font-weight:400; line-height:5.897435897vw; white-space:nowrap; }
+.reference-app .exp-card[data-experience-id="eat"] p,
+.reference-app .exp-card[data-experience-id="make"] p { color:#667A48; font-weight:700; }
 .reference-app .exp-card .pic { position:absolute; inset:0; pointer-events:none; }
-.reference-app .exp-card .pic .band { position:absolute; left:0; right:0; bottom:0; height:24%; background:var(--band-light); }
-.reference-app .exp-card .pic img { position:absolute; left:50%; bottom:-7%; transform:translateX(-50%); width:86%; height:68%; max-width:none; object-fit:contain; }
-.reference-app .exp-card.sel { border-color:#4C5A2B; box-shadow:0 2px 6px rgba(60,70,30,.35); }
-.reference-app .exp-card.sel b { color:#4C5A2B; }
-.reference-app .exp-card.sel .pic .band { background:#667A47; }
+.reference-app .exp-card .pic .band { position:absolute; left:calc(.441383949vw - 1px); top:calc(32.662328084vw - 1px); width:33.324404985vw; height:9.931113414vw; background:#B2D083; border-radius:0 0 4.358974359vw 4.358974359vw; }
+.reference-app .exp-card .pic img { position:absolute; left:calc(var(--figma-art-left) - 1px); top:calc(var(--figma-art-top) - 1px); width:var(--figma-art-width); height:var(--figma-art-height); max-width:none; object-fit:cover; }
+/* Figma selected Rectangle 6 / Rectangle 7: 4:2318 and 4:2326. */
+.reference-app .exp-card.sel,
+.reference-app .exp-card.glow { width:34.213554187vw; height:42.692272480vw; border-color:transparent; border-radius:4.615384615vw; box-shadow:inset 0 0 0 .512820513vw #667A48; animation:none; }
+.reference-app .exp-card.sel .exp-copy,
+.reference-app .exp-card.glow .exp-copy { left:calc(1.136631110vw - 1px); top:calc(4.445127830vw - 1px); width:32.051282051vw; }
+.reference-app .exp-card.sel .pic .band,
+.reference-app .exp-card.glow .pic .band { left:calc(.367400341vw - 1px); top:calc(32.393845778vw - 1px); width:33.333333333vw; height:10vw; background:#667A47; border-radius:0 0 4.102564103vw 4.102564103vw; }
 .reference-app .opt { display:block; width:100%; background:#FFFDF6; border-radius:16px; box-shadow:var(--shadow); padding:16px; font-size:16px; font-weight:500; color:var(--ink); margin-bottom:14px; border:1.5px solid #F1E9D6; text-align:inherit; }
 .reference-app .opt.sel { background:#667A48; color:#fff; border-color:#4C5A2B; }
 .reference-app .searchbar { display:flex; align-items:center; gap:10px; width:calc(100% + 4px); height:52px; margin-inline:-2px; background:#fff; border-radius:14px; box-shadow:var(--shadow); padding:15px 16px; font-size:16px; font-weight:500; cursor:pointer; min-width:0; }

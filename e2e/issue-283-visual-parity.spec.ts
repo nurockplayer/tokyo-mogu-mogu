@@ -2,6 +2,43 @@ import { expect, test, type Locator } from '@playwright/test';
 
 const WHITE = 'rgb(255, 255, 255)';
 const DARK_ORANGE_FOREGROUND = 'rgb(58, 58, 48)';
+// Hopp live frame 4:2101 is 390px wide. Runtime is verified at 375px.
+const FIGMA_TO_RUNTIME = 375 / 390;
+// Live Figma Frame 256 (23:3206), rows 23:3203–23:3205.
+const FIGMA_CARD = {
+  gridLeft: 54,
+  gridWidth: 279,
+  gap: 12,
+  width: 133.407958984375,
+  height: 167.8358612060547,
+  footer: { left: 1.7213973999023438, top: 127.3830795288086, width: 129.96517944335938, height: 38.73134231567383 },
+} as const;
+// Live selected card group 23:3188; selected Rectangle 6 (4:2318), copy (4:2333),
+// and green footer Rectangle 7 (4:2326). Unlike the normal card groups, its bounds differ.
+const FIGMA_SELECTED_CARD = {
+  width: 133.432861328125,
+  height: 166.49986267089844,
+  copy: { left: 4.432861328125, top: 17.33599853515625, width: 125, height: 53, subtitleOffset: 38 },
+  footer: { left: 1.432861328125, top: 126.33599853515625, width: 130, height: 39 },
+} as const;
+// Normal copy Frame 4:2372 (the same bounds as 4:2339, 4:2383, 8:2392, and 23:3880).
+const FIGMA_NORMAL_COPY = {
+  left: 4.3034868240356445,
+  top: 18.074621200561523,
+  width: 124.80099487304688,
+  height: 52.50248718261719,
+  subtitleOffset: 38,
+} as const;
+// Live Figma illustration nodes. `make` x is derived from its centered 106.726px
+// rotated node 4:2349: (133.407958984375 - 106.72636413574219) / 2.
+const FIGMA_ILLUSTRATIONS = {
+  eat: { nodeId: '4:2313', left: -1.2752069234848022, top: 50.11709213256836, width: 132.54725646972656, height: 132.54725646972656 },
+  make: { nodeId: '4:2349', left: 13.340797424316406, top: 61.970149993896484, width: 106.72636413574219, height: 106.72636413574219 },
+  buy: { nodeId: '4:2375', left: 9.467669934034348, top: 61.970136895775795, width: 114.4726333618164, height: 114.4726333618164 },
+  meet: { nodeId: '8:2417', left: 29, top: 84.83580996096134, width: 76, height: 65 },
+  visit: { nodeId: '8:2423', left: 10.572147816419601, top: 66.99999453127384, width: 112, height: 112 },
+  learn: { nodeId: '23:3884', left: 26.592041462659836, top: 84.32836367189884, width: 80, height: 68 },
+} as const;
 
 async function expectForeground(locator: Locator, color: string) {
   await expect.soft(locator).toHaveCSS('color', color, { timeout: 1_500 });
@@ -117,7 +154,7 @@ test('keeps autofocus typing-ready without splitting the Figma modal fields', as
   await expectFigmaModalInputAppearance(ingredientInput, ingredientField);
 });
 
-test('matches the shared Figma geometry for discovery cards, departure input, and result progress', async ({ page }) => {
+test('matches Hopp Figma card geometry, departure input, and result progress at 375px', async ({ page }) => {
   await page.goto('/explore');
   const explore = page.locator('[data-screen="explore"][data-screen-active="true"]');
   const cards = explore.locator('.exp-card');
@@ -128,29 +165,55 @@ test('matches the shared Figma geometry for discovery cards, departure input, an
     const band = node.querySelector<HTMLElement>('.band')!.getBoundingClientRect();
     const image = node.querySelector<HTMLImageElement>('img')!.getBoundingClientRect();
     const title = node.querySelector('b')!.getBoundingClientRect();
+    const subtitle = node.querySelector('p')!.getBoundingClientRect();
     return {
-      label: node.querySelector('b')?.textContent,
+      id: node.getAttribute('data-experience-id'),
       card: { top: card.top, bottom: card.bottom, width: card.width, height: card.height },
-      band: { bottom: band.bottom, height: band.height },
-      image: { height: image.height },
-      title: { top: title.top },
+      band: { left: band.left - card.left, top: band.top - card.top, width: band.width, height: band.height },
+      image: { left: image.left - card.left, top: image.top - card.top, width: image.width, height: image.height },
+      title: { left: title.left - card.left, top: title.top - card.top, width: title.width, height: title.height },
+      subtitle: { left: subtitle.left - card.left, top: subtitle.top - card.top, width: subtitle.width, height: subtitle.height },
     };
   }));
 
-  await expect(explore.locator('.exp-grid')).toHaveCSS('width', '279px');
+  const scale = FIGMA_TO_RUNTIME;
+  const gridBox = await explore.locator('.exp-grid').boundingBox();
+  expect(gridBox).not.toBeNull();
+  expectCloseTo(gridBox!.x, FIGMA_CARD.gridLeft * scale, 0.25);
+  expectCloseTo(gridBox!.width, FIGMA_CARD.gridWidth * scale, 0.25);
   for (const geometry of cardGeometry) {
-    expectCloseTo(geometry.card.width, 133.5);
-    expectCloseTo(geometry.card.height, 168);
-    expectCloseTo(geometry.band.bottom, geometry.card.bottom, 3);
-    expect(geometry.image.height).toBeGreaterThan(100);
-    expectCloseTo(geometry.title.top - geometry.card.top, 16);
+    const selected = geometry.id === 'eat';
+    const expectedCard = selected ? FIGMA_SELECTED_CARD : FIGMA_CARD;
+    const expectedFooter = selected ? FIGMA_SELECTED_CARD.footer : FIGMA_CARD.footer;
+    const expectedCopy = selected ? FIGMA_SELECTED_CARD.copy : FIGMA_NORMAL_COPY;
+    expectCloseTo(geometry.card.width, expectedCard.width * scale);
+    expectCloseTo(geometry.card.height, expectedCard.height * scale);
+    expectCloseTo(geometry.band.left, expectedFooter.left * scale);
+    expectCloseTo(geometry.band.top, expectedFooter.top * scale);
+    expectCloseTo(geometry.band.width, expectedFooter.width * scale);
+    expectCloseTo(geometry.band.height, expectedFooter.height * scale);
+    expectCloseTo(geometry.title.left, expectedCopy.left * scale);
+    expectCloseTo(geometry.title.top, expectedCopy.top * scale);
+    expectCloseTo(geometry.title.width, expectedCopy.width * scale);
+    expectCloseTo(geometry.subtitle.left, expectedCopy.left * scale);
+    expectCloseTo(geometry.subtitle.top, (expectedCopy.top + expectedCopy.subtitleOffset) * scale);
+    expectCloseTo(geometry.subtitle.width, expectedCopy.width * scale);
+    const illustration = FIGMA_ILLUSTRATIONS[geometry.id as keyof typeof FIGMA_ILLUSTRATIONS];
+    expect(illustration).toBeDefined();
+    expectCloseTo(geometry.image.left, illustration.left * scale);
+    expectCloseTo(geometry.image.top, illustration.top * scale);
+    expectCloseTo(geometry.image.width, illustration.width * scale);
+    expectCloseTo(geometry.image.height, illustration.height * scale);
   }
-  for (const label of ['買う', '産地を訪ねる']) {
-    const geometry = cardGeometry.find((card) => card.label === label);
+  for (const id of ['buy', 'visit']) {
+    const geometry = cardGeometry.find((card) => card.id === id);
     expect(geometry).toBeDefined();
-    expectCloseTo(geometry!.card.height, 168);
-    expectCloseTo(geometry!.band.bottom, geometry!.card.bottom, 3);
+    expectCloseTo(geometry!.image.width, FIGMA_ILLUSTRATIONS[id].width * scale);
+    expectCloseTo(geometry!.image.height, FIGMA_ILLUSTRATIONS[id].height * scale);
   }
+  // Selected treatment: live Figma Rectangle 6 (4:2318) has a #667A48 2px inside stroke.
+  const eat = cards.first();
+  expect(await eat.evaluate((node) => getComputedStyle(node).boxShadow)).toContain('rgb(102, 122, 72)');
 
   await cards.first().click();
   await explore.getByRole('button', { name: /次へ/ }).click();
