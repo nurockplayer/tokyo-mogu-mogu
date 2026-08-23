@@ -19,22 +19,94 @@ const execFileAsync = promisify(execFile);
 const guardScript = fileURLToPath(new URL('../assert-preview-port-free.mjs', import.meta.url));
 const ciWorkflow = fileURLToPath(new URL('../../.github/workflows/ci.yml', import.meta.url));
 
-function goldenPathBuildCommand(): string {
-  const lines = readFileSync(ciWorkflow, 'utf8').split('\n');
+type WorkflowStep = {
+  name: string;
+  runCommands: string[];
+};
+
+type ParsedWorkflowJob = {
+  steps: WorkflowStep[];
+  runCommands: string[];
+};
+
+function readGoldenPathJobLines(workflow: string): string[] {
+  const lines = workflow.split(/\r?\n/);
   const jobStart = lines.findIndex((line) => line === '  golden-path-e2e:');
-  expect(jobStart).toBeGreaterThanOrEqual(0);
+  if (jobStart === -1) {
+    throw new Error('Golden Path job is missing from CI workflow');
+  }
 
   const jobEnd = lines.findIndex(
-    (line, index) => index > jobStart && /^\s{2}[a-z0-9-]+:$/.test(line),
+    (line, index) => index > jobStart && /^\s{2}[a-z0-9-]+:\s*$/.test(line),
   );
-  const jobLines = lines.slice(jobStart, jobEnd === -1 ? lines.length : jobEnd);
-  const buildStepStart = jobLines.findIndex((line) => line.trim() === '- name: Build');
-  expect(buildStepStart).toBeGreaterThanOrEqual(0);
-  const buildCommand = jobLines
-    .slice(buildStepStart + 1)
-    .find((line) => /^\s+run:\s*/.test(line));
-  expect(buildCommand).toBeDefined();
-  return buildCommand!.replace(/^\s+run:\s*/, '').trim();
+  return lines.slice(jobStart, jobEnd === -1 ? lines.length : jobEnd);
+}
+
+function parseGoldenPathJob(workflow: string): ParsedWorkflowJob {
+  const steps: WorkflowStep[] = [];
+  const runCommands: string[] = [];
+  let currentStep: WorkflowStep | undefined;
+  const lines = readGoldenPathJobLines(workflow);
+
+  for (let index = 0; index < lines.length; index += 1) {
+    const stepMatch = lines[index].match(/^\s{6}-\s+(.+)$/);
+    if (stepMatch) {
+      const nameMatch = stepMatch[1].match(/^name:\s*(.+?)\s*$/);
+      currentStep = nameMatch ? { name: nameMatch[1], runCommands: [] } : undefined;
+      if (currentStep) {
+        steps.push(currentStep);
+      }
+      continue;
+    }
+
+    const runMatch = lines[index].match(/^(\s+)run:\s*(.*)$/);
+    if (!runMatch) {
+      continue;
+    }
+
+    const runIndent = runMatch[1].length;
+    const runValue = runMatch[2].trim();
+    const commands: string[] = [];
+    if (/^[|>][-+]?$/.test(runValue)) {
+      let nextIndex = index + 1;
+      while (nextIndex < lines.length) {
+        const nextLine = lines[nextIndex];
+        const nextIndent = nextLine.search(/\S|$/);
+        if (nextLine.trim() !== '' && nextIndent <= runIndent) {
+          break;
+        }
+        if (nextLine.trim() !== '') {
+          commands.push(nextLine.trim());
+        }
+        nextIndex += 1;
+      }
+      index = nextIndex - 1;
+    } else if (runValue !== '') {
+      commands.push(runValue);
+    }
+
+    runCommands.push(...commands);
+    currentStep?.runCommands.push(...commands);
+  }
+
+  return { steps, runCommands };
+}
+
+function goldenPathBuildCommand(workflow = readFileSync(ciWorkflow, 'utf8')): string {
+  const parsed = parseGoldenPathJob(workflow);
+  const buildStep = parsed.steps.find(({ name }) => name === 'Build');
+  if (!buildStep || buildStep.runCommands.length !== 1 || buildStep.runCommands[0] !== 'pnpm build:bundle') {
+    throw new Error(
+      `Golden Path Build step must run exactly "pnpm build:bundle"; received ${JSON.stringify(buildStep?.runCommands ?? [])}`,
+    );
+  }
+
+  const disallowed = parsed.runCommands.filter((command) => /\b(?:npm|npx|yarn|bun)\b/.test(command));
+  if (disallowed.length > 0) {
+    throw new Error(`Golden Path job contains a disallowed package-manager command: ${disallowed.join('; ')}`);
+  }
+
+  return buildStep.runCommands[0];
 }
 
 /** Grab a currently-free loopback port, then release it. */
@@ -120,5 +192,40 @@ describe('playwright preview-server guard (#188)', () => {
 describe('Golden Path workflow contract (#301)', () => {
   it('builds the E2E bundle through the repository-local pnpm script', () => {
     expect(goldenPathBuildCommand()).toBe('pnpm build:bundle');
+  });
+
+  it('does not borrow a later run command when the Build step has no command', () => {
+    const workflow = [
+      'jobs:',
+      '  golden-path-e2e:',
+      '    steps:',
+      '      - name: Build',
+      '      - name: Later step',
+      '        run: pnpm build:bundle',
+      '  merge-gate:',
+      '    runs-on: ubuntu-latest',
+    ].join('\n');
+
+    expect(() => goldenPathBuildCommand(workflow)).toThrow(
+      'Golden Path Build step must run exactly "pnpm build:bundle"; received []',
+    );
+  });
+
+  it('rejects a disallowed package manager in any Golden Path run command', () => {
+    const workflow = [
+      'jobs:',
+      '  golden-path-e2e:',
+      '    steps:',
+      '      - name: Build',
+      '        run: pnpm build:bundle',
+      '      - name: Later step',
+      '        run: npx playwright test',
+      '  merge-gate:',
+      '    runs-on: ubuntu-latest',
+    ].join('\n');
+
+    expect(() => goldenPathBuildCommand(workflow)).toThrow(
+      'Golden Path job contains a disallowed package-manager command: npx playwright test',
+    );
   });
 });
