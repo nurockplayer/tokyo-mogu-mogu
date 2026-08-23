@@ -130,11 +130,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # E2E builds the Vite production bundle it needs via `vite build` only,
-      # without rerunning the TypeScript typecheck (`pnpm build` would run
-      # `tsc -b`, which Quality Gates already owns — Issue #137).
+      # E2E builds the Vite production bundle it needs via the repository-local
+      # `pnpm build:bundle` script, without rerunning the TypeScript typecheck
+      # (`pnpm build` would run `tsc -b`, which Quality Gates already owns —
+      # Issue #137).
       - name: Build
-        run: npx vite build
+        run: pnpm build:bundle
 
       - name: Run current MVP smoke
         run: pnpm exec playwright test e2e/current-mvp-smoke.spec.ts

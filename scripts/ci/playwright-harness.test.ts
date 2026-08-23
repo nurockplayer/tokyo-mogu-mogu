@@ -1,4 +1,5 @@
 import { execFile } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 import net from 'node:net';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
@@ -16,6 +17,25 @@ import { describe, expect, it } from 'vitest';
 
 const execFileAsync = promisify(execFile);
 const guardScript = fileURLToPath(new URL('../assert-preview-port-free.mjs', import.meta.url));
+const ciWorkflow = fileURLToPath(new URL('../../.github/workflows/ci.yml', import.meta.url));
+
+function goldenPathBuildCommand(): string {
+  const lines = readFileSync(ciWorkflow, 'utf8').split('\n');
+  const jobStart = lines.findIndex((line) => line === '  golden-path-e2e:');
+  expect(jobStart).toBeGreaterThanOrEqual(0);
+
+  const jobEnd = lines.findIndex(
+    (line, index) => index > jobStart && /^\s{2}[a-z0-9-]+:$/.test(line),
+  );
+  const jobLines = lines.slice(jobStart, jobEnd === -1 ? lines.length : jobEnd);
+  const buildStepStart = jobLines.findIndex((line) => line.trim() === '- name: Build');
+  expect(buildStepStart).toBeGreaterThanOrEqual(0);
+  const buildCommand = jobLines
+    .slice(buildStepStart + 1)
+    .find((line) => /^\s+run:\s*/.test(line));
+  expect(buildCommand).toBeDefined();
+  return buildCommand!.replace(/^\s+run:\s*/, '').trim();
+}
 
 /** Grab a currently-free loopback port, then release it. */
 function freePort(): Promise<number> {
@@ -94,5 +114,11 @@ describe('playwright preview-server guard (#188)', () => {
       'issue-283-visual-parity.spec.ts',
       'issue-296-my-badges.spec.ts',
     ]);
+  });
+});
+
+describe('Golden Path workflow contract (#301)', () => {
+  it('builds the E2E bundle through the repository-local pnpm script', () => {
+    expect(goldenPathBuildCommand()).toBe('pnpm build:bundle');
   });
 });
