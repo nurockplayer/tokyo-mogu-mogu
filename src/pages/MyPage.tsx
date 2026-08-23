@@ -18,7 +18,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, EmptyState } from '../ui';
-import { LocaleToggle, useI18n, type LocaleKey } from '../i18n';
+import { useI18n, type LocaleKey } from '../i18n';
 import { routeAreaKey, routeNameKey } from '../i18n/data-content';
 import { loadSavedRoutes, unsaveRoute, type SavedRouteEntry } from '../lib/saved-routes';
 import { loadFoodProfile } from '../lib/food-profile-storage';
@@ -128,18 +128,6 @@ export function MyPage() {
               <Link to="/food-profile/edit" className="tmm-btn tmm-btn--sm tmm-btn--secondary">
                 {t('fpEditCta')}
               </Link>
-            </div>
-          </div>
-        </Card>
-      </section>
-
-      {/* Language is a durable preference, kept with the other My-managed state. */}
-      <section className="tmm-section" aria-label={t('myLanguageTitle')}>
-        <Card className="my-card my-language-preference">
-          <div className="my-card__body">
-            <div className="my-card__title">{t('myLanguageTitle')}</div>
-            <div className="my-card__actions">
-              <LocaleToggle />
             </div>
           </div>
         </Card>

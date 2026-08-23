@@ -67,7 +67,6 @@ export const strings = {
     moguReopenCta: 'このおすすめを見る',
     myPageTitle: 'マイ',
     myPageBody: '保存した旅程とプロフィールを、自分で管理するページです。',
-    myLanguageTitle: '表示言語',
     /* #81 My page (Saved Routes + Food Profile + Badge entry) */
     mySavedRoutesTitle: '保存した旅程',
     myFoodProfileNone: 'まだフードプロフィールがありません',
@@ -902,7 +901,6 @@ export const strings = {
     moguReopenCta: 'Open this recommendation',
     myPageTitle: 'My',
     myPageBody: 'Your saved journeys and profile, managed in one place.',
-    myLanguageTitle: 'Language',
     /* #81 My page (Saved Routes + Food Profile + Badge entry) */
     mySavedRoutesTitle: 'Saved Routes',
     myFoodProfileNone: 'No Food Profile set yet',
@@ -1751,7 +1749,6 @@ export const strings = {
     moguReopenCta: '查看這項推薦',
     myPageTitle: '我的',
     myPageBody: '自行管理已儲存的旅程與個人資料的頁面。',
-    myLanguageTitle: '顯示語言',
     /* #81 My page (Saved Routes + Food Profile + Badge entry) */
     mySavedRoutesTitle: '已儲存的旅程',
     myFoodProfileNone: '尚未設定飲食檔案',
