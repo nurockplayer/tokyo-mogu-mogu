@@ -241,9 +241,29 @@ export function ReferenceApp() {
   const isFavorites = pathname === '/my-route';
   const isMy = pathname === '/my';
   const isBadges = pathname === '/badges';
+  let routeFocusLabel = copy.app.name;
+  if (isSplash) routeFocusLabel = `${copy.app.name}: ${copy.splash.title}`;
+  else if (isProfileOnboarding || isProfileEdit) routeFocusLabel = copy.profile.title;
+  else if (isHome) routeFocusLabel = copy.home.title;
+  else if (isExplore) routeFocusLabel = copy.exploration.title;
+  else if (isResult) routeFocusLabel = copy.result.title;
+  else if (isStory) routeFocusLabel = shownJourney.copy[locale].title;
+  else if (isRoute) routeFocusLabel = copy.route.title;
+  else if (isSpot) routeFocusLabel = currentSpot.copy[locale].name;
+  else if (isMogu) routeFocusLabel = copy.mogu.title;
+  else if (isFavorites) routeFocusLabel = copy.favorites.title;
+  else if (isMy) routeFocusLabel = copy.my.title;
+  else if (isBadges) routeFocusLabel = copy.my.badges;
 
   return (
-    <main className="reference-app" data-locale={locale} data-pathname={pathname}>
+    <main
+      aria-label={routeFocusLabel}
+      className="reference-app"
+      data-locale={locale}
+      data-pathname={pathname}
+      data-route-focus-target
+      tabIndex={-1}
+    >
       <div className="reference-phone">
         <SplashScreen
           active={isSplash}

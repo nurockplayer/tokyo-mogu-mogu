@@ -23,7 +23,7 @@ Current live KiKi Figma and current merged `main` remain the authorities.
 | Classification | Files | Execution |
 | --- | --- | --- |
 | Canonical release gate | `current-mvp-smoke.spec.ts` | `pnpm exec playwright test e2e/current-mvp-smoke.spec.ts` |
-| Focused current regression | `issue-283-visual-parity.spec.ts`, `issue-296-my-badges.spec.ts`, `issue-298-route-mission-parity.spec.ts`, `issue-281-operational-provenance.spec.ts`, `issue-281-story-factual-honesty.spec.ts` | `pnpm exec playwright test --config playwright.regressions.config.ts` |
+| Focused current regression | `issue-283-visual-parity.spec.ts`, `issue-296-my-badges.spec.ts`, `issue-298-route-mission-parity.spec.ts`, `issue-281-operational-provenance.spec.ts`, `issue-281-story-factual-honesty.spec.ts`, `issue-208-screen-focus.spec.ts` | `pnpm exec playwright test --config playwright.regressions.config.ts` |
 | Historical / non-authoritative | Issue #276 Netlify parity suite | Removed after the #297 audit; never restore it as a current gate |
 
 The retained #283 suite checks focused CTA, autofocus, card geometry,
@@ -46,6 +46,10 @@ The #281 Story factual-honesty suite protects the two source-backed,
 five-chapter editorial fixtures across all three locales, including exact
 Yamame naming/launch milestones, source disclosures, carousel scrolling,
 sticky-CTA usability, and the 375px overflow boundary.
+
+The #208 screen-focus suite protects programmatic focus continuity across the
+current Reference SPA, localized destination announcements, and query-only
+updates that must retain the traveler's interactive focus.
 
 The removed #276 suite encoded the superseded Netlify authority model, fixed
 animation windows, obsolete selectors, and historical contrast/layout

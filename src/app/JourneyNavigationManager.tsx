@@ -24,10 +24,11 @@ function locationHref(pathname: string, search: string, hash: string): string {
   return `${pathname}${search}${hash}`;
 }
 
+const ROUTE_FOCUS_SELECTOR =
+  'main[data-route-focus-target], main [data-route-focus-target], main h1';
+
 function focusPageHeading(): boolean {
-  const heading = document.querySelector<HTMLElement>(
-    'main [data-route-focus-target], main h1',
-  );
+  const heading = document.querySelector<HTMLElement>(ROUTE_FOCUS_SELECTOR);
   if (!heading) return false;
 
   if (!heading.hasAttribute('tabindex')) heading.setAttribute('tabindex', '-1');
@@ -90,7 +91,7 @@ export function JourneyNavigationManager() {
 
       frame = window.requestAnimationFrame(() => {
         settleDestination();
-        if (!document.querySelector('main h1, main [data-route-focus-target]')) {
+        if (!document.querySelector(ROUTE_FOCUS_SELECTOR)) {
           observer = new MutationObserver(settleDestination);
           const main = document.querySelector('main');
           if (main) observer.observe(main, { childList: true, subtree: true });

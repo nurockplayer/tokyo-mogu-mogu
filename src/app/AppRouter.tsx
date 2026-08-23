@@ -115,7 +115,14 @@ export function AppRouter() {
     pathname === '/my' ||
     pathname === '/badges';
 
-  if (referencePath) return <ReferenceApp />;
+  if (referencePath) {
+    return (
+      <>
+        <JourneyNavigationManager />
+        <ReferenceApp />
+      </>
+    );
+  }
 
   return (
     <>
