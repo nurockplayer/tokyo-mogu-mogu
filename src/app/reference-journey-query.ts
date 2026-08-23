@@ -38,8 +38,9 @@ export function referenceJourneyQueryIdentities(
 
 /**
  * Classify the optional Result/Route identity fields as one coherent journey.
- * Identical repeated identity values normalize to one value; divergent
- * repetitions are an explicit fail-closed conflict.
+ * Identical repeated identity values normalize to one value. Divergent values
+ * fail closed only when every value is a known current identity; non-current
+ * repetitions retain their historical first-value classification.
  * Context parameters (for example `from` and `backTo`) deliberately do not
  * participate, so historical navigation context stays compatible.
  */
@@ -50,10 +51,27 @@ export function classifyJourneyQuery(
 ): JourneyQueryClassification {
   const params = new URLSearchParams(search);
   const supplied: Array<readonly [(typeof IDENTITY_FIELDS)[number], string]> = [];
+  const valueMatches = (
+    journey: JourneyQueryIdentity,
+    field: (typeof IDENTITY_FIELDS)[number],
+    value: string,
+  ) => {
+    if (field === 'resultId') {
+      return (journey.resultAliases ?? [journey.resultId]).includes(value);
+    }
+    return journey[field] === value;
+  };
 
   for (const field of IDENTITY_FIELDS) {
     const values = [...new Set(params.getAll(field))];
-    if (values.length > 1) return 'duplicate-conflict';
+    if (
+      values.length > 1 &&
+      values.every((value) =>
+        referenceJourneys.some((journey) => valueMatches(journey, field, value)),
+      )
+    ) {
+      return 'duplicate-conflict';
+    }
     if (values.length === 0) continue;
     if (!values[0]) return 'invalid';
     supplied.push([field, values[0]]);
@@ -64,12 +82,7 @@ export function classifyJourneyQuery(
   const fieldMatches = (
     journey: JourneyQueryIdentity,
     [field, value]: (typeof supplied)[number],
-  ) => {
-    if (field === 'resultId') {
-      return (journey.resultAliases ?? [journey.resultId]).includes(value);
-    }
-    return journey[field] === value;
-  };
+  ) => valueMatches(journey, field, value);
   const matches = (journeys: readonly JourneyQueryIdentity[]) =>
     journeys.some((journey) =>
       supplied.every((field) => fieldMatches(journey, field)),

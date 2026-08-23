@@ -107,6 +107,49 @@ test('keeps identical repeated stale Route identities on the honest not-found su
   await expect(page.locator('[data-screen="route"][data-screen-active="true"]')).toHaveCount(0);
 });
 
+test('keeps divergent stale Route identities on the honest not-found surface', async ({ page }) => {
+  const search = '?routeId=stale-route&routeId=other-stale-route';
+  await page.goto(`/route${search}`);
+
+  await expect(page).toHaveURL(`/route${search}`);
+  await expect(
+    page.getByRole('heading', { name: /ルートが見つかりません|Route not found/ }),
+  ).toBeVisible();
+  await expect(page.locator('[data-screen="route"][data-screen-active="true"]')).toHaveCount(0);
+});
+
+test('keeps divergent unknown candidates on the honest not-found surface', async ({ page }) => {
+  const search = '?candidateId=unknown-candidate&candidateId=other-unknown-candidate';
+  await page.goto(`/route${search}`);
+
+  await expect(page).toHaveURL(`/route${search}`);
+  await expect(
+    page.getByRole('heading', { name: /ルートが見つかりません|Route not found/ }),
+  ).toBeVisible();
+  await expect(page.locator('[data-screen="route"][data-screen-active="true"]')).toHaveCount(0);
+});
+
+test('keeps divergent unknown Route identities on the honest not-found surface', async ({ page }) => {
+  const search = '?routeId=unknown-route&routeId=other-unknown-route';
+  await page.goto(`/route${search}`);
+
+  await expect(page).toHaveURL(`/route${search}`);
+  await expect(
+    page.getByRole('heading', { name: /ルートが見つかりません|Route not found/ }),
+  ).toBeVisible();
+  await expect(page.locator('[data-screen="route"][data-screen-active="true"]')).toHaveCount(0);
+});
+
+test('keeps divergent legacy Route identities on the historical Route surface', async ({ page }) => {
+  const search = '?routeId=ome-sawai-sake-journey&routeId=hachioji-ginger-journey';
+  await page.goto(`/route${search}`);
+
+  await expect(page).toHaveURL(`/route${search}`);
+  await expect(page.locator('.s5-page')).toBeVisible();
+  await expect(page.locator('.s5-hero__title')).toContainText('沢井');
+  await expect(page.locator('[data-screen="route"][data-screen-active="true"]')).toHaveCount(0);
+});
+
 test.describe('known current Route tuple conflicts', () => {
   for (const [description, search] of [
     [
