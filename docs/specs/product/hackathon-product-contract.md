@@ -117,8 +117,10 @@ resolve a current implementation question.
 
 The current browser gate is `e2e/current-mvp-smoke.spec.ts`. It checks the
 current 375px MVP surfaces and journey; it is not a Product specification.
-Obsolete suites may remain as historical artifacts but must not run as the
-canonical merge gate.
+Focused current regressions use `playwright.regressions.config.ts` and do not
+run as the canonical merge gate. Obsolete suites may remain only as clearly
+isolated historical artifacts; the superseded Issue #276 Netlify suite was
+removed during the Issue #297 audit.
 
 Before a visible Product change is complete:
 
