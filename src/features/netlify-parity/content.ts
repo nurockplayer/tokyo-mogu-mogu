@@ -204,6 +204,7 @@ export interface JourneyPresentation {
   matchPercent: number;
   imageAssetId: ReferenceAssetId;
   heroAssetId: ReferenceAssetId;
+  facts: PresentationFacts;
   copy: Record<Locale, {
     title: string;
     subtitle: string;
@@ -432,6 +433,30 @@ export const presentationSources = {
     presentationText('奥多摩町', 'Okutama Town', '奧多摩町'),
     'https://www.town.okutama.tokyo.jp/1/kankosangyoka/shisetsuosagasu/2/1108.html',
   ),
+  okutamaTownProfile: presentationSource(
+    presentationText('奥多摩町 町勢紹介', 'Okutama Town profile', '奧多摩町概況'),
+    'https://www.town.okutama.tokyo.jp/gyosei/8/chochonoheya/1827.html',
+  ),
+  okutamaEnvironmentPlan: presentationSource(
+    presentationText('奥多摩町 環境基本計画', 'Okutama Town environmental plan', '奧多摩町環境基本計畫'),
+    'https://www.town.okutama.tokyo.jp/material/files/group/9/2024kankyokeikaku.pdf',
+  ),
+  tokyoRegionalWasabi: presentationSource(
+    presentationText('東京都 奥多摩わさび', 'Tokyo regional resource: Okutama wasabi', '東京都地方資源：奧多摩山葵'),
+    'https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_107.html',
+  ),
+  tokyoMokuWasabi: presentationSource(
+    presentationText('東京都 奥多摩わさび田再生', 'Tokyo Moku-Navi: restoring wasabi fields', '東京都木材導覽：修復山葵田'),
+    'https://tokyomokunavi.metro.tokyo.lg.jp/activities/activities03/',
+  ),
+  tokyoWasabiAbout: presentationSource(
+    presentationText('TOKYO WASABI 私たちについて', 'About TOKYO WASABI', 'TOKYO WASABI 團隊介紹'),
+    'https://tokyowasabi.com/about-us/',
+  ),
+  tokyoWasabiGuide: presentationSource(
+    presentationText('TOKYO WASABI わさびガイド', 'TOKYO WASABI guide', 'TOKYO WASABI 山葵指南'),
+    'https://tokyowasabi.com/about-wasabi-en/',
+  ),
   wasabiExperience: presentationSource(
     presentationText('TOKYO WASABI わさび体験', 'TOKYO WASABI Experience', 'TOKYO WASABI 山葵體驗'),
     'https://tokyowasabi.com/wasabi-experience/',
@@ -452,6 +477,26 @@ export const presentationSources = {
     presentationText('JR東日本 奥多摩駅時刻表', 'JR East Okutama Station timetable', 'JR 東日本奧多摩站時刻表'),
     'https://timetables.jreast.co.jp/timetable/list0368.html',
   ),
+  tokyoRegionalYamame: presentationSource(
+    presentationText('東京都 奥多摩やまめ', 'Tokyo regional resource: Okutama Yamame', '東京都地方資源：奧多摩山女魚'),
+    'https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_36.html',
+  ),
+  okutamaFishFarmingCenter: presentationSource(
+    presentationText('奥多摩さかな養殖センター', 'Okutama Fish Farming Center', '奧多摩魚類養殖中心'),
+    'https://www.tokyo-aff.or.jp/site/aboutus/1141.html',
+  ),
+  okutamaYamameNamingReport: presentationSource(
+    presentationText('東京都水産試験場 奥多摩やまめ普及報告', 'Tokyo fisheries report: naming Okutama Yamame', '東京都水產試驗場：奧多摩山女魚命名報告'),
+    'https://www.ifarc.metro.tokyo.lg.jp/archive/resources/content/3355/20130904-170755.pdf',
+  ),
+  okutamaYamameBiologyReport: presentationSource(
+    presentationText('東京都水産試験場 全雌三倍体ヤマメ研究', 'Tokyo fisheries report: all-female triploid yamame', '東京都水產試驗場：全雌三倍體山女魚研究'),
+    'https://www.ifarc.metro.tokyo.lg.jp/archive/resources/content/3355/20130904-170001.pdf',
+  ),
+  okutamaTownYamame: presentationSource(
+    presentationText('奥多摩町 奥多摩やまめ', 'Okutama Town: Okutama Yamame', '奧多摩町：奧多摩山女魚'),
+    'https://www.town.okutama.tokyo.jp/gyosei/7/sangyoshinko/norinsuisangyo/2/1736.html',
+  ),
 } satisfies Record<string, PresentationSource>;
 
 const neutralDemoDisclosure = presentationText(
@@ -470,6 +515,12 @@ const tourismOfficeDisclosure = presentationText(
   '公式情報を2026-08-24に取得しました。営業時間・連絡先・アクセス・現在のガイドや体験は、訪問前に再確認してください。',
   'Official information retrieved 2026-08-24. Recheck hours, contact details, access, and current guide or experience options before travel.',
   '官方資訊擷取於 2026-08-24。造訪前請重新確認營業時間、聯絡方式、交通與最新導覽／體驗選項。',
+);
+
+const storyEditorialDisclosure = presentationText(
+  '2026年8月24日に取得した公式情報をもとに編集したデモ記事です。未確認の人物・数値・因果関係は掲載していません。最新情報は各公式サイトをご確認ください。',
+  'Demo editorial story based on official sources retrieved 24 Aug 2026. Unverified biographies, figures, and causal claims are not presented as facts.',
+  '本示範編輯故事依據 2026 年 8 月 24 日取得的官方資料整理；未確認的人物經歷、數字與因果關係不作為事實呈現。',
 );
 
 const presentationFacts = (
@@ -503,18 +554,36 @@ const routeFacts = {
   ]),
 };
 
+const storyFacts = {
+  wasabi: presentationFacts(storyEditorialDisclosure, [
+    presentationSources.okutamaTownProfile,
+    presentationSources.okutamaEnvironmentPlan,
+    presentationSources.tokyoRegionalWasabi,
+    presentationSources.tokyoMokuWasabi,
+    presentationSources.tokyoWasabiAbout,
+    presentationSources.tokyoWasabiGuide,
+  ]),
+  yamame: presentationFacts(storyEditorialDisclosure, [
+    presentationSources.tokyoRegionalYamame,
+    presentationSources.okutamaFishFarmingCenter,
+    presentationSources.okutamaYamameNamingReport,
+    presentationSources.okutamaYamameBiologyReport,
+    presentationSources.okutamaTownYamame,
+  ]),
+};
+
 export const demoJourneys: JourneyPresentation[] = [
   {
-    id: 'demo-okutama-wasabi', regionId: 'okutama', foodCultureId: 'wasabi-okutama', storyId: 'wasabi-okutama', routeId: 'okutama-wasabi-journey', matchPercent: 96, imageAssetId: 'wasabiHero', heroAssetId: 'wasabiHero',
+    id: 'demo-okutama-wasabi', regionId: 'okutama', foodCultureId: 'wasabi-okutama', storyId: 'wasabi-okutama', routeId: 'okutama-wasabi-journey', matchPercent: 96, imageAssetId: 'wasabiHero', heroAssetId: 'wasabiHero', facts: storyFacts.wasabi,
     copy: {
-      ja: { title: '水がつなぐ、江戸から続く辛味', subtitle: '奥多摩のわさび文化をたどる', description: '自然に触れたい／作り手に会いたい／伝統に興味がある人へ。江戸時代から続く奥多摩わさびの文化を、食べて・買って・歩いてたどる旅。', tags: ['自然', '伝統', '半日巡り'], storyTitle: '奥多摩わさびのストーリー', intro: ['奥多摩町は、東京都多摩地域の北西部に位置する、山と水に囲まれた町です。東京都にありながら町の大部分を山林が占め、日本百名山のひとつである雲取山や、多摩川の源流、奥多摩湖など、豊かな自然が広がっています。', '東京都の自治体の中で最も広い面積を持ち、急峻な山々と冷たく澄んだ水に恵まれていることも、奥多摩ならではの特徴です。そんな自然環境の中で、江戸時代から人々の暮らしを支えてきた食文化があります。それが、奥多摩わさびです。'] },
-      en: { title: 'A pungent taste carried by water since Edo', subtitle: 'Follow Okutama’s wasabi culture', description: 'For people who want to meet nature, makers, and tradition. Taste, shop, and walk through the story.', tags: ['Nature', 'Tradition', 'Half day'], storyTitle: 'The story of Okutama wasabi', intro: ['Okutama is surrounded by mountains and water, where food culture has grown beside clear, cold streams.', 'Follow water, makers, and taste to meet the story of the place.'] },
-      'zh-TW': { title: '由水串起、延續自江戶的辛香', subtitle: '走讀奧多摩的山葵文化', description: '適合想親近自然、遇見職人與認識傳統的人。透過品嚐、購買與步行來認識這段故事。', tags: ['自然', '傳統', '半日'], storyTitle: '奧多摩山葵的故事', intro: ['被山與水環繞的奧多摩，孕育出與清澈冷水相伴的飲食文化。', '跟著水、職人與味道，認識地方的故事。'] },
+      ja: { title: '水がつなぐ、江戸から続く辛味', subtitle: '奥多摩のわさび文化をたどる', description: '自然に触れたい／作り手に会いたい／伝統に興味がある人へ。江戸時代から続く奥多摩わさびの文化を、食べて・買って・歩いてたどる旅。', tags: ['自然', '伝統', '半日巡り'], storyTitle: '奥多摩わさびのストーリー', intro: ['奥多摩町は東京都の北西端にあり、町域225.53平方キロメートルは都内の区市町村で最も広く、94％が山林です。東京都最高峰で日本百名山のひとつ、雲取山をはじめ、町を流れる多摩川や奥多摩湖など、山と水に囲まれています。', '奥多摩のきれいな水が流れる渓流では、奥多摩わさびが栽培されています。江戸後期の史料には、地域の特産品で、幕府へ献上されたことが記されています。'] },
+      en: { title: 'A pungent taste carried by water since Edo', subtitle: 'Follow Okutama’s wasabi culture', description: 'For people who want to meet nature, makers, and tradition. Taste, shop, and walk through the story.', tags: ['Nature', 'Tradition', 'Half day'], storyTitle: 'The story of Okutama wasabi', intro: ['Okutama lies at Tokyo’s northwestern edge. At 225.53 km², it is Tokyo’s largest municipality by area, and 94% of the town is forest. Mount Kumotori—Tokyo’s highest peak and one of Japan’s 100 Famous Mountains—the Tama River, and Lake Okutama shape this mountain-and-water landscape.', 'Okutama wasabi is cultivated in clean-flowing mountain streams. Late-Edo records describe it as a local specialty presented to the shogunate.'] },
+      'zh-TW': { title: '由水串起、延續自江戶的辛香', subtitle: '走讀奧多摩的山葵文化', description: '適合想親近自然、遇見職人與認識傳統的人。透過品嚐、購買與步行來認識這段故事。', tags: ['自然', '傳統', '半日'], storyTitle: '奧多摩山葵的故事', intro: ['奧多摩町位於東京都西北端，面積225.53平方公里，為東京都各區市町村之最，其中94%為山林。東京都最高峰、亦為日本百名山之一的雲取山，以及多摩川與奧多摩湖，共同構成山水環繞的景觀。', '奧多摩山葵栽培於清澈流動的山間溪流。江戶後期史料記載，它是當地特產，並曾進獻幕府。'] },
     },
     chapters: {
-      ja: [{ number: '01.', title: 'なぜ、わさびなのか', body: '奥多摩のわさび栽培は、江戸時代から続いています。かつては、わさびを売った収入で塩や醤油などの生活必需品を買い、人々の暮らしを支えていました。その栽培を可能にしたのが、多摩川源流の冷たく澄んだ水です。' }, { number: '02.', title: '誰が作っているのか', body: 'いま奥多摩では、30代を含む約10人の後継者が技術の継承に取り組みます。神奈川出身の角井仁さん・竜也さん兄弟「わさびブラザーズ」、放置わさび田の再生に挑むオーストラリア出身のデイビッド・ヒュームさん。' }, { number: '03.', title: '受け継がれてきた技術', body: '渓流沿いの石積みの田、湧き水の管理、約1年半かけて学ぶ「わさび塾」。土地の知恵は人から人へ手渡しで受け継がれてきました。' }, { number: '04.', title: 'いま直面している課題', body: '生産者の高齢化、人手不足、そして台風被害。放置されるわさび田も増えている。――だからこそ、あなたの一口に意味がある。' }, { number: '05.', title: 'あなたにできること', body: 'ここで食べる・買う・体験することが、そのまま生産者の収入と技術の継承につながる。' }],
-      en: [{ number: '01.', title: 'Why wasabi?', body: 'Clear, cold water shapes its aroma and heat.' }, { number: '02.', title: 'Who makes it?', body: 'Care and local knowledge sustain both fields and flavor.' }, { number: '03.', title: 'Knowledge passed on', body: 'Methods suited to this landscape move hand to hand.' }, { number: '04.', title: 'Challenges today', body: 'Changing environments and fewer successors challenge continuity.' }, { number: '05.', title: 'What you can do', body: 'Tasting and visiting can support the next generation.' }],
-      'zh-TW': [{ number: '01.', title: '為什麼是山葵？', body: '清澈冰冷的水孕育出香氣與辛味。' }, { number: '02.', title: '誰在製作？', body: '職人的照料與地方智慧守護著田地和味道。' }, { number: '03.', title: '傳承的技術', body: '適合這片土地的方法，一代一代地傳下來。' }, { number: '04.', title: '當前的課題', body: '環境變化與接班人不足，讓傳承面臨挑戰。' }, { number: '05.', title: '你能做什麼', body: '在這裡品嚐與造訪，可以支持下一代。' }],
+      ja: [{ number: '01.', title: 'なぜ、わさびなのか', body: '奥多摩わさびは、江戸後期の史料に地域の特産品・幕府への献上品として登場します。その栽培を支えるのが、わさび田を流れ続けるきれいな水です。' }, { number: '02.', title: '誰が作っているのか', body: '生産者の一例が、TOKYO WASABIの「わさびブラザーズ」角井仁さん・竜也さんです。二人は台風で被災したわさび田の復旧、栽培、体験に取り組んでいます。' }, { number: '03.', title: '受け継がれてきた技術', body: '「奥多摩式」は、田の表面に細かな石を敷き、作と畝で水量を調整する、奥多摩の地形と冬の寒さに合わせた栽培方法です。植え付けから収穫までは約2年かかります。' }, { number: '04.', title: 'いま直面している課題', body: '生産者の高齢化と後継者不足で生産量が減り、2019年の台風ではわさび田も被災しました。東京都は、奥多摩わさび塾や田の貸し出しなどの後継者育成を紹介しています。' }, { number: '05.', title: 'あなたにできること', body: 'TOKYO WASABIは、わさび田の復旧・栽培や体験を行っています。訪問・購入・体験を選ぶときは、最新の実施情報を公式サイトで確認してください。' }],
+      en: [{ number: '01.', title: 'Why wasabi?', body: 'Late-Edo records describe Okutama wasabi as a local specialty presented to the shogunate. Its cultivation depends on clean water flowing continuously through the wasabi beds.' }, { number: '02.', title: 'Who makes it?', body: 'At TOKYO WASABI, the “Wasabi Brothers,” Hitoshi and Tacchan, restore storm-damaged beds, cultivate wasabi, and offer visitor experiences.' }, { number: '03.', title: 'Knowledge passed on', body: 'The Okutama method uses small stones on the bed surface and ridges and furrows to manage water for the local terrain and cold winters. Planting to harvest takes about two years.' }, { number: '04.', title: 'Challenges today', body: 'Production declined as growers aged and successors became scarce, and the 2019 typhoon damaged wasabi beds. Tokyo’s official resource also describes successor training through the Okutama Wasabi School and field lending.' }, { number: '05.', title: 'What you can do', body: 'TOKYO WASABI restores and cultivates wasabi beds and offers visitor experiences. Check its official site for current visit, sales, and experience details.' }],
+      'zh-TW': [{ number: '01.', title: '為什麼是山葵？', body: '江戶後期史料記載，奧多摩山葵是當地特產，並曾進獻幕府；其栽培仰賴山葵田中持續流動的潔淨水源。' }, { number: '02.', title: '誰在製作？', body: 'TOKYO WASABI的「山葵兄弟」角井仁與角井竜也是在地生產者之一；兩人修復受颱風損害的山葵田，也從事栽培與體驗活動。' }, { number: '03.', title: '傳承的技術', body: '「奧多摩式」在田面鋪設細石，並以畦與溝調節水量，以適應當地地形與寒冷冬季；從種植到收成約需兩年。' }, { number: '04.', title: '當前的課題', body: '生產者高齡化與接班人不足曾使產量下降，2019年颱風也造成山葵田受損。東京都官方資料亦介紹透過奧多摩山葵塾與山葵田租借培育接班人的做法。' }, { number: '05.', title: '你能做什麼', body: 'TOKYO WASABI從事山葵田修復、栽培與體驗活動。造訪、購買或參加體驗前，請先至官網確認最新資訊。' }],
     },
     routeVariants: [
       { id: 'half-day', durationMinutes: 150, imageAssetId: 'figmaRouteMap', facts: routeFacts.wasabiHalfDay, steps: [{ spotId: 'okutama-station', imageAssetId: 'station' }, { spotId: 'okutama-tourism-office', imageAssetId: 'tourismOfficeRoute' }, { spotId: 'wasabi-kitchen', imageAssetId: 'wasabiKitchen' }, { spotId: 'okutama-kitchen', imageAssetId: 'wasabiGelato' }, { spotId: 'hikawa-valley', imageAssetId: 'valley' }, { spotId: 'oku-hikawa-shrine', imageAssetId: 'okuHikawaShrine' }, { spotId: 'port-okutama', imageAssetId: 'port' }] },
@@ -522,16 +591,16 @@ export const demoJourneys: JourneyPresentation[] = [
     ],
   },
   {
-    id: 'demo-okutama-yamame', regionId: 'okutama', foodCultureId: 'yamame-okutama', storyId: 'yamame-okutama', routeId: 'okutama-yamame-journey', matchPercent: 91, imageAssetId: 'yamameResult', heroAssetId: 'akabekoYamame',
+    id: 'demo-okutama-yamame', regionId: 'okutama', foodCultureId: 'yamame-okutama', storyId: 'yamame-okutama', routeId: 'okutama-yamame-journey', matchPercent: 91, imageAssetId: 'yamameResult', heroAssetId: 'akabekoYamame', facts: storyFacts.yamame,
     copy: {
-      ja: { title: '水が育てる、幻の川魚', subtitle: '奥多摩やまめの食文化', description: '地域の日常が好き／川魚・魚料理が好き／のんびり歩きたい人へ。多摩川の水が育てる「奥多摩やまめ」を味わう旅。', tags: ['自然', '伝統', '半日巡り'], storyTitle: '奥多摩やまめのストーリー', intro: ['奥多摩では、多摩川のきれいな水を生かしたヤマメの養殖が続けられてきました。東京都の養殖研究施設が2か所あり、技術の研究と普及を担っています。冷たく澄んだ水こそが、この食文化のはじまりです。'] },
-      en: { title: 'A rare river fish raised by water', subtitle: 'Okutama yamame food culture', description: 'For people who enjoy river fish and local everyday life. Meet a taste raised by the Tama River.', tags: ['Nature', 'River fish', 'Half day'], storyTitle: 'The story of Okutama yamame', intro: ['Food work and local flavors continue alongside clear water.', 'Trace river-fish culture while feeling the gift of water.'] },
-      'zh-TW': { title: '由水孕育的珍稀河魚', subtitle: '奧多摩山女魚飲食文化', description: '適合喜歡河魚與地方日常的人。遇見由多摩川之水孕育的味道。', tags: ['自然', '河魚', '半日'], storyTitle: '奧多摩山女魚的故事', intro: ['在清澈水流旁，地方的飲食工作與風味持續延續。', '感受水的恩惠，走讀河魚飲食文化。'] },
+      ja: { title: '研究から生まれた、大型のヤマメ', subtitle: '奥多摩やまめの開発と食文化', description: '東京都の養殖研究から生まれた「奥多摩やまめ」の特徴と、地域での味わい方を知る旅。', tags: ['養殖技術', '地域の特産', '半日巡り'], storyTitle: '奥多摩やまめのストーリー', intro: ['「奥多摩やまめ」は、東京都水産試験場奥多摩分場が研究・作出した全雌三倍体の養殖ヤマメです。', '現在は、奥多摩さかな養殖センターが入川と海沢の2か所の飼育池を運営し、種苗の生産・配付や試験研究を行っています。'] },
+      en: { title: 'A large yamame born from research', subtitle: 'The development and food culture of Okutama Yamame', description: 'Discover the traits of Okutama Yamame, born from Tokyo’s aquaculture research, and how it is served locally.', tags: ['Aquaculture', 'Local specialty', 'Half day'], storyTitle: 'The story of Okutama Yamame', intro: ['Okutama Yamame is an all-female triploid farmed yamame created through research at the Tokyo Metropolitan Fisheries Experiment Station’s Okutama Branch.', 'Today, the Okutama Fish Farming Center operates two pond sites, Irikawa and Unazawa, and produces and supplies eggs and fry while conducting research.'] },
+      'zh-TW': { title: '從研究中誕生的大型山女魚', subtitle: '奧多摩山女魚的研發與飲食文化', description: '認識從東京都養殖研究中誕生的「奧多摩山女魚」，以及地方如何品嚐它。', tags: ['養殖技術', '地方特產', '半日'], storyTitle: '奧多摩山女魚的故事', intro: ['「奧多摩山女魚」是東京都水產試驗場奧多摩分場經研究培育出的全雌三倍體養殖山女魚。', '現在由奧多摩魚類養殖中心營運入川與海澤兩處養殖池，生產、供應魚卵與魚苗，並進行試驗研究。'] },
     },
     chapters: {
-      ja: [{ number: '01.', title: 'なぜこの地域で', body: '奥多摩では、多摩川のきれいな水を生かしたヤマメの養殖が続けられてきました。東京都の養殖研究施設が2か所あり、技術の研究と普及を担う。冷たく澄んだ水こそが、この食文化のはじまりです。' }, { number: '02.', title: '誰が受け継いでいるのか', body: '約120年の旅館を受け継ぐ「炉ばた あかべこ」の4代目。味噌と山椒を合わせるやまめの食べ方は、山梨出身のご親戚から受け継いだもの。病気に弱いヤマメを育てる研究者たちの存在も。' }, { number: '03.', title: '奥多摩やまめの秘密', body: '「奥多摩やまめ」は卵を産まない性質を持つ。だから通常より長く生き、大きく育つ。塩焼きだけでなく、刺身や切り身でも味わえる希少な川魚。' }, { number: '04.', title: 'いま直面している課題', body: '養殖魚は病気になりやすく、かつての養殖場見学を再開するには衛生管理の壁がある。日帰り中心で宿泊客が少ないことも地域の課題。――だから、訪れて味わうことに意味がある。' }, { number: '05.', title: 'あなたにできること', body: 'ここで食べ、泊まり、語ること。それが多摩川の水の文化を未来へつなぐ力になる。' }],
-      en: [{ number: '01.', title: 'A taste raised by water', body: 'Clear water supports this river-fish food culture.' }],
-      'zh-TW': [{ number: '01.', title: '由水孕育的味道', body: '清澈的水支撐著這份河魚飲食文化。' }],
+      ja: [{ number: '01.', title: '「奥多摩やまめ」という名前', body: '全雌三倍体ヤマメの商品名は1998年7月に選定され、同年11月に奥多摩町で新ブランドとして発表されました。' }, { number: '02.', title: '一つのセンター、二つの飼育池', body: '奥多摩さかな養殖センターは、入川と海沢の2か所の飼育池を運営しています。マス類の卵や稚魚を生産・配付し、養殖研究や魚病対策、技術指導に取り組んでいます。' }, { number: '03.', title: '全雌三倍体という特徴', body: '奥多摩やまめは、すべて雌で、染色体を3組持ちます。成長しても性的に成熟せず、卵を作りません。' }, { number: '04.', title: '長く生き、大型になる', body: '成熟しないため、通常のヤマメより寿命が長く、大型になります。その大きさが、幅広い食材利用につながっています。' }, { number: '05.', title: '大型魚ならではの味わい方', body: '刺身、寿司、ムニエル、フライのほか、燻製や干物などにも利用されています。提供状況は変わるため、訪問前に各店の最新情報をご確認ください。' }],
+      en: [{ number: '01.', title: 'The name “Okutama Yamame”', body: 'The product name for the all-female triploid yamame was selected in July 1998 and presented as a new brand in Okutama that November.' }, { number: '02.', title: 'One center, two pond sites', body: 'The Okutama Fish Farming Center operates pond sites at Irikawa and Unazawa. It produces and supplies trout eggs and fry and works on aquaculture research, fish-disease countermeasures, and technical guidance.' }, { number: '03.', title: 'An all-female triploid', body: 'Every Okutama Yamame is female and has three sets of chromosomes. It does not become sexually mature or produce eggs.' }, { number: '04.', title: 'A longer life and larger size', body: 'Because it does not mature sexually, it lives longer and grows larger than ordinary yamame. Its size allows a wider range of culinary uses.' }, { number: '05.', title: 'Ways to serve a larger fish', body: 'It is used for sashimi, sushi, meunière, fried dishes, smoked products, and dried fish. Check each venue’s latest information before visiting, as availability can change.' }],
+      'zh-TW': [{ number: '01.', title: '「奧多摩山女魚」之名', body: '這款全雌三倍體山女魚的商品名稱於1998年7月選定，並於同年11月在奧多摩以新品牌對外發表。' }, { number: '02.', title: '一個中心，兩處養殖池', body: '奧多摩魚類養殖中心營運入川與海澤兩處養殖池，生產並供應鱒魚類的魚卵與魚苗，也投入養殖研究、魚病對策與技術指導。' }, { number: '03.', title: '全雌三倍體的特徵', body: '奧多摩山女魚全為雌魚，並具有三組染色體；即使成長也不會性成熟或產卵。' }, { number: '04.', title: '壽命較長，體型較大', body: '因為不會性成熟，它比一般山女魚壽命更長、體型也更大，因此可運用於更多料理。' }, { number: '05.', title: '大型魚的多元料理', body: '可用於生魚片、壽司、法式奶油煎魚、油炸料理，也有煙燻製品與魚乾。地方供應情況可能變動，造訪前請確認各店最新資訊。' }],
     },
     routeVariants: [{ id: 'half-day', durationMinutes: 240, imageAssetId: 'routeMap', facts: routeFacts.yamameHalfDay, steps: [{ spotId: 'okutama-station', imageAssetId: 'station' }, { spotId: 'okutama-tourism-office', imageAssetId: 'tourismOffice' }, { spotId: 'hikawa-valley', imageAssetId: 'valley' }, { spotId: 'akabeko', imageAssetId: 'akabekoYamame' }] }],
   },

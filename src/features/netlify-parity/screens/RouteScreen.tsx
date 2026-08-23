@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Locale } from '../../../i18n';
+import { PresentationFactsBlock } from '../components/PresentationFactsBlock';
 import {
   demoSpots,
   referenceAssets,
@@ -7,7 +8,6 @@ import {
   type ReferenceCopy,
   type SpotPresentation,
 } from '../content';
-import { PresentationFactsBlock } from './SpotScreen';
 import {
   BookmarkIcon,
   ClockIcon,

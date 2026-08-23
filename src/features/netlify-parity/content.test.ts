@@ -122,11 +122,22 @@ describe('Netlify parity presentation content', () => {
     ).toEqual({
       okutamaTourismAssociation: 'https://www.okutama.gr.jp/site/about/',
       okutamaTown: 'https://www.town.okutama.tokyo.jp/1/kankosangyoka/shisetsuosagasu/2/1108.html',
+      okutamaTownProfile: 'https://www.town.okutama.tokyo.jp/gyosei/8/chochonoheya/1827.html',
+      okutamaEnvironmentPlan: 'https://www.town.okutama.tokyo.jp/material/files/group/9/2024kankyokeikaku.pdf',
+      tokyoRegionalWasabi: 'https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_107.html',
+      tokyoMokuWasabi: 'https://tokyomokunavi.metro.tokyo.lg.jp/activities/activities03/',
+      tokyoWasabiAbout: 'https://tokyowasabi.com/about-us/',
+      tokyoWasabiGuide: 'https://tokyowasabi.com/about-wasabi-en/',
       wasabiExperience: 'https://tokyowasabi.com/wasabi-experience/',
       wasabiFoodTruck: 'https://tokyowasabi.com/foodtruck/',
       wasabiFoodTruckSchedule: 'https://tokyowasabi.com/information/2751/260728/',
       yamashiroya: 'https://www.yamasiroya.co.jp/shop.html',
       jrEastOkutamaTimetable: 'https://timetables.jreast.co.jp/timetable/list0368.html',
+      tokyoRegionalYamame: 'https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_36.html',
+      okutamaFishFarmingCenter: 'https://www.tokyo-aff.or.jp/site/aboutus/1141.html',
+      okutamaYamameNamingReport: 'https://www.ifarc.metro.tokyo.lg.jp/archive/resources/content/3355/20130904-170755.pdf',
+      okutamaYamameBiologyReport: 'https://www.ifarc.metro.tokyo.lg.jp/archive/resources/content/3355/20130904-170001.pdf',
+      okutamaTownYamame: 'https://www.town.okutama.tokyo.jp/gyosei/7/sangyoshinko/norinsuisangyo/2/1736.html',
     });
     for (const source of Object.values(presentationSources)) {
       expect(source.url).toMatch(/^https:\/\//);
@@ -197,6 +208,66 @@ describe('Netlify parity presentation content', () => {
 
     expect(JSON.stringify({ demoJourneys, demoSpots, presentationSources })).not.toMatch(
       /authoritative Netlify|Netlify の参照画面|依 Netlify 參考畫面/,
+    );
+  });
+
+  it('keeps both five-chapter Story fixtures source-backed and free of unsupported claims (#281)', () => {
+    const journeyById = Object.fromEntries(demoJourneys.map((journey) => [journey.id, journey]));
+    const wasabi = journeyById['demo-okutama-wasabi'];
+    const yamame = journeyById['demo-okutama-yamame'];
+
+    expect(wasabi?.facts.sources.map((source) => source.url)).toEqual([
+      'https://www.town.okutama.tokyo.jp/gyosei/8/chochonoheya/1827.html',
+      'https://www.town.okutama.tokyo.jp/material/files/group/9/2024kankyokeikaku.pdf',
+      'https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_107.html',
+      'https://tokyomokunavi.metro.tokyo.lg.jp/activities/activities03/',
+      'https://tokyowasabi.com/about-us/',
+      'https://tokyowasabi.com/about-wasabi-en/',
+    ]);
+    expect(yamame?.facts.sources.map((source) => source.url)).toEqual([
+      'https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_36.html',
+      'https://www.tokyo-aff.or.jp/site/aboutus/1141.html',
+      'https://www.ifarc.metro.tokyo.lg.jp/archive/resources/content/3355/20130904-170755.pdf',
+      'https://www.ifarc.metro.tokyo.lg.jp/archive/resources/content/3355/20130904-170001.pdf',
+      'https://www.town.okutama.tokyo.jp/gyosei/7/sangyoshinko/norinsuisangyo/2/1736.html',
+    ]);
+
+    for (const journey of [wasabi, yamame]) {
+      expect(journey).toBeDefined();
+      expect(journey?.facts.sources.every(
+        (source) => source.retrievedAt === '2026-08-24'
+          && source.verificationStatus === 'needs_confirmation',
+      )).toBe(true);
+      for (const locale of locales) {
+        expect(journey?.chapters[locale]).toHaveLength(5);
+        expect(journey?.chapters[locale].every(
+          (chapter) => chapter.title.trim().length > 0 && chapter.body.trim().length > 0,
+        )).toBe(true);
+        expect(journey?.facts.disclosure[locale].trim().length).toBeGreaterThan(0);
+      }
+    }
+
+    expect(wasabi?.copy.en.intro[0]).toContain('225.53 km²');
+    expect(wasabi?.copy.en.intro[0]).toContain('94%');
+    expect(wasabi?.chapters.en[0]?.body).toContain('Late-Edo records');
+    expect(wasabi?.chapters.en[1]?.body).toContain('Wasabi Brothers');
+    expect(wasabi?.chapters.en[2]?.body).toContain('about two years');
+    expect(wasabi?.chapters.en[3]?.body).toContain('2019 typhoon');
+
+    expect(yamame?.copy.en.title).toBe('A large yamame born from research');
+    expect(yamame?.copy.en.intro[0]).toContain('all-female triploid farmed yamame');
+    expect(yamame?.copy.en.intro[1]).toContain('Irikawa and Unazawa');
+    expect(yamame?.chapters.en[0]?.body).toBe(
+      'The product name for the all-female triploid yamame was selected in July 1998 and presented as a new brand in Okutama that November.',
+    );
+    expect(yamame?.chapters.en[2]?.body).toContain('does not become sexually mature or produce eggs');
+    expect(yamame?.chapters.en[3]?.body).toContain('lives longer and grows larger');
+
+    expect(JSON.stringify({
+      copy: demoJourneys.map((journey) => journey.copy),
+      chapters: demoJourneys.map((journey) => journey.chapters),
+    })).not.toMatch(
+      /デイビッド・ヒューム|約10人|30代|約1年半|塩や醤油|生産者の収入|約120年|4代目|山梨出身|病気に弱い|養殖研究施設が2か所|希少な川魚|日帰り中心|宿泊客|David Hume|rare river fish|two research facilities|faster growth|two facilities|珍稀河魚|兩處研究設施/,
     );
   });
 });

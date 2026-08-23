@@ -95,6 +95,7 @@ describe('playwright preview-server guard (#188)', () => {
       'issue-296-my-badges.spec.ts',
       'issue-298-route-mission-parity.spec.ts',
       'issue-281-operational-provenance.spec.ts',
+      'issue-281-story-factual-honesty.spec.ts',
     ]);
   });
 });

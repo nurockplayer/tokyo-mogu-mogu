@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Locale } from '../../../i18n';
+import { PresentationFactsBlock } from '../components/PresentationFactsBlock';
 import {
   demoSpots,
   referenceAssets,
@@ -160,14 +161,14 @@ const storyLocation: Record<string, Record<Locale, { region: string; station: st
 
 const chapterPoint: Record<string, Record<Locale, { title: string; body: string }>> = {
   'demo-okutama-wasabi': {
-    ja: { title: '奥多摩わさびは、どんな味？', body: '奥多摩わさびは、強い辛味とキレ、豊かな風味が特徴。やさしくすりおろすと香りが引き立ち、3〜5分ほどが食べごろです。寿司や蕎麦はもちろん、ステーキやアボカドとも相性抜群です。' },
-    en: { title: 'What does Okutama wasabi taste like?', body: 'It is known for vivid heat and a rich aroma. Gently grating it brings the fragrance forward.' },
-    'zh-TW': { title: '奧多摩山葵是什麼味道？', body: '特色是鮮明辛味與豐富香氣。輕柔研磨能讓香氣更加突出。' },
+    ja: { title: '奥多摩わさびは、どんな味？', body: '奥多摩わさびは、強い辛味、キレの良さ、豊かな風味が特徴です。東京都の公式紹介では、力を入れず細かくすりおろすと風味と辛味が引き出され、3〜5分で香りと辛味が最も高まるとされています。寿司、蕎麦、牛ステーキ、アボカドなどとの組み合わせも紹介されています。' },
+    en: { title: 'What does Okutama wasabi taste like?', body: 'Okutama wasabi is known for strong heat, a clean finish, and rich flavor. Tokyo’s official guide says gentle, fine grating brings out its flavor and heat, which peak after about 3–5 minutes; it also suggests sushi, soba, beef steak, and avocado.' },
+    'zh-TW': { title: '奧多摩山葵是什麼味道？', body: '奧多摩山葵以鮮明辛味、俐落尾韻與濃郁風味為特色。東京都官方介紹指出，輕柔細磨可帶出風味與辛味，約3–5分鐘達到高峰；亦適合搭配壽司、蕎麥麵、牛排與酪梨。' },
   },
   'demo-okutama-yamame': {
-    ja: { title: '奥多摩やまめは、どんな魚？', body: '通常より長く生き、大きく育つ希少な川魚。塩焼きだけでなく、刺身や切り身でも味わえます。' },
-    en: { title: 'What kind of fish is Okutama yamame?', body: 'A rare river fish that grows larger over a longer life, served grilled, sliced, or as sashimi.' },
-    'zh-TW': { title: '奧多摩山女魚是什麼魚？', body: '壽命較長、體型較大的珍稀河魚，可鹽烤、切片或作為生魚片品嚐。' },
+    ja: { title: '奥多摩やまめは、どんな魚？', body: 'すべて雌の三倍体で、性的に成熟しないため、通常のヤマメより長く生きて大型になる養殖魚です。刺身や寿司、ムニエルなどにも利用されています。' },
+    en: { title: 'What kind of fish is Okutama Yamame?', body: 'It is an all-female triploid farmed fish. Because it does not mature sexually, it lives longer and grows larger than ordinary yamame, and is used for sashimi, sushi, meunière, and other dishes.' },
+    'zh-TW': { title: '奧多摩山女魚是什麼魚？', body: '這是全雌三倍體的養殖魚；因不會性成熟，比一般山女魚壽命更長、體型更大，可用於生魚片、壽司與法式奶油煎魚等料理。' },
   },
 };
 
@@ -303,6 +304,11 @@ export function StoryScreen({
             <br />
             <TrainIcon /> {location.station}
           </div>
+          <PresentationFactsBlock
+            className="story-presentation-facts"
+            facts={journey.facts}
+            locale={locale}
+          />
         </div>
 
         <section className="story-sec">

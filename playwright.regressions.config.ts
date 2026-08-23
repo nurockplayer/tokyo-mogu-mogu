@@ -15,5 +15,6 @@ export default defineConfig({
     'issue-296-my-badges.spec.ts',
     'issue-298-route-mission-parity.spec.ts',
     'issue-281-operational-provenance.spec.ts',
+    'issue-281-story-factual-honesty.spec.ts',
   ],
 });
