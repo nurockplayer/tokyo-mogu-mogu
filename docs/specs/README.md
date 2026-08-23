@@ -93,7 +93,13 @@ Implementation Issues should prefer the canonical Spec path over reconstructing 
 
 - `docs/specs/product/product-scope-invariant.md` — **highest-priority durable geographic / FoodCulture scope contract**. Product is Tokyo-wide, multi-region × multi-food-culture; the 8/23 Okutama × Tokyo Wasabi journey is demo-only. Defines architecture/recommendation and terminology guardrails.
 - `docs/specs/product/hackathon-product-contract.md` — current visible-MVP Product, route, state, navigation, and validation contract after PR #279.
-- `docs/specs/product/recommendation-contract.md` — deterministic, explainable `Food Profile + Exploration Conditions → Region × FoodCulture / Journey` contract. Separates hard exclusions, user-dominant ranking, bounded reasons, evidence-dependent tourism-dispersion weighting, and the single-candidate demo boundary.
+- `docs/specs/product/recommendation-contract.md` — dormant/supporting
+  five-candidate deterministic-helper record. The active Result is the two
+  live-Figma journey-card presentation fixtures; durable recommendation and
+  visible-indicator semantics are deferred to #206/#207.
 - `docs/specs/product/approved-ui-fidelity.md` — historical S0–S9 presentation record; it is not current Product/UI authority.
 - `docs/specs/authentication/google-login.md` — Google authentication and user identity contract (SDD foundation for #11, reusable infrastructure).
-- `docs/specs/product/badge-contract.md` — `My → Badges` cross-region retention/discovery contract: Stretch placement under `My`, digital badge state shape, qualifying-action categories, explicit-TBD earning condition, MOGU Recent / Saved Routes / Badges semantic separation, and the physical-reward boundary. Child Issues #39/#40 reference this.
+- `docs/specs/product/badge-contract.md` — `My → Badges` cross-region
+  retention/discovery contract: Stretch placement under `My`, explicit-TBD
+  earning condition, and demo-only Tokyo Wasabi fixture whose seed records
+  remain `needs_confirmation`, not verified/visitable.

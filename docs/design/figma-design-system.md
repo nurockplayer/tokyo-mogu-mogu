@@ -14,14 +14,15 @@ by #262.
 
 Use this order when sources disagree:
 
-1. Product behavior, data, safety, audience, and IA contracts, including Issues
-   #92, #112, #255, and #257.
+1. Product behavior, data, safety, audience, and IA: current `main` and
+   `docs/specs/product/hackathon-product-contract.md`. Historical Issue #255 /
+   Top-3 material is not current authority.
 2. The latest approved **live KiKi Figma** for visible design and interaction
    intent.
 3. This extracted cross-screen design contract.
 4. `src/ui/tokens.css` and `src/ui/ui.css` for reusable implementation roles.
-5. `docs/specs/product/approved-ui-fidelity.md` only for presentation the live
-   Figma and this document do not cover.
+5. `docs/specs/product/approved-ui-fidelity.md` only as historical context;
+   never as a fallback authority for current behavior.
 6. Existing runtime CSS as implementation state, not design proof.
 
 Issue #201 limits the inspected flow to proposal-prototype presentation. Issue
@@ -288,8 +289,8 @@ shadow is reserved for selected/overlaid surfaces.
 - Standard cards use a white surface and 12px radius. Border and shadow are
   opt-in roles, not defaults.
 - Result source card: 350px wide at 390, 12px radius, clipped media, and a
-  content stack below. Its visible structure remains useful after #255 removes
-  the obsolete score fixture.
+  content stack below. Its visible structure is current live-Figma presentation
+  evidence; the displayed 96/91 indicators remain non-semantic fixtures.
 - Story carousel card: 220 × 316 with 196 × 196 visible square media. Long
   Story chapter cards are about 325 × 438 with a 1px leaf border.
 - Route stop card: about 340 × 110, 12px radius, with a 78 × 78 circular crop.
@@ -441,7 +442,7 @@ the corresponding live node plus this reflow contract.
 | `LIKELY_ACCIDENTAL_DRIFT` | Bottom-nav first slot is 60px high at y=8 while the other three are 58px at y=9 | Canonicalize four 60px slots aligned at y=8 within the 68px content zone |
 | `INTENTIONAL_VARIANT` | Green app header on Exploration/Result/Route; hero-overlay back control on Story/Spot | Implement the two header modes explicitly |
 | `LIKELY_ACCIDENTAL_DRIFT` | Top-level frames commonly carry opacity ≈0.99 | Engineering root opacity is 1; do not reproduce the export artifact |
-| `PRODUCT_OVERRIDE` | Result `23:3380` shows two fixture cards with 96/91 scores and obsolete content | #255 requires real deterministic ranked Top 3, no percentage; retain only supported visual card language |
+| `CURRENT_PRESENTATION` | Result `23:3380` shows two fixture cards with 96/91 indicators | The two cards and indicators are live-Figma presentation fixtures only. `96` / `91` are not calculated scores, confidence, accuracy, dietary compatibility, or safety semantics; durable semantics are deferred to #206/#207. Historical #255 / Top-3 direction is superseded. |
 | `PRODUCT_OVERRIDE` | Live frames allow several choices simultaneously | #257 first run exposes exactly one actionable highlighted target; returning/free exploration restores normal choice behavior |
 | `PRODUCT_OVERRIDE` | Figma bottom-nav labels/roles are presentation fixtures | #92 fixes `Home / Discover / MOGU / My`; reuse geometry only |
 | `PRODUCT_OVERRIDE` | Demo imagery/copy centers Okutama × Tokyo Wasabi | #112 keeps shared Product contracts Tokyo-wide and multi-region × multi-food-culture |
@@ -452,16 +453,18 @@ the corresponding live node plus this reflow contract.
 | `UNRESOLVED` | The live file publishes no variables, component variants, or local styles | This document is the canonical extracted contract until KiKi publishes structured tokens |
 | `UNRESOLVED` | Hover, focus, disabled, loading, validation-error, and reduced-motion states are incomplete in Figma | Use #208/shared accessible states; Design may later replace them explicitly |
 | `UNRESOLVED` | Tablet/desktop layouts are absent | Keep centered mobile fallback; do not invent a new wide composition |
-| `UNRESOLVED` | Exact focal points for replacement #255 journey imagery are not authored | Set `object-position` per verified asset during #262 visual comparison |
+| `UNRESOLVED` | Exact focal points for Result journey imagery are not authored | Set `object-position` per approved asset during visual comparison |
 
 ## 11. Product overrides that implementation must preserve
 
-### #255 — Result
+### Result — current presentation; historical #255 / Top-3 superseded
 
-`23:3380` is visual evidence for header, background, card, chip, image, spacing,
-and CTA treatment only. Runtime Result is a deterministic ranked Top 3 from the
-eligible recommendation decision. It must not restore the visible 96/91
-percentages, Yamame fixture, fake confidence, or a two-card limit.
+`23:3380` is current visual evidence for header, background, card, chip, image,
+spacing, CTA treatment, and the two visible journey-card fixtures. The 96/91
+indicators are presentation copy only: they do not express a calculated score,
+confidence, recommendation accuracy, dietary compatibility, or safety. Do not
+derive production selection, ranking, reasons, or score semantics from the
+fixtures; those are deferred to #206/#207.
 
 ### #257 — guided first run
 
@@ -492,7 +495,7 @@ remain reusable for another Tokyo Region × FoodCulture without redesign.
 | Generic `.tmm-header` | `src/ui/ui.css` / app shells | Fallback/demo chrome only; live surfaces use green-band or hero-overlay modes |
 | `.tmm-nav` | `src/ui/ui.css` | Content height/four-slot structure is close; translucent warm fill, blur, and active background are not live-node proof |
 | Journey tracker / sticky action footer | generic progress and page-local footers | No shared class yet captures the measured tracker, 73/155px action surfaces, or upward separator shadow; #262 owns implementation |
-| Fallback presentation spec | `docs/specs/product/approved-ui-fidelity.md` | Defers to this document for inspected live standards |
+| Historical presentation record | `docs/specs/product/approved-ui-fidelity.md` | Historical only; it must not override current Figma/current-main behavior |
 
 ## 13. Migration notes for #262
 
@@ -511,8 +514,9 @@ These are downstream convergence tasks, not changes made by #263:
 6. Adapt low-contrast bubble, orange-button, route-secondary, warning-text, and
    inactive-nav combinations before visual sign-off, preserving live fills when
    dark ink is sufficient.
-7. Preserve #255 real Top 3 and #257 tutorial behavior throughout screenshot
-   convergence.
+7. Preserve the two current Result presentation fixtures and #257 tutorial
+   behavior throughout screenshot convergence; do not restore historical #255 /
+   Top-3 behavior.
 8. Record any new live-Figma divergence in this ledger instead of silently
    inventing a token or component variant.
 
@@ -522,7 +526,7 @@ These are downstream convergence tasks, not changes made by #263:
   `https://www.figma.com/design/fHqhA3d26OdXqm0cQxfK31/tokyo-mogu-mogu?node-id=0-1`
 - Issue #201 — proposal-prototype boundary
 - Issue #208 — design intent plus safe engineering adaptations
-- Issue #255 — real deterministic Result Top 3
+- Issue #255 — historical Top-3 direction; superseded for the current MVP
 - Issue #257 — guided first-run behavior
 - Issue #262 — downstream visual convergence
 - `docs/specs/product/product-scope-invariant.md`

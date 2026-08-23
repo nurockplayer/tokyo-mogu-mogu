@@ -3,11 +3,11 @@
 Durable behavior contract for the Badge / Achievement collection as a
 **Stretch retention/discovery layer** under `My → Badges`.
 
-- **Source of truth for placement and semantics**: Issue #92 current App IA
-  (`Home / Discover / MOGU / My`; My holds Saved Routes + Food Profile +
-  Badges) + Issue #112 current Product / MVP framing.
-- **Presentation reference**: `docs/specs/product/approved-ui-fidelity.md`
-  (S9 Badge Collection presentation rules).
+- **Current authority for placement and semantics**: the connected KiKi Figma,
+  current `main`, then `docs/specs/product/hackathon-product-contract.md`.
+- **Historical presentation reference**:
+  `docs/specs/product/approved-ui-fidelity.md` preserves former S9 material but
+  is not current Product/UI authority.
 - **Hackathon journey contract**: `docs/specs/product/hackathon-product-contract.md`
   (current core journey, S9 stretch, geography invariants, accountless persistence).
 - **Status**: Proposed contract for Issue #38. This Issue defines the contract
@@ -47,9 +47,9 @@ Badge is **not**:
   `#38 → #39`).
 - Badge must never block the core App IA, the core journey, or the
   `Home / Discover / MOGU / My` navigation.
-- 2026-08-23 production content may remain only the verified Tama pilot content
-  that is ready (Tokyo Wasabi is a possible strong demo fixture); Badge must
-  not expand the MVP content contract.
+- 2026-08-23 demo content may use Tokyo Wasabi only as a deterministic
+  presentation fixture. Its seed records remain `needs_confirmation`; Badge
+  must not expand the MVP content contract or imply verified/visitable content.
 
 ## Product Role / 役割
 
@@ -113,15 +113,14 @@ Notes:
 - `unearned` badges render as locked / future slots and never imply that their
   Story / Route / Spot content is implemented.
 
-### Real fixture: 東京わさび
+### Demo fixture: 東京わさび
 
-- 東京わさび is the **current first-pilot demo badge fixture** for the
-  Tama-pilot demo, matching the current Tama / Okutama verified-content focus
-  (Issue #112). It is a possible strong demo fixture, not the only allowed
-  production content contract. The MVP pilot geography is the **Tama area**,
-  not 奥多摩 × 東京わさび as an immutable pair; Okutama is the current
-  fieldwork / verified-content focus and 東京わさび is one verified / visitable
-  candidate (わさび・ヤマメ・マス etc.).
+- 東京わさび is a deterministic demo badge fixture for the Okutama × Tokyo
+  Wasabi golden path. It is not the only allowed Product content contract and
+  does not make that pair an immutable scope boundary.
+- The Tokyo Wasabi fixture and its seed records are `needs_confirmation`.
+  They are **not** verified or visitable claims, and a badge must not imply a
+  verified place, purchase, visit, participation, or operational availability.
 - All other badge slots may be **future-region / future-culture dummy or locked
   presentation**.
 
@@ -130,10 +129,10 @@ Notes:
 - Future slots must be clearly labeled as **dummy / future / locked fixtures**.
 - They must **not** imply that full Story / Route / Spot implementations exist
   for those regions.
-- Presentation must follow `approved-ui-fidelity.md`: future-region visuals /
-  labels appear only as clearly future or editorial fixtures, never as
-  production data, and never make the Product look permanently Okutama-only or
-  as if a second region is already implemented.
+- Presentation must follow current Figma/current-main authority: future-region
+  visuals / labels appear only as clearly future or editorial fixtures, never
+  as production data, and never make the Product look permanently Okutama-only
+  or as if a second region is already implemented.
 - Dummy badges are not a spec for a second implemented region; a second
   verified region stays out of Hackathon MVP scope (product contract,
   "Architecture / Data Boundary").
@@ -225,7 +224,7 @@ The contract above satisfies Issue #38's acceptance criteria:
 - [ ] Badge remains Stretch and cannot block core App IA — [Priority / Stretch](#priority--stretch--優先度).
 - [ ] Badge role in next-region retention is explicit — [Product Role](#product-role--役割).
 - [ ] MOGU Recent / Saved Routes / Badge state remain distinct — [Relationship to MOGU Recent / Saved Routes / Badges](#relationship-to-mogu-recent--saved-routes--badges).
-- [ ] Tokyo Wasabi real fixture vs future dummy badges boundary is clear — [Real fixture: 東京わさび](#real-fixture-東京わさび) and [Future-region dummy / locked slots](#future-region-dummy--locked-slots).
+- [ ] Tokyo Wasabi demo fixture vs future dummy badges boundary is clear — [Demo fixture: 東京わさび](#demo-fixture-東京わさび) and [Future-region dummy / locked slots](#future-region-dummy--locked-slots).
 - [ ] future badges do not imply implemented second regions — [Future-region dummy / locked slots](#future-region-dummy--locked-slots).
 - [ ] qualifying-action categories are represented without fake real-world verification — [Qualifying Actions](#qualifying-actions--達成アクション候補) and [No fake verification](#no-fake-verification--実証の偽装禁止).
 - [ ] exact earning condition remains explicit/TBD until product-approved — [Earning Condition Decision Status](#earning-condition-decision-status--達成条件の決定状態).
@@ -246,11 +245,13 @@ The contract above satisfies Issue #38's acceptance criteria:
 - Issue #39 — `My → Badges` UI implementation (Stretch).
 - Issue #40 — physical reward redemption research (prototype/research only).
 - Issue #92 — current App IA (Home / Discover / MOGU / My; My holds Saved Routes + Food Profile + Badges).
-- Issue #112 — current Product / MVP framing (tourism dispersion, Tama first pilot, Okutama fieldwork / verified-content focus, evidence-driven food content).
+- Issue #112 — historical Product / MVP framing (tourism dispersion, Tama first
+  pilot, Okutama fieldwork / demo-content context, evidence-driven food content).
 - Issue #85 — historical Product Vision / MVP boundary foundation (tourism dispersion, Okutama as first pilot). Historical only where it does not conflict with #112 / #92.
 - Issue #41 — historical approved S0–S9 UI / Design Spec v1.0 (historical Hackathon UX source).
 - `docs/specs/product/hackathon-product-contract.md` — durable behavior contract.
-- `docs/specs/product/approved-ui-fidelity.md` — fallback presentation contract (S9 Badge Collection).
+- `docs/specs/product/approved-ui-fidelity.md` — historical S9 presentation
+  record; not current authority.
 - `docs/project-roadmap.md` — #86 roadmap (Badge is Stretch path `#38 → #39`).
 - `src/app/AppShell.tsx` — primary nav `Home / Discover / MOGU / My`.
 - `src/pages/MyPage.tsx` — `My` scaffold; Issue #81 adds Saved Routes + Food Profile + Badge entry.

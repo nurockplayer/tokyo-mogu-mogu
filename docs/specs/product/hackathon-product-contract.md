@@ -64,7 +64,10 @@ descriptions do not define the current Dock.
 - 食旅を見つけ has five steps. Selection, departure-search empty/typed states,
   progress, back/next behavior, and the current result transition are visible
   Product states.
-- Result shows the two current cards. There is no ranked Top-3 Product
+- Result shows the two current live-Figma journey-card presentation fixtures.
+  The visible `96` / `91` indicators are fixture copy only: they are not
+  calculated scores, recommendation accuracy, confidence, dietary
+  compatibility, or a food-safety guarantee. There is no ranked Top-3 Product
   contract.
 - Story includes the current chapter reveal, nearby and nature Spot groups, and
   route-generation transition.
@@ -91,6 +94,11 @@ generation.
 
 Dietary input informs recommendations only and is not a food-safety guarantee.
 
+The five-candidate deterministic helper is dormant/supporting implementation
+state, not the active Result contract. Its future production taxonomy,
+selection, reasons, and score semantics are deferred to Issues #206 and #207;
+do not infer them from the current fixtures.
+
 ## Evidence boundary
 
 Source/provenance records, Open Data records, licenses, attribution, research,
@@ -101,6 +109,9 @@ Displayed venue facts must retain honest provenance and verification caveats.
 Hours, prices, reservations, access, availability, and contact details may
 change and require source verification. Never convert editorial/demo content
 or a research candidate into a verified fact without evidence.
+
+In particular, the Tokyo Wasabi demo fixture and its seed records remain
+`needs_confirmation`; the fixture is not a verified or visitable claim.
 
 ## Historical material
 

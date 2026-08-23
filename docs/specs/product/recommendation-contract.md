@@ -1,7 +1,17 @@
 # Explainable Recommendation Contract / 説明可能な推薦契約
 
-Status: **Current durable recommendation contract**
-Decision / implementation: Issue #123
+Status: **Dormant/supporting deterministic helper; not the active Result or a
+durable production recommendation contract.**
+
+The current Result renders two live-Figma journey-card presentation fixtures.
+Its visible `96` / `91` indicators are presentational fixtures only, not
+calculated scores, confidence, accuracy, dietary compatibility, or safety
+claims. The helper documented below is retained as implementation support for
+five demo candidates and must not be presented as the source of those two
+cards. Durable production taxonomy, selection, reasons, and any score semantics
+are explicitly deferred to Issues #206 and #207.
+
+Historical decision / implementation context: Issue #123.
 
 ## Scope invariant / 対象範囲
 
@@ -11,24 +21,19 @@ and may point to a Journey/Route. Candidate generation is data/config supplied
 by the caller; the shared filter/ranker contains no Okutama or Tokyo Wasabi
 identifier.
 
-The current release ships three production-ready candidates — **Okutama ×
-Tokyo Wasabi** (primary), **Ome/Sawai × sake** (secondary), and **Hachioji ×
-ginger** (secondary) — registered in `src/data/slice-manifest.ts` as enabled
-and recommendation-eligible. The shared engine selects deterministically
-among them: the fixed golden-path answers match only the wasabi profile, so
-the demo Result returns **Okutama × Tokyo Wasabi**, while rich/sweet,
-tradition-focused answers reach the sake journey and rich, daily-life,
-market-focused answers reach the Hachioji journey through the same engine.
-This is a release data choice, not the durable selection domain.
+The supporting helper has five fixture-backed demo candidates in
+`src/data/demo-recommendation.ts`; its candidate list and deterministic
+ordering are not active Product selection semantics. The fixed demo answers
+can still exercise the helper's Okutama × Tokyo Wasabi path, but that behavior
+does not select, rank, explain, or validate the two currently visible Result
+cards. This is demo implementation state, not a durable selection domain or
+verification claim.
 
-推薦対象は「東京都全域 × 複数地域 × 複数食文化」です。現行リリースには本番候補が
-3 件（奥多摩 × 東京わさび＝primary / 青梅・沢井 × 日本酒＝secondary /
-八王子 × ショウガ＝secondary）あり、`src/data/slice-manifest.ts` で enabled かつ
-recommendation-eligible です。golden path の固定回答はわさび profile のみに
-マッチするため Result は決定的に奥多摩 × 東京わさびが選ばれますが、rich /
-sweet・伝統志向の回答では青梅・沢井 × 日本酒、rich・日常志向・買い物の回答では
-八王子 × ショウガに同じエンジンで到達できます。これはリリースデータの選択であり、
-共有ロジックの制約ではありません。
+推薦対象の durable domain は「東京都全域 × 複数地域 × 複数食文化」です。現在の
+Result は live Figma の 2 枚の journey-card fixture を表示します。5 件の demo
+candidate を扱う既存 helper は supporting implementation state であり、現在の
+Result の選定・順位・理由・96 / 91 の意味を定義しません。これらの production
+semantics は #206 / #207 で決定するまで保留です。
 
 ## Inputs and pipeline / 入力と処理順
 
@@ -37,7 +42,7 @@ Food Profile (persistent)
         +
 Exploration Conditions (per trip)
         +
-caller-supplied production-ready Region × FoodCulture candidates
+caller-supplied helper-eligible demo Region × FoodCulture candidates
         ↓
 1. hard exclusions
         ↓
@@ -58,7 +63,7 @@ excluded candidate.
 
 | Exclusion | Rule |
 |---|---|
-| unavailable candidate | Candidate is not production-ready/available. |
+| unavailable candidate | Candidate is not helper-eligible/available. |
 | travel-time infeasible | A known minimum travel-time bucket exceeds the traveler's selected maximum. |
 | duration infeasible | The candidate has no route/experience variant for the selected trip duration. |
 
@@ -129,23 +134,19 @@ Each eligible evaluation exposes:
 - stable reason codes plus matched values for localization.
 
 Each excluded evaluation exposes explicit hard-exclusion codes. Cautions are
-never converted into positive match reasons. Scores must not be rendered as a
-percentage; Product UI exposes ordinal rank and bounded reasons only (#255).
+never converted into positive match reasons. The helper's internal values must
+not be rendered as a percentage. It does not define active Product rank, reason,
+or visible-indicator semantics; those decisions remain deferred to #206 / #207.
 
 ## Demo integration / デモ実装境界
 
-`src/data/demo-recommendation.ts` contains the Hackathon release candidate list;
-the Slice Manifest currently exposes five source-backed, playable journeys.
-`ResultPage` sends Food Profile + Exploration Conditions + that candidate list
-through the shared contract and renders the selected journey plus the next two
-eligible evaluations from the same deterministic decision. Internal additive
-scores remain ordering-only and are never rendered as percentages. Adding a
-future verified Region × FoodCulture candidate requires data/config, not new
-region-specific branches in the ranker.
-
-The existing Result tags remain localized presentation for the approved S3
-screen, but are now derived only from the selected candidate's bounded reason
-records. An answer the candidate does not support cannot appear as a match tag.
+`src/data/demo-recommendation.ts` contains the five-candidate supporting demo
+list. The helper may be exercised deterministically without becoming current
+Result authority. The active Result instead presents the two live-Figma cards;
+it does not expose a helper-derived Top-3, score, confidence, accuracy, dietary
+compatibility, or safety claim. Adding a future verified Region × FoodCulture
+candidate requires a future Product decision and data/configuration, not a
+region-specific branch in the helper.
 
 ## Evaluation boundary / 評価の境界
 
