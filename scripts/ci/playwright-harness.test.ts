@@ -29,6 +29,14 @@ type ParsedWorkflowJob = {
   runCommands: string[];
 };
 
+function normalizeYamlScalar(value: string): string {
+  const trimmed = value.trim();
+  const quote = trimmed[0];
+  return (quote === '"' || quote === "'") && trimmed.endsWith(quote)
+    ? trimmed.slice(1, -1)
+    : trimmed;
+}
+
 function readGoldenPathJobLines(workflow: string): string[] {
   const lines = workflow.split(/\r?\n/);
   const jobStart = lines.findIndex((line) => line === '  golden-path-e2e:');
@@ -37,7 +45,7 @@ function readGoldenPathJobLines(workflow: string): string[] {
   }
 
   const jobEnd = lines.findIndex(
-    (line, index) => index > jobStart && /^\s{2}[a-z0-9-]+:\s*$/.test(line),
+    (line, index) => index > jobStart && /^\s{2}[a-z0-9_-]+:\s*$/.test(line),
   );
   return lines.slice(jobStart, jobEnd === -1 ? lines.length : jobEnd);
 }
@@ -52,7 +60,7 @@ function parseGoldenPathJob(workflow: string): ParsedWorkflowJob {
     const stepMatch = lines[index].match(/^\s{6}-\s+(.+)$/);
     if (stepMatch) {
       const nameMatch = stepMatch[1].match(/^name:\s*(.+?)\s*$/);
-      currentStep = nameMatch ? { name: nameMatch[1], runCommands: [] } : undefined;
+      currentStep = nameMatch ? { name: normalizeYamlScalar(nameMatch[1]), runCommands: [] } : undefined;
       if (currentStep) {
         steps.push(currentStep);
       }
@@ -68,6 +76,7 @@ function parseGoldenPathJob(workflow: string): ParsedWorkflowJob {
     const runValue = runMatch[2].trim();
     const commands: string[] = [];
     if (/^[|>][-+]?$/.test(runValue)) {
+      const blockLines: string[] = [];
       let nextIndex = index + 1;
       while (nextIndex < lines.length) {
         const nextLine = lines[nextIndex];
@@ -75,12 +84,17 @@ function parseGoldenPathJob(workflow: string): ParsedWorkflowJob {
         if (nextLine.trim() !== '' && nextIndent <= runIndent) {
           break;
         }
-        if (nextLine.trim() !== '') {
-          commands.push(nextLine.trim());
+        if (nextLine.trim() !== '' && !nextLine.trim().startsWith('#')) {
+          blockLines.push(nextLine.trim());
         }
         nextIndex += 1;
       }
       index = nextIndex - 1;
+      if (runValue.startsWith('>')) {
+        commands.push(blockLines.join(' '));
+      } else {
+        commands.push(...blockLines);
+      }
     } else if (runValue !== '') {
       commands.push(runValue);
     }
@@ -227,5 +241,68 @@ describe('Golden Path workflow contract (#301)', () => {
     expect(() => goldenPathBuildCommand(workflow)).toThrow(
       'Golden Path job contains a disallowed package-manager command: npx playwright test',
     );
+  });
+
+  it('stops at a valid underscore-named job boundary', () => {
+    const workflow = [
+      'jobs:',
+      '  golden-path-e2e:',
+      '    steps:',
+      '      - name: Build',
+      '        run: pnpm build:bundle',
+      '  merge_gate:',
+      '    runs-on: ubuntu-latest',
+      '    steps:',
+      '      - name: Unrelated',
+      '        run: npx should-not-be-in-golden-path',
+    ].join('\n');
+
+    expect(goldenPathBuildCommand(workflow)).toBe('pnpm build:bundle');
+  });
+
+  it('normalizes a quoted Build step name', () => {
+    const workflow = [
+      'jobs:',
+      '  golden-path-e2e:',
+      '    steps:',
+      '      - name: "Build"',
+      '        run: pnpm build:bundle',
+      '  merge-gate:',
+      '    runs-on: ubuntu-latest',
+    ].join('\n');
+
+    expect(goldenPathBuildCommand(workflow)).toBe('pnpm build:bundle');
+  });
+
+  it('interprets a literal run scalar as one bundle-only script', () => {
+    const workflow = [
+      'jobs:',
+      '  golden-path-e2e:',
+      '    steps:',
+      '      - name: Build',
+      '        run: |',
+      '          pnpm build:bundle',
+      '          # Keep the E2E build separate from typechecking',
+      '  merge-gate:',
+      '    runs-on: ubuntu-latest',
+    ].join('\n');
+
+    expect(goldenPathBuildCommand(workflow)).toBe('pnpm build:bundle');
+  });
+
+  it('folds a multiline run scalar before checking the Build command', () => {
+    const workflow = [
+      'jobs:',
+      '  golden-path-e2e:',
+      '    steps:',
+      '      - name: Build',
+      '        run: >-',
+      '          pnpm',
+      '          build:bundle',
+      '  merge-gate:',
+      '    runs-on: ubuntu-latest',
+    ].join('\n');
+
+    expect(goldenPathBuildCommand(workflow)).toBe('pnpm build:bundle');
   });
 });
