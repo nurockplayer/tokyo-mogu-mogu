@@ -1,73 +1,68 @@
+import { useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react';
+import badgeArtwork from '../../../assets/figma-296/food-badge.png';
+import cameraIcon from '../../../assets/figma-296/camera.svg';
+import helpIcon from '../../../assets/figma-296/help.svg';
+import languageIcon from '../../../assets/figma-296/language.svg';
+import avatarArtwork from '../../../assets/figma-296/my-avatar.svg';
+import routesArtwork from '../../../assets/figma-296/saved-routes.png';
+import settingsIcon from '../../../assets/figma-296/settings.svg';
 import type { Locale } from '../../../i18n';
 import { BottomNavigation } from '../components/BottomNavigation';
-import {
-  referenceAssets,
-  type JourneyPresentation,
-  type ReferenceAssetId,
-  type ReferenceCopy,
-} from '../content';
+import { Issue296Header } from '../components/Issue296Header';
+import type { ReferenceCopy } from '../content';
 
-interface LocalizedText {
-  ja: string;
-  en: string;
-  'zh-TW': string;
+interface MyLabels {
+  defaultNickname: string;
+  editProfile: string;
+  savedRoutes: string;
+  savedRoutesDescription: string;
+  badges: string;
+  badgesDescription: string;
+  language: string;
+  otherSettings: string;
+  help: string;
+  logout: string;
+  languageDialog: string;
+  close: string;
 }
 
-export interface MyBadgePresentation {
-  id: string;
-  name: LocalizedText;
-  imageAssetId: ReferenceAssetId;
-  earned: boolean;
-}
-
-const defaultBadges: MyBadgePresentation[] = [
-  { id: 'akabeko', name: { ja: 'わさび料理バッジ', en: 'Wasabi dish badge', 'zh-TW': '山葵料理徽章' }, imageAssetId: 'akabeko', earned: false },
-  { id: 'wasabi-kitchen', name: { ja: 'わさび丼バッジ', en: 'Wasabi bowl badge', 'zh-TW': '山葵丼徽章' }, imageAssetId: 'wasabiKitchen', earned: false },
-  { id: 'yamashiroya', name: { ja: 'おみやげバッジ', en: 'Souvenir badge', 'zh-TW': '伴手禮徽章' }, imageAssetId: 'yamashiroyaGoods', earned: false },
-  { id: 'hikawa-valley', name: { ja: '渓流バッジ', en: 'Mountain stream badge', 'zh-TW': '溪流徽章' }, imageAssetId: 'valley', earned: false },
-  { id: 'wasabi-experience', name: { ja: 'わさび田バッジ', en: 'Wasabi field badge', 'zh-TW': '山葵田徽章' }, imageAssetId: 'wasabiExperience', earned: false },
-];
-
-const myLabels: Record<Locale, {
-  guest: string;
-  honorific: string;
-  prompt: string;
-  profileTitle: string;
-  unregistered: string;
-  edit: string;
-  badgeTitle: string;
-  notEarned: string;
-  routeTitle: string;
-  noRoutes: string;
-}> = {
+const myLabels: Record<Locale, MyLabels> = {
   ja: {
-    guest: 'ゲストさん', honorific: 'さん', prompt: '東京の食旅、たのしんでいますか？',
-    profileTitle: 'あなたのFood Profile', unregistered: '未登録', edit: '編集する',
-    badgeTitle: 'モグモグバッジ', notEarned: '未獲得', routeTitle: 'マイルート', noRoutes: 'まだ保存されていません',
+    defaultNickname: 'ナナミ', editProfile: 'プロフィール編集', savedRoutes: 'マイルート',
+    savedRoutesDescription: '保存したルートを\n確認できます', badges: '食のバッジ', badgesDescription: '食体験で集めた\nバッジをチェック',
+    language: '言語設定', otherSettings: 'その他の設定', help: 'ヘルプ・お問合せ',
+    logout: 'ログアウト', languageDialog: '言語を選択', close: '閉じる',
   },
   en: {
-    guest: 'Guest', honorific: '', prompt: 'Enjoying your Tokyo food journeys?',
-    profileTitle: 'Your Food Profile', unregistered: 'Not registered', edit: 'Edit',
-    badgeTitle: 'MOGU MOGU badges', notEarned: 'Not earned', routeTitle: 'My Routes', noRoutes: 'No routes saved yet',
+    defaultNickname: 'Nanami', editProfile: 'Edit profile', savedRoutes: 'Saved journeys',
+    savedRoutesDescription: 'Revisit your saved\nfood journeys', badges: 'Food badges',
+    badgesDescription: 'Collect memories from\nyour food journeys', language: 'Language',
+    otherSettings: 'Other settings', help: 'Help & contact', logout: 'Log out',
+    languageDialog: 'Choose a language', close: 'Close',
   },
   'zh-TW': {
-    guest: '訪客', honorific: '', prompt: '享受你的東京美食之旅嗎？',
-    profileTitle: '你的飲食檔案', unregistered: '尚未建立', edit: '編輯',
-    badgeTitle: 'MOGU MOGU 徽章', notEarned: '尚未獲得', routeTitle: '我的路線', noRoutes: '目前尚未儲存',
+    defaultNickname: 'Nanami', editProfile: '編輯個人資料', savedRoutes: '已儲存的行程',
+    savedRoutesDescription: '再次瀏覽已儲存的\n美食旅程', badges: '美食徽章',
+    badgesDescription: '收藏美食旅程的\n回憶', language: '語言設定', otherSettings: '其他設定',
+    help: '幫助與聯絡我們', logout: '登出', languageDialog: '選擇語言', close: '關閉',
   },
 };
+
+const localeOptions: Array<{ value: Locale; label: string }> = [
+  { value: 'ja', label: '日本語' },
+  { value: 'en', label: 'English' },
+  { value: 'zh-TW', label: '繁體中文' },
+];
 
 export interface MyScreenProps {
   active: boolean;
   copy: ReferenceCopy;
   locale: Locale;
   nickname: string;
-  profileSummary?: readonly string[];
-  badges?: MyBadgePresentation[];
-  savedJourneys: JourneyPresentation[];
   onEditProfile: () => void;
-  onOpenSavedJourney: (journey: JourneyPresentation) => void;
+  onChangeLocale: (locale: Locale) => void;
   onNavigate: (path: string) => void;
+  onNotify: (message: string) => void;
 }
 
 export function MyScreen({
@@ -75,115 +70,151 @@ export function MyScreen({
   copy,
   locale,
   nickname,
-  profileSummary = [],
-  badges = defaultBadges,
-  savedJourneys,
   onEditProfile,
-  onOpenSavedJourney,
+  onChangeLocale,
   onNavigate,
+  onNotify,
 }: MyScreenProps) {
   const labels = myLabels[locale];
-  const earnedCount = badges.filter((badge) => badge.earned).length;
+  const [languageOpen, setLanguageOpen] = useState(false);
+  const languageEntryRef = useRef<HTMLButtonElement>(null);
+  const languageDialogRef = useRef<HTMLElement>(null);
+  const languageWasOpenRef = useRef(false);
+
+  useEffect(() => {
+    if (languageOpen) {
+      const selectedLanguage = languageDialogRef.current?.querySelector<HTMLButtonElement>(
+        'button[aria-pressed="true"]',
+      );
+      selectedLanguage?.focus();
+      languageWasOpenRef.current = true;
+      return;
+    }
+
+    if (languageWasOpenRef.current) {
+      languageEntryRef.current?.focus();
+      languageWasOpenRef.current = false;
+    }
+  }, [languageOpen]);
+
+  const closeLanguageDialog = () => setLanguageOpen(false);
+  const handleLanguageDialogKeyDown = (event: ReactKeyboardEvent<HTMLElement>) => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeLanguageDialog();
+      return;
+    }
+
+    if (event.key !== 'Tab') return;
+
+    const buttons = Array.from(
+      event.currentTarget.querySelectorAll<HTMLButtonElement>('button:not(:disabled)'),
+    );
+    const firstButton = buttons.at(0);
+    const lastButton = buttons.at(-1);
+    if (!firstButton || !lastButton) return;
+
+    if (event.shiftKey && document.activeElement === firstButton) {
+      event.preventDefault();
+      lastButton.focus();
+    } else if (!event.shiftKey && document.activeElement === lastButton) {
+      event.preventDefault();
+      firstButton.focus();
+    }
+  };
+  const notifyUnavailable = () => {
+    onNotify(locale === 'ja' ? '準備中です' : locale === 'zh-TW' ? '功能準備中' : 'Coming soon');
+  };
 
   return (
     <section
-      className={`reference-screen${active ? ' on' : ''}`}
+      className={`reference-screen issue-296-screen issue-296-my${active ? ' on' : ''}`}
       data-screen="my"
       data-screen-active={active}
       aria-hidden={!active}
     >
-      <header className="ghead">{copy.my.title}</header>
-      <div className="simple-body">
-        <div className="profile-card" style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <img src={referenceAssets.logoFace} style={{ width: 56 }} alt="" />
-          <div>
-            <b style={{ fontSize: 18 }}>
-              {nickname ? `${nickname}${labels.honorific}` : labels.guest}
-            </b>
-            <p style={{ color: 'var(--ink-soft)', fontSize: 12.5 }}>{labels.prompt}</p>
-          </div>
-        </div>
-
-        <section className="profile-card">
-          <h3>{labels.profileTitle}</h3>
-          {profileSummary.length > 0 ? (
-            <p>
-              {profileSummary.map((line) => (
-                <span key={line}>
-                  ・{line}
-                  <br />
-                </span>
-              ))}
-            </p>
-          ) : (
-            <p>・{labels.unregistered}</p>
-          )}
-          <button
-            className="btn outline"
-            style={{ marginTop: 12, width: '100%' }}
-            onClick={onEditProfile}
-            type="button"
-          >
-            {labels.edit}
+      <Issue296Header title={copy.my.title} />
+      <div className="issue-296-my-scroll scroll">
+        <div className="issue-296-my-canvas">
+          <button className="issue-296-profile-edit" type="button" onClick={onEditProfile}>
+            {labels.editProfile}
           </button>
-        </section>
 
-        <section className="profile-card">
-          <h3>
-            {labels.badgeTitle}{' '}
-            <small style={{ color: 'var(--ink-soft)', fontWeight: 400 }}>
-              {earnedCount}/{badges.length}
-            </small>
-          </h3>
-          <div className="badge-grid">
-            {badges.map((badge) => (
-              <div className={`badge-item${badge.earned ? '' : ' locked'}`} key={badge.id}>
-                <div className="bimg">
-                  <img className="ph" src={referenceAssets[badge.imageAssetId]} alt="" />
-                  {badge.earned ? <img className="hana" src={referenceAssets.hanamaru} alt="" /> : null}
-                </div>
-                <b>{badge.name[locale]}</b>
-                {badge.earned ? null : <small>{labels.notEarned}</small>}
-              </div>
-            ))}
+          <div className="issue-296-avatar" aria-hidden="true">
+            <img className="issue-296-avatar-art" src={avatarArtwork} alt="" />
+            <img className="issue-296-camera" src={cameraIcon} alt="" />
           </div>
-        </section>
+          <p className="issue-296-nickname">{nickname || labels.defaultNickname}</p>
 
-        <section className="profile-card">
-          <h3>{labels.routeTitle}</h3>
-          {savedJourneys.length > 0 ? (
-            savedJourneys.map((journey) => {
-              const localized = journey.copy[locale];
-              return (
-                <article
-                  className="my-route"
-                  data-journey-id={journey.id}
-                  key={journey.id}
-                  onClick={() => onOpenSavedJourney(journey)}
-                  onKeyDown={(event) => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                      event.preventDefault();
-                      onOpenSavedJourney(journey);
-                    }
-                  }}
-                  role="button"
-                  tabIndex={active ? 0 : -1}
-                >
-                  <img src={referenceAssets[journey.imageAssetId]} alt="" />
-                  <div className="tx">
-                    <b>{localized.title}</b>
-                    <p>{localized.subtitle}</p>
-                  </div>
-                  <span className="arw" aria-hidden="true">›</span>
-                </article>
-              );
-            })
-          ) : (
-            <p style={{ color: 'var(--ink-soft)' }}>{labels.noRoutes}</p>
-          )}
-        </section>
+          <div className="issue-296-action-grid">
+            <button
+              className="issue-296-action-card issue-296-route-card"
+              type="button"
+              aria-label={labels.savedRoutes}
+              onClick={() => onNavigate('/my-route')}
+            >
+              <img src={routesArtwork} alt="" />
+              <strong>{labels.savedRoutes}</strong>
+              <span>{labels.savedRoutesDescription}</span>
+            </button>
+            <button className="issue-296-action-card" type="button" onClick={() => onNavigate('/badges')}>
+              <img src={badgeArtwork} alt="" />
+              <strong>{labels.badges}</strong>
+              <span>{labels.badgesDescription}</span>
+            </button>
+          </div>
+
+          <div className="issue-296-menu">
+            <button ref={languageEntryRef} type="button" onClick={() => setLanguageOpen(true)}>
+              <img src={languageIcon} alt="" /><span>{labels.language}</span><i aria-hidden="true" />
+            </button>
+            <button type="button" onClick={notifyUnavailable}>
+              <img src={settingsIcon} alt="" /><span>{labels.otherSettings}</span><i aria-hidden="true" />
+            </button>
+            <button type="button" onClick={notifyUnavailable}>
+              <img src={helpIcon} alt="" /><span>{labels.help}</span><i aria-hidden="true" />
+            </button>
+          </div>
+
+          <button className="issue-296-logout" type="button" onClick={notifyUnavailable}>
+            {labels.logout}
+          </button>
+        </div>
       </div>
-      <BottomNavigation active="my" copy={copy.nav} onNavigate={onNavigate} />
+      <BottomNavigation active="my" copy={copy.nav} onNavigate={onNavigate} variant="issue-296-my" />
+
+      {languageOpen ? (
+        <div className="issue-296-language-backdrop" role="presentation" onMouseDown={closeLanguageDialog}>
+          <section
+            ref={languageDialogRef}
+            className="issue-296-language-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="issue-296-language-title"
+            onMouseDown={(event) => event.stopPropagation()}
+            onKeyDown={handleLanguageDialogKeyDown}
+          >
+            <h2 id="issue-296-language-title">{labels.languageDialog}</h2>
+            {localeOptions.map((option) => (
+              <button
+                className={option.value === locale ? 'selected' : undefined}
+                type="button"
+                key={option.value}
+                onClick={() => {
+                  onChangeLocale(option.value);
+                  closeLanguageDialog();
+                }}
+                aria-pressed={option.value === locale}
+              >
+                {option.label}
+              </button>
+            ))}
+            <button className="issue-296-language-close" type="button" onClick={closeLanguageDialog}>
+              {labels.close}
+            </button>
+          </section>
+        </div>
+      ) : null}
     </section>
   );
 }

@@ -7,6 +7,7 @@ import './ui/tokens.css';
 import './ui/ui.css';
 import './pages/s0s3/figma-conversation-parity.css';
 import './features/netlify-parity/reference.css';
+import './features/netlify-parity/issue-296.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

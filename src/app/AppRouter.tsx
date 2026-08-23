@@ -112,7 +112,8 @@ export function AppRouter() {
     pathname === '/discover' ||
     pathname === '/mogu' ||
     pathname === '/my-route' ||
-    pathname === '/my';
+    pathname === '/my' ||
+    pathname === '/badges';
 
   if (referencePath) return <ReferenceApp />;
 

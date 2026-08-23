@@ -90,6 +90,9 @@ describe('playwright preview-server guard (#188)', () => {
     const focused = (await import('../../playwright.regressions.config.ts')).default;
 
     expect(canonical.testMatch).toBe('current-mvp-smoke.spec.ts');
-    expect(focused.testMatch).toBe('issue-283-visual-parity.spec.ts');
+    expect(focused.testMatch).toEqual([
+      'issue-283-visual-parity.spec.ts',
+      'issue-296-my-badges.spec.ts',
+    ]);
   });
 });

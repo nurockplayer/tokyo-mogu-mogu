@@ -10,5 +10,5 @@ import canonicalConfig from './playwright.config';
 
 export default defineConfig({
   ...canonicalConfig,
-  testMatch: 'issue-283-visual-parity.spec.ts',
+  testMatch: ['issue-283-visual-parity.spec.ts', 'issue-296-my-badges.spec.ts'],
 });

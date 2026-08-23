@@ -23,13 +23,15 @@ Current live KiKi Figma and current merged `main` remain the authorities.
 | Classification | Files | Execution |
 | --- | --- | --- |
 | Canonical release gate | `current-mvp-smoke.spec.ts` | `pnpm exec playwright test e2e/current-mvp-smoke.spec.ts` |
-| Focused current regression | `issue-283-visual-parity.spec.ts` | `pnpm exec playwright test --config playwright.regressions.config.ts` |
+| Focused current regression | `issue-283-visual-parity.spec.ts`, `issue-296-my-badges.spec.ts` | `pnpm exec playwright test --config playwright.regressions.config.ts` |
 | Historical / non-authoritative | Issue #276 Netlify parity suite | Removed after the #297 audit; never restore it as a current gate |
 
 The retained #283 suite checks focused CTA, autofocus, card geometry,
 departure-field, progress-art, and translated-card regressions that still match
-current `main`. It is intentionally non-gating because exact visual/layout
-assertions require reconciliation against live Figma when Product changes.
+current `main`. The #296 suite protects the current My/Badge interactions,
+safe-area behavior, and shared shell geometry. These suites are intentionally
+non-gating because exact visual/layout assertions require reconciliation against
+live Figma when Product changes.
 
 The removed #276 suite encoded the superseded Netlify authority model, fixed
 animation windows, obsolete selectors, and historical contrast/layout
