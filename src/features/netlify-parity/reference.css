@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap');
 
 /* Faithful presentation port of mogu-mogu-5525da.netlify.app. */
 html, body, #root { height:100%; margin:0; }
@@ -212,11 +212,11 @@ body:has(.reference-app) { overflow:hidden; }
 .reference-app .wide-btn { margin:18px 16px 16px; background:var(--header); color:#fff; border-radius:14px; padding:15px; font-weight:500; font-size:15px; display:block; width:calc(100% - 32px); }
 
 /* ============ tab bar ============ */
-.reference-app .tabbar { flex:none; background:#FEFBF3; border-top:1px solid var(--line); display:flex; padding:8px 6px calc(10px + env(safe-area-inset-bottom)); }
-.reference-app .tabbar button { flex:1; min-width:0; display:flex; flex-direction:column; align-items:center; gap:3px; font-size:10.5px; font-weight:500; color:#C2CFA0; }
-.reference-app .tabbar button svg { width:24px; height:24px; stroke:#C2CFA0; fill:none; stroke-width:1.8; }
-.reference-app .tabbar button.on { color:var(--green); }
-.reference-app .tabbar button.on svg { stroke:var(--green); }
+.reference-app .tabbar { flex:none; min-height:calc(68px + max(16px, env(safe-area-inset-bottom))); background:#fff; border-top:1px solid #EFEFEF; display:flex; padding:8px 16px max(16px, env(safe-area-inset-bottom)); }
+.reference-app .tabbar button { flex:1; min-width:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; padding:8px 0; font:500 12px/14px Roboto,sans-serif; color:#CEE3A8; }
+.reference-app .tabbar button svg { width:24px; height:24px; stroke:#CEE3A8; fill:none; stroke-width:3; }
+.reference-app .tabbar button.on { color:#667A48; }
+.reference-app .tabbar button.on svg { stroke:#667A48; }
 
 /* ============ wizard ============ */
 .reference-screen[data-screen="explore"],

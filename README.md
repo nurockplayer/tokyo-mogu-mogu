@@ -30,19 +30,31 @@ This is a demo content/data freeze, not the Product scope, recommendation domain
 
 See [docs/specs/product/product-scope-invariant.md](docs/specs/product/product-scope-invariant.md) for the durable scope and audience contract and Issue #112 for the decision record.
 
-The current App IA is Issue #92 / the KiKi UI/UX draft. The persistent primary navigation is **Home / Discover / MOGU / My**:
+The current visible Product baseline is the Figma-complete mobile MVP merged in
+PR #279. Product/UI decisions come from the currently connected KiKi Figma
+first, then current merged `main`.
 
-- **Home** — start a new personalized recommendation (first-time users may pass through Food Profile; returning users reuse it and answer only per-trip Exploration).
-- **Discover** — free exploration without diagnosis.
-- **MOGU** — system-managed recent recommendation results (not favorites).
-- **My** — Saved Routes + Food Profile + optional Badges.
+The primary journey is **Food Profile → 食旅を見つけ → Result → Story → Route
+→ Spot**. The visible Dock destinations are:
 
-The demo is accountless, deterministic, mobile-first, Japanese-default, and runs without geolocation. The approved S0–S9 screens are preserved as the historical screen mapping / visual foundation only; current navigation and behavior are owned by #112 + #92.
+- **食旅を見つけ** — the Home hub and entry to the current five-step exploration flow.
+- **モグモグる** — free browsing of the current food-journey content.
+- **お気に入り** — locally saved journeys/routes and Spots.
+- **マイ** — Food Profile editing, saved routes, and current personal states.
+
+Home, search, empty/saved states, route loading/regeneration, Spot gallery and
+favorite interactions, and ja/en/zh-TW switching are part of the current MVP.
+The demo is accountless, deterministic, 375px-first, Japanese-default, and runs
+without geolocation.
+
+Pre-#279 UI/IA/flow documents, static Figma maps, the former Netlify reference,
+and legacy browser suites are historical and non-authoritative. Tests validate
+the current Product; they do not define it.
 
 ## Product contract
 
 - See [docs/specs/product/product-scope-invariant.md](docs/specs/product/product-scope-invariant.md) for the durable Tokyo-wide multi-region × multi-food-culture scope, Japanese + international traveler audience invariant, and strict 8/23 demo boundary.
-- See [docs/specs/product/hackathon-product-contract.md](docs/specs/product/hackathon-product-contract.md) for current Hackathon behavior and App IA contract.
+- See [docs/specs/product/hackathon-product-contract.md](docs/specs/product/hackathon-product-contract.md) for the concise current visible-MVP behavior and runtime contract.
 - See [docs/mvp-scope.md](docs/mvp-scope.md) for the release/demo boundary.
 - See `AGENTS.md` for the repository policy.
 

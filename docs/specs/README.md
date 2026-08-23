@@ -2,6 +2,14 @@
 
 Lightweight Spec-driven development (SDD) foundation for Tokyo Mogu Mogu.
 
+> **Current Product/UI authority:** inspect the connected KiKi Figma directly,
+> then current merged `main` after PR #279, then
+> `docs/specs/product/hackathon-product-contract.md`. Pre-#279 UI, IA, flow,
+> Figma-map, reconciliation, and Netlify-era documents anywhere under `docs/`
+> are historical and non-authoritative unless the current contract explicitly
+> adopts them. Evidence, provenance, source URLs, licenses, research, fieldwork,
+> and factual source material remain valid evidence but do not define UI/UX.
+
 ## What a Spec is / Spec とは何か
 
 A Spec is a **durable behavior contract** that spans multiple Issues. It owns the long-lived "what" and "why" of a feature area. GitHub Issues stay atomic execution units; a Spec is not a planning artifact and is not tied to one PR.
@@ -67,25 +75,25 @@ Decision Issues preserve the history of why a choice was made. Once accepted, th
 
 ## Current source priority / 現行優先順位
 
-For current product and UX decisions, use the following precedence:
+For current Product, UI, interaction, and runtime decisions:
 
-1. **`docs/specs/product/product-scope-invariant.md` + Issue #112** — durable Product scope and strict demo boundary:
-   - Product = **Tokyo-wide, multi-region × multi-food-culture**
-   - current Product objective = reduce tourism concentration / create regional visit motivation
-   - `Okutama × Tokyo Wasabi` = **2026-08-23 Hackathon Demo Golden Path only**
-   - Tama / Okutama / Tokyo Wasabi are not permanent Product-domain boundaries
-2. **Issue #92 + KiKi UI/UX IA draft** (`TOKYO_MOGU_MOGU_UIUX仕様案_日本語版.pdf`, shared in Slack `#05_plan` on 2026-08-09) — current reusable App IA and repeat-use UX: `Home / Discover / MOGU / My`, Food Profile vs per-trip Exploration, Recent vs Saved, and distributed Support CTA.
-3. **Latest approved KiKi Figma for each screen** — when one exists, it is the highest-priority visual / interaction implementation source for that screen. Engineering agents implement the approved design rather than independently redesigning or reinterpreting the UX.
-4. `docs/specs/product/approved-ui-fidelity.md` and the current design spec — fallback visual / presentation guidance where an approved Figma for a screen is not yet available.
-5. Older S0–S9 / #85 / #41 material — historical foundation only where it does not conflict with #112, #92, or an approved Figma.
+1. inspect the currently connected KiKi Figma directly through the local Hopp
+   `figma-bridge`;
+2. inspect current merged `main`;
+3. use `docs/specs/product/hackathon-product-contract.md` as the concise
+   written contract.
+
+Tests validate that live behavior; they do not define it. Older Specs remain
+useful only for durable data/evidence boundaries or explicit historical
+context, not for restoring superseded UI/IA.
 
 Implementation Issues should prefer the canonical Spec path over reconstructing behavior from the decision-Issue chain.
 
 ## Spec list / 仕様一覧
 
 - `docs/specs/product/product-scope-invariant.md` — **highest-priority durable geographic / FoodCulture scope contract**. Product is Tokyo-wide, multi-region × multi-food-culture; the 8/23 Okutama × Tokyo Wasabi journey is demo-only. Defines architecture/recommendation and terminology guardrails.
-- `docs/specs/product/hackathon-product-contract.md` — current hackathon behavior contract. It must follow the Product Scope Invariant for Product/demo boundaries and #92 / KiKi UI/UX for current App IA.
+- `docs/specs/product/hackathon-product-contract.md` — current visible-MVP Product, route, state, navigation, and validation contract after PR #279.
 - `docs/specs/product/recommendation-contract.md` — deterministic, explainable `Food Profile + Exploration Conditions → Region × FoodCulture / Journey` contract. Separates hard exclusions, user-dominant ranking, bounded reasons, evidence-dependent tourism-dispersion weighting, and the single-candidate demo boundary.
-- `docs/specs/product/approved-ui-fidelity.md` — approved S0–S9 UI fidelity contract: durable cross-Issue presentation rules (reference canvas, shared header/locale, visual language, component/state hierarchy, per-screen presentation, placeholder policy, accessibility). Owns presentation only; current behavior/IA stays with #92 and Product scope with the Product Scope Invariant.
+- `docs/specs/product/approved-ui-fidelity.md` — historical S0–S9 presentation record; it is not current Product/UI authority.
 - `docs/specs/authentication/google-login.md` — Google authentication and user identity contract (SDD foundation for #11, reusable infrastructure).
 - `docs/specs/product/badge-contract.md` — `My → Badges` cross-region retention/discovery contract: Stretch placement under `My`, digital badge state shape, qualifying-action categories, explicit-TBD earning condition, MOGU Recent / Saved Routes / Badges semantic separation, and the physical-reward boundary. Child Issues #39/#40 reference this.
