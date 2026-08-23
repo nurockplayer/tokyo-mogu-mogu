@@ -805,7 +805,7 @@
   margin-top: 0;
 }
 
-/* ---------- Locale preference control ---------- */
+/* ---------- Locale switch (approved header right slot) ---------- */
 
 .tmm-locale-toggle {
   display: inline-flex;
@@ -816,7 +816,8 @@
 
 .tmm-locale-toggle__btn {
   min-height: var(--tmm-tap-min);
-  /* Every locale option keeps the shared 44px minimum tap target. */
+  /* Issue #82: every interactive target is >=44px wide too (JA/EN labels alone
+     render ~39-41px, under the --tmm-tap-min tap-target rule). */
   min-width: var(--tmm-tap-min);
   padding: 0 12px;
   background: transparent;

@@ -4,16 +4,9 @@ import {
   useMemo,
   useRef,
   useState,
-  type CSSProperties,
   type KeyboardEvent as ReactKeyboardEvent,
 } from 'react';
 import type { Locale } from '../../../i18n';
-import figmaBuyIllustration from '../../../assets/figma/exp-buy.png';
-import figmaEatIllustration from '../../../assets/figma/exp-eat.png';
-import figmaLearnIllustration from '../../../assets/figma/exp-learn.png';
-import figmaMakeIllustration from '../../../assets/figma/exp-make.png';
-import figmaMeetIllustration from '../../../assets/figma/exp-meet.png';
-import figmaVisitIllustration from '../../../assets/figma/exp-visit.png';
 import { referenceAssets, type ReferenceCopy } from '../content';
 import {
   canAdvanceExploration,
@@ -41,18 +34,22 @@ interface ExplorationFlowProps {
 const experienceCards: Array<{
   id: ExplorationExperience;
   copyKey: keyof ReferenceCopy['exploration']['experienceCards'];
-  image: string;
-  figmaNodeId: string;
-  art: CSSProperties;
+  image: keyof Pick<
+    typeof referenceAssets,
+    | 'eatIllustration'
+    | 'makeIllustration'
+    | 'buyIllustration'
+    | 'makerIllustration'
+    | 'originIllustration'
+    | 'learnIllustration'
+  >;
 }> = [
-  // Live Figma frame 4:2101 is 390px wide. These values are each node bound / 390 × 100cqw.
-  { id: 'eat', copyKey: 'eat', image: figmaEatIllustration, figmaNodeId: '4:2313', art: { '--figma-art-left': '-0.326976134cqw', '--figma-art-top': '12.850536444cqw', '--figma-art-width': '33.986476018cqw', '--figma-art-height': '33.986476018cqw' } as CSSProperties },
-  // Node 4:2349 is rotated in Figma; its x is centered from the Figma card/image widths.
-  { id: 'make', copyKey: 'make', image: figmaMakeIllustration, figmaNodeId: '4:2349', art: { '--figma-art-left': '3.420717288cqw', '--figma-art-top': '15.889782050cqw', '--figma-art-width': '27.365734394cqw', '--figma-art-height': '27.365734394cqw' } as CSSProperties },
-  { id: 'buy', copyKey: 'buy', image: figmaBuyIllustration, figmaNodeId: '4:2375', art: { '--figma-art-left': '2.427607675cqw', '--figma-art-top': '15.889778691cqw', '--figma-art-width': '29.351957272cqw', '--figma-art-height': '29.351957272cqw' } as CSSProperties },
-  { id: 'meet', copyKey: 'meetMaker', image: figmaMeetIllustration, figmaNodeId: '8:2417', art: { '--figma-art-left': '7.435897436cqw', '--figma-art-top': '21.752771785cqw', '--figma-art-width': '19.487179487cqw', '--figma-art-height': '16.666666667cqw' } as CSSProperties },
-  { id: 'visit', copyKey: 'visitOrigin', image: figmaVisitIllustration, figmaNodeId: '8:2423', art: { '--figma-art-left': '2.710807132cqw', '--figma-art-top': '17.179485777cqw', '--figma-art-width': '28.717948718cqw', '--figma-art-height': '28.717948718cqw' } as CSSProperties },
-  { id: 'learn', copyKey: 'learn', image: figmaLearnIllustration, figmaNodeId: '23:3884', art: { '--figma-art-left': '6.818472170cqw', '--figma-art-top': '21.622657352cqw', '--figma-art-width': '20.512820513cqw', '--figma-art-height': '17.435897436cqw' } as CSSProperties },
+  { id: 'eat', copyKey: 'eat', image: 'eatIllustration' },
+  { id: 'make', copyKey: 'make', image: 'makeIllustration' },
+  { id: 'buy', copyKey: 'buy', image: 'buyIllustration' },
+  { id: 'meet', copyKey: 'meetMaker', image: 'makerIllustration' },
+  { id: 'visit', copyKey: 'visitOrigin', image: 'originIllustration' },
+  { id: 'learn', copyKey: 'learn', image: 'learnIllustration' },
 ];
 
 const movementIds: ExplorationMovement[] = [
@@ -240,16 +237,12 @@ export function ExplorationFlow({
                   onClick={() => dispatch({ type: 'SELECT_EXPERIENCE', value: card.id })}
                   type="button"
                   aria-pressed={selected}
-                  data-experience-id={card.id}
-                  data-figma-node={card.figmaNodeId}
                 >
-                  <div className="exp-copy">
-                    <b>{text.label}</b>
-                    <p>{text.subtitle}</p>
-                  </div>
-                  <div className="pic" style={card.art}>
+                  <b>{text.label}</b>
+                  <p>{text.subtitle}</p>
+                  <div className="pic">
                     <span className="band" />
-                    <img src={card.image} alt="" />
+                    <img src={referenceAssets[card.image]} alt="" />
                   </div>
                 </button>
               );
