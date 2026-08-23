@@ -169,6 +169,51 @@ test('matches the My and 食のバッジ navigation at 375px and 390px', async (
   }
 });
 
+test('keeps Issue #296 on the canonical KiKi canvas in tall viewports', async ({ page }) => {
+  for (const viewport of [
+    { width: 1440, height: 1100 },
+    { width: 600, height: 1100 },
+    { width: 390, height: 932 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.goto('/my');
+
+    const phone = page.locator('.reference-phone');
+    const phoneBounds = await phone.boundingBox();
+    expect(phoneBounds).not.toBeNull();
+    expect(phoneBounds?.width).toBeCloseTo(390, 0);
+    expect(phoneBounds?.height).toBeCloseTo(844, 0);
+    expect(phoneBounds?.x).toBeCloseTo((viewport.width - 390) / 2, 0);
+    expect(phoneBounds?.y).toBeCloseTo((viewport.height - 844) / 2, 0);
+
+    const my = page.locator('[data-screen="my"][data-screen-active="true"]');
+    await expect(my).toHaveCSS('background-size', 'cover');
+    const myBounds = await my.boundingBox();
+    expect(myBounds).toEqual(phoneBounds);
+
+    const myDockBounds = await my.getByRole('navigation', { name: 'Primary' }).boundingBox();
+    expect((myDockBounds?.y ?? 0) + (myDockBounds?.height ?? 0)).toBeCloseTo(
+      (phoneBounds?.y ?? 0) + (phoneBounds?.height ?? 0),
+      0,
+    );
+
+    await my.getByRole('button', { name: '食のバッジ' }).click();
+    const badges = page.locator('[data-screen="badges"][data-screen-active="true"]');
+    await expect(badges).toHaveCSS('background-size', 'cover');
+    const binderBounds = await badges.locator('.issue-296-binder').boundingBox();
+    expect(binderBounds?.x).toBeCloseTo(phoneBounds?.x ?? 0, 0);
+    expect(binderBounds?.width).toBeCloseTo(phoneBounds?.width ?? 0, 0);
+    expect((binderBounds?.x ?? 0) + (binderBounds?.width ?? 0)).toBeCloseTo(
+      (phoneBounds?.x ?? 0) + (phoneBounds?.width ?? 0),
+      0,
+    );
+
+    await badges.getByRole('button', { name: '次のバッジ' }).click();
+    await expect(badges).toHaveAttribute('data-badge-page', '2');
+    await expect(badges.getByText('2/100')).toBeVisible();
+  }
+});
+
 test('uses 言語設定 as the persisted language entry surface', async ({ page }) => {
   await page.goto('/my');
   const my = page.locator('[data-screen="my"][data-screen-active="true"]');

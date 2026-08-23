@@ -100,6 +100,15 @@ body:has(.reference-app) { overflow:hidden; }
   box-shadow:0 0 50px rgba(0,0,0,.18);
   container-type:inline-size;
 }
+
+.reference-app[data-pathname="/my"],
+.reference-app[data-pathname="/badges"] { align-items:center; }
+.reference-app[data-pathname="/my"] .reference-phone,
+.reference-app[data-pathname="/badges"] .reference-phone {
+  max-width:390px;
+  height:min(844px, 100dvh);
+}
+
 .reference-screen { position:absolute; inset:0; display:none; flex-direction:column; background:var(--cream); min-width:0; }
 .reference-screen.on, .reference-screen[data-screen-active="true"] { display:flex; }
 .reference-scroll, .scroll { flex:1; overflow-y:auto; overscroll-behavior:contain; scrollbar-width:none; min-height:0; }

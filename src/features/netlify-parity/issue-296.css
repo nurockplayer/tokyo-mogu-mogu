@@ -1,6 +1,6 @@
 /* Issue #296 — measured from live KiKi Figma frames 269:1031, 269:1210, and 269:1451. */
 .reference-app .issue-296-screen {
-  background:#FFF4E4 url("../../assets/figma-296/background.png") center / 100% 100% no-repeat;
+  background:#FFF4E4 url("../../assets/figma-296/background.png") center / cover no-repeat;
   color:#222;
   font-family:Roboto,"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif;
 }
