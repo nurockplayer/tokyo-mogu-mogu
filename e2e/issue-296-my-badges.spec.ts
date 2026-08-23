@@ -66,6 +66,14 @@ test('labels both Badge binder states as localized demo examples', async ({ page
     await expect(introDisclosure).toHaveCount(1);
     await expect(introDisclosure).toBeVisible();
     await expect(introDisclosure).toHaveText(disclosure.copy);
+    await expect(introDisclosure).toHaveCSS('color', 'rgb(94, 114, 57)');
+    await expect
+      .poll(() =>
+        badges.locator('.issue-296-badge-intro').evaluate(
+          (intro) => intro.firstElementChild?.classList.contains('issue-296-badge-disclosure'),
+        ),
+      )
+      .toBe(true);
     const disclosureBounds = await introDisclosure.boundingBox();
     const binderBounds = await badges.locator('.issue-296-binder').boundingBox();
     expect(disclosureBounds).not.toBeNull();

@@ -98,7 +98,7 @@
   color:#667A47; white-space:pre-line; font:600 20px/29px Roboto,"Noto Sans JP",sans-serif;
 }
 .reference-app .issue-296-badge-disclosure {
-  position:absolute; top:-36px; left:0; width:205px; color:#667A47;
+  position:absolute; top:-36px; left:0; width:205px; color:var(--green);
   white-space:normal; font:500 10px/14px Roboto,"Noto Sans JP",sans-serif;
 }
 .reference-app .issue-296-badge-count {

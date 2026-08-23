@@ -78,8 +78,8 @@ export function BadgesScreen({ active, locale, onBack }: BadgesScreenProps) {
       <Issue296Header title={labels.title} backLabel={labels.back} onBack={onBack} />
       <div className="issue-296-badge-body scroll">
         <p className="issue-296-badge-intro">
-          <span>{labels.intro}</span>
           <small className="issue-296-badge-disclosure">{labels.disclosure}</small>
+          <span>{labels.intro}</span>
         </p>
         <div className="issue-296-badge-count" aria-label={`1 ${labels.countLabel}`}>
           <img src={countStamp} alt="" />
