@@ -104,12 +104,13 @@ export function AppRouter() {
     ![...referenceJourneys, ...legacyJourneys].some(
       (journey) => journey.candidateId === candidateId,
     );
-  const invalidResultIdentity = pathname === '/explore/result' && journeyQuery === 'invalid';
+  const invalidResultIdentity =
+    pathname === '/explore/result' &&
+    (journeyQuery === 'invalid' || journeyQuery === 'reference-conflict');
   const invalidRouteIdentity =
     pathname === '/route' &&
-    journeyQuery === 'invalid' &&
-    !hasExplicitRouteId &&
-    !hasUnknownCandidate;
+    (journeyQuery === 'reference-conflict' ||
+      (journeyQuery === 'invalid' && !hasExplicitRouteId && !hasUnknownCandidate));
   const referenceJourneyQuery = journeyQuery === 'reference';
   const referenceStoryPath =
     pathname === '/story' ||
@@ -117,6 +118,7 @@ export function AppRouter() {
   const referenceSpotPath =
     pathname.startsWith('/spot/') &&
     Object.hasOwn(demoSpots, decodeURIComponent(pathname.slice('/spot/'.length)));
+  const invalidSpotIdentity = referenceSpotPath && journeyQuery === 'reference-conflict';
   const referencePath =
     pathname === '/' ||
     pathname === '/food-profile' ||
@@ -135,6 +137,7 @@ export function AppRouter() {
 
   if (invalidResultIdentity) return <Navigate to="/explore/result" replace />;
   if (invalidRouteIdentity) return <Navigate to="/route" replace />;
+  if (invalidSpotIdentity) return <Navigate to={pathname} replace />;
 
   if (referencePath) return <ReferenceApp />;
 

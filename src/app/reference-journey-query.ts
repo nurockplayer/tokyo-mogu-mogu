@@ -15,7 +15,11 @@ export interface ReferenceJourneyQuerySource {
   routeId: string;
 }
 
-export type JourneyQueryClassification = 'reference' | 'legacy' | 'invalid';
+export type JourneyQueryClassification =
+  | 'reference'
+  | 'legacy'
+  | 'reference-conflict'
+  | 'invalid';
 
 const IDENTITY_FIELDS = ['candidateId', 'resultId', 'routeId'] as const;
 
@@ -54,17 +58,28 @@ export function classifyJourneyQuery(
 
   if (supplied.length === 0) return 'reference';
 
+  const fieldMatches = (
+    journey: JourneyQueryIdentity,
+    [field, value]: (typeof supplied)[number],
+  ) => {
+    if (field === 'resultId') {
+      return (journey.resultAliases ?? [journey.resultId]).includes(value);
+    }
+    return journey[field] === value;
+  };
   const matches = (journeys: readonly JourneyQueryIdentity[]) =>
     journeys.some((journey) =>
-      supplied.every(([field, value]) => {
-        if (field === 'resultId') {
-          return (journey.resultAliases ?? [journey.resultId]).includes(value);
-        }
-        return journey[field] === value;
-      }),
+      supplied.every((field) => fieldMatches(journey, field)),
     );
 
   if (matches(referenceJourneys)) return 'reference';
   if (matches(legacyJourneys)) return 'legacy';
+  if (
+    supplied.every((field) =>
+      referenceJourneys.some((journey) => fieldMatches(journey, field)),
+    )
+  ) {
+    return 'reference-conflict';
+  }
   return 'invalid';
 }

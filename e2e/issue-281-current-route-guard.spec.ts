@@ -70,3 +70,74 @@ test('keeps an explicit stale Route identity on the honest not-found surface', a
   await expect(page.getByRole('heading', { name: /ルートが見つかりません|Route not found/ })).toBeVisible();
   await expect(page.locator('[data-screen="route"][data-screen-active="true"]')).toHaveCount(0);
 });
+
+test.describe('known current Route tuple conflicts', () => {
+  for (const [description, search] of [
+    [
+      'yamame candidate with the wasabi route',
+      '?candidateId=demo-okutama-yamame&routeId=okutama-wasabi-journey',
+    ],
+    [
+      'wasabi candidate with the yamame route',
+      '?candidateId=demo-okutama-wasabi&routeId=okutama-yamame-journey',
+    ],
+  ] as const) {
+    test(`canonicalizes ${description} to the current Route`, async ({ page }) => {
+      await page.goto(`/route${search}`);
+
+      await expect(page).toHaveURL(/\/route$/);
+      await expect(
+        page.locator('[data-screen="route"][data-screen-active="true"]'),
+      ).toBeVisible();
+      await expect(page.locator('.tmm-page')).toHaveCount(0);
+    });
+  }
+});
+
+test('removes contradictory known current context before a Spot can forward it to Route', async ({
+  page,
+}) => {
+  await page.goto(
+    '/spot/okutama-tourism-office?candidateId=demo-okutama-yamame&resultId=yamame-okutama&routeId=okutama-wasabi-journey',
+  );
+
+  await expect(page).toHaveURL(/\/spot\/okutama-tourism-office$/);
+  const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
+  await expect(spot).toBeVisible();
+
+  await spot.locator('button.fab-back').click();
+
+  await expect(page).toHaveURL(/\/route$/);
+  await expect(
+    page.locator('[data-screen="route"][data-screen-active="true"]'),
+  ).toBeVisible();
+  await expect(page.locator('.tmm-page')).toHaveCount(0);
+});
+
+test.describe('valid complete current Spot contexts', () => {
+  for (const [description, search] of [
+    [
+      'wasabi',
+      '?candidateId=demo-okutama-wasabi&resultId=wasabi-okutama&routeId=okutama-wasabi-journey',
+    ],
+    [
+      'yamame',
+      '?candidateId=demo-okutama-yamame&resultId=yamame-okutama&routeId=okutama-yamame-journey',
+    ],
+  ] as const) {
+    test(`keeps the ${description} Spot context usable`, async ({ page }) => {
+      await page.goto(`/spot/okutama-tourism-office${search}`);
+
+      const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
+      await expect(spot).toBeVisible();
+      await expect(page).toHaveURL(`/spot/okutama-tourism-office${search}`);
+
+      await spot.locator('button.fab-back').click();
+
+      await expect(page).toHaveURL(`/route${search}`);
+      await expect(
+        page.locator('[data-screen="route"][data-screen-active="true"]'),
+      ).toBeVisible();
+    });
+  }
+});
