@@ -2,9 +2,9 @@
  * Guided-journey shell (Issue #217; productized by Issue #252).
  *
  * The guided setup and diagnosis render inside this slim shell instead of
- * the production AppShell: it keeps only the MOGU wordmark, the locale switch,
- * and the demo reset control. The production bottom navigation stays out of the
- * focused setup screens.
+ * the production AppShell: it keeps only the MOGU wordmark and the demo reset
+ * control. The production bottom navigation stays out of the focused setup
+ * screens.
  *
  * The first-use interview remains focused, while returning Home and the
  * Result / Story / Route / Spot product surfaces expose the established #92
@@ -16,7 +16,6 @@
  */
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useI18n } from '../i18n';
-import { LocaleToggle } from '../components/LocaleToggle';
 import { DemoResetButton } from '../components/DemoResetButton';
 import { hasFoodProfile } from '../lib/food-profile-storage';
 import { ErrorBoundary } from './ErrorBoundary';
@@ -44,7 +43,6 @@ export function PrototypeShell() {
           {t('appName')}
         </Link>
         <div className="tmm-header__actions">
-          <LocaleToggle />
           <DemoResetButton />
         </div>
       </header>

@@ -1,5 +1,6 @@
 import type { Locale } from '../../../i18n';
 import { BottomNavigation } from '../components/BottomNavigation';
+import { LocaleControl } from '../components/LocaleControl';
 import {
   referenceAssets,
   type JourneyPresentation,
@@ -35,6 +36,7 @@ const myLabels: Record<Locale, {
   profileTitle: string;
   unregistered: string;
   edit: string;
+  languageTitle: string;
   badgeTitle: string;
   notEarned: string;
   routeTitle: string;
@@ -43,16 +45,19 @@ const myLabels: Record<Locale, {
   ja: {
     guest: 'ゲストさん', honorific: 'さん', prompt: '東京の食旅、たのしんでいますか？',
     profileTitle: 'あなたのFood Profile', unregistered: '未登録', edit: '編集する',
+    languageTitle: '表示言語',
     badgeTitle: 'モグモグバッジ', notEarned: '未獲得', routeTitle: 'マイルート', noRoutes: 'まだ保存されていません',
   },
   en: {
     guest: 'Guest', honorific: '', prompt: 'Enjoying your Tokyo food journeys?',
     profileTitle: 'Your Food Profile', unregistered: 'Not registered', edit: 'Edit',
+    languageTitle: 'Language',
     badgeTitle: 'MOGU MOGU badges', notEarned: 'Not earned', routeTitle: 'My Routes', noRoutes: 'No routes saved yet',
   },
   'zh-TW': {
     guest: '訪客', honorific: '', prompt: '享受你的東京美食之旅嗎？',
     profileTitle: '你的飲食檔案', unregistered: '尚未建立', edit: '編輯',
+    languageTitle: '顯示語言',
     badgeTitle: 'MOGU MOGU 徽章', notEarned: '尚未獲得', routeTitle: '我的路線', noRoutes: '目前尚未儲存',
   },
 };
@@ -67,6 +72,7 @@ export interface MyScreenProps {
   savedJourneys: JourneyPresentation[];
   onEditProfile: () => void;
   onOpenSavedJourney: (journey: JourneyPresentation) => void;
+  onChangeLocale: (locale: Locale) => void;
   onNavigate: (path: string) => void;
 }
 
@@ -80,6 +86,7 @@ export function MyScreen({
   savedJourneys,
   onEditProfile,
   onOpenSavedJourney,
+  onChangeLocale,
   onNavigate,
 }: MyScreenProps) {
   const labels = myLabels[locale];
@@ -126,6 +133,11 @@ export function MyScreen({
           >
             {labels.edit}
           </button>
+        </section>
+
+        <section className="profile-card locale-preference">
+          <h3>{labels.languageTitle}</h3>
+          <LocaleControl locale={locale} label={labels.languageTitle} onChange={onChangeLocale} />
         </section>
 
         <section className="profile-card">

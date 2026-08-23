@@ -8,7 +8,6 @@ import { recordMoguRecent } from '../../lib/mogu-recent';
 import { loadSavedRoutes, saveRoute } from '../../lib/saved-routes';
 import { saveExplorationAnswers } from '../../pages/s0s3/exploration-session';
 import { FoodProfileConversation } from './chat/FoodProfileConversation';
-import { LocaleControl } from './components/LocaleControl';
 import { demoJourneys, demoSpots, referenceCopy, type JourneyPresentation, type SpotPresentation } from './content';
 import { ExplorationFlow } from './exploration/ExplorationFlow';
 import {
@@ -402,12 +401,10 @@ export function ReferenceApp() {
             setRouteBack('/my');
             navigate(`/route?from=my&routeId=${encodeURIComponent(journey.routeId)}`);
           }}
+          onChangeLocale={setLocale}
           onNavigate={navigate}
         />
 
-        {!isSplash ? (
-          <LocaleControl locale={locale} label={copy.app.localeLabel} onChange={setLocale} />
-        ) : null}
         {toast ? <div className="reference-toast" role="status">{toast}</div> : null}
       </div>
     </main>
