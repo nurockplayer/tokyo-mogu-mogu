@@ -4,6 +4,90 @@ test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => window.localStorage.clear());
 });
 
+test('keeps header/footer fixed while only the middle content scrolls', async ({ page }) => {
+  const viewport = { width: 375, height: 812 };
+  await page.setViewportSize(viewport);
+
+  await page.goto('/explore');
+  const explore = page.locator('[data-screen="explore"][data-screen-active="true"]');
+  await expect(explore).toBeVisible();
+  const exploreHead = explore.locator('.ghead');
+  const exploreProgress = explore.locator('.progress');
+  const exploreScroll = explore.locator('.wiz-body');
+
+  const exploreBefore = {
+    head: await exploreHead.boundingBox(),
+    progress: await exploreProgress.boundingBox(),
+    scrollMetrics: await exploreScroll.evaluate((element) => ({
+      scrollHeight: element.scrollHeight,
+      clientHeight: element.clientHeight,
+      scrollTop: element.scrollTop,
+    })),
+  };
+
+  expect(exploreBefore.scrollMetrics.scrollHeight).toBeGreaterThan(
+    exploreBefore.scrollMetrics.clientHeight,
+  );
+  expect(exploreBefore.head).toMatchObject({ y: 0 });
+  expect(exploreBefore.progress?.y).toBeGreaterThanOrEqual(viewport.height - 110);
+
+  await exploreScroll.evaluate((element) => {
+    element.scrollTop = element.scrollHeight;
+  });
+
+  const exploreAfter = {
+    head: await exploreHead.boundingBox(),
+    progress: await exploreProgress.boundingBox(),
+    scrollTop: await exploreScroll.evaluate((element) => element.scrollTop),
+  };
+
+  expect(Math.round(await page.evaluate(() => window.scrollY))).toBe(0);
+  expect(exploreAfter.scrollTop).toBeGreaterThan(exploreBefore.scrollMetrics.scrollTop);
+  expect(exploreAfter.head?.y).toBeCloseTo(exploreBefore.head?.y ?? 0, 1);
+  expect(exploreAfter.progress?.y).toBeCloseTo(exploreBefore.progress?.y ?? 0, 1);
+
+  await page.goto('/explore/result');
+  const result = page.locator('[data-screen="result"][data-screen-active="true"]');
+  await expect(result).toBeVisible();
+  const resultHead = result.locator('.ghead');
+  const resultProgress = result.locator('.progress');
+  const resultScroll = result.locator('.scroll');
+
+  const resultBefore = {
+    head: await resultHead.boundingBox(),
+    progress: await resultProgress.boundingBox(),
+    scrollMetrics: await resultScroll.evaluate((element) => ({
+      scrollHeight: element.scrollHeight,
+      clientHeight: element.clientHeight,
+      scrollTop: element.scrollTop,
+    })),
+  };
+
+  expect(resultBefore.scrollMetrics.scrollHeight).toBeGreaterThan(
+    resultBefore.scrollMetrics.clientHeight,
+  );
+  expect(resultBefore.progress?.y).toBeGreaterThanOrEqual(viewport.height - 110);
+  expect(resultBefore.progress?.y + (resultBefore.progress?.height ?? 0)).toBeCloseTo(
+    viewport.height,
+    0,
+  );
+
+  await resultScroll.evaluate((element) => {
+    element.scrollTop = element.scrollHeight;
+  });
+
+  const resultAfter = {
+    head: await resultHead.boundingBox(),
+    progress: await resultProgress.boundingBox(),
+    scrollTop: await resultScroll.evaluate((element) => element.scrollTop),
+  };
+
+  expect(resultAfter.scrollTop).toBeGreaterThan(resultBefore.scrollMetrics.scrollTop);
+  expect(Math.round(await page.evaluate(() => window.scrollY))).toBe(0);
+  expect(resultAfter.head?.y).toBeCloseTo(resultBefore.head?.y ?? 0, 1);
+  expect(resultAfter.progress?.y).toBeCloseTo(resultBefore.progress?.y ?? 0, 1);
+});
+
 test('exposes the current Food Profile and exploration search states', async ({ page }) => {
   await page.goto('/food-profile');
 
