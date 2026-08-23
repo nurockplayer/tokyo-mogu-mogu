@@ -115,7 +115,19 @@ describe('Netlify parity presentation content', () => {
   });
 
   it('keeps operational presentation facts dated, localized, and non-verified (#281)', () => {
-    expect(Object.keys(presentationSources)).toHaveLength(7);
+    expect(
+      Object.fromEntries(
+        Object.entries(presentationSources).map(([id, source]) => [id, source.url]),
+      ),
+    ).toEqual({
+      okutamaTourismAssociation: 'https://www.okutama.gr.jp/site/about/',
+      okutamaTown: 'https://www.town.okutama.tokyo.jp/1/kankosangyoka/shisetsuosagasu/2/1108.html',
+      wasabiExperience: 'https://tokyowasabi.com/wasabi-experience/',
+      wasabiFoodTruck: 'https://tokyowasabi.com/foodtruck/',
+      wasabiFoodTruckSchedule: 'https://tokyowasabi.com/information/2751/260728/',
+      yamashiroya: 'https://www.yamasiroya.co.jp/shop.html',
+      jrEastOkutamaTimetable: 'https://timetables.jreast.co.jp/timetable/list0368.html',
+    });
     for (const source of Object.values(presentationSources)) {
       expect(source.url).toMatch(/^https:\/\//);
       expect(source.retrievedAt).toBe('2026-08-24');
@@ -127,6 +139,56 @@ describe('Netlify parity presentation content', () => {
       .flatMap((journey) => journey.routeVariants)
       .map((variant) => variant.facts);
     const spotFacts: PresentationFacts[] = Object.values(demoSpots).map((spot) => spot.facts);
+    const sourceUrls = (facts: PresentationFacts): string[] => (
+      facts.sources.map((source) => source.url)
+    );
+
+    expect(
+      Object.fromEntries(
+        demoJourneys.flatMap((journey) => journey.routeVariants.map((variant) => [
+          `${journey.id}:${variant.id}`,
+          sourceUrls(variant.facts),
+        ])),
+      ),
+    ).toEqual({
+      'demo-okutama-wasabi:half-day': [
+        'https://www.okutama.gr.jp/site/about/',
+        'https://www.town.okutama.tokyo.jp/1/kankosangyoka/shisetsuosagasu/2/1108.html',
+        'https://tokyowasabi.com/foodtruck/',
+        'https://tokyowasabi.com/information/2751/260728/',
+        'https://timetables.jreast.co.jp/timetable/list0368.html',
+      ],
+      'demo-okutama-wasabi:full-day': [
+        'https://tokyowasabi.com/wasabi-experience/',
+        'https://www.yamasiroya.co.jp/shop.html',
+        'https://timetables.jreast.co.jp/timetable/list0368.html',
+      ],
+      'demo-okutama-yamame:half-day': [
+        'https://www.okutama.gr.jp/site/about/',
+        'https://www.town.okutama.tokyo.jp/1/kankosangyoka/shisetsuosagasu/2/1108.html',
+        'https://timetables.jreast.co.jp/timetable/list0368.html',
+      ],
+    });
+
+    expect(
+      Object.fromEntries(
+        Object.entries(demoSpots)
+          .filter(([, spot]) => spot.facts.sources.length > 0)
+          .map(([spotId, spot]) => [spotId, sourceUrls(spot.facts)]),
+      ),
+    ).toEqual({
+      'okutama-tourism-office': [
+        'https://www.okutama.gr.jp/site/about/',
+        'https://www.town.okutama.tokyo.jp/1/kankosangyoka/shisetsuosagasu/2/1108.html',
+      ],
+      yamashiroya: ['https://www.yamasiroya.co.jp/shop.html'],
+      'wasabi-kitchen': [
+        'https://tokyowasabi.com/foodtruck/',
+        'https://tokyowasabi.com/information/2751/260728/',
+      ],
+      'wasabi-experience': ['https://tokyowasabi.com/wasabi-experience/'],
+    });
+
     expect(routeFacts.every(Boolean)).toBe(true);
     expect(spotFacts.every(Boolean)).toBe(true);
     for (const facts of [...routeFacts, ...spotFacts]) {
