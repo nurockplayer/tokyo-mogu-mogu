@@ -12,7 +12,9 @@
  * the safe generic fallback used by Ome/Sawai and any unknown future context.
  */
 import type { Locale } from '../i18n/resources';
-import { MODEL_ROUTE_ID } from './saved-routes';
+
+/** The model route rendered by the standalone Support page and pilot actions. */
+export const MODEL_ROUTE_ID = 'okutama-wasabi-journey';
 
 export type SupportActionId = 'buy' | 'visit' | 'reserve' | 'donate' | 'share' | 'save';
 

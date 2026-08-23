@@ -26,7 +26,7 @@ import {
   actionTitle,
   supportActionsForJourney,
 } from './support-actions';
-import { isRouteSaved, saveRoute, unsaveRoute } from './saved-routes';
+import { isRouteSaved, saveRoute, unsaveRoute } from '../lib/saved-routes';
 import './SupportPanel.css';
 
 export function SupportPanel({ routeId }: { routeId?: string }) {

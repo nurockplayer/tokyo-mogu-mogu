@@ -14,7 +14,7 @@ import {
   supportActionsForJourney,
   type SupportActionItem,
 } from './support-actions';
-import { MODEL_ROUTE_ID } from './saved-routes';
+import { MODEL_ROUTE_ID } from './support-actions';
 
 const OME_ROUTE_ID = 'ome-sawai-sake-journey';
 const FORBIDDEN_GENERIC_TERMS = ['わさび', 'wasabi', '山葵', '奥多摩', 'Okutama'];

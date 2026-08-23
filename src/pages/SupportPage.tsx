@@ -7,7 +7,7 @@
  * recap/deep-dive of the full S7 framing (the 「応援」 tab, Issue #66).
  */
 import { SupportPanel } from '../components/SupportPanel';
-import { MODEL_ROUTE_ID } from '../components/saved-routes';
+import { MODEL_ROUTE_ID } from '../components/support-actions';
 import { useI18n } from '../i18n';
 
 export function SupportPage() {
