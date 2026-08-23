@@ -4,6 +4,7 @@ import net from 'node:net';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
+import { parse as parseYaml } from 'yaml';
 
 /**
  * Deterministic regression harness for the Playwright preview-server guard
@@ -20,107 +21,42 @@ const guardScript = fileURLToPath(new URL('../assert-preview-port-free.mjs', imp
 const ciWorkflow = fileURLToPath(new URL('../../.github/workflows/ci.yml', import.meta.url));
 
 type WorkflowStep = {
-  name: string;
-  runCommands: string[];
+  name?: unknown;
+  run?: unknown;
 };
 
-type ParsedWorkflowJob = {
-  steps: WorkflowStep[];
-  runCommands: string[];
+type WorkflowJob = {
+  steps?: WorkflowStep[];
 };
 
-function normalizeYamlScalar(value: string): string {
-  const trimmed = value.trim();
-  const quote = trimmed[0];
-  return (quote === '"' || quote === "'") && trimmed.endsWith(quote)
-    ? trimmed.slice(1, -1)
-    : trimmed;
-}
-
-function readGoldenPathJobLines(workflow: string): string[] {
-  const lines = workflow.split(/\r?\n/);
-  const jobStart = lines.findIndex((line) => line === '  golden-path-e2e:');
-  if (jobStart === -1) {
+function parseGoldenPathJob(workflow: string): WorkflowJob {
+  const parsed = parseYaml(workflow) as { jobs?: Record<string, WorkflowJob> };
+  const job = parsed.jobs?.['golden-path-e2e'];
+  if (!job) {
     throw new Error('Golden Path job is missing from CI workflow');
   }
-
-  const jobEnd = lines.findIndex(
-    (line, index) => index > jobStart && /^\s{2}[a-z0-9_-]+:\s*$/.test(line),
-  );
-  return lines.slice(jobStart, jobEnd === -1 ? lines.length : jobEnd);
-}
-
-function parseGoldenPathJob(workflow: string): ParsedWorkflowJob {
-  const steps: WorkflowStep[] = [];
-  const runCommands: string[] = [];
-  let currentStep: WorkflowStep | undefined;
-  const lines = readGoldenPathJobLines(workflow);
-
-  for (let index = 0; index < lines.length; index += 1) {
-    const stepMatch = lines[index].match(/^\s{6}-\s+(.+)$/);
-    if (stepMatch) {
-      const nameMatch = stepMatch[1].match(/^name:\s*(.+?)\s*$/);
-      currentStep = nameMatch ? { name: normalizeYamlScalar(nameMatch[1]), runCommands: [] } : undefined;
-      if (currentStep) {
-        steps.push(currentStep);
-      }
-      continue;
-    }
-
-    const runMatch = lines[index].match(/^(\s+)run:\s*(.*)$/);
-    if (!runMatch) {
-      continue;
-    }
-
-    const runIndent = runMatch[1].length;
-    const runValue = runMatch[2].trim();
-    const commands: string[] = [];
-    if (/^[|>][-+]?$/.test(runValue)) {
-      const blockLines: string[] = [];
-      let nextIndex = index + 1;
-      while (nextIndex < lines.length) {
-        const nextLine = lines[nextIndex];
-        const nextIndent = nextLine.search(/\S|$/);
-        if (nextLine.trim() !== '' && nextIndent <= runIndent) {
-          break;
-        }
-        if (nextLine.trim() !== '' && !nextLine.trim().startsWith('#')) {
-          blockLines.push(nextLine.trim());
-        }
-        nextIndex += 1;
-      }
-      index = nextIndex - 1;
-      if (runValue.startsWith('>')) {
-        commands.push(blockLines.join(' '));
-      } else {
-        commands.push(...blockLines);
-      }
-    } else if (runValue !== '') {
-      commands.push(runValue);
-    }
-
-    runCommands.push(...commands);
-    currentStep?.runCommands.push(...commands);
-  }
-
-  return { steps, runCommands };
+  return job;
 }
 
 function goldenPathBuildCommand(workflow = readFileSync(ciWorkflow, 'utf8')): string {
-  const parsed = parseGoldenPathJob(workflow);
-  const buildStep = parsed.steps.find(({ name }) => name === 'Build');
-  if (!buildStep || buildStep.runCommands.length !== 1 || buildStep.runCommands[0] !== 'pnpm build:bundle') {
+  const job = parseGoldenPathJob(workflow);
+  const steps = Array.isArray(job.steps) ? job.steps : [];
+  const buildStep = steps.find((step) => String(step.name ?? '').trim() === 'Build');
+  const buildCommand = typeof buildStep?.run === 'string' ? buildStep.run.trim() : '';
+  if (buildCommand !== 'pnpm build:bundle') {
     throw new Error(
-      `Golden Path Build step must run exactly "pnpm build:bundle"; received ${JSON.stringify(buildStep?.runCommands ?? [])}`,
+      `Golden Path Build step must run exactly "pnpm build:bundle"; received ${JSON.stringify(buildCommand)}`,
     );
   }
 
-  const disallowed = parsed.runCommands.filter((command) => /\b(?:npm|npx|yarn|bun)\b/.test(command));
+  const disallowed = steps
+    .map((step) => (typeof step.run === 'string' ? step.run.trim() : ''))
+    .filter((command) => /\b(?:npm|npx|yarn|bun)\b/.test(command));
   if (disallowed.length > 0) {
     throw new Error(`Golden Path job contains a disallowed package-manager command: ${disallowed.join('; ')}`);
   }
 
-  return buildStep.runCommands[0];
+  return buildCommand;
 }
 
 /** Grab a currently-free loopback port, then release it. */
@@ -221,7 +157,7 @@ describe('Golden Path workflow contract (#301)', () => {
     ].join('\n');
 
     expect(() => goldenPathBuildCommand(workflow)).toThrow(
-      'Golden Path Build step must run exactly "pnpm build:bundle"; received []',
+      'Golden Path Build step must run exactly "pnpm build:bundle"; received ""',
     );
   });
 
@@ -282,7 +218,6 @@ describe('Golden Path workflow contract (#301)', () => {
       '      - name: Build',
       '        run: |',
       '          pnpm build:bundle',
-      '          # Keep the E2E build separate from typechecking',
       '  merge-gate:',
       '    runs-on: ubuntu-latest',
     ].join('\n');
@@ -304,5 +239,21 @@ describe('Golden Path workflow contract (#301)', () => {
     ].join('\n');
 
     expect(goldenPathBuildCommand(workflow)).toBe('pnpm build:bundle');
+  });
+
+  it('does not execute a folded scalar whose first line comments out the build', () => {
+    const workflow = [
+      'jobs:',
+      '  golden-path-e2e:',
+      '    steps:',
+      '      - name: Build',
+      '        run: >-',
+      '          # build disabled',
+      '          pnpm build:bundle',
+      '  merge-gate:',
+      '    runs-on: ubuntu-latest',
+    ].join('\n');
+
+    expect(() => goldenPathBuildCommand(workflow)).toThrow('Golden Path Build step must run exactly');
   });
 });
