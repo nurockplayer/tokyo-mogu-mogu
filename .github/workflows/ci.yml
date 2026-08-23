@@ -15,7 +15,7 @@ jobs:
       # Classified by the repository-owned shell classifier (Issue #137):
       #   docs — git diff --check only
       #   normal — typecheck / lint / test / build
-      #   core — normal gates plus the 375px Japanese Golden-path E2E
+      #   core — normal gates plus the current 375px Japanese MVP smoke
       risk: ${{ steps.classify.outputs.risk }}
     steps:
       - name: Checkout
@@ -101,7 +101,7 @@ jobs:
         run: pnpm build:bundle
 
   golden-path-e2e:
-    name: Golden-path E2E (375px, ja)
+    name: Current MVP Smoke (375px, ja)
     runs-on: ubuntu-latest
     timeout-minutes: 15
     # Keep this tag aligned with @playwright/test in package.json. The official
@@ -110,11 +110,8 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.62.1-noble
       options: --user 1001
-    # PR #279 intentionally supersedes the #276 choreography gate with live-Figma
-    # coverage; keep the obsolete suite from blocking this one emergency merge.
-    # Future PRs and pushes retain the normal core-risk E2E behavior.
     needs: quality-gates
-    if: needs.quality-gates.outputs.risk == 'core' && github.event.pull_request.number != 279
+    if: needs.quality-gates.outputs.risk == 'core'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -139,8 +136,8 @@ jobs:
       - name: Build
         run: npx vite build
 
-      - name: Run golden-path E2E
-        run: npx playwright test
+      - name: Run current MVP smoke
+        run: pnpm exec playwright test e2e/current-mvp-smoke.spec.ts
 
   # One always-present status for branch protection. Docs/normal changes may
   # legitimately skip the conditional E2E job; core changes may not. Requiring

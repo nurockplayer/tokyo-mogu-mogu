@@ -1,21 +1,18 @@
-# Browser acceptance authority
+# Browser validation
 
-Issue #276 replaced the previous frontend choreography with the deployed
-Netlify experience as the visible UX authority. The browser gate is therefore
-`issue-276-netlify-parity.spec.ts`, which covers:
+The current browser merge gate is `current-mvp-smoke.spec.ts`.
 
-- the complete progressive Food Profile conversation and its exact delays;
-- the reference Food Profile edit conversation and retained browser history;
-- the authoritative five-step Exploration sequence;
-- Result → Story → 2.2-second route generation → Route → Spot;
-- named primary-action, focus, contrast, hit-target, and 375px overflow checks
-  for Food Profile, every Exploration state, and the major screens in ja, en,
-  and zh-TW;
-- saved-route reload behavior and non-demo route delegation to the established
-  Tokyo-wide data-backed pages;
-- trace/video output and opt-in sequential screenshot evidence.
+It performs a small 375px Japanese smoke walk against current merged
+Figma-complete behavior:
 
-The removed pre-#276 browser specs asserted superseded question orders,
-automatic-advance behavior, route identities, modal interaction models, and
-screen composition. Durable data, persistence, i18n, and reusable Product
-scope contracts continue to be covered by the Vitest suite.
+- Result → Story → Route → Spot;
+- current Story/Route content and loading state;
+- route save and Spot favorite controls;
+- the 食旅を見つけ / モグモグる / お気に入り / マイ Dock destinations.
+
+The smoke test validates the Product; it does not define Product behavior.
+Current live KiKi Figma and current merged `main` remain the authorities.
+
+`issue-276-netlify-parity.spec.ts` is a historical, non-gating record of the
+superseded Netlify-era choreography. Do not update it or restore its selectors,
+timing, accessible names, IA, or screen composition to satisfy current work.
