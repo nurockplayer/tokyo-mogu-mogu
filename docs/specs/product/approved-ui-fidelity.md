@@ -1,4 +1,14 @@
-# Approved UI Fidelity Contract (fallback presentation — S0–S9 screens under Home / Discover / MOGU / My)
+# Historical / Superseded UI Fidelity Record (S0–S9)
+
+> **Historical record — not current Product or UI authority.** This document
+> preserves the former S0–S9 presentation specification, including its former
+> Top-3 Result direction, for provenance. Do not implement, restore, or infer
+> current behavior from it. For current authority, inspect the connected KiKi
+> Figma, then current `main`, then
+> `docs/specs/product/hackathon-product-contract.md`.
+
+The historical preamble is preserved verbatim below. It remains historical and
+does not override the authority boundary above.
 
 Durable cross-Issue presentation contract that keeps the S0–S9 screens visually
 coherent when no approved KiKi Figma exists for a screen. This Spec is the

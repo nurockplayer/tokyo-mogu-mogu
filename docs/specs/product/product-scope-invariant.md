@@ -102,9 +102,17 @@ This invariant does **not** require implementing a second region before 2026-08-
 
 ## Recommendation invariant / 推薦ロジック
 
-The durable recommendation contract selects among Region × FoodCulture / journey candidates. It must not assume Tokyo Wasabi is the only possible result, and it must not depend on a nationality-specific persona assumption.
+The durable Product must be able to represent Region × FoodCulture / journey
+candidates without assuming Tokyo Wasabi is the only possible result or a
+nationality-specific persona. The existing five-candidate deterministic helper
+is dormant/supporting demo implementation state. The active Result displays two
+live-Figma presentation fixtures, not a helper-derived Top-3. Production
+recommendation taxonomy, selection, reasons, and score semantics are deferred
+to Issues #206 and #207.
 
-The current release ships three production-ready candidates (Okutama × Tokyo Wasabi primary, Ome/Sawai × sake secondary, and Hachioji × ginger secondary); the fixed golden-path answers match only the wasabi profile, so it returns Okutama × Tokyo Wasabi deterministically. That deterministic result is a **demo behavior**, not a Product-domain rule.
+The fixed demo answers may exercise the Okutama × Tokyo Wasabi helper path.
+That deterministic behavior is a **demo behavior**, not a Product-domain rule,
+and the fixture's seed records remain `needs_confirmation`.
 
 ## Terminology guardrail / 用語ルール
 
