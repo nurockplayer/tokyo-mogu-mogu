@@ -218,6 +218,17 @@ test('completes the current 375px Japanese Golden Path and preserves saved state
   let spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
   await expect(spot.getByRole('heading', { name: '奥多摩観光案内所' })).toBeVisible();
   await expect(spot.getByRole('button', { name: '2/5' })).toBeVisible();
+  const spotInformation = spot.locator('.info-sec');
+  await expect(spotInformation.getByRole('heading', { name: '基本情報' })).toBeVisible();
+  await expect(spotInformation).toContainText('施設');
+  await expect(spotInformation).toContainText('奥多摩町観光案内所');
+  await expect(spotInformation).toContainText('所在地');
+  await expect(spotInformation).toContainText('東京都西多摩郡奥多摩町氷川210');
+  await expect(spotInformation).toContainText('電話');
+  await expect(spotInformation).toContainText('0428-83-2152');
+  await expect(spotInformation).not.toContainText(
+    /Netlify|デモ用編集情報|営業時間|奥多摩駅から徒歩/,
+  );
   await expectNoHorizontalOverflow(page);
 
   await spot.getByRole('button', { name: 'お気に入りに保存' }).click();

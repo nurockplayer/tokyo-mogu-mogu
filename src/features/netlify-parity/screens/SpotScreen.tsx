@@ -36,10 +36,38 @@ const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> = {
       '這裡備有奧多摩觀光資訊與地圖，也能諮詢推薦路線。說不定還能遇見地方吉祥物「Wasapy」！',
     ),
     information: [
-      { icon: 'clock', label: local('営業時間', 'Hours', '營業時間'), value: local('9:00 - 17:00（年中無休）', '9:00–17:00 (open year-round)', '9:00–17:00（全年無休）') },
-      { icon: 'information', label: local('住所', 'Address', '地址'), value: local('東京都西多摩郡奥多摩町氷川205', '205 Hikawa, Okutama, Nishitama, Tokyo', '東京都西多摩郡奧多摩町冰川 205') },
-      { icon: 'information', label: local('電話', 'Phone', '電話'), value: local('0428-83-2152', '0428-83-2152', '0428-83-2152') },
-      { icon: 'train', label: local('アクセス', 'Access', '交通'), value: local('奥多摩駅から徒歩 約1分', 'About 1 minute on foot from Okutama Station', '從奧多摩站步行約 1 分鐘') },
+      {
+        icon: 'information',
+        label: local('施設', 'Place', '設施'),
+        value: local(
+          '奥多摩町観光案内所',
+          'Okutama Town Tourist Information Center',
+          '奧多摩町觀光服務處',
+        ),
+      },
+      {
+        icon: 'information',
+        label: local('所在地', 'Address', '地址'),
+        value: local(
+          '東京都西多摩郡奥多摩町氷川210',
+          '210 Hikawa, Okutama, Nishitama, Tokyo',
+          '東京都西多摩郡奧多摩町冰川 210',
+        ),
+      },
+      {
+        icon: 'information',
+        label: local('電話', 'Phone', '電話'),
+        value: local('0428-83-2152', '0428-83-2152', '0428-83-2152'),
+      },
+      {
+        icon: 'information',
+        label: local('公式情報', 'Official information', '官方資訊'),
+        value: local(
+          '最新のお知らせ・交通アクセス・地図は、奥多摩観光協会公式サイトで確認できます。',
+          'Check the Okutama Tourism Association website for current notices, transport access, and maps.',
+          '最新公告、交通資訊與地圖可至奧多摩觀光協會官方網站確認。',
+        ),
+      },
     ],
     guide: {
       title: local('ガイドサービス（予約制）', 'Guided service (reservation required)', '導覽服務（預約制）'),

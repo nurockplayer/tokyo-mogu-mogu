@@ -391,10 +391,10 @@ export function referenceCopy(locale: Locale): ReferenceCopy {
   return copies[locale];
 }
 
-const demoSourceNotes: Record<Locale, string> = {
-  ja: 'Netlify の参照画面をもとにしたデモ用編集情報です。訪問前に施設の最新情報をご確認ください。',
-  en: 'Demo editorial presentation transcribed from the authoritative Netlify reference; verify current venue details before travel.',
-  'zh-TW': '此為依 Netlify 參考畫面整理的示範編輯資訊；造訪前請確認場所的最新資料。',
+const visitPlanningNotes: Record<Locale, string> = {
+  ja: '営業時間・予約・価格・アクセスは、訪問前に各施設の公式情報でご確認ください。',
+  en: 'Confirm hours, reservations, prices, and access with the venue’s official information before visiting.',
+  'zh-TW': '造訪前請透過各場所的官方資訊確認營業時間、預約、價格與交通方式。',
 };
 
 export const demoJourneys: JourneyPresentation[] = [
@@ -436,9 +436,9 @@ type SpotCopy = Pick<SpotPresentation['copy'][Locale], 'name' | 'lead' | 'descri
 const spot = (id: string, imageAssetId: ReferenceAssetId, thumbnailAssetIds: ReferenceAssetId[], localized: Record<Locale, SpotCopy>): SpotPresentation => ({
   id, regionId: 'okutama', foodCultureId: 'wasabi-okutama', imageAssetId, thumbnailAssetIds,
   copy: {
-    ja: { ...localized.ja, tags: ['デモ参考情報'], practicalInfo: [{ label: '情報の扱い', value: demoSourceNotes.ja }], caution: ['営業・予約・価格・アクセスなどは、訪問前に公式情報をご確認ください。'] },
-    en: { ...localized.en, tags: ['Demo reference'], practicalInfo: [{ label: 'Information handling', value: demoSourceNotes.en }], caution: ['Please confirm hours, booking, prices, and access with official sources before visiting.'] },
-    'zh-TW': { ...localized['zh-TW'], tags: ['示範參考資訊'], practicalInfo: [{ label: '資訊說明', value: demoSourceNotes['zh-TW'] }], caution: ['造訪前請以官方資訊確認營業時間、預約、價格與交通。'] },
+    ja: { ...localized.ja, tags: ['訪問前に要確認'], practicalInfo: [{ label: '訪問前の確認', value: visitPlanningNotes.ja }], caution: ['営業・予約・価格・アクセスなどは、訪問前に公式情報をご確認ください。'] },
+    en: { ...localized.en, tags: ['Check before visiting'], practicalInfo: [{ label: 'Before visiting', value: visitPlanningNotes.en }], caution: ['Please confirm hours, booking, prices, and access with official sources before visiting.'] },
+    'zh-TW': { ...localized['zh-TW'], tags: ['造訪前請確認'], practicalInfo: [{ label: '造訪前確認', value: visitPlanningNotes['zh-TW'] }], caution: ['造訪前請以官方資訊確認營業時間、預約、價格與交通。'] },
   },
 });
 

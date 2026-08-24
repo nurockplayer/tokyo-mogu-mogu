@@ -106,6 +106,23 @@ describe('Netlify parity presentation content', () => {
     expect(copy.exploration.themeOptions).toHaveLength(9);
   });
 
+  it('keeps Spot visitor information free of internal demo and reference wording', () => {
+    const internalReferenceWording =
+      /Netlify|デモ用編集情報|デモ参考情報|Demo editorial presentation|Demo reference|示範編輯資訊|示範參考資訊/;
+
+    for (const spot of Object.values(demoSpots)) {
+      for (const locale of locales) {
+        const localized = spot.copy[locale];
+        const visibleCopy = [
+          ...localized.tags,
+          ...localized.practicalInfo.flatMap((row) => [row.label, row.value]),
+        ];
+
+        expect(visibleCopy.every((value) => !internalReferenceWording.test(value))).toBe(true);
+      }
+    }
+  });
+
   it('resolves every presentation asset to a bundled local file', () => {
     for (const assetFile of Object.values(referenceAssetFiles)) {
       expect(existsSync(fileURLToPath(new URL(assetFile, import.meta.url)))).toBe(true);
