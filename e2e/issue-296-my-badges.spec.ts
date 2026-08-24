@@ -112,15 +112,16 @@ test('uses one shared shell across current Dock routes and Badge', async ({ page
 
       if (route.screen === 'my') {
         await expect(screen).toHaveCSS('background-size', 'cover');
-        const statusBounds = await screen.locator('.issue-296-status-bar').boundingBox();
+        await expect(screen.locator('.issue-296-status-bar')).toHaveCount(0);
         const headerBounds = await screen.locator('.issue-296-header').boundingBox();
         const dockBounds = await screen
           .getByRole('navigation', { name: 'Primary' })
           .boundingBox();
-        for (const bounds of [statusBounds, headerBounds, dockBounds]) {
+        for (const bounds of [headerBounds, dockBounds]) {
           expect(bounds?.x).toBeCloseTo(phoneBounds?.x ?? 0, 0);
           expect(bounds?.width).toBeCloseTo(expectedWidth, 0);
         }
+        expect(headerBounds?.y).toBeCloseTo(phoneBounds?.y ?? 0, 0);
         expect((dockBounds?.y ?? 0) + (dockBounds?.height ?? 0)).toBeCloseTo(
           viewport.height,
           0,
@@ -129,12 +130,11 @@ test('uses one shared shell across current Dock routes and Badge', async ({ page
 
       if (route.screen === 'badges') {
         await expect(screen).toHaveCSS('background-size', 'cover');
-        const statusBounds = await screen.locator('.issue-296-status-bar').boundingBox();
+        await expect(screen.locator('.issue-296-status-bar')).toHaveCount(0);
         const headerBounds = await screen.locator('.issue-296-header').boundingBox();
-        for (const bounds of [statusBounds, headerBounds]) {
-          expect(bounds?.x).toBeCloseTo(phoneBounds?.x ?? 0, 0);
-          expect(bounds?.width).toBeCloseTo(expectedWidth, 0);
-        }
+        expect(headerBounds?.x).toBeCloseTo(phoneBounds?.x ?? 0, 0);
+        expect(headerBounds?.y).toBeCloseTo(phoneBounds?.y ?? 0, 0);
+        expect(headerBounds?.width).toBeCloseTo(expectedWidth, 0);
       }
     }
   }
