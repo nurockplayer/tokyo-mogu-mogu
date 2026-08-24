@@ -93,6 +93,52 @@ test('uses the shared shell without Figma device chrome and keeps each Dock at t
   }
 });
 
+test('keeps the 53px header canonical at zero inset and clears a simulated top safe area', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+
+  for (const route of [
+    { path: '/my', screen: 'my' },
+    { path: '/badges', screen: 'badges' },
+  ]) {
+    await page.goto(route.path);
+
+    const phone = await box(page.locator('.reference-phone'));
+    const screen = page.locator(
+      `[data-screen="${route.screen}"][data-screen-active="true"]`,
+    );
+    const chrome = screen.locator('.issue-296-chrome');
+    const header = screen.locator('.issue-296-header');
+    const canonicalChrome = await box(chrome);
+    const canonicalHeader = await box(header);
+
+    expect(await box(screen)).toEqual(phone);
+    expect(canonicalChrome.y).toBeCloseTo(phone.y, 0);
+    expect(canonicalChrome.height).toBeCloseTo(53, 0);
+    expect(canonicalHeader.y).toBeCloseTo(phone.y, 0);
+    expect(canonicalHeader.height).toBeCloseTo(53, 0);
+
+    await chrome.evaluate((element) => {
+      element.style.setProperty('--issue-296-top-safe-area', '34px');
+    });
+
+    const safeChrome = await box(chrome);
+    const safeHeader = await box(header);
+    expect(await box(screen)).toEqual(phone);
+    expect(safeChrome.y).toBeCloseTo(phone.y, 0);
+    expect(safeChrome.height).toBeCloseTo(87, 0);
+    expect(safeHeader.y).toBeCloseTo(phone.y + 34, 0);
+    expect(safeHeader.height).toBeCloseTo(53, 0);
+    await expect(screen.locator('.issue-296-status-bar')).toHaveCount(0);
+
+    if (route.screen === 'badges') {
+      const backButton = await box(screen.getByRole('button', { name: 'マイページに戻る' }));
+      expect(backButton.y).toBeGreaterThanOrEqual(phone.y + 34);
+    }
+  }
+});
+
 test('distributes My flexible space with the canonical Figma gap proportions', async ({ page }) => {
   for (const viewport of viewports) {
     await page.setViewportSize(viewport);

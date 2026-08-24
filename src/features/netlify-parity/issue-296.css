@@ -5,7 +5,11 @@
   font-family:Roboto,"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif;
 }
 
-.reference-app .issue-296-chrome { flex:none; height:53px; position:relative; z-index:2; }
+.reference-app .issue-296-chrome {
+  --issue-296-top-safe-area:env(safe-area-inset-top);
+  flex:none; height:calc(53px + var(--issue-296-top-safe-area));
+  padding-top:var(--issue-296-top-safe-area); position:relative; z-index:2;
+}
 .reference-app .issue-296-header { height:53px; position:relative; background:#667A48; color:#fff; }
 .reference-app .issue-296-header h1 {
   position:absolute; top:12px; left:12px; height:29px; margin:0;
