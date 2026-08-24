@@ -13,6 +13,18 @@ reuse license claimed**. They are bundled only for TOKYO MOGU MOGU demo parity.
 Venue facts shown next to these images remain reference/demo editorial content
 and must be verified with official sources before a real visit.
 
+## Live KiKi Figma export
+
+`figma-route-map.png` is a direct 3x PNG export from the live KiKi Figma Route
+frame `119:681`, map node `120:857` (`image 19`), verified on **2026-08-24**
+through the local Hopp `figma-bridge`. The node is a 389 x 313 rectangle with a
+single cropped raster-image fill (image hash
+`44704abc7534dc7587bbd99e2fa7faecdf3e0d1a`); the export is 1167 x 939 and
+preserves the node's authored crop and `389/313` aspect ratio. The bridge does
+not expose the uploaded raster's original filename, intrinsic dimensions,
+ownership, or license. Figma presence therefore does not establish public reuse
+rights, and no public reuse license is claimed.
+
 | File | Exact source | Role | Ownership / license | Verified |
 | --- | --- | --- | --- | --- |
 | `welcome_cta.png` | `https://mogu-mogu-5525da.netlify.app/assets/welcome_cta.png` | Splash background | Project reference bundle; no public reuse license claimed | 2026-08-23 |
