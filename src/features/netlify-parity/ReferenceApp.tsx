@@ -248,7 +248,7 @@ export function ReferenceApp() {
         <SplashScreen
           active={isSplash}
           copy={copy}
-          onStart={() => navigate(nickname || loadNickname() ? '/home' : '/food-profile')}
+          onStart={() => navigate('/food-profile')}
         />
         <FoodProfileConversation
           active={isProfileOnboarding}

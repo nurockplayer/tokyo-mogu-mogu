@@ -1,5 +1,27 @@
 import { expect, test, type Page } from '@playwright/test';
 
+const persistedFoodProfile = {
+  dietary: [],
+  dietaryOther: '',
+  hasNoRestrictions: true,
+  savedAt: '2026-08-24T00:00:00.000Z',
+  version: 1,
+};
+
+async function seedPersistedProfile(page: Page): Promise<void> {
+  await page.addInitScript((profile) => {
+    localStorage.setItem('tmm:nickname:v1', '123');
+    localStorage.setItem('tmm:foodProfile:v1', JSON.stringify(profile));
+  }, persistedFoodProfile);
+}
+
+async function startFromWelcome(page: Page): Promise<void> {
+  await page.goto('/');
+  const splash = page.locator('[data-screen="splash"][data-screen-active="true"]');
+  await expect(splash).toBeVisible();
+  await splash.click();
+}
+
 async function expectNoHorizontalOverflow(page: Page): Promise<void> {
   await expect
     .poll(() =>
@@ -93,6 +115,46 @@ async function completeExploration(page: Page): Promise<void> {
   }
   await explore.getByRole('button', { name: '次へ', exact: true }).click();
 }
+
+test.describe('Issue #316 Welcome entry routing', () => {
+  test('starts the Food Profile conversation with clean storage', async ({ page }) => {
+    await startFromWelcome(page);
+
+    await expect(page).toHaveURL(/\/food-profile$/);
+    await expect(
+      page.locator('[data-screen="food-profile"][data-screen-active="true"]'),
+    ).toBeVisible();
+  });
+
+  test('starts the Food Profile conversation with a persisted nickname and profile', async ({
+    page,
+  }) => {
+    await seedPersistedProfile(page);
+    await startFromWelcome(page);
+
+    await expect(page).toHaveURL(/\/food-profile$/);
+    await expect(page).not.toHaveURL(/\/home$/);
+    await expect(
+      page.locator('[data-screen="food-profile"][data-screen-active="true"]'),
+    ).toBeVisible();
+    await expect
+      .poll(() => page.evaluate(() => localStorage.getItem('tmm:nickname:v1')))
+      .toBe('123');
+    await expect
+      .poll(() => page.evaluate(() => localStorage.getItem('tmm:foodProfile:v1')))
+      .not.toBeNull();
+  });
+
+  test('keeps direct Home navigation directly accessible', async ({ page }) => {
+    await seedPersistedProfile(page);
+    await page.goto('/home');
+
+    await expect(page).toHaveURL(/\/home$/);
+    const home = page.locator('[data-screen="home"][data-screen-active="true"]');
+    await expect(home).toBeVisible();
+    await expect(home.getByText('123さん')).toBeVisible();
+  });
+});
 
 test('completes the current 375px Japanese Golden Path and preserves saved state', async ({
   page,
