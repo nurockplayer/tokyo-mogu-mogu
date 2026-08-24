@@ -229,6 +229,7 @@ test('completes the current 375px Japanese Golden Path and preserves saved state
   await expect(spotInformation).not.toContainText(
     /Netlify|デモ用編集情報|営業時間|奥多摩駅から徒歩/,
   );
+  await expect(spot).not.toContainText(/参考情報|未確認/);
   await expectNoHorizontalOverflow(page);
 
   await spot.getByRole('button', { name: 'お気に入りに保存' }).click();
@@ -276,6 +277,18 @@ test('completes the current 375px Japanese Golden Path and preserves saved state
     .click();
   await expect(page).toHaveURL(/\/home$/);
   await expect(page.locator('[data-screen="home"][data-screen-active="true"]')).toBeVisible();
+});
+
+test('labels editorial Spot fixtures as unverified reference information', async ({ page }) => {
+  await page.goto('/spot/wasabi-kitchen?candidateId=demo-okutama-wasabi');
+
+  const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
+  await expect(spot.getByRole('heading', { name: 'わさび食堂' })).toBeVisible();
+  await expect(spot).toContainText('参考情報');
+  await expect(spot).toContainText('未確認');
+  await expect(spot).toContainText('訪問前に各施設の公式情報をご確認ください');
+  await expect(spot).not.toContainText(/Netlify|デモ用編集情報|デモ参考情報/);
+  await expectNoHorizontalOverflow(page);
 });
 
 test('keeps header and footer fixed while only the middle content scrolls', async ({ page }) => {

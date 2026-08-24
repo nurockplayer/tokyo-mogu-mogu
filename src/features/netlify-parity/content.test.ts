@@ -106,7 +106,7 @@ describe('Netlify parity presentation content', () => {
     expect(copy.exploration.themeOptions).toHaveLength(9);
   });
 
-  it('keeps Spot visitor information free of internal demo and reference wording', () => {
+  it('keeps Spot visitor information free of obsolete internal terminology', () => {
     const internalReferenceWording =
       /Netlify|デモ用編集情報|デモ参考情報|Demo editorial presentation|Demo reference|示範編輯資訊|示範參考資訊/;
 
@@ -120,6 +120,49 @@ describe('Netlify parity presentation content', () => {
 
         expect(visibleCopy.every((value) => !internalReferenceWording.test(value))).toBe(true);
       }
+    }
+  });
+
+  it('keeps editorial Spot fixtures visibly labeled as unverified reference information', () => {
+    const expectedCaveats = {
+      ja: ['参考情報', '未確認', '公式情報'],
+      en: ['Reference information', 'may not be verified', 'official information'],
+      'zh-TW': ['參考資訊', '尚未經確認', '官方資訊'],
+    } as const;
+    const editorialSpots = Object.entries(demoSpots).filter(
+      ([spotId]) => spotId !== 'okutama-tourism-office',
+    );
+
+    expect(editorialSpots.length).toBeGreaterThan(0);
+    for (const [, spot] of editorialSpots) {
+      for (const locale of locales) {
+        const localized = spot.copy[locale];
+        const visibleCopy = [
+          ...localized.tags,
+          ...localized.practicalInfo.flatMap((row) => [row.label, row.value]),
+          ...localized.caution,
+        ].join(' ');
+
+        for (const phrase of expectedCaveats[locale]) {
+          expect(visibleCopy).toContain(phrase);
+        }
+      }
+    }
+  });
+
+  it('does not mark the verified tourism-office presentation as unverified', () => {
+    const tourismOffice = demoSpots['okutama-tourism-office'];
+    const unverifiedWording = /参考情報|未確認|Reference information|may not be verified|參考資訊|尚未經確認/;
+
+    for (const locale of locales) {
+      const localized = tourismOffice.copy[locale];
+      const visibleCopy = [
+        ...localized.tags,
+        ...localized.practicalInfo.flatMap((row) => [row.label, row.value]),
+        ...localized.caution,
+      ].join(' ');
+
+      expect(visibleCopy).not.toMatch(unverifiedWording);
     }
   });
 
