@@ -136,15 +136,17 @@ export function MyScreen({
       <Issue296Header title={copy.my.title} />
       <div className="issue-296-my-scroll scroll">
         <div className="issue-296-my-canvas">
-          <button className="issue-296-profile-edit" type="button" onClick={onEditProfile}>
-            {labels.editProfile}
-          </button>
+          <div className="issue-296-profile-block">
+            <button className="issue-296-profile-edit" type="button" onClick={onEditProfile}>
+              {labels.editProfile}
+            </button>
 
-          <div className="issue-296-avatar" aria-hidden="true">
-            <img className="issue-296-avatar-art" src={avatarArtwork} alt="" />
-            <img className="issue-296-camera" src={cameraIcon} alt="" />
+            <div className="issue-296-avatar" aria-hidden="true">
+              <img className="issue-296-avatar-art" src={avatarArtwork} alt="" />
+              <img className="issue-296-camera" src={cameraIcon} alt="" />
+            </div>
+            <p className="issue-296-nickname">{nickname || labels.defaultNickname}</p>
           </div>
-          <p className="issue-296-nickname">{nickname || labels.defaultNickname}</p>
 
           <div className="issue-296-action-grid">
             <button

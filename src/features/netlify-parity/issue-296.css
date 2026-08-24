@@ -5,8 +5,11 @@
   font-family:Roboto,"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif;
 }
 
-.reference-app .issue-296-chrome { flex:none; height:101px; position:relative; z-index:2; }
-.reference-app .issue-296-status-bar { width:100%; height:48px; max-width:none; object-fit:fill; }
+.reference-app .issue-296-chrome {
+  --issue-296-top-safe-area:env(safe-area-inset-top);
+  flex:none; height:calc(53px + var(--issue-296-top-safe-area));
+  padding-top:var(--issue-296-top-safe-area); position:relative; z-index:2;
+}
 .reference-app .issue-296-header { height:53px; position:relative; background:#667A48; color:#fff; }
 .reference-app .issue-296-header h1 {
   position:absolute; top:12px; left:12px; height:29px; margin:0;
@@ -20,22 +23,31 @@
 .reference-app .issue-296-back img { width:12px; height:19px; max-width:none; }
 .reference-app .issue-296-back + h1 { left:43.173px; }
 
-/* My / マイページ — frame 269:1031. Coordinates below are relative to y=101. */
-.reference-app .issue-296-my-scroll { position:relative; padding:0; background:transparent; }
-.reference-app .issue-296-my-canvas { position:relative; min-height:659px; }
+/* My / マイページ — frame 269:1031, excluding its 48px device status bar. */
+.reference-app .issue-296-my-scroll {
+  position:relative; display:flex; flex-direction:column; padding:0; background:transparent;
+}
+.reference-app .issue-296-my-canvas {
+  position:relative; flex:1 0 659px; min-height:659px; display:grid;
+  grid-template-rows:19fr 154px 20.721fr 166.114px 21.165fr 136px 42fr 32px 68fr;
+}
+.reference-app .issue-296-profile-block { position:relative; grid-row:2; min-width:0; }
 .reference-app .issue-296-profile-edit {
-  position:absolute; top:19px; left:66.923076923cqw; width:29.230769231cqw; height:32px;
+  position:absolute; top:0; left:66.923076923cqw; width:29.230769231cqw; height:32px;
   border:1px solid #667A47; border-radius:100px; background:#fff;
   color:#667A47; font:400 12px/14px Roboto,"Noto Sans JP",sans-serif;
 }
-.reference-app .issue-296-avatar { position:absolute; top:35px; left:36.666666667cqw; width:103px; height:103px; }
+.reference-app .issue-296-avatar { position:absolute; top:16px; left:36.666666667cqw; width:103px; height:103px; }
 .reference-app .issue-296-avatar-art { width:103px; height:103px; max-width:none; }
 .reference-app .issue-296-camera { position:absolute; left:82px; top:70px; width:26px; height:26px; max-width:none; }
 .reference-app .issue-296-nickname {
-  position:absolute; top:150px; left:0; width:100%; height:23px; margin:0;
+  position:absolute; top:131px; left:0; width:100%; height:23px; margin:0;
   color:#222; text-align:center; font:700 20px/23px Roboto,"Noto Sans JP",sans-serif;
 }
-.reference-app .issue-296-action-grid { position:absolute; top:193.721px; left:6.923076923cqw; display:flex; gap:4.102564103cqw; }
+.reference-app .issue-296-action-grid {
+  position:relative; grid-row:4; left:6.923076923cqw; width:86.666666667cqw;
+  display:flex; gap:4.102564103cqw;
+}
 .reference-app .issue-296-action-card {
   position:relative; width:41.282051282cqw; height:166.114px; overflow:hidden;
   border:1px solid #fff; border-radius:18px; background:#fff; text-align:center;
@@ -50,7 +62,10 @@
   position:absolute; top:117.279px; left:5px; width:calc(100% - 10px); height:28px;
   color:#5D5D5D; font:400 12px/14px Roboto,"Noto Sans JP",sans-serif; white-space:pre-line;
 }
-.reference-app .issue-296-menu { position:absolute; top:381px; left:6.410256410cqw; width:87.435897436cqw; display:grid; gap:3.636px; }
+.reference-app .issue-296-menu {
+  position:relative; grid-row:6; left:6.410256410cqw; width:87.435897436cqw;
+  display:grid; gap:3.636px;
+}
 .reference-app .issue-296-menu button {
   position:relative; width:100%; height:42.364px; display:flex; align-items:center;
   border-radius:12px; background:#fff; padding:8px 12px 8px 20px; text-align:left;
@@ -67,7 +82,7 @@
   transform:rotate(180deg);
 }
 .reference-app .issue-296-logout {
-  position:absolute; top:559px; left:6.410256410cqw; width:87.435897436cqw; height:32px;
+  position:relative; grid-row:8; left:6.410256410cqw; width:87.435897436cqw; height:32px;
   border:1px solid #667A47; border-radius:100px; background:#F3ECDA;
   color:#667A47; font:400 12px/14px Roboto,"Noto Sans JP",sans-serif;
 }
@@ -88,7 +103,7 @@
 .reference-app .tabbar.issue-296-tabbar button:first-child img { width:23px; height:22px; }
 .reference-app .tabbar.issue-296-tabbar button.on { color:#657948; }
 
-/* Food badges — frames 269:1210 and 269:1451. Coordinates are relative to y=101. */
+/* Food badges — frames 269:1210 and 269:1451, excluding device status bars. */
 .reference-app .issue-296-badge-body { position:relative; padding:0; background:transparent; }
 .reference-app .issue-296-badge-body::before {
   content:""; display:block; min-height:max(743px, calc(179px + 144.615384615cqw));
