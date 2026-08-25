@@ -123,15 +123,13 @@ describe('Netlify parity presentation content', () => {
     }
   });
 
-  it('keeps editorial Spot fixtures visibly labeled as unverified reference information', () => {
+  it('keeps every unconfirmed Spot fixture visibly labeled as reference information', () => {
     const expectedCaveats = {
       ja: ['参考情報', '未確認', '公式情報'],
       en: ['Reference information', 'may not be verified', 'official information'],
       'zh-TW': ['參考資訊', '尚未經確認', '官方資訊'],
     } as const;
-    const editorialSpots = Object.entries(demoSpots).filter(
-      ([spotId]) => spotId !== 'okutama-tourism-office',
-    );
+    const editorialSpots = Object.entries(demoSpots);
 
     expect(editorialSpots.length).toBeGreaterThan(0);
     for (const [, spot] of editorialSpots) {
@@ -150,9 +148,13 @@ describe('Netlify parity presentation content', () => {
     }
   });
 
-  it('does not mark the verified tourism-office presentation as unverified', () => {
+  it('keeps the tourism-office fixture explicitly unverified in every locale', () => {
     const tourismOffice = demoSpots['okutama-tourism-office'];
-    const unverifiedWording = /参考情報|未確認|Reference information|may not be verified|參考資訊|尚未經確認/;
+    const expectedCaveats = {
+      ja: ['参考情報', '未確認', '公式情報'],
+      en: ['Reference information', 'may not be verified', 'official information'],
+      'zh-TW': ['參考資訊', '尚未經確認', '官方資訊'],
+    } as const;
 
     for (const locale of locales) {
       const localized = tourismOffice.copy[locale];
@@ -162,7 +164,9 @@ describe('Netlify parity presentation content', () => {
         ...localized.caution,
       ].join(' ');
 
-      expect(visibleCopy).not.toMatch(unverifiedWording);
+      for (const phrase of expectedCaveats[locale]) {
+        expect(visibleCopy).toContain(phrase);
+      }
     }
   });
 
