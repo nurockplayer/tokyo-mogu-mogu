@@ -240,6 +240,39 @@ describe('repository data verification ledger (#333)', () => {
     });
   });
 
+  it('inventories localized Story-card badges with stable group and reference IDs', () => {
+    const claims = buildRepositoryLedgerClaims();
+
+    expect(
+      claims.find(
+        (row) => row.claimId === 'story:wasabi-okutama:presentation:spot_group:nearby:reference:yamashiroya:badge:en',
+      ),
+    ).toMatchObject({
+      displayedValue: 'Shop',
+      verification: 'demo',
+      finding: 'none',
+      timeSensitive: false,
+      appSurface: 'Story',
+    });
+  });
+
+  it('inventories localized Route region guidance from structured presentation data', () => {
+    const claims = buildRepositoryLedgerClaims();
+
+    expect(
+      claims.find(
+        (row) => row.claimId === 'route:okutama-yamame-journey:half-day:region_guidance:zh-TW',
+      ),
+    ).toMatchObject({
+      canonicalValue: undefined,
+      displayedValue: '東京都奧多摩（東京西部）',
+      verification: 'demo',
+      finding: 'canonical_missing',
+      timeSensitive: false,
+      appSurface: 'Route',
+    });
+  });
+
   it('preserves the visible tourism-office pending-confirmation note', () => {
     const claims = buildRepositoryLedgerClaims();
 

@@ -19,6 +19,7 @@ import {
   referenceSpotDetails,
   resultLocation,
   routeNames,
+  routeRegionGuidance,
   routeStats,
   routeStepText,
   storyLocation,
@@ -906,6 +907,27 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
             issues: [...audit.issues],
             note: 'Stable localized group claim; item order or localized copy does not define claim identity.',
           });
+          for (const reference of references) {
+            inputs.push({
+              claimId: localizedClaimId(
+                `story:${journey.storyId}:presentation:spot_group:${groupId}:reference:${reference.referenceId}:badge`,
+                locale,
+              ),
+              entityType: 'Story',
+              entityId: journey.storyId,
+              entityName: presentationEntityName,
+              fieldId: localizedFieldId(
+                `presentation:spot_group:${groupId}:reference:${reference.referenceId}:badge`,
+                locale,
+              ),
+              fieldLabel: `Story ${groupId} spot badge (${locale})`,
+              comparisonExpected: false,
+              presentation: presentationValue(reference.badge[locale], 'Story'),
+              timeSensitive: false,
+              issues: [...audit.issues],
+              note: `Stable localized badge claim for spot ${reference.spotId}; identity comes from group and explicit reference IDs, not copy or array order.`,
+            });
+          }
         }
       }
     }
@@ -1004,6 +1026,19 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
       for (const locale of PRESENTATION_LOCALES) {
         const stats = routeStats[routeKey]?.[locale];
         if (!stats) continue;
+        inputs.push({
+          claimId: localizedClaimId(`${variantPrefix}:region_guidance`, locale),
+          entityType: 'Route',
+          entityId: journey.routeId,
+          entityName,
+          fieldId: localizedFieldId('region_guidance', locale),
+          fieldLabel: `Region guidance (${locale})`,
+          comparisonExpected: true,
+          presentation: presentationValue(routeRegionGuidance[locale], 'Route'),
+          timeSensitive: false,
+          issues: [...audit.issues],
+          note: 'No corresponding canonical localized field exists; report canonical_missing rather than inventing one.',
+        });
         for (const [fieldId, fieldLabel, value] of [
           ['origin_travel_time_guidance', 'Origin travel-time guidance', `${stats.station} / ${stats.minutes}`],
           ['distance_guidance', 'Distance guidance', stats.distance],

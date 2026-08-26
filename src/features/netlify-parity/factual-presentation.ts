@@ -164,6 +164,12 @@ export interface RouteStats {
   minutes: string;
 }
 
+export const routeRegionGuidance: Record<Locale, string> = {
+  ja: '奥多摩・東京都 (東京西部)',
+  en: 'Okutama, Tokyo (Western Tokyo)',
+  'zh-TW': '東京都奧多摩（東京西部）',
+};
+
 export const routeStats: Record<string, Record<Locale, RouteStats>> = {
   'demo-okutama-wasabi:half-day': {
     ja: { time: '約 2.5 時間', distance: '徒歩約 6 km', spots: '6 スポット', station: '東京駅', minutes: '60 分' },
@@ -260,6 +266,8 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
 };
 
 export interface StorySpotReference {
+  /** Stable card identity; never derived from localized copy, asset, or array order. */
+  referenceId: string;
   spotId: string;
   imageAssetId: ReferenceAssetId;
   badge: LocalizedText;
@@ -275,7 +283,7 @@ export const storySpotGroups: Record<string, {
   'demo-okutama-wasabi': {
     nearby: [
       {
-        spotId: 'akabeko', imageAssetId: 'akabeko', badgeColor: '#E98A1C',
+        referenceId: 'akabeko', spotId: 'akabeko', imageAssetId: 'akabeko', badgeColor: '#E98A1C',
         badge: { ja: '飲食店', en: 'Restaurant', 'zh-TW': '餐廳' },
         description: {
           ja: '奥多摩ヤマメや手作りこんにゃく、わさびジェラートなど、地元の味',
@@ -284,7 +292,7 @@ export const storySpotGroups: Record<string, {
         },
       },
       {
-        spotId: 'yamashiroya', imageAssetId: 'yamashiroya', badgeColor: '#E98A1C',
+        referenceId: 'yamashiroya', spotId: 'yamashiroya', imageAssetId: 'yamashiroya', badgeColor: '#E98A1C',
         badge: { ja: 'ショップ・雑貨', en: 'Shop', 'zh-TW': '商店・雜貨' },
         description: {
           ja: 'ショップ・わさび加工の老舗。創業172年、6代目が受け継ぐ',
@@ -293,7 +301,7 @@ export const storySpotGroups: Record<string, {
         },
       },
       {
-        spotId: 'wasabi-kitchen', imageAssetId: 'wasabiKitchen', badgeColor: '#E98A1C',
+        referenceId: 'wasabi-kitchen', spotId: 'wasabi-kitchen', imageAssetId: 'wasabiKitchen', badgeColor: '#E98A1C',
         badge: { ja: '飲食店', en: 'Restaurant', 'zh-TW': '餐廳' },
         description: {
           ja: '飲食・キッチンカー／土日中心',
@@ -302,7 +310,7 @@ export const storySpotGroups: Record<string, {
         },
       },
       {
-        spotId: 'okutama-kitchen', imageAssetId: 'okutamaKitchen', badgeColor: '#E98A1C',
+        referenceId: 'okutama-kitchen', spotId: 'okutama-kitchen', imageAssetId: 'okutamaKitchen', badgeColor: '#E98A1C',
         badge: { ja: 'カフェ', en: 'Café', 'zh-TW': '咖啡廳' },
         description: {
           ja: 'わさびジェラートが名物',
@@ -311,7 +319,7 @@ export const storySpotGroups: Record<string, {
         },
       },
       {
-        spotId: 'port-okutama', imageAssetId: 'portCafe', badgeColor: '#E98A1C',
+        referenceId: 'port-okutama', spotId: 'port-okutama', imageAssetId: 'portCafe', badgeColor: '#E98A1C',
         badge: { ja: 'カフェ', en: 'Café', 'zh-TW': '咖啡廳' },
         description: {
           ja: 'カフェと雑貨の複合スポット',
@@ -322,13 +330,13 @@ export const storySpotGroups: Record<string, {
     ],
     nature: [
       {
-        spotId: 'wasabi-experience', imageAssetId: 'wasabiExperience', badgeColor: '#E05B5B',
+        referenceId: 'wasabi-experience', spotId: 'wasabi-experience', imageAssetId: 'wasabiExperience', badgeColor: '#E05B5B',
         badge: { ja: '体験', en: 'Experience', 'zh-TW': '體驗' },
         description: { ja: '体験・わさび田', en: 'Visit and experience a wasabi field', 'zh-TW': '山葵田參訪體驗' },
         note: { ja: '要予約・1日1組', en: 'Booking required · One group daily', 'zh-TW': '需預約・每日一組' },
       },
       {
-        spotId: 'hikawa-valley', imageAssetId: 'valley', badgeColor: '#5E7239',
+        referenceId: 'hikawa-valley', spotId: 'hikawa-valley', imageAssetId: 'valley', badgeColor: '#5E7239',
         badge: { ja: '自然', en: 'Nature', 'zh-TW': '自然' },
         description: {
           ja: '多摩川と日原川が合流する、奥多摩駅近くの自然豊かな渓谷',
@@ -337,7 +345,7 @@ export const storySpotGroups: Record<string, {
         },
       },
       {
-        spotId: 'oku-hikawa-shrine', imageAssetId: 'okuHikawaShrine', badgeColor: '#5E7239',
+        referenceId: 'oku-hikawa-shrine', spotId: 'oku-hikawa-shrine', imageAssetId: 'okuHikawaShrine', badgeColor: '#5E7239',
         badge: { ja: '神社', en: 'Shrine', 'zh-TW': '神社' },
         description: {
           ja: '奥多摩駅近くに佇む、地域の歴史と自然を感じられる静かな神社',
@@ -350,7 +358,7 @@ export const storySpotGroups: Record<string, {
   'demo-okutama-yamame': {
     nearby: [
       {
-        spotId: 'akabeko', imageAssetId: 'akabekoYamame', badgeColor: '#E98A1C',
+        referenceId: 'akabeko', spotId: 'akabeko', imageAssetId: 'akabekoYamame', badgeColor: '#E98A1C',
         badge: { ja: '飲食店', en: 'Restaurant', 'zh-TW': '餐廳' },
         description: {
           ja: '奥多摩やまめの刺身、味噌と山椒を合わせた焼き物',
@@ -359,7 +367,7 @@ export const storySpotGroups: Record<string, {
         },
       },
       {
-        spotId: 'yamashiroya', imageAssetId: 'yamashiroyaGoods', badgeColor: '#E98A1C',
+        referenceId: 'yamashiroya', spotId: 'yamashiroya', imageAssetId: 'yamashiroyaGoods', badgeColor: '#E98A1C',
         badge: { ja: 'ショップ・雑貨', en: 'Shop', 'zh-TW': '商店・雜貨' },
         description: {
           ja: 'わさび漬・生わさび・チーズわさびの老舗',
@@ -370,7 +378,7 @@ export const storySpotGroups: Record<string, {
     ],
     nature: [
       {
-        spotId: 'hikawa-valley', imageAssetId: 'valleyBridge', badgeColor: '#5E7239',
+        referenceId: 'hikawa-valley-bridge', spotId: 'hikawa-valley', imageAssetId: 'valleyBridge', badgeColor: '#5E7239',
         badge: { ja: '自然', en: 'Nature', 'zh-TW': '自然' },
         description: {
           ja: '冷たく澄んだ流れと吊り橋を歩く渓流さんぽ',
@@ -379,7 +387,7 @@ export const storySpotGroups: Record<string, {
         },
       },
       {
-        spotId: 'hikawa-valley', imageAssetId: 'riverPortrait', badgeColor: '#5E7239',
+        referenceId: 'hikawa-valley-river-portrait', spotId: 'hikawa-valley', imageAssetId: 'riverPortrait', badgeColor: '#5E7239',
         badge: { ja: '自然', en: 'Nature', 'zh-TW': '自然' },
         description: {
           ja: 'やまめも、わさびも、はじまりは多摩川の水',

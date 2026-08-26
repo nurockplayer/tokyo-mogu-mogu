@@ -7,7 +7,12 @@ import {
   type ReferenceCopy,
   type SpotPresentation,
 } from '../content';
-import { routeNames, routeStats, routeStepText } from '../factual-presentation';
+import {
+  routeNames,
+  routeRegionGuidance,
+  routeStats,
+  routeStepText,
+} from '../factual-presentation';
 import {
   BookmarkIcon,
   CameraIcon,
@@ -23,7 +28,6 @@ type RouteVariant = JourneyPresentation['routeVariants'][number];
 type RouteVariantId = RouteVariant['id'];
 
 const routeLabels: Record<Locale, {
-  region: string;
   from: string;
   regenerate: [string, string];
   start: string;
@@ -32,9 +36,9 @@ const routeLabels: Record<Locale, {
   mission: string;
   missionDone: string;
 }> = {
-  ja: { region: '奥多摩・東京都 (東京西部)', from: 'から', regenerate: ['ルートを', '再生成する'], start: '発', goal: 'Goal', completed: 'お疲れ様でした！', mission: 'ミッション', missionDone: 'ミッション達成！' },
-  en: { region: 'Okutama, Tokyo (Western Tokyo)', from: 'from', regenerate: ['Regenerate', 'route'], start: 'Go', goal: 'Goal', completed: 'Well done!', mission: 'Mission', missionDone: 'Mission complete!' },
-  'zh-TW': { region: '東京都奧多摩（東京西部）', from: '出發', regenerate: ['重新建立', '路線'], start: '發', goal: 'Goal', completed: '辛苦了！', mission: '任務', missionDone: '任務完成！' },
+  ja: { from: 'から', regenerate: ['ルートを', '再生成する'], start: '発', goal: 'Goal', completed: 'お疲れ様でした！', mission: 'ミッション', missionDone: 'ミッション達成！' },
+  en: { from: 'from', regenerate: ['Regenerate', 'route'], start: 'Go', goal: 'Goal', completed: 'Well done!', mission: 'Mission', missionDone: 'Mission complete!' },
+  'zh-TW': { from: '出發', regenerate: ['重新建立', '路線'], start: '發', goal: 'Goal', completed: '辛苦了！', mission: '任務', missionDone: '任務完成！' },
 };
 
 const missionSpotIds = new Set([
@@ -167,7 +171,7 @@ export function RouteScreen({
 
         <div className="route-info">
           <div className="tx">
-            <PinIcon /> {labels.region}
+            <PinIcon /> {routeRegionGuidance[locale]}
             <br />
             <TrainIcon /> <em>{stats.station}</em> {labels.from} <em>{stats.minutes}</em>
           </div>
