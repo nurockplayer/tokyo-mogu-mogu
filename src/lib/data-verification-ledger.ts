@@ -168,7 +168,6 @@ export function renderDataVerificationLedger(inputs: readonly LedgerClaimInput[]
     '| Entity type | Entity ID | Entity name | Claim ID | Claim kind | Field / claim | Canonical value | Displayed value | Origin | Verification | Primary source | Checked / retrieved date | Source updated date | Confirmed date | Time-sensitive | App surface | Canonical source file | Presentation source file | Relevant Issue / PR | Mismatch | Evidence | Next action / note |',
     '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
     ...claims.map((claim) => `| ${claim.entityType} | ${markdown(claim.entityId)} | ${markdown(claim.entityName)} | ${markdown(claim.claimId)} | ${claim.claimKind ?? 'factual'} | ${markdown(claim.claimLabel)} | ${markdown(claim.canonicalValue)} | ${markdown(claim.displayedValue)} | canonical: ${claim.canonicalOrigin ?? '—'}; presentation: ${claim.presentationOrigin ?? '—'} | ${claim.verification} | ${source(claim)} | ${markdown(claim.retrievedAt)} | ${markdown(claim.sourceUpdatedAt)} | ${markdown(claim.confirmedAt)} | ${claim.timeSensitive ? `yes${claim.timeSensitiveCaveat ? ` — ${markdown(claim.timeSensitiveCaveat)}` : ''}` : 'no'} | ${markdown(claim.appSurface)} | ${markdown(claim.canonicalSourceFile)} | ${markdown(claim.presentationSourceFile)} | ${markdown(claim.relevantIssue)} | ${claim.mismatch ? 'yes' : 'no'} |  | ${markdown(claim.nextAction)} |`),
-    '',
   );
 
   return `${lines.join('\n')}\n`;

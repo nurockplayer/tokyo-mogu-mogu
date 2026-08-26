@@ -77,6 +77,7 @@ describe('data verification ledger claim compilation (#333)', () => {
     expect(first).toContain('| unknown | 1 |');
     expect(first).toContain('| verified | 1 |');
     expect(first).toContain('- `a-place` — `phone`');
+    expect(first).toMatch(/[^\n]\n$/);
   });
 
   it('renders provenance, freshness, confirmation, and the reserved evidence slot independently', () => {

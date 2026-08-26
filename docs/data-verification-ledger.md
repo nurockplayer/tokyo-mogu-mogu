@@ -840,4 +840,3 @@ No stale time-sensitive claims.
 | Spot | yamashiroya | 山城屋 | safety-guidance | factual | Safety / visit guidance | — | 営業・予約・価格・アクセスなどは、訪問前に公式情報をご確認ください。 | canonical: —; presentation: demo | demo | — | — | — | — | yes — Visit guidance must be checked against current official information. | Spot | — | src/features/netlify-parity/content.ts | #333 | no |  | — |
 | Spot | yamashiroya | 山城屋 | spot.description | editorial-narrative | Spot description | — | わさびにまつわる品を探すための、参考スポットです。 | canonical: —; presentation: demo | demo | — | — | — | — | no | Spot | — | src/features/netlify-parity/content.ts | #333 | no |  | — |
 | Spot | yamashiroya | 山城屋 | spot.lead | factual | Spot lead | — | わさび加工の店を訪ねる | canonical: —; presentation: demo | demo | — | — | — | — | no | Spot | — | src/features/netlify-parity/content.ts | #333 | no |  | — |
-
