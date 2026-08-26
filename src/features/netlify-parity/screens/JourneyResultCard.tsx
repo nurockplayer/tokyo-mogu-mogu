@@ -1,18 +1,31 @@
+/* eslint-disable react-refresh/only-export-components -- #333 reads this exact runtime presentation record. */
 import type { Locale } from '../../../i18n';
 import { referenceAssets, type JourneyPresentation, type ReferenceCopy } from '../content';
 
-const resultLocation: Record<string, Record<Locale, { area: string; station: string; access: string }>> = {
+interface ResultLocation {
+  area: string;
+  station: string;
+  travelMinutes: number;
+}
+
+export const resultLocation: Record<string, Record<Locale, ResultLocation>> = {
   'demo-okutama-wasabi': {
-    ja: { area: '奥多摩地区 (東京西部)', station: '東京駅', access: 'から電車で　約120分' },
-    en: { area: 'Okutama area (Western Tokyo)', station: 'Tokyo Station', access: 'About 120 min by train' },
-    'zh-TW': { area: '奧多摩地區（東京西部）', station: '東京站', access: '搭乘電車約 120 分鐘' },
+    ja: { area: '奥多摩地区 (東京西部)', station: '東京駅', travelMinutes: 120 },
+    en: { area: 'Okutama area (Western Tokyo)', station: 'Tokyo Station', travelMinutes: 120 },
+    'zh-TW': { area: '奧多摩地區（東京西部）', station: '東京站', travelMinutes: 120 },
   },
   'demo-okutama-yamame': {
-    ja: { area: '奥多摩地区 (東京西部)', station: '新宿駅', access: 'から電車で　約90分' },
-    en: { area: 'Okutama area (Western Tokyo)', station: 'Shinjuku Station', access: 'About 90 min by train' },
-    'zh-TW': { area: '奧多摩地區（東京西部）', station: '新宿站', access: '搭乘電車約 90 分鐘' },
+    ja: { area: '奥多摩地区 (東京西部)', station: '新宿駅', travelMinutes: 90 },
+    en: { area: 'Okutama area (Western Tokyo)', station: 'Shinjuku Station', travelMinutes: 90 },
+    'zh-TW': { area: '奧多摩地區（東京西部）', station: '新宿站', travelMinutes: 90 },
   },
 };
+
+function accessLabel(locale: Locale, travelMinutes: number): string {
+  if (locale === 'en') return `About ${travelMinutes} min by train`;
+  if (locale === 'zh-TW') return `搭乘電車約 ${travelMinutes} 分鐘`;
+  return `から電車で\u3000約${travelMinutes}分`;
+}
 
 interface JourneyResultCardProps {
   active: boolean;
@@ -65,7 +78,7 @@ export function JourneyResultCard({
       <div className="tx">
         <div className="area">{location.area}</div>
         <div className="acc">
-          <em>{location.station}</em> {location.access}
+          <em>{location.station}</em> {accessLabel(locale, location.travelMinutes)}
         </div>
         <h3>{localized.title}</h3>
         <h4>{localized.subtitle}</h4>

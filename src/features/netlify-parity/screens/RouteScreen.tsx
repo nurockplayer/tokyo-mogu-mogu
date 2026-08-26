@@ -22,6 +22,8 @@ import {
 type RouteVariant = JourneyPresentation['routeVariants'][number];
 type RouteVariantId = RouteVariant['id'];
 
+export const defaultRouteVariantId: RouteVariantId = 'half-day';
+
 interface LocalizedText {
   ja: string;
   en: string;
@@ -67,23 +69,29 @@ export const routeStepText: Record<string, RouteStepText[]> = {
   ],
 };
 
-export const routeStats: Record<string, Record<Locale, { time: string; distance: string; spots: string; station: string; minutes: string }>> = {
+export const routeStats: Record<string, Record<Locale, { time: string; distance: string; spots: string; station: string; travelMinutes: number }>> = {
   'demo-okutama-wasabi:half-day': {
-    ja: { time: '約 2.5 時間', distance: '徒歩約 6 km', spots: '6 スポット', station: '東京駅', minutes: '60 分' },
-    en: { time: 'About 2.5 hr', distance: 'Walk about 6 km', spots: '6 spots', station: 'Tokyo Station', minutes: '60 min' },
-    'zh-TW': { time: '約 2.5 小時', distance: '步行約 6 km', spots: '6 個景點', station: '東京站', minutes: '60 分鐘' },
+    ja: { time: '約 2.5 時間', distance: '徒歩約 6 km', spots: '6 スポット', station: '東京駅', travelMinutes: 60 },
+    en: { time: 'About 2.5 hr', distance: 'Walk about 6 km', spots: '6 spots', station: 'Tokyo Station', travelMinutes: 60 },
+    'zh-TW': { time: '約 2.5 小時', distance: '步行約 6 km', spots: '6 個景點', station: '東京站', travelMinutes: 60 },
   },
   'demo-okutama-wasabi:full-day': {
-    ja: { time: '約 7 時間', distance: '電車 + 徒歩', spots: '6 スポット', station: '東京駅', minutes: '90 分' },
-    en: { time: 'About 7 hr', distance: 'Train + walking', spots: '6 spots', station: 'Tokyo Station', minutes: '90 min' },
-    'zh-TW': { time: '約 7 小時', distance: '電車＋步行', spots: '6 個景點', station: '東京站', minutes: '90 分鐘' },
+    ja: { time: '約 7 時間', distance: '電車 + 徒歩', spots: '6 スポット', station: '東京駅', travelMinutes: 90 },
+    en: { time: 'About 7 hr', distance: 'Train + walking', spots: '6 spots', station: 'Tokyo Station', travelMinutes: 90 },
+    'zh-TW': { time: '約 7 小時', distance: '電車＋步行', spots: '6 個景點', station: '東京站', travelMinutes: 90 },
   },
   'demo-okutama-yamame:half-day': {
-    ja: { time: '約 4 時間', distance: '徒歩約 4 km', spots: '3 スポット', station: '新宿駅', minutes: '90 分' },
-    en: { time: 'About 4 hr', distance: 'Walk about 4 km', spots: '3 spots', station: 'Shinjuku Station', minutes: '90 min' },
-    'zh-TW': { time: '約 4 小時', distance: '步行約 4 km', spots: '3 個景點', station: '新宿站', minutes: '90 分鐘' },
+    ja: { time: '約 4 時間', distance: '徒歩約 4 km', spots: '3 スポット', station: '新宿駅', travelMinutes: 90 },
+    en: { time: 'About 4 hr', distance: 'Walk about 4 km', spots: '3 spots', station: 'Shinjuku Station', travelMinutes: 90 },
+    'zh-TW': { time: '約 4 小時', distance: '步行約 4 km', spots: '3 個景點', station: '新宿站', travelMinutes: 90 },
   },
 };
+
+function travelMinutesLabel(locale: Locale, minutes: number): string {
+  if (locale === 'en') return `${minutes} min`;
+  if (locale === 'zh-TW') return `${minutes} 分鐘`;
+  return `${minutes} 分`;
+}
 
 const routeLabels: Record<Locale, {
   region: string;
@@ -143,7 +151,7 @@ export function RouteScreen({
   onSaveRoute,
   onViewSavedRoutes,
 }: RouteScreenProps) {
-  const [variantId, setVariantId] = useState<RouteVariantId>('half-day');
+  const [variantId, setVariantId] = useState<RouteVariantId>(defaultRouteVariantId);
   const [regenerating, setRegenerating] = useState(false);
   const wasActiveRef = useRef(active);
   const regenerationTimerRef = useRef<number | null>(null);
@@ -232,7 +240,8 @@ export function RouteScreen({
           <div className="tx">
             <PinIcon /> {labels.region}
             <br />
-            <TrainIcon /> <em>{stats.station}</em> {labels.from} <em>{stats.minutes}</em>
+          <TrainIcon /> <em>{stats.station}</em> {labels.from}{' '}
+          <em>{travelMinutesLabel(locale, stats.travelMinutes)}</em>
           </div>
           <button className="regen" disabled={regenerating} onClick={startRegeneration} type="button">
             {labels.regenerate[0]}

@@ -138,6 +138,66 @@ describe('current data verification ledger inputs (#333)', () => {
     });
   });
 
+  it('projects current Result-card facts and queues cross-surface travel-time disagreement', () => {
+    const claims = currentDataVerificationClaims();
+    const compiled = compileLedgerClaims(claims);
+    const resultDescription = claims.find((claim) =>
+      claim.entityId === 'okutama-wasabi-journey'
+      && claim.claimId === 'result.description');
+    const resultTravelTime = claims.find((claim) =>
+      claim.entityId === 'okutama-wasabi-journey'
+      && claim.claimId === 'result.origin-travel-time');
+    const routeTravelTime = claims.find((claim) =>
+      claim.entityId === 'okutama-wasabi-journey'
+      && claim.claimId === 'route.origin-travel-time.half-day');
+    const matchingYamameTime = claims.find((claim) =>
+      claim.entityId === 'okutama-yamame-journey'
+      && claim.claimId === 'result.origin-travel-time');
+    const compiledResultTravelTime = compiled.find((claim) =>
+      claim.entityId === 'okutama-wasabi-journey'
+      && claim.claimId === 'result.origin-travel-time');
+    const compiledYamameTime = compiled.find((claim) =>
+      claim.entityId === 'okutama-yamame-journey'
+      && claim.claimId === 'result.origin-travel-time');
+
+    expect(resultDescription).toMatchObject({
+      entityType: 'Route',
+      claimKind: 'editorial-narrative',
+      displayedValue: expect.stringContaining('奥多摩わさび'),
+      presentationOrigin: 'demo',
+      verification: 'demo',
+      presentationSourceFile: 'src/features/netlify-parity/content.ts',
+    });
+    expect(resultTravelTime).toMatchObject({
+      displayedValue: '120',
+      presentationOrigin: 'demo',
+      verification: 'demo',
+      presentationSourceFile: 'src/features/netlify-parity/screens/JourneyResultCard.tsx',
+      comparedPresentationClaimId: 'route.origin-travel-time.half-day',
+      nextAction: expect.stringContaining('route.origin-travel-time.half-day'),
+    });
+    expect(routeTravelTime).toMatchObject({
+      displayedValue: '60',
+      presentationOrigin: 'demo',
+      verification: 'demo',
+    });
+    expect(matchingYamameTime).toMatchObject({
+      displayedValue: '90',
+      verification: 'demo',
+    });
+    expect(compiledResultTravelTime).toMatchObject({
+      mismatch: false,
+      presentationMismatch: true,
+    });
+    expect(compiledYamameTime).toMatchObject({
+      mismatch: false,
+      presentationMismatch: false,
+    });
+    expect(renderDataVerificationLedger(claims)).toContain(
+      '`okutama-wasabi-journey + result.origin-travel-time` vs `route.origin-travel-time.half-day`: displayed “120”; related display “60”',
+    );
+  });
+
   it('distinguishes current Story narrative from source-backed factual records', () => {
     const claims = currentDataVerificationClaims();
     const chapter = claims.find((claim) =>

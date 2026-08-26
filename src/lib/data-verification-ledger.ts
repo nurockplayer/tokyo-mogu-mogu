@@ -27,10 +27,12 @@ export interface LedgerClaimInput {
   relevantIssue?: string;
   nextAction?: string;
   auditMetadata?: boolean;
+  comparedPresentationClaimId?: string;
 }
 
 export interface LedgerClaim extends LedgerClaimInput {
   mismatch: boolean;
+  presentationMismatch: boolean;
 }
 
 const STATUS_ORDER: readonly LedgerVerificationStatus[] = [
@@ -55,12 +57,27 @@ function comparisonValue(value: string): string {
 }
 
 export function compileLedgerClaims(inputs: readonly LedgerClaimInput[]): LedgerClaim[] {
-  return inputs.map((input) => ({
+  const claims = inputs.map((input) => ({
     ...input,
     mismatch: input.canonicalValue !== undefined
       && input.displayedValue !== undefined
       && comparisonValue(input.canonicalValue) !== comparisonValue(input.displayedValue),
+    presentationMismatch: false,
   })).sort(compareClaims);
+  const claimsByIdentity = new Map(
+    claims.map((claim) => [`${claim.entityId}:${claim.claimId}`, claim]),
+  );
+  return claims.map((claim) => {
+    if (!claim.comparedPresentationClaimId || claim.displayedValue === undefined) return claim;
+    const related = claimsByIdentity.get(
+      `${claim.entityId}:${claim.comparedPresentationClaimId}`,
+    );
+    return {
+      ...claim,
+      presentationMismatch: related?.displayedValue !== undefined
+        && comparisonValue(claim.displayedValue) !== comparisonValue(related.displayedValue),
+    };
+  });
 }
 
 function compareText(left: string, right: string): number {
@@ -154,6 +171,24 @@ export function renderDataVerificationLedger(inputs: readonly LedgerClaimInput[]
     : mismatches.map((claim) =>
         `- \`${claim.entityId} + ${claim.claimId}\`: canonical “${markdown(claim.canonicalValue)}”; displayed “${markdown(claim.displayedValue)}”`)));
 
+  const claimsByIdentity = new Map(
+    claims.map((claim) => [`${claim.entityId}:${claim.claimId}`, claim]),
+  );
+  const presentationMismatches = claims.filter((claim) => claim.presentationMismatch);
+  lines.push(
+    '',
+    '## Presentation ↔ presentation disagreements',
+    '',
+    ...(presentationMismatches.length === 0
+      ? ['No cross-surface presentation disagreements detected.']
+      : presentationMismatches.map((claim) => {
+          const related = claimsByIdentity.get(
+            `${claim.entityId}:${claim.comparedPresentationClaimId}`,
+          );
+          return `- \`${claim.entityId} + ${claim.claimId}\` vs \`${claim.comparedPresentationClaimId}\`: displayed “${markdown(claim.displayedValue)}”; related display “${markdown(related?.displayedValue)}”`;
+        })),
+  );
+
   lines.push(
     '',
     '## Claims requiring explicit audit metadata',
@@ -165,9 +200,9 @@ export function renderDataVerificationLedger(inputs: readonly LedgerClaimInput[]
     '',
     '## Claim inventory',
     '',
-    '| Entity type | Entity ID | Entity name | Claim ID | Claim kind | Field / claim | Canonical value | Displayed value | Origin | Verification | Primary source | Checked / retrieved date | Source updated date | Confirmed date | Time-sensitive | App surface | Canonical source file | Presentation source file | Relevant Issue / PR | Mismatch | Evidence | Next action / note |',
-    '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
-    ...claims.map((claim) => `| ${claim.entityType} | ${markdown(claim.entityId)} | ${markdown(claim.entityName)} | ${markdown(claim.claimId)} | ${claim.claimKind ?? 'factual'} | ${markdown(claim.claimLabel)} | ${markdown(claim.canonicalValue)} | ${markdown(claim.displayedValue)} | canonical: ${claim.canonicalOrigin ?? '—'}; presentation: ${claim.presentationOrigin ?? '—'} | ${claim.verification} | ${source(claim)} | ${markdown(claim.retrievedAt)} | ${markdown(claim.sourceUpdatedAt)} | ${markdown(claim.confirmedAt)} | ${claim.timeSensitive ? `yes${claim.timeSensitiveCaveat ? ` — ${markdown(claim.timeSensitiveCaveat)}` : ''}` : 'no'} | ${markdown(claim.appSurface)} | ${markdown(claim.canonicalSourceFile)} | ${markdown(claim.presentationSourceFile)} | ${markdown(claim.relevantIssue)} | ${claim.mismatch ? 'yes' : 'no'} |  | ${markdown(claim.nextAction)} |`),
+    '| Entity type | Entity ID | Entity name | Claim ID | Claim kind | Field / claim | Canonical value | Displayed value | Origin | Verification | Primary source | Checked / retrieved date | Source updated date | Confirmed date | Time-sensitive | App surface | Canonical source file | Presentation source file | Relevant Issue / PR | Canonical ↔ presentation mismatch | Compared presentation claim | Presentation disagreement | Evidence | Next action / note |',
+    '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
+    ...claims.map((claim) => `| ${claim.entityType} | ${markdown(claim.entityId)} | ${markdown(claim.entityName)} | ${markdown(claim.claimId)} | ${claim.claimKind ?? 'factual'} | ${markdown(claim.claimLabel)} | ${markdown(claim.canonicalValue)} | ${markdown(claim.displayedValue)} | canonical: ${claim.canonicalOrigin ?? '—'}; presentation: ${claim.presentationOrigin ?? '—'} | ${claim.verification} | ${source(claim)} | ${markdown(claim.retrievedAt)} | ${markdown(claim.sourceUpdatedAt)} | ${markdown(claim.confirmedAt)} | ${claim.timeSensitive ? `yes${claim.timeSensitiveCaveat ? ` — ${markdown(claim.timeSensitiveCaveat)}` : ''}` : 'no'} | ${markdown(claim.appSurface)} | ${markdown(claim.canonicalSourceFile)} | ${markdown(claim.presentationSourceFile)} | ${markdown(claim.relevantIssue)} | ${claim.mismatch ? 'yes' : 'no'} | ${markdown(claim.comparedPresentationClaimId)} | ${claim.presentationMismatch ? 'yes' : 'no'} |  | ${markdown(claim.nextAction)} |`),
   );
 
   return `${lines.join('\n')}\n`;

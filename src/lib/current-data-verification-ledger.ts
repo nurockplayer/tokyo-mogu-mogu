@@ -4,10 +4,12 @@ import { FIELDWORK_MEDIA } from '../data/fieldwork-media';
 import { SPOT_DETAILS } from '../data/seed-routes';
 import { demoJourneys, demoSpots } from '../features/netlify-parity/content';
 import {
+  defaultRouteVariantId,
   routeNames,
   routeStats,
   routeStepText,
 } from '../features/netlify-parity/screens/RouteScreen';
+import { resultLocation } from '../features/netlify-parity/screens/JourneyResultCard';
 import { referenceSpotDetails } from '../features/netlify-parity/screens/SpotScreen';
 import {
   chapterPoint,
@@ -397,6 +399,103 @@ export function currentDataVerificationClaims(): LedgerClaimInput[] {
       auditMetadata: true,
     });
 
+    const resultCopy = journey.copy.ja;
+    const resultLocationValue = resultLocation[journey.id]?.ja;
+    const defaultRouteStats = routeStats[`${journey.id}:${defaultRouteVariantId}`]?.ja;
+    const resultCommon = {
+      entityType: 'Route' as const,
+      entityId: journey.routeId,
+      entityName: canonicalRoute?.nameJa ?? resultCopy.title,
+      presentationOrigin: 'demo' as const,
+      verification: 'demo' as const,
+      appSurface: 'Result / MOGU',
+      presentationSourceFile: 'src/features/netlify-parity/content.ts',
+      timeSensitive: false,
+      relevantIssue: '#333',
+      auditMetadata: true,
+    };
+    claims.push(
+      {
+        ...resultCommon,
+        claimId: 'result.title',
+        claimLabel: 'Result card title',
+        claimKind: 'editorial-narrative',
+        displayedValue: resultCopy.title,
+      },
+      {
+        ...resultCommon,
+        claimId: 'result.subtitle',
+        claimLabel: 'Result card subtitle',
+        claimKind: 'editorial-narrative',
+        displayedValue: resultCopy.subtitle,
+      },
+      {
+        ...resultCommon,
+        claimId: 'result.description',
+        claimLabel: 'Result card description',
+        claimKind: 'editorial-narrative',
+        displayedValue: resultCopy.description,
+      },
+      {
+        ...resultCommon,
+        claimId: 'result.tags',
+        claimLabel: 'Result card tags',
+        claimKind: 'editorial-narrative',
+        displayedValue: resultCopy.tags.join(', '),
+      },
+      {
+        ...resultCommon,
+        claimId: 'result.match-percent',
+        claimLabel: 'Displayed match percent',
+        claimKind: 'editorial-narrative',
+        displayedValue: String(journey.matchPercent),
+      },
+    );
+
+    if (resultLocationValue) {
+      const locationCommon = {
+        ...resultCommon,
+        presentationSourceFile:
+          'src/features/netlify-parity/screens/JourneyResultCard.tsx',
+      };
+      const travelTimeConflict = defaultRouteStats !== undefined
+        && resultLocationValue.travelMinutes !== defaultRouteStats.travelMinutes;
+      claims.push(
+        {
+          ...locationCommon,
+          claimId: 'result.area',
+          claimLabel: 'Result card area',
+          claimKind: 'factual',
+          displayedValue: resultLocationValue.area,
+        },
+        {
+          ...locationCommon,
+          claimId: 'result.origin-station',
+          claimLabel: 'Result card origin station',
+          claimKind: 'factual',
+          displayedValue: resultLocationValue.station,
+          timeSensitive: true,
+          timeSensitiveCaveat: 'Travel origin guidance can change; check current transport information.',
+        },
+        {
+          ...locationCommon,
+          claimId: 'result.origin-travel-time',
+          claimLabel: 'Result card origin travel time (minutes)',
+          claimKind: 'factual',
+          displayedValue: String(resultLocationValue.travelMinutes),
+          verification: 'demo',
+          timeSensitive: true,
+          timeSensitiveCaveat: 'Displayed travel time is not live transit guidance.',
+          comparedPresentationClaimId: defaultRouteStats
+            ? `route.origin-travel-time.${defaultRouteVariantId}`
+            : undefined,
+          nextAction: travelTimeConflict
+            ? `Review against route.origin-travel-time.${defaultRouteVariantId}; do not rewrite either presentation value in this report.`
+            : undefined,
+        },
+      );
+    }
+
     for (const presentationVariant of journey.routeVariants) {
       const canonicalVariantId = presentationVariant.id === 'full-day' ? '1-day' : 'half-day';
       const canonicalVariant = canonicalRoute?.variants[canonicalVariantId];
@@ -454,7 +553,7 @@ export function currentDataVerificationClaims(): LedgerClaimInput[] {
           ['route.distance', 'Duration / distance guidance', stats.distance],
           ['route.stop-count-label', 'Displayed stop-count label', stats.spots],
           ['route.origin-station', 'Origin station', stats.station],
-          ['route.origin-travel-time', 'Origin travel-time guidance', stats.minutes],
+          ['route.origin-travel-time', 'Origin travel-time guidance (minutes)', String(stats.travelMinutes)],
         ] as const;
         claims.push(...statisticClaims.map(([claimPrefix, claimLabel, displayedValue]) => ({
           ...routeCommon,
