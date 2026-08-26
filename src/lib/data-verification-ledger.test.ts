@@ -263,6 +263,36 @@ describe('repository data verification ledger (#333)', () => {
     });
   });
 
+  it('inventories visible Route summary labels separately from structural counts', () => {
+    const claims = buildRepositoryLedgerClaims();
+
+    expect(
+      claims.find(
+        (row) => row.claimId === 'route:okutama-yamame-journey:half-day:summary_time',
+      ),
+    ).toMatchObject({
+      displayedValue: '約 4 時間',
+      verification: 'demo',
+      finding: 'none',
+      timeSensitive: true,
+    });
+    expect(
+      claims.find(
+        (row) => row.claimId === 'route:okutama-yamame-journey:half-day:summary_stop_count',
+      ),
+    ).toMatchObject({
+      displayedValue: '3 スポット',
+      verification: 'demo',
+      finding: 'none',
+      timeSensitive: false,
+    });
+    expect(
+      claims.find(
+        (row) => row.claimId === 'route:okutama-yamame-journey:half-day:stop_count',
+      ),
+    ).toMatchObject({ displayedValue: '4', finding: 'canonical_missing' });
+  });
+
   it('keeps embedded Story facts as stable report-only unknowns', () => {
     const claims = buildRepositoryLedgerClaims();
 

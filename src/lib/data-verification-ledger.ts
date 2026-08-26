@@ -929,6 +929,27 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
             note: 'No corresponding canonical field exists; report canonical_missing rather than inventing one.',
           });
         }
+        for (const [fieldId, fieldLabel, value, timeSensitive] of [
+          ['summary_time', 'Visible Route duration summary', stats.time, true],
+          ['summary_stop_count', 'Visible Route spot-count summary', stats.spots, false],
+        ] as const) {
+          inputs.push({
+            claimId: `${variantPrefix}:${fieldId}`,
+            entityType: 'Route',
+            entityId: journey.routeId,
+            entityName,
+            fieldId,
+            fieldLabel,
+            comparisonExpected: false,
+            presentation: presentationValue(value, 'Route'),
+            timeSensitive,
+            timeSensitiveNote: timeSensitive
+              ? 'Visible presentation summary; confirm current travel conditions.'
+              : undefined,
+            issues: [...audit.issues],
+            note: 'Visible summary label is inventoried separately from structural duration and rendered-step claims; no value is parsed and no semantic equivalence is inferred.',
+          });
+        }
       }
 
       for (const step of variant.steps) {
