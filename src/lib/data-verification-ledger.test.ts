@@ -11,6 +11,7 @@ import {
 const sourceMetadata = {
   name: 'Example official source',
   url: 'https://example.com/source',
+  license: 'CC BY 4.0',
   retrievedAt: '2026-08-20',
   sourceUpdatedAt: '2026-08-19',
 };
@@ -51,6 +52,7 @@ describe('data verification ledger claim builder (#333)', () => {
     expect(row.verification).toBe('needs_confirmation');
     expect(row.finding).toBe('mismatch');
     expect(row.origin).toBe('source');
+    expect(row.primarySourceLicense).toBe('CC BY 4.0');
     expect(row.retrievedAt).toBe('2026-08-20');
     expect(row.sourceUpdatedAt).toBe('2026-08-19');
     expect(row.confirmedAt).toBeUndefined();

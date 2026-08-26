@@ -47,6 +47,7 @@ type LedgerSourceMetadata = Pick<
   DataSource,
   | 'name'
   | 'url'
+  | 'license'
   | 'sourceType'
   | 'retrievedAt'
   | 'lastVerified'
@@ -127,6 +128,7 @@ export interface LedgerClaim {
   finding: LedgerFinding;
   primarySource?: string;
   primarySourceUrl?: string;
+  primarySourceLicense?: string;
   retrievedAt?: string;
   sourceUpdatedAt?: string;
   confirmedAt?: string;
@@ -196,6 +198,7 @@ export function buildLedgerClaims(inputs: readonly LedgerClaimInput[]): LedgerCl
       finding: comparisonFinding(input),
       primarySource: source?.name,
       primarySourceUrl: source?.url,
+      primarySourceLicense: source?.license,
       retrievedAt: source?.retrievedAt ?? source?.lastVerified,
       sourceUpdatedAt: source?.sourceUpdatedAt,
       confirmedAt: source?.confirmedAt,
@@ -279,14 +282,14 @@ export function renderDataVerificationLedger(inputClaims: readonly LedgerClaim[]
   );
 
   const detailsHeader = [
-    '| Claim ID | Entity type / ID / name | Field / claim | Canonical value | Displayed value | Compared presentation claim | Compared presentation value | Origin | Verification | Comparison | Primary source | Checked / retrieved | Source updated | Confirmed | Time-sensitive | App surface | Canonical source file | Presentation source file | Audit source file | Relevant Issue / PR | Evidence | Next action / note |',
-    '|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|',
+    '| Claim ID | Entity type / ID / name | Field / claim | Canonical value | Displayed value | Compared presentation claim | Compared presentation value | Origin | Verification | Comparison | Primary source | Source license | Checked / retrieved | Source updated | Confirmed | Time-sensitive | App surface | Canonical source file | Presentation source file | Audit source file | Relevant Issue / PR | Evidence | Next action / note |',
+    '|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|',
   ];
   const detailRows = claims.map((claim) => {
     const timeSensitive = claim.timeSensitive
       ? `yes${claim.timeSensitiveNote ? ` — ${claim.timeSensitiveNote}` : ''}`
       : 'no';
-    return `| \`${claim.claimId}\` | ${markdown(`${claim.entityType} / ${claim.entityId} / ${claim.entityName}`)} | \`${claim.fieldId}\` — ${markdown(claim.fieldLabel)} | ${markdown(claim.canonicalValue)} | ${markdown(claim.displayedValue)} | ${claim.comparedPresentationClaimId ? `\`${markdown(claim.comparedPresentationClaimId)}\`` : '—'} | ${markdown(claim.comparedPresentationValue)} | \`${claim.origin}\` | \`${claim.verification}\` | \`${claim.finding}\` | ${sourceCell(claim)} | ${markdown(claim.retrievedAt)} | ${markdown(claim.sourceUpdatedAt)} | ${markdown(claim.confirmedAt)} | ${markdown(timeSensitive)} | ${markdown(claim.appSurface)} | \`${markdown(claim.canonicalSourceFile)}\` | ${claim.presentationSourceFile ? `\`${markdown(claim.presentationSourceFile)}\`` : '—'} | ${claim.auditSourceFile ? `\`${markdown(claim.auditSourceFile)}\`` : '—'} | ${markdown(claim.issues.join(', '))} | ${markdown(claim.evidence ?? 'Deferred to #334')} | ${markdown(claim.note)} |`;
+    return `| \`${claim.claimId}\` | ${markdown(`${claim.entityType} / ${claim.entityId} / ${claim.entityName}`)} | \`${claim.fieldId}\` — ${markdown(claim.fieldLabel)} | ${markdown(claim.canonicalValue)} | ${markdown(claim.displayedValue)} | ${claim.comparedPresentationClaimId ? `\`${markdown(claim.comparedPresentationClaimId)}\`` : '—'} | ${markdown(claim.comparedPresentationValue)} | \`${claim.origin}\` | \`${claim.verification}\` | \`${claim.finding}\` | ${sourceCell(claim)} | ${markdown(claim.primarySourceLicense)} | ${markdown(claim.retrievedAt)} | ${markdown(claim.sourceUpdatedAt)} | ${markdown(claim.confirmedAt)} | ${markdown(timeSensitive)} | ${markdown(claim.appSurface)} | \`${markdown(claim.canonicalSourceFile)}\` | ${claim.presentationSourceFile ? `\`${markdown(claim.presentationSourceFile)}\`` : '—'} | ${claim.auditSourceFile ? `\`${markdown(claim.auditSourceFile)}\`` : '—'} | ${markdown(claim.issues.join(', '))} | ${markdown(claim.evidence ?? 'Deferred to #334')} | ${markdown(claim.note)} |`;
   });
 
   const sections = [
@@ -299,6 +302,7 @@ export function renderDataVerificationLedger(inputClaims: readonly LedgerClaim[]
       '- Current fact-bearing presentation records: `src/features/netlify-parity/factual-presentation.ts` (browser-safe serializable data used by the Product and this report).',
       '- Explicit audit metadata: `src/data/data-verification-audit-manifest.ts` contains stable mappings, surface ownership, time-sensitivity, traceability, and required report-only fields only. It does not duplicate factual values.',
       '- Verification and unknown queues reuse the #129/#133 `deriveVerificationStatus`, `recordVerificationStatus`, and `listUnverifiedFields` machinery.',
+      '- Source licenses remain visible per claim/source row so reuse and attribution restrictions are not lost.',
       '- The generator does not parse arbitrary prose, screenshots, or third-party map/review content. Screenshot evidence is intentionally deferred to #334.',
       '- Staleness is not inferred from the wall clock. Only the repository\'s explicit verification status and deterministic source-date policy are used.',
     ].join('\n'),
