@@ -1237,7 +1237,7 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
     const referenceName = reference?.information.find(
       (row) => row.fieldId === 'name',
     );
-    const displayedName = referenceName?.value.ja ?? spot.copy.ja.name;
+    const displayedName = spot.copy.ja.name;
     const snapshotPhone = spot.id === 'okutama-tourism-office'
       ? tourismOfficeSourceRecord?.phone
       : undefined;
@@ -1250,14 +1250,14 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
       : undefined;
 
     for (const locale of PRESENTATION_LOCALES) {
-      const localizedName = referenceName?.value[locale] ?? spot.copy[locale].name;
+      const localizedName = spot.copy[locale].name;
       inputs.push({
         claimId: localizedClaimId(`place:${spot.id}:name`, locale),
         entityType: 'Place',
         entityId: spot.id,
         entityName: displayedName,
         fieldId: localizedFieldId('name', locale),
-        fieldLabel: `Name (${locale})`,
+        fieldLabel: `Spot heading name (${locale})`,
         comparisonExpected: locale === 'ja',
         canonical: locale === 'ja' && place && status
           ? canonicalValue(place.nameJa, place.origin, place.source, status, SOURCE_FILES.places)
@@ -1273,6 +1273,31 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
             : 'Visible presentation place has no explicit canonical mapping.'
           : 'Localized presentation is inventoried without inferring a canonical translation.',
       });
+
+      if (referenceName) {
+        inputs.push({
+          claimId: localizedClaimId(`place:${spot.id}:information_name`, locale),
+          entityType: 'Place',
+          entityId: spot.id,
+          entityName: displayedName,
+          fieldId: localizedFieldId('information_name', locale),
+          fieldLabel: `Spot information-row name (${locale})`,
+          comparisonExpected: locale === 'ja',
+          canonical: locale === 'ja' && place && status
+            ? canonicalValue(place.nameJa, place.origin, place.source, status, SOURCE_FILES.places)
+            : undefined,
+          presentation: place && status
+            ? presentationValue(referenceName.value[locale], 'Spot', place.origin, status)
+            : presentationValue(referenceName.value[locale], 'Spot'),
+          timeSensitive: false,
+          issues: audit ? [...audit.issues] : ['#333'],
+          note: locale === 'ja'
+            ? place
+              ? 'Raw canonical/presentation mismatch only; repository authority does not establish a factual conflict.'
+              : 'Visible presentation place has no explicit canonical mapping.'
+            : 'Localized presentation is inventoried without inferring a canonical translation.',
+        });
+      }
 
       const safetyGuidance = reference
         ? reference.caution.map((item) => item[locale]).join('\n')

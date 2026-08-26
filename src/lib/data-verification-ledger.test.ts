@@ -170,11 +170,22 @@ describe('repository data verification ledger (#333)', () => {
 
   it('keeps the merged #332 tourism-office facts and provenance honest', () => {
     const claims = buildRepositoryLedgerClaims();
-    const name = claims.find((row) => row.claimId === 'place:okutama-tourism-office:name:ja');
+    const heading = claims.find((row) => row.claimId === 'place:okutama-tourism-office:name:ja');
+    const informationName = claims.find(
+      (row) => row.claimId === 'place:okutama-tourism-office:information_name:ja',
+    );
     const address = claims.find((row) => row.claimId === 'place:okutama-tourism-office:address:ja');
     const phone = claims.find((row) => row.claimId === 'place:okutama-tourism-office:phone:ja');
 
-    expect(name).toMatchObject({
+    expect(heading).toMatchObject({
+      canonicalValue: '奥多摩観光案内所',
+      displayedValue: '奥多摩観光案内所',
+      verification: 'needs_confirmation',
+      finding: 'match',
+      origin: 'source',
+      retrievedAt: '2026-08-26',
+    });
+    expect(informationName).toMatchObject({
       canonicalValue: '奥多摩観光案内所',
       displayedValue: '奥多摩町観光案内所',
       verification: 'needs_confirmation',
@@ -182,9 +193,9 @@ describe('repository data verification ledger (#333)', () => {
       origin: 'source',
       retrievedAt: '2026-08-26',
     });
-    expect(name?.primarySource).toContain('一般社団法人奥多摩観光協会');
-    expect(name?.primarySourceUrl).toBe('https://www.okutama.gr.jp/site/');
-    expect(name?.confirmedAt).toBeUndefined();
+    expect(informationName?.primarySource).toContain('一般社団法人奥多摩観光協会');
+    expect(informationName?.primarySourceUrl).toBe('https://www.okutama.gr.jp/site/');
+    expect(informationName?.confirmedAt).toBeUndefined();
 
     expect(address).toMatchObject({
       canonicalValue: '東京都西多摩郡奥多摩町氷川210',
@@ -237,6 +248,24 @@ describe('repository data verification ledger (#333)', () => {
     ).toMatchObject({
       displayedValue: 'A stop for checking visitor information',
       verification: 'demo',
+    });
+    expect(
+      claims.find(
+        (row) => row.claimId === 'place:okutama-tourism-office:name:en',
+      ),
+    ).toMatchObject({
+      displayedValue: 'Okutama Tourist Information Center',
+      verification: 'needs_confirmation',
+      finding: 'none',
+    });
+    expect(
+      claims.find(
+        (row) => row.claimId === 'place:okutama-tourism-office:information_name:en',
+      ),
+    ).toMatchObject({
+      displayedValue: 'Okutama Town Tourist Information Center',
+      verification: 'needs_confirmation',
+      finding: 'none',
     });
   });
 
