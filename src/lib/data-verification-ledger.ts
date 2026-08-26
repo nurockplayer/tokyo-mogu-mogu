@@ -967,6 +967,22 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
           issues: [...audit.issues],
           note: canonicalStep ? 'Raw wording comparison only.' : 'Presentation-only guidance; no factual truth is inferred from prose.',
         });
+        if (stepFact.note) {
+          inputs.push({
+            claimId: `${variantPrefix}:step:${step.spotId}:note`,
+            entityType: 'Route',
+            entityId: journey.routeId,
+            entityName,
+            fieldId: `step:${step.spotId}:note`,
+            fieldLabel: `Operational route note (${step.spotId})`,
+            comparisonExpected: true,
+            presentation: presentationValue(stepFact.note.ja, 'Route'),
+            timeSensitive: true,
+            timeSensitiveNote: 'Operational recommendation can change; confirm before relying on it.',
+            issues: [...audit.issues],
+            note: 'Visible structured note has no corresponding canonical field; no value is inferred or fabricated.',
+          });
+        }
         if (stepFact.walk) {
           const isMeetingTime = PRESENTATION_ROUTE_MEETING_TIME_AUDIT.some(
             (candidate) => candidate.presentationJourneyId === journey.id

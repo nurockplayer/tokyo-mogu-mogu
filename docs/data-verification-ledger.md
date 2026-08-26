@@ -22,7 +22,7 @@ This ledger is a review surface, not a second verification system. `origin`, the
 | `needs_confirmation` | 369 |
 | `stale` | 0 |
 | `conflict` | 0 |
-| `demo` | 170 |
+| `demo` | 171 |
 | `unknown` | 299 |
 
 ## Summary by comparison
@@ -31,7 +31,7 @@ This ledger is a review surface, not a second verification system. `origin`, the
 |---|---:|
 | `mismatch` | 9 |
 | `presentation_mismatch` | 2 |
-| `canonical_missing` | 51 |
+| `canonical_missing` | 52 |
 | `presentation_missing` | 1 |
 | `match` | 5 |
 | `none` | 770 |
@@ -403,6 +403,7 @@ _None._
 | `route:okutama-wasabi-journey:half-day:step:okutama-kitchen:transport_guidance` | Route okutama-wasabi-journey | Walking / transport guidance (okutama-kitchen) | — | 徒歩 約 5 分 | `demo` | `canonical_missing` | Stable stop IDs identify the comparison; array position is not claim identity. |
 | `route:okutama-wasabi-journey:half-day:step:okutama-tourism-office:transport_guidance` | Route okutama-wasabi-journey | Walking / transport guidance (okutama-tourism-office) | — | 徒歩 約1分 | `demo` | `canonical_missing` | Stable stop IDs identify the comparison; array position is not claim identity. |
 | `route:okutama-wasabi-journey:half-day:step:port-okutama:transport_guidance` | Route okutama-wasabi-journey | Walking / transport guidance (port-okutama) | — | 徒歩 約 5 分 | `demo` | `canonical_missing` | Stable stop IDs identify the comparison; array position is not claim identity. |
+| `route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:note` | Route okutama-wasabi-journey | Operational route note (wasabi-kitchen) | — | ※平日はあかべこ推奨 | `demo` | `canonical_missing` | Visible structured note has no corresponding canonical field; no value is inferred or fabricated. |
 | `route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:transport_guidance` | Route okutama-wasabi-journey | Walking / transport guidance (wasabi-kitchen) | — | 徒歩 約 1 分 | `demo` | `canonical_missing` | Stable stop IDs identify the comparison; array position is not claim identity. |
 | `route:okutama-wasabi-journey:half-day:stop:hikawa-valley:identity` | Route okutama-wasabi-journey | Physical stop identity (hikawa-valley) | — | hikawa-valley | `demo` | `canonical_missing` | No matching canonical stop exists in this route variant. |
 | `route:okutama-wasabi-journey:half-day:stop:oku-hikawa-shrine:identity` | Route okutama-wasabi-journey | Physical stop identity (oku-hikawa-shrine) | — | oku-hikawa-shrine | `demo` | `canonical_missing` | No matching canonical stop exists in this route variant. |
@@ -792,6 +793,7 @@ _None._
 | `route:okutama-wasabi-journey:half-day:step:shishiguchiya:role` | Route / okutama-wasabi-journey / 奥多摩わさび紀行 | `step:shishiguchiya:role` — Stop role (shishiguchiya) | 大丹波のわさびの店で、わさびのお土産を選べます。 | — | — | — | `editorial` | `needs_confirmation` | `none` | [一般社団法人奥多摩観光協会（奥多摩町観光案内所）](https://www.okutama.gr.jp/site/) | 2026-08-08 | — | — | no | Route | `src/data/seed-routes.ts` | — | — | #129, #133, #333 | Deferred to #334 | Editorial itinerary wording. |
 | `route:okutama-wasabi-journey:half-day:step:soba-isshintei:role` | Route / okutama-wasabi-journey / 奥多摩わさび紀行 | `step:soba-isshintei:role` — Stop role (soba-isshintei) | 丹三郎のそば店で昼食を。 | — | — | — | `editorial` | `needs_confirmation` | `none` | [一般社団法人奥多摩観光協会（奥多摩町観光案内所）](https://www.okutama.gr.jp/site/) | 2026-08-08 | — | — | no | Route | `src/data/seed-routes.ts` | — | — | #129, #133, #333 | Deferred to #334 | Editorial itinerary wording. |
 | `route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:guidance` | Route / okutama-wasabi-journey / 東京わさび文化を巡る旅 | `step:wasabi-kitchen:guidance` — Per-step guidance (wasabi-kitchen) | — | ・土日のみ営業<br>・¥900〜 | — | — | `demo` | `demo` | `none` | — | — | — | — | no | Route | `—` | `src/features/netlify-parity/factual-presentation.ts` | — | #333 | Deferred to #334 | Presentation-only guidance; no factual truth is inferred from prose. |
+| `route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:note` | Route / okutama-wasabi-journey / 東京わさび文化を巡る旅 | `step:wasabi-kitchen:note` — Operational route note (wasabi-kitchen) | — | ※平日はあかべこ推奨 | — | — | `demo` | `demo` | `canonical_missing` | — | — | — | — | yes — Operational recommendation can change; confirm before relying on it. | Route | `—` | `src/features/netlify-parity/factual-presentation.ts` | — | #333 | Deferred to #334 | Visible structured note has no corresponding canonical field; no value is inferred or fabricated. |
 | `route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:transport_guidance` | Route / okutama-wasabi-journey / 東京わさび文化を巡る旅 | `step:wasabi-kitchen:transport_guidance` — Walking / transport guidance (wasabi-kitchen) | — | 徒歩 約 1 分 | — | — | `demo` | `demo` | `canonical_missing` | — | — | — | — | yes — Presentation guidance; confirm current travel conditions. | Route | `—` | `src/features/netlify-parity/factual-presentation.ts` | — | #333 | Deferred to #334 | Stable stop IDs identify the comparison; array position is not claim identity. |
 | `route:okutama-wasabi-journey:half-day:stop:hikawa-valley:identity` | Route / okutama-wasabi-journey / 東京わさび文化を巡る旅 | `stop:hikawa-valley:identity` — Physical stop identity (hikawa-valley) | — | hikawa-valley | — | — | `demo` | `demo` | `canonical_missing` | — | — | — | — | no | Route | `—` | `src/features/netlify-parity/factual-presentation.ts` | — | #333 | Deferred to #334 | No matching canonical stop exists in this route variant. |
 | `route:okutama-wasabi-journey:half-day:stop:oku-hikawa-shrine:identity` | Route / okutama-wasabi-journey / 東京わさび文化を巡る旅 | `stop:oku-hikawa-shrine:identity` — Physical stop identity (oku-hikawa-shrine) | — | oku-hikawa-shrine | — | — | `demo` | `demo` | `canonical_missing` | — | — | — | — | no | Route | `—` | `src/features/netlify-parity/factual-presentation.ts` | — | #333 | Deferred to #334 | No matching canonical stop exists in this route variant. |

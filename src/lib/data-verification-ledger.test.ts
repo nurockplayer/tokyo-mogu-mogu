@@ -246,6 +246,23 @@ describe('repository data verification ledger (#333)', () => {
     });
   });
 
+  it('keeps visible Route notes as stable time-sensitive presentation claims', () => {
+    const claims = buildRepositoryLedgerClaims();
+
+    expect(
+      claims.find(
+        (row) => row.claimId === 'route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:note',
+      ),
+    ).toMatchObject({
+      canonicalValue: undefined,
+      displayedValue: '※平日はあかべこ推奨',
+      verification: 'demo',
+      finding: 'canonical_missing',
+      timeSensitive: true,
+      appSurface: 'Route',
+    });
+  });
+
   it('keeps embedded Story facts as stable report-only unknowns', () => {
     const claims = buildRepositoryLedgerClaims();
 
