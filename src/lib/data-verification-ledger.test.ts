@@ -293,6 +293,43 @@ describe('repository data verification ledger (#333)', () => {
     ).toMatchObject({ displayedValue: '4', finding: 'canonical_missing' });
   });
 
+  it('queues operational facts embedded in structured Route guidance without parsing prose', () => {
+    const claims = buildRepositoryLedgerClaims();
+    const guidance = claims.find(
+      (row) => row.claimId === 'route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:guidance',
+    );
+    const minimumPrice = claims.find(
+      (row) => row.claimId === 'route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:factual:minimum-price',
+    );
+
+    expect(guidance?.timeSensitive).toBe(true);
+    expect(minimumPrice).toMatchObject({
+      canonicalValue: undefined,
+      displayedValue: undefined,
+      verification: 'unknown',
+      finding: 'none',
+      timeSensitive: true,
+      auditSourceFile: 'src/data/data-verification-audit-manifest.ts',
+    });
+  });
+
+  it('queues Story spot-card assertions as stable metadata-only unknowns', () => {
+    const claims = buildRepositoryLedgerClaims();
+
+    expect(
+      claims.find(
+        (row) => row.claimId === 'story:wasabi-okutama:story.spot.yamashiroya.business-age',
+      ),
+    ).toMatchObject({
+      canonicalValue: undefined,
+      displayedValue: undefined,
+      verification: 'unknown',
+      finding: 'none',
+      timeSensitive: true,
+      auditSourceFile: 'src/data/data-verification-audit-manifest.ts',
+    });
+  });
+
   it('keeps embedded Story facts as stable report-only unknowns', () => {
     const claims = buildRepositoryLedgerClaims();
 

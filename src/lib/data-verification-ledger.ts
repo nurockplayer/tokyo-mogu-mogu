@@ -5,6 +5,8 @@ import {
   PRESENTATION_ROUTE_AUDIT,
   PRESENTATION_ROUTE_MEETING_TIME_AUDIT,
   PRESENTATION_SPOT_AUDIT,
+  REQUIRED_ROUTE_GUIDANCE_FACTUAL_CLAIMS,
+  REQUIRED_STORY_SPOT_FACTUAL_CLAIMS,
   REQUIRED_VISIBLE_SPOT_FIELDS,
   REQUIRED_STORY_FACTUAL_CLAIMS,
   SOURCE_FILES,
@@ -852,6 +854,42 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
         });
       }
     }
+    const storySpotFactualClaims = REQUIRED_STORY_SPOT_FACTUAL_CLAIMS.filter(
+      (candidate) => candidate.presentationJourneyId === journey.id,
+    );
+    for (const factualClaim of storySpotFactualClaims) {
+      const referencedSpotExists = spotGroups
+        ? Object.values(spotGroups).flat().some(
+            (reference) => reference.spotId === factualClaim.spotId,
+          )
+        : false;
+      if (!referencedSpotExists) {
+        throw new Error(
+          `Story factual claim ${factualClaim.claimId} has no stable presentation spot.`,
+        );
+      }
+      inputs.push({
+        claimId: `story:${journey.storyId}:${factualClaim.claimId}`,
+        entityType: 'Story',
+        entityId: journey.storyId,
+        entityName: presentationStory.storyTitle,
+        fieldId: factualClaim.claimId,
+        fieldLabel: factualClaim.fieldLabel,
+        comparisonExpected: false,
+        requiredUnknown: {
+          origin: 'demo',
+          surface: 'Story',
+          auditSourceFile: SOURCE_FILES.auditManifest,
+          note: `Factual assertion for ${factualClaim.spotId} is embedded in ${factualClaim.parentFieldId}; no claim-level source mapping exists.`,
+        },
+        timeSensitive: factualClaim.timeSensitive,
+        timeSensitiveNote: factualClaim.timeSensitive
+          ? 'Operational Story-card claim can change; no wall-clock threshold is inferred.'
+          : undefined,
+        issues: [...audit.issues],
+        note: 'Report-only unknown; the generator does not parse or copy the factual value from Story card prose.',
+      });
+    }
 
     for (const variant of journey.routeVariants) {
       const variantMap = audit.variants as Readonly<Record<string, string>>;
@@ -972,6 +1010,11 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
           issues: [...audit.issues],
           note: canonicalStep ? 'Stable stop-ID comparison.' : 'No matching canonical stop exists in this route variant.',
         });
+        const routeGuidanceFacts = REQUIRED_ROUTE_GUIDANCE_FACTUAL_CLAIMS.filter(
+          (candidate) => candidate.presentationJourneyId === journey.id
+            && candidate.variantId === variant.id
+            && candidate.spotId === step.spotId,
+        );
         inputs.push({
           claimId: `${variantPrefix}:step:${step.spotId}:guidance`,
           entityType: 'Route',
@@ -984,10 +1027,36 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
             ? canonicalValue(canonicalStep.roleJa, 'editorial', canonicalRoute.source, routeStatus, SOURCE_FILES.routes)
             : undefined,
           presentation: presentationValue(stepFact.description.ja, 'Route'),
-          timeSensitive: false,
+          timeSensitive: routeGuidanceFacts.some((fact) => fact.timeSensitive),
+          timeSensitiveNote: routeGuidanceFacts.length > 0
+            ? 'Embedded operational assertions are identified by metadata-only audit claims.'
+            : undefined,
           issues: [...audit.issues],
           note: canonicalStep ? 'Raw wording comparison only.' : 'Presentation-only guidance; no factual truth is inferred from prose.',
         });
+        for (const factualClaim of routeGuidanceFacts) {
+          inputs.push({
+            claimId: `${variantPrefix}:step:${step.spotId}:factual:${factualClaim.claimId}`,
+            entityType: 'Route',
+            entityId: journey.routeId,
+            entityName,
+            fieldId: `step:${step.spotId}:factual:${factualClaim.claimId}`,
+            fieldLabel: factualClaim.fieldLabel,
+            comparisonExpected: false,
+            requiredUnknown: {
+              origin: 'demo',
+              surface: 'Route',
+              auditSourceFile: SOURCE_FILES.auditManifest,
+              note: `Factual assertion is embedded in step:${step.spotId}:guidance; no claim-level source mapping exists.`,
+            },
+            timeSensitive: factualClaim.timeSensitive,
+            timeSensitiveNote: factualClaim.timeSensitive
+              ? 'Operational fact can change; no wall-clock staleness threshold is inferred.'
+              : undefined,
+            issues: [...audit.issues],
+            note: 'Report-only unknown; the generator does not parse or copy the factual value from Route guidance.',
+          });
+        }
         if (stepFact.note) {
           inputs.push({
             claimId: `${variantPrefix}:step:${step.spotId}:note`,
