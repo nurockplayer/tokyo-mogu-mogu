@@ -43,6 +43,15 @@ export type LedgerFinding =
 
 export type LedgerEntityType = 'Place' | 'Spot' | 'Route' | 'FoodCulture' | 'Story';
 
+const PRESENTATION_LOCALES = ['ja', 'en', 'zh-TW'] as const;
+type PresentationLocale = (typeof PRESENTATION_LOCALES)[number];
+
+const localizedClaimId = (baseClaimId: string, locale: PresentationLocale) =>
+  `${baseClaimId}:${locale}`;
+
+const localizedFieldId = (baseFieldId: string, locale: PresentationLocale) =>
+  `${baseFieldId}:${locale}`;
+
 type LedgerSourceMetadata = Pick<
   DataSource,
   | 'name'
@@ -300,6 +309,7 @@ export function renderDataVerificationLedger(inputClaims: readonly LedgerClaim[]
     [
       '- Canonical records: `src/data/seed-food-cultures.ts`, `src/data/seed-places.ts`, and `src/data/seed-routes.ts`.',
       '- Current fact-bearing presentation records: `src/features/netlify-parity/factual-presentation.ts` (browser-safe serializable data used by the Product and this report).',
+      '- Localized presentation claims cover `ja`, `en`, and `zh-TW`; locale codes are part of their stable claim IDs.',
       '- Explicit audit metadata: `src/data/data-verification-audit-manifest.ts` contains stable mappings, surface ownership, time-sensitivity, traceability, and required report-only fields only. It does not duplicate factual values.',
       '- Verification and unknown queues reuse the #129/#133 `deriveVerificationStatus`, `recordVerificationStatus`, and `listUnverifiedFields` machinery.',
       '- Source licenses remain visible per claim/source row so reuse and attribution restrictions are not lost.',
@@ -696,117 +706,153 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
       ? deriveVerificationStatus(canonicalRoute.source, 'editorial')
       : undefined;
     const entityName = routeNames[journey.id]?.ja ?? journey.copy.ja.title;
+    const presentationEntityName = journey.copy.ja.storyTitle;
+    const resultComparisonVariantId = audit.resultComparisonVariantId;
+
     inputs.push({
-      claimId: `route:${journey.routeId}:name`,
-      entityType: 'Route',
-      entityId: journey.routeId,
-      entityName,
-      fieldId: 'name',
-      fieldLabel: 'Route name',
-      comparisonExpected: true,
-      canonical: canonicalRoute && routeStatus
-        ? canonicalValue(canonicalRoute.nameJa, 'editorial', canonicalRoute.source, routeStatus, SOURCE_FILES.routes)
-        : undefined,
-      presentation: presentationValue(entityName, 'Route'),
+      claimId: `food-culture:${journey.storyId}:presentation:result_match_percent`,
+      entityType: 'FoodCulture',
+      entityId: journey.storyId,
+      entityName: presentationEntityName,
+      fieldId: 'presentation:result_match_percent',
+      fieldLabel: 'Result match percent',
+      comparisonExpected: false,
+      presentation: presentationValue(String(journey.matchPercent), 'Result'),
       timeSensitive: false,
       issues: [...audit.issues],
-      note: canonicalRoute ? 'Raw canonical/presentation comparison; no normalization is applied.' : 'Visible route has no canonical ModelRoute record.',
+      note: 'Locale-neutral structured Result presentation value.',
     });
-    const presentationStory = journey.copy.ja;
-    const result = resultLocation[journey.id]?.ja;
-    const resultComparisonVariantId = audit.resultComparisonVariantId;
-    const resultComparisonClaimId =
-      `route:${journey.routeId}:${resultComparisonVariantId}:origin_travel_time_guidance`;
-    const resultComparisonStats = routeStats[
-      `${journey.id}:${resultComparisonVariantId}`
-    ]?.ja;
-    for (const [fieldId, fieldLabel, value] of [
-      ['result_match_percent', 'Result match percent', String(journey.matchPercent)],
-      ['result_tags', 'Result tags', presentationStory.tags.join(', ')],
-    ] as const) {
+
+    for (const locale of PRESENTATION_LOCALES) {
+      const routeName = routeNames[journey.id]?.[locale] ?? journey.copy[locale].title;
       inputs.push({
-        claimId: `food-culture:${journey.storyId}:presentation:${fieldId}`,
+        claimId: localizedClaimId(`route:${journey.routeId}:name`, locale),
+        entityType: 'Route',
+        entityId: journey.routeId,
+        entityName,
+        fieldId: localizedFieldId('name', locale),
+        fieldLabel: `Route name (${locale})`,
+        comparisonExpected: locale === 'ja',
+        canonical: locale === 'ja' && canonicalRoute && routeStatus
+          ? canonicalValue(canonicalRoute.nameJa, 'editorial', canonicalRoute.source, routeStatus, SOURCE_FILES.routes)
+          : undefined,
+        presentation: presentationValue(routeName, 'Route'),
+        timeSensitive: false,
+        issues: [...audit.issues],
+        note: locale === 'ja'
+          ? canonicalRoute
+            ? 'Raw canonical/presentation comparison; no normalization is applied.'
+            : 'Visible route has no canonical ModelRoute record.'
+          : 'Localized presentation is inventoried without inferring a canonical translation.',
+      });
+
+      const presentationStory = journey.copy[locale];
+      inputs.push({
+        claimId: localizedClaimId(
+          `food-culture:${journey.storyId}:presentation:result_tags`,
+          locale,
+        ),
         entityType: 'FoodCulture',
         entityId: journey.storyId,
-        entityName: presentationStory.storyTitle,
-        fieldId: `presentation:${fieldId}`,
-        fieldLabel,
+        entityName: presentationEntityName,
+        fieldId: localizedFieldId('presentation:result_tags', locale),
+        fieldLabel: `Result tags (${locale})`,
         comparisonExpected: false,
-        presentation: presentationValue(value, 'Result'),
+        presentation: presentationValue(presentationStory.tags.join(', '), 'Result'),
         timeSensitive: false,
         issues: [...audit.issues],
-        note: 'Structured Result presentation value; factual truth is not inferred from display copy.',
+        note: 'Structured localized Result presentation value; factual truth is not inferred from display copy.',
       });
+
+      const result = resultLocation[journey.id]?.[locale];
+      const resultComparisonClaimId = localizedClaimId(
+        `route:${journey.routeId}:${resultComparisonVariantId}:origin_travel_time_guidance`,
+        locale,
+      );
+      const resultComparisonStats = routeStats[
+        `${journey.id}:${resultComparisonVariantId}`
+      ]?.[locale];
+      if (result) {
+        inputs.push({
+          claimId: localizedClaimId(
+            `route:${journey.routeId}:presentation:result_area`,
+            locale,
+          ),
+          entityType: 'Route',
+          entityId: journey.routeId,
+          entityName,
+          fieldId: localizedFieldId('presentation:result_area', locale),
+          fieldLabel: `Result area guidance (${locale})`,
+          comparisonExpected: false,
+          presentation: presentationValue(result.area, 'Result'),
+          timeSensitive: false,
+          issues: [...audit.issues],
+          note: 'Structured localized Result presentation value; no canonical equivalence is inferred.',
+        });
+        const resultTravel = `${result.station} / ${result.access}`;
+        const routeTravel = resultComparisonStats
+          ? `${resultComparisonStats.station} / ${resultComparisonStats.minutes}`
+          : undefined;
+        inputs.push({
+          claimId: localizedClaimId(
+            `route:${journey.routeId}:presentation:result_origin_travel_time`,
+            locale,
+          ),
+          entityType: 'Route',
+          entityId: journey.routeId,
+          entityName,
+          fieldId: localizedFieldId('presentation:result_origin_travel_time', locale),
+          fieldLabel: `Result origin travel-time guidance (${locale})`,
+          comparisonExpected: false,
+          presentation: presentationValue(resultTravel, 'Result'),
+          comparedPresentation: routeTravel
+            ? {
+                claimId: resultComparisonClaimId,
+                value: routeTravel,
+                surface: 'Route',
+                sourceFile: SOURCE_FILES.presentation,
+              }
+            : undefined,
+          timeSensitive: true,
+          timeSensitiveNote: 'Raw cross-surface display comparison; no duration is parsed from prose.',
+          issues: [...audit.issues],
+          note: 'Localized Result and Route presentation values are compared byte-for-byte without normalization or factual inference.',
+        });
+      }
+
+      const location = storyLocation[journey.id]?.[locale];
+      const point = chapterPoint[journey.id]?.[locale];
+      const storyFacts = [
+        ['result_title', 'Result title', presentationStory.title, 'Result', 'FoodCulture'],
+        ['result_subtitle', 'Result subtitle', presentationStory.subtitle, 'Result', 'FoodCulture'],
+        ['result_description', 'Result description', presentationStory.description, 'Result', 'FoodCulture'],
+        ['story_title', 'Story title', presentationStory.storyTitle, 'Story', 'Story'],
+        ['story_intro', 'Story introduction', presentationStory.intro.join('\n\n'), 'Story', 'Story'],
+        ['story_chapters', 'Story chapters', journey.chapters[locale].map((chapter) => `${chapter.number} ${chapter.title} — ${chapter.body}`).join('\n'), 'Story', 'Story'],
+        ['story_location', 'Story location / nearest station', location ? `${location.region} / ${location.station}` : '', 'Story', 'Story'],
+        ['story_point', 'Story factual callout', point ? `${point.title} — ${point.body}` : '', 'Story', 'Story'],
+      ] as const;
+      for (const [fieldId, fieldLabel, value, surface, entityType] of storyFacts) {
+        if (!value) continue;
+        inputs.push({
+          claimId: localizedClaimId(
+            `${entityType === 'Story' ? 'story' : 'food-culture'}:${journey.storyId}:presentation:${fieldId}`,
+            locale,
+          ),
+          entityType,
+          entityId: journey.storyId,
+          entityName: presentationEntityName,
+          fieldId: localizedFieldId(`presentation:${fieldId}`, locale),
+          fieldLabel: `${fieldLabel} (${locale})`,
+          comparisonExpected: false,
+          presentation: presentationValue(value, surface),
+          timeSensitive: false,
+          issues: [...audit.issues],
+          note: 'Localized demo presentation copy; factual truth is not inferred from the prose.',
+        });
+      }
     }
-    if (result) {
-      inputs.push({
-        claimId: `route:${journey.routeId}:presentation:result_area`,
-        entityType: 'Route',
-        entityId: journey.routeId,
-        entityName,
-        fieldId: 'presentation:result_area',
-        fieldLabel: 'Result area guidance',
-        comparisonExpected: false,
-        presentation: presentationValue(result.area, 'Result'),
-        timeSensitive: false,
-        issues: [...audit.issues],
-        note: 'Structured Result presentation value; no canonical equivalence is inferred.',
-      });
-      const resultTravel = `${result.station} / ${result.access}`;
-      const routeTravel = resultComparisonStats
-        ? `${resultComparisonStats.station} / ${resultComparisonStats.minutes}`
-        : undefined;
-      inputs.push({
-        claimId: `route:${journey.routeId}:presentation:result_origin_travel_time`,
-        entityType: 'Route',
-        entityId: journey.routeId,
-        entityName,
-        fieldId: 'presentation:result_origin_travel_time',
-        fieldLabel: 'Result origin travel-time guidance',
-        comparisonExpected: false,
-        presentation: presentationValue(resultTravel, 'Result'),
-        comparedPresentation: routeTravel
-          ? {
-              claimId: resultComparisonClaimId,
-              value: routeTravel,
-              surface: 'Route',
-              sourceFile: SOURCE_FILES.presentation,
-            }
-          : undefined,
-        timeSensitive: true,
-        timeSensitiveNote: 'Raw cross-surface display comparison; no duration is parsed from prose.',
-        issues: [...audit.issues],
-        note: 'Result and Route presentation values are compared byte-for-byte without normalization or factual inference.',
-      });
-    }
-    const location = storyLocation[journey.id]?.ja;
-    const point = chapterPoint[journey.id]?.ja;
-    const storyFacts = [
-      ['result_title', 'Result title', presentationStory.title, 'Result', 'FoodCulture'],
-      ['result_subtitle', 'Result subtitle', presentationStory.subtitle, 'Result', 'FoodCulture'],
-      ['result_description', 'Result description', presentationStory.description, 'Result', 'FoodCulture'],
-      ['story_title', 'Story title', presentationStory.storyTitle, 'Story', 'Story'],
-      ['story_intro', 'Story introduction', presentationStory.intro.join('\n\n'), 'Story', 'Story'],
-      ['story_chapters', 'Story chapters', journey.chapters.ja.map((chapter) => `${chapter.number} ${chapter.title} — ${chapter.body}`).join('\n'), 'Story', 'Story'],
-      ['story_location', 'Story location / nearest station', location ? `${location.region} / ${location.station}` : '', 'Story', 'Story'],
-      ['story_point', 'Story factual callout', point ? `${point.title} — ${point.body}` : '', 'Story', 'Story'],
-    ] as const;
-    for (const [fieldId, fieldLabel, value, surface, entityType] of storyFacts) {
-      if (!value) continue;
-      inputs.push({
-        claimId: `${entityType === 'Story' ? 'story' : 'food-culture'}:${journey.storyId}:presentation:${fieldId}`,
-        entityType,
-        entityId: journey.storyId,
-        entityName: journey.copy.ja.storyTitle,
-        fieldId: `presentation:${fieldId}`,
-        fieldLabel,
-        comparisonExpected: false,
-        presentation: presentationValue(value, surface),
-        timeSensitive: false,
-        issues: [...audit.issues],
-        note: 'Demo presentation copy; factual truth is not inferred from the prose.',
-      });
-    }
+    const presentationStory = journey.copy.ja;
     const storyFactualClaims = REQUIRED_STORY_FACTUAL_CLAIMS[
       journey.id as keyof typeof REQUIRED_STORY_FACTUAL_CLAIMS
     ] ?? [];
@@ -836,26 +882,31 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
     const spotGroups = storySpotGroups[journey.id];
     if (spotGroups) {
       for (const [groupId, references] of Object.entries(spotGroups)) {
-        const value = references.map((reference) => {
-          const description = reference.description?.ja ?? reference.badge.ja;
-          return `${reference.spotId}: ${description}${reference.note ? ` (${reference.note.ja})` : ''}`;
-        }).join('\n');
-        inputs.push({
-          claimId: `story:${journey.storyId}:presentation:spot_group:${groupId}`,
-          entityType: 'Story',
-          entityId: journey.storyId,
-          entityName: journey.copy.ja.storyTitle,
-          fieldId: `presentation:spot_group:${groupId}`,
-          fieldLabel: `Story ${groupId} spot claims`,
-          comparisonExpected: false,
-          presentation: presentationValue(value, 'Story'),
-          timeSensitive: references.some((reference) => reference.note !== undefined),
-          timeSensitiveNote: references.some((reference) => reference.note !== undefined)
-            ? 'Reservation/availability notes can change.'
-            : undefined,
-          issues: [...audit.issues],
-          note: 'Stable group claim; item order or localized copy does not define claim identity.',
-        });
+        for (const locale of PRESENTATION_LOCALES) {
+          const value = references.map((reference) => {
+            const description = reference.description?.[locale] ?? reference.badge[locale];
+            return `${reference.spotId}: ${description}${reference.note ? ` (${reference.note[locale]})` : ''}`;
+          }).join('\n');
+          inputs.push({
+            claimId: localizedClaimId(
+              `story:${journey.storyId}:presentation:spot_group:${groupId}`,
+              locale,
+            ),
+            entityType: 'Story',
+            entityId: journey.storyId,
+            entityName: presentationEntityName,
+            fieldId: localizedFieldId(`presentation:spot_group:${groupId}`, locale),
+            fieldLabel: `Story ${groupId} spot claims (${locale})`,
+            comparisonExpected: false,
+            presentation: presentationValue(value, 'Story'),
+            timeSensitive: references.some((reference) => reference.note !== undefined),
+            timeSensitiveNote: references.some((reference) => reference.note !== undefined)
+              ? 'Reservation/availability notes can change.'
+              : undefined,
+            issues: [...audit.issues],
+            note: 'Stable localized group claim; item order or localized copy does not define claim identity.',
+          });
+        }
       }
     }
     const storySpotFactualClaims = REQUIRED_STORY_SPOT_FACTUAL_CLAIMS.filter(
@@ -947,28 +998,29 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
 
       const routeKey = `${journey.id}:${variant.id}`;
       const stepFacts = routeStepText[routeKey] ?? [];
-      const stats = routeStats[routeKey]?.ja;
       if (stepFacts.length !== variant.steps.length || variant.steps.some((step) => !stepFacts.some((fact) => fact.spotId === step.spotId))) {
         throw new Error(`Route presentation ${routeKey} lacks stable per-stop factual records.`);
       }
-      if (stats) {
+      for (const locale of PRESENTATION_LOCALES) {
+        const stats = routeStats[routeKey]?.[locale];
+        if (!stats) continue;
         for (const [fieldId, fieldLabel, value] of [
           ['origin_travel_time_guidance', 'Origin travel-time guidance', `${stats.station} / ${stats.minutes}`],
           ['distance_guidance', 'Distance guidance', stats.distance],
         ] as const) {
           inputs.push({
-            claimId: `${variantPrefix}:${fieldId}`,
+            claimId: localizedClaimId(`${variantPrefix}:${fieldId}`, locale),
             entityType: 'Route',
             entityId: journey.routeId,
             entityName,
-            fieldId,
-            fieldLabel,
+            fieldId: localizedFieldId(fieldId, locale),
+            fieldLabel: `${fieldLabel} (${locale})`,
             comparisonExpected: true,
             presentation: presentationValue(value, 'Route'),
             timeSensitive: true,
             timeSensitiveNote: 'Presentation guidance; confirm current travel conditions.',
             issues: [...audit.issues],
-            note: 'No corresponding canonical field exists; report canonical_missing rather than inventing one.',
+            note: 'No corresponding canonical localized field exists; report canonical_missing rather than inventing one.',
           });
         }
         for (const [fieldId, fieldLabel, value, timeSensitive] of [
@@ -976,12 +1028,12 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
           ['summary_stop_count', 'Visible Route spot-count summary', stats.spots, false],
         ] as const) {
           inputs.push({
-            claimId: `${variantPrefix}:${fieldId}`,
+            claimId: localizedClaimId(`${variantPrefix}:${fieldId}`, locale),
             entityType: 'Route',
             entityId: journey.routeId,
             entityName,
-            fieldId,
-            fieldLabel,
+            fieldId: localizedFieldId(fieldId, locale),
+            fieldLabel: `${fieldLabel} (${locale})`,
             comparisonExpected: false,
             presentation: presentationValue(value, 'Route'),
             timeSensitive,
@@ -989,7 +1041,7 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
               ? 'Visible presentation summary; confirm current travel conditions.'
               : undefined,
             issues: [...audit.issues],
-            note: 'Visible summary label is inventoried separately from structural duration and rendered-step claims; no value is parsed and no semantic equivalence is inferred.',
+            note: 'Visible localized summary label is inventoried separately from structural duration and rendered-step claims; no value is parsed and no semantic equivalence is inferred.',
           });
         }
       }
@@ -1019,25 +1071,32 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
             && candidate.variantId === variant.id
             && candidate.spotId === step.spotId,
         );
-        inputs.push({
-          claimId: `${variantPrefix}:step:${step.spotId}:guidance`,
-          entityType: 'Route',
-          entityId: journey.routeId,
-          entityName,
-          fieldId: `step:${step.spotId}:guidance`,
-          fieldLabel: `Per-step guidance (${step.spotId})`,
-          comparisonExpected: canonicalStep !== undefined,
-          canonical: canonicalRoute && canonicalStep && routeStatus
-            ? canonicalValue(canonicalStep.roleJa, 'editorial', canonicalRoute.source, routeStatus, SOURCE_FILES.routes)
-            : undefined,
-          presentation: presentationValue(stepFact.description.ja, 'Route'),
-          timeSensitive: routeGuidanceFacts.some((fact) => fact.timeSensitive),
-          timeSensitiveNote: routeGuidanceFacts.length > 0
-            ? 'Embedded operational assertions are identified by metadata-only audit claims.'
-            : undefined,
-          issues: [...audit.issues],
-          note: canonicalStep ? 'Raw wording comparison only.' : 'Presentation-only guidance; no factual truth is inferred from prose.',
-        });
+        for (const locale of PRESENTATION_LOCALES) {
+          inputs.push({
+            claimId: localizedClaimId(
+              `${variantPrefix}:step:${step.spotId}:guidance`,
+              locale,
+            ),
+            entityType: 'Route',
+            entityId: journey.routeId,
+            entityName,
+            fieldId: localizedFieldId(`step:${step.spotId}:guidance`, locale),
+            fieldLabel: `Per-step guidance (${step.spotId}, ${locale})`,
+            comparisonExpected: locale === 'ja' && canonicalStep !== undefined,
+            canonical: locale === 'ja' && canonicalRoute && canonicalStep && routeStatus
+              ? canonicalValue(canonicalStep.roleJa, 'editorial', canonicalRoute.source, routeStatus, SOURCE_FILES.routes)
+              : undefined,
+            presentation: presentationValue(stepFact.description[locale], 'Route'),
+            timeSensitive: routeGuidanceFacts.some((fact) => fact.timeSensitive),
+            timeSensitiveNote: routeGuidanceFacts.length > 0
+              ? 'Embedded operational assertions are identified by metadata-only audit claims.'
+              : undefined,
+            issues: [...audit.issues],
+            note: locale === 'ja' && canonicalStep
+              ? 'Raw wording comparison only.'
+              : 'Localized presentation guidance is inventoried without inferring factual truth or a canonical translation.',
+          });
+        }
         for (const factualClaim of routeGuidanceFacts) {
           inputs.push({
             claimId: `${variantPrefix}:step:${step.spotId}:factual:${factualClaim.claimId}`,
@@ -1062,20 +1121,25 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
           });
         }
         if (stepFact.note) {
-          inputs.push({
-            claimId: `${variantPrefix}:step:${step.spotId}:note`,
-            entityType: 'Route',
-            entityId: journey.routeId,
-            entityName,
-            fieldId: `step:${step.spotId}:note`,
-            fieldLabel: `Operational route note (${step.spotId})`,
-            comparisonExpected: true,
-            presentation: presentationValue(stepFact.note.ja, 'Route'),
-            timeSensitive: true,
-            timeSensitiveNote: 'Operational recommendation can change; confirm before relying on it.',
-            issues: [...audit.issues],
-            note: 'Visible structured note has no corresponding canonical field; no value is inferred or fabricated.',
-          });
+          for (const locale of PRESENTATION_LOCALES) {
+            inputs.push({
+              claimId: localizedClaimId(
+                `${variantPrefix}:step:${step.spotId}:note`,
+                locale,
+              ),
+              entityType: 'Route',
+              entityId: journey.routeId,
+              entityName,
+              fieldId: localizedFieldId(`step:${step.spotId}:note`, locale),
+              fieldLabel: `Operational route note (${step.spotId}, ${locale})`,
+              comparisonExpected: true,
+              presentation: presentationValue(stepFact.note[locale], 'Route'),
+              timeSensitive: true,
+              timeSensitiveNote: 'Operational recommendation can change; confirm before relying on it.',
+              issues: [...audit.issues],
+              note: 'Visible localized structured note has no corresponding canonical field; no value is inferred or fabricated.',
+            });
+          }
         }
         if (stepFact.walk) {
           const isMeetingTime = PRESENTATION_ROUTE_MEETING_TIME_AUDIT.some(
@@ -1086,31 +1150,37 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
           const canonicalMobility = canonicalStep && canonicalVariant
             ? canonicalVariant.mobility.find((segment) => segment.toStep === canonicalStep.stepNumber)
             : undefined;
-          inputs.push({
-            claimId: `${variantPrefix}:step:${step.spotId}:${isMeetingTime ? 'meeting_time' : 'transport_guidance'}`,
-            entityType: 'Route',
-            entityId: journey.routeId,
-            entityName,
-            fieldId: `step:${step.spotId}:${isMeetingTime ? 'meeting_time' : 'transport_guidance'}`,
-            fieldLabel: `${isMeetingTime ? 'Meeting time' : 'Walking / transport guidance'} (${step.spotId})`,
-            comparisonExpected: true,
-            canonical: canonicalRoute && canonicalMobility && routeStatus
-              ? canonicalValue(
-                  `${canonicalMobility.labelJa} / ${canonicalMobility.durationMinutes} minutes`,
-                  'editorial',
-                  canonicalRoute.source,
-                  routeStatus,
-                  SOURCE_FILES.routes,
-                )
-              : undefined,
-            presentation: presentationValue(stepFact.walk.ja, 'Route'),
-            timeSensitive: true,
-            timeSensitiveNote: 'Presentation guidance; confirm current travel conditions.',
-            issues: [...audit.issues],
-            note: isMeetingTime
-              ? 'Meeting-time field is identified by the audit manifest; its value comes from the presentation record.'
-              : 'Stable stop IDs identify the comparison; array position is not claim identity.',
-          });
+          const walkFieldId = isMeetingTime ? 'meeting_time' : 'transport_guidance';
+          for (const locale of PRESENTATION_LOCALES) {
+            inputs.push({
+              claimId: localizedClaimId(
+                `${variantPrefix}:step:${step.spotId}:${walkFieldId}`,
+                locale,
+              ),
+              entityType: 'Route',
+              entityId: journey.routeId,
+              entityName,
+              fieldId: localizedFieldId(`step:${step.spotId}:${walkFieldId}`, locale),
+              fieldLabel: `${isMeetingTime ? 'Meeting time' : 'Walking / transport guidance'} (${step.spotId}, ${locale})`,
+              comparisonExpected: locale === 'ja',
+              canonical: locale === 'ja' && canonicalRoute && canonicalMobility && routeStatus
+                ? canonicalValue(
+                    `${canonicalMobility.labelJa} / ${canonicalMobility.durationMinutes} minutes`,
+                    'editorial',
+                    canonicalRoute.source,
+                    routeStatus,
+                    SOURCE_FILES.routes,
+                  )
+                : undefined,
+              presentation: presentationValue(stepFact.walk[locale], 'Route'),
+              timeSensitive: true,
+              timeSensitiveNote: 'Presentation guidance; confirm current travel conditions.',
+              issues: [...audit.issues],
+              note: isMeetingTime
+                ? 'Meeting-time field is identified by the audit manifest; its localized value comes from the presentation record.'
+                : 'Stable stop IDs and locale identify the comparison; array position is not claim identity.',
+            });
+          }
         }
       }
     }
@@ -1129,89 +1199,137 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
       : undefined;
     const status = place ? deriveVerificationStatus(place.source, place.origin) : undefined;
     const reference = referenceSpotDetails[spot.id];
-    const referenceName = reference?.information.find((row) => row.fieldId === 'name')?.value.ja;
-    const displayedName = referenceName ?? spot.copy.ja.name;
-    inputs.push({
-      claimId: `place:${spot.id}:name`,
-      entityType: 'Place',
-      entityId: spot.id,
-      entityName: displayedName,
-      fieldId: 'name',
-      fieldLabel: 'Name',
-      comparisonExpected: true,
-      canonical: place && status
-        ? canonicalValue(place.nameJa, place.origin, place.source, status, SOURCE_FILES.places)
-        : undefined,
-      presentation: presentationValue(displayedName, 'Spot'),
-      timeSensitive: false,
-      issues: audit ? [...audit.issues] : ['#333'],
-      note: place
-        ? 'Raw canonical/presentation mismatch only; repository authority does not establish a factual conflict.'
-        : 'Visible presentation place has no explicit canonical mapping.',
-    });
+    const referenceName = reference?.information.find(
+      (row) => row.fieldId === 'name',
+    );
+    const displayedName = referenceName?.value.ja ?? spot.copy.ja.name;
+    const snapshotPhone = spot.id === 'okutama-tourism-office'
+      ? tourismOfficeSourceRecord?.phone
+      : undefined;
+    const snapshotSource = tourismOfficeSourceRecord && place
+      ? {
+          ...place.source,
+          retrievedAt: tourismOfficeSourceRecord.retrievedAt
+            ?? place.source.retrievedAt,
+        }
+      : undefined;
 
-    for (const [fieldId, fieldLabel, value] of [
-      ['lead', 'Spot lead', spot.copy.ja.lead],
-      ['description', 'Spot description', reference?.description.ja ?? spot.copy.ja.description],
-      ['safety_guidance', 'Safety guidance', (reference?.caution ?? spot.copy.ja.caution.map((item) => ({ ja: item, en: item, 'zh-TW': item }))).map((item) => item.ja).join('\n')],
-    ] as const) {
+    for (const locale of PRESENTATION_LOCALES) {
+      const localizedName = referenceName?.value[locale] ?? spot.copy[locale].name;
       inputs.push({
-        claimId: `spot:${spot.id}:presentation:${fieldId}`,
-        entityType: 'Spot',
+        claimId: localizedClaimId(`place:${spot.id}:name`, locale),
+        entityType: 'Place',
         entityId: spot.id,
         entityName: displayedName,
-        fieldId: `presentation:${fieldId}`,
-        fieldLabel,
-        comparisonExpected: false,
-        presentation: presentationValue(value, 'Spot'),
-        timeSensitive: fieldId === 'safety_guidance',
-        timeSensitiveNote: fieldId === 'safety_guidance' ? 'Recheck operational guidance before visiting.' : undefined,
+        fieldId: localizedFieldId('name', locale),
+        fieldLabel: `Name (${locale})`,
+        comparisonExpected: locale === 'ja',
+        canonical: locale === 'ja' && place && status
+          ? canonicalValue(place.nameJa, place.origin, place.source, status, SOURCE_FILES.places)
+          : undefined,
+        presentation: place && status
+          ? presentationValue(localizedName, 'Spot', place.origin, status)
+          : presentationValue(localizedName, 'Spot'),
+        timeSensitive: false,
         issues: audit ? [...audit.issues] : ['#333'],
-        note: 'Demo presentation copy; factual truth is not inferred from prose.',
+        note: locale === 'ja'
+          ? place
+            ? 'Raw canonical/presentation mismatch only; repository authority does not establish a factual conflict.'
+            : 'Visible presentation place has no explicit canonical mapping.'
+          : 'Localized presentation is inventoried without inferring a canonical translation.',
       });
-    }
 
-    if (reference && place && status) {
-      for (const fieldId of ['address', 'phone'] as const) {
-        const row = reference.information.find((candidate) => candidate.fieldId === fieldId);
-        if (!row) continue;
-        const snapshotPhone = spot.id === 'okutama-tourism-office'
-          ? tourismOfficeSourceRecord?.phone
-          : undefined;
-        const snapshotSource = tourismOfficeSourceRecord
-          ? {
-              ...place.source,
-              retrievedAt: tourismOfficeSourceRecord.retrievedAt
-                ?? place.source.retrievedAt,
-            }
-          : undefined;
+      const safetyGuidance = reference
+        ? reference.caution.map((item) => item[locale]).join('\n')
+        : spot.copy[locale].caution.join('\n');
+      for (const [fieldId, fieldLabel, value] of [
+        ['lead', 'Spot lead', spot.copy[locale].lead],
+        ['description', 'Spot description', reference?.description[locale] ?? spot.copy[locale].description],
+        ['safety_guidance', 'Safety guidance', safetyGuidance],
+      ] as const) {
         inputs.push({
-          claimId: `place:${spot.id}:${fieldId}`,
-          entityType: 'Place',
+          claimId: localizedClaimId(
+            `spot:${spot.id}:presentation:${fieldId}`,
+            locale,
+          ),
+          entityType: 'Spot',
           entityId: spot.id,
           entityName: displayedName,
-          fieldId,
-          fieldLabel: fieldId === 'address' ? 'Address' : 'Phone / contact',
-          comparisonExpected: true,
-          canonical: fieldId === 'address'
-            ? canonicalValue(place.address, place.origin, place.source, status, SOURCE_FILES.places)
-            : snapshotPhone && snapshotSource
-              ? canonicalValue(
-                  snapshotPhone,
-                  place.origin,
-                  snapshotSource,
-                  status,
-                  SOURCE_FILES.tourismSnapshot,
-                )
-              : undefined,
-          presentation: presentationValue(row.value.ja, 'Spot'),
-          timeSensitive: true,
-          timeSensitiveNote: 'Contact and location details can change; check the official source.',
+          fieldId: localizedFieldId(`presentation:${fieldId}`, locale),
+          fieldLabel: `${fieldLabel} (${locale})`,
+          comparisonExpected: false,
+          presentation: presentationValue(value, 'Spot'),
+          timeSensitive: fieldId === 'safety_guidance',
+          timeSensitiveNote: fieldId === 'safety_guidance' ? 'Recheck operational guidance before visiting.' : undefined,
           issues: audit ? [...audit.issues] : ['#333'],
-          note: fieldId === 'phone'
-            ? 'Phone is represented in the source snapshot and presentation but remains absent from the canonical Place schema.'
-            : 'Merged #322/#332 canonical/display comparison.',
+          note: 'Localized demo presentation copy; factual truth is not inferred from prose.',
         });
+      }
+
+      if (reference && place && status) {
+        for (const fieldId of ['address', 'phone'] as const) {
+          const row = reference.information.find((candidate) => candidate.fieldId === fieldId);
+          if (!row) continue;
+          inputs.push({
+            claimId: localizedClaimId(`place:${spot.id}:${fieldId}`, locale),
+            entityType: 'Place',
+            entityId: spot.id,
+            entityName: displayedName,
+            fieldId: localizedFieldId(fieldId, locale),
+            fieldLabel: `${fieldId === 'address' ? 'Address' : 'Phone / contact'} (${locale})`,
+            comparisonExpected: locale === 'ja',
+            canonical: locale === 'ja'
+              ? fieldId === 'address'
+                ? canonicalValue(place.address, place.origin, place.source, status, SOURCE_FILES.places)
+                : snapshotPhone && snapshotSource
+                  ? canonicalValue(
+                      snapshotPhone,
+                      place.origin,
+                      snapshotSource,
+                      status,
+                      SOURCE_FILES.tourismSnapshot,
+                    )
+                  : undefined
+              : undefined,
+            presentation: presentationValue(row.value[locale], 'Spot', place.origin, status),
+            timeSensitive: true,
+            timeSensitiveNote: 'Contact and location details can change; check the official source.',
+            issues: audit ? [...audit.issues] : ['#333'],
+            note: locale === 'ja'
+              ? fieldId === 'phone'
+                ? 'Phone is represented in the source snapshot and presentation but remains absent from the canonical Place schema.'
+                : 'Merged #322/#332 canonical/display comparison.'
+              : 'Localized source-backed presentation is inventoried without inferring a canonical translation.',
+          });
+        }
+
+        const verificationNote = reference.information.find(
+          (candidate) => candidate.fieldId === 'verification_note',
+        );
+        if (verificationNote) {
+          inputs.push({
+            claimId: localizedClaimId(
+              `spot:${spot.id}:presentation:verification_note`,
+              locale,
+            ),
+            entityType: 'Spot',
+            entityId: spot.id,
+            entityName: displayedName,
+            fieldId: localizedFieldId('presentation:verification_note', locale),
+            fieldLabel: `Displayed verification note (${locale})`,
+            comparisonExpected: false,
+            presentation: presentationValue(
+              verificationNote.value[locale],
+              'Spot',
+              place.origin,
+              status,
+            ),
+            timeSensitive: true,
+            timeSensitiveNote: 'The caveat must stay aligned with the structured verification state; no wall-clock threshold is inferred.',
+            issues: audit ? [...audit.issues] : ['#333'],
+            note: 'Visible pending-confirmation caveat is preserved as presentation data, not promoted to canonical truth.',
+          });
+        }
       }
     }
 

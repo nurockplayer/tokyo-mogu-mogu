@@ -170,9 +170,9 @@ describe('repository data verification ledger (#333)', () => {
 
   it('keeps the merged #332 tourism-office facts and provenance honest', () => {
     const claims = buildRepositoryLedgerClaims();
-    const name = claims.find((row) => row.claimId === 'place:okutama-tourism-office:name');
-    const address = claims.find((row) => row.claimId === 'place:okutama-tourism-office:address');
-    const phone = claims.find((row) => row.claimId === 'place:okutama-tourism-office:phone');
+    const name = claims.find((row) => row.claimId === 'place:okutama-tourism-office:name:ja');
+    const address = claims.find((row) => row.claimId === 'place:okutama-tourism-office:address:ja');
+    const phone = claims.find((row) => row.claimId === 'place:okutama-tourism-office:phone:ja');
 
     expect(name).toMatchObject({
       canonicalValue: '奥多摩観光案内所',
@@ -206,6 +206,56 @@ describe('repository data verification ledger (#333)', () => {
     expect(phone?.confirmedAt).toBeUndefined();
   });
 
+  it('inventories factual presentation records in every visible locale', () => {
+    const claims = buildRepositoryLedgerClaims();
+
+    expect(
+      claims.find(
+        (row) => row.claimId === 'route:okutama-wasabi-journey:presentation:result_origin_travel_time:en',
+      ),
+    ).toMatchObject({
+      displayedValue: 'Tokyo Station / About 120 min by train',
+      comparedPresentationClaimId:
+        'route:okutama-wasabi-journey:half-day:origin_travel_time_guidance:en',
+      comparedPresentationValue: 'Tokyo Station / 60 min',
+      verification: 'demo',
+      finding: 'presentation_mismatch',
+    });
+    expect(
+      claims.find(
+        (row) => row.claimId === 'route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:note:zh-TW',
+      ),
+    ).toMatchObject({
+      displayedValue: '平日建議前往 AKABEKO',
+      verification: 'demo',
+      finding: 'canonical_missing',
+    });
+    expect(
+      claims.find(
+        (row) => row.claimId === 'spot:okutama-tourism-office:presentation:lead:en',
+      ),
+    ).toMatchObject({
+      displayedValue: 'A stop for checking visitor information',
+      verification: 'demo',
+    });
+  });
+
+  it('preserves the visible tourism-office pending-confirmation note', () => {
+    const claims = buildRepositoryLedgerClaims();
+
+    expect(
+      claims.find(
+        (row) => row.claimId === 'spot:okutama-tourism-office:presentation:verification_note:ja',
+      ),
+    ).toMatchObject({
+      displayedValue: '施設名・所在地・電話番号を含む掲載内容は現在確認中です。訪問前に奥多摩観光協会の公式情報をご確認ください。',
+      verification: 'needs_confirmation',
+      finding: 'none',
+      timeSensitive: true,
+      appSurface: 'Spot',
+    });
+  });
+
   it('surfaces the approved initial Route comparison findings without correcting them', () => {
     const claims = buildRepositoryLedgerClaims();
 
@@ -236,12 +286,12 @@ describe('repository data verification ledger (#333)', () => {
 
     expect(
       claims.find(
-        (row) => row.claimId === 'route:okutama-wasabi-journey:presentation:result_origin_travel_time',
+        (row) => row.claimId === 'route:okutama-wasabi-journey:presentation:result_origin_travel_time:ja',
       ),
     ).toMatchObject({
       displayedValue: '東京駅 / から電車で　約120分',
       comparedPresentationClaimId:
-        'route:okutama-wasabi-journey:half-day:origin_travel_time_guidance',
+        'route:okutama-wasabi-journey:half-day:origin_travel_time_guidance:ja',
       comparedPresentationValue: '東京駅 / 60 分',
       verification: 'demo',
       finding: 'presentation_mismatch',
@@ -253,7 +303,7 @@ describe('repository data verification ledger (#333)', () => {
 
     expect(
       claims.find(
-        (row) => row.claimId === 'route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:note',
+        (row) => row.claimId === 'route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:note:ja',
       ),
     ).toMatchObject({
       canonicalValue: undefined,
@@ -270,7 +320,7 @@ describe('repository data verification ledger (#333)', () => {
 
     expect(
       claims.find(
-        (row) => row.claimId === 'route:okutama-yamame-journey:half-day:summary_time',
+        (row) => row.claimId === 'route:okutama-yamame-journey:half-day:summary_time:ja',
       ),
     ).toMatchObject({
       displayedValue: '約 4 時間',
@@ -280,7 +330,7 @@ describe('repository data verification ledger (#333)', () => {
     });
     expect(
       claims.find(
-        (row) => row.claimId === 'route:okutama-yamame-journey:half-day:summary_stop_count',
+        (row) => row.claimId === 'route:okutama-yamame-journey:half-day:summary_stop_count:ja',
       ),
     ).toMatchObject({
       displayedValue: '3 スポット',
@@ -298,7 +348,7 @@ describe('repository data verification ledger (#333)', () => {
   it('queues operational facts embedded in structured Route guidance without parsing prose', () => {
     const claims = buildRepositoryLedgerClaims();
     const guidance = claims.find(
-      (row) => row.claimId === 'route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:guidance',
+      (row) => row.claimId === 'route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:guidance:ja',
     );
     const minimumPrice = claims.find(
       (row) => row.claimId === 'route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:factual:minimum-price',
