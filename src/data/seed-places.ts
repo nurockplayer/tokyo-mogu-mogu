@@ -6,8 +6,9 @@
  *   奥多摩観光案内所 / 千島わさび園 / 一心亭 / 獅子口屋 / 大丹波川国際虹ます釣場.
  *   Names and addresses are transcribed from the 一般社団法人奥多摩観光協会
  *   directory (https://www.okutama.gr.jp/site/, All Rights Reserved) on
- *   2026-08-08 into `src/data/generated/okutama-places.ts`; the curated records
- *   here copy that data (originalId links back to the generated dataset).
+ *   2026-08-08 into `src/data/generated/okutama-places.ts`; record-specific
+ *   re-check dates are preserved where present. The curated records here copy
+ *   that data (originalId links back to the generated dataset).
  *   These records are `origin: 'source'` (real facility data from an official
  *   source) with `verificationStatus: 'needs_confirmation'` — their
  *   coordinates are APPROXIMATE (OpenStreetMap district centroids, not
@@ -109,7 +110,7 @@ export const PLACES: Place[] = [
     id: 'okutama-tourism-office',
     nameJa: '奥多摩観光案内所',
     nameEn: 'Okutama Tourist Information Center',
-    address: '東京都西多摩郡奥多摩町氷川',
+    address: '東京都西多摩郡奥多摩町氷川210',
     // Precise OSM point (not a centroid) from the generated okutama dataset.
     latitude: 35.8089218,
     longitude: 139.0967554,
@@ -121,7 +122,7 @@ export const PLACES: Place[] = [
       url: 'https://www.okutama.gr.jp/site/',
       license: 'All Rights Reserved（参考情報としてのみ利用）',
       sourceType: 'official_web',
-      retrievedAt: '2026-08-08',
+      retrievedAt: '2026-08-26',
       verificationStatus: 'needs_confirmation',
       originalId: 'okutama-tourism-office',
     },

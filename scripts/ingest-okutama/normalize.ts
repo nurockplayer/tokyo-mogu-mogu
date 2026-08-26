@@ -74,6 +74,7 @@ export interface DirectoryRow {
   longitude: number;
   url?: string;
   phone?: string;
+  retrievedAt?: string;
   category: string;
   coordApprox: boolean;
   note?: string;
@@ -270,7 +271,7 @@ export function normalizeDirectoryRow(row: DirectoryRow): Place {
       url: row.url ?? 'https://www.okutama.gr.jp/site/',
       license: 'All Rights Reserved（参考情報としてのみ利用）',
       sourceType: 'official_web',
-      retrievedAt: RETRIEVED_AT,
+      retrievedAt: row.retrievedAt ?? RETRIEVED_AT,
       originalId: row.key,
     },
     origin: 'demo',
