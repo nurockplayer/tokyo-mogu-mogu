@@ -51,6 +51,7 @@ interface StoryFactualAuditClaim {
   claimId: string;
   claimLabel: string;
   parentClaimId: string;
+  additionalParentClaimIds?: readonly string[];
   timeSensitive?: boolean;
 }
 
@@ -70,6 +71,10 @@ const STORY_FACTUAL_AUDIT_CLAIMS: Readonly<Record<string, readonly StoryFactualA
     { claimId: 'story.factual.wasabi-school-duration', claimLabel: 'Wasabi school learning duration', parentClaimId: 'story.chapter.inherited-technique', timeSensitive: true },
     { claimId: 'story.factual.production-challenges', claimLabel: 'Current wasabi production challenges', parentClaimId: 'story.chapter.current-challenges', timeSensitive: true },
     { claimId: 'story.factual.visit-economic-impact', claimLabel: 'Visitor economic and succession impact', parentClaimId: 'story.chapter.visitor-support', timeSensitive: true },
+    { claimId: 'story.factual.wasabi-flavor-profile', claimLabel: 'Okutama wasabi flavor profile', parentClaimId: 'story.point' },
+    { claimId: 'story.factual.grating-aroma-effect', claimLabel: 'Effect of gentle grating on wasabi aroma', parentClaimId: 'story.point' },
+    { claimId: 'story.factual.optimal-eating-window', claimLabel: 'Wasabi optimal eating window', parentClaimId: 'story.point' },
+    { claimId: 'story.factual.food-pairings', claimLabel: 'Wasabi food pairing claims', parentClaimId: 'story.point' },
   ],
   'demo-okutama-yamame': [
     { claimId: 'story.factual.aquaculture-history', claimLabel: 'Okutama yamame aquaculture history', parentClaimId: 'story.chapter.regional-fit' },
@@ -79,8 +84,8 @@ const STORY_FACTUAL_AUDIT_CLAIMS: Readonly<Record<string, readonly StoryFactualA
     { claimId: 'story.factual.recipe-provenance', claimLabel: 'Yamame recipe provenance', parentClaimId: 'story.chapter.inheritors' },
     { claimId: 'story.factual.aquaculture-research', claimLabel: 'Yamame aquaculture research activity', parentClaimId: 'story.chapter.inheritors', timeSensitive: true },
     { claimId: 'story.factual.fish-reproductive-characteristic', claimLabel: 'Okutama yamame reproductive characteristic', parentClaimId: 'story.chapter.fish-characteristics' },
-    { claimId: 'story.factual.fish-longevity-size', claimLabel: 'Okutama yamame longevity and size', parentClaimId: 'story.chapter.fish-characteristics' },
-    { claimId: 'story.factual.dish-availability', claimLabel: 'Okutama yamame dish availability', parentClaimId: 'story.chapter.fish-characteristics', timeSensitive: true },
+    { claimId: 'story.factual.fish-longevity-size', claimLabel: 'Okutama yamame longevity and size', parentClaimId: 'story.chapter.fish-characteristics', additionalParentClaimIds: ['story.point'] },
+    { claimId: 'story.factual.dish-availability', claimLabel: 'Okutama yamame dish availability', parentClaimId: 'story.chapter.fish-characteristics', additionalParentClaimIds: ['story.point'], timeSensitive: true },
     { claimId: 'story.factual.disease-risk', claimLabel: 'Farmed yamame disease risk', parentClaimId: 'story.chapter.current-challenges', timeSensitive: true },
     { claimId: 'story.factual.tour-hygiene-constraint', claimLabel: 'Aquaculture tour hygiene constraint', parentClaimId: 'story.chapter.current-challenges', timeSensitive: true },
     { claimId: 'story.factual.lodging-pattern', claimLabel: 'Current Okutama lodging pattern', parentClaimId: 'story.chapter.current-challenges', timeSensitive: true },
@@ -1038,6 +1043,10 @@ export function currentDataVerificationClaims(): LedgerClaimInput[] {
     });
 
     for (const auditClaim of STORY_FACTUAL_AUDIT_CLAIMS[journey.id] ?? []) {
+      const parentClaimIds = [
+        auditClaim.parentClaimId,
+        ...(auditClaim.additionalParentClaimIds ?? []),
+      ];
       claims.push({
         entityType: 'Story',
         entityId: journey.foodCultureId,
@@ -1054,7 +1063,7 @@ export function currentDataVerificationClaims(): LedgerClaimInput[] {
           ? 'The current presentation assertion can change and has no safe claim-level source mapping.'
           : undefined,
         relevantIssue: '#333',
-        nextAction: `Map ${auditClaim.parentClaimId} to structured source-backed claim metadata; do not parse or duplicate its prose value.`,
+        nextAction: `Map ${parentClaimIds.join(' and ')} to structured source-backed claim metadata; do not parse or duplicate their prose values.`,
         auditMetadata: true,
       });
     }

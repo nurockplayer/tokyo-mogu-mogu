@@ -239,6 +239,12 @@ describe('current data verification ledger inputs (#333)', () => {
     const researchFacilities = claims.find((claim) =>
       claim.entityId === 'yamame-okutama'
       && claim.claimId === 'story.factual.research-facility-count');
+    const eatingWindow = claims.find((claim) =>
+      claim.entityId === 'wasabi-okutama'
+      && claim.claimId === 'story.factual.optimal-eating-window');
+    const yamameSize = claims.find((claim) =>
+      claim.entityId === 'yamame-okutama'
+      && claim.claimId === 'story.factual.fish-longevity-size');
 
     expect(successorCount).toMatchObject({
       claimKind: 'factual',
@@ -256,6 +262,16 @@ describe('current data verification ledger inputs (#333)', () => {
       auditMetadata: true,
       nextAction: expect.stringContaining('story.chapter.regional-fit'),
     });
+    expect(eatingWindow).toMatchObject({
+      claimKind: 'factual',
+      canonicalValue: undefined,
+      displayedValue: undefined,
+      verification: 'unknown',
+      auditMetadata: true,
+      nextAction: expect.stringContaining('story.point'),
+    });
+    expect(yamameSize?.nextAction).toContain('story.chapter.fish-characteristics');
+    expect(yamameSize?.nextAction).toContain('story.point');
   });
 
   it('keeps presentation provenance tied to the record that supplies each visible Spot value', () => {
