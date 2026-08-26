@@ -17,6 +17,7 @@ import {
   RETRIEVED_AT,
 } from './normalize.ts';
 import type { CsvRow, DirectoryRow } from './normalize.ts';
+import { OKUTAMA_PLACES } from '../../src/data/generated/okutama-places.ts';
 
 const SNAPSHOT_DIR = join(dirname(fileURLToPath(import.meta.url)), 'snapshots');
 
@@ -73,7 +74,13 @@ describe('parseDirectoryJson', () => {
   it('parses the tourism-directory snapshot', () => {
     const rows = parseDirectoryJson(DIRECTORY_JSON);
     expect(rows.length).toBeGreaterThanOrEqual(1);
-    expect(rows[0]).toMatchObject({ key: 'okutama-tourism-office', coordApprox: false });
+    expect(rows[0]).toMatchObject({
+      key: 'okutama-tourism-office',
+      address: '東京都西多摩郡奥多摩町氷川210',
+      phone: '0428-83-2152',
+      coordApprox: false,
+    });
+    expect(rows[0].retrievedAt).toBe('2026-08-26');
   });
 });
 
@@ -124,7 +131,18 @@ describe('normalizeDirectoryRow', () => {
     expect(p.origin).toBe('demo');
     expect(p.source.sourceType).toBe('official_web');
     expect(p.source.originalId).toBe('moegi-no-yu');
+    expect(p.source.retrievedAt).toBe(RETRIEVED_AT);
     expect(p.latitude).toBe(35.8046405);
+  });
+
+  it('uses a record-specific retrieval date without refreshing unrelated rows', () => {
+    const checkedRow = {
+      ...row,
+      retrievedAt: '2026-08-26',
+    } satisfies DirectoryRow;
+
+    expect(normalizeDirectoryRow(checkedRow).source.retrievedAt).toBe('2026-08-26');
+    expect(normalizeDirectoryRow(row).source.retrievedAt).toBe(RETRIEVED_AT);
   });
 });
 
@@ -180,5 +198,29 @@ describe('buildOkutamaPlaces', () => {
       directoryJson: DIRECTORY_JSON,
     };
     expect(buildOkutamaPlaces(input)).toEqual(buildOkutamaPlaces(input));
+  });
+
+  it('keeps the tourism-office snapshot and generated artifact in sync', () => {
+    const places = buildOkutamaPlaces({
+      sportsCsv: SPORTS_CSV,
+      generalCsv: GENERAL_CSV,
+      directoryJson: DIRECTORY_JSON,
+    });
+    const builtOffice = places.find((place) => place.id === 'okutama-demo-okutama-tourism-office');
+    const generatedOffice = OKUTAMA_PLACES.find(
+      (place) => place.id === 'okutama-demo-okutama-tourism-office',
+    );
+
+    for (const office of [builtOffice, generatedOffice]) {
+      expect(office).toMatchObject({
+        address: '東京都西多摩郡奥多摩町氷川210',
+        source: {
+          url: 'https://www.okutama.gr.jp/site/',
+          retrievedAt: '2026-08-26',
+          originalId: 'okutama-tourism-office',
+        },
+      });
+      expect(office?.source).not.toHaveProperty('confirmedAt');
+    }
   });
 });

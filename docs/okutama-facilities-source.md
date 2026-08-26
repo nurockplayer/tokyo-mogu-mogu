@@ -12,7 +12,7 @@ limitations, and how to re-run ingestion.
 | Ingestion script | `scripts/ingest-okutama/generate.ts` |
 | Normalizer | `scripts/ingest-okutama/normalize.ts` (pure, unit-tested) |
 | Source snapshots | `scripts/ingest-okutama/snapshots/` (committed, immutable inputs) |
-| Retrieval date | 2026-08-08 |
+| Retrieval date | Initial snapshot: 2026-08-08; tourism-office record rechecked: 2026-08-26 |
 | Real open-data rows | 3 (origin: `source`) |
 | Reference/demo rows | 19 (origin: `demo`) |
 | Total | 22 |
@@ -154,7 +154,11 @@ pnpm vitest run scripts/ingest-okutama/okutama-ingest.test.ts
 - The general-facilities snapshot (`skseti_53.csv`) is a 2021 fiscal-year
   snapshot from the Tokyo education board; facility lists can change.
 - Names/addresses in the directory snapshot were transcribed from HTML as of
-  2026-08-08; business closures or relocations after that date are not reflected.
+  2026-08-08. The tourism-office address and phone were rechecked against the
+  association site (`https://www.okutama.gr.jp/site/`) and official walking-trail
+  PDF (`https://www.okutama.gr.jp/site/map/pdf/ohtama.pdf`) on 2026-08-26; other
+  records retain their original retrieval date, and later closures or
+  relocations are not reflected.
 
 ## Frozen pilot journey wiring (Issue #127)
 

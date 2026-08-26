@@ -11,10 +11,12 @@
       "key": "okutama-tourism-office",
       "nameJa": "奥多摩観光案内所",
       "nameEn": "Okutama Tourist Information Center",
-      "address": "東京都西多摩郡奥多摩町氷川",
+      "address": "東京都西多摩郡奥多摩町氷川210",
       "latitude": 35.8089218,
       "longitude": 139.0967554,
       "url": "https://www.okutama.gr.jp/site/",
+      "phone": "0428-83-2152",
+      "retrievedAt": "2026-08-26",
       "category": "info-center",
       "coordApprox": false,
       "note": "Visitor anchor; geocoded from OSM '奥多摩観光案内所'."

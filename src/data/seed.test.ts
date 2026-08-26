@@ -86,6 +86,21 @@ describe('seed data contract (#2)', () => {
     }
   });
 
+  it('keeps the tourism-office seed aligned with its checked source facts (#322)', () => {
+    const tourismOffice = getPlaceById('okutama-tourism-office');
+
+    expect(tourismOffice).toMatchObject({
+      address: '東京都西多摩郡奥多摩町氷川210',
+      source: {
+        url: 'https://www.okutama.gr.jp/site/',
+        retrievedAt: '2026-08-26',
+        verificationStatus: 'needs_confirmation',
+        originalId: 'okutama-tourism-office',
+      },
+    });
+    expect(tourismOffice?.source).not.toHaveProperty('confirmedAt');
+  });
+
   it('relation helpers return the linked records', () => {
     const wasabi = getFoodCultureById('wasabi-okutama');
     expect(wasabi).toBeDefined();
