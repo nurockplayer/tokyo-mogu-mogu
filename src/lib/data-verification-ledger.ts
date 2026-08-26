@@ -1,10 +1,12 @@
 import type { DataOrigin, DataSource, VerificationStatus } from '../data/model';
+import tourismDirectory from '../../scripts/ingest-okutama/snapshots/okutama-tourism-directory.json';
 import { foodCultures, modelRoutes, places } from '../data';
 import {
   PRESENTATION_ROUTE_AUDIT,
   PRESENTATION_ROUTE_MEETING_TIME_AUDIT,
   PRESENTATION_SPOT_AUDIT,
   REQUIRED_VISIBLE_SPOT_FIELDS,
+  REQUIRED_STORY_FACTUAL_CLAIMS,
   SOURCE_FILES,
 } from '../data/data-verification-audit-manifest';
 import { SPOT_DETAILS } from '../data/seed-routes';
@@ -13,6 +15,7 @@ import {
   demoSpots,
   chapterPoint,
   referenceSpotDetails,
+  resultLocation,
   routeNames,
   routeStats,
   routeStepText,
@@ -32,6 +35,7 @@ export type LedgerFinding =
   | 'none'
   | 'match'
   | 'mismatch'
+  | 'presentation_mismatch'
   | 'canonical_missing'
   | 'presentation_missing';
 
@@ -71,6 +75,13 @@ export interface LedgerRequiredUnknown {
   note: string;
 }
 
+export interface LedgerComparedPresentationValue {
+  claimId: string;
+  value: string;
+  surface: string;
+  sourceFile: string;
+}
+
 /**
  * Stable, language-independent input for one factual claim.
  *
@@ -88,6 +99,7 @@ export interface LedgerClaimInput {
   comparisonExpected: boolean;
   canonical?: LedgerCanonicalValue;
   presentation?: LedgerPresentationValue;
+  comparedPresentation?: LedgerComparedPresentationValue;
   requiredUnknown?: LedgerRequiredUnknown;
   appSurface?: string;
   timeSensitive: boolean;
@@ -106,6 +118,8 @@ export interface LedgerClaim {
   fieldLabel: string;
   canonicalValue?: string;
   displayedValue?: string;
+  comparedPresentationClaimId?: string;
+  comparedPresentationValue?: string;
   origin: DataOrigin;
   verification: LedgerVerification;
   finding: LedgerFinding;
@@ -132,6 +146,11 @@ function compareClaimIds(left: { claimId: string }, right: { claimId: string }):
 }
 
 function comparisonFinding(input: LedgerClaimInput): LedgerFinding {
+  if (input.presentation && input.comparedPresentation) {
+    return input.presentation.value === input.comparedPresentation.value
+      ? 'none'
+      : 'presentation_mismatch';
+  }
   if (!input.comparisonExpected) return 'none';
   if (input.canonical && input.presentation) {
     return input.canonical.value === input.presentation.value ? 'match' : 'mismatch';
@@ -167,6 +186,8 @@ export function buildLedgerClaims(inputs: readonly LedgerClaimInput[]): LedgerCl
       fieldLabel: input.fieldLabel,
       canonicalValue: input.canonical?.value,
       displayedValue: input.presentation?.value,
+      comparedPresentationClaimId: input.comparedPresentation?.claimId,
+      comparedPresentationValue: input.comparedPresentation?.value,
       origin,
       verification:
         input.canonical?.verification ?? input.presentation?.verification ?? 'unknown',
@@ -202,6 +223,7 @@ const VERIFICATION_ORDER: readonly LedgerVerification[] = [
 
 const FINDING_ORDER: readonly LedgerFinding[] = [
   'mismatch',
+  'presentation_mismatch',
   'canonical_missing',
   'presentation_missing',
   'match',
@@ -229,6 +251,15 @@ function queueTable(claims: readonly LedgerClaim[]): string {
   return [header, ...rows].join('\n');
 }
 
+function presentationComparisonQueueTable(claims: readonly LedgerClaim[]): string {
+  if (claims.length === 0) return '_None._';
+  const header = '| Claim ID | Entity | Displayed | Compared presentation claim | Compared value | Verification | Comparison | Next action / note |\n|---|---|---|---|---|---|---|---|';
+  const rows = claims.map((claim) =>
+    `| \`${claim.claimId}\` | ${markdown(`${claim.entityType} ${claim.entityId}`)} | ${markdown(claim.displayedValue)} | \`${markdown(claim.comparedPresentationClaimId)}\` | ${markdown(claim.comparedPresentationValue)} | \`${claim.verification}\` | \`${claim.finding}\` | ${markdown(claim.note)} |`,
+  );
+  return [header, ...rows].join('\n');
+}
+
 /** Render byte-stable Markdown. No wall-clock value participates in output. */
 export function renderDataVerificationLedger(inputClaims: readonly LedgerClaim[]): string {
   const claims = [...inputClaims].sort(compareClaimIds);
@@ -246,20 +277,20 @@ export function renderDataVerificationLedger(inputClaims: readonly LedgerClaim[]
   );
 
   const detailsHeader = [
-    '| Claim ID | Entity type / ID / name | Field / claim | Canonical value | Displayed value | Origin | Verification | Comparison | Primary source | Checked / retrieved | Source updated | Confirmed | Time-sensitive | App surface | Canonical source file | Presentation source file | Audit source file | Relevant Issue / PR | Evidence | Next action / note |',
-    '|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|',
+    '| Claim ID | Entity type / ID / name | Field / claim | Canonical value | Displayed value | Compared presentation claim | Compared presentation value | Origin | Verification | Comparison | Primary source | Checked / retrieved | Source updated | Confirmed | Time-sensitive | App surface | Canonical source file | Presentation source file | Audit source file | Relevant Issue / PR | Evidence | Next action / note |',
+    '|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|',
   ];
   const detailRows = claims.map((claim) => {
     const timeSensitive = claim.timeSensitive
       ? `yes${claim.timeSensitiveNote ? ` — ${claim.timeSensitiveNote}` : ''}`
       : 'no';
-    return `| \`${claim.claimId}\` | ${markdown(`${claim.entityType} / ${claim.entityId} / ${claim.entityName}`)} | \`${claim.fieldId}\` — ${markdown(claim.fieldLabel)} | ${markdown(claim.canonicalValue)} | ${markdown(claim.displayedValue)} | \`${claim.origin}\` | \`${claim.verification}\` | \`${claim.finding}\` | ${sourceCell(claim)} | ${markdown(claim.retrievedAt)} | ${markdown(claim.sourceUpdatedAt)} | ${markdown(claim.confirmedAt)} | ${markdown(timeSensitive)} | ${markdown(claim.appSurface)} | \`${markdown(claim.canonicalSourceFile)}\` | ${claim.presentationSourceFile ? `\`${markdown(claim.presentationSourceFile)}\`` : '—'} | ${claim.auditSourceFile ? `\`${markdown(claim.auditSourceFile)}\`` : '—'} | ${markdown(claim.issues.join(', '))} | ${markdown(claim.evidence ?? 'Deferred to #334')} | ${markdown(claim.note)} |`;
+    return `| \`${claim.claimId}\` | ${markdown(`${claim.entityType} / ${claim.entityId} / ${claim.entityName}`)} | \`${claim.fieldId}\` — ${markdown(claim.fieldLabel)} | ${markdown(claim.canonicalValue)} | ${markdown(claim.displayedValue)} | ${claim.comparedPresentationClaimId ? `\`${markdown(claim.comparedPresentationClaimId)}\`` : '—'} | ${markdown(claim.comparedPresentationValue)} | \`${claim.origin}\` | \`${claim.verification}\` | \`${claim.finding}\` | ${sourceCell(claim)} | ${markdown(claim.retrievedAt)} | ${markdown(claim.sourceUpdatedAt)} | ${markdown(claim.confirmedAt)} | ${markdown(timeSensitive)} | ${markdown(claim.appSurface)} | \`${markdown(claim.canonicalSourceFile)}\` | ${claim.presentationSourceFile ? `\`${markdown(claim.presentationSourceFile)}\`` : '—'} | ${claim.auditSourceFile ? `\`${markdown(claim.auditSourceFile)}\`` : '—'} | ${markdown(claim.issues.join(', '))} | ${markdown(claim.evidence ?? 'Deferred to #334')} | ${markdown(claim.note)} |`;
   });
 
   const sections = [
     '# Data Verification Ledger',
     '> Generated deterministically from repository-owned structured inputs. Do not edit this file by hand.\n> Regenerate: `pnpm data:verification-ledger` · Check: `pnpm data:verification-ledger --check`',
-    'This ledger is a review surface, not a second verification system. `origin`, the existing verification enum, `retrievedAt`, `sourceUpdatedAt`, and `confirmedAt` remain separate. `unknown` is report-only. Comparison results such as `mismatch` and `canonical_missing` are findings only and never verification states.',
+    'This ledger is a review surface, not a second verification system. `origin`, the existing verification enum, `retrievedAt`, `sourceUpdatedAt`, and `confirmedAt` remain separate. `unknown` is report-only. Comparison results such as `mismatch`, `presentation_mismatch`, and `canonical_missing` are findings only and never verification states.',
     '## Inputs and audit boundary',
     [
       '- Canonical records: `src/data/seed-food-cultures.ts`, `src/data/seed-places.ts`, and `src/data/seed-routes.ts`.',
@@ -287,6 +318,10 @@ export function renderDataVerificationLedger(inputClaims: readonly LedgerClaim[]
     queueTable(claims.filter((claim) => claim.verification === 'unknown')),
     '## Canonical ↔ presentation mismatches',
     queueTable(claims.filter((claim) => claim.finding === 'mismatch')),
+    '## Presentation ↔ presentation mismatches',
+    presentationComparisonQueueTable(
+      claims.filter((claim) => claim.finding === 'presentation_mismatch'),
+    ),
     '## Canonical-missing presentation claims',
     queueTable(claims.filter((claim) => claim.finding === 'canonical_missing')),
     '## Presentation-missing canonical claims',
@@ -304,7 +339,7 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
   const canonicalValue = (
     value: string,
     origin: DataOrigin,
-    source: DataSource,
+    source: DataSource | undefined,
     verification: VerificationStatus,
     sourceFile: string,
   ): LedgerCanonicalValue => ({
@@ -386,6 +421,7 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
     if (!primarySource) {
       throw new Error(`FoodCulture ${culture.id} has no provenance source.`);
     }
+    const claimLevelSource = culture.sources.length === 1 ? primarySource : undefined;
     const facts = [
       ['name', 'Name', culture.nameJa, 'FoodCulture'],
       ['description', 'Summary', culture.descriptionJa, 'FoodCulture'],
@@ -405,11 +441,13 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
         entityName: culture.nameJa,
         fieldId,
         fieldLabel,
-        canonical: canonicalValue(value, culture.origin, primarySource, status, SOURCE_FILES.foodCultures),
+        canonical: canonicalValue(value, culture.origin, claimLevelSource, status, SOURCE_FILES.foodCultures),
         timeSensitive: false,
         appSurface: surface,
         issues: ['#129', '#133', '#333'],
-        note: `${surface} copy is editorially authored from the listed sources; it is not automatically verified.`,
+        note: culture.sources.length === 1
+          ? `${surface} copy is editorially authored from the listed source; it is not automatically verified.`
+          : `${surface} copy has multiple record-level sources but no claim-level source mapping; source-array order is not treated as provenance.`,
       });
     }
 
@@ -669,6 +707,72 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
       note: canonicalRoute ? 'Raw canonical/presentation comparison; no normalization is applied.' : 'Visible route has no canonical ModelRoute record.',
     });
     const presentationStory = journey.copy.ja;
+    const result = resultLocation[journey.id]?.ja;
+    const resultComparisonVariantId = audit.resultComparisonVariantId;
+    const resultComparisonClaimId =
+      `route:${journey.routeId}:${resultComparisonVariantId}:origin_travel_time_guidance`;
+    const resultComparisonStats = routeStats[
+      `${journey.id}:${resultComparisonVariantId}`
+    ]?.ja;
+    for (const [fieldId, fieldLabel, value] of [
+      ['result_match_percent', 'Result match percent', String(journey.matchPercent)],
+      ['result_tags', 'Result tags', presentationStory.tags.join(', ')],
+    ] as const) {
+      inputs.push({
+        claimId: `food-culture:${journey.storyId}:presentation:${fieldId}`,
+        entityType: 'FoodCulture',
+        entityId: journey.storyId,
+        entityName: presentationStory.storyTitle,
+        fieldId: `presentation:${fieldId}`,
+        fieldLabel,
+        comparisonExpected: false,
+        presentation: presentationValue(value, 'Result'),
+        timeSensitive: false,
+        issues: [...audit.issues],
+        note: 'Structured Result presentation value; factual truth is not inferred from display copy.',
+      });
+    }
+    if (result) {
+      inputs.push({
+        claimId: `route:${journey.routeId}:presentation:result_area`,
+        entityType: 'Route',
+        entityId: journey.routeId,
+        entityName,
+        fieldId: 'presentation:result_area',
+        fieldLabel: 'Result area guidance',
+        comparisonExpected: false,
+        presentation: presentationValue(result.area, 'Result'),
+        timeSensitive: false,
+        issues: [...audit.issues],
+        note: 'Structured Result presentation value; no canonical equivalence is inferred.',
+      });
+      const resultTravel = `${result.station} / ${result.access}`;
+      const routeTravel = resultComparisonStats
+        ? `${resultComparisonStats.station} / ${resultComparisonStats.minutes}`
+        : undefined;
+      inputs.push({
+        claimId: `route:${journey.routeId}:presentation:result_origin_travel_time`,
+        entityType: 'Route',
+        entityId: journey.routeId,
+        entityName,
+        fieldId: 'presentation:result_origin_travel_time',
+        fieldLabel: 'Result origin travel-time guidance',
+        comparisonExpected: false,
+        presentation: presentationValue(resultTravel, 'Result'),
+        comparedPresentation: routeTravel
+          ? {
+              claimId: resultComparisonClaimId,
+              value: routeTravel,
+              surface: 'Route',
+              sourceFile: SOURCE_FILES.presentation,
+            }
+          : undefined,
+        timeSensitive: true,
+        timeSensitiveNote: 'Raw cross-surface display comparison; no duration is parsed from prose.',
+        issues: [...audit.issues],
+        note: 'Result and Route presentation values are compared byte-for-byte without normalization or factual inference.',
+      });
+    }
     const location = storyLocation[journey.id]?.ja;
     const point = chapterPoint[journey.id]?.ja;
     const storyFacts = [
@@ -695,6 +799,32 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
         timeSensitive: false,
         issues: [...audit.issues],
         note: 'Demo presentation copy; factual truth is not inferred from the prose.',
+      });
+    }
+    const storyFactualClaims = REQUIRED_STORY_FACTUAL_CLAIMS[
+      journey.id as keyof typeof REQUIRED_STORY_FACTUAL_CLAIMS
+    ] ?? [];
+    for (const factualClaim of storyFactualClaims) {
+      inputs.push({
+        claimId: `story:${journey.storyId}:${factualClaim.claimId}`,
+        entityType: 'Story',
+        entityId: journey.storyId,
+        entityName: presentationStory.storyTitle,
+        fieldId: factualClaim.claimId,
+        fieldLabel: factualClaim.fieldLabel,
+        comparisonExpected: false,
+        requiredUnknown: {
+          origin: 'demo',
+          surface: 'Story',
+          auditSourceFile: SOURCE_FILES.auditManifest,
+          note: `Factual assertion is embedded in ${factualClaim.parentFieldId}; no claim-level source mapping exists.`,
+        },
+        timeSensitive: factualClaim.timeSensitive,
+        timeSensitiveNote: factualClaim.timeSensitive
+          ? 'Recheck only after a source-backed claim mapping exists; no wall-clock threshold is inferred.'
+          : undefined,
+        issues: [...audit.issues],
+        note: 'Report-only unknown; the generator does not parse or copy the factual value from Story prose.',
       });
     }
     const spotGroups = storySpotGroups[journey.id];
@@ -876,6 +1006,10 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
     }
   }
 
+  const tourismOfficeSourceRecord = tourismDirectory.records.find(
+    (record) => record.key === 'okutama-tourism-office',
+  );
+
   for (const spot of Object.values(demoSpots)) {
     const audit = PRESENTATION_SPOT_AUDIT.find(
       (candidate) => candidate.presentationSpotId === spot.id,
@@ -931,6 +1065,16 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
       for (const fieldId of ['address', 'phone'] as const) {
         const row = reference.information.find((candidate) => candidate.fieldId === fieldId);
         if (!row) continue;
+        const snapshotPhone = spot.id === 'okutama-tourism-office'
+          ? tourismOfficeSourceRecord?.phone
+          : undefined;
+        const snapshotSource = tourismOfficeSourceRecord
+          ? {
+              ...place.source,
+              retrievedAt: tourismOfficeSourceRecord.retrievedAt
+                ?? place.source.retrievedAt,
+            }
+          : undefined;
         inputs.push({
           claimId: `place:${spot.id}:${fieldId}`,
           entityType: 'Place',
@@ -941,13 +1085,21 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
           comparisonExpected: true,
           canonical: fieldId === 'address'
             ? canonicalValue(place.address, place.origin, place.source, status, SOURCE_FILES.places)
-            : undefined,
+            : snapshotPhone && snapshotSource
+              ? canonicalValue(
+                  snapshotPhone,
+                  place.origin,
+                  snapshotSource,
+                  status,
+                  SOURCE_FILES.tourismSnapshot,
+                )
+              : undefined,
           presentation: presentationValue(row.value.ja, 'Spot'),
           timeSensitive: true,
           timeSensitiveNote: 'Contact and location details can change; check the official source.',
           issues: audit ? [...audit.issues] : ['#333'],
           note: fieldId === 'phone'
-            ? 'Phone is represented in presentation/source ingestion but is absent from the canonical Place schema.'
+            ? 'Phone is represented in the source snapshot and presentation but remains absent from the canonical Place schema.'
             : 'Merged #322/#332 canonical/display comparison.',
         });
       }

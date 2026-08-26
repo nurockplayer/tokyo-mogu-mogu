@@ -1,18 +1,6 @@
 import type { Locale } from '../../../i18n';
 import { referenceAssets, type JourneyPresentation, type ReferenceCopy } from '../content';
-
-const resultLocation: Record<string, Record<Locale, { area: string; station: string; access: string }>> = {
-  'demo-okutama-wasabi': {
-    ja: { area: '奥多摩地区 (東京西部)', station: '東京駅', access: 'から電車で　約120分' },
-    en: { area: 'Okutama area (Western Tokyo)', station: 'Tokyo Station', access: 'About 120 min by train' },
-    'zh-TW': { area: '奧多摩地區（東京西部）', station: '東京站', access: '搭乘電車約 120 分鐘' },
-  },
-  'demo-okutama-yamame': {
-    ja: { area: '奥多摩地区 (東京西部)', station: '新宿駅', access: 'から電車で　約90分' },
-    en: { area: 'Okutama area (Western Tokyo)', station: 'Shinjuku Station', access: 'About 90 min by train' },
-    'zh-TW': { area: '奧多摩地區（東京西部）', station: '新宿站', access: '搭乘電車約 90 分鐘' },
-  },
-};
+import { resultLocation } from '../factual-presentation';
 
 interface JourneyResultCardProps {
   active: boolean;

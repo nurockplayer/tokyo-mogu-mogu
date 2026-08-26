@@ -170,6 +170,7 @@ describe('repository data verification ledger (#333)', () => {
     const claims = buildRepositoryLedgerClaims();
     const name = claims.find((row) => row.claimId === 'place:okutama-tourism-office:name');
     const address = claims.find((row) => row.claimId === 'place:okutama-tourism-office:address');
+    const phone = claims.find((row) => row.claimId === 'place:okutama-tourism-office:phone');
 
     expect(name).toMatchObject({
       canonicalValue: '奥多摩観光案内所',
@@ -191,6 +192,16 @@ describe('repository data verification ledger (#333)', () => {
       retrievedAt: '2026-08-26',
     });
     expect(address?.confirmedAt).toBeUndefined();
+
+    expect(phone).toMatchObject({
+      canonicalValue: '0428-83-2152',
+      displayedValue: '0428-83-2152',
+      verification: 'needs_confirmation',
+      finding: 'match',
+      retrievedAt: '2026-08-26',
+      canonicalSourceFile: 'scripts/ingest-okutama/snapshots/okutama-tourism-directory.json',
+    });
+    expect(phone?.confirmedAt).toBeUndefined();
   });
 
   it('surfaces the approved initial Route comparison findings without correcting them', () => {
@@ -216,6 +227,52 @@ describe('repository data verification ledger (#333)', () => {
       verification: 'demo',
       finding: 'canonical_missing',
     });
+  });
+
+  it('inventories Result facts and reports cross-surface presentation drift without parsing copy', () => {
+    const claims = buildRepositoryLedgerClaims();
+
+    expect(
+      claims.find(
+        (row) => row.claimId === 'route:okutama-wasabi-journey:presentation:result_origin_travel_time',
+      ),
+    ).toMatchObject({
+      displayedValue: '東京駅 / から電車で　約120分',
+      comparedPresentationClaimId:
+        'route:okutama-wasabi-journey:half-day:origin_travel_time_guidance',
+      comparedPresentationValue: '東京駅 / 60 分',
+      verification: 'demo',
+      finding: 'presentation_mismatch',
+    });
+  });
+
+  it('keeps embedded Story facts as stable report-only unknowns', () => {
+    const claims = buildRepositoryLedgerClaims();
+
+    expect(
+      claims.find(
+        (row) => row.claimId === 'story:wasabi-okutama:story.factual.optimal-eating-window',
+      ),
+    ).toMatchObject({
+      canonicalValue: undefined,
+      displayedValue: undefined,
+      verification: 'unknown',
+      finding: 'none',
+      auditSourceFile: 'src/data/data-verification-audit-manifest.ts',
+    });
+  });
+
+  it('does not infer claim-level provenance from multi-source array order', () => {
+    const claims = buildRepositoryLedgerClaims();
+    const claim = claims.find(
+      (row) => row.claimId === 'food-culture:wasabi-okutama:description',
+    );
+
+    expect(claim?.primarySource).toBeUndefined();
+    expect(claim?.retrievedAt).toBeUndefined();
+    expect(
+      claims.filter((row) => row.claimId.startsWith('food-culture:wasabi-okutama:source:')),
+    ).not.toHaveLength(0);
   });
 
   it('keeps the committed ledger byte-for-byte current', () => {

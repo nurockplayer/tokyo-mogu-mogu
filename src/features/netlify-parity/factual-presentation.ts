@@ -111,6 +111,25 @@ export const routeNames: Record<string, LocalizedText> = {
   'demo-okutama-yamame': localized('新宿から約90分、奥多摩やまめを味わう旅', 'Taste Okutama yamame, 90 minutes from Shinjuku', '從新宿約 90 分鐘，品嚐奧多摩山女魚'),
 };
 
+export interface ResultLocation {
+  area: string;
+  station: string;
+  access: string;
+}
+
+export const resultLocation: Record<string, Record<Locale, ResultLocation>> = {
+  'demo-okutama-wasabi': {
+    ja: { area: '奥多摩地区 (東京西部)', station: '東京駅', access: 'から電車で　約120分' },
+    en: { area: 'Okutama area (Western Tokyo)', station: 'Tokyo Station', access: 'About 120 min by train' },
+    'zh-TW': { area: '奧多摩地區（東京西部）', station: '東京站', access: '搭乘電車約 120 分鐘' },
+  },
+  'demo-okutama-yamame': {
+    ja: { area: '奥多摩地区 (東京西部)', station: '新宿駅', access: 'から電車で　約90分' },
+    en: { area: 'Okutama area (Western Tokyo)', station: 'Shinjuku Station', access: 'About 90 min by train' },
+    'zh-TW': { area: '奧多摩地區（東京西部）', station: '新宿站', access: '搭乘電車約 90 分鐘' },
+  },
+};
+
 export const routeStepText: Record<string, RouteStepText[]> = {
   'demo-okutama-wasabi:half-day': [
     { spotId: 'okutama-station', description: localized('旅のスタート地点', 'Starting point', '旅程起點') },
