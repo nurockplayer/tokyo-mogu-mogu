@@ -68,6 +68,15 @@ const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> = {
         ),
       },
     ],
+    guide: {
+      title: local('公式情報', 'Official information', '官方資訊'),
+      body: local(
+        '掲載内容は現在確認中です。訪問前に奥多摩観光協会の公式情報をご確認ください。',
+        'This listing is still being confirmed. Check current details with the Okutama Tourism Association’s official information before visiting.',
+        '此刊載內容仍在確認中。造訪前請以奧多摩觀光協會的官方資訊確認最新內容。',
+      ),
+      action: local('公式情報を確認する', 'Check official information', '查看官方資訊'),
+    },
     caution: [
       local(
         '・営業時間・サービス内容・アクセスは、訪問前に奥多摩観光協会の公式情報をご確認ください。',

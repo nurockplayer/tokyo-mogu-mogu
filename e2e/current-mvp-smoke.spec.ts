@@ -303,18 +303,27 @@ test('keeps the tourism-office caveat complete in every locale', async ({ page }
       reference: '参考情報',
       pending: '施設名・所在地・電話番号を含む掲載内容は現在確認中です',
       official: '訪問前に奥多摩観光協会の公式情報をご確認ください',
+      actionTitle: '公式情報',
+      action: '公式情報を確認する',
+      prototypeFeedback: '外部サイトへ（プロトタイプ）',
     },
     {
       locale: 'en',
       reference: 'Reference information',
       pending: 'The listed place name, address, and phone number are still being confirmed',
       official: 'Check the Okutama Tourism Association’s official information before visiting',
+      actionTitle: 'Official information',
+      action: 'Check official information',
+      prototypeFeedback: 'External site (prototype)',
     },
     {
       locale: 'zh-TW',
       reference: '參考資訊',
       pending: '刊載的設施名稱、地址與電話號碼仍在確認中',
       official: '造訪前請以奧多摩觀光協會的官方資訊為準',
+      actionTitle: '官方資訊',
+      action: '查看官方資訊',
+      prototypeFeedback: '前往外部網站（原型）',
     },
   ] as const;
   const unsupportedClaims =
@@ -334,6 +343,9 @@ test('keeps the tourism-office caveat complete in every locale', async ({ page }
     await expect(spot).toContainText(expected.reference);
     await expect(spot).toContainText(expected.pending);
     await expect(spot).toContainText(expected.official);
+    await expect(spot.getByRole('heading', { name: expected.actionTitle })).toBeVisible();
+    await spot.getByRole('button', { name: expected.action }).click();
+    await expect(page.getByRole('status')).toHaveText(expected.prototypeFeedback);
     await expect(spot).not.toContainText(unsupportedClaims);
     await expect(spot).not.toContainText(/Netlify|デモ用編集情報|デモ参考情報/);
     await expectNoHorizontalOverflow(page);
