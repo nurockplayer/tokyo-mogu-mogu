@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components -- #333 reads these exact runtime presentation records. */
 import { useEffect, useRef, useState } from 'react';
 import type { Locale } from '../../../i18n';
 import {
@@ -26,7 +25,7 @@ interface StorySpotReference {
   note?: LocalizedText;
 }
 
-export const storySpotGroups: Record<string, { nearby: StorySpotReference[]; nature: StorySpotReference[] }> = {
+const storySpotGroups: Record<string, { nearby: StorySpotReference[]; nature: StorySpotReference[] }> = {
   'demo-okutama-wasabi': {
     nearby: [
       {
@@ -146,7 +145,7 @@ export const storySpotGroups: Record<string, { nearby: StorySpotReference[]; nat
   },
 };
 
-export const storyLocation: Record<string, Record<Locale, { region: string; station: string }>> = {
+const storyLocation: Record<string, Record<Locale, { region: string; station: string }>> = {
   'demo-okutama-wasabi': {
     ja: { region: '奥多摩・東京都 (東京西部)', station: '最寄駅：奥多摩駅、御岳駅' },
     en: { region: 'Okutama, Tokyo (Western Tokyo)', station: 'Nearest stations: Okutama and Mitake' },
@@ -159,7 +158,7 @@ export const storyLocation: Record<string, Record<Locale, { region: string; stat
   },
 };
 
-export const chapterPoint: Record<string, Record<Locale, { title: string; body: string }>> = {
+const chapterPoint: Record<string, Record<Locale, { title: string; body: string }>> = {
   'demo-okutama-wasabi': {
     ja: { title: '奥多摩わさびは、どんな味？', body: '奥多摩わさびは、強い辛味とキレ、豊かな風味が特徴。やさしくすりおろすと香りが引き立ち、3〜5分ほどが食べごろです。寿司や蕎麦はもちろん、ステーキやアボカドとも相性抜群です。' },
     en: { title: 'What does Okutama wasabi taste like?', body: 'It is known for vivid heat and a rich aroma. Gently grating it brings the fragrance forward.' },
@@ -297,7 +296,7 @@ export function StoryScreen({
           <h1>{localized.title}</h1>
           <h2>{localized.subtitle}</h2>
           {localized.intro.map((paragraph) => (
-            <p key={paragraph.claimId}>{paragraph.text}</p>
+            <p key={paragraph}>{paragraph}</p>
           ))}
           <div className="loc-box">
             <PinIcon /> {location.region}
@@ -310,7 +309,7 @@ export function StoryScreen({
           <h2>{localized.storyTitle}</h2>
           <div className="hscroll">
             {journey.chapters[locale].map((chapter, index) => (
-              <article className="page-card" key={chapter.claimId}>
+              <article className="page-card" key={`${chapter.number}-${chapter.title}`}>
                 <h3>
                   <em>{chapter.number}</em>
                   {chapter.title}

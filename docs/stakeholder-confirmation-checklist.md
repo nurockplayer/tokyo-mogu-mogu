@@ -6,10 +6,6 @@
 > ラベル: 「要確認」「デモデータ」「不明（未確認）」は repo の packet 規約
 > （`src/lib/stakeholder-review-packet.ts` の STATUS_JA / UNKNOWN_JA）をそのまま使用
 > 関連: Issue #10 / #129 / #133 / #127、`docs/stakeholder-review-packets.md`、`docs/10-content-audit.md`
->
-> **Historical snapshot:** 現在の claim-level inventory と review queue は、生成物
-> [`docs/data-verification-ledger.md`](data-verification-ledger.md) を参照してください。
-> このチェックリスト自体は当時の確認資料として保持します。
 
 ## 0. 前提（必ず最初に読む）
 

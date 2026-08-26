@@ -4,10 +4,6 @@
 > 対象: App に表示される Story / Route / Spot レコードと、その verification metadata。
 > 方法: 現在の canonical data（`src/data/**`）と i18n bundle（`src/i18n/**`）、
 > および発行済みの stakeholder review packet を突き合わせて監査。
->
-> **Historical snapshot:** 現在の claim-level inventory、unknown、drift queue は、
-> 生成物 [`docs/data-verification-ledger.md`](data-verification-ledger.md) を参照してください。
-> 本文は 2026-08-14 時点の監査記録として保持します。
 
 ## 1. 目的と前提（Product Scope）
 
