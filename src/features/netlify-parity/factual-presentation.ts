@@ -183,7 +183,12 @@ export const routeStats: Record<string, Record<Locale, RouteStats>> = {
 };
 
 export interface ReferenceSpotDetail {
-  tags: Array<{ color: string; label: LocalizedText }>;
+  tags: Array<{
+    /** Stable presentation identity; never derived from locale, color, or array order. */
+    tagId: string;
+    color: string;
+    label: LocalizedText;
+  }>;
   description: LocalizedText;
   information: Array<{
     fieldId: 'name' | 'address' | 'phone' | 'verification_note';
@@ -198,9 +203,9 @@ export interface ReferenceSpotDetail {
 export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> = {
   'okutama-tourism-office': {
     tags: [
-      { color: '#8FAE5C', label: localized('観光案内', 'Visitor information', '觀光案內') },
-      { color: '#F0A24C', label: localized('参考情報', 'Reference information', '參考資訊') },
-      { color: '#5D9BEF', label: localized('確認中', 'Confirmation pending', '確認中') },
+      { tagId: 'visitor-information', color: '#8FAE5C', label: localized('観光案内', 'Visitor information', '觀光案內') },
+      { tagId: 'reference-information', color: '#F0A24C', label: localized('参考情報', 'Reference information', '參考資訊') },
+      { tagId: 'confirmation-pending', color: '#5D9BEF', label: localized('確認中', 'Confirmation pending', '確認中') },
     ],
     description: localized(
       '奥多摩町観光案内所として掲載している参考情報です。所在地・電話番号を含む内容は現在確認中です。',

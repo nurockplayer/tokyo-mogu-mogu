@@ -256,6 +256,31 @@ describe('repository data verification ledger (#333)', () => {
     });
   });
 
+  it('preserves every structured tourism-office verification caveat', () => {
+    const claims = buildRepositoryLedgerClaims();
+
+    expect(
+      claims.find(
+        (row) => row.claimId === 'spot:okutama-tourism-office:presentation:tag:confirmation-pending:en',
+      ),
+    ).toMatchObject({
+      displayedValue: 'Confirmation pending',
+      verification: 'needs_confirmation',
+      finding: 'none',
+      timeSensitive: true,
+    });
+    expect(
+      claims.find(
+        (row) => row.claimId === 'spot:okutama-tourism-office:presentation:guide:body:zh-TW',
+      ),
+    ).toMatchObject({
+      displayedValue: '此刊載內容仍在確認中。造訪前請以奧多摩觀光協會的官方資訊確認最新內容。',
+      verification: 'needs_confirmation',
+      finding: 'none',
+      timeSensitive: true,
+    });
+  });
+
   it('surfaces the approved initial Route comparison findings without correcting them', () => {
     const claims = buildRepositoryLedgerClaims();
 

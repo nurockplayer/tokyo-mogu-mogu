@@ -1267,6 +1267,60 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
       }
 
       if (reference && place && status) {
+        for (const tag of reference.tags) {
+          const isVerificationCaveat = tag.tagId === 'confirmation-pending';
+          inputs.push({
+            claimId: localizedClaimId(
+              `spot:${spot.id}:presentation:tag:${tag.tagId}`,
+              locale,
+            ),
+            entityType: 'Spot',
+            entityId: spot.id,
+            entityName: displayedName,
+            fieldId: localizedFieldId(`presentation:tag:${tag.tagId}`, locale),
+            fieldLabel: `Displayed reference tag ${tag.tagId} (${locale})`,
+            comparisonExpected: false,
+            presentation: presentationValue(
+              tag.label[locale],
+              'Spot',
+              place.origin,
+              status,
+            ),
+            timeSensitive: isVerificationCaveat,
+            timeSensitiveNote: isVerificationCaveat
+              ? 'The visible pending-confirmation tag must stay aligned with structured verification state.'
+              : undefined,
+            issues: audit ? [...audit.issues] : ['#333'],
+            note: 'Stable tagId identifies this localized presentation claim; array position, color, and label do not define identity.',
+          });
+        }
+
+        if (reference.guide) {
+          for (const [fieldId, fieldLabel, value] of [
+            ['title', 'Official-information guide title', reference.guide.title[locale]],
+            ['body', 'Official-information guide body', reference.guide.body[locale]],
+            ['action', 'Official-information guide action', reference.guide.action[locale]],
+          ] as const) {
+            inputs.push({
+              claimId: localizedClaimId(
+                `spot:${spot.id}:presentation:guide:${fieldId}`,
+                locale,
+              ),
+              entityType: 'Spot',
+              entityId: spot.id,
+              entityName: displayedName,
+              fieldId: localizedFieldId(`presentation:guide:${fieldId}`, locale),
+              fieldLabel: `${fieldLabel} (${locale})`,
+              comparisonExpected: false,
+              presentation: presentationValue(value, 'Spot', place.origin, status),
+              timeSensitive: true,
+              timeSensitiveNote: 'The verification guide must stay aligned with structured verification state; no wall-clock threshold is inferred.',
+              issues: audit ? [...audit.issues] : ['#333'],
+              note: 'Visible localized verification guide content is preserved as presentation data, not canonical truth.',
+            });
+          }
+        }
+
         for (const fieldId of ['address', 'phone'] as const) {
           const row = reference.information.find((candidate) => candidate.fieldId === fieldId);
           if (!row) continue;
