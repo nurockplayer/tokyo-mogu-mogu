@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components -- #333 reads these exact runtime presentation records. */
 import { useEffect, useState } from 'react';
 import type { Locale } from '../../../i18n';
 import { BottomNavigation } from '../components/BottomNavigation';
@@ -15,14 +16,19 @@ interface LocalizedText {
 interface ReferenceSpotDetail {
   tags: Array<{ color: string; label: LocalizedText }>;
   description: LocalizedText;
-  information: Array<{ icon: 'clock' | 'train' | 'information'; label: LocalizedText; value: LocalizedText }>;
+  information: Array<{
+    claimId: 'name' | 'address' | 'phone' | 'verification-status';
+    icon: 'clock' | 'train' | 'information';
+    label: LocalizedText;
+    value: LocalizedText;
+  }>;
   guide?: { title: LocalizedText; body: LocalizedText; action: LocalizedText };
   caution: LocalizedText[];
 }
 
 const local = (ja: string, en: string, zhTW: string): LocalizedText => ({ ja, en, 'zh-TW': zhTW });
 
-const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> = {
+export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> = {
   'okutama-tourism-office': {
     tags: [
       { color: '#8FAE5C', label: local('観光案内', 'Visitor information', '觀光案內') },
@@ -36,6 +42,7 @@ const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> = {
     ),
     information: [
       {
+        claimId: 'name',
         icon: 'information',
         label: local('施設', 'Place', '設施'),
         value: local(
@@ -45,6 +52,7 @@ const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> = {
         ),
       },
       {
+        claimId: 'address',
         icon: 'information',
         label: local('所在地', 'Address', '地址'),
         value: local(
@@ -54,11 +62,13 @@ const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> = {
         ),
       },
       {
+        claimId: 'phone',
         icon: 'information',
         label: local('電話', 'Phone', '電話'),
         value: local('0428-83-2152', '0428-83-2152', '0428-83-2152'),
       },
       {
+        claimId: 'verification-status',
         icon: 'information',
         label: local('確認状況', 'Verification status', '確認狀態'),
         value: local(

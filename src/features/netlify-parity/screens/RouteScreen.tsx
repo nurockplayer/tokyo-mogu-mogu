@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components -- #333 reads these exact runtime presentation records. */
 import { useEffect, useRef, useState } from 'react';
 import type { Locale } from '../../../i18n';
 import {
@@ -35,12 +36,12 @@ interface RouteStepText {
 
 const t = (ja: string, en: string, zhTW: string): LocalizedText => ({ ja, en, 'zh-TW': zhTW });
 
-const routeNames: Record<string, LocalizedText> = {
+export const routeNames: Record<string, LocalizedText> = {
   'demo-okutama-wasabi': t('東京わさび文化を巡る旅', 'A journey through Tokyo wasabi culture', '走訪東京山葵文化之旅'),
   'demo-okutama-yamame': t('新宿から約90分、奥多摩やまめを味わう旅', 'Taste Okutama yamame, 90 minutes from Shinjuku', '從新宿約 90 分鐘，品嚐奧多摩山女魚'),
 };
 
-const routeStepText: Record<string, RouteStepText[]> = {
+export const routeStepText: Record<string, RouteStepText[]> = {
   'demo-okutama-wasabi:half-day': [
     { description: t('旅のスタート地点', 'Starting point', '旅程起點') },
     { walk: t('徒歩 約1分', 'About 1 min on foot', '步行約 1 分鐘'), description: t('わさぴーと観光案内で情報をチェック！', 'Check maps and local tips with Wasapy!', '和 Wasapy 一起確認觀光資訊！') },
@@ -66,7 +67,7 @@ const routeStepText: Record<string, RouteStepText[]> = {
   ],
 };
 
-const routeStats: Record<string, Record<Locale, { time: string; distance: string; spots: string; station: string; minutes: string }>> = {
+export const routeStats: Record<string, Record<Locale, { time: string; distance: string; spots: string; station: string; minutes: string }>> = {
   'demo-okutama-wasabi:half-day': {
     ja: { time: '約 2.5 時間', distance: '徒歩約 6 km', spots: '6 スポット', station: '東京駅', minutes: '60 分' },
     en: { time: 'About 2.5 hr', distance: 'Walk about 6 km', spots: '6 spots', station: 'Tokyo Station', minutes: '60 min' },
