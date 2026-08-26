@@ -7,6 +7,7 @@ import {
   type ReferenceCopy,
   type SpotPresentation,
 } from '../content';
+import { routeNames, routeStats, routeStepText } from '../factual-presentation';
 import {
   BookmarkIcon,
   CameraIcon,
@@ -20,69 +21,6 @@ import {
 
 type RouteVariant = JourneyPresentation['routeVariants'][number];
 type RouteVariantId = RouteVariant['id'];
-
-interface LocalizedText {
-  ja: string;
-  en: string;
-  'zh-TW': string;
-}
-
-interface RouteStepText {
-  walk?: LocalizedText;
-  description: LocalizedText;
-  note?: LocalizedText;
-}
-
-const t = (ja: string, en: string, zhTW: string): LocalizedText => ({ ja, en, 'zh-TW': zhTW });
-
-const routeNames: Record<string, LocalizedText> = {
-  'demo-okutama-wasabi': t('東京わさび文化を巡る旅', 'A journey through Tokyo wasabi culture', '走訪東京山葵文化之旅'),
-  'demo-okutama-yamame': t('新宿から約90分、奥多摩やまめを味わう旅', 'Taste Okutama yamame, 90 minutes from Shinjuku', '從新宿約 90 分鐘，品嚐奧多摩山女魚'),
-};
-
-const routeStepText: Record<string, RouteStepText[]> = {
-  'demo-okutama-wasabi:half-day': [
-    { description: t('旅のスタート地点', 'Starting point', '旅程起點') },
-    { walk: t('徒歩 約1分', 'About 1 min on foot', '步行約 1 分鐘'), description: t('わさぴーと観光案内で情報をチェック！', 'Check maps and local tips with Wasapy!', '和 Wasapy 一起確認觀光資訊！') },
-    { walk: t('徒歩 約 1 分', 'About 1 min on foot', '步行約 1 分鐘'), description: t('・土日のみ営業\n・¥900〜', 'Weekends only · From ¥900', '僅週末營業・¥900 起'), note: t('※平日はあかべこ推奨', 'Akabeko is recommended on weekdays', '平日建議前往 AKABEKO') },
-    { walk: t('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: t('・わさびジェラート', 'Wasabi gelato', '山葵義式冰淇淋') },
-    { walk: t('徒歩 約 10 分', 'About 10 min on foot', '步行約 10 分鐘'), description: t('川辺で涼む', 'Cool off beside the river', '在河畔納涼') },
-    { walk: t('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: t('お参り！', 'Visit the shrine', '參拜神社！') },
-    { walk: t('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: t('カフェ・雑貨でゆったり！', 'Relax with coffee and local goods', '在咖啡與雜貨中悠閒休息！') },
-  ],
-  'demo-okutama-wasabi:full-day': [
-    { description: t('JR青梅線・旅のスタート地点', 'JR Ome Line · Starting point', 'JR 青梅線・旅程起點') },
-    { walk: t('集合 8:30', 'Meet at 8:30', '8:30 集合'), description: t('わさび田プライベートツアー\n・2〜2.5時間・1日1組', 'Private wasabi-field tour · 2–2.5 hours · One group daily', '山葵田私人導覽・2～2.5 小時・每日一組') },
-    { walk: t('御岳駅から電車', 'Train from Mitake Station', '從御嶽站搭電車'), description: t('青梅線 約20分', 'About 20 min on the Ome Line', '青梅線約 20 分鐘') },
-    { walk: t('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: t('昼食・13:30 L.O.注意', 'Lunch · Last order 13:30', '午餐・13:30 最後點餐') },
-    { walk: t('徒歩 約 3 分', 'About 3 min on foot', '步行約 3 分鐘'), description: t('わさび漬・チーズわさび', 'Pickled and cheese wasabi', '山葵漬・起司山葵') },
-    { walk: t('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: t('締めのコーヒー', 'Coffee to close the journey', '以咖啡為旅程收尾') },
-  ],
-  'demo-okutama-yamame:half-day': [
-    { description: t('旅のスタート地点', 'Starting point', '旅程起點') },
-    { walk: t('徒歩 約 1 分', 'About 1 min on foot', '步行約 1 分鐘'), description: t('情報収集 30分', 'Gather information · 30 min', '蒐集資訊・30 分鐘') },
-    { walk: t('徒歩 約 10 分', 'About 10 min on foot', '步行約 10 分鐘'), description: t('渓流さんぽ 60分', 'Streamside walk · 60 min', '溪流散步・60 分鐘') },
-    { walk: t('徒歩 約 15 分', 'About 15 min on foot', '步行約 15 分鐘'), description: t('やまめの昼食 60分', 'Yamame lunch · 60 min', '山女魚午餐・60 分鐘') },
-  ],
-};
-
-const routeStats: Record<string, Record<Locale, { time: string; distance: string; spots: string; station: string; minutes: string }>> = {
-  'demo-okutama-wasabi:half-day': {
-    ja: { time: '約 2.5 時間', distance: '徒歩約 6 km', spots: '6 スポット', station: '東京駅', minutes: '60 分' },
-    en: { time: 'About 2.5 hr', distance: 'Walk about 6 km', spots: '6 spots', station: 'Tokyo Station', minutes: '60 min' },
-    'zh-TW': { time: '約 2.5 小時', distance: '步行約 6 km', spots: '6 個景點', station: '東京站', minutes: '60 分鐘' },
-  },
-  'demo-okutama-wasabi:full-day': {
-    ja: { time: '約 7 時間', distance: '電車 + 徒歩', spots: '6 スポット', station: '東京駅', minutes: '90 分' },
-    en: { time: 'About 7 hr', distance: 'Train + walking', spots: '6 spots', station: 'Tokyo Station', minutes: '90 min' },
-    'zh-TW': { time: '約 7 小時', distance: '電車＋步行', spots: '6 個景點', station: '東京站', minutes: '90 分鐘' },
-  },
-  'demo-okutama-yamame:half-day': {
-    ja: { time: '約 4 時間', distance: '徒歩約 4 km', spots: '3 スポット', station: '新宿駅', minutes: '90 分' },
-    en: { time: 'About 4 hr', distance: 'Walk about 4 km', spots: '3 spots', station: 'Shinjuku Station', minutes: '90 min' },
-    'zh-TW': { time: '約 4 小時', distance: '步行約 4 km', spots: '3 個景點', station: '新宿站', minutes: '90 分鐘' },
-  },
-};
 
 const routeLabels: Record<Locale, {
   region: string;
@@ -245,7 +183,7 @@ export function RouteScreen({
           {variant.steps.map((step, index) => {
             const spot = demoSpots[step.spotId];
             if (!spot) return null;
-            const stepText = steps[index];
+            const stepText = steps.find((candidate) => candidate.spotId === step.spotId);
             const isStart = index === 0;
             const mission = missionSpotIds.has(step.spotId);
             const missionDone = completedMissionSpotIds.includes(step.spotId);
