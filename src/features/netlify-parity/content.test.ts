@@ -106,6 +106,70 @@ describe('Netlify parity presentation content', () => {
     expect(copy.exploration.themeOptions).toHaveLength(9);
   });
 
+  it('keeps Spot visitor information free of obsolete internal terminology', () => {
+    const internalReferenceWording =
+      /Netlify|デモ用編集情報|デモ参考情報|Demo editorial presentation|Demo reference|示範編輯資訊|示範參考資訊/;
+
+    for (const spot of Object.values(demoSpots)) {
+      for (const locale of locales) {
+        const localized = spot.copy[locale];
+        const visibleCopy = [
+          ...localized.tags,
+          ...localized.practicalInfo.flatMap((row) => [row.label, row.value]),
+        ];
+
+        expect(visibleCopy.every((value) => !internalReferenceWording.test(value))).toBe(true);
+      }
+    }
+  });
+
+  it('keeps every unconfirmed Spot fixture visibly labeled as reference information', () => {
+    const expectedCaveats = {
+      ja: ['参考情報', '未確認', '公式情報'],
+      en: ['Reference information', 'may not be verified', 'official information'],
+      'zh-TW': ['參考資訊', '尚未經確認', '官方資訊'],
+    } as const;
+    const editorialSpots = Object.entries(demoSpots);
+
+    expect(editorialSpots.length).toBeGreaterThan(0);
+    for (const [, spot] of editorialSpots) {
+      for (const locale of locales) {
+        const localized = spot.copy[locale];
+        const visibleCopy = [
+          ...localized.tags,
+          ...localized.practicalInfo.flatMap((row) => [row.label, row.value]),
+          ...localized.caution,
+        ].join(' ');
+
+        for (const phrase of expectedCaveats[locale]) {
+          expect(visibleCopy).toContain(phrase);
+        }
+      }
+    }
+  });
+
+  it('keeps the tourism-office fixture explicitly unverified in every locale', () => {
+    const tourismOffice = demoSpots['okutama-tourism-office'];
+    const expectedCaveats = {
+      ja: ['参考情報', '未確認', '公式情報'],
+      en: ['Reference information', 'may not be verified', 'official information'],
+      'zh-TW': ['參考資訊', '尚未經確認', '官方資訊'],
+    } as const;
+
+    for (const locale of locales) {
+      const localized = tourismOffice.copy[locale];
+      const visibleCopy = [
+        ...localized.tags,
+        ...localized.practicalInfo.flatMap((row) => [row.label, row.value]),
+        ...localized.caution,
+      ].join(' ');
+
+      for (const phrase of expectedCaveats[locale]) {
+        expect(visibleCopy).toContain(phrase);
+      }
+    }
+  });
+
   it('resolves every presentation asset to a bundled local file', () => {
     for (const assetFile of Object.values(referenceAssetFiles)) {
       expect(existsSync(fileURLToPath(new URL(assetFile, import.meta.url)))).toBe(true);

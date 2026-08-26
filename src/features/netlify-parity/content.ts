@@ -391,10 +391,10 @@ export function referenceCopy(locale: Locale): ReferenceCopy {
   return copies[locale];
 }
 
-const demoSourceNotes: Record<Locale, string> = {
-  ja: 'Netlify の参照画面をもとにしたデモ用編集情報です。訪問前に施設の最新情報をご確認ください。',
-  en: 'Demo editorial presentation transcribed from the authoritative Netlify reference; verify current venue details before travel.',
-  'zh-TW': '此為依 Netlify 參考畫面整理的示範編輯資訊；造訪前請確認場所的最新資料。',
+const editorialReferenceNotes: Record<Locale, string> = {
+  ja: '掲載内容は参考情報で、未確認の場合があります。訪問前に各施設の公式情報をご確認ください。',
+  en: 'This listing is reference information and may not be verified. Check the venue’s official information before visiting.',
+  'zh-TW': '此處刊載的內容為參考資訊，可能尚未經確認。造訪前請以各場所的官方資訊為準。',
 };
 
 export const demoJourneys: JourneyPresentation[] = [
@@ -433,17 +433,22 @@ export const demoJourneys: JourneyPresentation[] = [
 
 type SpotCopy = Pick<SpotPresentation['copy'][Locale], 'name' | 'lead' | 'description'>;
 
-const spot = (id: string, imageAssetId: ReferenceAssetId, thumbnailAssetIds: ReferenceAssetId[], localized: Record<Locale, SpotCopy>): SpotPresentation => ({
+const spot = (
+  id: string,
+  imageAssetId: ReferenceAssetId,
+  thumbnailAssetIds: ReferenceAssetId[],
+  localized: Record<Locale, SpotCopy>,
+): SpotPresentation => ({
   id, regionId: 'okutama', foodCultureId: 'wasabi-okutama', imageAssetId, thumbnailAssetIds,
   copy: {
-    ja: { ...localized.ja, tags: ['デモ参考情報'], practicalInfo: [{ label: '情報の扱い', value: demoSourceNotes.ja }], caution: ['営業・予約・価格・アクセスなどは、訪問前に公式情報をご確認ください。'] },
-    en: { ...localized.en, tags: ['Demo reference'], practicalInfo: [{ label: 'Information handling', value: demoSourceNotes.en }], caution: ['Please confirm hours, booking, prices, and access with official sources before visiting.'] },
-    'zh-TW': { ...localized['zh-TW'], tags: ['示範參考資訊'], practicalInfo: [{ label: '資訊說明', value: demoSourceNotes['zh-TW'] }], caution: ['造訪前請以官方資訊確認營業時間、預約、價格與交通。'] },
+    ja: { ...localized.ja, tags: ['参考情報'], practicalInfo: [{ label: '情報の確認', value: editorialReferenceNotes.ja }], caution: ['営業・予約・価格・アクセスなどは、訪問前に公式情報をご確認ください。'] },
+    en: { ...localized.en, tags: ['Reference information'], practicalInfo: [{ label: 'Verification', value: editorialReferenceNotes.en }], caution: ['Please confirm hours, booking, prices, and access with official sources before visiting.'] },
+    'zh-TW': { ...localized['zh-TW'], tags: ['參考資訊'], practicalInfo: [{ label: '資訊確認', value: editorialReferenceNotes['zh-TW'] }], caution: ['造訪前請以官方資訊確認營業時間、預約、價格與交通。'] },
   },
 });
 
 export const demoSpots: Record<string, SpotPresentation> = {
-  'okutama-tourism-office': spot('okutama-tourism-office', 'tourismOfficeExterior', ['tourismOffice', 'wasapy', 'station', 'valley'], { ja: { name: '奥多摩観光案内所', lead: 'わさぴーが迎えてくれる、旅のはじまりスポット', description: '奥多摩の観光情報に出会う、旅の最初の立ち寄り先です。' }, en: { name: 'Okutama Tourist Information Center', lead: 'A welcoming first stop for the journey', description: 'A first stop for discovering Okutama visitor information.' }, 'zh-TW': { name: '奧多摩觀光案內所', lead: '迎接旅程開始的第一站', description: '認識奧多摩旅遊資訊的第一個停靠點。' } }),
+  'okutama-tourism-office': spot('okutama-tourism-office', 'tourismOfficeExterior', ['tourismOffice', 'wasapy', 'station', 'valley'], { ja: { name: '奥多摩観光案内所', lead: '旅の情報を確認する立ち寄り先', description: '奥多摩の観光情報に出会う、旅の最初の立ち寄り先です。' }, en: { name: 'Okutama Tourist Information Center', lead: 'A stop for checking visitor information', description: 'A first stop for discovering Okutama visitor information.' }, 'zh-TW': { name: '奧多摩觀光案內所', lead: '確認旅遊資訊的停靠點', description: '認識奧多摩旅遊資訊的第一個停靠點。' } }),
   akabeko: spot('akabeko', 'akabeko', ['akabekoYamame', 'akabekoYamameDetail', 'wasabiGelato', 'okutamaKitchenDetail'], { ja: { name: '炉ばた あかべこ', lead: '地域の味に出会う炉ばた料理店', description: '地域の食材を味わうための、参考スポットです。' }, en: { name: 'Robata Akabeko', lead: 'A hearth-grill restaurant for local flavors', description: 'A reference stop for tasting ingredients from the area.' }, 'zh-TW': { name: '爐端燒 AKABEKO', lead: '遇見在地風味的爐端料理店', description: '品嚐在地食材的參考景點。' } }),
   yamashiroya: spot('yamashiroya', 'yamashiroya', ['yamashiroyaGoods', 'yamashiroyaSign'], { ja: { name: '山城屋', lead: 'わさび加工の店を訪ねる', description: 'わさびにまつわる品を探すための、参考スポットです。' }, en: { name: 'Yamashiroya', lead: 'Visit a wasabi-specialty shop', description: 'A reference stop for finding wasabi-related goods.' }, 'zh-TW': { name: '山城屋', lead: '造訪山葵加工專門店', description: '尋找山葵相關商品的參考景點。' } }),
   'wasabi-kitchen': spot('wasabi-kitchen', 'wasabiKitchen', ['station', 'wasabiGelato'], { ja: { name: 'わさび食堂', lead: '駅前で味わうわさびの一皿', description: 'わさびの味を試すための、参考スポットです。' }, en: { name: 'Wasabi Shokudo', lead: 'A wasabi dish near the station', description: 'A reference stop for trying a wasabi flavor.' }, 'zh-TW': { name: '山葵食堂', lead: '在車站前品嚐一道山葵料理', description: '嘗試山葵風味的參考景點。' } }),

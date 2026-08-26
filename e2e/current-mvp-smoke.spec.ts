@@ -218,6 +218,23 @@ test('completes the current 375px Japanese Golden Path and preserves saved state
   let spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
   await expect(spot.getByRole('heading', { name: '奥多摩観光案内所' })).toBeVisible();
   await expect(spot.getByRole('button', { name: '2/5' })).toBeVisible();
+  const spotInformation = spot.locator('.info-sec');
+  await expect(spotInformation.getByRole('heading', { name: '基本情報' })).toBeVisible();
+  await expect(spotInformation).toContainText('施設');
+  await expect(spotInformation).toContainText('奥多摩町観光案内所');
+  await expect(spotInformation).toContainText('所在地');
+  await expect(spotInformation).toContainText('東京都西多摩郡奥多摩町氷川210');
+  await expect(spotInformation).toContainText('電話');
+  await expect(spotInformation).toContainText('0428-83-2152');
+  await expect(spotInformation).not.toContainText(
+    /Netlify|デモ用編集情報|営業時間|奥多摩駅から徒歩/,
+  );
+  await expect(spot).toContainText('参考情報');
+  await expect(spot).toContainText('確認中');
+  await expect(spot).toContainText('訪問前に奥多摩観光協会の公式情報をご確認ください');
+  await expect(spot).not.toContainText(
+    /ガイドサービス|約90分|1,500円|おみやげ|Wi-Fi|トイレあり|駐車場|混雑時|わさぴーが迎えてくれる/,
+  );
   await expectNoHorizontalOverflow(page);
 
   await spot.getByRole('button', { name: 'お気に入りに保存' }).click();
@@ -265,6 +282,74 @@ test('completes the current 375px Japanese Golden Path and preserves saved state
     .click();
   await expect(page).toHaveURL(/\/home$/);
   await expect(page.locator('[data-screen="home"][data-screen-active="true"]')).toBeVisible();
+});
+
+test('labels editorial Spot fixtures as unverified reference information', async ({ page }) => {
+  await page.goto('/spot/wasabi-kitchen?candidateId=demo-okutama-wasabi');
+
+  const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
+  await expect(spot.getByRole('heading', { name: 'わさび食堂' })).toBeVisible();
+  await expect(spot).toContainText('参考情報');
+  await expect(spot).toContainText('未確認');
+  await expect(spot).toContainText('訪問前に各施設の公式情報をご確認ください');
+  await expect(spot).not.toContainText(/Netlify|デモ用編集情報|デモ参考情報/);
+  await expectNoHorizontalOverflow(page);
+});
+
+test('keeps the tourism-office caveat complete in every locale', async ({ page }) => {
+  const localizedExpectations = [
+    {
+      locale: 'ja',
+      reference: '参考情報',
+      pending: '施設名・所在地・電話番号を含む掲載内容は現在確認中です',
+      official: '訪問前に奥多摩観光協会の公式情報をご確認ください',
+      actionTitle: '公式情報',
+      action: '公式情報を確認する',
+      prototypeFeedback: '外部サイトへ（プロトタイプ）',
+    },
+    {
+      locale: 'en',
+      reference: 'Reference information',
+      pending: 'The listed place name, address, and phone number are still being confirmed',
+      official: 'Check the Okutama Tourism Association’s official information before visiting',
+      actionTitle: 'Official information',
+      action: 'Check official information',
+      prototypeFeedback: 'External site (prototype)',
+    },
+    {
+      locale: 'zh-TW',
+      reference: '參考資訊',
+      pending: '刊載的設施名稱、地址與電話號碼仍在確認中',
+      official: '造訪前請以奧多摩觀光協會的官方資訊為準',
+      actionTitle: '官方資訊',
+      action: '查看官方資訊',
+      prototypeFeedback: '前往外部網站（原型）',
+    },
+  ] as const;
+  const unsupportedClaims =
+    /ガイドサービス|Guided service|導覽服務|約90分|About 90 minutes|約 90 分鐘|1,500|おみやげ|Souvenirs|伴手禮|Wi-Fi|トイレあり|Restroom|設有洗手間|駐車場|paid car park|付費停車場|混雑時|when it is busy|人潮眾多/;
+
+  for (const expected of localizedExpectations) {
+    await page.goto('/');
+    await page.evaluate((locale) => {
+      localStorage.clear();
+      localStorage.setItem('tmm:locale', locale);
+    }, expected.locale);
+    await page.goto('/spot/okutama-tourism-office?candidateId=demo-okutama-wasabi');
+
+    const app = page.locator('.reference-app');
+    const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
+    await expect(app).toHaveAttribute('data-locale', expected.locale);
+    await expect(spot).toContainText(expected.reference);
+    await expect(spot).toContainText(expected.pending);
+    await expect(spot).toContainText(expected.official);
+    await expect(spot.getByRole('heading', { name: expected.actionTitle })).toBeVisible();
+    await spot.getByRole('button', { name: expected.action }).click();
+    await expect(page.getByRole('status')).toHaveText(expected.prototypeFeedback);
+    await expect(spot).not.toContainText(unsupportedClaims);
+    await expect(spot).not.toContainText(/Netlify|デモ用編集情報|デモ参考情報/);
+    await expectNoHorizontalOverflow(page);
+  }
 });
 
 test('keeps header and footer fixed while only the middle content scrolls', async ({ page }) => {

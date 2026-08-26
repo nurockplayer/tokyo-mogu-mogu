@@ -26,33 +26,63 @@ const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> = {
   'okutama-tourism-office': {
     tags: [
       { color: '#8FAE5C', label: local('観光案内', 'Visitor information', '觀光案內') },
-      { color: '#F0A24C', label: local('おみやげ', 'Souvenirs', '伴手禮') },
-      { color: '#5D9BEF', label: local('Wi-Fi', 'Wi-Fi', 'Wi-Fi') },
-      { color: '#F2879B', label: local('トイレあり', 'Restroom', '設有洗手間') },
+      { color: '#F0A24C', label: local('参考情報', 'Reference information', '參考資訊') },
+      { color: '#5D9BEF', label: local('確認中', 'Confirmation pending', '確認中') },
     ],
     description: local(
-      '奥多摩の観光情報がそろう案内所。観光マップの配布や、おすすめコースの相談もできます。\nゆるキャラ「わさぴー」にも会えるかも！',
-      'Okutama visitor information, sightseeing maps, and help choosing a route are all available here. You may even meet the local character Wasapy!',
-      '這裡備有奧多摩觀光資訊與地圖，也能諮詢推薦路線。說不定還能遇見地方吉祥物「Wasapy」！',
+      '奥多摩町観光案内所として掲載している参考情報です。所在地・電話番号を含む内容は現在確認中です。',
+      'Reference information for the Okutama Town Tourist Information Center. The listed details are still being confirmed.',
+      '此處為奧多摩町觀光服務處的參考資訊，包含地址與電話號碼在內的刊載內容仍在確認中。',
     ),
     information: [
-      { icon: 'clock', label: local('営業時間', 'Hours', '營業時間'), value: local('9:00 - 17:00（年中無休）', '9:00–17:00 (open year-round)', '9:00–17:00（全年無休）') },
-      { icon: 'information', label: local('住所', 'Address', '地址'), value: local('東京都西多摩郡奥多摩町氷川205', '205 Hikawa, Okutama, Nishitama, Tokyo', '東京都西多摩郡奧多摩町冰川 205') },
-      { icon: 'information', label: local('電話', 'Phone', '電話'), value: local('0428-83-2152', '0428-83-2152', '0428-83-2152') },
-      { icon: 'train', label: local('アクセス', 'Access', '交通'), value: local('奥多摩駅から徒歩 約1分', 'About 1 minute on foot from Okutama Station', '從奧多摩站步行約 1 分鐘') },
+      {
+        icon: 'information',
+        label: local('施設', 'Place', '設施'),
+        value: local(
+          '奥多摩町観光案内所',
+          'Okutama Town Tourist Information Center',
+          '奧多摩町觀光服務處',
+        ),
+      },
+      {
+        icon: 'information',
+        label: local('所在地', 'Address', '地址'),
+        value: local(
+          '東京都西多摩郡奥多摩町氷川210',
+          '210 Hikawa, Okutama, Nishitama, Tokyo',
+          '東京都西多摩郡奧多摩町冰川 210',
+        ),
+      },
+      {
+        icon: 'information',
+        label: local('電話', 'Phone', '電話'),
+        value: local('0428-83-2152', '0428-83-2152', '0428-83-2152'),
+      },
+      {
+        icon: 'information',
+        label: local('確認状況', 'Verification status', '確認狀態'),
+        value: local(
+          '施設名・所在地・電話番号を含む掲載内容は現在確認中です。訪問前に奥多摩観光協会の公式情報をご確認ください。',
+          'The listed place name, address, and phone number are still being confirmed. Check the Okutama Tourism Association’s official information before visiting.',
+          '刊載的設施名稱、地址與電話號碼仍在確認中。造訪前請以奧多摩觀光協會的官方資訊為準。',
+        ),
+      },
     ],
     guide: {
-      title: local('ガイドサービス（予約制）', 'Guided service (reservation required)', '導覽服務（預約制）'),
+      title: local('公式情報', 'Official information', '官方資訊'),
       body: local(
-        '奥多摩の自然や歴史を、地元ガイドがご案内します。\n所要時間：約90分 / 料金：1,500円〜（1名あたり）',
-        'A local guide introduces Okutama’s nature and history. About 90 minutes / From ¥1,500 per person.',
-        '由在地導遊介紹奧多摩的自然與歷史。約 90 分鐘／每人 1,500 日圓起。',
+        '掲載内容は現在確認中です。訪問前に奥多摩観光協会の公式情報をご確認ください。',
+        'This listing is still being confirmed. Check current details with the Okutama Tourism Association’s official information before visiting.',
+        '此刊載內容仍在確認中。造訪前請以奧多摩觀光協會的官方資訊確認最新內容。',
       ),
-      action: local('公式サイトでガイドを予約する　＞', 'Book a guide on the official site  ›', '前往官方網站預約導覽　›'),
+      action: local('公式情報を確認する', 'Check official information', '查看官方資訊'),
     },
     caution: [
-      local('・駐車場は近隣の有料駐車場をご利用ください。', '• Please use a nearby paid car park.', '・請使用附近的付費停車場。'),
-      local('・混雑時は案内までお待ちいただく場合があります。', '• You may need to wait for assistance when it is busy.', '・人潮眾多時可能需等候服務。'),
+      local(
+        '・営業時間・サービス内容・アクセスは、訪問前に奥多摩観光協会の公式情報をご確認ください。',
+        '• Confirm hours, services, and access with the Okutama Tourism Association’s official information before visiting.',
+        '・營業時間、服務內容與交通方式，請於造訪前以奧多摩觀光協會的官方資訊為準。',
+      ),
     ],
   },
 };
