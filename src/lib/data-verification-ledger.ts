@@ -1266,6 +1266,46 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
         });
       }
 
+      if (!reference) {
+        inputs.push({
+          claimId: localizedClaimId(
+            `spot:${spot.id}:presentation:tags`,
+            locale,
+          ),
+          entityType: 'Spot',
+          entityId: spot.id,
+          entityName: displayedName,
+          fieldId: localizedFieldId('presentation:tags', locale),
+          fieldLabel: `Fallback reference tags (${locale})`,
+          comparisonExpected: false,
+          presentation: presentationValue(spot.copy[locale].tags.join(', '), 'Spot'),
+          timeSensitive: true,
+          timeSensitiveNote: 'The reference-information tag must remain visible while these Spot facts are unverified.',
+          issues: audit ? [...audit.issues] : ['#333'],
+          note: 'One stable field claim inventories the localized tag group; array position and label text do not define identity.',
+        });
+        const practicalInformation = spot.copy[locale].practicalInfo
+          .map((row) => `${row.label}: ${row.value}`)
+          .join('\n');
+        inputs.push({
+          claimId: localizedClaimId(
+            `spot:${spot.id}:presentation:practical_information`,
+            locale,
+          ),
+          entityType: 'Spot',
+          entityId: spot.id,
+          entityName: displayedName,
+          fieldId: localizedFieldId('presentation:practical_information', locale),
+          fieldLabel: `Fallback practical information (${locale})`,
+          comparisonExpected: false,
+          presentation: presentationValue(practicalInformation, 'Spot'),
+          timeSensitive: true,
+          timeSensitiveNote: 'The fallback verification notice must remain visible while these Spot facts are unverified.',
+          issues: audit ? [...audit.issues] : ['#333'],
+          note: 'One stable field claim inventories the structured practical-information group; array position and localized prose do not define identity.',
+        });
+      }
+
       if (reference && place && status) {
         for (const tag of reference.tags) {
           const isVerificationCaveat = tag.tagId === 'confirmation-pending';

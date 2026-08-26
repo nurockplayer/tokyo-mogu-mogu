@@ -281,6 +281,32 @@ describe('repository data verification ledger (#333)', () => {
     });
   });
 
+  it('preserves fallback Spot verification notices in every locale', () => {
+    const claims = buildRepositoryLedgerClaims();
+
+    expect(
+      claims.find(
+        (row) => row.claimId === 'spot:akabeko:presentation:practical_information:en',
+      ),
+    ).toMatchObject({
+      displayedValue: 'Verification: This listing is reference information and may not be verified. Check the venue’s official information before visiting.',
+      verification: 'demo',
+      finding: 'none',
+      timeSensitive: true,
+      appSurface: 'Spot',
+    });
+    expect(
+      claims.find(
+        (row) => row.claimId === 'spot:akabeko:presentation:tags:en',
+      ),
+    ).toMatchObject({
+      displayedValue: 'Reference information',
+      verification: 'demo',
+      finding: 'none',
+      timeSensitive: true,
+    });
+  });
+
   it('surfaces the approved initial Route comparison findings without correcting them', () => {
     const claims = buildRepositoryLedgerClaims();
 
