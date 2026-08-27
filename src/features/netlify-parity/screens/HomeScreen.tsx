@@ -1,26 +1,12 @@
 import { BottomNavigation } from '../components/BottomNavigation';
 import {
   demoJourneys,
+  homeJourneyCards,
   referenceAssets,
   type JourneyPresentation,
   type ReferenceCopy,
 } from '../content';
 import type { Locale } from '../../../i18n';
-
-const homeJourneyCards: Record<Locale, Array<{ title: string; description: string }>> = {
-  ja: [
-    { title: '東京わさび文化を巡る旅', description: '奥多摩・半日巡り／わさび食堂・氷川渓谷など' },
-    { title: '水が育てる、幻の川魚', description: '奥多摩やまめの食文化／炉ばた あかべこ・渓流さんぽ' },
-  ],
-  en: [
-    { title: 'A journey through Tokyo wasabi culture', description: 'Okutama · Half day / Wasabi Shokudo, Hikawa Valley, and more' },
-    { title: 'A rare river fish raised by water', description: 'Okutama yamame / Robata Akabeko and a streamside walk' },
-  ],
-  'zh-TW': [
-    { title: '走訪東京山葵文化之旅', description: '奧多摩・半日／山葵食堂、冰川溪谷等' },
-    { title: '由水孕育的珍稀河魚', description: '奧多摩山女魚／爐端燒 AKABEKO、溪流散步' },
-  ],
-};
 
 interface HomeScreenProps {
   active: boolean;
@@ -93,7 +79,7 @@ export function HomeScreen({
           </h2>
           <div>
             {demoJourneys.map((journey, index) => {
-              const card = homeJourneyCards[locale][index] ?? journey.copy[locale];
+              const card = homeJourneyCards[journey.id]?.[locale] ?? journey.copy[locale];
               const favorite = favoriteJourneyIds.includes(journey.id);
               return (
                 <article className="trip-card" key={journey.id}>

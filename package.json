@@ -17,6 +17,7 @@
     "test:focused": "vitest run",
     "test:e2e": "pnpm build && playwright test",
     "data:sync": "tsx scripts/data-acquisition/sync.ts",
+    "data:verification-ledger": "tsx scripts/generate-data-verification-ledger.ts",
     "validate": "pnpm typecheck && pnpm lint && pnpm test && pnpm build:bundle",
     "review-packet": "tsx scripts/generate-review-packet.ts",
     "figma:check": "tsx scripts/figma-drift/check.ts",
