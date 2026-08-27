@@ -30,6 +30,25 @@ const editorialReferenceNotes: Record<Locale, string> = {
   'zh-TW': '此處刊載的內容為參考資訊，可能尚未經確認。造訪前請以各場所的官方資訊為準。',
 };
 
+export interface HomeJourneyCardCopy {
+  title: string;
+  description: string;
+}
+
+/** Stable journey-keyed records rendered by Home; never identified by array position. */
+export const homeJourneyCards: Record<string, Record<Locale, HomeJourneyCardCopy>> = {
+  'demo-okutama-wasabi': {
+    ja: { title: '東京わさび文化を巡る旅', description: '奥多摩・半日巡り／わさび食堂・氷川渓谷など' },
+    en: { title: 'A journey through Tokyo wasabi culture', description: 'Okutama · Half day / Wasabi Shokudo, Hikawa Valley, and more' },
+    'zh-TW': { title: '走訪東京山葵文化之旅', description: '奧多摩・半日／山葵食堂、冰川溪谷等' },
+  },
+  'demo-okutama-yamame': {
+    ja: { title: '水が育てる、幻の川魚', description: '奥多摩やまめの食文化／炉ばた あかべこ・渓流さんぽ' },
+    en: { title: 'A rare river fish raised by water', description: 'Okutama yamame / Robata Akabeko and a streamside walk' },
+    'zh-TW': { title: '由水孕育的珍稀河魚', description: '奧多摩山女魚／爐端燒 AKABEKO、溪流散步' },
+  },
+};
+
 export const demoJourneys: JourneyPresentation[] = [
   {
     id: 'demo-okutama-wasabi', regionId: 'okutama', foodCultureId: 'wasabi-okutama', storyId: 'wasabi-okutama', routeId: 'okutama-wasabi-journey', matchPercent: 96, imageAssetId: 'wasabiHero', heroAssetId: 'wasabiHero',

@@ -421,6 +421,38 @@ describe('repository data verification ledger (#333)', () => {
     });
   });
 
+  it('inventories localized Home journey-card facts and queues their source mappings', () => {
+    const claims = buildRepositoryLedgerClaims();
+    const homeClaims = claims.filter(
+      (row) => row.appSurface === 'Home' && row.fieldId.startsWith('presentation:home_card_'),
+    );
+
+    expect(homeClaims).toHaveLength(12);
+    expect(
+      claims.find(
+        (row) => row.claimId === 'route:okutama-wasabi-journey:presentation:home_card_description:en',
+      ),
+    ).toMatchObject({
+      displayedValue: 'Okutama · Half day / Wasabi Shokudo, Hikawa Valley, and more',
+      verification: 'demo',
+      finding: 'none',
+      timeSensitive: true,
+    });
+    expect(
+      claims.find(
+        (row) => row.claimId === 'route:okutama-wasabi-journey:home.factual.duration',
+      ),
+    ).toMatchObject({
+      canonicalValue: undefined,
+      displayedValue: undefined,
+      verification: 'unknown',
+      finding: 'none',
+      timeSensitive: true,
+      appSurface: 'Home',
+      auditSourceFile: 'src/data/data-verification-audit-manifest.ts',
+    });
+  });
+
   it('keeps visible Route notes as stable time-sensitive presentation claims', () => {
     const claims = buildRepositoryLedgerClaims();
 

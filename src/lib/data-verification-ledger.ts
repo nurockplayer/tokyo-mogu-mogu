@@ -5,6 +5,7 @@ import {
   PRESENTATION_ROUTE_AUDIT,
   PRESENTATION_ROUTE_MEETING_TIME_AUDIT,
   PRESENTATION_SPOT_AUDIT,
+  REQUIRED_HOME_JOURNEY_FACTUAL_CLAIMS,
   REQUIRED_ROUTE_GUIDANCE_FACTUAL_CLAIMS,
   REQUIRED_STORY_SPOT_FACTUAL_CLAIMS,
   REQUIRED_VISIBLE_SPOT_FIELDS,
@@ -16,6 +17,7 @@ import {
   demoJourneys,
   demoSpots,
   chapterPoint,
+  homeJourneyCards,
   referenceSpotDetails,
   resultLocation,
   routeNames,
@@ -726,6 +728,42 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
 
     for (const locale of PRESENTATION_LOCALES) {
       const routeName = routeNames[journey.id]?.[locale] ?? journey.copy[locale].title;
+      const homeCard = homeJourneyCards[journey.id]?.[locale];
+      if (homeCard) {
+        inputs.push({
+          claimId: localizedClaimId(
+            `route:${journey.routeId}:presentation:home_card_title`,
+            locale,
+          ),
+          entityType: 'Route',
+          entityId: journey.routeId,
+          entityName,
+          fieldId: localizedFieldId('presentation:home_card_title', locale),
+          fieldLabel: `Home journey-card title (${locale})`,
+          comparisonExpected: false,
+          presentation: presentationValue(homeCard.title, 'Home'),
+          timeSensitive: false,
+          issues: [...audit.issues],
+          note: 'Structured localized Home presentation value; factual truth is not inferred.',
+        });
+        inputs.push({
+          claimId: localizedClaimId(
+            `route:${journey.routeId}:presentation:home_card_description`,
+            locale,
+          ),
+          entityType: 'Route',
+          entityId: journey.routeId,
+          entityName,
+          fieldId: localizedFieldId('presentation:home_card_description', locale),
+          fieldLabel: `Home journey-card description (${locale})`,
+          comparisonExpected: false,
+          presentation: presentationValue(homeCard.description, 'Home'),
+          timeSensitive: true,
+          timeSensitiveNote: 'Duration and named-stop guidance require source-backed review; no wall-clock threshold is inferred.',
+          issues: [...audit.issues],
+          note: 'Structured localized Home presentation value; no facts are parsed from the copy.',
+        });
+      }
       inputs.push({
         claimId: localizedClaimId(`route:${journey.routeId}:name`, locale),
         entityType: 'Route',
@@ -870,6 +908,30 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
           note: 'Localized structured Story presentation value; factual truth is not inferred.',
         });
       }
+    }
+    const homeFactualClaims = REQUIRED_HOME_JOURNEY_FACTUAL_CLAIMS.filter(
+      (claim) => claim.presentationJourneyId === journey.id,
+    );
+    for (const factualClaim of homeFactualClaims) {
+      inputs.push({
+        claimId: `route:${journey.routeId}:${factualClaim.claimId}`,
+        entityType: 'Route',
+        entityId: journey.routeId,
+        entityName,
+        fieldId: factualClaim.claimId,
+        fieldLabel: factualClaim.fieldLabel,
+        comparisonExpected: false,
+        requiredUnknown: {
+          origin: 'demo',
+          surface: 'Home',
+          auditSourceFile: SOURCE_FILES.auditManifest,
+          note: `Factual assertion is embedded in ${factualClaim.parentFieldId}; no claim-level source mapping exists.`,
+        },
+        timeSensitive: factualClaim.timeSensitive,
+        timeSensitiveNote: 'Recheck only after a source-backed claim mapping exists; no wall-clock threshold is inferred.',
+        issues: [...audit.issues],
+        note: 'Report-only unknown; the generator does not parse or copy the factual value from Home presentation text.',
+      });
     }
     const presentationStory = journey.copy.ja;
     const storyFactualClaims = REQUIRED_STORY_FACTUAL_CLAIMS[

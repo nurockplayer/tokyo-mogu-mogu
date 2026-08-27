@@ -48,6 +48,14 @@ export const PRESENTATION_ROUTE_MEETING_TIME_AUDIT = [
   },
 ] as const;
 
+/** Metadata-only identities for factual assertions embedded in Home journey cards. */
+export const REQUIRED_HOME_JOURNEY_FACTUAL_CLAIMS = [
+  { presentationJourneyId: 'demo-okutama-wasabi', claimId: 'home.factual.duration', fieldLabel: 'Home journey duration', parentFieldId: 'presentation:home_card_description', timeSensitive: true },
+  { presentationJourneyId: 'demo-okutama-wasabi', claimId: 'home.factual.named-stops', fieldLabel: 'Home journey named stops', parentFieldId: 'presentation:home_card_description', timeSensitive: true },
+  { presentationJourneyId: 'demo-okutama-yamame', claimId: 'home.factual.duration', fieldLabel: 'Home journey duration', parentFieldId: 'presentation:home_card_description', timeSensitive: true },
+  { presentationJourneyId: 'demo-okutama-yamame', claimId: 'home.factual.named-stops', fieldLabel: 'Home journey named stops', parentFieldId: 'presentation:home_card_description', timeSensitive: true },
+] as const;
+
 /**
  * Stable, metadata-only identities for factual assertions embedded in current
  * Story presentation copy. The manifest does not copy or parse their values;

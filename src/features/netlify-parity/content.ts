@@ -391,4 +391,4 @@ export function referenceCopy(locale: Locale): ReferenceCopy {
   return copies[locale];
 }
 
-export { demoJourneys, demoSpots } from './factual-presentation';
+export { demoJourneys, demoSpots, homeJourneyCards } from './factual-presentation';
