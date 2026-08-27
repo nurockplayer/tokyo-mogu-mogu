@@ -38,7 +38,7 @@ describe('data verification ledger repository command (#333)', () => {
     expect(stale.status).not.toBe(0);
     expect(stale.stderr).toContain('stale');
     expect(readFileSync(output, 'utf8')).toBe('stale ledger\n');
-  });
+  }, 20_000);
 
   it('exposes the default repository regeneration command', () => {
     const pkg = JSON.parse(

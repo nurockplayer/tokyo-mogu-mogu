@@ -1367,6 +1367,34 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
       }
 
       if (reference && place && status) {
+        for (const row of reference.information) {
+          inputs.push({
+            claimId: localizedClaimId(
+              `spot:${spot.id}:presentation:information:${row.fieldId}:label`,
+              locale,
+            ),
+            entityType: 'Spot',
+            entityId: spot.id,
+            entityName: displayedName,
+            fieldId: localizedFieldId(
+              `presentation:information:${row.fieldId}:label`,
+              locale,
+            ),
+            fieldLabel: `Displayed ${row.fieldId} information label (${locale})`,
+            comparisonExpected: false,
+            presentation: presentationValue(
+              row.label[locale],
+              'Spot',
+              place.origin,
+              status,
+            ),
+            timeSensitive: true,
+            timeSensitiveNote: 'The visible information label must stay aligned with the structured verification state; no wall-clock threshold is inferred.',
+            issues: audit ? [...audit.issues] : ['#333'],
+            note: 'Stable information fieldId identifies the localized label; array position and label text do not define claim identity.',
+          });
+        }
+
         for (const tag of reference.tags) {
           const isVerificationCaveat = tag.tagId === 'confirmation-pending';
           inputs.push({

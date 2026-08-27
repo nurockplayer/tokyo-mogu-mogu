@@ -323,6 +323,16 @@ describe('repository data verification ledger (#333)', () => {
 
     expect(
       claims.find(
+        (row) => row.claimId === 'spot:okutama-tourism-office:presentation:information:verification_note:label:en',
+      ),
+    ).toMatchObject({
+      displayedValue: 'Verification status',
+      verification: 'needs_confirmation',
+      finding: 'none',
+      timeSensitive: true,
+    });
+    expect(
+      claims.find(
         (row) => row.claimId === 'spot:okutama-tourism-office:presentation:tag:confirmation-pending:en',
       ),
     ).toMatchObject({
