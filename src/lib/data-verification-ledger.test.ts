@@ -310,6 +310,18 @@ describe('repository data verification ledger (#333)', () => {
     }
 
     expect(
+      claims.find((claim) => claim.claimId === 'place:yamashiroya:coordinates'),
+    ).toMatchObject({
+      canonicalValue: '35.80679970833439, 139.0969139801638 (approximate)',
+      origin: 'source',
+      verification: 'needs_confirmation',
+      primarySource: 'Google Maps（山城屋公式店舗案内の埋め込み地図）',
+      primarySourceUrl: 'https://www.google.com/maps/search/?api=1&query=35.80679970833439%2C139.0969139801638',
+      primarySourceLicense: expect.stringContaining('not open data'),
+      retrievedAt: '2026-08-28',
+    });
+
+    expect(
       claims.find((claim) => claim.claimId === 'route:okutama-wasabi-journey:full-day:step:yamashiroya:factual:product-availability'),
     ).toMatchObject({
       canonicalValue: 'pickled-wasabi, fresh-wasabi',
@@ -328,11 +340,11 @@ describe('repository data verification ledger (#333)', () => {
       primarySource: expectedSource,
     });
     expect(
-      claims.find((claim) => claim.claimId === 'story:wasabi-okutama:story.spot.yamashiroya.business-age'),
-    ).toMatchObject({ verification: 'unknown', canonicalValue: undefined, displayedValue: undefined });
+      claims.some((claim) => claim.claimId === 'story:wasabi-okutama:story.spot.yamashiroya.business-age'),
+    ).toBe(false);
     expect(
-      claims.find((claim) => claim.claimId === 'story:wasabi-okutama:story.spot.yamashiroya.proprietor-generation'),
-    ).toMatchObject({ verification: 'unknown', canonicalValue: undefined, displayedValue: undefined });
+      claims.some((claim) => claim.claimId === 'story:wasabi-okutama:story.spot.yamashiroya.proprietor-generation'),
+    ).toBe(false);
   });
 
   it('keeps the Jan 4 / Jan 5 Yamashiroya closure discrepancy as a conflict (#323)', () => {
@@ -675,7 +687,7 @@ describe('repository data verification ledger (#333)', () => {
 
     expect(
       claims.find(
-        (row) => row.claimId === 'story:wasabi-okutama:story.spot.yamashiroya.business-age',
+        (row) => row.claimId === 'story:wasabi-okutama:story.spot.akabeko.menu-availability',
       ),
     ).toMatchObject({
       canonicalValue: undefined,

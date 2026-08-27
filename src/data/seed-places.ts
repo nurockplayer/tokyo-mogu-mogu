@@ -94,6 +94,16 @@ const YAMASHIROYA_SHOP_SOURCE = {
   originalId: 'yamashiroya',
 };
 
+const YAMASHIROYA_COORDINATE_SOURCE = {
+  name: 'Google Maps（山城屋公式店舗案内の埋め込み地図）',
+  url: 'https://www.google.com/maps/search/?api=1&query=35.80679970833439%2C139.0969139801638',
+  license: 'Google Maps terms apply; embedded map-provider point, not open data and not field-verified. Reference use only.',
+  sourceType: 'business' as const,
+  retrievedAt: '2026-08-28',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'google-maps-0xdbddbe4d41df1fb8',
+};
+
 const YAMASHIROYA_HOME_SOURCE = {
   name: '奥多摩わさび本舗 山城屋（公式ホームページ下部）',
   url: 'https://www.yamasiroya.co.jp/',
@@ -153,11 +163,13 @@ export const PLACES: Place[] = [
     nameJa: '奥多摩わさび本舗 山城屋',
     nameEn: 'Okutama Wasabi Honpo Yamashiroya',
     address: '東京都西多摩郡奥多摩町氷川717-3',
-    // Precise point from the operator's embedded access map, checked 2026-08-28.
+    // Provider point from the Google Maps iframe embedded by the operator.
+    // OSM has no matching shop record and GSI resolves only the Hikawa locality,
+    // so keep this as an unverified approximate point rather than first-party data.
     latitude: 35.80679970833439,
     longitude: 139.0969139801638,
-    coordinatePrecision: 'precise',
-    coordinateSource: YAMASHIROYA_SHOP_SOURCE,
+    coordinatePrecision: 'approximate',
+    coordinateSource: YAMASHIROYA_COORDINATE_SOURCE,
     foodCultureIds: ['wasabi-okutama'],
     type: 'shop',
     source: YAMASHIROYA_SHOP_SOURCE,

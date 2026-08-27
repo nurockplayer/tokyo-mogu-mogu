@@ -110,6 +110,9 @@ describe('data verification evidence manifest (#334)', () => {
     const sourceOmission = DATA_VERIFICATION_EVIDENCE_MANIFEST.omissions.find(
       (item) => item.omissionId === 'yamashiroya-source-rights-restricted',
     );
+    const coordinateSourceOmission = DATA_VERIFICATION_EVIDENCE_MANIFEST.omissions.find(
+      (item) => item.omissionId === 'yamashiroya-coordinate-source-rights-restricted',
+    );
 
     expect(app).toMatchObject({
       kind: 'app',
@@ -167,11 +170,18 @@ describe('data verification evidence manifest (#334)', () => {
     });
     expect(sourceOmission?.claimIds).toEqual(expect.arrayContaining([
       'place:yamashiroya:address:ja',
-      'place:yamashiroya:coordinates',
       'place:yamashiroya:phone:ja',
       'place:yamashiroya:hours:ja',
       'place:yamashiroya:closed_days:ja',
     ]));
+    expect(sourceOmission?.claimIds).not.toContain('place:yamashiroya:coordinates');
+    expect(coordinateSourceOmission).toMatchObject({
+      kind: 'source',
+      entityId: 'yamashiroya',
+      sourceUrl: 'https://www.google.com/maps/search/?api=1&query=35.80679970833439%2C139.0969139801638',
+      recordedAt: '2026-08-28',
+      claimIds: ['place:yamashiroya:coordinates'],
+    });
     expect(() =>
       validateDataVerificationEvidenceManifest(
         DATA_VERIFICATION_EVIDENCE_MANIFEST,

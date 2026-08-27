@@ -154,7 +154,6 @@ export const DATA_VERIFICATION_EVIDENCE_MANIFEST: DataVerificationEvidenceManife
       claimIds: [
         'place:yamashiroya:name:ja',
         'place:yamashiroya:address:ja',
-        'place:yamashiroya:coordinates',
         'place:yamashiroya:phone:ja',
         'place:yamashiroya:hours:ja',
         'place:yamashiroya:phone_hours:ja',
@@ -170,6 +169,15 @@ export const DATA_VERIFICATION_EVIDENCE_MANIFEST: DataVerificationEvidenceManife
       sourceUrl: 'https://www.yamasiroya.co.jp/shop.html',
       recordedAt: '2026-08-28',
       reason: 'The official site states All Rights Reserved and provides no support for repository reuse; the first-party page was rechecked without copying its screenshot.',
+    },
+    {
+      omissionId: 'yamashiroya-coordinate-source-rights-restricted',
+      claimIds: ['place:yamashiroya:coordinates'],
+      entityId: 'yamashiroya',
+      kind: 'source',
+      sourceUrl: 'https://www.google.com/maps/search/?api=1&query=35.80679970833439%2C139.0969139801638',
+      recordedAt: '2026-08-28',
+      reason: 'The coordinate is a Google Maps provider point from the operator page embed, not reusable open data or a field-verified location; no map-provider screenshot is committed.',
     },
     {
       omissionId: 'yamashiroya-homepage-source-rights-restricted',

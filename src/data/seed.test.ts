@@ -115,7 +115,15 @@ describe('seed data contract (#2)', () => {
       address: '東京都西多摩郡奥多摩町氷川717-3',
       latitude: 35.80679970833439,
       longitude: 139.0969139801638,
-      coordinatePrecision: 'precise',
+      coordinatePrecision: 'approximate',
+      coordinateSource: {
+        name: 'Google Maps（山城屋公式店舗案内の埋め込み地図）',
+        url: 'https://www.google.com/maps/search/?api=1&query=35.80679970833439%2C139.0969139801638',
+        sourceType: 'business',
+        retrievedAt: '2026-08-28',
+        verificationStatus: 'needs_confirmation',
+        originalId: 'google-maps-0xdbddbe4d41df1fb8',
+      },
       foodCultureIds: ['wasabi-okutama'],
       type: 'shop',
       origin: 'source',
@@ -155,6 +163,8 @@ describe('seed data contract (#2)', () => {
     });
     expect(yamashiroya?.source.license).toContain('All Rights Reserved');
     expect(yamashiroya?.source).not.toHaveProperty('confirmedAt');
+    expect(yamashiroya?.coordinateSource?.license).toContain('not open data');
+    expect(yamashiroya?.coordinateSource?.license).toContain('not field-verified');
     expect(yamashiroya?.visitorInformation?.yearEndClosure?.statements).toHaveLength(2);
     expect(getFoodCultureById('wasabi-okutama')?.placeIds).toContain('yamashiroya');
   });

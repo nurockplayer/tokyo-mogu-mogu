@@ -124,8 +124,6 @@ export const REQUIRED_ROUTE_GUIDANCE_FACTUAL_CLAIMS = [
 /** Metadata-only identities for factual assertions embedded in Story spot cards. */
 export const REQUIRED_STORY_SPOT_FACTUAL_CLAIMS = [
   { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'akabeko', claimId: 'story.spot.akabeko.menu-availability', fieldLabel: 'Akabeko local menu availability', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true },
-  { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'yamashiroya', claimId: 'story.spot.yamashiroya.business-age', fieldLabel: 'Yamashiroya business age', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true },
-  { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'yamashiroya', claimId: 'story.spot.yamashiroya.proprietor-generation', fieldLabel: 'Yamashiroya proprietor generation', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true },
   { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'yamashiroya', claimId: 'story.spot.yamashiroya.product-availability', fieldLabel: 'Yamashiroya product availability', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true, canonicalPlaceId: 'yamashiroya', canonicalFieldId: 'product_availability' },
   { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'wasabi-kitchen', claimId: 'story.spot.wasabi-kitchen.weekend-operation', fieldLabel: 'Wasabi Kitchen weekend operation', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true },
   { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'okutama-kitchen', claimId: 'story.spot.okutama-kitchen.product-availability', fieldLabel: 'Okutama Kitchen product availability', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true },
