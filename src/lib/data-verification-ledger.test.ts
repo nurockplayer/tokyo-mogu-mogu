@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import type { DataVerificationEvidence } from '../data/data-verification-evidence-manifest';
 import {
   buildLedgerClaims,
   buildRepositoryLedgerClaims,
@@ -154,9 +155,73 @@ describe('data verification ledger claim builder (#333)', () => {
     expect(forward.indexOf('`place:a:name`')).toBeLessThan(forward.indexOf('`place:z:name`'));
     expect(forward).not.toMatch(/Generated at|生成日時|2026-08-27/);
   });
+
+  it('renders compact many-to-many evidence links and leaves missing evidence absent', () => {
+    const claims = buildLedgerClaims([
+      claim({ claimId: 'place:example:address:ja', fieldId: 'address:ja' }),
+      claim({ claimId: 'place:example:phone:ja', fieldId: 'phone:ja' }),
+      claim({ claimId: 'place:example:hours:ja', fieldId: 'hours:ja' }),
+    ]);
+    const evidence: readonly DataVerificationEvidence[] = [
+      {
+        evidenceId: 'example-app-ja-375',
+        claimIds: ['place:example:address:ja', 'place:example:phone:ja'],
+        entityId: 'example',
+        kind: 'app',
+        capturedAt: '2026-08-27',
+        path: 'docs/data-evidence/example/app-ja-375.webp',
+        locale: 'ja',
+        viewport: { width: 375, height: 812 },
+      },
+      {
+        evidenceId: 'example-official-source',
+        claimIds: ['place:example:address:ja'],
+        entityId: 'example',
+        kind: 'source',
+        capturedAt: '2026-08-27',
+        path: 'docs/data-evidence/example/2026-08-27-official.webp',
+        sourceUrl: 'https://example.com/source',
+      },
+    ];
+
+    const rendered = renderDataVerificationLedger(claims, evidence);
+    const addressRow = rendered.split('\n').find((line) =>
+      line.startsWith('| `place:example:address:ja` | Place /'),
+    );
+    const phoneRow = rendered.split('\n').find((line) =>
+      line.startsWith('| `place:example:phone:ja` | Place /'),
+    );
+    const hoursRow = rendered.split('\n').find((line) =>
+      line.startsWith('| `place:example:hours:ja` | Place /'),
+    );
+
+    expect(addressRow).toContain('[app · ja · 375px](data-evidence/example/app-ja-375.webp)');
+    expect(addressRow).toContain('[source](data-evidence/example/2026-08-27-official.webp)');
+    expect(phoneRow).toContain('[app · ja · 375px](data-evidence/example/app-ja-375.webp)');
+    expect(phoneRow).not.toContain('[source]');
+    expect(hoursRow).toContain('| — | Example note. |');
+  });
 });
 
 describe('repository data verification ledger (#333)', () => {
+  it('consumes #334 evidence links and omissions without changing factual authority', () => {
+    const rendered = generateRepositoryDataVerificationLedger();
+    const addressRow = rendered.split('\n').find((line) =>
+      line.startsWith('| `place:okutama-tourism-office:address:ja` | Place /'),
+    );
+    const missingEvidenceRow = rendered.split('\n').find((line) =>
+      line.startsWith('| `place:akabeko:name:ja` | Place /'),
+    );
+
+    expect(addressRow).toContain(
+      '[app · ja · 375px](data-evidence/okutama-tourism-office/app-ja-375.webp)',
+    );
+    expect(addressRow).toContain('| `source` | `needs_confirmation` | `match` |');
+    expect(missingEvidenceRow).toContain('| — |');
+    expect(rendered).toContain('`okutama-tourism-office-source-rights-restricted`');
+    expect(rendered).toContain('[source](https://www.okutama.gr.jp/site/)');
+  });
+
   it('keeps the extracted presentation authority browser-safe and generator-neutral', () => {
     const source = readFileSync(
       new URL('../features/netlify-parity/factual-presentation.ts', import.meta.url),
