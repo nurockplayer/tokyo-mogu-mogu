@@ -55,6 +55,7 @@ export const PRESENTATION_ROUTE_MEETING_TIME_AUDIT = [
  */
 export const REQUIRED_STORY_FACTUAL_CLAIMS = {
   'demo-okutama-wasabi': [
+    { claimId: 'story.factual.nearest-stations', fieldLabel: 'Story nearest-station guidance', parentFieldId: 'presentation:story_location', timeSensitive: true },
     { claimId: 'story.factual.region-geography', fieldLabel: 'Okutama regional geography', parentFieldId: 'presentation:story_intro', timeSensitive: false },
     { claimId: 'story.factual.municipality-area-ranking', fieldLabel: 'Okutama municipality area ranking', parentFieldId: 'presentation:story_intro', timeSensitive: false },
     { claimId: 'story.factual.wasabi-cultivation-history', fieldLabel: 'Wasabi cultivation history', parentFieldId: 'presentation:story_chapters', timeSensitive: false },
@@ -70,6 +71,7 @@ export const REQUIRED_STORY_FACTUAL_CLAIMS = {
     { claimId: 'story.factual.food-pairings', fieldLabel: 'Wasabi food pairing claims', parentFieldId: 'presentation:story_point', timeSensitive: false },
   ],
   'demo-okutama-yamame': [
+    { claimId: 'story.factual.nearest-stations', fieldLabel: 'Story nearest-station guidance', parentFieldId: 'presentation:story_location', timeSensitive: true },
     { claimId: 'story.factual.aquaculture-history', fieldLabel: 'Okutama yamame aquaculture history', parentFieldId: 'presentation:story_chapters', timeSensitive: false },
     { claimId: 'story.factual.research-facility-count', fieldLabel: 'Aquaculture research facility count', parentFieldId: 'presentation:story_chapters', timeSensitive: true },
     { claimId: 'story.factual.inn-age', fieldLabel: 'Akabeko inn age', parentFieldId: 'presentation:story_chapters', timeSensitive: true },

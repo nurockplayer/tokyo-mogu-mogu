@@ -521,6 +521,33 @@ describe('repository data verification ledger (#333)', () => {
     });
   });
 
+  it('queues Story nearest-station guidance as a stable time-sensitive unknown', () => {
+    const claims = buildRepositoryLedgerClaims();
+
+    expect(
+      claims.find(
+        (row) => row.claimId === 'story:wasabi-okutama:presentation:story_location:en',
+      ),
+    ).toMatchObject({
+      displayedValue: 'Okutama, Tokyo (Western Tokyo) / Nearest stations: Okutama and Mitake',
+      verification: 'demo',
+      finding: 'none',
+      timeSensitive: true,
+    });
+    expect(
+      claims.find(
+        (row) => row.claimId === 'story:wasabi-okutama:story.factual.nearest-stations',
+      ),
+    ).toMatchObject({
+      canonicalValue: undefined,
+      displayedValue: undefined,
+      verification: 'unknown',
+      finding: 'none',
+      timeSensitive: true,
+      auditSourceFile: 'src/data/data-verification-audit-manifest.ts',
+    });
+  });
+
   it('does not infer claim-level provenance from multi-source array order', () => {
     const claims = buildRepositoryLedgerClaims();
     const claim = claims.find(

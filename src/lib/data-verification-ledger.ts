@@ -830,7 +830,6 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
         ['story_title', 'Story title', presentationStory.storyTitle, 'Story', 'Story'],
         ['story_intro', 'Story introduction', presentationStory.intro.join('\n\n'), 'Story', 'Story'],
         ['story_chapters', 'Story chapters', journey.chapters[locale].map((chapter) => `${chapter.number} ${chapter.title} — ${chapter.body}`).join('\n'), 'Story', 'Story'],
-        ['story_location', 'Story location / nearest station', location ? `${location.region} / ${location.station}` : '', 'Story', 'Story'],
         ['story_point', 'Story factual callout', point ? `${point.title} — ${point.body}` : '', 'Story', 'Story'],
       ] as const;
       for (const [fieldId, fieldLabel, value, surface, entityType] of storyFacts) {
@@ -850,6 +849,25 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
           timeSensitive: false,
           issues: [...audit.issues],
           note: 'Localized demo presentation copy; factual truth is not inferred from the prose.',
+        });
+      }
+      if (location) {
+        inputs.push({
+          claimId: localizedClaimId(
+            `story:${journey.storyId}:presentation:story_location`,
+            locale,
+          ),
+          entityType: 'Story',
+          entityId: journey.storyId,
+          entityName: presentationEntityName,
+          fieldId: localizedFieldId('presentation:story_location', locale),
+          fieldLabel: `Story location / nearest station (${locale})`,
+          comparisonExpected: false,
+          presentation: presentationValue(`${location.region} / ${location.station}`, 'Story'),
+          timeSensitive: true,
+          timeSensitiveNote: 'Nearest-station guidance requires source-backed review; no wall-clock threshold is inferred.',
+          issues: [...audit.issues],
+          note: 'Localized structured Story presentation value; factual truth is not inferred.',
         });
       }
     }
