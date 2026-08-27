@@ -1,4 +1,9 @@
 import type { DataOrigin, DataSource, VerificationStatus } from '../data/model';
+import {
+  DATA_VERIFICATION_EVIDENCE_MANIFEST,
+  type DataVerificationEvidence,
+  type DataVerificationEvidenceOmission,
+} from '../data/data-verification-evidence-manifest';
 import tourismDirectory from '../../scripts/ingest-okutama/snapshots/okutama-tourism-directory.json';
 import { foodCultures, modelRoutes, places } from '../data';
 import {
@@ -32,6 +37,7 @@ import {
   listUnverifiedFields,
   recordVerificationStatus,
 } from './verification';
+import { validateDataVerificationEvidenceManifest } from './data-verification-evidence';
 
 export type LedgerVerification = VerificationStatus | 'unknown';
 
@@ -120,7 +126,6 @@ export interface LedgerClaimInput {
   timeSensitive: boolean;
   timeSensitiveNote?: string;
   issues: readonly string[];
-  evidence?: string;
   note?: string;
 }
 
@@ -151,7 +156,6 @@ export interface LedgerClaim {
   presentationSourceFile?: string;
   auditSourceFile?: string;
   issues: readonly string[];
-  evidence?: string;
   note?: string;
 }
 
@@ -221,7 +225,6 @@ export function buildLedgerClaims(inputs: readonly LedgerClaimInput[]): LedgerCl
       presentationSourceFile: input.presentation?.sourceFile,
       auditSourceFile: input.requiredUnknown?.auditSourceFile,
       issues: [...input.issues],
-      evidence: input.evidence,
       note: input.note ?? input.requiredUnknown?.note,
     };
   });
@@ -259,6 +262,36 @@ function sourceCell(claim: LedgerClaim): string {
     : markdown(claim.primarySource);
 }
 
+function evidenceCell(
+  claimId: string,
+  evidenceItems: readonly DataVerificationEvidence[],
+): string {
+  const links = evidenceItems
+    .filter((evidence) => evidence.claimIds.includes(claimId))
+    .sort((left, right) => left.evidenceId.localeCompare(right.evidenceId))
+    .map((evidence) => {
+      const label = evidence.kind === 'app'
+        ? `app · ${evidence.locale} · ${evidence.viewport.width}px`
+        : evidence.kind;
+      const ledgerRelativePath = evidence.path.startsWith('docs/')
+        ? evidence.path.slice('docs/'.length)
+        : evidence.path;
+      return `[${label}](${ledgerRelativePath})`;
+    });
+  return links.length === 0 ? '—' : links.join('<br>');
+}
+
+function evidenceOmissionTable(omissions: readonly DataVerificationEvidenceOmission[]): string {
+  if (omissions.length === 0) return '_None._';
+  const header = '| Omission ID | Claim IDs | Entity | Kind | Source | Recorded | Reason |\n|---|---|---|---|---|---|---|';
+  const rows = [...omissions]
+    .sort((left, right) => left.omissionId.localeCompare(right.omissionId))
+    .map((omission) =>
+      `| \`${omission.omissionId}\` | ${omission.claimIds.map((claimId) => `\`${claimId}\``).join('<br>')} | ${markdown(omission.entityId)} | \`${omission.kind}\` | [source](${omission.sourceUrl}) | ${markdown(omission.recordedAt)} | ${markdown(omission.reason)} |`,
+    );
+  return [header, ...rows].join('\n');
+}
+
 function queueTable(claims: readonly LedgerClaim[]): string {
   if (claims.length === 0) return '_None._';
   const header = '| Claim ID | Entity | Field | Canonical | Displayed | Verification | Comparison | Next action / note |\n|---|---|---|---|---|---|---|---|';
@@ -278,7 +311,11 @@ function presentationComparisonQueueTable(claims: readonly LedgerClaim[]): strin
 }
 
 /** Render byte-stable Markdown. No wall-clock value participates in output. */
-export function renderDataVerificationLedger(inputClaims: readonly LedgerClaim[]): string {
+export function renderDataVerificationLedger(
+  inputClaims: readonly LedgerClaim[],
+  evidenceItems: readonly DataVerificationEvidence[] = [],
+  evidenceOmissions: readonly DataVerificationEvidenceOmission[] = [],
+): string {
   const claims = [...inputClaims].sort(compareClaimIds);
   const verificationCounts = new Map(
     VERIFICATION_ORDER.map((status) => [
@@ -301,7 +338,7 @@ export function renderDataVerificationLedger(inputClaims: readonly LedgerClaim[]
     const timeSensitive = claim.timeSensitive
       ? `yes${claim.timeSensitiveNote ? ` — ${claim.timeSensitiveNote}` : ''}`
       : 'no';
-    return `| \`${claim.claimId}\` | ${markdown(`${claim.entityType} / ${claim.entityId} / ${claim.entityName}`)} | \`${claim.fieldId}\` — ${markdown(claim.fieldLabel)} | ${markdown(claim.canonicalValue)} | ${markdown(claim.displayedValue)} | ${claim.comparedPresentationClaimId ? `\`${markdown(claim.comparedPresentationClaimId)}\`` : '—'} | ${markdown(claim.comparedPresentationValue)} | \`${claim.origin}\` | \`${claim.verification}\` | \`${claim.finding}\` | ${sourceCell(claim)} | ${markdown(claim.primarySourceLicense)} | ${markdown(claim.retrievedAt)} | ${markdown(claim.sourceUpdatedAt)} | ${markdown(claim.confirmedAt)} | ${markdown(timeSensitive)} | ${markdown(claim.appSurface)} | \`${markdown(claim.canonicalSourceFile)}\` | ${claim.presentationSourceFile ? `\`${markdown(claim.presentationSourceFile)}\`` : '—'} | ${claim.auditSourceFile ? `\`${markdown(claim.auditSourceFile)}\`` : '—'} | ${markdown(claim.issues.join(', '))} | ${markdown(claim.evidence ?? 'Deferred to #334')} | ${markdown(claim.note)} |`;
+    return `| \`${claim.claimId}\` | ${markdown(`${claim.entityType} / ${claim.entityId} / ${claim.entityName}`)} | \`${claim.fieldId}\` — ${markdown(claim.fieldLabel)} | ${markdown(claim.canonicalValue)} | ${markdown(claim.displayedValue)} | ${claim.comparedPresentationClaimId ? `\`${markdown(claim.comparedPresentationClaimId)}\`` : '—'} | ${markdown(claim.comparedPresentationValue)} | \`${claim.origin}\` | \`${claim.verification}\` | \`${claim.finding}\` | ${sourceCell(claim)} | ${markdown(claim.primarySourceLicense)} | ${markdown(claim.retrievedAt)} | ${markdown(claim.sourceUpdatedAt)} | ${markdown(claim.confirmedAt)} | ${markdown(timeSensitive)} | ${markdown(claim.appSurface)} | \`${markdown(claim.canonicalSourceFile)}\` | ${claim.presentationSourceFile ? `\`${markdown(claim.presentationSourceFile)}\`` : '—'} | ${claim.auditSourceFile ? `\`${markdown(claim.auditSourceFile)}\`` : '—'} | ${markdown(claim.issues.join(', '))} | ${evidenceCell(claim.claimId, evidenceItems)} | ${markdown(claim.note)} |`;
   });
 
   const sections = [
@@ -316,7 +353,8 @@ export function renderDataVerificationLedger(inputClaims: readonly LedgerClaim[]
       '- Explicit audit metadata: `src/data/data-verification-audit-manifest.ts` contains stable mappings, surface ownership, time-sensitivity, traceability, and required report-only fields only. It does not duplicate factual values.',
       '- Verification and unknown queues reuse the #129/#133 `deriveVerificationStatus`, `recordVerificationStatus`, and `listUnverifiedFields` machinery.',
       '- Source licenses remain visible per claim/source row so reuse and attribution restrictions are not lost.',
-      '- The generator does not parse arbitrary prose, screenshots, or third-party map/review content. Screenshot evidence is intentionally deferred to #334.',
+      '- Review screenshots come only from `src/data/data-verification-evidence-manifest.ts`; they link to stable claim IDs and never replace structured factual authority.',
+      '- The generator does not parse arbitrary prose, screenshots, or third-party map/review content. No OCR or screenshot-derived factual ingestion occurs.',
       '- Staleness is not inferred from the wall clock. Only the repository\'s explicit verification status and deterministic source-date policy are used.',
     ].join('\n'),
     '## Summary by verification',
@@ -345,6 +383,8 @@ export function renderDataVerificationLedger(inputClaims: readonly LedgerClaim[]
     queueTable(claims.filter((claim) => claim.finding === 'canonical_missing')),
     '## Presentation-missing canonical claims',
     queueTable(claims.filter((claim) => claim.finding === 'presentation_missing')),
+    '## Evidence omissions',
+    evidenceOmissionTable(evidenceOmissions),
     '## Claim details',
     [...detailsHeader, ...detailRows].join('\n'),
   ];
@@ -1653,5 +1693,11 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
 }
 
 export function generateRepositoryDataVerificationLedger(): string {
-  return renderDataVerificationLedger(buildRepositoryLedgerClaims());
+  const claims = buildRepositoryLedgerClaims();
+  validateDataVerificationEvidenceManifest(DATA_VERIFICATION_EVIDENCE_MANIFEST, claims);
+  return renderDataVerificationLedger(
+    claims,
+    DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence,
+    DATA_VERIFICATION_EVIDENCE_MANIFEST.omissions,
+  );
 }
