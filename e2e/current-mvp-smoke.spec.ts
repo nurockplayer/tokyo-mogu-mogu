@@ -284,6 +284,38 @@ test('completes the current 375px Japanese Golden Path and preserves saved state
   await expect(page.locator('[data-screen="home"][data-screen-active="true"]')).toBeVisible();
 });
 
+test('opens the source-backed Yamashiroya Spot from the full-day Route (#323)', async ({
+  page,
+}) => {
+  await page.goto('/route?candidateId=demo-okutama-wasabi');
+  const route = page.locator('[data-screen="route"][data-screen-active="true"]');
+
+  await route.getByRole('button', { name: '一日', exact: true }).click();
+  const yamashiroyaCard = route.locator('[data-spot-id="yamashiroya"]');
+  await expect(yamashiroyaCard).toContainText('奥多摩わさび本舗 山城屋');
+  await expect(yamashiroyaCard).toContainText('わさび漬・生わさび');
+  await yamashiroyaCard.click();
+
+  await expect(page).toHaveURL(
+    /\/spot\/yamashiroya\?candidateId=demo-okutama-wasabi$/,
+  );
+  const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
+  await expect(
+    spot.getByRole('heading', { name: '奥多摩わさび本舗 山城屋' }),
+  ).toBeVisible();
+  await expect(spot).toContainText('東京都西多摩郡奥多摩町氷川717-3');
+  await expect(spot).toContainText('0428-83-2368');
+  await expect(spot).toContainText('9:00〜17:00');
+  await expect(spot).toContainText('JR「奥多摩駅」より徒歩3分');
+  await expect(spot).toContainText('あり（12台・大型車可）');
+  await expect(spot).toContainText('12月30日～1月4日');
+  await expect(spot).toContainText('12月30日～1月5日');
+  await expect(spot).toContainText('不一致。最新情報を確認');
+  await expect(spot).toContainText('掲載内容は現在確認中です');
+  await expect(spot).not.toContainText(/創業172年|6代目|参考スポットです/);
+  await expectNoHorizontalOverflow(page);
+});
+
 test('labels editorial Spot fixtures as unverified reference information', async ({ page }) => {
   await page.goto('/spot/wasabi-kitchen?candidateId=demo-okutama-wasabi');
 

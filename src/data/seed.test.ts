@@ -83,6 +83,11 @@ describe('seed data contract (#2)', () => {
         expect(p.coordinateSource.retrievedAt, `${p.id} coordinate source missing retrievedAt`).toBeDefined();
         expect(p.coordinateSource.originalId, `${p.id} coordinate source missing originalId`).toBeDefined();
       }
+      for (const statement of p.visitorInformation?.yearEndClosure?.statements ?? []) {
+        expect(statement.source.sourceType, `${p.id} conflict source missing sourceType`).toBeDefined();
+        expect(statement.source.retrievedAt, `${p.id} conflict source missing retrievedAt`).toBeDefined();
+        expect(statement.source.originalId, `${p.id} conflict source missing originalId`).toBeDefined();
+      }
     }
   });
 
@@ -99,6 +104,69 @@ describe('seed data contract (#2)', () => {
       },
     });
     expect(tourismOffice?.source).not.toHaveProperty('confirmedAt');
+  });
+
+  it('keeps Yamashiroya facts and the unresolved closure conflict in one canonical Place (#323)', () => {
+    const yamashiroya = getPlaceById('yamashiroya');
+
+    expect(yamashiroya).toMatchObject({
+      nameJa: '奥多摩わさび本舗 山城屋',
+      nameEn: 'Okutama Wasabi Honpo Yamashiroya',
+      address: '東京都西多摩郡奥多摩町氷川717-3',
+      latitude: 35.80679970833439,
+      longitude: 139.0969139801638,
+      coordinatePrecision: 'approximate',
+      coordinateSource: {
+        name: 'Google Maps（山城屋公式店舗案内の埋め込み地図）',
+        url: 'https://www.google.com/maps/search/?api=1&query=35.80679970833439%2C139.0969139801638',
+        sourceType: 'business',
+        retrievedAt: '2026-08-28',
+        verificationStatus: 'needs_confirmation',
+        originalId: 'google-maps-0xdbddbe4d41df1fb8',
+      },
+      foodCultureIds: ['wasabi-okutama'],
+      type: 'shop',
+      origin: 'source',
+      source: {
+        name: '奥多摩わさび本舗 山城屋（公式店舗案内）',
+        url: 'https://www.yamasiroya.co.jp/shop.html',
+        sourceType: 'official_web',
+        retrievedAt: '2026-08-28',
+        verificationStatus: 'needs_confirmation',
+        originalId: 'yamashiroya',
+      },
+      visitorInformation: {
+        phone: '0428-83-2368',
+        shopHours: { opens: '09:00', closes: '17:00' },
+        phoneHours: {
+          opens: '09:00',
+          closes: '16:30',
+          unavailableOn: ['sunday', 'public_holiday'],
+        },
+        access: { stationJa: 'JR「奥多摩駅」', walkMinutes: 3 },
+        parking: { spaces: 12, largeVehicles: true },
+        productCategories: ['pickled-wasabi', 'fresh-wasabi'],
+        yearEndClosure: {
+          verificationStatus: 'conflict',
+          statements: [
+            {
+              value: '12月30日～1月4日',
+              source: { url: 'https://www.yamasiroya.co.jp/shop.html' },
+            },
+            {
+              value: '12月30日～1月5日',
+              source: { url: 'https://www.yamasiroya.co.jp/' },
+            },
+          ],
+        },
+      },
+    });
+    expect(yamashiroya?.source.license).toContain('All Rights Reserved');
+    expect(yamashiroya?.source).not.toHaveProperty('confirmedAt');
+    expect(yamashiroya?.coordinateSource?.license).toContain('not open data');
+    expect(yamashiroya?.coordinateSource?.license).toContain('not field-verified');
+    expect(yamashiroya?.visitorInformation?.yearEndClosure?.statements).toHaveLength(2);
+    expect(getFoodCultureById('wasabi-okutama')?.placeIds).toContain('yamashiroya');
   });
 
   it('relation helpers return the linked records', () => {
@@ -196,6 +264,11 @@ describe('seed data contract (#2)', () => {
       if (p.coordinateSource?.sourceUpdatedAt) dates.push(p.coordinateSource.sourceUpdatedAt);
       if (p.coordinateSource?.confirmedAt) dates.push(p.coordinateSource.confirmedAt);
       if (p.coordinateSource?.retrievedAt) dates.push(p.coordinateSource.retrievedAt);
+      for (const statement of p.visitorInformation?.yearEndClosure?.statements ?? []) {
+        if (statement.source.sourceUpdatedAt) dates.push(statement.source.sourceUpdatedAt);
+        if (statement.source.confirmedAt) dates.push(statement.source.confirmedAt);
+        if (statement.source.retrievedAt) dates.push(statement.source.retrievedAt);
+      }
     }
     for (const d of dates) {
       expect(Number.isNaN(Date.parse(d)), `${d} is not parseable`).toBe(false);

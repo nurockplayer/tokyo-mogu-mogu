@@ -6,6 +6,12 @@
  * filesystem/process APIs, and generator code.
  */
 import type { Locale } from '../../i18n';
+import { PLACES } from '../../data/seed-places';
+import type {
+  Place,
+  PlaceSourceConflictStatement,
+  PlaceVisitorInformation,
+} from '../../data/model';
 import type {
   JourneyPresentation,
   ReferenceAssetId,
@@ -23,6 +29,97 @@ const localized = (ja: string, en: string, zhTW: string): LocalizedText => ({
   en,
   'zh-TW': zhTW,
 });
+
+function canonicalPlace(id: string): Place {
+  const place = PLACES.find((candidate) => candidate.id === id);
+  if (!place) throw new Error(`Missing canonical Place for presentation: ${id}`);
+  return place;
+}
+
+function canonicalVisitorInformation(place: Place): PlaceVisitorInformation {
+  if (!place.visitorInformation) {
+    throw new Error(`Missing canonical visitor information for presentation: ${place.id}`);
+  }
+  return place.visitorInformation;
+}
+
+const yamashiroyaPlace = canonicalPlace('yamashiroya');
+const yamashiroyaVisitor = canonicalVisitorInformation(yamashiroyaPlace);
+
+const yamashiroyaName = localized(
+  yamashiroyaPlace.nameJa,
+  yamashiroyaPlace.nameEn,
+  yamashiroyaPlace.nameJa,
+);
+
+const productCategoryCopy: Record<string, LocalizedText> = {
+  'pickled-wasabi': localized('わさび漬', 'pickled wasabi', '山葵漬'),
+  'fresh-wasabi': localized('生わさび', 'fresh wasabi', '新鮮山葵'),
+};
+
+export function localizePlaceProductCategories(
+  categoryIds: readonly string[],
+): LocalizedText {
+  const categories = categoryIds.map((categoryId) => {
+    const copy = productCategoryCopy[categoryId];
+    if (!copy) throw new Error(`Missing product-category presentation: ${categoryId}`);
+    return copy;
+  });
+  return localized(
+    categories.map((category) => category.ja).join('・'),
+    categories.map((category) => category.en).join(' and '),
+    categories.map((category) => category['zh-TW']).join('・'),
+  );
+}
+
+export function localizePlaceClosureConflict(
+  statements: readonly PlaceSourceConflictStatement[],
+): LocalizedText {
+  if (statements.length < 2) {
+    throw new Error('Closure conflict presentation requires at least two source statements.');
+  }
+  const sourceValues = statements.map((statement) => statement.value);
+  const localizedValues = sourceValues.map((value) => {
+    const match = /^(\d+)月(\d+)日～(\d+)月(\d+)日$/.exec(value);
+    if (!match) return localized(value, value, value);
+    const [, startMonth, startDay, endMonth, endDay] = match;
+    const englishMonths: Record<string, string> = {
+      '1': 'Jan', '2': 'Feb', '3': 'Mar', '4': 'Apr',
+      '5': 'May', '6': 'Jun', '7': 'Jul', '8': 'Aug',
+      '9': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec',
+    };
+    return localized(
+      value,
+      `${englishMonths[startMonth]} ${startDay}–${englishMonths[endMonth]} ${endDay}`,
+      `${startMonth} 月 ${startDay} 日～${endMonth} 月 ${endDay} 日`,
+    );
+  });
+  return localized(
+    `年末年始（公式情報の「${sourceValues.join('」／「')}」が不一致。最新情報を確認）`,
+    `Year-end/New Year closure (official sources conflict: ${localizedValues.map((value) => value.en).join(' / ')}; check current information)`,
+    `年末年初休業（官方資訊記載不一致：${localizedValues.map((value) => value['zh-TW']).join('／')}；請確認最新資訊）`,
+  );
+}
+
+const yamashiroyaProducts = localizePlaceProductCategories(
+  yamashiroyaVisitor.productCategories ?? [],
+);
+
+const yamashiroyaClosureConflict = localizePlaceClosureConflict(
+  yamashiroyaVisitor.yearEndClosure?.statements ?? [],
+);
+
+const yamashiroyaLead = localized(
+  `${yamashiroyaProducts.ja}を扱う直売店`,
+  `A direct shop for ${yamashiroyaProducts.en}`,
+  `販售${yamashiroyaProducts['zh-TW']}的直營店`,
+);
+
+const yamashiroyaStoryDescription = localized(
+  `${yamashiroyaPlace.nameJa}の直売店。${yamashiroyaProducts.ja}を扱う`,
+  `The ${yamashiroyaPlace.nameEn} shop carries ${yamashiroyaProducts.en.toLowerCase()}`,
+  `${yamashiroyaPlace.nameJa}直營店，販售${yamashiroyaProducts['zh-TW']}`,
+);
 
 const editorialReferenceNotes: Record<Locale, string> = {
   ja: '掲載内容は参考情報で、未確認の場合があります。訪問前に各施設の公式情報をご確認ください。',
@@ -106,7 +203,11 @@ const spot = (
 export const demoSpots: Record<string, SpotPresentation> = {
   'okutama-tourism-office': spot('okutama-tourism-office', 'tourismOfficeExterior', ['tourismOffice', 'wasapy', 'station', 'valley'], { ja: { name: '奥多摩観光案内所', lead: '旅の情報を確認する立ち寄り先', description: '奥多摩の観光情報に出会う、旅の最初の立ち寄り先です。' }, en: { name: 'Okutama Tourist Information Center', lead: 'A stop for checking visitor information', description: 'A first stop for discovering Okutama visitor information.' }, 'zh-TW': { name: '奧多摩觀光案內所', lead: '確認旅遊資訊的停靠點', description: '認識奧多摩旅遊資訊的第一個停靠點。' } }),
   akabeko: spot('akabeko', 'akabeko', ['akabekoYamame', 'akabekoYamameDetail', 'wasabiGelato', 'okutamaKitchenDetail'], { ja: { name: '炉ばた あかべこ', lead: '地域の味に出会う炉ばた料理店', description: '地域の食材を味わうための、参考スポットです。' }, en: { name: 'Robata Akabeko', lead: 'A hearth-grill restaurant for local flavors', description: 'A reference stop for tasting ingredients from the area.' }, 'zh-TW': { name: '爐端燒 AKABEKO', lead: '遇見在地風味的爐端料理店', description: '品嚐在地食材的參考景點。' } }),
-  yamashiroya: spot('yamashiroya', 'yamashiroya', ['yamashiroyaGoods', 'yamashiroyaSign'], { ja: { name: '山城屋', lead: 'わさび加工の店を訪ねる', description: 'わさびにまつわる品を探すための、参考スポットです。' }, en: { name: 'Yamashiroya', lead: 'Visit a wasabi-specialty shop', description: 'A reference stop for finding wasabi-related goods.' }, 'zh-TW': { name: '山城屋', lead: '造訪山葵加工專門店', description: '尋找山葵相關商品的參考景點。' } }),
+  yamashiroya: spot('yamashiroya', 'yamashiroya', ['yamashiroyaGoods', 'yamashiroyaSign'], {
+    ja: { name: yamashiroyaName.ja, lead: yamashiroyaLead.ja, description: `${yamashiroyaPlace.nameJa}の公式店舗案内に基づく参考情報です。` },
+    en: { name: yamashiroyaName.en, lead: yamashiroyaLead.en, description: `Reference information based on ${yamashiroyaPlace.nameEn}’s official shop guide.` },
+    'zh-TW': { name: yamashiroyaName['zh-TW'], lead: yamashiroyaLead['zh-TW'], description: `依據${yamashiroyaPlace.nameJa}官方店鋪資訊整理的參考內容。` },
+  }),
   'wasabi-kitchen': spot('wasabi-kitchen', 'wasabiKitchen', ['station', 'wasabiGelato'], { ja: { name: 'わさび食堂', lead: '駅前で味わうわさびの一皿', description: 'わさびの味を試すための、参考スポットです。' }, en: { name: 'Wasabi Shokudo', lead: 'A wasabi dish near the station', description: 'A reference stop for trying a wasabi flavor.' }, 'zh-TW': { name: '山葵食堂', lead: '在車站前品嚐一道山葵料理', description: '嘗試山葵風味的參考景點。' } }),
   'okutama-kitchen': spot('okutama-kitchen', 'okutamaKitchen', ['wasabiGelato', 'okutamaKitchenDetail'], { ja: { name: '奥多摩の台所', lead: '歩き旅の途中でひと休み', description: '地域の味わいに出会うための、参考スポットです。' }, en: { name: 'Okutama no Daidokoro', lead: 'A pause along a walking journey', description: 'A reference stop for meeting local flavors.' }, 'zh-TW': { name: '奧多摩的廚房', lead: '步行旅途中的小歇', description: '遇見地方風味的參考景點。' } }),
   'hikawa-valley': spot('hikawa-valley', 'valley', ['river', 'valleyBridge'], { ja: { name: '氷川渓谷', lead: '水と土地に触れる散策', description: '食文化を支える水辺の風景に出会う、参考スポットです。' }, en: { name: 'Hikawa Valley', lead: 'A walk that meets water and landscape', description: 'A reference stop for waterside scenery behind the food culture.' }, 'zh-TW': { name: '冰川溪谷', lead: '親近水與土地的散步', description: '遇見支撐飲食文化的水岸風景之參考景點。' } }),
@@ -164,7 +265,7 @@ export const routeStepText: Record<string, RouteStepText[]> = {
     { spotId: 'wasabi-experience', walk: localized('集合 8:30', 'Meet at 8:30', '8:30 集合'), description: localized('わさび田プライベートツアー\n・2〜2.5時間・1日1組', 'Private wasabi-field tour · 2–2.5 hours · One group daily', '山葵田私人導覽・2～2.5 小時・每日一組') },
     { spotId: 'okutama-station', walk: localized('御岳駅から電車', 'Train from Mitake Station', '從御嶽站搭電車'), description: localized('青梅線 約20分', 'About 20 min on the Ome Line', '青梅線約 20 分鐘') },
     { spotId: 'akabeko', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: localized('昼食・13:30 L.O.注意', 'Lunch · Last order 13:30', '午餐・13:30 最後點餐') },
-    { spotId: 'yamashiroya', walk: localized('徒歩 約 3 分', 'About 3 min on foot', '步行約 3 分鐘'), description: localized('わさび漬・チーズわさび', 'Pickled and cheese wasabi', '山葵漬・起司山葵') },
+    { spotId: 'yamashiroya', description: yamashiroyaProducts },
     { spotId: 'port-okutama', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: localized('締めのコーヒー', 'Coffee to close the journey', '以咖啡為旅程收尾') },
   ],
   'demo-okutama-yamame:half-day': [
@@ -216,7 +317,18 @@ export interface ReferenceSpotDetail {
   }>;
   description: LocalizedText;
   information: Array<{
-    fieldId: 'name' | 'address' | 'phone' | 'verification_note';
+    fieldId:
+      | 'name'
+      | 'address'
+      | 'phone'
+      | 'hours'
+      | 'phone_hours'
+      | 'access'
+      | 'parking'
+      | 'price_availability'
+      | 'closed_days'
+      | 'official_current_url'
+      | 'verification_note';
     icon: 'clock' | 'train' | 'information';
     label: LocalizedText;
     value: LocalizedText;
@@ -282,6 +394,127 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
       '・營業時間、服務內容與交通方式，請於造訪前以奧多摩觀光協會的官方資訊為準。',
     )],
   },
+  yamashiroya: {
+    tags: [
+      { tagId: 'wasabi-specialty-shop', color: '#8FAE5C', label: localized('わさび専門店', 'Wasabi specialty shop', '山葵專門店') },
+      { tagId: 'official-source', color: '#F0A24C', label: localized('公式情報参照', 'Official source', '參考官方資訊') },
+      { tagId: 'confirmation-pending', color: '#5D9BEF', label: localized('確認中', 'Confirmation pending', '確認中') },
+    ],
+    description: localized(
+      `${yamashiroyaPlace.nameJa}の公式店舗案内に基づく参考情報です。${yamashiroyaProducts.ja}を扱う直売店です。`,
+      `Reference information based on ${yamashiroyaPlace.nameEn}’s official shop guide. The direct shop carries ${yamashiroyaProducts.en.toLowerCase()}.`,
+      `依據${yamashiroyaPlace.nameJa}官方店鋪資訊整理的參考內容。直營店販售${yamashiroyaProducts['zh-TW']}。`,
+    ),
+    information: [
+      {
+        fieldId: 'name',
+        icon: 'information',
+        label: localized('店舗', 'Place', '店鋪'),
+        value: yamashiroyaName,
+      },
+      {
+        fieldId: 'address',
+        icon: 'information',
+        label: localized('所在地', 'Address', '地址'),
+        value: localized(yamashiroyaPlace.address, yamashiroyaPlace.address, yamashiroyaPlace.address),
+      },
+      {
+        fieldId: 'phone',
+        icon: 'information',
+        label: localized('電話', 'Phone', '電話'),
+        value: localized(yamashiroyaVisitor.phone ?? '', yamashiroyaVisitor.phone ?? '', yamashiroyaVisitor.phone ?? ''),
+      },
+      {
+        fieldId: 'hours',
+        icon: 'clock',
+        label: localized('直売店', 'Shop hours', '直營店'),
+        value: localized(
+          `${Number(yamashiroyaVisitor.shopHours?.opens.slice(0, 2))}:00〜${yamashiroyaVisitor.shopHours?.closes}`,
+          `${yamashiroyaVisitor.shopHours?.opens}–${yamashiroyaVisitor.shopHours?.closes}`,
+          `${yamashiroyaVisitor.shopHours?.opens}–${yamashiroyaVisitor.shopHours?.closes}`,
+        ),
+      },
+      {
+        fieldId: 'phone_hours',
+        icon: 'clock',
+        label: localized('電話受付', 'Phone hours', '電話受理'),
+        value: localized(
+          `日・祝日を除く ${Number(yamashiroyaVisitor.phoneHours?.opens.slice(0, 2))}:00〜${yamashiroyaVisitor.phoneHours?.closes}`,
+          `${yamashiroyaVisitor.phoneHours?.opens}–${yamashiroyaVisitor.phoneHours?.closes}, except Sundays and public holidays`,
+          `${yamashiroyaVisitor.phoneHours?.opens}–${yamashiroyaVisitor.phoneHours?.closes}，週日及國定假日除外`,
+        ),
+      },
+      {
+        fieldId: 'access',
+        icon: 'train',
+        label: localized('アクセス', 'Access', '交通'),
+        value: localized(
+          `${yamashiroyaVisitor.access?.stationJa}より徒歩${yamashiroyaVisitor.access?.walkMinutes}分`,
+          `${yamashiroyaVisitor.access?.walkMinutes} min on foot from JR Okutama Station`,
+          `從 JR 奧多摩站步行${yamashiroyaVisitor.access?.walkMinutes}分鐘`,
+        ),
+      },
+      {
+        fieldId: 'parking',
+        icon: 'information',
+        label: localized('駐車場', 'Parking', '停車場'),
+        value: localized(
+          `あり（${yamashiroyaVisitor.parking?.spaces}台・大型車可）`,
+          `${yamashiroyaVisitor.parking?.spaces} spaces; large vehicles accepted`,
+          `有（${yamashiroyaVisitor.parking?.spaces}個車位・大型車可）`,
+        ),
+      },
+      {
+        fieldId: 'price_availability',
+        icon: 'information',
+        label: localized('取扱', 'Products', '販售商品'),
+        value: yamashiroyaProducts,
+      },
+      {
+        fieldId: 'closed_days',
+        icon: 'clock',
+        label: localized('休業', 'Closure', '休業'),
+        value: yamashiroyaClosureConflict,
+      },
+      {
+        fieldId: 'official_current_url',
+        icon: 'information',
+        label: localized('公式情報', 'Official source', '官方資訊'),
+        value: localized(yamashiroyaPlace.source.url ?? '', yamashiroyaPlace.source.url ?? '', yamashiroyaPlace.source.url ?? ''),
+      },
+      {
+        fieldId: 'verification_note',
+        icon: 'information',
+        label: localized('確認状況', 'Verification status', '確認狀態'),
+        value: localized(
+          '掲載内容は現在確認中です。営業時間・電話受付・アクセス・駐車場・休業日は、訪問前に公式情報をご確認ください。',
+          'This listing is still being confirmed. Check current official information for hours, phone availability, access, parking, and closures before visiting.',
+          '刊載內容仍在確認中。造訪前請以官方資訊確認營業時間、電話受理時間、交通、停車與休業日。',
+        ),
+      },
+    ],
+    guide: {
+      title: localized('公式店舗案内', 'Official shop guide', '官方店鋪資訊'),
+      body: localized(
+        '掲載内容は現在確認中です。訪問前に山城屋の公式店舗案内で最新情報をご確認ください。',
+        'This listing is still being confirmed. Check Yamashiroya’s official shop guide before visiting.',
+        '刊載內容仍在確認中。造訪前請查看山城屋官方店鋪資訊。',
+      ),
+      action: localized('公式店舗案内を確認する', 'Check official shop guide', '查看官方店鋪資訊'),
+    },
+    caution: [
+      localized(
+        '・直売店営業時間、電話受付、アクセス、駐車場は変更される場合があります。訪問前に公式情報をご確認ください。',
+        '• Shop hours, phone availability, access, and parking can change. Check official information before visiting.',
+        '・直營店營業時間、電話受理時間、交通與停車資訊可能變更。造訪前請查看官方資訊。',
+      ),
+      localized(
+        `・${yamashiroyaClosureConflict.ja}`,
+        `• ${yamashiroyaClosureConflict.en}`,
+        `・${yamashiroyaClosureConflict['zh-TW']}`,
+      ),
+    ],
+  },
 };
 
 export interface StorySpotReference {
@@ -313,11 +546,7 @@ export const storySpotGroups: Record<string, {
       {
         referenceId: 'yamashiroya', spotId: 'yamashiroya', imageAssetId: 'yamashiroya', badgeColor: '#E98A1C',
         badge: { ja: 'ショップ・雑貨', en: 'Shop', 'zh-TW': '商店・雜貨' },
-        description: {
-          ja: 'ショップ・わさび加工の老舗。創業172年、6代目が受け継ぐ',
-          en: 'A 172-year-old wasabi shop now carried on by its sixth generation',
-          'zh-TW': '創業 172 年、傳承至第六代的山葵加工老店',
-        },
+        description: yamashiroyaStoryDescription,
       },
       {
         referenceId: 'wasabi-kitchen', spotId: 'wasabi-kitchen', imageAssetId: 'wasabiKitchen', badgeColor: '#E98A1C',
@@ -388,11 +617,7 @@ export const storySpotGroups: Record<string, {
       {
         referenceId: 'yamashiroya', spotId: 'yamashiroya', imageAssetId: 'yamashiroyaGoods', badgeColor: '#E98A1C',
         badge: { ja: 'ショップ・雑貨', en: 'Shop', 'zh-TW': '商店・雜貨' },
-        description: {
-          ja: 'わさび漬・生わさび・チーズわさびの老舗',
-          en: 'A long-running shop for pickled, fresh, and cheese wasabi',
-          'zh-TW': '販售山葵漬、生山葵與起司山葵的老店',
-        },
+        description: yamashiroyaStoryDescription,
       },
     ],
     nature: [
