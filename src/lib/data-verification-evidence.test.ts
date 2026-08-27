@@ -93,6 +93,93 @@ describe('data verification evidence manifest (#334)', () => {
     ).not.toThrow();
   });
 
+  it('records final Japanese Yamashiroya app evidence and the official-site rights omission (#323)', () => {
+    const repositoryClaims = buildRepositoryLedgerClaims();
+    const app = DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.find(
+      (item) => item.evidenceId === 'yamashiroya-app-ja-375',
+    );
+    const routeApp = DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.find(
+      (item) => item.evidenceId === 'yamashiroya-route-app-ja-375',
+    );
+    const wasabiStoryApp = DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.find(
+      (item) => item.evidenceId === 'yamashiroya-story-wasabi-app-ja-375',
+    );
+    const yamameStoryApp = DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.find(
+      (item) => item.evidenceId === 'yamashiroya-story-yamame-app-ja-375',
+    );
+    const sourceOmission = DATA_VERIFICATION_EVIDENCE_MANIFEST.omissions.find(
+      (item) => item.omissionId === 'yamashiroya-source-rights-restricted',
+    );
+
+    expect(app).toMatchObject({
+      kind: 'app',
+      entityId: 'yamashiroya',
+      locale: 'ja',
+      viewport: { width: 375 },
+      path: 'docs/data-evidence/yamashiroya/app-ja-375.webp',
+      capturedAt: '2026-08-28',
+    });
+    expect(app?.claimIds).toEqual(expect.arrayContaining([
+      'place:yamashiroya:name:ja',
+      'place:yamashiroya:address:ja',
+      'place:yamashiroya:phone:ja',
+      'place:yamashiroya:hours:ja',
+      'place:yamashiroya:access:ja',
+      'place:yamashiroya:parking:ja',
+      'place:yamashiroya:closed_days:ja',
+    ]));
+    expect(app?.claimIds).not.toContain(
+      'spot:yamashiroya:presentation:verification_note:ja',
+    );
+    expect(routeApp).toMatchObject({
+      kind: 'app',
+      entityId: 'okutama-wasabi-journey',
+      locale: 'ja',
+      viewport: { width: 375, height: 812 },
+      path: 'docs/data-evidence/yamashiroya/route-app-ja-375.webp',
+    });
+    expect(routeApp?.claimIds).toContain(
+      'route:okutama-wasabi-journey:full-day:step:yamashiroya:factual:product-availability',
+    );
+    expect(wasabiStoryApp).toMatchObject({
+      kind: 'app',
+      entityId: 'wasabi-okutama',
+      locale: 'ja',
+      path: 'docs/data-evidence/yamashiroya/story-wasabi-app-ja-375.webp',
+    });
+    expect(wasabiStoryApp?.claimIds).toContain(
+      'story:wasabi-okutama:story.spot.yamashiroya.product-availability',
+    );
+    expect(yamameStoryApp).toMatchObject({
+      kind: 'app',
+      entityId: 'yamame-okutama',
+      locale: 'ja',
+      path: 'docs/data-evidence/yamashiroya/story-yamame-app-ja-375.webp',
+    });
+    expect(yamameStoryApp?.claimIds).toContain(
+      'story:yamame-okutama:story.spot.yamashiroya.product-availability',
+    );
+    expect(sourceOmission).toMatchObject({
+      kind: 'source',
+      entityId: 'yamashiroya',
+      sourceUrl: 'https://www.yamasiroya.co.jp/shop.html',
+      recordedAt: '2026-08-28',
+    });
+    expect(sourceOmission?.claimIds).toEqual(expect.arrayContaining([
+      'place:yamashiroya:address:ja',
+      'place:yamashiroya:coordinates',
+      'place:yamashiroya:phone:ja',
+      'place:yamashiroya:hours:ja',
+      'place:yamashiroya:closed_days:ja',
+    ]));
+    expect(() =>
+      validateDataVerificationEvidenceManifest(
+        DATA_VERIFICATION_EVIDENCE_MANIFEST,
+        repositoryClaims,
+      ),
+    ).not.toThrow();
+  });
+
   it.each([
     {
       name: 'orphan claim reference',

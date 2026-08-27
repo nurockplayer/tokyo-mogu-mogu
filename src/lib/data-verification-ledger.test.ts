@@ -282,6 +282,91 @@ describe('repository data verification ledger (#333)', () => {
     expect(phone?.confirmedAt).toBeUndefined();
   });
 
+  it('traces Yamashiroya Spot, Route, and Story claims to the canonical Place (#323)', () => {
+    const claims = buildRepositoryLedgerClaims();
+    const expectedSource = '奥多摩わさび本舗 山城屋（公式店舗案内）';
+
+    for (const [claimId, canonicalValue, displayedValue] of [
+      ['place:yamashiroya:name:ja', '奥多摩わさび本舗 山城屋', '奥多摩わさび本舗 山城屋'],
+      ['place:yamashiroya:address:ja', '東京都西多摩郡奥多摩町氷川717-3', '東京都西多摩郡奥多摩町氷川717-3'],
+      ['place:yamashiroya:phone:ja', '0428-83-2368', '0428-83-2368'],
+      ['place:yamashiroya:hours:ja', '09:00–17:00', '9:00〜17:00'],
+      ['place:yamashiroya:access:ja', 'JR「奥多摩駅」 / 徒歩3分', 'JR「奥多摩駅」より徒歩3分'],
+      ['place:yamashiroya:parking:ja', '12台 / 大型車可', 'あり（12台・大型車可）'],
+      ['place:yamashiroya:official_current_url:ja', 'https://www.yamasiroya.co.jp/shop.html', 'https://www.yamasiroya.co.jp/shop.html'],
+    ] as const) {
+      expect(claims.find((claim) => claim.claimId === claimId)).toMatchObject({
+        canonicalValue,
+        displayedValue,
+        origin: 'source',
+        verification: 'needs_confirmation',
+        primarySource: expectedSource,
+        primarySourceUrl: 'https://www.yamasiroya.co.jp/shop.html',
+        retrievedAt: '2026-08-28',
+        confirmedAt: undefined,
+        canonicalSourceFile: 'src/data/seed-places.ts',
+        presentationSourceFile: 'src/features/netlify-parity/factual-presentation.ts',
+      });
+    }
+
+    expect(
+      claims.find((claim) => claim.claimId === 'route:okutama-wasabi-journey:full-day:step:yamashiroya:factual:product-availability'),
+    ).toMatchObject({
+      canonicalValue: 'pickled-wasabi, fresh-wasabi',
+      displayedValue: 'わさび漬・生わさび',
+      origin: 'source',
+      verification: 'needs_confirmation',
+      primarySource: expectedSource,
+    });
+    expect(
+      claims.find((claim) => claim.claimId === 'story:wasabi-okutama:story.spot.yamashiroya.product-availability'),
+    ).toMatchObject({
+      canonicalValue: 'pickled-wasabi, fresh-wasabi',
+      displayedValue: '奥多摩わさび本舗 山城屋の直売店。わさび漬・生わさびを扱う',
+      origin: 'source',
+      verification: 'needs_confirmation',
+      primarySource: expectedSource,
+    });
+    expect(
+      claims.find((claim) => claim.claimId === 'story:wasabi-okutama:story.spot.yamashiroya.business-age'),
+    ).toMatchObject({ verification: 'unknown', canonicalValue: undefined, displayedValue: undefined });
+    expect(
+      claims.find((claim) => claim.claimId === 'story:wasabi-okutama:story.spot.yamashiroya.proprietor-generation'),
+    ).toMatchObject({ verification: 'unknown', canonicalValue: undefined, displayedValue: undefined });
+  });
+
+  it('keeps the Jan 4 / Jan 5 Yamashiroya closure discrepancy as a conflict (#323)', () => {
+    const claims = buildRepositoryLedgerClaims();
+    const conflict = claims.find(
+      (claim) => claim.claimId === 'place:yamashiroya:closed_days:ja',
+    );
+
+    expect(conflict).toMatchObject({
+      canonicalValue: '12月30日～1月4日 | 12月30日～1月5日',
+      displayedValue: '年末年始（公式情報の「12月30日～1月4日」／「12月30日～1月5日」が不一致。最新情報を確認）',
+      origin: 'source',
+      verification: 'conflict',
+      finding: 'mismatch',
+      retrievedAt: '2026-08-28',
+      confirmedAt: undefined,
+      timeSensitive: true,
+    });
+    expect(
+      claims.find((claim) => claim.claimId === 'place:yamashiroya:closed_days:source:shop'),
+    ).toMatchObject({
+      canonicalValue: '12月30日～1月4日',
+      verification: 'needs_confirmation',
+      primarySourceUrl: 'https://www.yamasiroya.co.jp/shop.html',
+    });
+    expect(
+      claims.find((claim) => claim.claimId === 'place:yamashiroya:closed_days:source:homepage-footer'),
+    ).toMatchObject({
+      canonicalValue: '12月30日～1月5日',
+      verification: 'needs_confirmation',
+      primarySourceUrl: 'https://www.yamasiroya.co.jp/',
+    });
+  });
+
   it('inventories factual presentation records in every visible locale', () => {
     const claims = buildRepositoryLedgerClaims();
 

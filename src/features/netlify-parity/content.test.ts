@@ -1,12 +1,20 @@
 import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
+import { PLACES } from '../../data/seed-places';
 import {
   demoJourneys,
   demoSpots,
   referenceAssetFiles,
   referenceCopy,
 } from './content';
+import {
+  localizePlaceClosureConflict,
+  localizePlaceProductCategories,
+  referenceSpotDetails,
+  routeStepText,
+  storySpotGroups,
+} from './factual-presentation';
 
 const locales = ['ja', 'en', 'zh-TW'] as const;
 
@@ -168,6 +176,66 @@ describe('Netlify parity presentation content', () => {
         expect(visibleCopy).toContain(phrase);
       }
     }
+  });
+
+  it('derives Yamashiroya product and closure presentation from the canonical Place (#323)', () => {
+    const place = PLACES.find((candidate) => candidate.id === 'yamashiroya');
+    const visitor = place?.visitorInformation;
+    expect(place).toBeDefined();
+    expect(visitor).toBeDefined();
+
+    const products = localizePlaceProductCategories(visitor?.productCategories ?? []);
+    const closure = localizePlaceClosureConflict(
+      visitor?.yearEndClosure?.statements ?? [],
+    );
+    const detail = referenceSpotDetails.yamashiroya;
+    const routeStep = routeStepText['demo-okutama-wasabi:full-day'].find(
+      (step) => step.spotId === 'yamashiroya',
+    );
+
+    expect(products).toEqual({
+      ja: 'わさび漬・生わさび',
+      en: 'pickled wasabi and fresh wasabi',
+      'zh-TW': '山葵漬・新鮮山葵',
+    });
+    if (!detail) throw new Error('Missing Yamashiroya Spot presentation.');
+    expect(
+      detail.information.find((row) => row.fieldId === 'price_availability')?.value,
+    ).toEqual(products);
+    expect(
+      detail.information.find((row) => row.fieldId === 'closed_days')?.value,
+    ).toEqual(closure);
+    expect(closure.en).toContain('Dec 30–Jan 4');
+    expect(closure.en).toContain('Dec 30–Jan 5');
+    expect(closure.en).not.toMatch(/[年月日]/);
+    expect(detail.caution[1]).toEqual({
+      ja: `・${closure.ja}`,
+      en: `• ${closure.en}`,
+      'zh-TW': `・${closure['zh-TW']}`,
+    });
+    for (const locale of locales) {
+      expect(demoSpots.yamashiroya.copy[locale].lead).toContain(products[locale]);
+    }
+    expect(routeStep).toMatchObject({ description: products });
+    expect(routeStep).not.toHaveProperty('walk');
+
+    for (const journeyId of ['demo-okutama-wasabi', 'demo-okutama-yamame']) {
+      const storyReference = storySpotGroups[journeyId].nearby.find(
+        (reference) => reference.spotId === 'yamashiroya',
+      );
+      expect(storyReference?.description?.ja).toContain(products.ja);
+      expect(storyReference?.description?.en).toContain(products.en);
+      expect(storyReference?.description?.['zh-TW']).toContain(products['zh-TW']);
+    }
+
+    const changedClosure = localizePlaceClosureConflict(
+      (visitor?.yearEndClosure?.statements ?? []).map((statement, index) => ({
+        ...statement,
+        value: `source-value-${index + 1}`,
+      })),
+    );
+    expect(changedClosure.ja).toContain('source-value-1');
+    expect(changedClosure.ja).toContain('source-value-2');
   });
 
   it('resolves every presentation asset to a bundled local file', () => {

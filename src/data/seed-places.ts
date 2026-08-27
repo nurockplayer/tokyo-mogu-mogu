@@ -84,6 +84,26 @@ const AKIRUNO_SEOTO_COORDINATE_SOURCE = {
   originalId: 'geocoded-akiruno-seoto-no-yu',
 };
 
+const YAMASHIROYA_SHOP_SOURCE = {
+  name: '奥多摩わさび本舗 山城屋（公式店舗案内）',
+  url: 'https://www.yamasiroya.co.jp/shop.html',
+  license: 'All Rights Reserved（参考情報としてのみ利用・スクリーンショット再利用不可）',
+  sourceType: 'official_web' as const,
+  retrievedAt: '2026-08-28',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'yamashiroya',
+};
+
+const YAMASHIROYA_HOME_SOURCE = {
+  name: '奥多摩わさび本舗 山城屋（公式ホームページ下部）',
+  url: 'https://www.yamasiroya.co.jp/',
+  license: 'All Rights Reserved（参考情報としてのみ利用・スクリーンショット再利用不可）',
+  sourceType: 'official_web' as const,
+  retrievedAt: '2026-08-28',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'yamashiroya-homepage-footer',
+};
+
 export const PLACES: Place[] = [
   {
     id: 'okutama-wasabi-field',
@@ -125,6 +145,48 @@ export const PLACES: Place[] = [
       retrievedAt: '2026-08-26',
       verificationStatus: 'needs_confirmation',
       originalId: 'okutama-tourism-office',
+    },
+    origin: 'source',
+  },
+  {
+    id: 'yamashiroya',
+    nameJa: '奥多摩わさび本舗 山城屋',
+    nameEn: 'Okutama Wasabi Honpo Yamashiroya',
+    address: '東京都西多摩郡奥多摩町氷川717-3',
+    // Precise point from the operator's embedded access map, checked 2026-08-28.
+    latitude: 35.80679970833439,
+    longitude: 139.0969139801638,
+    coordinatePrecision: 'precise',
+    coordinateSource: YAMASHIROYA_SHOP_SOURCE,
+    foodCultureIds: ['wasabi-okutama'],
+    type: 'shop',
+    source: YAMASHIROYA_SHOP_SOURCE,
+    visitorInformation: {
+      phone: '0428-83-2368',
+      shopHours: { opens: '09:00', closes: '17:00' },
+      phoneHours: {
+        opens: '09:00',
+        closes: '16:30',
+        unavailableOn: ['sunday', 'public_holiday'],
+      },
+      access: { stationJa: 'JR「奥多摩駅」', walkMinutes: 3 },
+      parking: { spaces: 12, largeVehicles: true },
+      productCategories: ['pickled-wasabi', 'fresh-wasabi'],
+      yearEndClosure: {
+        verificationStatus: 'conflict',
+        statements: [
+          {
+            id: 'shop',
+            value: '12月30日～1月4日',
+            source: YAMASHIROYA_SHOP_SOURCE,
+          },
+          {
+            id: 'homepage-footer',
+            value: '12月30日～1月5日',
+            source: YAMASHIROYA_HOME_SOURCE,
+          },
+        ],
+      },
     },
     origin: 'source',
   },

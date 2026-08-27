@@ -122,6 +122,43 @@ export interface FoodCulture {
 
 export type PlaceType = 'shop' | 'restaurant' | 'farm' | 'brewery' | 'info-center' | 'other';
 
+export interface PlaceBusinessHours {
+  opens: string;
+  closes: string;
+}
+
+export interface PlaceSourceConflictStatement {
+  /** Stable statement identity within the canonical Place record. */
+  id: string;
+  /** Source wording retained without selecting or normalizing one variant. */
+  value: string;
+  source: DataSource;
+}
+
+/** Optional visitor-facing operational facts kept on the canonical Place. */
+export interface PlaceVisitorInformation {
+  phone?: string;
+  shopHours?: PlaceBusinessHours;
+  phoneHours?: PlaceBusinessHours & {
+    unavailableOn: Array<'sunday' | 'public_holiday'>;
+  };
+  access?: {
+    stationJa: string;
+    walkMinutes: number;
+  };
+  parking?: {
+    spaces: number;
+    largeVehicles: boolean;
+  };
+  /** Stable product-category IDs; localized presentation copy is derived elsewhere. */
+  productCategories?: string[];
+  /** Explicit unresolved closure statements from first-party sources. */
+  yearEndClosure?: {
+    verificationStatus: 'conflict';
+    statements: PlaceSourceConflictStatement[];
+  };
+}
+
 /**
  * A physical place where a user can experience one or more food cultures
  * (shop, restaurant, farm, brewery, information center, ...).
@@ -149,6 +186,8 @@ export interface Place {
   type: PlaceType;
   /** Provenance: source behind this place. */
   source: DataSource;
+  /** Structured operational facts from the same canonical Place authority. */
+  visitorInformation?: PlaceVisitorInformation;
   /** Whether this entry is real source data, editorial, or a demo fixture. */
   origin: DataOrigin;
 }

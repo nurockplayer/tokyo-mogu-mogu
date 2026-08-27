@@ -426,6 +426,7 @@ body:has(.reference-app) { overflow:hidden; }
 .reference-app .info-row .ic { width:20px; flex:none; display:flex; justify-content:center; padding-top:2px; color:var(--green); }
 .reference-app .info-row .ic svg { width:16px; height:16px; fill:var(--green); }
 .reference-app .info-row .k { color:var(--ink); width:64px; flex:none; }
+.reference-app .info-row > span:last-child { min-width:0; overflow-wrap:anywhere; }
 .reference-app .guide-box { background:#FDF8EC; margin-top:12px; padding:18px; }
 .reference-app .guide-box h2 { font-size:18px; }
 .reference-app .guide-box p { font-size:13.5px; line-height:1.9; margin-top:8px; }

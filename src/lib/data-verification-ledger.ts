@@ -422,6 +422,56 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
     sourceFile: SOURCE_FILES.presentation,
   });
 
+  const canonicalPlaceFact = (
+    place: (typeof places)[number],
+    fieldId: string,
+  ): { value: string; source: DataSource; verification: VerificationStatus } | undefined => {
+    const visitor = place.visitorInformation;
+    const defaultFact = (value: string | undefined) => value === undefined
+      ? undefined
+      : {
+          value,
+          source: place.source,
+          verification: deriveVerificationStatus(place.source, place.origin),
+        };
+
+    if (fieldId === 'name') return defaultFact(place.nameJa);
+    if (fieldId === 'address') return defaultFact(place.address);
+    if (fieldId === 'official_current_url') return defaultFact(place.source.url);
+    if (!visitor) return undefined;
+    if (fieldId === 'phone') return defaultFact(visitor.phone);
+    if (fieldId === 'hours' && visitor.shopHours) {
+      return defaultFact(`${visitor.shopHours.opens}–${visitor.shopHours.closes}`);
+    }
+    if (fieldId === 'phone_hours' && visitor.phoneHours) {
+      return defaultFact(
+        `${visitor.phoneHours.opens}–${visitor.phoneHours.closes} / unavailable: ${visitor.phoneHours.unavailableOn.join(', ')}`,
+      );
+    }
+    if (fieldId === 'access' && visitor.access) {
+      return defaultFact(`${visitor.access.stationJa} / 徒歩${visitor.access.walkMinutes}分`);
+    }
+    if (fieldId === 'parking' && visitor.parking) {
+      return defaultFact(
+        `${visitor.parking.spaces}台 / ${visitor.parking.largeVehicles ? '大型車可' : '大型車情報なし'}`,
+      );
+    }
+    if (
+      (fieldId === 'price_availability' || fieldId === 'product_availability')
+      && visitor.productCategories
+    ) {
+      return defaultFact(visitor.productCategories.join(', '));
+    }
+    if (fieldId === 'closed_days' && visitor.yearEndClosure) {
+      return {
+        value: visitor.yearEndClosure.statements.map((statement) => statement.value).join(' | '),
+        source: place.source,
+        verification: visitor.yearEndClosure.verificationStatus,
+      };
+    }
+    return undefined;
+  };
+
   const addCanonicalClaim = (input: Omit<LedgerClaimInput, 'comparisonExpected'>) => {
     inputs.push({ ...input, comparisonExpected: false });
   };
@@ -470,6 +520,26 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
         timeSensitive,
         timeSensitiveNote: timeSensitive ? 'Recheck against the named source before operational use.' : undefined,
         note: status === 'verified' ? undefined : 'Canonical value remains subject to its recorded verification status.',
+      });
+    }
+
+    for (const statement of place.visitorInformation?.yearEndClosure?.statements ?? []) {
+      addCanonicalClaim({
+        claimId: `place:${place.id}:closed_days:source:${statement.id}`,
+        ...base,
+        fieldId: `closed_days:source:${statement.id}`,
+        fieldLabel: `Year-end closure source statement (${statement.id})`,
+        canonical: canonicalValue(
+          statement.value,
+          place.origin,
+          statement.source,
+          deriveVerificationStatus(statement.source, place.origin),
+          SOURCE_FILES.places,
+        ),
+        timeSensitive: true,
+        timeSensitiveNote: 'Conflicting first-party closure statement; recheck the source before visiting.',
+        issues: ['#323', '#333'],
+        note: 'One side of an unresolved first-party conflict; this row does not select a winning value.',
       });
     }
   }
@@ -1065,27 +1135,71 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
           `Story factual claim ${factualClaim.claimId} has no stable presentation spot.`,
         );
       }
-      inputs.push({
-        claimId: `story:${journey.storyId}:${factualClaim.claimId}`,
-        entityType: 'Story',
-        entityId: journey.storyId,
-        entityName: presentationStory.storyTitle,
-        fieldId: factualClaim.claimId,
-        fieldLabel: factualClaim.fieldLabel,
-        comparisonExpected: false,
-        requiredUnknown: {
-          origin: 'demo',
-          surface: 'Story',
-          auditSourceFile: SOURCE_FILES.auditManifest,
-          note: `Factual assertion for ${factualClaim.spotId} is embedded in ${factualClaim.parentFieldId}; no claim-level source mapping exists.`,
-        },
-        timeSensitive: factualClaim.timeSensitive,
-        timeSensitiveNote: factualClaim.timeSensitive
-          ? 'Operational Story-card claim can change; no wall-clock threshold is inferred.'
-          : undefined,
-        issues: [...audit.issues],
-        note: 'Report-only unknown; the generator does not parse or copy the factual value from Story card prose.',
-      });
+      const mappedPlace = 'canonicalPlaceId' in factualClaim
+        ? places.find((place) => place.id === factualClaim.canonicalPlaceId)
+        : undefined;
+      const mappedFact = mappedPlace && 'canonicalFieldId' in factualClaim
+        ? canonicalPlaceFact(mappedPlace, factualClaim.canonicalFieldId)
+        : undefined;
+      const presentationReference = spotGroups
+        ? Object.values(spotGroups).flat().find(
+            (reference) => reference.spotId === factualClaim.spotId,
+          )
+        : undefined;
+      const presentationDescription = presentationReference?.description?.ja;
+
+      if (mappedPlace && mappedFact && presentationDescription) {
+        inputs.push({
+          claimId: `story:${journey.storyId}:${factualClaim.claimId}`,
+          entityType: 'Story',
+          entityId: journey.storyId,
+          entityName: presentationStory.storyTitle,
+          fieldId: factualClaim.claimId,
+          fieldLabel: factualClaim.fieldLabel,
+          comparisonExpected: false,
+          canonical: canonicalValue(
+            mappedFact.value,
+            mappedPlace.origin,
+            mappedFact.source,
+            mappedFact.verification,
+            SOURCE_FILES.places,
+          ),
+          presentation: presentationValue(
+            presentationDescription,
+            'Story',
+            mappedPlace.origin,
+            mappedFact.verification,
+          ),
+          timeSensitive: factualClaim.timeSensitive,
+          timeSensitiveNote: factualClaim.timeSensitive
+            ? 'Operational Story-card claim can change; recheck the mapped official source.'
+            : undefined,
+          issues: [...audit.issues, '#323'],
+          note: `Metadata maps ${factualClaim.parentFieldId} to canonical Place ${mappedPlace.id}; no factual value is duplicated in the audit manifest.`,
+        });
+      } else {
+        inputs.push({
+          claimId: `story:${journey.storyId}:${factualClaim.claimId}`,
+          entityType: 'Story',
+          entityId: journey.storyId,
+          entityName: presentationStory.storyTitle,
+          fieldId: factualClaim.claimId,
+          fieldLabel: factualClaim.fieldLabel,
+          comparisonExpected: false,
+          requiredUnknown: {
+            origin: 'demo',
+            surface: 'Story',
+            auditSourceFile: SOURCE_FILES.auditManifest,
+            note: `Factual assertion for ${factualClaim.spotId} is embedded in ${factualClaim.parentFieldId}; no claim-level source mapping exists.`,
+          },
+          timeSensitive: factualClaim.timeSensitive,
+          timeSensitiveNote: factualClaim.timeSensitive
+            ? 'Operational Story-card claim can change; no wall-clock threshold is inferred.'
+            : undefined,
+          issues: [...audit.issues],
+          note: 'Report-only unknown; the generator does not parse or copy the factual value from Story card prose.',
+        });
+      }
     }
 
     for (const variant of journey.routeVariants) {
@@ -1226,6 +1340,15 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
             && candidate.variantId === variant.id
             && candidate.spotId === step.spotId,
         );
+        const sourceMappedRouteFact = routeGuidanceFacts.find(
+          (fact) => 'canonicalPlaceId' in fact && 'canonicalFieldId' in fact,
+        );
+        const routeSourcePlace = sourceMappedRouteFact && 'canonicalPlaceId' in sourceMappedRouteFact
+          ? places.find((place) => place.id === sourceMappedRouteFact.canonicalPlaceId)
+          : undefined;
+        const routeSourceStatus = routeSourcePlace
+          ? deriveVerificationStatus(routeSourcePlace.source, routeSourcePlace.origin)
+          : undefined;
         for (const locale of PRESENTATION_LOCALES) {
           inputs.push({
             claimId: localizedClaimId(
@@ -1241,7 +1364,14 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
             canonical: locale === 'ja' && canonicalRoute && canonicalStep && routeStatus
               ? canonicalValue(canonicalStep.roleJa, 'editorial', canonicalRoute.source, routeStatus, SOURCE_FILES.routes)
               : undefined,
-            presentation: presentationValue(stepFact.description[locale], 'Route'),
+            presentation: routeSourcePlace && routeSourceStatus
+              ? presentationValue(
+                  stepFact.description[locale],
+                  'Route',
+                  routeSourcePlace.origin,
+                  routeSourceStatus,
+                )
+              : presentationValue(stepFact.description[locale], 'Route'),
             timeSensitive: routeGuidanceFacts.some((fact) => fact.timeSensitive),
             timeSensitiveNote: routeGuidanceFacts.length > 0
               ? 'Embedded operational assertions are identified by metadata-only audit claims.'
@@ -1253,27 +1383,64 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
           });
         }
         for (const factualClaim of routeGuidanceFacts) {
-          inputs.push({
-            claimId: `${variantPrefix}:step:${step.spotId}:factual:${factualClaim.claimId}`,
-            entityType: 'Route',
-            entityId: journey.routeId,
-            entityName,
-            fieldId: `step:${step.spotId}:factual:${factualClaim.claimId}`,
-            fieldLabel: factualClaim.fieldLabel,
-            comparisonExpected: false,
-            requiredUnknown: {
-              origin: 'demo',
-              surface: 'Route',
-              auditSourceFile: SOURCE_FILES.auditManifest,
-              note: `Factual assertion is embedded in step:${step.spotId}:guidance; no claim-level source mapping exists.`,
-            },
-            timeSensitive: factualClaim.timeSensitive,
-            timeSensitiveNote: factualClaim.timeSensitive
-              ? 'Operational fact can change; no wall-clock staleness threshold is inferred.'
-              : undefined,
-            issues: [...audit.issues],
-            note: 'Report-only unknown; the generator does not parse or copy the factual value from Route guidance.',
-          });
+          const mappedPlace = 'canonicalPlaceId' in factualClaim
+            ? places.find((place) => place.id === factualClaim.canonicalPlaceId)
+            : undefined;
+          const mappedFact = mappedPlace && 'canonicalFieldId' in factualClaim
+            ? canonicalPlaceFact(mappedPlace, factualClaim.canonicalFieldId)
+            : undefined;
+          if (mappedPlace && mappedFact) {
+            inputs.push({
+              claimId: `${variantPrefix}:step:${step.spotId}:factual:${factualClaim.claimId}`,
+              entityType: 'Route',
+              entityId: journey.routeId,
+              entityName,
+              fieldId: `step:${step.spotId}:factual:${factualClaim.claimId}`,
+              fieldLabel: factualClaim.fieldLabel,
+              comparisonExpected: false,
+              canonical: canonicalValue(
+                mappedFact.value,
+                mappedPlace.origin,
+                mappedFact.source,
+                mappedFact.verification,
+                SOURCE_FILES.places,
+              ),
+              presentation: presentationValue(
+                stepFact.description.ja,
+                'Route',
+                mappedPlace.origin,
+                mappedFact.verification,
+              ),
+              timeSensitive: factualClaim.timeSensitive,
+              timeSensitiveNote: factualClaim.timeSensitive
+                ? 'Operational fact can change; recheck the mapped official source.'
+                : undefined,
+              issues: [...audit.issues, '#323'],
+              note: `Audit metadata maps Route guidance to canonical Place ${mappedPlace.id}; it does not duplicate the factual value.`,
+            });
+          } else {
+            inputs.push({
+              claimId: `${variantPrefix}:step:${step.spotId}:factual:${factualClaim.claimId}`,
+              entityType: 'Route',
+              entityId: journey.routeId,
+              entityName,
+              fieldId: `step:${step.spotId}:factual:${factualClaim.claimId}`,
+              fieldLabel: factualClaim.fieldLabel,
+              comparisonExpected: false,
+              requiredUnknown: {
+                origin: 'demo',
+                surface: 'Route',
+                auditSourceFile: SOURCE_FILES.auditManifest,
+                note: `Factual assertion is embedded in step:${step.spotId}:guidance; no claim-level source mapping exists.`,
+              },
+              timeSensitive: factualClaim.timeSensitive,
+              timeSensitiveNote: factualClaim.timeSensitive
+                ? 'Operational fact can change; no wall-clock staleness threshold is inferred.'
+                : undefined,
+              issues: [...audit.issues],
+              note: 'Report-only unknown; the generator does not parse or copy the factual value from Route guidance.',
+            });
+          }
         }
         if (stepFact.note) {
           for (const locale of PRESENTATION_LOCALES) {
@@ -1305,6 +1472,9 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
           const canonicalMobility = canonicalStep && canonicalVariant
             ? canonicalVariant.mobility.find((segment) => segment.toStep === canonicalStep.stepNumber)
             : undefined;
+          const canonicalAccess = routeSourcePlace
+            ? canonicalPlaceFact(routeSourcePlace, 'access')
+            : undefined;
           const walkFieldId = isMeetingTime ? 'meeting_time' : 'transport_guidance';
           for (const locale of PRESENTATION_LOCALES) {
             inputs.push({
@@ -1318,16 +1488,33 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
               fieldId: localizedFieldId(`step:${step.spotId}:${walkFieldId}`, locale),
               fieldLabel: `${isMeetingTime ? 'Meeting time' : 'Walking / transport guidance'} (${step.spotId}, ${locale})`,
               comparisonExpected: locale === 'ja',
-              canonical: locale === 'ja' && canonicalRoute && canonicalMobility && routeStatus
-                ? canonicalValue(
-                    `${canonicalMobility.labelJa} / ${canonicalMobility.durationMinutes} minutes`,
-                    'editorial',
-                    canonicalRoute.source,
-                    routeStatus,
-                    SOURCE_FILES.routes,
-                  )
+              canonical: locale === 'ja'
+                ? canonicalRoute && canonicalMobility && routeStatus
+                  ? canonicalValue(
+                      `${canonicalMobility.labelJa} / ${canonicalMobility.durationMinutes} minutes`,
+                      'editorial',
+                      canonicalRoute.source,
+                      routeStatus,
+                      SOURCE_FILES.routes,
+                    )
+                  : routeSourcePlace && canonicalAccess
+                    ? canonicalValue(
+                        canonicalAccess.value,
+                        routeSourcePlace.origin,
+                        canonicalAccess.source,
+                        canonicalAccess.verification,
+                        SOURCE_FILES.places,
+                      )
+                    : undefined
                 : undefined,
-              presentation: presentationValue(stepFact.walk[locale], 'Route'),
+              presentation: routeSourcePlace && routeSourceStatus
+                ? presentationValue(
+                    stepFact.walk[locale],
+                    'Route',
+                    routeSourcePlace.origin,
+                    routeSourceStatus,
+                  )
+                : presentationValue(stepFact.walk[locale], 'Route'),
               timeSensitive: true,
               timeSensitiveNote: 'Presentation guidance; confirm current travel conditions.',
               issues: [...audit.issues],
@@ -1438,7 +1625,9 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
           fieldId: localizedFieldId(`presentation:${fieldId}`, locale),
           fieldLabel: `${fieldLabel} (${locale})`,
           comparisonExpected: false,
-          presentation: presentationValue(value, 'Spot'),
+          presentation: place?.visitorInformation && status
+            ? presentationValue(value, 'Spot', place.origin, status)
+            : presentationValue(value, 'Spot'),
           timeSensitive: fieldId === 'safety_guidance',
           timeSensitiveNote: fieldId === 'safety_guidance' ? 'Recheck operational guidance before visiting.' : undefined,
           issues: audit ? [...audit.issues] : ['#333'],
@@ -1569,38 +1758,51 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
           }
         }
 
-        for (const fieldId of ['address', 'phone'] as const) {
-          const row = reference.information.find((candidate) => candidate.fieldId === fieldId);
-          if (!row) continue;
+        for (const row of reference.information) {
+          if (row.fieldId === 'name' || row.fieldId === 'verification_note') continue;
+          let fact = canonicalPlaceFact(place, row.fieldId);
+          let sourceFile: string = SOURCE_FILES.places;
+          if (row.fieldId === 'phone' && snapshotPhone && snapshotSource) {
+            fact = {
+              value: snapshotPhone,
+              source: snapshotSource,
+              verification: status,
+            };
+            sourceFile = SOURCE_FILES.tourismSnapshot;
+          }
+          if (!fact) continue;
           inputs.push({
-            claimId: localizedClaimId(`place:${spot.id}:${fieldId}`, locale),
+            claimId: localizedClaimId(`place:${spot.id}:${row.fieldId}`, locale),
             entityType: 'Place',
             entityId: spot.id,
             entityName: displayedName,
-            fieldId: localizedFieldId(fieldId, locale),
-            fieldLabel: `${fieldId === 'address' ? 'Address' : 'Phone / contact'} (${locale})`,
+            fieldId: localizedFieldId(row.fieldId, locale),
+            fieldLabel: `Source-backed ${row.fieldId} (${locale})`,
             comparisonExpected: locale === 'ja',
             canonical: locale === 'ja'
-              ? fieldId === 'address'
-                ? canonicalValue(place.address, place.origin, place.source, status, SOURCE_FILES.places)
-                : snapshotPhone && snapshotSource
-                  ? canonicalValue(
-                      snapshotPhone,
-                      place.origin,
-                      snapshotSource,
-                      status,
-                      SOURCE_FILES.tourismSnapshot,
-                    )
-                  : undefined
+              ? canonicalValue(
+                  fact.value,
+                  place.origin,
+                  fact.source,
+                  fact.verification,
+                  sourceFile,
+                )
               : undefined,
-            presentation: presentationValue(row.value[locale], 'Spot', place.origin, status),
+            presentation: presentationValue(
+              row.value[locale],
+              'Spot',
+              place.origin,
+              fact.verification,
+            ),
             timeSensitive: true,
-            timeSensitiveNote: 'Contact and location details can change; check the official source.',
+            timeSensitiveNote: 'Operational details can change; check the official source.',
             issues: audit ? [...audit.issues] : ['#333'],
             note: locale === 'ja'
-              ? fieldId === 'phone'
-                ? 'Phone is represented in the source snapshot and presentation but remains absent from the canonical Place schema.'
-                : 'Merged #322/#332 canonical/display comparison.'
+              ? row.fieldId === 'closed_days'
+                ? 'The presentation discloses both unresolved closure end dates without selecting one; source-statement rows retain each first-party value.'
+                : row.fieldId === 'phone' && spot.id === 'okutama-tourism-office'
+                  ? 'Phone is represented in the source snapshot and presentation but remains absent from the canonical Place schema.'
+                  : 'Raw canonical/presentation comparison from the mapped Place authority.'
               : 'Localized source-backed presentation is inventoried without inferring a canonical translation.',
           });
         }
@@ -1637,6 +1839,13 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
 
     for (const field of REQUIRED_VISIBLE_SPOT_FIELDS) {
       if (field.fieldId === 'safety_guidance') continue;
+      const visibleSourceBackedRow = reference?.information.find(
+        (row) => row.fieldId === field.fieldId,
+      );
+      const structuredPlaceFact = place
+        ? canonicalPlaceFact(place, field.fieldId)
+        : undefined;
+      if (visibleSourceBackedRow && structuredPlaceFact) continue;
       const canonicalSpotClaimIds = new Set([
         'access',
         'hours',
