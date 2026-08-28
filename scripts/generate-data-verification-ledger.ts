@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { generateRepositoryDataVerificationLedger } from '../src/lib/data-verification-ledger';
+import { generateRepositoryDataVerificationLedger } from '../src/lib/data-verification-ledger-generator';
 
 const repositoryRoot = fileURLToPath(new URL('..', import.meta.url));
 const defaultOutput = fileURLToPath(

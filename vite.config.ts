@@ -5,6 +5,14 @@ import react from '@vitejs/plugin-react';
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  build: {
+    rollupOptions: {
+      input: {
+        app: 'index.html',
+        dataReview: 'data-review/index.html',
+      },
+    },
+  },
   test: {
     environment: 'node',
     globals: true,

@@ -16,6 +16,7 @@
     "test:related": "vitest related --run",
     "test:focused": "vitest run",
     "test:e2e": "pnpm build && playwright test",
+    "test:data-review": "playwright test --config=playwright.data-review.config.ts",
     "data:sync": "tsx scripts/data-acquisition/sync.ts",
     "data:verification-ledger": "tsx scripts/generate-data-verification-ledger.ts",
     "validate": "pnpm typecheck && pnpm lint && pnpm test && pnpm build:bundle",

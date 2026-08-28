@@ -1,0 +1,91 @@
+import { expect, test } from '@playwright/test';
+
+test.describe('Human Data Review Board (#340)', () => {
+  test('lets a desktop reviewer filter entities and inspect source/evidence boundaries', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/data-review/');
+
+    await expect(page).toHaveTitle(/Human Data Review Board/);
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex,nofollow');
+    await expect(page.getByRole('heading', { name: 'Human Data Review Board' })).toBeVisible();
+    await expect(page.getByText('奥多摩町観光案内所', { exact: true })).toBeVisible();
+    await expect(page.getByText('奥多摩わさび本舗 山城屋', { exact: true })).toBeVisible();
+    await expect(page.getByText('手作りお弁当・お惣菜の専門店 奥多摩の台所', { exact: true })).toBeVisible();
+
+    await page.getByRole('button', { name: '矛盾' }).click();
+    await expect(page.getByText('奥多摩わさび本舗 山城屋', { exact: true })).toBeVisible();
+    await expect(page.getByText('奥多摩町観光案内所', { exact: true })).toHaveCount(0);
+
+    await page.getByRole('button', { name: '全部' }).click();
+    await page.getByRole('button', { name: /奥多摩の台所の詳細/ }).click();
+
+    await expect(page).toHaveURL(/#okutama-kitchen$/);
+    await expect(page.getByRole('heading', { name: '現在わかっていること' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'まだわからないこと' })).toBeVisible();
+    await expect(page.getByText('予約方法・URL', { exact: true })).toBeVisible();
+    await expect(page.getByText('食事制限・アレルギー対応', { exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: '出典・確認状況' })).toBeVisible();
+    await expect(page.getByText('位置情報の出典', { exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'アプリでの表示' })).toBeVisible();
+    await expect(page.getByRole('img', { name: /奥多摩の台所.*アプリ表示/ })).toBeVisible();
+    await expect(page.getByRole('heading', { name: '証拠を保存していない理由' })).toBeVisible();
+    await expect(page.getByText(/All Rights Reserved/).first()).toBeVisible();
+    await expect(page.getByRole('heading', { name: '関連する作業' })).toBeVisible();
+    await expect(page.getByRole('link', { name: '#325' })).toHaveAttribute(
+      'href',
+      'https://github.com/nurockplayer/tokyo-mogu-mogu/issues/325',
+    );
+
+    const summary = page.getByLabel('Slack共有用サマリー');
+    await expect(summary).toContainText('🟡 出典あり・要確認');
+    await expect(summary).toContainText('/data-review/#okutama-kitchen');
+    await expect(summary).not.toContainText('✅ 確認済み');
+  });
+
+  test('keeps the review detail readable at 375px without horizontal overflow', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto('/data-review/#yamashiroya');
+
+    await expect(page.getByRole('heading', { name: '奥多摩わさび本舗 山城屋' })).toBeVisible();
+    await expect(page.getByText('⚠️ 情報に矛盾あり', { exact: true }).first()).toBeVisible();
+
+    const dimensions = await page.evaluate(() => ({
+      scrollWidth: document.documentElement.scrollWidth,
+      clientWidth: document.documentElement.clientWidth,
+    }));
+    expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth);
+  });
+
+  test('does not expose the team Board in consumer Product navigation', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto('/home');
+
+    await expect(page.locator('a[href^="/data-review"]')).toHaveCount(0);
+  });
+
+  test('renders child-owned Route claims through the same generic detail surface', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/data-review/#okutama-wasabi-journey');
+
+    await expect(page.getByRole('heading', { name: '東京わさび文化を巡る旅' })).toBeVisible();
+    const durationRow = page.getByRole('row').filter({ hasText: '半日の所要時間（分）' });
+    await expect(durationRow.getByText('表示差異あり（レビュー対象）', { exact: true })).toBeVisible();
+    await expect(durationRow.getByText('正本', { exact: true })).toBeVisible();
+    await expect(durationRow.getByText('200', { exact: true })).toBeVisible();
+    await expect(durationRow.getByText('現在の表示', { exact: true })).toBeVisible();
+    await expect(durationRow.getByText('150', { exact: true })).toBeVisible();
+    await expect(durationRow.getByText('🟡 出典あり・要確認', { exact: true })).toBeVisible();
+
+    const presentationRow = page.getByRole('row').filter({
+      hasText: 'Result と Route の移動時間表示',
+    });
+    await expect(presentationRow.getByText('表示差異あり（レビュー対象）', { exact: true })).toBeVisible();
+    await expect(presentationRow.getByText('現在の表示', { exact: true })).toBeVisible();
+    await expect(presentationRow.getByText('東京駅 / から電車で　約120分', { exact: true })).toBeVisible();
+    await expect(presentationRow.getByText('比較対象の表示', { exact: true })).toBeVisible();
+    await expect(presentationRow.getByText('東京駅 / 60 分', { exact: true })).toBeVisible();
+    await expect(page.getByText('取扱・運行情報（okutama-kitchen）', { exact: true })).toBeVisible();
+    await expect(page.getByText('特選ソフトジェラート（わさび味を含む・提供状況は要確認）', { exact: true })).toBeVisible();
+    await expect(page.getByRole('img', { name: /東京わさび文化を巡る旅.*アプリ表示/ }).first()).toBeVisible();
+  });
+});
