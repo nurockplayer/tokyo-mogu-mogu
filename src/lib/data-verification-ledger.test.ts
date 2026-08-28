@@ -5,10 +5,10 @@ import { PLACES } from '../data/seed-places';
 import {
   buildLedgerClaims,
   buildRepositoryLedgerClaims,
-  generateRepositoryDataVerificationLedger,
   renderDataVerificationLedger,
   type LedgerClaimInput,
 } from './data-verification-ledger';
+import { generateRepositoryDataVerificationLedger } from './data-verification-ledger-generator';
 
 const sourceMetadata = {
   name: 'Example official source',

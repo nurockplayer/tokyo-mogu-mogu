@@ -1,8 +1,7 @@
 import type { DataOrigin, DataSource, VerificationStatus } from '../data/model';
-import {
-  DATA_VERIFICATION_EVIDENCE_MANIFEST,
-  type DataVerificationEvidence,
-  type DataVerificationEvidenceOmission,
+import type {
+  DataVerificationEvidence,
+  DataVerificationEvidenceOmission,
 } from '../data/data-verification-evidence-manifest';
 import tourismDirectory from '../../scripts/ingest-okutama/snapshots/okutama-tourism-directory.json';
 import { foodCultures, modelRoutes, places } from '../data';
@@ -37,7 +36,6 @@ import {
   listUnverifiedFields,
   recordVerificationStatus,
 } from './verification';
-import { validateDataVerificationEvidenceManifest } from './data-verification-evidence';
 
 export type LedgerVerification = VerificationStatus | 'unknown';
 
@@ -146,6 +144,7 @@ export interface LedgerClaim {
   primarySource?: string;
   primarySourceUrl?: string;
   primarySourceLicense?: string;
+  primarySourceType?: DataSource['sourceType'];
   retrievedAt?: string;
   sourceUpdatedAt?: string;
   confirmedAt?: string;
@@ -215,6 +214,7 @@ export function buildLedgerClaims(inputs: readonly LedgerClaimInput[]): LedgerCl
       primarySource: source?.name,
       primarySourceUrl: source?.url,
       primarySourceLicense: source?.license,
+      primarySourceType: source?.sourceType,
       retrievedAt: source?.retrievedAt ?? source?.lastVerified,
       sourceUpdatedAt: source?.sourceUpdatedAt,
       confirmedAt: source?.confirmedAt,
@@ -1927,14 +1927,4 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
   }
 
   return buildLedgerClaims(inputs);
-}
-
-export function generateRepositoryDataVerificationLedger(): string {
-  const claims = buildRepositoryLedgerClaims();
-  validateDataVerificationEvidenceManifest(DATA_VERIFICATION_EVIDENCE_MANIFEST, claims);
-  return renderDataVerificationLedger(
-    claims,
-    DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence,
-    DATA_VERIFICATION_EVIDENCE_MANIFEST.omissions,
-  );
 }
