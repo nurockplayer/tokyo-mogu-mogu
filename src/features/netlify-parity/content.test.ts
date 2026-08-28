@@ -158,6 +158,14 @@ describe('Netlify parity presentation content', () => {
     }
   });
 
+  it('localizes the generic wasabi-experience Spot title in every locale (#339)', () => {
+    expect(demoSpots['wasabi-experience'].copy).toMatchObject({
+      ja: { name: 'わさび田体験' },
+      en: { name: 'Wasabi Experience' },
+      'zh-TW': { name: '山葵田體驗' },
+    });
+  });
+
   it('keeps the tourism-office fixture explicitly unverified in every locale', () => {
     const tourismOffice = demoSpots['okutama-tourism-office'];
     const expectedCaveats = {
