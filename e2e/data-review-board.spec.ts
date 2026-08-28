@@ -23,12 +23,11 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(page.getByText('奥多摩やまめのストーリー', { exact: true })).toBeVisible();
 
     const portCard = page.getByRole('button', { name: /PORT OKUTAMAの詳細/ });
-    await expect(portCard).toContainText('未解決 11件');
-    await expect(portCard).toContainText('0 要確認');
-    await expect(portCard).toContainText('0 要再確認');
-    await expect(portCard).toContainText('11 未確認');
+    await expect(portCard).toContainText('出典あり・要確認');
+    await expect(portCard).toContainText('要確認');
+    await expect(portCard).toContainText('未確認');
     await expect(portCard).toContainText('0 矛盾');
-    await expect(portCard).toContainText('0 アプリ証拠');
+    await expect(portCard).toContainText('3 アプリ証拠');
 
     await page.getByRole('button', { name: '矛盾' }).click();
     await expect(page.getByText('奥多摩わさび本舗 山城屋', { exact: true })).toBeVisible();
@@ -39,7 +38,7 @@ test.describe('Human Data Review Board (#340)', () => {
 
     await page.getByRole('button', { name: '要確認' }).click();
     await expect(page.getByText('奥多摩町観光案内所', { exact: true })).toBeVisible();
-    await expect(page.getByText('PORT OKUTAMA', { exact: true })).toHaveCount(0);
+    await expect(page.getByText('PORT OKUTAMA', { exact: true })).toBeVisible();
 
     await page.getByRole('button', { name: '全部' }).click();
     await page.getByRole('button', { name: /奥多摩の台所の詳細/ }).click();
@@ -96,18 +95,33 @@ test.describe('Human Data Review Board (#340)', () => {
     expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth);
   });
 
-  test('degrades an unreconciled current Spot honestly without fabricating sources or evidence', async ({ page }) => {
+  test('shows source-backed PORT OKUTAMA facts without hiding unknowns or evidence omissions (#327)', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto('/data-review/#port-okutama');
 
     await expect(page.getByRole('heading', { name: 'PORT OKUTAMA' })).toBeVisible();
-    await expect(page.getByText('❓ 未確認', { exact: true }).first()).toBeVisible();
+    await expect(page.getByText('🟡 出典あり・要確認', { exact: true }).first()).toBeVisible();
+    await expect(page.getByText('営業時間', { exact: true })).toBeVisible();
+    await expect(page.getByText('取扱・サービス', { exact: true })).toBeVisible();
     await expect(page.getByText('最新の公式情報', { exact: true })).toBeVisible();
-    await expect(page.getByText('記録された出典はありません。', { exact: true })).toBeVisible();
-    await expect(page.getByText('保存されたアプリ証拠はありません。', { exact: true })).toBeVisible();
-    await expect(page.getByText('記録された証拠省略はありません。', { exact: true })).toBeVisible();
-    await expect(page.locator('.drb-sources a')).toHaveCount(0);
-    await expect(page.locator('.drb-evidence-grid img')).toHaveCount(0);
+    await expect(page.getByText('予約方法・URL', { exact: true })).toBeVisible();
+    const operatorSource = page.locator('.drb-source').filter({
+      has: page.getByText('PORT OKUTAMA（公式サイト）', { exact: true }),
+    });
+    await expect(operatorSource.getByRole('link', { name: '参照元を開く ↗' })).toHaveAttribute(
+      'href',
+      'https://www.okutama.ne.jp/',
+    );
+    await expect(page.getByText('位置情報の出典', { exact: true })).toBeVisible();
+    await expect(page.getByRole('img', { name: /PORT OKUTAMA.*ja・375px/ })).toBeVisible();
+    await expect(page.getByRole('img', { name: /PORT OKUTAMA.*en・375px/ })).toBeVisible();
+    await expect(page.getByRole('img', { name: /PORT OKUTAMA.*zh-TW・375px/ })).toBeVisible();
+    await expect(page.getByRole('heading', { name: '証拠を保存していない理由' })).toBeVisible();
+    await expect(page.getByText(/再利用許可を確認できない/).first()).toBeVisible();
+    await expect(page.getByRole('link', { name: '#327' })).toHaveAttribute(
+      'href',
+      'https://github.com/nurockplayer/tokyo-mogu-mogu/issues/327',
+    );
   });
 
   test('represents both current Route and Story identities', async ({ page }) => {

@@ -427,22 +427,29 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
     fieldId: string,
   ): { value: string; source: DataSource; verification: VerificationStatus } | undefined => {
     const visitor = place.visitorInformation;
-    const defaultFact = (value: string | undefined) => value === undefined
+    const defaultFact = (value: string | undefined, source: DataSource = place.source) => value === undefined
       ? undefined
       : {
           value,
-          source: place.source,
-          verification: deriveVerificationStatus(place.source, place.origin),
+          source,
+          verification: deriveVerificationStatus(source, place.origin),
         };
 
     if (fieldId === 'name') return defaultFact(place.nameJa);
-    if (fieldId === 'address') return defaultFact(place.address);
+    if (fieldId === 'address') return defaultFact(place.address, place.addressSource);
     if (fieldId === 'official_current_url') return defaultFact(place.source.url);
     if (!visitor) return undefined;
     if (fieldId === 'phone') return defaultFact(visitor.phone);
     if (fieldId === 'hours' && visitor.shopHours) {
       return defaultFact(
         `${visitor.shopHours.opens}–${visitor.shopHours.closes}${visitor.shopHours.lastOrder ? ` / L.O. ${visitor.shopHours.lastOrder}` : ''}`,
+      );
+    }
+    if (fieldId === 'hours' && visitor.shopHourSchedules?.length) {
+      return defaultFact(
+        visitor.shopHourSchedules.map((schedule) =>
+          `${schedule.id} ${schedule.opens}–${schedule.closes}${schedule.lastOrder ? ` / L.O. ${schedule.lastOrder}` : ''}`,
+        ).join(' | '),
       );
     }
     if (fieldId === 'phone_hours' && visitor.phoneHours) {
@@ -497,6 +504,12 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
     if (fieldId === 'closed_days' && visitor.regularClosedDays?.length) {
       return defaultFact(visitor.regularClosedDays.join(', '));
     }
+    if (fieldId === 'closed_days' && visitor.irregularClosures) {
+      return defaultFact('open_daily / irregular_closures');
+    }
+    if (fieldId === 'service_availability' && visitor.serviceCategories?.length) {
+      return defaultFact(visitor.serviceCategories.join(', '));
+    }
     return undefined;
   };
 
@@ -532,7 +545,9 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
       if (comparedByPresentation) continue;
       const source = fieldId === 'coordinates' && place.coordinateSource
         ? place.coordinateSource
-        : place.source;
+        : fieldId === 'address' && place.addressSource
+          ? place.addressSource
+          : place.source;
       addCanonicalClaim({
         claimId: `place:${place.id}:${fieldId}`,
         ...base,

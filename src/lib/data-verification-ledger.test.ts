@@ -507,6 +507,98 @@ describe('repository data verification ledger (#333)', () => {
     }
   });
 
+  it('traces PORT OKUTAMA Spot, Route, and Story claims to canonical sources (#327)', () => {
+    const claims = buildRepositoryLedgerClaims();
+    const operatorSource = 'PORT OKUTAMA（公式サイト）';
+
+    for (const [claimId, canonicalValue, displayedValue] of [
+      ['place:port-okutama:name:ja', 'PORT OKUTAMA', 'PORT OKUTAMA'],
+      ['place:port-okutama:phone:ja', '0428-85-8630', '0428-85-8630'],
+      ['spot:port-okutama:hours', 'weekday 11:00–17:00 / L.O. 16:30 | weekend-holiday 11:00–17:30 / L.O. 17:00', '平日 11:00〜17:00（L.O. 16:30）／土日祝 11:00〜17:30（L.O. 17:00）'],
+      ['spot:port-okutama:closed_days', 'open_daily / irregular_closures', '無休（不定休あり・最新情報を確認）'],
+      ['spot:port-okutama:service_availability', 'food-and-drink, specialty-coffee, craft-beer, used-outdoor-goods, souvenirs', '食事・スペシャルティコーヒー・クラフトビール・中古アウトドア用品・土産'],
+      ['spot:port-okutama:official_current_url', 'https://www.okutama.ne.jp/', 'https://www.okutama.ne.jp/'],
+    ] as const) {
+      expect(claims.find((claim) => claim.claimId === claimId)).toMatchObject({
+        canonicalValue,
+        displayedValue,
+        origin: 'source',
+        verification: 'needs_confirmation',
+        primarySource: operatorSource,
+        primarySourceUrl: 'https://www.okutama.ne.jp/',
+        retrievedAt: '2026-08-29',
+        confirmedAt: undefined,
+        canonicalSourceFile: 'src/data/seed-places.ts',
+        presentationSourceFile: 'src/features/netlify-parity/factual-presentation.ts',
+      });
+    }
+
+    expect(
+      claims.find((claim) => claim.claimId === 'place:port-okutama:address:ja'),
+    ).toMatchObject({
+      canonicalValue: '東京都西多摩郡奥多摩町氷川210（JR奥多摩駅2階）',
+      displayedValue: '東京都西多摩郡奥多摩町氷川210（JR奥多摩駅2階）',
+      origin: 'source',
+      verification: 'needs_confirmation',
+      primarySource: 'JR東日本（PORT OKUTAMA）',
+      primarySourceUrl: 'https://www.jreast.co.jp/hachioji/ome-itsukaichi/spot/detail382787.html',
+      retrievedAt: '2026-08-29',
+    });
+    expect(
+      claims.find((claim) => claim.claimId === 'place:port-okutama:coordinates'),
+    ).toMatchObject({
+      canonicalValue: '35.8091498, 139.0967189 (precise)',
+      origin: 'source',
+      verification: 'needs_confirmation',
+      primarySource: 'OpenStreetMap（PORT OKUTAMA）',
+      primarySourceUrl: 'https://www.openstreetmap.org/node/6552267871',
+      primarySourceLicense: expect.stringContaining('ODbL 1.0'),
+      retrievedAt: '2026-08-29',
+    });
+
+    for (const [claimId, displayedFragment] of [
+      ['route:okutama-wasabi-journey:half-day:step:port-okutama:factual:service-availability', '食事・コーヒー・土産'],
+      ['route:okutama-wasabi-journey:full-day:step:port-okutama:factual:coffee-availability', 'スペシャルティコーヒー'],
+      ['story:wasabi-okutama:story.spot.port-okutama.service-availability', '奥多摩駅2階の複合ショップ'],
+    ] as const) {
+      expect(claims.find((claim) => claim.claimId === claimId)).toMatchObject({
+        canonicalValue: expect.stringContaining('specialty-coffee'),
+        displayedValue: expect.stringContaining(displayedFragment),
+        origin: 'source',
+        verification: 'needs_confirmation',
+        primarySource: operatorSource,
+        primarySourceUrl: 'https://www.okutama.ne.jp/',
+        canonicalSourceFile: 'src/data/seed-places.ts',
+        timeSensitive: true,
+      });
+    }
+
+    expect(
+      claims.find(
+        (claim) => claim.claimId === 'route:okutama-wasabi-journey:half-day:step:port-okutama:transport_guidance:ja',
+      ),
+    ).toMatchObject({
+      canonicalValue: undefined,
+      displayedValue: '徒歩 約 5 分',
+      origin: 'demo',
+      verification: 'demo',
+    });
+
+    for (const unsupported of [
+      'access',
+      'reservation',
+      'booking_destination',
+      'parking',
+      'multilingual_support',
+      'dietary_allergy',
+      'accessibility',
+    ]) {
+      expect(
+        claims.find((claim) => claim.claimId === `spot:port-okutama:${unsupported}`),
+      ).toMatchObject({ verification: 'unknown', canonicalValue: undefined, displayedValue: undefined });
+    }
+  });
+
   it('inventories factual presentation records in every visible locale', () => {
     const claims = buildRepositoryLedgerClaims();
 

@@ -299,6 +299,116 @@ describe('data verification evidence manifest (#334)', () => {
     ).not.toThrow();
   });
 
+  it('records bounded PORT OKUTAMA app evidence and source omissions (#327)', () => {
+    const repositoryClaims = buildRepositoryLedgerClaims();
+    const evidenceById = new Map(
+      DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.map((item) => [item.evidenceId, item]),
+    );
+    const omissionsById = new Map(
+      DATA_VERIFICATION_EVIDENCE_MANIFEST.omissions.map((item) => [item.omissionId, item]),
+    );
+
+    expect(evidenceById.get('port-okutama-app-ja-375')).toMatchObject({
+      kind: 'app',
+      entityId: 'port-okutama',
+      locale: 'ja',
+      viewport: { width: 375 },
+      path: 'docs/data-evidence/port-okutama/app-ja-375.webp',
+      capturedAt: '2026-08-29',
+    });
+    expect(evidenceById.get('port-okutama-app-ja-375')?.claimIds).toEqual(expect.arrayContaining([
+      'place:port-okutama:name:ja',
+      'place:port-okutama:address:ja',
+      'place:port-okutama:phone:ja',
+      'spot:port-okutama:hours',
+      'spot:port-okutama:closed_days',
+      'spot:port-okutama:service_availability',
+      'spot:port-okutama:official_current_url',
+    ]));
+
+    for (const [locale, path] of [
+      ['en', 'docs/data-evidence/port-okutama/app-en-375.webp'],
+      ['zh-TW', 'docs/data-evidence/port-okutama/app-zh-TW-375.webp'],
+    ] as const) {
+      expect(evidenceById.get(`port-okutama-app-${locale}-375`)).toMatchObject({
+        kind: 'app',
+        entityId: 'port-okutama',
+        locale,
+        viewport: { width: 375, height: 1500 },
+        path,
+        capturedAt: '2026-08-29',
+      });
+      expect(evidenceById.get(`port-okutama-app-${locale}-375`)?.claimIds).toEqual(
+        expect.arrayContaining([
+          `place:port-okutama:hours:${locale}`,
+          `place:port-okutama:closed_days:${locale}`,
+          `place:port-okutama:service_availability:${locale}`,
+        ]),
+      );
+    }
+
+    for (const [evidenceId, claimId, path] of [
+      [
+        'port-okutama-route-half-day-app-ja-375',
+        'route:okutama-wasabi-journey:half-day:step:port-okutama:factual:service-availability',
+        'docs/data-evidence/port-okutama/route-half-day-app-ja-375.webp',
+      ],
+      [
+        'port-okutama-route-full-day-app-ja-375',
+        'route:okutama-wasabi-journey:full-day:step:port-okutama:factual:coffee-availability',
+        'docs/data-evidence/port-okutama/route-full-day-app-ja-375.webp',
+      ],
+      [
+        'port-okutama-story-wasabi-app-ja-375',
+        'story:wasabi-okutama:story.spot.port-okutama.service-availability',
+        'docs/data-evidence/port-okutama/story-wasabi-app-ja-375.webp',
+      ],
+    ] as const) {
+      expect(evidenceById.get(evidenceId)).toMatchObject({
+        kind: 'app',
+        locale: 'ja',
+        viewport: { width: 375, height: 812 },
+        path,
+        claimIds: [claimId],
+      });
+    }
+
+    expect(omissionsById.get('port-okutama-operator-source-reuse-unconfirmed')).toMatchObject({
+      kind: 'source',
+      entityId: 'port-okutama',
+      sourceUrl: 'https://www.okutama.ne.jp/',
+      recordedAt: '2026-08-29',
+    });
+    expect(omissionsById.get('port-okutama-address-source-reuse-unconfirmed')).toMatchObject({
+      kind: 'source',
+      entityId: 'port-okutama',
+      sourceUrl: 'https://www.jreast.co.jp/hachioji/ome-itsukaichi/spot/detail382787.html',
+      claimIds: ['place:port-okutama:address:ja'],
+    });
+    expect(omissionsById.get('port-okutama-coordinate-source-not-captured')).toMatchObject({
+      kind: 'source',
+      entityId: 'port-okutama',
+      sourceUrl: 'https://www.openstreetmap.org/node/6552267871',
+      claimIds: ['place:port-okutama:coordinates'],
+    });
+    expect(omissionsById.get('port-okutama-route-source-reuse-unconfirmed')?.claimIds).toEqual([
+      'route:okutama-wasabi-journey:half-day:step:port-okutama:factual:service-availability',
+      'route:okutama-wasabi-journey:full-day:step:port-okutama:factual:coffee-availability',
+    ]);
+    expect(omissionsById.get('port-okutama-story-source-reuse-unconfirmed')?.claimIds).toEqual([
+      'story:wasabi-okutama:story.spot.port-okutama.service-availability',
+    ]);
+    expect(
+      DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.some((item) => item.kind === 'source'),
+    ).toBe(false);
+    expect(() =>
+      validateDataVerificationEvidenceManifest(
+        DATA_VERIFICATION_EVIDENCE_MANIFEST,
+        repositoryClaims,
+      ),
+    ).not.toThrow();
+  });
+
   it.each([
     {
       name: 'orphan claim reference',

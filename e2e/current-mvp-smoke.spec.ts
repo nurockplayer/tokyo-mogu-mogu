@@ -400,6 +400,89 @@ test('keeps the source-backed Okutama no Daidokoro facts safe in every locale (#
   }
 });
 
+test('opens the source-backed PORT OKUTAMA Spot from both Route variants (#327)', async ({
+  page,
+}) => {
+  await page.goto('/route?candidateId=demo-okutama-wasabi');
+  let route = page.locator('[data-screen="route"][data-screen-active="true"]');
+  let portCard = route.locator('[data-spot-id="port-okutama"]');
+
+  await expect(portCard).toContainText('PORT OKUTAMA');
+  await expect(portCard).toContainText('食事・コーヒー・土産');
+  await portCard.click();
+
+  await expect(page).toHaveURL(
+    /\/spot\/port-okutama\?candidateId=demo-okutama-wasabi$/,
+  );
+  const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
+  await expect(spot.getByRole('heading', { name: 'PORT OKUTAMA' })).toBeVisible();
+  await expect(spot).toContainText('東京都西多摩郡奥多摩町氷川210（JR奥多摩駅2階）');
+  await expect(spot).toContainText('0428-85-8630');
+  await expect(spot).toContainText('平日 11:00〜17:00（L.O. 16:30）');
+  await expect(spot).toContainText('土日祝 11:00〜17:30（L.O. 17:00）');
+  await expect(spot).toContainText('無休（不定休あり・最新情報を確認）');
+  await expect(spot).toContainText('食事・スペシャルティコーヒー・クラフトビール');
+  await expect(spot).toContainText('https://www.okutama.ne.jp/');
+  await expect(spot).toContainText('掲載内容は現在確認中です');
+  await expect(spot).not.toContainText(/旅の最後に立ち寄るための、参考スポットです|Netlify/);
+  await expectNoHorizontalOverflow(page);
+
+  await page.goto('/route?candidateId=demo-okutama-wasabi');
+  route = page.locator('[data-screen="route"][data-screen-active="true"]');
+  await route.getByRole('button', { name: '一日', exact: true }).click();
+  portCard = route.locator('[data-spot-id="port-okutama"]');
+  await expect(portCard).toContainText('スペシャルティコーヒー');
+  await expect(portCard).toContainText('提供状況は要確認');
+  await expectNoHorizontalOverflow(page);
+});
+
+test('keeps source-backed PORT OKUTAMA facts safe in every locale (#327)', async ({ page }) => {
+  const localizedExpectations = [
+    {
+      locale: 'ja',
+      hours: '平日 11:00〜17:00',
+      services: '食事・スペシャルティコーヒー',
+      closures: '不定休あり',
+      pending: '確認中',
+    },
+    {
+      locale: 'en',
+      hours: 'Weekdays 11:00–17:00',
+      services: 'Food, specialty coffee',
+      closures: 'irregular closures may occur',
+      pending: 'Confirmation pending',
+    },
+    {
+      locale: 'zh-TW',
+      hours: '平日 11:00–17:00',
+      services: '餐飲、精品咖啡',
+      closures: '可能臨時休業',
+      pending: '確認中',
+    },
+  ] as const;
+
+  for (const expected of localizedExpectations) {
+    await page.goto('/');
+    await page.evaluate((locale) => {
+      localStorage.clear();
+      localStorage.setItem('tmm:locale', locale);
+    }, expected.locale);
+    await page.goto('/spot/port-okutama?candidateId=demo-okutama-wasabi');
+
+    const app = page.locator('.reference-app');
+    const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
+    await expect(app).toHaveAttribute('data-locale', expected.locale);
+    await expect(spot.getByRole('heading', { name: 'PORT OKUTAMA' })).toBeVisible();
+    await expect(spot).toContainText(expected.hours);
+    await expect(spot).toContainText(expected.services);
+    await expect(spot).toContainText(expected.closures);
+    await expect(spot).toContainText(expected.pending);
+    await expect(spot).toContainText('https://www.okutama.ne.jp/');
+    await expect(spot).not.toContainText(/Netlify|デモ用編集情報|デモ参考情報/);
+    await expectNoHorizontalOverflow(page);
+  }
+});
+
 test('labels editorial Spot fixtures as unverified reference information', async ({ page }) => {
   await page.goto('/spot/wasabi-kitchen?candidateId=demo-okutama-wasabi');
 

@@ -144,6 +144,36 @@ const OKUTAMA_KITCHEN_COORDINATE_SOURCE = {
   originalId: 'google-maps-0x601937f26ed4ba9d-0x8b575fdc6383894a',
 };
 
+const PORT_OKUTAMA_SOURCE = {
+  name: 'PORT OKUTAMA（公式サイト）',
+  url: 'https://www.okutama.ne.jp/',
+  license: 'Repository reuse rights not stated（参考情報としてのみ利用・スクリーンショット未保存）',
+  sourceType: 'official_web' as const,
+  retrievedAt: '2026-08-29',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'port-okutama-home',
+};
+
+const PORT_OKUTAMA_ADDRESS_SOURCE = {
+  name: 'JR東日本（PORT OKUTAMA）',
+  url: 'https://www.jreast.co.jp/hachioji/ome-itsukaichi/spot/detail382787.html',
+  license: 'Repository reuse rights not stated（参考情報としてのみ利用・スクリーンショット未保存）',
+  sourceType: 'official_web' as const,
+  retrievedAt: '2026-08-29',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'detail382787',
+};
+
+const PORT_OKUTAMA_COORDINATE_SOURCE = {
+  name: 'OpenStreetMap（PORT OKUTAMA）',
+  url: 'https://www.openstreetmap.org/node/6552267871',
+  license: 'ODbL 1.0; precise provider POI point, not field-verified.',
+  sourceType: 'open_data' as const,
+  retrievedAt: '2026-08-29',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'node/6552267871',
+};
+
 export const PLACES: Place[] = [
   {
     id: 'okutama-wasabi-field',
@@ -267,6 +297,37 @@ export const PLACES: Place[] = [
           ],
           source: OKUTAMA_KITCHEN_MENU_SOURCE,
         },
+      ],
+    },
+    origin: 'source',
+  },
+  {
+    id: 'port-okutama',
+    nameJa: 'PORT OKUTAMA',
+    nameEn: 'PORT OKUTAMA',
+    address: '東京都西多摩郡奥多摩町氷川210（JR奥多摩駅2階）',
+    // Precise OSM POI point for PORT OKUTAMA, kept separate from operator facts.
+    latitude: 35.8091498,
+    longitude: 139.0967189,
+    coordinatePrecision: 'precise',
+    coordinateSource: PORT_OKUTAMA_COORDINATE_SOURCE,
+    addressSource: PORT_OKUTAMA_ADDRESS_SOURCE,
+    foodCultureIds: [],
+    type: 'shop',
+    source: PORT_OKUTAMA_SOURCE,
+    visitorInformation: {
+      phone: '0428-85-8630',
+      shopHourSchedules: [
+        { id: 'weekday', opens: '11:00', closes: '17:00', lastOrder: '16:30' },
+        { id: 'weekend-holiday', opens: '11:00', closes: '17:30', lastOrder: '17:00' },
+      ],
+      irregularClosures: true,
+      serviceCategories: [
+        'food-and-drink',
+        'specialty-coffee',
+        'craft-beer',
+        'used-outdoor-goods',
+        'souvenirs',
       ],
     },
     origin: 'source',
