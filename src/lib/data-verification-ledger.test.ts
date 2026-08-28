@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import type { DataVerificationEvidence } from '../data/data-verification-evidence-manifest';
+import { PLACES } from '../data/seed-places';
 import {
   buildLedgerClaims,
   buildRepositoryLedgerClaims,
@@ -204,6 +205,29 @@ describe('data verification ledger claim builder (#333)', () => {
 });
 
 describe('repository data verification ledger (#333)', () => {
+  it('serializes available parking honestly when the optional space count is absent', () => {
+    const place = PLACES.find((candidate) => candidate.id === 'yamashiroya');
+    const visitor = place?.visitorInformation;
+    if (!visitor?.parking) throw new Error('Missing Yamashiroya parking fixture.');
+
+    const originalParking = visitor.parking;
+    try {
+      visitor.parking = { available: true };
+
+      expect(
+        buildRepositoryLedgerClaims().find(
+          (claim) => claim.claimId === 'place:yamashiroya:parking:ja',
+        ),
+      ).toMatchObject({
+        canonicalValue: 'あり / 大型車情報なし',
+        origin: 'source',
+        verification: 'needs_confirmation',
+      });
+    } finally {
+      visitor.parking = originalParking;
+    }
+  });
+
   it('consumes #334 evidence links and omissions without changing factual authority', () => {
     const rendered = generateRepositoryDataVerificationLedger();
     const addressRow = rendered.split('\n').find((line) =>

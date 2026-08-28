@@ -459,8 +459,11 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
           `なし${visitor.parking.nearbyPaidParking ? ' / 近隣有料駐車場あり' : ''}`,
         );
       }
+      const availability = visitor.parking.spaces === undefined
+        ? 'あり'
+        : `${visitor.parking.spaces}台`;
       return defaultFact(
-        `${visitor.parking.spaces}台 / ${visitor.parking.largeVehicles ? '大型車可' : '大型車情報なし'}`,
+        `${availability} / ${visitor.parking.largeVehicles ? '大型車可' : '大型車情報なし'}`,
       );
     }
     if (
