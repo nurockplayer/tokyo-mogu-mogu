@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { DATA_VERIFICATION_EVIDENCE_MANIFEST } from '../data/data-verification-evidence-manifest';
+import { CURRENT_PRODUCT_FACTUAL_INVENTORY } from '../lib/current-product-factual-inventory';
 import type { LedgerVerification } from '../lib/data-verification-ledger';
 import { buildRepositoryLedgerClaims } from '../lib/data-verification-ledger';
 import {
@@ -39,8 +40,16 @@ const SOURCE_TYPE_JA: Readonly<Record<NonNullable<HumanDataReviewSource['sourceT
   demo: 'デモ',
 };
 
+const ENTITY_TYPE_LABELS_JA = {
+  Spot: 'Spot',
+  Story: 'Story',
+  Route: 'Route',
+} as const;
+const ENTITY_TYPE_ORDER = ['Spot', 'Story', 'Route'] as const;
+
 const board = buildHumanDataReviewBoard({
   claims: buildRepositoryLedgerClaims(),
+  currentProductEntities: CURRENT_PRODUCT_FACTUAL_INVENTORY,
   evidenceManifest: DATA_VERIFICATION_EVIDENCE_MANIFEST,
 });
 
@@ -142,6 +151,12 @@ function Overview({ onSelect }: { onSelect: (entityId: string) => void }) {
             </article>
           ))}
         </div>
+        <div className="drb-coverage" aria-label="現在のProduct確認対象">
+          <strong>現在のProduct確認対象 {board.entities.length}件</strong>
+          {ENTITY_TYPE_ORDER.map((type) => (
+            <span key={type}>{ENTITY_TYPE_LABELS_JA[type]} {board.entityTypeCounts[type]}件</span>
+          ))}
+        </div>
         <p className="drb-legend">
           <strong>「出典あり・要確認」</strong>は、出典が現在の内容を支えていても、
           ステークホルダー確認や現地確認が済んだことを意味しません。
@@ -185,10 +200,12 @@ function Overview({ onSelect }: { onSelect: (entityId: string) => void }) {
                 </span>
                 <strong>{entity.name}</strong>
                 <span className="drb-entity-card__meta">
-                  最終確認 {entity.latestRetrievedAt ?? '未確認'} · 未解決 {entity.unresolvedCount}件
+                  {ENTITY_TYPE_LABELS_JA[entity.type]} · 最終確認 {entity.latestRetrievedAt ?? '未確認'} · 未解決 {entity.unresolvedCount}件
                 </span>
               </span>
               <span className="drb-entity-card__counts">
+                <span><b>{entity.needsConfirmationCount}</b> 要確認</span>
+                <span><b>{entity.staleCount}</b> 要再確認</span>
                 <span><b>{entity.unknownCount}</b> 未確認</span>
                 <span><b>{entity.conflictCount}</b> 矛盾</span>
                 <span><b>{entity.evidence.length}</b> アプリ証拠</span>
@@ -258,6 +275,7 @@ function Detail({ entity, onBack }: { entity: HumanDataReviewEntity; onBack: () 
               <div className="drb-facts__header" role="row">
                 <span role="columnheader">項目</span><span role="columnheader">値 / 比較</span><span role="columnheader">状態 / 出典確認日</span>
               </div>
+              {entity.facts.length === 0 && <p className="drb-empty">構造化された現在値はまだありません。</p>}
               {entity.facts.map((fact) => (
                 <div className="drb-fact" role="row" key={fact.fieldKey}>
                   <strong role="cell">{fact.label}</strong>
@@ -274,6 +292,7 @@ function Detail({ entity, onBack }: { entity: HumanDataReviewEntity; onBack: () 
           <section className="drb-panel" aria-labelledby="unknown-heading">
             <div className="drb-panel__heading"><span>02</span><h2 id="unknown-heading">まだわからないこと</h2></div>
             <ul className="drb-unknowns">
+              {entity.unknowns.length === 0 && <li className="drb-empty">記録された未確認項目はありません。</li>}
               {entity.unknowns.map((field) => (
                 <li key={field.fieldKey}><span>?</span><strong>{field.label}</strong><small>構造化された根拠がまだありません</small></li>
               ))}
@@ -283,6 +302,7 @@ function Detail({ entity, onBack }: { entity: HumanDataReviewEntity; onBack: () 
           <section className="drb-panel" aria-labelledby="sources-heading">
             <div className="drb-panel__heading"><span>03</span><h2 id="sources-heading">出典・確認状況</h2></div>
             <div className="drb-sources">
+              {entity.sources.length === 0 && <p className="drb-empty">記録された出典はありません。</p>}
               {entity.sources.map((source) => (
                 <SourceCard key={`${source.coordinateProvider}:${source.name}:${source.url ?? ''}`} source={source} />
               ))}
@@ -328,6 +348,7 @@ function Detail({ entity, onBack }: { entity: HumanDataReviewEntity; onBack: () 
           <section className="drb-panel" aria-labelledby="work-heading">
             <div className="drb-panel__heading"><span>06</span><h2 id="work-heading">関連する作業</h2></div>
             <div className="drb-references">
+              {entity.references.length === 0 && <p className="drb-empty">関連する作業の記録はありません。</p>}
               {entity.references.map((reference) => (
                 <a key={reference.label} href={reference.href} target="_blank" rel="noreferrer">{reference.label} ↗</a>
               ))}

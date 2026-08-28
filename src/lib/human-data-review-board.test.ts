@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { DATA_VERIFICATION_EVIDENCE_MANIFEST } from '../data/data-verification-evidence-manifest';
+import {
+  CURRENT_PRODUCT_FACTUAL_INVENTORY,
+  type CurrentProductFactualEntity,
+} from './current-product-factual-inventory';
 import type { LedgerClaim } from './data-verification-ledger';
 import { buildRepositoryLedgerClaims } from './data-verification-ledger';
 import {
@@ -21,12 +25,16 @@ function claim(overrides: Partial<LedgerClaim> & Pick<LedgerClaim, 'claimId' | '
     finding: 'none',
     timeSensitive: false,
     canonicalSourceFile: 'src/data/seed-places.ts',
-    issues: ['#327', '#333'],
+    issues: ['#333'],
     ...rest,
   };
 }
 
-describe('Human Data Review Board projection (#340)', () => {
+const exampleSpot: readonly CurrentProductFactualEntity[] = [
+  { id: 'example-place', type: 'Spot' },
+];
+
+describe('Human Data Review Board projection (#340, #343)', () => {
   it('groups localized claims into one human entity without hiding report-only unknowns', () => {
     const claims = [
       claim({
@@ -63,6 +71,7 @@ describe('Human Data Review Board projection (#340)', () => {
 
     const board = buildHumanDataReviewBoard({
       claims,
+      currentProductEntities: exampleSpot,
       evidenceManifest: { evidence: [], omissions: [] },
     });
 
@@ -72,7 +81,9 @@ describe('Human Data Review Board projection (#340)', () => {
       name: '例の場所',
       headlineStatus: 'needs_confirmation',
       latestRetrievedAt: '2026-08-28',
+      needsConfirmationCount: 2,
       unknownCount: 1,
+      unresolvedCount: 3,
     });
     expect(board.entities[0]?.facts.map((fact) => [
       fact.label,
@@ -126,6 +137,7 @@ describe('Human Data Review Board projection (#340)', () => {
 
     const board = buildHumanDataReviewBoard({
       claims,
+      currentProductEntities: exampleSpot,
       evidenceManifest: { evidence: [], omissions: [] },
     });
 
@@ -137,6 +149,70 @@ describe('Human Data Review Board projection (#340)', () => {
     ]);
   });
 
+  it('keeps every unresolved status distinct and makes the total decomposable', () => {
+    const claims = [
+      claim({
+        claimId: 'place:example-place:name:ja',
+        fieldId: 'name:ja',
+        displayedValue: '例の場所',
+        verification: 'verified',
+      }),
+      claim({
+        claimId: 'place:example-place:address:ja',
+        fieldId: 'address:ja',
+        displayedValue: '東京都例町1-2-3',
+        verification: 'needs_confirmation',
+      }),
+      claim({
+        claimId: 'place:example-place:phone:ja',
+        fieldId: 'phone:ja',
+        displayedValue: '03-0000-0000',
+        verification: 'stale',
+      }),
+      claim({
+        claimId: 'place:example-place:hours:ja',
+        fieldId: 'hours:ja',
+        displayedValue: '公式情報に不一致あり',
+        verification: 'conflict',
+      }),
+      claim({
+        claimId: 'spot:example-place:reservation',
+        entityType: 'Spot',
+        fieldId: 'reservation',
+        verification: 'unknown',
+      }),
+      claim({
+        claimId: 'place:example-place:parking:ja',
+        fieldId: 'parking:ja',
+        displayedValue: '駐車場あり',
+        verification: 'demo',
+      }),
+    ];
+
+    const board = buildHumanDataReviewBoard({
+      claims,
+      currentProductEntities: exampleSpot,
+      evidenceManifest: { evidence: [], omissions: [] },
+    });
+
+    expect(board.entities[0]).toMatchObject({
+      needsConfirmationCount: 1,
+      staleCount: 1,
+      conflictCount: 1,
+      unknownCount: 1,
+      unresolvedCount: 4,
+      headlineStatus: 'conflict',
+    });
+    expect(board.statusCounts).toMatchObject({
+      verified: 1,
+      needs_confirmation: 1,
+      stale: 1,
+      conflict: 1,
+      unknown: 1,
+      demo: 1,
+    });
+  });
+
   it('maps evidence and omissions by stable claim ID without fabricating source screenshots', () => {
     const nameClaim = claim({
       claimId: 'place:example-place:name:ja',
@@ -145,6 +221,7 @@ describe('Human Data Review Board projection (#340)', () => {
     });
     const board = buildHumanDataReviewBoard({
       claims: [nameClaim],
+      currentProductEntities: exampleSpot,
       evidenceManifest: {
         evidence: [{
           evidenceId: 'example-app-ja-375',
@@ -180,7 +257,7 @@ describe('Human Data Review Board projection (#340)', () => {
     expect(board.entities[0]?.evidence.some((item) => item.kind === 'source')).toBe(false);
   });
 
-  it('adds Route and Story entities when #321 child ownership reaches non-place claims', () => {
+  it('admits current Route and Story entities without #321 child ownership', () => {
     const claims = [
       claim({
         claimId: 'route:example-route:half-day:duration_minutes',
@@ -191,7 +268,7 @@ describe('Human Data Review Board projection (#340)', () => {
         displayedValue: '150',
         canonicalValue: '200',
         finding: 'mismatch',
-        issues: ['#330', '#333'],
+        issues: ['#333'],
       }),
       claim({
         claimId: 'route:example-route:presentation:result_origin_travel_time:ja',
@@ -215,12 +292,24 @@ describe('Human Data Review Board projection (#340)', () => {
         fieldId: 'story.spot.example-place.product-availability',
         displayedValue: '季節商品を掲載',
         canonicalValue: 'seasonal-product',
+        issues: ['#333'],
+      }),
+      claim({
+        claimId: 'place:dormant-place:name:ja',
+        entityId: 'dormant-place',
+        entityName: '休止中の場所',
+        fieldId: 'name:ja',
+        displayedValue: '休止中の場所',
         issues: ['#327', '#333'],
       }),
     ];
 
     const board = buildHumanDataReviewBoard({
       claims,
+      currentProductEntities: [
+        { id: 'example-route', type: 'Route' },
+        { id: 'example-story', type: 'Story' },
+      ],
       evidenceManifest: { evidence: [], omissions: [] },
     });
 
@@ -260,20 +349,45 @@ describe('Human Data Review Board projection (#340)', () => {
     });
   });
 
-  it('projects the three reconciled entities and preserves #325 unknowns from repository authority', () => {
+  it('projects the complete current Product inventory and preserves reconciled entities', () => {
     const board = buildHumanDataReviewBoard({
       claims: buildRepositoryLedgerClaims(),
+      currentProductEntities: CURRENT_PRODUCT_FACTUAL_INVENTORY,
       evidenceManifest: DATA_VERIFICATION_EVIDENCE_MANIFEST,
     });
 
+    expect(board.entities).toHaveLength(15);
+    expect(board.entityTypeCounts).toEqual({ Spot: 11, Story: 2, Route: 2 });
     expect(board.entities.map((entity) => entity.id)).toEqual(expect.arrayContaining([
+      'akabeko',
+      'hikawa-valley',
+      'mitake-station',
+      'oku-hikawa-shrine',
       'okutama-kitchen',
+      'okutama-station',
       'okutama-tourism-office',
+      'port-okutama',
+      'wasabi-experience',
+      'wasabi-kitchen',
       'yamashiroya',
       'okutama-wasabi-journey',
+      'okutama-yamame-journey',
       'wasabi-okutama',
       'yamame-okutama',
     ]));
+    expect(board.entities.map((entity) => entity.id)).not.toContain('ome-sawai-sake-journey');
+
+    const unreconciledSpot = board.entities.find((entity) => entity.id === 'port-okutama');
+    expect(unreconciledSpot).toMatchObject({
+      type: 'Spot',
+      headlineStatus: 'unknown',
+      latestRetrievedAt: undefined,
+      evidence: [],
+      omissions: [],
+      sources: [],
+    });
+    expect(unreconciledSpot?.unknownCount).toBeGreaterThan(0);
+    expect(unreconciledSpot?.facts.some((fact) => fact.status === 'demo')).toBe(true);
 
     const kitchen = board.entities.find((entity) => entity.id === 'okutama-kitchen');
     expect(kitchen?.facts).toEqual(expect.arrayContaining([
@@ -308,17 +422,52 @@ describe('Human Data Review Board projection (#340)', () => {
       }),
     ]));
 
+    expect(board.entities.find((entity) => entity.id === 'okutama-yamame-journey')).toMatchObject({
+      type: 'Route',
+      name: '新宿から約90分、奥多摩やまめを味わう旅',
+      headlineStatus: 'unknown',
+    });
+    expect(board.entities.find((entity) => entity.id === 'wasabi-okutama')).toMatchObject({
+      type: 'Story',
+      name: '奥多摩わさびのストーリー',
+    });
+    expect(board.entities.find((entity) => entity.id === 'yamame-okutama')).toMatchObject({
+      type: 'Story',
+      name: '奥多摩やまめのストーリー',
+    });
+
+    for (const entity of board.entities) {
+      expect(entity.unresolvedCount).toBe(
+        entity.needsConfirmationCount
+        + entity.staleCount
+        + entity.unknownCount
+        + entity.conflictCount,
+      );
+    }
+
     const first = JSON.stringify(board);
     const second = JSON.stringify(buildHumanDataReviewBoard({
       claims: buildRepositoryLedgerClaims(),
+      currentProductEntities: CURRENT_PRODUCT_FACTUAL_INVENTORY,
       evidenceManifest: DATA_VERIFICATION_EVIDENCE_MANIFEST,
     }));
     expect(second).toBe(first);
+
+    const reversed = JSON.stringify(buildHumanDataReviewBoard({
+      claims: buildRepositoryLedgerClaims().reverse(),
+      currentProductEntities: [...CURRENT_PRODUCT_FACTUAL_INVENTORY].reverse(),
+      evidenceManifest: {
+        evidence: [...DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence].reverse(),
+        omissions: [...DATA_VERIFICATION_EVIDENCE_MANIFEST.omissions].reverse(),
+      },
+    }));
+    expect(reversed).toBe(first);
   });
 
   it('creates a Japanese share summary without promoting needs_confirmation to verified', () => {
     const board = buildHumanDataReviewBoard({
       claims: buildRepositoryLedgerClaims(),
+      currentProductEntities: CURRENT_PRODUCT_FACTUAL_INVENTORY,
       evidenceManifest: DATA_VERIFICATION_EVIDENCE_MANIFEST,
     });
     const kitchen = board.entities.find((entity) => entity.id === 'okutama-kitchen')!;

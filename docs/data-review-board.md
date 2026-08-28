@@ -15,11 +15,17 @@ Cloudflare preview / production build の次のパスで開きます。
 Board は事実の保存場所ではありません。次の既存の構造化された正本から、その時点のレビュー用表示を組み立てます。
 
 ```text
-canonical/source records + presentation records + audit metadata + evidence manifest
+current Product factual presentation inventory
++ canonical/source records + presentation records + audit metadata + evidence manifest
 → Data Verification Ledger claims
 → Human Data Review Board
 ```
 
+- Board の確認対象は、現在公開されている 2 つの journey の Route / Story と、
+  そこから到達できる Spot の構造化された presentation identity から決まります。
+- #321 の担当 Issue がまだ付いていない current Product entity も、`unknown` / `demo`
+  や出典・証拠なしの状態を保ったまま表示します。
+- Ledger に claim があるだけの休止中・過去の entity は確認対象に含めません。
 - canonical / presentation の値は Board 専用ファイルへコピーしません。
 - `docs/data-verification-ledger.md` をデータとして読み戻しません。
 - 画像や Issue / PR の文章から事実を推定しません。
@@ -42,7 +48,9 @@ canonical/source records + presentation records + audit metadata + evidence mani
 
 ## チームでの使い方
 
-1. Overview の `全部` / `要確認` / `矛盾` / `未確認` で確認対象を絞り込みます。
+1. Overview の Product 対象件数と `Spot` / `Story` / `Route` の内訳を確認し、
+   `全部` / `要確認` / `矛盾` / `未確認` で確認対象を絞り込みます。
+   Entity ごとの `未解決` は `要確認` + `要再確認` + `未確認` + `矛盾` の合計です。
 2. Entity detail で、現在値、unknown、出典と確認日、アプリ証拠、証拠省略、関連 Issue / PR を確認します。
 3. `Slack共有用` のサマリーをコピーして通知に使います。
 4. 詳細な判断や修正は canonical data、Ledger / evidence inputs、Issue / PR で行います。
