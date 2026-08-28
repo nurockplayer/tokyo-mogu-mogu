@@ -441,7 +441,9 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
     if (!visitor) return undefined;
     if (fieldId === 'phone') return defaultFact(visitor.phone);
     if (fieldId === 'hours' && visitor.shopHours) {
-      return defaultFact(`${visitor.shopHours.opens}–${visitor.shopHours.closes}`);
+      return defaultFact(
+        `${visitor.shopHours.opens}–${visitor.shopHours.closes}${visitor.shopHours.lastOrder ? ` / L.O. ${visitor.shopHours.lastOrder}` : ''}`,
+      );
     }
     if (fieldId === 'phone_hours' && visitor.phoneHours) {
       return defaultFact(
@@ -452,9 +454,32 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
       return defaultFact(`${visitor.access.stationJa} / 徒歩${visitor.access.walkMinutes}分`);
     }
     if (fieldId === 'parking' && visitor.parking) {
+      if (!visitor.parking.available) {
+        return defaultFact(
+          `なし${visitor.parking.nearbyPaidParking ? ' / 近隣有料駐車場あり' : ''}`,
+        );
+      }
+      const availability = visitor.parking.spaces === undefined
+        ? 'あり'
+        : `${visitor.parking.spaces}台`;
       return defaultFact(
-        `${visitor.parking.spaces}台 / ${visitor.parking.largeVehicles ? '大型車可' : '大型車情報なし'}`,
+        `${availability} / ${visitor.parking.largeVehicles ? '大型車可' : '大型車情報なし'}`,
       );
+    }
+    if (
+      (fieldId === 'price_availability' || fieldId === 'product_availability')
+      && visitor.menuListings?.length
+    ) {
+      const listing = visitor.menuListings[0];
+      return {
+        value: [
+          listing.id,
+          listing.listedPriceYen === undefined ? undefined : `${listing.listedPriceYen} JPY`,
+          listing.flavorIds?.length ? `flavors: ${listing.flavorIds.join(', ')}` : undefined,
+        ].filter((part): part is string => part !== undefined).join(' / '),
+        source: listing.source,
+        verification: deriveVerificationStatus(listing.source, place.origin),
+      };
     }
     if (
       (fieldId === 'price_availability' || fieldId === 'product_availability')
@@ -468,6 +493,9 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
         source: place.source,
         verification: visitor.yearEndClosure.verificationStatus,
       };
+    }
+    if (fieldId === 'closed_days' && visitor.regularClosedDays?.length) {
+      return defaultFact(visitor.regularClosedDays.join(', '));
     }
     return undefined;
   };
@@ -1174,7 +1202,10 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
           timeSensitiveNote: factualClaim.timeSensitive
             ? 'Operational Story-card claim can change; recheck the mapped official source.'
             : undefined,
-          issues: [...audit.issues, '#323'],
+          issues: [
+            ...audit.issues,
+            ...('issues' in factualClaim ? factualClaim.issues : []),
+          ],
           note: `Metadata maps ${factualClaim.parentFieldId} to canonical Place ${mappedPlace.id}; no factual value is duplicated in the audit manifest.`,
         });
       } else {
@@ -1415,7 +1446,10 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
               timeSensitiveNote: factualClaim.timeSensitive
                 ? 'Operational fact can change; recheck the mapped official source.'
                 : undefined,
-              issues: [...audit.issues, '#323'],
+              issues: [
+                ...audit.issues,
+                ...('issues' in factualClaim ? factualClaim.issues : []),
+              ],
               note: `Audit metadata maps Route guidance to canonical Place ${mappedPlace.id}; it does not duplicate the factual value.`,
             });
           } else {
@@ -1472,9 +1506,6 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
           const canonicalMobility = canonicalStep && canonicalVariant
             ? canonicalVariant.mobility.find((segment) => segment.toStep === canonicalStep.stepNumber)
             : undefined;
-          const canonicalAccess = routeSourcePlace
-            ? canonicalPlaceFact(routeSourcePlace, 'access')
-            : undefined;
           const walkFieldId = isMeetingTime ? 'meeting_time' : 'transport_guidance';
           for (const locale of PRESENTATION_LOCALES) {
             inputs.push({
@@ -1497,24 +1528,9 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
                       routeStatus,
                       SOURCE_FILES.routes,
                     )
-                  : routeSourcePlace && canonicalAccess
-                    ? canonicalValue(
-                        canonicalAccess.value,
-                        routeSourcePlace.origin,
-                        canonicalAccess.source,
-                        canonicalAccess.verification,
-                        SOURCE_FILES.places,
-                      )
-                    : undefined
+                  : undefined
                 : undefined,
-              presentation: routeSourcePlace && routeSourceStatus
-                ? presentationValue(
-                    stepFact.walk[locale],
-                    'Route',
-                    routeSourcePlace.origin,
-                    routeSourceStatus,
-                  )
-                : presentationValue(stepFact.walk[locale], 'Route'),
+              presentation: presentationValue(stepFact.walk[locale], 'Route'),
               timeSensitive: true,
               timeSensitiveNote: 'Presentation guidance; confirm current travel conditions.',
               issues: [...audit.issues],
@@ -1771,13 +1787,25 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
             sourceFile = SOURCE_FILES.tourismSnapshot;
           }
           if (!fact) continue;
+          const stableCanonicalFieldIds = audit && 'stableCanonicalFieldIds' in audit
+            ? audit.stableCanonicalFieldIds
+            : [];
+          const reusesStableSpotClaim = locale === 'ja'
+            && stableCanonicalFieldIds.some((fieldId) => fieldId === row.fieldId);
+          const requiredSpotField = REQUIRED_VISIBLE_SPOT_FIELDS.find(
+            (field) => field.fieldId === row.fieldId,
+          );
           inputs.push({
-            claimId: localizedClaimId(`place:${spot.id}:${row.fieldId}`, locale),
-            entityType: 'Place',
+            claimId: reusesStableSpotClaim
+              ? `spot:${spot.id}:${row.fieldId}`
+              : localizedClaimId(`place:${spot.id}:${row.fieldId}`, locale),
+            entityType: reusesStableSpotClaim ? 'Spot' : 'Place',
             entityId: spot.id,
             entityName: displayedName,
-            fieldId: localizedFieldId(row.fieldId, locale),
-            fieldLabel: `Source-backed ${row.fieldId} (${locale})`,
+            fieldId: reusesStableSpotClaim ? row.fieldId : localizedFieldId(row.fieldId, locale),
+            fieldLabel: reusesStableSpotClaim && requiredSpotField
+              ? requiredSpotField.fieldLabel
+              : `Source-backed ${row.fieldId} (${locale})`,
             comparisonExpected: locale === 'ja',
             canonical: locale === 'ja'
               ? canonicalValue(
@@ -1798,7 +1826,7 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
             timeSensitiveNote: 'Operational details can change; check the official source.',
             issues: audit ? [...audit.issues] : ['#333'],
             note: locale === 'ja'
-              ? row.fieldId === 'closed_days'
+              ? row.fieldId === 'closed_days' && place.visitorInformation?.yearEndClosure
                 ? 'The presentation discloses both unresolved closure end dates without selecting one; source-statement rows retain each first-party value.'
                 : row.fieldId === 'phone' && spot.id === 'okutama-tourism-office'
                   ? 'Phone is represented in the source snapshot and presentation but remains absent from the canonical Place schema.'
