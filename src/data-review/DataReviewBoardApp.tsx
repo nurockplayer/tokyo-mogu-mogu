@@ -79,8 +79,11 @@ function humanOmissionReason(reason: string): string {
   if (/Google Maps|map-provider/i.test(reason)) {
     return '地図サービスの画像は再利用せず、位置情報の提供元と参照URLだけを記録しています。';
   }
-  if (/All Rights Reserved|reuse/i.test(reason)) {
+  if (/All Rights Reserved/i.test(reason)) {
     return 'サイトの権利表示が All Rights Reserved のため、再利用許可を確認できず画像を保存していません。';
+  }
+  if (/reuse/i.test(reason)) {
+    return 'リポジトリでの再利用許可を確認できないため、参照元だけを記録し画像は保存していません。';
   }
   return reason;
 }

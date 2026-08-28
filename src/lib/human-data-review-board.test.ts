@@ -377,17 +377,29 @@ describe('Human Data Review Board projection (#340, #343)', () => {
     ]));
     expect(board.entities.map((entity) => entity.id)).not.toContain('ome-sawai-sake-journey');
 
-    const unreconciledSpot = board.entities.find((entity) => entity.id === 'port-okutama');
-    expect(unreconciledSpot).toMatchObject({
+    const portOkutama = board.entities.find((entity) => entity.id === 'port-okutama');
+    expect(portOkutama).toMatchObject({
       type: 'Spot',
-      headlineStatus: 'unknown',
-      latestRetrievedAt: undefined,
-      evidence: [],
-      omissions: [],
-      sources: [],
+      headlineStatus: 'needs_confirmation',
+      latestRetrievedAt: '2026-08-29',
     });
-    expect(unreconciledSpot?.unknownCount).toBeGreaterThan(0);
-    expect(unreconciledSpot?.facts.some((fact) => fact.status === 'demo')).toBe(true);
+    expect(portOkutama?.unknownCount).toBeGreaterThan(0);
+    expect(portOkutama?.facts).toEqual(expect.arrayContaining([
+      expect.objectContaining({ fieldKey: 'hours', status: 'needs_confirmation' }),
+      expect.objectContaining({ fieldKey: 'service_availability', status: 'needs_confirmation' }),
+      expect.objectContaining({ fieldKey: 'official_current_url', status: 'needs_confirmation' }),
+    ]));
+    expect(portOkutama?.sources.map((source) => source.url)).toEqual(expect.arrayContaining([
+      'https://www.okutama.ne.jp/',
+      'https://www.jreast.co.jp/hachioji/ome-itsukaichi/spot/detail382787.html',
+      'https://www.openstreetmap.org/node/6552267871',
+    ]));
+    expect(portOkutama?.sources).toEqual(expect.arrayContaining([
+      expect.objectContaining({ coordinateProvider: true }),
+    ]));
+    expect(portOkutama?.evidence).toHaveLength(3);
+    expect(portOkutama?.evidence.map((item) => item.kind)).toEqual(['app', 'app', 'app']);
+    expect(portOkutama?.omissions.some((item) => item.sourceUrl === 'https://www.okutama.ne.jp/')).toBe(true);
 
     const kitchen = board.entities.find((entity) => entity.id === 'okutama-kitchen');
     expect(kitchen?.facts).toEqual(expect.arrayContaining([

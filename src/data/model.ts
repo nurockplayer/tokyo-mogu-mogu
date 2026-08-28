@@ -129,6 +129,11 @@ export interface PlaceBusinessHours {
   lastOrder?: string;
 }
 
+export interface PlaceBusinessHourSchedule extends PlaceBusinessHours {
+  /** Stable schedule bucket; localized labels belong in presentation code. */
+  id: 'weekday' | 'weekend-holiday';
+}
+
 export type PlaceWeekday =
   | 'monday'
   | 'tuesday'
@@ -167,6 +172,8 @@ export interface PlaceSourceConflictStatement {
 export interface PlaceVisitorInformation {
   phone?: string;
   shopHours?: PlaceBusinessHours;
+  /** Multiple source-published schedules when one all-days interval would lose meaning. */
+  shopHourSchedules?: PlaceBusinessHourSchedule[];
   phoneHours?: PlaceBusinessHours & {
     unavailableOn: Array<'sunday' | 'public_holiday'>;
   };
@@ -175,9 +182,13 @@ export interface PlaceVisitorInformation {
     walkMinutes: number;
   };
   regularClosedDays?: PlaceWeekday[];
+  /** The operator publishes no regular closure while warning that irregular closures occur. */
+  irregularClosures?: boolean;
   parking?: PlaceParkingInformation;
   /** Stable product-category IDs; localized presentation copy is derived elsewhere. */
   productCategories?: string[];
+  /** Stable service-category IDs; localized presentation copy is derived elsewhere. */
+  serviceCategories?: string[];
   /** Source-listed products whose provenance differs from the Place's primary page. */
   menuListings?: PlaceMenuListing[];
   /** Explicit unresolved closure statements from first-party sources. */
@@ -209,6 +220,8 @@ export interface Place {
   coordinatePrecision?: 'precise' | 'approximate';
   /** Optional provenance for coordinates when it differs from the place source. */
   coordinateSource?: DataSource;
+  /** Optional address provenance when it differs from the Place's primary source. */
+  addressSource?: DataSource;
   /** Food cultures that can be experienced here. */
   foodCultureIds: string[];
   type: PlaceType;

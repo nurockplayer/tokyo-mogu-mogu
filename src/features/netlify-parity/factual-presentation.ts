@@ -204,6 +204,56 @@ const okutamaKitchenStoryDescription = localized(
   `${okutamaKitchenPlace.nameJa}官方菜單刊載${okutamaKitchenProductAvailability['zh-TW']}`,
 );
 
+const portOkutamaPlace = canonicalPlace('port-okutama');
+const portOkutamaVisitor = canonicalVisitorInformation(portOkutamaPlace);
+const portOkutamaName = localized(
+  portOkutamaPlace.nameJa,
+  portOkutamaPlace.nameEn,
+  portOkutamaPlace.nameJa,
+);
+const portOkutamaWeekdayHours = portOkutamaVisitor.shopHourSchedules?.find(
+  (schedule) => schedule.id === 'weekday',
+);
+const portOkutamaWeekendHours = portOkutamaVisitor.shopHourSchedules?.find(
+  (schedule) => schedule.id === 'weekend-holiday',
+);
+if (!portOkutamaWeekdayHours || !portOkutamaWeekendHours) {
+  throw new Error('Missing canonical weekday/weekend hours: port-okutama');
+}
+if (!portOkutamaVisitor.serviceCategories?.includes('specialty-coffee')) {
+  throw new Error('Missing canonical specialty-coffee service: port-okutama');
+}
+
+const portOkutamaHours = localized(
+  `平日 ${portOkutamaWeekdayHours.opens}〜${portOkutamaWeekdayHours.closes}（L.O. ${portOkutamaWeekdayHours.lastOrder}）／土日祝 ${portOkutamaWeekendHours.opens}〜${portOkutamaWeekendHours.closes}（L.O. ${portOkutamaWeekendHours.lastOrder}）`,
+  `Weekdays ${portOkutamaWeekdayHours.opens}–${portOkutamaWeekdayHours.closes} (L.O. ${portOkutamaWeekdayHours.lastOrder}) / Weekends & holidays ${portOkutamaWeekendHours.opens}–${portOkutamaWeekendHours.closes} (L.O. ${portOkutamaWeekendHours.lastOrder})`,
+  `平日 ${portOkutamaWeekdayHours.opens}–${portOkutamaWeekdayHours.closes}（最後點餐 ${portOkutamaWeekdayHours.lastOrder}）／週末及國定假日 ${portOkutamaWeekendHours.opens}–${portOkutamaWeekendHours.closes}（最後點餐 ${portOkutamaWeekendHours.lastOrder}）`,
+);
+
+const portOkutamaServices = localized(
+  '食事・スペシャルティコーヒー・クラフトビール・中古アウトドア用品・土産',
+  'Food, specialty coffee, craft beer, used outdoor goods, and souvenirs',
+  '餐飲、精品咖啡、精釀啤酒、二手戶外用品與伴手禮',
+);
+
+const portOkutamaRouteServices = localized(
+  '食事・コーヒー・土産（営業内容は要確認）',
+  'Food, coffee, and souvenirs (check current services)',
+  '餐飲、咖啡與伴手禮（請確認目前服務）',
+);
+
+const portOkutamaCoffeeAvailability = localized(
+  'スペシャルティコーヒー（提供状況は要確認）',
+  'Specialty coffee (check current availability)',
+  '精品咖啡（請確認當日供應狀況）',
+);
+
+const portOkutamaStoryDescription = localized(
+  `奥多摩駅2階の複合ショップ。${portOkutamaRouteServices.ja}`,
+  `A combined shop on the second floor of JR Okutama Station. ${portOkutamaRouteServices.en}`,
+  `位於 JR 奧多摩站 2 樓的複合商店。${portOkutamaRouteServices['zh-TW']}`,
+);
+
 const editorialReferenceNotes: Record<Locale, string> = {
   ja: '掲載内容は参考情報で、未確認の場合があります。訪問前に各施設の公式情報をご確認ください。',
   en: 'This listing is reference information and may not be verified. Check the venue’s official information before visiting.',
@@ -298,7 +348,11 @@ export const demoSpots: Record<string, SpotPresentation> = {
     'zh-TW': { name: okutamaKitchenName['zh-TW'], lead: '官方菜單刊載特選霜淇淋的便當熟食店', description: `依據${okutamaKitchenPlace.nameJa}官方資訊整理的參考內容。` },
   }),
   'hikawa-valley': spot('hikawa-valley', 'valley', ['river', 'valleyBridge'], { ja: { name: '氷川渓谷', lead: '水と土地に触れる散策', description: '食文化を支える水辺の風景に出会う、参考スポットです。' }, en: { name: 'Hikawa Valley', lead: 'A walk that meets water and landscape', description: 'A reference stop for waterside scenery behind the food culture.' }, 'zh-TW': { name: '冰川溪谷', lead: '親近水與土地的散步', description: '遇見支撐飲食文化的水岸風景之參考景點。' } }),
-  'port-okutama': spot('port-okutama', 'portCafe', ['port', 'portDetail'], { ja: { name: 'PORT OKUTAMA', lead: '旅の締めのコーヒーと土産探しに', description: '旅の最後に立ち寄るための、参考スポットです。' }, en: { name: 'PORT OKUTAMA', lead: 'Coffee and gifts to close the journey', description: 'A reference stop for the final part of the journey.' }, 'zh-TW': { name: 'PORT OKUTAMA', lead: '以咖啡與伴手禮為旅程收尾', description: '在旅程最後停靠的參考景點。' } }),
+  'port-okutama': spot('port-okutama', 'portCafe', ['port', 'portDetail'], {
+    ja: { name: portOkutamaName.ja, lead: '奥多摩駅2階で食事・コーヒー・土産に立ち寄る', description: `${portOkutamaPlace.nameJa}の公式情報とJR東日本の所在地情報に基づく参考情報です。` },
+    en: { name: portOkutamaName.en, lead: 'Food, coffee, and souvenirs on the second floor of Okutama Station', description: `Reference information based on ${portOkutamaPlace.nameEn}'s official site and JR East location information.` },
+    'zh-TW': { name: portOkutamaName['zh-TW'], lead: '在奧多摩站2樓享用餐飲、咖啡並選購伴手禮', description: `依據${portOkutamaPlace.nameJa}官網與JR東日本所在地資訊整理的參考內容。` },
+  }),
   'wasabi-experience': spot('wasabi-experience', 'wasabiExperience', ['river'], { ja: { name: 'わさび田体験', lead: 'わさび田の体験を知る', description: 'わさびの生産風景に触れるための、参考スポットです。' }, en: { name: 'Wasabi Experience', lead: 'Learn about a wasabi-field experience', description: 'A reference stop for meeting wasabi growing landscapes.' }, 'zh-TW': { name: '山葵田體驗', lead: '認識山葵田體驗', description: '親近山葵生產景觀的參考景點。' } }),
   'oku-hikawa-shrine': spot('oku-hikawa-shrine', 'okuHikawaShrine', ['valley', 'station'], { ja: { name: '奥氷川神社', lead: '奥多摩駅近くで地域の歴史にふれる', description: '地域の歴史と自然を感じられる静かな神社です。' }, en: { name: 'Oku-Hikawa Shrine', lead: 'Meet local history near Okutama Station', description: 'A quiet shrine where the area’s history and nature meet.' }, 'zh-TW': { name: '奧冰川神社', lead: '在奧多摩站附近感受地方歷史', description: '能感受地方歷史與自然的寧靜神社。' } }),
   'okutama-station': spot('okutama-station', 'station', ['tourismOffice'], { ja: { name: '奥多摩駅', lead: '旅のスタート地点', description: '旅程の起点として示す、参考スポットです。' }, en: { name: 'Okutama Station', lead: 'The journey’s starting point', description: 'A reference stop shown as the route’s starting point.' }, 'zh-TW': { name: '奧多摩站', lead: '旅程的起點', description: '作為行程起點顯示的參考景點。' } }),
@@ -345,7 +399,7 @@ export const routeStepText: Record<string, RouteStepText[]> = {
     { spotId: 'okutama-kitchen', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: okutamaKitchenProductAvailability },
     { spotId: 'hikawa-valley', walk: localized('徒歩 約 10 分', 'About 10 min on foot', '步行約 10 分鐘'), description: localized('川辺で涼む', 'Cool off beside the river', '在河畔納涼') },
     { spotId: 'oku-hikawa-shrine', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: localized('お参り！', 'Visit the shrine', '參拜神社！') },
-    { spotId: 'port-okutama', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: localized('カフェ・雑貨でゆったり！', 'Relax with coffee and local goods', '在咖啡與雜貨中悠閒休息！') },
+    { spotId: 'port-okutama', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: portOkutamaRouteServices },
   ],
   'demo-okutama-wasabi:full-day': [
     { spotId: 'mitake-station', description: localized('JR青梅線・旅のスタート地点', 'JR Ome Line · Starting point', 'JR 青梅線・旅程起點') },
@@ -353,7 +407,7 @@ export const routeStepText: Record<string, RouteStepText[]> = {
     { spotId: 'okutama-station', walk: localized('御岳駅から電車', 'Train from Mitake Station', '從御嶽站搭電車'), description: localized('青梅線 約20分', 'About 20 min on the Ome Line', '青梅線約 20 分鐘') },
     { spotId: 'akabeko', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: localized('昼食・13:30 L.O.注意', 'Lunch · Last order 13:30', '午餐・13:30 最後點餐') },
     { spotId: 'yamashiroya', description: yamashiroyaProducts },
-    { spotId: 'port-okutama', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: localized('締めのコーヒー', 'Coffee to close the journey', '以咖啡為旅程收尾') },
+    { spotId: 'port-okutama', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: portOkutamaCoffeeAvailability },
   ],
   'demo-okutama-yamame:half-day': [
     { spotId: 'okutama-station', description: localized('旅のスタート地点', 'Starting point', '旅程起點') },
@@ -413,6 +467,7 @@ export interface ReferenceSpotDetail {
       | 'access'
       | 'parking'
       | 'price_availability'
+      | 'service_availability'
       | 'closed_days'
       | 'official_current_url'
       | 'verification_note';
@@ -702,6 +757,94 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
       '・營業時間、公休日、停車、價格與山葵口味供應狀況可能變更。造訪前請查看官方資訊。',
     )],
   },
+  'port-okutama': {
+    tags: [
+      { tagId: 'station-complex-shop', color: '#8FAE5C', label: localized('駅上複合ショップ', 'Station complex shop', '車站複合商店') },
+      { tagId: 'official-source', color: '#F0A24C', label: localized('公式情報参照', 'Official source', '參考官方資訊') },
+      { tagId: 'confirmation-pending', color: '#5D9BEF', label: localized('確認中', 'Confirmation pending', '確認中') },
+    ],
+    description: localized(
+      `${portOkutamaPlace.nameJa}の公式情報とJR東日本の所在地情報に基づく参考情報です。奥多摩駅2階で${portOkutamaServices.ja}を扱う複合ショップです。`,
+      `Reference information based on ${portOkutamaPlace.nameEn}'s official site and JR East location information. It is a combined shop on the second floor of JR Okutama Station offering ${portOkutamaServices.en.toLowerCase()}.`,
+      `依據${portOkutamaPlace.nameJa}官網與JR東日本所在地資訊整理的參考內容。這是位於JR奧多摩站2樓的複合商店，提供${portOkutamaServices['zh-TW']}。`,
+    ),
+    information: [
+      {
+        fieldId: 'name',
+        icon: 'information',
+        label: localized('施設', 'Place', '設施'),
+        value: portOkutamaName,
+      },
+      {
+        fieldId: 'address',
+        icon: 'train',
+        label: localized('所在地', 'Address', '地址'),
+        value: localized(
+          portOkutamaPlace.address,
+          '210 Hikawa, Okutama, Nishitama, Tokyo (2F, JR Okutama Station)',
+          '東京都西多摩郡奧多摩町冰川210（JR奧多摩站2樓）',
+        ),
+      },
+      {
+        fieldId: 'phone',
+        icon: 'information',
+        label: localized('電話', 'Phone', '電話'),
+        value: localized(portOkutamaVisitor.phone ?? '', portOkutamaVisitor.phone ?? '', portOkutamaVisitor.phone ?? ''),
+      },
+      {
+        fieldId: 'hours',
+        icon: 'clock',
+        label: localized('営業時間', 'Hours', '營業時間'),
+        value: portOkutamaHours,
+      },
+      {
+        fieldId: 'closed_days',
+        icon: 'clock',
+        label: localized('休業', 'Closures', '休業'),
+        value: localized(
+          '無休（不定休あり・最新情報を確認）',
+          'Open daily; irregular closures may occur (check current information)',
+          '全年無固定休（可能臨時休業，請確認最新資訊）',
+        ),
+      },
+      {
+        fieldId: 'service_availability',
+        icon: 'information',
+        label: localized('取扱・サービス', 'Services', '服務項目'),
+        value: portOkutamaServices,
+      },
+      {
+        fieldId: 'official_current_url',
+        icon: 'information',
+        label: localized('公式情報', 'Official source', '官方資訊'),
+        value: localized(portOkutamaPlace.source.url ?? '', portOkutamaPlace.source.url ?? '', portOkutamaPlace.source.url ?? ''),
+      },
+      {
+        fieldId: 'verification_note',
+        icon: 'information',
+        label: localized('確認状況', 'Verification status', '確認狀態'),
+        value: localized(
+          '掲載内容は現在確認中です。営業時間・休業・メニュー・商品の取扱・提供状況は、訪問前に公式情報をご確認ください。',
+          'This listing is still being confirmed. Check official information for current hours, closures, menus, products, and service availability before visiting.',
+          '刊載內容仍在確認中。造訪前請以官方資訊確認營業時間、休業、菜單、商品與服務供應狀況。',
+        ),
+      },
+    ],
+    guide: {
+      title: localized('公式情報', 'Official information', '官方資訊'),
+      body: localized(
+        '掲載内容は現在確認中です。訪問前にPORT OKUTAMAの公式サイトで最新情報をご確認ください。',
+        `This listing is still being confirmed. Check ${portOkutamaPlace.nameEn}'s official site before visiting.`,
+        '刊載內容仍在確認中。造訪前請查看PORT OKUTAMA官方網站。',
+      ),
+      action: localized('公式情報を確認する', 'Check official information', '查看官方資訊'),
+    },
+    caution: [localized(
+      '・営業時間、休業、メニュー、商品の取扱・提供状況は変更される場合があります。訪問前に公式情報をご確認ください。',
+      '• Hours, closures, menus, products, and service availability can change. Check official information before visiting.',
+      '・營業時間、休業、菜單、商品與服務供應狀況可能變更。造訪前請查看官方資訊。',
+    )],
+  },
 };
 
 export interface StorySpotReference {
@@ -751,12 +894,8 @@ export const storySpotGroups: Record<string, {
       },
       {
         referenceId: 'port-okutama', spotId: 'port-okutama', imageAssetId: 'portCafe', badgeColor: '#E98A1C',
-        badge: { ja: 'カフェ', en: 'Café', 'zh-TW': '咖啡廳' },
-        description: {
-          ja: 'カフェと雑貨の複合スポット',
-          en: 'A combined café and lifestyle-goods spot',
-          'zh-TW': '結合咖啡與生活雜貨的複合空間',
-        },
+        badge: { ja: 'カフェ・ショップ', en: 'Café & shop', 'zh-TW': '咖啡・商店' },
+        description: portOkutamaStoryDescription,
       },
     ],
     nature: [

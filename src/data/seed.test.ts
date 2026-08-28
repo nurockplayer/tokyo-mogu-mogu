@@ -83,6 +83,11 @@ describe('seed data contract (#2)', () => {
         expect(p.coordinateSource.retrievedAt, `${p.id} coordinate source missing retrievedAt`).toBeDefined();
         expect(p.coordinateSource.originalId, `${p.id} coordinate source missing originalId`).toBeDefined();
       }
+      if (p.addressSource) {
+        expect(p.addressSource.sourceType, `${p.id} address source missing sourceType`).toBeDefined();
+        expect(p.addressSource.retrievedAt, `${p.id} address source missing retrievedAt`).toBeDefined();
+        expect(p.addressSource.originalId, `${p.id} address source missing originalId`).toBeDefined();
+      }
       for (const listing of p.visitorInformation?.menuListings ?? []) {
         expect(listing.source.sourceType, `${p.id} menu source missing sourceType`).toBeDefined();
         expect(listing.source.retrievedAt, `${p.id} menu source missing retrievedAt`).toBeDefined();
@@ -237,6 +242,65 @@ describe('seed data contract (#2)', () => {
       'All Rights Reserved',
     );
     expect(getFoodCultureById('wasabi-okutama')?.placeIds).toContain('okutama-kitchen');
+  });
+
+  it('keeps PORT OKUTAMA facts and per-field provenance in one canonical Place (#327)', () => {
+    const portOkutama = getPlaceById('port-okutama');
+
+    expect(portOkutama).toMatchObject({
+      nameJa: 'PORT OKUTAMA',
+      nameEn: 'PORT OKUTAMA',
+      address: '東京都西多摩郡奥多摩町氷川210（JR奥多摩駅2階）',
+      latitude: 35.8091498,
+      longitude: 139.0967189,
+      coordinatePrecision: 'precise',
+      coordinateSource: {
+        name: 'OpenStreetMap（PORT OKUTAMA）',
+        url: 'https://www.openstreetmap.org/node/6552267871',
+        sourceType: 'open_data',
+        retrievedAt: '2026-08-29',
+        verificationStatus: 'needs_confirmation',
+        originalId: 'node/6552267871',
+      },
+      addressSource: {
+        name: 'JR東日本（PORT OKUTAMA）',
+        url: 'https://www.jreast.co.jp/hachioji/ome-itsukaichi/spot/detail382787.html',
+        sourceType: 'official_web',
+        retrievedAt: '2026-08-29',
+        verificationStatus: 'needs_confirmation',
+        originalId: 'detail382787',
+      },
+      foodCultureIds: [],
+      type: 'shop',
+      origin: 'source',
+      source: {
+        name: 'PORT OKUTAMA（公式サイト）',
+        url: 'https://www.okutama.ne.jp/',
+        sourceType: 'official_web',
+        retrievedAt: '2026-08-29',
+        verificationStatus: 'needs_confirmation',
+        originalId: 'port-okutama-home',
+      },
+      visitorInformation: {
+        phone: '0428-85-8630',
+        shopHourSchedules: [
+          { id: 'weekday', opens: '11:00', closes: '17:00', lastOrder: '16:30' },
+          { id: 'weekend-holiday', opens: '11:00', closes: '17:30', lastOrder: '17:00' },
+        ],
+        irregularClosures: true,
+        serviceCategories: [
+          'food-and-drink',
+          'specialty-coffee',
+          'craft-beer',
+          'used-outdoor-goods',
+          'souvenirs',
+        ],
+      },
+    });
+    expect(portOkutama?.source.license).toContain('reuse rights not stated');
+    expect(portOkutama?.source).not.toHaveProperty('confirmedAt');
+    expect(portOkutama?.addressSource?.license).toContain('reuse rights not stated');
+    expect(portOkutama?.coordinateSource?.license).toContain('ODbL 1.0');
   });
 
   it('relation helpers return the linked records', () => {

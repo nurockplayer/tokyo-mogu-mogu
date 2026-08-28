@@ -105,6 +105,7 @@ const HUMAN_FIELDS: readonly HumanFieldDefinition[] = [
   { key: 'hours', label: '営業時間', aliases: ['hours'], order: 60 },
   { key: 'closed_days', label: '休業日', aliases: ['closed_days'], order: 70 },
   { key: 'price_availability', label: '価格・取扱情報', aliases: ['price_availability', 'price'], order: 80 },
+  { key: 'service_availability', label: '取扱・サービス', aliases: ['service_availability'], order: 85 },
   { key: 'reservation', label: '予約', aliases: ['reservation'], order: 90 },
   { key: 'booking_destination', label: '予約方法・URL', aliases: ['booking_destination'], order: 100 },
   { key: 'parking', label: '駐車場', aliases: ['parking'], order: 110 },

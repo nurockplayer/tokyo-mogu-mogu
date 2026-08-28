@@ -322,6 +322,67 @@ describe('Netlify parity presentation content', () => {
     expect(storyReference.description?.ja).not.toContain('わさびジェラートが名物');
   });
 
+  it('derives PORT OKUTAMA Spot, Route, and Story facts from the canonical Place (#327)', () => {
+    const place = PLACES.find((candidate) => candidate.id === 'port-okutama');
+    const visitor = place?.visitorInformation;
+    const detail = referenceSpotDetails['port-okutama'];
+    const halfDayStep = routeStepText['demo-okutama-wasabi:half-day'].find(
+      (step) => step.spotId === 'port-okutama',
+    );
+    const fullDayStep = routeStepText['demo-okutama-wasabi:full-day'].find(
+      (step) => step.spotId === 'port-okutama',
+    );
+    const storyReference = storySpotGroups['demo-okutama-wasabi'].nearby.find(
+      (reference) => reference.spotId === 'port-okutama',
+    );
+
+    expect(place).toBeDefined();
+    expect(visitor).toBeDefined();
+    expect(detail).toBeDefined();
+    if (!place || !visitor || !detail || !halfDayStep || !fullDayStep || !storyReference) {
+      throw new Error('Missing source-backed PORT OKUTAMA presentation.');
+    }
+
+    expect(demoSpots['port-okutama'].copy.ja.name).toBe(place.nameJa);
+    for (const [fieldId, expected] of [
+      ['name', place.nameJa],
+      ['address', place.address],
+      ['phone', visitor.phone],
+      ['official_current_url', place.source.url],
+    ] as const) {
+      expect(detail.information.find((row) => row.fieldId === fieldId)?.value.ja).toBe(expected);
+    }
+    expect(detail.information.find((row) => row.fieldId === 'hours')?.value).toEqual({
+      ja: '平日 11:00〜17:00（L.O. 16:30）／土日祝 11:00〜17:30（L.O. 17:00）',
+      en: 'Weekdays 11:00–17:00 (L.O. 16:30) / Weekends & holidays 11:00–17:30 (L.O. 17:00)',
+      'zh-TW': '平日 11:00–17:00（最後點餐 16:30）／週末及國定假日 11:00–17:30（最後點餐 17:00）',
+    });
+    expect(detail.information.find((row) => row.fieldId === 'closed_days')?.value.ja)
+      .toBe('無休（不定休あり・最新情報を確認）');
+    expect(detail.information.find((row) => row.fieldId === 'service_availability')?.value.ja)
+      .toContain('食事・スペシャルティコーヒー・クラフトビール');
+
+    for (const locale of locales) {
+      expect(halfDayStep.description[locale]).toMatch(
+        locale === 'ja' ? /コーヒー|食事/ : locale === 'en' ? /coffee|food/i : /咖啡|餐飲/,
+      );
+      expect(fullDayStep.description[locale]).toMatch(
+        locale === 'ja' ? /コーヒー/ : locale === 'en' ? /coffee/i : /咖啡/,
+      );
+      expect(storyReference.description?.[locale]).toMatch(
+        locale === 'ja' ? /複合ショップ/ : locale === 'en' ? /combined shop/i : /複合商店/,
+      );
+      expect(detail.caution.map((item) => item[locale]).join(' ')).toMatch(
+        locale === 'ja' ? /公式|確認/ : locale === 'en' ? /official|check/i : /官方|確認/,
+      );
+    }
+    expect(halfDayStep.walk).toEqual({
+      ja: '徒歩 約 5 分',
+      en: 'About 5 min on foot',
+      'zh-TW': '步行約 5 分鐘',
+    });
+  });
+
   it('resolves every presentation asset to a bundled local file', () => {
     for (const assetFile of Object.values(referenceAssetFiles)) {
       expect(existsSync(fileURLToPath(new URL(assetFile, import.meta.url)))).toBe(true);
