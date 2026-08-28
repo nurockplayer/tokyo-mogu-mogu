@@ -74,9 +74,13 @@ describe('Human Data Review Board projection (#340)', () => {
       latestRetrievedAt: '2026-08-28',
       unknownCount: 1,
     });
-    expect(board.entities[0]?.facts.map((fact) => [fact.label, fact.value])).toEqual([
-      ['施設名', '例の場所'],
-      ['住所', '東京都例町1-2-3'],
+    expect(board.entities[0]?.facts.map((fact) => [
+      fact.label,
+      fact.canonicalValue,
+      fact.displayedValue,
+    ])).toEqual([
+      ['施設名', 'Example Place', '例の場所'],
+      ['住所', '東京都例町1-2-3', '東京都例町1-2-3'],
     ]);
     expect(board.entities[0]?.unknowns).toEqual([
       expect.objectContaining({ fieldKey: 'reservation', label: '予約' }),
@@ -190,6 +194,20 @@ describe('Human Data Review Board projection (#340)', () => {
         issues: ['#330', '#333'],
       }),
       claim({
+        claimId: 'route:example-route:presentation:result_origin_travel_time:ja',
+        entityType: 'Route',
+        entityId: 'example-route',
+        entityName: '例の食旅',
+        fieldId: 'presentation:result_origin_travel_time:ja',
+        fieldLabel: 'Result origin travel-time guidance (ja)',
+        displayedValue: '東京駅 / 約120分',
+        comparedPresentationClaimId:
+          'route:example-route:half-day:origin_travel_time_guidance:ja',
+        comparedPresentationValue: '東京駅 / 60分',
+        finding: 'presentation_mismatch',
+        issues: ['#333'],
+      }),
+      claim({
         claimId: 'story:example-story:story.spot.example-place.product-availability',
         entityType: 'Story',
         entityId: 'example-story',
@@ -212,19 +230,32 @@ describe('Human Data Review Board projection (#340)', () => {
     ]);
     expect(board.entities[0]).toMatchObject({
       name: '例の食旅',
-      facts: [expect.objectContaining({
-        fieldKey: 'route:half-day:duration_minutes',
-        label: '半日の所要時間（分）',
-        value: '150',
-        finding: 'mismatch',
-      })],
+      facts: [
+        expect.objectContaining({
+          fieldKey: 'route:half-day:duration_minutes',
+          label: '半日の所要時間（分）',
+          canonicalValue: '200',
+          displayedValue: '150',
+          comparedPresentationValue: undefined,
+          finding: 'mismatch',
+          status: 'needs_confirmation',
+        }),
+        expect.objectContaining({
+          fieldKey: 'route:presentation:result_origin_travel_time',
+          displayedValue: '東京駅 / 約120分',
+          comparedPresentationValue: '東京駅 / 60分',
+          finding: 'presentation_mismatch',
+          status: 'needs_confirmation',
+        }),
+      ],
     });
     expect(board.entities[1]).toMatchObject({
       name: '例のストーリー',
       facts: [expect.objectContaining({
         fieldKey: 'story:example-place:product_availability',
         label: '取扱・提供状況（example-place）',
-        value: '季節商品を掲載',
+        displayedValue: '季節商品を掲載',
+        canonicalValue: 'seasonal-product',
       })],
     });
   });
@@ -265,6 +296,17 @@ describe('Human Data Review Board projection (#340)', () => {
     ]));
     expect(kitchen?.evidence.some((item) => item.kind === 'app')).toBe(true);
     expect(kitchen?.omissions.some((item) => item.sourceUrl.includes('google.com/maps'))).toBe(true);
+
+    const route = board.entities.find((entity) => entity.id === 'okutama-wasabi-journey');
+    expect(route?.facts).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        fieldKey: 'route:half-day:duration_minutes',
+        canonicalValue: '200',
+        displayedValue: '150',
+        finding: 'mismatch',
+        status: 'needs_confirmation',
+      }),
+    ]));
 
     const first = JSON.stringify(board);
     const second = JSON.stringify(buildHumanDataReviewBoard({

@@ -68,6 +68,22 @@ test.describe('Human Data Review Board (#340)', () => {
     await page.goto('/data-review/#okutama-wasabi-journey');
 
     await expect(page.getByRole('heading', { name: '東京わさび文化を巡る旅' })).toBeVisible();
+    const durationRow = page.getByRole('row').filter({ hasText: '半日の所要時間（分）' });
+    await expect(durationRow.getByText('表示差異あり（レビュー対象）', { exact: true })).toBeVisible();
+    await expect(durationRow.getByText('正本', { exact: true })).toBeVisible();
+    await expect(durationRow.getByText('200', { exact: true })).toBeVisible();
+    await expect(durationRow.getByText('現在の表示', { exact: true })).toBeVisible();
+    await expect(durationRow.getByText('150', { exact: true })).toBeVisible();
+    await expect(durationRow.getByText('🟡 出典あり・要確認', { exact: true })).toBeVisible();
+
+    const presentationRow = page.getByRole('row').filter({
+      hasText: 'Result と Route の移動時間表示',
+    });
+    await expect(presentationRow.getByText('表示差異あり（レビュー対象）', { exact: true })).toBeVisible();
+    await expect(presentationRow.getByText('現在の表示', { exact: true })).toBeVisible();
+    await expect(presentationRow.getByText('東京駅 / から電車で　約120分', { exact: true })).toBeVisible();
+    await expect(presentationRow.getByText('比較対象の表示', { exact: true })).toBeVisible();
+    await expect(presentationRow.getByText('東京駅 / 60 分', { exact: true })).toBeVisible();
     await expect(page.getByText('取扱・運行情報（okutama-kitchen）', { exact: true })).toBeVisible();
     await expect(page.getByText('特選ソフトジェラート（わさび味を含む・提供状況は要確認）', { exact: true })).toBeVisible();
     await expect(page.getByRole('img', { name: /東京わさび文化を巡る旅.*アプリ表示/ }).first()).toBeVisible();

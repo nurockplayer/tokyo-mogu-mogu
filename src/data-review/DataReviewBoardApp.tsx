@@ -7,6 +7,7 @@ import {
   createDataReviewShareSummaryJa,
   DATA_REVIEW_STATUS_LABELS_JA,
   type HumanDataReviewEntity,
+  type HumanDataReviewFact,
   type HumanDataReviewSource,
 } from '../lib/human-data-review-board';
 import { dataReviewEvidenceAssetUrl } from './evidence-assets';
@@ -73,6 +74,36 @@ function humanOmissionReason(reason: string): string {
     return 'サイトの権利表示が All Rights Reserved のため、再利用許可を確認できず画像を保存していません。';
   }
   return reason;
+}
+
+function FactValue({ fact }: { fact: HumanDataReviewFact }) {
+  if (fact.finding === 'mismatch') {
+    return (
+      <div className="drb-fact__comparison" data-finding={fact.finding}>
+        <strong>表示差異あり（レビュー対象）</strong>
+        <dl>
+          <div><dt>正本</dt><dd>{fact.canonicalValue ?? '記録なし'}</dd></div>
+          <div><dt>現在の表示</dt><dd>{fact.displayedValue ?? '記録なし'}</dd></div>
+        </dl>
+      </div>
+    );
+  }
+  if (fact.finding === 'presentation_mismatch') {
+    return (
+      <div className="drb-fact__comparison" data-finding={fact.finding}>
+        <strong>表示差異あり（レビュー対象）</strong>
+        <dl>
+          <div><dt>現在の表示</dt><dd>{fact.displayedValue ?? '記録なし'}</dd></div>
+          <div><dt>比較対象の表示</dt><dd>{fact.comparedPresentationValue ?? '記録なし'}</dd></div>
+        </dl>
+      </div>
+    );
+  }
+  return (
+    <span className="drb-fact__value">
+      {fact.displayedValue ?? fact.canonicalValue}
+    </span>
+  );
 }
 
 function Overview({ onSelect }: { onSelect: (entityId: string) => void }) {
@@ -225,12 +256,12 @@ function Detail({ entity, onBack }: { entity: HumanDataReviewEntity; onBack: () 
             <div className="drb-panel__heading"><span>01</span><h2 id="known-heading">現在わかっていること</h2></div>
             <div className="drb-facts" role="table" aria-label="現在わかっていること">
               <div className="drb-facts__header" role="row">
-                <span role="columnheader">項目</span><span role="columnheader">現在の表示・内容</span><span role="columnheader">状態 / 出典確認日</span>
+                <span role="columnheader">項目</span><span role="columnheader">値 / 比較</span><span role="columnheader">状態 / 出典確認日</span>
               </div>
               {entity.facts.map((fact) => (
                 <div className="drb-fact" role="row" key={fact.fieldKey}>
                   <strong role="cell">{fact.label}</strong>
-                  <span role="cell" className="drb-fact__value">{fact.value}</span>
+                  <div role="cell"><FactValue fact={fact} /></div>
                   <span role="cell" className="drb-fact__status">
                     <span className={statusClass(fact.status)}>{DATA_REVIEW_STATUS_LABELS_JA[fact.status]}</span>
                     <small>{fact.retrievedAt ?? '確認日なし'}</small>

@@ -20,7 +20,10 @@ type SourceType = DataSource['sourceType'];
 export interface HumanDataReviewFact {
   fieldKey: string;
   label: string;
-  value: string;
+  canonicalValue?: string;
+  displayedValue?: string;
+  comparedPresentationClaimId?: string;
+  comparedPresentationValue?: string;
   status: LedgerVerification;
   claimIds: readonly string[];
   sourceName?: string;
@@ -132,7 +135,19 @@ function baseFieldId(fieldId: string): string | undefined {
 
 function fieldDefinition(claim: LedgerClaim): HumanFieldDefinition | undefined {
   const base = baseFieldId(claim.fieldId);
-  if (!base || base.startsWith('presentation:') || base.includes(':source:')) return undefined;
+  if (!base || base.includes(':source:')) return undefined;
+  if (base.startsWith('presentation:')) {
+    if (claim.finding !== 'presentation_mismatch') return undefined;
+    const presentationLabels: Readonly<Record<string, string>> = {
+      'presentation:result_origin_travel_time': 'Result と Route の移動時間表示',
+    };
+    return {
+      key: `${claim.entityType.toLowerCase()}:${base}`,
+      label: presentationLabels[base] ?? `表示間の比較（${claim.appSurface ?? claim.fieldLabel}）`,
+      aliases: [base],
+      order: 30,
+    };
+  }
   if (claim.entityType === 'Place' || claim.entityType === 'Spot') {
     return FIELD_BY_ALIAS.get(base);
   }
@@ -195,8 +210,12 @@ function fieldDefinition(claim: LedgerClaim): HumanFieldDefinition | undefined {
   };
 }
 
-function valueFor(claim: LedgerClaim): string | undefined {
+function preferredValueFor(claim: LedgerClaim): string | undefined {
   return claim.displayedValue || claim.canonicalValue;
+}
+
+function isReviewComparison(claim: LedgerClaim): boolean {
+  return claim.finding === 'mismatch' || claim.finding === 'presentation_mismatch';
 }
 
 function candidateScore(claim: LedgerClaim, definition: HumanFieldDefinition): number {
@@ -231,7 +250,7 @@ function headlineStatus(statuses: readonly LedgerVerification[]): LedgerVerifica
 function buildFacts(claims: readonly LedgerClaim[]): HumanDataReviewFact[] {
   const candidates = new Map<string, { claim: LedgerClaim; definition: HumanFieldDefinition }>();
   for (const claim of claims) {
-    if (claim.verification === 'unknown' || !valueFor(claim)) continue;
+    if (claim.verification === 'unknown' || !preferredValueFor(claim)) continue;
     const definition = fieldDefinition(claim);
     if (!definition) continue;
     const current = candidates.get(definition.key);
@@ -248,7 +267,10 @@ function buildFacts(claims: readonly LedgerClaim[]): HumanDataReviewFact[] {
     .map(({ claim, definition }) => ({
       fieldKey: definition.key,
       label: definition.label,
-      value: valueFor(claim)!,
+      canonicalValue: claim.canonicalValue,
+      displayedValue: claim.displayedValue,
+      comparedPresentationClaimId: claim.comparedPresentationClaimId,
+      comparedPresentationValue: claim.comparedPresentationValue,
       status: claim.verification,
       claimIds: [claim.claimId],
       sourceName: claim.primarySource,
@@ -376,7 +398,9 @@ export function buildHumanDataReviewBoard(input: HumanDataReviewBoardInput): Hum
       (claim) => dataReviewOwner(claim)
         && (claim.entityType === 'Place' || claim.entityType === 'Spot'),
     );
-    const projectionClaims = hasPlaceOrSpotOwner ? claims : claims.filter(dataReviewOwner);
+    const projectionClaims = hasPlaceOrSpotOwner
+      ? claims
+      : claims.filter((claim) => dataReviewOwner(claim) || isReviewComparison(claim));
     const claimIds = new Set(projectionClaims.map((claim) => claim.claimId));
     const facts = buildFacts(projectionClaims);
     const unknowns = buildUnknowns(projectionClaims);
@@ -384,7 +408,9 @@ export function buildHumanDataReviewBoard(input: HumanDataReviewBoardInput): Hum
       ...facts.map((fact) => fact.status),
       ...unknowns.map((): LedgerVerification => 'unknown'),
     ];
-    const name = facts.find((fact) => fact.fieldKey === 'name')?.value
+    const nameFact = facts.find((fact) => fact.fieldKey === 'name');
+    const name = nameFact?.displayedValue
+      ?? nameFact?.canonicalValue
       ?? projectionClaims.find((claim) => claim.entityName)?.entityName
       ?? entityId;
     const relevantDates = projectionClaims.map((claim) => claim.retrievedAt).filter((date): date is string => Boolean(date));
