@@ -83,6 +83,11 @@ describe('seed data contract (#2)', () => {
         expect(p.coordinateSource.retrievedAt, `${p.id} coordinate source missing retrievedAt`).toBeDefined();
         expect(p.coordinateSource.originalId, `${p.id} coordinate source missing originalId`).toBeDefined();
       }
+      for (const listing of p.visitorInformation?.menuListings ?? []) {
+        expect(listing.source.sourceType, `${p.id} menu source missing sourceType`).toBeDefined();
+        expect(listing.source.retrievedAt, `${p.id} menu source missing retrievedAt`).toBeDefined();
+        expect(listing.source.originalId, `${p.id} menu source missing originalId`).toBeDefined();
+      }
       for (const statement of p.visitorInformation?.yearEndClosure?.statements ?? []) {
         expect(statement.source.sourceType, `${p.id} conflict source missing sourceType`).toBeDefined();
         expect(statement.source.retrievedAt, `${p.id} conflict source missing retrievedAt`).toBeDefined();
@@ -167,6 +172,71 @@ describe('seed data contract (#2)', () => {
     expect(yamashiroya?.coordinateSource?.license).toContain('not field-verified');
     expect(yamashiroya?.visitorInformation?.yearEndClosure?.statements).toHaveLength(2);
     expect(getFoodCultureById('wasabi-okutama')?.placeIds).toContain('yamashiroya');
+  });
+
+  it('keeps Okutama no Daidokoro facts in one canonical source-backed Place (#325)', () => {
+    const kitchen = getPlaceById('okutama-kitchen');
+
+    expect(kitchen).toMatchObject({
+      nameJa: '手作りお弁当・お惣菜の専門店 奥多摩の台所',
+      nameEn: 'Okutama no Daidokoro Handmade Bento & Deli',
+      address: '〒198-0212 東京都西多摩郡奥多摩町氷川199-7',
+      latitude: 35.8085659,
+      longitude: 139.0971665,
+      coordinatePrecision: 'approximate',
+      coordinateSource: {
+        sourceType: 'business',
+        retrievedAt: '2026-08-28',
+        verificationStatus: 'needs_confirmation',
+      },
+      foodCultureIds: ['wasabi-okutama'],
+      type: 'shop',
+      origin: 'source',
+      source: {
+        name: '奥多摩の台所（公式サイト）',
+        url: 'https://www.okutamanodaidokoro.com/',
+        sourceType: 'official_web',
+        retrievedAt: '2026-08-28',
+        verificationStatus: 'needs_confirmation',
+        originalId: 'okutama-kitchen-home',
+      },
+      visitorInformation: {
+        phone: '0428-83-2401',
+        shopHours: { opens: '09:00', closes: '18:00', lastOrder: '16:00' },
+        access: { stationJa: 'JR青梅線「奥多摩駅」', walkMinutes: 1 },
+        regularClosedDays: ['thursday'],
+        parking: { available: false, nearbyPaidParking: true },
+        menuListings: [
+          {
+            id: 'special-soft-gelato',
+            nameJa: '特選ソフトジェラート',
+            listedPriceYen: 500,
+            flavorIds: [
+              'caramelized-caramel',
+              'vanilla-milk',
+              'strawberry-milk',
+              'black-sesame',
+              'kyoto-matcha',
+              'wasabi',
+            ],
+            source: {
+              url: 'https://www.okutamanodaidokoro.com/menu.html',
+              sourceType: 'official_web',
+              retrievedAt: '2026-08-28',
+              verificationStatus: 'needs_confirmation',
+              originalId: 'okutama-kitchen-menu',
+            },
+          },
+        ],
+      },
+    });
+    expect(kitchen?.source.license).toContain('All Rights Reserved');
+    expect(kitchen?.source).not.toHaveProperty('confirmedAt');
+    expect(kitchen?.coordinateSource?.license).toContain('not field-verified');
+    expect(kitchen?.visitorInformation?.menuListings?.[0].source.license).toContain(
+      'All Rights Reserved',
+    );
+    expect(getFoodCultureById('wasabi-okutama')?.placeIds).toContain('okutama-kitchen');
   });
 
   it('relation helpers return the linked records', () => {
@@ -264,6 +334,11 @@ describe('seed data contract (#2)', () => {
       if (p.coordinateSource?.sourceUpdatedAt) dates.push(p.coordinateSource.sourceUpdatedAt);
       if (p.coordinateSource?.confirmedAt) dates.push(p.coordinateSource.confirmedAt);
       if (p.coordinateSource?.retrievedAt) dates.push(p.coordinateSource.retrievedAt);
+      for (const listing of p.visitorInformation?.menuListings ?? []) {
+        if (listing.source.sourceUpdatedAt) dates.push(listing.source.sourceUpdatedAt);
+        if (listing.source.confirmedAt) dates.push(listing.source.confirmedAt);
+        if (listing.source.retrievedAt) dates.push(listing.source.retrievedAt);
+      }
       for (const statement of p.visitorInformation?.yearEndClosure?.statements ?? []) {
         if (statement.source.sourceUpdatedAt) dates.push(statement.source.sourceUpdatedAt);
         if (statement.source.confirmedAt) dates.push(statement.source.confirmedAt);

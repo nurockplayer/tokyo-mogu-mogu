@@ -190,6 +190,115 @@ describe('data verification evidence manifest (#334)', () => {
     ).not.toThrow();
   });
 
+  it('records bounded Okutama no Daidokoro app evidence and source-rights omissions (#325)', () => {
+    const repositoryClaims = buildRepositoryLedgerClaims();
+    const app = DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.find(
+      (item) => item.evidenceId === 'okutama-kitchen-app-ja-375',
+    );
+    const routeApp = DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.find(
+      (item) => item.evidenceId === 'okutama-kitchen-route-app-ja-375',
+    );
+    const storyApp = DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.find(
+      (item) => item.evidenceId === 'okutama-kitchen-story-wasabi-app-ja-375',
+    );
+    const homeOmission = DATA_VERIFICATION_EVIDENCE_MANIFEST.omissions.find(
+      (item) => item.omissionId === 'okutama-kitchen-home-source-rights-restricted',
+    );
+    const menuOmission = DATA_VERIFICATION_EVIDENCE_MANIFEST.omissions.find(
+      (item) => item.omissionId === 'okutama-kitchen-menu-source-rights-restricted',
+    );
+    const routeMenuOmission = DATA_VERIFICATION_EVIDENCE_MANIFEST.omissions.find(
+      (item) => item.omissionId === 'okutama-kitchen-route-menu-source-rights-restricted',
+    );
+    const storyMenuOmission = DATA_VERIFICATION_EVIDENCE_MANIFEST.omissions.find(
+      (item) => item.omissionId === 'okutama-kitchen-story-menu-source-rights-restricted',
+    );
+    const coordinateOmission = DATA_VERIFICATION_EVIDENCE_MANIFEST.omissions.find(
+      (item) => item.omissionId === 'okutama-kitchen-coordinate-source-rights-restricted',
+    );
+
+    expect(app).toMatchObject({
+      kind: 'app',
+      entityId: 'okutama-kitchen',
+      locale: 'ja',
+      viewport: { width: 375 },
+      path: 'docs/data-evidence/okutama-kitchen/app-ja-375.webp',
+      capturedAt: '2026-08-28',
+    });
+    expect(app?.claimIds).toEqual(expect.arrayContaining([
+      'place:okutama-kitchen:name:ja',
+      'place:okutama-kitchen:address:ja',
+      'place:okutama-kitchen:phone:ja',
+        'spot:okutama-kitchen:hours',
+        'spot:okutama-kitchen:access',
+        'spot:okutama-kitchen:closed_days',
+        'spot:okutama-kitchen:parking',
+        'spot:okutama-kitchen:price_availability',
+    ]));
+    expect(routeApp).toMatchObject({
+      kind: 'app',
+      entityId: 'okutama-wasabi-journey',
+      locale: 'ja',
+      path: 'docs/data-evidence/okutama-kitchen/route-app-ja-375.webp',
+    });
+    expect(routeApp?.claimIds).toContain(
+      'route:okutama-wasabi-journey:half-day:step:okutama-kitchen:factual:product-availability',
+    );
+    expect(storyApp).toMatchObject({
+      kind: 'app',
+      entityId: 'wasabi-okutama',
+      locale: 'ja',
+      path: 'docs/data-evidence/okutama-kitchen/story-wasabi-app-ja-375.webp',
+    });
+    expect(storyApp?.claimIds).toContain(
+      'story:wasabi-okutama:story.spot.okutama-kitchen.product-availability',
+    );
+    expect(homeOmission).toMatchObject({
+      kind: 'source',
+      entityId: 'okutama-kitchen',
+      sourceUrl: 'https://www.okutamanodaidokoro.com/',
+      recordedAt: '2026-08-28',
+    });
+    expect(menuOmission).toMatchObject({
+      kind: 'source',
+      entityId: 'okutama-kitchen',
+      sourceUrl: 'https://www.okutamanodaidokoro.com/menu.html',
+      recordedAt: '2026-08-28',
+    });
+    expect(routeMenuOmission).toMatchObject({
+      kind: 'source',
+      entityId: 'okutama-wasabi-journey',
+      sourceUrl: 'https://www.okutamanodaidokoro.com/menu.html',
+      claimIds: [
+        'route:okutama-wasabi-journey:half-day:step:okutama-kitchen:factual:product-availability',
+      ],
+    });
+    expect(storyMenuOmission).toMatchObject({
+      kind: 'source',
+      entityId: 'wasabi-okutama',
+      sourceUrl: 'https://www.okutamanodaidokoro.com/menu.html',
+      claimIds: [
+        'story:wasabi-okutama:story.spot.okutama-kitchen.product-availability',
+      ],
+    });
+    expect(coordinateOmission).toMatchObject({
+      kind: 'source',
+      entityId: 'okutama-kitchen',
+      sourceUrl: 'https://www.google.com/maps/search/?api=1&query=35.8085659%2C139.0971665',
+      recordedAt: '2026-08-28',
+      claimIds: ['place:okutama-kitchen:coordinates'],
+    });
+    expect(
+      DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.some((item) => item.kind === 'source'),
+    ).toBe(false);
+    expect(() =>
+      validateDataVerificationEvidenceManifest(
+        DATA_VERIFICATION_EVIDENCE_MANIFEST,
+        repositoryClaims,
+      ),
+    ).not.toThrow();
+  });
+
   it.each([
     {
       name: 'orphan claim reference',

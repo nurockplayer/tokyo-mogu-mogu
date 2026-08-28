@@ -9,7 +9,9 @@ import {
   referenceCopy,
 } from './content';
 import {
+  localizePlaceClosedDays,
   localizePlaceClosureConflict,
+  localizePlaceParking,
   localizePlaceProductCategories,
   referenceSpotDetails,
   routeStepText,
@@ -244,6 +246,80 @@ describe('Netlify parity presentation content', () => {
     );
     expect(changedClosure.ja).toContain('source-value-1');
     expect(changedClosure.ja).toContain('source-value-2');
+  });
+
+  it('derives Okutama no Daidokoro Spot, Route, and Story facts from the canonical Place (#325)', () => {
+    const place = PLACES.find((candidate) => candidate.id === 'okutama-kitchen');
+    const visitor = place?.visitorInformation;
+    const listing = visitor?.menuListings?.find(
+      (candidate) => candidate.id === 'special-soft-gelato',
+    );
+    const detail = referenceSpotDetails['okutama-kitchen'];
+    const routeStep = routeStepText['demo-okutama-wasabi:half-day'].find(
+      (step) => step.spotId === 'okutama-kitchen',
+    );
+    const storyReference = storySpotGroups['demo-okutama-wasabi'].nearby.find(
+      (reference) => reference.spotId === 'okutama-kitchen',
+    );
+
+    expect(place).toBeDefined();
+    expect(visitor).toBeDefined();
+    expect(listing).toBeDefined();
+    expect(detail).toBeDefined();
+    if (!place || !visitor || !listing || !detail || !routeStep || !storyReference) {
+      throw new Error('Missing source-backed Okutama no Daidokoro presentation.');
+    }
+
+    expect(demoSpots['okutama-kitchen'].copy.ja.name).toBe(place.nameJa);
+    for (const [fieldId, expected] of [
+      ['name', place.nameJa],
+      ['address', place.address],
+      ['phone', visitor.phone],
+      ['official_current_url', place.source.url],
+    ] as const) {
+      expect(detail.information.find((row) => row.fieldId === fieldId)?.value.ja).toBe(expected);
+    }
+    expect(detail.information.find((row) => row.fieldId === 'hours')?.value.ja)
+      .toContain(`${visitor.shopHours?.opens.slice(1)}〜${visitor.shopHours?.closes}`);
+    expect(detail.information.find((row) => row.fieldId === 'hours')?.value.ja)
+      .toContain(`L.O. ${visitor.shopHours?.lastOrder}`);
+    expect(detail.information.find((row) => row.fieldId === 'access')?.value.ja)
+      .toBe(`${visitor.access?.stationJa}より徒歩${visitor.access?.walkMinutes}分`);
+    expect(detail.information.find((row) => row.fieldId === 'closed_days')?.value)
+      .toEqual(localizePlaceClosedDays(visitor.regularClosedDays ?? []));
+    expect(visitor.parking).toBeDefined();
+    if (!visitor.parking) throw new Error('Missing canonical parking information.');
+    expect(detail.information.find((row) => row.fieldId === 'parking')?.value)
+      .toEqual(localizePlaceParking(visitor.parking));
+
+    const productInformation = detail.information.find(
+      (row) => row.fieldId === 'price_availability',
+    )?.value;
+    expect(productInformation?.ja).toContain(listing.nameJa);
+    expect(productInformation?.ja).toContain('わさび');
+    expect(productInformation?.ja).toContain(`${listing.listedPriceYen}円`);
+    expect(productInformation?.ja).toContain('サイト掲載価格');
+
+    const localizedProductNames = {
+      ja: listing.nameJa,
+      en: 'special soft gelato',
+      'zh-TW': '特選霜淇淋',
+    } as const;
+    for (const locale of locales) {
+      expect(routeStep.description[locale].toLowerCase()).toContain(
+        localizedProductNames[locale].toLowerCase(),
+      );
+      expect(routeStep.description[locale].toLowerCase()).toContain(
+        locale === 'ja' ? 'わさび' : locale === 'en' ? 'wasabi' : '山葵',
+      );
+      expect(storyReference.description?.[locale].toLowerCase()).toContain(
+        localizedProductNames[locale].toLowerCase(),
+      );
+      expect(detail.caution.map((item) => item[locale]).join(' ')).toMatch(
+        locale === 'ja' ? /確認|公式/ : locale === 'en' ? /check|confirm/i : /確認|官方/,
+      );
+    }
+    expect(storyReference.description?.ja).not.toContain('わさびジェラートが名物');
   });
 
   it('resolves every presentation asset to a bundled local file', () => {

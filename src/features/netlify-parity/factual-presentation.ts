@@ -9,8 +9,10 @@ import type { Locale } from '../../i18n';
 import { PLACES } from '../../data/seed-places';
 import type {
   Place,
+  PlaceParkingInformation,
   PlaceSourceConflictStatement,
   PlaceVisitorInformation,
+  PlaceWeekday,
 } from '../../data/model';
 import type {
   JourneyPresentation,
@@ -101,6 +103,45 @@ export function localizePlaceClosureConflict(
   );
 }
 
+const weekdayCopy: Record<PlaceWeekday, LocalizedText> = {
+  monday: localized('月曜日', 'Monday', '週一'),
+  tuesday: localized('火曜日', 'Tuesday', '週二'),
+  wednesday: localized('水曜日', 'Wednesday', '週三'),
+  thursday: localized('木曜日', 'Thursday', '週四'),
+  friday: localized('金曜日', 'Friday', '週五'),
+  saturday: localized('土曜日', 'Saturday', '週六'),
+  sunday: localized('日曜日', 'Sunday', '週日'),
+};
+
+export function localizePlaceClosedDays(
+  closedDays: readonly PlaceWeekday[],
+): LocalizedText {
+  const days = closedDays.map((day) => weekdayCopy[day]);
+  return localized(
+    days.map((day) => day.ja).join('・'),
+    days.map((day) => day.en).join(', '),
+    days.map((day) => day['zh-TW']).join('、'),
+  );
+}
+
+export function localizePlaceParking(
+  parking: PlaceParkingInformation,
+): LocalizedText {
+  if (!parking.available) {
+    return localized(
+      `駐車場なし${parking.nearbyPaidParking ? '（近隣コインパーキングあり）' : ''}`,
+      `No on-site parking${parking.nearbyPaidParking ? ' (nearby paid parking is available)' : ''}`,
+      `無店內停車場${parking.nearbyPaidParking ? '（附近有付費停車場）' : ''}`,
+    );
+  }
+  const spaceCount = parking.spaces === undefined ? '' : `${parking.spaces}`;
+  return localized(
+    `駐車場あり${spaceCount ? `（${spaceCount}台${parking.largeVehicles ? '・大型車可' : ''}）` : ''}`,
+    `On-site parking available${spaceCount ? ` (${spaceCount} spaces${parking.largeVehicles ? '; large vehicles accepted' : ''})` : ''}`,
+    `設有店內停車場${spaceCount ? `（${spaceCount}個車位${parking.largeVehicles ? '・可停大型車' : ''}）` : ''}`,
+  );
+}
+
 const yamashiroyaProducts = localizePlaceProductCategories(
   yamashiroyaVisitor.productCategories ?? [],
 );
@@ -119,6 +160,48 @@ const yamashiroyaStoryDescription = localized(
   `${yamashiroyaPlace.nameJa}の直売店。${yamashiroyaProducts.ja}を扱う`,
   `The ${yamashiroyaPlace.nameEn} shop carries ${yamashiroyaProducts.en.toLowerCase()}`,
   `${yamashiroyaPlace.nameJa}直營店，販售${yamashiroyaProducts['zh-TW']}`,
+);
+
+const okutamaKitchenPlace = canonicalPlace('okutama-kitchen');
+const okutamaKitchenVisitor = canonicalVisitorInformation(okutamaKitchenPlace);
+const okutamaKitchenMenuListing = okutamaKitchenVisitor.menuListings?.find(
+  (listing) => listing.id === 'special-soft-gelato',
+);
+if (!okutamaKitchenMenuListing) {
+  throw new Error('Missing canonical special soft gelato listing: okutama-kitchen');
+}
+
+const okutamaKitchenName = localized(
+  okutamaKitchenPlace.nameJa,
+  okutamaKitchenPlace.nameEn,
+  '手作便當與熟食專門店 奧多摩的廚房',
+);
+
+const okutamaKitchenClosedDays = localizePlaceClosedDays(
+  okutamaKitchenVisitor.regularClosedDays ?? [],
+);
+
+if (!okutamaKitchenVisitor.parking) {
+  throw new Error('Missing canonical parking information: okutama-kitchen');
+}
+const okutamaKitchenParking = localizePlaceParking(okutamaKitchenVisitor.parking);
+
+const okutamaKitchenProductAvailability = localized(
+  `${okutamaKitchenMenuListing.nameJa}（わさび味を含む・提供状況は要確認）`,
+  'Special soft gelato (wasabi is a listed flavor; check current availability)',
+  '特選霜淇淋（山葵為刊載口味之一；請確認當日供應狀況）',
+);
+
+const okutamaKitchenPriceAvailability = localized(
+  `${okutamaKitchenMenuListing.nameJa}：わさび味を含む${okutamaKitchenMenuListing.flavorIds?.length ?? 0}種類／${okutamaKitchenMenuListing.listedPriceYen}円（サイト掲載価格・提供状況は要確認）`,
+  `Special soft gelato: ${okutamaKitchenMenuListing.flavorIds?.length ?? 0} listed flavors including wasabi / ¥${okutamaKitchenMenuListing.listedPriceYen} (website-listed price; check current availability)`,
+  `特選霜淇淋：刊載${okutamaKitchenMenuListing.flavorIds?.length ?? 0}種口味，包含山葵／${okutamaKitchenMenuListing.listedPriceYen}日圓（官網刊載價格；請確認當日供應狀況）`,
+);
+
+const okutamaKitchenStoryDescription = localized(
+  `${okutamaKitchenPlace.nameJa}の公式メニューに${okutamaKitchenProductAvailability.ja}が掲載`,
+  `${okutamaKitchenPlace.nameEn}'s official menu lists ${okutamaKitchenProductAvailability.en.toLowerCase()}`,
+  `${okutamaKitchenPlace.nameJa}官方菜單刊載${okutamaKitchenProductAvailability['zh-TW']}`,
 );
 
 const editorialReferenceNotes: Record<Locale, string> = {
@@ -209,7 +292,11 @@ export const demoSpots: Record<string, SpotPresentation> = {
     'zh-TW': { name: yamashiroyaName['zh-TW'], lead: yamashiroyaLead['zh-TW'], description: `依據${yamashiroyaPlace.nameJa}官方店鋪資訊整理的參考內容。` },
   }),
   'wasabi-kitchen': spot('wasabi-kitchen', 'wasabiKitchen', ['station', 'wasabiGelato'], { ja: { name: 'わさび食堂', lead: '駅前で味わうわさびの一皿', description: 'わさびの味を試すための、参考スポットです。' }, en: { name: 'Wasabi Shokudo', lead: 'A wasabi dish near the station', description: 'A reference stop for trying a wasabi flavor.' }, 'zh-TW': { name: '山葵食堂', lead: '在車站前品嚐一道山葵料理', description: '嘗試山葵風味的參考景點。' } }),
-  'okutama-kitchen': spot('okutama-kitchen', 'okutamaKitchen', ['wasabiGelato', 'okutamaKitchenDetail'], { ja: { name: '奥多摩の台所', lead: '歩き旅の途中でひと休み', description: '地域の味わいに出会うための、参考スポットです。' }, en: { name: 'Okutama no Daidokoro', lead: 'A pause along a walking journey', description: 'A reference stop for meeting local flavors.' }, 'zh-TW': { name: '奧多摩的廚房', lead: '步行旅途中的小歇', description: '遇見地方風味的參考景點。' } }),
+  'okutama-kitchen': spot('okutama-kitchen', 'okutamaKitchen', ['wasabiGelato', 'okutamaKitchenDetail'], {
+    ja: { name: okutamaKitchenName.ja, lead: `${okutamaKitchenProductAvailability.ja}を掲載する弁当・惣菜店`, description: `${okutamaKitchenPlace.nameJa}の公式情報に基づく参考情報です。` },
+    en: { name: okutamaKitchenName.en, lead: 'A bento and deli shop with special soft gelato on its menu', description: `Reference information based on ${okutamaKitchenPlace.nameEn}'s official site.` },
+    'zh-TW': { name: okutamaKitchenName['zh-TW'], lead: '官方菜單刊載特選霜淇淋的便當熟食店', description: `依據${okutamaKitchenPlace.nameJa}官方資訊整理的參考內容。` },
+  }),
   'hikawa-valley': spot('hikawa-valley', 'valley', ['river', 'valleyBridge'], { ja: { name: '氷川渓谷', lead: '水と土地に触れる散策', description: '食文化を支える水辺の風景に出会う、参考スポットです。' }, en: { name: 'Hikawa Valley', lead: 'A walk that meets water and landscape', description: 'A reference stop for waterside scenery behind the food culture.' }, 'zh-TW': { name: '冰川溪谷', lead: '親近水與土地的散步', description: '遇見支撐飲食文化的水岸風景之參考景點。' } }),
   'port-okutama': spot('port-okutama', 'portCafe', ['port', 'portDetail'], { ja: { name: 'PORT OKUTAMA', lead: '旅の締めのコーヒーと土産探しに', description: '旅の最後に立ち寄るための、参考スポットです。' }, en: { name: 'PORT OKUTAMA', lead: 'Coffee and gifts to close the journey', description: 'A reference stop for the final part of the journey.' }, 'zh-TW': { name: 'PORT OKUTAMA', lead: '以咖啡與伴手禮為旅程收尾', description: '在旅程最後停靠的參考景點。' } }),
   'wasabi-experience': spot('wasabi-experience', 'wasabiExperience', ['river'], { ja: { name: 'わさび田体験', lead: 'わさび田の体験を知る', description: 'わさびの生産風景に触れるための、参考スポットです。' }, en: { name: 'Wasabi Experience', lead: 'Learn about a wasabi-field experience', description: 'A reference stop for meeting wasabi growing landscapes.' }, 'zh-TW': { name: '山葵田體驗', lead: '認識山葵田體驗', description: '親近山葵生產景觀的參考景點。' } }),
@@ -255,7 +342,7 @@ export const routeStepText: Record<string, RouteStepText[]> = {
     { spotId: 'okutama-station', description: localized('旅のスタート地点', 'Starting point', '旅程起點') },
     { spotId: 'okutama-tourism-office', walk: localized('徒歩 約1分', 'About 1 min on foot', '步行約 1 分鐘'), description: localized('わさぴーと観光案内で情報をチェック！', 'Check maps and local tips with Wasapy!', '和 Wasapy 一起確認觀光資訊！') },
     { spotId: 'wasabi-kitchen', walk: localized('徒歩 約 1 分', 'About 1 min on foot', '步行約 1 分鐘'), description: localized('・土日のみ営業\n・¥900〜', 'Weekends only · From ¥900', '僅週末營業・¥900 起'), note: localized('※平日はあかべこ推奨', 'Akabeko is recommended on weekdays', '平日建議前往 AKABEKO') },
-    { spotId: 'okutama-kitchen', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: localized('・わさびジェラート', 'Wasabi gelato', '山葵義式冰淇淋') },
+    { spotId: 'okutama-kitchen', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: okutamaKitchenProductAvailability },
     { spotId: 'hikawa-valley', walk: localized('徒歩 約 10 分', 'About 10 min on foot', '步行約 10 分鐘'), description: localized('川辺で涼む', 'Cool off beside the river', '在河畔納涼') },
     { spotId: 'oku-hikawa-shrine', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: localized('お参り！', 'Visit the shrine', '參拜神社！') },
     { spotId: 'port-okutama', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: localized('カフェ・雑貨でゆったり！', 'Relax with coffee and local goods', '在咖啡與雜貨中悠閒休息！') },
@@ -515,6 +602,106 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
       ),
     ],
   },
+  'okutama-kitchen': {
+    tags: [
+      { tagId: 'bento-deli-shop', color: '#8FAE5C', label: localized('弁当・惣菜', 'Bento & deli', '便當・熟食') },
+      { tagId: 'official-source', color: '#F0A24C', label: localized('公式情報参照', 'Official source', '參考官方資訊') },
+      { tagId: 'confirmation-pending', color: '#5D9BEF', label: localized('確認中', 'Confirmation pending', '確認中') },
+    ],
+    description: localized(
+      `${okutamaKitchenPlace.nameJa}の公式情報に基づく参考情報です。${okutamaKitchenProductAvailability.ja}が公式メニューに掲載されています。`,
+      `Reference information based on ${okutamaKitchenPlace.nameEn}'s official site. Its official menu lists ${okutamaKitchenProductAvailability.en.toLowerCase()}.`,
+      `依據${okutamaKitchenPlace.nameJa}官方資訊整理的參考內容。官方菜單刊載${okutamaKitchenProductAvailability['zh-TW']}。`,
+    ),
+    information: [
+      {
+        fieldId: 'name',
+        icon: 'information',
+        label: localized('店舗', 'Place', '店鋪'),
+        value: okutamaKitchenName,
+      },
+      {
+        fieldId: 'address',
+        icon: 'information',
+        label: localized('所在地', 'Address', '地址'),
+        value: localized(okutamaKitchenPlace.address, okutamaKitchenPlace.address, okutamaKitchenPlace.address),
+      },
+      {
+        fieldId: 'phone',
+        icon: 'information',
+        label: localized('電話', 'Phone', '電話'),
+        value: localized(okutamaKitchenVisitor.phone ?? '', okutamaKitchenVisitor.phone ?? '', okutamaKitchenVisitor.phone ?? ''),
+      },
+      {
+        fieldId: 'hours',
+        icon: 'clock',
+        label: localized('営業時間', 'Hours', '營業時間'),
+        value: localized(
+          `${Number(okutamaKitchenVisitor.shopHours?.opens.slice(0, 2))}:00〜${okutamaKitchenVisitor.shopHours?.closes}（L.O. ${okutamaKitchenVisitor.shopHours?.lastOrder}）`,
+          `${okutamaKitchenVisitor.shopHours?.opens}–${okutamaKitchenVisitor.shopHours?.closes} (L.O. ${okutamaKitchenVisitor.shopHours?.lastOrder})`,
+          `${okutamaKitchenVisitor.shopHours?.opens}–${okutamaKitchenVisitor.shopHours?.closes}（最後點餐 ${okutamaKitchenVisitor.shopHours?.lastOrder}）`,
+        ),
+      },
+      {
+        fieldId: 'access',
+        icon: 'train',
+        label: localized('アクセス', 'Access', '交通'),
+        value: localized(
+          `${okutamaKitchenVisitor.access?.stationJa}より徒歩${okutamaKitchenVisitor.access?.walkMinutes}分`,
+          `${okutamaKitchenVisitor.access?.walkMinutes} min on foot from JR Ome Line Okutama Station`,
+          `從 JR 青梅線奧多摩站步行${okutamaKitchenVisitor.access?.walkMinutes}分鐘`,
+        ),
+      },
+      {
+        fieldId: 'closed_days',
+        icon: 'clock',
+        label: localized('定休日', 'Closed', '公休日'),
+        value: okutamaKitchenClosedDays,
+      },
+      {
+        fieldId: 'parking',
+        icon: 'information',
+        label: localized('駐車場', 'Parking', '停車場'),
+        value: okutamaKitchenParking,
+      },
+      {
+        fieldId: 'price_availability',
+        icon: 'information',
+        label: localized('メニュー', 'Menu listing', '菜單刊載'),
+        value: okutamaKitchenPriceAvailability,
+      },
+      {
+        fieldId: 'official_current_url',
+        icon: 'information',
+        label: localized('公式情報', 'Official source', '官方資訊'),
+        value: localized(okutamaKitchenPlace.source.url ?? '', okutamaKitchenPlace.source.url ?? '', okutamaKitchenPlace.source.url ?? ''),
+      },
+      {
+        fieldId: 'verification_note',
+        icon: 'information',
+        label: localized('確認状況', 'Verification status', '確認狀態'),
+        value: localized(
+          '掲載内容は現在確認中です。営業時間・定休日・メニュー・価格・提供状況は、訪問前に公式情報をご確認ください。',
+          'This listing is still being confirmed. Check official information for current hours, closures, menu, prices, and availability before visiting.',
+          '刊載內容仍在確認中。造訪前請以官方資訊確認營業時間、公休日、菜單、價格與供應狀況。',
+        ),
+      },
+    ],
+    guide: {
+      title: localized('公式情報', 'Official information', '官方資訊'),
+      body: localized(
+        '掲載内容は現在確認中です。訪問前に奥多摩の台所の公式サイトで最新情報をご確認ください。',
+        `This listing is still being confirmed. Check ${okutamaKitchenPlace.nameEn}'s official site before visiting.`,
+        '刊載內容仍在確認中。造訪前請查看奧多摩的廚房官方網站。',
+      ),
+      action: localized('公式情報を確認する', 'Check official information', '查看官方資訊'),
+    },
+    caution: [localized(
+      '・営業時間、定休日、駐車場、価格、わさび味の提供状況は変更される場合があります。訪問前に公式情報をご確認ください。',
+      '• Hours, closures, parking, prices, and wasabi-flavor availability can change. Check official information before visiting.',
+      '・營業時間、公休日、停車、價格與山葵口味供應狀況可能變更。造訪前請查看官方資訊。',
+    )],
+  },
 };
 
 export interface StorySpotReference {
@@ -559,12 +746,8 @@ export const storySpotGroups: Record<string, {
       },
       {
         referenceId: 'okutama-kitchen', spotId: 'okutama-kitchen', imageAssetId: 'okutamaKitchen', badgeColor: '#E98A1C',
-        badge: { ja: 'カフェ', en: 'Café', 'zh-TW': '咖啡廳' },
-        description: {
-          ja: 'わさびジェラートが名物',
-          en: 'Known for its wasabi gelato',
-          'zh-TW': '以山葵義式冰淇淋聞名',
-        },
+        badge: { ja: '弁当・惣菜', en: 'Bento & deli', 'zh-TW': '便當・熟食' },
+        description: okutamaKitchenStoryDescription,
       },
       {
         referenceId: 'port-okutama', spotId: 'port-okutama', imageAssetId: 'portCafe', badgeColor: '#E98A1C',

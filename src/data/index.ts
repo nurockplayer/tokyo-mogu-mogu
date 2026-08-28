@@ -11,7 +11,7 @@ import { getRouteById as _getRouteById, getRouteIdForPlace as _getRouteIdForPlac
 import type { FoodCulture, Place } from './model';
 import type { ModelRoute, SpotDetail } from './seed-routes';
 
-export type { FoodCulture, Place, PlaceVisitorInformation, PlaceBusinessHours, PlaceSourceConflictStatement, DataSource, DataOrigin, VerificationStatus, UnlockMethod, FoodCultureCategory, PlaceType, RegionId } from './model';
+export type { FoodCulture, Place, PlaceVisitorInformation, PlaceBusinessHours, PlaceWeekday, PlaceParkingInformation, PlaceMenuListing, PlaceSourceConflictStatement, DataSource, DataOrigin, VerificationStatus, UnlockMethod, FoodCultureCategory, PlaceType, RegionId } from './model';
 export type { ModelRoute, RouteDuration, RouteMobilityMode, RouteStepData, RouteMobilitySegment, RouteVariant, SpotDetail, SpotPracticalInfo, SpotTags } from './seed-routes';
 export { UNLOCK_RADIUS_METERS } from './model';
 
