@@ -373,6 +373,55 @@ describe('data verification evidence manifest (#334)', () => {
       });
     }
 
+    for (const [surface, locale, path, localizedClaimId] of [
+      [
+        'route-half-day',
+        'en',
+        'docs/data-evidence/port-okutama/route-half-day-app-en-375.webp',
+        'route:okutama-wasabi-journey:half-day:step:port-okutama:guidance:en',
+      ],
+      [
+        'route-half-day',
+        'zh-TW',
+        'docs/data-evidence/port-okutama/route-half-day-app-zh-TW-375.webp',
+        'route:okutama-wasabi-journey:half-day:step:port-okutama:guidance:zh-TW',
+      ],
+      [
+        'route-full-day',
+        'en',
+        'docs/data-evidence/port-okutama/route-full-day-app-en-375.webp',
+        'route:okutama-wasabi-journey:full-day:step:port-okutama:guidance:en',
+      ],
+      [
+        'route-full-day',
+        'zh-TW',
+        'docs/data-evidence/port-okutama/route-full-day-app-zh-TW-375.webp',
+        'route:okutama-wasabi-journey:full-day:step:port-okutama:guidance:zh-TW',
+      ],
+      [
+        'story-wasabi',
+        'en',
+        'docs/data-evidence/port-okutama/story-wasabi-app-en-375.webp',
+        'story:wasabi-okutama:presentation:spot_group:nearby:reference:port-okutama:badge:en',
+      ],
+      [
+        'story-wasabi',
+        'zh-TW',
+        'docs/data-evidence/port-okutama/story-wasabi-app-zh-TW-375.webp',
+        'story:wasabi-okutama:presentation:spot_group:nearby:reference:port-okutama:badge:zh-TW',
+      ],
+    ] as const) {
+      const evidence = evidenceById.get(`port-okutama-${surface}-app-${locale}-375`);
+      expect(evidence).toMatchObject({
+        kind: 'app',
+        locale,
+        viewport: { width: 375, height: 812 },
+        path,
+        capturedAt: '2026-08-29',
+      });
+      expect(evidence?.claimIds).toContain(localizedClaimId);
+    }
+
     expect(omissionsById.get('port-okutama-operator-source-reuse-unconfirmed')).toMatchObject({
       kind: 'source',
       entityId: 'port-okutama',
