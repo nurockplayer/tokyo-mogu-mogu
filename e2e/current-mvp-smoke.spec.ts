@@ -316,6 +316,90 @@ test('opens the source-backed Yamashiroya Spot from the full-day Route (#323)', 
   await expectNoHorizontalOverflow(page);
 });
 
+test('opens the source-backed Okutama no Daidokoro Spot from the half-day Route (#325)', async ({
+  page,
+}) => {
+  await page.goto('/route?candidateId=demo-okutama-wasabi');
+  const route = page.locator('[data-screen="route"][data-screen-active="true"]');
+  const kitchenCard = route.locator('[data-spot-id="okutama-kitchen"]');
+
+  await expect(kitchenCard).toContainText('手作りお弁当・お惣菜の専門店 奥多摩の台所');
+  await expect(kitchenCard).toContainText('特選ソフトジェラート');
+  await expect(kitchenCard).toContainText('わさび味');
+  await kitchenCard.click();
+
+  await expect(page).toHaveURL(
+    /\/spot\/okutama-kitchen\?candidateId=demo-okutama-wasabi$/,
+  );
+  const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
+  await expect(
+    spot.getByRole('heading', {
+      name: '手作りお弁当・お惣菜の専門店 奥多摩の台所',
+    }),
+  ).toBeVisible();
+  await expect(spot).toContainText('〒198-0212 東京都西多摩郡奥多摩町氷川199-7');
+  await expect(spot).toContainText('0428-83-2401');
+  await expect(spot).toContainText('9:00〜18:00（L.O. 16:00）');
+  await expect(spot).toContainText('JR青梅線「奥多摩駅」より徒歩1分');
+  await expect(spot).toContainText('木曜日');
+  await expect(spot).toContainText('駐車場なし（近隣コインパーキングあり）');
+  await expect(spot).toContainText('サイト掲載価格・提供状況は要確認');
+  await expect(spot).toContainText('掲載内容は現在確認中です');
+  await expect(spot).not.toContainText(/わさびジェラートが名物|参考スポットです/);
+  await expectNoHorizontalOverflow(page);
+});
+
+test('keeps the source-backed Okutama no Daidokoro facts safe in every locale (#325)', async ({
+  page,
+}) => {
+  const localizedExpectations = [
+    {
+      locale: 'ja',
+      name: '手作りお弁当・お惣菜の専門店 奥多摩の台所',
+      hours: '9:00〜18:00（L.O. 16:00）',
+      parking: '駐車場なし',
+      product: '特選ソフトジェラート',
+      pending: '確認中',
+    },
+    {
+      locale: 'en',
+      name: 'Okutama no Daidokoro Handmade Bento & Deli',
+      hours: '09:00–18:00 (L.O. 16:00)',
+      parking: 'No on-site parking',
+      product: 'Special soft gelato',
+      pending: 'Confirmation pending',
+    },
+    {
+      locale: 'zh-TW',
+      name: '手作便當與熟食專門店 奧多摩的廚房',
+      hours: '09:00–18:00（最後點餐 16:00）',
+      parking: '無店內停車場',
+      product: '特選霜淇淋',
+      pending: '確認中',
+    },
+  ] as const;
+
+  for (const expected of localizedExpectations) {
+    await page.goto('/');
+    await page.evaluate((locale) => {
+      localStorage.clear();
+      localStorage.setItem('tmm:locale', locale);
+    }, expected.locale);
+    await page.goto('/spot/okutama-kitchen?candidateId=demo-okutama-wasabi');
+
+    const app = page.locator('.reference-app');
+    const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
+    await expect(app).toHaveAttribute('data-locale', expected.locale);
+    await expect(spot.getByRole('heading', { name: expected.name })).toBeVisible();
+    await expect(spot).toContainText(expected.hours);
+    await expect(spot).toContainText(expected.parking);
+    await expect(spot).toContainText(expected.product);
+    await expect(spot).toContainText(expected.pending);
+    await expect(spot).not.toContainText(/Netlify|デモ用編集情報|デモ参考情報/);
+    await expectNoHorizontalOverflow(page);
+  }
+});
+
 test('labels editorial Spot fixtures as unverified reference information', async ({ page }) => {
   await page.goto('/spot/wasabi-kitchen?candidateId=demo-okutama-wasabi');
 

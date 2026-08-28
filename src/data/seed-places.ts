@@ -114,6 +114,36 @@ const YAMASHIROYA_HOME_SOURCE = {
   originalId: 'yamashiroya-homepage-footer',
 };
 
+const OKUTAMA_KITCHEN_HOME_SOURCE = {
+  name: '奥多摩の台所（公式サイト）',
+  url: 'https://www.okutamanodaidokoro.com/',
+  license: 'All Rights Reserved（参考情報としてのみ利用・スクリーンショット再利用不可）',
+  sourceType: 'official_web' as const,
+  retrievedAt: '2026-08-28',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'okutama-kitchen-home',
+};
+
+const OKUTAMA_KITCHEN_MENU_SOURCE = {
+  name: '奥多摩の台所（公式メニュー）',
+  url: 'https://www.okutamanodaidokoro.com/menu.html',
+  license: 'All Rights Reserved（参考情報としてのみ利用・スクリーンショット再利用不可）',
+  sourceType: 'official_web' as const,
+  retrievedAt: '2026-08-28',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'okutama-kitchen-menu',
+};
+
+const OKUTAMA_KITCHEN_COORDINATE_SOURCE = {
+  name: 'Google Maps（奥多摩の台所公式サイトの地図リンク）',
+  url: 'https://www.google.com/maps/search/?api=1&query=35.8085659%2C139.0971665',
+  license: 'Google Maps terms apply; map-provider point, not first-party venue data, not open data, and not field-verified. Reference use only.',
+  sourceType: 'business' as const,
+  retrievedAt: '2026-08-28',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'google-maps-0x601937f26ed4ba9d-0x8b575fdc6383894a',
+};
+
 export const PLACES: Place[] = [
   {
     id: 'okutama-wasabi-field',
@@ -182,7 +212,7 @@ export const PLACES: Place[] = [
         unavailableOn: ['sunday', 'public_holiday'],
       },
       access: { stationJa: 'JR「奥多摩駅」', walkMinutes: 3 },
-      parking: { spaces: 12, largeVehicles: true },
+      parking: { available: true, spaces: 12, largeVehicles: true },
       productCategories: ['pickled-wasabi', 'fresh-wasabi'],
       yearEndClosure: {
         verificationStatus: 'conflict',
@@ -199,6 +229,45 @@ export const PLACES: Place[] = [
           },
         ],
       },
+    },
+    origin: 'source',
+  },
+  {
+    id: 'okutama-kitchen',
+    nameJa: '手作りお弁当・お惣菜の専門店 奥多摩の台所',
+    nameEn: 'Okutama no Daidokoro Handmade Bento & Deli',
+    address: '〒198-0212 東京都西多摩郡奥多摩町氷川199-7',
+    // Provider point resolved from the Google Maps link on the operator site.
+    // Keep it approximate and separate from the first-party venue provenance.
+    latitude: 35.8085659,
+    longitude: 139.0971665,
+    coordinatePrecision: 'approximate',
+    coordinateSource: OKUTAMA_KITCHEN_COORDINATE_SOURCE,
+    foodCultureIds: ['wasabi-okutama'],
+    type: 'shop',
+    source: OKUTAMA_KITCHEN_HOME_SOURCE,
+    visitorInformation: {
+      phone: '0428-83-2401',
+      shopHours: { opens: '09:00', closes: '18:00', lastOrder: '16:00' },
+      access: { stationJa: 'JR青梅線「奥多摩駅」', walkMinutes: 1 },
+      regularClosedDays: ['thursday'],
+      parking: { available: false, nearbyPaidParking: true },
+      menuListings: [
+        {
+          id: 'special-soft-gelato',
+          nameJa: '特選ソフトジェラート',
+          listedPriceYen: 500,
+          flavorIds: [
+            'caramelized-caramel',
+            'vanilla-milk',
+            'strawberry-milk',
+            'black-sesame',
+            'kyoto-matcha',
+            'wasabi',
+          ],
+          source: OKUTAMA_KITCHEN_MENU_SOURCE,
+        },
+      ],
     },
     origin: 'source',
   },

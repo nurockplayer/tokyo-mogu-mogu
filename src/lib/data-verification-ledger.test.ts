@@ -379,6 +379,110 @@ describe('repository data verification ledger (#333)', () => {
     });
   });
 
+  it('traces Okutama no Daidokoro Spot, Route, and Story claims to canonical sources (#325)', () => {
+    const claims = buildRepositoryLedgerClaims();
+    const homeSource = '奥多摩の台所（公式サイト）';
+    const menuSource = '奥多摩の台所（公式メニュー）';
+
+    for (const [claimId, canonicalValue, displayedValue] of [
+      ['place:okutama-kitchen:name:ja', '手作りお弁当・お惣菜の専門店 奥多摩の台所', '手作りお弁当・お惣菜の専門店 奥多摩の台所'],
+      ['place:okutama-kitchen:address:ja', '〒198-0212 東京都西多摩郡奥多摩町氷川199-7', '〒198-0212 東京都西多摩郡奥多摩町氷川199-7'],
+      ['place:okutama-kitchen:phone:ja', '0428-83-2401', '0428-83-2401'],
+      ['spot:okutama-kitchen:hours', '09:00–18:00 / L.O. 16:00', '9:00〜18:00（L.O. 16:00）'],
+      ['spot:okutama-kitchen:access', 'JR青梅線「奥多摩駅」 / 徒歩1分', 'JR青梅線「奥多摩駅」より徒歩1分'],
+      ['spot:okutama-kitchen:closed_days', 'thursday', '木曜日'],
+      ['spot:okutama-kitchen:parking', 'なし / 近隣有料駐車場あり', '駐車場なし（近隣コインパーキングあり）'],
+      ['spot:okutama-kitchen:official_current_url', 'https://www.okutamanodaidokoro.com/', 'https://www.okutamanodaidokoro.com/'],
+    ] as const) {
+      expect(claims.find((claim) => claim.claimId === claimId)).toMatchObject({
+        canonicalValue,
+        displayedValue,
+        origin: 'source',
+        verification: 'needs_confirmation',
+        primarySource: homeSource,
+        primarySourceUrl: 'https://www.okutamanodaidokoro.com/',
+        retrievedAt: '2026-08-28',
+        confirmedAt: undefined,
+        canonicalSourceFile: 'src/data/seed-places.ts',
+        presentationSourceFile: 'src/features/netlify-parity/factual-presentation.ts',
+      });
+    }
+
+    expect(
+      claims.find((claim) => claim.claimId === 'spot:okutama-kitchen:price_availability'),
+    ).toMatchObject({
+      canonicalValue: 'special-soft-gelato / 500 JPY / flavors: caramelized-caramel, vanilla-milk, strawberry-milk, black-sesame, kyoto-matcha, wasabi',
+      displayedValue: expect.stringContaining('特選ソフトジェラート'),
+      origin: 'source',
+      verification: 'needs_confirmation',
+      primarySource: menuSource,
+      primarySourceUrl: 'https://www.okutamanodaidokoro.com/menu.html',
+      primarySourceLicense: expect.stringContaining('All Rights Reserved'),
+      retrievedAt: '2026-08-28',
+      confirmedAt: undefined,
+    });
+    expect(
+      claims.find((claim) => claim.claimId === 'place:okutama-kitchen:coordinates'),
+    ).toMatchObject({
+      canonicalValue: '35.8085659, 139.0971665 (approximate)',
+      origin: 'source',
+      verification: 'needs_confirmation',
+      primarySource: 'Google Maps（奥多摩の台所公式サイトの地図リンク）',
+      primarySourceLicense: expect.stringContaining('not field-verified'),
+    });
+
+    for (const [claimId, displayedFragment] of [
+      ['route:okutama-wasabi-journey:half-day:step:okutama-kitchen:factual:product-availability', '特選ソフトジェラート'],
+      ['story:wasabi-okutama:story.spot.okutama-kitchen.product-availability', 'わさび味'],
+    ] as const) {
+      expect(claims.find((claim) => claim.claimId === claimId)).toMatchObject({
+        canonicalValue: expect.stringContaining('special-soft-gelato'),
+        displayedValue: expect.stringContaining(displayedFragment),
+        origin: 'source',
+        verification: 'needs_confirmation',
+        primarySource: menuSource,
+        primarySourceUrl: 'https://www.okutamanodaidokoro.com/menu.html',
+        canonicalSourceFile: 'src/data/seed-places.ts',
+        timeSensitive: true,
+      });
+    }
+
+    expect(
+      claims.find(
+        (claim) => claim.claimId === 'route:okutama-wasabi-journey:half-day:step:okutama-kitchen:transport_guidance:ja',
+      ),
+    ).toMatchObject({
+      canonicalValue: undefined,
+      displayedValue: '徒歩 約 5 分',
+      origin: 'demo',
+      verification: 'demo',
+    });
+
+    for (const supported of [
+      'access',
+      'hours',
+      'closed_days',
+      'parking',
+      'price_availability',
+      'official_current_url',
+    ]) {
+      expect(
+        claims.find((claim) => claim.claimId === `spot:okutama-kitchen:${supported}`),
+      ).toMatchObject({ origin: 'source', verification: 'needs_confirmation' });
+    }
+    for (const unsupported of [
+      'reservation',
+      'booking_destination',
+      'multilingual_support',
+      'dietary_allergy',
+      'accessibility',
+    ]) {
+      expect(
+        claims.find((claim) => claim.claimId === `spot:okutama-kitchen:${unsupported}`),
+      ).toMatchObject({ verification: 'unknown', canonicalValue: undefined, displayedValue: undefined });
+    }
+  });
+
   it('inventories factual presentation records in every visible locale', () => {
     const claims = buildRepositoryLedgerClaims();
 

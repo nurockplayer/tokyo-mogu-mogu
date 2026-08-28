@@ -125,6 +125,34 @@ export type PlaceType = 'shop' | 'restaurant' | 'farm' | 'brewery' | 'info-cente
 export interface PlaceBusinessHours {
   opens: string;
   closes: string;
+  /** Last-order time when the operator publishes one separately from closing. */
+  lastOrder?: string;
+}
+
+export type PlaceWeekday =
+  | 'monday'
+  | 'tuesday'
+  | 'wednesday'
+  | 'thursday'
+  | 'friday'
+  | 'saturday'
+  | 'sunday';
+
+export interface PlaceParkingInformation {
+  available: boolean;
+  spaces?: number;
+  largeVehicles?: boolean;
+  nearbyPaidParking?: boolean;
+}
+
+export interface PlaceMenuListing {
+  /** Stable repository identity for one source-listed product. */
+  id: string;
+  nameJa: string;
+  listedPriceYen?: number;
+  /** Stable option identities; availability remains governed by source verification. */
+  flavorIds?: string[];
+  source: DataSource;
 }
 
 export interface PlaceSourceConflictStatement {
@@ -146,12 +174,12 @@ export interface PlaceVisitorInformation {
     stationJa: string;
     walkMinutes: number;
   };
-  parking?: {
-    spaces: number;
-    largeVehicles: boolean;
-  };
+  regularClosedDays?: PlaceWeekday[];
+  parking?: PlaceParkingInformation;
   /** Stable product-category IDs; localized presentation copy is derived elsewhere. */
   productCategories?: string[];
+  /** Source-listed products whose provenance differs from the Place's primary page. */
+  menuListings?: PlaceMenuListing[];
   /** Explicit unresolved closure statements from first-party sources. */
   yearEndClosure?: {
     verificationStatus: 'conflict';
