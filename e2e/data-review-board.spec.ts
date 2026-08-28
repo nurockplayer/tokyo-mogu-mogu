@@ -8,13 +8,38 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(page).toHaveTitle(/Human Data Review Board/);
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex,nofollow');
     await expect(page.getByRole('heading', { name: 'Human Data Review Board' })).toBeVisible();
+    const coverage = page.getByLabel('現在のProduct確認対象');
+    await expect(coverage).toContainText('現在のProduct確認対象 15件');
+    await expect(coverage).toContainText('Spot 11件');
+    await expect(coverage).toContainText('Story 2件');
+    await expect(coverage).toContainText('Route 2件');
     await expect(page.getByText('奥多摩町観光案内所', { exact: true })).toBeVisible();
     await expect(page.getByText('奥多摩わさび本舗 山城屋', { exact: true })).toBeVisible();
     await expect(page.getByText('手作りお弁当・お惣菜の専門店 奥多摩の台所', { exact: true })).toBeVisible();
+    await expect(page.getByText('炉ばた あかべこ', { exact: true })).toBeVisible();
+    await expect(page.getByText('PORT OKUTAMA', { exact: true })).toBeVisible();
+    await expect(page.getByText('わさび食堂', { exact: true })).toBeVisible();
+    await expect(page.getByText('新宿から約90分、奥多摩やまめを味わう旅', { exact: true })).toBeVisible();
+    await expect(page.getByText('奥多摩やまめのストーリー', { exact: true })).toBeVisible();
+
+    const portCard = page.getByRole('button', { name: /PORT OKUTAMAの詳細/ });
+    await expect(portCard).toContainText('未解決 11件');
+    await expect(portCard).toContainText('0 要確認');
+    await expect(portCard).toContainText('0 要再確認');
+    await expect(portCard).toContainText('11 未確認');
+    await expect(portCard).toContainText('0 矛盾');
+    await expect(portCard).toContainText('0 アプリ証拠');
 
     await page.getByRole('button', { name: '矛盾' }).click();
     await expect(page.getByText('奥多摩わさび本舗 山城屋', { exact: true })).toBeVisible();
     await expect(page.getByText('奥多摩町観光案内所', { exact: true })).toHaveCount(0);
+
+    await page.getByRole('button', { name: '未確認' }).click();
+    await expect(page.getByText('PORT OKUTAMA', { exact: true })).toBeVisible();
+
+    await page.getByRole('button', { name: '要確認' }).click();
+    await expect(page.getByText('奥多摩町観光案内所', { exact: true })).toBeVisible();
+    await expect(page.getByText('PORT OKUTAMA', { exact: true })).toHaveCount(0);
 
     await page.getByRole('button', { name: '全部' }).click();
     await page.getByRole('button', { name: /奥多摩の台所の詳細/ }).click();
@@ -40,10 +65,25 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(summary).toContainText('🟡 出典あり・要確認');
     await expect(summary).toContainText('/data-review/#okutama-kitchen');
     await expect(summary).not.toContainText('✅ 確認済み');
+
+    const dimensions = await page.evaluate(() => ({
+      scrollWidth: document.documentElement.scrollWidth,
+      clientWidth: document.documentElement.clientWidth,
+    }));
+    expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth);
   });
 
-  test('keeps the review detail readable at 375px without horizontal overflow', async ({ page }) => {
+  test('keeps the review overview and detail readable at 375px without horizontal overflow', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto('/data-review/');
+
+    await expect(page.getByLabel('現在のProduct確認対象')).toContainText('15件');
+    const overviewDimensions = await page.evaluate(() => ({
+      scrollWidth: document.documentElement.scrollWidth,
+      clientWidth: document.documentElement.clientWidth,
+    }));
+    expect(overviewDimensions.scrollWidth).toBeLessThanOrEqual(overviewDimensions.clientWidth);
+
     await page.goto('/data-review/#yamashiroya');
 
     await expect(page.getByRole('heading', { name: '奥多摩わさび本舗 山城屋' })).toBeVisible();
@@ -54,6 +94,34 @@ test.describe('Human Data Review Board (#340)', () => {
       clientWidth: document.documentElement.clientWidth,
     }));
     expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth);
+  });
+
+  test('degrades an unreconciled current Spot honestly without fabricating sources or evidence', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/data-review/#port-okutama');
+
+    await expect(page.getByRole('heading', { name: 'PORT OKUTAMA' })).toBeVisible();
+    await expect(page.getByText('❓ 未確認', { exact: true }).first()).toBeVisible();
+    await expect(page.getByText('最新の公式情報', { exact: true })).toBeVisible();
+    await expect(page.getByText('記録された出典はありません。', { exact: true })).toBeVisible();
+    await expect(page.getByText('保存されたアプリ証拠はありません。', { exact: true })).toBeVisible();
+    await expect(page.getByText('記録された証拠省略はありません。', { exact: true })).toBeVisible();
+    await expect(page.locator('.drb-sources a')).toHaveCount(0);
+    await expect(page.locator('.drb-evidence-grid img')).toHaveCount(0);
+  });
+
+  test('represents both current Route and Story identities', async ({ page }) => {
+    const identities = [
+      ['okutama-wasabi-journey', '東京わさび文化を巡る旅'],
+      ['okutama-yamame-journey', '新宿から約90分、奥多摩やまめを味わう旅'],
+      ['wasabi-okutama', '奥多摩わさびのストーリー'],
+      ['yamame-okutama', '奥多摩やまめのストーリー'],
+    ] as const;
+
+    for (const [id, name] of identities) {
+      await page.goto(`/data-review/#${id}`);
+      await expect(page.getByRole('heading', { name })).toBeVisible();
+    }
   });
 
   test('does not expose the team Board in consumer Product navigation', async ({ page }) => {
@@ -85,7 +153,7 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(presentationRow.getByText('比較対象の表示', { exact: true })).toBeVisible();
     await expect(presentationRow.getByText('東京駅 / 60 分', { exact: true })).toBeVisible();
     await expect(page.getByText('取扱・運行情報（okutama-kitchen）', { exact: true })).toBeVisible();
-    await expect(page.getByText('特選ソフトジェラート（わさび味を含む・提供状況は要確認）', { exact: true })).toBeVisible();
+    await expect(page.getByText('特選ソフトジェラート（わさび味を含む・提供状況は要確認）', { exact: true }).first()).toBeVisible();
     await expect(page.getByRole('img', { name: /東京わさび文化を巡る旅.*アプリ表示/ }).first()).toBeVisible();
   });
 });

@@ -4,6 +4,10 @@ import type {
   DataVerificationEvidenceOmission,
 } from '../data/data-verification-evidence-manifest';
 import type { DataSource } from '../data/model';
+import type {
+  CurrentProductFactualEntity,
+  CurrentProductFactualEntityType,
+} from './current-product-factual-inventory';
 import type { LedgerClaim, LedgerVerification } from './data-verification-ledger';
 
 export const DATA_REVIEW_STATUS_LABELS_JA: Readonly<Record<LedgerVerification, string>> = {
@@ -56,10 +60,13 @@ export interface HumanDataReviewReference {
 
 export interface HumanDataReviewEntity {
   id: string;
+  type: CurrentProductFactualEntityType;
   name: string;
   headlineStatus: LedgerVerification;
   latestRetrievedAt?: string;
   unresolvedCount: number;
+  needsConfirmationCount: number;
+  staleCount: number;
   unknownCount: number;
   conflictCount: number;
   facts: readonly HumanDataReviewFact[];
@@ -72,11 +79,13 @@ export interface HumanDataReviewEntity {
 
 export interface HumanDataReviewBoard {
   entities: readonly HumanDataReviewEntity[];
+  entityTypeCounts: Readonly<Record<CurrentProductFactualEntityType, number>>;
   statusCounts: Readonly<Record<LedgerVerification, number>>;
 }
 
 export interface HumanDataReviewBoardInput {
   claims: readonly LedgerClaim[];
+  currentProductEntities: readonly CurrentProductFactualEntity[];
   evidenceManifest: DataVerificationEvidenceManifest;
 }
 
@@ -214,10 +223,6 @@ function preferredValueFor(claim: LedgerClaim): string | undefined {
   return claim.displayedValue || claim.canonicalValue;
 }
 
-function isReviewComparison(claim: LedgerClaim): boolean {
-  return claim.finding === 'mismatch' || claim.finding === 'presentation_mismatch';
-}
-
 function candidateScore(claim: LedgerClaim, definition: HumanFieldDefinition): number {
   const base = baseFieldId(claim.fieldId);
   let score = 0;
@@ -231,20 +236,27 @@ function candidateScore(claim: LedgerClaim, definition: HumanFieldDefinition): n
   return score;
 }
 
-function dataReviewOwner(claim: LedgerClaim): boolean {
-  return claim.issues.some((reference) => {
-    const match = /^#(\d+)$/.exec(reference);
-    if (!match) return false;
-    const issue = Number(match[1]);
-    return issue >= 322 && issue <= 331;
-  });
-}
-
 function headlineStatus(statuses: readonly LedgerVerification[]): LedgerVerification {
+  if (statuses.length === 0) return 'unknown';
   return statuses.reduce<LedgerVerification>(
     (current, status) => STATUS_PRIORITY[status] > STATUS_PRIORITY[current] ? status : current,
     'verified',
   );
+}
+
+function preferredEntityName(
+  claims: readonly LedgerClaim[],
+  type: CurrentProductFactualEntityType,
+): string | undefined {
+  const counts = new Map<string, number>();
+  for (const claim of claims) {
+    if (claim.entityType !== type) continue;
+    counts.set(claim.entityName, (counts.get(claim.entityName) ?? 0) + 1);
+  }
+  return [...counts]
+    .sort(([leftName, leftCount], [rightName, rightCount]) =>
+      rightCount - leftCount || leftName.localeCompare(rightName))
+    .at(0)?.[0];
 }
 
 function buildFacts(claims: readonly LedgerClaim[]): HumanDataReviewFact[] {
@@ -254,7 +266,16 @@ function buildFacts(claims: readonly LedgerClaim[]): HumanDataReviewFact[] {
     const definition = fieldDefinition(claim);
     if (!definition) continue;
     const current = candidates.get(definition.key);
-    if (!current || candidateScore(claim, definition) > candidateScore(current.claim, definition)) {
+    const score = candidateScore(claim, definition);
+    if (!current) {
+      candidates.set(definition.key, { claim, definition });
+      continue;
+    }
+    const currentScore = candidateScore(current.claim, definition);
+    if (
+      score > currentScore
+      || (score === currentScore && claim.claimId.localeCompare(current.claim.claimId) < 0)
+    ) {
       candidates.set(definition.key, { claim, definition });
     }
   }
@@ -389,18 +410,24 @@ function omissionsForEntity(
     .sort((left, right) => left.omissionId.localeCompare(right.omissionId));
 }
 
-/** Build the deterministic team projection directly from Ledger claims and evidence authority. */
+/**
+ * Build the deterministic team projection from current Product identity,
+ * Ledger claims, and evidence authority.
+ */
 export function buildHumanDataReviewBoard(input: HumanDataReviewBoardInput): HumanDataReviewBoard {
-  const entityIds = new Set(input.claims.filter(dataReviewOwner).map((claim) => claim.entityId));
-  const entities = [...entityIds].sort().map((entityId): HumanDataReviewEntity => {
-    const claims = input.claims.filter((claim) => claim.entityId === entityId);
-    const hasPlaceOrSpotOwner = claims.some(
-      (claim) => dataReviewOwner(claim)
-        && (claim.entityType === 'Place' || claim.entityType === 'Spot'),
-    );
-    const projectionClaims = hasPlaceOrSpotOwner
-      ? claims
-      : claims.filter((claim) => dataReviewOwner(claim) || isReviewComparison(claim));
+  const currentEntityTypes = new Map<string, CurrentProductFactualEntityType>();
+  for (const entity of input.currentProductEntities) {
+    const currentType = currentEntityTypes.get(entity.id);
+    if (currentType && currentType !== entity.type) {
+      throw new Error(`Current Product entity ${entity.id} has multiple review types.`);
+    }
+    currentEntityTypes.set(entity.id, entity.type);
+  }
+
+  const entities = [...currentEntityTypes]
+    .sort(([left], [right]) => left.localeCompare(right))
+    .map(([entityId, type]): HumanDataReviewEntity => {
+    const projectionClaims = input.claims.filter((claim) => claim.entityId === entityId);
     const claimIds = new Set(projectionClaims.map((claim) => claim.claimId));
     const facts = buildFacts(projectionClaims);
     const unknowns = buildUnknowns(projectionClaims);
@@ -411,19 +438,26 @@ export function buildHumanDataReviewBoard(input: HumanDataReviewBoardInput): Hum
     const nameFact = facts.find((fact) => fact.fieldKey === 'name');
     const name = nameFact?.displayedValue
       ?? nameFact?.canonicalValue
+      ?? preferredEntityName(projectionClaims, type)
       ?? projectionClaims.find((claim) => claim.entityName)?.entityName
       ?? entityId;
     const relevantDates = projectionClaims.map((claim) => claim.retrievedAt).filter((date): date is string => Boolean(date));
-    const unresolvedCount = statuses.filter((status) => UNRESOLVED_STATUSES.has(status)).length;
+    const needsConfirmationCount = facts.filter((fact) => fact.status === 'needs_confirmation').length;
+    const staleCount = facts.filter((fact) => fact.status === 'stale').length;
+    const conflictCount = facts.filter((fact) => fact.status === 'conflict').length;
+    const unresolvedCount = needsConfirmationCount + staleCount + conflictCount + unknowns.length;
 
     return {
       id: entityId,
+      type,
       name,
       headlineStatus: headlineStatus(statuses),
       latestRetrievedAt: relevantDates.sort().at(-1),
       unresolvedCount,
+      needsConfirmationCount,
+      staleCount,
       unknownCount: unknowns.length,
-      conflictCount: facts.filter((fact) => fact.status === 'conflict').length,
+      conflictCount,
       facts,
       unknowns,
       sources: buildSources(projectionClaims),
@@ -433,6 +467,11 @@ export function buildHumanDataReviewBoard(input: HumanDataReviewBoardInput): Hum
     };
   });
 
+  const entityTypeCounts: Record<CurrentProductFactualEntityType, number> = {
+    Spot: 0,
+    Story: 0,
+    Route: 0,
+  };
   const statusCounts: Record<LedgerVerification, number> = {
     verified: 0,
     needs_confirmation: 0,
@@ -442,11 +481,12 @@ export function buildHumanDataReviewBoard(input: HumanDataReviewBoardInput): Hum
     demo: 0,
   };
   for (const entity of entities) {
+    entityTypeCounts[entity.type] += 1;
     for (const fact of entity.facts) statusCounts[fact.status] += 1;
     statusCounts.unknown += entity.unknowns.length;
   }
 
-  return { entities, statusCounts };
+  return { entities, entityTypeCounts, statusCounts };
 }
 
 /** Render a copyable Japanese summary from an already-built Board entity. */
