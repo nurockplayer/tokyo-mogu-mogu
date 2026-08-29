@@ -6,7 +6,12 @@
  * filesystem/process APIs, and generator code.
  */
 import type { Locale } from '../../i18n';
+import { strings } from '../../i18n/resources';
+import { DEMO_RECOMMENDATION_CANDIDATES } from '../../data/demo-recommendation';
+import { buildJourneyPresentation } from '../../data/journey-presentation';
+import { FOOD_CULTURES } from '../../data/seed-food-cultures';
 import { PLACES } from '../../data/seed-places';
+import { getRouteById, getSpotDetail } from '../../data/seed-routes';
 import type {
   FixedPlace,
   MobilePlace,
@@ -35,6 +40,11 @@ const localized = (ja: string, en: string, zhTW: string): LocalizedText => ({
   en,
   'zh-TW': zhTW,
 });
+
+function requiredRecord<T>(value: T | undefined, description: string): T {
+  if (value === undefined) throw new Error(`Missing canonical ${description} for presentation.`);
+  return value;
+}
 
 function canonicalPlace(id: string): Place {
   const place = PLACES.find((candidate) => candidate.id === id);
@@ -412,7 +422,7 @@ export const homeJourneyCards: Record<string, Record<Locale, HomeJourneyCardCopy
   },
 };
 
-export const demoJourneys: JourneyPresentation[] = [
+export const resultJourneys: JourneyPresentation[] = [
   {
     id: 'demo-okutama-wasabi', regionId: 'okutama', foodCultureId: 'wasabi-okutama', storyId: 'wasabi-okutama', routeId: 'okutama-wasabi-journey', matchPercent: 96, imageAssetId: 'wasabiHero', heroAssetId: 'wasabiHero',
     copy: {
@@ -445,6 +455,116 @@ export const demoJourneys: JourneyPresentation[] = [
     routeVariants: [{ id: 'half-day', durationMinutes: 240, imageAssetId: 'routeMap', steps: [{ spotId: 'okutama-station', imageAssetId: 'station' }, { spotId: 'okutama-tourism-office', imageAssetId: 'tourismOffice' }, { spotId: 'hikawa-valley', imageAssetId: 'valley' }, { spotId: 'akabeko', imageAssetId: 'akabekoYamame' }] }],
   },
 ];
+
+/** Backwards-compatible name for the two current Result recommendations. */
+export const demoJourneys = resultJourneys;
+
+const omeCandidate = requiredRecord(
+  DEMO_RECOMMENDATION_CANDIDATES.find((candidate) => candidate.id === 'demo-ome-sake'),
+  'Ome recommendation candidate',
+);
+const omeCulture = requiredRecord(
+  FOOD_CULTURES.find((culture) => culture.id === omeCandidate.foodCultureId),
+  'Ome food culture',
+);
+const omeRoute = requiredRecord(
+  getRouteById(requiredRecord(omeCandidate.journeyId, 'Ome candidate route identity')),
+  'Ome route',
+);
+const omeCanonicalPresentation = requiredRecord(
+  buildJourneyPresentation(omeCandidate, omeCulture, omeRoute, PLACES),
+  'Ome journey identity',
+);
+
+const omeStepRoleZh: Record<string, string> = {
+  'sawai-ozawa-shuzo': strings['zh-TW'].dataSakeStopRoleOzawa,
+  'sawanoien-garden': strings['zh-TW'].dataSakeStopRoleSawanoien,
+  'mitake-shrine': strings['zh-TW'].dataSakeStopRoleMitakeShrine,
+  'baba-oshijutaku': strings['zh-TW'].dataSakeStopRoleBaba,
+};
+
+function omeRouteVariant(
+  canonicalId: 'half-day' | '1-day',
+  presentationId: 'half-day' | 'full-day',
+): JourneyPresentation['routeVariants'][number] {
+  const canonical = omeRoute.variants[canonicalId];
+  return {
+    id: presentationId,
+    durationMinutes: canonical.totalMinutes,
+    steps: canonical.steps.map((step) => ({ spotId: step.placeId })),
+  };
+}
+
+const omeTourReservationNote = localized(
+  '見学は予約制・訪問前に公式情報を確認',
+  'Tours require reservations · Check official information before visiting',
+  '參訪需預約・造訪前請查看官方資訊',
+);
+
+const omeJourney: JourneyPresentation = {
+  id: omeCanonicalPresentation.candidateId,
+  regionId: omeCandidate.regionId,
+  foodCultureId: omeCanonicalPresentation.foodCultureId,
+  storyId: omeCanonicalPresentation.foodCultureId,
+  routeId: omeCanonicalPresentation.routeId,
+  sourceStatus: omeCanonicalPresentation.sourceStatus,
+  copy: {
+    ja: {
+      title: omeRoute.nameJa,
+      subtitle: omeCulture.nameJa,
+      description: omeCulture.descriptionJa,
+      tags: ['日本酒', '伝統', '半日・一日'],
+      storyTitle: '青梅・沢井の日本酒の物語',
+      intro: [omeCulture.storyJa, omeCulture.descriptionJa],
+    },
+    en: {
+      title: omeRoute.nameEn,
+      subtitle: omeCulture.nameEn,
+      description: omeCulture.descriptionEn,
+      tags: ['Sake', 'Tradition', 'Half or full day'],
+      storyTitle: 'The story of Sawai sake in Ome',
+      intro: [omeCulture.storyEn, omeCulture.descriptionEn],
+    },
+    'zh-TW': {
+      title: strings['zh-TW'].dataSakeRouteName,
+      subtitle: strings['zh-TW'].dataSakeName,
+      description: strings['zh-TW'].dataSakeDescription,
+      tags: ['日本酒', '傳統', '半日・一日'],
+      storyTitle: strings['zh-TW'].dataSakeHeroKicker,
+      intro: [
+        '沢井是多摩川清流流經的溪谷聚落。小澤酒造在這片溪谷河畔釀造日本酒「澤乃井」。',
+        strings['zh-TW'].dataSakeDescription,
+      ],
+    },
+  },
+  chapters: {
+    ja: [
+      { number: '01.', title: '沢井で受け継がれる酒蔵', body: omeCulture.historyJa },
+      { number: '02.', title: '澤乃井を醸す小澤酒造', body: requiredRecord(getSpotDetail('sawai-ozawa-shuzo'), 'Ozawa Spot detail').roleJa },
+      { number: '03.', title: '酒蔵を訪ねる前に', body: omeTourReservationNote.ja },
+      { number: '04.', title: '御嶽の文化財へ', body: requiredRecord(getSpotDetail('mitake-shrine'), 'Mitake Shrine Spot detail').roleJa },
+    ],
+    en: [
+      { number: '01.', title: 'A brewery carried forward in Sawai', body: omeCulture.historyEn },
+      { number: '02.', title: 'Ozawa Shuzo, brewer of Sawanoi', body: requiredRecord(getSpotDetail('sawai-ozawa-shuzo'), 'Ozawa Spot detail').roleEn },
+      { number: '03.', title: 'Before visiting the brewery', body: omeTourReservationNote.en },
+      { number: '04.', title: 'Continue to Mitake heritage', body: requiredRecord(getSpotDetail('mitake-shrine'), 'Mitake Shrine Spot detail').roleEn },
+    ],
+    'zh-TW': [
+      { number: '01.', title: '在沢井傳承的酒藏', body: strings['zh-TW'].dataSakeHistory },
+      { number: '02.', title: '釀造澤乃井的小澤酒造', body: strings['zh-TW'].dataOzawaRole },
+      { number: '03.', title: '造訪酒藏之前', body: omeTourReservationNote['zh-TW'] },
+      { number: '04.', title: '前往御嶽文化財', body: strings['zh-TW'].dataMitakeShrineRole },
+    ],
+  },
+  routeVariants: [
+    omeRouteVariant('half-day', 'half-day'),
+    omeRouteVariant('1-day', 'full-day'),
+  ],
+};
+
+/** Every journey reachable in the current presentation, including MOGU browse. */
+export const currentJourneys: JourneyPresentation[] = [...resultJourneys, omeJourney];
 
 type SpotCopy = Pick<SpotPresentation['copy'][Locale], 'name' | 'lead' | 'description'>;
 
@@ -500,6 +620,71 @@ export const demoSpots: Record<string, SpotPresentation> = {
   'mitake-station': spot('mitake-station', 'station', ['wasabiExperience'], { ja: { name: '御岳駅', lead: 'わさび体験へ向かう起点', description: '体験ルートの起点として示す、参考スポットです。' }, en: { name: 'Mitake Station', lead: 'A starting point for the wasabi experience', description: 'A reference stop shown as the experience route’s starting point.' }, 'zh-TW': { name: '御嶽站', lead: '前往山葵體驗的起點', description: '作為體驗路線起點顯示的參考景點。' } }),
 };
 
+const omePlaceNameZh: Record<string, string> = {
+  'sawai-ozawa-shuzo': strings['zh-TW'].dataPlaceOzawaName,
+  'sawanoien-garden': strings['zh-TW'].dataPlaceSawanoienName,
+  'mitake-shrine': strings['zh-TW'].dataPlaceMitakeShrineName,
+  'baba-oshijutaku': strings['zh-TW'].dataPlaceBabaName,
+};
+
+const omeSpotRoleZh: Record<string, string> = {
+  'sawai-ozawa-shuzo': strings['zh-TW'].dataOzawaRole,
+  'sawanoien-garden': strings['zh-TW'].dataSawanoienRole,
+  'mitake-shrine': strings['zh-TW'].dataMitakeShrineRole,
+  'baba-oshijutaku': strings['zh-TW'].dataBabaRole,
+};
+
+function omeSpot(id: string): SpotPresentation {
+  const place = canonicalPlace(id);
+  const detail = requiredRecord(getSpotDetail(id), `${id} Spot detail`);
+  const address = requiredRecord(place.address, `${id} canonical address`);
+  const zhName = requiredRecord(omePlaceNameZh[id], `${id} Traditional Chinese name`);
+  const zhRole = requiredRecord(omeSpotRoleZh[id], `${id} Traditional Chinese role`);
+  return {
+    id,
+    regionId: 'ome',
+    foodCultureId: 'sake-ome',
+    thumbnailAssetIds: [],
+    copy: {
+      ja: {
+        name: place.nameJa,
+        lead: detail.roleJa,
+        description: detail.roleJa,
+        tags: ['公式情報参照', '確認中'],
+        practicalInfo: [{ label: '所在地', value: address }],
+        caution: ['掲載情報は確認中です。営業・見学・交通などは訪問前に公式情報をご確認ください。'],
+      },
+      en: {
+        name: place.nameEn,
+        lead: detail.roleEn,
+        description: detail.roleEn,
+        tags: ['Official source', 'Confirmation pending'],
+        practicalInfo: [{ label: 'Address', value: address }],
+        caution: ['This listing is still being confirmed. Check official information for current operations, tours, and access before visiting.'],
+      },
+      'zh-TW': {
+        name: zhName,
+        lead: zhRole,
+        description: zhRole,
+        tags: ['參考官方資訊', '確認中'],
+        practicalInfo: [{ label: '地址', value: address }],
+        caution: ['刊載內容仍在確認中。造訪前請查看官方資訊，確認營業、參訪與交通條件。'],
+      },
+    },
+  };
+}
+
+const omeSpots: Record<string, SpotPresentation> = Object.fromEntries(
+  ['sawai-ozawa-shuzo', 'sawanoien-garden', 'mitake-shrine', 'baba-oshijutaku']
+    .map((id) => [id, omeSpot(id)]),
+);
+
+/** Every Spot reachable through a current-presentation journey. */
+export const currentSpots: Record<string, SpotPresentation> = {
+  ...demoSpots,
+  ...omeSpots,
+};
+
 export interface RouteStepText {
   /** Stable presentation stop identity; never derived from array position. */
   spotId: string;
@@ -511,6 +696,7 @@ export interface RouteStepText {
 export const routeNames: Record<string, LocalizedText> = {
   'demo-okutama-wasabi': localized('東京わさび文化を巡る旅', 'A journey through Tokyo wasabi culture', '走訪東京山葵文化之旅'),
   'demo-okutama-yamame': localized('新宿から約90分、奥多摩やまめを味わう旅', 'Taste Okutama yamame, 90 minutes from Shinjuku', '從新宿約 90 分鐘，品嚐奧多摩山女魚'),
+  'demo-ome-sake': localized(omeRoute.nameJa, omeRoute.nameEn, strings['zh-TW'].dataSakeRouteName),
 };
 
 export interface ResultLocation {
@@ -530,7 +716,43 @@ export const resultLocation: Record<string, Record<Locale, ResultLocation>> = {
     en: { area: 'Okutama area (Western Tokyo)', station: 'Shinjuku Station', access: 'About 90 min by train' },
     'zh-TW': { area: '奧多摩地區（東京西部）', station: '新宿站', access: '搭乘電車約 90 分鐘' },
   },
+  'demo-ome-sake': {
+    ja: { area: '青梅・沢井 (東京西部)', station: '沢井駅', access: 'から徒歩 約5分' },
+    en: { area: 'Ome / Sawai (Western Tokyo)', station: 'Sawai Station', access: 'About 5 min on foot' },
+    'zh-TW': { area: '青梅・沢井（東京西部）', station: '沢井站', access: '步行約 5 分鐘' },
+  },
 };
+
+function omeRouteSteps(canonicalId: 'half-day' | '1-day'): RouteStepText[] {
+  const variant = omeRoute.variants[canonicalId];
+  return variant.steps.map((step) => {
+    const mobility = variant.mobility.find((segment) => segment.toStep === step.stepNumber);
+    const zhMobility = mobility
+      ? mobility.mode === 'walk'
+        ? '步行'
+        : mobility.mode === 'train'
+          ? strings['zh-TW'].dataSakeMobilityCableCar
+          : '巴士'
+      : undefined;
+    return {
+      spotId: step.placeId,
+      ...(mobility && zhMobility
+        ? {
+            walk: localized(
+              `${mobility.labelJa} 約 ${mobility.durationMinutes} 分`,
+              `${mobility.labelEn} · about ${mobility.durationMinutes} min`,
+              `${zhMobility}（編輯部參考）約 ${mobility.durationMinutes} 分鐘`,
+            ),
+          }
+        : {}),
+      description: localized(
+        step.roleJa,
+        step.roleEn,
+        requiredRecord(omeStepRoleZh[step.placeId], `${step.placeId} route role`),
+      ),
+    };
+  });
+}
 
 export const routeStepText: Record<string, RouteStepText[]> = {
   'demo-okutama-wasabi:half-day': [
@@ -556,6 +778,8 @@ export const routeStepText: Record<string, RouteStepText[]> = {
     { spotId: 'hikawa-valley', walk: localized('徒歩 約 10 分', 'About 10 min on foot', '步行約 10 分鐘'), description: localized('渓流さんぽ 60分', 'Streamside walk · 60 min', '溪流散步・60 分鐘') },
     { spotId: 'akabeko', walk: localized('徒歩 約 15 分', 'About 15 min on foot', '步行約 15 分鐘'), description: akabekoYamameRouteDescription },
   ],
+  'demo-ome-sake:half-day': omeRouteSteps('half-day'),
+  'demo-ome-sake:full-day': omeRouteSteps('1-day'),
 };
 
 export interface RouteStats {
@@ -564,12 +788,16 @@ export interface RouteStats {
   spots: string;
   station: string;
   minutes: string;
+  /** Complete access sentence for routes whose source does not support a base-area estimate. */
+  access?: string;
+  /** Visible caveat for editorial route timing/order that lacks live transport authority. */
+  caution?: string;
 }
 
-export const routeRegionGuidance: Record<Locale, string> = {
-  ja: '奥多摩・東京都 (東京西部)',
-  en: 'Okutama, Tokyo (Western Tokyo)',
-  'zh-TW': '東京都奧多摩（東京西部）',
+export const routeRegionGuidance: Record<string, Record<Locale, string>> = {
+  'demo-okutama-wasabi': localized('奥多摩・東京都 (東京西部)', 'Okutama, Tokyo (Western Tokyo)', '東京都奧多摩（東京西部）'),
+  'demo-okutama-yamame': localized('奥多摩・東京都 (東京西部)', 'Okutama, Tokyo (Western Tokyo)', '東京都奧多摩（東京西部）'),
+  'demo-ome-sake': localized('青梅・沢井・東京都 (東京西部)', 'Ome / Sawai, Tokyo (Western Tokyo)', '東京都青梅・沢井（東京西部）'),
 };
 
 export const routeStats: Record<string, Record<Locale, RouteStats>> = {
@@ -587,6 +815,16 @@ export const routeStats: Record<string, Record<Locale, RouteStats>> = {
     ja: { time: '約 4 時間', distance: '徒歩約 4 km', spots: '3 スポット', station: '新宿駅', minutes: '90 分' },
     en: { time: 'About 4 hr', distance: 'Walk about 4 km', spots: '3 spots', station: 'Shinjuku Station', minutes: '90 min' },
     'zh-TW': { time: '約 4 小時', distance: '步行約 4 km', spots: '3 個景點', station: '新宿站', minutes: '90 分鐘' },
+  },
+  'demo-ome-sake:half-day': {
+    ja: { time: '目安 3 時間 35 分', distance: omeRoute.variants['half-day'].transportJa, spots: '3 スポット', station: '沢井駅', minutes: '徒歩 約5分', access: '沢井駅から小澤酒造まで徒歩約5分', caution: '所要時間と移動順は編集部による目安です。訪問前に交通・営業の公式情報をご確認ください。' },
+    en: { time: 'Est. 3 hr 35 min', distance: omeRoute.variants['half-day'].transportEn, spots: '3 spots', station: 'Sawai Station', minutes: 'About 5 min on foot', access: 'About 5 minutes on foot from Sawai Station to Ozawa Shuzo', caution: 'Route timing and order are editorial estimates. Check official transport and operating information before visiting.' },
+    'zh-TW': { time: '參考 3 小時 35 分鐘', distance: 'JR／巴士／纜車／步行（編輯部參考）', spots: '3 個景點', station: '沢井站', minutes: '步行約 5 分鐘', access: '從沢井站步行約 5 分鐘可抵達小澤酒造', caution: '所需時間與移動順序僅供參考。造訪前請確認交通與營業的官方資訊。' },
+  },
+  'demo-ome-sake:full-day': {
+    ja: { time: '目安 6 時間 10 分', distance: omeRoute.variants['1-day'].transportJa, spots: '4 スポット', station: '沢井駅', minutes: '徒歩 約5分', access: '沢井駅から小澤酒造まで徒歩約5分', caution: '所要時間と移動順は編集部による目安です。訪問前に交通・営業の公式情報をご確認ください。' },
+    en: { time: 'Est. 6 hr 10 min', distance: omeRoute.variants['1-day'].transportEn, spots: '4 spots', station: 'Sawai Station', minutes: 'About 5 min on foot', access: 'About 5 minutes on foot from Sawai Station to Ozawa Shuzo', caution: 'Route timing and order are editorial estimates. Check official transport and operating information before visiting.' },
+    'zh-TW': { time: '參考 6 小時 10 分鐘', distance: 'JR／巴士／纜車／步行（編輯部參考）', spots: '4 個景點', station: '沢井站', minutes: '步行約 5 分鐘', access: '從沢井站步行約 5 分鐘可抵達小澤酒造', caution: '所需時間與移動順序僅供參考。造訪前請確認交通與營業的官方資訊。' },
   },
 };
 
@@ -626,6 +864,141 @@ export interface ReferenceSpotDetail {
   caution: LocalizedText[];
 }
 
+const omePracticalZh: Record<string, Partial<Record<'access' | 'hours' | 'closedDays' | 'price', string>>> = {
+  'sawai-ozawa-shuzo': {
+    access: '從 JR 青梅線「沢井站」步行約 5 分鐘。酒藏參訪需預約，約 40 分鐘；個人請使用官方預約頁面。造訪前請確認最新官方資訊。',
+    hours: '酒藏參訪：平日 11:00、13:00／週末及國定假日 11:00、12:30、14:00（需預約）',
+    closedDays: '週一（若逢國定假日則順延至週二）',
+    price: '每人 700 日圓（含稅）',
+  },
+  'sawanoien-garden': {
+    hours: '10:00–17:00',
+    closedDays: '週一（若週一為國定假日則週二休園）、年末年初，另有其他休園日。造訪前請查看最新官方營業日曆。',
+  },
+};
+
+function omeReferenceSpotDetail(id: string): ReferenceSpotDetail {
+  const place = canonicalPlace(id);
+  const detail = requiredRecord(getSpotDetail(id), `${id} Spot detail`);
+  const address = requiredRecord(place.address, `${id} canonical address`);
+  const practical = detail.practical;
+  const zhPractical = omePracticalZh[id] ?? {};
+  const information: ReferenceSpotDetail['information'] = [
+    {
+      fieldId: 'name',
+      icon: 'information',
+      label: localized('施設', 'Place', '設施'),
+      value: localized(place.nameJa, place.nameEn, requiredRecord(omePlaceNameZh[id], `${id} Traditional Chinese name`)),
+    },
+    {
+      fieldId: 'address',
+      icon: 'information',
+      label: localized('所在地', 'Address', '地址'),
+      value: localized(address, address, address),
+    },
+  ];
+
+  if (practical?.accessJa && practical.accessEn && zhPractical.access) {
+    information.push({
+      fieldId: 'access',
+      icon: 'train',
+      label: localized('アクセス・見学', 'Access and tour', '交通・參訪'),
+      value: localized(practical.accessJa, practical.accessEn, zhPractical.access),
+    });
+  }
+  if (practical?.hoursJa && practical.hoursEn && zhPractical.hours) {
+    information.push({
+      fieldId: 'hours',
+      icon: 'clock',
+      label: localized('営業時間・見学時間', 'Hours and tour times', '營業・參訪時間'),
+      value: localized(practical.hoursJa, practical.hoursEn, zhPractical.hours),
+    });
+  }
+  if (practical?.closedDaysJa && practical.closedDaysEn && zhPractical.closedDays) {
+    information.push({
+      fieldId: 'closed_days',
+      icon: 'clock',
+      label: localized('定休日・休業', 'Closures', '公休日・休園'),
+      value: localized(practical.closedDaysJa, practical.closedDaysEn, zhPractical.closedDays),
+    });
+  }
+  if (practical?.priceJa && practical.priceEn && zhPractical.price) {
+    information.push({
+      fieldId: 'price_availability',
+      icon: 'information',
+      label: localized('見学料金', 'Tour price', '參訪費用'),
+      value: localized(practical.priceJa, practical.priceEn, zhPractical.price),
+    });
+  }
+  if (practical?.reservationAvailable) {
+    information.push({
+      fieldId: 'reservation',
+      icon: 'information',
+      label: localized('予約', 'Reservation', '預約'),
+      value: localized('予約制（個人は公式予約ページから申込み）', 'Reservation required (individual visitors use the official booking page)', '需預約（個人請使用官方預約頁面）'),
+    });
+  }
+  information.push(
+    {
+      fieldId: 'official_current_url',
+      icon: 'information',
+      label: localized('公式情報', 'Official source', '官方資訊'),
+      value: localized(place.source.url ?? '', place.source.url ?? '', place.source.url ?? ''),
+    },
+    {
+      fieldId: 'verification_note',
+      icon: 'information',
+      label: localized('確認状況', 'Verification status', '確認狀態'),
+      value: localized(
+        '掲載内容は現在確認中です。営業・見学・交通などは、訪問前に公式情報をご確認ください。',
+        'This listing is still being confirmed. Check official information for current operations, tours, and access before visiting.',
+        '刊載內容仍在確認中。造訪前請以官方資訊確認營業、參訪與交通條件。',
+      ),
+    },
+  );
+
+  const isHeritage = id === 'mitake-shrine' || id === 'baba-oshijutaku';
+  return {
+    tags: [
+      {
+        tagId: isHeritage ? 'heritage-context' : id === 'sawai-ozawa-shuzo' ? 'sake-brewery' : 'brewery-garden',
+        color: '#8FAE5C',
+        label: isHeritage
+          ? localized('文化財', 'Heritage', '文化財')
+          : id === 'sawai-ozawa-shuzo'
+            ? localized('酒蔵', 'Sake brewery', '酒藏')
+            : localized('清流ガーデン', 'Riverside garden', '清流花園'),
+      },
+      { tagId: 'official-source', color: '#F0A24C', label: localized('公式・公的情報参照', 'Official/public source', '參考官方・公部門資訊') },
+      { tagId: 'confirmation-pending', color: '#5D9BEF', label: localized('確認中', 'Confirmation pending', '確認中') },
+    ],
+    description: localized(
+      detail.roleJa,
+      detail.roleEn,
+      requiredRecord(omeSpotRoleZh[id], `${id} Traditional Chinese role`),
+    ),
+    information,
+    ...(id === 'sawai-ozawa-shuzo'
+      ? {
+          guide: {
+            title: localized('酒蔵見学（予約制）', 'Brewery tour (reservation required)', '酒藏參訪（需預約）'),
+            body: localized(
+              '個人見学は公式予約ページから申し込みます。時間・休業・料金は変わる場合があるため、訪問前に最新情報をご確認ください。',
+              'Individual visitors book through the official reservation page. Tour times, closures, and price can change, so check current information before visiting.',
+              '個人參訪請使用官方預約頁面。參訪時間、休業與費用可能變更，造訪前請確認最新資訊。',
+            ),
+            action: localized('公式見学案内を確認する', 'Check official tour information', '查看官方參訪資訊'),
+          },
+        }
+      : {}),
+    caution: [localized(
+      '・営業・見学・交通の条件は変更される場合があります。訪問前に公式情報をご確認ください。',
+      '• Operations, tours, and access conditions can change. Check official information before visiting.',
+      '・營業、參訪與交通條件可能變更。造訪前請查看官方資訊。',
+    )],
+  };
+}
+
 export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> = {
   'wasabi-kitchen': {
     tags: [
@@ -661,6 +1034,10 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
       localized('・メニューと価格は時点付きの参考情報です。食事制限・アレルギー対応は現地で確認してください。', '• Menu and price are dated references. Confirm dietary and allergy needs with the operator.', '・菜單與價格為附日期的參考資訊。飲食限制與過敏需求請向營運方確認。'),
     ],
   },
+  'sawai-ozawa-shuzo': omeReferenceSpotDetail('sawai-ozawa-shuzo'),
+  'sawanoien-garden': omeReferenceSpotDetail('sawanoien-garden'),
+  'mitake-shrine': omeReferenceSpotDetail('mitake-shrine'),
+  'baba-oshijutaku': omeReferenceSpotDetail('baba-oshijutaku'),
   akabeko: {
     tags: [
       { tagId: 'robata-restaurant', color: '#8FAE5C', label: localized('炉ばた料理店', 'Hearth-grill restaurant', '爐端料理店') },
@@ -1141,7 +1518,7 @@ export interface StorySpotReference {
   /** Stable card identity; never derived from localized copy, asset, or array order. */
   referenceId: string;
   spotId: string;
-  imageAssetId: ReferenceAssetId;
+  imageAssetId?: ReferenceAssetId;
   badge: LocalizedText;
   badgeColor: string;
   description?: LocalizedText;
@@ -1241,6 +1618,58 @@ export const storySpotGroups: Record<string, {
       },
     ],
   },
+  'demo-ome-sake': {
+    nearby: [
+      {
+        referenceId: 'sawai-ozawa-shuzo',
+        spotId: 'sawai-ozawa-shuzo',
+        badgeColor: '#E98A1C',
+        badge: localized('酒蔵', 'Sake brewery', '酒藏'),
+        description: localized(
+          requiredRecord(getSpotDetail('sawai-ozawa-shuzo'), 'Ozawa Spot detail').roleJa,
+          requiredRecord(getSpotDetail('sawai-ozawa-shuzo'), 'Ozawa Spot detail').roleEn,
+          strings['zh-TW'].dataOzawaRole,
+        ),
+        note: omeTourReservationNote,
+      },
+      {
+        referenceId: 'sawanoien-garden',
+        spotId: 'sawanoien-garden',
+        badgeColor: '#E98A1C',
+        badge: localized('清流ガーデン', 'Riverside garden', '清流花園'),
+        description: localized(
+          requiredRecord(getSpotDetail('sawanoien-garden'), 'Sawanoien Spot detail').roleJa,
+          requiredRecord(getSpotDetail('sawanoien-garden'), 'Sawanoien Spot detail').roleEn,
+          strings['zh-TW'].dataSawanoienRole,
+        ),
+        note: localized('営業日は公式カレンダーを確認', 'Check the official operating calendar', '請查看官方營業日曆'),
+      },
+    ],
+    nature: [
+      {
+        referenceId: 'mitake-shrine',
+        spotId: 'mitake-shrine',
+        badgeColor: '#5E7239',
+        badge: localized('文化財', 'Heritage', '文化財'),
+        description: localized(
+          requiredRecord(getSpotDetail('mitake-shrine'), 'Mitake Shrine Spot detail').roleJa,
+          requiredRecord(getSpotDetail('mitake-shrine'), 'Mitake Shrine Spot detail').roleEn,
+          strings['zh-TW'].dataMitakeShrineRole,
+        ),
+      },
+      {
+        referenceId: 'baba-oshijutaku',
+        spotId: 'baba-oshijutaku',
+        badgeColor: '#5E7239',
+        badge: localized('文化財', 'Heritage', '文化財'),
+        description: localized(
+          requiredRecord(getSpotDetail('baba-oshijutaku'), 'Baba House Spot detail').roleJa,
+          requiredRecord(getSpotDetail('baba-oshijutaku'), 'Baba House Spot detail').roleEn,
+          strings['zh-TW'].dataBabaRole,
+        ),
+      },
+    ],
+  },
 };
 
 export const storyLocation: Record<string, Record<Locale, {
@@ -1257,6 +1686,11 @@ export const storyLocation: Record<string, Record<Locale, {
     en: { region: 'Okutama, Tokyo (Western Tokyo)', station: 'Nearest station: Okutama' },
     'zh-TW': { region: '東京都奧多摩（東京西部）', station: '最近車站：奧多摩站' },
   },
+  'demo-ome-sake': {
+    ja: { region: '青梅・沢井・東京都 (東京西部)', station: '最寄駅：沢井駅' },
+    en: { region: 'Ome / Sawai, Tokyo (Western Tokyo)', station: 'Nearest station: Sawai' },
+    'zh-TW': { region: '東京都青梅・沢井（東京西部）', station: '最近車站：沢井站' },
+  },
 };
 
 export const chapterPoint: Record<string, Record<Locale, {
@@ -1272,5 +1706,10 @@ export const chapterPoint: Record<string, Record<Locale, {
     ja: { title: '奥多摩やまめは、どんな魚？', body: '通常より長く生き、大きく育つ希少な川魚。塩焼きだけでなく、刺身や切り身でも味わえます。' },
     en: { title: 'What kind of fish is Okutama yamame?', body: 'A rare river fish that grows larger over a longer life, served grilled, sliced, or as sashimi.' },
     'zh-TW': { title: '奧多摩山女魚是什麼魚？', body: '壽命較長、體型較大的珍稀河魚，可鹽烤、切片或作為生魚片品嚐。' },
+  },
+  'demo-ome-sake': {
+    ja: { title: '訪問前に確認すること', body: strings.ja.dataSakeRouteOperationalNote },
+    en: { title: 'Check before setting out', body: strings.en.dataSakeRouteOperationalNote },
+    'zh-TW': { title: '出發前請確認', body: strings['zh-TW'].dataSakeRouteOperationalNote },
   },
 };

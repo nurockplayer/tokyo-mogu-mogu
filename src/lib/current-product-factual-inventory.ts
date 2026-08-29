@@ -1,6 +1,6 @@
 import {
-  demoJourneys,
-  demoSpots,
+  currentJourneys,
+  currentSpots,
   storySpotGroups,
 } from '../features/netlify-parity/factual-presentation';
 
@@ -18,14 +18,14 @@ const TYPE_ORDER: Readonly<Record<CurrentProductFactualEntityType, number>> = {
 };
 
 /**
- * Derive the factual review boundary from the two journeys currently exposed
+ * Derive the factual review boundary from the journeys currently exposed
  * by Product presentation records. This projection carries identity only; it
  * never copies displayed or canonical facts into Board metadata.
  */
 export function buildCurrentProductFactualInventory(): CurrentProductFactualEntity[] {
   const spotIds = new Set<string>();
 
-  for (const journey of demoJourneys) {
+  for (const journey of currentJourneys) {
     for (const variant of journey.routeVariants) {
       for (const step of variant.steps) spotIds.add(step.spotId);
     }
@@ -36,13 +36,13 @@ export function buildCurrentProductFactualInventory(): CurrentProductFactualEnti
   }
 
   const entities: CurrentProductFactualEntity[] = [...spotIds].map((id) => {
-    if (!demoSpots[id]) {
+    if (!currentSpots[id]) {
       throw new Error(`Missing current Spot presentation record: ${id}`);
     }
     return { id, type: 'Spot' };
   });
 
-  for (const journey of demoJourneys) {
+  for (const journey of currentJourneys) {
     entities.push(
       { id: journey.storyId, type: 'Story' },
       { id: journey.routeId, type: 'Route' },

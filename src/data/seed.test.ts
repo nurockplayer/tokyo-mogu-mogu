@@ -458,6 +458,44 @@ describe('seed data contract (#2)', () => {
     expect(wasabiKitchen).not.toHaveProperty('longitude');
   });
 
+  it('keeps the refreshed Ome/Sawai facts on the canonical public seed seam (#348)', () => {
+    const culture = getFoodCultureById('sake-ome');
+    const ozawa = getPlaceById('sawai-ozawa-shuzo');
+    const sawanoien = getPlaceById('sawanoien-garden');
+
+    expect(`${culture?.storyJa} ${culture?.storyEn}`).not.toMatch(
+      /(?:この土地|地元|local|land(?:'s)?)の?(?:水と)?米|local rice/i,
+    );
+    expect(`${culture?.makerJa} ${culture?.makerEn}`).not.toMatch(/蔵の井|Kura no I/i);
+    expect(culture?.sources.find((source) => source.originalId === 'ozawa-shuzo')).toMatchObject({
+      retrievedAt: '2026-08-29',
+      verificationStatus: 'needs_confirmation',
+    });
+    expect(ozawa).toMatchObject({
+      address: '東京都青梅市沢井2-770',
+      source: {
+        retrievedAt: '2026-08-29',
+        verificationStatus: 'needs_confirmation',
+      },
+      visitorInformation: {
+        access: { stationJa: 'JR青梅線「沢井駅」', walkMinutes: 5 },
+      },
+    });
+    expect(ozawa?.visitorInformation).not.toHaveProperty('phone');
+    expect(sawanoien).toMatchObject({
+      source: {
+        retrievedAt: '2026-08-29',
+        verificationStatus: 'needs_confirmation',
+      },
+      visitorInformation: {
+        shopHours: { opens: '10:00', closes: '17:00' },
+        regularClosedDays: ['monday'],
+        irregularClosures: true,
+      },
+    });
+    expect(sawanoien?.visitorInformation).not.toHaveProperty('phone');
+  });
+
   it('relation helpers return the linked records', () => {
     const wasabi = getFoodCultureById('wasabi-okutama');
     expect(wasabi).toBeDefined();

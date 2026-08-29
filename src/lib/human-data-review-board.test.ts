@@ -696,26 +696,82 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       places,
     });
 
-    expect(board.entities).toHaveLength(15);
-    expect(board.entityTypeCounts).toEqual({ Spot: 11, Story: 2, Route: 2 });
+    expect(board.entities).toHaveLength(21);
+    expect(board.entityTypeCounts).toEqual({ Spot: 15, Story: 3, Route: 3 });
     expect(board.entities.map((entity) => entity.id)).toEqual(expect.arrayContaining([
       'akabeko',
+      'baba-oshijutaku',
       'hikawa-valley',
       'mitake-station',
+      'mitake-shrine',
       'oku-hikawa-shrine',
       'okutama-kitchen',
       'okutama-station',
       'okutama-tourism-office',
       'port-okutama',
+      'sawai-ozawa-shuzo',
+      'sawanoien-garden',
       'wasabi-experience',
       'wasabi-kitchen',
       'yamashiroya',
+      'ome-sawai-sake-journey',
       'okutama-wasabi-journey',
       'okutama-yamame-journey',
+      'sake-ome',
       'wasabi-okutama',
       'yamame-okutama',
     ]));
-    expect(board.entities.map((entity) => entity.id)).not.toContain('ome-sawai-sake-journey');
+
+    const omeStory = board.entities.find((entity) => entity.id === 'sake-ome');
+    for (const [fieldKey, sourceUrl] of [
+      [
+        'story.factual.brewery-tour-reservation',
+        'https://www.sawanoi-sake.com/service/kengaku/',
+      ],
+      [
+        'story.spot.sawai-ozawa-shuzo.reservation-requirement',
+        'https://www.sawanoi-sake.com/service/kengaku/',
+      ],
+      [
+        'story.spot.sawanoien-garden.operating-calendar-check',
+        'https://www.sawanoi-sake.com/service/sawanoien/',
+      ],
+    ] as const) {
+      const fact = omeStory?.facts.find((candidate) =>
+        candidate.claimIds.includes(`story:sake-ome:${fieldKey}`));
+      expect(fact).toMatchObject({
+        status: 'needs_confirmation',
+        affectedSurfaces: ['Story'],
+      });
+      expect(fact?.sources).toEqual([
+        expect.objectContaining({
+          url: sourceUrl,
+          retrievedAt: '2026-08-29',
+          confirmedAt: undefined,
+        }),
+      ]);
+    }
+
+    const omeRoute = board.entities.find(
+      (entity) => entity.id === 'ome-sawai-sake-journey',
+    );
+    const moguAccess = omeRoute?.facts.find((fact) =>
+      fact.claimIds.includes(
+        'route:ome-sawai-sake-journey:mogu.factual.origin-access:ja',
+      ));
+    expect(moguAccess).toMatchObject({
+      fieldKey: 'route:mogu.factual.origin-access',
+      status: 'needs_confirmation',
+      affectedSurfaces: ['MOGU'],
+    });
+    expect(moguAccess?.sources).toEqual([
+      expect.objectContaining({
+        url: 'https://www.sawanoi-sake.com/service/kengaku/',
+        retrievedAt: '2026-08-29',
+        confirmedAt: undefined,
+      }),
+    ]);
+    expect(omeRoute?.reviewContext.affectedSurfaces).toEqual(['MOGU', 'Story', 'Route']);
 
     const portOkutama = board.entities.find((entity) => entity.id === 'port-okutama');
     expect(portOkutama).toMatchObject({

@@ -150,8 +150,9 @@ const SOURCE_OKUTAMA: DataSource = {
  * itinerary, not a verified schedule. The stops are the REAL facilities
  * curated in `src/data/seed-places.ts` (小澤酒造 / 澤乃井園 / 御嶽神社 / 馬場家御師住宅,
  * origin: 'source', needs_confirmation). Mobility for the 沢井 → 御岳 leg
- * combines JR青梅線 with the 御岳登山鉄道 cable car; run information is
- * editorial/hedged and no transit times are claimed. Practical spot details
+ * combines JR青梅線, the local bus, the 御岳登山鉄道 cable car, and walking;
+ * every displayed movement time is explicitly marked as an editorial estimate.
+ * Practical spot details
  * are populated only where the current official source states them. The
  * brewery tour and Sawanoien fields remain needs_confirmation at the record
  * boundary; unsourced dietary/accessibility claims stay absent.
@@ -161,7 +162,7 @@ const SOURCE_OME_ROUTE: DataSource = {
   name: '編集部（青梅・沢井の酒蔵と御嶽の文化財）',
   url: 'https://www.sawanoi-sake.com/',
   sourceType: 'official_web',
-  retrievedAt: '2026-08-19',
+  retrievedAt: '2026-08-29',
   verificationStatus: 'needs_confirmation',
   originalId: 'seed-route-ome',
 };
@@ -170,7 +171,7 @@ const SOURCE_SAWANOI: DataSource = {
   name: '小澤酒造 酒蔵見学（公式）',
   url: 'https://www.sawanoi-sake.com/service/kengaku/',
   sourceType: 'official_web',
-  retrievedAt: '2026-08-19',
+  retrievedAt: '2026-08-29',
   verificationStatus: 'needs_confirmation',
   originalId: 'sawanoi-brewery-tour',
 };
@@ -179,9 +180,18 @@ const SOURCE_SAWANOIEN: DataSource = {
   name: '小澤酒造 澤乃井園（公式）',
   url: 'https://www.sawanoi-sake.com/service/sawanoien/',
   sourceType: 'official_web',
-  retrievedAt: '2026-08-19',
+  retrievedAt: '2026-08-29',
   verificationStatus: 'needs_confirmation',
   originalId: 'sawanoien',
+};
+
+const SOURCE_MITAKE_ACCESS: DataSource = {
+  name: '御岳登山鉄道「御岳山へのアクセス」（公式）',
+  url: 'https://www.mitaketozan.co.jp/accessmap.html',
+  sourceType: 'business',
+  retrievedAt: '2026-08-29',
+  verificationStatus: 'needs_confirmation',
+  originalId: 'mitake-tozan-access',
 };
 
 const SOURCE_MITAKE_HERITAGE: DataSource = {
@@ -190,7 +200,7 @@ const SOURCE_MITAKE_HERITAGE: DataSource = {
   license: 'CC BY 4.0（クリエイティブ・コモンズ 表示 4.0）',
   sourceType: 'open_data',
   sourceDatasetId: '445ee18d-ee49-4659-9667-de8630bd0d0e',
-  retrievedAt: '2026-08-14',
+  retrievedAt: '2026-08-29',
   verificationStatus: 'needs_confirmation',
   originalId: '御嶽神社旧本殿',
 };
@@ -545,10 +555,17 @@ export const MODEL_ROUTES: ModelRoute[] = [
     // Source-backed editorial route: isDemo is intentionally absent (only the
     // frozen 8/23 Okutama golden path is demo).
     source: SOURCE_OME_ROUTE,
+    sources: [
+      SOURCE_OME_ROUTE,
+      SOURCE_SAWANOI,
+      SOURCE_SAWANOIEN,
+      SOURCE_MITAKE_ACCESS,
+      SOURCE_MITAKE_HERITAGE,
+    ],
     variants: {
       'half-day': {
-        transportJa: 'JR青梅線・徒歩',
-        transportEn: 'JR Ome Line & walking',
+        transportJa: 'JR青梅線・バス・ケーブル・徒歩（編集部目安）',
+        transportEn: 'JR Ome Line / bus / cable car / walking (editorial estimate)',
         totalMinutes: 215,
         steps: [
           {
@@ -585,22 +602,22 @@ export const MODEL_ROUTES: ModelRoute[] = [
             toStep: 2,
             mode: 'walk',
             durationMinutes: 5,
-            labelJa: '徒歩',
-            labelEn: 'Walk',
+            labelJa: '徒歩（編集部目安）',
+            labelEn: 'Walk (editorial estimate)',
           },
           {
             fromStep: 2,
             toStep: 3,
             mode: 'train',
             durationMinutes: 45,
-            labelJa: 'JR青梅線・御岳登山鉄道ケーブル',
-            labelEn: 'JR Ome Line & Mitake Tozan cable car',
+            labelJa: 'JR青梅線・バス・ケーブルカー・徒歩（編集部目安）',
+            labelEn: 'JR Ome Line, bus, cable car & walking (editorial estimate)',
           },
         ],
       },
       '1-day': {
-        transportJa: 'JR青梅線・徒歩',
-        transportEn: 'JR Ome Line & walking',
+        transportJa: 'JR青梅線・バス・ケーブル・徒歩（編集部目安）',
+        transportEn: 'JR Ome Line / bus / cable car / walking (editorial estimate)',
         totalMinutes: 370,
         steps: [
           {
@@ -646,24 +663,24 @@ export const MODEL_ROUTES: ModelRoute[] = [
             toStep: 2,
             mode: 'walk',
             durationMinutes: 5,
-            labelJa: '徒歩',
-            labelEn: 'Walk',
+            labelJa: '徒歩（編集部目安）',
+            labelEn: 'Walk (editorial estimate)',
           },
           {
             fromStep: 2,
             toStep: 3,
             mode: 'train',
             durationMinutes: 45,
-            labelJa: 'JR青梅線・御岳登山鉄道ケーブル',
-            labelEn: 'JR Ome Line & Mitake Tozan cable car',
+            labelJa: 'JR青梅線・バス・ケーブルカー・徒歩（編集部目安）',
+            labelEn: 'JR Ome Line, bus, cable car & walking (editorial estimate)',
           },
           {
             fromStep: 3,
             toStep: 4,
             mode: 'walk',
             durationMinutes: 20,
-            labelJa: '徒歩',
-            labelEn: 'Walk',
+            labelJa: '徒歩（編集部目安）',
+            labelEn: 'Walk (editorial estimate)',
           },
         ],
       },
@@ -1036,13 +1053,17 @@ export const SPOT_DETAILS: Record<string, SpotDetail> = {
     roleEn:
       'Ozawa Shuzo is a sake brewery in Sawai that brews the "Sawanoi" label, on the banks of the clear Tama River valley.',
     practical: {
-      accessJa: '酒蔵見学は予約制。個人見学は公式予約ページから申し込みます。',
-      accessEn: 'Brewery tours require reservations; individual tours use the official booking page.',
+      accessJa:
+        'JR青梅線「沢井駅」から徒歩約5分。酒蔵見学は予約制で所要約40分です。個人見学は公式予約ページから申し込み、訪問前に最新の公式情報をご確認ください。',
+      accessEn:
+        'About 5 minutes on foot from JR Sawai Station. Brewery tours require reservations and take about 40 minutes; individual visitors use the official booking page. Check current official information before visiting.',
       hoursJa: '酒蔵見学：平日 11:00・13:00／土日祝 11:00・12:30・14:00（予約制）',
       hoursEn:
         'Brewery tours: weekdays at 11:00 and 13:00; weekends and holidays at 11:00, 12:30, and 14:00 (reservation required)',
-      priceJa: '700円（税込）／1人（20歳未満は無料）',
-      priceEn: '¥700 per person (tax included; free for visitors under 20)',
+      closedDaysJa: '月曜日（祝日の場合は翌火曜日）',
+      closedDaysEn: 'Mondays (Tuesday when Monday is a public holiday)',
+      priceJa: '700円（税込）／1人',
+      priceEn: '¥700 per person (tax included)',
       reservationAvailable: true,
     },
     tags: {},
@@ -1052,15 +1073,16 @@ export const SPOT_DETAILS: Record<string, SpotDetail> = {
   'sawanoien-garden': {
     placeId: 'sawanoien-garden',
     roleJa:
-      '澤乃井園は小澤酒造が営む清流ガーデンです。多摩川の清流を見下ろすオープンガーデンで、軽食や澤乃井の生原酒を楽しめます。',
+      '澤乃井園は小澤酒造が営む清流ガーデンです。多摩川を見下ろすオープンガーデンで軽食やおつまみを提供し、売店では生原酒のタンク量り売りがあります。',
     roleEn:
-      'Sawanoien is the brewery-run Clear Stream Garden overlooking the Tama River, serving light meals and Sawanoi nama genshu.',
+      'Sawanoien is the brewery-run Clear Stream Garden overlooking the Tama River. It offers light meals and snacks, and its shop sells nama genshu from a tank by volume.',
     practical: {
       hoursJa: '10:00〜17:00',
       hoursEn: '10:00 a.m.–5:00 p.m.',
-      closedDaysJa: '月曜日（祝日の場合は火曜日）・年末年始、その他休業あり（営業カレンダー）',
+      closedDaysJa:
+        '月曜日（祝日の場合は火曜日）・年末年始、その他休業あり。訪問前に最新の公式営業カレンダーをご確認ください。',
       closedDaysEn:
-        'Mondays (Tuesday when Monday is a holiday) and year-end/New Year; other closures may apply (see the operating calendar)',
+        'Mondays (Tuesday when Monday is a holiday) and year-end/New Year; other closures may apply. Check the current official operating calendar before visiting.',
     },
     tags: {},
     origin: 'editorial',

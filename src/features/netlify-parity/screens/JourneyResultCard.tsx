@@ -1,5 +1,6 @@
 import type { Locale } from '../../../i18n';
-import { referenceAssets, type JourneyPresentation, type ReferenceCopy } from '../content';
+import { type JourneyPresentation, type ReferenceCopy } from '../content';
+import { PresentationMedia } from '../components/PresentationMedia';
 import { resultLocation } from '../factual-presentation';
 
 interface JourneyResultCardProps {
@@ -20,7 +21,9 @@ export function JourneyResultCard({
   onOpen,
 }: JourneyResultCardProps) {
   const localized = journey.copy[locale];
-  const location = (resultLocation[journey.id] ?? resultLocation['demo-okutama-wasabi'])[locale];
+  const localizedLocation = resultLocation[journey.id];
+  if (!localizedLocation) throw new Error(`Missing Result location for journey: ${journey.id}`);
+  const location = localizedLocation[locale];
   const open = () => onOpen(journey);
 
   return (
@@ -39,8 +42,8 @@ export function JourneyResultCard({
       aria-label={`${copy.actions.openStory}: ${localized.title}`}
     >
       <div className="ph">
-        <img src={referenceAssets[journey.imageAssetId]} alt="" />
-        {showMatch ? (
+        <PresentationMedia assetId={journey.imageAssetId} locale={locale} />
+        {showMatch && journey.matchPercent !== undefined ? (
           <div className="match" aria-label={`${copy.result.matchLabel} ${journey.matchPercent}%`}>
             <b>
               {journey.matchPercent}
@@ -62,6 +65,11 @@ export function JourneyResultCard({
           {localized.tags.map((tag) => (
             <span key={tag}>{tag}</span>
           ))}
+          {journey.sourceStatus === 'needs_confirmation' ? (
+            <span data-verification-status="needs_confirmation">
+              {copy.mogu.confirmationPending}
+            </span>
+          ) : null}
         </div>
       </div>
     </article>

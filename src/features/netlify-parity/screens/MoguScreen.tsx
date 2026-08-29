@@ -1,6 +1,6 @@
 import type { Locale } from '../../../i18n';
 import { BottomNavigation } from '../components/BottomNavigation';
-import { demoJourneys, type JourneyPresentation, type ReferenceCopy } from '../content';
+import { currentJourneys, type JourneyPresentation, type ReferenceCopy } from '../content';
 import { JourneyResultCard } from './JourneyResultCard';
 
 const browseHeading: Record<Locale, { prefix: string; accent: string; suffix: string }> = {
@@ -22,7 +22,7 @@ export function MoguScreen({
   active,
   copy,
   locale,
-  journeys = demoJourneys,
+  journeys = currentJourneys,
   onOpenJourney,
   onNavigate,
 }: MoguScreenProps) {

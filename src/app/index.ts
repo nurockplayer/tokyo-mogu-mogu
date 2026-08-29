@@ -10,3 +10,4 @@ export { AppRouter } from './AppRouter';
 export { AppProviders } from './AppProviders';
 export { ErrorBoundary } from './ErrorBoundary';
 export { LoadingBoundary, PageLoader } from './LoadingBoundary';
+export { NotFoundPage } from './NotFoundPage';

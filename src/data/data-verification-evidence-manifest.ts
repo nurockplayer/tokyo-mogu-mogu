@@ -49,6 +49,70 @@ export interface DataVerificationEvidenceManifest {
   omissions: readonly DataVerificationEvidenceOmission[];
 }
 
+const OME_SAKE_EVIDENCE_LOCALES = ['ja', 'en', 'zh-TW'] as const;
+
+const OME_SAKE_STORY_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  OME_SAKE_EVIDENCE_LOCALES.map((locale) => ({
+    evidenceId: `ome-sake-story-${locale}-375`,
+    claimIds: [
+      'story:sake-ome:story.factual.nearest-station',
+      'story:sake-ome:story.factual.tama-river-valley-context',
+      `story:sake-ome:presentation:story_intro:${locale}`,
+      `story:sake-ome:presentation:story_location:${locale}`,
+    ],
+    entityId: 'sake-ome',
+    kind: 'app',
+    capturedAt: '2026-08-29',
+    path: `docs/data-evidence/ome-sake/story-${locale}-375.webp`,
+    locale,
+    viewport: { width: 375, height: 812 },
+    note: `Final #348 ${locale} Story state showing the current Sawai valley context, location, and nearest-station guidance at the 375px baseline.`,
+  }));
+
+const OME_SAKE_ROUTE_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  OME_SAKE_EVIDENCE_LOCALES.map((locale) => ({
+    evidenceId: `ome-sake-route-${locale}-375`,
+    claimIds: [
+      `route:ome-sawai-sake-journey:half-day:region_guidance:${locale}`,
+      `route:ome-sawai-sake-journey:half-day:origin_travel_time_guidance:${locale}`,
+      `route:ome-sawai-sake-journey:half-day:operational_caution:${locale}`,
+      `route:ome-sawai-sake-journey:half-day:step:sawai-ozawa-shuzo:guidance:${locale}`,
+      `route:ome-sawai-sake-journey:half-day:step:sawanoien-garden:transport_guidance:${locale}`,
+    ],
+    entityId: 'ome-sawai-sake-journey',
+    kind: 'app',
+    capturedAt: '2026-08-29',
+    path: `docs/data-evidence/ome-sake/route-${locale}-375.webp`,
+    locale,
+    viewport: { width: 375, height: 812 },
+    note: `Final #348 ${locale} half-day Route state showing the current region, origin guidance, Ozawa Shuzo step, and editorial walk estimate at the 375px baseline.`,
+  }));
+
+const OME_SAKE_OZAWA_SPOT_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  OME_SAKE_EVIDENCE_LOCALES.map((locale) => ({
+    evidenceId: `ome-sake-spot-ozawa-${locale}-375`,
+    claimIds: [
+      `place:sawai-ozawa-shuzo:name:${locale}`,
+      `spot:sawai-ozawa-shuzo:presentation:lead:${locale}`,
+      `spot:sawai-ozawa-shuzo:presentation:description:${locale}`,
+      `spot:sawai-ozawa-shuzo:presentation:tag:sake-brewery:${locale}`,
+      `spot:sawai-ozawa-shuzo:presentation:tag:official-source:${locale}`,
+      `spot:sawai-ozawa-shuzo:presentation:tag:confirmation-pending:${locale}`,
+      `place:sawai-ozawa-shuzo:information_name:${locale}`,
+      `place:sawai-ozawa-shuzo:address:${locale}`,
+      locale === 'ja'
+        ? 'spot:sawai-ozawa-shuzo:access'
+        : `place:sawai-ozawa-shuzo:access:${locale}`,
+    ],
+    entityId: 'sawai-ozawa-shuzo',
+    kind: 'app',
+    capturedAt: '2026-08-29',
+    path: `docs/data-evidence/ome-sake/spot-ozawa-${locale}-375.webp`,
+    locale,
+    viewport: { width: 375, height: 812 },
+    note: `Final #348 ${locale} Ozawa Shuzo Spot state showing the source-backed identity, address, access/tour guidance, and pending-confirmation presentation at the 375px baseline.`,
+  }));
+
 const AKABEKO_EVIDENCE_LOCALES = ['ja', 'en', 'zh-TW'] as const;
 
 const AKABEKO_SPOT_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
@@ -184,6 +248,23 @@ export const DATA_VERIFICATION_EVIDENCE_MANIFEST: DataVerificationEvidenceManife
     ...WASABI_KITCHEN_SPOT_APP_EVIDENCE,
     ...WASABI_KITCHEN_ROUTE_APP_EVIDENCE,
     ...WASABI_KITCHEN_STORY_APP_EVIDENCE,
+    {
+      evidenceId: 'ome-sake-mogu-ja-375',
+      claimIds: [
+        'route:ome-sawai-sake-journey:name:ja',
+        'route:ome-sawai-sake-journey:mogu.factual.origin-access:ja',
+      ],
+      entityId: 'ome-sawai-sake-journey',
+      kind: 'app',
+      capturedAt: '2026-08-29',
+      path: 'docs/data-evidence/ome-sake/mogu-ja-375.webp',
+      locale: 'ja',
+      viewport: { width: 375, height: 812 },
+      note: 'Final #348 Japanese MOGU card state showing the current canonical Ome / Sawai journey title, source-backed access, and visible pending-confirmation caveat at the 375px baseline.',
+    },
+    ...OME_SAKE_STORY_APP_EVIDENCE,
+    ...OME_SAKE_ROUTE_APP_EVIDENCE,
+    ...OME_SAKE_OZAWA_SPOT_APP_EVIDENCE,
     ...AKABEKO_SPOT_APP_EVIDENCE,
     ...AKABEKO_RELATED_APP_EVIDENCE,
     {
@@ -599,6 +680,49 @@ export const DATA_VERIFICATION_EVIDENCE_MANIFEST: DataVerificationEvidenceManife
       sourceUrl: 'https://tokyowasabi.com/hitoshi/2573/fussa-tanabata-challenge/',
       recordedAt: '2026-08-29',
       reason: 'TOKYO WASABI prohibits unauthorized reproduction; the conflicting first-party event dates were retained as structured provenance without copying the page or its images.',
+    },
+    {
+      omissionId: 'ome-sake-ozawa-home-source-reuse-unsupported',
+      claimIds: [
+        'place:sawai-ozawa-shuzo:name:ja',
+        'place:sawai-ozawa-shuzo:address:ja',
+        'spot:sawai-ozawa-shuzo:access',
+        'spot:sawai-ozawa-shuzo:official_current_url',
+      ],
+      entityId: 'sawai-ozawa-shuzo',
+      kind: 'source',
+      sourceUrl: 'https://www.sawanoi-sake.com/',
+      recordedAt: '2026-08-29',
+      reason: 'The official Ozawa Shuzo site provides no support for repository screenshot or image reuse; its current identity, address, and Sawai Station access text was rechecked without copying a page capture or photography.',
+    },
+    {
+      omissionId: 'ome-sake-ozawa-tour-source-reuse-unsupported',
+      claimIds: [
+        'spot:sawai-ozawa-shuzo:hours',
+        'spot:sawai-ozawa-shuzo:closed_days',
+        'spot:sawai-ozawa-shuzo:price_availability',
+        'spot:sawai-ozawa-shuzo:reservation',
+        'spot:sawai-ozawa-shuzo:story_wording',
+      ],
+      entityId: 'sawai-ozawa-shuzo',
+      kind: 'source',
+      sourceUrl: 'https://www.sawanoi-sake.com/service/kengaku/',
+      recordedAt: '2026-08-29',
+      reason: 'The official Ozawa Shuzo brewery-tour page provides no support for repository screenshot or image reuse; its current tour text was rechecked without copying a page capture or photography.',
+    },
+    {
+      omissionId: 'ome-sake-sawanoien-source-reuse-unsupported',
+      claimIds: [
+        'spot:sawanoien-garden:hours',
+        'spot:sawanoien-garden:closed_days',
+        'spot:sawanoien-garden:official_current_url',
+        'spot:sawanoien-garden:story_wording',
+      ],
+      entityId: 'sawanoien-garden',
+      kind: 'source',
+      sourceUrl: 'https://www.sawanoi-sake.com/service/sawanoien/',
+      recordedAt: '2026-08-29',
+      reason: 'The official Sawanoien page provides no support for repository screenshot or image reuse; its current operations and service text was rechecked without copying a page capture or photography.',
     },
     {
       omissionId: 'okutama-tourism-office-source-rights-restricted',

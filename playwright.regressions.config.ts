@@ -14,5 +14,6 @@ export default defineConfig({
     'issue-283-visual-parity.spec.ts',
     'issue-296-my-badges.spec.ts',
     'issue-313-my-badges-layout.spec.ts',
+    'issue-348-ome-sake.spec.ts',
   ],
 });

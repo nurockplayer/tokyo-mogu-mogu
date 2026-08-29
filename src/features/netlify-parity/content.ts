@@ -1,4 +1,5 @@
 import type { Locale } from '../../i18n';
+import type { VerificationStatus } from '../../data/model';
 
 import akabekoNew from '../../assets/netlify-parity/akabeko_new.jpg';
 import akabekoYamame from '../../assets/netlify-parity/akabeko_yamame.jpg';
@@ -181,6 +182,7 @@ export interface ReferenceCopy {
     title: string;
     recentTitle: string;
     empty: string;
+    confirmationPending: string;
   };
   favorites: {
     title: string;
@@ -200,9 +202,13 @@ export interface JourneyPresentation {
   foodCultureId: string;
   storyId: string;
   routeId: string;
-  matchPercent: number;
-  imageAssetId: ReferenceAssetId;
-  heroAssetId: ReferenceAssetId;
+  /** Result-only editorial value. Browse-only journeys do not invent one. */
+  matchPercent?: number;
+  /** Canonical source review state shown only when the browse card needs a caveat. */
+  sourceStatus?: VerificationStatus;
+  /** Rights-cleared local media only; absent renders the explicit neutral-media state. */
+  imageAssetId?: ReferenceAssetId;
+  heroAssetId?: ReferenceAssetId;
   copy: Record<Locale, {
     title: string;
     subtitle: string;
@@ -215,8 +221,8 @@ export interface JourneyPresentation {
   routeVariants: Array<{
     id: 'half-day' | 'full-day';
     durationMinutes: number;
-    imageAssetId: ReferenceAssetId;
-    steps: Array<{ spotId: string; imageAssetId: ReferenceAssetId }>;
+    imageAssetId?: ReferenceAssetId;
+    steps: Array<{ spotId: string; imageAssetId?: ReferenceAssetId }>;
   }>;
 }
 
@@ -224,7 +230,8 @@ export interface SpotPresentation {
   id: string;
   regionId: string;
   foodCultureId: string;
-  imageAssetId: ReferenceAssetId;
+  /** Rights-cleared local media only; absent renders the explicit neutral-media state. */
+  imageAssetId?: ReferenceAssetId;
   thumbnailAssetIds: ReferenceAssetId[];
   copy: Record<Locale, {
     name: string;
@@ -346,7 +353,7 @@ const copies: Record<Locale, ReferenceCopy> = {
     story: { chapterLabel: 'ストーリー', pointLabel: 'MOGUMOGU ポイント！', nearbyTitle: '周辺観光スポット', natureTitle: '自然と散策', generatingRoute: 'あなたにぴったりの\n観光ルートを生成中！' },
     route: { title: 'モデルルート', halfDay: '半日', fullDay: '一日', mapAlt: 'ルートマップ', saved: '保存済み' },
     spot: { information: 'スポット情報', caution: '訪問前のご注意', guide: 'ガイド・体験', practicalInfo: '基本情報' },
-    mogu: { title: 'モグモグる', recentTitle: '最近のおすすめ', empty: 'まだおすすめの記録はありません。' },
+    mogu: { title: 'モグモグる', recentTitle: '最近のおすすめ', empty: 'まだおすすめの記録はありません。', confirmationPending: '確認中' },
     favorites: { title: 'お気に入り', empty: '保存したスポットはまだありません。' },
     my: { title: 'マイページ', savedRoutes: '保存した旅程', foodProfile: 'フードプロフィール', badges: 'バッジ' },
   },
@@ -362,7 +369,7 @@ const copies: Record<Locale, ReferenceCopy> = {
     story: { chapterLabel: 'Story', pointLabel: 'MOGUMOGU point!', nearbyTitle: 'Taste nearby', natureTitle: 'Meet nature', generatingRoute: 'Creating your route…' },
     route: { title: 'Model route', halfDay: 'Half day', fullDay: 'Full day', mapAlt: 'Route map', saved: 'Saved' },
     spot: { information: 'Spot information', caution: 'Before you visit', guide: 'Guide & experience', practicalInfo: 'Practical information' },
-    mogu: { title: 'MOGU', recentTitle: 'Recent recommendations', empty: 'No recommendations yet.' },
+    mogu: { title: 'MOGU', recentTitle: 'Recent recommendations', empty: 'No recommendations yet.', confirmationPending: 'Confirmation pending' },
     favorites: { title: 'Favorites', empty: 'No saved spots yet.' },
     my: { title: 'My', savedRoutes: 'Saved routes', foodProfile: 'Food Profile', badges: 'Badges' },
   },
@@ -378,7 +385,7 @@ const copies: Record<Locale, ReferenceCopy> = {
     story: { chapterLabel: '故事', pointLabel: 'MOGUMOGU 重點！', nearbyTitle: '在附近品嚐', natureTitle: '親近自然', generatingRoute: '正在建立你的行程…' },
     route: { title: '示範路線', halfDay: '半日', fullDay: '一日', mapAlt: '路線地圖', saved: '已儲存' },
     spot: { information: '景點資訊', caution: '造訪前注意事項', guide: '導覽與體驗', practicalInfo: '實用資訊' },
-    mogu: { title: 'MOGU', recentTitle: '最近推薦', empty: '目前還沒有推薦紀錄。' },
+    mogu: { title: 'MOGU', recentTitle: '最近推薦', empty: '目前還沒有推薦紀錄。', confirmationPending: '確認中' },
     favorites: { title: '收藏', empty: '目前還沒有儲存的景點。' },
     my: { title: '我的', savedRoutes: '已儲存的行程', foodProfile: '飲食檔案', badges: '徽章' },
   },
@@ -388,4 +395,11 @@ export function referenceCopy(locale: Locale): ReferenceCopy {
   return copies[locale];
 }
 
-export { demoJourneys, demoSpots, homeJourneyCards } from './factual-presentation';
+export {
+  currentJourneys,
+  currentSpots,
+  demoJourneys,
+  demoSpots,
+  homeJourneyCards,
+  resultJourneys,
+} from './factual-presentation';

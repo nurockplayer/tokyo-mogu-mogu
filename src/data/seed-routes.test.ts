@@ -47,6 +47,24 @@ describe('model routes (#45 S5)', () => {
     expect(route?.variants['half-day'].mobility[0].mode).toBe('walk');
   });
 
+  it('exposes each first-party and public source behind the Ome journey (#348)', () => {
+    const route = getRouteById('ome-sawai-sake-journey');
+
+    expect(route?.sources?.map((source) => source.originalId)).toEqual([
+      'seed-route-ome',
+      'sawanoi-brewery-tour',
+      'sawanoien',
+      'mitake-tozan-access',
+      '御嶽神社旧本殿',
+    ]);
+    for (const source of route?.sources?.slice(0, 4) ?? []) {
+      expect(source).toMatchObject({
+        retrievedAt: '2026-08-29',
+        verificationStatus: 'needs_confirmation',
+      });
+    }
+  });
+
   it('marks only the frozen 8/23 demo route as demo content', () => {
     const demoRoutes = MODEL_ROUTES.filter((r) => r.isDemo);
     expect(demoRoutes).toHaveLength(1);
@@ -169,6 +187,54 @@ describe('spot details (#45 S6)', () => {
           expect(p.priceEn).toBeUndefined();
         }
       }
+    }
+  });
+
+  it('keeps current Ome tour operations source-caveated and unconfirmed (#348)', () => {
+    const brewery = SPOT_DETAILS['sawai-ozawa-shuzo'];
+    const garden = SPOT_DETAILS['sawanoien-garden'];
+
+    expect(brewery.source).toMatchObject({
+      retrievedAt: '2026-08-29',
+      verificationStatus: 'needs_confirmation',
+    });
+    expect(brewery.practical).toMatchObject({
+      accessJa: expect.stringMatching(/約40分.*公式/),
+      accessEn: expect.stringMatching(/about 40 minutes.*official/i),
+      hoursJa: '酒蔵見学：平日 11:00・13:00／土日祝 11:00・12:30・14:00（予約制）',
+      closedDaysJa: '月曜日（祝日の場合は翌火曜日）',
+      priceJa: '700円（税込）／1人',
+      reservationAvailable: true,
+    });
+    expect(garden.source).toMatchObject({
+      retrievedAt: '2026-08-29',
+      verificationStatus: 'needs_confirmation',
+    });
+    expect(garden.practical).toMatchObject({
+      hoursJa: '10:00〜17:00',
+      closedDaysJa: expect.stringMatching(/月曜日.*火曜日.*年末年始.*公式/),
+      closedDaysEn: expect.stringMatching(/Monday.*Tuesday.*year-end.*official/i),
+    });
+    expect(garden.roleJa).toMatch(/生原酒.*タンク量り売り/);
+    expect(garden.roleJa).not.toMatch(/生原酒を楽しめ/);
+    expect(garden.roleEn).toMatch(/sells.*nama genshu/i);
+    expect(garden.roleEn).not.toMatch(/serving.*nama genshu/i);
+  });
+
+  it('marks every authored Ome route time as an estimate and names the complete Mitake transfer (#348)', () => {
+    const route = getRouteById('ome-sawai-sake-journey');
+
+    for (const variant of Object.values(route?.variants ?? {})) {
+      expect(variant.transportJa).toMatch(/JR青梅線.*バス.*ケーブル.*徒歩.*目安/);
+      expect(variant.transportEn).toMatch(/JR Ome Line.*bus.*cable car.*walking.*estimate/i);
+      for (const mobility of variant.mobility) {
+        expect(mobility.labelJa).toMatch(/目安/);
+        expect(mobility.labelEn).toMatch(/estimate/i);
+      }
+
+      const mitakeTransfer = variant.mobility.find((mobility) => mobility.toStep === 3);
+      expect(mitakeTransfer?.labelJa).toMatch(/JR青梅線.*バス.*ケーブル.*徒歩/);
+      expect(mitakeTransfer?.labelEn).toMatch(/JR Ome Line.*bus.*cable car.*walking/i);
     }
   });
 

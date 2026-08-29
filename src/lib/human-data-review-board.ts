@@ -37,7 +37,7 @@ export function dataReviewStatusLabelJa(
 
 type SourceType = DataSource['sourceType'];
 
-export type HumanDataReviewSurface = 'Home' | 'Spot' | 'Story' | 'Route' | 'Result';
+export type HumanDataReviewSurface = 'Home' | 'MOGU' | 'Spot' | 'Story' | 'Route' | 'Result';
 
 export interface HumanDataReviewFactSource {
   claimId: string;
@@ -222,7 +222,14 @@ function isUnresolvedFinding(
   return finding !== 'none' && finding !== 'match';
 }
 
-const SURFACE_ORDER: readonly HumanDataReviewSurface[] = ['Home', 'Spot', 'Story', 'Route', 'Result'];
+const SURFACE_ORDER: readonly HumanDataReviewSurface[] = [
+  'Home',
+  'MOGU',
+  'Spot',
+  'Story',
+  'Route',
+  'Result',
+];
 
 const REVIEW_FOCUS = {
   mobileVenue: {

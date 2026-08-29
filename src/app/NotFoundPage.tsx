@@ -6,13 +6,17 @@
 import { Link } from 'react-router-dom';
 import { useI18n } from '../i18n';
 
-export function NotFoundPage() {
+export function NotFoundPage({ hardNavigation = false }: { hardNavigation?: boolean } = {}) {
   const { t } = useI18n();
   return (
     <section className="page">
       <h1 className="page-title">{t('notFoundTitle')}</h1>
       <p className="page-sub">{t('notFoundBody')}</p>
-      <Link to="/" className="btn btn-secondary">{t('navHome')}</Link>
+      {hardNavigation ? (
+        <a href="/" className="btn btn-secondary">{t('navHome')}</a>
+      ) : (
+        <Link to="/" className="btn btn-secondary">{t('navHome')}</Link>
+      )}
     </section>
   );
 }

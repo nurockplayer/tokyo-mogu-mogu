@@ -1,5 +1,6 @@
 import type { Locale } from '../../../i18n';
 import { BottomNavigation } from '../components/BottomNavigation';
+import { PresentationMedia } from '../components/PresentationMedia';
 import {
   referenceAssets,
   type JourneyPresentation,
@@ -75,7 +76,7 @@ export function FavoritesScreen({
                       tabIndex={active ? 0 : -1}
                     >
                       <div className="ph">
-                        <img src={referenceAssets[journey.imageAssetId]} alt="" />
+                        <PresentationMedia assetId={journey.imageAssetId} locale={locale} />
                       </div>
                       <div className="tx">
                         <b>{localized.title}</b>
@@ -106,7 +107,7 @@ export function FavoritesScreen({
                       role="button"
                       tabIndex={active ? 0 : -1}
                     >
-                      <img src={referenceAssets[spot.imageAssetId]} alt="" />
+                      <PresentationMedia assetId={spot.imageAssetId} locale={locale} />
                       <div className="tx">
                         <b>{localized.name}</b>
                         <p>{localized.lead}</p>

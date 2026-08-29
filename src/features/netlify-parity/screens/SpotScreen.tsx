@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { Locale } from '../../../i18n';
 import { BottomNavigation } from '../components/BottomNavigation';
+import { PresentationMedia } from '../components/PresentationMedia';
 import { referenceAssets, type ReferenceCopy, type SpotPresentation } from '../content';
 import {
   referenceSpotDetails,
@@ -45,7 +46,9 @@ export function SpotScreen({
   onToggleSaved,
   onNavigate,
 }: SpotScreenProps) {
-  const photos = [spot.imageAssetId, ...spot.thumbnailAssetIds];
+  const photos = [spot.imageAssetId, ...spot.thumbnailAssetIds].filter(
+    (assetId): assetId is NonNullable<typeof assetId> => assetId !== undefined,
+  );
   const [photoIndex, setPhotoIndex] = useState(0);
   const localized = spot.copy[locale];
   const referenceDetail = referenceSpotDetails[spot.id];
@@ -92,29 +95,35 @@ export function SpotScreen({
           >
             <BookmarkIcon />
           </button>
-          <img src={referenceAssets[photos[photoIndex] ?? spot.imageAssetId]} alt={localized.name} />
+          <PresentationMedia
+            alt={localized.name}
+            assetId={photos[photoIndex]}
+            locale={locale}
+          />
         </div>
-        <div className="thumbs" aria-label={`${localized.name} photos`}>
-          {photos.map((assetId, index) => (
-            <img
-              className={photoIndex === index ? 'active' : undefined}
-              key={`${assetId}-${index}`}
-              onClick={() => setPhotoIndex(index)}
-              onKeyDown={(event) => {
-                if (event.key === 'Enter' || event.key === ' ') {
-                  event.preventDefault();
-                  setPhotoIndex(index);
-                }
-              }}
-              src={referenceAssets[assetId]}
-              alt=""
-              role="button"
-              tabIndex={active ? 0 : -1}
-              aria-label={`${index + 1}/${photos.length}`}
-              aria-pressed={photoIndex === index}
-            />
-          ))}
-        </div>
+        {photos.length > 1 ? (
+          <div className="thumbs" aria-label={`${localized.name} photos`}>
+            {photos.map((assetId, index) => (
+              <img
+                className={photoIndex === index ? 'active' : undefined}
+                key={`${assetId}-${index}`}
+                onClick={() => setPhotoIndex(index)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    setPhotoIndex(index);
+                  }
+                }}
+                src={referenceAssets[assetId]}
+                alt=""
+                role="button"
+                tabIndex={active ? 0 : -1}
+                aria-label={`${index + 1}/${photos.length}`}
+                aria-pressed={photoIndex === index}
+              />
+            ))}
+          </div>
+        ) : null}
         <div className="spot-main">
           <h1>{localized.name}</h1>
           <div className="lead">{localized.lead}</div>
