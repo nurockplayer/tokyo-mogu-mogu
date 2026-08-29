@@ -388,11 +388,177 @@ const wasabiKitchenStoryDescription = localized(
 );
 
 const wasabiExperiencePlace = canonicalFixedPlace('wasabi-experience');
-const wasabiExperienceVisitor = canonicalVisitorInformation(wasabiExperiencePlace);
-const wasabiExperienceTour = wasabiExperienceVisitor.experienceTour;
-if (!wasabiExperienceTour || !wasabiExperienceVisitor.access) {
-  throw new Error('Missing canonical WASABI EXPERIENCE visitor information.');
+
+export function buildWasabiExperiencePresentation(place: FixedPlace) {
+  const visitor = canonicalVisitorInformation(place);
+  const tour = visitor.experienceTour;
+  const access = visitor.access;
+  if (!tour || !access) {
+    throw new Error('Missing canonical WASABI EXPERIENCE visitor information.');
+  }
+  const maySeptember = tour.seasonalMeetingTimes.find(
+    (item) => item.season === 'may-september',
+  );
+  const octoberApril = tour.seasonalMeetingTimes.find(
+    (item) => item.season === 'october-april',
+  );
+  if (!maySeptember || !octoberApril) {
+    throw new Error('Missing canonical WASABI EXPERIENCE seasonal meeting times.');
+  }
+  const displayTime = (time: string) => time.replace(/^0(?=\d:)/, '');
+  const summerTime = displayTime(maySeptember.time);
+  const winterTime = displayTime(octoberApril.time);
+  const groupCount = tour.privateGroupsPerDay;
+  const groupCopy = localized(
+    `1日${groupCount}組`,
+    groupCount === 1 ? 'One group daily' : `${groupCount} groups daily`,
+    groupCount === 1 ? '每日一組' : `每日${groupCount}組`,
+  );
+  const retrievedAt = place.source.retrievedAt;
+  if (!retrievedAt) {
+    throw new Error('Missing canonical WASABI EXPERIENCE retrieval date.');
+  }
+  const [retrievedYear, retrievedMonth, retrievedDay] = retrievedAt.split('-').map(Number);
+  const englishMonths = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+  ] as const;
+  const retrievedDate = localized(
+    `${retrievedYear}年${retrievedMonth}月${retrievedDay}日`,
+    `${englishMonths[retrievedMonth - 1]} ${retrievedDay}, ${retrievedYear}`,
+    `${retrievedYear} 年 ${retrievedMonth} 月 ${retrievedDay} 日`,
+  );
+  const japaneseDuration = tour.durationConflict.statements.find(
+    (statement) => statement.id === 'japanese-page',
+  );
+  const englishDuration = tour.durationConflict.statements.find(
+    (statement) => statement.id === 'english-page',
+  );
+  if (!japaneseDuration || !englishDuration) {
+    throw new Error('Missing canonical WASABI EXPERIENCE duration conflict statements.');
+  }
+  const durationHours = (
+    duration: { min: number; max: number },
+    separator: string,
+  ) => duration.min === duration.max
+    ? `${duration.min / 60}`
+    : `${duration.min / 60}${separator}${duration.max / 60}`;
+  const japaneseDurationHours = durationHours(japaneseDuration.durationMinutes, '〜');
+  const japaneseDurationHoursEn = durationHours(japaneseDuration.durationMinutes, '–');
+  const japaneseDurationHoursZh = durationHours(japaneseDuration.durationMinutes, '～');
+  const englishDurationHours = durationHours(englishDuration.durationMinutes, '–');
+  const duration = localized(
+    `日本語公式 約${japaneseDurationHours}時間／英語公式 約${englishDurationHours}時間（記載不一致。予約時に確認）`,
+    `Japanese official page: about ${japaneseDurationHoursEn} hours / English official page: about ${englishDurationHours} hours (sources differ; confirm when booking)`,
+    `日文官方約 ${japaneseDurationHoursZh} 小時／英文官方約 ${englishDurationHours} 小時（資訊不一致，預約時請確認）`,
+  );
+  const bookingRequiredTag = tour.reservationRequired
+    ? localized('要予約', 'Booking required', '需預約')
+    : localized('予約不要', 'No booking required', '無需預約');
+  const operatorConfirmationTag = tour.bookingRequestRequiresConfirmation
+    ? localized('運営者確認が必要', 'Operator confirmation required', '需營運方確認')
+    : localized('運営者確認不要', 'No operator confirmation required', '無需營運方確認');
+  const seasonalTimes = localized(
+    `5〜9月 ${summerTime}／10〜4月 ${winterTime}${tour.meetingTimeMayChange ? '（変更の場合あり。確認メールの時刻を優先）' : ''}`,
+    `May–Sep ${summerTime} / Oct–Apr ${winterTime}${tour.meetingTimeMayChange ? ' (may change; follow the time in the confirmation email)' : ''}`,
+    `5～9 月 ${summerTime}／10～4 月 ${winterTime}${tour.meetingTimeMayChange ? '（可能變更；請以確認信中的時間為準）' : ''}`,
+  );
+  const booking = localized(
+    `${bookingRequiredTag.ja}。${tour.bookingRequestRequiresConfirmation ? '申込フォーム送信後、運営者の確認をもって予約成立' : '申込フォーム送信で予約成立'}`,
+    `${bookingRequiredTag.en}. ${tour.bookingRequestRequiresConfirmation ? 'A form submission is a request; the booking is established only after operator confirmation' : 'The booking is established when the form is submitted'}`,
+    `${bookingRequiredTag['zh-TW']}。${tour.bookingRequestRequiresConfirmation ? '送出表單僅為申請，須經營運方確認後才成立' : '送出表單後即成立'}`,
+  );
+  const availability = localized(
+    `${groupCopy.ja}のプライベートツアー。${tour.weekendAvailability === 'request-only' ? '週末・祝日は要問合せ。' : ''}空き状況は${tour.bookingRequestRequiresConfirmation ? '運営者確認が必要' : '公式情報を確認'}`,
+    `${groupCopy.en.replace(' daily', ' per day')}. ${tour.weekendAvailability === 'request-only' ? 'Weekends and holidays are request-only; ' : ''}availability ${tour.bookingRequestRequiresConfirmation ? 'requires operator confirmation' : 'is shown by the official source'}`,
+    `${groupCopy['zh-TW']}私人導覽。${tour.weekendAvailability === 'request-only' ? '週末與國定假日須洽詢；' : ''}是否有名額${tour.bookingRequestRequiresConfirmation ? '需經營運方確認' : '請查看官方資訊'}`,
+  );
+  const price = localized(
+    `1名 ${tour.listedPriceYen.toLocaleString('ja-JP')}円（税込・${retrievedDate.ja}取得の掲載価格。条件・追加料金あり）`,
+    `¥${tour.listedPriceYen.toLocaleString('en-US')} per person incl. tax (listed price retrieved ${retrievedDate.en}; conditions and surcharges apply)`,
+    `每人 ${tour.listedPriceYen.toLocaleString('en-US')} 日圓（含稅；${retrievedDate['zh-TW']}取得的刊載價格，另有條件與附加費）`,
+  );
+
+  return {
+    tour,
+    access: localized(
+      `JR青梅線「御嶽駅」から徒歩約${access.walkMinutes}分`,
+      `About ${access.walkMinutes} minutes on foot from Mitake Station (JR Ome Line)`,
+      `從 JR 青梅線「御嶽站」步行約 ${access.walkMinutes} 分鐘`,
+    ),
+    seasonalTimes,
+    duration,
+    booking,
+    availability,
+    price,
+    privateGroupLimit: localized(
+      `プライベートツアー・${groupCopy.ja}`,
+      `Private tour · ${groupCopy.en}`,
+      `私人導覽・${groupCopy['zh-TW']}`,
+    ),
+    routeDescription: localized(
+      `青梅・御岳の集合場所／${bookingRequiredTag.ja}・${duration.ja}・${groupCopy.ja}（空き状況は要確認）`,
+      `Ome / Mitake meeting place · ${bookingRequiredTag.en} · ${duration.en} · ${groupCopy.en} (confirm availability)`,
+      `青梅・御嶽集合地點／${bookingRequiredTag['zh-TW']}・${duration['zh-TW']}・${groupCopy['zh-TW']}（請確認名額）`,
+    ),
+    storyNote: localized(
+      `${bookingRequiredTag.ja}・${groupCopy.ja}（空き状況は要確認）`,
+      `${bookingRequiredTag.en} · ${groupCopy.en} (confirm availability)`,
+      `${bookingRequiredTag['zh-TW']}・${groupCopy['zh-TW']}（請確認名額）`,
+    ),
+    stationDescription: localized(
+      `JR青梅線・青梅市御岳の起点／集合場所まで徒歩約${access.walkMinutes}分`,
+      `JR Ome Line · Ome / Mitake starting point · About ${access.walkMinutes} min on foot to the meeting place`,
+      `JR 青梅線・青梅市御嶽起點／步行至集合地點約 ${access.walkMinutes} 分鐘`,
+    ),
+    verificationNote: localized(
+      `公式情報を${retrievedDate.ja}に取得。集合時間・所要時間・価格・催行・空き状況は申込時に再確認してください。`,
+      `Official information retrieved ${retrievedDate.en}. Recheck meeting time, duration, price, operation, and availability when booking.`,
+      `官方資訊於 ${retrievedDate['zh-TW']}取得。申請時請再次確認集合時間、所需時間、價格、是否舉行與名額。`,
+    ),
+    bookingRequiredTag,
+    operatorConfirmationTag,
+    guideBody: localized(
+      tour.bookingRequestRequiresConfirmation
+        ? 'フォーム送信だけでは予約成立ではありません。運営者からの確認と、確認メールに記載された集合時間を優先してください。'
+        : 'フォーム送信で予約が成立します。',
+      tour.bookingRequestRequiresConfirmation
+        ? 'Submitting the form does not confirm a booking. Wait for operator confirmation and follow the meeting time in the confirmation email.'
+        : 'Submitting the form confirms the booking.',
+      tour.bookingRequestRequiresConfirmation
+        ? '送出表單並不代表預約成立。請等待營運方確認，並以確認信中的集合時間為準。'
+        : '送出表單即代表預約成立。',
+    ),
+    caution: [
+      localized(
+        tour.meetingTimeMayChange
+          ? '・集合時間は季節別の目安で、変更される場合があります。確認メールの案内を優先してください。'
+          : '・集合時間は季節別です。',
+        tour.meetingTimeMayChange
+          ? '• Seasonal meeting times may change. Follow the operator’s confirmation email.'
+          : '• Meeting times are seasonal.',
+        tour.meetingTimeMayChange
+          ? '・季節集合時間可能變更，請以營運方確認信為準。'
+          : '・集合時間依季節而異。',
+      ),
+      localized(
+        `・掲載価格、所要時間、${tour.weekendAvailability === 'request-only' ? '週末・祝日の催行、' : ''}空き状況は変わる場合があります。申込時に確認してください。`,
+        `• Listed price, duration, ${tour.weekendAvailability === 'request-only' ? 'weekend/holiday operation, and ' : ''}availability can change. Confirm when booking.`,
+        `・刊載價格、所需時間、${tour.weekendAvailability === 'request-only' ? '週末／國定假日是否舉行與' : ''}名額可能變動，申請時請確認。`,
+      ),
+      ...(tour.weatherMayCancelOrPostpone
+        ? [localized(
+            '・荒天時は中止・延期になる場合があります。',
+            '• Severe weather may cause cancellation or postponement.',
+            '・惡劣天候時可能取消或延期。',
+          )]
+        : []),
+    ],
+  };
 }
+
+const wasabiExperiencePresentation = buildWasabiExperiencePresentation(wasabiExperiencePlace);
+const wasabiExperienceTour = wasabiExperiencePresentation.tour;
 const wasabiExperienceName = localized(
   wasabiExperiencePlace.nameJa,
   wasabiExperiencePlace.nameEn,
@@ -403,51 +569,19 @@ const wasabiExperienceAddress = localized(
   '1-192-4 Mitake, Ome, Tokyo 198-0147',
   '〒198-0147 東京都青梅市御岳 1-192-4',
 );
-const wasabiExperienceAccess = localized(
-  `JR青梅線「御嶽駅」から徒歩約${wasabiExperienceVisitor.access.walkMinutes}分`,
-  `About ${wasabiExperienceVisitor.access.walkMinutes} minutes on foot from Mitake Station (JR Ome Line)`,
-  `從 JR 青梅線「御嶽站」步行約 ${wasabiExperienceVisitor.access.walkMinutes} 分鐘`,
-);
-const wasabiExperienceSeasonalTimes = localized(
-  '5〜9月 8:30／10〜4月 11:00（変更の場合あり。確認メールの時刻を優先）',
-  'May–Sep 8:30 / Oct–Apr 11:00 (may change; follow the time in the confirmation email)',
-  '5～9 月 8:30／10～4 月 11:00（可能變更；請以確認信中的時間為準）',
-);
-const wasabiExperienceDuration = localized(
-  `${wasabiExperienceTour.durationMinutes.min / 60}〜${wasabiExperienceTour.durationMinutes.max / 60}時間`,
-  `${wasabiExperienceTour.durationMinutes.min / 60}–${wasabiExperienceTour.durationMinutes.max / 60} hours`,
-  `${wasabiExperienceTour.durationMinutes.min / 60}～${wasabiExperienceTour.durationMinutes.max / 60} 小時`,
-);
-const wasabiExperienceBooking = localized(
-  '要予約。申込フォーム送信後、運営者の確認をもって予約成立',
-  'Booking required. A form submission is a request; the booking is established only after operator confirmation',
-  '需預約。送出表單僅為申請，須經營運方確認後才成立',
-);
-const wasabiExperienceAvailability = localized(
-  '1日1組のプライベートツアー。週末・祝日は要問合せ。空き状況は運営者確認が必要',
-  'One private group per day. Weekends and holidays are request-only; availability requires operator confirmation',
-  '每日一組私人導覽。週末與國定假日須洽詢；是否有名額需經營運方確認',
-);
-const wasabiExperiencePrice = localized(
-  `1名 ${wasabiExperienceTour.listedPriceYen.toLocaleString('ja-JP')}円（税込・2026年8月29日取得の掲載価格。条件・追加料金あり）`,
-  `¥${wasabiExperienceTour.listedPriceYen.toLocaleString('en-US')} per person incl. tax (listed price retrieved Aug 29, 2026; conditions and surcharges apply)`,
-  `每人 ${wasabiExperienceTour.listedPriceYen.toLocaleString('en-US')} 日圓（含稅；2026 年 8 月 29 日取得的刊載價格，另有條件與附加費）`,
-);
-const wasabiExperienceRouteDescription = localized(
-  `青梅・御岳の集合場所／要予約・${wasabiExperienceDuration.ja}・1日1組（空き状況は要確認）`,
-  `Ome / Mitake meeting place · Booking required · ${wasabiExperienceDuration.en} · One group daily (confirm availability)`,
-  `青梅・御嶽集合地點／需預約・${wasabiExperienceDuration['zh-TW']}・每日一組（請確認名額）`,
-);
+const wasabiExperienceAccess = wasabiExperiencePresentation.access;
+const wasabiExperienceSeasonalTimes = wasabiExperiencePresentation.seasonalTimes;
+const wasabiExperienceDuration = wasabiExperiencePresentation.duration;
+const wasabiExperienceBooking = wasabiExperiencePresentation.booking;
+const wasabiExperienceAvailability = wasabiExperiencePresentation.availability;
+const wasabiExperiencePrice = wasabiExperiencePresentation.price;
+const wasabiExperienceRouteDescription = wasabiExperiencePresentation.routeDescription;
 const wasabiExperienceStoryDescription = localized(
   '青梅・御岳を集合場所とする、奥多摩わさび文化に結びつく体験',
   'An experience meeting in Ome / Mitake and connected to Okutama wasabi culture',
   '在青梅・御嶽集合、與奧多摩山葵文化相連的體驗',
 );
-const wasabiExperienceStoryNote = localized(
-  '要予約・1日1組（空き状況は要確認）',
-  'Booking required · One group daily (confirm availability)',
-  '需預約・每日一組（請確認名額）',
-);
+const wasabiExperienceStoryNote = wasabiExperiencePresentation.storyNote;
 
 const editorialReferenceNotes: Record<Locale, string> = {
   ja: '掲載内容は参考情報で、未確認の場合があります。訪問前に各施設の公式情報をご確認ください。',
@@ -609,7 +743,7 @@ export const routeStepText: Record<string, RouteStepText[]> = {
     { spotId: 'port-okutama', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: portOkutamaRouteServices },
   ],
   'demo-okutama-wasabi:full-day': [
-    { spotId: 'mitake-station', description: localized('JR青梅線・青梅市御岳の起点／集合場所まで徒歩約7分', 'JR Ome Line · Ome / Mitake starting point · About 7 min on foot to the meeting place', 'JR 青梅線・青梅市御嶽起點／步行至集合地點約 7 分鐘') },
+    { spotId: 'mitake-station', description: wasabiExperiencePresentation.stationDescription },
     { spotId: 'wasabi-experience', walk: wasabiExperienceSeasonalTimes, description: wasabiExperienceRouteDescription },
     { spotId: 'okutama-station', walk: localized('御岳駅から電車', 'Train from Mitake Station', '從御嶽站搭電車'), description: localized('青梅線 約20分', 'About 20 min on the Ome Line', '青梅線約 20 分鐘') },
     { spotId: 'akabeko', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: akabekoWasabiRouteDescription },
@@ -735,8 +869,8 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
   'wasabi-experience': {
     tags: [
       { tagId: 'private-experience', color: '#8FAE5C', label: localized('プライベート体験', 'Private experience', '私人體驗') },
-      { tagId: 'booking-required', color: '#F0A24C', label: localized('要予約', 'Booking required', '需預約') },
-      { tagId: 'operator-confirmation', color: '#E05B5B', label: localized('運営者確認が必要', 'Operator confirmation required', '需營運方確認') },
+      { tagId: 'booking-required', color: '#F0A24C', label: wasabiExperiencePresentation.bookingRequiredTag },
+      { tagId: 'operator-confirmation', color: '#E05B5B', label: wasabiExperiencePresentation.operatorConfirmationTag },
     ],
     description: localized(
       'TOKYO WASABI公式情報に基づく体験案内です。物理的な集合場所は青梅市御岳で、旅では奥多摩わさび文化とのつながりを紹介します。',
@@ -749,25 +883,21 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
       { fieldId: 'access', icon: 'train', label: localized('アクセス', 'Access', '交通'), value: wasabiExperienceAccess },
       { fieldId: 'seasonal_meeting_times', icon: 'clock', label: localized('季節別の集合時間', 'Seasonal meeting times', '季節集合時間'), value: wasabiExperienceSeasonalTimes },
       { fieldId: 'tour_duration', icon: 'clock', label: localized('所要時間', 'Duration', '所需時間'), value: wasabiExperienceDuration },
-      { fieldId: 'private_group_limit', icon: 'information', label: localized('催行', 'Format', '舉行方式'), value: localized('プライベートツアー・1日1組', 'Private tour · One group per day', '私人導覽・每日一組') },
+      { fieldId: 'private_group_limit', icon: 'information', label: localized('催行', 'Format', '舉行方式'), value: wasabiExperiencePresentation.privateGroupLimit },
       { fieldId: 'reservation', icon: 'information', label: localized('予約', 'Booking', '預約'), value: wasabiExperienceBooking },
       { fieldId: 'booking_destination', icon: 'information', label: localized('申込先', 'Booking request', '申請連結'), value: localized(wasabiExperienceTour.bookingUrl, wasabiExperienceTour.bookingUrl, wasabiExperienceTour.bookingUrl) },
       { fieldId: 'tour_availability', icon: 'information', label: localized('空き状況', 'Availability', '名額狀況'), value: wasabiExperienceAvailability },
       { fieldId: 'price_availability', icon: 'information', label: localized('掲載価格', 'Listed price', '刊載價格'), value: wasabiExperiencePrice },
       { fieldId: 'official_current_url', icon: 'information', label: localized('公式情報', 'Official information', '官方資訊'), value: localized(wasabiExperiencePlace.source.url ?? '', wasabiExperiencePlace.source.url ?? '', wasabiExperiencePlace.source.url ?? '') },
-      { fieldId: 'verification_note', icon: 'information', label: localized('確認状態', 'Verification', '確認狀態'), value: localized('公式情報を2026年8月29日に取得。集合時間・価格・催行・空き状況は申込時に再確認してください。', 'Official information retrieved Aug 29, 2026. Recheck meeting time, price, operation, and availability when booking.', '官方資訊於 2026 年 8 月 29 日取得。申請時請再次確認集合時間、價格、是否舉行與名額。') },
+      { fieldId: 'verification_note', icon: 'information', label: localized('確認状態', 'Verification', '確認狀態'), value: wasabiExperiencePresentation.verificationNote },
     ],
     guide: {
       title: localized('公式フォームから予約をリクエスト', 'Request a booking on the official form', '透過官方表單申請預約'),
-      body: localized('フォーム送信だけでは予約成立ではありません。運営者からの確認と、確認メールに記載された集合時間を優先してください。', 'Submitting the form does not confirm a booking. Wait for operator confirmation and follow the meeting time in the confirmation email.', '送出表單並不代表預約成立。請等待營運方確認，並以確認信中的集合時間為準。'),
+      body: wasabiExperiencePresentation.guideBody,
       action: localized('公式予約フォームを開く', 'Open the official booking form', '開啟官方預約表單'),
       url: wasabiExperienceTour.bookingUrl,
     },
-    caution: [
-      localized('・集合時間は季節別の目安で、変更される場合があります。確認メールの案内を優先してください。', '• Seasonal meeting times may change. Follow the operator’s confirmation email.', '・季節集合時間可能變更，請以營運方確認信為準。'),
-      localized('・掲載価格、週末・祝日の催行、空き状況は変わる場合があります。申込時に確認してください。', '• Listed price, weekend/holiday operation, and availability can change. Confirm when booking.', '・刊載價格、週末／國定假日是否舉行與名額可能變動，申請時請確認。'),
-      localized('・荒天時は中止・延期になる場合があります。', '• Severe weather may cause cancellation or postponement.', '・惡劣天候時可能取消或延期。'),
-    ],
+    caution: wasabiExperiencePresentation.caution,
   },
   akabeko: {
     tags: [

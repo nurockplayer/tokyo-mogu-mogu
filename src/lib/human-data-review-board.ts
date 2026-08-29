@@ -110,7 +110,7 @@ const HUMAN_FIELDS: readonly HumanFieldDefinition[] = [
   { key: 'schedule_url', label: '最新の出店予定', aliases: ['schedule_url'], order: 64 },
   { key: 'schedule_conflict', label: '日程情報の不一致', aliases: ['schedule_conflict'], order: 66 },
   { key: 'seasonal_meeting_times', label: '季節別の集合時間', aliases: ['seasonal_meeting_times'], order: 67 },
-  { key: 'tour_duration', label: '体験時間', aliases: ['tour_duration'], order: 68 },
+  { key: 'tour_duration', label: '体験時間（公式ページ間で不一致）', aliases: ['tour_duration'], order: 68 },
   { key: 'private_group_limit', label: '1日あたりの催行組数', aliases: ['private_group_limit'], order: 69 },
   { key: 'closed_days', label: '休業日', aliases: ['closed_days'], order: 70 },
   { key: 'price_availability', label: '価格・取扱情報', aliases: ['price_availability', 'price'], order: 80 },

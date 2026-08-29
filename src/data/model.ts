@@ -176,7 +176,15 @@ export interface PlaceExperienceTourInformation {
   }>;
   /** The operator warns that the confirmation email may specify a different time. */
   meetingTimeMayChange: true;
-  durationMinutes: { min: number; max: number };
+  /** First-party JP/EN duration statements conflict; retain both without selecting one. */
+  durationConflict: {
+    verificationStatus: 'conflict';
+    statements: Array<{
+      id: 'japanese-page' | 'english-page';
+      durationMinutes: { min: number; max: number };
+      source: DataSource;
+    }>;
+  };
   privateGroupsPerDay: number;
   reservationRequired: true;
   /** A form submission is only a request; the operator must confirm availability. */

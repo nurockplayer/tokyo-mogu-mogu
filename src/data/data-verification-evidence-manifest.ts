@@ -198,8 +198,8 @@ const WASABI_EXPERIENCE_SPOT_APP_EVIDENCE: readonly DataVerificationAppEvidence[
     capturedAt: '2026-08-29',
     path: `docs/data-evidence/wasabi-experience/app-${locale}-375.webp`,
     locale,
-    viewport: { width: 375, height: 1800 },
-    note: `Final #328 ${locale} Spot state showing the Ome / Mitake meeting place, seasonal times, booking-confirmation semantics, dated price, and availability caveats at 375px.`,
+    viewport: { width: 375, height: 2600 },
+    note: `Final #328 ${locale} tall 375px Spot state showing every mapped practical-information row, including the JP/EN duration conflict, booking semantics, dated price, availability, verification note, and cautions.`,
   }));
 
 const WASABI_EXPERIENCE_ROUTE_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
@@ -219,8 +219,8 @@ const WASABI_EXPERIENCE_ROUTE_APP_EVIDENCE: readonly DataVerificationAppEvidence
     capturedAt: '2026-08-29',
     path: `docs/data-evidence/wasabi-experience/route-app-${locale}-375.webp`,
     locale,
-    viewport: { width: 375, height: 812 },
-    note: `Final #328 ${locale} full-day Route state separating Ome / Mitake meeting geography from Okutama culture grouping and replacing the timeless 8:30 assertion with seasonal guidance.`,
+    viewport: { width: 375, height: 1600 },
+    note: `Final #328 ${locale} tall 375px full-day Route state showing the complete Mitake and WASABI EXPERIENCE cards, including seasonal times, the JP/EN duration conflict, daily group limit, and availability caveat.`,
   }));
 
 const WASABI_EXPERIENCE_STORY_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
@@ -571,6 +571,7 @@ export const DATA_VERIFICATION_EVIDENCE_MANIFEST: DataVerificationEvidenceManife
         'place:wasabi-experience:address:ja',
         'spot:wasabi-experience:seasonal_meeting_times',
         'spot:wasabi-experience:tour_duration',
+        'place:wasabi-experience:tour_duration:source:japanese-page',
         'spot:wasabi-experience:private_group_limit',
         'spot:wasabi-experience:reservation',
         'spot:wasabi-experience:booking_destination',
@@ -611,12 +612,27 @@ export const DATA_VERIFICATION_EVIDENCE_MANIFEST: DataVerificationEvidenceManife
     },
     {
       omissionId: 'wasabi-experience-access-source-rights-restricted',
-      claimIds: ['spot:wasabi-experience:access'],
+      claimIds: [
+        'spot:wasabi-experience:access',
+        'spot:wasabi-experience:tour_duration',
+        'place:wasabi-experience:tour_duration:source:english-page',
+      ],
       entityId: 'wasabi-experience',
       kind: 'source',
       sourceUrl: 'https://tokyowasabi.com/wasabi-experience-en/',
       recordedAt: '2026-08-29',
-      reason: 'The official English page supports the station and walking-time summary but prohibits unauthorized reproduction; no source screenshot or photograph is committed.',
+      reason: 'The official English page supports the station/walking-time summary and its conflicting two-hour duration statement but prohibits unauthorized reproduction; no source screenshot or photograph is committed.',
+    },
+    {
+      omissionId: 'wasabi-experience-route-en-source-rights-restricted',
+      claimIds: [
+        'route:okutama-wasabi-journey:full-day:step:wasabi-experience:factual:tour-duration',
+      ],
+      entityId: 'okutama-wasabi-journey',
+      kind: 'source',
+      sourceUrl: 'https://tokyowasabi.com/wasabi-experience-en/',
+      recordedAt: '2026-08-29',
+      reason: 'The official English page carries the conflicting two-hour Route-duration statement but prohibits unauthorized reproduction; no source screenshot or photograph is committed.',
     },
     {
       omissionId: 'wasabi-experience-coordinate-source-rights-restricted',

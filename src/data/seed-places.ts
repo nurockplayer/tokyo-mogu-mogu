@@ -520,7 +520,21 @@ export const PLACES: Place[] = [
           { season: 'october-april', time: '11:00' },
         ],
         meetingTimeMayChange: true,
-        durationMinutes: { min: 120, max: 150 },
+        durationConflict: {
+          verificationStatus: 'conflict',
+          statements: [
+            {
+              id: 'japanese-page',
+              durationMinutes: { min: 120, max: 150 },
+              source: TOKYO_WASABI_EXPERIENCE_SOURCE,
+            },
+            {
+              id: 'english-page',
+              durationMinutes: { min: 120, max: 120 },
+              source: TOKYO_WASABI_EXPERIENCE_ACCESS_SOURCE,
+            },
+          ],
+        },
         privateGroupsPerDay: 1,
         reservationRequired: true,
         bookingRequestRequiresConfirmation: true,

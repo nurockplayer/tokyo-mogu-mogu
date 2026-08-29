@@ -2,6 +2,7 @@ import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { PLACES } from '../../data/seed-places';
+import { isFixedPlace } from '../../data/model';
 import {
   demoJourneys,
   demoSpots,
@@ -9,6 +10,7 @@ import {
   referenceCopy,
 } from './content';
 import {
+  buildWasabiExperiencePresentation,
   localizePlaceClosedDays,
   localizePlaceClosureConflict,
   localizePlaceParking,
@@ -178,6 +180,13 @@ describe('Netlify parity presentation content', () => {
           ],
           meetingTimeMayChange: true,
           bookingRequestRequiresConfirmation: true,
+          durationConflict: {
+            verificationStatus: 'conflict',
+            statements: [
+              expect.objectContaining({ id: 'japanese-page', durationMinutes: { min: 120, max: 150 } }),
+              expect.objectContaining({ id: 'english-page', durationMinutes: { min: 120, max: 120 } }),
+            ],
+          },
         },
       },
     });
@@ -203,6 +212,44 @@ describe('Netlify parity presentation content', () => {
     expect(routeStep?.walk?.ja).not.toBe('集合 8:30');
     expect(routeRegionGuidance['demo-okutama-wasabi:full-day'].ja).toContain('青梅・御岳');
     expect(routeRegionGuidance['demo-okutama-wasabi:half-day'].ja).not.toContain('青梅・御岳');
+  });
+
+  it('flows canonical Wasabi Experience changes through localized presentation (#328)', () => {
+    const place = PLACES.find((candidate) => candidate.id === 'wasabi-experience');
+    if (!place || !isFixedPlace(place)) throw new Error('Missing fixed Wasabi Experience Place.');
+    const changed = structuredClone(place);
+    const visitor = changed.visitorInformation;
+    const tour = visitor?.experienceTour;
+    const access = visitor?.access;
+    if (!tour || !access) throw new Error('Missing Wasabi Experience visitor facts.');
+
+    tour.seasonalMeetingTimes = [
+      { season: 'may-september', time: '09:15' },
+      { season: 'october-april', time: '12:30' },
+    ];
+    tour.privateGroupsPerDay = 2;
+    tour.listedPriceYen = 22000;
+    access.walkMinutes = 9;
+    changed.source.retrievedAt = '2027-01-02';
+    const japaneseDuration = tour.durationConflict.statements.find(
+      (statement) => statement.id === 'japanese-page',
+    );
+    const englishDuration = tour.durationConflict.statements.find(
+      (statement) => statement.id === 'english-page',
+    );
+    if (!japaneseDuration || !englishDuration) throw new Error('Missing duration statements.');
+    japaneseDuration.durationMinutes = { min: 150, max: 180 };
+    englishDuration.durationMinutes = { min: 135, max: 135 };
+
+    const presentation = buildWasabiExperiencePresentation(changed);
+
+    expect(presentation.seasonalTimes.ja).toContain('5〜9月 9:15／10〜4月 12:30');
+    expect(presentation.stationDescription.en).toContain('About 9 min');
+    expect(presentation.privateGroupLimit.en).toContain('2 groups daily');
+    expect(presentation.duration.en).toContain('about 2.5–3 hours');
+    expect(presentation.duration.en).toContain('about 2.25 hours');
+    expect(presentation.price.en).toContain('¥22,000');
+    expect(presentation.verificationNote.en).toContain('Jan 2, 2027');
   });
 
   it('keeps the tourism-office fixture explicitly unverified in every locale', () => {

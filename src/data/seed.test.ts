@@ -481,7 +481,25 @@ describe('seed data contract (#2)', () => {
             { season: 'october-april', time: '11:00' },
           ],
           meetingTimeMayChange: true,
-          durationMinutes: { min: 120, max: 150 },
+          durationConflict: {
+            verificationStatus: 'conflict',
+            statements: [
+              expect.objectContaining({
+                id: 'japanese-page',
+                durationMinutes: { min: 120, max: 150 },
+                source: expect.objectContaining({
+                  url: 'https://tokyowasabi.com/wasabi-experience/',
+                }),
+              }),
+              expect.objectContaining({
+                id: 'english-page',
+                durationMinutes: { min: 120, max: 120 },
+                source: expect.objectContaining({
+                  url: 'https://tokyowasabi.com/wasabi-experience-en/',
+                }),
+              }),
+            ],
+          },
           privateGroupsPerDay: 1,
           reservationRequired: true,
           bookingRequestRequiresConfirmation: true,

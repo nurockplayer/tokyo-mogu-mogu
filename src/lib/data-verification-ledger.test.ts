@@ -1040,8 +1040,8 @@ describe('repository data verification ledger (#333)', () => {
     expect(
       claims.find((row) => row.claimId === 'route:okutama-wasabi-journey:full-day:step:wasabi-experience:factual:tour-duration'),
     ).toMatchObject({
-      canonicalValue: '120–150 minutes',
-      verification: 'needs_confirmation',
+      canonicalValue: 'japanese-page 120–150 minutes | english-page 120 minutes',
+      verification: 'conflict',
       finding: 'none',
     });
     expect(
@@ -1055,8 +1055,24 @@ describe('repository data verification ledger (#333)', () => {
       claims.find((row) => row.claimId === 'route:okutama-wasabi-journey:full-day:step:wasabi-experience:meeting_time:ja'),
     ).toMatchObject({
       displayedValue: expect.stringContaining('10〜4月 11:00'),
+      comparedPresentationClaimId: 'spot:wasabi-experience:seasonal_meeting_times',
+      comparedPresentationValue: expect.stringContaining('10〜4月 11:00'),
       verification: 'needs_confirmation',
       finding: 'none',
+    });
+    expect(
+      claims.find((row) => row.claimId === 'place:wasabi-experience:tour_duration:source:japanese-page'),
+    ).toMatchObject({
+      canonicalValue: '120–150 minutes',
+      primarySourceUrl: 'https://tokyowasabi.com/wasabi-experience/',
+      verification: 'conflict',
+    });
+    expect(
+      claims.find((row) => row.claimId === 'place:wasabi-experience:tour_duration:source:english-page'),
+    ).toMatchObject({
+      canonicalValue: '120 minutes',
+      primarySourceUrl: 'https://tokyowasabi.com/wasabi-experience-en/',
+      verification: 'conflict',
     });
   });
 

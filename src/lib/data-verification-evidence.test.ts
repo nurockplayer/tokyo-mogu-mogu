@@ -604,19 +604,29 @@ describe('data verification evidence manifest (#334)', () => {
     );
 
     for (const locale of ['ja', 'en', 'zh-TW'] as const) {
-      expect(evidenceById.get(`wasabi-experience-app-${locale}-375`)).toMatchObject({
+      const spotEvidence = evidenceById.get(`wasabi-experience-app-${locale}-375`);
+      expect(spotEvidence).toMatchObject({
         kind: 'app',
         entityId: 'wasabi-experience',
         locale,
-        viewport: { width: 375, height: 1800 },
+        viewport: { width: 375, height: 2600 },
         path: `docs/data-evidence/wasabi-experience/app-${locale}-375.webp`,
       });
-      expect(evidenceById.get(`wasabi-experience-route-app-${locale}-375`)).toMatchObject({
+      expect(spotEvidence?.claimIds).toContain(
+        `spot:wasabi-experience:presentation:verification_note:${locale}`,
+      );
+      const routeEvidence = evidenceById.get(`wasabi-experience-route-app-${locale}-375`);
+      expect(routeEvidence).toMatchObject({
         kind: 'app',
         entityId: 'okutama-wasabi-journey',
         locale,
-        viewport: { width: 375, height: 812 },
+        viewport: { width: 375, height: 1600 },
       });
+      expect(routeEvidence?.claimIds).toEqual(expect.arrayContaining([
+        'route:okutama-wasabi-journey:full-day:step:wasabi-experience:factual:tour-duration',
+        'route:okutama-wasabi-journey:full-day:step:wasabi-experience:factual:daily-group-limit',
+        'route:okutama-wasabi-journey:full-day:step:wasabi-experience:factual:tour-availability',
+      ]));
       expect(evidenceById.get(`wasabi-experience-story-app-${locale}-375`)).toMatchObject({
         kind: 'app',
         entityId: 'wasabi-okutama',
@@ -630,6 +640,10 @@ describe('data verification evidence manifest (#334)', () => {
       sourceUrl: 'https://tokyowasabi.com/wasabi-experience/',
     });
     expect(omissionsById.get('wasabi-experience-access-source-rights-restricted')).toMatchObject({
+      sourceUrl: 'https://tokyowasabi.com/wasabi-experience-en/',
+    });
+    expect(omissionsById.get('wasabi-experience-route-en-source-rights-restricted')).toMatchObject({
+      entityId: 'okutama-wasabi-journey',
       sourceUrl: 'https://tokyowasabi.com/wasabi-experience-en/',
     });
     expect(omissionsById.get('wasabi-experience-coordinate-source-rights-restricted')).toMatchObject({

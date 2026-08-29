@@ -1,4 +1,9 @@
-import type { DataOrigin, DataSource, VerificationStatus } from '../data/model';
+import type {
+  DataOrigin,
+  DataSource,
+  PlaceExperienceTourInformation,
+  VerificationStatus,
+} from '../data/model';
 import type {
   DataVerificationEvidence,
   DataVerificationEvidenceOmission,
@@ -58,6 +63,12 @@ const localizedClaimId = (baseClaimId: string, locale: PresentationLocale) =>
 
 const localizedFieldId = (baseFieldId: string, locale: PresentationLocale) =>
   `${baseFieldId}:${locale}`;
+
+const experienceDurationConflictValue = (tour: PlaceExperienceTourInformation) =>
+  tour.durationConflict.statements.map((statement) => {
+    const { min, max } = statement.durationMinutes;
+    return `${statement.id} ${min}${min === max ? '' : `–${max}`} minutes`;
+  }).join(' | ');
 
 type LedgerSourceMetadata = Pick<
   DataSource,
@@ -573,9 +584,11 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
       );
     }
     if (fieldId === 'tour_duration' && visitor.experienceTour) {
-      return defaultFact(
-        `${visitor.experienceTour.durationMinutes.min}–${visitor.experienceTour.durationMinutes.max} minutes`,
-      );
+      return {
+        value: experienceDurationConflictValue(visitor.experienceTour),
+        source: visitor.experienceTour.durationConflict.statements[0]?.source ?? place.source,
+        verification: visitor.experienceTour.durationConflict.verificationStatus,
+      };
     }
     if (fieldId === 'private_group_limit' && visitor.experienceTour) {
       return defaultFact(`${visitor.experienceTour.privateGroupsPerDay} private group/day`);
@@ -633,7 +646,7 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
       ]),
       ...(place.visitorInformation?.experienceTour ? [
         ['seasonal_meeting_times', 'Seasonal meeting times', `${place.visitorInformation.experienceTour.seasonalMeetingTimes.map((item) => `${item.season} ${item.time}`).join(' | ')} / may_change`, true] as const,
-        ['tour_duration', 'Experience duration', `${place.visitorInformation.experienceTour.durationMinutes.min}–${place.visitorInformation.experienceTour.durationMinutes.max} minutes`, true] as const,
+        ['tour_duration', 'Conflicting first-party experience durations', experienceDurationConflictValue(place.visitorInformation.experienceTour), true] as const,
         ['private_group_limit', 'Private group limit', `${place.visitorInformation.experienceTour.privateGroupsPerDay} private group/day`, true] as const,
         ['reservation', 'Reservation requirement', 'required / operator_confirmation', true] as const,
         ['booking_destination', 'Booking request destination', place.visitorInformation.experienceTour.bookingUrl, true] as const,
@@ -649,7 +662,9 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
           && (fieldId === 'name' || fieldId === 'address' || fieldId === 'official_current_url'),
       );
       if (comparedByPresentation) continue;
-      const source = fieldId === 'coordinates' && place.coordinateSource
+      const source = fieldId === 'tour_duration' && place.visitorInformation?.experienceTour
+        ? place.visitorInformation.experienceTour.durationConflict.statements[0]?.source ?? place.source
+        : fieldId === 'coordinates' && place.coordinateSource
         ? place.coordinateSource
         : fieldId === 'address' && place.addressSource
           ? place.addressSource
@@ -661,7 +676,9 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
             )
               ? place.mobileVenue.datedScheduleSource
               : place.source;
-      const verification = fieldId === 'schedule_conflict'
+      const verification = fieldId === 'tour_duration' && place.visitorInformation?.experienceTour
+        ? place.visitorInformation.experienceTour.durationConflict.verificationStatus
+        : fieldId === 'schedule_conflict'
         && place.locationKind === 'mobile'
         && place.mobileVenue.scheduleConflict
         ? place.mobileVenue.scheduleConflict.verificationStatus
@@ -723,6 +740,27 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
         note: statement.placeRoutingStatus === 'explicit'
           ? 'First-party source explicitly routes this Place reservation desk; the conflict remains because another official number is also published.'
           : 'One side of an unresolved first-party phone conflict; this row does not infer routing to the Place.',
+      });
+    }
+
+    for (const statement of place.visitorInformation?.experienceTour?.durationConflict.statements ?? []) {
+      const { min, max } = statement.durationMinutes;
+      addCanonicalClaim({
+        claimId: `place:${place.id}:tour_duration:source:${statement.id}`,
+        ...base,
+        fieldId: `tour_duration:source:${statement.id}`,
+        fieldLabel: `Experience duration source statement (${statement.id})`,
+        canonical: canonicalValue(
+          `${min}${min === max ? '' : `–${max}`} minutes`,
+          place.origin,
+          statement.source,
+          'conflict',
+          SOURCE_FILES.places,
+        ),
+        timeSensitive: true,
+        timeSensitiveNote: 'Conflicting first-party duration statement; confirm the expected duration when booking.',
+        issues: ['#328', '#333'],
+        note: 'One side of an unresolved JP/EN first-party duration conflict; this row does not select a winning value.',
       });
     }
 
@@ -1687,6 +1725,11 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
           const meetingFact = meetingPlace && meetingTimeAudit
             ? canonicalPlaceFact(meetingPlace, meetingTimeAudit.canonicalFieldId)
             : undefined;
+          const meetingSpotInformation = meetingTimeAudit
+            ? referenceSpotDetails[meetingTimeAudit.spotId]?.information.find(
+                (row) => row.fieldId === meetingTimeAudit.canonicalFieldId,
+              )
+            : undefined;
           const canonicalMobility = canonicalStep && canonicalVariant
             ? canonicalVariant.mobility.find((segment) => segment.toStep === canonicalStep.stepNumber)
             : undefined;
@@ -1730,6 +1773,19 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
                     meetingFact.verification,
                   )
                 : presentationValue(stepFact.walk[locale], 'Route'),
+              comparedPresentation: meetingTimeAudit && meetingFact && meetingSpotInformation
+                ? {
+                    claimId: locale === 'ja'
+                      ? `spot:${meetingTimeAudit.spotId}:${meetingTimeAudit.canonicalFieldId}`
+                      : localizedClaimId(
+                          `place:${meetingTimeAudit.spotId}:${meetingTimeAudit.canonicalFieldId}`,
+                          locale,
+                        ),
+                    value: meetingSpotInformation.value[locale],
+                    surface: 'Spot',
+                    sourceFile: SOURCE_FILES.presentation,
+                  }
+                : undefined,
               timeSensitive: true,
               timeSensitiveNote: 'Presentation guidance; confirm current travel conditions.',
               issues: [
@@ -1737,7 +1793,7 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
                 ...(meetingTimeAudit && 'issues' in meetingTimeAudit ? meetingTimeAudit.issues : []),
               ],
               note: isMeetingTime
-                ? 'Meeting-time presentation is mapped to the canonical seasonal schedule; localized wording is not parsed or compared for equality.'
+                ? 'Route and Spot localized meeting-time presentations are compared byte-for-byte; both are generated from the canonical seasonal schedule.'
                 : 'Stable stop IDs and locale identify the comparison; array position is not claim identity.',
             });
           }
