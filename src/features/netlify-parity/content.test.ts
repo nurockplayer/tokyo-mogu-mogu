@@ -3,8 +3,11 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { PLACES } from '../../data/seed-places';
 import {
+  currentJourneys,
+  currentSpots,
   demoJourneys,
   demoSpots,
+  resultJourneys,
   referenceAssetFiles,
   referenceCopy,
 } from './content';
@@ -15,6 +18,7 @@ import {
   localizePlacePhoneConflict,
   localizePlaceProductCategories,
   referenceSpotDetails,
+  routeStats,
   routeStepText,
   storySpotGroups,
 } from './factual-presentation';
@@ -22,6 +26,70 @@ import {
 const locales = ['ja', 'en', 'zh-TW'] as const;
 
 describe('Netlify parity presentation content', () => {
+  it('adds the canonical Ome/Sawai journey to browse without changing Result', () => {
+    expect(resultJourneys.map((journey) => journey.id)).toEqual([
+      'demo-okutama-wasabi',
+      'demo-okutama-yamame',
+    ]);
+    expect(demoJourneys).toBe(resultJourneys);
+
+    const ome = currentJourneys.find((journey) => journey.id === 'demo-ome-sake');
+    expect(ome).toMatchObject({
+      regionId: 'ome',
+      foodCultureId: 'sake-ome',
+      storyId: 'sake-ome',
+      routeId: 'ome-sawai-sake-journey',
+      routeVariants: [
+        {
+          id: 'half-day',
+          durationMinutes: 215,
+          steps: [
+            { spotId: 'sawai-ozawa-shuzo' },
+            { spotId: 'sawanoien-garden' },
+            { spotId: 'mitake-shrine' },
+          ],
+        },
+        {
+          id: 'full-day',
+          durationMinutes: 370,
+          steps: [
+            { spotId: 'sawai-ozawa-shuzo' },
+            { spotId: 'sawanoien-garden' },
+            { spotId: 'mitake-shrine' },
+            { spotId: 'baba-oshijutaku' },
+          ],
+        },
+      ],
+    });
+    expect(ome).not.toHaveProperty('matchPercent');
+    expect(ome?.imageAssetId).toBeUndefined();
+    expect(ome?.heroAssetId).toBeUndefined();
+  });
+
+  it('exposes the four canonical Ome route stops without borrowed imagery', () => {
+    const omeSpotIds = [
+      'sawai-ozawa-shuzo',
+      'sawanoien-garden',
+      'mitake-shrine',
+      'baba-oshijutaku',
+    ];
+
+    expect(omeSpotIds.every((spotId) => spotId in currentSpots)).toBe(true);
+    for (const spotId of omeSpotIds) {
+      expect(currentSpots[spotId]).toMatchObject({ regionId: 'ome' });
+      expect(currentSpots[spotId].imageAssetId).toBeUndefined();
+      expect(currentSpots[spotId].thumbnailAssetIds).toEqual([]);
+    }
+  });
+
+  it('keeps unsupported Ome route timing and order explicitly caveated', () => {
+    expect(routeStats['demo-ome-sake:half-day']).toMatchObject({
+      ja: { caution: expect.stringMatching(/目安.*公式/) },
+      en: { caution: expect.stringMatching(/estimate.*official/i) },
+      'zh-TW': { caution: expect.stringMatching(/參考.*官方/) },
+    });
+  });
+
   it.each(locales)('%s exposes every primary action', (locale) => {
     const copy = referenceCopy(locale);
 
@@ -88,7 +156,9 @@ describe('Netlify parity presentation content', () => {
       ...Object.values(demoSpots).flatMap((spot) => [spot.imageAssetId, ...spot.thumbnailAssetIds]),
     ];
 
-    expect(referencedAssetIds.every((assetId) => assetId in referenceAssetFiles)).toBe(true);
+    expect(referencedAssetIds.every(
+      (assetId) => assetId === undefined || assetId in referenceAssetFiles,
+    )).toBe(true);
   });
 
   it('provides the complete semantic Food Profile and exploration vocabulary', () => {

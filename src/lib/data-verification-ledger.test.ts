@@ -669,6 +669,185 @@ describe('repository data verification ledger (#333)', () => {
     ).toMatchObject({ origin: 'demo', verification: 'demo' });
   });
 
+  it('maps the current Ome journey and Spot identities to canonical records (#348)', () => {
+    const claims = buildRepositoryLedgerClaims();
+
+    expect(
+      claims.find(
+        (claim) => claim.claimId === 'route:ome-sawai-sake-journey:name:ja',
+      ),
+    ).toMatchObject({
+      canonicalValue: '沢井の酒蔵と御嶽の文化財をめぐる旅',
+      displayedValue: '沢井の酒蔵と御嶽の文化財をめぐる旅',
+      origin: 'editorial',
+      verification: 'needs_confirmation',
+      finding: 'match',
+      primarySource: '編集部（青梅・沢井の酒蔵と御嶽の文化財）',
+      primarySourceUrl: 'https://www.sawanoi-sake.com/',
+      canonicalSourceFile: 'src/data/seed-routes.ts',
+      presentationSourceFile: 'src/features/netlify-parity/factual-presentation.ts',
+      issues: ['#348'],
+    });
+
+    for (const [variantId, spotIds] of [
+      ['half-day', ['sawai-ozawa-shuzo', 'sawanoien-garden', 'mitake-shrine']],
+      ['full-day', ['sawai-ozawa-shuzo', 'sawanoien-garden', 'mitake-shrine', 'baba-oshijutaku']],
+    ] as const) {
+      expect(
+        claims.find(
+          (claim) => claim.claimId === `route:ome-sawai-sake-journey:${variantId}:route_identity`,
+        ),
+      ).toMatchObject({
+        canonicalValue: 'ome-sawai-sake-journey',
+        displayedValue: 'ome-sawai-sake-journey',
+        finding: 'match',
+        issues: ['#348'],
+      });
+
+      for (const spotId of spotIds) {
+        expect(
+          claims.find(
+            (claim) => claim.claimId
+              === `route:ome-sawai-sake-journey:${variantId}:stop:${spotId}:identity`,
+          ),
+        ).toMatchObject({
+          canonicalValue: spotId,
+          displayedValue: spotId,
+          finding: 'match',
+          issues: ['#348'],
+        });
+      }
+    }
+
+    for (const [spotId, canonicalName, sourceUrl] of [
+      ['sawai-ozawa-shuzo', '小澤酒造（沢井・澤乃井）', 'https://www.sawanoi-sake.com/'],
+      ['sawanoien-garden', '澤乃井園', 'https://www.sawanoi-sake.com/service/sawanoien/'],
+      ['mitake-shrine', '御嶽神社', 'https://www.opendata.metro.tokyo.lg.jp/suisyoudataset/130001_cultural_property.csv'],
+      ['baba-oshijutaku', '馬場家御師住宅', 'https://www.opendata.metro.tokyo.lg.jp/suisyoudataset/130001_cultural_property.csv'],
+    ] as const) {
+      expect(
+        claims.find((claim) => claim.claimId === `place:${spotId}:name:ja`),
+      ).toMatchObject({
+        canonicalValue: canonicalName,
+        displayedValue: canonicalName,
+        origin: 'source',
+        verification: 'needs_confirmation',
+        finding: 'match',
+        primarySourceUrl: sourceUrl,
+        canonicalSourceFile: 'src/data/seed-places.ts',
+        presentationSourceFile: 'src/features/netlify-parity/factual-presentation.ts',
+        issues: ['#348'],
+      });
+    }
+
+    expect(
+      claims.filter(
+        (claim) => (claim.entityId === 'sake-ome' || claim.entityId === 'ome-sawai-sake-journey')
+          && claim.appSurface === 'Result',
+      ),
+    ).toEqual([]);
+  });
+
+  it('traces only the displayed Ome operational and Story facts without promoting them (#348)', () => {
+    const claims = buildRepositoryLedgerClaims();
+
+    for (const [fieldId, canonicalFragment, displayedFragment] of [
+      ['access', '徒歩5分', '徒歩約5分'],
+      ['hours', '11:00', '平日 11:00'],
+      ['closed_days', '月曜日', '月曜日'],
+      ['price_availability', '700円', '700円'],
+      ['reservation', 'true', '予約制'],
+    ] as const) {
+      expect(
+        claims.find((claim) => claim.claimId === `spot:sawai-ozawa-shuzo:${fieldId}`),
+      ).toMatchObject({
+        canonicalValue: expect.stringContaining(canonicalFragment),
+        displayedValue: expect.stringContaining(displayedFragment),
+        verification: 'needs_confirmation',
+        primarySourceUrl: expect.stringContaining('sawanoi-sake.com'),
+        timeSensitive: true,
+        issues: ['#348'],
+      });
+    }
+
+    for (const [fieldId, canonicalFragment, displayedFragment] of [
+      ['hours', '10:00', '10:00'],
+      ['closed_days', 'monday', '月曜日'],
+    ] as const) {
+      expect(
+        claims.find((claim) => claim.claimId === `spot:sawanoien-garden:${fieldId}`),
+      ).toMatchObject({
+        canonicalValue: expect.stringContaining(canonicalFragment),
+        displayedValue: expect.stringContaining(displayedFragment),
+        verification: 'needs_confirmation',
+        primarySourceUrl: 'https://www.sawanoi-sake.com/service/sawanoien/',
+        timeSensitive: true,
+        issues: ['#348'],
+      });
+    }
+
+    for (const spotId of [
+      'sawai-ozawa-shuzo',
+      'sawanoien-garden',
+      'mitake-shrine',
+      'baba-oshijutaku',
+    ]) {
+      expect(
+        claims.find((claim) => claim.claimId === `spot:${spotId}:official_current_url`),
+      ).toMatchObject({
+        canonicalValue: expect.any(String),
+        displayedValue: expect.any(String),
+        verification: 'needs_confirmation',
+        timeSensitive: true,
+        issues: ['#348'],
+      });
+      expect(
+        claims.find(
+          (claim) => claim.claimId === `story:sake-ome:story.spot.${spotId}.role-context`,
+        ),
+      ).toMatchObject({
+        canonicalValue: expect.any(String),
+        displayedValue: expect.any(String),
+        verification: 'needs_confirmation',
+        canonicalSourceFile: 'src/data/seed-routes.ts',
+        timeSensitive: false,
+        issues: ['#348'],
+      });
+    }
+
+    for (const claimId of [
+      'story:sake-ome:story.factual.nearest-station',
+      'story:sake-ome:story.factual.brewery-tour-reservation',
+      'story:sake-ome:story.factual.pre-visit-operational-check',
+      'story:sake-ome:story.spot.sawai-ozawa-shuzo.reservation-requirement',
+      'story:sake-ome:story.spot.sawanoien-garden.operating-calendar-check',
+    ]) {
+      expect(claims.find((claim) => claim.claimId === claimId)).toMatchObject({
+        canonicalValue: undefined,
+        displayedValue: undefined,
+        verification: 'unknown',
+        finding: 'none',
+        timeSensitive: true,
+        auditSourceFile: 'src/data/data-verification-audit-manifest.ts',
+        issues: ['#348'],
+      });
+    }
+
+    expect(
+      claims.find(
+        (claim) =>
+          claim.claimId ===
+          'route:ome-sawai-sake-journey:half-day:operational_caution:ja',
+      ),
+    ).toMatchObject({
+      displayedValue: expect.stringMatching(/目安.*公式/),
+      verification: 'demo',
+      finding: 'none',
+      timeSensitive: true,
+      issues: ['#348'],
+    });
+  });
+
   it('inventories factual presentation records in every visible locale', () => {
     const claims = buildRepositoryLedgerClaims();
 

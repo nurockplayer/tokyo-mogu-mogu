@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Locale } from '../../../i18n';
 import {
-  demoSpots,
+  currentSpots,
   referenceAssets,
   type JourneyPresentation,
   type ReferenceCopy,
@@ -13,6 +13,7 @@ import {
   routeStats,
   routeStepText,
 } from '../factual-presentation';
+import { PresentationMedia } from '../components/PresentationMedia';
 import {
   BookmarkIcon,
   CameraIcon,
@@ -94,7 +95,12 @@ export function RouteScreen({
   const variant = variants.find((candidate) => candidate.id === variantId) ?? variants[0];
   const routeKey = `${journey.id}:${variant.id}`;
   const steps = routeStepText[routeKey] ?? [];
-  const stats = routeStats[routeKey]?.[locale] ?? routeStats['demo-okutama-wasabi:half-day'][locale];
+  const localizedStats = routeStats[routeKey];
+  const localizedRegion = routeRegionGuidance[journey.id];
+  if (!localizedStats || !localizedRegion) {
+    throw new Error(`Missing Route presentation for journey variant: ${routeKey}`);
+  }
+  const stats = localizedStats[locale];
 
   useEffect(() => {
     if (active && !wasActiveRef.current) setVariantId('half-day');
@@ -166,14 +172,19 @@ export function RouteScreen({
       </div>
       <div className="scroll" ref={scrollRef}>
         <div className="route-map">
-          <img src={referenceAssets[variant.imageAssetId]} alt={copy.route.mapAlt} />
+          <PresentationMedia
+            alt={copy.route.mapAlt}
+            assetId={variant.imageAssetId}
+            locale={locale}
+          />
         </div>
 
         <div className="route-info">
           <div className="tx">
-            <PinIcon /> {routeRegionGuidance[locale]}
+            <PinIcon /> {localizedRegion[locale]}
             <br />
-            <TrainIcon /> <em>{stats.station}</em> {labels.from} <em>{stats.minutes}</em>
+            <TrainIcon /> {stats.access ? <em>{stats.access}</em> : <><em>{stats.station}</em> {labels.from} <em>{stats.minutes}</em></>}
+            {stats.caution ? <small className="route-caution">{stats.caution}</small> : null}
           </div>
           <button className="regen" disabled={regenerating} onClick={startRegeneration} type="button">
             {labels.regenerate[0]}
@@ -185,7 +196,7 @@ export function RouteScreen({
         <div className="tl">
           <div className="tl-line" />
           {variant.steps.map((step, index) => {
-            const spot = demoSpots[step.spotId];
+            const spot = currentSpots[step.spotId];
             if (!spot) return null;
             const stepText = steps.find((candidate) => candidate.spotId === step.spotId);
             const isStart = index === 0;
@@ -219,7 +230,7 @@ export function RouteScreen({
                         {missionDone ? labels.missionDone : labels.mission}
                       </span>
                     ) : null}
-                    <img src={referenceAssets[step.imageAssetId]} alt="" />
+                    <PresentationMedia assetId={step.imageAssetId} locale={locale} />
                     <div className="tx">
                       <b>{spot.copy[locale].name}</b>
                       <p style={{ whiteSpace: 'pre-line' }}>{stepText?.description[locale] ?? spot.copy[locale].lead}</p>

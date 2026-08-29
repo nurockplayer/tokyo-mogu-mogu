@@ -16,7 +16,7 @@ import { LoadingBoundary } from './LoadingBoundary';
 import { NotFoundPage } from './NotFoundPage';
 import { JourneyNavigationManager } from './JourneyNavigationManager';
 import { ReferenceApp } from '../features/netlify-parity/ReferenceApp';
-import { demoJourneys, demoSpots } from '../features/netlify-parity/content';
+import { currentJourneys, currentSpots } from '../features/netlify-parity/content';
 
 const HomePage = lazy(() => import('../pages/HomePage').then((m) => ({ default: m.HomePage })));
 const LandingPage = lazy(() =>
@@ -81,10 +81,10 @@ function withBoundary(element: ReactNode) {
 export function AppRouter() {
   const { pathname, search } = useLocation();
   const searchParams = new URLSearchParams(search);
-  const referenceCandidateIds = new Set(demoJourneys.map((journey) => journey.id));
-  const referenceRouteIds = new Set(demoJourneys.map((journey) => journey.routeId));
+  const referenceCandidateIds = new Set(currentJourneys.map((journey) => journey.id));
+  const referenceRouteIds = new Set(currentJourneys.map((journey) => journey.routeId));
   const referenceResultIds = new Set(
-    demoJourneys.flatMap((journey) => [journey.foodCultureId, journey.storyId]),
+    currentJourneys.flatMap((journey) => [journey.foodCultureId, journey.storyId]),
   );
   const candidateId = searchParams.get('candidateId');
   const routeId = searchParams.get('routeId');
@@ -95,10 +95,10 @@ export function AppRouter() {
     (!resultId || referenceResultIds.has(resultId));
   const referenceStoryPath =
     pathname === '/story' ||
-    demoJourneys.some((journey) => pathname === `/story/${journey.storyId}`);
+    currentJourneys.some((journey) => pathname === `/story/${journey.storyId}`);
   const referenceSpotPath =
     pathname.startsWith('/spot/') &&
-    Object.hasOwn(demoSpots, decodeURIComponent(pathname.slice('/spot/'.length)));
+    Object.hasOwn(currentSpots, decodeURIComponent(pathname.slice('/spot/'.length)));
   const referencePath =
     pathname === '/' ||
     pathname === '/food-profile' ||

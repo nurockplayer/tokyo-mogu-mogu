@@ -749,7 +749,7 @@ export const PLACES: Place[] = [
   // ---- 青梅・沢井 slice (Issue #163) ----------------------------------------
   // Real Ome/Sawai facilities for the source-backed `ome-sawai-sake-journey`.
   // Names/addresses are transcribed from the cited official / open-data sources
-  // (official pages refreshed 2026-08-19): 小澤酒造 official site (sawanoi-sake.com), its 澤乃井園
+  // (official pages refreshed 2026-08-29): 小澤酒造 official site (sawanoi-sake.com), its 澤乃井園
   // page, and 東京都教育庁 文化財一覧 (東京都指定文化財, CC BY 4.0,
   // 130001_cultural_property.csv). These records are origin: 'source' with
   // verificationStatus: 'needs_confirmation' — coordinates for the brewery and
@@ -772,9 +772,12 @@ export const PLACES: Place[] = [
       name: '小澤酒造（公式サイト）',
       url: 'https://www.sawanoi-sake.com/',
       sourceType: 'official_web',
-      retrievedAt: '2026-08-19',
+      retrievedAt: '2026-08-29',
       verificationStatus: 'needs_confirmation',
       originalId: 'ozawa-shuzo',
+    },
+    visitorInformation: {
+      access: { stationJa: 'JR青梅線「沢井駅」', walkMinutes: 5 },
     },
     origin: 'source',
   },
@@ -794,9 +797,14 @@ export const PLACES: Place[] = [
       name: '小澤酒造 澤乃井園（公式）',
       url: 'https://www.sawanoi-sake.com/service/sawanoien/',
       sourceType: 'official_web',
-      retrievedAt: '2026-08-19',
+      retrievedAt: '2026-08-29',
       verificationStatus: 'needs_confirmation',
       originalId: 'sawanoien',
+    },
+    visitorInformation: {
+      shopHours: { opens: '10:00', closes: '17:00' },
+      regularClosedDays: ['monday'],
+      irregularClosures: true,
     },
     origin: 'source',
   },

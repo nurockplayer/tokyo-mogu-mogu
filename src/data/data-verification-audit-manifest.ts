@@ -29,6 +29,17 @@ export const PRESENTATION_ROUTE_AUDIT = [
     surfaces: ['Result', 'Story', 'Route'],
     issues: ['#333'],
   },
+  {
+    presentationJourneyId: 'demo-ome-sake',
+    canonicalRouteId: 'ome-sawai-sake-journey',
+    variants: {
+      'half-day': 'half-day',
+      'full-day': '1-day',
+    },
+    resultComparisonVariantId: undefined,
+    surfaces: ['MOGU', 'Story', 'Route'],
+    issues: ['#348'],
+  },
 ] as const;
 
 export const PRESENTATION_SPOT_AUDIT = [
@@ -98,6 +109,45 @@ export const PRESENTATION_SPOT_AUDIT = [
     ],
     issues: ['#324', '#333', '#334'],
   },
+  {
+    presentationSpotId: 'sawai-ozawa-shuzo',
+    canonicalPlaceId: 'sawai-ozawa-shuzo',
+    surface: 'Spot',
+    stableCanonicalFieldIds: [
+      'access',
+      'hours',
+      'closed_days',
+      'price_availability',
+      'reservation',
+      'official_current_url',
+    ],
+    issues: ['#348'],
+  },
+  {
+    presentationSpotId: 'sawanoien-garden',
+    canonicalPlaceId: 'sawanoien-garden',
+    surface: 'Spot',
+    stableCanonicalFieldIds: [
+      'hours',
+      'closed_days',
+      'official_current_url',
+    ],
+    issues: ['#348'],
+  },
+  {
+    presentationSpotId: 'mitake-shrine',
+    canonicalPlaceId: 'mitake-shrine',
+    surface: 'Spot',
+    stableCanonicalFieldIds: ['official_current_url'],
+    issues: ['#348'],
+  },
+  {
+    presentationSpotId: 'baba-oshijutaku',
+    canonicalPlaceId: 'baba-oshijutaku',
+    surface: 'Spot',
+    stableCanonicalFieldIds: ['official_current_url'],
+    issues: ['#348'],
+  },
 ] as const;
 
 export const PRESENTATION_ROUTE_MEETING_TIME_AUDIT = [
@@ -154,6 +204,16 @@ export const REQUIRED_STORY_FACTUAL_CLAIMS = {
     { claimId: 'story.factual.lodging-pattern', fieldLabel: 'Current Okutama lodging pattern', parentFieldId: 'presentation:story_chapters', timeSensitive: true },
     { claimId: 'story.factual.visit-support-impact', fieldLabel: 'Visitor support impact', parentFieldId: 'presentation:story_chapters', timeSensitive: true },
   ],
+  'demo-ome-sake': [
+    { claimId: 'story.factual.nearest-station', fieldLabel: 'Sawai nearest-station guidance', parentFieldId: 'presentation:story_location', timeSensitive: true },
+    { claimId: 'story.factual.tama-river-valley-context', fieldLabel: 'Sawai and Tama River valley context', parentFieldId: 'presentation:story_intro', timeSensitive: false },
+    { claimId: 'story.factual.genroku-era-founding', fieldLabel: 'Ozawa Shuzo Genroku-era founding', parentFieldId: 'presentation:story_chapters', timeSensitive: false },
+    { claimId: 'story.factual.genroku-storehouse', fieldLabel: 'Genroku storehouse survival and heritage value', parentFieldId: 'presentation:story_chapters', timeSensitive: false },
+    { claimId: 'story.factual.sawanoi-brewery-identity', fieldLabel: 'Ozawa Shuzo and Sawanoi brewery identity', parentFieldId: 'presentation:story_chapters', timeSensitive: false },
+    { claimId: 'story.factual.brewery-tour-reservation', fieldLabel: 'Brewery-tour reservation requirement', parentFieldId: 'presentation:story_chapters', timeSensitive: true },
+    { claimId: 'story.factual.mitake-heritage-designation', fieldLabel: 'Mitake Shrine former-main-hall heritage designation', parentFieldId: 'presentation:story_chapters', timeSensitive: false },
+    { claimId: 'story.factual.pre-visit-operational-check', fieldLabel: 'Pre-visit operations, tour, and transport check', parentFieldId: 'presentation:story_point', timeSensitive: true },
+  ],
 } as const;
 
 /** Metadata-only identities for operational facts embedded in Route guidance. */
@@ -192,6 +252,12 @@ export const REQUIRED_STORY_SPOT_FACTUAL_CLAIMS = [
   { presentationJourneyId: 'demo-okutama-yamame', spotId: 'yamashiroya', claimId: 'story.spot.yamashiroya.product-availability', fieldLabel: 'Yamashiroya product availability', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true, canonicalPlaceId: 'yamashiroya', canonicalFieldId: 'product_availability', issues: ['#323'] },
   { presentationJourneyId: 'demo-okutama-yamame', spotId: 'hikawa-valley', claimId: 'story.spot.hikawa-valley.stream-conditions', fieldLabel: 'Hikawa Valley stream conditions', parentFieldId: 'presentation:spot_group:nature', timeSensitive: false },
   { presentationJourneyId: 'demo-okutama-yamame', spotId: 'hikawa-valley', claimId: 'story.spot.hikawa-valley.water-culture-origin', fieldLabel: 'Tama River food-culture origin claim', parentFieldId: 'presentation:spot_group:nature', timeSensitive: false },
+  { presentationJourneyId: 'demo-ome-sake', spotId: 'sawai-ozawa-shuzo', claimId: 'story.spot.sawai-ozawa-shuzo.role-context', fieldLabel: 'Ozawa Shuzo brewery role and Sawanoi context', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: false, canonicalPlaceId: 'sawai-ozawa-shuzo', canonicalFieldId: 'story_wording' },
+  { presentationJourneyId: 'demo-ome-sake', spotId: 'sawai-ozawa-shuzo', claimId: 'story.spot.sawai-ozawa-shuzo.reservation-requirement', fieldLabel: 'Ozawa Shuzo tour reservation and official-check note', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true },
+  { presentationJourneyId: 'demo-ome-sake', spotId: 'sawanoien-garden', claimId: 'story.spot.sawanoien-garden.role-context', fieldLabel: 'Sawanoien operator and service context', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: false, canonicalPlaceId: 'sawanoien-garden', canonicalFieldId: 'story_wording' },
+  { presentationJourneyId: 'demo-ome-sake', spotId: 'sawanoien-garden', claimId: 'story.spot.sawanoien-garden.operating-calendar-check', fieldLabel: 'Sawanoien official operating-calendar check', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true },
+  { presentationJourneyId: 'demo-ome-sake', spotId: 'mitake-shrine', claimId: 'story.spot.mitake-shrine.role-context', fieldLabel: 'Mitake Shrine heritage context', parentFieldId: 'presentation:spot_group:nature', timeSensitive: false, canonicalPlaceId: 'mitake-shrine', canonicalFieldId: 'story_wording' },
+  { presentationJourneyId: 'demo-ome-sake', spotId: 'baba-oshijutaku', claimId: 'story.spot.baba-oshijutaku.role-context', fieldLabel: 'Baba House oshi-residence heritage context', parentFieldId: 'presentation:spot_group:nature', timeSensitive: false, canonicalPlaceId: 'baba-oshijutaku', canonicalFieldId: 'story_wording' },
 ] as const;
 
 export const REQUIRED_VISIBLE_SPOT_FIELDS = [

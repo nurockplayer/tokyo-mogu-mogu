@@ -161,7 +161,7 @@ const SOURCE_OME_ROUTE: DataSource = {
   name: '編集部（青梅・沢井の酒蔵と御嶽の文化財）',
   url: 'https://www.sawanoi-sake.com/',
   sourceType: 'official_web',
-  retrievedAt: '2026-08-19',
+  retrievedAt: '2026-08-29',
   verificationStatus: 'needs_confirmation',
   originalId: 'seed-route-ome',
 };
@@ -170,7 +170,7 @@ const SOURCE_SAWANOI: DataSource = {
   name: '小澤酒造 酒蔵見学（公式）',
   url: 'https://www.sawanoi-sake.com/service/kengaku/',
   sourceType: 'official_web',
-  retrievedAt: '2026-08-19',
+  retrievedAt: '2026-08-29',
   verificationStatus: 'needs_confirmation',
   originalId: 'sawanoi-brewery-tour',
 };
@@ -179,7 +179,7 @@ const SOURCE_SAWANOIEN: DataSource = {
   name: '小澤酒造 澤乃井園（公式）',
   url: 'https://www.sawanoi-sake.com/service/sawanoien/',
   sourceType: 'official_web',
-  retrievedAt: '2026-08-19',
+  retrievedAt: '2026-08-29',
   verificationStatus: 'needs_confirmation',
   originalId: 'sawanoien',
 };
@@ -545,6 +545,7 @@ export const MODEL_ROUTES: ModelRoute[] = [
     // Source-backed editorial route: isDemo is intentionally absent (only the
     // frozen 8/23 Okutama golden path is demo).
     source: SOURCE_OME_ROUTE,
+    sources: [SOURCE_OME_ROUTE, SOURCE_SAWANOI, SOURCE_SAWANOIEN, SOURCE_MITAKE_HERITAGE],
     variants: {
       'half-day': {
         transportJa: 'JR青梅線・徒歩',
@@ -1036,13 +1037,17 @@ export const SPOT_DETAILS: Record<string, SpotDetail> = {
     roleEn:
       'Ozawa Shuzo is a sake brewery in Sawai that brews the "Sawanoi" label, on the banks of the clear Tama River valley.',
     practical: {
-      accessJa: '酒蔵見学は予約制。個人見学は公式予約ページから申し込みます。',
-      accessEn: 'Brewery tours require reservations; individual tours use the official booking page.',
+      accessJa:
+        'JR青梅線「沢井駅」から徒歩約5分。酒蔵見学は予約制で所要約40分です。個人見学は公式予約ページから申し込み、訪問前に最新の公式情報をご確認ください。',
+      accessEn:
+        'About 5 minutes on foot from JR Sawai Station. Brewery tours require reservations and take about 40 minutes; individual visitors use the official booking page. Check current official information before visiting.',
       hoursJa: '酒蔵見学：平日 11:00・13:00／土日祝 11:00・12:30・14:00（予約制）',
       hoursEn:
         'Brewery tours: weekdays at 11:00 and 13:00; weekends and holidays at 11:00, 12:30, and 14:00 (reservation required)',
-      priceJa: '700円（税込）／1人（20歳未満は無料）',
-      priceEn: '¥700 per person (tax included; free for visitors under 20)',
+      closedDaysJa: '月曜日（祝日の場合は翌火曜日）',
+      closedDaysEn: 'Mondays (Tuesday when Monday is a public holiday)',
+      priceJa: '700円（税込）／1人',
+      priceEn: '¥700 per person (tax included)',
       reservationAvailable: true,
     },
     tags: {},
@@ -1058,9 +1063,10 @@ export const SPOT_DETAILS: Record<string, SpotDetail> = {
     practical: {
       hoursJa: '10:00〜17:00',
       hoursEn: '10:00 a.m.–5:00 p.m.',
-      closedDaysJa: '月曜日（祝日の場合は火曜日）・年末年始、その他休業あり（営業カレンダー）',
+      closedDaysJa:
+        '月曜日（祝日の場合は火曜日）・年末年始、その他休業あり。訪問前に最新の公式営業カレンダーをご確認ください。',
       closedDaysEn:
-        'Mondays (Tuesday when Monday is a holiday) and year-end/New Year; other closures may apply (see the operating calendar)',
+        'Mondays (Tuesday when Monday is a holiday) and year-end/New Year; other closures may apply. Check the current official operating calendar before visiting.',
     },
     tags: {},
     origin: 'editorial',

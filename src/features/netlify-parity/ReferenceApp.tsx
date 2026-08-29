@@ -8,7 +8,14 @@ import { recordMoguRecent } from '../../lib/mogu-recent';
 import { loadSavedRoutes, saveRoute } from '../../lib/saved-routes';
 import { saveExplorationAnswers } from '../../pages/s0s3/exploration-session';
 import { FoodProfileConversation } from './chat/FoodProfileConversation';
-import { demoJourneys, demoSpots, referenceCopy, type JourneyPresentation, type SpotPresentation } from './content';
+import {
+  currentJourneys,
+  currentSpots,
+  referenceCopy,
+  resultJourneys,
+  type JourneyPresentation,
+  type SpotPresentation,
+} from './content';
 import { ExplorationFlow } from './exploration/ExplorationFlow';
 import {
   createExplorationState,
@@ -31,7 +38,7 @@ import { journeyToMoguRecent } from './screens/presentation';
 function journeyForStoryPath(pathname: string): JourneyPresentation | undefined {
   if (!pathname.startsWith('/story/')) return undefined;
   const storyId = decodeURIComponent(pathname.slice('/story/'.length));
-  return demoJourneys.find((journey) => journey.storyId === storyId);
+  return currentJourneys.find((journey) => journey.storyId === storyId);
 }
 
 function journeyForSearch(search: string): JourneyPresentation | undefined {
@@ -40,7 +47,7 @@ function journeyForSearch(search: string): JourneyPresentation | undefined {
   const routeId = params.get('routeId');
   const resultId = params.get('resultId');
 
-  return demoJourneys.find(
+  return currentJourneys.find(
     (journey) =>
       journey.id === candidateId ||
       journey.routeId === routeId ||
@@ -51,7 +58,18 @@ function journeyForSearch(search: string): JourneyPresentation | undefined {
 
 function spotForPath(pathname: string): SpotPresentation | undefined {
   if (!pathname.startsWith('/spot/')) return undefined;
-  return demoSpots[decodeURIComponent(pathname.slice('/spot/'.length))];
+  return currentSpots[decodeURIComponent(pathname.slice('/spot/'.length))];
+}
+
+function journeyForSpot(spot: SpotPresentation | undefined): JourneyPresentation | undefined {
+  if (!spot) return undefined;
+  const containsSpot = (journey: JourneyPresentation) =>
+    journey.routeVariants.some((variant) =>
+      variant.steps.some((step) => step.spotId === spot.id),
+    );
+  return currentJourneys.find(
+    (journey) => journey.foodCultureId === spot.foodCultureId && containsSpot(journey),
+  ) ?? currentJourneys.find(containsSpot);
 }
 
 interface ReferenceFavorites {
@@ -99,7 +117,7 @@ export function ReferenceApp() {
     undefined,
     createExplorationState,
   );
-  const [currentJourney, setCurrentJourney] = useState<JourneyPresentation>(() => demoJourneys[0]);
+  const [currentJourney, setCurrentJourney] = useState<JourneyPresentation>(() => resultJourneys[0]);
   const [editSessionId, setEditSessionId] = useState(0);
   const [storyBack, setStoryBack] = useState('/explore/result');
   const [routeBack, setRouteBack] = useState('/story/wasabi-okutama');
@@ -109,17 +127,24 @@ export function ReferenceApp() {
   const [toast, setToast] = useState('');
   const pathJourney = journeyForStoryPath(location.pathname);
   const queryJourney = journeyForSearch(location.search);
-  const currentSpot = spotForPath(location.pathname) ?? demoSpots['okutama-tourism-office'];
+  const pathSpot = spotForPath(location.pathname);
+  const pathSpotJourney = journeyForSpot(pathSpot);
+  if (location.pathname.startsWith('/spot/') && !pathSpot) {
+    throw new Error(`Missing current Spot presentation for path: ${location.pathname}`);
+  }
+  // Inactive screens stay mounted for the current transition model; this value
+  // is never used to resolve a valid /spot/:id path.
+  const currentSpot = pathSpot ?? currentSpots['okutama-tourism-office'];
   const shownJourney = pathJourney ?? currentJourney;
-  const routeJourney = queryJourney ?? currentJourney;
+  const routeJourney = queryJourney ?? pathSpotJourney ?? currentJourney;
   const savedJourneys = useMemo(
-    () => demoJourneys.filter(
+    () => currentJourneys.filter(
       (journey) => savedRouteIds.includes(journey.routeId) || favorites.journeyIds.includes(journey.id),
     ),
     [favorites.journeyIds, savedRouteIds],
   );
   const savedSpots = useMemo(
-    () => Object.values(demoSpots).filter((spot) => favorites.spotIds.includes(spot.id)),
+    () => Object.values(currentSpots).filter((spot) => favorites.spotIds.includes(spot.id)),
     [favorites.spotIds],
   );
 
@@ -128,11 +153,11 @@ export function ReferenceApp() {
   }, [locale]);
 
   useEffect(() => {
-    const locationJourney = pathJourney ?? queryJourney;
+    const locationJourney = pathJourney ?? queryJourney ?? pathSpotJourney;
     if (locationJourney && locationJourney.id !== currentJourney.id) {
       setCurrentJourney(locationJourney);
     }
-  }, [currentJourney.id, pathJourney, queryJourney]);
+  }, [currentJourney.id, pathJourney, pathSpotJourney, queryJourney]);
 
   useEffect(() => {
     const activeScroll = document.querySelector<HTMLElement>('.reference-screen[data-screen-active="true"] .scroll');
@@ -164,12 +189,12 @@ export function ReferenceApp() {
     saveExplorationAnswers(establishedAnswers);
     recordMoguRecent(
       journeyToMoguRecent(
-        demoJourneys[0],
+        resultJourneys[0],
         establishedAnswers,
         Boolean(foodProfile && !foodProfile.hasNoRestrictions),
       ),
     );
-    setCurrentJourney(demoJourneys[0]);
+    setCurrentJourney(resultJourneys[0]);
     navigate('/explore/result');
   };
 
@@ -350,7 +375,13 @@ export function ReferenceApp() {
           locale={locale}
           spot={currentSpot}
           saved={favorites.spotIds.includes(currentSpot.id)}
-          onBack={() => navigate(queryJourney ? `/route${location.search}` : spotBack)}
+          onBack={() => navigate(
+            queryJourney
+              ? `/route${location.search}`
+              : spotBack === '/route' && pathSpotJourney
+                ? `/route?candidateId=${encodeURIComponent(pathSpotJourney.id)}`
+                : spotBack,
+          )}
           onOpenGuide={() => setToast(locale === 'ja' ? '外部サイトへ（プロトタイプ）' : locale === 'zh-TW' ? '前往外部網站（原型）' : 'External site (prototype)')}
           onToggleSaved={toggleSpotFavorite}
           onNavigate={navigate}

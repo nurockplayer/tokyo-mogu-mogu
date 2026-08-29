@@ -292,7 +292,7 @@ export const FOOD_CULTURES: FoodCulture[] = [
   // Provenance: 小澤酒造 (sake brewery, brand 澤乃井), the brewery-run garden
   // restaurant 澤乃井園, and 御嶽神社 are all REAL facilities. Names, addresses,
   // function and setting are transcribed from the cited official / open-data
-  // sources (retrieved 2026-08-19 for the official site): 小澤酒造 official site (sawanoi-sake.com),
+  // sources (official site re-checked 2026-08-29): 小澤酒造 official site (sawanoi-sake.com),
   // GO TOKYO 日本酒ガイド (東京都観光公式サイト, gotokyo.org), and the 青梅市観光スポット
   // 一覧 open data (CC BY 4.0, t132055d0000000027). The narrative fields below
   // are team-editorial copy (origin: 'editorial') grounded strictly in those
@@ -311,21 +311,21 @@ export const FOOD_CULTURES: FoodCulture[] = [
     descriptionEn:
       'Sake brewed by Ozawa Shuzo in Sawai, Ome — "Sawanoi", from the clear-stream valley of the Tama River.',
     storyJa:
-      '沢井は多摩川の清流が流れる渓谷の里です。小澤酒造は自然豊かな渓谷のほとりで日本酒と豆腐を造り、酒銘「澤乃井」はこの土地の水と米から醸されます。',
+      '沢井は多摩川の清流が流れる渓谷の里です。小澤酒造は自然豊かな渓谷のほとりで日本酒と豆腐を造り、日本酒「澤乃井」を醸しています。',
     storyEn:
-      'Sawai is a valley town along the clear Tama River. Ozawa Shuzo brews sake and makes tofu on the banks of this naturally rich valley, producing the "Sawanoi" label from the land\'s water and rice.',
+      'Sawai is a valley town along the clear Tama River. Ozawa Shuzo brews sake and makes tofu on the banks of this naturally rich valley, including the "Sawanoi" label.',
     historyJa:
       '小澤酒造は元禄時代の創業と伝わる老舗です。創業の頃に建てられた土造りの蔵「元禄蔵」が現存し、歴史的に貴重な建造物とされています。',
     historyEn:
       'Ozawa Shuzo is a long-established brewery said to date back to the Genroku era. Its Genroku-era earthen storehouse survives and is considered historically valuable.',
     makerJa:
-      '小澤酒造は、酒蔵の裏手にある井戸「蔵の井」の水を使って日本酒を醸しています。沢井駅から歩いて訪ねることができます。',
+      '小澤酒造は青梅市沢井で日本酒「澤乃井」を醸しています。JR青梅線の沢井駅から歩いて訪ねることができます。',
     makerEn:
-      'Ozawa Shuzo brews its sake with water from the "Kura no I" well behind the brewery, a short walk from Sawai Station.',
+      'Ozawa Shuzo brews "Sawanoi" sake in Sawai, Ome, about a five-minute walk from JR Sawai Station.',
     howToEnjoyJa:
-      '酒蔵では予約制の見学と試飲があります。蔵元直営の「澤乃井園」でも、澤乃井の生原酒や甘酒を楽しめます。',
+      '酒蔵では予約制の見学を実施しています。蔵元直営の「澤乃井園」とあわせて、訪問前に公式情報をご確認ください。',
     howToEnjoyEn:
-      'The brewery offers a reservation-based tour with sake tasting, and the brewery-run Sawanoien garden serves Sawanoi nama genshu and amazake.',
+      'The brewery offers reservation-only tours. Check current official information before visiting the brewery and the brewery-run Sawanoien garden.',
     image: 'sake-ome',
     hintJa: '沢井駅から川沿いを歩いて酒蔵へ。「澤乃井」の看板を目印に。',
     hintEn: 'Walk from Sawai Station along the river to the brewery — look for the "Sawanoi" sign.',
@@ -339,7 +339,7 @@ export const FOOD_CULTURES: FoodCulture[] = [
         name: '小澤酒造（公式サイト）',
         url: 'https://www.sawanoi-sake.com/',
         sourceType: 'official_web',
-        retrievedAt: '2026-08-19',
+        retrievedAt: '2026-08-29',
         verificationStatus: 'needs_confirmation',
         originalId: 'ozawa-shuzo',
       },

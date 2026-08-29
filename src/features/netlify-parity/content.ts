@@ -200,9 +200,11 @@ export interface JourneyPresentation {
   foodCultureId: string;
   storyId: string;
   routeId: string;
-  matchPercent: number;
-  imageAssetId: ReferenceAssetId;
-  heroAssetId: ReferenceAssetId;
+  /** Result-only editorial value. Browse-only journeys do not invent one. */
+  matchPercent?: number;
+  /** Rights-cleared local media only; absent renders the explicit neutral-media state. */
+  imageAssetId?: ReferenceAssetId;
+  heroAssetId?: ReferenceAssetId;
   copy: Record<Locale, {
     title: string;
     subtitle: string;
@@ -215,8 +217,8 @@ export interface JourneyPresentation {
   routeVariants: Array<{
     id: 'half-day' | 'full-day';
     durationMinutes: number;
-    imageAssetId: ReferenceAssetId;
-    steps: Array<{ spotId: string; imageAssetId: ReferenceAssetId }>;
+    imageAssetId?: ReferenceAssetId;
+    steps: Array<{ spotId: string; imageAssetId?: ReferenceAssetId }>;
   }>;
 }
 
@@ -224,7 +226,8 @@ export interface SpotPresentation {
   id: string;
   regionId: string;
   foodCultureId: string;
-  imageAssetId: ReferenceAssetId;
+  /** Rights-cleared local media only; absent renders the explicit neutral-media state. */
+  imageAssetId?: ReferenceAssetId;
   thumbnailAssetIds: ReferenceAssetId[];
   copy: Record<Locale, {
     name: string;
@@ -388,4 +391,11 @@ export function referenceCopy(locale: Locale): ReferenceCopy {
   return copies[locale];
 }
 
-export { demoJourneys, demoSpots, homeJourneyCards } from './factual-presentation';
+export {
+  currentJourneys,
+  currentSpots,
+  demoJourneys,
+  demoSpots,
+  homeJourneyCards,
+  resultJourneys,
+} from './factual-presentation';

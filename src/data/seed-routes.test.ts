@@ -47,6 +47,23 @@ describe('model routes (#45 S5)', () => {
     expect(route?.variants['half-day'].mobility[0].mode).toBe('walk');
   });
 
+  it('exposes each first-party and public source behind the Ome journey (#348)', () => {
+    const route = getRouteById('ome-sawai-sake-journey');
+
+    expect(route?.sources?.map((source) => source.originalId)).toEqual([
+      'seed-route-ome',
+      'sawanoi-brewery-tour',
+      'sawanoien',
+      '御嶽神社旧本殿',
+    ]);
+    for (const source of route?.sources?.slice(0, 3) ?? []) {
+      expect(source).toMatchObject({
+        retrievedAt: '2026-08-29',
+        verificationStatus: 'needs_confirmation',
+      });
+    }
+  });
+
   it('marks only the frozen 8/23 demo route as demo content', () => {
     const demoRoutes = MODEL_ROUTES.filter((r) => r.isDemo);
     expect(demoRoutes).toHaveLength(1);
@@ -170,6 +187,33 @@ describe('spot details (#45 S6)', () => {
         }
       }
     }
+  });
+
+  it('keeps current Ome tour operations source-caveated and unconfirmed (#348)', () => {
+    const brewery = SPOT_DETAILS['sawai-ozawa-shuzo'];
+    const garden = SPOT_DETAILS['sawanoien-garden'];
+
+    expect(brewery.source).toMatchObject({
+      retrievedAt: '2026-08-29',
+      verificationStatus: 'needs_confirmation',
+    });
+    expect(brewery.practical).toMatchObject({
+      accessJa: expect.stringMatching(/約40分.*公式/),
+      accessEn: expect.stringMatching(/about 40 minutes.*official/i),
+      hoursJa: '酒蔵見学：平日 11:00・13:00／土日祝 11:00・12:30・14:00（予約制）',
+      closedDaysJa: '月曜日（祝日の場合は翌火曜日）',
+      priceJa: '700円（税込）／1人',
+      reservationAvailable: true,
+    });
+    expect(garden.source).toMatchObject({
+      retrievedAt: '2026-08-29',
+      verificationStatus: 'needs_confirmation',
+    });
+    expect(garden.practical).toMatchObject({
+      hoursJa: '10:00〜17:00',
+      closedDaysJa: expect.stringMatching(/月曜日.*火曜日.*年末年始.*公式/),
+      closedDaysEn: expect.stringMatching(/Monday.*Tuesday.*year-end.*official/i),
+    });
   });
 
   it('spot details are editorial and carry provenance', () => {

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Locale } from '../../../i18n';
 import {
-  demoSpots,
+  currentSpots,
   referenceAssets,
   type JourneyPresentation,
   type ReferenceCopy,
@@ -13,6 +13,7 @@ import {
   storySpotGroups,
   type StorySpotReference,
 } from '../factual-presentation';
+import { PresentationMedia } from '../components/PresentationMedia';
 import { BackIcon, PinIcon, TrainIcon } from './screenIcons';
 
 const routeActionLabel: Record<Locale, string> = {
@@ -58,7 +59,7 @@ function StorySpotCard({
       tabIndex={active ? 0 : -1}
     >
       <div className="ph">
-        <img src={referenceAssets[reference.imageAssetId]} alt="" />
+        <PresentationMedia assetId={reference.imageAssetId} locale={locale} />
         <span className="badge" style={{ background: reference.badgeColor }}>
           {reference.badge[locale]}
         </span>
@@ -94,8 +95,12 @@ export function StoryScreen({
   const [loading, setLoading] = useState(false);
   const timerRef = useRef<number | null>(null);
   const localized = journey.copy[locale];
-  const location = storyLocation[journey.id]?.[locale] ?? storyLocation['demo-okutama-wasabi'][locale];
-  const groups = storySpotGroups[journey.id] ?? storySpotGroups['demo-okutama-wasabi'];
+  const localizedLocation = storyLocation[journey.id];
+  const groups = storySpotGroups[journey.id];
+  if (!localizedLocation || !groups) {
+    throw new Error(`Missing Story presentation for journey: ${journey.id}`);
+  }
+  const location = localizedLocation[locale];
   const point = chapterPoint[journey.id]?.[locale];
 
   useEffect(
@@ -134,7 +139,7 @@ export function StoryScreen({
       </button>
       <div className="scroll">
         <div className="story-hero">
-          <img src={referenceAssets[journey.heroAssetId]} alt="" />
+          <PresentationMedia assetId={journey.heroAssetId} locale={locale} />
         </div>
         <div className="story-tx">
           <h1>{localized.title}</h1>
@@ -178,11 +183,11 @@ export function StoryScreen({
           <h2>{copy.story.nearbyTitle}</h2>
           <div className="hscroll">
             {groups.nearby.map((reference) => {
-              const spot = demoSpots[reference.spotId];
+              const spot = currentSpots[reference.spotId];
               return spot ? (
                 <StorySpotCard
                   active={active}
-                  key={`${reference.spotId}-${reference.imageAssetId}`}
+                  key={reference.referenceId}
                   locale={locale}
                   onOpenSpot={onOpenSpot}
                   reference={reference}
@@ -197,11 +202,11 @@ export function StoryScreen({
           <h2>{copy.story.natureTitle}</h2>
           <div className="hscroll">
             {groups.nature.map((reference) => {
-              const spot = demoSpots[reference.spotId];
+              const spot = currentSpots[reference.spotId];
               return spot ? (
                 <StorySpotCard
                   active={active}
-                  key={`${reference.spotId}-${reference.imageAssetId}`}
+                  key={reference.referenceId}
                   locale={locale}
                   onOpenSpot={onOpenSpot}
                   reference={reference}

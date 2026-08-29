@@ -696,26 +696,31 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       places,
     });
 
-    expect(board.entities).toHaveLength(15);
-    expect(board.entityTypeCounts).toEqual({ Spot: 11, Story: 2, Route: 2 });
+    expect(board.entities).toHaveLength(21);
+    expect(board.entityTypeCounts).toEqual({ Spot: 15, Story: 3, Route: 3 });
     expect(board.entities.map((entity) => entity.id)).toEqual(expect.arrayContaining([
       'akabeko',
+      'baba-oshijutaku',
       'hikawa-valley',
       'mitake-station',
+      'mitake-shrine',
       'oku-hikawa-shrine',
       'okutama-kitchen',
       'okutama-station',
       'okutama-tourism-office',
       'port-okutama',
+      'sawai-ozawa-shuzo',
+      'sawanoien-garden',
       'wasabi-experience',
       'wasabi-kitchen',
       'yamashiroya',
+      'ome-sawai-sake-journey',
       'okutama-wasabi-journey',
       'okutama-yamame-journey',
+      'sake-ome',
       'wasabi-okutama',
       'yamame-okutama',
     ]));
-    expect(board.entities.map((entity) => entity.id)).not.toContain('ome-sawai-sake-journey');
 
     const portOkutama = board.entities.find((entity) => entity.id === 'port-okutama');
     expect(portOkutama).toMatchObject({

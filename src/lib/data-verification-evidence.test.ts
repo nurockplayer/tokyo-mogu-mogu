@@ -594,6 +594,126 @@ describe('data verification evidence manifest (#334)', () => {
     )).not.toThrow();
   });
 
+  it('records bounded Ome sake app evidence and exact source omissions (#348)', () => {
+    const repositoryClaims = buildRepositoryLedgerClaims();
+    const evidenceById = new Map(
+      DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.map((item) => [item.evidenceId, item]),
+    );
+    const omissionsById = new Map(
+      DATA_VERIFICATION_EVIDENCE_MANIFEST.omissions.map((item) => [item.omissionId, item]),
+    );
+
+    expect(evidenceById.get('ome-sake-mogu-ja-375')).toMatchObject({
+      kind: 'app',
+      entityId: 'ome-sawai-sake-journey',
+      locale: 'ja',
+      viewport: { width: 375, height: 812 },
+      path: 'docs/data-evidence/ome-sake/mogu-ja-375.webp',
+      capturedAt: '2026-08-29',
+      claimIds: ['route:ome-sawai-sake-journey:name:ja'],
+    });
+
+    for (const locale of ['ja', 'en', 'zh-TW'] as const) {
+      expect(evidenceById.get(`ome-sake-story-${locale}-375`)).toMatchObject({
+        kind: 'app',
+        entityId: 'sake-ome',
+        locale,
+        viewport: { width: 375, height: 812 },
+        path: `docs/data-evidence/ome-sake/story-${locale}-375.webp`,
+        capturedAt: '2026-08-29',
+        claimIds: [
+          'story:sake-ome:story.factual.nearest-station',
+          'story:sake-ome:story.factual.tama-river-valley-context',
+          `story:sake-ome:presentation:story_intro:${locale}`,
+          `story:sake-ome:presentation:story_location:${locale}`,
+        ],
+      });
+      expect(evidenceById.get(`ome-sake-route-${locale}-375`)).toMatchObject({
+        kind: 'app',
+        entityId: 'ome-sawai-sake-journey',
+        locale,
+        viewport: { width: 375, height: 812 },
+        path: `docs/data-evidence/ome-sake/route-${locale}-375.webp`,
+        capturedAt: '2026-08-29',
+        claimIds: [
+          `route:ome-sawai-sake-journey:half-day:region_guidance:${locale}`,
+          `route:ome-sawai-sake-journey:half-day:origin_travel_time_guidance:${locale}`,
+          `route:ome-sawai-sake-journey:half-day:operational_caution:${locale}`,
+          `route:ome-sawai-sake-journey:half-day:step:sawai-ozawa-shuzo:guidance:${locale}`,
+          `route:ome-sawai-sake-journey:half-day:step:sawanoien-garden:transport_guidance:${locale}`,
+        ],
+      });
+      expect(evidenceById.get(`ome-sake-spot-ozawa-${locale}-375`)).toMatchObject({
+        kind: 'app',
+        entityId: 'sawai-ozawa-shuzo',
+        locale,
+        viewport: { width: 375, height: 812 },
+        path: `docs/data-evidence/ome-sake/spot-ozawa-${locale}-375.webp`,
+        capturedAt: '2026-08-29',
+        claimIds: [
+          `place:sawai-ozawa-shuzo:name:${locale}`,
+          `spot:sawai-ozawa-shuzo:presentation:lead:${locale}`,
+          `spot:sawai-ozawa-shuzo:presentation:description:${locale}`,
+          `spot:sawai-ozawa-shuzo:presentation:tag:sake-brewery:${locale}`,
+          `spot:sawai-ozawa-shuzo:presentation:tag:official-source:${locale}`,
+          `spot:sawai-ozawa-shuzo:presentation:tag:confirmation-pending:${locale}`,
+          `place:sawai-ozawa-shuzo:information_name:${locale}`,
+          `place:sawai-ozawa-shuzo:address:${locale}`,
+          locale === 'ja'
+            ? 'spot:sawai-ozawa-shuzo:access'
+            : `place:sawai-ozawa-shuzo:access:${locale}`,
+        ],
+      });
+    }
+
+    expect(omissionsById.get('ome-sake-ozawa-home-source-reuse-unsupported')).toMatchObject({
+      kind: 'source',
+      entityId: 'sawai-ozawa-shuzo',
+      sourceUrl: 'https://www.sawanoi-sake.com/',
+      recordedAt: '2026-08-29',
+      claimIds: [
+        'place:sawai-ozawa-shuzo:name:ja',
+        'place:sawai-ozawa-shuzo:address:ja',
+        'spot:sawai-ozawa-shuzo:access',
+        'spot:sawai-ozawa-shuzo:official_current_url',
+      ],
+    });
+    expect(omissionsById.get('ome-sake-ozawa-tour-source-reuse-unsupported')).toMatchObject({
+      kind: 'source',
+      entityId: 'sawai-ozawa-shuzo',
+      sourceUrl: 'https://www.sawanoi-sake.com/service/kengaku/',
+      recordedAt: '2026-08-29',
+      claimIds: [
+        'spot:sawai-ozawa-shuzo:hours',
+        'spot:sawai-ozawa-shuzo:closed_days',
+        'spot:sawai-ozawa-shuzo:price_availability',
+        'spot:sawai-ozawa-shuzo:reservation',
+        'spot:sawai-ozawa-shuzo:story_wording',
+      ],
+    });
+    expect(omissionsById.get('ome-sake-sawanoien-source-reuse-unsupported')).toMatchObject({
+      kind: 'source',
+      entityId: 'sawanoien-garden',
+      sourceUrl: 'https://www.sawanoi-sake.com/service/sawanoien/',
+      recordedAt: '2026-08-29',
+      claimIds: [
+        'spot:sawanoien-garden:hours',
+        'spot:sawanoien-garden:closed_days',
+        'spot:sawanoien-garden:official_current_url',
+        'spot:sawanoien-garden:story_wording',
+      ],
+    });
+    expect(
+      DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.some((item) => item.kind === 'source'),
+    ).toBe(false);
+    expect(() =>
+      validateDataVerificationEvidenceManifest(
+        DATA_VERIFICATION_EVIDENCE_MANIFEST,
+        repositoryClaims,
+      ),
+    ).not.toThrow();
+  });
+
   it.each([
     {
       name: 'orphan claim reference',
