@@ -138,6 +138,7 @@ describe('playwright preview-server guard (#188)', () => {
       'issue-313-my-badges-layout.spec.ts',
       'issue-348-ome-sake.spec.ts',
       'issue-374-route-spacing.spec.ts',
+      'issue-379-food-profile-modal-dismiss.spec.ts',
     ]);
   });
 });

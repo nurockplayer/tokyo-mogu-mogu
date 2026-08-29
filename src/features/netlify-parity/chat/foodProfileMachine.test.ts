@@ -97,7 +97,7 @@ describe('Netlify Food Profile conversation choreography', () => {
     expect(selectedRestrictionValues(state, 'allergy')).toEqual(['egg']);
   });
 
-  it('toggles Other, sanitizes angle brackets, and inserts a selected custom answer', () => {
+  it('toggles Other, sanitizes angle brackets, and preserves multiple selected custom answers', () => {
     let state = dispatchPending(
       dispatchPending(
         foodProfileReducer(
@@ -115,11 +115,19 @@ describe('Netlify Food Profile conversation choreography', () => {
     expect(state.customAnswers.allergy).toEqual(['そば']);
     expect(state.answers.allergy).toEqual(['custom:そば']);
 
-    state = foodProfileReducer(state, { type: 'TOGGLE_OPTION', value: 'custom:そば' });
-    expect(state.answers.allergy).toEqual([]);
+    state = foodProfileReducer(state, { type: 'TOGGLE_OTHER' });
+    state = foodProfileReducer(state, { type: 'ADD_OTHER', value: 'くるみ' });
+    expect(state.customAnswers.allergy).toEqual(['そば', 'くるみ']);
+    expect(state.answers.allergy).toEqual(['custom:そば', 'custom:くるみ']);
+    expect(foodProfileToDurableProfile(state, '2026-08-23T00:00:00.000Z').dietaryOther).toBe(
+      'そば / くるみ',
+    );
 
-    state = foodProfileReducer(state, { type: 'TOGGLE_OPTION', value: 'custom:そば' });
+    state = foodProfileReducer(state, { type: 'TOGGLE_OPTION', value: 'custom:くるみ' });
     expect(state.answers.allergy).toEqual(['custom:そば']);
+
+    state = foodProfileReducer(state, { type: 'TOGGLE_OPTION', value: 'custom:くるみ' });
+    expect(state.answers.allergy).toEqual(['custom:そば', 'custom:くるみ']);
   });
 
   it('removes a deselected custom answer from the durable profile payload', () => {
