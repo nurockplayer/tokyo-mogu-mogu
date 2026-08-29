@@ -249,7 +249,7 @@ interface QuestionBubbleProps {
   state: FoodProfileConversationState;
   onToggle: (value: string) => void;
   onToggleOther: () => void;
-  onAddOther: (value: string) => void;
+  onAddOther: (value: string, previousValue?: string) => void;
   onSubmit: () => void;
 }
 
@@ -284,7 +284,7 @@ function QuestionBubble({
       otherInputRef.current?.focus();
       return;
     }
-    onAddOther(otherValue);
+    onAddOther(otherValue, committedOther?.slice('custom:'.length));
     setOtherValue('');
   };
 
@@ -490,7 +490,11 @@ export function FoodProfileConversation({
                 state={state}
                 onToggle={(value) => dispatch({ type: 'TOGGLE_OPTION', value })}
                 onToggleOther={() => dispatch({ type: 'TOGGLE_OTHER' })}
-                onAddOther={(value) => dispatch({ type: 'ADD_OTHER', value })}
+                onAddOther={(value, previousValue) => dispatch({
+                  type: 'ADD_OTHER',
+                  value,
+                  previousValue,
+                })}
                 onSubmit={() => dispatch({ type: 'SUBMIT_QUESTION' })}
               />
             );

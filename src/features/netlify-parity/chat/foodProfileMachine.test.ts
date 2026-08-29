@@ -115,11 +115,20 @@ describe('Netlify Food Profile conversation choreography', () => {
     expect(state.customAnswers.allergy).toEqual(['そば']);
     expect(state.answers.allergy).toEqual(['custom:そば']);
 
-    state = foodProfileReducer(state, { type: 'TOGGLE_OPTION', value: 'custom:そば' });
+    state = foodProfileReducer(state, { type: 'TOGGLE_OTHER' });
+    state = foodProfileReducer(state, {
+      type: 'ADD_OTHER',
+      value: 'くるみ',
+      previousValue: 'そば',
+    });
+    expect(state.customAnswers.allergy).toEqual(['くるみ']);
+    expect(state.answers.allergy).toEqual(['custom:くるみ']);
+
+    state = foodProfileReducer(state, { type: 'TOGGLE_OPTION', value: 'custom:くるみ' });
     expect(state.answers.allergy).toEqual([]);
 
-    state = foodProfileReducer(state, { type: 'TOGGLE_OPTION', value: 'custom:そば' });
-    expect(state.answers.allergy).toEqual(['custom:そば']);
+    state = foodProfileReducer(state, { type: 'TOGGLE_OPTION', value: 'custom:くるみ' });
+    expect(state.answers.allergy).toEqual(['custom:くるみ']);
   });
 
   it('removes a deselected custom answer from the durable profile payload', () => {

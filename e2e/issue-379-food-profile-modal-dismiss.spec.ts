@@ -114,6 +114,27 @@ test('cancelling an edited draft preserves the previously confirmed custom value
   await expect(allergy.getByRole('button', { name: 'くるみ', exact: true })).toHaveCount(0);
 });
 
+test('confirming an edited custom value replaces the previous answer', async ({ page }) => {
+  const { profile, allergy } = await openAllergyQuestion(page);
+  const other = allergy.getByRole('button', { name: /その他/ });
+  await other.click();
+
+  let dialog = profile.getByRole('dialog', { name: '食材を入力してください' });
+  await dialog.getByRole('textbox', { name: '食材を入力してください' }).fill('そば');
+  await dialog.getByRole('button', { name: '確定', exact: true }).click();
+  await other.click();
+
+  dialog = profile.getByRole('dialog', { name: '食材を入力してください' });
+  await dialog.getByRole('textbox', { name: '食材を入力してください' }).fill('くるみ');
+  await dialog.getByRole('button', { name: '確定', exact: true }).click();
+
+  await expect(allergy.getByRole('button', { name: 'そば', exact: true })).toHaveCount(0);
+  await expect(allergy.getByRole('button', { name: 'くるみ', exact: true })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  );
+});
+
 test('shared backdrop dismissal works for the English religion question at 375px', async ({ page }) => {
   const { profile } = await openAllergyQuestion(page, 'en');
   await answerWithNone(page, 0, 6);
