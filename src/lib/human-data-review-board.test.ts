@@ -9,6 +9,7 @@ import {
 import type { LedgerClaim } from './data-verification-ledger';
 import { buildRepositoryLedgerClaims } from './data-verification-ledger';
 import {
+  DATA_REVIEW_STATUS_LABELS_JA,
   buildHumanDataReviewBoard,
   createDataReviewShareSummaryJa,
 } from './human-data-review-board';
@@ -76,6 +77,53 @@ const syntheticMobilePlace: MobilePlace = {
 };
 
 describe('Human Data Review Board projection (#340, #343)', () => {
+  it('keeps source retrieval and human confirmation explicit and separate', () => {
+    expect(DATA_REVIEW_STATUS_LABELS_JA).toMatchObject({
+      verified: '✅ 人による確認済み',
+      needs_confirmation: '🟡 出典確認済み・人の確認待ち',
+      stale: '🟠 情報が古いため再確認',
+      unknown: '❓ 根拠未登録・確認が必要',
+    });
+
+    const board = buildHumanDataReviewBoard({
+      claims: [claim({
+        claimId: 'place:example-place:information_name:ja',
+        fieldId: 'information_name:ja',
+        displayedValue: '例の場所',
+        verification: 'verified',
+        primarySource: 'Example operator',
+        primarySourceUrl: 'https://example.com/place',
+        retrievedAt: '2026-08-28',
+        confirmedAt: '2026-08-29',
+      })],
+      currentProductEntities: exampleSpot,
+      evidenceManifest: { evidence: [], omissions: [] },
+    });
+    const entity = board.entities[0]!;
+
+    expect(entity).toMatchObject({
+      latestRetrievedAt: '2026-08-28',
+      latestConfirmedAt: '2026-08-29',
+    });
+    expect(entity.facts[0]).toMatchObject({
+      retrievedAt: '2026-08-28',
+      confirmedAt: '2026-08-29',
+      sources: [expect.objectContaining({
+        retrievedAt: '2026-08-28',
+        confirmedAt: '2026-08-29',
+      })],
+    });
+    expect(entity.sources[0]).toMatchObject({
+      retrievedAt: '2026-08-28',
+      confirmedAt: '2026-08-29',
+    });
+
+    const summary = createDataReviewShareSummaryJa(entity, 'https://preview.example/data-review/#example-place');
+    expect(summary).toContain('最新出典確認: 2026-08-28');
+    expect(summary).toContain('人による確認: 2026-08-29');
+    expect(summary).not.toContain('最終確認');
+  });
+
   it('groups localized claims into one human entity without hiding report-only unknowns', () => {
     const claims = [
       claim({
@@ -313,6 +361,7 @@ describe('Human Data Review Board projection (#340, #343)', () => {
         fieldId: 'name:ja',
         displayedValue: '例の場所',
         verification: 'verified',
+        confirmedAt: '2026-08-29',
       }),
       claim({
         claimId: 'place:example-place:address:ja',
@@ -785,11 +834,11 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       'https://preview.example/data-review/#okutama-kitchen',
     );
 
-    expect(summary).toContain('🟡 出典あり・要確認');
-    expect(summary).toContain('最終確認: 2026-08-28');
-    expect(summary).toContain('未確認');
+    expect(summary).toContain('🟡 出典確認済み・人の確認待ち');
+    expect(summary).toContain('最新出典確認: 2026-08-28');
+    expect(summary).toContain('未解決・要対応');
     expect(summary).toContain('https://preview.example/data-review/#okutama-kitchen');
-    expect(summary).not.toContain('✅ 確認済み');
+    expect(summary).not.toContain('✅ 人による確認済み');
     expect(summary).not.toContain('Productへの影響');
     expect(summary).not.toContain('固定マップピン');
   });

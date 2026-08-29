@@ -18,9 +18,9 @@ type ReviewFilter = 'all' | 'needs_confirmation' | 'conflict' | 'unknown';
 
 const FILTERS: readonly { id: ReviewFilter; label: string }[] = [
   { id: 'all', label: '全部' },
-  { id: 'needs_confirmation', label: '要確認' },
+  { id: 'needs_confirmation', label: '人の確認待ち' },
   { id: 'conflict', label: '矛盾' },
-  { id: 'unknown', label: '未確認' },
+  { id: 'unknown', label: '根拠未登録' },
 ] as const;
 
 const STATUS_ORDER: readonly LedgerVerification[] = [
@@ -148,7 +148,9 @@ function FactTraceability({ fact }: { fact: HumanDataReviewFact }) {
                   : <strong>{source.name}</strong>}
                 {source.value && <p>{source.value}</p>}
                 <small>
-                  {DATA_REVIEW_STATUS_LABELS_JA[source.status]} · {source.retrievedAt ?? '確認日なし'}
+                  {DATA_REVIEW_STATUS_LABELS_JA[source.status]}
+                  {' · '}出典確認 {source.retrievedAt ?? '未登録'}
+                  {source.confirmedAt && <> · 人による確認 {source.confirmedAt}</>}
                 </small>
               </article>
             ))}
@@ -257,7 +259,7 @@ function Overview({ onSelect }: { onSelect: (entityId: string) => void }) {
           ))}
         </div>
         <p className="drb-legend">
-          <strong>「出典あり・要確認」</strong>は、出典が現在の内容を支えていても、
+          <strong>「出典確認済み・人の確認待ち」</strong>は、出典が現在の内容を支えていても、
           ステークホルダー確認や現地確認が済んだことを意味しません。
         </p>
       </section>
@@ -299,13 +301,13 @@ function Overview({ onSelect }: { onSelect: (entityId: string) => void }) {
                 </span>
                 <strong>{entity.name}</strong>
                 <span className="drb-entity-card__meta">
-                  {ENTITY_TYPE_LABELS_JA[entity.type]} · 最終確認 {entity.latestRetrievedAt ?? '未確認'} · 未解決 {entity.unresolvedCount}件
+                  {ENTITY_TYPE_LABELS_JA[entity.type]} · 最新出典確認 {entity.latestRetrievedAt ?? '未登録'} · 未解決 {entity.unresolvedCount}件
                 </span>
               </span>
               <span className="drb-entity-card__counts">
-                <span><b>{entity.needsConfirmationCount}</b> 要確認</span>
-                <span><b>{entity.staleCount}</b> 要再確認</span>
-                <span><b>{entity.unknownCount}</b> 未確認</span>
+                <span><b>{entity.needsConfirmationCount}</b> 人待ち</span>
+                <span><b>{entity.staleCount}</b> 情報が古い</span>
+                <span><b>{entity.unknownCount}</b> 根拠なし</span>
                 <span><b>{entity.conflictCount}</b> 矛盾</span>
                 <span><b>{entity.evidence.length}</b> アプリ証拠</span>
               </span>
@@ -328,7 +330,8 @@ function SourceCard({ source }: { source: HumanDataReviewSource }) {
       <strong>{source.name}</strong>
       <dl>
         {source.sourceType && <><dt>種別</dt><dd>{SOURCE_TYPE_JA[source.sourceType]}</dd></>}
-        <dt>確認日</dt><dd>{source.retrievedAt ?? '未確認'}</dd>
+        <dt>出典確認日</dt><dd>{source.retrievedAt ?? '未登録'}</dd>
+        {source.confirmedAt && <><dt>人による確認日</dt><dd>{source.confirmedAt}</dd></>}
       </dl>
       {source.url && <a href={source.url} target="_blank" rel="noreferrer">参照元を開く ↗</a>}
     </article>
@@ -360,7 +363,8 @@ function Detail({ entity, onBack }: { entity: HumanDataReviewEntity; onBack: () 
           </span>
         </div>
         <dl className="drb-detail-hero__stats">
-          <div><dt>最終確認</dt><dd>{entity.latestRetrievedAt ?? '未確認'}</dd></div>
+          <div><dt>最新出典確認</dt><dd>{entity.latestRetrievedAt ?? '未登録'}</dd></div>
+          <div><dt>人による確認</dt><dd>{entity.latestConfirmedAt ?? '未確認'}</dd></div>
           <div><dt>未解決</dt><dd>{entity.unresolvedCount}件</dd></div>
           <div><dt>アプリ証拠</dt><dd>{entity.evidence.length}件</dd></div>
         </dl>
@@ -386,7 +390,8 @@ function Detail({ entity, onBack }: { entity: HumanDataReviewEntity; onBack: () 
                   </div>
                   <span role="cell" className="drb-fact__status">
                     <span className={statusClass(fact.status)}>{DATA_REVIEW_STATUS_LABELS_JA[fact.status]}</span>
-                    <small>{fact.retrievedAt ?? '確認日なし'}</small>
+                    <small>出典確認 {fact.retrievedAt ?? '未登録'}</small>
+                    {fact.confirmedAt && <small>人による確認 {fact.confirmedAt}</small>}
                   </span>
                 </div>
               ))}

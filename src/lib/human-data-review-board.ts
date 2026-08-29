@@ -17,11 +17,11 @@ import type {
 import type { LedgerClaim, LedgerVerification } from './data-verification-ledger';
 
 export const DATA_REVIEW_STATUS_LABELS_JA: Readonly<Record<LedgerVerification, string>> = {
-  verified: '✅ 確認済み',
-  needs_confirmation: '🟡 出典あり・要確認',
-  stale: '🟠 要再確認',
+  verified: '✅ 人による確認済み',
+  needs_confirmation: '🟡 出典確認済み・人の確認待ち',
+  stale: '🟠 情報が古いため再確認',
   conflict: '⚠️ 情報に矛盾あり',
-  unknown: '❓ 未確認',
+  unknown: '❓ 根拠未登録・確認が必要',
   demo: '🧪 デモ情報',
 };
 
@@ -35,6 +35,7 @@ export interface HumanDataReviewFactSource {
   url?: string;
   sourceType?: SourceType;
   retrievedAt?: string;
+  confirmedAt?: string;
   status: LedgerVerification;
   value?: string;
   role: 'content' | 'address' | 'coordinates';
@@ -73,6 +74,7 @@ export interface HumanDataReviewFact {
   sourceName?: string;
   sourceUrl?: string;
   retrievedAt?: string;
+  confirmedAt?: string;
   finding: LedgerClaim['finding'];
 }
 
@@ -88,6 +90,7 @@ export interface HumanDataReviewSource {
   url?: string;
   sourceType?: SourceType;
   retrievedAt?: string;
+  confirmedAt?: string;
   status: LedgerVerification;
   coordinateProvider: boolean;
   claimIds: readonly string[];
@@ -104,6 +107,7 @@ export interface HumanDataReviewEntity {
   name: string;
   headlineStatus: LedgerVerification;
   latestRetrievedAt?: string;
+  latestConfirmedAt?: string;
   unresolvedCount: number;
   needsConfirmationCount: number;
   staleCount: number;
@@ -392,6 +396,7 @@ function sourceEdgesForFact(
       url: candidate.primarySourceUrl,
       sourceType: candidate.primarySourceType,
       retrievedAt: candidate.retrievedAt,
+      confirmedAt: candidate.confirmedAt,
       status: candidate.verification,
       value: statementClaims.length > 0 ? preferredValueFor(candidate) : undefined,
       role: sourceRoleFor(definition),
@@ -489,6 +494,7 @@ function buildFacts(
         sourceName: claim.primarySource,
         sourceUrl: claim.primarySourceUrl,
         retrievedAt: claim.retrievedAt,
+        confirmedAt: claim.confirmedAt,
         finding: claim.finding,
       };
     });
@@ -537,6 +543,7 @@ function buildSources(claims: readonly LedgerClaim[]): HumanDataReviewSource[] {
         url: claim.primarySourceUrl,
         sourceType: claim.primarySourceType,
         retrievedAt: claim.retrievedAt,
+        confirmedAt: claim.confirmedAt,
         status: claim.verification,
         coordinateProvider,
         claimIds: [claim.claimId],
@@ -548,6 +555,7 @@ function buildSources(claims: readonly LedgerClaim[]): HumanDataReviewSource[] {
       ...current,
       sourceType: current.sourceType ?? claim.primarySourceType,
       retrievedAt: [current.retrievedAt, claim.retrievedAt].filter(Boolean).sort().at(-1),
+      confirmedAt: [current.confirmedAt, claim.confirmedAt].filter(Boolean).sort().at(-1),
       status: headlineStatus([current.status, claim.verification]),
       claimIds,
     });
@@ -683,6 +691,7 @@ export function buildHumanDataReviewBoard(input: HumanDataReviewBoardInput): Hum
       ?? projectionClaims.find((claim) => claim.entityName)?.entityName
       ?? entityId;
     const relevantDates = projectionClaims.map((claim) => claim.retrievedAt).filter((date): date is string => Boolean(date));
+    const confirmedDates = projectionClaims.map((claim) => claim.confirmedAt).filter((date): date is string => Boolean(date));
     const needsConfirmationCount = facts.filter((fact) => fact.status === 'needs_confirmation').length;
     const staleCount = facts.filter((fact) => fact.status === 'stale').length;
     const conflictCount = facts.filter((fact) => fact.status === 'conflict').length;
@@ -694,6 +703,7 @@ export function buildHumanDataReviewBoard(input: HumanDataReviewBoardInput): Hum
       name,
       headlineStatus: headlineStatus(statuses),
       latestRetrievedAt: relevantDates.sort().at(-1),
+      latestConfirmedAt: confirmedDates.sort().at(-1),
       unresolvedCount,
       needsConfirmationCount,
       staleCount,
@@ -742,13 +752,15 @@ export function createDataReviewShareSummaryJa(
   ];
   const unresolved = unresolvedLabels.length === 0
     ? '未解決項目なし'
-    : `未確認・要対応 ${unresolvedLabels.length}件（${unresolvedLabels.slice(0, 4).join('、')}${unresolvedLabels.length > 4 ? ' ほか' : ''}）`;
+    : `未解決・要対応 ${unresolvedLabels.length}件（${unresolvedLabels.slice(0, 4).join('、')}${unresolvedLabels.length > 4 ? ' ほか' : ''}）`;
 
-  return [
+  const lines = [
     `【データ確認】${entity.name}`,
     `状態: ${DATA_REVIEW_STATUS_LABELS_JA[entity.headlineStatus]}`,
     unresolved,
-    `最終確認: ${entity.latestRetrievedAt ?? '未確認'}`,
-    `詳細: ${detailUrl}`,
-  ].join('\n');
+    `最新出典確認: ${entity.latestRetrievedAt ?? '未登録'}`,
+  ];
+  if (entity.latestConfirmedAt) lines.push(`人による確認: ${entity.latestConfirmedAt}`);
+  lines.push(`詳細: ${detailUrl}`);
+  return lines.join('\n');
 }

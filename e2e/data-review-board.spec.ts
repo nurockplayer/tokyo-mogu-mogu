@@ -23,9 +23,9 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(page.getByText('奥多摩やまめのストーリー', { exact: true })).toBeVisible();
 
     const portCard = page.getByRole('button', { name: /PORT OKUTAMAの詳細/ });
-    await expect(portCard).toContainText('出典あり・要確認');
-    await expect(portCard).toContainText('要確認');
-    await expect(portCard).toContainText('未確認');
+    await expect(portCard).toContainText('出典確認済み・人の確認待ち');
+    await expect(portCard).toContainText('人待ち');
+    await expect(portCard).toContainText('根拠なし');
     await expect(portCard).toContainText('0 矛盾');
     await expect(portCard).toContainText('3 アプリ証拠');
 
@@ -33,10 +33,10 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(page.getByText('奥多摩わさび本舗 山城屋', { exact: true })).toBeVisible();
     await expect(page.getByText('奥多摩町観光案内所', { exact: true })).toHaveCount(0);
 
-    await page.getByRole('button', { name: '未確認' }).click();
+    await page.getByRole('button', { name: '根拠未登録' }).click();
     await expect(page.getByText('PORT OKUTAMA', { exact: true })).toBeVisible();
 
-    await page.getByRole('button', { name: '要確認' }).click();
+    await page.getByRole('button', { name: '人の確認待ち' }).click();
     await expect(page.getByText('奥多摩町観光案内所', { exact: true })).toBeVisible();
     await expect(page.getByText('PORT OKUTAMA', { exact: true })).toBeVisible();
 
@@ -62,9 +62,11 @@ test.describe('Human Data Review Board (#340)', () => {
     );
 
     const summary = page.getByLabel('Slack共有用サマリー');
-    await expect(summary).toContainText('🟡 出典あり・要確認');
+    await expect(summary).toContainText('🟡 出典確認済み・人の確認待ち');
+    await expect(summary).toContainText('最新出典確認: 2026-08-28');
+    await expect(summary).not.toContainText('最終確認');
     await expect(summary).toContainText('/data-review/#okutama-kitchen');
-    await expect(summary).not.toContainText('✅ 確認済み');
+    await expect(summary).not.toContainText('✅ 人による確認済み');
 
     const dimensions = await page.evaluate(() => ({
       scrollWidth: document.documentElement.scrollWidth,
@@ -103,7 +105,7 @@ test.describe('Human Data Review Board (#340)', () => {
     await page.goto('/data-review/#port-okutama');
 
     await expect(page.getByRole('heading', { name: 'PORT OKUTAMA' })).toBeVisible();
-    await expect(page.getByText('🟡 出典あり・要確認', { exact: true }).first()).toBeVisible();
+    await expect(page.getByText('🟡 出典確認済み・人の確認待ち', { exact: true }).first()).toBeVisible();
     const facts = page.getByRole('table', { name: '現在わかっていること' });
     await expect(facts.getByText('営業時間', { exact: true })).toBeVisible();
     await expect(facts.getByText('取扱・サービス', { exact: true })).toBeVisible();
@@ -265,7 +267,7 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(durationRow.getByText('200', { exact: true })).toBeVisible();
     await expect(durationRow.getByText('現在の表示', { exact: true })).toBeVisible();
     await expect(durationRow.getByText('150', { exact: true })).toBeVisible();
-    await expect(durationRow.getByText('🟡 出典あり・要確認', { exact: true })).toBeVisible();
+    await expect(durationRow.getByText('🟡 出典確認済み・人の確認待ち', { exact: true })).toBeVisible();
 
     const presentationRow = page.getByRole('row').filter({
       hasText: 'Result と Route の移動時間表示',
