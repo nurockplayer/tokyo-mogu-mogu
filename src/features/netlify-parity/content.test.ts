@@ -84,9 +84,51 @@ describe('Netlify parity presentation content', () => {
 
   it('keeps unsupported Ome route timing and order explicitly caveated', () => {
     expect(routeStats['demo-ome-sake:half-day']).toMatchObject({
-      ja: { caution: expect.stringMatching(/目安.*公式/) },
-      en: { caution: expect.stringMatching(/estimate.*official/i) },
-      'zh-TW': { caution: expect.stringMatching(/參考.*官方/) },
+      ja: {
+        time: expect.stringMatching(/目安/),
+        distance: expect.stringMatching(/JR.*バス.*ケーブル.*徒歩.*目安/),
+        caution: expect.stringMatching(/目安.*公式/),
+      },
+      en: {
+        time: expect.stringMatching(/est/i),
+        distance: expect.stringMatching(/JR.*bus.*cable.*walk.*est/i),
+        caution: expect.stringMatching(/estimate.*official/i),
+      },
+      'zh-TW': {
+        time: expect.stringMatching(/參考/),
+        distance: expect.stringMatching(/JR.*巴士.*纜車.*步行.*參考/),
+        caution: expect.stringMatching(/參考.*官方/),
+      },
+    });
+
+    const steps = routeStepText['demo-ome-sake:half-day'];
+    expect(steps.find((step) => step.spotId === 'sawanoien-garden')?.walk).toMatchObject({
+      ja: expect.stringMatching(/目安/),
+      en: expect.stringMatching(/estimate/i),
+      'zh-TW': expect.stringMatching(/編輯部參考/),
+    });
+    expect(steps.find((step) => step.spotId === 'mitake-shrine')?.walk).toMatchObject({
+      ja: expect.stringMatching(/JR青梅線.*バス.*ケーブル.*徒歩.*目安/),
+      en: expect.stringMatching(/JR Ome Line.*bus.*cable car.*walking.*estimate/i),
+      'zh-TW': expect.stringMatching(/JR青梅線.*巴士.*纜車.*步行.*編輯部參考/),
+    });
+  });
+
+  it('keeps visible Ome Story and Spot prose within the rechecked first-party claims', () => {
+    const ome = currentJourneys.find((journey) => journey.id === 'demo-ome-sake');
+    const garden = referenceSpotDetails['sawanoien-garden'];
+
+    expect(ome?.copy.ja.intro.join(' ')).not.toMatch(/豆腐/);
+    expect(ome?.copy.en.intro.join(' ')).not.toMatch(/tofu/i);
+    expect(ome?.chapters.ja[0].body).toMatch(/1702年/);
+    expect(ome?.chapters.ja[0].body).not.toMatch(/歴史的に貴重/);
+    expect(ome?.chapters.en[0].body).toMatch(/1702/);
+    expect(ome?.chapters.en[0].body).not.toMatch(/historically valuable/i);
+
+    expect(garden?.description).toMatchObject({
+      ja: expect.stringMatching(/生原酒.*タンク量り売り/),
+      en: expect.stringMatching(/sells.*nama genshu/i),
+      'zh-TW': expect.stringMatching(/販售.*生原酒/),
     });
   });
 

@@ -752,7 +752,7 @@ describe('repository data verification ledger (#333)', () => {
     const claims = buildRepositoryLedgerClaims();
 
     for (const [fieldId, canonicalFragment, displayedFragment] of [
-      ['access', '徒歩5分', '徒歩約5分'],
+      ['access', '徒歩約5分', '徒歩約5分'],
       ['hours', '11:00', '平日 11:00'],
       ['closed_days', '月曜日', '月曜日'],
       ['price_availability', '700円', '700円'],
@@ -772,7 +772,7 @@ describe('repository data verification ledger (#333)', () => {
 
     for (const [fieldId, canonicalFragment, displayedFragment] of [
       ['hours', '10:00', '10:00'],
-      ['closed_days', 'monday', '月曜日'],
+      ['closed_days', '月曜日', '月曜日'],
     ] as const) {
       expect(
         claims.find((claim) => claim.claimId === `spot:sawanoien-garden:${fieldId}`),
@@ -846,6 +846,31 @@ describe('repository data verification ledger (#333)', () => {
       timeSensitive: true,
       issues: ['#348'],
     });
+  });
+
+  it('keeps rendered Ome operational claims on the exact SpotDetail source lineage (#348)', () => {
+    const claims = buildRepositoryLedgerClaims();
+
+    for (const expected of [
+      {
+        claimId: 'spot:sawai-ozawa-shuzo:access',
+        primarySource: '小澤酒造 酒蔵見学（公式）',
+        primarySourceUrl: 'https://www.sawanoi-sake.com/service/kengaku/',
+      },
+      {
+        claimId: 'spot:sawanoien-garden:closed_days',
+        primarySource: '小澤酒造 澤乃井園（公式）',
+        primarySourceUrl: 'https://www.sawanoi-sake.com/service/sawanoien/',
+      },
+    ] as const) {
+      expect(claims.find((claim) => claim.claimId === expected.claimId)).toMatchObject({
+        ...expected,
+        origin: 'editorial',
+        verification: 'needs_confirmation',
+        canonicalSourceFile: 'src/data/seed-routes.ts',
+        retrievedAt: '2026-08-29',
+      });
+    }
   });
 
   it('inventories factual presentation records in every visible locale', () => {

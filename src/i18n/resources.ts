@@ -664,7 +664,7 @@ export const strings = {
     dataSakeStory:
       '沢井は多摩川の清流が流れる渓谷の里です。小澤酒造は自然豊かな渓谷のほとりで日本酒と豆腐を造り、酒銘「澤乃井」はこの土地の水と米から醸されます。',
     dataSakeHistory:
-      '小澤酒造は元禄時代の創業と伝わる老舗です。創業の頃に建てられた土造りの蔵「元禄蔵」が現存し、歴史的に貴重な建造物とされています。',
+      '小澤酒造は、古文書から1702年（元禄15年）に酒造業を営んでいたことが確認されている酒蔵です。',
     dataSakeMaker:
       '小澤酒造は、酒蔵の裏手にある井戸「蔵の井」の水を使って日本酒を醸しています。沢井駅から歩いて訪ねることができます。',
     dataSakeHowToEnjoy:
@@ -702,12 +702,12 @@ export const strings = {
       '小澤酒造は沢井にある酒蔵で、日本酒「澤乃井」を醸しています。多摩川の清流が流れる渓谷のほとりに位置します。',
     dataOzawaAccess: '酒蔵見学は予約制。個人見学は公式予約ページから申し込みます。',
     dataSawanoienRole:
-      '澤乃井園は小澤酒造が営む清流ガーデンです。多摩川の清流を見下ろすオープンガーデンで、軽食や澤乃井の生原酒を楽しめます。',
+      '澤乃井園は小澤酒造が営む清流ガーデンです。多摩川を見下ろすオープンガーデンで軽食やおつまみを提供し、売店では生原酒のタンク量り売りがあります。',
     dataMitakeShrineRole:
       '青梅市御岳にある御嶽神社。現存する旧本殿は、東京都指定有形文化財に指定されています。',
     dataBabaRole:
       '馬場家御師住宅は、かつて御嶽神社への参拝者を迎えた御師の住宅で、東京都指定有形文化財です。',
-    dataSakeMobilityCableCar: 'JR青梅線・御岳登山鉄道ケーブル',
+    dataSakeMobilityCableCar: 'JR青梅線・バス・ケーブルカー・徒歩',
     // Hachioji ginger / local-produce slice (Issue #238).
     dataHachiojiName: '八王子ショウガと八王子野菜',
     dataHachiojiDescription: '八王子で受け継がれてきたショウガと、旬の八王子野菜を訪ねる食文化。',
@@ -1509,7 +1509,7 @@ export const strings = {
     dataSakeStory:
       'Sawai is a valley town along the clear Tama River. Ozawa Shuzo brews sake and makes tofu on the banks of this naturally rich valley, producing the "Sawanoi" label from the land\'s water and rice.',
     dataSakeHistory:
-      'Ozawa Shuzo is a long-established brewery said to date back to the Genroku era. Its Genroku-era earthen storehouse survives and is considered historically valuable.',
+      'Ozawa Shuzo is a brewery whose historical documents show that it was making sake in 1702 (Genroku 15).',
     dataSakeMaker:
       'Ozawa Shuzo brews its sake with water from the "Kura no I" well behind the brewery, a short walk from Sawai Station.',
     dataSakeHowToEnjoy:
@@ -1550,12 +1550,12 @@ export const strings = {
       'Ozawa Shuzo is a sake brewery in Sawai that brews the "Sawanoi" label, on the banks of the clear Tama River valley.',
     dataOzawaAccess: 'Brewery tours require reservations; individual tours use the official booking page.',
     dataSawanoienRole:
-      'Sawanoien is the brewery-run Clear Stream Garden overlooking the Tama River, serving light meals and Sawanoi nama genshu.',
+      'Sawanoien is the brewery-run Clear Stream Garden overlooking the Tama River. It offers light meals and snacks, and its shop sells nama genshu from a tank by volume.',
     dataMitakeShrineRole:
       'Mitake Shrine stands in Mitake, Ome; its surviving former main hall is designated as a Tokyo cultural property.',
     dataBabaRole:
       'The Baba House is a former oshi (pilgrim-host) residence that once received Mitake Shrine pilgrims — a Tokyo-designated cultural property.',
-    dataSakeMobilityCableCar: 'JR Ome Line & Mitake Tozan cable car',
+    dataSakeMobilityCableCar: 'JR Ome Line, bus, cable car & walking',
     // Hachioji ginger / local-produce slice (Issue #238).
     dataHachiojiName: 'Hachioji Ginger & Local Produce',
     dataHachiojiDescription:
@@ -2343,7 +2343,7 @@ export const strings = {
     dataSakeStory:
       '沢井是沿著多摩川清流的小鎮。小澤酒造在自然豐饒的溪谷河畔釀造日本酒與製作豆腐，其酒銘「澤乃井」即是以這片土地的水與米釀成。',
     dataSakeHistory:
-      '小澤酒造相傳創立於元祿時代，是歷史悠久的酒藏。創業時期所建的土造倉庫「元祿蔵」至今仍存，被視為具有歷史價值的建築物。',
+      '據小澤酒造的公司沿革，古文書顯示其在 1702 年（元祿 15 年）已從事釀酒業。',
     dataSakeMaker: '小澤酒造以酒藏後方水井「蔵之井」的水釀造日本酒。從沢井站步行即可到訪。',
     dataSakeHowToEnjoy: '酒藏提供需預約的見學與試飲。在蔵元直營的「澤乃井園」也能品嚐澤乃井的生原酒與甘酒。',
     dataSakeStoryLead: '相傳創業於元祿時代的沢井酒藏。讓我們以閱讀的方式，走進其日本酒「澤乃井」的故事。',
@@ -2378,12 +2378,12 @@ export const strings = {
       '小澤酒造是位於沢井的酒藏，釀造日本酒「澤乃井」，坐落在多摩川清流流淌的溪谷河畔。',
     dataOzawaAccess: '酒藏見學需預約；個人見學請透過官方預約頁面申請。',
     dataSawanoienRole:
-      '澤乃井園是小澤酒造經營的清流花園。在俯瞰多摩川清流的開放庭園中，可以享用輕食與澤乃井的生原酒。',
+      '澤乃井園是小澤酒造經營的清流花園。開放庭園俯瞰多摩川，提供輕食與下酒菜，園內商店以現量方式販售桶裝生原酒。',
     dataMitakeShrineRole:
       '位於青梅市御岳的御嶽神社。現存的舊本殿被指定為東京都指定有形文化財。',
     dataBabaRole:
       '馬場家御師住宅是過去曾接待御嶽神社參拜者的御師宅邸，為東京都指定有形文化財。',
-    dataSakeMobilityCableCar: 'JR青梅線・御岳登山鐵道纜車',
+    dataSakeMobilityCableCar: 'JR青梅線・巴士・纜車・步行',
     // Hachioji ginger / local-produce slice (Issue #238).
     dataHachiojiName: '八王子薑與八王子在地蔬菜',
     dataHachiojiDescription: '探訪八王子流傳至今的薑，以及當季八王子在地蔬菜的飲食文化。',

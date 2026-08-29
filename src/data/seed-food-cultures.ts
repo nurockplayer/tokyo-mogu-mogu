@@ -311,13 +311,13 @@ export const FOOD_CULTURES: FoodCulture[] = [
     descriptionEn:
       'Sake brewed by Ozawa Shuzo in Sawai, Ome — "Sawanoi", from the clear-stream valley of the Tama River.',
     storyJa:
-      '沢井は多摩川の清流が流れる渓谷の里です。小澤酒造は自然豊かな渓谷のほとりで日本酒と豆腐を造り、日本酒「澤乃井」を醸しています。',
+      '沢井は多摩川の清流が流れる渓谷の里です。小澤酒造は自然豊かな渓谷のほとりで日本酒「澤乃井」を醸しています。',
     storyEn:
-      'Sawai is a valley town along the clear Tama River. Ozawa Shuzo brews sake and makes tofu on the banks of this naturally rich valley, including the "Sawanoi" label.',
+      'Sawai is a valley town along the clear Tama River. Ozawa Shuzo brews the "Sawanoi" sake label on the banks of this naturally rich valley.',
     historyJa:
-      '小澤酒造は元禄時代の創業と伝わる老舗です。創業の頃に建てられた土造りの蔵「元禄蔵」が現存し、歴史的に貴重な建造物とされています。',
+      '小澤酒造は、古文書から1702年（元禄15年）に酒造業を営んでいたことが確認されている酒蔵です。',
     historyEn:
-      'Ozawa Shuzo is a long-established brewery said to date back to the Genroku era. Its Genroku-era earthen storehouse survives and is considered historically valuable.',
+      'Ozawa Shuzo is a brewery whose historical documents show that it was making sake in 1702 (Genroku 15).',
     makerJa:
       '小澤酒造は青梅市沢井で日本酒「澤乃井」を醸しています。JR青梅線の沢井駅から歩いて訪ねることができます。',
     makerEn:

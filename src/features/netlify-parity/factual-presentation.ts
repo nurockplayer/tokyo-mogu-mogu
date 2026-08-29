@@ -630,6 +630,7 @@ const omeSpotRoleZh: Record<string, string> = {
 function omeSpot(id: string): SpotPresentation {
   const place = canonicalPlace(id);
   const detail = requiredRecord(getSpotDetail(id), `${id} Spot detail`);
+  const address = requiredRecord(place.address, `${id} canonical address`);
   const zhName = requiredRecord(omePlaceNameZh[id], `${id} Traditional Chinese name`);
   const zhRole = requiredRecord(omeSpotRoleZh[id], `${id} Traditional Chinese role`);
   return {
@@ -643,7 +644,7 @@ function omeSpot(id: string): SpotPresentation {
         lead: detail.roleJa,
         description: detail.roleJa,
         tags: ['公式情報参照', '確認中'],
-        practicalInfo: [{ label: '所在地', value: place.address }],
+        practicalInfo: [{ label: '所在地', value: address }],
         caution: ['掲載情報は確認中です。営業・見学・交通などは訪問前に公式情報をご確認ください。'],
       },
       en: {
@@ -651,7 +652,7 @@ function omeSpot(id: string): SpotPresentation {
         lead: detail.roleEn,
         description: detail.roleEn,
         tags: ['Official source', 'Confirmation pending'],
-        practicalInfo: [{ label: 'Address', value: place.address }],
+        practicalInfo: [{ label: 'Address', value: address }],
         caution: ['This listing is still being confirmed. Check official information for current operations, tours, and access before visiting.'],
       },
       'zh-TW': {
@@ -659,7 +660,7 @@ function omeSpot(id: string): SpotPresentation {
         lead: zhRole,
         description: zhRole,
         tags: ['參考官方資訊', '確認中'],
-        practicalInfo: [{ label: '地址', value: place.address }],
+        practicalInfo: [{ label: '地址', value: address }],
         caution: ['刊載內容仍在確認中。造訪前請查看官方資訊，確認營業、參訪與交通條件。'],
       },
     },
@@ -733,7 +734,7 @@ function omeRouteSteps(canonicalId: 'half-day' | '1-day'): RouteStepText[] {
             walk: localized(
               `${mobility.labelJa} 約 ${mobility.durationMinutes} 分`,
               `${mobility.labelEn} · about ${mobility.durationMinutes} min`,
-              `${zhMobility}約 ${mobility.durationMinutes} 分鐘`,
+              `${zhMobility}（編輯部參考）約 ${mobility.durationMinutes} 分鐘`,
             ),
           }
         : {}),
@@ -809,14 +810,14 @@ export const routeStats: Record<string, Record<Locale, RouteStats>> = {
     'zh-TW': { time: '約 4 小時', distance: '步行約 4 km', spots: '3 個景點', station: '新宿站', minutes: '90 分鐘' },
   },
   'demo-ome-sake:half-day': {
-    ja: { time: '約 3 時間 35 分', distance: omeRoute.variants['half-day'].transportJa, spots: '3 スポット', station: '沢井駅', minutes: '徒歩 約5分', access: '沢井駅から小澤酒造まで徒歩約5分', caution: '所要時間と移動順は編集部による目安です。訪問前に交通・営業の公式情報をご確認ください。' },
-    en: { time: 'About 3 hr 35 min', distance: omeRoute.variants['half-day'].transportEn, spots: '3 spots', station: 'Sawai Station', minutes: 'About 5 min on foot', access: 'About 5 minutes on foot from Sawai Station to Ozawa Shuzo', caution: 'Route timing and order are editorial estimates. Check official transport and operating information before visiting.' },
-    'zh-TW': { time: '約 3 小時 35 分鐘', distance: 'JR 青梅線・步行', spots: '3 個景點', station: '沢井站', minutes: '步行約 5 分鐘', access: '從沢井站步行約 5 分鐘可抵達小澤酒造', caution: '所需時間與移動順序僅供參考。造訪前請確認交通與營業的官方資訊。' },
+    ja: { time: '目安 3 時間 35 分', distance: omeRoute.variants['half-day'].transportJa, spots: '3 スポット', station: '沢井駅', minutes: '徒歩 約5分', access: '沢井駅から小澤酒造まで徒歩約5分', caution: '所要時間と移動順は編集部による目安です。訪問前に交通・営業の公式情報をご確認ください。' },
+    en: { time: 'Est. 3 hr 35 min', distance: omeRoute.variants['half-day'].transportEn, spots: '3 spots', station: 'Sawai Station', minutes: 'About 5 min on foot', access: 'About 5 minutes on foot from Sawai Station to Ozawa Shuzo', caution: 'Route timing and order are editorial estimates. Check official transport and operating information before visiting.' },
+    'zh-TW': { time: '參考 3 小時 35 分鐘', distance: 'JR／巴士／纜車／步行（編輯部參考）', spots: '3 個景點', station: '沢井站', minutes: '步行約 5 分鐘', access: '從沢井站步行約 5 分鐘可抵達小澤酒造', caution: '所需時間與移動順序僅供參考。造訪前請確認交通與營業的官方資訊。' },
   },
   'demo-ome-sake:full-day': {
-    ja: { time: '約 6 時間 10 分', distance: omeRoute.variants['1-day'].transportJa, spots: '4 スポット', station: '沢井駅', minutes: '徒歩 約5分', access: '沢井駅から小澤酒造まで徒歩約5分', caution: '所要時間と移動順は編集部による目安です。訪問前に交通・営業の公式情報をご確認ください。' },
-    en: { time: 'About 6 hr 10 min', distance: omeRoute.variants['1-day'].transportEn, spots: '4 spots', station: 'Sawai Station', minutes: 'About 5 min on foot', access: 'About 5 minutes on foot from Sawai Station to Ozawa Shuzo', caution: 'Route timing and order are editorial estimates. Check official transport and operating information before visiting.' },
-    'zh-TW': { time: '約 6 小時 10 分鐘', distance: 'JR 青梅線・步行', spots: '4 個景點', station: '沢井站', minutes: '步行約 5 分鐘', access: '從沢井站步行約 5 分鐘可抵達小澤酒造', caution: '所需時間與移動順序僅供參考。造訪前請確認交通與營業的官方資訊。' },
+    ja: { time: '目安 6 時間 10 分', distance: omeRoute.variants['1-day'].transportJa, spots: '4 スポット', station: '沢井駅', minutes: '徒歩 約5分', access: '沢井駅から小澤酒造まで徒歩約5分', caution: '所要時間と移動順は編集部による目安です。訪問前に交通・営業の公式情報をご確認ください。' },
+    en: { time: 'Est. 6 hr 10 min', distance: omeRoute.variants['1-day'].transportEn, spots: '4 spots', station: 'Sawai Station', minutes: 'About 5 min on foot', access: 'About 5 minutes on foot from Sawai Station to Ozawa Shuzo', caution: 'Route timing and order are editorial estimates. Check official transport and operating information before visiting.' },
+    'zh-TW': { time: '參考 6 小時 10 分鐘', distance: 'JR／巴士／纜車／步行（編輯部參考）', spots: '4 個景點', station: '沢井站', minutes: '步行約 5 分鐘', access: '從沢井站步行約 5 分鐘可抵達小澤酒造', caution: '所需時間與移動順序僅供參考。造訪前請確認交通與營業的官方資訊。' },
   },
 };
 
@@ -872,6 +873,7 @@ const omePracticalZh: Record<string, Partial<Record<'access' | 'hours' | 'closed
 function omeReferenceSpotDetail(id: string): ReferenceSpotDetail {
   const place = canonicalPlace(id);
   const detail = requiredRecord(getSpotDetail(id), `${id} Spot detail`);
+  const address = requiredRecord(place.address, `${id} canonical address`);
   const practical = detail.practical;
   const zhPractical = omePracticalZh[id] ?? {};
   const information: ReferenceSpotDetail['information'] = [
@@ -885,7 +887,7 @@ function omeReferenceSpotDetail(id: string): ReferenceSpotDetail {
       fieldId: 'address',
       icon: 'information',
       label: localized('所在地', 'Address', '地址'),
-      value: localized(place.address, place.address, place.address),
+      value: localized(address, address, address),
     },
   ];
 

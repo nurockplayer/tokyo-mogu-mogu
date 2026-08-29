@@ -154,9 +154,24 @@ test('keeps Result limited to the two current recommendation cards', async ({ pa
 });
 
 const localizedJourneyIdentity = [
-  { locale: 'ja', title: /青梅|沢井/ },
-  { locale: 'en', title: /Ome|Sawai/i },
-  { locale: 'zh-TW', title: /青梅|沢井/ },
+  {
+    locale: 'ja',
+    title: /青梅|沢井/,
+    transfer: /JR青梅線.*バス.*ケーブルカー.*徒歩.*編集部目安/,
+    garden: /生原酒のタンク量り売り/,
+  },
+  {
+    locale: 'en',
+    title: /Ome|Sawai/i,
+    transfer: /JR Ome Line.*bus.*cable car.*walking.*editorial estimate/i,
+    garden: /sells nama genshu from a tank by volume/i,
+  },
+  {
+    locale: 'zh-TW',
+    title: /青梅|沢井/,
+    transfer: /JR青梅線.*巴士.*纜車.*步行.*編輯部參考/,
+    garden: /販售桶裝生原酒/,
+  },
 ] as const;
 
 for (const expected of localizedJourneyIdentity) {
@@ -178,11 +193,13 @@ for (const expected of localizedJourneyIdentity) {
     await expectNoHorizontalOverflow(page);
 
     await page.goto(`/route?candidateId=${OME_SAKE.candidateId}`);
-    await expect(
-      activeScreen(page, 'route').locator(
-        `[data-spot-id="${OME_SAKE.representativeSpotId}"]`,
-      ),
-    ).toBeVisible();
+    const route = activeScreen(page, 'route');
+    await expect(route.locator(
+      `[data-spot-id="${OME_SAKE.representativeSpotId}"]`,
+    )).toBeVisible();
+    const transfer = route.locator('.seg').filter({ hasText: expected.transfer });
+    await transfer.scrollIntoViewIfNeeded();
+    await expect(transfer).toBeVisible();
     await expectNoHorizontalOverflow(page);
 
     await page.goto(
@@ -192,6 +209,12 @@ for (const expected of localizedJourneyIdentity) {
       'data-spot-id',
       OME_SAKE.representativeSpotId,
     );
+    await expectNoHorizontalOverflow(page);
+
+    await page.goto(`/spot/sawanoien-garden?candidateId=${OME_SAKE.candidateId}`);
+    const garden = activeScreen(page, 'spot');
+    await expect(garden).toHaveAttribute('data-spot-id', 'sawanoien-garden');
+    await expect(garden.locator('.desc')).toContainText(expected.garden);
     await expectNoHorizontalOverflow(page);
   });
 }

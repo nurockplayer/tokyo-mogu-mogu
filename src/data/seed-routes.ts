@@ -150,8 +150,9 @@ const SOURCE_OKUTAMA: DataSource = {
  * itinerary, not a verified schedule. The stops are the REAL facilities
  * curated in `src/data/seed-places.ts` (小澤酒造 / 澤乃井園 / 御嶽神社 / 馬場家御師住宅,
  * origin: 'source', needs_confirmation). Mobility for the 沢井 → 御岳 leg
- * combines JR青梅線 with the 御岳登山鉄道 cable car; run information is
- * editorial/hedged and no transit times are claimed. Practical spot details
+ * combines JR青梅線, the local bus, the 御岳登山鉄道 cable car, and walking;
+ * every displayed movement time is explicitly marked as an editorial estimate.
+ * Practical spot details
  * are populated only where the current official source states them. The
  * brewery tour and Sawanoien fields remain needs_confirmation at the record
  * boundary; unsourced dietary/accessibility claims stay absent.
@@ -182,6 +183,15 @@ const SOURCE_SAWANOIEN: DataSource = {
   retrievedAt: '2026-08-29',
   verificationStatus: 'needs_confirmation',
   originalId: 'sawanoien',
+};
+
+const SOURCE_MITAKE_ACCESS: DataSource = {
+  name: '御岳登山鉄道「御岳山へのアクセス」（公式）',
+  url: 'https://www.mitaketozan.co.jp/accessmap.html',
+  sourceType: 'business',
+  retrievedAt: '2026-08-29',
+  verificationStatus: 'needs_confirmation',
+  originalId: 'mitake-tozan-access',
 };
 
 const SOURCE_MITAKE_HERITAGE: DataSource = {
@@ -545,11 +555,17 @@ export const MODEL_ROUTES: ModelRoute[] = [
     // Source-backed editorial route: isDemo is intentionally absent (only the
     // frozen 8/23 Okutama golden path is demo).
     source: SOURCE_OME_ROUTE,
-    sources: [SOURCE_OME_ROUTE, SOURCE_SAWANOI, SOURCE_SAWANOIEN, SOURCE_MITAKE_HERITAGE],
+    sources: [
+      SOURCE_OME_ROUTE,
+      SOURCE_SAWANOI,
+      SOURCE_SAWANOIEN,
+      SOURCE_MITAKE_ACCESS,
+      SOURCE_MITAKE_HERITAGE,
+    ],
     variants: {
       'half-day': {
-        transportJa: 'JR青梅線・徒歩',
-        transportEn: 'JR Ome Line & walking',
+        transportJa: 'JR青梅線・バス・ケーブル・徒歩（編集部目安）',
+        transportEn: 'JR Ome Line / bus / cable car / walking (editorial estimate)',
         totalMinutes: 215,
         steps: [
           {
@@ -586,22 +602,22 @@ export const MODEL_ROUTES: ModelRoute[] = [
             toStep: 2,
             mode: 'walk',
             durationMinutes: 5,
-            labelJa: '徒歩',
-            labelEn: 'Walk',
+            labelJa: '徒歩（編集部目安）',
+            labelEn: 'Walk (editorial estimate)',
           },
           {
             fromStep: 2,
             toStep: 3,
             mode: 'train',
             durationMinutes: 45,
-            labelJa: 'JR青梅線・御岳登山鉄道ケーブル',
-            labelEn: 'JR Ome Line & Mitake Tozan cable car',
+            labelJa: 'JR青梅線・バス・ケーブルカー・徒歩（編集部目安）',
+            labelEn: 'JR Ome Line, bus, cable car & walking (editorial estimate)',
           },
         ],
       },
       '1-day': {
-        transportJa: 'JR青梅線・徒歩',
-        transportEn: 'JR Ome Line & walking',
+        transportJa: 'JR青梅線・バス・ケーブル・徒歩（編集部目安）',
+        transportEn: 'JR Ome Line / bus / cable car / walking (editorial estimate)',
         totalMinutes: 370,
         steps: [
           {
@@ -647,24 +663,24 @@ export const MODEL_ROUTES: ModelRoute[] = [
             toStep: 2,
             mode: 'walk',
             durationMinutes: 5,
-            labelJa: '徒歩',
-            labelEn: 'Walk',
+            labelJa: '徒歩（編集部目安）',
+            labelEn: 'Walk (editorial estimate)',
           },
           {
             fromStep: 2,
             toStep: 3,
             mode: 'train',
             durationMinutes: 45,
-            labelJa: 'JR青梅線・御岳登山鉄道ケーブル',
-            labelEn: 'JR Ome Line & Mitake Tozan cable car',
+            labelJa: 'JR青梅線・バス・ケーブルカー・徒歩（編集部目安）',
+            labelEn: 'JR Ome Line, bus, cable car & walking (editorial estimate)',
           },
           {
             fromStep: 3,
             toStep: 4,
             mode: 'walk',
             durationMinutes: 20,
-            labelJa: '徒歩',
-            labelEn: 'Walk',
+            labelJa: '徒歩（編集部目安）',
+            labelEn: 'Walk (editorial estimate)',
           },
         ],
       },
@@ -1057,9 +1073,9 @@ export const SPOT_DETAILS: Record<string, SpotDetail> = {
   'sawanoien-garden': {
     placeId: 'sawanoien-garden',
     roleJa:
-      '澤乃井園は小澤酒造が営む清流ガーデンです。多摩川の清流を見下ろすオープンガーデンで、軽食や澤乃井の生原酒を楽しめます。',
+      '澤乃井園は小澤酒造が営む清流ガーデンです。多摩川を見下ろすオープンガーデンで軽食やおつまみを提供し、売店では生原酒のタンク量り売りがあります。',
     roleEn:
-      'Sawanoien is the brewery-run Clear Stream Garden overlooking the Tama River, serving light meals and Sawanoi nama genshu.',
+      'Sawanoien is the brewery-run Clear Stream Garden overlooking the Tama River. It offers light meals and snacks, and its shop sells nama genshu from a tank by volume.',
     practical: {
       hoursJa: '10:00〜17:00',
       hoursEn: '10:00 a.m.–5:00 p.m.',

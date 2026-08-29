@@ -995,13 +995,14 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
       ? canonicalPlaceFact(mappedPresentationPlace, fieldId)
       : undefined;
     const mappedSpotDetailFact = canonicalSpotDetailFact(detail, fieldId);
-    const currentCanonicalFact = mappedPlaceFact && mappedPresentationPlace
-      ? {
-          ...mappedPlaceFact,
-          origin: mappedPresentationPlace.origin,
-          sourceFile: SOURCE_FILES.places,
-        }
-      : mappedSpotDetailFact;
+    const currentCanonicalFact = mappedSpotDetailFact
+      ?? (mappedPlaceFact && mappedPresentationPlace
+        ? {
+            ...mappedPlaceFact,
+            origin: mappedPresentationPlace.origin,
+            sourceFile: SOURCE_FILES.places,
+          }
+        : undefined);
     const reusesCurrentPresentation = Boolean(
       presentationRow
       && currentCanonicalFact
@@ -2058,15 +2059,10 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
 
         for (const row of reference.information) {
           if (row.fieldId === 'name' || row.fieldId === 'verification_note') continue;
-          let fact = canonicalPlaceFact(place, row.fieldId);
           const spotDetailFact = canonicalSpotDetailFact(SPOT_DETAILS[spot.id], row.fieldId);
-          let factOrigin: DataOrigin = place.origin;
-          let sourceFile: string = SOURCE_FILES.places;
-          if (!fact && spotDetailFact) {
-            fact = spotDetailFact;
-            factOrigin = spotDetailFact.origin;
-            sourceFile = spotDetailFact.sourceFile;
-          }
+          let fact = spotDetailFact ?? canonicalPlaceFact(place, row.fieldId);
+          const factOrigin: DataOrigin = spotDetailFact?.origin ?? place.origin;
+          let sourceFile: string = spotDetailFact?.sourceFile ?? SOURCE_FILES.places;
           if (row.fieldId === 'phone' && snapshotPhone && snapshotSource) {
             fact = {
               value: snapshotPhone,

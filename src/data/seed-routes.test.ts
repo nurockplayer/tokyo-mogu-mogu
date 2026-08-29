@@ -54,9 +54,10 @@ describe('model routes (#45 S5)', () => {
       'seed-route-ome',
       'sawanoi-brewery-tour',
       'sawanoien',
+      'mitake-tozan-access',
       '御嶽神社旧本殿',
     ]);
-    for (const source of route?.sources?.slice(0, 3) ?? []) {
+    for (const source of route?.sources?.slice(0, 4) ?? []) {
       expect(source).toMatchObject({
         retrievedAt: '2026-08-29',
         verificationStatus: 'needs_confirmation',
@@ -214,6 +215,27 @@ describe('spot details (#45 S6)', () => {
       closedDaysJa: expect.stringMatching(/月曜日.*火曜日.*年末年始.*公式/),
       closedDaysEn: expect.stringMatching(/Monday.*Tuesday.*year-end.*official/i),
     });
+    expect(garden.roleJa).toMatch(/生原酒.*タンク量り売り/);
+    expect(garden.roleJa).not.toMatch(/生原酒を楽しめ/);
+    expect(garden.roleEn).toMatch(/sells.*nama genshu/i);
+    expect(garden.roleEn).not.toMatch(/serving.*nama genshu/i);
+  });
+
+  it('marks every authored Ome route time as an estimate and names the complete Mitake transfer (#348)', () => {
+    const route = getRouteById('ome-sawai-sake-journey');
+
+    for (const variant of Object.values(route?.variants ?? {})) {
+      expect(variant.transportJa).toMatch(/JR青梅線.*バス.*ケーブル.*徒歩.*目安/);
+      expect(variant.transportEn).toMatch(/JR Ome Line.*bus.*cable car.*walking.*estimate/i);
+      for (const mobility of variant.mobility) {
+        expect(mobility.labelJa).toMatch(/目安/);
+        expect(mobility.labelEn).toMatch(/estimate/i);
+      }
+
+      const mitakeTransfer = variant.mobility.find((mobility) => mobility.toStep === 3);
+      expect(mitakeTransfer?.labelJa).toMatch(/JR青梅線.*バス.*ケーブル.*徒歩/);
+      expect(mitakeTransfer?.labelEn).toMatch(/JR Ome Line.*bus.*cable car.*walking/i);
+    }
   });
 
   it('spot details are editorial and carry provenance', () => {
