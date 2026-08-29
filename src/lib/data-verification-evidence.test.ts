@@ -594,6 +594,54 @@ describe('data verification evidence manifest (#334)', () => {
     )).not.toThrow();
   });
 
+  it('records localized Wasabi Experience evidence and separate source provenance (#328)', () => {
+    const repositoryClaims = buildRepositoryLedgerClaims();
+    const evidenceById = new Map(
+      DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.map((item) => [item.evidenceId, item]),
+    );
+    const omissionsById = new Map(
+      DATA_VERIFICATION_EVIDENCE_MANIFEST.omissions.map((item) => [item.omissionId, item]),
+    );
+
+    for (const locale of ['ja', 'en', 'zh-TW'] as const) {
+      expect(evidenceById.get(`wasabi-experience-app-${locale}-375`)).toMatchObject({
+        kind: 'app',
+        entityId: 'wasabi-experience',
+        locale,
+        viewport: { width: 375, height: 1800 },
+        path: `docs/data-evidence/wasabi-experience/app-${locale}-375.webp`,
+      });
+      expect(evidenceById.get(`wasabi-experience-route-app-${locale}-375`)).toMatchObject({
+        kind: 'app',
+        entityId: 'okutama-wasabi-journey',
+        locale,
+        viewport: { width: 375, height: 812 },
+      });
+      expect(evidenceById.get(`wasabi-experience-story-app-${locale}-375`)).toMatchObject({
+        kind: 'app',
+        entityId: 'wasabi-okutama',
+        locale,
+        viewport: { width: 375, height: 812 },
+      });
+    }
+
+    expect(omissionsById.get('wasabi-experience-source-rights-restricted')).toMatchObject({
+      entityId: 'wasabi-experience',
+      sourceUrl: 'https://tokyowasabi.com/wasabi-experience/',
+    });
+    expect(omissionsById.get('wasabi-experience-access-source-rights-restricted')).toMatchObject({
+      sourceUrl: 'https://tokyowasabi.com/wasabi-experience-en/',
+    });
+    expect(omissionsById.get('wasabi-experience-coordinate-source-rights-restricted')).toMatchObject({
+      sourceUrl: 'https://www.google.com/maps/search/?api=1&query=35.798697%2C139.177867',
+      claimIds: ['place:wasabi-experience:coordinates'],
+    });
+    expect(() => validateDataVerificationEvidenceManifest(
+      DATA_VERIFICATION_EVIDENCE_MANIFEST,
+      repositoryClaims,
+    )).not.toThrow();
+  });
+
   it.each([
     {
       name: 'orphan claim reference',

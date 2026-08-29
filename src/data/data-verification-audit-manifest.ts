@@ -98,6 +98,25 @@ export const PRESENTATION_SPOT_AUDIT = [
     ],
     issues: ['#324', '#333', '#334'],
   },
+  {
+    presentationSpotId: 'wasabi-experience',
+    canonicalPlaceId: 'wasabi-experience',
+    surface: 'Spot',
+    /** Presentation grouping contract; physical geography remains canonical Place data. */
+    regionGroupingSemantics: 'journey-culture-grouping',
+    stableCanonicalFieldIds: [
+      'access',
+      'seasonal_meeting_times',
+      'tour_duration',
+      'private_group_limit',
+      'reservation',
+      'booking_destination',
+      'tour_availability',
+      'price_availability',
+      'official_current_url',
+    ],
+    issues: ['#328', '#333', '#334'],
+  },
 ] as const;
 
 export const PRESENTATION_ROUTE_MEETING_TIME_AUDIT = [
@@ -105,6 +124,9 @@ export const PRESENTATION_ROUTE_MEETING_TIME_AUDIT = [
     presentationJourneyId: 'demo-okutama-wasabi',
     variantId: 'full-day',
     spotId: 'wasabi-experience',
+    canonicalPlaceId: 'wasabi-experience',
+    canonicalFieldId: 'seasonal_meeting_times',
+    issues: ['#328'],
   },
 ] as const;
 
@@ -163,9 +185,9 @@ export const REQUIRED_ROUTE_GUIDANCE_FACTUAL_CLAIMS = [
   { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'half-day', spotId: 'wasabi-kitchen', claimId: 'wasabi-don-reference-price', fieldLabel: 'Dated official wasabi-don reference price', timeSensitive: true, canonicalPlaceId: 'wasabi-kitchen', canonicalFieldId: 'price_availability', issues: ['#324'] },
   { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'half-day', spotId: 'okutama-kitchen', claimId: 'product-availability', fieldLabel: 'Special soft gelato / wasabi-flavor availability', timeSensitive: true, canonicalPlaceId: 'okutama-kitchen', canonicalFieldId: 'product_availability', issues: ['#325'] },
   { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'half-day', spotId: 'port-okutama', claimId: 'service-availability', fieldLabel: 'Cafe and retail service availability', timeSensitive: true, canonicalPlaceId: 'port-okutama', canonicalFieldId: 'service_availability', issues: ['#327'] },
-  { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'full-day', spotId: 'wasabi-experience', claimId: 'tour-duration', fieldLabel: 'Wasabi-field tour duration', timeSensitive: true },
-  { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'full-day', spotId: 'wasabi-experience', claimId: 'daily-group-limit', fieldLabel: 'Wasabi-field daily group limit', timeSensitive: true },
-  { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'full-day', spotId: 'wasabi-experience', claimId: 'tour-availability', fieldLabel: 'Private tour availability', timeSensitive: true },
+  { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'full-day', spotId: 'wasabi-experience', claimId: 'tour-duration', fieldLabel: 'Wasabi-field tour duration', timeSensitive: true, canonicalPlaceId: 'wasabi-experience', canonicalFieldId: 'tour_duration', issues: ['#328'] },
+  { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'full-day', spotId: 'wasabi-experience', claimId: 'daily-group-limit', fieldLabel: 'Wasabi-field daily group limit', timeSensitive: true, canonicalPlaceId: 'wasabi-experience', canonicalFieldId: 'private_group_limit', issues: ['#328'] },
+  { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'full-day', spotId: 'wasabi-experience', claimId: 'tour-availability', fieldLabel: 'Private tour availability', timeSensitive: true, canonicalPlaceId: 'wasabi-experience', canonicalFieldId: 'tour_availability', issues: ['#328'] },
   { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'full-day', spotId: 'okutama-station', claimId: 'rail-travel-duration', fieldLabel: 'Mitake-to-Okutama rail duration', timeSensitive: true },
   { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'full-day', spotId: 'akabeko', claimId: 'last-order-time', fieldLabel: 'Displayed lunch last-order time', timeSensitive: true, canonicalPlaceId: 'akabeko', canonicalFieldId: 'hours', issues: ['#326'] },
   { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'full-day', spotId: 'yamashiroya', claimId: 'product-availability', fieldLabel: 'Wasabi product availability', timeSensitive: true, canonicalPlaceId: 'yamashiroya', canonicalFieldId: 'product_availability', issues: ['#323'] },
@@ -184,8 +206,8 @@ export const REQUIRED_STORY_SPOT_FACTUAL_CLAIMS = [
   { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'wasabi-kitchen', claimId: 'story.spot.wasabi-kitchen.venue-model', fieldLabel: 'Wasabi Kitchen mobile food-truck venue model', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: false, canonicalPlaceId: 'wasabi-kitchen', canonicalFieldId: 'venue_model', issues: ['#324'] },
   { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'okutama-kitchen', claimId: 'story.spot.okutama-kitchen.product-availability', fieldLabel: 'Okutama Kitchen product availability', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true, canonicalPlaceId: 'okutama-kitchen', canonicalFieldId: 'product_availability', issues: ['#325'] },
   { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'port-okutama', claimId: 'story.spot.port-okutama.service-availability', fieldLabel: 'Port Okutama service availability', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true, canonicalPlaceId: 'port-okutama', canonicalFieldId: 'service_availability', issues: ['#327'] },
-  { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'wasabi-experience', claimId: 'story.spot.wasabi-experience.reservation-requirement', fieldLabel: 'Wasabi Experience reservation requirement', parentFieldId: 'presentation:spot_group:nature', timeSensitive: true },
-  { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'wasabi-experience', claimId: 'story.spot.wasabi-experience.daily-group-limit', fieldLabel: 'Wasabi Experience daily group limit', parentFieldId: 'presentation:spot_group:nature', timeSensitive: true },
+  { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'wasabi-experience', claimId: 'story.spot.wasabi-experience.reservation-requirement', fieldLabel: 'Wasabi Experience reservation requirement', parentFieldId: 'presentation:spot_group:nature', timeSensitive: true, canonicalPlaceId: 'wasabi-experience', canonicalFieldId: 'reservation', issues: ['#328'] },
+  { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'wasabi-experience', claimId: 'story.spot.wasabi-experience.daily-group-limit', fieldLabel: 'Wasabi Experience daily group limit', parentFieldId: 'presentation:spot_group:nature', timeSensitive: true, canonicalPlaceId: 'wasabi-experience', canonicalFieldId: 'private_group_limit', issues: ['#328'] },
   { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'hikawa-valley', claimId: 'story.spot.hikawa-valley.river-confluence', fieldLabel: 'Hikawa Valley river confluence and location', parentFieldId: 'presentation:spot_group:nature', timeSensitive: false },
   { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'oku-hikawa-shrine', claimId: 'story.spot.oku-hikawa-shrine.location', fieldLabel: 'Oku-Hikawa Shrine location', parentFieldId: 'presentation:spot_group:nature', timeSensitive: false },
   { presentationJourneyId: 'demo-okutama-yamame', spotId: 'akabeko', claimId: 'story.spot.akabeko.dish-availability', fieldLabel: 'Akabeko yamame dish availability', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true, canonicalPlaceId: 'akabeko', canonicalFieldId: 'product_availability', issues: ['#326'] },

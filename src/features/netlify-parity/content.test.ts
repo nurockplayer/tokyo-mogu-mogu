@@ -15,6 +15,7 @@ import {
   localizePlacePhoneConflict,
   localizePlaceProductCategories,
   referenceSpotDetails,
+  routeRegionGuidance,
   routeStepText,
   storySpotGroups,
 } from './factual-presentation';
@@ -159,12 +160,49 @@ describe('Netlify parity presentation content', () => {
     }
   });
 
-  it('localizes the generic wasabi-experience Spot title in every locale (#339)', () => {
-    expect(demoSpots['wasabi-experience'].copy).toMatchObject({
-      ja: { name: 'わさび田体験' },
-      en: { name: 'Wasabi Experience' },
-      'zh-TW': { name: '山葵田體驗' },
+  it('separates the Ome meeting place from Okutama journey grouping (#328)', () => {
+    const place = PLACES.find((candidate) => candidate.id === 'wasabi-experience');
+    const journey = demoJourneys.find((candidate) => candidate.id === 'demo-okutama-wasabi');
+
+    expect(place).toMatchObject({
+      nameJa: 'WASABI EXPERIENCE',
+      address: '〒198-0147 東京都青梅市御岳1-192-4',
+      coordinatePrecision: 'approximate',
+      foodCultureIds: ['wasabi-okutama'],
+      visitorInformation: {
+        access: { stationJa: 'JR青梅線「御嶽駅」', walkMinutes: 7 },
+        experienceTour: {
+          seasonalMeetingTimes: [
+            { season: 'may-september', time: '08:30' },
+            { season: 'october-april', time: '11:00' },
+          ],
+          meetingTimeMayChange: true,
+          bookingRequestRequiresConfirmation: true,
+        },
+      },
     });
+    expect(place?.coordinateSource?.url).toContain('google.com/maps');
+    expect(journey?.regionId).toBe('okutama');
+    expect(demoSpots['wasabi-experience'].regionId).toBe('okutama');
+  });
+
+  it('derives seasonal Wasabi Experience guidance without a timeless 8:30 claim (#328)', () => {
+    const detail = referenceSpotDetails['wasabi-experience'];
+    const routeStep = routeStepText['demo-okutama-wasabi:full-day'].find(
+      (step) => step.spotId === 'wasabi-experience',
+    );
+
+    expect(detail?.information).toEqual(expect.arrayContaining([
+      expect.objectContaining({ fieldId: 'address', value: expect.objectContaining({ ja: expect.stringContaining('青梅市御岳') }) }),
+      expect.objectContaining({ fieldId: 'seasonal_meeting_times', value: expect.objectContaining({ ja: expect.stringContaining('5〜9月 8:30') }) }),
+      expect.objectContaining({ fieldId: 'booking_destination', value: expect.objectContaining({ en: expect.stringContaining('#booking-form') }) }),
+    ]));
+    expect(detail?.guide?.url).toBe('https://tokyowasabi.com/wasabi-experience/#booking-form');
+    expect(routeStep?.walk?.ja).toContain('5〜9月 8:30');
+    expect(routeStep?.walk?.ja).toContain('10〜4月 11:00');
+    expect(routeStep?.walk?.ja).not.toBe('集合 8:30');
+    expect(routeRegionGuidance['demo-okutama-wasabi:full-day'].ja).toContain('青梅・御岳');
+    expect(routeRegionGuidance['demo-okutama-wasabi:half-day'].ja).not.toContain('青梅・御岳');
   });
 
   it('keeps the tourism-office fixture explicitly unverified in every locale', () => {

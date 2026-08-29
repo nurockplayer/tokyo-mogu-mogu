@@ -168,6 +168,25 @@ export interface PlaceMenuListing {
   source: DataSource;
 }
 
+export interface PlaceExperienceTourInformation {
+  /** Source-published seasonal meeting windows; never flatten to one year-round time. */
+  seasonalMeetingTimes: Array<{
+    season: 'may-september' | 'october-april';
+    time: string;
+  }>;
+  /** The operator warns that the confirmation email may specify a different time. */
+  meetingTimeMayChange: true;
+  durationMinutes: { min: number; max: number };
+  privateGroupsPerDay: number;
+  reservationRequired: true;
+  /** A form submission is only a request; the operator must confirm availability. */
+  bookingRequestRequiresConfirmation: true;
+  bookingUrl: string;
+  listedPriceYen: number;
+  weekendAvailability: 'request-only';
+  weatherMayCancelOrPostpone: true;
+}
+
 export interface PlaceSourceConflictStatement {
   /** Stable statement identity within the canonical Place record. */
   id: string;
@@ -201,6 +220,8 @@ export interface PlaceVisitorInformation {
   access?: {
     stationJa: string;
     walkMinutes: number;
+    /** Access provenance when it differs from the Place's primary source. */
+    source?: DataSource;
   };
   regularClosedDays?: PlaceWeekday[];
   /** The operator publishes no regular closure while warning that irregular closures occur. */
@@ -229,6 +250,8 @@ export interface PlaceVisitorInformation {
     verificationStatus: 'conflict';
     statements: PlacePhoneSourceStatement[];
   };
+  /** Structured, time-sensitive visitor facts for a bookable operator experience. */
+  experienceTour?: PlaceExperienceTourInformation;
 }
 
 export interface PlaceMobileVenue {

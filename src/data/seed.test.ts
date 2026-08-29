@@ -458,6 +458,44 @@ describe('seed data contract (#2)', () => {
     expect(wasabiKitchen).not.toHaveProperty('longitude');
   });
 
+  it('models WASABI EXPERIENCE physical meeting details separately from culture grouping (#328)', () => {
+    const experience = getPlaceById('wasabi-experience');
+
+    expect(experience).toMatchObject({
+      address: '〒198-0147 東京都青梅市御岳1-192-4',
+      coordinatePrecision: 'approximate',
+      foodCultureIds: ['wasabi-okutama'],
+      source: {
+        url: 'https://tokyowasabi.com/wasabi-experience/',
+        retrievedAt: '2026-08-29',
+        verificationStatus: 'needs_confirmation',
+      },
+      visitorInformation: {
+        access: {
+          stationJa: 'JR青梅線「御嶽駅」',
+          walkMinutes: 7,
+        },
+        experienceTour: {
+          seasonalMeetingTimes: [
+            { season: 'may-september', time: '08:30' },
+            { season: 'october-april', time: '11:00' },
+          ],
+          meetingTimeMayChange: true,
+          durationMinutes: { min: 120, max: 150 },
+          privateGroupsPerDay: 1,
+          reservationRequired: true,
+          bookingRequestRequiresConfirmation: true,
+          bookingUrl: 'https://tokyowasabi.com/wasabi-experience/#booking-form',
+          listedPriceYen: 19500,
+          weekendAvailability: 'request-only',
+          weatherMayCancelOrPostpone: true,
+        },
+      },
+    });
+    expect(experience?.coordinateSource?.url).toContain('google.com/maps/search/');
+    expect(getFoodCultureById('wasabi-okutama')?.placeIds).toContain('wasabi-experience');
+  });
+
   it('relation helpers return the linked records', () => {
     const wasabi = getFoodCultureById('wasabi-okutama');
     expect(wasabi).toBeDefined();
@@ -578,8 +616,8 @@ describe('seed data contract (#2)', () => {
 
   it('sourceUpdatedAt is absent from seed records unless the publisher supplies it (#129)', () => {
     // sourceUpdatedAt means the source document's own update date. Keep an
-    // explicit allow-list for the publisher markers observed for the current
-    // Fussa/Akiruno slices; do not infer or copy dates for other records.
+    // explicit allow-list for observed publisher markers; do not infer or copy
+    // dates for other records.
     const publisherSuppliedSourceIds = new Set([
       'fussa-tokyo-sake-brewery-1005934',
       'fussa-water-heritage-course-1004236',
@@ -588,6 +626,7 @@ describe('seed data contract (#2)', () => {
       'akiruno-farmers-center-3556',
       'gotokyo-seoto-no-yu-397',
       'kurumiru-fussa-honcho23',
+      'wasabi-experience-page-1343',
     ]);
     for (const fc of foodCultures) {
       for (const s of fc.sources) {

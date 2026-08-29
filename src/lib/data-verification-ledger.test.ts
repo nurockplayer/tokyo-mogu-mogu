@@ -1017,6 +1017,49 @@ describe('repository data verification ledger (#333)', () => {
     });
   });
 
+  it('maps Wasabi Experience seasonal and booking claims to first-party authority (#328)', () => {
+    const claims = buildRepositoryLedgerClaims();
+
+    expect(
+      claims.find((row) => row.claimId === 'spot:wasabi-experience:region_grouping'),
+    ).toMatchObject({
+      displayedValue: 'okutama / journey-culture-grouping',
+      verification: 'demo',
+      finding: 'none',
+      timeSensitive: false,
+      note: expect.stringContaining('not a physical municipality'),
+    });
+    expect(
+      claims.find((row) => row.claimId === 'place:wasabi-experience:seasonal_meeting_times'),
+    ).toMatchObject({
+      canonicalValue: 'may-september 08:30 | october-april 11:00 / may_change',
+      primarySourceUrl: 'https://tokyowasabi.com/wasabi-experience/',
+      verification: 'needs_confirmation',
+      timeSensitive: true,
+    });
+    expect(
+      claims.find((row) => row.claimId === 'route:okutama-wasabi-journey:full-day:step:wasabi-experience:factual:tour-duration'),
+    ).toMatchObject({
+      canonicalValue: '120–150 minutes',
+      verification: 'needs_confirmation',
+      finding: 'none',
+    });
+    expect(
+      claims.find((row) => row.claimId === 'story:wasabi-okutama:story.spot.wasabi-experience.reservation-requirement'),
+    ).toMatchObject({
+      canonicalValue: expect.stringContaining('required'),
+      verification: 'needs_confirmation',
+      finding: 'none',
+    });
+    expect(
+      claims.find((row) => row.claimId === 'route:okutama-wasabi-journey:full-day:step:wasabi-experience:meeting_time:ja'),
+    ).toMatchObject({
+      displayedValue: expect.stringContaining('10〜4月 11:00'),
+      verification: 'needs_confirmation',
+      finding: 'none',
+    });
+  });
+
   it('keeps embedded Story facts as stable report-only unknowns', () => {
     const claims = buildRepositoryLedgerClaims();
 

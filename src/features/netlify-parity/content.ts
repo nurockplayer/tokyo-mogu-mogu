@@ -196,6 +196,7 @@ export interface ReferenceCopy {
 
 export interface JourneyPresentation {
   id: string;
+  /** Product/journey culture grouping; never a physical municipality assertion. */
   regionId: string;
   foodCultureId: string;
   storyId: string;
@@ -222,6 +223,7 @@ export interface JourneyPresentation {
 
 export interface SpotPresentation {
   id: string;
+  /** Inherited demo-journey grouping; physical geography belongs to canonical Place data. */
   regionId: string;
   foodCultureId: string;
   imageAssetId: ReferenceAssetId;

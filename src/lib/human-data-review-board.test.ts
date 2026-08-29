@@ -461,6 +461,25 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       'https://tokyowasabi.com/hitoshi/2573/fussa-tanabata-challenge/',
     ]));
 
+    const wasabiExperience = board.entities.find((entity) => entity.id === 'wasabi-experience');
+    expect(board.entities.filter((entity) => entity.id === 'wasabi-experience')).toHaveLength(1);
+    expect(wasabiExperience).toMatchObject({
+      type: 'Spot',
+      headlineStatus: 'needs_confirmation',
+      latestRetrievedAt: '2026-08-29',
+    });
+    expect(wasabiExperience?.facts).toEqual(expect.arrayContaining([
+      expect.objectContaining({ fieldKey: 'region_grouping', displayedValue: 'okutama / journey-culture-grouping' }),
+      expect.objectContaining({ fieldKey: 'address', canonicalValue: expect.stringContaining('青梅市御岳') }),
+      expect.objectContaining({ fieldKey: 'seasonal_meeting_times', status: 'needs_confirmation' }),
+      expect.objectContaining({ fieldKey: 'booking_destination', status: 'needs_confirmation' }),
+      expect.objectContaining({ fieldKey: 'tour_availability', status: 'needs_confirmation' }),
+    ]));
+    expect(wasabiExperience?.sources).toEqual(expect.arrayContaining([
+      expect.objectContaining({ url: 'https://tokyowasabi.com/wasabi-experience/' }),
+      expect.objectContaining({ coordinateProvider: true }),
+    ]));
+
     const kitchen = board.entities.find((entity) => entity.id === 'okutama-kitchen');
     expect(kitchen?.facts).toEqual(expect.arrayContaining([
       expect.objectContaining({ fieldKey: 'hours', status: 'needs_confirmation' }),

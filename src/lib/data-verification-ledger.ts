@@ -505,7 +505,10 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
       );
     }
     if (fieldId === 'access' && visitor.access) {
-      return defaultFact(`${visitor.access.stationJa} / 徒歩${visitor.access.walkMinutes}分`);
+      return defaultFact(
+        `${visitor.access.stationJa} / 徒歩${visitor.access.walkMinutes}分`,
+        visitor.access.source,
+      );
     }
     if (fieldId === 'parking' && visitor.parking) {
       if (!visitor.parking.available) {
@@ -564,6 +567,33 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
         `${visitor.reservationPolicy.requirement} / ${visitor.reservationPolicy.reasonIds.join(', ')}`,
       );
     }
+    if (fieldId === 'seasonal_meeting_times' && visitor.experienceTour) {
+      return defaultFact(
+        `${visitor.experienceTour.seasonalMeetingTimes.map((item) => `${item.season} ${item.time}`).join(' | ')} / may_change`,
+      );
+    }
+    if (fieldId === 'tour_duration' && visitor.experienceTour) {
+      return defaultFact(
+        `${visitor.experienceTour.durationMinutes.min}–${visitor.experienceTour.durationMinutes.max} minutes`,
+      );
+    }
+    if (fieldId === 'private_group_limit' && visitor.experienceTour) {
+      return defaultFact(`${visitor.experienceTour.privateGroupsPerDay} private group/day`);
+    }
+    if (fieldId === 'reservation' && visitor.experienceTour) {
+      return defaultFact('required / operator_confirmation');
+    }
+    if (fieldId === 'booking_destination' && visitor.experienceTour) {
+      return defaultFact(visitor.experienceTour.bookingUrl);
+    }
+    if (fieldId === 'tour_availability' && visitor.experienceTour) {
+      return defaultFact(
+        `${visitor.experienceTour.weekendAvailability} / operator_confirmation / weather_may_cancel_or_postpone`,
+      );
+    }
+    if (fieldId === 'price_availability' && visitor.experienceTour) {
+      return defaultFact(`${visitor.experienceTour.listedPriceYen} JPY / conditions_and_surcharges_apply`);
+    }
     return undefined;
   };
 
@@ -601,6 +631,15 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
           true,
         ] as const] : []),
       ]),
+      ...(place.visitorInformation?.experienceTour ? [
+        ['seasonal_meeting_times', 'Seasonal meeting times', `${place.visitorInformation.experienceTour.seasonalMeetingTimes.map((item) => `${item.season} ${item.time}`).join(' | ')} / may_change`, true] as const,
+        ['tour_duration', 'Experience duration', `${place.visitorInformation.experienceTour.durationMinutes.min}–${place.visitorInformation.experienceTour.durationMinutes.max} minutes`, true] as const,
+        ['private_group_limit', 'Private group limit', `${place.visitorInformation.experienceTour.privateGroupsPerDay} private group/day`, true] as const,
+        ['reservation', 'Reservation requirement', 'required / operator_confirmation', true] as const,
+        ['booking_destination', 'Booking request destination', place.visitorInformation.experienceTour.bookingUrl, true] as const,
+        ['tour_availability', 'Tour availability', `${place.visitorInformation.experienceTour.weekendAvailability} / operator_confirmation / weather_may_cancel_or_postpone`, true] as const,
+        ['price_availability', 'Listed experience price', `${place.visitorInformation.experienceTour.listedPriceYen} JPY / conditions_and_surcharges_apply`, true] as const,
+      ] : []),
     ];
 
     for (const [fieldId, fieldLabel, value, timeSensitive] of values) {
@@ -1437,7 +1476,7 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
           fieldId: localizedFieldId('region_guidance', locale),
           fieldLabel: `Region guidance (${locale})`,
           comparisonExpected: true,
-          presentation: presentationValue(routeRegionGuidance[locale], 'Route'),
+          presentation: presentationValue(routeRegionGuidance[routeKey][locale], 'Route'),
           timeSensitive: false,
           issues: [...audit.issues],
           note: 'No corresponding canonical localized field exists; report canonical_missing rather than inventing one.',
@@ -1636,11 +1675,18 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
           }
         }
         if (stepFact.walk) {
-          const isMeetingTime = PRESENTATION_ROUTE_MEETING_TIME_AUDIT.some(
+          const meetingTimeAudit = PRESENTATION_ROUTE_MEETING_TIME_AUDIT.find(
             (candidate) => candidate.presentationJourneyId === journey.id
               && candidate.variantId === variant.id
               && candidate.spotId === step.spotId,
           );
+          const isMeetingTime = meetingTimeAudit !== undefined;
+          const meetingPlace = meetingTimeAudit
+            ? places.find((place) => place.id === meetingTimeAudit.canonicalPlaceId)
+            : undefined;
+          const meetingFact = meetingPlace && meetingTimeAudit
+            ? canonicalPlaceFact(meetingPlace, meetingTimeAudit.canonicalFieldId)
+            : undefined;
           const canonicalMobility = canonicalStep && canonicalVariant
             ? canonicalVariant.mobility.find((segment) => segment.toStep === canonicalStep.stepNumber)
             : undefined;
@@ -1656,9 +1702,17 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
               entityName,
               fieldId: localizedFieldId(`step:${step.spotId}:${walkFieldId}`, locale),
               fieldLabel: `${isMeetingTime ? 'Meeting time' : 'Walking / transport guidance'} (${step.spotId}, ${locale})`,
-              comparisonExpected: locale === 'ja',
+              comparisonExpected: locale === 'ja' && meetingFact === undefined,
               canonical: locale === 'ja'
-                ? canonicalRoute && canonicalMobility && routeStatus
+                ? meetingPlace && meetingFact
+                  ? canonicalValue(
+                      meetingFact.value,
+                      meetingPlace.origin,
+                      meetingFact.source,
+                      meetingFact.verification,
+                      SOURCE_FILES.places,
+                    )
+                  : canonicalRoute && canonicalMobility && routeStatus
                   ? canonicalValue(
                       `${canonicalMobility.labelJa} / ${canonicalMobility.durationMinutes} minutes`,
                       'editorial',
@@ -1668,12 +1722,22 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
                     )
                   : undefined
                 : undefined,
-              presentation: presentationValue(stepFact.walk[locale], 'Route'),
+              presentation: meetingPlace && meetingFact
+                ? presentationValue(
+                    stepFact.walk[locale],
+                    'Route',
+                    meetingPlace.origin,
+                    meetingFact.verification,
+                  )
+                : presentationValue(stepFact.walk[locale], 'Route'),
               timeSensitive: true,
               timeSensitiveNote: 'Presentation guidance; confirm current travel conditions.',
-              issues: [...audit.issues],
+              issues: [
+                ...audit.issues,
+                ...(meetingTimeAudit && 'issues' in meetingTimeAudit ? meetingTimeAudit.issues : []),
+              ],
               note: isMeetingTime
-                ? 'Meeting-time field is identified by the audit manifest; its localized value comes from the presentation record.'
+                ? 'Meeting-time presentation is mapped to the canonical seasonal schedule; localized wording is not parsed or compared for equality.'
                 : 'Stable stop IDs and locale identify the comparison; array position is not claim identity.',
             });
           }
@@ -1709,6 +1773,25 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
             ?? place.source.retrievedAt,
         }
       : undefined;
+
+    if (audit && 'regionGroupingSemantics' in audit) {
+      inputs.push({
+        claimId: `spot:${spot.id}:region_grouping`,
+        entityType: 'Spot',
+        entityId: spot.id,
+        entityName: displayedName,
+        fieldId: 'region_grouping',
+        fieldLabel: 'Presentation region grouping semantics',
+        comparisonExpected: false,
+        presentation: presentationValue(
+          `${spot.regionId} / ${audit.regionGroupingSemantics}`,
+          'Spot',
+        ),
+        timeSensitive: false,
+        issues: [...audit.issues],
+        note: 'regionId groups the current Product journey and food-culture presentation; it is not a physical municipality. Canonical Place address and coordinate claims own physical geography.',
+      });
+    }
 
     for (const locale of PRESENTATION_LOCALES) {
       const localizedName = spot.copy[locale].name;

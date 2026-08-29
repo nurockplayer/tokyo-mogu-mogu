@@ -171,7 +171,7 @@ export function RouteScreen({
 
         <div className="route-info">
           <div className="tx">
-            <PinIcon /> {routeRegionGuidance[locale]}
+            <PinIcon /> {routeRegionGuidance[routeKey]?.[locale]}
             <br />
             <TrainIcon /> <em>{stats.station}</em> {labels.from} <em>{stats.minutes}</em>
           </div>

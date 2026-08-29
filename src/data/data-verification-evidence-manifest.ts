@@ -175,12 +175,80 @@ const WASABI_KITCHEN_STORY_APP_EVIDENCE: readonly DataVerificationAppEvidence[] 
     note: `Final #324 ${locale} Story card showing the FOOD TRUCK identity, no-fixed-storefront semantics, and current-schedule caveat at 375px.`,
   }));
 
+const WASABI_EXPERIENCE_EVIDENCE_LOCALES = ['ja', 'en', 'zh-TW'] as const;
+
+const WASABI_EXPERIENCE_SPOT_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  WASABI_EXPERIENCE_EVIDENCE_LOCALES.map((locale) => ({
+    evidenceId: `wasabi-experience-app-${locale}-375`,
+    claimIds: [
+      'spot:wasabi-experience:region_grouping',
+      `place:wasabi-experience:address:${locale}`,
+      locale === 'ja' ? 'spot:wasabi-experience:access' : `place:wasabi-experience:access:${locale}`,
+      locale === 'ja' ? 'spot:wasabi-experience:seasonal_meeting_times' : `place:wasabi-experience:seasonal_meeting_times:${locale}`,
+      locale === 'ja' ? 'spot:wasabi-experience:tour_duration' : `place:wasabi-experience:tour_duration:${locale}`,
+      locale === 'ja' ? 'spot:wasabi-experience:private_group_limit' : `place:wasabi-experience:private_group_limit:${locale}`,
+      locale === 'ja' ? 'spot:wasabi-experience:reservation' : `place:wasabi-experience:reservation:${locale}`,
+      locale === 'ja' ? 'spot:wasabi-experience:booking_destination' : `place:wasabi-experience:booking_destination:${locale}`,
+      locale === 'ja' ? 'spot:wasabi-experience:tour_availability' : `place:wasabi-experience:tour_availability:${locale}`,
+      locale === 'ja' ? 'spot:wasabi-experience:price_availability' : `place:wasabi-experience:price_availability:${locale}`,
+      `spot:wasabi-experience:presentation:verification_note:${locale}`,
+    ],
+    entityId: 'wasabi-experience',
+    kind: 'app',
+    capturedAt: '2026-08-29',
+    path: `docs/data-evidence/wasabi-experience/app-${locale}-375.webp`,
+    locale,
+    viewport: { width: 375, height: 1800 },
+    note: `Final #328 ${locale} Spot state showing the Ome / Mitake meeting place, seasonal times, booking-confirmation semantics, dated price, and availability caveats at 375px.`,
+  }));
+
+const WASABI_EXPERIENCE_ROUTE_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  WASABI_EXPERIENCE_EVIDENCE_LOCALES.map((locale) => ({
+    evidenceId: `wasabi-experience-route-app-${locale}-375`,
+    claimIds: [
+      `route:okutama-wasabi-journey:full-day:region_guidance:${locale}`,
+      `route:okutama-wasabi-journey:full-day:step:mitake-station:guidance:${locale}`,
+      `route:okutama-wasabi-journey:full-day:step:wasabi-experience:meeting_time:${locale}`,
+      `route:okutama-wasabi-journey:full-day:step:wasabi-experience:guidance:${locale}`,
+      'route:okutama-wasabi-journey:full-day:step:wasabi-experience:factual:tour-duration',
+      'route:okutama-wasabi-journey:full-day:step:wasabi-experience:factual:daily-group-limit',
+      'route:okutama-wasabi-journey:full-day:step:wasabi-experience:factual:tour-availability',
+    ],
+    entityId: 'okutama-wasabi-journey',
+    kind: 'app',
+    capturedAt: '2026-08-29',
+    path: `docs/data-evidence/wasabi-experience/route-app-${locale}-375.webp`,
+    locale,
+    viewport: { width: 375, height: 812 },
+    note: `Final #328 ${locale} full-day Route state separating Ome / Mitake meeting geography from Okutama culture grouping and replacing the timeless 8:30 assertion with seasonal guidance.`,
+  }));
+
+const WASABI_EXPERIENCE_STORY_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  WASABI_EXPERIENCE_EVIDENCE_LOCALES.map((locale) => ({
+    evidenceId: `wasabi-experience-story-app-${locale}-375`,
+    claimIds: [
+      `story:wasabi-okutama:presentation:spot_group:nature:${locale}`,
+      'story:wasabi-okutama:story.spot.wasabi-experience.reservation-requirement',
+      'story:wasabi-okutama:story.spot.wasabi-experience.daily-group-limit',
+    ],
+    entityId: 'wasabi-okutama',
+    kind: 'app',
+    capturedAt: '2026-08-29',
+    path: `docs/data-evidence/wasabi-experience/story-app-${locale}-375.webp`,
+    locale,
+    viewport: { width: 375, height: 812 },
+    note: `Final #328 ${locale} Story card showing the Ome / Mitake meeting-place relationship to Okutama wasabi culture with booking and availability caveats.`,
+  }));
+
 /**
  * Review evidence only. Entries reference #333 claim IDs and never duplicate or
  * alter canonical/displayed factual values, provenance, or verification state.
  */
 export const DATA_VERIFICATION_EVIDENCE_MANIFEST: DataVerificationEvidenceManifest = {
   evidence: [
+    ...WASABI_EXPERIENCE_SPOT_APP_EVIDENCE,
+    ...WASABI_EXPERIENCE_ROUTE_APP_EVIDENCE,
+    ...WASABI_EXPERIENCE_STORY_APP_EVIDENCE,
     ...WASABI_KITCHEN_SPOT_APP_EVIDENCE,
     ...WASABI_KITCHEN_ROUTE_APP_EVIDENCE,
     ...WASABI_KITCHEN_STORY_APP_EVIDENCE,
@@ -497,6 +565,68 @@ export const DATA_VERIFICATION_EVIDENCE_MANIFEST: DataVerificationEvidenceManife
     },
   ],
   omissions: [
+    {
+      omissionId: 'wasabi-experience-source-rights-restricted',
+      claimIds: [
+        'place:wasabi-experience:address:ja',
+        'spot:wasabi-experience:seasonal_meeting_times',
+        'spot:wasabi-experience:tour_duration',
+        'spot:wasabi-experience:private_group_limit',
+        'spot:wasabi-experience:reservation',
+        'spot:wasabi-experience:booking_destination',
+        'spot:wasabi-experience:tour_availability',
+        'spot:wasabi-experience:price_availability',
+        'spot:wasabi-experience:official_current_url',
+      ],
+      entityId: 'wasabi-experience',
+      kind: 'source',
+      sourceUrl: 'https://tokyowasabi.com/wasabi-experience/',
+      recordedAt: '2026-08-29',
+      reason: 'TOKYO WASABI prohibits unauthorized reproduction of site text and images; the first-party page was rechecked and paraphrased without copying its photographs, map, or page capture.',
+    },
+    {
+      omissionId: 'wasabi-experience-route-source-rights-restricted',
+      claimIds: [
+        'route:okutama-wasabi-journey:full-day:step:wasabi-experience:factual:tour-duration',
+        'route:okutama-wasabi-journey:full-day:step:wasabi-experience:factual:daily-group-limit',
+        'route:okutama-wasabi-journey:full-day:step:wasabi-experience:factual:tour-availability',
+      ],
+      entityId: 'okutama-wasabi-journey',
+      kind: 'source',
+      sourceUrl: 'https://tokyowasabi.com/wasabi-experience/',
+      recordedAt: '2026-08-29',
+      reason: 'The Route claims trace to the TOKYO WASABI page, whose text and images may not be reproduced without permission; no source capture is committed.',
+    },
+    {
+      omissionId: 'wasabi-experience-story-source-rights-restricted',
+      claimIds: [
+        'story:wasabi-okutama:story.spot.wasabi-experience.reservation-requirement',
+        'story:wasabi-okutama:story.spot.wasabi-experience.daily-group-limit',
+      ],
+      entityId: 'wasabi-okutama',
+      kind: 'source',
+      sourceUrl: 'https://tokyowasabi.com/wasabi-experience/',
+      recordedAt: '2026-08-29',
+      reason: 'The Story claims trace to the TOKYO WASABI page, whose text and images may not be reproduced without permission; no source capture is committed.',
+    },
+    {
+      omissionId: 'wasabi-experience-access-source-rights-restricted',
+      claimIds: ['spot:wasabi-experience:access'],
+      entityId: 'wasabi-experience',
+      kind: 'source',
+      sourceUrl: 'https://tokyowasabi.com/wasabi-experience-en/',
+      recordedAt: '2026-08-29',
+      reason: 'The official English page supports the station and walking-time summary but prohibits unauthorized reproduction; no source screenshot or photograph is committed.',
+    },
+    {
+      omissionId: 'wasabi-experience-coordinate-source-rights-restricted',
+      claimIds: ['place:wasabi-experience:coordinates'],
+      entityId: 'wasabi-experience',
+      kind: 'source',
+      sourceUrl: 'https://www.google.com/maps/search/?api=1&query=35.798697%2C139.177867',
+      recordedAt: '2026-08-29',
+      reason: 'The coordinate is a Google Maps provider point from the operator page embed, not reusable open data or a field-verified point; no map-provider screenshot, photo, or review is committed.',
+    },
     {
       omissionId: 'wasabi-kitchen-foodtruck-source-rights-restricted',
       claimIds: [
