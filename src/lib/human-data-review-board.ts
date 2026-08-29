@@ -37,7 +37,7 @@ export function dataReviewStatusLabelJa(
 
 type SourceType = DataSource['sourceType'];
 
-export type HumanDataReviewSurface = 'Spot' | 'Story' | 'Route' | 'Result';
+export type HumanDataReviewSurface = 'Home' | 'Spot' | 'Story' | 'Route' | 'Result';
 
 export interface HumanDataReviewFactSource {
   claimId: string;
@@ -207,7 +207,7 @@ const UNRESOLVED_STATUSES = new Set<LedgerVerification>([
   'unknown',
 ]);
 
-const SURFACE_ORDER: readonly HumanDataReviewSurface[] = ['Spot', 'Story', 'Route', 'Result'];
+const SURFACE_ORDER: readonly HumanDataReviewSurface[] = ['Home', 'Spot', 'Story', 'Route', 'Result'];
 
 const REVIEW_FOCUS = {
   mobileVenue: {
@@ -632,6 +632,11 @@ function buildReviewContext(
   if (hasUnknown) productImpacts.push(PRODUCT_IMPACTS.unknown);
 
   const affectedSurfaceSet = new Set(facts.flatMap((fact) => fact.affectedSurfaces));
+  for (const claim of claims) {
+    if (!UNRESOLVED_STATUSES.has(claim.verification)) continue;
+    const claimSurface = SURFACE_ORDER.find((surface) => surface === claim.appSurface);
+    if (claimSurface) affectedSurfaceSet.add(claimSurface);
+  }
   if (entityType === 'Route') {
     const routeAudit = PRESENTATION_ROUTE_AUDIT.find((audit) => audit.canonicalRouteId === entityId);
     for (const surface of routeAudit?.surfaces ?? ['Route']) affectedSurfaceSet.add(surface);

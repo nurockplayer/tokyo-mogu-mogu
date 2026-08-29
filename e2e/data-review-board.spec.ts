@@ -269,11 +269,12 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(durationRow.getByText('150', { exact: true })).toBeVisible();
     await expect(durationRow.getByText('🟡 出典確認済み・人の確認待ち', { exact: true })).toBeVisible();
     await expect(durationRow.getByText('Route', { exact: true })).toBeVisible();
+    await expect(durationRow.getByText('Home', { exact: true })).toHaveCount(0);
     await expect(durationRow.getByText('Story', { exact: true })).toHaveCount(0);
     await expect(durationRow.getByText('Result', { exact: true })).toHaveCount(0);
 
     const reviewLayer = page.getByLabel('レビュー判断');
-    for (const surface of ['Result', 'Story', 'Route']) {
+    for (const surface of ['Home', 'Result', 'Story', 'Route']) {
       await expect(reviewLayer.getByText(surface, { exact: true })).toBeVisible();
     }
 

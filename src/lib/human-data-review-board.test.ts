@@ -594,6 +594,47 @@ describe('Human Data Review Board projection (#340, #343)', () => {
     });
   });
 
+  it('adds unresolved Home ownership only to Route entity review context', () => {
+    const board = buildHumanDataReviewBoard({
+      claims: [
+        claim({
+          claimId: 'route:example-route:half-day:duration_minutes',
+          entityType: 'Route',
+          entityId: 'example-route',
+          entityName: '例の食旅',
+          fieldId: 'duration_minutes',
+          displayedValue: '150',
+          canonicalValue: '200',
+          appSurface: 'Route',
+        }),
+        claim({
+          claimId: 'route:example-route:home.factual.duration',
+          entityType: 'Route',
+          entityId: 'example-route',
+          entityName: '例の食旅',
+          fieldId: 'home.factual.duration',
+          fieldLabel: 'Home journey duration',
+          verification: 'unknown',
+          origin: 'demo',
+          appSurface: 'Home',
+        }),
+      ],
+      currentProductEntities: [{ id: 'example-route', type: 'Route' }],
+      evidenceManifest: { evidence: [], omissions: [] },
+    });
+    const route = board.entities[0]!;
+
+    expect(route.facts.find((fact) => fact.fieldKey === 'route:half-day:duration_minutes')
+      ?.affectedSurfaces).toEqual(['Route']);
+    expect(route.unknowns).toEqual([
+      expect.objectContaining({
+        fieldKey: 'route:home.factual.duration',
+        label: '確認項目（Home journey duration）',
+      }),
+    ]);
+    expect(route.reviewContext.affectedSurfaces).toEqual(['Home', 'Route']);
+  });
+
   it('projects the complete current Product inventory and preserves reconciled entities', () => {
     const board = buildHumanDataReviewBoard({
       claims: buildRepositoryLedgerClaims(),
@@ -816,7 +857,7 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       ?.affectedSurfaces).toEqual(['Route']);
     expect(route?.facts.find((fact) => fact.fieldKey === 'route:presentation:result_origin_travel_time')
       ?.affectedSurfaces).toEqual(['Route', 'Result']);
-    expect(route?.reviewContext.affectedSurfaces).toEqual(['Story', 'Route', 'Result']);
+    expect(route?.reviewContext.affectedSurfaces).toEqual(['Home', 'Story', 'Route', 'Result']);
 
     expect(board.entities.find((entity) => entity.id === 'okutama-yamame-journey')).toMatchObject({
       type: 'Route',
