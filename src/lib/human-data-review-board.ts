@@ -3,7 +3,13 @@ import type {
   DataVerificationEvidenceManifest,
   DataVerificationEvidenceOmission,
 } from '../data/data-verification-evidence-manifest';
-import type { DataSource } from '../data/model';
+import {
+  PRESENTATION_ROUTE_AUDIT,
+  PRESENTATION_SPOT_AUDIT,
+  REQUIRED_ROUTE_GUIDANCE_FACTUAL_CLAIMS,
+  REQUIRED_STORY_SPOT_FACTUAL_CLAIMS,
+} from '../data/data-verification-audit-manifest';
+import type { DataSource, Place } from '../data/model';
 import type {
   CurrentProductFactualEntity,
   CurrentProductFactualEntityType,
@@ -21,6 +27,38 @@ export const DATA_REVIEW_STATUS_LABELS_JA: Readonly<Record<LedgerVerification, s
 
 type SourceType = DataSource['sourceType'];
 
+export type HumanDataReviewSurface = 'Spot' | 'Story' | 'Route' | 'Result';
+
+export interface HumanDataReviewFactSource {
+  claimId: string;
+  name: string;
+  url?: string;
+  sourceType?: SourceType;
+  retrievedAt?: string;
+  status: LedgerVerification;
+  value?: string;
+  role: 'content' | 'address' | 'coordinates';
+  relationship: 'primary' | 'source_statement';
+}
+
+export interface HumanDataReviewDecisionItem {
+  id: string;
+  label: string;
+}
+
+export interface HumanDataReviewDecisionUncertainty {
+  fieldKey: string;
+  label: string;
+  status: Extract<LedgerVerification, 'needs_confirmation' | 'stale' | 'conflict' | 'unknown'>;
+}
+
+export interface HumanDataReviewContext {
+  reviewFocus: readonly HumanDataReviewDecisionItem[];
+  productImpacts: readonly HumanDataReviewDecisionItem[];
+  affectedSurfaces: readonly HumanDataReviewSurface[];
+  uncertainties: readonly HumanDataReviewDecisionUncertainty[];
+}
+
 export interface HumanDataReviewFact {
   fieldKey: string;
   label: string;
@@ -30,6 +68,8 @@ export interface HumanDataReviewFact {
   comparedPresentationValue?: string;
   status: LedgerVerification;
   claimIds: readonly string[];
+  sources: readonly HumanDataReviewFactSource[];
+  affectedSurfaces: readonly HumanDataReviewSurface[];
   sourceName?: string;
   sourceUrl?: string;
   retrievedAt?: string;
@@ -69,6 +109,7 @@ export interface HumanDataReviewEntity {
   staleCount: number;
   unknownCount: number;
   conflictCount: number;
+  reviewContext: HumanDataReviewContext;
   facts: readonly HumanDataReviewFact[];
   unknowns: readonly HumanDataReviewUnknown[];
   sources: readonly HumanDataReviewSource[];
@@ -87,6 +128,7 @@ export interface HumanDataReviewBoardInput {
   claims: readonly LedgerClaim[];
   currentProductEntities: readonly CurrentProductFactualEntity[];
   evidenceManifest: DataVerificationEvidenceManifest;
+  places?: readonly Place[];
 }
 
 interface HumanFieldDefinition {
@@ -142,6 +184,58 @@ const UNRESOLVED_STATUSES = new Set<LedgerVerification>([
   'conflict',
   'unknown',
 ]);
+
+const SURFACE_ORDER: readonly HumanDataReviewSurface[] = ['Spot', 'Story', 'Route', 'Result'];
+
+const REVIEW_FOCUS = {
+  mobileVenue: {
+    id: 'mobile-venue-representation',
+    label: '移動型の営業形態を、固定店舗のように見せていないか',
+  },
+  conflict: {
+    id: 'unresolved-source-conflict',
+    label: '出典間の不一致を未解決のまま示し、ひとつを正解として扱っていないか',
+  },
+  timeSensitive: {
+    id: 'time-sensitive-information',
+    label: '変わりうる情報に確認日・変更可能性・最新情報への案内があるか',
+  },
+  stale: {
+    id: 'stale-information',
+    label: '再確認が必要な情報を、現在も有効な事実として断定していないか',
+  },
+  needsConfirmation: {
+    id: 'source-backed-not-verified',
+    label: '出典があることと、ステークホルダー・現地で確認済みであることを区別しているか',
+  },
+  unknown: {
+    id: 'unsupported-claims-remain-unknown',
+    label: '根拠のない項目を推測せず、未確認のまま扱っているか',
+  },
+} as const satisfies Readonly<Record<string, HumanDataReviewDecisionItem>>;
+
+const PRODUCT_IMPACTS = {
+  noFixedLocation: {
+    id: 'no-fixed-location-behavior',
+    label: '固定住所・固定マップピン・固定地点への経路案内・GPSチェックイン・固定の徒歩動線を示さない',
+  },
+  currentInformation: {
+    id: 'current-information-caveat',
+    label: '確認日と変更可能性を示し、訪問前に現在の公式情報を確認できる導線を保つ',
+  },
+  conflict: {
+    id: 'no-conflict-winner',
+    label: '不一致が解消されるまで、いずれかの値を確定情報として選ばない',
+  },
+  stale: {
+    id: 'do-not-present-stale-as-current',
+    label: '再確認が済むまで、古い可能性がある情報を最新情報として断定しない',
+  },
+  unknown: {
+    id: 'do-not-infer-unknown-values',
+    label: '裏付けのない値を補完せず、未確認であることを表示に残す',
+  },
+} as const satisfies Readonly<Record<string, HumanDataReviewDecisionItem>>;
 
 function baseFieldId(fieldId: string): string | undefined {
   if (fieldId.endsWith(':en') || fieldId.endsWith(':zh-TW')) return undefined;
@@ -225,6 +319,13 @@ function fieldDefinition(claim: LedgerClaim): HumanFieldDefinition | undefined {
   };
 }
 
+function sourceStatementParentFieldId(fieldId: string): string | undefined {
+  const base = baseFieldId(fieldId);
+  if (!base) return undefined;
+  const markerIndex = base.indexOf(':source:');
+  return markerIndex > 0 ? base.slice(0, markerIndex) : undefined;
+}
+
 function preferredValueFor(claim: LedgerClaim): string | undefined {
   return claim.displayedValue || claim.canonicalValue;
 }
@@ -265,7 +366,88 @@ function preferredEntityName(
     .at(0)?.[0];
 }
 
-function buildFacts(claims: readonly LedgerClaim[]): HumanDataReviewFact[] {
+function sourceRoleFor(definition: HumanFieldDefinition): HumanDataReviewFactSource['role'] {
+  if (definition.key === 'address') return 'address';
+  if (definition.key === 'coordinates') return 'coordinates';
+  return 'content';
+}
+
+function sourceEdgesForFact(
+  claim: LedgerClaim,
+  definition: HumanFieldDefinition,
+  claims: readonly LedgerClaim[],
+): { claimIds: string[]; sources: HumanDataReviewFactSource[] } {
+  const statementClaims = claims
+    .filter((candidate) => {
+      const parentFieldId = sourceStatementParentFieldId(candidate.fieldId);
+      return parentFieldId !== undefined && definition.aliases.includes(parentFieldId);
+    })
+    .sort((left, right) => left.claimId.localeCompare(right.claimId));
+  const sourceClaims = statementClaims.length > 0 ? statementClaims : [claim];
+  const sources = sourceClaims
+    .filter((candidate): candidate is LedgerClaim & { primarySource: string } => Boolean(candidate.primarySource))
+    .map((candidate): HumanDataReviewFactSource => ({
+      claimId: candidate.claimId,
+      name: candidate.primarySource,
+      url: candidate.primarySourceUrl,
+      sourceType: candidate.primarySourceType,
+      retrievedAt: candidate.retrievedAt,
+      status: candidate.verification,
+      value: statementClaims.length > 0 ? preferredValueFor(candidate) : undefined,
+      role: sourceRoleFor(definition),
+      relationship: statementClaims.length > 0 ? 'source_statement' : 'primary',
+    }));
+
+  return {
+    claimIds: [claim.claimId, ...statementClaims.map((candidate) => candidate.claimId)].sort(),
+    sources,
+  };
+}
+
+function sortedSurfaces(surfaces: ReadonlySet<HumanDataReviewSurface>): HumanDataReviewSurface[] {
+  return SURFACE_ORDER.filter((surface) => surfaces.has(surface));
+}
+
+function affectedSurfacesForFact(
+  entityId: string,
+  entityType: CurrentProductFactualEntityType,
+  definition: HumanFieldDefinition,
+): HumanDataReviewSurface[] {
+  const surfaces = new Set<HumanDataReviewSurface>();
+  const spotAudit = PRESENTATION_SPOT_AUDIT.find((audit) =>
+    audit.canonicalPlaceId === entityId || audit.presentationSpotId === entityId);
+  if (entityType === 'Spot' || spotAudit) surfaces.add('Spot');
+
+  if (entityType === 'Story') surfaces.add('Story');
+  if (entityType === 'Route') {
+    const routeAudit = PRESENTATION_ROUTE_AUDIT.find((audit) => audit.canonicalRouteId === entityId);
+    for (const surface of routeAudit?.surfaces ?? ['Route']) surfaces.add(surface);
+  }
+
+  const matchesCanonicalField = (canonicalFieldId: string | undefined) =>
+    canonicalFieldId !== undefined
+    && (canonicalFieldId === definition.key || definition.aliases.includes(canonicalFieldId));
+  if (REQUIRED_ROUTE_GUIDANCE_FACTUAL_CLAIMS.some((usage) =>
+    'canonicalPlaceId' in usage
+    && usage.canonicalPlaceId === entityId
+    && matchesCanonicalField(usage.canonicalFieldId))) {
+    surfaces.add('Route');
+  }
+  if (REQUIRED_STORY_SPOT_FACTUAL_CLAIMS.some((usage) =>
+    'canonicalPlaceId' in usage
+    && usage.canonicalPlaceId === entityId
+    && matchesCanonicalField(usage.canonicalFieldId))) {
+    surfaces.add('Story');
+  }
+
+  return sortedSurfaces(surfaces);
+}
+
+function buildFacts(
+  claims: readonly LedgerClaim[],
+  entityId: string,
+  entityType: CurrentProductFactualEntityType,
+): HumanDataReviewFact[] {
   const candidates = new Map<string, { claim: LedgerClaim; definition: HumanFieldDefinition }>();
   for (const claim of claims) {
     if (claim.verification === 'unknown' || !preferredValueFor(claim)) continue;
@@ -291,20 +473,25 @@ function buildFacts(claims: readonly LedgerClaim[]): HumanDataReviewFact[] {
       left.definition.order - right.definition.order
       || left.definition.key.localeCompare(right.definition.key),
     )
-    .map(({ claim, definition }) => ({
-      fieldKey: definition.key,
-      label: definition.label,
-      canonicalValue: claim.canonicalValue,
-      displayedValue: claim.displayedValue,
-      comparedPresentationClaimId: claim.comparedPresentationClaimId,
-      comparedPresentationValue: claim.comparedPresentationValue,
-      status: claim.verification,
-      claimIds: [claim.claimId],
-      sourceName: claim.primarySource,
-      sourceUrl: claim.primarySourceUrl,
-      retrievedAt: claim.retrievedAt,
-      finding: claim.finding,
-    }));
+    .map(({ claim, definition }) => {
+      const traceability = sourceEdgesForFact(claim, definition, claims);
+      return {
+        fieldKey: definition.key,
+        label: definition.label,
+        canonicalValue: claim.canonicalValue,
+        displayedValue: claim.displayedValue,
+        comparedPresentationClaimId: claim.comparedPresentationClaimId,
+        comparedPresentationValue: claim.comparedPresentationValue,
+        status: claim.verification,
+        claimIds: traceability.claimIds,
+        sources: traceability.sources,
+        affectedSurfaces: affectedSurfacesForFact(entityId, entityType, definition),
+        sourceName: claim.primarySource,
+        sourceUrl: claim.primarySourceUrl,
+        retrievedAt: claim.retrievedAt,
+        finding: claim.finding,
+      };
+    });
 }
 
 function buildUnknowns(claims: readonly LedgerClaim[]): HumanDataReviewUnknown[] {
@@ -374,6 +561,53 @@ function buildSources(claims: readonly LedgerClaim[]): HumanDataReviewSource[] {
   });
 }
 
+function buildReviewContext(
+  facts: readonly HumanDataReviewFact[],
+  unknowns: readonly HumanDataReviewUnknown[],
+  claims: readonly LedgerClaim[],
+  place: Place | undefined,
+): HumanDataReviewContext {
+  const isMobile = place?.locationKind === 'mobile' && place.mobileVenue.noFixedStorefront;
+  const factClaimIds = new Set(facts.flatMap((fact) => fact.claimIds));
+  const hasTimeSensitiveInformation = isMobile || claims.some((claim) =>
+    claim.timeSensitive && factClaimIds.has(claim.claimId));
+  const hasConflict = facts.some((fact) => fact.status === 'conflict');
+  const hasStale = facts.some((fact) => fact.status === 'stale');
+  const hasNeedsConfirmation = facts.some((fact) => fact.status === 'needs_confirmation');
+  const hasUnknown = unknowns.length > 0;
+
+  const reviewFocus: HumanDataReviewDecisionItem[] = [];
+  if (isMobile) reviewFocus.push(REVIEW_FOCUS.mobileVenue);
+  if (hasConflict) reviewFocus.push(REVIEW_FOCUS.conflict);
+  if (hasTimeSensitiveInformation) reviewFocus.push(REVIEW_FOCUS.timeSensitive);
+  if (hasStale) reviewFocus.push(REVIEW_FOCUS.stale);
+  if (hasNeedsConfirmation) reviewFocus.push(REVIEW_FOCUS.needsConfirmation);
+  if (hasUnknown) reviewFocus.push(REVIEW_FOCUS.unknown);
+
+  const productImpacts: HumanDataReviewDecisionItem[] = [];
+  if (isMobile) productImpacts.push(PRODUCT_IMPACTS.noFixedLocation);
+  if (hasTimeSensitiveInformation) productImpacts.push(PRODUCT_IMPACTS.currentInformation);
+  if (hasConflict) productImpacts.push(PRODUCT_IMPACTS.conflict);
+  if (hasStale) productImpacts.push(PRODUCT_IMPACTS.stale);
+  if (hasUnknown) productImpacts.push(PRODUCT_IMPACTS.unknown);
+
+  const affectedSurfaces = sortedSurfaces(new Set(facts.flatMap((fact) => fact.affectedSurfaces)));
+  const uncertainties: HumanDataReviewDecisionUncertainty[] = [
+    ...facts
+      .filter((fact): fact is HumanDataReviewFact & {
+        status: HumanDataReviewDecisionUncertainty['status'];
+      } => UNRESOLVED_STATUSES.has(fact.status))
+      .map((fact) => ({ fieldKey: fact.fieldKey, label: fact.label, status: fact.status })),
+    ...unknowns.map((field) => ({
+      fieldKey: field.fieldKey,
+      label: field.label,
+      status: 'unknown' as const,
+    })),
+  ];
+
+  return { reviewFocus, productImpacts, affectedSurfaces, uncertainties };
+}
+
 function buildReferences(claims: readonly LedgerClaim[]): HumanDataReviewReference[] {
   const references = new Map<string, HumanDataReviewReference>();
   for (const reference of claims.flatMap((claim) => claim.issues)) {
@@ -429,13 +663,14 @@ export function buildHumanDataReviewBoard(input: HumanDataReviewBoardInput): Hum
     }
     currentEntityTypes.set(entity.id, entity.type);
   }
+  const placesById = new Map((input.places ?? []).map((place) => [place.id, place]));
 
   const entities = [...currentEntityTypes]
     .sort(([left], [right]) => left.localeCompare(right))
     .map(([entityId, type]): HumanDataReviewEntity => {
     const projectionClaims = input.claims.filter((claim) => claim.entityId === entityId);
     const claimIds = new Set(projectionClaims.map((claim) => claim.claimId));
-    const facts = buildFacts(projectionClaims);
+    const facts = buildFacts(projectionClaims, entityId, type);
     const unknowns = buildUnknowns(projectionClaims);
     const statuses = [
       ...facts.map((fact) => fact.status),
@@ -464,6 +699,7 @@ export function buildHumanDataReviewBoard(input: HumanDataReviewBoardInput): Hum
       staleCount,
       unknownCount: unknowns.length,
       conflictCount,
+      reviewContext: buildReviewContext(facts, unknowns, projectionClaims, placesById.get(entityId)),
       facts,
       unknowns,
       sources: buildSources(projectionClaims),

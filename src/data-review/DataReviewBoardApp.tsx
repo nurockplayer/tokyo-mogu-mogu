@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { places } from '../data';
 import { DATA_VERIFICATION_EVIDENCE_MANIFEST } from '../data/data-verification-evidence-manifest';
 import { CURRENT_PRODUCT_FACTUAL_INVENTORY } from '../lib/current-product-factual-inventory';
 import type { LedgerVerification } from '../lib/data-verification-ledger';
@@ -47,10 +48,17 @@ const ENTITY_TYPE_LABELS_JA = {
 } as const;
 const ENTITY_TYPE_ORDER = ['Spot', 'Story', 'Route'] as const;
 
+const FACT_SOURCE_ROLE_JA: Readonly<Record<HumanDataReviewFact['sources'][number]['role'], string>> = {
+  content: '内容の根拠',
+  address: '住所の根拠',
+  coordinates: '位置情報の根拠',
+};
+
 const board = buildHumanDataReviewBoard({
   claims: buildRepositoryLedgerClaims(),
   currentProductEntities: CURRENT_PRODUCT_FACTUAL_INVENTORY,
   evidenceManifest: DATA_VERIFICATION_EVIDENCE_MANIFEST,
+  places,
 });
 
 function selectedEntityId(): string | undefined {
@@ -118,6 +126,91 @@ function FactValue({ fact }: { fact: HumanDataReviewFact }) {
     <span className="drb-fact__value">
       {fact.displayedValue ?? fact.canonicalValue}
     </span>
+  );
+}
+
+function FactTraceability({ fact }: { fact: HumanDataReviewFact }) {
+  if (fact.sources.length === 0 && fact.affectedSurfaces.length === 0) return null;
+
+  return (
+    <div className="drb-fact__traceability">
+      {fact.sources.length > 0 && (
+        <div className="drb-fact__sources" aria-label={`${fact.label}の根拠`}>
+          <small>この項目の根拠</small>
+          <div>
+            {fact.sources.map((source) => (
+              <article key={source.claimId} className="drb-fact-source">
+                <span>
+                  {source.relationship === 'source_statement' ? '出典別の記載' : FACT_SOURCE_ROLE_JA[source.role]}
+                </span>
+                {source.url
+                  ? <a href={source.url} target="_blank" rel="noreferrer">{source.name}</a>
+                  : <strong>{source.name}</strong>}
+                {source.value && <p>{source.value}</p>}
+                <small>
+                  {DATA_REVIEW_STATUS_LABELS_JA[source.status]} · {source.retrievedAt ?? '確認日なし'}
+                </small>
+              </article>
+            ))}
+          </div>
+        </div>
+      )}
+      {fact.affectedSurfaces.length > 0 && (
+        <div className="drb-fact__surfaces" aria-label={`${fact.label}の確認対象画面`}>
+          <small>確認対象画面</small>
+          <div>{fact.affectedSurfaces.map((surface) => <span key={surface}>{surface}</span>)}</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function DecisionLayer({ entity }: { entity: HumanDataReviewEntity }) {
+  const context = entity.reviewContext;
+  return (
+    <section className="drb-panel drb-decision" aria-label="レビュー判断" aria-labelledby="decision-heading">
+      <div className="drb-panel__heading drb-decision__heading">
+        <span>REVIEW FOCUS</span>
+        <h2 id="decision-heading">レビュー判断</h2>
+      </div>
+      <div className="drb-decision__grid">
+        <article>
+          <h3>判断ポイント</h3>
+          <ul>
+            {context.reviewFocus.map((item) => <li key={item.id}>{item.label}</li>)}
+          </ul>
+        </article>
+        <article>
+          <h3>Productへの影響</h3>
+          <ul>
+            {context.productImpacts.map((item) => <li key={item.id}>{item.label}</li>)}
+          </ul>
+        </article>
+        <article>
+          <h3>確認対象画面</h3>
+          <div className="drb-decision__surfaces">
+            {context.affectedSurfaces.length === 0
+              ? <p>現在の構造化メタデータに画面の紐づけはありません。</p>
+              : context.affectedSurfaces.map((surface) => <span key={surface}>{surface}</span>)}
+          </div>
+        </article>
+        <article>
+          <h3>残っている不確実性</h3>
+          <ul className="drb-decision__uncertainties">
+            {context.uncertainties.length === 0 && <li>判断に関わる未解決項目はありません。</li>}
+            {context.uncertainties.map((item) => (
+              <li key={`${item.fieldKey}:${item.status}`}>
+                <span className={statusClass(item.status)}>{DATA_REVIEW_STATUS_LABELS_JA[item.status]}</span>
+                <strong>{item.label}</strong>
+              </li>
+            ))}
+          </ul>
+        </article>
+      </div>
+      <p className="drb-decision__note">
+        この判断情報は事実の正本ではなく、現在の構造化データとProduct利用関係から生成したレビュー用の見方です。
+      </p>
+    </section>
   );
 }
 
@@ -275,6 +368,8 @@ function Detail({ entity, onBack }: { entity: HumanDataReviewEntity; onBack: () 
 
       <div className="drb-detail-grid">
         <div className="drb-detail-main">
+          <DecisionLayer entity={entity} />
+
           <section className="drb-panel" aria-labelledby="known-heading">
             <div className="drb-panel__heading"><span>01</span><h2 id="known-heading">現在わかっていること</h2></div>
             <div className="drb-facts" role="table" aria-label="現在わかっていること">
@@ -285,7 +380,10 @@ function Detail({ entity, onBack }: { entity: HumanDataReviewEntity; onBack: () 
               {entity.facts.map((fact) => (
                 <div className="drb-fact" role="row" key={fact.fieldKey}>
                   <strong role="cell">{fact.label}</strong>
-                  <div role="cell"><FactValue fact={fact} /></div>
+                  <div role="cell" className="drb-fact__detail">
+                    <FactValue fact={fact} />
+                    <FactTraceability fact={fact} />
+                  </div>
                   <span role="cell" className="drb-fact__status">
                     <span className={statusClass(fact.status)}>{DATA_REVIEW_STATUS_LABELS_JA[fact.status]}</span>
                     <small>{fact.retrievedAt ?? '確認日なし'}</small>

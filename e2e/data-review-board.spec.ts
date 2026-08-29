@@ -46,8 +46,9 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(page).toHaveURL(/#okutama-kitchen$/);
     await expect(page.getByRole('heading', { name: '現在わかっていること' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'まだわからないこと' })).toBeVisible();
-    await expect(page.getByText('予約方法・URL', { exact: true })).toBeVisible();
-    await expect(page.getByText('食事制限・アレルギー対応', { exact: true })).toBeVisible();
+    const unknowns = page.locator('.drb-unknowns');
+    await expect(unknowns.getByText('予約方法・URL', { exact: true })).toBeVisible();
+    await expect(unknowns.getByText('食事制限・アレルギー対応', { exact: true })).toBeVisible();
     await expect(page.getByRole('heading', { name: '出典・確認状況' })).toBeVisible();
     await expect(page.getByText('位置情報の出典', { exact: true })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'アプリでの表示' })).toBeVisible();
@@ -83,10 +84,12 @@ test.describe('Human Data Review Board (#340)', () => {
     }));
     expect(overviewDimensions.scrollWidth).toBeLessThanOrEqual(overviewDimensions.clientWidth);
 
-    await page.goto('/data-review/#yamashiroya');
+    await page.goto('/data-review/#wasabi-kitchen');
 
-    await expect(page.getByRole('heading', { name: '奥多摩わさび本舗 山城屋' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'わさび食堂' })).toBeVisible();
     await expect(page.getByText('⚠️ 情報に矛盾あり', { exact: true }).first()).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'レビュー判断' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Productへの影響' })).toBeVisible();
 
     const dimensions = await page.evaluate(() => ({
       scrollWidth: document.documentElement.scrollWidth,
@@ -101,10 +104,27 @@ test.describe('Human Data Review Board (#340)', () => {
 
     await expect(page.getByRole('heading', { name: 'PORT OKUTAMA' })).toBeVisible();
     await expect(page.getByText('🟡 出典あり・要確認', { exact: true }).first()).toBeVisible();
-    await expect(page.getByText('営業時間', { exact: true })).toBeVisible();
-    await expect(page.getByText('取扱・サービス', { exact: true })).toBeVisible();
-    await expect(page.getByText('最新の公式情報', { exact: true })).toBeVisible();
-    await expect(page.getByText('予約方法・URL', { exact: true })).toBeVisible();
+    const facts = page.getByRole('table', { name: '現在わかっていること' });
+    await expect(facts.getByText('営業時間', { exact: true })).toBeVisible();
+    await expect(facts.getByText('取扱・サービス', { exact: true })).toBeVisible();
+    await expect(facts.getByText('最新の公式情報', { exact: true })).toBeVisible();
+    await expect(page.locator('.drb-unknowns').getByText('予約方法・URL', { exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'レビュー判断' })).toBeVisible();
+    const addressRow = page.getByRole('row').filter({ has: page.getByText('住所', { exact: true }) });
+    await expect(addressRow.getByRole('link', { name: 'JR東日本（PORT OKUTAMA）' })).toHaveAttribute(
+      'href',
+      'https://www.jreast.co.jp/hachioji/ome-itsukaichi/spot/detail382787.html',
+    );
+    const phoneRow = page.getByRole('row').filter({ has: page.getByText('電話番号', { exact: true }) });
+    await expect(phoneRow.getByRole('link', { name: 'PORT OKUTAMA（公式サイト）' })).toHaveAttribute(
+      'href',
+      'https://www.okutama.ne.jp/',
+    );
+    const coordinateRow = page.getByRole('row').filter({ has: page.getByText('位置情報', { exact: true }) });
+    await expect(coordinateRow.getByRole('link', { name: 'OpenStreetMap（PORT OKUTAMA）' })).toHaveAttribute(
+      'href',
+      'https://www.openstreetmap.org/node/6552267871',
+    );
     const operatorSource = page.locator('.drb-source').filter({
       has: page.getByText('PORT OKUTAMA（公式サイト）', { exact: true }),
     });
@@ -139,12 +159,36 @@ test.describe('Human Data Review Board (#340)', () => {
       '価格・取扱情報',
       '最新の公式情報',
     ]) {
-      await expect(page.getByText(label, { exact: true })).toBeVisible();
+      await expect(page.getByRole('table', { name: '現在わかっていること' }).getByText(label, { exact: true })).toBeVisible();
     }
     await expect(page.getByText('住所', { exact: true })).toHaveCount(0);
     await expect(page.getByText('位置情報', { exact: true })).toHaveCount(0);
     await expect(page.getByText('mobile_food_truck / no_permanent_storefront', { exact: true })).toBeVisible();
     await expect(page.getByText('固定店舗のないキッチンカー', { exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'レビュー判断' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: '判断ポイント' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Productへの影響' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: '確認対象画面' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: '残っている不確実性' })).toBeVisible();
+    await expect(page.getByText('移動型の営業形態を、固定店舗のように見せていないか', { exact: true })).toBeVisible();
+    await expect(page.getByText(/固定住所・固定マップピン・固定地点への経路案内・GPSチェックイン/)).toBeVisible();
+    const reviewLayer = page.getByLabel('レビュー判断');
+    for (const surface of ['Spot', 'Story', 'Route']) {
+      await expect(reviewLayer.getByText(surface, { exact: true })).toBeVisible();
+    }
+    const scheduleConflictRow = page.getByRole('row').filter({
+      has: page.getByText('日程情報の不一致', { exact: true }),
+    });
+    await expect(scheduleConflictRow.getByRole('link', { name: 'TOKYO WASABI（2026年8月 わさび食堂営業日）' })).toHaveAttribute(
+      'href',
+      'https://tokyowasabi.com/information/2751/260728/',
+    );
+    await expect(scheduleConflictRow.getByRole('link', { name: 'TOKYO WASABI（FUSSA TANABATA CHALLENGE）' })).toHaveAttribute(
+      'href',
+      'https://tokyowasabi.com/hitoshi/2573/fussa-tanabata-challenge/',
+    );
+    await expect(scheduleConflictRow).toContainText('2026-08-07〜2026-08-09');
+    await expect(scheduleConflictRow).toContainText('2026-08-08〜2026-08-10');
     for (const url of [
       'https://tokyowasabi.com/foodtruck/',
       'https://tokyowasabi.com/category/information/',
@@ -163,6 +207,30 @@ test.describe('Human Data Review Board (#340)', () => {
       'href',
       'https://github.com/nurockplayer/tokyo-mogu-mogu/issues/324',
     );
+  });
+
+  test('keeps both Akabeko phone source sides unresolved and shows their actual Spot usage', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/data-review/#akabeko');
+
+    const phoneRow = page.getByRole('row').filter({ has: page.getByText('電話番号', { exact: true }) });
+    await expect(phoneRow).toContainText('⚠️ 情報に矛盾あり');
+    await expect(phoneRow.getByRole('link', { name: '炉ばた あかべこ（公式サイト）' })).toHaveAttribute(
+      'href',
+      'https://akabeko.tokyo/',
+    );
+    await expect(phoneRow.getByRole('link', { name: '炉ばた あかべこ（公式ニュースページ）' })).toHaveAttribute(
+      'href',
+      'https://akabeko.tokyo/news',
+    );
+    await expect(phoneRow.getByRole('link', { name: '民話の宿 荒澤屋（公式お問い合わせ）' })).toHaveAttribute(
+      'href',
+      'https://arasawaya.co.jp/contact/',
+    );
+    await expect(phoneRow.getByText('Spot', { exact: true })).toBeVisible();
+    await expect(phoneRow.getByText('Route', { exact: true })).toHaveCount(0);
+    await expect(phoneRow.getByText('Story', { exact: true })).toHaveCount(0);
+    await expect(page.getByText('不一致が解消されるまで、いずれかの値を確定情報として選ばない', { exact: true })).toBeVisible();
   });
 
   test('represents both current Route and Story identities', async ({ page }) => {
@@ -207,7 +275,8 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(presentationRow.getByText('東京駅 / から電車で　約120分', { exact: true })).toBeVisible();
     await expect(presentationRow.getByText('比較対象の表示', { exact: true })).toBeVisible();
     await expect(presentationRow.getByText('東京駅 / 60 分', { exact: true })).toBeVisible();
-    await expect(page.getByText('取扱・運行情報（okutama-kitchen）', { exact: true })).toBeVisible();
+    await expect(page.getByRole('table', { name: '現在わかっていること' })
+      .getByText('取扱・運行情報（okutama-kitchen）', { exact: true })).toBeVisible();
     await expect(page.getByText('特選ソフトジェラート（わさび味を含む・提供状況は要確認）', { exact: true }).first()).toBeVisible();
     await expect(page.getByRole('img', { name: /東京わさび文化を巡る旅.*アプリ表示/ }).first()).toBeVisible();
   });
