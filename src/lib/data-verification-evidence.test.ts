@@ -458,6 +458,86 @@ describe('data verification evidence manifest (#334)', () => {
     ).not.toThrow();
   });
 
+  it('records localized Akabeko app evidence and every source omission (#326)', () => {
+    const repositoryClaims = buildRepositoryLedgerClaims();
+    const evidenceById = new Map(
+      DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.map((item) => [item.evidenceId, item]),
+    );
+    const omissionsById = new Map(
+      DATA_VERIFICATION_EVIDENCE_MANIFEST.omissions.map((item) => [item.omissionId, item]),
+    );
+
+    for (const locale of ['ja', 'en', 'zh-TW'] as const) {
+      expect(evidenceById.get(`akabeko-app-${locale}-375`)).toMatchObject({
+        kind: 'app',
+        entityId: 'akabeko',
+        locale,
+        viewport: { width: 375, height: 1800 },
+        path: `docs/data-evidence/akabeko/app-${locale}-375.webp`,
+        capturedAt: '2026-08-29',
+      });
+      for (const surface of ['route-wasabi', 'route-yamame', 'story-wasabi', 'story-yamame']) {
+        expect(evidenceById.get(`akabeko-${surface}-${locale}-375`)).toMatchObject({
+          kind: 'app',
+          locale,
+          viewport: { width: 375, height: 812 },
+          path: `docs/data-evidence/akabeko/${surface}-${locale}-375.webp`,
+          capturedAt: '2026-08-29',
+        });
+      }
+    }
+    expect(evidenceById.get('akabeko-app-ja-375')?.claimIds).toEqual(expect.arrayContaining([
+      'place:akabeko:name:ja',
+      'place:akabeko:address:ja',
+      'place:akabeko:phone:ja',
+      'spot:akabeko:hours',
+      'spot:akabeko:closed_days',
+      'spot:akabeko:reservation',
+      'spot:akabeko:price_availability',
+      'spot:akabeko:official_current_url',
+    ]));
+    expect(evidenceById.get('akabeko-route-wasabi-ja-375')?.claimIds).toContain(
+      'route:okutama-wasabi-journey:full-day:step:akabeko:factual:last-order-time',
+    );
+    expect(evidenceById.get('akabeko-route-yamame-ja-375')?.claimIds).toContain(
+      'route:okutama-yamame-journey:half-day:step:akabeko:factual:dish-availability',
+    );
+    expect(evidenceById.get('akabeko-story-wasabi-ja-375')?.claimIds).toContain(
+      'story:wasabi-okutama:story.spot.akabeko.menu-availability',
+    );
+    expect(evidenceById.get('akabeko-story-yamame-ja-375')?.claimIds).toContain(
+      'story:yamame-okutama:story.spot.akabeko.dish-availability',
+    );
+
+    for (const [omissionId, sourceUrl] of [
+      ['akabeko-home-source-rights-restricted', 'https://akabeko.tokyo/'],
+      ['akabeko-news-source-rights-restricted', 'https://akabeko.tokyo/news'],
+      ['arasawaya-contact-source-rights-restricted', 'https://arasawaya.co.jp/contact/'],
+      ['akabeko-coordinate-source-not-captured', 'https://www.openstreetmap.org/node/4916080538'],
+    ] as const) {
+      expect(omissionsById.get(omissionId)).toMatchObject({
+        kind: 'source',
+        sourceUrl,
+        recordedAt: '2026-08-29',
+      });
+    }
+    expect(
+      omissionsById.get('akabeko-news-source-rights-restricted')?.claimIds,
+    ).toContain('place:akabeko:phone:source:akabeko-news-shared-contact');
+    expect(
+      omissionsById.get('arasawaya-contact-source-rights-restricted')?.claimIds,
+    ).toContain('place:akabeko:phone:source:arasawaya-reservation-inquiry');
+    expect(
+      DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.some((item) => item.kind === 'source'),
+    ).toBe(false);
+    expect(() =>
+      validateDataVerificationEvidenceManifest(
+        DATA_VERIFICATION_EVIDENCE_MANIFEST,
+        repositoryClaims,
+      ),
+    ).not.toThrow();
+  });
+
   it.each([
     {
       name: 'orphan claim reference',

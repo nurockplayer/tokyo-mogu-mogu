@@ -12,6 +12,7 @@ import {
   localizePlaceClosedDays,
   localizePlaceClosureConflict,
   localizePlaceParking,
+  localizePlacePhoneConflict,
   localizePlaceProductCategories,
   referenceSpotDetails,
   routeStepText,
@@ -381,6 +382,70 @@ describe('Netlify parity presentation content', () => {
       en: 'About 5 min on foot',
       'zh-TW': '步行約 5 分鐘',
     });
+  });
+
+  it('derives Akabeko Spot, Route, and Story facts without resolving its phone conflict (#326)', () => {
+    const place = PLACES.find((candidate) => candidate.id === 'akabeko');
+    const visitor = place?.visitorInformation;
+    const detail = referenceSpotDetails.akabeko;
+    const wasabiRouteStep = routeStepText['demo-okutama-wasabi:full-day'].find(
+      (step) => step.spotId === 'akabeko',
+    );
+    const yamameRouteStep = routeStepText['demo-okutama-yamame:half-day'].find(
+      (step) => step.spotId === 'akabeko',
+    );
+    const wasabiStory = storySpotGroups['demo-okutama-wasabi'].nearby.find(
+      (reference) => reference.spotId === 'akabeko',
+    );
+    const yamameStory = storySpotGroups['demo-okutama-yamame'].nearby.find(
+      (reference) => reference.spotId === 'akabeko',
+    );
+
+    expect(place).toBeDefined();
+    expect(visitor).toBeDefined();
+    expect(detail).toBeDefined();
+    if (!place || !visitor || !detail || !wasabiRouteStep || !yamameRouteStep || !wasabiStory || !yamameStory) {
+      throw new Error('Missing source-backed Akabeko presentation.');
+    }
+
+    expect(demoSpots.akabeko.copy.ja.name).toBe(place.nameJa);
+    const phone = localizePlacePhoneConflict(visitor.phoneConflict?.statements ?? []);
+    expect(detail.information.find((row) => row.fieldId === 'phone')?.value).toEqual(phone);
+    for (const locale of locales) {
+      expect(phone[locale]).toContain('050-5304-3644');
+      expect(phone[locale]).toContain('0428-83-2365');
+      expect(phone[locale]).toMatch(
+        locale === 'ja' ? /利用する番号.*未確認/ : locale === 'en' ? /which number to use.*unconfirmed/i : /應使用哪個號碼.*尚未確認/,
+      );
+      expect(detail.caution.map((item) => item[locale]).join(' ')).toMatch(
+        locale === 'ja' ? /2つの電話番号|公式/ : locale === 'en' ? /two phone|official/i : /兩個電話|官方/,
+      );
+      expect(detail.caution.map((item) => item[locale]).join(' ')).toMatch(
+        locale === 'ja' ? /050.*0428.*荒澤屋共通/ : locale === 'en' ? /050.*0428.*shared with Arasawaya/i : /050.*0428.*與荒澤屋共用/,
+      );
+    }
+
+    expect(detail.information.find((row) => row.fieldId === 'hours')?.value).toEqual({
+      ja: 'ランチ 11:30〜L.O. 13:30／ディナー 18:00〜L.O. 20:00',
+      en: 'Lunch 11:30–L.O. 13:30 / Dinner 18:00–L.O. 20:00',
+      'zh-TW': '午餐 11:30–最後點餐 13:30／晚餐 18:00–最後點餐 20:00',
+    });
+    expect(detail.information.find((row) => row.fieldId === 'reservation')?.value.ja)
+      .toContain('予約推奨');
+    expect(wasabiRouteStep.description.ja).toContain(
+      visitor.mealHourSchedules?.find((schedule) => schedule.id === 'lunch')?.lastOrder ?? '',
+    );
+    expect(yamameRouteStep.description.ja).toContain('奥多摩ヤマメ');
+    expect(yamameRouteStep.description.ja).toContain('60分');
+    for (const locale of locales) {
+      expect(wasabiStory.description?.[locale]).toMatch(
+        locale === 'ja' ? /ヤマメ|こんにゃく|わさびジェラート/ : locale === 'en' ? /yamame|konnyaku|wasabi gelato/i : /山女魚|蒟蒻|山葵義式冰淇淋/,
+      );
+      expect(yamameStory.description?.[locale]).toMatch(
+        locale === 'ja' ? /刺身.*炭火焼/ : locale === 'en' ? /sashimi.*charcoal-grilled/i : /生魚片.*炭火烤/,
+      );
+    }
+    expect(yamameStory.description?.ja).not.toMatch(/味噌|山椒/);
   });
 
   it('resolves every presentation asset to a bundled local file', () => {

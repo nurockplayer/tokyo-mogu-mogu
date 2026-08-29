@@ -98,6 +98,11 @@ describe('seed data contract (#2)', () => {
         expect(statement.source.retrievedAt, `${p.id} conflict source missing retrievedAt`).toBeDefined();
         expect(statement.source.originalId, `${p.id} conflict source missing originalId`).toBeDefined();
       }
+      for (const statement of p.visitorInformation?.phoneConflict?.statements ?? []) {
+        expect(statement.source.sourceType, `${p.id} phone-conflict source missing sourceType`).toBeDefined();
+        expect(statement.source.retrievedAt, `${p.id} phone-conflict source missing retrievedAt`).toBeDefined();
+        expect(statement.source.originalId, `${p.id} phone-conflict source missing originalId`).toBeDefined();
+      }
     }
   });
 
@@ -288,6 +293,7 @@ describe('seed data contract (#2)', () => {
           { id: 'weekend-holiday', opens: '11:00', closes: '17:30', lastOrder: '17:00' },
         ],
         irregularClosures: true,
+        openDaily: true,
         serviceCategories: [
           'food-and-drink',
           'specialty-coffee',
@@ -301,6 +307,88 @@ describe('seed data contract (#2)', () => {
     expect(portOkutama?.source).not.toHaveProperty('confirmedAt');
     expect(portOkutama?.addressSource?.license).toContain('reuse rights not stated');
     expect(portOkutama?.coordinateSource?.license).toContain('ODbL 1.0');
+  });
+
+  it('keeps Akabeko facts and both first-party phone lineages in one canonical Place (#326)', () => {
+    const akabeko = getPlaceById('akabeko');
+
+    expect(akabeko).toMatchObject({
+      nameJa: '炉ばた あかべこ',
+      nameEn: 'Robata Akabeko',
+      address: '〒198-0212 東京都西多摩郡奥多摩町氷川1446',
+      latitude: 35.8080949,
+      longitude: 139.0955012,
+      coordinatePrecision: 'precise',
+      coordinateSource: {
+        name: 'OpenStreetMap（旅館 荒澤屋）',
+        url: 'https://www.openstreetmap.org/node/4916080538',
+        sourceType: 'open_data',
+        retrievedAt: '2026-08-29',
+        verificationStatus: 'needs_confirmation',
+        originalId: 'node/4916080538',
+      },
+      foodCultureIds: [],
+      type: 'restaurant',
+      origin: 'source',
+      source: {
+        name: '炉ばた あかべこ（公式サイト）',
+        url: 'https://akabeko.tokyo/',
+        sourceType: 'official_web',
+        retrievedAt: '2026-08-29',
+        verificationStatus: 'needs_confirmation',
+        originalId: 'akabeko-home',
+      },
+      visitorInformation: {
+        mealHourSchedules: [
+          { id: 'lunch', opens: '11:30', lastOrder: '13:30' },
+          { id: 'dinner', opens: '18:00', lastOrder: '20:00' },
+        ],
+        irregularClosures: true,
+        reservationPolicy: {
+          requirement: 'recommended',
+          reasonIds: ['limited-seating', 'busy-periods-may-fill'],
+        },
+        productCategories: [
+          'okutama-yamame-sashimi',
+          'okutama-yamame-charcoal-grill',
+          'handmade-konnyaku-sashimi',
+          'wasabi-gelato',
+        ],
+        phoneConflict: {
+          verificationStatus: 'conflict',
+          statements: [
+            {
+              id: 'akabeko-home-shared-contact',
+              number: '050-5304-3644',
+              role: 'reservation_inquiry',
+              scope: 'shared_business_group',
+              placeRoutingStatus: 'unresolved',
+              source: { url: 'https://akabeko.tokyo/' },
+            },
+            {
+              id: 'akabeko-news-shared-contact',
+              number: '0428-83-2365',
+              role: 'reservation_inquiry',
+              scope: 'shared_business_group',
+              placeRoutingStatus: 'unresolved',
+              source: { url: 'https://akabeko.tokyo/news' },
+            },
+            {
+              id: 'arasawaya-reservation-inquiry',
+              number: '0428-83-2365',
+              role: 'reservation_inquiry',
+              scope: 'related_business',
+              placeRoutingStatus: 'unresolved',
+              source: { url: 'https://arasawaya.co.jp/contact/' },
+            },
+          ],
+        },
+      },
+    });
+    expect(akabeko?.source.license).toContain('All Rights Reserved');
+    expect(akabeko?.source).not.toHaveProperty('confirmedAt');
+    expect(akabeko?.visitorInformation).not.toHaveProperty('phone');
+    expect(akabeko?.coordinateSource?.license).toContain('ODbL 1.0');
   });
 
   it('relation helpers return the linked records', () => {
@@ -404,6 +492,11 @@ describe('seed data contract (#2)', () => {
         if (listing.source.retrievedAt) dates.push(listing.source.retrievedAt);
       }
       for (const statement of p.visitorInformation?.yearEndClosure?.statements ?? []) {
+        if (statement.source.sourceUpdatedAt) dates.push(statement.source.sourceUpdatedAt);
+        if (statement.source.confirmedAt) dates.push(statement.source.confirmedAt);
+        if (statement.source.retrievedAt) dates.push(statement.source.retrievedAt);
+      }
+      for (const statement of p.visitorInformation?.phoneConflict?.statements ?? []) {
         if (statement.source.sourceUpdatedAt) dates.push(statement.source.sourceUpdatedAt);
         if (statement.source.confirmedAt) dates.push(statement.source.confirmedAt);
         if (statement.source.retrievedAt) dates.push(statement.source.retrievedAt);

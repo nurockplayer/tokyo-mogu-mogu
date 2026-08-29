@@ -49,12 +49,81 @@ export interface DataVerificationEvidenceManifest {
   omissions: readonly DataVerificationEvidenceOmission[];
 }
 
+const AKABEKO_EVIDENCE_LOCALES = ['ja', 'en', 'zh-TW'] as const;
+
+const AKABEKO_SPOT_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  AKABEKO_EVIDENCE_LOCALES.map((locale) => ({
+    evidenceId: `akabeko-app-${locale}-375`,
+    claimIds: [
+      `place:akabeko:name:${locale}`,
+      `place:akabeko:address:${locale}`,
+      `place:akabeko:phone:${locale}`,
+      locale === 'ja' ? 'spot:akabeko:hours' : `place:akabeko:hours:${locale}`,
+      locale === 'ja' ? 'spot:akabeko:closed_days' : `place:akabeko:closed_days:${locale}`,
+      locale === 'ja' ? 'spot:akabeko:reservation' : `place:akabeko:reservation:${locale}`,
+      locale === 'ja' ? 'spot:akabeko:price_availability' : `place:akabeko:price_availability:${locale}`,
+      locale === 'ja' ? 'spot:akabeko:official_current_url' : `place:akabeko:official_current_url:${locale}`,
+      `spot:akabeko:presentation:verification_note:${locale}`,
+    ],
+    entityId: 'akabeko',
+    kind: 'app',
+    capturedAt: '2026-08-29',
+    path: `docs/data-evidence/akabeko/app-${locale}-375.webp`,
+    locale,
+    viewport: { width: 375, height: 1800 },
+    note: `Final #326 ${locale} Spot state showing both first-party phone values, their unresolved routing semantics, hours, closures, reservation guidance, menu examples, and current-information caveats.`,
+  }));
+
+const AKABEKO_RELATED_SURFACES = [
+  {
+    surface: 'route-wasabi',
+    entityId: 'okutama-wasabi-journey',
+    claimId: 'route:okutama-wasabi-journey:full-day:step:akabeko:factual:last-order-time',
+    localizedClaimId: 'route:okutama-wasabi-journey:full-day:step:akabeko:guidance',
+  },
+  {
+    surface: 'route-yamame',
+    entityId: 'okutama-yamame-journey',
+    claimId: 'route:okutama-yamame-journey:half-day:step:akabeko:factual:dish-availability',
+    localizedClaimId: 'route:okutama-yamame-journey:half-day:step:akabeko:guidance',
+  },
+  {
+    surface: 'story-wasabi',
+    entityId: 'wasabi-okutama',
+    claimId: 'story:wasabi-okutama:story.spot.akabeko.menu-availability',
+    localizedClaimId: 'story:wasabi-okutama:presentation:spot_group:nearby',
+  },
+  {
+    surface: 'story-yamame',
+    entityId: 'yamame-okutama',
+    claimId: 'story:yamame-okutama:story.spot.akabeko.dish-availability',
+    localizedClaimId: 'story:yamame-okutama:presentation:spot_group:nearby',
+  },
+] as const;
+
+const AKABEKO_RELATED_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  AKABEKO_RELATED_SURFACES.flatMap((surface) =>
+    AKABEKO_EVIDENCE_LOCALES.map((locale) => ({
+      evidenceId: `akabeko-${surface.surface}-${locale}-375`,
+      claimIds: [surface.claimId, `${surface.localizedClaimId}:${locale}`],
+      entityId: surface.entityId,
+      kind: 'app' as const,
+      capturedAt: '2026-08-29',
+      path: `docs/data-evidence/akabeko/${surface.surface}-${locale}-375.webp`,
+      locale,
+      viewport: { width: 375, height: 812 },
+      note: `Final #326 ${locale} ${surface.surface} state retained for human review of canonical-derived meaning and 375px wrapping.`,
+    })),
+  );
+
 /**
  * Review evidence only. Entries reference #333 claim IDs and never duplicate or
  * alter canonical/displayed factual values, provenance, or verification state.
  */
 export const DATA_VERIFICATION_EVIDENCE_MANIFEST: DataVerificationEvidenceManifest = {
   evidence: [
+    ...AKABEKO_SPOT_APP_EVIDENCE,
+    ...AKABEKO_RELATED_APP_EVIDENCE,
     {
       evidenceId: 'okutama-tourism-office-app-ja-375',
       claimIds: [
@@ -536,6 +605,94 @@ export const DATA_VERIFICATION_EVIDENCE_MANIFEST: DataVerificationEvidenceManife
       sourceUrl: 'https://www.okutama.ne.jp/',
       recordedAt: '2026-08-29',
       reason: 'The Story claim traces to the operator page, which provides no support for repository screenshot reuse; no official-site photograph or page capture is copied.',
+    },
+    {
+      omissionId: 'akabeko-home-source-rights-restricted',
+      claimIds: [
+        'place:akabeko:name:ja',
+        'place:akabeko:address:ja',
+        'place:akabeko:phone:ja',
+        'place:akabeko:phone:source:akabeko-home-shared-contact',
+        'spot:akabeko:hours',
+        'spot:akabeko:closed_days',
+        'spot:akabeko:reservation',
+        'spot:akabeko:price_availability',
+        'spot:akabeko:official_current_url',
+      ],
+      entityId: 'akabeko',
+      kind: 'source',
+      sourceUrl: 'https://akabeko.tokyo/',
+      recordedAt: '2026-08-29',
+      reason: 'The official Akabeko site states All Rights Reserved and provides no support for repository screenshot or photography reuse; its current identity, operation, reservation, and menu text was rechecked without copying source media.',
+    },
+    {
+      omissionId: 'akabeko-wasabi-route-source-rights-restricted',
+      claimIds: ['route:okutama-wasabi-journey:full-day:step:akabeko:factual:last-order-time'],
+      entityId: 'okutama-wasabi-journey',
+      kind: 'source',
+      sourceUrl: 'https://akabeko.tokyo/',
+      recordedAt: '2026-08-29',
+      reason: 'The Route last-order claim traces to the All Rights Reserved official Akabeko page; no official-site capture or photography is copied.',
+    },
+    {
+      omissionId: 'akabeko-yamame-route-source-rights-restricted',
+      claimIds: ['route:okutama-yamame-journey:half-day:step:akabeko:factual:dish-availability'],
+      entityId: 'okutama-yamame-journey',
+      kind: 'source',
+      sourceUrl: 'https://akabeko.tokyo/',
+      recordedAt: '2026-08-29',
+      reason: 'The Route menu-availability claim traces to the All Rights Reserved official Akabeko page; no official-site capture or photography is copied.',
+    },
+    {
+      omissionId: 'akabeko-wasabi-story-source-rights-restricted',
+      claimIds: ['story:wasabi-okutama:story.spot.akabeko.menu-availability'],
+      entityId: 'wasabi-okutama',
+      kind: 'source',
+      sourceUrl: 'https://akabeko.tokyo/',
+      recordedAt: '2026-08-29',
+      reason: 'The Story menu-availability claim traces to the All Rights Reserved official Akabeko page; no official-site capture or photography is copied.',
+    },
+    {
+      omissionId: 'akabeko-yamame-story-source-rights-restricted',
+      claimIds: ['story:yamame-okutama:story.spot.akabeko.dish-availability'],
+      entityId: 'yamame-okutama',
+      kind: 'source',
+      sourceUrl: 'https://akabeko.tokyo/',
+      recordedAt: '2026-08-29',
+      reason: 'The Story dish-availability claim traces to the All Rights Reserved official Akabeko page; no official-site capture or photography is copied.',
+    },
+    {
+      omissionId: 'akabeko-news-source-rights-restricted',
+      claimIds: [
+        'place:akabeko:phone:ja',
+        'place:akabeko:phone:source:akabeko-news-shared-contact',
+      ],
+      entityId: 'akabeko',
+      kind: 'source',
+      sourceUrl: 'https://akabeko.tokyo/news',
+      recordedAt: '2026-08-29',
+      reason: 'The official news page states All Rights Reserved; its separately published 0428 shared-contact statement is retained as structured conflict provenance without copying a page capture.',
+    },
+    {
+      omissionId: 'arasawaya-contact-source-rights-restricted',
+      claimIds: [
+        'place:akabeko:phone:ja',
+        'place:akabeko:phone:source:arasawaya-reservation-inquiry',
+      ],
+      entityId: 'akabeko',
+      kind: 'source',
+      sourceUrl: 'https://arasawaya.co.jp/contact/',
+      recordedAt: '2026-08-29',
+      reason: 'The official Arasawaya site states All Rights Reserved; its reservation/inquiry number is retained as a separately traceable statement without copying a page capture or photographs.',
+    },
+    {
+      omissionId: 'akabeko-coordinate-source-not-captured',
+      claimIds: ['place:akabeko:coordinates'],
+      entityId: 'akabeko',
+      kind: 'source',
+      sourceUrl: 'https://www.openstreetmap.org/node/4916080538',
+      recordedAt: '2026-08-29',
+      reason: 'The ODbL provider node identifies the co-located Arasawaya building and attribution is preserved canonically; a provider screenshot would not field-verify the first-floor restaurant, so none is committed.',
     },
   ],
 };

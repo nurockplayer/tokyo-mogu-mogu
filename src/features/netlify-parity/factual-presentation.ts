@@ -10,6 +10,7 @@ import { PLACES } from '../../data/seed-places';
 import type {
   Place,
   PlaceParkingInformation,
+  PlacePhoneSourceStatement,
   PlaceSourceConflictStatement,
   PlaceVisitorInformation,
   PlaceWeekday,
@@ -57,6 +58,10 @@ const yamashiroyaName = localized(
 const productCategoryCopy: Record<string, LocalizedText> = {
   'pickled-wasabi': localized('わさび漬', 'pickled wasabi', '山葵漬'),
   'fresh-wasabi': localized('生わさび', 'fresh wasabi', '新鮮山葵'),
+  'okutama-yamame-sashimi': localized('奥多摩ヤマメの刺身', 'Okutama yamame sashimi', '奧多摩山女魚生魚片'),
+  'okutama-yamame-charcoal-grill': localized('奥多摩ヤマメの炭火焼', 'charcoal-grilled Okutama yamame', '炭火烤奧多摩山女魚'),
+  'handmade-konnyaku-sashimi': localized('手作りこんにゃくの刺身', 'handmade konnyaku sashimi', '手作蒟蒻刺身'),
+  'wasabi-gelato': localized('わさびジェラート', 'wasabi gelato', '山葵義式冰淇淋'),
 };
 
 export function localizePlaceProductCategories(
@@ -100,6 +105,22 @@ export function localizePlaceClosureConflict(
     `年末年始（公式情報の「${sourceValues.join('」／「')}」が不一致。最新情報を確認）`,
     `Year-end/New Year closure (official sources conflict: ${localizedValues.map((value) => value.en).join(' / ')}; check current information)`,
     `年末年初休業（官方資訊記載不一致：${localizedValues.map((value) => value['zh-TW']).join('／')}；請確認最新資訊）`,
+  );
+}
+
+export function localizePlacePhoneConflict(
+  statements: readonly PlacePhoneSourceStatement[],
+): LocalizedText {
+  const numbers = [...new Set(statements.map((statement) => statement.number))];
+  if (numbers.length < 2 || statements.some((statement) => statement.placeRoutingStatus !== 'unresolved')) {
+    throw new Error('Phone conflict presentation requires at least two unresolved source-published numbers.');
+  }
+  const numbersJa = numbers.join('／');
+  const numbersEn = numbers.join(' / ');
+  return localized(
+    `${numbersJa}（あかべこ公式ページはいずれも荒澤屋共通の予約・問合せ先として掲載。利用する番号は未確認）`,
+    `${numbersEn} (Akabeko official pages publish both as reservation/contact numbers shared with Arasawaya; which number to use remains unconfirmed)`,
+    `${numbersJa}（AKABEKO 官方頁面皆將其刊載為與荒澤屋共用的預約／洽詢電話；應使用哪個號碼尚未確認）`,
   );
 }
 
@@ -160,6 +181,54 @@ const yamashiroyaStoryDescription = localized(
   `${yamashiroyaPlace.nameJa}の直売店。${yamashiroyaProducts.ja}を扱う`,
   `The ${yamashiroyaPlace.nameEn} shop carries ${yamashiroyaProducts.en.toLowerCase()}`,
   `${yamashiroyaPlace.nameJa}直營店，販售${yamashiroyaProducts['zh-TW']}`,
+);
+
+const akabekoPlace = canonicalPlace('akabeko');
+const akabekoVisitor = canonicalVisitorInformation(akabekoPlace);
+const akabekoPhoneConflict = localizePlacePhoneConflict(
+  akabekoVisitor.phoneConflict?.statements ?? [],
+);
+const akabekoProducts = localizePlaceProductCategories(
+  akabekoVisitor.productCategories ?? [],
+);
+const akabekoLunchHours = akabekoVisitor.mealHourSchedules?.find(
+  (schedule) => schedule.id === 'lunch',
+);
+const akabekoDinnerHours = akabekoVisitor.mealHourSchedules?.find(
+  (schedule) => schedule.id === 'dinner',
+);
+if (!akabekoLunchHours || !akabekoDinnerHours) {
+  throw new Error('Missing canonical Akabeko meal hours.');
+}
+const akabekoHours = localized(
+  `ランチ ${akabekoLunchHours.opens}〜L.O. ${akabekoLunchHours.lastOrder}／ディナー ${akabekoDinnerHours.opens}〜L.O. ${akabekoDinnerHours.lastOrder}`,
+  `Lunch ${akabekoLunchHours.opens}–L.O. ${akabekoLunchHours.lastOrder} / Dinner ${akabekoDinnerHours.opens}–L.O. ${akabekoDinnerHours.lastOrder}`,
+  `午餐 ${akabekoLunchHours.opens}–最後點餐 ${akabekoLunchHours.lastOrder}／晚餐 ${akabekoDinnerHours.opens}–最後點餐 ${akabekoDinnerHours.lastOrder}`,
+);
+const akabekoReservation = localized(
+  '予約推奨（席数に限りがあり、混雑時は入店できない場合あり）',
+  'Reservations recommended (seating is limited and the venue may be full)',
+  '建議預約（座位有限，客滿時可能無法入店）',
+);
+const akabekoWasabiStoryDescription = localized(
+  '奥多摩ヤマメ、手作りこんにゃく、わさびジェラートなどの公式掲載メニュー例',
+  'Official menu examples include Okutama yamame, handmade konnyaku, and wasabi gelato',
+  '官方菜單範例包含奧多摩山女魚、手作蒟蒻與山葵義式冰淇淋',
+);
+const akabekoYamameStoryDescription = localized(
+  '公式掲載メニュー例の奥多摩ヤマメの刺身と炭火焼',
+  'Official menu examples list Okutama yamame sashimi and charcoal-grilled yamame',
+  '官方菜單範例刊載奧多摩山女魚生魚片與炭火烤山女魚',
+);
+const akabekoWasabiRouteDescription = localized(
+  `昼食・L.O. ${akabekoLunchHours.lastOrder}（公式情報を確認）`,
+  `Lunch · L.O. ${akabekoLunchHours.lastOrder} (check official information)`,
+  `午餐・最後點餐 ${akabekoLunchHours.lastOrder}（請確認官方資訊）`,
+);
+const akabekoYamameRouteDescription = localized(
+  '奥多摩ヤマメの昼食 60分',
+  'Okutama yamame lunch · 60 min',
+  '奧多摩山女魚午餐・60 分鐘',
 );
 
 const okutamaKitchenPlace = canonicalPlace('okutama-kitchen');
@@ -335,7 +404,11 @@ const spot = (
 
 export const demoSpots: Record<string, SpotPresentation> = {
   'okutama-tourism-office': spot('okutama-tourism-office', 'tourismOfficeExterior', ['tourismOffice', 'wasapy', 'station', 'valley'], { ja: { name: '奥多摩観光案内所', lead: '旅の情報を確認する立ち寄り先', description: '奥多摩の観光情報に出会う、旅の最初の立ち寄り先です。' }, en: { name: 'Okutama Tourist Information Center', lead: 'A stop for checking visitor information', description: 'A first stop for discovering Okutama visitor information.' }, 'zh-TW': { name: '奧多摩觀光案內所', lead: '確認旅遊資訊的停靠點', description: '認識奧多摩旅遊資訊的第一個停靠點。' } }),
-  akabeko: spot('akabeko', 'akabeko', ['akabekoYamame', 'akabekoYamameDetail', 'wasabiGelato', 'okutamaKitchenDetail'], { ja: { name: '炉ばた あかべこ', lead: '地域の味に出会う炉ばた料理店', description: '地域の食材を味わうための、参考スポットです。' }, en: { name: 'Robata Akabeko', lead: 'A hearth-grill restaurant for local flavors', description: 'A reference stop for tasting ingredients from the area.' }, 'zh-TW': { name: '爐端燒 AKABEKO', lead: '遇見在地風味的爐端料理店', description: '品嚐在地食材的參考景點。' } }),
+  akabeko: spot('akabeko', 'akabeko', ['akabekoYamame', 'akabekoYamameDetail', 'wasabiGelato', 'okutamaKitchenDetail'], {
+    ja: { name: akabekoPlace.nameJa, lead: '公式掲載の奥多摩ヤマメなどを味わう炉ばた料理店', description: `${akabekoPlace.nameJa}の公式情報に基づく参考情報です。` },
+    en: { name: akabekoPlace.nameEn, lead: 'A hearth-grill restaurant whose official menu lists Okutama yamame', description: `Reference information based on ${akabekoPlace.nameEn}'s official site.` },
+    'zh-TW': { name: '爐端燒 AKABEKO', lead: '官方菜單刊載奧多摩山女魚的爐端料理店', description: `依據${akabekoPlace.nameJa}官方資訊整理的參考內容。` },
+  }),
   yamashiroya: spot('yamashiroya', 'yamashiroya', ['yamashiroyaGoods', 'yamashiroyaSign'], {
     ja: { name: yamashiroyaName.ja, lead: yamashiroyaLead.ja, description: `${yamashiroyaPlace.nameJa}の公式店舗案内に基づく参考情報です。` },
     en: { name: yamashiroyaName.en, lead: yamashiroyaLead.en, description: `Reference information based on ${yamashiroyaPlace.nameEn}’s official shop guide.` },
@@ -405,7 +478,7 @@ export const routeStepText: Record<string, RouteStepText[]> = {
     { spotId: 'mitake-station', description: localized('JR青梅線・旅のスタート地点', 'JR Ome Line · Starting point', 'JR 青梅線・旅程起點') },
     { spotId: 'wasabi-experience', walk: localized('集合 8:30', 'Meet at 8:30', '8:30 集合'), description: localized('わさび田プライベートツアー\n・2〜2.5時間・1日1組', 'Private wasabi-field tour · 2–2.5 hours · One group daily', '山葵田私人導覽・2～2.5 小時・每日一組') },
     { spotId: 'okutama-station', walk: localized('御岳駅から電車', 'Train from Mitake Station', '從御嶽站搭電車'), description: localized('青梅線 約20分', 'About 20 min on the Ome Line', '青梅線約 20 分鐘') },
-    { spotId: 'akabeko', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: localized('昼食・13:30 L.O.注意', 'Lunch · Last order 13:30', '午餐・13:30 最後點餐') },
+    { spotId: 'akabeko', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: akabekoWasabiRouteDescription },
     { spotId: 'yamashiroya', description: yamashiroyaProducts },
     { spotId: 'port-okutama', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: portOkutamaCoffeeAvailability },
   ],
@@ -413,7 +486,7 @@ export const routeStepText: Record<string, RouteStepText[]> = {
     { spotId: 'okutama-station', description: localized('旅のスタート地点', 'Starting point', '旅程起點') },
     { spotId: 'okutama-tourism-office', walk: localized('徒歩 約 1 分', 'About 1 min on foot', '步行約 1 分鐘'), description: localized('情報収集 30分', 'Gather information · 30 min', '蒐集資訊・30 分鐘') },
     { spotId: 'hikawa-valley', walk: localized('徒歩 約 10 分', 'About 10 min on foot', '步行約 10 分鐘'), description: localized('渓流さんぽ 60分', 'Streamside walk · 60 min', '溪流散步・60 分鐘') },
-    { spotId: 'akabeko', walk: localized('徒歩 約 15 分', 'About 15 min on foot', '步行約 15 分鐘'), description: localized('やまめの昼食 60分', 'Yamame lunch · 60 min', '山女魚午餐・60 分鐘') },
+    { spotId: 'akabeko', walk: localized('徒歩 約 15 分', 'About 15 min on foot', '步行約 15 分鐘'), description: akabekoYamameRouteDescription },
   ],
 };
 
@@ -467,6 +540,7 @@ export interface ReferenceSpotDetail {
       | 'access'
       | 'parking'
       | 'price_availability'
+      | 'reservation'
       | 'service_availability'
       | 'closed_days'
       | 'official_current_url'
@@ -480,6 +554,115 @@ export interface ReferenceSpotDetail {
 }
 
 export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> = {
+  akabeko: {
+    tags: [
+      { tagId: 'robata-restaurant', color: '#8FAE5C', label: localized('炉ばた料理店', 'Hearth-grill restaurant', '爐端料理店') },
+      { tagId: 'official-source', color: '#F0A24C', label: localized('公式情報参照', 'Official source', '參考官方資訊') },
+      { tagId: 'source-conflict', color: '#E05B5B', label: localized('電話情報に不一致', 'Phone sources conflict', '電話資訊不一致') },
+    ],
+    description: localized(
+      `${akabekoPlace.nameJa}と民話の宿 荒澤屋の公式情報に基づく参考情報です。あかべこ公式ページには共通の予約・問合せ番号が2つ掲載され、どちらを利用するか確認中です。`,
+      `Reference information based on official pages from ${akabekoPlace.nameEn} and Arasawaya. Akabeko official pages publish two shared reservation/contact numbers, and which number to use remains unconfirmed.`,
+      `依據${akabekoPlace.nameJa}與民話之宿荒澤屋官方資訊整理。AKABEKO 官方頁面刊載兩個共用的預約／洽詢電話，應使用哪個號碼仍在確認中。`,
+    ),
+    information: [
+      {
+        fieldId: 'name',
+        icon: 'information',
+        label: localized('店舗', 'Place', '店家'),
+        value: localized(akabekoPlace.nameJa, akabekoPlace.nameEn, '爐端燒 AKABEKO'),
+      },
+      {
+        fieldId: 'address',
+        icon: 'information',
+        label: localized('所在地', 'Address', '地址'),
+        value: localized(
+          akabekoPlace.address,
+          '1446 Hikawa, Okutama, Nishitama, Tokyo 198-0212',
+          '〒198-0212 東京都西多摩郡奧多摩町冰川 1446',
+        ),
+      },
+      {
+        fieldId: 'phone',
+        icon: 'information',
+        label: localized('公式掲載の電話', 'Phones published by official sources', '官方資訊刊載電話'),
+        value: akabekoPhoneConflict,
+      },
+      {
+        fieldId: 'hours',
+        icon: 'clock',
+        label: localized('営業時間', 'Hours', '營業時間'),
+        value: akabekoHours,
+      },
+      {
+        fieldId: 'closed_days',
+        icon: 'clock',
+        label: localized('定休日', 'Closures', '公休日'),
+        value: localized(
+          '不定休（公式カレンダー参照）',
+          'Irregular closures (see the official calendar)',
+          '不定期休息（請查看官方日曆）',
+        ),
+      },
+      {
+        fieldId: 'reservation',
+        icon: 'information',
+        label: localized('予約', 'Reservations', '預約'),
+        value: akabekoReservation,
+      },
+      {
+        fieldId: 'price_availability',
+        icon: 'information',
+        label: localized('公式掲載メニュー例', 'Official menu examples', '官方菜單範例'),
+        value: localized(
+          `${akabekoProducts.ja}（提供状況は要確認）`,
+          `${akabekoProducts.en} (confirm availability)`,
+          `${akabekoProducts['zh-TW']}（供應狀況需確認）`,
+        ),
+      },
+      {
+        fieldId: 'official_current_url',
+        icon: 'information',
+        label: localized('公式情報', 'Official source', '官方資訊'),
+        value: localized(
+          akabekoPlace.source.url ?? '',
+          akabekoPlace.source.url ?? '',
+          akabekoPlace.source.url ?? '',
+        ),
+      },
+      {
+        fieldId: 'verification_note',
+        icon: 'information',
+        label: localized('確認状況', 'Verification status', '確認狀態'),
+        value: localized(
+          '掲載内容は現在確認中です。利用する電話番号・営業時間・休業・予約・メニュー提供状況は、訪問前に公式情報をご確認ください。',
+          'This listing is still being confirmed. Check official information for which phone number to use, hours, closures, reservations, and menu availability before visiting.',
+          '刊載內容仍在確認中。造訪前請以官方資訊確認應使用的電話號碼、營業時間、休息日、預約與菜單供應狀況。',
+        ),
+      },
+    ],
+    guide: {
+      title: localized('公式情報', 'Official information', '官方資訊'),
+      body: localized(
+        '電話番号を含む最新情報は、訪問前に炉ばた あかべこの公式サイトでご確認ください。',
+        `Check ${akabekoPlace.nameEn}'s official site for current details, including phone information, before visiting.`,
+        '造訪前請查看爐端燒 AKABEKO 官方網站，確認包含電話資訊在內的最新內容。',
+      ),
+      action: localized('公式情報を確認する', 'Check official information', '查看官方資訊'),
+    },
+    caution: [
+      localized(
+        '・あかべこ公式ページには、050番号と0428番号の両方が荒澤屋共通の予約・問合せ先として掲載されています。どちらを利用するかは未確認です。',
+        '• Akabeko official pages publish both the 050 and 0428 numbers as reservation/contact numbers shared with Arasawaya. Which number to use remains unconfirmed.',
+        '・AKABEKO 官方頁面將 050 與 0428 兩個號碼都刊載為與荒澤屋共用的預約／洽詢電話。應使用哪個號碼尚未確認。',
+      ),
+      localized(
+        '・営業時間、休業、予約受付、メニューの提供状況は変更される場合があります。訪問前に公式情報をご確認ください。',
+        '• Hours, closures, reservation availability, and menu availability can change. Check official information before visiting.',
+        '・營業時間、休息日、預約受理與菜單供應狀況可能變更。造訪前請查看官方資訊。',
+      ),
+    ],
+  },
   'okutama-tourism-office': {
     tags: [
       { tagId: 'visitor-information', color: '#8FAE5C', label: localized('観光案内', 'Visitor information', '觀光案內') },
@@ -867,11 +1050,7 @@ export const storySpotGroups: Record<string, {
       {
         referenceId: 'akabeko', spotId: 'akabeko', imageAssetId: 'akabeko', badgeColor: '#E98A1C',
         badge: { ja: '飲食店', en: 'Restaurant', 'zh-TW': '餐廳' },
-        description: {
-          ja: '奥多摩ヤマメや手作りこんにゃく、わさびジェラートなど、地元の味',
-          en: 'Local flavors including Okutama yamame, handmade konnyaku, and wasabi gelato',
-          'zh-TW': '奧多摩山女魚、手作蒟蒻與山葵義式冰淇淋等在地滋味',
-        },
+        description: akabekoWasabiStoryDescription,
       },
       {
         referenceId: 'yamashiroya', spotId: 'yamashiroya', imageAssetId: 'yamashiroya', badgeColor: '#E98A1C',
@@ -930,11 +1109,7 @@ export const storySpotGroups: Record<string, {
       {
         referenceId: 'akabeko', spotId: 'akabeko', imageAssetId: 'akabekoYamame', badgeColor: '#E98A1C',
         badge: { ja: '飲食店', en: 'Restaurant', 'zh-TW': '餐廳' },
-        description: {
-          ja: '奥多摩やまめの刺身、味噌と山椒を合わせた焼き物',
-          en: 'Okutama yamame sashimi and grilled fish with miso and sansho',
-          'zh-TW': '奧多摩山女魚生魚片與味噌山椒烤魚',
-        },
+        description: akabekoYamameStoryDescription,
       },
       {
         referenceId: 'yamashiroya', spotId: 'yamashiroya', imageAssetId: 'yamashiroyaGoods', badgeColor: '#E98A1C',

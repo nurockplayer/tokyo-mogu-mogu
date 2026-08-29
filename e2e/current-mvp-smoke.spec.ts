@@ -483,6 +483,71 @@ test('keeps source-backed PORT OKUTAMA facts safe in every locale (#327)', async
   }
 });
 
+test('keeps Akabeko phone divergence and source-backed operations visible in every locale (#326)', async ({ page }) => {
+  const localizedExpectations = [
+    {
+      locale: 'ja',
+      name: '炉ばた あかべこ',
+      hours: 'ランチ 11:30〜L.O. 13:30',
+      reservation: '予約推奨',
+      routing: '利用する番号は未確認',
+      conflict: '電話情報に不一致',
+    },
+    {
+      locale: 'en',
+      name: 'Robata Akabeko',
+      hours: 'Lunch 11:30–L.O. 13:30',
+      reservation: 'Reservations recommended',
+      routing: 'which number to use remains unconfirmed',
+      conflict: 'Phone sources conflict',
+    },
+    {
+      locale: 'zh-TW',
+      name: '爐端燒 AKABEKO',
+      hours: '午餐 11:30–最後點餐 13:30',
+      reservation: '建議預約',
+      routing: '應使用哪個號碼尚未確認',
+      conflict: '電話資訊不一致',
+    },
+  ] as const;
+
+  for (const expected of localizedExpectations) {
+    await page.goto('/');
+    await page.evaluate((locale) => {
+      localStorage.clear();
+      localStorage.setItem('tmm:locale', locale);
+    }, expected.locale);
+    await page.goto('/spot/akabeko?candidateId=demo-okutama-wasabi');
+
+    const app = page.locator('.reference-app');
+    const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
+    await expect(app).toHaveAttribute('data-locale', expected.locale);
+    await expect(spot.getByRole('heading', { name: expected.name })).toBeVisible();
+    await expect(spot).toContainText('050-5304-3644');
+    await expect(spot).toContainText('0428-83-2365');
+    await expect(spot).toContainText(expected.hours);
+    await expect(spot).toContainText(expected.reservation);
+    await expect(spot).toContainText(expected.routing);
+    await expect(spot).toContainText(expected.conflict);
+    await expect(spot).toContainText('https://akabeko.tokyo/');
+    await expect(spot).not.toContainText(/Netlify|デモ用編集情報|デモ参考情報/);
+    await expectNoHorizontalOverflow(page);
+  }
+
+  await page.goto('/');
+  await page.evaluate(() => localStorage.setItem('tmm:locale', 'ja'));
+  await page.goto('/route?candidateId=demo-okutama-wasabi');
+  const route = page.locator('[data-screen="route"][data-screen-active="true"]');
+  await route.getByRole('button', { name: '一日', exact: true }).click();
+  await expect(route.locator('[data-spot-id="akabeko"]')).toContainText('L.O. 13:30');
+  await expectNoHorizontalOverflow(page);
+
+  await page.goto('/story/wasabi-okutama?candidateId=demo-okutama-wasabi');
+  const story = page.locator('[data-screen="story"][data-screen-active="true"]');
+  await expect(story.locator('[data-spot-id="akabeko"]')).toContainText('わさびジェラート');
+  await expectNoHorizontalOverflow(page);
+});
+
 test('labels editorial Spot fixtures as unverified reference information', async ({ page }) => {
   await page.goto('/spot/wasabi-kitchen?candidateId=demo-okutama-wasabi');
 

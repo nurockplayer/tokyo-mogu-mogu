@@ -599,6 +599,76 @@ describe('repository data verification ledger (#333)', () => {
     }
   });
 
+  it('traces Akabeko facts while retaining every phone source statement (#326)', () => {
+    const claims = buildRepositoryLedgerClaims();
+    const phone = claims.find((claim) => claim.claimId === 'place:akabeko:phone:ja');
+
+    expect(phone).toMatchObject({
+      canonicalValue: expect.stringContaining('050-5304-3644'),
+      displayedValue: expect.stringContaining('0428-83-2365'),
+      origin: 'source',
+      verification: 'conflict',
+      finding: 'mismatch',
+      primarySource: '炉ばた あかべこ（公式サイト）',
+      primarySourceUrl: 'https://akabeko.tokyo/',
+      retrievedAt: '2026-08-29',
+      confirmedAt: undefined,
+    });
+    expect(phone?.canonicalValue).toContain('0428-83-2365');
+    expect(phone?.canonicalValue).toContain('unresolved');
+
+    for (const [statementId, number, sourceUrl, routing] of [
+      ['akabeko-home-shared-contact', '050-5304-3644', 'https://akabeko.tokyo/', 'unresolved'],
+      ['akabeko-news-shared-contact', '0428-83-2365', 'https://akabeko.tokyo/news', 'unresolved'],
+      ['arasawaya-reservation-inquiry', '0428-83-2365', 'https://arasawaya.co.jp/contact/', 'unresolved'],
+    ] as const) {
+      expect(
+        claims.find((claim) => claim.claimId === `place:akabeko:phone:source:${statementId}`),
+      ).toMatchObject({
+        canonicalValue: expect.stringContaining(number),
+        primarySourceUrl: sourceUrl,
+        verification: 'needs_confirmation',
+        timeSensitive: true,
+      });
+      expect(
+        claims.find((claim) => claim.claimId === `place:akabeko:phone:source:${statementId}`)
+          ?.canonicalValue,
+      ).toContain(routing);
+    }
+
+    for (const [claimId, canonicalFragment, displayedFragment, verification] of [
+      ['spot:akabeko:hours', 'lunch 11:30 / L.O. 13:30', 'ランチ 11:30〜L.O. 13:30', 'needs_confirmation'],
+      ['spot:akabeko:closed_days', 'irregular_closures', '不定休', 'needs_confirmation'],
+      ['spot:akabeko:reservation', 'recommended', '予約推奨', 'needs_confirmation'],
+      ['spot:akabeko:price_availability', 'okutama-yamame-sashimi', '奥多摩ヤマメの刺身', 'needs_confirmation'],
+      ['route:okutama-wasabi-journey:full-day:step:akabeko:factual:last-order-time', '13:30', '13:30', 'needs_confirmation'],
+      ['route:okutama-yamame-journey:half-day:step:akabeko:factual:dish-availability', 'okutama-yamame-sashimi', '奥多摩ヤマメ', 'needs_confirmation'],
+      ['story:wasabi-okutama:story.spot.akabeko.menu-availability', 'wasabi-gelato', 'わさびジェラート', 'needs_confirmation'],
+      ['story:yamame-okutama:story.spot.akabeko.dish-availability', 'okutama-yamame-charcoal-grill', '炭火焼', 'needs_confirmation'],
+    ] as const) {
+      expect(claims.find((claim) => claim.claimId === claimId)).toMatchObject({
+        canonicalValue: expect.stringContaining(canonicalFragment),
+        displayedValue: expect.stringContaining(displayedFragment),
+        origin: 'source',
+        verification,
+        primarySourceUrl: 'https://akabeko.tokyo/',
+        canonicalSourceFile: 'src/data/seed-places.ts',
+        timeSensitive: true,
+      });
+    }
+
+    expect(
+      claims.find(
+        (claim) => claim.claimId === 'route:okutama-yamame-journey:half-day:step:akabeko:factual:lunch-duration',
+      ),
+    ).toMatchObject({ verification: 'unknown', canonicalValue: undefined });
+    expect(
+      claims.find(
+        (claim) => claim.claimId === 'route:okutama-yamame-journey:half-day:step:akabeko:transport_guidance:ja',
+      ),
+    ).toMatchObject({ origin: 'demo', verification: 'demo' });
+  });
+
   it('inventories factual presentation records in every visible locale', () => {
     const claims = buildRepositoryLedgerClaims();
 
@@ -740,7 +810,7 @@ describe('repository data verification ledger (#333)', () => {
 
     expect(
       claims.find(
-        (row) => row.claimId === 'spot:akabeko:presentation:practical_information:en',
+        (row) => row.claimId === 'spot:hikawa-valley:presentation:practical_information:en',
       ),
     ).toMatchObject({
       displayedValue: 'Verification: This listing is reference information and may not be verified. Check the venue’s official information before visiting.',
@@ -751,7 +821,7 @@ describe('repository data verification ledger (#333)', () => {
     });
     expect(
       claims.find(
-        (row) => row.claimId === 'spot:akabeko:presentation:tags:en',
+        (row) => row.claimId === 'spot:hikawa-valley:presentation:tags:en',
       ),
     ).toMatchObject({
       displayedValue: 'Reference information',
@@ -907,7 +977,7 @@ describe('repository data verification ledger (#333)', () => {
 
     expect(
       claims.find(
-        (row) => row.claimId === 'story:wasabi-okutama:story.spot.akabeko.menu-availability',
+        (row) => row.claimId === 'story:wasabi-okutama:story.spot.wasabi-kitchen.weekend-operation',
       ),
     ).toMatchObject({
       canonicalValue: undefined,

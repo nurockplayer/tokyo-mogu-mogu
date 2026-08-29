@@ -94,6 +94,46 @@ const YAMASHIROYA_SHOP_SOURCE = {
   originalId: 'yamashiroya',
 };
 
+const AKABEKO_HOME_SOURCE = {
+  name: '炉ばた あかべこ（公式サイト）',
+  url: 'https://akabeko.tokyo/',
+  license: 'All Rights Reserved（参考情報としてのみ利用・スクリーンショット再利用不可）',
+  sourceType: 'official_web' as const,
+  retrievedAt: '2026-08-29',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'akabeko-home',
+};
+
+const AKABEKO_NEWS_SOURCE = {
+  name: '炉ばた あかべこ（公式ニュースページ）',
+  url: 'https://akabeko.tokyo/news',
+  license: 'All Rights Reserved（参考情報としてのみ利用・スクリーンショット再利用不可）',
+  sourceType: 'official_web' as const,
+  retrievedAt: '2026-08-29',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'akabeko-news',
+};
+
+const ARASAWAYA_CONTACT_SOURCE = {
+  name: '民話の宿 荒澤屋（公式お問い合わせ）',
+  url: 'https://arasawaya.co.jp/contact/',
+  license: 'All Rights Reserved（参考情報としてのみ利用・スクリーンショット再利用不可）',
+  sourceType: 'official_web' as const,
+  retrievedAt: '2026-08-29',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'arasawaya-contact',
+};
+
+const AKABEKO_COORDINATE_SOURCE = {
+  name: 'OpenStreetMap（旅館 荒澤屋）',
+  url: 'https://www.openstreetmap.org/node/4916080538',
+  license: 'ODbL 1.0; co-located Arasawaya provider POI point, not field-verified for the first-floor restaurant.',
+  sourceType: 'open_data' as const,
+  retrievedAt: '2026-08-29',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'node/4916080538',
+};
+
 const YAMASHIROYA_COORDINATE_SOURCE = {
   name: 'Google Maps（山城屋公式店舗案内の埋め込み地図）',
   url: 'https://www.google.com/maps/search/?api=1&query=35.80679970833439%2C139.0969139801638',
@@ -263,6 +303,68 @@ export const PLACES: Place[] = [
     origin: 'source',
   },
   {
+    id: 'akabeko',
+    nameJa: '炉ばた あかべこ',
+    nameEn: 'Robata Akabeko',
+    address: '〒198-0212 東京都西多摩郡奥多摩町氷川1446',
+    // The official site places Akabeko on Arasawaya's first floor at the same
+    // address; this is the co-located OSM provider point, not field verification.
+    latitude: 35.8080949,
+    longitude: 139.0955012,
+    coordinatePrecision: 'precise',
+    coordinateSource: AKABEKO_COORDINATE_SOURCE,
+    foodCultureIds: [],
+    type: 'restaurant',
+    source: AKABEKO_HOME_SOURCE,
+    visitorInformation: {
+      mealHourSchedules: [
+        { id: 'lunch', opens: '11:30', lastOrder: '13:30' },
+        { id: 'dinner', opens: '18:00', lastOrder: '20:00' },
+      ],
+      irregularClosures: true,
+      reservationPolicy: {
+        requirement: 'recommended',
+        reasonIds: ['limited-seating', 'busy-periods-may-fill'],
+      },
+      productCategories: [
+        'okutama-yamame-sashimi',
+        'okutama-yamame-charcoal-grill',
+        'handmade-konnyaku-sashimi',
+        'wasabi-gelato',
+      ],
+      phoneConflict: {
+        verificationStatus: 'conflict',
+        statements: [
+          {
+            id: 'akabeko-home-shared-contact',
+            number: '050-5304-3644',
+            role: 'reservation_inquiry',
+            scope: 'shared_business_group',
+            placeRoutingStatus: 'unresolved',
+            source: AKABEKO_HOME_SOURCE,
+          },
+          {
+            id: 'akabeko-news-shared-contact',
+            number: '0428-83-2365',
+            role: 'reservation_inquiry',
+            scope: 'shared_business_group',
+            placeRoutingStatus: 'unresolved',
+            source: AKABEKO_NEWS_SOURCE,
+          },
+          {
+            id: 'arasawaya-reservation-inquiry',
+            number: '0428-83-2365',
+            role: 'reservation_inquiry',
+            scope: 'related_business',
+            placeRoutingStatus: 'unresolved',
+            source: ARASAWAYA_CONTACT_SOURCE,
+          },
+        ],
+      },
+    },
+    origin: 'source',
+  },
+  {
     id: 'okutama-kitchen',
     nameJa: '手作りお弁当・お惣菜の専門店 奥多摩の台所',
     nameEn: 'Okutama no Daidokoro Handmade Bento & Deli',
@@ -322,6 +424,7 @@ export const PLACES: Place[] = [
         { id: 'weekend-holiday', opens: '11:00', closes: '17:30', lastOrder: '17:00' },
       ],
       irregularClosures: true,
+      openDaily: true,
       serviceCategories: [
         'food-and-drink',
         'specialty-coffee',

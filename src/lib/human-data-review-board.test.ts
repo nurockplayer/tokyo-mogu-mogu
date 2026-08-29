@@ -401,6 +401,37 @@ describe('Human Data Review Board projection (#340, #343)', () => {
     expect(portOkutama?.evidence.map((item) => item.kind)).toEqual(['app', 'app', 'app']);
     expect(portOkutama?.omissions.some((item) => item.sourceUrl === 'https://www.okutama.ne.jp/')).toBe(true);
 
+    const akabeko = board.entities.find((entity) => entity.id === 'akabeko');
+    expect(akabeko).toMatchObject({
+      type: 'Spot',
+      headlineStatus: 'conflict',
+      latestRetrievedAt: '2026-08-29',
+      conflictCount: 1,
+    });
+    expect(akabeko?.facts).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        fieldKey: 'phone',
+        status: 'conflict',
+        canonicalValue: expect.stringContaining('050-5304-3644'),
+        displayedValue: expect.stringContaining('0428-83-2365'),
+      }),
+      expect.objectContaining({ fieldKey: 'hours', status: 'needs_confirmation' }),
+      expect.objectContaining({ fieldKey: 'reservation', status: 'needs_confirmation' }),
+      expect.objectContaining({ fieldKey: 'price_availability', status: 'needs_confirmation' }),
+    ]));
+    expect(akabeko?.sources.map((source) => source.url)).toEqual(expect.arrayContaining([
+      'https://akabeko.tokyo/',
+      'https://akabeko.tokyo/news',
+      'https://arasawaya.co.jp/contact/',
+      'https://www.openstreetmap.org/node/4916080538',
+    ]));
+    expect(akabeko?.sources).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        url: 'https://www.openstreetmap.org/node/4916080538',
+        coordinateProvider: true,
+      }),
+    ]));
+
     const kitchen = board.entities.find((entity) => entity.id === 'okutama-kitchen');
     expect(kitchen?.facts).toEqual(expect.arrayContaining([
       expect.objectContaining({ fieldKey: 'hours', status: 'needs_confirmation' }),
@@ -437,7 +468,7 @@ describe('Human Data Review Board projection (#340, #343)', () => {
     expect(board.entities.find((entity) => entity.id === 'okutama-yamame-journey')).toMatchObject({
       type: 'Route',
       name: '新宿から約90分、奥多摩やまめを味わう旅',
-      headlineStatus: 'unknown',
+      headlineStatus: 'needs_confirmation',
     });
     expect(board.entities.find((entity) => entity.id === 'wasabi-okutama')).toMatchObject({
       type: 'Story',
