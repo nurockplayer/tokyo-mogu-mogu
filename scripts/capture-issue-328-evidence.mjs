@@ -32,6 +32,12 @@ for (const capture of captures) {
   }
   if (capture.screen === 'story') {
     await activeScreen.locator('[data-spot-id="wasabi-experience"]').scrollIntoViewIfNeeded();
+    if (capture.locale === 'en') {
+      await activeScreen.locator('.scroll').evaluate((scrollContainer) => {
+        scrollContainer.scrollTop += 80;
+      });
+      await page.waitForTimeout(300);
+    }
   }
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({
