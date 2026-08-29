@@ -1208,6 +1208,32 @@ describe('Human Data Review Board projection (#340, #343)', () => {
     expect(boardWithoutEvidence.entities.find((entity) => entity.id === 'wasabi-kitchen')?.reviewContext.affectedSurfaces)
       .toEqual(['Spot', 'Story', 'Route']);
 
+    const wasabiExperience = board.entities.find((entity) => entity.id === 'wasabi-experience');
+    expect(board.entities.filter((entity) => entity.id === 'wasabi-experience')).toHaveLength(1);
+    expect(wasabiExperience).toMatchObject({
+      type: 'Spot',
+      headlineStatus: 'conflict',
+      latestRetrievedAt: '2026-08-30',
+    });
+    expect(wasabiExperience?.facts).toEqual(expect.arrayContaining([
+      expect.objectContaining({ fieldKey: 'region_grouping', displayedValue: 'okutama / journey-culture-grouping' }),
+      expect.objectContaining({ fieldKey: 'address', canonicalValue: expect.stringContaining('青梅市御岳') }),
+      expect.objectContaining({ fieldKey: 'seasonal_meeting_times', status: 'needs_confirmation' }),
+      expect.objectContaining({
+        fieldKey: 'tour_duration',
+        status: 'conflict',
+        canonicalValue: 'japanese-page 120–150 minutes | english-page 120 minutes',
+        displayedValue: expect.stringContaining('記載不一致'),
+      }),
+      expect.objectContaining({ fieldKey: 'booking_destination', status: 'needs_confirmation' }),
+      expect.objectContaining({ fieldKey: 'tour_availability', status: 'needs_confirmation' }),
+    ]));
+    expect(wasabiExperience?.sources).toEqual(expect.arrayContaining([
+      expect.objectContaining({ url: 'https://tokyowasabi.com/wasabi-experience/' }),
+      expect.objectContaining({ url: 'https://tokyowasabi.com/wasabi-experience-en/' }),
+      expect.objectContaining({ coordinateProvider: true }),
+    ]));
+
     const kitchen = board.entities.find((entity) => entity.id === 'okutama-kitchen');
     expect(kitchen?.facts).toEqual(expect.arrayContaining([
       expect.objectContaining({ fieldKey: 'hours', status: 'needs_confirmation' }),
@@ -1257,7 +1283,13 @@ describe('Human Data Review Board projection (#340, #343)', () => {
         verification: 'demo',
       }),
     ]));
-    expect(route?.reviewContext.uncertainties).toEqual([]);
+    expect(route?.reviewContext.uncertainties).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        fieldKey: 'route:full-day:step:wasabi-experience:tour-duration',
+        status: 'conflict',
+        sourceChecked: true,
+      }),
+    ]));
     const routeSummary = createDataReviewShareSummaryJa(
       route!,
       'https://preview.example/data-review/#okutama-wasabi-journey',

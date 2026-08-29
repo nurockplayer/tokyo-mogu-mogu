@@ -1315,6 +1315,66 @@ describe('repository data verification ledger (#333)', () => {
     });
   });
 
+  it('maps Wasabi Experience seasonal and booking claims to first-party authority (#328)', () => {
+    const claims = buildRepositoryLedgerClaims();
+
+    expect(claims.find((row) => row.claimId === 'spot:wasabi-experience:region_grouping')).toMatchObject({
+      displayedValue: 'okutama / journey-culture-grouping',
+      verification: 'demo',
+      finding: 'none',
+      timeSensitive: false,
+      note: expect.stringContaining('not a physical municipality'),
+    });
+    expect(claims.find((row) => row.claimId === 'place:wasabi-experience:seasonal_meeting_times')).toMatchObject({
+      canonicalValue: 'may-september 08:30 | october-april 11:00 / may_change',
+      primarySourceUrl: 'https://tokyowasabi.com/wasabi-experience/',
+      verification: 'needs_confirmation',
+      timeSensitive: true,
+    });
+    expect(claims.find((row) => row.claimId === 'route:okutama-wasabi-journey:full-day:step:wasabi-experience:factual:tour-duration')).toMatchObject({
+      canonicalValue: 'japanese-page 120–150 minutes | english-page 120 minutes',
+      verification: 'conflict',
+      finding: 'none',
+    });
+    expect(claims.find((row) => row.claimId === 'story:wasabi-okutama:story.spot.wasabi-experience.reservation-requirement')).toMatchObject({
+      canonicalValue: expect.stringContaining('required'),
+      displayedValue: '要予約・1日1組（空き状況は要確認）',
+      verification: 'needs_confirmation',
+      finding: 'none',
+    });
+    expect(claims.find((row) => row.claimId === 'story:wasabi-okutama:story.spot.wasabi-experience.daily-group-limit')).toMatchObject({
+      canonicalValue: '1 private group/day',
+      displayedValue: '要予約・1日1組（空き状況は要確認）',
+      verification: 'needs_confirmation',
+      finding: 'none',
+    });
+    expect(claims.find((row) => row.claimId === 'spot:wasabi-experience:tour_availability')).toMatchObject({
+      canonicalValue: expect.stringContaining('weekends_and_public_holidays request-only'),
+      displayedValue: expect.stringContaining('週末・祝日は要問合せ'),
+    });
+    expect(claims.find((row) => row.claimId === 'spot:wasabi-experience:price_availability')).toMatchObject({
+      canonicalValue: expect.stringContaining('19500 JPY / tax_included'),
+      displayedValue: expect.stringContaining('税込'),
+    });
+    expect(claims.find((row) => row.claimId === 'route:okutama-wasabi-journey:full-day:step:wasabi-experience:meeting_time:ja')).toMatchObject({
+      displayedValue: expect.stringContaining('10〜4月 11:00'),
+      comparedPresentationClaimId: 'spot:wasabi-experience:seasonal_meeting_times',
+      comparedPresentationValue: expect.stringContaining('10〜4月 11:00'),
+      verification: 'needs_confirmation',
+      finding: 'none',
+    });
+    expect(claims.find((row) => row.claimId === 'place:wasabi-experience:tour_duration:source:japanese-page')).toMatchObject({
+      canonicalValue: '120–150 minutes',
+      primarySourceUrl: 'https://tokyowasabi.com/wasabi-experience/',
+      verification: 'conflict',
+    });
+    expect(claims.find((row) => row.claimId === 'place:wasabi-experience:tour_duration:source:english-page')).toMatchObject({
+      canonicalValue: '120 minutes',
+      primarySourceUrl: 'https://tokyowasabi.com/wasabi-experience-en/',
+      verification: 'conflict',
+    });
+  });
+
   it('keeps embedded Story facts as stable report-only unknowns', () => {
     const claims = buildRepositoryLedgerClaims();
 

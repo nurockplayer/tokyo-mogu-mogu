@@ -606,6 +606,63 @@ test('keeps Wasabi Shokudo mobile and time-sensitive in every locale (#324)', as
   }
 });
 
+test('separates the Ome meeting place from Okutama culture and keeps times seasonal (#328)', async ({ page }) => {
+  const localizedExpectations = [
+    {
+      locale: 'ja', region: '青梅・御岳 → 奥多摩', name: 'WASABI EXPERIENCE',
+      address: '〒198-0147 東京都青梅市御岳1-192-4', seasonal: '5〜9月 8:30／10〜4月 11:00',
+      access: '御嶽駅」から徒歩約7分', booking: 'フォーム送信だけでは予約成立ではありません',
+      duration: '日本語公式 約2〜2.5時間／英語公式 約2時間', durationCaveat: '記載不一致。予約時に確認',
+    },
+    {
+      locale: 'en', region: 'Ome / Mitake → Okutama', name: 'WASABI EXPERIENCE',
+      address: '1-192-4 Mitake, Ome, Tokyo 198-0147', seasonal: 'May–Sep 8:30 / Oct–Apr 11:00',
+      access: '7 minutes on foot from Mitake Station', booking: 'Submitting the form does not confirm a booking',
+      duration: 'Japanese official page: about 2–2.5 hours / English official page: about 2 hours', durationCaveat: 'sources differ; confirm when booking',
+    },
+    {
+      locale: 'zh-TW', region: '青梅・御嶽 → 奧多摩', name: 'WASABI EXPERIENCE',
+      address: '〒198-0147 東京都青梅市御岳 1-192-4', seasonal: '5～9 月 8:30／10～4 月 11:00',
+      access: '從 JR 青梅線「御嶽站」步行約 7 分鐘', booking: '送出表單並不代表預約成立',
+      duration: '日文官方約 2～2.5 小時／英文官方約 2 小時', durationCaveat: '資訊不一致，預約時請確認',
+    },
+  ] as const;
+
+  for (const expected of localizedExpectations) {
+    await page.goto('/');
+    await page.evaluate((locale) => {
+      localStorage.clear();
+      localStorage.setItem('tmm:locale', locale);
+    }, expected.locale);
+
+    await page.goto('/route?candidateId=demo-okutama-wasabi');
+    const route = page.locator('[data-screen="route"][data-screen-active="true"]');
+    await route.getByRole('button', { name: expected.locale === 'en' ? 'Full day' : '一日', exact: true }).click();
+    await expect(route).toContainText(expected.region);
+    await expect(route.locator('[data-spot-id="mitake-station"]')).toContainText(expected.locale === 'en' ? 'Ome / Mitake' : expected.locale === 'ja' ? '青梅市御岳' : '青梅市御嶽');
+    await expect(route).toContainText(expected.seasonal);
+    await expect(route).toContainText(expected.duration);
+    await expect(route).toContainText(expected.durationCaveat);
+    await expect(route).not.toContainText(/集合 8:30(?!.*10〜4月)|Meet at 8:30|8:30 集合/);
+    await expectNoHorizontalOverflow(page);
+
+    await page.goto('/spot/wasabi-experience?candidateId=demo-okutama-wasabi');
+    const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
+    await expect(spot.getByRole('heading', { name: expected.name })).toBeVisible();
+    await expect(spot).toContainText(expected.address);
+    await expect(spot).toContainText(expected.access);
+    await expect(spot).toContainText(expected.seasonal);
+    await expect(spot).toContainText(expected.duration);
+    await expect(spot).toContainText(expected.durationCaveat);
+    await expect(spot).toContainText(expected.booking);
+    await expect(spot.getByRole('link', { name: expected.locale === 'ja' ? '公式予約フォームを開く' : expected.locale === 'en' ? 'Open the official booking form' : '開啟官方預約表單' })).toHaveAttribute(
+      'href',
+      'https://tokyowasabi.com/wasabi-experience/#booking-form',
+    );
+    await expectNoHorizontalOverflow(page);
+  }
+});
+
 test('keeps the tourism-office caveat complete in every locale', async ({ page }) => {
   const localizedExpectations = [
     {

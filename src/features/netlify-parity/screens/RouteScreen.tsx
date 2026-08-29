@@ -96,7 +96,7 @@ export function RouteScreen({
   const routeKey = `${journey.id}:${variant.id}`;
   const steps = routeStepText[routeKey] ?? [];
   const localizedStats = routeStats[routeKey];
-  const localizedRegion = routeRegionGuidance[journey.id];
+  const localizedRegion = routeRegionGuidance[routeKey];
   if (!localizedStats || !localizedRegion) {
     throw new Error(`Missing Route presentation for journey variant: ${routeKey}`);
   }

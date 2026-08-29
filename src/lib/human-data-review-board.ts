@@ -184,6 +184,7 @@ interface HumanFieldDefinition {
 const HUMAN_FIELDS: readonly HumanFieldDefinition[] = [
   { key: 'name', label: '施設名', aliases: ['information_name', 'name'], order: 10 },
   { key: 'venue_model', label: '営業形態', aliases: ['venue_model', 'place_type'], order: 15 },
+  { key: 'region_grouping', label: '旅・食文化の地域グルーピング', aliases: ['region_grouping'], order: 18 },
   { key: 'address', label: '住所', aliases: ['address'], order: 20 },
   { key: 'operating_area', label: '主な出店エリア', aliases: ['operating_area'], order: 25 },
   { key: 'phone', label: '電話番号', aliases: ['phone'], order: 30 },
@@ -193,6 +194,9 @@ const HUMAN_FIELDS: readonly HumanFieldDefinition[] = [
   { key: 'schedule_guidance', label: '出店案内', aliases: ['schedule_guidance'], order: 62 },
   { key: 'schedule_url', label: '最新の出店予定', aliases: ['schedule_url'], order: 64 },
   { key: 'schedule_conflict', label: '日程情報の不一致', aliases: ['schedule_conflict'], order: 66 },
+  { key: 'seasonal_meeting_times', label: '季節別の集合時間', aliases: ['seasonal_meeting_times'], order: 67 },
+  { key: 'tour_duration', label: '体験時間（公式ページ間で不一致）', aliases: ['tour_duration'], order: 68 },
+  { key: 'private_group_limit', label: '1日あたりの催行組数', aliases: ['private_group_limit'], order: 69 },
   { key: 'closed_days', label: '休業日', aliases: ['closed_days'], order: 70 },
   {
     key: 'price_availability',
@@ -203,6 +207,7 @@ const HUMAN_FIELDS: readonly HumanFieldDefinition[] = [
   { key: 'service_availability', label: '取扱・サービス', aliases: ['service_availability'], order: 85 },
   { key: 'reservation', label: '予約', aliases: ['reservation'], order: 90 },
   { key: 'booking_destination', label: '予約方法・URL', aliases: ['booking_destination'], order: 100 },
+  { key: 'tour_availability', label: '体験の催行・空き状況', aliases: ['tour_availability'], order: 105 },
   { key: 'parking', label: '駐車場', aliases: ['parking'], order: 110 },
   { key: 'multilingual_support', label: '多言語対応', aliases: ['multilingual_support'], order: 120 },
   { key: 'dietary_allergy', label: '食事制限・アレルギー対応', aliases: ['dietary_allergy'], order: 130 },
