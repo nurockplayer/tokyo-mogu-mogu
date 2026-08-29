@@ -203,7 +203,7 @@ export function RouteScreen({
             const mission = missionSpotIds.has(step.spotId);
             const missionDone = completedMissionSpotIds.includes(step.spotId);
             return (
-              <div key={`${step.spotId}-${index}`}>
+              <div className="tl-step" key={`${step.spotId}-${index}`}>
                 {stepText?.walk ? (
                   <div className="seg">
                     <WalkIcon /> {stepText.walk[locale]}
