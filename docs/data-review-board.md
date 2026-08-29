@@ -48,6 +48,8 @@ current Product factual presentation inventory
 
 Entity detail の `判断が必要` は、上の検証状態とは別に算出します。表示差異、出典間の矛盾、固定店舗を持たない営業形態、Product 上の扱いに影響する stale / time-sensitive 情報だけが判断項目です。`needs_confirmation` や report-only `unknown` であることだけを理由に、判断項目へは追加しません。
 
+time-sensitive 情報は、Ledger の `timeSensitive` と実際の Product 表示・影響画面から対象を導出します。表示差異がある項目は、最新情報の注意をまとめても現在の Product 表示と公式/根拠側の比較を別の判断カードに残します。フィールド名の固定リストでは分類しません。
+
 ## チームでの使い方
 
 1. Overview の Product 対象件数と `Spot` / `Story` / `Route` の内訳を確認し、

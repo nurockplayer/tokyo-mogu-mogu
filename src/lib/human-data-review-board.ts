@@ -245,15 +245,6 @@ const SURFACE_ORDER: readonly HumanDataReviewSurface[] = [
   'Result',
 ];
 
-const CURRENT_INFORMATION_FIELD_KEYS = new Set([
-  'hours',
-  'schedule_guidance',
-  'schedule_url',
-  'closed_days',
-  'price_availability',
-  'reservation',
-]);
-
 const REVIEW_FOCUS = {
   mobileVenue: {
     id: 'mobile-venue-representation',
@@ -645,11 +636,15 @@ function buildReviewContext(
   const timeSensitiveFacts = facts.filter((fact) =>
     fact.status !== 'conflict'
     && fact.status !== 'stale'
-    && CURRENT_INFORMATION_FIELD_KEYS.has(fact.fieldKey)
-    && fact.claimIds.some((claimId) => Boolean(claimsById.get(claimId)?.timeSensitive)));
-  const timeSensitiveFieldKeys = new Set(timeSensitiveFacts.map((fact) => fact.fieldKey));
-  const staleFieldKeys = new Set(staleFacts.map((fact) => fact.fieldKey));
-  const hasTimeSensitiveInformation = timeSensitiveFacts.length > 0;
+    && !(isMobile && fact.fieldKey === 'venue_model')
+    && fact.displayedValue !== undefined
+    && fact.affectedSurfaces.length > 0
+    && fact.claimIds.some((claimId) => {
+      const linkedClaim = claimsById.get(claimId);
+      return linkedClaim?.timeSensitive === true && linkedClaim.displayedValue !== undefined;
+    }));
+  const hasTimeSensitiveInformation = timeSensitiveFacts.length > 0
+    && (isMobile || timeSensitiveFacts.some((fact) => isUnresolvedFinding(fact.finding)));
   const hasConflict = facts.some((fact) => fact.status === 'conflict');
   const hasStale = facts.some((fact) => fact.status === 'stale');
 
@@ -694,7 +689,7 @@ function buildReviewContext(
       affectedSurfaces: sortedSurfaces(new Set(staleFacts.flatMap((fact) => fact.affectedSurfaces))),
     });
   }
-  if (timeSensitiveFacts.length > 0) {
+  if (hasTimeSensitiveInformation) {
     decisionItems.push({
       id: 'current-information:caveat',
       kind: 'current_information',
@@ -710,7 +705,6 @@ function buildReviewContext(
   for (const fact of facts) {
     if (!isUnresolvedFinding(fact.finding) || fact.status === 'conflict') continue;
     if (isMobile && fact.fieldKey === 'venue_model') continue;
-    if (staleFieldKeys.has(fact.fieldKey) || timeSensitiveFieldKeys.has(fact.fieldKey)) continue;
     if (
       fact.finding === 'presentation_missing'
       && !fact.claimIds.some((claimId) => Boolean(claimsById.get(claimId)?.appSurface))

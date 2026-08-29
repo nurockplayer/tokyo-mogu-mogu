@@ -499,7 +499,7 @@ describe('Human Data Review Board projection (#340, #343)', () => {
     });
   });
 
-  it('deduplicates time-sensitive facts into one Product caveat decision', () => {
+  it('keeps a time-sensitive mismatch comparison alongside one grouped Product caveat', () => {
     const board = buildHumanDataReviewBoard({
       claims: [
         claim({
@@ -510,6 +510,8 @@ describe('Human Data Review Board projection (#340, #343)', () => {
           finding: 'mismatch',
           timeSensitive: true,
           appSurface: 'Spot',
+          primarySource: 'Example operator',
+          primarySourceUrl: 'https://example.com/place',
         }),
         claim({
           claimId: 'place:example-place:closed_days:ja',
@@ -534,7 +536,19 @@ describe('Human Data Review Board projection (#340, #343)', () => {
         factFieldKeys: ['hours', 'closed_days'],
         affectedSurfaces: ['Spot'],
       }),
+      expect.objectContaining({
+        id: 'comparison:hours:mismatch',
+        kind: 'comparison',
+        recommendationLabel: '変更推奨',
+        factFieldKeys: ['hours'],
+        affectedSurfaces: ['Spot'],
+      }),
     ]);
+    const hours = board.entities[0]?.facts.find((fact) => fact.fieldKey === 'hours');
+    expect(hours).toMatchObject({
+      canonicalValue: '10:00〜17:00',
+      displayedValue: '10時〜17時',
+    });
   });
 
   it('keeps every unresolved status distinct and makes the total decomposable', () => {
@@ -963,6 +977,33 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       expect.objectContaining({ fieldKey: 'service_availability', status: 'needs_confirmation' }),
       expect.objectContaining({ fieldKey: 'official_current_url', status: 'needs_confirmation' }),
     ]));
+    expect(portOkutama?.reviewContext.decisionItems).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        id: 'current-information:caveat',
+        factFieldKeys: [
+          'address',
+          'phone',
+          'hours',
+          'closed_days',
+          'service_availability',
+          'official_current_url',
+        ],
+        affectedSurfaces: ['Spot', 'Story', 'Route'],
+      }),
+      expect.objectContaining({
+        id: 'comparison:hours:mismatch',
+        factFieldKeys: ['hours'],
+      }),
+      expect.objectContaining({
+        id: 'comparison:closed_days:mismatch',
+        factFieldKeys: ['closed_days'],
+      }),
+      expect.objectContaining({
+        id: 'comparison:service_availability:mismatch',
+        factFieldKeys: ['service_availability'],
+        affectedSurfaces: ['Spot', 'Story', 'Route'],
+      }),
+    ]));
     expect(portOkutama?.sources.map((source) => source.url)).toEqual(expect.arrayContaining([
       'https://www.okutama.ne.jp/',
       'https://www.jreast.co.jp/hachioji/ome-itsukaichi/spot/detail382787.html',
@@ -1001,7 +1042,7 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       headlineStatus: 'conflict',
       latestRetrievedAt: '2026-08-29',
       conflictCount: 1,
-      decisionCount: 2,
+      decisionCount: 6,
     });
     expect(akabeko?.facts).toEqual(expect.arrayContaining([
       expect.objectContaining({
@@ -1046,7 +1087,7 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       type: 'Spot',
       headlineStatus: 'conflict',
       latestRetrievedAt: '2026-08-29',
-      decisionCount: 3,
+      decisionCount: 5,
     });
     expect(wasabiKitchen?.facts).toEqual(expect.arrayContaining([
       expect.objectContaining({
@@ -1071,6 +1112,13 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       'https://tokyowasabi.com/hitoshi/2573/fussa-tanabata-challenge/',
     ]));
     expect(wasabiKitchen?.reviewContext.affectedSurfaces).toEqual(['Spot', 'Story', 'Route']);
+    expect(wasabiKitchen?.reviewContext.decisionItems).toEqual(expect.arrayContaining([
+      expect.objectContaining({ id: 'mobile:no-fixed-storefront' }),
+      expect.objectContaining({ id: 'conflict:schedule_conflict' }),
+      expect.objectContaining({ id: 'current-information:caveat' }),
+      expect.objectContaining({ id: 'comparison:schedule_guidance:mismatch' }),
+      expect.objectContaining({ id: 'comparison:price_availability:mismatch' }),
+    ]));
     expect(wasabiKitchen?.facts.find((fact) => fact.fieldKey === 'venue_model')?.affectedSurfaces)
       .toEqual(['Spot', 'Story', 'Route']);
     expect(wasabiKitchen?.facts.find((fact) => fact.fieldKey === 'schedule_conflict')?.sources.map((source) => source.url))

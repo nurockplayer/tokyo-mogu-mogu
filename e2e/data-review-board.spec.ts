@@ -120,8 +120,9 @@ test.describe('Human Data Review Board (#340)', () => {
 
     const detailCases = [
       ['okutama-tourism-office', '1件の判断が必要です'],
-      ['wasabi-kitchen', '3件の判断が必要です'],
-      ['akabeko', '2件の判断が必要です'],
+      ['wasabi-kitchen', '5件の判断が必要です'],
+      ['akabeko', '6件の判断が必要です'],
+      ['port-okutama', '4件の判断が必要です'],
     ] as const;
     for (const [id, decisionHeading] of detailCases) {
       await page.goto(`/data-review/#${id}`);
@@ -145,7 +146,24 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(facts.getByText('取扱・サービス', { exact: true })).toBeVisible();
     await expect(facts.getByText('最新の公式情報', { exact: true })).toBeVisible();
     await expect(page.locator('.drb-unknowns').getByText('予約方法・URL', { exact: true })).toBeVisible();
-    await expect(page.getByRole('heading', { name: '2件の判断が必要です' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: '4件の判断が必要です' })).toBeVisible();
+    const currentInformation = page.locator('[data-decision-kind="current_information"]');
+    for (const label of ['住所', '電話番号', '営業時間', '休業日', '取扱・サービス', '最新の公式情報']) {
+      await expect(currentInformation).toContainText(label);
+    }
+    for (const surface of ['Spot', 'Story', 'Route']) {
+      await expect(currentInformation.getByText(surface, { exact: true })).toBeVisible();
+    }
+    const hoursDecision = page.getByRole('article', { name: '営業時間の判断' });
+    await expect(hoursDecision).toContainText('現在のProduct表示');
+    await expect(hoursDecision).toContainText('平日 11:00〜17:00（L.O. 16:30）');
+    await expect(hoursDecision).toContainText('公式/根拠側の情報');
+    await expect(hoursDecision).toContainText('weekday 11:00–17:00 / L.O. 16:30');
+    await expect(hoursDecision).toContainText('変更推奨');
+    const serviceDecision = page.getByRole('article', { name: '取扱・サービスの判断' });
+    for (const surface of ['Spot', 'Story', 'Route']) {
+      await expect(serviceDecision.getByText(surface, { exact: true })).toBeVisible();
+    }
     const addressRow = page.getByRole('row').filter({ has: page.getByText('住所', { exact: true }) });
     await addressRow.getByText('根拠を見る', { exact: true }).click();
     await expect(addressRow.getByRole('link', { name: 'JR東日本（PORT OKUTAMA）' })).toHaveAttribute(
@@ -203,7 +221,7 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(page.getByText('住所', { exact: true })).toHaveCount(0);
     await expect(page.getByText('位置情報', { exact: true })).toHaveCount(0);
     await expect(page.getByText('mobile_food_truck / no_permanent_storefront', { exact: true })).toBeVisible();
-    await expect(page.getByRole('heading', { name: '3件の判断が必要です' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: '5件の判断が必要です' })).toBeVisible();
     const mobileDecision = page.getByRole('article', { name: '営業形態の判断' });
     await expect(mobileDecision).toContainText('固定地点として扱わない');
     await expect(mobileDecision).toContainText('固定店舗のないキッチンカー');
@@ -262,7 +280,7 @@ test.describe('Human Data Review Board (#340)', () => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto('/data-review/#akabeko');
 
-    await expect(page.getByRole('heading', { name: '2件の判断が必要です' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: '6件の判断が必要です' })).toBeVisible();
     const phoneDecision = page.getByRole('article', { name: '電話番号の判断' });
     await expect(phoneDecision).toContainText('情報に矛盾あり');
     await expect(phoneDecision.getByRole('link', { name: '炉ばた あかべこ（公式サイト）' })).toHaveAttribute(
@@ -339,7 +357,7 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(durationRow.getByText('Story', { exact: true })).toHaveCount(0);
     await expect(durationRow.getByText('Result', { exact: true })).toHaveCount(0);
 
-    const reviewLayer = page.getByRole('region', { name: '33件の判断が必要です' });
+    const reviewLayer = page.getByRole('region', { name: '34件の判断が必要です' });
     const durationDecision = reviewLayer.getByRole('article', { name: '半日の所要時間（分）の判断' });
     await expect(durationDecision).toContainText('表示差異あり');
     await expect(durationDecision).toContainText('現在のProduct表示');
