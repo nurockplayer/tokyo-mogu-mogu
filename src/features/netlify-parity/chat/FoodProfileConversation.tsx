@@ -1,4 +1,13 @@
-import { Fragment, useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react';
+import {
+  Fragment,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type FormEvent,
+  type ReactNode,
+  type RefObject,
+} from 'react';
 import type { FoodProfile } from '../../../lib/food-profile';
 import type { Locale } from '../../../i18n';
 import { referenceAssets, type ReferenceCopy } from '../content';
@@ -53,6 +62,7 @@ const inputModalCopy: Record<
     nameSuffix: string;
     otherLabel: string;
     confirm: string;
+    dismiss: string;
   }
 > = {
   ja: {
@@ -60,18 +70,21 @@ const inputModalCopy: Record<
     nameSuffix: 'です',
     otherLabel: '食材を入力してください',
     confirm: '確定',
+    dismiss: '入力を閉じる',
   },
   en: {
     nameLabel: 'My name is...',
     nameSuffix: '.',
     otherLabel: 'Enter an ingredient',
     confirm: 'Confirm',
+    dismiss: 'Close input',
   },
   'zh-TW': {
     nameLabel: '我是...',
     nameSuffix: '。',
     otherLabel: '請輸入食材',
     confirm: '確定',
+    dismiss: '關閉輸入',
   },
 };
 
@@ -80,6 +93,9 @@ interface ProfileInputModalProps {
   children: ReactNode;
   onSubmit: (event: FormEvent) => void;
   submitLabel: string;
+  dismissLabel?: string;
+  onCancel?: () => void;
+  returnFocusRef?: RefObject<HTMLButtonElement | null>;
 }
 
 function ProfileInputModal({
@@ -87,17 +103,60 @@ function ProfileInputModal({
   children,
   onSubmit,
   submitLabel,
+  dismissLabel,
+  onCancel,
+  returnFocusRef,
 }: ProfileInputModalProps) {
+  const dismissible = Boolean(onCancel);
+  const cancelRef = useRef(onCancel);
+  const dismissRef = useRef<() => void>(() => undefined);
+  cancelRef.current = onCancel;
+  const dismiss = () => {
+    const returnFocusTarget = returnFocusRef?.current;
+    cancelRef.current?.();
+    window.setTimeout(() => returnFocusTarget?.focus(), 0);
+  };
+  dismissRef.current = dismiss;
+
+  useEffect(() => {
+    if (!dismissible) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      event.preventDefault();
+      dismissRef.current();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [dismissible]);
+
   return (
-    <div className="profile-input-modal">
+    <div
+      className="profile-input-modal"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) dismiss();
+      }}
+    >
       <form
         className="profile-input-card"
         role="dialog"
         aria-modal="true"
         aria-label={label}
+        onClick={(event) => event.stopPropagation()}
         onSubmit={onSubmit}
       >
         <span className="profile-input-label">{label}</span>
+        {onCancel && dismissLabel ? (
+          <button
+            className="profile-input-close"
+            type="button"
+            aria-label={dismissLabel}
+            onClick={dismiss}
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        ) : null}
         {children}
         <button className="btn orange" type="submit">{submitLabel}</button>
       </form>
@@ -211,6 +270,7 @@ function QuestionBubble({
 }: QuestionBubbleProps) {
   const [otherValue, setOtherValue] = useState('');
   const otherInputRef = useRef<HTMLInputElement>(null);
+  const otherTriggerRef = useRef<HTMLButtonElement>(null);
   const questionIndex = entry.questionIndex ?? 0;
   const question = FOOD_PROFILE_QUESTIONS[questionIndex];
   const questionCopy = copy.profile.questions[question.key];
@@ -230,6 +290,13 @@ function QuestionBubble({
     }
     onAddOther(otherValue);
     setOtherValue('');
+  };
+
+  const toggleOther = () => {
+    if (!state.otherInputOpen) {
+      setOtherValue('');
+    }
+    onToggleOther();
   };
 
   return (
@@ -278,8 +345,9 @@ function QuestionBubble({
           ))}
           {question.allowOther ? (
             <button
+              ref={otherTriggerRef}
               className="chip"
-              onClick={onToggleOther}
+              onClick={toggleOther}
               type="button"
               disabled={!isCurrent}
             >
@@ -292,6 +360,12 @@ function QuestionBubble({
             label={inputModalCopy[locale].otherLabel}
             onSubmit={addOther}
             submitLabel={inputModalCopy[locale].confirm}
+            dismissLabel={inputModalCopy[locale].dismiss}
+            onCancel={() => {
+              setOtherValue('');
+              onToggleOther();
+            }}
+            returnFocusRef={otherTriggerRef}
           >
             <div className="profile-other-field">
               <input
@@ -346,7 +420,13 @@ export function FoodProfileConversation({
       if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     });
     return () => window.cancelAnimationFrame(frame);
-  }, [state.entries.length, state.otherInputOpen]);
+  }, [state.entries.length]);
+
+  useEffect(() => {
+    if (!active && state.otherInputOpen) {
+      dispatch({ type: 'TOGGLE_OTHER' });
+    }
+  }, [active, dispatch, state.otherInputOpen]);
 
   const submitName = (event: FormEvent) => {
     event.preventDefault();

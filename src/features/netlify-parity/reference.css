@@ -161,6 +161,7 @@ body:has(.reference-app) { overflow:hidden; }
 }
 .reference-screen[data-screen-active="false"] .profile-input-modal { display:none; }
 .reference-app .profile-input-card {
+  position:relative;
   width:100%;
   max-width:308px;
   background:#fff;
@@ -173,6 +174,25 @@ body:has(.reference-app) { overflow:hidden; }
   animation:pop .28s ease;
 }
 .reference-app .profile-input-label { color:var(--ink); font-size:15px; font-weight:500; }
+.reference-app .profile-input-close {
+  position:absolute;
+  top:4px;
+  right:4px;
+  width:44px;
+  height:44px;
+  display:grid;
+  place-items:center;
+  border:0;
+  border-radius:50%;
+  background:transparent;
+  color:var(--ink);
+  font-family:inherit;
+  font-size:24px;
+  font-weight:400;
+  line-height:1;
+  cursor:pointer;
+}
+.reference-app .profile-input-close:focus-visible { outline:var(--tmm-focus-ring); outline-offset:var(--tmm-focus-offset); }
 .reference-app .profile-name-sentence,
 .reference-app .profile-other-field { min-height:46px; display:flex; align-items:center; background:#EFEFF0; border-radius:12px; overflow:hidden; }
 .reference-app .profile-name-sentence.invalid { box-shadow:inset 0 0 0 1.5px #F05B5B; }
