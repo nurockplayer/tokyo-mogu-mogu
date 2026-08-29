@@ -159,7 +159,8 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(hoursDecision).toContainText('平日 11:00〜17:00（L.O. 16:30）');
     await expect(hoursDecision).toContainText('公式/根拠側の情報');
     await expect(hoursDecision).toContainText('weekday 11:00–17:00 / L.O. 16:30');
-    await expect(hoursDecision).toContainText('変更推奨');
+    await expect(hoursDecision).toContainText('要判断');
+    await expect(hoursDecision).not.toContainText('変更推奨');
     const serviceDecision = page.getByRole('article', { name: '取扱・サービスの判断' });
     for (const surface of ['Spot', 'Story', 'Route']) {
       await expect(serviceDecision.getByText(surface, { exact: true })).toBeVisible();
@@ -359,6 +360,9 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(durationRow.getByText('150', { exact: true })).toBeVisible();
     await expect(durationRow.getByText('🟡 出典確認済み・人の確認待ち', { exact: true })).toBeVisible();
     await durationRow.getByText('根拠を見る', { exact: true }).click();
+    await expect(durationRow.getByRole('link', {
+      name: '一般社団法人奥多摩観光協会（奥多摩町観光案内所）',
+    })).toBeVisible();
     await expect(durationRow.getByText('Route', { exact: true })).toBeVisible();
     await expect(durationRow.getByText('Home', { exact: true })).toHaveCount(0);
     await expect(durationRow.getByText('Story', { exact: true })).toHaveCount(0);
@@ -369,10 +373,15 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(durationDecision).toContainText('表示差異あり');
     await expect(durationDecision).toContainText('現在のProduct表示');
     await expect(durationDecision).toContainText('150');
-    await expect(durationDecision).toContainText('公式/根拠側の情報');
+    await expect(durationDecision).toContainText('編集上の情報（未検証）');
+    await expect(durationDecision).not.toContainText('公式/根拠側の情報');
     await expect(durationDecision).toContainText('200');
     await expect(durationDecision).toContainText('要判断');
     await expect(durationDecision).not.toContainText('変更推奨');
+    await expect(durationDecision.getByText('直接の根拠', { exact: true })).toHaveCount(0);
+    await expect(durationDecision.getByRole('link', {
+      name: '一般社団法人奥多摩観光協会（奥多摩町観光案内所）',
+    })).toHaveCount(0);
     await expect(durationDecision.getByText('Route', { exact: true })).toBeVisible();
     const presentationDecision = reviewLayer.getByRole('article', { name: 'Result と Route の移動時間表示の判断' });
     await expect(presentationDecision).toContainText('表示間に差異あり');

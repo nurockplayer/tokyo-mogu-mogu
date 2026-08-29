@@ -460,6 +460,7 @@ describe('Human Data Review Board projection (#340, #343)', () => {
           primarySource: 'Example operator',
           primarySourceUrl: 'https://example.com/place',
           retrievedAt: '2026-08-29',
+          replacementRecommendation: 'replace_product_display',
         }),
         claim({
           claimId: 'spot:example-place:official_current_url',
@@ -485,6 +486,8 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       label: '施設名',
       statusLabel: '表示差異あり',
       recommendationLabel: '変更推奨',
+      comparisonProvenance: 'source',
+      directEvidenceClaimIds: ['place:example-place:information_name:ja'],
       factFieldKeys: ['name'],
       affectedSurfaces: ['Spot'],
     });
@@ -539,7 +542,9 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       expect.objectContaining({
         id: 'comparison:hours:mismatch',
         kind: 'comparison',
-        recommendationLabel: '変更推奨',
+        recommendationLabel: '要判断',
+        comparisonProvenance: 'source',
+        directEvidenceClaimIds: ['place:example-place:hours:ja'],
         factFieldKeys: ['hours'],
         affectedSurfaces: ['Spot'],
       }),
@@ -675,6 +680,9 @@ describe('Human Data Review Board projection (#340, #343)', () => {
         displayedValue: '150',
         canonicalValue: '200',
         finding: 'mismatch',
+        origin: 'editorial',
+        primarySource: 'Context-only tourism source',
+        primarySourceUrl: 'https://example.com/context',
         issues: ['#333'],
       }),
       claim({
@@ -784,6 +792,8 @@ describe('Human Data Review Board projection (#340, #343)', () => {
             factFieldKeys: ['route:half-day:duration_minutes'],
             kind: 'comparison',
             recommendationLabel: '要判断',
+            comparisonProvenance: 'editorial',
+            directEvidenceClaimIds: [],
           }),
           expect.objectContaining({
             factFieldKeys: ['route:presentation:result_origin_travel_time'],
@@ -967,6 +977,10 @@ describe('Human Data Review Board projection (#340, #343)', () => {
           kind: 'comparison',
           label: '施設名',
           recommendationLabel: '変更推奨',
+          comparisonProvenance: 'source',
+          directEvidenceClaimIds: [
+            'place:okutama-tourism-office:information_name:ja',
+          ],
           factFieldKeys: ['name'],
           affectedSurfaces: ['Spot'],
         })],
@@ -985,7 +999,18 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       expect.objectContaining({
         id: 'comparison:route:half-day:duration_minutes:mismatch',
         recommendationLabel: '要判断',
+        comparisonProvenance: 'editorial',
+        directEvidenceClaimIds: [],
         factFieldKeys: ['route:half-day:duration_minutes'],
+      }),
+    ]));
+
+    const yamashiroya = board.entities.find((entity) => entity.id === 'yamashiroya');
+    expect(yamashiroya?.reviewContext.decisionItems).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        id: 'comparison:hours:mismatch',
+        recommendationLabel: '要判断',
+        comparisonProvenance: 'source',
       }),
     ]));
 

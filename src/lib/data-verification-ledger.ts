@@ -124,6 +124,7 @@ export interface LedgerClaimInput {
   appSurface?: string;
   timeSensitive: boolean;
   timeSensitiveNote?: string;
+  replacementRecommendation?: 'replace_product_display';
   issues: readonly string[];
   note?: string;
 }
@@ -151,6 +152,7 @@ export interface LedgerClaim {
   confirmedAt?: string;
   timeSensitive: boolean;
   timeSensitiveNote?: string;
+  replacementRecommendation?: 'replace_product_display';
   appSurface?: string;
   canonicalSourceFile: string;
   presentationSourceFile?: string;
@@ -221,6 +223,7 @@ export function buildLedgerClaims(inputs: readonly LedgerClaimInput[]): LedgerCl
       confirmedAt: source?.confirmedAt,
       timeSensitive: input.timeSensitive,
       timeSensitiveNote: input.timeSensitiveNote,
+      replacementRecommendation: input.replacementRecommendation,
       appSurface: input.presentation?.surface ?? input.requiredUnknown?.surface ?? input.appSurface,
       canonicalSourceFile: input.canonical?.sourceFile ?? '—',
       presentationSourceFile: input.presentation?.sourceFile,
@@ -1967,6 +1970,9 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
             ?? place.source.retrievedAt,
         }
       : undefined;
+    const replacementRecommendedFieldIds: readonly string[] = audit && 'replacementRecommendedFieldIds' in audit
+      ? audit.replacementRecommendedFieldIds
+      : [];
 
     for (const locale of PRESENTATION_LOCALES) {
       const localizedName = spot.copy[locale].name;
@@ -1985,6 +1991,10 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
           ? presentationValue(localizedName, 'Spot', place.origin, status)
           : presentationValue(localizedName, 'Spot'),
         timeSensitive: false,
+        replacementRecommendation: locale === 'ja'
+          && replacementRecommendedFieldIds.some((fieldId) => fieldId === 'name')
+          ? 'replace_product_display'
+          : undefined,
         issues: audit ? [...audit.issues] : ['#333'],
         note: locale === 'ja'
           ? place
@@ -2009,6 +2019,10 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
             ? presentationValue(referenceName.value[locale], 'Spot', place.origin, status)
             : presentationValue(referenceName.value[locale], 'Spot'),
           timeSensitive: false,
+          replacementRecommendation: locale === 'ja'
+            && replacementRecommendedFieldIds.some((fieldId) => fieldId === 'information_name')
+            ? 'replace_product_display'
+            : undefined,
           issues: audit ? [...audit.issues] : ['#333'],
           note: locale === 'ja'
             ? place
@@ -2225,6 +2239,10 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
             ),
             timeSensitive: true,
             timeSensitiveNote: 'Operational details can change; check the official source.',
+            replacementRecommendation: locale === 'ja'
+              && replacementRecommendedFieldIds.some((fieldId) => fieldId === row.fieldId)
+              ? 'replace_product_display'
+              : undefined,
             issues: audit ? [...audit.issues] : ['#333'],
             note: locale === 'ja'
               ? row.fieldId === 'closed_days' && place.visitorInformation?.yearEndClosure

@@ -9,7 +9,7 @@ import {
   REQUIRED_ROUTE_GUIDANCE_FACTUAL_CLAIMS,
   REQUIRED_STORY_SPOT_FACTUAL_CLAIMS,
 } from '../data/data-verification-audit-manifest';
-import type { DataSource, Place } from '../data/model';
+import type { DataOrigin, DataSource, Place } from '../data/model';
 import type {
   CurrentProductFactualEntity,
   CurrentProductFactualEntityType,
@@ -41,6 +41,7 @@ export type HumanDataReviewSurface = 'Home' | 'MOGU' | 'Spot' | 'Story' | 'Route
 
 export interface HumanDataReviewFactSource {
   claimId: string;
+  origin: DataOrigin;
   name: string;
   url?: string;
   sourceType?: SourceType;
@@ -67,6 +68,8 @@ export interface HumanDataReviewDecisionItem {
   recommendation: string;
   factFieldKeys: readonly string[];
   affectedSurfaces: readonly HumanDataReviewSurface[];
+  comparisonProvenance?: DataOrigin | 'product';
+  directEvidenceClaimIds?: readonly string[];
 }
 
 export interface HumanDataReviewDecisionUncertainty {
@@ -434,6 +437,7 @@ function sourceEdgesForFact(
     .filter((candidate): candidate is LedgerClaim & { primarySource: string } => Boolean(candidate.primarySource))
     .map((candidate): HumanDataReviewFactSource => ({
       claimId: candidate.claimId,
+      origin: candidate.origin,
       name: candidate.primarySource,
       url: candidate.primarySourceUrl,
       sourceType: candidate.primarySourceType,
@@ -723,7 +727,15 @@ function buildReviewContext(
       && fact.sources.length > 0
       && comparisonClaim?.origin === 'source'
       && (comparisonClaim.verification === 'verified'
-        || comparisonClaim.verification === 'needs_confirmation');
+        || comparisonClaim.verification === 'needs_confirmation')
+      && comparisonClaim.replacementRecommendation === 'replace_product_display';
+    const comparisonProvenance = fact.finding === 'presentation_mismatch'
+      ? 'product'
+      : comparisonClaim?.origin;
+    const directEvidenceClaimIds = comparisonClaim?.origin === 'source'
+      && comparisonClaim.primarySource
+      ? [comparisonClaim.claimId]
+      : [];
     const statusLabel = fact.finding === 'mismatch'
       ? '表示差異あり'
       : fact.finding === 'presentation_mismatch'
@@ -732,7 +744,15 @@ function buildReviewContext(
           ? '根拠側の情報が不足'
           : 'Product表示が未登録';
     const reason = fact.finding === 'mismatch'
-      ? '現在のProduct表示が、公式/根拠側の情報と一致していません。'
+      ? comparisonProvenance === 'source'
+        ? hasDirectionalAuthority
+          ? '現在のProduct表示が、公式/根拠側の情報と一致していません。'
+          : '現在のProduct表示と、出典に紐づく根拠側の記録が文字列として一致していません。表記差か内容差かを確認する必要があります。'
+        : comparisonProvenance === 'editorial'
+          ? '現在のProduct表示と、未検証の編集上の値が一致していません。'
+          : comparisonProvenance === 'demo'
+            ? '現在のProduct表示と、デモ用の値が一致していません。'
+            : '現在のProduct表示と比較対象の値が一致していません。'
       : fact.finding === 'presentation_mismatch'
         ? 'Product内の表示同士が一致していません。'
         : fact.finding === 'canonical_missing'
@@ -750,6 +770,8 @@ function buildReviewContext(
         : '現在の根拠とProductでの役割を確認し、表示方針を判断してください。',
       factFieldKeys: [fact.fieldKey],
       affectedSurfaces: fact.affectedSurfaces,
+      comparisonProvenance,
+      directEvidenceClaimIds,
     });
   }
   const reviewFocus: HumanDataReviewGuidanceItem[] = [];

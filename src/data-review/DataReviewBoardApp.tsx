@@ -203,6 +203,19 @@ function DecisionCard({ entity, item }: { entity: HumanDataReviewEntity; item: H
   const sources = [...new Map(
     facts.flatMap((fact) => fact.sources).map((source) => [source.claimId, source]),
   ).values()];
+  const directSources = sources.filter((source) => source.origin === 'source'
+    && (item.kind !== 'comparison' || item.directEvidenceClaimIds?.includes(source.claimId)));
+  const comparisonSideLabel = primaryFact?.finding === 'presentation_mismatch'
+    ? '比較対象のProduct表示'
+    : primaryFact?.finding === 'canonical_missing'
+      ? '根拠側の情報'
+      : item.comparisonProvenance === 'source'
+        ? '公式/根拠側の情報'
+        : item.comparisonProvenance === 'editorial'
+          ? '編集上の情報（未検証）'
+          : item.comparisonProvenance === 'demo'
+            ? 'デモ用の情報'
+            : '比較対象の情報';
 
   return (
     <article className="drb-decision-card" aria-label={`${item.label}の判断`} data-decision-kind={item.kind}>
@@ -219,7 +232,7 @@ function DecisionCard({ entity, item }: { entity: HumanDataReviewEntity; item: H
             <dd>{primaryFact.displayedValue ?? '表示なし'}</dd>
           </div>
           <div>
-            <dt>{primaryFact.finding === 'presentation_mismatch' ? '比較対象のProduct表示' : '公式/根拠側の情報'}</dt>
+            <dt>{comparisonSideLabel}</dt>
             <dd>{primaryFact.finding === 'presentation_mismatch'
               ? primaryFact.comparedPresentationValue ?? '表示なし'
               : primaryFact.canonicalValue ?? '記録なし'}</dd>
@@ -257,10 +270,10 @@ function DecisionCard({ entity, item }: { entity: HumanDataReviewEntity; item: H
           <small>影響するProduct画面</small>
           <div>{item.affectedSurfaces.map((surface) => <span key={surface}>{surface}</span>)}</div>
         </div>
-        {sources.length > 0 && (
+        {directSources.length > 0 && (
           <div className="drb-decision-card__sources" aria-label={`${item.label}の直接の根拠`}>
             <small>直接の根拠</small>
-            {sources.map((source) => (
+            {directSources.map((source) => (
               <div key={source.claimId}>
                 {source.url
                   ? <a href={source.url} target="_blank" rel="noreferrer">{source.name}</a>

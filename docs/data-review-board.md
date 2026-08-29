@@ -50,13 +50,15 @@ Entity detail の `判断が必要` は、上の検証状態とは別に算出�
 
 time-sensitive 情報は、Ledger の `timeSensitive` と実際の Product 表示・影響画面から対象を導出します。比較対象を持たない表示済み claim (`finding: none`) は、それ自体で現在情報の caveat を作ります。表示差異がある項目は、最新情報の注意をまとめても現在の Product 表示と公式/根拠側の比較を別の判断カードに残します。単独の matching fact は判断を増やしませんが、caveat が必要な entity では同じ変更可能性を持つ情報としてまとめます。フィールド名の固定リストでは分類しません。
 
-`変更推奨` は、比較元の claim が source-origin で、検証状態が `verified` または `needs_confirmation` の場合だけ表示します。editorial / demo の推定値や stale / conflict の値は比較を残しても `要判断` とし、根拠側の値を自動的に Product の正解へ昇格させません。
+`変更推奨` は、比較元の claim が source-origin で、検証状態が `verified` または `needs_confirmation` であることに加え、既存の audit mapping が Product 表示の置換を明示した場合だけ表示します。Ledger の `mismatch` は正規化しない文字列比較なので、それだけでは置換根拠になりません。表記・ローカライズ差か内容差かが確定していない比較、editorial / demo の推定値、stale / conflict の値は比較を残しても `要判断` とします。
+
+比較カードは canonical 側の実際の origin を保持し、Product 内比較、source-backed 情報、未検証の editorial 情報、demo 情報を区別します。`直接の根拠` にはその factual side を直接支える source-origin claim だけを表示します。editorial claim が参照している背景 URL などは、二次的な `根拠を見る` の traceability には残しても直接証拠として表示しません。
 
 ## チームでの使い方
 
 1. Overview の Product 対象件数と `Spot` / `Story` / `Route` の内訳を確認し、
    `全部` / `要確認` / `矛盾` / `未確認` で確認対象を絞り込みます。
-2. Entity detail の先頭で、判断件数、現在の Product 表示、公式/根拠側の情報、期待する扱い、影響画面、直接の根拠を確認します。
+2. Entity detail の先頭で、判断件数、現在の Product 表示、比較側の実際の由来、期待する扱い、影響画面、直接の根拠を確認します。
 3. 通常の source-backed facts は `現在確認できる情報`、report-only unknowns は `未確認のためProductで保証しない情報` で確認します。項目別の source role、claim graph、確認状態、影響画面は `根拠を見る` から開きます。
 4. `監査上の未解決` は `要確認` + `要再確認` + `未確認` + `矛盾` の合計で、Product 判断件数とは一致しない場合があります。
 5. `Slack共有用` の factual summary をコピーして通知に使います。判断カードの recommendation 文は含めません。
