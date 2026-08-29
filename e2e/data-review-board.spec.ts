@@ -20,8 +20,8 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(rules).toContainText('元素材の権利が不明な場合は提出物に使用しません');
 
     const readiness = page.getByRole('region', { name: '提出準備は未完了です' });
-    await expect(readiness).toContainText('107');
-    await expect(readiness).toContainText('44');
+    await expect(readiness).toContainText('53');
+    await expect(readiness).toContainText('98');
     await expect(readiness).toContainText('代表Open Dataのライセンス');
     await expect(readiness).toContainText('公式Web・事業者情報との区別');
     await expect(readiness).toContainText('All Rights Reserved 観光ディレクトリ');

@@ -104,6 +104,7 @@ describe('submission rights projection (#370)', () => {
 
     expect(netlify).toMatchObject({ reviewStatus: 'blocked', aiUse: 'unknown' });
     expect(netlify?.paths).toHaveLength(44);
+    expect(netlify?.allowedScopes).toEqual([]);
     expect(fieldwork).toMatchObject({
       reviewStatus: 'needs_confirmation',
       allowedScopes: ['project_demo'],
@@ -159,6 +160,11 @@ describe('submission rights projection (#370)', () => {
       aiUse: 'composited',
       sourceMaterialRights: 'unknown',
       reviewStatus: 'ready',
+    }))).toBe('blocked');
+    expect(assessProjectAssetRights(syntheticAsset({
+      aiUse: 'generated',
+      sourceMaterialRights: 'unknown',
+      reviewStatus: 'needs_confirmation',
     }))).toBe('blocked');
   });
 

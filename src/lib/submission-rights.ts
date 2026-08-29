@@ -254,12 +254,12 @@ export const PROJECT_ASSET_RIGHTS_MANIFEST: readonly ProjectAssetRightsGroup[] =
     source: 'https://mogu-mogu-5525da.netlify.app/',
     permissionBasis: 'プロジェクトデモの参照再現のみ。公開再利用ライセンスは主張していません。',
     attribution: '元の制作者・権利者と必要な帰属表示は未登録です。',
-    allowedScopes: ['project_demo'],
+    allowedScopes: [],
     aiUse: 'unknown',
     sourceMaterialRights: 'unknown',
     reviewStatus: 'blocked',
     note:
-      '44ファイルが現在のリポジトリ・実行時入力です。大会提出・公開プレゼンテーションへのチーム/権利者許可を記録するか、提出前に対象素材を置換・除外します。',
+      '44ファイルが現在のリポジトリ・実行時入力です。許可済み範囲はリポジトリ証拠から確認できません。大会提出・公開デモから除外し、チーム/権利者許可を記録するか、対象素材を置換してから利用します。',
     supportingLinks: ['src/assets/netlify-parity/README.md', 'https://github.com/nurockplayer/tokyo-mogu-mogu/issues/370'],
   },
   {
@@ -386,7 +386,6 @@ export function assessProjectAssetRights(
   if (
     (item.aiUse === 'generated' || item.aiUse === 'composited')
     && item.sourceMaterialRights === 'unknown'
-    && item.reviewStatus === 'ready'
   ) {
     return 'blocked';
   }

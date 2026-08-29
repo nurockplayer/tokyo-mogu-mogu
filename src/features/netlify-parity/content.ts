@@ -206,7 +206,7 @@ export interface JourneyPresentation {
   matchPercent?: number;
   /** Canonical source review state shown only when the browse card needs a caveat. */
   sourceStatus?: VerificationStatus;
-  /** Rights-cleared local media only; absent renders the explicit neutral-media state. */
+  /** Local presentation media; submission rights are reviewed separately in submission-rights.ts. */
   imageAssetId?: ReferenceAssetId;
   heroAssetId?: ReferenceAssetId;
   copy: Record<Locale, {
@@ -230,7 +230,7 @@ export interface SpotPresentation {
   id: string;
   regionId: string;
   foodCultureId: string;
-  /** Rights-cleared local media only; absent renders the explicit neutral-media state. */
+  /** Local presentation media; submission rights are reviewed separately in submission-rights.ts. */
   imageAssetId?: ReferenceAssetId;
   thumbnailAssetIds: ReferenceAssetId[];
   copy: Record<Locale, {
