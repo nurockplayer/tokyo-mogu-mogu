@@ -519,6 +519,7 @@ describe('seed data contract (#2)', () => {
             { season: 'october-april', time: '11:00' },
           ],
           meetingTimeMayChange: true,
+          confirmationEmailProvidesExactMeetingTime: true,
           durationConflict: {
             verificationStatus: 'conflict',
             statements: [
@@ -540,7 +541,6 @@ describe('seed data contract (#2)', () => {
           },
           privateGroupsPerDay: 1,
           reservationRequired: true,
-          bookingRequestRequiresConfirmation: true,
           bookingUrl: 'https://tokyowasabi.com/wasabi-experience/#booking-form',
           listedPrice: {
             amountYen: 19500,

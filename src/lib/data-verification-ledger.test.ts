@@ -1352,6 +1352,12 @@ describe('repository data verification ledger (#333)', () => {
       canonicalValue: expect.stringContaining('weekends_and_public_holidays request-only'),
       displayedValue: expect.stringContaining('週末・祝日は要問合せ'),
     });
+    expect(claims.find((row) => row.claimId === 'spot:wasabi-experience:reservation')).toMatchObject({
+      canonicalValue: 'required / official_booking_form',
+      displayedValue: '要予約。公式フォームから予約してください',
+    });
+    expect(claims.find((row) => row.claimId === 'spot:wasabi-experience:tour_availability')?.canonicalValue)
+      .not.toContain('operator_confirmation');
     expect(claims.find((row) => row.claimId === 'spot:wasabi-experience:price_availability')).toMatchObject({
       canonicalValue: expect.stringContaining('19500 JPY / tax_included'),
       displayedValue: expect.stringContaining('税込'),

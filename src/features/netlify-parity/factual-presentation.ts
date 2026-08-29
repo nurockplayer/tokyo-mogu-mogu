@@ -465,23 +465,28 @@ export function buildWasabiExperiencePresentation(place: FixedPlace) {
   const bookingRequiredTag = tour.reservationRequired
     ? localized('要予約', 'Booking required', '需預約')
     : localized('予約不要', 'No booking required', '無需預約');
-  const operatorConfirmationTag = tour.bookingRequestRequiresConfirmation
-    ? localized('運営者確認が必要', 'Operator confirmation required', '需營運方確認')
-    : localized('運営者確認不要', 'No operator confirmation required', '無需營運方確認');
+  const availabilityInquiryTag = localized('空き状況を要確認', 'Check availability', '請確認名額');
+  const exactMeetingTimeGuidance = tour.confirmationEmailProvidesExactMeetingTime
+    ? localized(
+        '確認メールに記載された正確な集合時間を優先',
+        'follow the exact meeting time in the confirmation email',
+        '請以確認信中記載的確切集合時間為準',
+      )
+    : localized('公式情報を確認', 'check the official information', '請查看官方資訊');
   const seasonalTimes = localized(
-    `5〜9月 ${summerTime}／10〜4月 ${winterTime}${tour.meetingTimeMayChange ? '（変更の場合あり。確認メールの時刻を優先）' : ''}`,
-    `May–Sep ${summerTime} / Oct–Apr ${winterTime}${tour.meetingTimeMayChange ? ' (may change; follow the time in the confirmation email)' : ''}`,
-    `5～9 月 ${summerTime}／10～4 月 ${winterTime}${tour.meetingTimeMayChange ? '（可能變更；請以確認信中的時間為準）' : ''}`,
+    `5〜9月 ${summerTime}／10〜4月 ${winterTime}${tour.meetingTimeMayChange ? `（変更の場合あり。${exactMeetingTimeGuidance.ja}）` : ''}`,
+    `May–Sep ${summerTime} / Oct–Apr ${winterTime}${tour.meetingTimeMayChange ? ` (may change; ${exactMeetingTimeGuidance.en})` : ''}`,
+    `5～9 月 ${summerTime}／10～4 月 ${winterTime}${tour.meetingTimeMayChange ? `（可能變更；${exactMeetingTimeGuidance['zh-TW']}）` : ''}`,
   );
   const booking = localized(
-    `${bookingRequiredTag.ja}。${tour.bookingRequestRequiresConfirmation ? '申込フォーム送信後、運営者の確認をもって予約成立' : '申込フォーム送信で予約成立'}`,
-    `${bookingRequiredTag.en}. ${tour.bookingRequestRequiresConfirmation ? 'A form submission is a request; the booking is established only after operator confirmation' : 'The booking is established when the form is submitted'}`,
-    `${bookingRequiredTag['zh-TW']}。${tour.bookingRequestRequiresConfirmation ? '送出表單僅為申請，須經營運方確認後才成立' : '送出表單後即成立'}`,
+    `${bookingRequiredTag.ja}。公式フォームから予約してください`,
+    `${bookingRequiredTag.en}. Use the official form to book`,
+    `${bookingRequiredTag['zh-TW']}。請使用官方表單預約`,
   );
   const availability = localized(
-    `${groupCopy.ja}のプライベートツアー。${tour.weekendHolidayAvailability === 'request-only' ? '週末・祝日は要問合せ。' : ''}空き状況は${tour.bookingRequestRequiresConfirmation ? '運営者確認が必要' : '公式情報を確認'}`,
-    `${groupCopy.en.replace(' daily', ' per day')}. ${tour.weekendHolidayAvailability === 'request-only' ? 'Weekends and holidays are request-only; ' : ''}availability ${tour.bookingRequestRequiresConfirmation ? 'requires operator confirmation' : 'is shown by the official source'}`,
-    `${groupCopy['zh-TW']}私人導覽。${tour.weekendHolidayAvailability === 'request-only' ? '週末與國定假日須洽詢；' : ''}是否有名額${tour.bookingRequestRequiresConfirmation ? '需經營運方確認' : '請查看官方資訊'}`,
+    `${groupCopy.ja}のプライベートツアー。${tour.weekendHolidayAvailability === 'request-only' ? '週末・祝日は要問合せ。' : ''}空き状況は申込時に確認`,
+    `${groupCopy.en.replace(' daily', ' per day')}. ${tour.weekendHolidayAvailability === 'request-only' ? 'Weekends and holidays require an inquiry; ' : ''}check current availability when booking`,
+    `${groupCopy['zh-TW']}私人導覽。${tour.weekendHolidayAvailability === 'request-only' ? '週末與國定假日須洽詢；' : ''}預約時請確認名額`,
   );
   const priceCaveatTermsJa = [
     tour.listedPrice.conditionalPrice ? '条件' : undefined,
@@ -539,17 +544,17 @@ export function buildWasabiExperiencePresentation(place: FixedPlace) {
       `官方資訊於 ${retrievedDate['zh-TW']}取得。申請時請再次確認集合時間、所需時間、價格、是否舉行與名額。`,
     ),
     bookingRequiredTag,
-    operatorConfirmationTag,
+    availabilityInquiryTag,
     guideBody: localized(
-      'フォーム送信だけでは予約成立ではありません。運営者からの確認と、確認メールに記載された集合時間を優先してください。',
-      'Submitting the form does not confirm a booking. Wait for operator confirmation and follow the meeting time in the confirmation email.',
-      '送出表單並不代表預約成立。請等待營運方確認，並以確認信中的集合時間為準。',
+      '公式フォームから予約し、空き状況と確認メールに記載された正確な集合時間を確認してください。',
+      'Use the official form to book, check current availability, and follow the exact meeting time in the confirmation email.',
+      '請使用官方表單預約、確認目前名額，並以確認信中記載的確切集合時間為準。',
     ),
     caution: [
       localized(
-        '・集合時間は季節別の目安で、変更される場合があります。確認メールの案内を優先してください。',
-        '• Seasonal meeting times may change. Follow the operator’s confirmation email.',
-        '・季節集合時間可能變更，請以營運方確認信為準。',
+        '・集合時間は季節別の目安で、変更される場合があります。確認メールに記載された正確な集合時間を優先してください。',
+        '• Seasonal meeting times may change. Follow the exact meeting time in the confirmation email.',
+        '・季節集合時間可能變更，請以確認信中記載的確切集合時間為準。',
       ),
       localized(
         '・掲載価格、所要時間、週末・祝日の催行、空き状況は変わる場合があります。申込時に確認してください。',
@@ -1211,7 +1216,7 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
     tags: [
       { tagId: 'private-experience', color: '#8FAE5C', label: localized('プライベート体験', 'Private experience', '私人體驗') },
       { tagId: 'booking-required', color: '#F0A24C', label: wasabiExperiencePresentation.bookingRequiredTag },
-      { tagId: 'operator-confirmation', color: '#E05B5B', label: wasabiExperiencePresentation.operatorConfirmationTag },
+      { tagId: 'availability-check', color: '#E05B5B', label: wasabiExperiencePresentation.availabilityInquiryTag },
     ],
     description: localized(
       'TOKYO WASABI公式情報に基づく体験案内です。物理的な集合場所は青梅市御岳で、旅では奥多摩わさび文化とのつながりを紹介します。',
@@ -1226,14 +1231,14 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
       { fieldId: 'tour_duration', icon: 'clock', label: localized('所要時間', 'Duration', '所需時間'), value: wasabiExperienceDuration },
       { fieldId: 'private_group_limit', icon: 'information', label: localized('催行', 'Format', '舉行方式'), value: wasabiExperiencePresentation.privateGroupLimit },
       { fieldId: 'reservation', icon: 'information', label: localized('予約', 'Booking', '預約'), value: wasabiExperienceBooking },
-      { fieldId: 'booking_destination', icon: 'information', label: localized('申込先', 'Booking request', '申請連結'), value: localized(wasabiExperienceTour.bookingUrl, wasabiExperienceTour.bookingUrl, wasabiExperienceTour.bookingUrl) },
+      { fieldId: 'booking_destination', icon: 'information', label: localized('公式予約フォーム', 'Official booking form', '官方預約表單'), value: localized(wasabiExperienceTour.bookingUrl, wasabiExperienceTour.bookingUrl, wasabiExperienceTour.bookingUrl) },
       { fieldId: 'tour_availability', icon: 'information', label: localized('空き状況', 'Availability', '名額狀況'), value: wasabiExperienceAvailability },
       { fieldId: 'price_availability', icon: 'information', label: localized('掲載価格', 'Listed price', '刊載價格'), value: wasabiExperiencePrice },
       { fieldId: 'official_current_url', icon: 'information', label: localized('公式情報', 'Official information', '官方資訊'), value: localized(wasabiExperiencePlace.source.url ?? '', wasabiExperiencePlace.source.url ?? '', wasabiExperiencePlace.source.url ?? '') },
       { fieldId: 'verification_note', icon: 'information', label: localized('確認状態', 'Verification', '確認狀態'), value: wasabiExperiencePresentation.verificationNote },
     ],
     guide: {
-      title: localized('公式フォームから予約をリクエスト', 'Request a booking on the official form', '透過官方表單申請預約'),
+      title: localized('公式フォームから予約', 'Book on the official form', '透過官方表單預約'),
       body: wasabiExperiencePresentation.guideBody,
       action: localized('公式予約フォームを開く', 'Open the official booking form', '開啟官方預約表單'),
       url: wasabiExperienceTour.bookingUrl,

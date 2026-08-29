@@ -520,6 +520,7 @@ export const PLACES: Place[] = [
           { season: 'october-april', time: '11:00' },
         ],
         meetingTimeMayChange: true,
+        confirmationEmailProvidesExactMeetingTime: true,
         durationConflict: {
           verificationStatus: 'conflict',
           statements: [
@@ -537,7 +538,6 @@ export const PLACES: Place[] = [
         },
         privateGroupsPerDay: 1,
         reservationRequired: true,
-        bookingRequestRequiresConfirmation: true,
         bookingUrl: 'https://tokyowasabi.com/wasabi-experience/#booking-form',
         listedPrice: {
           amountYen: 19500,

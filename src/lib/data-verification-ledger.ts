@@ -609,14 +609,14 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
       return defaultFact(`${visitor.experienceTour.privateGroupsPerDay} private group/day`);
     }
     if (fieldId === 'reservation' && visitor.experienceTour) {
-      return defaultFact('required / operator_confirmation');
+      return defaultFact('required / official_booking_form');
     }
     if (fieldId === 'booking_destination' && visitor.experienceTour) {
       return defaultFact(visitor.experienceTour.bookingUrl);
     }
     if (fieldId === 'tour_availability' && visitor.experienceTour) {
       return defaultFact(
-        `weekends_and_public_holidays ${visitor.experienceTour.weekendHolidayAvailability} / operator_confirmation / weather_may_cancel_or_postpone`,
+        `weekends_and_public_holidays ${visitor.experienceTour.weekendHolidayAvailability} / availability_requires_inquiry / weather_may_cancel_or_postpone`,
       );
     }
     if (fieldId === 'price_availability' && visitor.experienceTour) {
@@ -700,9 +700,9 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
         ['seasonal_meeting_times', 'Seasonal meeting times', `${place.visitorInformation.experienceTour.seasonalMeetingTimes.map((item) => `${item.season} ${item.time}`).join(' | ')} / may_change`, true] as const,
         ['tour_duration', 'Conflicting first-party experience durations', experienceDurationConflictValue(place.visitorInformation.experienceTour), true] as const,
         ['private_group_limit', 'Private group limit', `${place.visitorInformation.experienceTour.privateGroupsPerDay} private group/day`, true] as const,
-        ['reservation', 'Reservation requirement', 'required / operator_confirmation', true] as const,
-        ['booking_destination', 'Booking request destination', place.visitorInformation.experienceTour.bookingUrl, true] as const,
-        ['tour_availability', 'Tour availability', `weekends_and_public_holidays ${place.visitorInformation.experienceTour.weekendHolidayAvailability} / operator_confirmation / weather_may_cancel_or_postpone`, true] as const,
+        ['reservation', 'Reservation requirement', 'required / official_booking_form', true] as const,
+        ['booking_destination', 'Official booking form', place.visitorInformation.experienceTour.bookingUrl, true] as const,
+        ['tour_availability', 'Tour availability', `weekends_and_public_holidays ${place.visitorInformation.experienceTour.weekendHolidayAvailability} / availability_requires_inquiry / weather_may_cancel_or_postpone`, true] as const,
         ['price_availability', 'Listed experience price and conditions', experiencePriceValue(place.visitorInformation.experienceTour), true] as const,
       ] : []),
     ];

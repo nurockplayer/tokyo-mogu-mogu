@@ -174,8 +174,10 @@ export interface PlaceExperienceTourInformation {
     season: 'may-september' | 'october-april';
     time: string;
   }>;
-  /** The operator warns that the confirmation email may specify a different time. */
+  /** Source-published seasonal times may change. */
   meetingTimeMayChange: true;
+  /** The first-party English page says the confirmation email provides the exact meeting time. */
+  confirmationEmailProvidesExactMeetingTime: true;
   /** First-party JP/EN duration statements conflict; retain both without selecting one. */
   durationConflict: {
     verificationStatus: 'conflict';
@@ -187,8 +189,7 @@ export interface PlaceExperienceTourInformation {
   };
   privateGroupsPerDay: number;
   reservationRequired: true;
-  /** A form submission is only a request; the operator must confirm availability. */
-  bookingRequestRequiresConfirmation: true;
+  /** First-party form used for the published booking / reservation flow. */
   bookingUrl: string;
   listedPrice: {
     amountYen: number;

@@ -611,19 +611,19 @@ test('separates the Ome meeting place from Okutama culture and keeps times seaso
     {
       locale: 'ja', region: '青梅・御岳 → 奥多摩', name: 'WASABI EXPERIENCE',
       address: '〒198-0147 東京都青梅市御岳1-192-4', seasonal: '5〜9月 8:30／10〜4月 11:00',
-      access: '御嶽駅」から徒歩約7分', booking: 'フォーム送信だけでは予約成立ではありません',
+      access: '御嶽駅」から徒歩約7分', booking: '公式フォームから予約してください',
       duration: '日本語公式 約2〜2.5時間／英語公式 約2時間', durationCaveat: '記載不一致。予約時に確認',
     },
     {
       locale: 'en', region: 'Ome / Mitake → Okutama', name: 'WASABI EXPERIENCE',
       address: '1-192-4 Mitake, Ome, Tokyo 198-0147', seasonal: 'May–Sep 8:30 / Oct–Apr 11:00',
-      access: '7 minutes on foot from Mitake Station', booking: 'Submitting the form does not confirm a booking',
+      access: '7 minutes on foot from Mitake Station', booking: 'Use the official form to book',
       duration: 'Japanese official page: about 2–2.5 hours / English official page: about 2 hours', durationCaveat: 'sources differ; confirm when booking',
     },
     {
       locale: 'zh-TW', region: '青梅・御嶽 → 奧多摩', name: 'WASABI EXPERIENCE',
       address: '〒198-0147 東京都青梅市御岳 1-192-4', seasonal: '5～9 月 8:30／10～4 月 11:00',
-      access: '從 JR 青梅線「御嶽站」步行約 7 分鐘', booking: '送出表單並不代表預約成立',
+      access: '從 JR 青梅線「御嶽站」步行約 7 分鐘', booking: '請使用官方表單預約',
       duration: '日文官方約 2～2.5 小時／英文官方約 2 小時', durationCaveat: '資訊不一致，預約時請確認',
     },
   ] as const;
