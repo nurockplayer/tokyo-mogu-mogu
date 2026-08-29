@@ -391,6 +391,67 @@ describe('seed data contract (#2)', () => {
     expect(akabeko?.coordinateSource?.license).toContain('ODbL 1.0');
   });
 
+  it('models Wasabi Shokudo as a mobile food truck without fixed-location fields (#324)', () => {
+    const wasabiKitchen = getPlaceById('wasabi-kitchen');
+
+    expect(wasabiKitchen).toMatchObject({
+      nameJa: 'わさび食堂',
+      nameEn: 'Wasabi Shokudo',
+      locationKind: 'mobile',
+      type: 'food-truck',
+      foodCultureIds: ['wasabi-okutama'],
+      origin: 'source',
+      source: {
+        url: 'https://tokyowasabi.com/foodtruck/',
+        retrievedAt: '2026-08-29',
+        verificationStatus: 'needs_confirmation',
+      },
+      mobileVenue: {
+        noFixedStorefront: true,
+        primaryOperatingAreaJa: 'JR青梅線「奥多摩駅」前を中心',
+        operatingPattern: 'mainly-weekends',
+        scheduleVariability: ['published-schedule', 'weather', 'sell-out'],
+        currentScheduleSource: {
+          url: 'https://tokyowasabi.com/information/2751/260728/',
+          sourceUpdatedAt: '2026-07-28',
+          retrievedAt: '2026-08-29',
+        },
+        scheduleConflict: {
+          verificationStatus: 'conflict',
+          statements: [
+            {
+              id: 'august-schedule-event-dates',
+              value: '2026-08-07〜2026-08-09',
+              source: { url: 'https://tokyowasabi.com/information/2751/260728/' },
+            },
+            {
+              id: 'hitoshi-event-dates',
+              value: '2026-08-08〜2026-08-10',
+              source: { url: 'https://tokyowasabi.com/hitoshi/2573/fussa-tanabata-challenge/' },
+            },
+          ],
+        },
+      },
+      visitorInformation: {
+        menuListings: [
+          {
+            id: 'wasabi-don',
+            nameJa: 'わさび丼',
+            listedPriceYen: 900,
+            source: {
+              url: 'https://tokyowasabi.com/wasabi-don/',
+              sourceUpdatedAt: '2026-07-30',
+              retrievedAt: '2026-08-29',
+            },
+          },
+        ],
+      },
+    });
+    expect(wasabiKitchen).not.toHaveProperty('address');
+    expect(wasabiKitchen).not.toHaveProperty('latitude');
+    expect(wasabiKitchen).not.toHaveProperty('longitude');
+  });
+
   it('relation helpers return the linked records', () => {
     const wasabi = getFoodCultureById('wasabi-okutama');
     expect(wasabi).toBeDefined();

@@ -323,6 +323,68 @@ describe('Netlify parity presentation content', () => {
     expect(storyReference.description?.ja).not.toContain('わさびジェラートが名物');
   });
 
+  it('derives Wasabi Shokudo Spot, Route, and Story as a mobile venue (#324)', () => {
+    const place = PLACES.find((candidate) => candidate.id === 'wasabi-kitchen');
+    const detail = referenceSpotDetails['wasabi-kitchen'];
+    const routeStep = routeStepText['demo-okutama-wasabi:half-day'].find(
+      (step) => step.spotId === 'wasabi-kitchen',
+    );
+    const storyReference = storySpotGroups['demo-okutama-wasabi'].nearby.find(
+      (reference) => reference.spotId === 'wasabi-kitchen',
+    );
+
+    expect(place).toMatchObject({ locationKind: 'mobile', type: 'food-truck' });
+    expect(detail).toBeDefined();
+    expect(routeStep).toBeDefined();
+    expect(storyReference).toBeDefined();
+    if (!place || place.locationKind !== 'mobile' || !detail || !routeStep || !storyReference) {
+      throw new Error('Missing source-backed Wasabi Shokudo mobile presentation.');
+    }
+
+    expect(detail.information.map((row) => row.fieldId)).toEqual(expect.arrayContaining([
+      'venue_model',
+      'operating_area',
+      'schedule_guidance',
+      'schedule_url',
+      'price_availability',
+      'schedule_conflict',
+      'official_current_url',
+    ]));
+    expect(detail.information.map((row) => row.fieldId)).not.toContain('address');
+    expect(routeStep).not.toHaveProperty('walk');
+    expect(routeStep).not.toHaveProperty('note');
+
+    for (const locale of locales) {
+      const spotCopy = [
+        demoSpots['wasabi-kitchen'].copy[locale].lead,
+        detail.description[locale],
+        ...detail.information.map((row) => row.value[locale]),
+        ...detail.caution.map((item) => item[locale]),
+      ].join(' ');
+      const routeCopy = routeStep.description[locale];
+      const storyCopy = `${storyReference.badge[locale]} ${storyReference.description?.[locale]}`;
+
+      expect(`${spotCopy} ${routeCopy} ${storyCopy}`).toMatch(
+        locale === 'ja' ? /キッチンカー|FOOD TRUCK/ : locale === 'en' ? /food truck/i : /行動餐車|餐車/,
+      );
+      expect(`${spotCopy} ${routeCopy} ${storyCopy}`).toMatch(
+        locale === 'ja' ? /最新.*予定|公式.*予定/ : locale === 'en' ? /current.*schedule|official.*schedule/i : /最新.*行程|官方.*行程/,
+      );
+      expect(routeCopy).not.toMatch(
+        locale === 'ja' ? /土日のみ|平日はあかべこ|¥900〜/ : locale === 'en' ? /weekends only|Akabeko.*weekdays|from ¥900/i : /僅週末|平日.*AKABEKO|¥900 起/,
+      );
+    }
+    expect(detail.information.find((row) => row.fieldId === 'price_availability')?.value.ja)
+      .toContain('2026年7月');
+    expect(detail.information.find((row) => row.fieldId === 'schedule_conflict')?.value.ja)
+      .toContain('不一致');
+    expect(storyReference.badge).toEqual({
+      ja: 'FOOD TRUCK',
+      en: 'FOOD TRUCK',
+      'zh-TW': '行動餐車',
+    });
+  });
+
   it('derives PORT OKUTAMA Spot, Route, and Story facts from the canonical Place (#327)', () => {
     const place = PLACES.find((candidate) => candidate.id === 'port-okutama');
     const visitor = place?.visitorInformation;

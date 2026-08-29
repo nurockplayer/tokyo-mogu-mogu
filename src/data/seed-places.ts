@@ -154,6 +154,49 @@ const YAMASHIROYA_HOME_SOURCE = {
   originalId: 'yamashiroya-homepage-footer',
 };
 
+const TOKYO_WASABI_FOOD_TRUCK_SOURCE = {
+  name: 'TOKYO WASABI（わさび食堂 FOOD TRUCK）',
+  url: 'https://tokyowasabi.com/foodtruck/',
+  license: '© TOKYO WASABI / 無断転載不可（リンク参照のみ・ソース画像保存なし）',
+  sourceType: 'official_web' as const,
+  retrievedAt: '2026-08-29',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'tokyo-wasabi-foodtruck',
+};
+
+const TOKYO_WASABI_CURRENT_SCHEDULE_SOURCE = {
+  name: 'TOKYO WASABI（2026年8月 わさび食堂営業日）',
+  url: 'https://tokyowasabi.com/information/2751/260728/',
+  license: '© TOKYO WASABI / 無断転載不可（リンク参照のみ・ソース画像保存なし）',
+  sourceType: 'official_web' as const,
+  retrievedAt: '2026-08-29',
+  sourceUpdatedAt: '2026-07-28',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'information-2751-260728',
+};
+
+const TOKYO_WASABI_DON_SOURCE = {
+  name: 'TOKYO WASABI（わさび丼）',
+  url: 'https://tokyowasabi.com/wasabi-don/',
+  license: '© TOKYO WASABI / 無断転載不可（リンク参照のみ・ソース画像保存なし）',
+  sourceType: 'official_web' as const,
+  retrievedAt: '2026-08-29',
+  sourceUpdatedAt: '2026-07-30',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'tokyo-wasabi-don',
+};
+
+const TOKYO_WASABI_HITOSHI_EVENT_SOURCE = {
+  name: 'TOKYO WASABI（FUSSA TANABATA CHALLENGE）',
+  url: 'https://tokyowasabi.com/hitoshi/2573/fussa-tanabata-challenge/',
+  license: '© TOKYO WASABI / 無断転載不可（リンク参照のみ・ソース画像保存なし）',
+  sourceType: 'official_web' as const,
+  retrievedAt: '2026-08-29',
+  sourceUpdatedAt: '2026-07-15',
+  verificationStatus: 'conflict' as const,
+  originalId: 'hitoshi-2573-fussa-tanabata-challenge',
+};
+
 const OKUTAMA_KITCHEN_HOME_SOURCE = {
   name: '奥多摩の台所（公式サイト）',
   url: 'https://www.okutamanodaidokoro.com/',
@@ -361,6 +404,48 @@ export const PLACES: Place[] = [
           },
         ],
       },
+    },
+    origin: 'source',
+  },
+  {
+    id: 'wasabi-kitchen',
+    nameJa: 'わさび食堂',
+    nameEn: 'Wasabi Shokudo',
+    locationKind: 'mobile',
+    foodCultureIds: ['wasabi-okutama'],
+    type: 'food-truck',
+    source: TOKYO_WASABI_FOOD_TRUCK_SOURCE,
+    mobileVenue: {
+      noFixedStorefront: true,
+      primaryOperatingAreaJa: 'JR青梅線「奥多摩駅」前を中心',
+      operatingPattern: 'mainly-weekends',
+      scheduleVariability: ['published-schedule', 'weather', 'sell-out'],
+      currentScheduleSource: TOKYO_WASABI_CURRENT_SCHEDULE_SOURCE,
+      scheduleConflict: {
+        verificationStatus: 'conflict',
+        statements: [
+          {
+            id: 'august-schedule-event-dates',
+            value: '2026-08-07〜2026-08-09',
+            source: TOKYO_WASABI_CURRENT_SCHEDULE_SOURCE,
+          },
+          {
+            id: 'hitoshi-event-dates',
+            value: '2026-08-08〜2026-08-10',
+            source: TOKYO_WASABI_HITOSHI_EVENT_SOURCE,
+          },
+        ],
+      },
+    },
+    visitorInformation: {
+      menuListings: [
+        {
+          id: 'wasabi-don',
+          nameJa: 'わさび丼',
+          listedPriceYen: 900,
+          source: TOKYO_WASABI_DON_SOURCE,
+        },
+      ],
     },
     origin: 'source',
   },

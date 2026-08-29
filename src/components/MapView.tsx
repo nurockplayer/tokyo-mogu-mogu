@@ -11,12 +11,12 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './MapView.css';
 import type { Locale } from '../i18n';
-import type { Place, FoodCulture } from '../data/model';
+import type { FixedPlace, FoodCulture } from '../data/model';
 
-export interface MapViewPlace extends Place {
+export type MapViewPlace = FixedPlace & {
   /** Related food cultures, rendered in the popup / card. */
   foodCultures: FoodCulture[];
-}
+};
 
 export interface MapViewProps {
   places: MapViewPlace[];

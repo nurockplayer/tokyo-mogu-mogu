@@ -15,6 +15,7 @@ import type { PlaceType } from '../data/model';
 const TYPE_MARK: Record<PlaceType, string> = {
   shop: '店',
   restaurant: '食',
+  'food-truck': '車',
   farm: '田',
   brewery: '醸',
   'info-center': '案',
@@ -24,6 +25,7 @@ const TYPE_MARK: Record<PlaceType, string> = {
 const TYPE_TINT: Record<PlaceType, string> = {
   shop: 'linear-gradient(150deg, #b9762e, #8f5d12)',
   restaurant: 'linear-gradient(150deg, #a03a22, #c44a2c)',
+  'food-truck': 'linear-gradient(150deg, #a03a22, #d87825)',
   farm: 'linear-gradient(150deg, #6b8f4e, #2f6f4f)',
   brewery: 'linear-gradient(150deg, #5d4a7a, #8a6fae)',
   'info-center': 'linear-gradient(150deg, #2d5f86, #5aa7c4)',

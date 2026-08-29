@@ -13,6 +13,7 @@ import {
   getFoodCultureById,
   getRelatedFoodCultures,
   getRelatedPlaces,
+  isFixedPlace,
 } from '../data';
 import { useI18n } from '../i18n';
 import { MapView, type MapViewPlace } from '../components/MapView';
@@ -53,15 +54,18 @@ export function MapPage() {
 
   // Seed places enriched with their related food cultures.
   const mapPlaces: MapViewPlace[] = useMemo(
-    () => places.map((p) => ({ ...p, foodCultures: getRelatedFoodCultures(p) })),
+    () => places.filter(isFixedPlace).map((p) => ({ ...p, foodCultures: getRelatedFoodCultures(p) })),
     [],
   );
 
   // Resolve the deep-link target (place > foodCulture > none).
   const targetPlaceId = useMemo(() => {
     const placeParam = searchParams.get('place');
-    if (placeParam && getPlaceById(placeParam)) {
-      return placeParam;
+    if (placeParam) {
+      const target = getPlaceById(placeParam);
+      if (target && isFixedPlace(target)) {
+        return placeParam;
+      }
     }
     const fcParam = searchParams.get('foodCulture');
     if (fcParam) {
@@ -69,7 +73,7 @@ export function MapPage() {
       if (!fc) {
         return null;
       }
-      return getRelatedPlaces(fc)[0]?.id ?? null;
+      return getRelatedPlaces(fc).find(isFixedPlace)?.id ?? null;
     }
     return null;
   }, [searchParams]);
@@ -87,7 +91,9 @@ export function MapPage() {
 
   const initialCenter = useMemo(() => {
     const target = targetPlaceId ? getPlaceById(targetPlaceId) : undefined;
-    return target ? { lat: target.latitude, lng: target.longitude } : DEFAULT_CENTER;
+    return target && isFixedPlace(target)
+      ? { lat: target.latitude, lng: target.longitude }
+      : DEFAULT_CENTER;
   }, [targetPlaceId]);
 
   const initialZoom = targetPlaceId ? PLACE_ZOOM : DEFAULT_ZOOM;

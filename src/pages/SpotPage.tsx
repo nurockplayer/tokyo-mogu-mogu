@@ -32,6 +32,7 @@ import {
   getPlaceById,
   getRelatedFoodCultures,
   getSpotDetail,
+  isFixedPlace,
 } from '../data';
 import type { DataSource, PlaceType } from '../data';
 import { useI18n, type LocaleKey } from '../i18n';
@@ -58,6 +59,7 @@ const OKUTAMA_TOURISM_OFFICE_GALLERY = [
 const PLACE_TYPE_LABEL: Record<PlaceType, LocaleKey> = {
   shop: 's6CategoryShop',
   restaurant: 's6CategoryRestaurant',
+  'food-truck': 's6CategoryFoodTruck',
   farm: 's6CategoryFarm',
   brewery: 's6CategoryBrewery',
   'info-center': 's6CategoryInfoCenter',
@@ -192,12 +194,18 @@ export const SPOT_ACTIONS: Record<string, SpotAction> = {
     url: 'https://www.gotokyo.org/jp/spot/397/index.html',
     type: 'visit',
   },
+  'wasabi-kitchen': {
+    kind: 'external',
+    url: 'https://tokyowasabi.com/foodtruck/',
+    type: 'visit',
+  },
 };
 
 /** Default action type for a place category when no per-spot action exists. */
 const TYPE_DEFAULT_ACTION: Record<PlaceType, SpotActionType> = {
   restaurant: 'restaurant',
   shop: 'shop',
+  'food-truck': 'visit',
   farm: 'farm',
   brewery: 'workshop',
   'info-center': 'visit',
@@ -269,6 +277,15 @@ export function SpotPage() {
   const sourceRecords = [
     { source: place.source, origin: place.origin },
     ...(place.coordinateSource ? [{ source: place.coordinateSource, origin: place.origin }] : []),
+    ...(place.locationKind === 'mobile'
+      ? [
+          { source: place.mobileVenue.currentScheduleSource, origin: place.origin },
+          ...(place.visitorInformation?.menuListings ?? []).map((listing) => ({
+            source: listing.source,
+            origin: place.origin,
+          })),
+        ]
+      : []),
     ...(detail?.source ? [{ source: detail.source, origin: detail.origin }] : []),
   ].filter((entry, index, entries) => {
     const identity = `${entry.source.url ?? entry.source.name}|${entry.source.originalId ?? ''}`;
@@ -281,19 +298,23 @@ export function SpotPage() {
   // Direction CTAs (external map apps). Approximate places (district-centroid
   // coordinates) navigate by the sourced name/address, not the centroid (Issue
   // #127); precise places keep coordinate-based directions.
-  const directionsPlace: DirectionsPlace = {
+  const directionsPlace: DirectionsPlace | undefined = isFixedPlace(place) ? {
     latitude: place.latitude,
     longitude: place.longitude,
     coordinatePrecision: place.coordinatePrecision,
     name: place.nameJa,
     address: place.address,
-  };
-  const googleUrl = googleMapsDirectionsUrl(directionsPlace);
-  const appleUrl = appleMapsDirectionsUrl(directionsPlace);
+  } : undefined;
+  const googleUrl = directionsPlace ? googleMapsDirectionsUrl(directionsPlace) : undefined;
+  const appleUrl = directionsPlace ? appleMapsDirectionsUrl(directionsPlace) : undefined;
 
   // Info list built only from data that actually exists.
   const infoItems: { label: string; value: string }[] = [];
-  infoItems.push({ label: t('s6InfoAddress'), value: place.address });
+  if (isFixedPlace(place)) {
+    infoItems.push({ label: t('s6InfoAddress'), value: place.address });
+  } else {
+    infoItems.push({ label: t('s6InfoAccess'), value: place.mobileVenue.primaryOperatingAreaJa });
+  }
   const accessKey = spotAccessKey(place.id);
   if (practical?.accessJa) {
     infoItems.push({
@@ -497,24 +518,28 @@ export function SpotPage() {
           comingSoonLabel={t('s6ActionComingSoon')}
         />
         <p className="s6-action-impact">{t(ACTION_IMPACT_KEY[spotActionType(place)])}</p>
-        <ButtonLink
-          variant="secondary"
-          href={googleUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="tmm-btn--block"
-        >
-          🧭 {t('s6DirectionsGoogle')}
-        </ButtonLink>
-        <ButtonLink
-          variant="secondary"
-          href={appleUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="tmm-btn--block"
-        >
-          🧭 {t('s6DirectionsApple')}
-        </ButtonLink>
+        {googleUrl && appleUrl ? (
+          <>
+            <ButtonLink
+              variant="secondary"
+              href={googleUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="tmm-btn--block"
+            >
+              🧭 {t('s6DirectionsGoogle')}
+            </ButtonLink>
+            <ButtonLink
+              variant="secondary"
+              href={appleUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="tmm-btn--block"
+            >
+              🧭 {t('s6DirectionsApple')}
+            </ButtonLink>
+          </>
+        ) : null}
         {routeId !== undefined ? (
           <>
             <Button

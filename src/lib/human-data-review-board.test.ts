@@ -432,6 +432,34 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       }),
     ]));
 
+    const wasabiKitchen = board.entities.find((entity) => entity.id === 'wasabi-kitchen');
+    expect(wasabiKitchen).toMatchObject({
+      type: 'Spot',
+      headlineStatus: 'conflict',
+      latestRetrievedAt: '2026-08-29',
+    });
+    expect(wasabiKitchen?.facts).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        fieldKey: 'venue_model',
+        canonicalValue: 'mobile_food_truck / no_permanent_storefront',
+        displayedValue: '固定店舗のないキッチンカー',
+      }),
+      expect.objectContaining({ fieldKey: 'operating_area', status: 'needs_confirmation' }),
+      expect.objectContaining({ fieldKey: 'schedule_guidance', status: 'needs_confirmation' }),
+      expect.objectContaining({ fieldKey: 'schedule_url', status: 'needs_confirmation' }),
+      expect.objectContaining({ fieldKey: 'schedule_conflict', status: 'conflict' }),
+      expect.objectContaining({ fieldKey: 'price_availability', status: 'needs_confirmation' }),
+      expect.objectContaining({ fieldKey: 'official_current_url', status: 'needs_confirmation' }),
+    ]));
+    expect(wasabiKitchen?.facts.some((fact) => fact.fieldKey === 'address')).toBe(false);
+    expect(wasabiKitchen?.facts.some((fact) => fact.fieldKey === 'coordinates')).toBe(false);
+    expect(wasabiKitchen?.sources.map((source) => source.url)).toEqual(expect.arrayContaining([
+      'https://tokyowasabi.com/foodtruck/',
+      'https://tokyowasabi.com/information/2751/260728/',
+      'https://tokyowasabi.com/wasabi-don/',
+      'https://tokyowasabi.com/hitoshi/2573/fussa-tanabata-challenge/',
+    ]));
+
     const kitchen = board.entities.find((entity) => entity.id === 'okutama-kitchen');
     expect(kitchen?.facts).toEqual(expect.arrayContaining([
       expect.objectContaining({ fieldKey: 'hours', status: 'needs_confirmation' }),

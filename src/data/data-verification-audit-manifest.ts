@@ -83,6 +83,21 @@ export const PRESENTATION_SPOT_AUDIT = [
     ],
     issues: ['#326', '#333', '#334'],
   },
+  {
+    presentationSpotId: 'wasabi-kitchen',
+    canonicalPlaceId: 'wasabi-kitchen',
+    surface: 'Spot',
+    stableCanonicalFieldIds: [
+      'venue_model',
+      'operating_area',
+      'schedule_guidance',
+      'schedule_url',
+      'schedule_conflict',
+      'price_availability',
+      'official_current_url',
+    ],
+    issues: ['#324', '#333', '#334'],
+  },
 ] as const;
 
 export const PRESENTATION_ROUTE_MEETING_TIME_AUDIT = [
@@ -143,8 +158,9 @@ export const REQUIRED_STORY_FACTUAL_CLAIMS = {
 
 /** Metadata-only identities for operational facts embedded in Route guidance. */
 export const REQUIRED_ROUTE_GUIDANCE_FACTUAL_CLAIMS = [
-  { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'half-day', spotId: 'wasabi-kitchen', claimId: 'weekend-operation', fieldLabel: 'Weekend-only operation', timeSensitive: true },
-  { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'half-day', spotId: 'wasabi-kitchen', claimId: 'minimum-price', fieldLabel: 'Displayed minimum price', timeSensitive: true },
+  { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'half-day', spotId: 'wasabi-kitchen', claimId: 'venue-model', fieldLabel: 'Mobile food-truck venue model', timeSensitive: false, canonicalPlaceId: 'wasabi-kitchen', canonicalFieldId: 'venue_model', issues: ['#324'] },
+  { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'half-day', spotId: 'wasabi-kitchen', claimId: 'weekend-operation', fieldLabel: 'Mainly-weekend operation and current-schedule guidance', timeSensitive: true, canonicalPlaceId: 'wasabi-kitchen', canonicalFieldId: 'schedule_guidance', issues: ['#324'] },
+  { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'half-day', spotId: 'wasabi-kitchen', claimId: 'wasabi-don-reference-price', fieldLabel: 'Dated official wasabi-don reference price', timeSensitive: true, canonicalPlaceId: 'wasabi-kitchen', canonicalFieldId: 'price_availability', issues: ['#324'] },
   { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'half-day', spotId: 'okutama-kitchen', claimId: 'product-availability', fieldLabel: 'Special soft gelato / wasabi-flavor availability', timeSensitive: true, canonicalPlaceId: 'okutama-kitchen', canonicalFieldId: 'product_availability', issues: ['#325'] },
   { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'half-day', spotId: 'port-okutama', claimId: 'service-availability', fieldLabel: 'Cafe and retail service availability', timeSensitive: true, canonicalPlaceId: 'port-okutama', canonicalFieldId: 'service_availability', issues: ['#327'] },
   { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'full-day', spotId: 'wasabi-experience', claimId: 'tour-duration', fieldLabel: 'Wasabi-field tour duration', timeSensitive: true },
@@ -164,7 +180,8 @@ export const REQUIRED_ROUTE_GUIDANCE_FACTUAL_CLAIMS = [
 export const REQUIRED_STORY_SPOT_FACTUAL_CLAIMS = [
   { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'akabeko', claimId: 'story.spot.akabeko.menu-availability', fieldLabel: 'Akabeko local menu availability', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true, canonicalPlaceId: 'akabeko', canonicalFieldId: 'product_availability', issues: ['#326'] },
   { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'yamashiroya', claimId: 'story.spot.yamashiroya.product-availability', fieldLabel: 'Yamashiroya product availability', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true, canonicalPlaceId: 'yamashiroya', canonicalFieldId: 'product_availability', issues: ['#323'] },
-  { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'wasabi-kitchen', claimId: 'story.spot.wasabi-kitchen.weekend-operation', fieldLabel: 'Wasabi Kitchen weekend operation', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true },
+  { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'wasabi-kitchen', claimId: 'story.spot.wasabi-kitchen.weekend-operation', fieldLabel: 'Wasabi Kitchen mainly-weekend operation and current schedule', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true, canonicalPlaceId: 'wasabi-kitchen', canonicalFieldId: 'schedule_guidance', issues: ['#324'] },
+  { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'wasabi-kitchen', claimId: 'story.spot.wasabi-kitchen.venue-model', fieldLabel: 'Wasabi Kitchen mobile food-truck venue model', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: false, canonicalPlaceId: 'wasabi-kitchen', canonicalFieldId: 'venue_model', issues: ['#324'] },
   { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'okutama-kitchen', claimId: 'story.spot.okutama-kitchen.product-availability', fieldLabel: 'Okutama Kitchen product availability', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true, canonicalPlaceId: 'okutama-kitchen', canonicalFieldId: 'product_availability', issues: ['#325'] },
   { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'port-okutama', claimId: 'story.spot.port-okutama.service-availability', fieldLabel: 'Port Okutama service availability', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true, canonicalPlaceId: 'port-okutama', canonicalFieldId: 'service_availability', issues: ['#327'] },
   { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'wasabi-experience', claimId: 'story.spot.wasabi-experience.reservation-requirement', fieldLabel: 'Wasabi Experience reservation requirement', parentFieldId: 'presentation:spot_group:nature', timeSensitive: true },

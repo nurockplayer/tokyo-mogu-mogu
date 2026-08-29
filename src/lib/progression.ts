@@ -4,6 +4,7 @@
  * Pure functions for area/category completion and "next discovery"
  * suggestions. No framework dependencies — unit-testable.
  */
+import { isFixedPlace } from '../data/model';
 import type { FoodCulture, FoodCultureCategory, Place, RegionId } from '../data/model';
 import { distanceInMeters } from './geo';
 import { findNearbyStops, getNextDepartures } from './gtfs';
@@ -84,11 +85,12 @@ export function getNextDiscoveries(
     const nearest = fc.placeIds
       .map((id) => placeById.get(id))
       .filter((p): p is Place => p !== undefined)
-      .map((p) =>
-        user
+      .map((p) => {
+        if (!user) return 1; // without a location, prefer items with places
+        return isFixedPlace(p)
           ? distanceInMeters(user.latitude, user.longitude, p.latitude, p.longitude)
-          : 1, // without a location, prefer items with places
-      )
+          : Number.POSITIVE_INFINITY;
+      })
       .sort((a, b) => a - b);
     return nearest[0] ?? Number.POSITIVE_INFINITY;
   };
@@ -156,7 +158,7 @@ export function getTransitInfoForPlace(
   afterTimeMinutes: number,
   radiusMeters = TRANSIT_NEARBY_RADIUS_METERS,
 ): PlaceTransitInfo | null {
-  if (!gtfsDataset) return null;
+  if (!gtfsDataset || !isFixedPlace(place)) return null;
 
   for (const stop of findNearbyStops(gtfsDataset, place.latitude, place.longitude, radiusMeters)) {
     const [nextDeparture] = getNextDepartures(gtfsDataset, stop.stopId, afterTimeMinutes, 1);
@@ -210,11 +212,12 @@ function transitScore(
     .sort((a, b) => a - b);
 
   const nearestDistance = Math.min(
-    ...placesOf.map((place) =>
-      user
+    ...placesOf.map((place) => {
+      if (!user) return 0;
+      return isFixedPlace(place)
         ? distanceInMeters(user.latitude, user.longitude, place.latitude, place.longitude)
-        : 0,
-    ),
+        : Number.POSITIVE_INFINITY;
+    }),
   );
 
   if (catchable.length > 0) {

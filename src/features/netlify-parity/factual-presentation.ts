@@ -8,6 +8,8 @@
 import type { Locale } from '../../i18n';
 import { PLACES } from '../../data/seed-places';
 import type {
+  FixedPlace,
+  MobilePlace,
   Place,
   PlaceParkingInformation,
   PlacePhoneSourceStatement,
@@ -15,6 +17,7 @@ import type {
   PlaceVisitorInformation,
   PlaceWeekday,
 } from '../../data/model';
+import { isFixedPlace } from '../../data/model';
 import type {
   JourneyPresentation,
   ReferenceAssetId,
@@ -39,6 +42,22 @@ function canonicalPlace(id: string): Place {
   return place;
 }
 
+function canonicalFixedPlace(id: string): FixedPlace {
+  const place = canonicalPlace(id);
+  if (!isFixedPlace(place)) {
+    throw new Error(`Expected fixed canonical Place for presentation: ${id}`);
+  }
+  return place;
+}
+
+function canonicalMobilePlace(id: string): MobilePlace {
+  const place = canonicalPlace(id);
+  if (place.locationKind !== 'mobile') {
+    throw new Error(`Expected mobile canonical Place for presentation: ${id}`);
+  }
+  return place;
+}
+
 function canonicalVisitorInformation(place: Place): PlaceVisitorInformation {
   if (!place.visitorInformation) {
     throw new Error(`Missing canonical visitor information for presentation: ${place.id}`);
@@ -46,7 +65,7 @@ function canonicalVisitorInformation(place: Place): PlaceVisitorInformation {
   return place.visitorInformation;
 }
 
-const yamashiroyaPlace = canonicalPlace('yamashiroya');
+const yamashiroyaPlace = canonicalFixedPlace('yamashiroya');
 const yamashiroyaVisitor = canonicalVisitorInformation(yamashiroyaPlace);
 
 const yamashiroyaName = localized(
@@ -183,7 +202,7 @@ const yamashiroyaStoryDescription = localized(
   `${yamashiroyaPlace.nameJa}直營店，販售${yamashiroyaProducts['zh-TW']}`,
 );
 
-const akabekoPlace = canonicalPlace('akabeko');
+const akabekoPlace = canonicalFixedPlace('akabeko');
 const akabekoVisitor = canonicalVisitorInformation(akabekoPlace);
 const akabekoPhoneConflict = localizePlacePhoneConflict(
   akabekoVisitor.phoneConflict?.statements ?? [],
@@ -231,7 +250,7 @@ const akabekoYamameRouteDescription = localized(
   '奧多摩山女魚午餐・60 分鐘',
 );
 
-const okutamaKitchenPlace = canonicalPlace('okutama-kitchen');
+const okutamaKitchenPlace = canonicalFixedPlace('okutama-kitchen');
 const okutamaKitchenVisitor = canonicalVisitorInformation(okutamaKitchenPlace);
 const okutamaKitchenMenuListing = okutamaKitchenVisitor.menuListings?.find(
   (listing) => listing.id === 'special-soft-gelato',
@@ -273,7 +292,7 @@ const okutamaKitchenStoryDescription = localized(
   `${okutamaKitchenPlace.nameJa}官方菜單刊載${okutamaKitchenProductAvailability['zh-TW']}`,
 );
 
-const portOkutamaPlace = canonicalPlace('port-okutama');
+const portOkutamaPlace = canonicalFixedPlace('port-okutama');
 const portOkutamaVisitor = canonicalVisitorInformation(portOkutamaPlace);
 const portOkutamaName = localized(
   portOkutamaPlace.nameJa,
@@ -321,6 +340,51 @@ const portOkutamaStoryDescription = localized(
   `奥多摩駅2階の複合ショップ。${portOkutamaRouteServices.ja}`,
   `A combined shop on the second floor of JR Okutama Station. ${portOkutamaRouteServices.en}`,
   `位於 JR 奧多摩站 2 樓的複合商店。${portOkutamaRouteServices['zh-TW']}`,
+);
+
+const wasabiKitchenPlace = canonicalMobilePlace('wasabi-kitchen');
+const wasabiKitchenVisitor = canonicalVisitorInformation(wasabiKitchenPlace);
+const wasabiKitchenMenuListing = wasabiKitchenVisitor.menuListings?.find(
+  (listing) => listing.id === 'wasabi-don',
+);
+if (!wasabiKitchenMenuListing?.listedPriceYen) {
+  throw new Error('Missing canonical wasabi-don listing: wasabi-kitchen');
+}
+
+const wasabiKitchenVenueModel = localized(
+  '固定店舗のないキッチンカー',
+  'Mobile food truck with no permanent storefront',
+  '沒有固定店面的行動餐車',
+);
+const wasabiKitchenOperatingArea = localized(
+  wasabiKitchenPlace.mobileVenue.primaryOperatingAreaJa,
+  'Mainly around the front of JR Okutama Station',
+  '主要在 JR 奧多摩站前一帶出攤',
+);
+const wasabiKitchenScheduleGuidance = localized(
+  '土日を中心に出店。営業日・時間は最新の公式予定を確認（天候・売り切れで変更・終了あり）',
+  'Operates mainly on weekends. Check the current official schedule; weather or sell-out may change or end service',
+  '主要於週末出攤。請確認最新官方行程；天候或售罄可能導致變更或提早結束',
+);
+const wasabiKitchenPriceAvailability = localized(
+  `${wasabiKitchenMenuListing.nameJa} ${wasabiKitchenMenuListing.listedPriceYen}円（税込・2026年7月公式掲載の参考価格）`,
+  `Wasabi don ¥${wasabiKitchenMenuListing.listedPriceYen} incl. tax (official July 2026 reference price)`,
+  `山葵丼 ${wasabiKitchenMenuListing.listedPriceYen} 日圓（含稅；2026 年 7 月官方刊載參考價格）`,
+);
+const wasabiKitchenScheduleConflict = localized(
+  '2026年8月のイベント日程は公式ページ間で不一致。日付・出店先は最新の公式予定または運営者に確認',
+  'Official pages conflict on August 2026 event dates. Confirm the date and location through the current official schedule or operator',
+  '官方頁面對 2026 年 8 月活動日期的記載不一致。日期與出攤地點請以最新官方行程或營運方確認',
+);
+const wasabiKitchenRouteDescription = localized(
+  `${wasabiKitchenVenueModel.ja}／土日を中心に出店（最新の公式予定を確認）\n${wasabiKitchenPriceAvailability.ja}`,
+  `${wasabiKitchenVenueModel.en}; mainly weekends (check the current official schedule)\n${wasabiKitchenPriceAvailability.en}`,
+  `${wasabiKitchenVenueModel['zh-TW']}／主要於週末出攤（請確認最新官方行程）\n${wasabiKitchenPriceAvailability['zh-TW']}`,
+);
+const wasabiKitchenStoryDescription = localized(
+  `${wasabiKitchenVenueModel.ja}。${wasabiKitchenOperatingArea.ja}に土日を中心に出店（最新の公式予定を確認）`,
+  `${wasabiKitchenVenueModel.en}, operating mainly on weekends around JR Okutama Station (check the current official schedule)`,
+  `${wasabiKitchenVenueModel['zh-TW']}，主要於週末在 JR 奧多摩站前一帶出攤（請確認最新官方行程）`,
 );
 
 const editorialReferenceNotes: Record<Locale, string> = {
@@ -414,7 +478,11 @@ export const demoSpots: Record<string, SpotPresentation> = {
     en: { name: yamashiroyaName.en, lead: yamashiroyaLead.en, description: `Reference information based on ${yamashiroyaPlace.nameEn}’s official shop guide.` },
     'zh-TW': { name: yamashiroyaName['zh-TW'], lead: yamashiroyaLead['zh-TW'], description: `依據${yamashiroyaPlace.nameJa}官方店鋪資訊整理的參考內容。` },
   }),
-  'wasabi-kitchen': spot('wasabi-kitchen', 'wasabiKitchen', ['station', 'wasabiGelato'], { ja: { name: 'わさび食堂', lead: '駅前で味わうわさびの一皿', description: 'わさびの味を試すための、参考スポットです。' }, en: { name: 'Wasabi Shokudo', lead: 'A wasabi dish near the station', description: 'A reference stop for trying a wasabi flavor.' }, 'zh-TW': { name: '山葵食堂', lead: '在車站前品嚐一道山葵料理', description: '嘗試山葵風味的參考景點。' } }),
+  'wasabi-kitchen': spot('wasabi-kitchen', 'wasabiKitchen', ['station', 'wasabiGelato'], {
+    ja: { name: wasabiKitchenPlace.nameJa, lead: wasabiKitchenVenueModel.ja, description: wasabiKitchenStoryDescription.ja },
+    en: { name: wasabiKitchenPlace.nameEn, lead: wasabiKitchenVenueModel.en, description: wasabiKitchenStoryDescription.en },
+    'zh-TW': { name: '山葵食堂', lead: wasabiKitchenVenueModel['zh-TW'], description: wasabiKitchenStoryDescription['zh-TW'] },
+  }),
   'okutama-kitchen': spot('okutama-kitchen', 'okutamaKitchen', ['wasabiGelato', 'okutamaKitchenDetail'], {
     ja: { name: okutamaKitchenName.ja, lead: `${okutamaKitchenProductAvailability.ja}を掲載する弁当・惣菜店`, description: `${okutamaKitchenPlace.nameJa}の公式情報に基づく参考情報です。` },
     en: { name: okutamaKitchenName.en, lead: 'A bento and deli shop with special soft gelato on its menu', description: `Reference information based on ${okutamaKitchenPlace.nameEn}'s official site.` },
@@ -468,7 +536,7 @@ export const routeStepText: Record<string, RouteStepText[]> = {
   'demo-okutama-wasabi:half-day': [
     { spotId: 'okutama-station', description: localized('旅のスタート地点', 'Starting point', '旅程起點') },
     { spotId: 'okutama-tourism-office', walk: localized('徒歩 約1分', 'About 1 min on foot', '步行約 1 分鐘'), description: localized('わさぴーと観光案内で情報をチェック！', 'Check maps and local tips with Wasapy!', '和 Wasapy 一起確認觀光資訊！') },
-    { spotId: 'wasabi-kitchen', walk: localized('徒歩 約 1 分', 'About 1 min on foot', '步行約 1 分鐘'), description: localized('・土日のみ営業\n・¥900〜', 'Weekends only · From ¥900', '僅週末營業・¥900 起'), note: localized('※平日はあかべこ推奨', 'Akabeko is recommended on weekdays', '平日建議前往 AKABEKO') },
+    { spotId: 'wasabi-kitchen', description: wasabiKitchenRouteDescription },
     { spotId: 'okutama-kitchen', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: okutamaKitchenProductAvailability },
     { spotId: 'hikawa-valley', walk: localized('徒歩 約 10 分', 'About 10 min on foot', '步行約 10 分鐘'), description: localized('川辺で涼む', 'Cool off beside the river', '在河畔納涼') },
     { spotId: 'oku-hikawa-shrine', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: localized('お参り！', 'Visit the shrine', '參拜神社！') },
@@ -534,6 +602,11 @@ export interface ReferenceSpotDetail {
     fieldId:
       | 'name'
       | 'address'
+      | 'venue_model'
+      | 'operating_area'
+      | 'schedule_guidance'
+      | 'schedule_url'
+      | 'schedule_conflict'
       | 'phone'
       | 'hours'
       | 'phone_hours'
@@ -554,6 +627,39 @@ export interface ReferenceSpotDetail {
 }
 
 export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> = {
+  'wasabi-kitchen': {
+    tags: [
+      { tagId: 'mobile-food-truck', color: '#8FAE5C', label: localized('FOOD TRUCK', 'FOOD TRUCK', '行動餐車') },
+      { tagId: 'no-fixed-storefront', color: '#F0A24C', label: localized('固定店舗なし', 'No fixed storefront', '無固定店面') },
+      { tagId: 'source-conflict', color: '#E05B5B', label: localized('日程情報に不一致', 'Schedule sources conflict', '行程資訊不一致') },
+    ],
+    description: localized(
+      `TOKYO WASABI公式情報に基づく${wasabiKitchenVenueModel.ja}です。固定住所ではなく、最新の出店予定を確認して訪問してください。`,
+      `A ${wasabiKitchenVenueModel.en.toLowerCase()} based on TOKYO WASABI's official information. Check the current operating schedule rather than relying on a fixed address.`,
+      `依據 TOKYO WASABI 官方資訊整理的${wasabiKitchenVenueModel['zh-TW']}。請確認最新出攤行程，不要依賴固定地址。`,
+    ),
+    information: [
+      { fieldId: 'name', icon: 'information', label: localized('名称', 'Name', '名稱'), value: localized(wasabiKitchenPlace.nameJa, wasabiKitchenPlace.nameEn, '山葵食堂') },
+      { fieldId: 'venue_model', icon: 'information', label: localized('営業形態', 'Venue model', '營業型態'), value: wasabiKitchenVenueModel },
+      { fieldId: 'operating_area', icon: 'train', label: localized('主な出店エリア', 'Primary operating area', '主要出攤區域'), value: wasabiKitchenOperatingArea },
+      { fieldId: 'schedule_guidance', icon: 'clock', label: localized('出店案内', 'Operating guidance', '出攤說明'), value: wasabiKitchenScheduleGuidance },
+      { fieldId: 'price_availability', icon: 'information', label: localized('メニュー・価格', 'Menu & price', '菜單與價格'), value: wasabiKitchenPriceAvailability },
+      { fieldId: 'schedule_conflict', icon: 'information', label: localized('日程の確認', 'Schedule check', '行程確認'), value: wasabiKitchenScheduleConflict },
+      { fieldId: 'official_current_url', icon: 'information', label: localized('公式情報', 'Official information', '官方資訊'), value: localized(wasabiKitchenPlace.source.url ?? '', wasabiKitchenPlace.source.url ?? '', wasabiKitchenPlace.source.url ?? '') },
+      { fieldId: 'schedule_url', icon: 'information', label: localized('最新の出店予定', 'Current schedule', '最新出攤行程'), value: localized(wasabiKitchenPlace.mobileVenue.currentScheduleSource.url ?? '', wasabiKitchenPlace.mobileVenue.currentScheduleSource.url ?? '', wasabiKitchenPlace.mobileVenue.currentScheduleSource.url ?? '') },
+      { fieldId: 'verification_note', icon: 'information', label: localized('確認状態', 'Verification', '確認狀態'), value: localized('公式情報を2026年8月29日に取得。日程・出店先・時間・価格・提供状況は訪問前に再確認してください。', 'Official information retrieved Aug 29, 2026. Recheck dates, location, hours, price, and availability before visiting.', '官方資訊於 2026 年 8 月 29 日取得。造訪前請再次確認日期、地點、時間、價格與供應狀況。') },
+    ],
+    guide: {
+      title: localized('訪問前に出店予定を確認', 'Check the schedule before visiting', '造訪前請確認出攤行程'),
+      body: localized('固定店舗はありません。公式のお知らせ・Instagramで最新の営業日と出店先を確認してください。', 'There is no permanent storefront. Check official announcements or Instagram for the latest operating dates and locations.', '沒有固定店面。請透過官方公告或 Instagram 確認最新營業日期與出攤地點。'),
+      action: localized('最新の公式予定を確認する', 'Check the current official schedule', '查看最新官方行程'),
+    },
+    caution: [
+      localized('・営業日・時間・出店先は変更される場合があります。天候や売り切れで変更・終了する場合もあります。', '• Dates, hours, and locations can change. Weather or sell-out may alter or end service.', '・營業日期、時間與地點可能變更，亦可能因天候或售罄而調整或提早結束。'),
+      localized(`・${wasabiKitchenScheduleConflict.ja}`, `• ${wasabiKitchenScheduleConflict.en}`, `・${wasabiKitchenScheduleConflict['zh-TW']}`),
+      localized('・メニューと価格は時点付きの参考情報です。食事制限・アレルギー対応は現地で確認してください。', '• Menu and price are dated references. Confirm dietary and allergy needs with the operator.', '・菜單與價格為附日期的參考資訊。飲食限制與過敏需求請向營運方確認。'),
+    ],
+  },
   akabeko: {
     tags: [
       { tagId: 'robata-restaurant', color: '#8FAE5C', label: localized('炉ばた料理店', 'Hearth-grill restaurant', '爐端料理店') },
@@ -1059,12 +1165,8 @@ export const storySpotGroups: Record<string, {
       },
       {
         referenceId: 'wasabi-kitchen', spotId: 'wasabi-kitchen', imageAssetId: 'wasabiKitchen', badgeColor: '#E98A1C',
-        badge: { ja: '飲食店', en: 'Restaurant', 'zh-TW': '餐廳' },
-        description: {
-          ja: '飲食・キッチンカー／土日中心',
-          en: 'Food and a mobile kitchen, mainly on weekends',
-          'zh-TW': '餐飲與行動餐車／主要於週末營業',
-        },
+        badge: { ja: 'FOOD TRUCK', en: 'FOOD TRUCK', 'zh-TW': '行動餐車' },
+        description: wasabiKitchenStoryDescription,
       },
       {
         referenceId: 'okutama-kitchen', spotId: 'okutama-kitchen', imageAssetId: 'okutamaKitchen', badgeColor: '#E98A1C',

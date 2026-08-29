@@ -548,16 +548,46 @@ test('keeps Akabeko phone divergence and source-backed operations visible in eve
   await expectNoHorizontalOverflow(page);
 });
 
-test('labels editorial Spot fixtures as unverified reference information', async ({ page }) => {
-  await page.goto('/spot/wasabi-kitchen?candidateId=demo-okutama-wasabi');
+test('keeps Wasabi Shokudo mobile and time-sensitive in every locale (#324)', async ({ page }) => {
+  const localizedExpectations = [
+    { locale: 'ja', name: 'わさび食堂', addressLabel: '住所', foodTruck: '固定店舗のないキッチンカー', schedule: '最新の公式予定', priceDate: '2026年7月', conflict: '公式ページ間で不一致' },
+    { locale: 'en', name: 'Wasabi Shokudo', addressLabel: 'Address', foodTruck: 'Mobile food truck with no permanent storefront', schedule: 'current official schedule', priceDate: 'July 2026', conflict: 'Official pages conflict' },
+    { locale: 'zh-TW', name: '山葵食堂', addressLabel: '地址', foodTruck: '沒有固定店面的行動餐車', schedule: '最新官方行程', priceDate: '2026 年 7 月', conflict: '官方頁面對' },
+  ] as const;
 
-  const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
-  await expect(spot.getByRole('heading', { name: 'わさび食堂' })).toBeVisible();
-  await expect(spot).toContainText('参考情報');
-  await expect(spot).toContainText('未確認');
-  await expect(spot).toContainText('訪問前に各施設の公式情報をご確認ください');
-  await expect(spot).not.toContainText(/Netlify|デモ用編集情報|デモ参考情報/);
-  await expectNoHorizontalOverflow(page);
+  for (const expected of localizedExpectations) {
+    await page.goto('/');
+    await page.evaluate((locale) => {
+      localStorage.clear();
+      localStorage.setItem('tmm:locale', locale);
+    }, expected.locale);
+    await page.goto('/spot/wasabi-kitchen?candidateId=demo-okutama-wasabi');
+
+    const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
+    await expect(spot.getByRole('heading', { name: expected.name })).toBeVisible();
+    await expect(spot).toContainText(expected.foodTruck);
+    await expect(spot).toContainText(expected.schedule);
+    await expect(spot).toContainText(expected.priceDate);
+    await expect(spot).toContainText(expected.conflict);
+    await expect(spot.locator('.info-row .k').filter({ hasText: new RegExp(`^${expected.addressLabel}$`) })).toHaveCount(0);
+    await expect(spot).not.toContainText(/土日のみ|Weekends only|僅週末營業|平日はあかべこ|Akabeko is recommended|平日建議前往 AKABEKO|¥900〜|From ¥900|¥900 起/);
+    await expectNoHorizontalOverflow(page);
+
+    await page.goto('/route?candidateId=demo-okutama-wasabi');
+    const route = page.locator('[data-screen="route"][data-screen-active="true"]');
+    const routeCard = route.locator('[data-spot-id="wasabi-kitchen"]');
+    await expect(routeCard).toContainText(expected.schedule);
+    await expect(routeCard).toContainText(expected.priceDate);
+    await expect(routeCard).not.toContainText(/徒歩 約 1 分|About 1 min on foot|步行約 1 分鐘|土日のみ|Weekends only|僅週末營業|平日はあかべこ|Akabeko is recommended|平日建議前往 AKABEKO|¥900〜|From ¥900|¥900 起/);
+    await expectNoHorizontalOverflow(page);
+
+    await page.goto('/story/wasabi-okutama?candidateId=demo-okutama-wasabi');
+    const story = page.locator('[data-screen="story"][data-screen-active="true"]');
+    const storyCard = story.locator('[data-spot-id="wasabi-kitchen"]');
+    await expect(storyCard).toContainText(expected.locale === 'zh-TW' ? '行動餐車' : 'FOOD TRUCK');
+    await expect(storyCard).toContainText(expected.schedule);
+    await expectNoHorizontalOverflow(page);
+  }
 });
 
 test('keeps the tourism-office caveat complete in every locale', async ({ page }) => {
