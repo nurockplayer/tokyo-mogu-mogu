@@ -610,7 +610,10 @@ describe('data verification evidence manifest (#334)', () => {
       viewport: { width: 375, height: 812 },
       path: 'docs/data-evidence/ome-sake/mogu-ja-375.webp',
       capturedAt: '2026-08-29',
-      claimIds: ['route:ome-sawai-sake-journey:name:ja'],
+      claimIds: [
+        'route:ome-sawai-sake-journey:name:ja',
+        'route:ome-sawai-sake-journey:mogu.factual.origin-access:ja',
+      ],
     });
 
     for (const locale of ['ja', 'en', 'zh-TW'] as const) {

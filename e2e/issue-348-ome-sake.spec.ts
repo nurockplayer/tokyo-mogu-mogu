@@ -61,6 +61,9 @@ test('opens the recovered Ome/Sawai journey from MOGU through Story, Route, and 
   const mogu = activeScreen(page, 'mogu');
   const omeCard = mogu.locator(`[data-journey-id="${OME_SAKE.candidateId}"]`);
   await expect(omeCard).toBeVisible();
+  await expect(
+    omeCard.locator('[data-verification-status="needs_confirmation"]'),
+  ).toHaveText('確認中');
   await expect(omeCard.getByLabel(/マッチ度 \d+%/)).toHaveCount(0);
   await expectUnavailableMedia(omeCard.locator('.ph'));
   await omeCard.click();
@@ -68,6 +71,7 @@ test('opens the recovered Ome/Sawai journey from MOGU through Story, Route, and 
   await expect(page).toHaveURL(new RegExp(`/story/${OME_SAKE.foodCultureId}(?:\\?.*)?$`));
   const story = activeScreen(page, 'story');
   await expect(story.locator('h1').first()).toContainText(/青梅|沢井|Ome|Sawai/i);
+  await expect(story).toContainText('見学は予約制・訪問前に公式情報を確認');
   await expectUnavailableMedia(story.locator('.story-hero'));
   await expect(story.locator('[data-spot-id="okutama-tourism-office"]')).toHaveCount(0);
   await story
@@ -181,6 +185,21 @@ for (const conflict of conflictingJourneyLocations) {
   });
 }
 
+for (const malformedPath of ['/story/%E0%A4%A', '/spot/%E0%A4%A']) {
+  test(`fails closed for malformed encoded identity ${malformedPath}`, async ({ page }) => {
+    await page.goto('/');
+    await page.evaluate((path) => {
+      window.history.pushState({}, '', path);
+      window.dispatchEvent(new PopStateEvent('popstate'));
+    }, malformedPath);
+
+    await expect(page.locator('.reference-app')).toHaveCount(0);
+    await expect(page.locator('.page-title')).toBeVisible();
+    await expect(activeScreen(page, 'story')).toHaveCount(0);
+    await expect(activeScreen(page, 'spot')).toHaveCount(0);
+  });
+}
+
 test('keeps Result limited to the two current recommendation cards', async ({ page }) => {
   await page.goto('/explore/result');
 
@@ -198,18 +217,21 @@ const localizedJourneyIdentity = [
     title: /青梅|沢井/,
     transfer: /JR青梅線.*バス.*ケーブルカー.*徒歩.*編集部目安/,
     garden: /生原酒のタンク量り売り/,
+    verificationCaveat: '確認中',
   },
   {
     locale: 'en',
     title: /Ome|Sawai/i,
     transfer: /JR Ome Line.*bus.*cable car.*walking.*editorial estimate/i,
     garden: /sells nama genshu from a tank by volume/i,
+    verificationCaveat: 'Confirmation pending',
   },
   {
     locale: 'zh-TW',
     title: /青梅|沢井/,
     transfer: /JR青梅線.*巴士.*纜車.*步行.*編輯部參考/,
     garden: /販售桶裝生原酒/,
+    verificationCaveat: '確認中',
   },
 ] as const;
 
@@ -219,9 +241,13 @@ for (const expected of localizedJourneyIdentity) {
 
     await page.goto('/mogu');
     await expect(page.locator('.reference-app')).toHaveAttribute('data-locale', expected.locale);
+    const moguCard = activeScreen(page, 'mogu').locator(
+      `[data-journey-id="${OME_SAKE.candidateId}"]`,
+    );
+    await expect(moguCard).toBeVisible();
     await expect(
-      activeScreen(page, 'mogu').locator(`[data-journey-id="${OME_SAKE.candidateId}"]`),
-    ).toBeVisible();
+      moguCard.locator('[data-verification-status="needs_confirmation"]'),
+    ).toHaveText(expected.verificationCaveat);
     await expectNoHorizontalOverflow(page);
 
     await page.goto(

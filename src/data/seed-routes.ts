@@ -200,7 +200,7 @@ const SOURCE_MITAKE_HERITAGE: DataSource = {
   license: 'CC BY 4.0（クリエイティブ・コモンズ 表示 4.0）',
   sourceType: 'open_data',
   sourceDatasetId: '445ee18d-ee49-4659-9667-de8630bd0d0e',
-  retrievedAt: '2026-08-14',
+  retrievedAt: '2026-08-29',
   verificationStatus: 'needs_confirmation',
   originalId: '御嶽神社旧本殿',
 };

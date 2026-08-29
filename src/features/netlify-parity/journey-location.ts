@@ -13,6 +13,14 @@ export type CurrentJourneyLocationResolution =
 
 type JourneyConstraint = JourneyPresentation[];
 
+export function decodeJourneyPathIdentity(encodedIdentity: string): string | undefined {
+  try {
+    return decodeURIComponent(encodedIdentity);
+  } catch {
+    return undefined;
+  }
+}
+
 function journeysForQueryIdentity(
   key: 'candidateId' | 'routeId' | 'resultId',
   value: string,
@@ -47,12 +55,14 @@ export function resolveCurrentJourneyLocation(
   let spotDefault: JourneyPresentation | undefined;
 
   if (pathname.startsWith('/story/')) {
-    const storyId = decodeURIComponent(pathname.slice('/story/'.length));
+    const storyId = decodeJourneyPathIdentity(pathname.slice('/story/'.length));
+    if (storyId === undefined) return { status: 'invalid' };
     const storyJourney = currentJourneys.find((journey) => journey.storyId === storyId);
     if (!storyJourney) return { status: 'not-current' };
     constraints.push([storyJourney]);
   } else if (pathname.startsWith('/spot/')) {
-    const spotId = decodeURIComponent(pathname.slice('/spot/'.length));
+    const spotId = decodeJourneyPathIdentity(pathname.slice('/spot/'.length));
+    if (spotId === undefined) return { status: 'invalid' };
     const spot = currentSpots[spotId];
     if (!spot) return { status: 'not-current' };
     const owners = journeysForSpot(spot);

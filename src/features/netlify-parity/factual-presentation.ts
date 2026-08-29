@@ -495,12 +495,19 @@ function omeRouteVariant(
   };
 }
 
+const omeTourReservationNote = localized(
+  '見学は予約制・訪問前に公式情報を確認',
+  'Tours require reservations · Check official information before visiting',
+  '參訪需預約・造訪前請查看官方資訊',
+);
+
 const omeJourney: JourneyPresentation = {
   id: omeCanonicalPresentation.candidateId,
   regionId: omeCandidate.regionId,
   foodCultureId: omeCanonicalPresentation.foodCultureId,
   storyId: omeCanonicalPresentation.foodCultureId,
   routeId: omeCanonicalPresentation.routeId,
+  sourceStatus: omeCanonicalPresentation.sourceStatus,
   copy: {
     ja: {
       title: omeRoute.nameJa,
@@ -534,19 +541,19 @@ const omeJourney: JourneyPresentation = {
     ja: [
       { number: '01.', title: '沢井で受け継がれる酒蔵', body: omeCulture.historyJa },
       { number: '02.', title: '澤乃井を醸す小澤酒造', body: requiredRecord(getSpotDetail('sawai-ozawa-shuzo'), 'Ozawa Spot detail').roleJa },
-      { number: '03.', title: '酒蔵を訪ねる前に', body: omeCulture.howToEnjoyJa },
+      { number: '03.', title: '酒蔵を訪ねる前に', body: omeTourReservationNote.ja },
       { number: '04.', title: '御嶽の文化財へ', body: requiredRecord(getSpotDetail('mitake-shrine'), 'Mitake Shrine Spot detail').roleJa },
     ],
     en: [
       { number: '01.', title: 'A brewery carried forward in Sawai', body: omeCulture.historyEn },
       { number: '02.', title: 'Ozawa Shuzo, brewer of Sawanoi', body: requiredRecord(getSpotDetail('sawai-ozawa-shuzo'), 'Ozawa Spot detail').roleEn },
-      { number: '03.', title: 'Before visiting the brewery', body: omeCulture.howToEnjoyEn },
+      { number: '03.', title: 'Before visiting the brewery', body: omeTourReservationNote.en },
       { number: '04.', title: 'Continue to Mitake heritage', body: requiredRecord(getSpotDetail('mitake-shrine'), 'Mitake Shrine Spot detail').roleEn },
     ],
     'zh-TW': [
       { number: '01.', title: '在沢井傳承的酒藏', body: strings['zh-TW'].dataSakeHistory },
       { number: '02.', title: '釀造澤乃井的小澤酒造', body: strings['zh-TW'].dataOzawaRole },
-      { number: '03.', title: '造訪酒藏之前', body: `${strings['zh-TW'].dataOzawaAccess} ${strings['zh-TW'].dataSakeRouteOperationalNote}` },
+      { number: '03.', title: '造訪酒藏之前', body: omeTourReservationNote['zh-TW'] },
       { number: '04.', title: '前往御嶽文化財', body: strings['zh-TW'].dataMitakeShrineRole },
     ],
   },
@@ -1623,7 +1630,7 @@ export const storySpotGroups: Record<string, {
           requiredRecord(getSpotDetail('sawai-ozawa-shuzo'), 'Ozawa Spot detail').roleEn,
           strings['zh-TW'].dataOzawaRole,
         ),
-        note: localized('見学は予約制・訪問前に公式情報を確認', 'Tours require reservations · Check official information before visiting', '參訪需預約・造訪前請查看官方資訊'),
+        note: omeTourReservationNote,
       },
       {
         referenceId: 'sawanoien-garden',

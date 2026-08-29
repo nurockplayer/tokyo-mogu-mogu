@@ -65,6 +65,11 @@ export function JourneyResultCard({
           {localized.tags.map((tag) => (
             <span key={tag}>{tag}</span>
           ))}
+          {journey.sourceStatus === 'needs_confirmation' ? (
+            <span data-verification-status="needs_confirmation">
+              {copy.mogu.confirmationPending}
+            </span>
+          ) : null}
         </div>
       </div>
     </article>

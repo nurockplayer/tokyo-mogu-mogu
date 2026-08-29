@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import type { DataVerificationEvidence } from '../data/data-verification-evidence-manifest';
 import { PLACES } from '../data/seed-places';
+import { currentJourneys } from '../features/netlify-parity/factual-presentation';
 import {
   buildLedgerClaims,
   buildRepositoryLedgerClaims,
@@ -865,6 +866,16 @@ describe('repository data verification ledger (#333)', () => {
       });
     }
 
+    const omeJourney = currentJourneys.find((journey) => journey.id === 'demo-ome-sake');
+    const reservationChapter = omeJourney?.chapters.ja.find(
+      (chapter) => chapter.number === '03.',
+    );
+    expect(
+      claims.find(
+        (claim) => claim.claimId === 'story:sake-ome:story.factual.brewery-tour-reservation',
+      )?.displayedValue,
+    ).toBe(reservationChapter?.body);
+
     expect(
       claims.find(
         (claim) =>
@@ -878,6 +889,35 @@ describe('repository data verification ledger (#333)', () => {
       timeSensitive: true,
       issues: ['#348'],
     });
+  });
+
+  it('maps the visible Ome MOGU access fact to its exact SpotDetail source (#348)', () => {
+    const claims = buildRepositoryLedgerClaims();
+
+    for (const [locale, displayedValue] of [
+      ['ja', '沢井駅 / から徒歩 約5分'],
+      ['en', 'Sawai Station / About 5 min on foot'],
+      ['zh-TW', '沢井站 / 步行約 5 分鐘'],
+    ] as const) {
+      expect(
+        claims.find((claim) => claim.claimId
+          === `route:ome-sawai-sake-journey:mogu.factual.origin-access:${locale}`),
+      ).toMatchObject({
+        canonicalValue: expect.stringContaining('徒歩約5分'),
+        displayedValue,
+        origin: 'editorial',
+        verification: 'needs_confirmation',
+        primarySource: '小澤酒造 酒蔵見学（公式）',
+        primarySourceUrl: 'https://www.sawanoi-sake.com/service/kengaku/',
+        retrievedAt: '2026-08-29',
+        confirmedAt: undefined,
+        canonicalSourceFile: 'src/data/seed-routes.ts',
+        presentationSourceFile: 'src/features/netlify-parity/factual-presentation.ts',
+        appSurface: 'MOGU',
+        timeSensitive: true,
+        issues: ['#348'],
+      });
+    }
   });
 
   it('keeps rendered Ome operational claims on the exact SpotDetail source lineage (#348)', () => {
@@ -901,6 +941,27 @@ describe('repository data verification ledger (#333)', () => {
         verification: 'needs_confirmation',
         canonicalSourceFile: 'src/data/seed-routes.ts',
         retrievedAt: '2026-08-29',
+      });
+    }
+  });
+
+  it('records the current Mitake cultural-property source recheck without confirmation promotion (#348)', () => {
+    const claims = buildRepositoryLedgerClaims();
+
+    for (const claimId of [
+      'place:mitake-shrine:name:ja',
+      'place:baba-oshijutaku:name:ja',
+      'spot:mitake-shrine:story_wording',
+      'spot:baba-oshijutaku:story_wording',
+      'story:sake-ome:story.spot.mitake-shrine.role-context',
+      'story:sake-ome:story.spot.baba-oshijutaku.role-context',
+    ]) {
+      expect(claims.find((claim) => claim.claimId === claimId)).toMatchObject({
+        verification: 'needs_confirmation',
+        retrievedAt: '2026-08-29',
+        confirmedAt: undefined,
+        primarySourceUrl:
+          'https://www.opendata.metro.tokyo.lg.jp/suisyoudataset/130001_cultural_property.csv',
       });
     }
   });

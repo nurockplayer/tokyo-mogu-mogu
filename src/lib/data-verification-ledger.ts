@@ -1078,6 +1078,16 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
     const presentationEntityName = journey.copy.ja.storyTitle;
     const resultComparisonVariantId = audit.resultComparisonVariantId;
     const isResultJourney = resultJourneyIds.has(journey.id);
+    const moguAccessAudit = 'moguAccess' in audit ? audit.moguAccess : undefined;
+    const moguAccessFact = moguAccessAudit
+      ? canonicalSpotDetailFact(
+          SPOT_DETAILS[moguAccessAudit.presentationSpotId],
+          moguAccessAudit.canonicalFieldId,
+        )
+      : undefined;
+    if (moguAccessAudit && !moguAccessFact) {
+      throw new Error(`MOGU access mapping for ${journey.id} has no canonical SpotDetail fact.`);
+    }
 
     if (isResultJourney) {
       if (journey.matchPercent === undefined) {
@@ -1156,6 +1166,40 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
             : 'Visible route has no canonical ModelRoute record.'
           : 'Localized presentation is inventoried without inferring a canonical translation.',
       });
+
+      if (moguAccessFact) {
+        const cardLocation = resultLocation[journey.id]?.[locale];
+        if (!cardLocation) throw new Error(`Missing MOGU card location for journey: ${journey.id}`);
+        inputs.push({
+          claimId: localizedClaimId(
+            `route:${journey.routeId}:mogu.factual.origin-access`,
+            locale,
+          ),
+          entityType: 'Route',
+          entityId: journey.routeId,
+          entityName,
+          fieldId: localizedFieldId('mogu.factual.origin-access', locale),
+          fieldLabel: `MOGU origin access (${locale})`,
+          comparisonExpected: true,
+          canonical: canonicalValue(
+            moguAccessFact.value,
+            moguAccessFact.origin,
+            moguAccessFact.source,
+            moguAccessFact.verification,
+            moguAccessFact.sourceFile,
+          ),
+          presentation: presentationValue(
+            `${cardLocation.station} / ${cardLocation.access}`,
+            'MOGU',
+            moguAccessFact.origin,
+            moguAccessFact.verification,
+          ),
+          timeSensitive: true,
+          timeSensitiveNote: 'Visible station access can change; retain the exact current SpotDetail source and confirmation caveat.',
+          issues: [...audit.issues],
+          note: 'The MOGU card access value is mapped to the representative SpotDetail field; route-level source order is not used as provenance.',
+        });
+      }
 
       const presentationStory = journey.copy[locale];
       if (isResultJourney) {
@@ -1333,11 +1377,15 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
             (reference) => reference.spotId === factualClaim.presentationSpotId,
           )
         : undefined;
-      const mappedPresentation = presentationReference && 'presentationField' in factualClaim
-        ? factualClaim.presentationField === 'note'
-          ? presentationReference.note?.ja
-          : presentationReference.description?.ja
-        : undefined;
+      const mappedPresentation = 'presentationChapterNumber' in factualClaim
+        ? journey.chapters.ja.find(
+            (chapter) => chapter.number === factualClaim.presentationChapterNumber,
+          )?.body
+        : presentationReference && 'presentationField' in factualClaim
+          ? factualClaim.presentationField === 'note'
+            ? presentationReference.note?.ja
+            : presentationReference.description?.ja
+          : undefined;
 
       if (mappedFact && mappedPresentation) {
         inputs.push({

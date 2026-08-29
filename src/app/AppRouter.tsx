@@ -17,7 +17,10 @@ import { NotFoundPage } from './NotFoundPage';
 import { JourneyNavigationManager } from './JourneyNavigationManager';
 import { ReferenceApp } from '../features/netlify-parity/ReferenceApp';
 import { currentJourneys, currentSpots } from '../features/netlify-parity/content';
-import { resolveCurrentJourneyLocation } from '../features/netlify-parity/journey-location';
+import {
+  decodeJourneyPathIdentity,
+  resolveCurrentJourneyLocation,
+} from '../features/netlify-parity/journey-location';
 
 const HomePage = lazy(() => import('../pages/HomePage').then((m) => ({ default: m.HomePage })));
 const LandingPage = lazy(() =>
@@ -87,15 +90,22 @@ export function AppRouter() {
   const referenceStoryPath =
     pathname === '/story' ||
     currentJourneys.some((journey) => pathname === `/story/${journey.storyId}`);
+  const decodedSpotId = pathname.startsWith('/spot/')
+    ? decodeJourneyPathIdentity(pathname.slice('/spot/'.length))
+    : undefined;
   const referenceSpotPath =
-    pathname.startsWith('/spot/') &&
-    Object.hasOwn(currentSpots, decodeURIComponent(pathname.slice('/spot/'.length)));
+    decodedSpotId !== undefined && Object.hasOwn(currentSpots, decodedSpotId);
   const referenceJourneyPath =
     pathname === '/explore/result' ||
     pathname === '/route' ||
     referenceStoryPath ||
     referenceSpotPath;
-  if (referenceJourneyPath && journeyLocation.status === 'invalid') {
+  const encodedJourneyIdentityPath =
+    pathname.startsWith('/story/') || pathname.startsWith('/spot/');
+  if (
+    journeyLocation.status === 'invalid'
+    && (referenceJourneyPath || encodedJourneyIdentityPath)
+  ) {
     return <NotFoundPage />;
   }
   const referencePath =

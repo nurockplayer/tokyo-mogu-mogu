@@ -752,6 +752,27 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       ]);
     }
 
+    const omeRoute = board.entities.find(
+      (entity) => entity.id === 'ome-sawai-sake-journey',
+    );
+    const moguAccess = omeRoute?.facts.find((fact) =>
+      fact.claimIds.includes(
+        'route:ome-sawai-sake-journey:mogu.factual.origin-access:ja',
+      ));
+    expect(moguAccess).toMatchObject({
+      fieldKey: 'route:mogu.factual.origin-access',
+      status: 'needs_confirmation',
+      affectedSurfaces: ['MOGU'],
+    });
+    expect(moguAccess?.sources).toEqual([
+      expect.objectContaining({
+        url: 'https://www.sawanoi-sake.com/service/kengaku/',
+        retrievedAt: '2026-08-29',
+        confirmedAt: undefined,
+      }),
+    ]);
+    expect(omeRoute?.reviewContext.affectedSurfaces).toEqual(['MOGU', 'Story', 'Route']);
+
     const portOkutama = board.entities.find((entity) => entity.id === 'port-okutama');
     expect(portOkutama).toMatchObject({
       type: 'Spot',
