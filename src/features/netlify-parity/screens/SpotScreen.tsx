@@ -61,8 +61,9 @@ export function SpotScreen({
         title: referenceDetail.guide.title[locale],
         body: referenceDetail.guide.body[locale],
         action: referenceDetail.guide.action[locale],
+        url: referenceDetail.guide.url,
       }
-    : localized.guide;
+    : localized.guide ? { ...localized.guide, url: undefined } : undefined;
   const cautions = referenceDetail?.caution.map((item) => item[locale]) ?? localized.caution;
 
   useEffect(() => setPhotoIndex(0), [spot.id]);
@@ -146,9 +147,15 @@ export function SpotScreen({
           <section className="guide-box">
             <h2>{guide.title}</h2>
             <p style={{ whiteSpace: 'pre-line' }}>{guide.body}</p>
-            <button className="book" onClick={() => onOpenGuide?.(spot)} type="button">
-              {guide.action}
-            </button>
+            {guide.url ? (
+              <a className="book" href={guide.url} target="_blank" rel="noreferrer">
+                {guide.action}
+              </a>
+            ) : (
+              <button className="book" onClick={() => onOpenGuide?.(spot)} type="button">
+                {guide.action}
+              </button>
+            )}
           </section>
         ) : null}
 

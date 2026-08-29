@@ -351,6 +351,7 @@ describe('Netlify parity presentation content', () => {
       'official_current_url',
     ]));
     expect(detail.information.map((row) => row.fieldId)).not.toContain('address');
+    expect(detail.guide?.url).toBe(place.mobileVenue.currentScheduleSource.url);
     expect(routeStep).not.toHaveProperty('walk');
     expect(routeStep).not.toHaveProperty('note');
 

@@ -569,6 +569,10 @@ test('keeps Wasabi Shokudo mobile and time-sensitive in every locale (#324)', as
     await expect(spot).toContainText(expected.schedule);
     await expect(spot).toContainText(expected.priceDate);
     await expect(spot).toContainText(expected.conflict);
+    await expect(spot.getByRole('link', { name: expected.schedule })).toHaveAttribute(
+      'href',
+      'https://tokyowasabi.com/information/2751/260728/',
+    );
     await expect(spot.locator('.info-row .k').filter({ hasText: new RegExp(`^${expected.addressLabel}$`) })).toHaveCount(0);
     await expect(spot).not.toContainText(/土日のみ|Weekends only|僅週末營業|平日はあかべこ|Akabeko is recommended|平日建議前往 AKABEKO|¥900〜|From ¥900|¥900 起/);
     await expectNoHorizontalOverflow(page);

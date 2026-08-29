@@ -431,6 +431,7 @@ body:has(.reference-app) { overflow:hidden; }
 .reference-app .guide-box h2 { font-size:18px; }
 .reference-app .guide-box p { font-size:13.5px; line-height:1.9; margin-top:8px; }
 .reference-app .guide-box .book { width:100%; margin-top:12px; background:var(--header); color:#fff; border-radius:10px; padding:13px; font-weight:500; font-size:14.5px; }
+.reference-app .guide-box a.book { display:block; box-sizing:border-box; text-align:center; text-decoration:none; }
 .reference-app .caution { background:#F3F1DE; border-radius:12px; padding:14px; margin:14px 18px 20px; }
 .reference-app .caution h3 { color:#E05B5B; font-size:14.5px; }
 .reference-app .caution ul { list-style:none; margin-top:6px; padding:0; }

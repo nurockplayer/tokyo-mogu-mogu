@@ -622,7 +622,7 @@ export interface ReferenceSpotDetail {
     label: LocalizedText;
     value: LocalizedText;
   }>;
-  guide?: { title: LocalizedText; body: LocalizedText; action: LocalizedText };
+  guide?: { title: LocalizedText; body: LocalizedText; action: LocalizedText; url?: string };
   caution: LocalizedText[];
 }
 
@@ -653,6 +653,7 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
       title: localized('訪問前に出店予定を確認', 'Check the schedule before visiting', '造訪前請確認出攤行程'),
       body: localized('固定店舗はありません。公式のお知らせ・Instagramで最新の営業日と出店先を確認してください。', 'There is no permanent storefront. Check official announcements or Instagram for the latest operating dates and locations.', '沒有固定店面。請透過官方公告或 Instagram 確認最新營業日期與出攤地點。'),
       action: localized('最新の公式予定を確認する', 'Check the current official schedule', '查看最新官方行程'),
+      url: wasabiKitchenPlace.mobileVenue.currentScheduleSource.url,
     },
     caution: [
       localized('・営業日・時間・出店先は変更される場合があります。天候や売り切れで変更・終了する場合もあります。', '• Dates, hours, and locations can change. Weather or sell-out may alter or end service.', '・營業日期、時間與地點可能變更，亦可能因天候或售罄而調整或提早結束。'),
