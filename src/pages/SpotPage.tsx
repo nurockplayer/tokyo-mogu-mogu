@@ -279,7 +279,8 @@ export function SpotPage() {
     ...(place.coordinateSource ? [{ source: place.coordinateSource, origin: place.origin }] : []),
     ...(place.locationKind === 'mobile'
       ? [
-          { source: place.mobileVenue.currentScheduleSource, origin: place.origin },
+          { source: place.mobileVenue.scheduleDirectorySource, origin: place.origin },
+          { source: place.mobileVenue.datedScheduleSource, origin: place.origin },
           ...(place.visitorInformation?.menuListings ?? []).map((listing) => ({
             source: listing.source,
             origin: place.origin,

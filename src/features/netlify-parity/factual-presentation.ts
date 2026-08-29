@@ -426,7 +426,7 @@ export const demoJourneys: JourneyPresentation[] = [
       'zh-TW': [{ number: '01.', title: '為什麼是山葵？', body: '清澈冰冷的水孕育出香氣與辛味。' }, { number: '02.', title: '誰在製作？', body: '職人的照料與地方智慧守護著田地和味道。' }, { number: '03.', title: '傳承的技術', body: '適合這片土地的方法，一代一代地傳下來。' }, { number: '04.', title: '當前的課題', body: '環境變化與接班人不足，讓傳承面臨挑戰。' }, { number: '05.', title: '你能做什麼', body: '在這裡品嚐與造訪，可以支持下一代。' }],
     },
     routeVariants: [
-      { id: 'half-day', durationMinutes: 150, imageAssetId: 'figmaRouteMap', steps: [{ spotId: 'okutama-station', imageAssetId: 'station' }, { spotId: 'okutama-tourism-office', imageAssetId: 'tourismOfficeRoute' }, { spotId: 'wasabi-kitchen', imageAssetId: 'wasabiKitchen' }, { spotId: 'okutama-kitchen', imageAssetId: 'wasabiGelato' }, { spotId: 'hikawa-valley', imageAssetId: 'valley' }, { spotId: 'oku-hikawa-shrine', imageAssetId: 'okuHikawaShrine' }, { spotId: 'port-okutama', imageAssetId: 'port' }] },
+      { id: 'half-day', durationMinutes: 150, imageAssetId: 'figmaRouteMap', steps: [{ spotId: 'okutama-station', imageAssetId: 'station' }, { spotId: 'okutama-tourism-office', imageAssetId: 'tourismOfficeRoute' }, { spotId: 'wasabi-kitchen', imageAssetId: 'wasabiHero' }, { spotId: 'okutama-kitchen', imageAssetId: 'wasabiGelato' }, { spotId: 'hikawa-valley', imageAssetId: 'valley' }, { spotId: 'oku-hikawa-shrine', imageAssetId: 'okuHikawaShrine' }, { spotId: 'port-okutama', imageAssetId: 'port' }] },
       { id: 'full-day', durationMinutes: 420, imageAssetId: 'figmaRouteMap', steps: [{ spotId: 'mitake-station', imageAssetId: 'station' }, { spotId: 'wasabi-experience', imageAssetId: 'wasabiExperience' }, { spotId: 'okutama-station', imageAssetId: 'station' }, { spotId: 'akabeko', imageAssetId: 'akabekoYamame' }, { spotId: 'yamashiroya', imageAssetId: 'yamashiroyaGoods' }, { spotId: 'port-okutama', imageAssetId: 'portDetail' }] },
     ],
   },
@@ -478,7 +478,7 @@ export const demoSpots: Record<string, SpotPresentation> = {
     en: { name: yamashiroyaName.en, lead: yamashiroyaLead.en, description: `Reference information based on ${yamashiroyaPlace.nameEn}’s official shop guide.` },
     'zh-TW': { name: yamashiroyaName['zh-TW'], lead: yamashiroyaLead['zh-TW'], description: `依據${yamashiroyaPlace.nameJa}官方店鋪資訊整理的參考內容。` },
   }),
-  'wasabi-kitchen': spot('wasabi-kitchen', 'wasabiKitchen', ['station', 'wasabiGelato'], {
+  'wasabi-kitchen': spot('wasabi-kitchen', 'wasabiHero', ['eatIllustration', 'originIllustration'], {
     ja: { name: wasabiKitchenPlace.nameJa, lead: wasabiKitchenVenueModel.ja, description: wasabiKitchenStoryDescription.ja },
     en: { name: wasabiKitchenPlace.nameEn, lead: wasabiKitchenVenueModel.en, description: wasabiKitchenStoryDescription.en },
     'zh-TW': { name: '山葵食堂', lead: wasabiKitchenVenueModel['zh-TW'], description: wasabiKitchenStoryDescription['zh-TW'] },
@@ -646,14 +646,14 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
       { fieldId: 'price_availability', icon: 'information', label: localized('メニュー・価格', 'Menu & price', '菜單與價格'), value: wasabiKitchenPriceAvailability },
       { fieldId: 'schedule_conflict', icon: 'information', label: localized('日程の確認', 'Schedule check', '行程確認'), value: wasabiKitchenScheduleConflict },
       { fieldId: 'official_current_url', icon: 'information', label: localized('公式情報', 'Official information', '官方資訊'), value: localized(wasabiKitchenPlace.source.url ?? '', wasabiKitchenPlace.source.url ?? '', wasabiKitchenPlace.source.url ?? '') },
-      { fieldId: 'schedule_url', icon: 'information', label: localized('最新の出店予定', 'Current schedule', '最新出攤行程'), value: localized(wasabiKitchenPlace.mobileVenue.currentScheduleSource.url ?? '', wasabiKitchenPlace.mobileVenue.currentScheduleSource.url ?? '', wasabiKitchenPlace.mobileVenue.currentScheduleSource.url ?? '') },
+      { fieldId: 'schedule_url', icon: 'information', label: localized('最新の出店予定', 'Current schedule', '最新出攤行程'), value: localized(wasabiKitchenPlace.mobileVenue.scheduleDirectorySource.url ?? '', wasabiKitchenPlace.mobileVenue.scheduleDirectorySource.url ?? '', wasabiKitchenPlace.mobileVenue.scheduleDirectorySource.url ?? '') },
       { fieldId: 'verification_note', icon: 'information', label: localized('確認状態', 'Verification', '確認狀態'), value: localized('公式情報を2026年8月29日に取得。日程・出店先・時間・価格・提供状況は訪問前に再確認してください。', 'Official information retrieved Aug 29, 2026. Recheck dates, location, hours, price, and availability before visiting.', '官方資訊於 2026 年 8 月 29 日取得。造訪前請再次確認日期、地點、時間、價格與供應狀況。') },
     ],
     guide: {
       title: localized('訪問前に出店予定を確認', 'Check the schedule before visiting', '造訪前請確認出攤行程'),
       body: localized('固定店舗はありません。公式のお知らせ・Instagramで最新の営業日と出店先を確認してください。', 'There is no permanent storefront. Check official announcements or Instagram for the latest operating dates and locations.', '沒有固定店面。請透過官方公告或 Instagram 確認最新營業日期與出攤地點。'),
       action: localized('最新の公式予定を確認する', 'Check the current official schedule', '查看最新官方行程'),
-      url: wasabiKitchenPlace.mobileVenue.currentScheduleSource.url,
+      url: wasabiKitchenPlace.mobileVenue.scheduleDirectorySource.url,
     },
     caution: [
       localized('・営業日・時間・出店先は変更される場合があります。天候や売り切れで変更・終了する場合もあります。', '• Dates, hours, and locations can change. Weather or sell-out may alter or end service.', '・營業日期、時間與地點可能變更，亦可能因天候或售罄而調整或提早結束。'),
@@ -1165,7 +1165,7 @@ export const storySpotGroups: Record<string, {
         description: yamashiroyaStoryDescription,
       },
       {
-        referenceId: 'wasabi-kitchen', spotId: 'wasabi-kitchen', imageAssetId: 'wasabiKitchen', badgeColor: '#E98A1C',
+        referenceId: 'wasabi-kitchen', spotId: 'wasabi-kitchen', imageAssetId: 'wasabiHero', badgeColor: '#E98A1C',
         badge: { ja: 'FOOD TRUCK', en: 'FOOD TRUCK', 'zh-TW': '行動餐車' },
         description: wasabiKitchenStoryDescription,
       },

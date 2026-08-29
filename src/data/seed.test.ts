@@ -411,7 +411,11 @@ describe('seed data contract (#2)', () => {
         primaryOperatingAreaJa: 'JR青梅線「奥多摩駅」前を中心',
         operatingPattern: 'mainly-weekends',
         scheduleVariability: ['published-schedule', 'weather', 'sell-out'],
-        currentScheduleSource: {
+        scheduleDirectorySource: {
+          url: 'https://tokyowasabi.com/category/information/',
+          retrievedAt: '2026-08-29',
+        },
+        datedScheduleSource: {
           url: 'https://tokyowasabi.com/information/2751/260728/',
           sourceUpdatedAt: '2026-07-28',
           retrievedAt: '2026-08-29',

@@ -147,6 +147,7 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(page.getByText('固定店舗のないキッチンカー', { exact: true })).toBeVisible();
     for (const url of [
       'https://tokyowasabi.com/foodtruck/',
+      'https://tokyowasabi.com/category/information/',
       'https://tokyowasabi.com/information/2751/260728/',
       'https://tokyowasabi.com/wasabi-don/',
       'https://tokyowasabi.com/hitoshi/2573/fussa-tanabata-challenge/',

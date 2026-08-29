@@ -571,8 +571,9 @@ test('keeps Wasabi Shokudo mobile and time-sensitive in every locale (#324)', as
     await expect(spot).toContainText(expected.conflict);
     await expect(spot.getByRole('link', { name: expected.schedule })).toHaveAttribute(
       'href',
-      'https://tokyowasabi.com/information/2751/260728/',
+      'https://tokyowasabi.com/category/information/',
     );
+    await expect(spot.locator('.spot-hero > img')).toHaveAttribute('src', /wasabi_photo/);
     await expect(spot.locator('.info-row .k').filter({ hasText: new RegExp(`^${expected.addressLabel}$`) })).toHaveCount(0);
     await expect(spot).not.toContainText(/土日のみ|Weekends only|僅週末營業|平日はあかべこ|Akabeko is recommended|平日建議前往 AKABEKO|¥900〜|From ¥900|¥900 起/);
     await expectNoHorizontalOverflow(page);
@@ -580,6 +581,7 @@ test('keeps Wasabi Shokudo mobile and time-sensitive in every locale (#324)', as
     await page.goto('/route?candidateId=demo-okutama-wasabi');
     const route = page.locator('[data-screen="route"][data-screen-active="true"]');
     const routeCard = route.locator('[data-spot-id="wasabi-kitchen"]');
+    await expect(routeCard.locator('img')).toHaveAttribute('src', /wasabi_photo/);
     await expect(routeCard).toContainText(expected.schedule);
     await expect(routeCard).toContainText(expected.priceDate);
     await expect(routeCard).not.toContainText(/徒歩 約 1 分|About 1 min on foot|步行約 1 分鐘|土日のみ|Weekends only|僅週末營業|平日はあかべこ|Akabeko is recommended|平日建議前往 AKABEKO|¥900〜|From ¥900|¥900 起/);
@@ -588,6 +590,7 @@ test('keeps Wasabi Shokudo mobile and time-sensitive in every locale (#324)', as
     await page.goto('/story/wasabi-okutama?candidateId=demo-okutama-wasabi');
     const story = page.locator('[data-screen="story"][data-screen-active="true"]');
     const storyCard = story.locator('[data-spot-id="wasabi-kitchen"]');
+    await expect(storyCard.locator('img')).toHaveAttribute('src', /wasabi_photo/);
     await expect(storyCard).toContainText(expected.locale === 'zh-TW' ? '行動餐車' : 'FOOD TRUCK');
     await expect(storyCard).toContainText(expected.schedule);
     await expectNoHorizontalOverflow(page);

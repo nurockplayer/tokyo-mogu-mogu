@@ -940,6 +940,12 @@ describe('repository data verification ledger (#333)', () => {
 
   it('maps mobile Route guidance to canonical source-backed facts (#324)', () => {
     const claims = buildRepositoryLedgerClaims();
+    const scheduleDirectory = claims.find(
+      (row) => row.claimId === 'place:wasabi-kitchen:schedule_url',
+    );
+    const datedConflictStatement = claims.find(
+      (row) => row.claimId === 'place:wasabi-kitchen:schedule_conflict:source:august-schedule-event-dates',
+    );
     const guidance = claims.find(
       (row) => row.claimId === 'route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:guidance:ja',
     );
@@ -953,6 +959,16 @@ describe('repository data verification ledger (#333)', () => {
       (row) => row.claimId === 'route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:factual:venue-model',
     );
 
+    expect(scheduleDirectory).toMatchObject({
+      canonicalValue: 'https://tokyowasabi.com/category/information/',
+      primarySourceUrl: 'https://tokyowasabi.com/category/information/',
+      verification: 'needs_confirmation',
+    });
+    expect(datedConflictStatement).toMatchObject({
+      canonicalValue: '2026-08-07〜2026-08-09',
+      primarySourceUrl: 'https://tokyowasabi.com/information/2751/260728/',
+      verification: 'conflict',
+    });
     expect(guidance?.timeSensitive).toBe(true);
     expect(weekendOperation).toMatchObject({
       canonicalValue: expect.stringContaining('mainly-weekends'),

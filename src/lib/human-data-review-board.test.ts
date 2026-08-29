@@ -455,6 +455,7 @@ describe('Human Data Review Board projection (#340, #343)', () => {
     expect(wasabiKitchen?.facts.some((fact) => fact.fieldKey === 'coordinates')).toBe(false);
     expect(wasabiKitchen?.sources.map((source) => source.url)).toEqual(expect.arrayContaining([
       'https://tokyowasabi.com/foodtruck/',
+      'https://tokyowasabi.com/category/information/',
       'https://tokyowasabi.com/information/2751/260728/',
       'https://tokyowasabi.com/wasabi-don/',
       'https://tokyowasabi.com/hitoshi/2573/fussa-tanabata-challenge/',

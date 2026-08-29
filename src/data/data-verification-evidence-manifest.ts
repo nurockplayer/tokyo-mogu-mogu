@@ -529,10 +529,9 @@ export const DATA_VERIFICATION_EVIDENCE_MANIFEST: DataVerificationEvidenceManife
       reason: 'The Story venue-model claim traces to the TOKYO WASABI page that prohibits unauthorized reproduction; no official-site capture is committed.',
     },
     {
-      omissionId: 'wasabi-kitchen-current-schedule-source-rights-restricted',
+      omissionId: 'wasabi-kitchen-august-schedule-source-rights-restricted',
       claimIds: [
         'spot:wasabi-kitchen:schedule_guidance',
-        'spot:wasabi-kitchen:schedule_url',
         'spot:wasabi-kitchen:schedule_conflict',
         'place:wasabi-kitchen:schedule_conflict:source:august-schedule-event-dates',
       ],
@@ -540,7 +539,16 @@ export const DATA_VERIFICATION_EVIDENCE_MANIFEST: DataVerificationEvidenceManife
       kind: 'source',
       sourceUrl: 'https://tokyowasabi.com/information/2751/260728/',
       recordedAt: '2026-08-29',
-      reason: 'TOKYO WASABI prohibits unauthorized reproduction and direct image linking; the current schedule and calendar were checked without copying or rehosting the page, calendar image, or photographs.',
+      reason: 'TOKYO WASABI prohibits unauthorized reproduction and direct image linking; the dated August 2026 schedule and calendar were retained as provenance without copying or rehosting the page, calendar image, or photographs.',
+    },
+    {
+      omissionId: 'wasabi-kitchen-schedule-directory-source-rights-restricted',
+      claimIds: ['spot:wasabi-kitchen:schedule_url'],
+      entityId: 'wasabi-kitchen',
+      kind: 'source',
+      sourceUrl: 'https://tokyowasabi.com/category/information/',
+      recordedAt: '2026-08-29',
+      reason: 'TOKYO WASABI prohibits unauthorized reproduction and direct image linking; the durable official announcements directory is linked for the latest schedule without copying or rehosting its page thumbnails.',
     },
     {
       omissionId: 'wasabi-kitchen-route-schedule-source-rights-restricted',

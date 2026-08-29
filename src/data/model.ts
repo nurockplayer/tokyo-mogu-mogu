@@ -236,12 +236,14 @@ export interface PlaceMobileVenue {
   noFixedStorefront: true;
   /** Broad source-published operating area; never a substitute address. */
   primaryOperatingAreaJa: string;
-  /** Stable qualitative pattern only; exact dates belong to the current schedule source. */
+  /** Stable qualitative pattern only; exact dates belong to dated schedule evidence. */
   operatingPattern: 'mainly-weekends';
   /** Conditions that make a published schedule non-guaranteed. */
   scheduleVariability: Array<'published-schedule' | 'weather' | 'sell-out'>;
-  /** First-party destination for the currently published operating schedule. */
-  currentScheduleSource: DataSource;
+  /** Durable first-party directory that leads visitors to the latest schedule post. */
+  scheduleDirectorySource: DataSource;
+  /** Dated first-party schedule post used as observed operational provenance. */
+  datedScheduleSource: DataSource;
   /** Explicit unresolved schedule statements from first-party sources. */
   scheduleConflict?: {
     verificationStatus: 'conflict';

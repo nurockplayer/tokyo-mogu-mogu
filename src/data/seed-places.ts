@@ -164,7 +164,17 @@ const TOKYO_WASABI_FOOD_TRUCK_SOURCE = {
   originalId: 'tokyo-wasabi-foodtruck',
 };
 
-const TOKYO_WASABI_CURRENT_SCHEDULE_SOURCE = {
+const TOKYO_WASABI_SCHEDULE_DIRECTORY_SOURCE = {
+  name: 'TOKYO WASABI（お知らせ）',
+  url: 'https://tokyowasabi.com/category/information/',
+  license: '© TOKYO WASABI / 無断転載不可（リンク参照のみ・ソース画像保存なし）',
+  sourceType: 'official_web' as const,
+  retrievedAt: '2026-08-29',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'tokyo-wasabi-information-index',
+};
+
+const TOKYO_WASABI_AUGUST_SCHEDULE_SOURCE = {
   name: 'TOKYO WASABI（2026年8月 わさび食堂営業日）',
   url: 'https://tokyowasabi.com/information/2751/260728/',
   license: '© TOKYO WASABI / 無断転載不可（リンク参照のみ・ソース画像保存なし）',
@@ -420,14 +430,15 @@ export const PLACES: Place[] = [
       primaryOperatingAreaJa: 'JR青梅線「奥多摩駅」前を中心',
       operatingPattern: 'mainly-weekends',
       scheduleVariability: ['published-schedule', 'weather', 'sell-out'],
-      currentScheduleSource: TOKYO_WASABI_CURRENT_SCHEDULE_SOURCE,
+      scheduleDirectorySource: TOKYO_WASABI_SCHEDULE_DIRECTORY_SOURCE,
+      datedScheduleSource: TOKYO_WASABI_AUGUST_SCHEDULE_SOURCE,
       scheduleConflict: {
         verificationStatus: 'conflict',
         statements: [
           {
             id: 'august-schedule-event-dates',
             value: '2026-08-07〜2026-08-09',
-            source: TOKYO_WASABI_CURRENT_SCHEDULE_SOURCE,
+            source: TOKYO_WASABI_AUGUST_SCHEDULE_SOURCE,
           },
           {
             id: 'hitoshi-event-dates',

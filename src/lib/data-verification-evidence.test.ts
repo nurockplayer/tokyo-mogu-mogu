@@ -576,7 +576,8 @@ describe('data verification evidence manifest (#334)', () => {
     ]));
     for (const [omissionId, sourceUrl] of [
       ['wasabi-kitchen-foodtruck-source-rights-restricted', 'https://tokyowasabi.com/foodtruck/'],
-      ['wasabi-kitchen-current-schedule-source-rights-restricted', 'https://tokyowasabi.com/information/2751/260728/'],
+      ['wasabi-kitchen-august-schedule-source-rights-restricted', 'https://tokyowasabi.com/information/2751/260728/'],
+      ['wasabi-kitchen-schedule-directory-source-rights-restricted', 'https://tokyowasabi.com/category/information/'],
       ['wasabi-kitchen-wasabi-don-source-rights-restricted', 'https://tokyowasabi.com/wasabi-don/'],
       ['wasabi-kitchen-hitoshi-event-source-rights-restricted', 'https://tokyowasabi.com/hitoshi/2573/fussa-tanabata-challenge/'],
     ] as const) {

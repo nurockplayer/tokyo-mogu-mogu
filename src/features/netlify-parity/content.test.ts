@@ -332,6 +332,9 @@ describe('Netlify parity presentation content', () => {
     const storyReference = storySpotGroups['demo-okutama-wasabi'].nearby.find(
       (reference) => reference.spotId === 'wasabi-kitchen',
     );
+    const routePresentation = demoJourneys.find((journey) => journey.id === 'demo-okutama-wasabi')
+      ?.routeVariants.find((variant) => variant.id === 'half-day')
+      ?.steps.find((step) => step.spotId === 'wasabi-kitchen');
 
     expect(place).toMatchObject({ locationKind: 'mobile', type: 'food-truck' });
     expect(detail).toBeDefined();
@@ -351,7 +354,25 @@ describe('Netlify parity presentation content', () => {
       'official_current_url',
     ]));
     expect(detail.information.map((row) => row.fieldId)).not.toContain('address');
-    expect(detail.guide?.url).toBe(place.mobileVenue.currentScheduleSource.url);
+    expect(detail.guide?.url).toBe('https://tokyowasabi.com/category/information/');
+    expect(place.mobileVenue.scheduleDirectorySource.url).toBe(
+      'https://tokyowasabi.com/category/information/',
+    );
+    expect(place.mobileVenue.datedScheduleSource.url).toBe(
+      'https://tokyowasabi.com/information/2751/260728/',
+    );
+    expect(demoSpots['wasabi-kitchen']).toMatchObject({
+      imageAssetId: 'wasabiHero',
+      thumbnailAssetIds: ['eatIllustration', 'originIllustration'],
+    });
+    expect(routePresentation?.imageAssetId).toBe('wasabiHero');
+    expect(storyReference.imageAssetId).toBe('wasabiHero');
+    expect([
+      demoSpots['wasabi-kitchen'].imageAssetId,
+      ...demoSpots['wasabi-kitchen'].thumbnailAssetIds,
+      routePresentation?.imageAssetId,
+      storyReference.imageAssetId,
+    ]).not.toContain('wasabiKitchen');
     expect(routeStep).not.toHaveProperty('walk');
     expect(routeStep).not.toHaveProperty('note');
 

@@ -450,13 +450,13 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
     if (fieldId === 'schedule_guidance' && place.locationKind === 'mobile') {
       return defaultFact(
         `${place.mobileVenue.operatingPattern} / ${place.mobileVenue.scheduleVariability.join(', ')}`,
-        place.mobileVenue.currentScheduleSource,
+        place.mobileVenue.datedScheduleSource,
       );
     }
     if (fieldId === 'schedule_url' && place.locationKind === 'mobile') {
       return defaultFact(
-        place.mobileVenue.currentScheduleSource.url,
-        place.mobileVenue.currentScheduleSource,
+        place.mobileVenue.scheduleDirectorySource.url,
+        place.mobileVenue.scheduleDirectorySource,
       );
     }
     if (fieldId === 'schedule_conflict' && place.locationKind === 'mobile') {
@@ -464,7 +464,7 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
       if (!conflict) return undefined;
       return {
         value: conflict.statements.map((statement) => statement.value).join(' | '),
-        source: place.mobileVenue.currentScheduleSource,
+        source: place.mobileVenue.datedScheduleSource,
         verification: conflict.verificationStatus,
       };
     }
@@ -593,7 +593,7 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
         ['venue_model', 'Venue model', 'mobile_food_truck / no_permanent_storefront', false] as const,
         ['operating_area', 'Primary operating area', place.mobileVenue.primaryOperatingAreaJa, true] as const,
         ['schedule_guidance', 'Operating schedule guidance', `${place.mobileVenue.operatingPattern} / ${place.mobileVenue.scheduleVariability.join(', ')}`, true] as const,
-        ['schedule_url', 'Current schedule URL', place.mobileVenue.currentScheduleSource.url, true] as const,
+        ['schedule_url', 'Latest schedule directory URL', place.mobileVenue.scheduleDirectorySource.url, true] as const,
         ...(place.mobileVenue.scheduleConflict ? [[
           'schedule_conflict',
           'Conflicting first-party event dates',
@@ -614,13 +614,14 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
         ? place.coordinateSource
         : fieldId === 'address' && place.addressSource
           ? place.addressSource
-          : place.locationKind === 'mobile' && (
-            fieldId === 'schedule_guidance'
-            || fieldId === 'schedule_url'
-            || fieldId === 'schedule_conflict'
-          )
-            ? place.mobileVenue.currentScheduleSource
-          : place.source;
+          : place.locationKind === 'mobile' && fieldId === 'schedule_url'
+            ? place.mobileVenue.scheduleDirectorySource
+            : place.locationKind === 'mobile' && (
+              fieldId === 'schedule_guidance'
+              || fieldId === 'schedule_conflict'
+            )
+              ? place.mobileVenue.datedScheduleSource
+              : place.source;
       const verification = fieldId === 'schedule_conflict'
         && place.locationKind === 'mobile'
         && place.mobileVenue.scheduleConflict
