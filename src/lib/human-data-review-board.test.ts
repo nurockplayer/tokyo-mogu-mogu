@@ -99,10 +99,12 @@ describe('Human Data Review Board projection (#340, #343)', () => {
         fieldId: 'information_name:ja',
         displayedValue: '例の場所',
         verification: 'verified',
-        primarySource: 'Example operator',
-        primarySourceUrl: 'https://example.com/place',
-        retrievedAt: '2026-08-28',
-        confirmedAt: '2026-08-29',
+      primarySource: 'Example operator',
+      primarySourceUrl: 'https://example.com/place',
+      primarySourceType: 'open_data',
+      primarySourceLicense: 'CC BY 4.0',
+      retrievedAt: '2026-08-28',
+      confirmedAt: '2026-08-29',
       })],
       currentProductEntities: exampleSpot,
       evidenceManifest: { evidence: [], omissions: [] },
@@ -117,11 +119,15 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       retrievedAt: '2026-08-28',
       confirmedAt: '2026-08-29',
       sources: [expect.objectContaining({
+        license: 'CC BY 4.0',
         retrievedAt: '2026-08-28',
         confirmedAt: '2026-08-29',
       })],
     });
     expect(entity.sources[0]).toMatchObject({
+      sourceType: 'open_data',
+      license: 'CC BY 4.0',
+      rightsStatus: 'ready',
       retrievedAt: '2026-08-28',
       confirmedAt: '2026-08-29',
     });
@@ -630,6 +636,9 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       claimId: 'place:example-place:name:ja',
       fieldId: 'name:ja',
       displayedValue: '例の場所',
+      primarySource: 'Example operator',
+      primarySourceUrl: 'https://example.com/place',
+      primarySourceType: 'official_web',
     });
     const board = buildHumanDataReviewBoard({
       claims: [nameClaim],
@@ -666,6 +675,10 @@ describe('Human Data Review Board projection (#340, #343)', () => {
     expect(board.entities[0]?.omissions).toEqual([
       expect.objectContaining({ omissionId: 'example-source-rights' }),
     ]);
+    expect(board.entities[0]?.sources[0]).toMatchObject({
+      evidenceState: 'omitted',
+      rightsStatus: 'needs_confirmation',
+    });
     expect(board.entities[0]?.evidence.some((item) => item.kind === 'source')).toBe(false);
   });
 

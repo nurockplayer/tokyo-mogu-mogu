@@ -15,6 +15,10 @@ import type {
   CurrentProductFactualEntityType,
 } from './current-product-factual-inventory';
 import type { LedgerClaim, LedgerVerification } from './data-verification-ledger';
+import {
+  sourceSubmissionRightsStatus,
+  type SubmissionRightsStatus,
+} from './submission-rights';
 
 export const DATA_REVIEW_STATUS_LABELS_JA: Readonly<Record<LedgerVerification, string>> = {
   verified: '✅ 人による確認済み',
@@ -45,6 +49,8 @@ export interface HumanDataReviewFactSource {
   name: string;
   url?: string;
   sourceType?: SourceType;
+  license?: string;
+  rightsStatus: SubmissionRightsStatus;
   retrievedAt?: string;
   confirmedAt?: string;
   status: LedgerVerification;
@@ -126,10 +132,14 @@ export interface HumanDataReviewSource {
   name: string;
   url?: string;
   sourceType?: SourceType;
+  license?: string;
+  rightsStatus: SubmissionRightsStatus;
   retrievedAt?: string;
   confirmedAt?: string;
   status: LedgerVerification;
   coordinateProvider: boolean;
+  evidenceState: 'captured' | 'omitted' | 'not_recorded';
+  evidenceNote?: string;
   claimIds: readonly string[];
 }
 
@@ -441,6 +451,12 @@ function sourceEdgesForFact(
       name: candidate.primarySource,
       url: candidate.primarySourceUrl,
       sourceType: candidate.primarySourceType,
+      license: candidate.primarySourceLicense,
+      rightsStatus: sourceSubmissionRightsStatus({
+        sourceType: candidate.primarySourceType,
+        license: candidate.primarySourceLicense,
+        url: candidate.primarySourceUrl,
+      }),
       retrievedAt: candidate.retrievedAt,
       confirmedAt: candidate.confirmedAt,
       status: candidate.verification,
@@ -588,7 +604,11 @@ function buildUnknowns(claims: readonly LedgerClaim[]): HumanDataReviewUnknown[]
   });
 }
 
-function buildSources(claims: readonly LedgerClaim[]): HumanDataReviewSource[] {
+function buildSources(
+  claims: readonly LedgerClaim[],
+  evidence: readonly DataVerificationEvidence[],
+  omissions: readonly DataVerificationEvidenceOmission[],
+): HumanDataReviewSource[] {
   const sources = new Map<string, HumanDataReviewSource>();
   for (const claim of claims) {
     if (!claim.primarySource) continue;
@@ -600,18 +620,35 @@ function buildSources(claims: readonly LedgerClaim[]): HumanDataReviewSource[] {
         name: claim.primarySource,
         url: claim.primarySourceUrl,
         sourceType: claim.primarySourceType,
+        license: claim.primarySourceLicense,
+        rightsStatus: sourceSubmissionRightsStatus({
+          sourceType: claim.primarySourceType,
+          license: claim.primarySourceLicense,
+          url: claim.primarySourceUrl,
+        }),
         retrievedAt: claim.retrievedAt,
         confirmedAt: claim.confirmedAt,
         status: claim.verification,
         coordinateProvider,
+        evidenceState: 'not_recorded',
         claimIds: [claim.claimId],
       });
       continue;
     }
     const claimIds = [...current.claimIds, claim.claimId].sort();
+    const licenses = [current.license, claim.primarySourceLicense]
+      .filter((license): license is string => Boolean(license))
+      .sort();
+    const license = [...new Set(licenses)].join(' / ') || undefined;
     sources.set(key, {
       ...current,
       sourceType: current.sourceType ?? claim.primarySourceType,
+      license,
+      rightsStatus: sourceSubmissionRightsStatus({
+        sourceType: current.sourceType ?? claim.primarySourceType,
+        license,
+        url: current.url ?? claim.primarySourceUrl,
+      }),
       retrievedAt: [current.retrievedAt, claim.retrievedAt].filter(Boolean).sort().at(-1),
       confirmedAt: [current.confirmedAt, claim.confirmedAt].filter(Boolean).sort().at(-1),
       status: headlineStatus([current.status, claim.verification]),
@@ -619,7 +656,23 @@ function buildSources(claims: readonly LedgerClaim[]): HumanDataReviewSource[] {
     });
   }
 
-  return [...sources.values()].sort((left, right) => {
+  return [...sources.values()].map((source): HumanDataReviewSource => {
+    const claimIds = new Set(source.claimIds);
+    const captured = evidence.find((item) =>
+      item.kind === 'source'
+      && item.sourceUrl === source.url
+      && item.claimIds.some((claimId) => claimIds.has(claimId)));
+    const omission = omissions.find((item) =>
+      item.sourceUrl === source.url
+      && item.claimIds.some((claimId) => claimIds.has(claimId)));
+    if (captured) {
+      return { ...source, evidenceState: 'captured', evidenceNote: captured.note };
+    }
+    if (omission) {
+      return { ...source, evidenceState: 'omitted', evidenceNote: omission.reason };
+    }
+    return source;
+  }).sort((left, right) => {
     if (left.coordinateProvider !== right.coordinateProvider) {
       return left.coordinateProvider ? 1 : -1;
     }
@@ -918,6 +971,8 @@ export function buildHumanDataReviewBoard(input: HumanDataReviewBoardInput): Hum
       entityId,
       type,
     );
+    const evidence = evidenceForEntity(entityId, claimIds, input.evidenceManifest.evidence);
+    const omissions = omissionsForEntity(entityId, claimIds, input.evidenceManifest.omissions);
 
     return {
       id: entityId,
@@ -936,9 +991,9 @@ export function buildHumanDataReviewBoard(input: HumanDataReviewBoardInput): Hum
       reviewContext,
       facts,
       unknowns,
-      sources: buildSources(projectionClaims),
-      evidence: evidenceForEntity(entityId, claimIds, input.evidenceManifest.evidence),
-      omissions: omissionsForEntity(entityId, claimIds, input.evidenceManifest.omissions),
+      sources: buildSources(projectionClaims, evidence, omissions),
+      evidence,
+      omissions,
       references: buildReferences(projectionClaims),
     };
   });

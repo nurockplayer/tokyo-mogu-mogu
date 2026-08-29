@@ -1,6 +1,65 @@
 import { expect, test } from '@playwright/test';
 
 test.describe('Human Data Review Board (#340)', () => {
+  test('surfaces official competition rules and a fail-closed project asset queue (#370)', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/data-review/');
+
+    const rules = page.getByRole('region', { name: '大会ルール・提出権利チェック' });
+    await expect(rules).toContainText('公式情報確認 2026-08-30');
+    await expect(rules.getByRole('link', { name: /募集要項/ })).toHaveAttribute(
+      'href',
+      'https://odhackathon.metro.tokyo.lg.jp/recruitment/',
+    );
+    await expect(rules.getByRole('link', { name: /参加者ガイドブック/ })).toHaveAttribute(
+      'href',
+      'https://odh-tokyo2026.code4japan.org/',
+    );
+    await expect(rules).toContainText('提出項目⑦');
+    await expect(rules).toContainText('Google Maps等のキャプチャはロゴ・帰属表示を隠さず改変しません');
+    await expect(rules).toContainText('元素材の権利が不明な場合は提出物に使用しません');
+
+    const readiness = page.getByRole('region', { name: '提出準備は未完了です' });
+    await expect(readiness).toContainText('107');
+    await expect(readiness).toContainText('44');
+    await expect(readiness).toContainText('代表Open Dataのライセンス');
+    await expect(readiness).toContainText('公式Web・事業者情報との区別');
+    await expect(readiness).toContainText('All Rights Reserved 観光ディレクトリ');
+    await expect(readiness).toContainText('19行のsnapshotは権利制約付きLedger provenance入力としてのみ保持');
+
+    await readiness.getByText(/プロジェクトアセット権利キューを見る/).click();
+    await expect(readiness.getByRole('heading', { name: '現在のProduct用 Netlify reference bundle' })).toBeVisible();
+    await expect(readiness).toContainText('44ファイル');
+    await expect(readiness.getByRole('heading', { name: '奥多摩フィールドワーク写真（5被写体・15派生）' })).toBeVisible();
+    await expect(readiness.getByRole('heading', { name: 'Figma #296 UI exports' })).toBeVisible();
+    await expect(readiness).toContainText('正確なnode/export来歴は記録済みですが、その来歴は権利許諾ではありません。');
+  });
+
+  test('keeps source type, license, capture policy, and factual status separate (#370)', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+
+    await page.goto('/data-review/#baba-oshijutaku');
+    const openData = page.locator('.drb-source').filter({ hasText: '東京都教育庁 文化財一覧' }).first();
+    await expect(openData).toContainText('オープンデータ');
+    await expect(openData).toContainText('CC BY 4.0');
+    await expect(openData).toContainText('提出利用の根拠あり');
+
+    await page.goto('/data-review/#okutama-kitchen');
+    const googleMaps = page.locator('.drb-source').filter({ hasText: 'Google Maps' });
+    await expect(googleMaps).toContainText('位置情報の出典');
+    await expect(googleMaps).toContainText('事業者情報');
+    await expect(googleMaps).not.toContainText('オープンデータ');
+    await expect(googleMaps).toContainText('not open data');
+    await expect(googleMaps).toContainText('権利上の理由で保存せず');
+    await expect(googleMaps).toContainText('権利根拠の確認待ち');
+
+    await page.goto('/data-review/#sawai-ozawa-shuzo');
+    const officialSite = page.locator('.drb-source').filter({ hasText: '小澤酒造（公式サイト）' }).first();
+    await expect(officialSite).toContainText('公式Web');
+    await expect(officialSite).toContainText('未登録 — 提出・公開利用前に確認');
+    await expect(officialSite).toContainText('権利根拠の確認待ち');
+  });
+
   test('puts the single Okutama tourism-office decision in the first screenful', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto('/data-review/#okutama-tourism-office');

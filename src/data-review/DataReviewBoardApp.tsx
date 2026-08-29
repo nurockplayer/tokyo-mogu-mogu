@@ -15,6 +15,16 @@ import {
   type HumanDataReviewSource,
 } from '../lib/human-data-review-board';
 import { dataReviewEvidenceAssetUrl } from './evidence-assets';
+import {
+  COMPETITION_RULES_AUTHORITY,
+  PROJECT_ASSET_RIGHTS_MANIFEST,
+  SUBMISSION_RIGHTS_STATUS_LABELS_JA,
+  assessProjectAssetRights,
+  buildProjectAssetRightsSummary,
+  buildSubmissionReadinessChecks,
+  type ProjectAssetAllowedScope,
+  type SubmissionRightsStatus,
+} from '../lib/submission-rights';
 
 type ReviewFilter = 'all' | 'needs_confirmation' | 'conflict' | 'unknown';
 
@@ -63,6 +73,41 @@ const board = buildHumanDataReviewBoard({
   places,
 });
 
+const assetRightsSummary = buildProjectAssetRightsSummary(PROJECT_ASSET_RIGHTS_MANIFEST);
+const submissionReadinessChecks = buildSubmissionReadinessChecks(
+  board.entities.flatMap((entity) => entity.sources),
+);
+
+const ASSET_SCOPE_JA: Readonly<Record<ProjectAssetAllowedScope, string>> = {
+  project_demo: 'プロジェクトデモ',
+  hackathon_submission: '大会提出',
+  public_web: '公開Web',
+  commercial: '商用',
+};
+
+const ASSET_ORIGIN_JA = {
+  team_created: 'チーム作成',
+  fieldwork: '現地調査',
+  figma_team: 'チームFigma',
+  licensed: 'ライセンス素材',
+  ai_generated: 'AI生成',
+  third_party: '第三者素材',
+  unknown: '未確認',
+} as const;
+
+const ASSET_AI_JA = {
+  none: 'AI利用なし',
+  generated: 'AI生成',
+  composited: '合成',
+  unknown: '未申告',
+} as const;
+
+const SOURCE_MATERIAL_RIGHTS_JA = {
+  documented: '元素材の権利記録あり',
+  not_applicable: '元素材なし',
+  unknown: '元素材の権利未確認',
+} as const;
+
 function selectedEntityId(): string | undefined {
   const value = window.location.hash.slice(1);
   return value || undefined;
@@ -83,6 +128,10 @@ function detailUrl(entityId: string): string {
 
 function statusClass(status: LedgerVerification): string {
   return `drb-status drb-status--${status.replace('_', '-')}`;
+}
+
+function rightsStatusClass(status: SubmissionRightsStatus): string {
+  return `drb-rights-status drb-rights-status--${status.replace('_', '-')}`;
 }
 
 function humanOmissionReason(reason: string): string {
@@ -311,6 +360,9 @@ function Overview({ onSelect }: { onSelect: (entityId: string) => void }) {
         </aside>
       </header>
 
+      <CompetitionRulesPanel />
+      <SubmissionReadinessPanel />
+
       <section className="drb-summary" aria-labelledby="summary-heading">
         <div className="drb-section-heading">
           <p>STATUS SNAPSHOT</p>
@@ -393,7 +445,120 @@ function Overview({ onSelect }: { onSelect: (entityId: string) => void }) {
   );
 }
 
+function CompetitionRulesPanel() {
+  return (
+    <section className="drb-rules" aria-labelledby="competition-rules-heading">
+      <div className="drb-section-heading drb-section-heading--row">
+        <div>
+          <p>COMPETITION AUTHORITY</p>
+          <h2 id="competition-rules-heading">大会ルール・提出権利チェック</h2>
+        </div>
+        <span className="drb-rules__checked">公式情報確認 {COMPETITION_RULES_AUTHORITY.checkedAt}</span>
+      </div>
+      <div className="drb-rules__sources" aria-label="大会ルールの公式情報">
+        {COMPETITION_RULES_AUTHORITY.sources.map((source) => (
+          <a key={source.id} href={source.url} target="_blank" rel="noreferrer">{source.label} ↗</a>
+        ))}
+      </div>
+      <p className="drb-rules__version">{COMPETITION_RULES_AUTHORITY.versionNote}</p>
+      <div className="drb-rules__grid">
+        {COMPETITION_RULES_AUTHORITY.rules.map((rule) => (
+          <article key={rule.id}>
+            <span>{rule.authority === 'both' ? '募集要項 + ガイド' : rule.authority === 'guidebook' ? '参加者ガイド' : '募集要項'}</span>
+            <h3>{rule.label}</h3>
+            <p>{rule.summary}</p>
+          </article>
+        ))}
+      </div>
+      <p className="drb-rules__disclaimer">{COMPETITION_RULES_AUTHORITY.disclaimer}</p>
+    </section>
+  );
+}
+
+function SubmissionReadinessPanel() {
+  return (
+    <section className="drb-submission" aria-labelledby="submission-readiness-heading">
+      <div className="drb-section-heading drb-section-heading--row">
+        <div>
+          <p>SUBMISSION READINESS</p>
+          <h2 id="submission-readiness-heading">提出準備は未完了です</h2>
+        </div>
+        <span className={rightsStatusClass('blocked')}>不明な権利はfail closed</span>
+      </div>
+
+      <div className="drb-rights-summary" aria-label="アセット権利確認状況">
+        {(['ready', 'needs_confirmation', 'blocked'] as const).map((status) => (
+          <article key={status}>
+            <span className={rightsStatusClass(status)}>{SUBMISSION_RIGHTS_STATUS_LABELS_JA[status]}</span>
+            <strong>{assetRightsSummary.fileCounts[status]}</strong>
+            <small>ファイル · {assetRightsSummary.groupCounts[status]}グループ</small>
+          </article>
+        ))}
+      </div>
+
+      <div className="drb-readiness-checks" aria-label="提出前の確認事項">
+        {submissionReadinessChecks.map((check) => (
+          <article key={check.id}>
+            <span className={rightsStatusClass(check.status)}>
+              {SUBMISSION_RIGHTS_STATUS_LABELS_JA[check.status]}
+            </span>
+            <h3>{check.label}</h3>
+            <p>{check.summary}</p>
+          </article>
+        ))}
+      </div>
+
+      <details className="drb-asset-queue">
+        <summary>プロジェクトアセット権利キューを見る（{PROJECT_ASSET_RIGHTS_MANIFEST.length}グループ）</summary>
+        <div className="drb-asset-queue__list">
+          {PROJECT_ASSET_RIGHTS_MANIFEST.map((item) => {
+            const status = assessProjectAssetRights(item);
+            return (
+              <article key={item.id} className="drb-asset-group">
+                <div className="drb-asset-group__heading">
+                  <div>
+                    <span className={rightsStatusClass(status)}>{SUBMISSION_RIGHTS_STATUS_LABELS_JA[status]}</span>
+                    <h3>{item.label}</h3>
+                  </div>
+                  <strong>{item.paths.length}ファイル</strong>
+                </div>
+                <p>{item.note}</p>
+                <dl>
+                  <dt>由来</dt><dd>{ASSET_ORIGIN_JA[item.origin]}</dd>
+                  <dt>権利根拠</dt><dd>{item.permissionBasis ?? '未登録'}</dd>
+                  <dt>帰属表示</dt><dd>{item.attribution}</dd>
+                  <dt>許可済み範囲</dt>
+                  <dd>{item.allowedScopes.length > 0
+                    ? item.allowedScopes.map((scope) => ASSET_SCOPE_JA[scope]).join(' / ')
+                    : '未登録'}</dd>
+                  <dt>AI / 元素材</dt><dd>{ASSET_AI_JA[item.aiUse]} / {SOURCE_MATERIAL_RIGHTS_JA[item.sourceMaterialRights]}</dd>
+                </dl>
+                {item.paths.length > 0 && (
+                  <details className="drb-asset-paths">
+                    <summary>対象パス {item.paths.length}件</summary>
+                    <ul>{item.paths.map((path) => <li key={path}><code>{path}</code></li>)}</ul>
+                  </details>
+                )}
+                <div className="drb-asset-group__links">
+                  {item.supportingLinks.map((link) => link.startsWith('http')
+                    ? <a key={link} href={link} target="_blank" rel="noreferrer">根拠リンク ↗</a>
+                    : <code key={link}>{link}</code>)}
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </details>
+    </section>
+  );
+}
+
 function SourceCard({ source }: { source: HumanDataReviewSource }) {
+  const evidenceLabel = source.evidenceState === 'captured'
+    ? '出典証拠を保存済み'
+    : source.evidenceState === 'omitted'
+      ? '権利上の理由で保存せず'
+      : '出典画像の保存記録なし';
   return (
     <article className={source.coordinateProvider ? 'drb-source drb-source--coordinates' : 'drb-source'}>
       <div className="drb-source__topline">
@@ -405,9 +570,17 @@ function SourceCard({ source }: { source: HumanDataReviewSource }) {
       <strong>{source.name}</strong>
       <dl>
         {source.sourceType && <><dt>種別</dt><dd>{SOURCE_TYPE_JA[source.sourceType]}</dd></>}
+        <dt>ライセンス / 再利用</dt>
+        <dd>{source.license ?? '未登録 — 提出・公開利用前に確認'}</dd>
+        <dt>提出権利</dt>
+        <dd><span className={rightsStatusClass(source.rightsStatus)}>{SUBMISSION_RIGHTS_STATUS_LABELS_JA[source.rightsStatus]}</span></dd>
+        <dt>出典証拠</dt><dd>{evidenceLabel}</dd>
         <dt>出典確認日</dt><dd>{source.retrievedAt ?? '未登録'}</dd>
         {source.confirmedAt && <><dt>人による確認日</dt><dd>{source.confirmedAt}</dd></>}
       </dl>
+      {source.evidenceState === 'omitted' && source.evidenceNote && (
+        <p className="drb-source__evidence-note">{humanOmissionReason(source.evidenceNote)}</p>
+      )}
       {source.url && <a href={source.url} target="_blank" rel="noreferrer">参照元を開く ↗</a>}
     </article>
   );
