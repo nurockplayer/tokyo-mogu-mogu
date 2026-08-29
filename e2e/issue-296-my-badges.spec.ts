@@ -5,7 +5,37 @@
  * Live KiKi Figma nodes 269:1031, 269:1210, and 269:1451 remain the visual
  * authority; this suite protects the implemented interactions and shell contract.
  */
-import { expect, test } from '@playwright/test';
+import { expect, test, type Locator } from '@playwright/test';
+
+async function expectBadgeAsset(
+  badge: Locator,
+  expected: { fileName: RegExp; width: number; height: number; sha256: string },
+) {
+  await expect(badge).toHaveAttribute('src', expected.fileName);
+  const observed = await badge.evaluate(async (element) => {
+    const image = element as HTMLImageElement;
+    await image.decode();
+    const bytes = await (await fetch(image.currentSrc)).arrayBuffer();
+    const digest = await crypto.subtle.digest('SHA-256', bytes);
+    const sha256 = Array.from(new Uint8Array(digest), (byte) =>
+      byte.toString(16).padStart(2, '0'),
+    ).join('');
+
+    return {
+      complete: image.complete,
+      naturalWidth: image.naturalWidth,
+      naturalHeight: image.naturalHeight,
+      sha256,
+    };
+  });
+
+  expect(observed).toEqual({
+    complete: true,
+    naturalWidth: expected.width,
+    naturalHeight: expected.height,
+    sha256: expected.sha256,
+  });
+}
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
@@ -64,12 +94,53 @@ test('matches My and 食のバッジ navigation at 375px and 390px', async ({ pa
     await expect(badges.getByText('1/100')).toBeVisible();
     await expect(badges.getByText('2026/08/23 獲得')).toBeVisible();
 
+    await expectBadgeAsset(badges.locator('[data-badge-design="wasabi"]'), {
+      fileName: /badge-earned-[^/]+\.png$/,
+      width: 606,
+      height: 600,
+      sha256: 'ccb6031c9ca04a0910136e11ecf564da093414b8d136f8a3cba2ad92f76d246c',
+    });
+
     await badges.getByRole('button', { name: '次のバッジ' }).click();
     await expect(badges).toHaveAttribute('data-badge-page', '2');
     await expect(badges.getByText('2/100')).toBeVisible();
+    await expect(badges).toHaveAttribute('data-badge-kind', 'yamame');
+    await expect(badges).toHaveAttribute('data-badge-status', 'unearned');
+    await expect(badges.getByAltText('奥多摩やまめの未獲得バッジ')).toBeVisible();
+    await expect(badges.getByText('未獲得', { exact: true })).toBeVisible();
+    await expectBadgeAsset(badges.locator('[data-badge-design="yamame"]'), {
+      fileName: /badge-yamame-[^/]+\.png$/,
+      width: 856,
+      height: 856,
+      sha256: 'cbf64b5bcbd2ea7d5fa31e832e369f12da71d376f7b4e71eeaec4506b0faa731',
+    });
+
+    await badges.getByRole('button', { name: '次のバッジ' }).click();
+    await expect(badges).toHaveAttribute('data-badge-page', '3');
+    await expect(badges.getByText('3/100')).toBeVisible();
+    await expect(badges).toHaveAttribute('data-badge-kind', 'edo-tokyo-vegetables');
+    await expect(badges).toHaveAttribute('data-badge-status', 'unearned');
+    await expect(badges.getByAltText('江戸東京野菜の未獲得バッジ')).toBeVisible();
+    await expectBadgeAsset(
+      badges.locator('[data-badge-design="edo-tokyo-vegetables"]'),
+      {
+        fileName: /badge-edo-tokyo-vegetables-[^/]+\.png$/,
+        width: 856,
+        height: 856,
+        sha256: '86a39cc928d8dc21fd374a36f52a6783bc78408978a60b7dbf841590c3396580',
+      },
+    );
+
+    await badges.getByRole('button', { name: '次のバッジ' }).click();
+    await expect(badges).toHaveAttribute('data-badge-page', '4');
+    await expect(badges.getByText('4/100')).toBeVisible();
+    await expect(badges).toHaveAttribute('data-badge-kind', 'empty');
+    await expect(badges).toHaveAttribute('data-badge-status', 'empty');
     await expect(badges.getByText('まだバッジがありません')).toBeVisible();
 
-    await badges.getByRole('button', { name: '前のバッジ' }).click();
+    for (let currentPage = 4; currentPage > 1; currentPage -= 1) {
+      await badges.getByRole('button', { name: '前のバッジ' }).click();
+    }
     await expect(badges).toHaveAttribute('data-badge-page', '1');
     await badges.getByRole('button', { name: 'マイページに戻る' }).click();
     await expect(page).toHaveURL(/\/my$/);
@@ -140,7 +211,7 @@ test('uses one shared shell across current Dock routes and Badge', async ({ page
   }
 });
 
-test('keeps both Badge binder states aligned to the shared shell width', async ({ page }) => {
+test('keeps every Badge binder state aligned to the shared shell width', async ({ page }) => {
   for (const viewport of [
     { width: 375, height: 844 },
     { width: 390, height: 844 },
@@ -161,15 +232,70 @@ test('keeps both Badge binder states aligned to the shared shell width', async (
       (earnedBinderBounds?.x ?? 0) + (earnedBinderBounds?.width ?? 0),
     ).toBeCloseTo((badgesBounds?.x ?? 0) + (badgesBounds?.width ?? 0), 0);
 
-    await badges.getByRole('button', { name: '次のバッジ' }).click();
-    await expect(badges).toHaveAttribute('data-badge-page', '2');
-    await expect(badges.getByText('2/100')).toBeVisible();
-    const emptyBinderBounds = await binder.boundingBox();
-    expect(emptyBinderBounds?.x).toBeCloseTo(badgesBounds?.x ?? 0, 0);
-    expect(emptyBinderBounds?.width).toBeCloseTo(expectedWidth, 0);
-    expect(
-      (emptyBinderBounds?.x ?? 0) + (emptyBinderBounds?.width ?? 0),
-    ).toBeCloseTo((badgesBounds?.x ?? 0) + (badgesBounds?.width ?? 0), 0);
+    for (const expectedPage of [2, 3, 4]) {
+      await badges.getByRole('button', { name: '次のバッジ' }).click();
+      await expect(badges).toHaveAttribute('data-badge-page', String(expectedPage));
+      await expect(badges.getByText(`${expectedPage}/100`)).toBeVisible();
+      const binderBounds = await binder.boundingBox();
+      expect(binderBounds?.x).toBeCloseTo(badgesBounds?.x ?? 0, 0);
+      expect(binderBounds?.width).toBeCloseTo(expectedWidth, 0);
+      expect(
+        (binderBounds?.x ?? 0) + (binderBounds?.width ?? 0),
+      ).toBeCloseTo((badgesBounds?.x ?? 0) + (badgesBounds?.width ?? 0), 0);
+    }
+  }
+});
+
+test('keeps unearned Badge previews truthful and overflow-safe in every locale', async ({ page }) => {
+  const locales = [
+    {
+      locale: 'ja',
+      title: '食のバッジ',
+      next: '次のバッジ',
+      unearned: '未獲得',
+      yamameAlt: '奥多摩やまめの未獲得バッジ',
+      edoAlt: '江戸東京野菜の未獲得バッジ',
+    },
+    {
+      locale: 'en',
+      title: 'Food Badges',
+      next: 'Next badge',
+      unearned: 'Not earned',
+      yamameAlt: 'Unearned Okutama yamame badge',
+      edoAlt: 'Unearned Edo-Tokyo vegetables badge',
+    },
+    {
+      locale: 'zh-TW',
+      title: '美食徽章',
+      next: '下一枚徽章',
+      unearned: '尚未獲得',
+      yamameAlt: '尚未獲得的奧多摩山女魚徽章',
+      edoAlt: '尚未獲得的江戶東京蔬菜徽章',
+    },
+  ] as const;
+
+  for (const width of [375, 390]) {
+    await page.setViewportSize({ width, height: 844 });
+
+    for (const labels of locales) {
+      await page.addInitScript((locale) => {
+        localStorage.setItem('tmm:locale', locale);
+      }, labels.locale);
+      await page.goto('/badges');
+
+      const badges = page.locator('[data-screen="badges"][data-screen-active="true"]');
+      await expect(badges.getByRole('heading', { name: labels.title })).toBeVisible();
+      await badges.getByRole('button', { name: labels.next }).click();
+      await expect(badges.getByAltText(labels.yamameAlt)).toBeVisible();
+      await expect(badges.getByText(labels.unearned, { exact: true })).toBeVisible();
+      await badges.getByRole('button', { name: labels.next }).click();
+      await expect(badges.getByAltText(labels.edoAlt)).toBeVisible();
+      await expect(page.locator('.issue-296-earned-date')).toHaveCount(0);
+      await expect(page.locator('.issue-296-store-card')).toHaveCount(0);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
+        width,
+      );
+    }
   }
 });
 
