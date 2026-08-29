@@ -104,6 +104,10 @@
 .reference-app .tabbar.issue-296-tabbar button.on { color:#657948; }
 
 /* Food badges — frames 269:1210 and 269:1451, excluding device status bars. */
+.reference-app .issue-360-badge-preload {
+  position:absolute; width:0; height:0; overflow:hidden; opacity:0; pointer-events:none;
+}
+.reference-app .issue-360-badge-preload img { width:1px; height:1px; }
 .reference-app .issue-296-badge-body { position:relative; padding:0; background:transparent; }
 .reference-app .issue-296-badge-body::before {
   content:""; display:block; min-height:max(743px, calc(179px + 144.615384615cqw));
@@ -144,6 +148,13 @@
   color:#667A47; font:600 20px/29px Roboto,"Noto Sans JP",sans-serif; white-space:nowrap;
 }
 .reference-app .issue-296-store-card { left:21.538461538%; top:65.957446809%; width:64.615384615%; height:18.971631206%; }
+.reference-app .issue-360-preview-stamp {
+  left:12.051282051%; top:9.574468085%; width:77.692307692%; height:53.191489362%; object-fit:contain;
+}
+.reference-app .issue-360-preview-status {
+  position:absolute; left:21.538461538%; top:63.475177305%; width:64.615384615%; height:4.078014184%;
+  color:#667A47; text-align:center; font:600 16px/23px Roboto,"Noto Sans JP",sans-serif;
+}
 .reference-app .issue-296-empty-stamp { left:8.189487179%; top:7.092198582%; width:87.435897436%; height:60.460992908%; }
 .reference-app .issue-296-empty-copy {
   position:absolute; left:15.641025641%; top:67.375886525%; width:74.102564103%; height:12.056737589%; text-align:center; color:#667A47;
@@ -185,5 +196,5 @@
   .reference-app .issue-296-badge-intro { left:6.923076923cqw; }
 }
 
-.reference-app [data-badge-page="2"] .issue-296-badge-intro { left:35px; }
-.reference-app [data-badge-page="2"] .issue-296-badge-count { left:62.307692308cqw; }
+.reference-app [data-badge-status="empty"] .issue-296-badge-intro { left:35px; }
+.reference-app [data-badge-status="empty"] .issue-296-badge-count { left:62.307692308cqw; }
