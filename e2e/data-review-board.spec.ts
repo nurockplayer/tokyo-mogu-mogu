@@ -269,6 +269,12 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(durationRow.getByText('150', { exact: true })).toBeVisible();
     await expect(durationRow.getByText('🟡 出典確認済み・人の確認待ち', { exact: true })).toBeVisible();
 
+    const sourceLessGuidanceRow = page.getByRole('row').filter({
+      hasText: '確認項目（Per-step guidance (akabeko, ja)）',
+    });
+    await expect(sourceLessGuidanceRow.getByText('🟡 出典未登録・人の確認待ち', { exact: true })).toBeVisible();
+    await expect(sourceLessGuidanceRow.getByText('出典確認 未登録', { exact: true })).toBeVisible();
+
     const presentationRow = page.getByRole('row').filter({
       hasText: 'Result と Route の移動時間表示',
     });

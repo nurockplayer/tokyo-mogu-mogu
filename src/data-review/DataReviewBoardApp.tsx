@@ -7,6 +7,7 @@ import { buildRepositoryLedgerClaims } from '../lib/data-verification-ledger';
 import {
   buildHumanDataReviewBoard,
   createDataReviewShareSummaryJa,
+  dataReviewStatusLabelJa,
   DATA_REVIEW_STATUS_LABELS_JA,
   type HumanDataReviewEntity,
   type HumanDataReviewFact,
@@ -148,7 +149,7 @@ function FactTraceability({ fact }: { fact: HumanDataReviewFact }) {
                   : <strong>{source.name}</strong>}
                 {source.value && <p>{source.value}</p>}
                 <small>
-                  {DATA_REVIEW_STATUS_LABELS_JA[source.status]}
+                  {dataReviewStatusLabelJa(source.status, Boolean(source.retrievedAt))}
                   {' · '}出典確認 {source.retrievedAt ?? '未登録'}
                   {source.confirmedAt && <> · 人による確認 {source.confirmedAt}</>}
                 </small>
@@ -202,7 +203,9 @@ function DecisionLayer({ entity }: { entity: HumanDataReviewEntity }) {
             {context.uncertainties.length === 0 && <li>判断に関わる未解決項目はありません。</li>}
             {context.uncertainties.map((item) => (
               <li key={`${item.fieldKey}:${item.status}`}>
-                <span className={statusClass(item.status)}>{DATA_REVIEW_STATUS_LABELS_JA[item.status]}</span>
+                <span className={statusClass(item.status)}>
+                  {dataReviewStatusLabelJa(item.status, item.sourceChecked)}
+                </span>
                 <strong>{item.label}</strong>
               </li>
             ))}
@@ -259,8 +262,8 @@ function Overview({ onSelect }: { onSelect: (entityId: string) => void }) {
           ))}
         </div>
         <p className="drb-legend">
-          <strong>「出典確認済み・人の確認待ち」</strong>は、出典が現在の内容を支えていても、
-          ステークホルダー確認や現地確認が済んだことを意味しません。
+          <strong>「人の確認待ち」</strong>は人による確認が未完了の状態です。
+          出典確認日がある項目だけを「出典確認済み」と表示し、出典がなければ「出典未登録」と表示します。
         </p>
       </section>
 
@@ -297,7 +300,7 @@ function Overview({ onSelect }: { onSelect: (entityId: string) => void }) {
               <span className="drb-entity-card__signal" aria-hidden="true" />
               <span className="drb-entity-card__body">
                 <span className={statusClass(entity.headlineStatus)}>
-                  {DATA_REVIEW_STATUS_LABELS_JA[entity.headlineStatus]}
+                  {dataReviewStatusLabelJa(entity.headlineStatus, entity.needsConfirmationSourceChecked)}
                 </span>
                 <strong>{entity.name}</strong>
                 <span className="drb-entity-card__meta">
@@ -325,7 +328,9 @@ function SourceCard({ source }: { source: HumanDataReviewSource }) {
     <article className={source.coordinateProvider ? 'drb-source drb-source--coordinates' : 'drb-source'}>
       <div className="drb-source__topline">
         <span>{source.coordinateProvider ? '位置情報の出典' : '内容の出典'}</span>
-        <span className={statusClass(source.status)}>{DATA_REVIEW_STATUS_LABELS_JA[source.status]}</span>
+        <span className={statusClass(source.status)}>
+          {dataReviewStatusLabelJa(source.status, Boolean(source.retrievedAt))}
+        </span>
       </div>
       <strong>{source.name}</strong>
       <dl>
@@ -359,7 +364,7 @@ function Detail({ entity, onBack }: { entity: HumanDataReviewEntity; onBack: () 
           <p className="drb-eyebrow">ENTITY DETAIL · {entity.id}</p>
           <h1>{entity.name}</h1>
           <span className={statusClass(entity.headlineStatus)}>
-            {DATA_REVIEW_STATUS_LABELS_JA[entity.headlineStatus]}
+            {dataReviewStatusLabelJa(entity.headlineStatus, entity.needsConfirmationSourceChecked)}
           </span>
         </div>
         <dl className="drb-detail-hero__stats">
@@ -389,7 +394,9 @@ function Detail({ entity, onBack }: { entity: HumanDataReviewEntity; onBack: () 
                     <FactTraceability fact={fact} />
                   </div>
                   <span role="cell" className="drb-fact__status">
-                    <span className={statusClass(fact.status)}>{DATA_REVIEW_STATUS_LABELS_JA[fact.status]}</span>
+                    <span className={statusClass(fact.status)}>
+                      {dataReviewStatusLabelJa(fact.status, fact.sourceChecked)}
+                    </span>
                     <small>出典確認 {fact.retrievedAt ?? '未登録'}</small>
                     {fact.confirmedAt && <small>人による確認 {fact.confirmedAt}</small>}
                   </span>

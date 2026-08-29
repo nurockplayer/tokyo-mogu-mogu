@@ -18,12 +18,22 @@ import type { LedgerClaim, LedgerVerification } from './data-verification-ledger
 
 export const DATA_REVIEW_STATUS_LABELS_JA: Readonly<Record<LedgerVerification, string>> = {
   verified: '✅ 人による確認済み',
-  needs_confirmation: '🟡 出典確認済み・人の確認待ち',
+  needs_confirmation: '🟡 人の確認待ち',
   stale: '🟠 情報が古いため再確認',
   conflict: '⚠️ 情報に矛盾あり',
   unknown: '❓ 根拠未登録・確認が必要',
   demo: '🧪 デモ情報',
 };
+
+export function dataReviewStatusLabelJa(
+  status: LedgerVerification,
+  sourceChecked?: boolean,
+): string {
+  if (status !== 'needs_confirmation') return DATA_REVIEW_STATUS_LABELS_JA[status];
+  if (sourceChecked === true) return '🟡 出典確認済み・人の確認待ち';
+  if (sourceChecked === false) return '🟡 出典未登録・人の確認待ち';
+  return DATA_REVIEW_STATUS_LABELS_JA.needs_confirmation;
+}
 
 type SourceType = DataSource['sourceType'];
 
@@ -51,6 +61,7 @@ export interface HumanDataReviewDecisionUncertainty {
   fieldKey: string;
   label: string;
   status: Extract<LedgerVerification, 'needs_confirmation' | 'stale' | 'conflict' | 'unknown'>;
+  sourceChecked?: boolean;
 }
 
 export interface HumanDataReviewContext {
@@ -70,6 +81,7 @@ export interface HumanDataReviewFact {
   status: LedgerVerification;
   claimIds: readonly string[];
   sources: readonly HumanDataReviewFactSource[];
+  sourceChecked: boolean;
   affectedSurfaces: readonly HumanDataReviewSurface[];
   sourceName?: string;
   sourceUrl?: string;
@@ -108,6 +120,7 @@ export interface HumanDataReviewEntity {
   headlineStatus: LedgerVerification;
   latestRetrievedAt?: string;
   latestConfirmedAt?: string;
+  needsConfirmationSourceChecked?: boolean;
   unresolvedCount: number;
   needsConfirmationCount: number;
   staleCount: number;
@@ -480,6 +493,8 @@ function buildFacts(
     )
     .map(({ claim, definition }) => {
       const traceability = sourceEdgesForFact(claim, definition, claims);
+      const sourceChecked = Boolean(claim.retrievedAt)
+        || traceability.sources.some((source) => Boolean(source.retrievedAt));
       return {
         fieldKey: definition.key,
         label: definition.label,
@@ -490,6 +505,7 @@ function buildFacts(
         status: claim.verification,
         claimIds: traceability.claimIds,
         sources: traceability.sources,
+        sourceChecked,
         affectedSurfaces: affectedSurfacesForFact(entityId, entityType, definition),
         sourceName: claim.primarySource,
         sourceUrl: claim.primarySourceUrl,
@@ -605,7 +621,12 @@ function buildReviewContext(
       .filter((fact): fact is HumanDataReviewFact & {
         status: HumanDataReviewDecisionUncertainty['status'];
       } => UNRESOLVED_STATUSES.has(fact.status))
-      .map((fact) => ({ fieldKey: fact.fieldKey, label: fact.label, status: fact.status })),
+      .map((fact) => ({
+        fieldKey: fact.fieldKey,
+        label: fact.label,
+        status: fact.status,
+        sourceChecked: fact.sourceChecked,
+      })),
     ...unknowns.map((field) => ({
       fieldKey: field.fieldKey,
       label: field.label,
@@ -692,6 +713,12 @@ export function buildHumanDataReviewBoard(input: HumanDataReviewBoardInput): Hum
       ?? entityId;
     const relevantDates = projectionClaims.map((claim) => claim.retrievedAt).filter((date): date is string => Boolean(date));
     const confirmedDates = projectionClaims.map((claim) => claim.confirmedAt).filter((date): date is string => Boolean(date));
+    const needsConfirmationFacts = facts.filter((fact) => fact.status === 'needs_confirmation');
+    const sourceCheckedCount = needsConfirmationFacts.filter((fact) => fact.sourceChecked).length;
+    const needsConfirmationSourceChecked = needsConfirmationFacts.length === 0
+      || (sourceCheckedCount > 0 && sourceCheckedCount < needsConfirmationFacts.length)
+      ? undefined
+      : sourceCheckedCount === needsConfirmationFacts.length;
     const needsConfirmationCount = facts.filter((fact) => fact.status === 'needs_confirmation').length;
     const staleCount = facts.filter((fact) => fact.status === 'stale').length;
     const conflictCount = facts.filter((fact) => fact.status === 'conflict').length;
@@ -704,6 +731,7 @@ export function buildHumanDataReviewBoard(input: HumanDataReviewBoardInput): Hum
       headlineStatus: headlineStatus(statuses),
       latestRetrievedAt: relevantDates.sort().at(-1),
       latestConfirmedAt: confirmedDates.sort().at(-1),
+      needsConfirmationSourceChecked,
       unresolvedCount,
       needsConfirmationCount,
       staleCount,
@@ -756,7 +784,7 @@ export function createDataReviewShareSummaryJa(
 
   const lines = [
     `【データ確認】${entity.name}`,
-    `状態: ${DATA_REVIEW_STATUS_LABELS_JA[entity.headlineStatus]}`,
+    `状態: ${dataReviewStatusLabelJa(entity.headlineStatus, entity.needsConfirmationSourceChecked)}`,
     unresolved,
     `最新出典確認: ${entity.latestRetrievedAt ?? '未登録'}`,
   ];

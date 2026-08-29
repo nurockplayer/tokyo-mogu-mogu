@@ -12,6 +12,7 @@ import {
   DATA_REVIEW_STATUS_LABELS_JA,
   buildHumanDataReviewBoard,
   createDataReviewShareSummaryJa,
+  dataReviewStatusLabelJa,
 } from './human-data-review-board';
 
 function claim(overrides: Partial<LedgerClaim> & Pick<LedgerClaim, 'claimId' | 'fieldId'>): LedgerClaim {
@@ -80,10 +81,17 @@ describe('Human Data Review Board projection (#340, #343)', () => {
   it('keeps source retrieval and human confirmation explicit and separate', () => {
     expect(DATA_REVIEW_STATUS_LABELS_JA).toMatchObject({
       verified: '✅ 人による確認済み',
-      needs_confirmation: '🟡 出典確認済み・人の確認待ち',
+      needs_confirmation: '🟡 人の確認待ち',
       stale: '🟠 情報が古いため再確認',
       unknown: '❓ 根拠未登録・確認が必要',
     });
+    expect(dataReviewStatusLabelJa('needs_confirmation', true)).toBe(
+      '🟡 出典確認済み・人の確認待ち',
+    );
+    expect(dataReviewStatusLabelJa('needs_confirmation', false)).toBe(
+      '🟡 出典未登録・人の確認待ち',
+    );
+    expect(dataReviewStatusLabelJa('needs_confirmation')).toBe('🟡 人の確認待ち');
 
     const board = buildHumanDataReviewBoard({
       claims: [claim({
@@ -122,6 +130,31 @@ describe('Human Data Review Board projection (#340, #343)', () => {
     expect(summary).toContain('最新出典確認: 2026-08-28');
     expect(summary).toContain('人による確認: 2026-08-29');
     expect(summary).not.toContain('最終確認');
+  });
+
+  it('does not call a source-less needs_confirmation fact source-checked', () => {
+    const board = buildHumanDataReviewBoard({
+      claims: [claim({
+        claimId: 'route:example-place:duration_minutes',
+        entityType: 'Route',
+        fieldId: 'duration_minutes',
+        canonicalValue: '200',
+        verification: 'needs_confirmation',
+      })],
+      currentProductEntities: [{ id: 'example-place', type: 'Route' }],
+      evidenceManifest: { evidence: [], omissions: [] },
+    });
+    const fact = board.entities[0]!.facts[0]!;
+
+    expect(fact.sources).toEqual([]);
+    expect(fact.sourceChecked).toBe(false);
+    expect(board.entities[0]!.reviewContext.uncertainties[0]).toMatchObject({
+      status: 'needs_confirmation',
+      sourceChecked: false,
+    });
+    expect(dataReviewStatusLabelJa(fact.status, fact.sourceChecked)).toBe(
+      '🟡 出典未登録・人の確認待ち',
+    );
   });
 
   it('groups localized claims into one human entity without hiding report-only unknowns', () => {
