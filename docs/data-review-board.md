@@ -46,14 +46,17 @@ current Product factual presentation inventory
 
 `出典あり・要確認` は「公式確認済み」や「掲載許可取得済み」を意味しません。
 
+Entity detail の `判断が必要` は、上の検証状態とは別に算出します。表示差異、出典間の矛盾、固定店舗を持たない営業形態、Product 上の扱いに影響する stale / time-sensitive 情報だけが判断項目です。`needs_confirmation` や report-only `unknown` であることだけを理由に、判断項目へは追加しません。
+
 ## チームでの使い方
 
 1. Overview の Product 対象件数と `Spot` / `Story` / `Route` の内訳を確認し、
    `全部` / `要確認` / `矛盾` / `未確認` で確認対象を絞り込みます。
-   Entity ごとの `未解決` は `要確認` + `要再確認` + `未確認` + `矛盾` の合計です。
-2. Entity detail で、現在値、unknown、出典と確認日、アプリ証拠、証拠省略、関連 Issue / PR を確認します。
-3. `Slack共有用` のサマリーをコピーして通知に使います。
-4. 詳細な判断や修正は canonical data、Ledger / evidence inputs、Issue / PR で行います。
+2. Entity detail の先頭で、判断件数、現在の Product 表示、公式/根拠側の情報、期待する扱い、影響画面、直接の根拠を確認します。
+3. 通常の source-backed facts は `現在確認できる情報`、report-only unknowns は `未確認のためProductで保証しない情報` で確認します。項目別の source role、claim graph、確認状態、影響画面は `根拠を見る` から開きます。
+4. `監査上の未解決` は `要確認` + `要再確認` + `未確認` + `矛盾` の合計で、Product 判断件数とは一致しない場合があります。
+5. `Slack共有用` の factual summary をコピーして通知に使います。判断カードの recommendation 文は含めません。
+6. 詳細な判断や修正は canonical data、Ledger / evidence inputs、Issue / PR で行います。
 
 Slack サマリーは現在の Board projection から都度生成します。Webhook、Bot、認証情報、自動投稿はありません。
 

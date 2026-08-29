@@ -52,15 +52,27 @@ export interface HumanDataReviewFactSource {
   relationship: 'primary' | 'source_statement';
 }
 
-export interface HumanDataReviewDecisionItem {
+export interface HumanDataReviewGuidanceItem {
   id: string;
   label: string;
+}
+
+export interface HumanDataReviewDecisionItem {
+  id: string;
+  kind: 'comparison' | 'conflict' | 'mobile_behavior' | 'current_information' | 'stale_information';
+  label: string;
+  statusLabel: string;
+  reason: string;
+  recommendationLabel: '変更推奨' | '要判断' | '表示制約' | '要注意';
+  recommendation: string;
+  factFieldKeys: readonly string[];
+  affectedSurfaces: readonly HumanDataReviewSurface[];
 }
 
 export interface HumanDataReviewDecisionUncertainty {
   fieldKey: string;
   label: string;
-  status: Extract<LedgerVerification, 'needs_confirmation' | 'stale' | 'conflict' | 'unknown'>;
+  status: Extract<LedgerVerification, 'stale' | 'conflict'>;
   sourceChecked?: boolean;
 }
 
@@ -73,8 +85,9 @@ export interface HumanDataReviewDecisionFinding {
 }
 
 export interface HumanDataReviewContext {
-  reviewFocus: readonly HumanDataReviewDecisionItem[];
-  productImpacts: readonly HumanDataReviewDecisionItem[];
+  decisionItems: readonly HumanDataReviewDecisionItem[];
+  reviewFocus: readonly HumanDataReviewGuidanceItem[];
+  productImpacts: readonly HumanDataReviewGuidanceItem[];
   affectedSurfaces: readonly HumanDataReviewSurface[];
   uncertainties: readonly HumanDataReviewDecisionUncertainty[];
   findings: readonly HumanDataReviewDecisionFinding[];
@@ -130,6 +143,7 @@ export interface HumanDataReviewEntity {
   latestRetrievedAt?: string;
   latestConfirmedAt?: string;
   needsConfirmationSourceChecked?: boolean;
+  decisionCount: number;
   unresolvedCount: number;
   needsConfirmationCount: number;
   staleCount: number;
@@ -231,6 +245,15 @@ const SURFACE_ORDER: readonly HumanDataReviewSurface[] = [
   'Result',
 ];
 
+const CURRENT_INFORMATION_FIELD_KEYS = new Set([
+  'hours',
+  'schedule_guidance',
+  'schedule_url',
+  'closed_days',
+  'price_availability',
+  'reservation',
+]);
+
 const REVIEW_FOCUS = {
   mobileVenue: {
     id: 'mobile-venue-representation',
@@ -248,15 +271,7 @@ const REVIEW_FOCUS = {
     id: 'stale-information',
     label: '再確認が必要な情報を、現在も有効な事実として断定していないか',
   },
-  needsConfirmation: {
-    id: 'source-backed-not-verified',
-    label: '出典があることと、ステークホルダー・現地で確認済みであることを区別しているか',
-  },
-  unknown: {
-    id: 'unsupported-claims-remain-unknown',
-    label: '根拠のない項目を推測せず、未確認のまま扱っているか',
-  },
-} as const satisfies Readonly<Record<string, HumanDataReviewDecisionItem>>;
+} as const satisfies Readonly<Record<string, HumanDataReviewGuidanceItem>>;
 
 const PRODUCT_IMPACTS = {
   noFixedLocation: {
@@ -275,11 +290,7 @@ const PRODUCT_IMPACTS = {
     id: 'do-not-present-stale-as-current',
     label: '再確認が済むまで、古い可能性がある情報を最新情報として断定しない',
   },
-  unknown: {
-    id: 'do-not-infer-unknown-values',
-    label: '裏付けのない値を補完せず、未確認であることを表示に残す',
-  },
-} as const satisfies Readonly<Record<string, HumanDataReviewDecisionItem>>;
+} as const satisfies Readonly<Record<string, HumanDataReviewGuidanceItem>>;
 
 function baseFieldId(fieldId: string): string | undefined {
   if (fieldId.endsWith(':en') || fieldId.endsWith(':zh-TW')) return undefined;
@@ -623,35 +634,131 @@ function buildSources(claims: readonly LedgerClaim[]): HumanDataReviewSource[] {
 
 function buildReviewContext(
   facts: readonly HumanDataReviewFact[],
-  unknowns: readonly HumanDataReviewUnknown[],
   claims: readonly LedgerClaim[],
   place: Place | undefined,
   entityId: string,
   entityType: CurrentProductFactualEntityType,
 ): HumanDataReviewContext {
   const isMobile = place?.locationKind === 'mobile' && place.mobileVenue.noFixedStorefront;
-  const factClaimIds = new Set(facts.flatMap((fact) => fact.claimIds));
-  const hasTimeSensitiveInformation = isMobile || claims.some((claim) =>
-    claim.timeSensitive && factClaimIds.has(claim.claimId));
+  const claimsById = new Map(claims.map((claim) => [claim.claimId, claim]));
+  const staleFacts = facts.filter((fact) => fact.status === 'stale');
+  const timeSensitiveFacts = facts.filter((fact) =>
+    fact.status !== 'conflict'
+    && fact.status !== 'stale'
+    && CURRENT_INFORMATION_FIELD_KEYS.has(fact.fieldKey)
+    && fact.claimIds.some((claimId) => Boolean(claimsById.get(claimId)?.timeSensitive)));
+  const timeSensitiveFieldKeys = new Set(timeSensitiveFacts.map((fact) => fact.fieldKey));
+  const staleFieldKeys = new Set(staleFacts.map((fact) => fact.fieldKey));
+  const hasTimeSensitiveInformation = timeSensitiveFacts.length > 0;
   const hasConflict = facts.some((fact) => fact.status === 'conflict');
   const hasStale = facts.some((fact) => fact.status === 'stale');
-  const hasNeedsConfirmation = facts.some((fact) => fact.status === 'needs_confirmation');
-  const hasUnknown = unknowns.length > 0;
 
-  const reviewFocus: HumanDataReviewDecisionItem[] = [];
+  const decisionItems: HumanDataReviewDecisionItem[] = [];
+  if (isMobile) {
+    const venueModelFact = facts.find((fact) => fact.fieldKey === 'venue_model');
+    decisionItems.push({
+      id: 'mobile:no-fixed-storefront',
+      kind: 'mobile_behavior',
+      label: '営業形態',
+      statusLabel: '固定地点として扱わない',
+      reason: '固定店舗を持たない移動型の営業形態です。',
+      recommendationLabel: '表示制約',
+      recommendation: '固定住所・固定マップピン・固定地点への経路案内・GPSチェックイン・固定の徒歩動線を示さないでください。',
+      factFieldKeys: venueModelFact ? [venueModelFact.fieldKey] : [],
+      affectedSurfaces: venueModelFact?.affectedSurfaces ?? [entityType],
+    });
+  }
+  for (const fact of facts.filter((item) => item.status === 'conflict')) {
+    decisionItems.push({
+      id: `conflict:${fact.fieldKey}`,
+      kind: 'conflict',
+      label: fact.label,
+      statusLabel: '情報に矛盾あり',
+      reason: '複数の根拠側の記載が一致しておらず、確定できる情報がありません。',
+      recommendationLabel: '要判断',
+      recommendation: '不一致が解消されるまで、いずれかの値を確定情報として選ばないでください。',
+      factFieldKeys: [fact.fieldKey],
+      affectedSurfaces: fact.affectedSurfaces,
+    });
+  }
+  if (staleFacts.length > 0) {
+    decisionItems.push({
+      id: 'stale-information:recheck',
+      kind: 'stale_information',
+      label: staleFacts.map((fact) => fact.label).join(' / '),
+      statusLabel: '情報の再確認が必要',
+      reason: '根拠側の情報が古い可能性があり、現在も有効か判断できません。',
+      recommendationLabel: '要注意',
+      recommendation: '再確認が済むまで、最新情報として断定しないでください。',
+      factFieldKeys: staleFacts.map((fact) => fact.fieldKey),
+      affectedSurfaces: sortedSurfaces(new Set(staleFacts.flatMap((fact) => fact.affectedSurfaces))),
+    });
+  }
+  if (timeSensitiveFacts.length > 0) {
+    decisionItems.push({
+      id: 'current-information:caveat',
+      kind: 'current_information',
+      label: timeSensitiveFacts.map((fact) => fact.label).join(' / '),
+      statusLabel: '最新情報の案内が必要',
+      reason: '営業時間・日程・取扱情報など、訪問前に変わる可能性がある情報です。',
+      recommendationLabel: '要注意',
+      recommendation: '出典確認日と変更可能性を示し、現在の公式情報を確認できる導線を保ってください。',
+      factFieldKeys: timeSensitiveFacts.map((fact) => fact.fieldKey),
+      affectedSurfaces: sortedSurfaces(new Set(timeSensitiveFacts.flatMap((fact) => fact.affectedSurfaces))),
+    });
+  }
+  for (const fact of facts) {
+    if (!isUnresolvedFinding(fact.finding) || fact.status === 'conflict') continue;
+    if (isMobile && fact.fieldKey === 'venue_model') continue;
+    if (staleFieldKeys.has(fact.fieldKey) || timeSensitiveFieldKeys.has(fact.fieldKey)) continue;
+    if (
+      fact.finding === 'presentation_missing'
+      && !fact.claimIds.some((claimId) => Boolean(claimsById.get(claimId)?.appSurface))
+    ) continue;
+
+    const hasDirectionalAuthority = fact.finding === 'mismatch'
+      && fact.canonicalValue !== undefined
+      && fact.displayedValue !== undefined
+      && fact.sources.length > 0;
+    const statusLabel = fact.finding === 'mismatch'
+      ? '表示差異あり'
+      : fact.finding === 'presentation_mismatch'
+        ? '表示間に差異あり'
+        : fact.finding === 'canonical_missing'
+          ? '根拠側の情報が不足'
+          : 'Product表示が未登録';
+    const reason = fact.finding === 'mismatch'
+      ? '現在のProduct表示が、公式/根拠側の情報と一致していません。'
+      : fact.finding === 'presentation_mismatch'
+        ? 'Product内の表示同士が一致していません。'
+        : fact.finding === 'canonical_missing'
+          ? '現在のProduct表示を裏付ける根拠側の情報が登録されていません。'
+          : '公式/根拠側の情報に対応するProduct表示が登録されていません。';
+    decisionItems.push({
+      id: `comparison:${fact.fieldKey}:${fact.finding}`,
+      kind: 'comparison',
+      label: fact.label,
+      statusLabel,
+      reason,
+      recommendationLabel: hasDirectionalAuthority ? '変更推奨' : '要判断',
+      recommendation: hasDirectionalAuthority
+        ? '公式/根拠側の情報に合わせてProduct表示を変更するのが妥当です。'
+        : '現在の根拠とProductでの役割を確認し、表示方針を判断してください。',
+      factFieldKeys: [fact.fieldKey],
+      affectedSurfaces: fact.affectedSurfaces,
+    });
+  }
+  const reviewFocus: HumanDataReviewGuidanceItem[] = [];
   if (isMobile) reviewFocus.push(REVIEW_FOCUS.mobileVenue);
   if (hasConflict) reviewFocus.push(REVIEW_FOCUS.conflict);
   if (hasTimeSensitiveInformation) reviewFocus.push(REVIEW_FOCUS.timeSensitive);
   if (hasStale) reviewFocus.push(REVIEW_FOCUS.stale);
-  if (hasNeedsConfirmation) reviewFocus.push(REVIEW_FOCUS.needsConfirmation);
-  if (hasUnknown) reviewFocus.push(REVIEW_FOCUS.unknown);
 
-  const productImpacts: HumanDataReviewDecisionItem[] = [];
+  const productImpacts: HumanDataReviewGuidanceItem[] = [];
   if (isMobile) productImpacts.push(PRODUCT_IMPACTS.noFixedLocation);
   if (hasTimeSensitiveInformation) productImpacts.push(PRODUCT_IMPACTS.currentInformation);
   if (hasConflict) productImpacts.push(PRODUCT_IMPACTS.conflict);
   if (hasStale) productImpacts.push(PRODUCT_IMPACTS.stale);
-  if (hasUnknown) productImpacts.push(PRODUCT_IMPACTS.unknown);
 
   const affectedSurfaceSet = new Set(facts.flatMap((fact) => fact.affectedSurfaces));
   for (const claim of claims) {
@@ -668,18 +775,13 @@ function buildReviewContext(
     ...facts
       .filter((fact): fact is HumanDataReviewFact & {
         status: HumanDataReviewDecisionUncertainty['status'];
-      } => UNRESOLVED_STATUSES.has(fact.status))
+      } => fact.status === 'stale' || fact.status === 'conflict')
       .map((fact) => ({
         fieldKey: fact.fieldKey,
         label: fact.label,
         status: fact.status,
         sourceChecked: fact.sourceChecked,
       })),
-    ...unknowns.map((field) => ({
-      fieldKey: field.fieldKey,
-      label: field.label,
-      status: 'unknown' as const,
-    })),
   ];
   const findings: HumanDataReviewDecisionFinding[] = facts
     .filter((fact): fact is HumanDataReviewFact & {
@@ -693,7 +795,7 @@ function buildReviewContext(
       sourceChecked: fact.sourceChecked,
     }));
 
-  return { reviewFocus, productImpacts, affectedSurfaces, uncertainties, findings };
+  return { decisionItems, reviewFocus, productImpacts, affectedSurfaces, uncertainties, findings };
 }
 
 function buildReferences(claims: readonly LedgerClaim[]): HumanDataReviewReference[] {
@@ -783,6 +885,14 @@ export function buildHumanDataReviewBoard(input: HumanDataReviewBoardInput): Hum
     const conflictCount = facts.filter((fact) => fact.status === 'conflict').length;
     const unresolvedCount = needsConfirmationCount + staleCount + conflictCount + unknowns.length;
 
+    const reviewContext = buildReviewContext(
+      facts,
+      projectionClaims,
+      placesById.get(entityId),
+      entityId,
+      type,
+    );
+
     return {
       id: entityId,
       type,
@@ -791,19 +901,13 @@ export function buildHumanDataReviewBoard(input: HumanDataReviewBoardInput): Hum
       latestRetrievedAt: relevantDates.sort().at(-1),
       latestConfirmedAt: confirmedDates.sort().at(-1),
       needsConfirmationSourceChecked,
+      decisionCount: reviewContext.decisionItems.length,
       unresolvedCount,
       needsConfirmationCount,
       staleCount,
       unknownCount: unknowns.length,
       conflictCount,
-      reviewContext: buildReviewContext(
-        facts,
-        unknowns,
-        projectionClaims,
-        placesById.get(entityId),
-        entityId,
-        type,
-      ),
+      reviewContext,
       facts,
       unknowns,
       sources: buildSources(projectionClaims),
