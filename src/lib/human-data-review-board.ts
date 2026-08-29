@@ -430,6 +430,7 @@ function affectedSurfacesForFact(
   entityId: string,
   entityType: CurrentProductFactualEntityType,
   definition: HumanFieldDefinition,
+  claim: LedgerClaim,
 ): HumanDataReviewSurface[] {
   const surfaces = new Set<HumanDataReviewSurface>();
   const spotAudit = PRESENTATION_SPOT_AUDIT.find((audit) =>
@@ -438,8 +439,8 @@ function affectedSurfacesForFact(
 
   if (entityType === 'Story') surfaces.add('Story');
   if (entityType === 'Route') {
-    const routeAudit = PRESENTATION_ROUTE_AUDIT.find((audit) => audit.canonicalRouteId === entityId);
-    for (const surface of routeAudit?.surfaces ?? ['Route']) surfaces.add(surface);
+    const claimSurface = SURFACE_ORDER.find((surface) => surface === claim.appSurface);
+    surfaces.add(claimSurface ?? 'Route');
   }
 
   const matchesCanonicalField = (canonicalFieldId: string | undefined) =>
@@ -506,7 +507,7 @@ function buildFacts(
         claimIds: traceability.claimIds,
         sources: traceability.sources,
         sourceChecked,
-        affectedSurfaces: affectedSurfacesForFact(entityId, entityType, definition),
+        affectedSurfaces: affectedSurfacesForFact(entityId, entityType, definition, claim),
         sourceName: claim.primarySource,
         sourceUrl: claim.primarySourceUrl,
         retrievedAt: claim.retrievedAt,
@@ -590,6 +591,8 @@ function buildReviewContext(
   unknowns: readonly HumanDataReviewUnknown[],
   claims: readonly LedgerClaim[],
   place: Place | undefined,
+  entityId: string,
+  entityType: CurrentProductFactualEntityType,
 ): HumanDataReviewContext {
   const isMobile = place?.locationKind === 'mobile' && place.mobileVenue.noFixedStorefront;
   const factClaimIds = new Set(facts.flatMap((fact) => fact.claimIds));
@@ -615,7 +618,12 @@ function buildReviewContext(
   if (hasStale) productImpacts.push(PRODUCT_IMPACTS.stale);
   if (hasUnknown) productImpacts.push(PRODUCT_IMPACTS.unknown);
 
-  const affectedSurfaces = sortedSurfaces(new Set(facts.flatMap((fact) => fact.affectedSurfaces)));
+  const affectedSurfaceSet = new Set(facts.flatMap((fact) => fact.affectedSurfaces));
+  if (entityType === 'Route') {
+    const routeAudit = PRESENTATION_ROUTE_AUDIT.find((audit) => audit.canonicalRouteId === entityId);
+    for (const surface of routeAudit?.surfaces ?? ['Route']) affectedSurfaceSet.add(surface);
+  }
+  const affectedSurfaces = sortedSurfaces(affectedSurfaceSet);
   const uncertainties: HumanDataReviewDecisionUncertainty[] = [
     ...facts
       .filter((fact): fact is HumanDataReviewFact & {
@@ -737,7 +745,14 @@ export function buildHumanDataReviewBoard(input: HumanDataReviewBoardInput): Hum
       staleCount,
       unknownCount: unknowns.length,
       conflictCount,
-      reviewContext: buildReviewContext(facts, unknowns, projectionClaims, placesById.get(entityId)),
+      reviewContext: buildReviewContext(
+        facts,
+        unknowns,
+        projectionClaims,
+        placesById.get(entityId),
+        entityId,
+        type,
+      ),
       facts,
       unknowns,
       sources: buildSources(projectionClaims),

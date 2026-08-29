@@ -808,6 +808,9 @@ describe('Human Data Review Board projection (#340, #343)', () => {
         status: 'needs_confirmation',
       }),
     ]));
+    expect(route?.facts.find((fact) => fact.fieldKey === 'route:half-day:duration_minutes')
+      ?.affectedSurfaces).toEqual(['Route']);
+    expect(route?.reviewContext.affectedSurfaces).toEqual(['Story', 'Route', 'Result']);
 
     expect(board.entities.find((entity) => entity.id === 'okutama-yamame-journey')).toMatchObject({
       type: 'Route',
