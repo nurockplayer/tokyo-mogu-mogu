@@ -439,6 +439,15 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
     if (fieldId === 'address') return defaultFact(place.address, place.addressSource);
     if (fieldId === 'official_current_url') return defaultFact(place.source.url);
     if (!visitor) return undefined;
+    if (fieldId === 'phone' && visitor.phoneConflict) {
+      return {
+        value: visitor.phoneConflict.statements.map((statement) =>
+          `${statement.number} [${statement.role} / ${statement.scope} / ${statement.placeRoutingStatus}]`,
+        ).join(' | '),
+        source: place.source,
+        verification: visitor.phoneConflict.verificationStatus,
+      };
+    }
     if (fieldId === 'phone') return defaultFact(visitor.phone);
     if (fieldId === 'hours' && visitor.shopHours) {
       return defaultFact(
@@ -449,6 +458,13 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
       return defaultFact(
         visitor.shopHourSchedules.map((schedule) =>
           `${schedule.id} ${schedule.opens}–${schedule.closes}${schedule.lastOrder ? ` / L.O. ${schedule.lastOrder}` : ''}`,
+        ).join(' | '),
+      );
+    }
+    if (fieldId === 'hours' && visitor.mealHourSchedules?.length) {
+      return defaultFact(
+        visitor.mealHourSchedules.map((schedule) =>
+          `${schedule.id} ${schedule.opens} / L.O. ${schedule.lastOrder}`,
         ).join(' | '),
       );
     }
@@ -505,10 +521,17 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
       return defaultFact(visitor.regularClosedDays.join(', '));
     }
     if (fieldId === 'closed_days' && visitor.irregularClosures) {
-      return defaultFact('open_daily / irregular_closures');
+      return defaultFact(
+        visitor.openDaily ? 'open_daily / irregular_closures' : 'irregular_closures',
+      );
     }
     if (fieldId === 'service_availability' && visitor.serviceCategories?.length) {
       return defaultFact(visitor.serviceCategories.join(', '));
+    }
+    if (fieldId === 'reservation' && visitor.reservationPolicy) {
+      return defaultFact(
+        `${visitor.reservationPolicy.requirement} / ${visitor.reservationPolicy.reasonIds.join(', ')}`,
+      );
     }
     return undefined;
   };
@@ -583,6 +606,28 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
         timeSensitiveNote: 'Conflicting first-party closure statement; recheck the source before visiting.',
         issues: ['#323', '#333'],
         note: 'One side of an unresolved first-party conflict; this row does not select a winning value.',
+      });
+    }
+
+    for (const statement of place.visitorInformation?.phoneConflict?.statements ?? []) {
+      addCanonicalClaim({
+        claimId: `place:${place.id}:phone:source:${statement.id}`,
+        ...base,
+        fieldId: `phone:source:${statement.id}`,
+        fieldLabel: `Phone source statement (${statement.id})`,
+        canonical: canonicalValue(
+          `${statement.number} / ${statement.role} / ${statement.scope} / ${statement.placeRoutingStatus}`,
+          place.origin,
+          statement.source,
+          deriveVerificationStatus(statement.source, place.origin),
+          SOURCE_FILES.places,
+        ),
+        timeSensitive: true,
+        timeSensitiveNote: 'Conflicting first-party phone statement; recheck the source before calling.',
+        issues: ['#326', '#333'],
+        note: statement.placeRoutingStatus === 'explicit'
+          ? 'First-party source explicitly routes this Place reservation desk; the conflict remains because another official number is also published.'
+          : 'One side of an unresolved first-party phone conflict; this row does not infer routing to the Place.',
       });
     }
   }
@@ -1843,6 +1888,8 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
             note: locale === 'ja'
               ? row.fieldId === 'closed_days' && place.visitorInformation?.yearEndClosure
                 ? 'The presentation discloses both unresolved closure end dates without selecting one; source-statement rows retain each first-party value.'
+                : row.fieldId === 'phone' && place.visitorInformation?.phoneConflict
+                  ? 'The presentation discloses both phone numbers without resolving the routing conflict; source-statement rows retain each first-party lineage.'
                 : row.fieldId === 'phone' && spot.id === 'okutama-tourism-office'
                   ? 'Phone is represented in the source snapshot and presentation but remains absent from the canonical Place schema.'
                   : 'Raw canonical/presentation comparison from the mapped Place authority.'

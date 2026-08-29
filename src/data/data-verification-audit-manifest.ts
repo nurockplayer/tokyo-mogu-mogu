@@ -70,6 +70,19 @@ export const PRESENTATION_SPOT_AUDIT = [
     ],
     issues: ['#327', '#333', '#334'],
   },
+  {
+    presentationSpotId: 'akabeko',
+    canonicalPlaceId: 'akabeko',
+    surface: 'Spot',
+    stableCanonicalFieldIds: [
+      'hours',
+      'closed_days',
+      'price_availability',
+      'reservation',
+      'official_current_url',
+    ],
+    issues: ['#326', '#333', '#334'],
+  },
 ] as const;
 
 export const PRESENTATION_ROUTE_MEETING_TIME_AUDIT = [
@@ -138,18 +151,18 @@ export const REQUIRED_ROUTE_GUIDANCE_FACTUAL_CLAIMS = [
   { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'full-day', spotId: 'wasabi-experience', claimId: 'daily-group-limit', fieldLabel: 'Wasabi-field daily group limit', timeSensitive: true },
   { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'full-day', spotId: 'wasabi-experience', claimId: 'tour-availability', fieldLabel: 'Private tour availability', timeSensitive: true },
   { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'full-day', spotId: 'okutama-station', claimId: 'rail-travel-duration', fieldLabel: 'Mitake-to-Okutama rail duration', timeSensitive: true },
-  { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'full-day', spotId: 'akabeko', claimId: 'last-order-time', fieldLabel: 'Displayed lunch last-order time', timeSensitive: true },
+  { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'full-day', spotId: 'akabeko', claimId: 'last-order-time', fieldLabel: 'Displayed lunch last-order time', timeSensitive: true, canonicalPlaceId: 'akabeko', canonicalFieldId: 'hours', issues: ['#326'] },
   { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'full-day', spotId: 'yamashiroya', claimId: 'product-availability', fieldLabel: 'Wasabi product availability', timeSensitive: true, canonicalPlaceId: 'yamashiroya', canonicalFieldId: 'product_availability', issues: ['#323'] },
   { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'full-day', spotId: 'port-okutama', claimId: 'coffee-availability', fieldLabel: 'Coffee service availability', timeSensitive: true, canonicalPlaceId: 'port-okutama', canonicalFieldId: 'service_availability', issues: ['#327'] },
   { presentationJourneyId: 'demo-okutama-yamame', variantId: 'half-day', spotId: 'okutama-tourism-office', claimId: 'information-stop-duration', fieldLabel: 'Information stop duration', timeSensitive: true },
   { presentationJourneyId: 'demo-okutama-yamame', variantId: 'half-day', spotId: 'hikawa-valley', claimId: 'walk-duration', fieldLabel: 'Streamside walk duration', timeSensitive: true },
   { presentationJourneyId: 'demo-okutama-yamame', variantId: 'half-day', spotId: 'akabeko', claimId: 'lunch-duration', fieldLabel: 'Yamame lunch duration', timeSensitive: true },
-  { presentationJourneyId: 'demo-okutama-yamame', variantId: 'half-day', spotId: 'akabeko', claimId: 'dish-availability', fieldLabel: 'Yamame lunch availability', timeSensitive: true },
+  { presentationJourneyId: 'demo-okutama-yamame', variantId: 'half-day', spotId: 'akabeko', claimId: 'dish-availability', fieldLabel: 'Yamame lunch availability', timeSensitive: true, canonicalPlaceId: 'akabeko', canonicalFieldId: 'product_availability', issues: ['#326'] },
 ] as const;
 
 /** Metadata-only identities for factual assertions embedded in Story spot cards. */
 export const REQUIRED_STORY_SPOT_FACTUAL_CLAIMS = [
-  { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'akabeko', claimId: 'story.spot.akabeko.menu-availability', fieldLabel: 'Akabeko local menu availability', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true },
+  { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'akabeko', claimId: 'story.spot.akabeko.menu-availability', fieldLabel: 'Akabeko local menu availability', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true, canonicalPlaceId: 'akabeko', canonicalFieldId: 'product_availability', issues: ['#326'] },
   { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'yamashiroya', claimId: 'story.spot.yamashiroya.product-availability', fieldLabel: 'Yamashiroya product availability', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true, canonicalPlaceId: 'yamashiroya', canonicalFieldId: 'product_availability', issues: ['#323'] },
   { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'wasabi-kitchen', claimId: 'story.spot.wasabi-kitchen.weekend-operation', fieldLabel: 'Wasabi Kitchen weekend operation', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true },
   { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'okutama-kitchen', claimId: 'story.spot.okutama-kitchen.product-availability', fieldLabel: 'Okutama Kitchen product availability', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true, canonicalPlaceId: 'okutama-kitchen', canonicalFieldId: 'product_availability', issues: ['#325'] },
@@ -158,7 +171,7 @@ export const REQUIRED_STORY_SPOT_FACTUAL_CLAIMS = [
   { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'wasabi-experience', claimId: 'story.spot.wasabi-experience.daily-group-limit', fieldLabel: 'Wasabi Experience daily group limit', parentFieldId: 'presentation:spot_group:nature', timeSensitive: true },
   { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'hikawa-valley', claimId: 'story.spot.hikawa-valley.river-confluence', fieldLabel: 'Hikawa Valley river confluence and location', parentFieldId: 'presentation:spot_group:nature', timeSensitive: false },
   { presentationJourneyId: 'demo-okutama-wasabi', spotId: 'oku-hikawa-shrine', claimId: 'story.spot.oku-hikawa-shrine.location', fieldLabel: 'Oku-Hikawa Shrine location', parentFieldId: 'presentation:spot_group:nature', timeSensitive: false },
-  { presentationJourneyId: 'demo-okutama-yamame', spotId: 'akabeko', claimId: 'story.spot.akabeko.dish-availability', fieldLabel: 'Akabeko yamame dish availability', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true },
+  { presentationJourneyId: 'demo-okutama-yamame', spotId: 'akabeko', claimId: 'story.spot.akabeko.dish-availability', fieldLabel: 'Akabeko yamame dish availability', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true, canonicalPlaceId: 'akabeko', canonicalFieldId: 'product_availability', issues: ['#326'] },
   { presentationJourneyId: 'demo-okutama-yamame', spotId: 'yamashiroya', claimId: 'story.spot.yamashiroya.product-availability', fieldLabel: 'Yamashiroya product availability', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true, canonicalPlaceId: 'yamashiroya', canonicalFieldId: 'product_availability', issues: ['#323'] },
   { presentationJourneyId: 'demo-okutama-yamame', spotId: 'hikawa-valley', claimId: 'story.spot.hikawa-valley.stream-conditions', fieldLabel: 'Hikawa Valley stream conditions', parentFieldId: 'presentation:spot_group:nature', timeSensitive: false },
   { presentationJourneyId: 'demo-okutama-yamame', spotId: 'hikawa-valley', claimId: 'story.spot.hikawa-valley.water-culture-origin', fieldLabel: 'Tama River food-culture origin claim', parentFieldId: 'presentation:spot_group:nature', timeSensitive: false },

@@ -134,6 +134,14 @@ export interface PlaceBusinessHourSchedule extends PlaceBusinessHours {
   id: 'weekday' | 'weekend-holiday';
 }
 
+export interface PlaceMealHourSchedule {
+  /** Stable meal period; localized labels belong in presentation code. */
+  id: 'lunch' | 'dinner';
+  opens: string;
+  /** The operator publishes last order without asserting a closing time. */
+  lastOrder: string;
+}
+
 export type PlaceWeekday =
   | 'monday'
   | 'tuesday'
@@ -168,12 +176,25 @@ export interface PlaceSourceConflictStatement {
   source: DataSource;
 }
 
+export interface PlacePhoneSourceStatement {
+  /** Stable source-statement identity; duplicate numbers remain separately traceable. */
+  id: string;
+  number: string;
+  role: 'reservation_desk' | 'reservation_inquiry';
+  scope: 'shared_business_group' | 'related_business';
+  /** Whether the source explicitly establishes routing for this Place. */
+  placeRoutingStatus: 'explicit' | 'unresolved';
+  source: DataSource;
+}
+
 /** Optional visitor-facing operational facts kept on the canonical Place. */
 export interface PlaceVisitorInformation {
   phone?: string;
   shopHours?: PlaceBusinessHours;
   /** Multiple source-published schedules when one all-days interval would lose meaning. */
   shopHourSchedules?: PlaceBusinessHourSchedule[];
+  /** Meal periods where the operator publishes opening and last-order times only. */
+  mealHourSchedules?: PlaceMealHourSchedule[];
   phoneHours?: PlaceBusinessHours & {
     unavailableOn: Array<'sunday' | 'public_holiday'>;
   };
@@ -184,17 +205,29 @@ export interface PlaceVisitorInformation {
   regularClosedDays?: PlaceWeekday[];
   /** The operator publishes no regular closure while warning that irregular closures occur. */
   irregularClosures?: boolean;
+  /** The operator explicitly describes the Place as open daily. */
+  openDaily?: boolean;
   parking?: PlaceParkingInformation;
   /** Stable product-category IDs; localized presentation copy is derived elsewhere. */
   productCategories?: string[];
   /** Stable service-category IDs; localized presentation copy is derived elsewhere. */
   serviceCategories?: string[];
+  /** Source-backed reservation guidance without inventing a booking destination. */
+  reservationPolicy?: {
+    requirement: 'recommended';
+    reasonIds: Array<'limited-seating' | 'busy-periods-may-fill'>;
+  };
   /** Source-listed products whose provenance differs from the Place's primary page. */
   menuListings?: PlaceMenuListing[];
   /** Explicit unresolved closure statements from first-party sources. */
   yearEndClosure?: {
     verificationStatus: 'conflict';
     statements: PlaceSourceConflictStatement[];
+  };
+  /** Explicit unresolved phone statements from first-party sources. */
+  phoneConflict?: {
+    verificationStatus: 'conflict';
+    statements: PlacePhoneSourceStatement[];
   };
 }
 
