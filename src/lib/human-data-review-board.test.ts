@@ -925,6 +925,17 @@ describe('Human Data Review Board projection (#340, #343)', () => {
         }),
       ]);
     }
+    expect(omeStory?.reviewContext.decisionItems).toEqual([
+      expect.objectContaining({
+        id: 'current-information:caveat',
+        factFieldKeys: [
+          'story:story.factual.brewery-tour-reservation',
+          'story:story.spot.sawai-ozawa-shuzo.reservation-requirement',
+          'story:story.spot.sawanoien-garden.operating-calendar-check',
+        ],
+        affectedSurfaces: ['Story'],
+      }),
+    ]);
 
     const omeRoute = board.entities.find(
       (entity) => entity.id === 'ome-sawai-sake-journey',

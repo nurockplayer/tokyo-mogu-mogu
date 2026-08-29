@@ -644,7 +644,8 @@ function buildReviewContext(
       return linkedClaim?.timeSensitive === true && linkedClaim.displayedValue !== undefined;
     }));
   const hasTimeSensitiveInformation = timeSensitiveFacts.length > 0
-    && (isMobile || timeSensitiveFacts.some((fact) => isUnresolvedFinding(fact.finding)));
+    && (isMobile || timeSensitiveFacts.some((fact) =>
+      fact.finding === 'none' || isUnresolvedFinding(fact.finding)));
   const hasConflict = facts.some((fact) => fact.status === 'conflict');
   const hasStale = facts.some((fact) => fact.status === 'stale');
 

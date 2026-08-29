@@ -330,6 +330,13 @@ test.describe('Human Data Review Board (#340)', () => {
       await page.goto(`/data-review/#${id}`);
       await expect(page.getByRole('heading', { name })).toBeVisible();
     }
+
+    await page.goto('/data-review/#sake-ome');
+    await expect(page.getByRole('heading', { name: '1件の判断が必要です' })).toBeVisible();
+    const currentInformation = page.locator('[data-decision-kind="current_information"]');
+    await expect(currentInformation).toContainText('見学は予約制・訪問前に公式情報を確認');
+    await expect(currentInformation).toContainText('営業日は公式カレンダーを確認');
+    await expect(currentInformation.getByText('Story', { exact: true })).toBeVisible();
   });
 
   test('does not expose the team Board in consumer Product navigation', async ({ page }) => {

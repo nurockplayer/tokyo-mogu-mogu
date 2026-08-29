@@ -48,7 +48,7 @@ current Product factual presentation inventory
 
 Entity detail の `判断が必要` は、上の検証状態とは別に算出します。表示差異、出典間の矛盾、固定店舗を持たない営業形態、Product 上の扱いに影響する stale / time-sensitive 情報だけが判断項目です。`needs_confirmation` や report-only `unknown` であることだけを理由に、判断項目へは追加しません。
 
-time-sensitive 情報は、Ledger の `timeSensitive` と実際の Product 表示・影響画面から対象を導出します。表示差異がある項目は、最新情報の注意をまとめても現在の Product 表示と公式/根拠側の比較を別の判断カードに残します。フィールド名の固定リストでは分類しません。
+time-sensitive 情報は、Ledger の `timeSensitive` と実際の Product 表示・影響画面から対象を導出します。比較対象を持たない表示済み claim (`finding: none`) は、それ自体で現在情報の caveat を作ります。表示差異がある項目は、最新情報の注意をまとめても現在の Product 表示と公式/根拠側の比較を別の判断カードに残します。単独の matching fact は判断を増やしませんが、caveat が必要な entity では同じ変更可能性を持つ情報としてまとめます。フィールド名の固定リストでは分類しません。
 
 `変更推奨` は、比較元の claim が source-origin で、検証状態が `verified` または `needs_confirmation` の場合だけ表示します。editorial / demo の推定値や stale / conflict の値は比較を残しても `要判断` とし、根拠側の値を自動的に Product の正解へ昇格させません。
 
