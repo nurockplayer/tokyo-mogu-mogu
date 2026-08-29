@@ -817,10 +817,7 @@ describe('repository data verification ledger (#333)', () => {
 
     for (const claimId of [
       'story:sake-ome:story.factual.nearest-station',
-      'story:sake-ome:story.factual.brewery-tour-reservation',
       'story:sake-ome:story.factual.pre-visit-operational-check',
-      'story:sake-ome:story.spot.sawai-ozawa-shuzo.reservation-requirement',
-      'story:sake-ome:story.spot.sawanoien-garden.operating-calendar-check',
     ]) {
       expect(claims.find((claim) => claim.claimId === claimId)).toMatchObject({
         canonicalValue: undefined,
@@ -829,6 +826,41 @@ describe('repository data verification ledger (#333)', () => {
         finding: 'none',
         timeSensitive: true,
         auditSourceFile: 'src/data/data-verification-audit-manifest.ts',
+        issues: ['#348'],
+      });
+    }
+
+    for (const expected of [
+      {
+        claimId: 'story:sake-ome:story.factual.brewery-tour-reservation',
+        primarySource: '小澤酒造 酒蔵見学（公式）',
+        primarySourceUrl: 'https://www.sawanoi-sake.com/service/kengaku/',
+        displayedValue: expect.stringContaining('予約制'),
+      },
+      {
+        claimId: 'story:sake-ome:story.spot.sawai-ozawa-shuzo.reservation-requirement',
+        primarySource: '小澤酒造 酒蔵見学（公式）',
+        primarySourceUrl: 'https://www.sawanoi-sake.com/service/kengaku/',
+        displayedValue: '見学は予約制・訪問前に公式情報を確認',
+      },
+      {
+        claimId: 'story:sake-ome:story.spot.sawanoien-garden.operating-calendar-check',
+        primarySource: '小澤酒造 澤乃井園（公式）',
+        primarySourceUrl: 'https://www.sawanoi-sake.com/service/sawanoien/',
+        displayedValue: '営業日は公式カレンダーを確認',
+      },
+    ] as const) {
+      expect(claims.find((claim) => claim.claimId === expected.claimId)).toMatchObject({
+        ...expected,
+        origin: 'editorial',
+        verification: 'needs_confirmation',
+        finding: 'none',
+        retrievedAt: '2026-08-29',
+        confirmedAt: undefined,
+        canonicalSourceFile: 'src/data/seed-routes.ts',
+        presentationSourceFile: 'src/features/netlify-parity/factual-presentation.ts',
+        appSurface: 'Story',
+        timeSensitive: true,
         issues: ['#348'],
       });
     }

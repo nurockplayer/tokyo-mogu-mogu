@@ -1311,33 +1311,87 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
       });
     }
     const presentationStory = journey.copy.ja;
+    const spotGroups = storySpotGroups[journey.id];
     const storyFactualClaims = REQUIRED_STORY_FACTUAL_CLAIMS[
       journey.id as keyof typeof REQUIRED_STORY_FACTUAL_CLAIMS
     ] ?? [];
     for (const factualClaim of storyFactualClaims) {
-      inputs.push({
-        claimId: `story:${journey.storyId}:${factualClaim.claimId}`,
-        entityType: 'Story',
-        entityId: journey.storyId,
-        entityName: presentationStory.storyTitle,
-        fieldId: factualClaim.claimId,
-        fieldLabel: factualClaim.fieldLabel,
-        comparisonExpected: false,
-        requiredUnknown: {
-          origin: 'demo',
-          surface: 'Story',
-          auditSourceFile: SOURCE_FILES.auditManifest,
-          note: `Factual assertion is embedded in ${factualClaim.parentFieldId}; no claim-level source mapping exists.`,
-        },
-        timeSensitive: factualClaim.timeSensitive,
-        timeSensitiveNote: factualClaim.timeSensitive
-          ? 'Recheck only after a source-backed claim mapping exists; no wall-clock threshold is inferred.'
-          : undefined,
-        issues: [...audit.issues],
-        note: 'Report-only unknown; the generator does not parse or copy the factual value from Story prose.',
-      });
+      const mappedSpotDetail = 'canonicalSpotDetailId' in factualClaim
+        ? {
+            spotId: factualClaim.canonicalSpotDetailId,
+            fieldId: factualClaim.canonicalFieldId,
+          }
+        : undefined;
+      const mappedFact = mappedSpotDetail
+        ? canonicalSpotDetailFact(
+            SPOT_DETAILS[mappedSpotDetail.spotId],
+            mappedSpotDetail.fieldId,
+          )
+        : undefined;
+      const presentationReference = 'presentationSpotId' in factualClaim && spotGroups
+        ? Object.values(spotGroups).flat().find(
+            (reference) => reference.spotId === factualClaim.presentationSpotId,
+          )
+        : undefined;
+      const mappedPresentation = presentationReference && 'presentationField' in factualClaim
+        ? factualClaim.presentationField === 'note'
+          ? presentationReference.note?.ja
+          : presentationReference.description?.ja
+        : undefined;
+
+      if (mappedFact && mappedPresentation) {
+        inputs.push({
+          claimId: `story:${journey.storyId}:${factualClaim.claimId}`,
+          entityType: 'Story',
+          entityId: journey.storyId,
+          entityName: presentationStory.storyTitle,
+          fieldId: factualClaim.claimId,
+          fieldLabel: factualClaim.fieldLabel,
+          comparisonExpected: false,
+          canonical: canonicalValue(
+            mappedFact.value,
+            mappedFact.origin,
+            mappedFact.source,
+            mappedFact.verification,
+            mappedFact.sourceFile,
+          ),
+          presentation: presentationValue(
+            mappedPresentation,
+            'Story',
+            mappedFact.origin,
+            mappedFact.verification,
+          ),
+          timeSensitive: factualClaim.timeSensitive,
+          timeSensitiveNote: factualClaim.timeSensitive
+            ? 'Operational Story claim can change; recheck the mapped official source.'
+            : undefined,
+          issues: [...audit.issues],
+          note: `Metadata maps ${factualClaim.parentFieldId} to canonical SpotDetail ${mappedSpotDetail?.spotId}; no factual value is duplicated in the audit manifest.`,
+        });
+      } else {
+        inputs.push({
+          claimId: `story:${journey.storyId}:${factualClaim.claimId}`,
+          entityType: 'Story',
+          entityId: journey.storyId,
+          entityName: presentationStory.storyTitle,
+          fieldId: factualClaim.claimId,
+          fieldLabel: factualClaim.fieldLabel,
+          comparisonExpected: false,
+          requiredUnknown: {
+            origin: 'demo',
+            surface: 'Story',
+            auditSourceFile: SOURCE_FILES.auditManifest,
+            note: `Factual assertion is embedded in ${factualClaim.parentFieldId}; no claim-level source mapping exists.`,
+          },
+          timeSensitive: factualClaim.timeSensitive,
+          timeSensitiveNote: factualClaim.timeSensitive
+            ? 'Recheck only after a source-backed claim mapping exists; no wall-clock threshold is inferred.'
+            : undefined,
+          issues: [...audit.issues],
+          note: 'Report-only unknown; the generator does not parse or copy the factual value from Story prose.',
+        });
+      }
     }
-    const spotGroups = storySpotGroups[journey.id];
     if (spotGroups) {
       for (const [groupId, references] of Object.entries(spotGroups)) {
         for (const locale of PRESENTATION_LOCALES) {
@@ -1408,26 +1462,37 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
       const mappedPlaceFact = mappedPlace && 'canonicalFieldId' in factualClaim
         ? canonicalPlaceFact(mappedPlace, factualClaim.canonicalFieldId)
         : undefined;
-      const mappedFact = mappedPlaceFact && mappedPlace
-        ? {
+      const explicitSpotDetailFact = 'canonicalSpotDetailId' in factualClaim
+        ? canonicalSpotDetailFact(
+            SPOT_DETAILS[factualClaim.canonicalSpotDetailId],
+            factualClaim.canonicalFieldId,
+          )
+        : undefined;
+      const mappedFact = explicitSpotDetailFact
+        ?? (mappedPlaceFact && mappedPlace
+          ? {
             ...mappedPlaceFact,
             origin: mappedPlace.origin,
             sourceFile: SOURCE_FILES.places,
           }
-        : 'canonicalFieldId' in factualClaim
+          : 'canonicalFieldId' in factualClaim
           ? canonicalSpotDetailFact(
               SPOT_DETAILS[factualClaim.spotId],
               factualClaim.canonicalFieldId,
             )
-          : undefined;
+          : undefined);
       const presentationReference = spotGroups
         ? Object.values(spotGroups).flat().find(
             (reference) => reference.spotId === factualClaim.spotId,
           )
         : undefined;
-      const presentationDescription = presentationReference?.description?.ja;
+      const mappedPresentation = presentationReference
+        ? 'presentationField' in factualClaim && factualClaim.presentationField === 'note'
+          ? presentationReference.note?.ja
+          : presentationReference.description?.ja
+        : undefined;
 
-      if (mappedPlace && mappedFact && presentationDescription) {
+      if (mappedFact && mappedPresentation) {
         inputs.push({
           claimId: `story:${journey.storyId}:${factualClaim.claimId}`,
           entityType: 'Story',
@@ -1444,7 +1509,7 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
             mappedFact.sourceFile,
           ),
           presentation: presentationValue(
-            presentationDescription,
+            mappedPresentation,
             'Story',
             mappedFact.origin,
             mappedFact.verification,
@@ -1457,7 +1522,7 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
             ...audit.issues,
             ...('issues' in factualClaim ? factualClaim.issues : []),
           ],
-          note: `Metadata maps ${factualClaim.parentFieldId} to canonical Place ${mappedPlace.id}; no factual value is duplicated in the audit manifest.`,
+          note: `Metadata maps ${factualClaim.parentFieldId} to canonical ${explicitSpotDetailFact ? `SpotDetail ${factualClaim.spotId}` : `Place ${mappedPlace?.id ?? factualClaim.spotId}`}; no factual value is duplicated in the audit manifest.`,
         });
       } else {
         inputs.push({

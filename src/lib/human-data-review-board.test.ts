@@ -722,6 +722,36 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       'yamame-okutama',
     ]));
 
+    const omeStory = board.entities.find((entity) => entity.id === 'sake-ome');
+    for (const [fieldKey, sourceUrl] of [
+      [
+        'story.factual.brewery-tour-reservation',
+        'https://www.sawanoi-sake.com/service/kengaku/',
+      ],
+      [
+        'story.spot.sawai-ozawa-shuzo.reservation-requirement',
+        'https://www.sawanoi-sake.com/service/kengaku/',
+      ],
+      [
+        'story.spot.sawanoien-garden.operating-calendar-check',
+        'https://www.sawanoi-sake.com/service/sawanoien/',
+      ],
+    ] as const) {
+      const fact = omeStory?.facts.find((candidate) =>
+        candidate.claimIds.includes(`story:sake-ome:${fieldKey}`));
+      expect(fact).toMatchObject({
+        status: 'needs_confirmation',
+        affectedSurfaces: ['Story'],
+      });
+      expect(fact?.sources).toEqual([
+        expect.objectContaining({
+          url: sourceUrl,
+          retrievedAt: '2026-08-29',
+          confirmedAt: undefined,
+        }),
+      ]);
+    }
+
     const portOkutama = board.entities.find((entity) => entity.id === 'port-okutama');
     expect(portOkutama).toMatchObject({
       type: 'Spot',

@@ -17,6 +17,7 @@ import { NotFoundPage } from './NotFoundPage';
 import { JourneyNavigationManager } from './JourneyNavigationManager';
 import { ReferenceApp } from '../features/netlify-parity/ReferenceApp';
 import { currentJourneys, currentSpots } from '../features/netlify-parity/content';
+import { resolveCurrentJourneyLocation } from '../features/netlify-parity/journey-location';
 
 const HomePage = lazy(() => import('../pages/HomePage').then((m) => ({ default: m.HomePage })));
 const LandingPage = lazy(() =>
@@ -80,25 +81,23 @@ function withBoundary(element: ReactNode) {
 
 export function AppRouter() {
   const { pathname, search } = useLocation();
-  const searchParams = new URLSearchParams(search);
-  const referenceCandidateIds = new Set(currentJourneys.map((journey) => journey.id));
-  const referenceRouteIds = new Set(currentJourneys.map((journey) => journey.routeId));
-  const referenceResultIds = new Set(
-    currentJourneys.flatMap((journey) => [journey.foodCultureId, journey.storyId]),
-  );
-  const candidateId = searchParams.get('candidateId');
-  const routeId = searchParams.get('routeId');
-  const resultId = searchParams.get('resultId');
+  const journeyLocation = resolveCurrentJourneyLocation(pathname, search);
   const referenceJourneyQuery =
-    (!candidateId || referenceCandidateIds.has(candidateId)) &&
-    (!routeId || referenceRouteIds.has(routeId)) &&
-    (!resultId || referenceResultIds.has(resultId));
+    journeyLocation.status === 'default' || journeyLocation.status === 'resolved';
   const referenceStoryPath =
     pathname === '/story' ||
     currentJourneys.some((journey) => pathname === `/story/${journey.storyId}`);
   const referenceSpotPath =
     pathname.startsWith('/spot/') &&
     Object.hasOwn(currentSpots, decodeURIComponent(pathname.slice('/spot/'.length)));
+  const referenceJourneyPath =
+    pathname === '/explore/result' ||
+    pathname === '/route' ||
+    referenceStoryPath ||
+    referenceSpotPath;
+  if (referenceJourneyPath && journeyLocation.status === 'invalid') {
+    return <NotFoundPage />;
+  }
   const referencePath =
     pathname === '/' ||
     pathname === '/food-profile' ||

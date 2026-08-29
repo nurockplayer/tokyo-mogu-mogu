@@ -142,6 +142,45 @@ test('resolves a direct Ome Spot path and candidate identity without Okutama fal
   await expect(activeScreen(page, 'route')).not.toContainText(okutamaFallbackName);
 });
 
+const conflictingJourneyLocations = [
+  {
+    label: 'candidate and route query identities',
+    path: `/route?candidateId=${OME_SAKE.candidateId}&routeId=okutama-wasabi-journey`,
+  },
+  {
+    label: 'candidate and result query identities',
+    path: `/route?candidateId=${OME_SAKE.candidateId}&resultId=wasabi-okutama`,
+  },
+  {
+    label: 'route and result query identities',
+    path: `/route?routeId=${OME_SAKE.routeId}&resultId=wasabi-okutama`,
+  },
+  {
+    label: 'Story path and candidate query identities',
+    path: `/story/${OME_SAKE.foodCultureId}?candidateId=demo-okutama-wasabi`,
+  },
+  {
+    label: 'Ome Spot path and candidate query identities',
+    path: `/spot/${OME_SAKE.representativeSpotId}?candidateId=demo-okutama-wasabi`,
+  },
+  {
+    label: 'Okutama Spot path and candidate query identities',
+    path: '/spot/okutama-tourism-office?candidateId=demo-ome-sake',
+  },
+] as const;
+
+for (const conflict of conflictingJourneyLocations) {
+  test(`fails closed for conflicting ${conflict.label}`, async ({ page }) => {
+    await page.goto(conflict.path);
+
+    await expect(page.locator('.reference-app')).toHaveCount(0);
+    await expect(page.locator('.page-title')).toBeVisible();
+    await expect(activeScreen(page, 'story')).toHaveCount(0);
+    await expect(activeScreen(page, 'route')).toHaveCount(0);
+    await expect(activeScreen(page, 'spot')).toHaveCount(0);
+  });
+}
+
 test('keeps Result limited to the two current recommendation cards', async ({ page }) => {
   await page.goto('/explore/result');
 
