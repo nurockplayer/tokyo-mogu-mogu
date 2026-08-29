@@ -354,6 +354,11 @@ describe('Netlify parity presentation content', () => {
       'official_current_url',
     ]));
     expect(detail.information.map((row) => row.fieldId)).not.toContain('address');
+    expect(detail.information.find((row) => row.fieldId === 'operating_area')?.value).toEqual({
+      ja: 'JR青梅線「奥多摩駅」前を中心',
+      en: 'Mainly around the front of JR Okutama Station',
+      'zh-TW': '主要在 JR 奧多摩站前一帶出攤',
+    });
     expect(detail.guide?.url).toBe('https://tokyowasabi.com/category/information/');
     expect(place.mobileVenue.scheduleDirectorySource.url).toBe(
       'https://tokyowasabi.com/category/information/',

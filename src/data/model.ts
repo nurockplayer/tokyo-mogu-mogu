@@ -236,6 +236,10 @@ export interface PlaceMobileVenue {
   noFixedStorefront: true;
   /** Broad source-published operating area; never a substitute address. */
   primaryOperatingAreaJa: string;
+  /** English presentation of the same broad operating area. */
+  primaryOperatingAreaEn: string;
+  /** Traditional Chinese presentation of the same broad operating area. */
+  primaryOperatingAreaZhTw: string;
   /** Stable qualitative pattern only; exact dates belong to dated schedule evidence. */
   operatingPattern: 'mainly-weekends';
   /** Conditions that make a published schedule non-guaranteed. */

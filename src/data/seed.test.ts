@@ -409,6 +409,8 @@ describe('seed data contract (#2)', () => {
       mobileVenue: {
         noFixedStorefront: true,
         primaryOperatingAreaJa: 'JR青梅線「奥多摩駅」前を中心',
+        primaryOperatingAreaEn: 'Mainly around the front of JR Okutama Station',
+        primaryOperatingAreaZhTw: '主要在 JR 奧多摩站前一帶出攤',
         operatingPattern: 'mainly-weekends',
         scheduleVariability: ['published-schedule', 'weather', 'sell-out'],
         scheduleDirectorySource: {

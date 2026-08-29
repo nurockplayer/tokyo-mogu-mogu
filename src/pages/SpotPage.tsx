@@ -253,8 +253,8 @@ export function SpotPage() {
   // Only source-backed fields are populated in the seed. The `ja` value is
   // the presence guard; non-Japanese locales use the English variant when
   // present and otherwise fall back to Japanese rather than inventing copy.
-  const recordField = (ja?: string, en?: string): string =>
-    locale === 'ja' ? ja ?? '' : en ?? ja ?? '';
+  const recordField = (ja?: string, en?: string, zhTw?: string): string =>
+    locale === 'ja' ? ja ?? '' : locale === 'zh-TW' ? zhTw ?? en ?? ja ?? '' : en ?? ja ?? '';
 
   // Localized place name / role with the record's canonical {Ja,En} fields as
   // the honest fallback — never another culture's name (no silent wasabi/Okutama
@@ -314,7 +314,14 @@ export function SpotPage() {
   if (isFixedPlace(place)) {
     infoItems.push({ label: t('s6InfoAddress'), value: place.address });
   } else {
-    infoItems.push({ label: t('s6InfoAccess'), value: place.mobileVenue.primaryOperatingAreaJa });
+    infoItems.push({
+      label: t('s6InfoAccess'),
+      value: recordField(
+        place.mobileVenue.primaryOperatingAreaJa,
+        place.mobileVenue.primaryOperatingAreaEn,
+        place.mobileVenue.primaryOperatingAreaZhTw,
+      ),
+    });
   }
   const accessKey = spotAccessKey(place.id);
   if (practical?.accessJa) {

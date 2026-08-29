@@ -358,8 +358,8 @@ const wasabiKitchenVenueModel = localized(
 );
 const wasabiKitchenOperatingArea = localized(
   wasabiKitchenPlace.mobileVenue.primaryOperatingAreaJa,
-  'Mainly around the front of JR Okutama Station',
-  '主要在 JR 奧多摩站前一帶出攤',
+  wasabiKitchenPlace.mobileVenue.primaryOperatingAreaEn,
+  wasabiKitchenPlace.mobileVenue.primaryOperatingAreaZhTw,
 );
 const wasabiKitchenScheduleGuidance = localized(
   '土日を中心に出店。営業日・時間は最新の公式予定を確認（天候・売り切れで変更・終了あり）',

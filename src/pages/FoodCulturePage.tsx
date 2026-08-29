@@ -122,7 +122,13 @@ export function FoodCulturePage() {
                   <div className="place-row fcp-place-row">
                     <div className="fcp-place-main">
                       <span className="place-name">{pick(place.nameJa, place.nameEn)}</span>
-                      <span className="place-address">{place.mobileVenue.primaryOperatingAreaJa}</span>
+                      <span className="place-address">
+                        {locale === 'ja'
+                          ? place.mobileVenue.primaryOperatingAreaJa
+                          : locale === 'zh-TW'
+                            ? place.mobileVenue.primaryOperatingAreaZhTw
+                            : place.mobileVenue.primaryOperatingAreaEn}
+                      </span>
                       <span className={`badge fcp-origin fcp-origin--${place.origin}`}>
                         {t(ORIGIN_LABEL_KEY[place.origin])}
                       </span>

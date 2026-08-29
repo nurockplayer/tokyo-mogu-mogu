@@ -550,9 +550,9 @@ test('keeps Akabeko phone divergence and source-backed operations visible in eve
 
 test('keeps Wasabi Shokudo mobile and time-sensitive in every locale (#324)', async ({ page }) => {
   const localizedExpectations = [
-    { locale: 'ja', name: 'わさび食堂', addressLabel: '住所', foodTruck: '固定店舗のないキッチンカー', schedule: '最新の公式予定', priceDate: '2026年7月', conflict: '公式ページ間で不一致' },
-    { locale: 'en', name: 'Wasabi Shokudo', addressLabel: 'Address', foodTruck: 'Mobile food truck with no permanent storefront', schedule: 'current official schedule', priceDate: 'July 2026', conflict: 'Official pages conflict' },
-    { locale: 'zh-TW', name: '山葵食堂', addressLabel: '地址', foodTruck: '沒有固定店面的行動餐車', schedule: '最新官方行程', priceDate: '2026 年 7 月', conflict: '官方頁面對' },
+    { locale: 'ja', name: 'わさび食堂', addressLabel: '住所', foodTruck: '固定店舗のないキッチンカー', operatingArea: 'JR青梅線「奥多摩駅」前を中心', schedule: '最新の公式予定', priceDate: '2026年7月', conflict: '公式ページ間で不一致' },
+    { locale: 'en', name: 'Wasabi Shokudo', addressLabel: 'Address', foodTruck: 'Mobile food truck with no permanent storefront', operatingArea: 'Mainly around the front of JR Okutama Station', schedule: 'current official schedule', priceDate: 'July 2026', conflict: 'Official pages conflict' },
+    { locale: 'zh-TW', name: '山葵食堂', addressLabel: '地址', foodTruck: '沒有固定店面的行動餐車', operatingArea: '主要在 JR 奧多摩站前一帶出攤', schedule: '最新官方行程', priceDate: '2026 年 7 月', conflict: '官方頁面對' },
   ] as const;
 
   for (const expected of localizedExpectations) {
@@ -566,6 +566,7 @@ test('keeps Wasabi Shokudo mobile and time-sensitive in every locale (#324)', as
     const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
     await expect(spot.getByRole('heading', { name: expected.name })).toBeVisible();
     await expect(spot).toContainText(expected.foodTruck);
+    await expect(spot).toContainText(expected.operatingArea);
     await expect(spot).toContainText(expected.schedule);
     await expect(spot).toContainText(expected.priceDate);
     await expect(spot).toContainText(expected.conflict);
@@ -594,6 +595,14 @@ test('keeps Wasabi Shokudo mobile and time-sensitive in every locale (#324)', as
     await expect(storyCard).toContainText(expected.locale === 'zh-TW' ? '行動餐車' : 'FOOD TRUCK');
     await expect(storyCard).toContainText(expected.schedule);
     await expectNoHorizontalOverflow(page);
+
+    await page.goto('/food-cultures/wasabi-okutama');
+    const foodCulture = page.locator('main');
+    await expect(foodCulture).toContainText(expected.operatingArea);
+    await expect.poll(() => page.evaluate(() => ({
+      clientWidth: document.documentElement.clientWidth,
+      scrollWidth: document.documentElement.scrollWidth,
+    }))).toEqual({ clientWidth: 375, scrollWidth: 375 });
   }
 });
 
