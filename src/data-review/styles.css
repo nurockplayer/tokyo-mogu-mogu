@@ -109,6 +109,9 @@ button:focus-visible, a:focus-visible { outline: 3px solid #5572cb; outline-offs
 .drb-decision__grid .drb-decision__uncertainties { padding: 0; list-style: none; }
 .drb-decision__uncertainties li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px; align-items: baseline; }
 .drb-decision__uncertainties strong { min-width: 0; font-size: 0.76rem; overflow-wrap: anywhere; }
+.drb-finding { width: fit-content; padding: 3px 6px; border: 1px solid #bb6a2b; color: #7a3d12; background: #fff4e8; font-size: 0.65rem; font-weight: 700; line-height: 1.35; }
+.drb-decision__finding-detail { display: grid; min-width: 0; gap: 2px; }
+.drb-decision__finding-detail small { color: var(--drb-muted); font-size: 0.66rem; line-height: 1.45; }
 .drb-decision__note { margin: 18px 0 0; color: var(--drb-muted); font-size: 0.7rem; line-height: 1.65; }
 
 .drb-facts__header, .drb-fact { display: grid; grid-template-columns: 132px minmax(0, 1fr) 174px; gap: 18px; }

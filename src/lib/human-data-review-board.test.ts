@@ -527,6 +527,21 @@ describe('Human Data Review Board projection (#340, #343)', () => {
           'route:example-route:half-day:origin_travel_time_guidance:ja',
         comparedPresentationValue: '東京駅 / 60分',
         finding: 'presentation_mismatch',
+        verification: 'demo',
+        appSurface: 'Result',
+        issues: ['#333'],
+      }),
+      claim({
+        claimId: 'route:example-route:half-day:region_guidance:ja',
+        entityType: 'Route',
+        entityId: 'example-route',
+        entityName: '例の食旅',
+        fieldId: 'region_guidance:ja',
+        fieldLabel: 'Region guidance (ja)',
+        displayedValue: '奥多摩',
+        finding: 'canonical_missing',
+        verification: 'demo',
+        appSurface: 'Route',
         issues: ['#333'],
       }),
       claim({
@@ -564,7 +579,7 @@ describe('Human Data Review Board projection (#340, #343)', () => {
     ]);
     expect(board.entities[0]).toMatchObject({
       name: '例の食旅',
-      facts: [
+      facts: expect.arrayContaining([
         expect.objectContaining({
           fieldKey: 'route:half-day:duration_minutes',
           label: '半日の所要時間（分）',
@@ -579,10 +594,48 @@ describe('Human Data Review Board projection (#340, #343)', () => {
           displayedValue: '東京駅 / 約120分',
           comparedPresentationValue: '東京駅 / 60分',
           finding: 'presentation_mismatch',
-          status: 'needs_confirmation',
+          status: 'demo',
         }),
-      ],
+        expect.objectContaining({
+          fieldKey: 'route:half-day:region_guidance',
+          displayedValue: '奥多摩',
+          finding: 'canonical_missing',
+          status: 'demo',
+        }),
+      ]),
+      reviewContext: {
+        findings: expect.arrayContaining([
+          expect.objectContaining({
+            fieldKey: 'route:presentation:result_origin_travel_time',
+            finding: 'presentation_mismatch',
+            verification: 'demo',
+          }),
+          expect.objectContaining({
+            fieldKey: 'route:half-day:region_guidance',
+            finding: 'canonical_missing',
+            verification: 'demo',
+          }),
+        ]),
+        uncertainties: [expect.objectContaining({
+          fieldKey: 'route:half-day:duration_minutes',
+          status: 'needs_confirmation',
+        })],
+      },
     });
+    expect(board.entities[0]?.facts.find((fact) =>
+      fact.fieldKey === 'route:presentation:result_origin_travel_time')?.affectedSurfaces)
+      .toEqual(['Result']);
+    expect(board.entities[0]?.facts.find((fact) =>
+      fact.fieldKey === 'route:half-day:region_guidance')?.affectedSurfaces)
+      .toEqual(['Route']);
+    const summary = createDataReviewShareSummaryJa(
+      board.entities[0]!,
+      'https://preview.example/data-review/#example-route',
+    );
+    expect(summary).not.toContain('presentation_mismatch');
+    expect(summary).not.toContain('canonical_missing');
+    expect(summary).not.toContain('表示間の不一致');
+    expect(summary).not.toContain('正本未登録');
     expect(board.entities[1]).toMatchObject({
       name: '例のストーリー',
       facts: [expect.objectContaining({
@@ -857,6 +910,29 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       ?.affectedSurfaces).toEqual(['Route']);
     expect(route?.facts.find((fact) => fact.fieldKey === 'route:presentation:result_origin_travel_time')
       ?.affectedSurfaces).toEqual(['Route', 'Result']);
+    expect(route?.reviewContext.findings).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        fieldKey: 'route:presentation:result_origin_travel_time',
+        finding: 'presentation_mismatch',
+        verification: 'demo',
+      }),
+      expect.objectContaining({
+        finding: 'canonical_missing',
+        verification: 'demo',
+      }),
+    ]));
+    expect(route?.reviewContext.uncertainties).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        fieldKey: 'route:half-day:duration_minutes',
+        status: 'needs_confirmation',
+      }),
+    ]));
+    const routeSummary = createDataReviewShareSummaryJa(
+      route!,
+      'https://preview.example/data-review/#okutama-wasabi-journey',
+    );
+    expect(routeSummary).not.toContain('表示間の不一致');
+    expect(routeSummary).not.toContain('正本未登録');
     expect(route?.reviewContext.affectedSurfaces).toEqual(['Home', 'Story', 'Route', 'Result']);
 
     expect(board.entities.find((entity) => entity.id === 'okutama-yamame-journey')).toMatchObject({

@@ -64,11 +64,20 @@ export interface HumanDataReviewDecisionUncertainty {
   sourceChecked?: boolean;
 }
 
+export interface HumanDataReviewDecisionFinding {
+  fieldKey: string;
+  label: string;
+  finding: Exclude<LedgerClaim['finding'], 'none' | 'match'>;
+  verification: LedgerVerification;
+  sourceChecked: boolean;
+}
+
 export interface HumanDataReviewContext {
   reviewFocus: readonly HumanDataReviewDecisionItem[];
   productImpacts: readonly HumanDataReviewDecisionItem[];
   affectedSurfaces: readonly HumanDataReviewSurface[];
   uncertainties: readonly HumanDataReviewDecisionUncertainty[];
+  findings: readonly HumanDataReviewDecisionFinding[];
 }
 
 export interface HumanDataReviewFact {
@@ -206,6 +215,12 @@ const UNRESOLVED_STATUSES = new Set<LedgerVerification>([
   'conflict',
   'unknown',
 ]);
+
+function isUnresolvedFinding(
+  finding: LedgerClaim['finding'],
+): finding is HumanDataReviewDecisionFinding['finding'] {
+  return finding !== 'none' && finding !== 'match';
+}
 
 const SURFACE_ORDER: readonly HumanDataReviewSurface[] = ['Home', 'Spot', 'Story', 'Route', 'Result'];
 
@@ -659,8 +674,19 @@ function buildReviewContext(
       status: 'unknown' as const,
     })),
   ];
+  const findings: HumanDataReviewDecisionFinding[] = facts
+    .filter((fact): fact is HumanDataReviewFact & {
+      finding: HumanDataReviewDecisionFinding['finding'];
+    } => isUnresolvedFinding(fact.finding))
+    .map((fact) => ({
+      fieldKey: fact.fieldKey,
+      label: fact.label,
+      finding: fact.finding,
+      verification: fact.status,
+      sourceChecked: fact.sourceChecked,
+    }));
 
-  return { reviewFocus, productImpacts, affectedSurfaces, uncertainties };
+  return { reviewFocus, productImpacts, affectedSurfaces, uncertainties, findings };
 }
 
 function buildReferences(claims: readonly LedgerClaim[]): HumanDataReviewReference[] {

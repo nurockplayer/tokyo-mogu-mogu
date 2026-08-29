@@ -10,6 +10,7 @@ import {
   dataReviewStatusLabelJa,
   DATA_REVIEW_STATUS_LABELS_JA,
   type HumanDataReviewEntity,
+  type HumanDataReviewDecisionFinding,
   type HumanDataReviewFact,
   type HumanDataReviewSource,
 } from '../lib/human-data-review-board';
@@ -53,6 +54,13 @@ const FACT_SOURCE_ROLE_JA: Readonly<Record<HumanDataReviewFact['sources'][number
   content: '内容の根拠',
   address: '住所の根拠',
   coordinates: '位置情報の根拠',
+};
+
+const FINDING_LABELS_JA: Readonly<Record<HumanDataReviewDecisionFinding['finding'], string>> = {
+  mismatch: '正本と表示の不一致',
+  presentation_mismatch: '表示間の不一致',
+  canonical_missing: '正本未登録',
+  presentation_missing: '表示未登録',
 };
 
 const board = buildHumanDataReviewBoard({
@@ -200,7 +208,19 @@ function DecisionLayer({ entity }: { entity: HumanDataReviewEntity }) {
         <article>
           <h3>残っている不確実性</h3>
           <ul className="drb-decision__uncertainties">
-            {context.uncertainties.length === 0 && <li>判断に関わる未解決項目はありません。</li>}
+            {context.uncertainties.length === 0 && context.findings.length === 0
+              && <li>判断に関わる未解決項目はありません。</li>}
+            {context.findings.map((item) => (
+              <li key={`${item.fieldKey}:${item.finding}`} data-finding={item.finding}>
+                <span className="drb-finding">{FINDING_LABELS_JA[item.finding]}</span>
+                <span className="drb-decision__finding-detail">
+                  <strong>{item.label}</strong>
+                  <small>
+                    検証状態: {dataReviewStatusLabelJa(item.verification, item.sourceChecked)}
+                  </small>
+                </span>
+              </li>
+            ))}
             {context.uncertainties.map((item) => (
               <li key={`${item.fieldKey}:${item.status}`}>
                 <span className={statusClass(item.status)}>

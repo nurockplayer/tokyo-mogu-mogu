@@ -277,6 +277,17 @@ test.describe('Human Data Review Board (#340)', () => {
     for (const surface of ['Home', 'Result', 'Story', 'Route']) {
       await expect(reviewLayer.getByText(surface, { exact: true })).toBeVisible();
     }
+    const presentationFinding = reviewLayer.locator('[data-finding="presentation_mismatch"]')
+      .filter({ hasText: 'Result と Route の移動時間表示' });
+    await expect(presentationFinding.getByText('表示間の不一致', { exact: true })).toBeVisible();
+    await expect(presentationFinding).toContainText('検証状態: 🧪 デモ情報');
+    const canonicalMissingFinding = reviewLayer.locator('[data-finding="canonical_missing"]').first();
+    await expect(canonicalMissingFinding.getByText('正本未登録', { exact: true })).toBeVisible();
+    await expect(canonicalMissingFinding).toContainText('検証状態: 🧪 デモ情報');
+    const statusUncertainty = reviewLayer.locator('.drb-decision__uncertainties li:not([data-finding])')
+      .filter({ hasText: '半日の所要時間（分）' })
+      .filter({ hasText: '出典確認済み・人の確認待ち' });
+    await expect(statusUncertainty).toBeVisible();
 
     const sourceLessGuidanceRow = page.getByRole('row').filter({
       hasText: '確認項目（Per-step guidance (akabeko, ja)）',
@@ -299,5 +310,8 @@ test.describe('Human Data Review Board (#340)', () => {
       .getByText('取扱・運行情報（okutama-kitchen）', { exact: true })).toBeVisible();
     await expect(page.getByText('特選ソフトジェラート（わさび味を含む・提供状況は要確認）', { exact: true }).first()).toBeVisible();
     await expect(page.getByRole('img', { name: /東京わさび文化を巡る旅.*アプリ表示/ }).first()).toBeVisible();
+    const summary = page.getByLabel('Slack共有用サマリー');
+    await expect(summary).not.toContainText('表示間の不一致');
+    await expect(summary).not.toContainText('正本未登録');
   });
 });
