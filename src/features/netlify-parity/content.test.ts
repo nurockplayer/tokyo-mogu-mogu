@@ -266,6 +266,36 @@ describe('Netlify parity presentation content', () => {
     expect(presentation.price.en).toContain('¥22,000');
     expect(presentation.price.en).not.toContain('conditions and surcharges apply');
     expect(presentation.verificationNote.en).toContain('Jan 2, 2027');
+
+    const conditionalOnly = structuredClone(changed);
+    const conditionalOnlyTour = conditionalOnly.visitorInformation?.experienceTour;
+    if (!conditionalOnlyTour) throw new Error('Missing conditional-only tour fixture.');
+    conditionalOnlyTour.listedPrice.conditionalPrice = {
+      amountYen: 14500,
+      eligibility: 'japan-resident-and-japanese-conversation',
+    };
+    const conditionalOnlyPrice = buildWasabiExperiencePresentation(conditionalOnly).price;
+    expect(conditionalOnlyPrice.ja).toContain('条件あり');
+    expect(conditionalOnlyPrice.ja).not.toContain('追加料金');
+    expect(conditionalOnlyPrice.en).toContain('conditions apply');
+    expect(conditionalOnlyPrice.en).not.toContain('surcharges');
+    expect(conditionalOnlyPrice['zh-TW']).toContain('另有條件');
+    expect(conditionalOnlyPrice['zh-TW']).not.toContain('附加費');
+
+    const surchargeOnly = structuredClone(changed);
+    const surchargeOnlyTour = surchargeOnly.visitorInformation?.experienceTour;
+    if (!surchargeOnlyTour) throw new Error('Missing surcharge-only tour fixture.');
+    surchargeOnlyTour.listedPrice.surcharge = {
+      amountYen: 5000,
+      appliesOn: ['weekends', 'public-holidays'],
+    };
+    const surchargeOnlyPrice = buildWasabiExperiencePresentation(surchargeOnly).price;
+    expect(surchargeOnlyPrice.ja).toContain('追加料金あり');
+    expect(surchargeOnlyPrice.ja).not.toContain('条件あり');
+    expect(surchargeOnlyPrice.en).toContain('surcharges apply');
+    expect(surchargeOnlyPrice.en).not.toContain('conditions');
+    expect(surchargeOnlyPrice['zh-TW']).toContain('另有附加費');
+    expect(surchargeOnlyPrice['zh-TW']).not.toContain('條件');
   });
 
   it('keeps the tourism-office fixture explicitly unverified in every locale', () => {

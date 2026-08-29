@@ -475,11 +475,27 @@ export function buildWasabiExperiencePresentation(place: FixedPlace) {
   );
   const hasPriceConditions = tour.listedPrice.conditionalPrice !== undefined;
   const hasPriceSurcharge = tour.listedPrice.surcharge !== undefined;
-  const priceConditionsJa = hasPriceConditions || hasPriceSurcharge ? '。条件・追加料金あり' : '';
-  const priceConditionsEn = hasPriceConditions || hasPriceSurcharge
-    ? '; conditions and surcharges apply'
+  const priceCaveatTermsJa = [
+    hasPriceConditions ? '条件' : undefined,
+    hasPriceSurcharge ? '追加料金' : undefined,
+  ].filter((term): term is string => term !== undefined);
+  const priceCaveatTermsEn = [
+    hasPriceConditions ? 'conditions' : undefined,
+    hasPriceSurcharge ? 'surcharges' : undefined,
+  ].filter((term): term is string => term !== undefined);
+  const priceCaveatTermsZh = [
+    hasPriceConditions ? '條件' : undefined,
+    hasPriceSurcharge ? '附加費' : undefined,
+  ].filter((term): term is string => term !== undefined);
+  const priceConditionsJa = priceCaveatTermsJa.length > 0
+    ? `。${priceCaveatTermsJa.join('・')}あり`
     : '';
-  const priceConditionsZh = hasPriceConditions || hasPriceSurcharge ? '，另有條件與附加費' : '';
+  const priceConditionsEn = priceCaveatTermsEn.length > 0
+    ? `; ${priceCaveatTermsEn.join(' and ')} apply`
+    : '';
+  const priceConditionsZh = priceCaveatTermsZh.length > 0
+    ? `，另有${priceCaveatTermsZh.join('與')}`
+    : '';
   const price = localized(
     `1名 ${tour.listedPrice.amountYen.toLocaleString('ja-JP')}円（${tour.listedPrice.taxIncluded ? '税込' : '税別'}・${retrievedDate.ja}取得の掲載価格${priceConditionsJa}）`,
     `¥${tour.listedPrice.amountYen.toLocaleString('en-US')} per person ${tour.listedPrice.taxIncluded ? 'incl. tax' : 'before tax'} (listed price retrieved ${retrievedDate.en}${priceConditionsEn})`,
