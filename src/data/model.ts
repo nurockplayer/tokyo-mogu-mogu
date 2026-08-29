@@ -190,8 +190,25 @@ export interface PlaceExperienceTourInformation {
   /** A form submission is only a request; the operator must confirm availability. */
   bookingRequestRequiresConfirmation: true;
   bookingUrl: string;
-  listedPriceYen: number;
-  weekendAvailability: 'request-only';
+  listedPrice: {
+    amountYen: number;
+    taxIncluded: true;
+    conditionalPrice?: {
+      amountYen: number;
+      eligibility: 'japan-resident-and-japanese-conversation';
+    };
+    surcharge?: {
+      amountYen: number;
+      appliesOn: Array<
+        | 'weekends'
+        | 'public-holidays'
+        | 'golden-week'
+        | 'obon'
+        | 'year-end-new-year'
+      >;
+    };
+  };
+  weekendHolidayAvailability: 'request-only';
   weatherMayCancelOrPostpone: true;
 }
 

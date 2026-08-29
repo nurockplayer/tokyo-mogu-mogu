@@ -504,8 +504,25 @@ describe('seed data contract (#2)', () => {
           reservationRequired: true,
           bookingRequestRequiresConfirmation: true,
           bookingUrl: 'https://tokyowasabi.com/wasabi-experience/#booking-form',
-          listedPriceYen: 19500,
-          weekendAvailability: 'request-only',
+          listedPrice: {
+            amountYen: 19500,
+            taxIncluded: true,
+            conditionalPrice: {
+              amountYen: 14500,
+              eligibility: 'japan-resident-and-japanese-conversation',
+            },
+            surcharge: {
+              amountYen: 5000,
+              appliesOn: [
+                'weekends',
+                'public-holidays',
+                'golden-week',
+                'obon',
+                'year-end-new-year',
+              ],
+            },
+          },
+          weekendHolidayAvailability: 'request-only',
           weatherMayCancelOrPostpone: true,
         },
       },

@@ -469,14 +469,21 @@ export function buildWasabiExperiencePresentation(place: FixedPlace) {
     `${bookingRequiredTag['zh-TW']}。${tour.bookingRequestRequiresConfirmation ? '送出表單僅為申請，須經營運方確認後才成立' : '送出表單後即成立'}`,
   );
   const availability = localized(
-    `${groupCopy.ja}のプライベートツアー。${tour.weekendAvailability === 'request-only' ? '週末・祝日は要問合せ。' : ''}空き状況は${tour.bookingRequestRequiresConfirmation ? '運営者確認が必要' : '公式情報を確認'}`,
-    `${groupCopy.en.replace(' daily', ' per day')}. ${tour.weekendAvailability === 'request-only' ? 'Weekends and holidays are request-only; ' : ''}availability ${tour.bookingRequestRequiresConfirmation ? 'requires operator confirmation' : 'is shown by the official source'}`,
-    `${groupCopy['zh-TW']}私人導覽。${tour.weekendAvailability === 'request-only' ? '週末與國定假日須洽詢；' : ''}是否有名額${tour.bookingRequestRequiresConfirmation ? '需經營運方確認' : '請查看官方資訊'}`,
+    `${groupCopy.ja}のプライベートツアー。${tour.weekendHolidayAvailability === 'request-only' ? '週末・祝日は要問合せ。' : ''}空き状況は${tour.bookingRequestRequiresConfirmation ? '運営者確認が必要' : '公式情報を確認'}`,
+    `${groupCopy.en.replace(' daily', ' per day')}. ${tour.weekendHolidayAvailability === 'request-only' ? 'Weekends and holidays are request-only; ' : ''}availability ${tour.bookingRequestRequiresConfirmation ? 'requires operator confirmation' : 'is shown by the official source'}`,
+    `${groupCopy['zh-TW']}私人導覽。${tour.weekendHolidayAvailability === 'request-only' ? '週末與國定假日須洽詢；' : ''}是否有名額${tour.bookingRequestRequiresConfirmation ? '需經營運方確認' : '請查看官方資訊'}`,
   );
+  const hasPriceConditions = tour.listedPrice.conditionalPrice !== undefined;
+  const hasPriceSurcharge = tour.listedPrice.surcharge !== undefined;
+  const priceConditionsJa = hasPriceConditions || hasPriceSurcharge ? '。条件・追加料金あり' : '';
+  const priceConditionsEn = hasPriceConditions || hasPriceSurcharge
+    ? '; conditions and surcharges apply'
+    : '';
+  const priceConditionsZh = hasPriceConditions || hasPriceSurcharge ? '，另有條件與附加費' : '';
   const price = localized(
-    `1名 ${tour.listedPriceYen.toLocaleString('ja-JP')}円（税込・${retrievedDate.ja}取得の掲載価格。条件・追加料金あり）`,
-    `¥${tour.listedPriceYen.toLocaleString('en-US')} per person incl. tax (listed price retrieved ${retrievedDate.en}; conditions and surcharges apply)`,
-    `每人 ${tour.listedPriceYen.toLocaleString('en-US')} 日圓（含稅；${retrievedDate['zh-TW']}取得的刊載價格，另有條件與附加費）`,
+    `1名 ${tour.listedPrice.amountYen.toLocaleString('ja-JP')}円（${tour.listedPrice.taxIncluded ? '税込' : '税別'}・${retrievedDate.ja}取得の掲載価格${priceConditionsJa}）`,
+    `¥${tour.listedPrice.amountYen.toLocaleString('en-US')} per person ${tour.listedPrice.taxIncluded ? 'incl. tax' : 'before tax'} (listed price retrieved ${retrievedDate.en}${priceConditionsEn})`,
+    `每人 ${tour.listedPrice.amountYen.toLocaleString('en-US')} 日圓（${tour.listedPrice.taxIncluded ? '含稅' : '未稅'}；${retrievedDate['zh-TW']}取得的刊載價格${priceConditionsZh}）`,
   );
 
   return {
@@ -542,9 +549,9 @@ export function buildWasabiExperiencePresentation(place: FixedPlace) {
           : '・集合時間依季節而異。',
       ),
       localized(
-        `・掲載価格、所要時間、${tour.weekendAvailability === 'request-only' ? '週末・祝日の催行、' : ''}空き状況は変わる場合があります。申込時に確認してください。`,
-        `• Listed price, duration, ${tour.weekendAvailability === 'request-only' ? 'weekend/holiday operation, and ' : ''}availability can change. Confirm when booking.`,
-        `・刊載價格、所需時間、${tour.weekendAvailability === 'request-only' ? '週末／國定假日是否舉行與' : ''}名額可能變動，申請時請確認。`,
+        `・掲載価格、所要時間、${tour.weekendHolidayAvailability === 'request-only' ? '週末・祝日の催行、' : ''}空き状況は変わる場合があります。申込時に確認してください。`,
+        `• Listed price, duration, ${tour.weekendHolidayAvailability === 'request-only' ? 'weekend/holiday operation, and ' : ''}availability can change. Confirm when booking.`,
+        `・刊載價格、所需時間、${tour.weekendHolidayAvailability === 'request-only' ? '週末／國定假日是否舉行與' : ''}名額可能變動，申請時請確認。`,
       ),
       ...(tour.weatherMayCancelOrPostpone
         ? [localized(

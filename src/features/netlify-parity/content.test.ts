@@ -180,6 +180,19 @@ describe('Netlify parity presentation content', () => {
           ],
           meetingTimeMayChange: true,
           bookingRequestRequiresConfirmation: true,
+          weekendHolidayAvailability: 'request-only',
+          listedPrice: {
+            amountYen: 19500,
+            taxIncluded: true,
+            conditionalPrice: {
+              amountYen: 14500,
+              eligibility: 'japan-resident-and-japanese-conversation',
+            },
+            surcharge: {
+              amountYen: 5000,
+              appliesOn: expect.arrayContaining(['weekends', 'public-holidays']),
+            },
+          },
           durationConflict: {
             verificationStatus: 'conflict',
             statements: [
@@ -228,7 +241,9 @@ describe('Netlify parity presentation content', () => {
       { season: 'october-april', time: '12:30' },
     ];
     tour.privateGroupsPerDay = 2;
-    tour.listedPriceYen = 22000;
+    tour.listedPrice.amountYen = 22000;
+    tour.listedPrice.conditionalPrice = undefined;
+    tour.listedPrice.surcharge = undefined;
     access.walkMinutes = 9;
     changed.source.retrievedAt = '2027-01-02';
     const japaneseDuration = tour.durationConflict.statements.find(
@@ -249,6 +264,7 @@ describe('Netlify parity presentation content', () => {
     expect(presentation.duration.en).toContain('about 2.5–3 hours');
     expect(presentation.duration.en).toContain('about 2.25 hours');
     expect(presentation.price.en).toContain('¥22,000');
+    expect(presentation.price.en).not.toContain('conditions and surcharges apply');
     expect(presentation.verificationNote.en).toContain('Jan 2, 2027');
   });
 

@@ -70,6 +70,17 @@ const experienceDurationConflictValue = (tour: PlaceExperienceTourInformation) =
     return `${statement.id} ${min}${min === max ? '' : `–${max}`} minutes`;
   }).join(' | ');
 
+const experiencePriceValue = (tour: PlaceExperienceTourInformation) => [
+  `${tour.listedPrice.amountYen} JPY`,
+  tour.listedPrice.taxIncluded ? 'tax_included' : 'tax_excluded',
+  tour.listedPrice.conditionalPrice
+    ? `conditional ${tour.listedPrice.conditionalPrice.amountYen} JPY: ${tour.listedPrice.conditionalPrice.eligibility}`
+    : undefined,
+  tour.listedPrice.surcharge
+    ? `surcharge ${tour.listedPrice.surcharge.amountYen} JPY: ${tour.listedPrice.surcharge.appliesOn.join(', ')}`
+    : undefined,
+].filter((value): value is string => value !== undefined).join(' / ');
+
 type LedgerSourceMetadata = Pick<
   DataSource,
   | 'name'
@@ -601,11 +612,11 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
     }
     if (fieldId === 'tour_availability' && visitor.experienceTour) {
       return defaultFact(
-        `${visitor.experienceTour.weekendAvailability} / operator_confirmation / weather_may_cancel_or_postpone`,
+        `weekends_and_public_holidays ${visitor.experienceTour.weekendHolidayAvailability} / operator_confirmation / weather_may_cancel_or_postpone`,
       );
     }
     if (fieldId === 'price_availability' && visitor.experienceTour) {
-      return defaultFact(`${visitor.experienceTour.listedPriceYen} JPY / conditions_and_surcharges_apply`);
+      return defaultFact(experiencePriceValue(visitor.experienceTour));
     }
     return undefined;
   };
@@ -650,8 +661,8 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
         ['private_group_limit', 'Private group limit', `${place.visitorInformation.experienceTour.privateGroupsPerDay} private group/day`, true] as const,
         ['reservation', 'Reservation requirement', 'required / operator_confirmation', true] as const,
         ['booking_destination', 'Booking request destination', place.visitorInformation.experienceTour.bookingUrl, true] as const,
-        ['tour_availability', 'Tour availability', `${place.visitorInformation.experienceTour.weekendAvailability} / operator_confirmation / weather_may_cancel_or_postpone`, true] as const,
-        ['price_availability', 'Listed experience price', `${place.visitorInformation.experienceTour.listedPriceYen} JPY / conditions_and_surcharges_apply`, true] as const,
+        ['tour_availability', 'Tour availability', `weekends_and_public_holidays ${place.visitorInformation.experienceTour.weekendHolidayAvailability} / operator_confirmation / weather_may_cancel_or_postpone`, true] as const,
+        ['price_availability', 'Listed experience price and conditions', experiencePriceValue(place.visitorInformation.experienceTour), true] as const,
       ] : []),
     ];
 
@@ -1389,9 +1400,10 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
             (reference) => reference.spotId === factualClaim.spotId,
           )
         : undefined;
-      const presentationDescription = presentationReference?.description?.ja;
+      const presentationClaimValue = presentationReference?.note?.ja
+        ?? presentationReference?.description?.ja;
 
-      if (mappedPlace && mappedFact && presentationDescription) {
+      if (mappedPlace && mappedFact && presentationClaimValue) {
         inputs.push({
           claimId: `story:${journey.storyId}:${factualClaim.claimId}`,
           entityType: 'Story',
@@ -1408,7 +1420,7 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
             SOURCE_FILES.places,
           ),
           presentation: presentationValue(
-            presentationDescription,
+            presentationClaimValue,
             'Story',
             mappedPlace.origin,
             mappedFact.verification,
@@ -1421,7 +1433,7 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
             ...audit.issues,
             ...('issues' in factualClaim ? factualClaim.issues : []),
           ],
-          note: `Metadata maps ${factualClaim.parentFieldId} to canonical Place ${mappedPlace.id}; no factual value is duplicated in the audit manifest.`,
+          note: `Metadata maps ${factualClaim.parentFieldId} to canonical Place ${mappedPlace.id}; the visible Story note is used when it carries the mapped fact, without duplicating truth in the audit manifest.`,
         });
       } else {
         inputs.push({

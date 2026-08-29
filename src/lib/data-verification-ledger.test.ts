@@ -1048,8 +1048,29 @@ describe('repository data verification ledger (#333)', () => {
       claims.find((row) => row.claimId === 'story:wasabi-okutama:story.spot.wasabi-experience.reservation-requirement'),
     ).toMatchObject({
       canonicalValue: expect.stringContaining('required'),
+      displayedValue: '要予約・1日1組（空き状況は要確認）',
       verification: 'needs_confirmation',
       finding: 'none',
+    });
+    expect(
+      claims.find((row) => row.claimId === 'story:wasabi-okutama:story.spot.wasabi-experience.daily-group-limit'),
+    ).toMatchObject({
+      canonicalValue: '1 private group/day',
+      displayedValue: '要予約・1日1組（空き状況は要確認）',
+      verification: 'needs_confirmation',
+      finding: 'none',
+    });
+    expect(
+      claims.find((row) => row.claimId === 'spot:wasabi-experience:tour_availability'),
+    ).toMatchObject({
+      canonicalValue: expect.stringContaining('weekends_and_public_holidays request-only'),
+      displayedValue: expect.stringContaining('週末・祝日は要問合せ'),
+    });
+    expect(
+      claims.find((row) => row.claimId === 'spot:wasabi-experience:price_availability'),
+    ).toMatchObject({
+      canonicalValue: expect.stringContaining('19500 JPY / tax_included'),
+      displayedValue: expect.stringContaining('税込'),
     });
     expect(
       claims.find((row) => row.claimId === 'route:okutama-wasabi-journey:full-day:step:wasabi-experience:meeting_time:ja'),
