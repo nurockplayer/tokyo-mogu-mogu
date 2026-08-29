@@ -282,6 +282,7 @@ describe('repository data verification ledger (#333)', () => {
       finding: 'mismatch',
       origin: 'source',
       retrievedAt: '2026-08-26',
+      replacementRecommendation: 'replace_product_display',
     });
     expect(informationName?.primarySource).toContain('一般社団法人奥多摩観光協会');
     expect(informationName?.primarySourceUrl).toBe('https://www.okutama.gr.jp/site/');

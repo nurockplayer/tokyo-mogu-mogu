@@ -1,6 +1,38 @@
 import { expect, test } from '@playwright/test';
 
 test.describe('Human Data Review Board (#340)', () => {
+  test('puts the single Okutama tourism-office decision in the first screenful', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/data-review/#okutama-tourism-office');
+
+    await expect(page.getByRole('heading', { name: '1件の判断が必要です' })).toBeVisible();
+    const decision = page.getByRole('article', { name: '施設名の判断' });
+    await expect(decision).toContainText('表示差異あり');
+    await expect(decision).toContainText('変更推奨');
+    await expect(decision).toContainText('現在のProduct表示');
+    await expect(decision).toContainText('奥多摩町観光案内所');
+    await expect(decision).toContainText('公式/根拠側の情報');
+    await expect(decision).toContainText('奥多摩観光案内所');
+    await expect(decision).toContainText('公式/根拠側の情報と一致していません');
+    await expect(decision).toContainText('Spot');
+    await expect(decision.getByRole('link', { name: '一般社団法人奥多摩観光協会（奥多摩町観光案内所）' }))
+      .toHaveAttribute('href', 'https://www.okutama.gr.jp/site/');
+    const box = await decision.boundingBox();
+    expect(box).not.toBeNull();
+    expect(box!.y + box!.height).toBeLessThanOrEqual(900);
+
+    const nameRow = page.getByRole('row').filter({ has: page.getByText('施設名', { exact: true }) });
+    const traceability = nameRow.getByText('根拠を見る', { exact: true });
+    await expect(traceability).toBeVisible();
+    const deepSource = nameRow.getByRole('link', { name: '一般社団法人奥多摩観光協会（奥多摩町観光案内所）' });
+    await expect(deepSource).not.toBeVisible();
+    await traceability.click();
+    await expect(deepSource).toBeVisible();
+    const summary = page.getByLabel('Slack共有用サマリー');
+    await expect(summary).not.toContainText('変更推奨');
+    await expect(summary).not.toContainText('期待する扱い');
+  });
+
   test('lets a desktop reviewer filter entities and inspect source/evidence boundaries', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto('/data-review/');
@@ -9,10 +41,10 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex,nofollow');
     await expect(page.getByRole('heading', { name: 'Human Data Review Board' })).toBeVisible();
     const coverage = page.getByLabel('現在のProduct確認対象');
-    await expect(coverage).toContainText('現在のProduct確認対象 15件');
-    await expect(coverage).toContainText('Spot 11件');
-    await expect(coverage).toContainText('Story 2件');
-    await expect(coverage).toContainText('Route 2件');
+    await expect(coverage).toContainText('現在のProduct確認対象 21件');
+    await expect(coverage).toContainText('Spot 15件');
+    await expect(coverage).toContainText('Story 3件');
+    await expect(coverage).toContainText('Route 3件');
     await expect(page.getByText('奥多摩町観光案内所', { exact: true })).toBeVisible();
     await expect(page.getByText('奥多摩わさび本舗 山城屋', { exact: true })).toBeVisible();
     await expect(page.getByText('手作りお弁当・お惣菜の専門店 奥多摩の台所', { exact: true })).toBeVisible();
@@ -44,8 +76,8 @@ test.describe('Human Data Review Board (#340)', () => {
     await page.getByRole('button', { name: /奥多摩の台所の詳細/ }).click();
 
     await expect(page).toHaveURL(/#okutama-kitchen$/);
-    await expect(page.getByRole('heading', { name: '現在わかっていること' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'まだわからないこと' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: '現在確認できる情報' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: '未確認のためProductで保証しない情報' })).toBeVisible();
     const unknowns = page.locator('.drb-unknowns');
     await expect(unknowns.getByText('予約方法・URL', { exact: true })).toBeVisible();
     await expect(unknowns.getByText('食事制限・アレルギー対応', { exact: true })).toBeVisible();
@@ -79,25 +111,28 @@ test.describe('Human Data Review Board (#340)', () => {
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto('/data-review/');
 
-    await expect(page.getByLabel('現在のProduct確認対象')).toContainText('15件');
+    await expect(page.getByLabel('現在のProduct確認対象')).toContainText('21件');
     const overviewDimensions = await page.evaluate(() => ({
       scrollWidth: document.documentElement.scrollWidth,
       clientWidth: document.documentElement.clientWidth,
     }));
     expect(overviewDimensions.scrollWidth).toBeLessThanOrEqual(overviewDimensions.clientWidth);
 
-    await page.goto('/data-review/#wasabi-kitchen');
-
-    await expect(page.getByRole('heading', { name: 'わさび食堂' })).toBeVisible();
-    await expect(page.getByText('⚠️ 情報に矛盾あり', { exact: true }).first()).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'レビュー判断' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Productへの影響' })).toBeVisible();
-
-    const dimensions = await page.evaluate(() => ({
-      scrollWidth: document.documentElement.scrollWidth,
-      clientWidth: document.documentElement.clientWidth,
-    }));
-    expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth);
+    const detailCases = [
+      ['okutama-tourism-office', '1件の判断が必要です'],
+      ['wasabi-kitchen', '5件の判断が必要です'],
+      ['akabeko', '6件の判断が必要です'],
+      ['port-okutama', '4件の判断が必要です'],
+    ] as const;
+    for (const [id, decisionHeading] of detailCases) {
+      await page.goto(`/data-review/#${id}`);
+      await expect(page.getByRole('heading', { name: decisionHeading })).toBeVisible();
+      const dimensions = await page.evaluate(() => ({
+        scrollWidth: document.documentElement.scrollWidth,
+        clientWidth: document.documentElement.clientWidth,
+      }));
+      expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth);
+    }
   });
 
   test('shows source-backed PORT OKUTAMA facts without hiding unknowns or evidence omissions (#327)', async ({ page }) => {
@@ -111,18 +146,39 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(facts.getByText('取扱・サービス', { exact: true })).toBeVisible();
     await expect(facts.getByText('最新の公式情報', { exact: true })).toBeVisible();
     await expect(page.locator('.drb-unknowns').getByText('予約方法・URL', { exact: true })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'レビュー判断' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: '4件の判断が必要です' })).toBeVisible();
+    const currentInformation = page.locator('[data-decision-kind="current_information"]');
+    for (const label of ['住所', '電話番号', '営業時間', '休業日', '取扱・サービス', '最新の公式情報']) {
+      await expect(currentInformation).toContainText(label);
+    }
+    for (const surface of ['Spot', 'Story', 'Route']) {
+      await expect(currentInformation.getByText(surface, { exact: true })).toBeVisible();
+    }
+    const hoursDecision = page.getByRole('article', { name: '営業時間の判断' });
+    await expect(hoursDecision).toContainText('現在のProduct表示');
+    await expect(hoursDecision).toContainText('平日 11:00〜17:00（L.O. 16:30）');
+    await expect(hoursDecision).toContainText('公式/根拠側の情報');
+    await expect(hoursDecision).toContainText('weekday 11:00–17:00 / L.O. 16:30');
+    await expect(hoursDecision).toContainText('要判断');
+    await expect(hoursDecision).not.toContainText('変更推奨');
+    const serviceDecision = page.getByRole('article', { name: '取扱・サービスの判断' });
+    for (const surface of ['Spot', 'Story', 'Route']) {
+      await expect(serviceDecision.getByText(surface, { exact: true })).toBeVisible();
+    }
     const addressRow = page.getByRole('row').filter({ has: page.getByText('住所', { exact: true }) });
+    await addressRow.getByText('根拠を見る', { exact: true }).click();
     await expect(addressRow.getByRole('link', { name: 'JR東日本（PORT OKUTAMA）' })).toHaveAttribute(
       'href',
       'https://www.jreast.co.jp/hachioji/ome-itsukaichi/spot/detail382787.html',
     );
     const phoneRow = page.getByRole('row').filter({ has: page.getByText('電話番号', { exact: true }) });
+    await phoneRow.getByText('根拠を見る', { exact: true }).click();
     await expect(phoneRow.getByRole('link', { name: 'PORT OKUTAMA（公式サイト）' })).toHaveAttribute(
       'href',
       'https://www.okutama.ne.jp/',
     );
     const coordinateRow = page.getByRole('row').filter({ has: page.getByText('位置情報', { exact: true }) });
+    await coordinateRow.getByText('根拠を見る', { exact: true }).click();
     await expect(coordinateRow.getByRole('link', { name: 'OpenStreetMap（PORT OKUTAMA）' })).toHaveAttribute(
       'href',
       'https://www.openstreetmap.org/node/6552267871',
@@ -166,21 +222,31 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(page.getByText('住所', { exact: true })).toHaveCount(0);
     await expect(page.getByText('位置情報', { exact: true })).toHaveCount(0);
     await expect(page.getByText('mobile_food_truck / no_permanent_storefront', { exact: true })).toBeVisible();
-    await expect(page.getByText('固定店舗のないキッチンカー', { exact: true })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'レビュー判断' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: '判断ポイント' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Productへの影響' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: '確認対象画面' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: '残っている不確実性' })).toBeVisible();
-    await expect(page.getByText('移動型の営業形態を、固定店舗のように見せていないか', { exact: true })).toBeVisible();
-    await expect(page.getByText(/固定住所・固定マップピン・固定地点への経路案内・GPSチェックイン/)).toBeVisible();
-    const reviewLayer = page.getByLabel('レビュー判断');
+    await expect(page.getByRole('heading', { name: '5件の判断が必要です' })).toBeVisible();
+    const mobileDecision = page.getByRole('article', { name: '営業形態の判断' });
+    await expect(mobileDecision).toContainText('固定地点として扱わない');
+    await expect(mobileDecision).toContainText('固定店舗のないキッチンカー');
+    await expect(mobileDecision).toContainText(/固定住所・固定マップピン・固定地点への経路案内・GPSチェックイン/);
     for (const surface of ['Spot', 'Story', 'Route']) {
-      await expect(reviewLayer.getByText(surface, { exact: true })).toBeVisible();
+      await expect(mobileDecision.getByText(surface, { exact: true })).toBeVisible();
     }
+    const conflictDecision = page.getByRole('article', { name: '日程情報の不一致の判断' });
+    await expect(conflictDecision).toContainText('情報に矛盾あり');
+    await expect(conflictDecision).toContainText('不一致が解消されるまで、いずれかの値を確定情報として選ばない');
+    await expect(conflictDecision.getByRole('link', { name: 'TOKYO WASABI（2026年8月 わさび食堂営業日）' })).toHaveAttribute(
+      'href',
+      'https://tokyowasabi.com/information/2751/260728/',
+    );
+    await expect(conflictDecision.getByRole('link', { name: 'TOKYO WASABI（FUSSA TANABATA CHALLENGE）' })).toHaveAttribute(
+      'href',
+      'https://tokyowasabi.com/hitoshi/2573/fussa-tanabata-challenge/',
+    );
+    await expect(conflictDecision).toContainText('2026-08-07〜2026-08-09');
+    await expect(conflictDecision).toContainText('2026-08-08〜2026-08-10');
     const scheduleConflictRow = page.getByRole('row').filter({
       has: page.getByText('日程情報の不一致', { exact: true }),
     });
+    await scheduleConflictRow.getByText('根拠を見る', { exact: true }).click();
     await expect(scheduleConflictRow.getByRole('link', { name: 'TOKYO WASABI（2026年8月 わさび食堂営業日）' })).toHaveAttribute(
       'href',
       'https://tokyowasabi.com/information/2751/260728/',
@@ -215,7 +281,28 @@ test.describe('Human Data Review Board (#340)', () => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto('/data-review/#akabeko');
 
+    await expect(page.getByRole('heading', { name: '6件の判断が必要です' })).toBeVisible();
+    const phoneDecision = page.getByRole('article', { name: '電話番号の判断' });
+    await expect(phoneDecision).toContainText('情報に矛盾あり');
+    await expect(phoneDecision.getByRole('link', { name: '炉ばた あかべこ（公式サイト）' })).toHaveAttribute(
+      'href',
+      'https://akabeko.tokyo/',
+    );
+    await expect(phoneDecision.getByRole('link', { name: '炉ばた あかべこ（公式ニュースページ）' })).toHaveAttribute(
+      'href',
+      'https://akabeko.tokyo/news',
+    );
+    await expect(phoneDecision.getByRole('link', { name: '民話の宿 荒澤屋（公式お問い合わせ）' })).toHaveAttribute(
+      'href',
+      'https://arasawaya.co.jp/contact/',
+    );
+    await expect(phoneDecision.getByText('Spot', { exact: true })).toBeVisible();
+    await expect(phoneDecision.getByText('Route', { exact: true })).toHaveCount(0);
+    await expect(phoneDecision.getByText('Story', { exact: true })).toHaveCount(0);
+    await expect(phoneDecision).toContainText('不一致が解消されるまで、いずれかの値を確定情報として選ばない');
+
     const phoneRow = page.getByRole('row').filter({ has: page.getByText('電話番号', { exact: true }) });
+    await phoneRow.getByText('根拠を見る', { exact: true }).click();
     await expect(phoneRow).toContainText('⚠️ 情報に矛盾あり');
     await expect(phoneRow.getByRole('link', { name: '炉ばた あかべこ（公式サイト）' })).toHaveAttribute(
       'href',
@@ -230,9 +317,6 @@ test.describe('Human Data Review Board (#340)', () => {
       'https://arasawaya.co.jp/contact/',
     );
     await expect(phoneRow.getByText('Spot', { exact: true })).toBeVisible();
-    await expect(phoneRow.getByText('Route', { exact: true })).toHaveCount(0);
-    await expect(phoneRow.getByText('Story', { exact: true })).toHaveCount(0);
-    await expect(page.getByText('不一致が解消されるまで、いずれかの値を確定情報として選ばない', { exact: true })).toBeVisible();
   });
 
   test('represents both current Route and Story identities', async ({ page }) => {
@@ -247,6 +331,13 @@ test.describe('Human Data Review Board (#340)', () => {
       await page.goto(`/data-review/#${id}`);
       await expect(page.getByRole('heading', { name })).toBeVisible();
     }
+
+    await page.goto('/data-review/#sake-ome');
+    await expect(page.getByRole('heading', { name: '1件の判断が必要です' })).toBeVisible();
+    const currentInformation = page.locator('[data-decision-kind="current_information"]');
+    await expect(currentInformation).toContainText('見学は予約制・訪問前に公式情報を確認');
+    await expect(currentInformation).toContainText('営業日は公式カレンダーを確認');
+    await expect(currentInformation.getByText('Story', { exact: true })).toBeVisible();
   });
 
   test('does not expose the team Board in consumer Product navigation', async ({ page }) => {
@@ -268,26 +359,37 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(durationRow.getByText('現在の表示', { exact: true })).toBeVisible();
     await expect(durationRow.getByText('150', { exact: true })).toBeVisible();
     await expect(durationRow.getByText('🟡 出典確認済み・人の確認待ち', { exact: true })).toBeVisible();
+    await durationRow.getByText('根拠を見る', { exact: true }).click();
+    await expect(durationRow.getByRole('link', {
+      name: '一般社団法人奥多摩観光協会（奥多摩町観光案内所）',
+    })).toBeVisible();
     await expect(durationRow.getByText('Route', { exact: true })).toBeVisible();
     await expect(durationRow.getByText('Home', { exact: true })).toHaveCount(0);
     await expect(durationRow.getByText('Story', { exact: true })).toHaveCount(0);
     await expect(durationRow.getByText('Result', { exact: true })).toHaveCount(0);
 
-    const reviewLayer = page.getByLabel('レビュー判断');
-    for (const surface of ['Home', 'Result', 'Story', 'Route']) {
-      await expect(reviewLayer.getByText(surface, { exact: true })).toBeVisible();
-    }
-    const presentationFinding = reviewLayer.locator('[data-finding="presentation_mismatch"]')
-      .filter({ hasText: 'Result と Route の移動時間表示' });
-    await expect(presentationFinding.getByText('表示間の不一致', { exact: true })).toBeVisible();
-    await expect(presentationFinding).toContainText('検証状態: 🧪 デモ情報');
-    const canonicalMissingFinding = reviewLayer.locator('[data-finding="canonical_missing"]').first();
-    await expect(canonicalMissingFinding.getByText('正本未登録', { exact: true })).toBeVisible();
-    await expect(canonicalMissingFinding).toContainText('検証状態: 🧪 デモ情報');
-    const statusUncertainty = reviewLayer.locator('.drb-decision__uncertainties li:not([data-finding])')
-      .filter({ hasText: '半日の所要時間（分）' })
-      .filter({ hasText: '出典確認済み・人の確認待ち' });
-    await expect(statusUncertainty).toBeVisible();
+    const reviewLayer = page.getByRole('region', { name: '34件の判断が必要です' });
+    const durationDecision = reviewLayer.getByRole('article', { name: '半日の所要時間（分）の判断' });
+    await expect(durationDecision).toContainText('表示差異あり');
+    await expect(durationDecision).toContainText('現在のProduct表示');
+    await expect(durationDecision).toContainText('150');
+    await expect(durationDecision).toContainText('編集上の情報（未検証）');
+    await expect(durationDecision).not.toContainText('公式/根拠側の情報');
+    await expect(durationDecision).toContainText('200');
+    await expect(durationDecision).toContainText('要判断');
+    await expect(durationDecision).not.toContainText('変更推奨');
+    await expect(durationDecision.getByText('直接の根拠', { exact: true })).toHaveCount(0);
+    await expect(durationDecision.getByRole('link', {
+      name: '一般社団法人奥多摩観光協会（奥多摩町観光案内所）',
+    })).toHaveCount(0);
+    await expect(durationDecision.getByText('Route', { exact: true })).toBeVisible();
+    const presentationDecision = reviewLayer.getByRole('article', { name: 'Result と Route の移動時間表示の判断' });
+    await expect(presentationDecision).toContainText('表示間に差異あり');
+    await expect(presentationDecision).toContainText('比較対象のProduct表示');
+    await expect(presentationDecision.getByText('Route', { exact: true })).toBeVisible();
+    await expect(presentationDecision.getByText('Result', { exact: true })).toBeVisible();
+    const canonicalMissingDecision = reviewLayer.getByRole('article', { name: '1日の距離の目安の判断' });
+    await expect(canonicalMissingDecision).toContainText('根拠側の情報が不足');
 
     const sourceLessGuidanceRow = page.getByRole('row').filter({
       hasText: '確認項目（Per-step guidance (akabeko, ja)）',
@@ -303,6 +405,7 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(presentationRow.getByText('東京駅 / から電車で　約120分', { exact: true })).toBeVisible();
     await expect(presentationRow.getByText('比較対象の表示', { exact: true })).toBeVisible();
     await expect(presentationRow.getByText('東京駅 / 60 分', { exact: true })).toBeVisible();
+    await presentationRow.getByText('根拠を見る', { exact: true }).click();
     await expect(presentationRow.getByText('Route', { exact: true })).toBeVisible();
     await expect(presentationRow.getByText('Result', { exact: true })).toBeVisible();
     await expect(presentationRow.getByText('Story', { exact: true })).toHaveCount(0);

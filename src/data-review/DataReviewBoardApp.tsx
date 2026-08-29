@@ -10,7 +10,7 @@ import {
   dataReviewStatusLabelJa,
   DATA_REVIEW_STATUS_LABELS_JA,
   type HumanDataReviewEntity,
-  type HumanDataReviewDecisionFinding,
+  type HumanDataReviewDecisionItem,
   type HumanDataReviewFact,
   type HumanDataReviewSource,
 } from '../lib/human-data-review-board';
@@ -54,13 +54,6 @@ const FACT_SOURCE_ROLE_JA: Readonly<Record<HumanDataReviewFact['sources'][number
   content: '内容の根拠',
   address: '住所の根拠',
   coordinates: '位置情報の根拠',
-};
-
-const FINDING_LABELS_JA: Readonly<Record<HumanDataReviewDecisionFinding['finding'], string>> = {
-  mismatch: '正本と表示の不一致',
-  presentation_mismatch: '表示間の不一致',
-  canonical_missing: '正本未登録',
-  presentation_missing: '表示未登録',
 };
 
 const board = buildHumanDataReviewBoard({
@@ -142,37 +135,40 @@ function FactTraceability({ fact }: { fact: HumanDataReviewFact }) {
   if (fact.sources.length === 0 && fact.affectedSurfaces.length === 0) return null;
 
   return (
-    <div className="drb-fact__traceability">
-      {fact.sources.length > 0 && (
-        <div className="drb-fact__sources" aria-label={`${fact.label}の根拠`}>
-          <small>この項目の根拠</small>
-          <div>
-            {fact.sources.map((source) => (
-              <article key={source.claimId} className="drb-fact-source">
-                <span>
-                  {source.relationship === 'source_statement' ? '出典別の記載' : FACT_SOURCE_ROLE_JA[source.role]}
-                </span>
-                {source.url
-                  ? <a href={source.url} target="_blank" rel="noreferrer">{source.name}</a>
-                  : <strong>{source.name}</strong>}
-                {source.value && <p>{source.value}</p>}
-                <small>
-                  {dataReviewStatusLabelJa(source.status, Boolean(source.retrievedAt))}
-                  {' · '}出典確認 {source.retrievedAt ?? '未登録'}
-                  {source.confirmedAt && <> · 人による確認 {source.confirmedAt}</>}
-                </small>
-              </article>
-            ))}
+    <details className="drb-fact__traceability">
+      <summary>根拠を見る</summary>
+      <div className="drb-fact__traceability-content">
+        {fact.sources.length > 0 && (
+          <div className="drb-fact__sources" aria-label={`${fact.label}の根拠`}>
+            <small>この項目の根拠</small>
+            <div>
+              {fact.sources.map((source) => (
+                <article key={source.claimId} className="drb-fact-source">
+                  <span>
+                    {source.relationship === 'source_statement' ? '出典別の記載' : FACT_SOURCE_ROLE_JA[source.role]}
+                  </span>
+                  {source.url
+                    ? <a href={source.url} target="_blank" rel="noreferrer">{source.name}</a>
+                    : <strong>{source.name}</strong>}
+                  {source.value && <p>{source.value}</p>}
+                  <small>
+                    {dataReviewStatusLabelJa(source.status, Boolean(source.retrievedAt))}
+                    {' · '}出典確認 {source.retrievedAt ?? '未登録'}
+                    {source.confirmedAt && <> · 人による確認 {source.confirmedAt}</>}
+                  </small>
+                </article>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
-      {fact.affectedSurfaces.length > 0 && (
-        <div className="drb-fact__surfaces" aria-label={`${fact.label}の確認対象画面`}>
-          <small>確認対象画面</small>
-          <div>{fact.affectedSurfaces.map((surface) => <span key={surface}>{surface}</span>)}</div>
-        </div>
-      )}
-    </div>
+        )}
+        {fact.affectedSurfaces.length > 0 && (
+          <div className="drb-fact__surfaces" aria-label={`${fact.label}の確認対象画面`}>
+            <small>確認対象画面</small>
+            <div>{fact.affectedSurfaces.map((surface) => <span key={surface}>{surface}</span>)}</div>
+          </div>
+        )}
+      </div>
+    </details>
   );
 }
 
@@ -181,61 +177,115 @@ function DecisionLayer({ entity }: { entity: HumanDataReviewEntity }) {
   return (
     <section className="drb-panel drb-decision" aria-label="レビュー判断" aria-labelledby="decision-heading">
       <div className="drb-panel__heading drb-decision__heading">
-        <span>REVIEW FOCUS</span>
-        <h2 id="decision-heading">レビュー判断</h2>
+        <span>DECISION QUEUE</span>
+        <h2 id="decision-heading">{entity.decisionCount}件の判断が必要です</h2>
       </div>
-      <div className="drb-decision__grid">
-        <article>
-          <h3>判断ポイント</h3>
-          <ul>
-            {context.reviewFocus.map((item) => <li key={item.id}>{item.label}</li>)}
-          </ul>
-        </article>
-        <article>
-          <h3>Productへの影響</h3>
-          <ul>
-            {context.productImpacts.map((item) => <li key={item.id}>{item.label}</li>)}
-          </ul>
-        </article>
-        <article>
-          <h3>確認対象画面</h3>
-          <div className="drb-decision__surfaces">
-            {context.affectedSurfaces.length === 0
-              ? <p>現在の構造化メタデータに画面の紐づけはありません。</p>
-              : context.affectedSurfaces.map((surface) => <span key={surface}>{surface}</span>)}
-          </div>
-        </article>
-        <article>
-          <h3>残っている不確実性</h3>
-          <ul className="drb-decision__uncertainties">
-            {context.uncertainties.length === 0 && context.findings.length === 0
-              && <li>判断に関わる未解決項目はありません。</li>}
-            {context.findings.map((item) => (
-              <li key={`${item.fieldKey}:${item.finding}`} data-finding={item.finding}>
-                <span className="drb-finding">{FINDING_LABELS_JA[item.finding]}</span>
-                <span className="drb-decision__finding-detail">
-                  <strong>{item.label}</strong>
-                  <small>
-                    検証状態: {dataReviewStatusLabelJa(item.verification, item.sourceChecked)}
-                  </small>
-                </span>
-              </li>
-            ))}
-            {context.uncertainties.map((item) => (
-              <li key={`${item.fieldKey}:${item.status}`}>
-                <span className={statusClass(item.status)}>
-                  {dataReviewStatusLabelJa(item.status, item.sourceChecked)}
-                </span>
-                <strong>{item.label}</strong>
-              </li>
-            ))}
-          </ul>
-        </article>
+      <div className="drb-decision__list">
+        {context.decisionItems.length === 0 && (
+          <p className="drb-decision__empty">現在、Product上の解釈や表示について判断が必要な項目はありません。</p>
+        )}
+        {context.decisionItems.map((item) => (
+          <DecisionCard key={item.id} entity={entity} item={item} />
+        ))}
       </div>
       <p className="drb-decision__note">
-        この判断情報は事実の正本ではなく、現在の構造化データとProduct利用関係から生成したレビュー用の見方です。
+        確認状態そのものではなく、現在のProduct表示・解釈に判断が必要な項目だけを表示しています。
       </p>
     </section>
+  );
+}
+
+function DecisionCard({ entity, item }: { entity: HumanDataReviewEntity; item: HumanDataReviewDecisionItem }) {
+  const facts = item.factFieldKeys
+    .map((fieldKey) => entity.facts.find((fact) => fact.fieldKey === fieldKey))
+    .filter((fact): fact is HumanDataReviewFact => Boolean(fact));
+  const primaryFact = facts[0];
+  const sources = [...new Map(
+    facts.flatMap((fact) => fact.sources).map((source) => [source.claimId, source]),
+  ).values()];
+  const directSources = sources.filter((source) => source.origin === 'source'
+    && (item.kind !== 'comparison' || item.directEvidenceClaimIds?.includes(source.claimId)));
+  const comparisonSideLabel = primaryFact?.finding === 'presentation_mismatch'
+    ? '比較対象のProduct表示'
+    : primaryFact?.finding === 'canonical_missing'
+      ? '根拠側の情報'
+      : item.comparisonProvenance === 'source'
+        ? '公式/根拠側の情報'
+        : item.comparisonProvenance === 'editorial'
+          ? '編集上の情報（未検証）'
+          : item.comparisonProvenance === 'demo'
+            ? 'デモ用の情報'
+            : '比較対象の情報';
+
+  return (
+    <article className="drb-decision-card" aria-label={`${item.label}の判断`} data-decision-kind={item.kind}>
+      <div className="drb-decision-card__topline">
+        <span>{item.statusLabel}</span>
+        <strong>{item.recommendationLabel}</strong>
+      </div>
+      <h3>{item.label}</h3>
+
+      {item.kind === 'comparison' && primaryFact && (
+        <dl className="drb-decision-card__comparison">
+          <div>
+            <dt>現在のProduct表示</dt>
+            <dd>{primaryFact.displayedValue ?? '表示なし'}</dd>
+          </div>
+          <div>
+            <dt>{comparisonSideLabel}</dt>
+            <dd>{primaryFact.finding === 'presentation_mismatch'
+              ? primaryFact.comparedPresentationValue ?? '表示なし'
+              : primaryFact.canonicalValue ?? '記録なし'}</dd>
+          </div>
+        </dl>
+      )}
+
+      {item.kind === 'conflict' && primaryFact?.displayedValue && (
+        <div className="drb-decision-card__current">
+          <span>現在のProduct表示</span>
+          <p>{primaryFact.displayedValue}</p>
+        </div>
+      )}
+
+      {(item.kind === 'mobile_behavior' || item.kind === 'current_information' || item.kind === 'stale_information')
+        && facts.length > 0 && (
+          <ul className="drb-decision-card__fields">
+            {facts.map((fact) => (
+              <li key={fact.fieldKey}>
+                <strong>{fact.label}</strong>
+                {fact.displayedValue && <span>{fact.displayedValue}</span>}
+              </li>
+            ))}
+          </ul>
+      )}
+
+      <p className="drb-decision-card__reason">{item.reason}</p>
+      <div className="drb-decision-card__recommendation">
+        <span>期待する扱い</span>
+        <p>{item.recommendation}</p>
+      </div>
+
+      <div className="drb-decision-card__meta">
+        <div className="drb-decision__surfaces" aria-label={`${item.label}の影響するProduct画面`}>
+          <small>影響するProduct画面</small>
+          <div>{item.affectedSurfaces.map((surface) => <span key={surface}>{surface}</span>)}</div>
+        </div>
+        {directSources.length > 0 && (
+          <div className="drb-decision-card__sources" aria-label={`${item.label}の直接の根拠`}>
+            <small>直接の根拠</small>
+            {directSources.map((source) => (
+              <div key={source.claimId}>
+                {source.url
+                  ? <a href={source.url} target="_blank" rel="noreferrer">{source.name}</a>
+                  : <strong>{source.name}</strong>}
+                {source.relationship === 'source_statement' && source.value && <p>{source.value}</p>}
+                <span>出典確認日 {source.retrievedAt ?? '未登録'}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </article>
   );
 }
 
@@ -388,9 +438,9 @@ function Detail({ entity, onBack }: { entity: HumanDataReviewEntity; onBack: () 
           </span>
         </div>
         <dl className="drb-detail-hero__stats">
+          <div><dt>判断が必要</dt><dd>{entity.decisionCount}件</dd></div>
           <div><dt>最新出典確認</dt><dd>{entity.latestRetrievedAt ?? '未登録'}</dd></div>
           <div><dt>人による確認</dt><dd>{entity.latestConfirmedAt ?? '未確認'}</dd></div>
-          <div><dt>未解決</dt><dd>{entity.unresolvedCount}件</dd></div>
           <div><dt>アプリ証拠</dt><dd>{entity.evidence.length}件</dd></div>
         </dl>
       </header>
@@ -400,7 +450,8 @@ function Detail({ entity, onBack }: { entity: HumanDataReviewEntity; onBack: () 
           <DecisionLayer entity={entity} />
 
           <section className="drb-panel" aria-labelledby="known-heading">
-            <div className="drb-panel__heading"><span>01</span><h2 id="known-heading">現在わかっていること</h2></div>
+            <div className="drb-panel__heading"><span>01</span><h2 id="known-heading">現在確認できる情報</h2></div>
+            <p className="drb-panel__note">出典・確認状態はProduct上の判断要否とは別に記録しています。監査上の未解決は {entity.unresolvedCount}件です。</p>
             <div className="drb-facts" role="table" aria-label="現在わかっていること">
               <div className="drb-facts__header" role="row">
                 <span role="columnheader">項目</span><span role="columnheader">値 / 比較</span><span role="columnheader">状態 / 出典確認日</span>
@@ -426,11 +477,12 @@ function Detail({ entity, onBack }: { entity: HumanDataReviewEntity; onBack: () 
           </section>
 
           <section className="drb-panel" aria-labelledby="unknown-heading">
-            <div className="drb-panel__heading"><span>02</span><h2 id="unknown-heading">まだわからないこと</h2></div>
+            <div className="drb-panel__heading"><span>02</span><h2 id="unknown-heading">未確認のためProductで保証しない情報</h2></div>
+            <p className="drb-panel__note">現在の根拠では確認できないため、推測して表示しません。</p>
             <ul className="drb-unknowns">
               {entity.unknowns.length === 0 && <li className="drb-empty">記録された未確認項目はありません。</li>}
               {entity.unknowns.map((field) => (
-                <li key={field.fieldKey}><span>?</span><strong>{field.label}</strong><small>構造化された根拠がまだありません</small></li>
+                <li key={field.fieldKey}><strong>{field.label}</strong></li>
               ))}
             </ul>
           </section>

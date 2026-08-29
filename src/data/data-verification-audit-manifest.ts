@@ -51,6 +51,7 @@ export const PRESENTATION_SPOT_AUDIT = [
     presentationSpotId: 'okutama-tourism-office',
     canonicalPlaceId: 'okutama-tourism-office',
     surface: 'Spot',
+    replacementRecommendedFieldIds: ['information_name'],
     issues: ['#322', 'PR #332', '#333'],
   },
   {

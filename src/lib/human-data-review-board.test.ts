@@ -148,10 +148,8 @@ describe('Human Data Review Board projection (#340, #343)', () => {
 
     expect(fact.sources).toEqual([]);
     expect(fact.sourceChecked).toBe(false);
-    expect(board.entities[0]!.reviewContext.uncertainties[0]).toMatchObject({
-      status: 'needs_confirmation',
-      sourceChecked: false,
-    });
+    expect(board.entities[0]!.reviewContext.uncertainties).toEqual([]);
+    expect(board.entities[0]!.reviewContext.decisionItems).toEqual([]);
     expect(dataReviewStatusLabelJa(fact.status, fact.sourceChecked)).toBe(
       '🟡 出典未登録・人の確認待ち',
     );
@@ -331,6 +329,19 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       }),
     ]);
     expect(phone?.sources.some((source) => source.name === 'Composite source')).toBe(false);
+    expect(board.entities[0]?.reviewContext.decisionItems).toEqual([
+      expect.objectContaining({
+        kind: 'conflict',
+        label: '電話番号',
+        statusLabel: '情報に矛盾あり',
+        recommendationLabel: '要判断',
+        factFieldKeys: ['phone'],
+      }),
+    ]);
+    expect(phone?.sources.map((source) => source.value)).toEqual([
+      '03-1111-1111',
+      '03-2222-2222',
+    ]);
   });
 
   it('derives mobile decision context from typed semantics without copying factual values', () => {
@@ -372,6 +383,16 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       'current-information-caveat',
     ]));
     expect(context?.affectedSurfaces).toEqual(['Spot']);
+    expect(context?.decisionItems.filter((item) => item.kind === 'mobile_behavior')).toEqual([
+      expect.objectContaining({
+        id: 'mobile:no-fixed-storefront',
+        label: '営業形態',
+        statusLabel: '固定地点として扱わない',
+        recommendationLabel: '表示制約',
+        factFieldKeys: ['venue_model'],
+        affectedSurfaces: ['Spot'],
+      }),
+    ]);
 
     const serializedContext = JSON.stringify(context);
     for (const factualValue of [
@@ -385,6 +406,154 @@ describe('Human Data Review Board projection (#340, #343)', () => {
     ]) {
       expect(serializedContext).not.toContain(factualValue);
     }
+  });
+
+  it('keeps verification-only facts and ordinary unknowns out of the decision queue', () => {
+    const board = buildHumanDataReviewBoard({
+      claims: [
+        claim({
+          claimId: 'place:example-place:address:ja',
+          fieldId: 'address:ja',
+          canonicalValue: '東京都例町1-2-3',
+          displayedValue: '東京都例町1-2-3',
+          finding: 'match',
+          primarySource: 'Example operator',
+          primarySourceUrl: 'https://example.com/place',
+          retrievedAt: '2026-08-29',
+        }),
+        claim({
+          claimId: 'spot:example-place:hours',
+          entityType: 'Spot',
+          fieldId: 'hours',
+          verification: 'unknown',
+        }),
+      ],
+      currentProductEntities: exampleSpot,
+      evidenceManifest: { evidence: [], omissions: [] },
+    });
+    const entity = board.entities[0]!;
+
+    expect(entity.decisionCount).toBe(0);
+    expect(entity.reviewContext.decisionItems).toEqual([]);
+    expect(entity.facts).toEqual([
+      expect.objectContaining({
+        fieldKey: 'address',
+        status: 'needs_confirmation',
+        finding: 'match',
+      }),
+    ]);
+    expect(entity.unknowns).toEqual([
+      expect.objectContaining({ fieldKey: 'hours' }),
+    ]);
+  });
+
+  it('projects one concrete presentation mismatch with both factual sides and source evidence', () => {
+    const board = buildHumanDataReviewBoard({
+      claims: [
+        claim({
+          claimId: 'place:example-place:information_name:ja',
+          fieldId: 'information_name:ja',
+          canonicalValue: '公式の施設名',
+          displayedValue: '現在の施設名',
+          finding: 'mismatch',
+          appSurface: 'Spot',
+          primarySource: 'Example operator',
+          primarySourceUrl: 'https://example.com/place',
+          retrievedAt: '2026-08-29',
+          replacementRecommendation: 'replace_product_display',
+        }),
+        claim({
+          claimId: 'spot:example-place:official_current_url',
+          entityType: 'Spot',
+          fieldId: 'official_current_url',
+          canonicalValue: 'https://example.com/place',
+          finding: 'presentation_missing',
+          primarySource: 'Example operator',
+          primarySourceUrl: 'https://example.com/place',
+          retrievedAt: '2026-08-29',
+        }),
+      ],
+      currentProductEntities: exampleSpot,
+      evidenceManifest: { evidence: [], omissions: [] },
+    });
+    const entity = board.entities[0]!;
+    const decision = entity.reviewContext.decisionItems[0];
+    const fact = entity.facts.find((item) => item.fieldKey === decision?.factFieldKeys[0]);
+
+    expect(entity.decisionCount).toBe(1);
+    expect(decision).toMatchObject({
+      kind: 'comparison',
+      label: '施設名',
+      statusLabel: '表示差異あり',
+      recommendationLabel: '変更推奨',
+      comparisonProvenance: 'source',
+      directEvidenceClaimIds: ['place:example-place:information_name:ja'],
+      factFieldKeys: ['name'],
+      affectedSurfaces: ['Spot'],
+    });
+    expect(fact).toMatchObject({
+      canonicalValue: '公式の施設名',
+      displayedValue: '現在の施設名',
+      sources: [expect.objectContaining({
+        name: 'Example operator',
+        url: 'https://example.com/place',
+        retrievedAt: '2026-08-29',
+      })],
+    });
+  });
+
+  it('keeps a time-sensitive mismatch comparison alongside one grouped Product caveat', () => {
+    const board = buildHumanDataReviewBoard({
+      claims: [
+        claim({
+          claimId: 'place:example-place:hours:ja',
+          fieldId: 'hours:ja',
+          canonicalValue: '10:00〜17:00',
+          displayedValue: '10時〜17時',
+          finding: 'mismatch',
+          timeSensitive: true,
+          appSurface: 'Spot',
+          primarySource: 'Example operator',
+          primarySourceUrl: 'https://example.com/place',
+        }),
+        claim({
+          claimId: 'place:example-place:closed_days:ja',
+          fieldId: 'closed_days:ja',
+          canonicalValue: '不定休',
+          displayedValue: '不定休',
+          finding: 'match',
+          timeSensitive: true,
+          appSurface: 'Spot',
+        }),
+      ],
+      currentProductEntities: exampleSpot,
+      evidenceManifest: { evidence: [], omissions: [] },
+    });
+
+    expect(board.entities[0]?.reviewContext.decisionItems).toEqual([
+      expect.objectContaining({
+        id: 'current-information:caveat',
+        kind: 'current_information',
+        statusLabel: '最新情報の案内が必要',
+        recommendationLabel: '要注意',
+        factFieldKeys: ['hours', 'closed_days'],
+        affectedSurfaces: ['Spot'],
+      }),
+      expect.objectContaining({
+        id: 'comparison:hours:mismatch',
+        kind: 'comparison',
+        recommendationLabel: '要判断',
+        comparisonProvenance: 'source',
+        directEvidenceClaimIds: ['place:example-place:hours:ja'],
+        factFieldKeys: ['hours'],
+        affectedSurfaces: ['Spot'],
+      }),
+    ]);
+    const hours = board.entities[0]?.facts.find((fact) => fact.fieldKey === 'hours');
+    expect(hours).toMatchObject({
+      canonicalValue: '10:00〜17:00',
+      displayedValue: '10時〜17時',
+    });
   });
 
   it('keeps every unresolved status distinct and makes the total decomposable', () => {
@@ -451,10 +620,8 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       demo: 1,
     });
     expect(board.entities[0]?.reviewContext.uncertainties.map((item) => item.status)).toEqual([
-      'needs_confirmation',
       'stale',
       'conflict',
-      'unknown',
     ]);
   });
 
@@ -513,6 +680,9 @@ describe('Human Data Review Board projection (#340, #343)', () => {
         displayedValue: '150',
         canonicalValue: '200',
         finding: 'mismatch',
+        origin: 'editorial',
+        primarySource: 'Context-only tourism source',
+        primarySourceUrl: 'https://example.com/context',
         issues: ['#333'],
       }),
       claim({
@@ -616,10 +786,24 @@ describe('Human Data Review Board projection (#340, #343)', () => {
             verification: 'demo',
           }),
         ]),
-        uncertainties: [expect.objectContaining({
-          fieldKey: 'route:half-day:duration_minutes',
-          status: 'needs_confirmation',
-        })],
+        uncertainties: [],
+        decisionItems: expect.arrayContaining([
+          expect.objectContaining({
+            factFieldKeys: ['route:half-day:duration_minutes'],
+            kind: 'comparison',
+            recommendationLabel: '要判断',
+            comparisonProvenance: 'editorial',
+            directEvidenceClaimIds: [],
+          }),
+          expect.objectContaining({
+            factFieldKeys: ['route:presentation:result_origin_travel_time'],
+            kind: 'comparison',
+          }),
+          expect.objectContaining({
+            factFieldKeys: ['route:half-day:region_guidance'],
+            kind: 'comparison',
+          }),
+        ]),
       },
     });
     expect(board.entities[0]?.facts.find((fact) =>
@@ -751,6 +935,17 @@ describe('Human Data Review Board projection (#340, #343)', () => {
         }),
       ]);
     }
+    expect(omeStory?.reviewContext.decisionItems).toEqual([
+      expect.objectContaining({
+        id: 'current-information:caveat',
+        factFieldKeys: [
+          'story:story.factual.brewery-tour-reservation',
+          'story:story.spot.sawai-ozawa-shuzo.reservation-requirement',
+          'story:story.spot.sawanoien-garden.operating-calendar-check',
+        ],
+        affectedSurfaces: ['Story'],
+      }),
+    ]);
 
     const omeRoute = board.entities.find(
       (entity) => entity.id === 'ome-sawai-sake-journey',
@@ -773,6 +968,52 @@ describe('Human Data Review Board projection (#340, #343)', () => {
     ]);
     expect(omeRoute?.reviewContext.affectedSurfaces).toEqual(['MOGU', 'Story', 'Route']);
 
+    const tourismOffice = board.entities.find((entity) => entity.id === 'okutama-tourism-office');
+    expect(tourismOffice).toMatchObject({
+      decisionCount: 1,
+      unresolvedCount: 16,
+      reviewContext: {
+        decisionItems: [expect.objectContaining({
+          kind: 'comparison',
+          label: '施設名',
+          recommendationLabel: '変更推奨',
+          comparisonProvenance: 'source',
+          directEvidenceClaimIds: [
+            'place:okutama-tourism-office:information_name:ja',
+          ],
+          factFieldKeys: ['name'],
+          affectedSurfaces: ['Spot'],
+        })],
+      },
+    });
+    expect(tourismOffice?.facts.find((fact) => fact.fieldKey === 'name')).toMatchObject({
+      displayedValue: '奥多摩町観光案内所',
+      canonicalValue: '奥多摩観光案内所',
+      finding: 'mismatch',
+    });
+
+    const okutamaWasabiRoute = board.entities.find(
+      (entity) => entity.id === 'okutama-wasabi-journey',
+    );
+    expect(okutamaWasabiRoute?.reviewContext.decisionItems).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        id: 'comparison:route:half-day:duration_minutes:mismatch',
+        recommendationLabel: '要判断',
+        comparisonProvenance: 'editorial',
+        directEvidenceClaimIds: [],
+        factFieldKeys: ['route:half-day:duration_minutes'],
+      }),
+    ]));
+
+    const yamashiroya = board.entities.find((entity) => entity.id === 'yamashiroya');
+    expect(yamashiroya?.reviewContext.decisionItems).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        id: 'comparison:hours:mismatch',
+        recommendationLabel: '要判断',
+        comparisonProvenance: 'source',
+      }),
+    ]));
+
     const portOkutama = board.entities.find((entity) => entity.id === 'port-okutama');
     expect(portOkutama).toMatchObject({
       type: 'Spot',
@@ -784,6 +1025,33 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       expect.objectContaining({ fieldKey: 'hours', status: 'needs_confirmation' }),
       expect.objectContaining({ fieldKey: 'service_availability', status: 'needs_confirmation' }),
       expect.objectContaining({ fieldKey: 'official_current_url', status: 'needs_confirmation' }),
+    ]));
+    expect(portOkutama?.reviewContext.decisionItems).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        id: 'current-information:caveat',
+        factFieldKeys: [
+          'address',
+          'phone',
+          'hours',
+          'closed_days',
+          'service_availability',
+          'official_current_url',
+        ],
+        affectedSurfaces: ['Spot', 'Story', 'Route'],
+      }),
+      expect.objectContaining({
+        id: 'comparison:hours:mismatch',
+        factFieldKeys: ['hours'],
+      }),
+      expect.objectContaining({
+        id: 'comparison:closed_days:mismatch',
+        factFieldKeys: ['closed_days'],
+      }),
+      expect.objectContaining({
+        id: 'comparison:service_availability:mismatch',
+        factFieldKeys: ['service_availability'],
+        affectedSurfaces: ['Spot', 'Story', 'Route'],
+      }),
     ]));
     expect(portOkutama?.sources.map((source) => source.url)).toEqual(expect.arrayContaining([
       'https://www.okutama.ne.jp/',
@@ -823,6 +1091,7 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       headlineStatus: 'conflict',
       latestRetrievedAt: '2026-08-29',
       conflictCount: 1,
+      decisionCount: 6,
     });
     expect(akabeko?.facts).toEqual(expect.arrayContaining([
       expect.objectContaining({
@@ -867,6 +1136,7 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       type: 'Spot',
       headlineStatus: 'conflict',
       latestRetrievedAt: '2026-08-29',
+      decisionCount: 5,
     });
     expect(wasabiKitchen?.facts).toEqual(expect.arrayContaining([
       expect.objectContaining({
@@ -891,6 +1161,13 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       'https://tokyowasabi.com/hitoshi/2573/fussa-tanabata-challenge/',
     ]));
     expect(wasabiKitchen?.reviewContext.affectedSurfaces).toEqual(['Spot', 'Story', 'Route']);
+    expect(wasabiKitchen?.reviewContext.decisionItems).toEqual(expect.arrayContaining([
+      expect.objectContaining({ id: 'mobile:no-fixed-storefront' }),
+      expect.objectContaining({ id: 'conflict:schedule_conflict' }),
+      expect.objectContaining({ id: 'current-information:caveat' }),
+      expect.objectContaining({ id: 'comparison:schedule_guidance:mismatch' }),
+      expect.objectContaining({ id: 'comparison:price_availability:mismatch' }),
+    ]));
     expect(wasabiKitchen?.facts.find((fact) => fact.fieldKey === 'venue_model')?.affectedSurfaces)
       .toEqual(['Spot', 'Story', 'Route']);
     expect(wasabiKitchen?.facts.find((fact) => fact.fieldKey === 'schedule_conflict')?.sources.map((source) => source.url))
@@ -913,11 +1190,14 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       evidenceManifest: { evidence: [], omissions: [] },
       places: [syntheticMobilePlace],
     });
-    const mobileImpactIds = ['no-fixed-location-behavior', 'current-information-caveat'];
+    const mobileImpactIds = ['no-fixed-location-behavior'];
     expect(wasabiKitchen?.reviewContext.productImpacts
       .filter((item) => mobileImpactIds.includes(item.id)))
       .toEqual(syntheticBoard.entities[0]?.reviewContext.productImpacts
         .filter((item) => mobileImpactIds.includes(item.id)));
+    expect(wasabiKitchen?.reviewContext.productImpacts).toContainEqual(
+      expect.objectContaining({ id: 'current-information-caveat' }),
+    );
 
     const boardWithoutEvidence = buildHumanDataReviewBoard({
       claims: buildRepositoryLedgerClaims(),
@@ -977,12 +1257,7 @@ describe('Human Data Review Board projection (#340, #343)', () => {
         verification: 'demo',
       }),
     ]));
-    expect(route?.reviewContext.uncertainties).toEqual(expect.arrayContaining([
-      expect.objectContaining({
-        fieldKey: 'route:half-day:duration_minutes',
-        status: 'needs_confirmation',
-      }),
-    ]));
+    expect(route?.reviewContext.uncertainties).toEqual([]);
     const routeSummary = createDataReviewShareSummaryJa(
       route!,
       'https://preview.example/data-review/#okutama-wasabi-journey',
