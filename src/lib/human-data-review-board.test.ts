@@ -783,6 +783,7 @@ describe('Human Data Review Board projection (#340, #343)', () => {
           expect.objectContaining({
             factFieldKeys: ['route:half-day:duration_minutes'],
             kind: 'comparison',
+            recommendationLabel: '要判断',
           }),
           expect.objectContaining({
             factFieldKeys: ['route:presentation:result_origin_travel_time'],
@@ -954,6 +955,7 @@ describe('Human Data Review Board projection (#340, #343)', () => {
         decisionItems: [expect.objectContaining({
           kind: 'comparison',
           label: '施設名',
+          recommendationLabel: '変更推奨',
           factFieldKeys: ['name'],
           affectedSurfaces: ['Spot'],
         })],
@@ -964,6 +966,17 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       canonicalValue: '奥多摩観光案内所',
       finding: 'mismatch',
     });
+
+    const okutamaWasabiRoute = board.entities.find(
+      (entity) => entity.id === 'okutama-wasabi-journey',
+    );
+    expect(okutamaWasabiRoute?.reviewContext.decisionItems).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        id: 'comparison:route:half-day:duration_minutes:mismatch',
+        recommendationLabel: '要判断',
+        factFieldKeys: ['route:half-day:duration_minutes'],
+      }),
+    ]));
 
     const portOkutama = board.entities.find((entity) => entity.id === 'port-okutama');
     expect(portOkutama).toMatchObject({

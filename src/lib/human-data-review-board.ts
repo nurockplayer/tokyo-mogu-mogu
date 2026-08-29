@@ -710,10 +710,19 @@ function buildReviewContext(
       && !fact.claimIds.some((claimId) => Boolean(claimsById.get(claimId)?.appSurface))
     ) continue;
 
+    const comparisonClaim = fact.claimIds
+      .map((claimId) => claimsById.get(claimId))
+      .find((claim) =>
+        claim?.finding === fact.finding
+        && claim.canonicalValue === fact.canonicalValue
+        && claim.displayedValue === fact.displayedValue);
     const hasDirectionalAuthority = fact.finding === 'mismatch'
       && fact.canonicalValue !== undefined
       && fact.displayedValue !== undefined
-      && fact.sources.length > 0;
+      && fact.sources.length > 0
+      && comparisonClaim?.origin === 'source'
+      && (comparisonClaim.verification === 'verified'
+        || comparisonClaim.verification === 'needs_confirmation');
     const statusLabel = fact.finding === 'mismatch'
       ? '表示差異あり'
       : fact.finding === 'presentation_mismatch'

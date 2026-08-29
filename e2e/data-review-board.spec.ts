@@ -364,6 +364,8 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(durationDecision).toContainText('150');
     await expect(durationDecision).toContainText('公式/根拠側の情報');
     await expect(durationDecision).toContainText('200');
+    await expect(durationDecision).toContainText('要判断');
+    await expect(durationDecision).not.toContainText('変更推奨');
     await expect(durationDecision.getByText('Route', { exact: true })).toBeVisible();
     const presentationDecision = reviewLayer.getByRole('article', { name: 'Result と Route の移動時間表示の判断' });
     await expect(presentationDecision).toContainText('表示間に差異あり');

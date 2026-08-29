@@ -50,6 +50,8 @@ Entity detail の `判断が必要` は、上の検証状態とは別に算出�
 
 time-sensitive 情報は、Ledger の `timeSensitive` と実際の Product 表示・影響画面から対象を導出します。表示差異がある項目は、最新情報の注意をまとめても現在の Product 表示と公式/根拠側の比較を別の判断カードに残します。フィールド名の固定リストでは分類しません。
 
+`変更推奨` は、比較元の claim が source-origin で、検証状態が `verified` または `needs_confirmation` の場合だけ表示します。editorial / demo の推定値や stale / conflict の値は比較を残しても `要判断` とし、根拠側の値を自動的に Product の正解へ昇格させません。
+
 ## チームでの使い方
 
 1. Overview の Product 対象件数と `Spot` / `Story` / `Route` の内訳を確認し、
