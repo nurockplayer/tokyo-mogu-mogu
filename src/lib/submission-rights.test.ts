@@ -82,6 +82,12 @@ describe('submission rights projection (#370)', () => {
       sourceType: 'business',
       url: 'https://maps.google.com/example',
     })).toBe('needs_confirmation');
+    for (const license of ['CC BY-NC 4.0', 'CC BY-ND 4.0', 'CC BY-SA 4.0', 'CC BY-NC-SA 4.0']) {
+      expect(sourceSubmissionRightsStatus({
+        sourceType: 'open_data',
+        license,
+      })).toBe('needs_confirmation');
+    }
   });
 
   it('covers every audited repository asset and every current Board evidence capture', () => {

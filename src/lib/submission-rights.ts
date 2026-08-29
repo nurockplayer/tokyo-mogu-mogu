@@ -371,11 +371,16 @@ interface SourceRightsInput {
   url?: string;
 }
 
-const OPEN_LICENSE = /\b(?:CC(?:0| BY)|ODbL|Open Data Commons|Public Domain)\b/i;
+const OPEN_LICENSE = /\b(?:CC0|CC BY|ODbL|Open Data Commons|Public Domain)\b/i;
+const UNREVIEWED_CC_VARIANT = /\bCC BY-[A-Z-]+\b/i;
 
 /** Rights/reuse status only. This never changes factual verification. */
 export function sourceSubmissionRightsStatus(source: SourceRightsInput): SubmissionRightsStatus {
-  if (source.license && OPEN_LICENSE.test(source.license)) return 'ready';
+  if (
+    source.license
+    && !UNREVIEWED_CC_VARIANT.test(source.license)
+    && OPEN_LICENSE.test(source.license)
+  ) return 'ready';
   return 'needs_confirmation';
 }
 
