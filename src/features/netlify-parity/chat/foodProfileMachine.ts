@@ -87,7 +87,7 @@ export type FoodProfileConversationEvent =
   | { type: 'SHOW_QUESTION'; questionIndex: number }
   | { type: 'TOGGLE_OPTION'; value: string }
   | { type: 'TOGGLE_OTHER' }
-  | { type: 'ADD_OTHER'; value: string; previousValue?: string }
+  | { type: 'ADD_OTHER'; value: string }
   | { type: 'SUBMIT_QUESTION' }
   | { type: 'SHOW_SUMMARY' }
   | { type: 'SHOW_FINAL_CHOICE' };
@@ -264,17 +264,8 @@ export function foodProfileReducer(
       const custom = sanitizeOtherAnswer(event.value);
       if (!custom) return state;
       const value = `custom:${custom}`;
-      const previousCustom = event.previousValue
-        ? sanitizeOtherAnswer(event.previousValue)
-        : '';
-      const previousValue = previousCustom ? `custom:${previousCustom}` : '';
-      const shouldReplace = previousCustom.length > 0 && previousCustom !== custom;
-      const selected = shouldReplace
-        ? state.answers[question.key].filter((candidate) => candidate !== previousValue)
-        : state.answers[question.key];
-      const customValues = shouldReplace
-        ? state.customAnswers[question.key].filter((candidate) => candidate !== previousCustom)
-        : state.customAnswers[question.key];
+      const selected = state.answers[question.key];
+      const customValues = state.customAnswers[question.key];
       return {
         ...state,
         answers: {

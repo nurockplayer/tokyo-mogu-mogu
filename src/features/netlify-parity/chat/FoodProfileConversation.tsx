@@ -254,7 +254,7 @@ interface QuestionBubbleProps {
   state: FoodProfileConversationState;
   onToggle: (value: string) => void;
   onToggleOther: () => void;
-  onAddOther: (value: string, previousValue?: string) => void;
+  onAddOther: (value: string) => void;
   onSubmit: () => void;
 }
 
@@ -278,7 +278,6 @@ function QuestionBubble({
   const isCurrent = state.questionIndex === questionIndex && state.phase === 'question' && !frozen;
   const selected = frozen ? [...(entry.values ?? [])] : state.answers[question.key];
   const customValues = state.customAnswers[question.key].map((value) => `custom:${value}`);
-  const committedOther = [...customValues].reverse().find((value) => selected.includes(value));
   const deviated = selected.some((value) => !question.recommendedValues.includes(value));
   const recommendedLeft = question.recommendedValues.filter((value) => !selected.includes(value));
   const shouldGlowSend = isCurrent && selected.length > 0 && (deviated || recommendedLeft.length === 0);
@@ -289,13 +288,13 @@ function QuestionBubble({
       otherInputRef.current?.focus();
       return;
     }
-    onAddOther(otherValue, committedOther?.slice('custom:'.length));
+    onAddOther(otherValue);
     setOtherValue('');
   };
 
   const toggleOther = () => {
     if (!state.otherInputOpen) {
-      setOtherValue(committedOther?.slice('custom:'.length) ?? '');
+      setOtherValue('');
     }
     onToggleOther();
   };
@@ -501,11 +500,7 @@ export function FoodProfileConversation({
                 state={state}
                 onToggle={(value) => dispatch({ type: 'TOGGLE_OPTION', value })}
                 onToggleOther={() => dispatch({ type: 'TOGGLE_OTHER' })}
-                onAddOther={(value, previousValue) => dispatch({
-                  type: 'ADD_OTHER',
-                  value,
-                  previousValue,
-                })}
+                onAddOther={(value) => dispatch({ type: 'ADD_OTHER', value })}
                 onSubmit={() => dispatch({ type: 'SUBMIT_QUESTION' })}
               />
             );

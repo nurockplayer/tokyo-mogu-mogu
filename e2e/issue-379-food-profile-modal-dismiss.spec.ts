@@ -92,7 +92,7 @@ test('clicking inside keeps the dialog open while Escape cancels it', async ({ p
   await expect(other).toBeFocused();
 });
 
-test('cancelling an edited draft preserves the previously confirmed custom value', async ({ page }) => {
+test('cancelling a new draft preserves the previously confirmed custom value', async ({ page }) => {
   const { profile, allergy } = await openAllergyQuestion(page);
   const other = allergy.getByRole('button', { name: /その他/ });
   await other.click();
@@ -107,7 +107,7 @@ test('cancelling an edited draft preserves the previously confirmed custom value
 
   dialog = profile.getByRole('dialog', { name: '食材を入力してください' });
   const draft = dialog.getByRole('textbox', { name: '食材を入力してください' });
-  await expect(draft).toHaveValue('そば');
+  await expect(draft).toHaveValue('');
   await draft.fill('くるみ');
   await dialog.getByRole('button', { name: '入力を閉じる' }).click();
 
@@ -115,7 +115,7 @@ test('cancelling an edited draft preserves the previously confirmed custom value
   await expect(allergy.getByRole('button', { name: 'くるみ', exact: true })).toHaveCount(0);
 });
 
-test('confirming an edited custom value replaces the previous answer', async ({ page }) => {
+test('two custom answers remain selected and persist together', async ({ page }) => {
   const { profile, allergy } = await openAllergyQuestion(page);
   const other = allergy.getByRole('button', { name: /その他/ });
   await other.click();
@@ -126,14 +126,29 @@ test('confirming an edited custom value replaces the previous answer', async ({ 
   await other.click();
 
   dialog = profile.getByRole('dialog', { name: '食材を入力してください' });
+  await expect(dialog.getByRole('textbox', { name: '食材を入力してください' })).toHaveValue('');
   await dialog.getByRole('textbox', { name: '食材を入力してください' }).fill('くるみ');
   await dialog.getByRole('button', { name: '確定', exact: true }).click();
 
-  await expect(allergy.getByRole('button', { name: 'そば', exact: true })).toHaveCount(0);
+  await expect(allergy.getByRole('button', { name: 'そば', exact: true })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  );
   await expect(allergy.getByRole('button', { name: 'くるみ', exact: true })).toHaveAttribute(
     'aria-pressed',
     'true',
   );
+
+  await allergy.locator('button.send').click();
+  await expect(allergy).toHaveAttribute('data-frozen', 'true');
+  await answerWithNone(page, 1, 3);
+  await answerWithNone(page, 2, 4);
+  await answerWithNone(page, 3, 5);
+
+  await expect.poll(() => page.evaluate(() => {
+    const raw = localStorage.getItem('tmm:foodProfile:v1');
+    return raw ? JSON.parse(raw).dietaryOther : null;
+  })).toBe('そば / くるみ');
 });
 
 test('shared backdrop dismissal works for the English religion question at 375px', async ({ page }) => {
