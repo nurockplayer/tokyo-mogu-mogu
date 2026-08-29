@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { places } from '../data';
 import { DATA_VERIFICATION_EVIDENCE_MANIFEST } from '../data/data-verification-evidence-manifest';
 import { CURRENT_PRODUCT_FACTUAL_INVENTORY } from '../lib/current-product-factual-inventory';
 import type { LedgerVerification } from '../lib/data-verification-ledger';
@@ -6,8 +7,10 @@ import { buildRepositoryLedgerClaims } from '../lib/data-verification-ledger';
 import {
   buildHumanDataReviewBoard,
   createDataReviewShareSummaryJa,
+  dataReviewStatusLabelJa,
   DATA_REVIEW_STATUS_LABELS_JA,
   type HumanDataReviewEntity,
+  type HumanDataReviewDecisionFinding,
   type HumanDataReviewFact,
   type HumanDataReviewSource,
 } from '../lib/human-data-review-board';
@@ -17,9 +20,9 @@ type ReviewFilter = 'all' | 'needs_confirmation' | 'conflict' | 'unknown';
 
 const FILTERS: readonly { id: ReviewFilter; label: string }[] = [
   { id: 'all', label: '全部' },
-  { id: 'needs_confirmation', label: '要確認' },
+  { id: 'needs_confirmation', label: '人の確認待ち' },
   { id: 'conflict', label: '矛盾' },
-  { id: 'unknown', label: '未確認' },
+  { id: 'unknown', label: '根拠未登録' },
 ] as const;
 
 const STATUS_ORDER: readonly LedgerVerification[] = [
@@ -47,10 +50,24 @@ const ENTITY_TYPE_LABELS_JA = {
 } as const;
 const ENTITY_TYPE_ORDER = ['Spot', 'Story', 'Route'] as const;
 
+const FACT_SOURCE_ROLE_JA: Readonly<Record<HumanDataReviewFact['sources'][number]['role'], string>> = {
+  content: '内容の根拠',
+  address: '住所の根拠',
+  coordinates: '位置情報の根拠',
+};
+
+const FINDING_LABELS_JA: Readonly<Record<HumanDataReviewDecisionFinding['finding'], string>> = {
+  mismatch: '正本と表示の不一致',
+  presentation_mismatch: '表示間の不一致',
+  canonical_missing: '正本未登録',
+  presentation_missing: '表示未登録',
+};
+
 const board = buildHumanDataReviewBoard({
   claims: buildRepositoryLedgerClaims(),
   currentProductEntities: CURRENT_PRODUCT_FACTUAL_INVENTORY,
   evidenceManifest: DATA_VERIFICATION_EVIDENCE_MANIFEST,
+  places,
 });
 
 function selectedEntityId(): string | undefined {
@@ -121,6 +138,107 @@ function FactValue({ fact }: { fact: HumanDataReviewFact }) {
   );
 }
 
+function FactTraceability({ fact }: { fact: HumanDataReviewFact }) {
+  if (fact.sources.length === 0 && fact.affectedSurfaces.length === 0) return null;
+
+  return (
+    <div className="drb-fact__traceability">
+      {fact.sources.length > 0 && (
+        <div className="drb-fact__sources" aria-label={`${fact.label}の根拠`}>
+          <small>この項目の根拠</small>
+          <div>
+            {fact.sources.map((source) => (
+              <article key={source.claimId} className="drb-fact-source">
+                <span>
+                  {source.relationship === 'source_statement' ? '出典別の記載' : FACT_SOURCE_ROLE_JA[source.role]}
+                </span>
+                {source.url
+                  ? <a href={source.url} target="_blank" rel="noreferrer">{source.name}</a>
+                  : <strong>{source.name}</strong>}
+                {source.value && <p>{source.value}</p>}
+                <small>
+                  {dataReviewStatusLabelJa(source.status, Boolean(source.retrievedAt))}
+                  {' · '}出典確認 {source.retrievedAt ?? '未登録'}
+                  {source.confirmedAt && <> · 人による確認 {source.confirmedAt}</>}
+                </small>
+              </article>
+            ))}
+          </div>
+        </div>
+      )}
+      {fact.affectedSurfaces.length > 0 && (
+        <div className="drb-fact__surfaces" aria-label={`${fact.label}の確認対象画面`}>
+          <small>確認対象画面</small>
+          <div>{fact.affectedSurfaces.map((surface) => <span key={surface}>{surface}</span>)}</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function DecisionLayer({ entity }: { entity: HumanDataReviewEntity }) {
+  const context = entity.reviewContext;
+  return (
+    <section className="drb-panel drb-decision" aria-label="レビュー判断" aria-labelledby="decision-heading">
+      <div className="drb-panel__heading drb-decision__heading">
+        <span>REVIEW FOCUS</span>
+        <h2 id="decision-heading">レビュー判断</h2>
+      </div>
+      <div className="drb-decision__grid">
+        <article>
+          <h3>判断ポイント</h3>
+          <ul>
+            {context.reviewFocus.map((item) => <li key={item.id}>{item.label}</li>)}
+          </ul>
+        </article>
+        <article>
+          <h3>Productへの影響</h3>
+          <ul>
+            {context.productImpacts.map((item) => <li key={item.id}>{item.label}</li>)}
+          </ul>
+        </article>
+        <article>
+          <h3>確認対象画面</h3>
+          <div className="drb-decision__surfaces">
+            {context.affectedSurfaces.length === 0
+              ? <p>現在の構造化メタデータに画面の紐づけはありません。</p>
+              : context.affectedSurfaces.map((surface) => <span key={surface}>{surface}</span>)}
+          </div>
+        </article>
+        <article>
+          <h3>残っている不確実性</h3>
+          <ul className="drb-decision__uncertainties">
+            {context.uncertainties.length === 0 && context.findings.length === 0
+              && <li>判断に関わる未解決項目はありません。</li>}
+            {context.findings.map((item) => (
+              <li key={`${item.fieldKey}:${item.finding}`} data-finding={item.finding}>
+                <span className="drb-finding">{FINDING_LABELS_JA[item.finding]}</span>
+                <span className="drb-decision__finding-detail">
+                  <strong>{item.label}</strong>
+                  <small>
+                    検証状態: {dataReviewStatusLabelJa(item.verification, item.sourceChecked)}
+                  </small>
+                </span>
+              </li>
+            ))}
+            {context.uncertainties.map((item) => (
+              <li key={`${item.fieldKey}:${item.status}`}>
+                <span className={statusClass(item.status)}>
+                  {dataReviewStatusLabelJa(item.status, item.sourceChecked)}
+                </span>
+                <strong>{item.label}</strong>
+              </li>
+            ))}
+          </ul>
+        </article>
+      </div>
+      <p className="drb-decision__note">
+        この判断情報は事実の正本ではなく、現在の構造化データとProduct利用関係から生成したレビュー用の見方です。
+      </p>
+    </section>
+  );
+}
+
 function Overview({ onSelect }: { onSelect: (entityId: string) => void }) {
   const [filter, setFilter] = useState<ReviewFilter>('all');
   const entities = board.entities.filter((entity) => matchesFilter(entity, filter));
@@ -164,8 +282,8 @@ function Overview({ onSelect }: { onSelect: (entityId: string) => void }) {
           ))}
         </div>
         <p className="drb-legend">
-          <strong>「出典あり・要確認」</strong>は、出典が現在の内容を支えていても、
-          ステークホルダー確認や現地確認が済んだことを意味しません。
+          <strong>「人の確認待ち」</strong>は人による確認が未完了の状態です。
+          出典確認日がある項目だけを「出典確認済み」と表示し、出典がなければ「出典未登録」と表示します。
         </p>
       </section>
 
@@ -202,17 +320,17 @@ function Overview({ onSelect }: { onSelect: (entityId: string) => void }) {
               <span className="drb-entity-card__signal" aria-hidden="true" />
               <span className="drb-entity-card__body">
                 <span className={statusClass(entity.headlineStatus)}>
-                  {DATA_REVIEW_STATUS_LABELS_JA[entity.headlineStatus]}
+                  {dataReviewStatusLabelJa(entity.headlineStatus, entity.needsConfirmationSourceChecked)}
                 </span>
                 <strong>{entity.name}</strong>
                 <span className="drb-entity-card__meta">
-                  {ENTITY_TYPE_LABELS_JA[entity.type]} · 最終確認 {entity.latestRetrievedAt ?? '未確認'} · 未解決 {entity.unresolvedCount}件
+                  {ENTITY_TYPE_LABELS_JA[entity.type]} · 最新出典確認 {entity.latestRetrievedAt ?? '未登録'} · 未解決 {entity.unresolvedCount}件
                 </span>
               </span>
               <span className="drb-entity-card__counts">
-                <span><b>{entity.needsConfirmationCount}</b> 要確認</span>
-                <span><b>{entity.staleCount}</b> 要再確認</span>
-                <span><b>{entity.unknownCount}</b> 未確認</span>
+                <span><b>{entity.needsConfirmationCount}</b> 人待ち</span>
+                <span><b>{entity.staleCount}</b> 情報が古い</span>
+                <span><b>{entity.unknownCount}</b> 根拠なし</span>
                 <span><b>{entity.conflictCount}</b> 矛盾</span>
                 <span><b>{entity.evidence.length}</b> アプリ証拠</span>
               </span>
@@ -230,12 +348,15 @@ function SourceCard({ source }: { source: HumanDataReviewSource }) {
     <article className={source.coordinateProvider ? 'drb-source drb-source--coordinates' : 'drb-source'}>
       <div className="drb-source__topline">
         <span>{source.coordinateProvider ? '位置情報の出典' : '内容の出典'}</span>
-        <span className={statusClass(source.status)}>{DATA_REVIEW_STATUS_LABELS_JA[source.status]}</span>
+        <span className={statusClass(source.status)}>
+          {dataReviewStatusLabelJa(source.status, Boolean(source.retrievedAt))}
+        </span>
       </div>
       <strong>{source.name}</strong>
       <dl>
         {source.sourceType && <><dt>種別</dt><dd>{SOURCE_TYPE_JA[source.sourceType]}</dd></>}
-        <dt>確認日</dt><dd>{source.retrievedAt ?? '未確認'}</dd>
+        <dt>出典確認日</dt><dd>{source.retrievedAt ?? '未登録'}</dd>
+        {source.confirmedAt && <><dt>人による確認日</dt><dd>{source.confirmedAt}</dd></>}
       </dl>
       {source.url && <a href={source.url} target="_blank" rel="noreferrer">参照元を開く ↗</a>}
     </article>
@@ -263,11 +384,12 @@ function Detail({ entity, onBack }: { entity: HumanDataReviewEntity; onBack: () 
           <p className="drb-eyebrow">ENTITY DETAIL · {entity.id}</p>
           <h1>{entity.name}</h1>
           <span className={statusClass(entity.headlineStatus)}>
-            {DATA_REVIEW_STATUS_LABELS_JA[entity.headlineStatus]}
+            {dataReviewStatusLabelJa(entity.headlineStatus, entity.needsConfirmationSourceChecked)}
           </span>
         </div>
         <dl className="drb-detail-hero__stats">
-          <div><dt>最終確認</dt><dd>{entity.latestRetrievedAt ?? '未確認'}</dd></div>
+          <div><dt>最新出典確認</dt><dd>{entity.latestRetrievedAt ?? '未登録'}</dd></div>
+          <div><dt>人による確認</dt><dd>{entity.latestConfirmedAt ?? '未確認'}</dd></div>
           <div><dt>未解決</dt><dd>{entity.unresolvedCount}件</dd></div>
           <div><dt>アプリ証拠</dt><dd>{entity.evidence.length}件</dd></div>
         </dl>
@@ -275,6 +397,8 @@ function Detail({ entity, onBack }: { entity: HumanDataReviewEntity; onBack: () 
 
       <div className="drb-detail-grid">
         <div className="drb-detail-main">
+          <DecisionLayer entity={entity} />
+
           <section className="drb-panel" aria-labelledby="known-heading">
             <div className="drb-panel__heading"><span>01</span><h2 id="known-heading">現在わかっていること</h2></div>
             <div className="drb-facts" role="table" aria-label="現在わかっていること">
@@ -285,10 +409,16 @@ function Detail({ entity, onBack }: { entity: HumanDataReviewEntity; onBack: () 
               {entity.facts.map((fact) => (
                 <div className="drb-fact" role="row" key={fact.fieldKey}>
                   <strong role="cell">{fact.label}</strong>
-                  <div role="cell"><FactValue fact={fact} /></div>
+                  <div role="cell" className="drb-fact__detail">
+                    <FactValue fact={fact} />
+                    <FactTraceability fact={fact} />
+                  </div>
                   <span role="cell" className="drb-fact__status">
-                    <span className={statusClass(fact.status)}>{DATA_REVIEW_STATUS_LABELS_JA[fact.status]}</span>
-                    <small>{fact.retrievedAt ?? '確認日なし'}</small>
+                    <span className={statusClass(fact.status)}>
+                      {dataReviewStatusLabelJa(fact.status, fact.sourceChecked)}
+                    </span>
+                    <small>出典確認 {fact.retrievedAt ?? '未登録'}</small>
+                    {fact.confirmedAt && <small>人による確認 {fact.confirmedAt}</small>}
                   </span>
                 </div>
               ))}

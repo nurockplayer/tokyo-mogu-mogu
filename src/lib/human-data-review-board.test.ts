@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { DATA_VERIFICATION_EVIDENCE_MANIFEST } from '../data/data-verification-evidence-manifest';
+import { places } from '../data';
+import type { MobilePlace } from '../data/model';
 import {
   CURRENT_PRODUCT_FACTUAL_INVENTORY,
   type CurrentProductFactualEntity,
@@ -7,8 +9,10 @@ import {
 import type { LedgerClaim } from './data-verification-ledger';
 import { buildRepositoryLedgerClaims } from './data-verification-ledger';
 import {
+  DATA_REVIEW_STATUS_LABELS_JA,
   buildHumanDataReviewBoard,
   createDataReviewShareSummaryJa,
+  dataReviewStatusLabelJa,
 } from './human-data-review-board';
 
 function claim(overrides: Partial<LedgerClaim> & Pick<LedgerClaim, 'claimId' | 'fieldId'>): LedgerClaim {
@@ -34,7 +38,125 @@ const exampleSpot: readonly CurrentProductFactualEntity[] = [
   { id: 'example-place', type: 'Spot' },
 ];
 
+const syntheticMobilePlace: MobilePlace = {
+  id: 'synthetic-mobile',
+  nameJa: '合成モバイル店舗',
+  nameEn: 'Synthetic mobile venue',
+  locationKind: 'mobile',
+  foodCultureIds: [],
+  type: 'food-truck',
+  source: {
+    name: 'Synthetic operator',
+    url: 'https://example.com/synthetic-mobile',
+    sourceType: 'business',
+    retrievedAt: '2026-08-29',
+    verificationStatus: 'needs_confirmation',
+  },
+  mobileVenue: {
+    noFixedStorefront: true,
+    primaryOperatingAreaJa: '合成エリア',
+    primaryOperatingAreaEn: 'Synthetic area',
+    primaryOperatingAreaZhTw: '合成區域',
+    operatingPattern: 'mainly-weekends',
+    scheduleVariability: ['published-schedule', 'weather', 'sell-out'],
+    scheduleDirectorySource: {
+      name: 'Synthetic schedule directory',
+      url: 'https://example.com/synthetic-mobile/schedule',
+      sourceType: 'business',
+      retrievedAt: '2026-08-29',
+      verificationStatus: 'needs_confirmation',
+    },
+    datedScheduleSource: {
+      name: 'Synthetic dated schedule',
+      url: 'https://example.com/synthetic-mobile/schedule/2026-08',
+      sourceType: 'business',
+      retrievedAt: '2026-08-29',
+      verificationStatus: 'needs_confirmation',
+    },
+  },
+  origin: 'source',
+};
+
 describe('Human Data Review Board projection (#340, #343)', () => {
+  it('keeps source retrieval and human confirmation explicit and separate', () => {
+    expect(DATA_REVIEW_STATUS_LABELS_JA).toMatchObject({
+      verified: '✅ 人による確認済み',
+      needs_confirmation: '🟡 人の確認待ち',
+      stale: '🟠 情報が古いため再確認',
+      unknown: '❓ 根拠未登録・確認が必要',
+    });
+    expect(dataReviewStatusLabelJa('needs_confirmation', true)).toBe(
+      '🟡 出典確認済み・人の確認待ち',
+    );
+    expect(dataReviewStatusLabelJa('needs_confirmation', false)).toBe(
+      '🟡 出典未登録・人の確認待ち',
+    );
+    expect(dataReviewStatusLabelJa('needs_confirmation')).toBe('🟡 人の確認待ち');
+
+    const board = buildHumanDataReviewBoard({
+      claims: [claim({
+        claimId: 'place:example-place:information_name:ja',
+        fieldId: 'information_name:ja',
+        displayedValue: '例の場所',
+        verification: 'verified',
+        primarySource: 'Example operator',
+        primarySourceUrl: 'https://example.com/place',
+        retrievedAt: '2026-08-28',
+        confirmedAt: '2026-08-29',
+      })],
+      currentProductEntities: exampleSpot,
+      evidenceManifest: { evidence: [], omissions: [] },
+    });
+    const entity = board.entities[0]!;
+
+    expect(entity).toMatchObject({
+      latestRetrievedAt: '2026-08-28',
+      latestConfirmedAt: '2026-08-29',
+    });
+    expect(entity.facts[0]).toMatchObject({
+      retrievedAt: '2026-08-28',
+      confirmedAt: '2026-08-29',
+      sources: [expect.objectContaining({
+        retrievedAt: '2026-08-28',
+        confirmedAt: '2026-08-29',
+      })],
+    });
+    expect(entity.sources[0]).toMatchObject({
+      retrievedAt: '2026-08-28',
+      confirmedAt: '2026-08-29',
+    });
+
+    const summary = createDataReviewShareSummaryJa(entity, 'https://preview.example/data-review/#example-place');
+    expect(summary).toContain('最新出典確認: 2026-08-28');
+    expect(summary).toContain('人による確認: 2026-08-29');
+    expect(summary).not.toContain('最終確認');
+  });
+
+  it('does not call a source-less needs_confirmation fact source-checked', () => {
+    const board = buildHumanDataReviewBoard({
+      claims: [claim({
+        claimId: 'route:example-place:duration_minutes',
+        entityType: 'Route',
+        fieldId: 'duration_minutes',
+        canonicalValue: '200',
+        verification: 'needs_confirmation',
+      })],
+      currentProductEntities: [{ id: 'example-place', type: 'Route' }],
+      evidenceManifest: { evidence: [], omissions: [] },
+    });
+    const fact = board.entities[0]!.facts[0]!;
+
+    expect(fact.sources).toEqual([]);
+    expect(fact.sourceChecked).toBe(false);
+    expect(board.entities[0]!.reviewContext.uncertainties[0]).toMatchObject({
+      status: 'needs_confirmation',
+      sourceChecked: false,
+    });
+    expect(dataReviewStatusLabelJa(fact.status, fact.sourceChecked)).toBe(
+      '🟡 出典未登録・人の確認待ち',
+    );
+  });
+
   it('groups localized claims into one human entity without hiding report-only unknowns', () => {
     const claims = [
       claim({
@@ -149,6 +271,122 @@ describe('Human Data Review Board projection (#340, #343)', () => {
     ]);
   });
 
+  it('groups every source-statement side under one parent fact without selecting a winner', () => {
+    const claims = [
+      claim({
+        claimId: 'place:example-place:phone:ja',
+        fieldId: 'phone:ja',
+        displayedValue: '複数の公式番号があり、利用先は未確認',
+        verification: 'conflict',
+        primarySource: 'Composite source',
+        primarySourceUrl: 'https://example.com/composite',
+      }),
+      claim({
+        claimId: 'place:example-place:phone:source:first-party-a',
+        fieldId: 'phone:source:first-party-a',
+        canonicalValue: '03-1111-1111',
+        primarySource: 'First party A',
+        primarySourceUrl: 'https://example.com/a',
+        retrievedAt: '2026-08-27',
+      }),
+      claim({
+        claimId: 'place:example-place:phone:source:first-party-b',
+        fieldId: 'phone:source:first-party-b',
+        canonicalValue: '03-2222-2222',
+        primarySource: 'First party B',
+        primarySourceUrl: 'https://example.com/b',
+        retrievedAt: '2026-08-28',
+      }),
+    ];
+
+    const board = buildHumanDataReviewBoard({
+      claims,
+      currentProductEntities: exampleSpot,
+      evidenceManifest: { evidence: [], omissions: [] },
+    });
+    const phone = board.entities[0]?.facts.find((fact) => fact.fieldKey === 'phone');
+
+    expect(board.entities[0]?.facts).toHaveLength(1);
+    expect(phone?.claimIds).toEqual([
+      'place:example-place:phone:ja',
+      'place:example-place:phone:source:first-party-a',
+      'place:example-place:phone:source:first-party-b',
+    ]);
+    expect(phone?.sources).toEqual([
+      expect.objectContaining({
+        claimId: 'place:example-place:phone:source:first-party-a',
+        name: 'First party A',
+        url: 'https://example.com/a',
+        value: '03-1111-1111',
+        relationship: 'source_statement',
+        role: 'content',
+      }),
+      expect.objectContaining({
+        claimId: 'place:example-place:phone:source:first-party-b',
+        name: 'First party B',
+        url: 'https://example.com/b',
+        value: '03-2222-2222',
+        relationship: 'source_statement',
+        role: 'content',
+      }),
+    ]);
+    expect(phone?.sources.some((source) => source.name === 'Composite source')).toBe(false);
+  });
+
+  it('derives mobile decision context from typed semantics without copying factual values', () => {
+    const claims = [
+      claim({
+        claimId: 'place:synthetic-mobile:venue_model',
+        entityId: 'synthetic-mobile',
+        entityName: '合成モバイル店舗',
+        fieldId: 'venue_model',
+        canonicalValue: 'synthetic canonical mobile value',
+        displayedValue: '合成された移動営業表示',
+        primarySource: 'Synthetic operator',
+        primarySourceUrl: 'https://example.com/synthetic-mobile',
+      }),
+      claim({
+        claimId: 'place:synthetic-mobile:schedule_guidance',
+        entityId: 'synthetic-mobile',
+        entityName: '合成モバイル店舗',
+        fieldId: 'schedule_guidance',
+        displayedValue: '合成された日程案内',
+        timeSensitive: true,
+      }),
+    ];
+
+    const board = buildHumanDataReviewBoard({
+      claims,
+      currentProductEntities: [{ id: 'synthetic-mobile', type: 'Spot' }],
+      evidenceManifest: { evidence: [], omissions: [] },
+      places: [syntheticMobilePlace],
+    });
+    const context = board.entities[0]?.reviewContext;
+
+    expect(context?.reviewFocus.map((item) => item.id)).toEqual(expect.arrayContaining([
+      'mobile-venue-representation',
+      'time-sensitive-information',
+    ]));
+    expect(context?.productImpacts.map((item) => item.id)).toEqual(expect.arrayContaining([
+      'no-fixed-location-behavior',
+      'current-information-caveat',
+    ]));
+    expect(context?.affectedSurfaces).toEqual(['Spot']);
+
+    const serializedContext = JSON.stringify(context);
+    for (const factualValue of [
+      syntheticMobilePlace.id,
+      syntheticMobilePlace.nameJa,
+      syntheticMobilePlace.mobileVenue.primaryOperatingAreaJa,
+      syntheticMobilePlace.source.url!,
+      'synthetic canonical mobile value',
+      '合成された移動営業表示',
+      '合成された日程案内',
+    ]) {
+      expect(serializedContext).not.toContain(factualValue);
+    }
+  });
+
   it('keeps every unresolved status distinct and makes the total decomposable', () => {
     const claims = [
       claim({
@@ -156,6 +394,7 @@ describe('Human Data Review Board projection (#340, #343)', () => {
         fieldId: 'name:ja',
         displayedValue: '例の場所',
         verification: 'verified',
+        confirmedAt: '2026-08-29',
       }),
       claim({
         claimId: 'place:example-place:address:ja',
@@ -211,6 +450,12 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       unknown: 1,
       demo: 1,
     });
+    expect(board.entities[0]?.reviewContext.uncertainties.map((item) => item.status)).toEqual([
+      'needs_confirmation',
+      'stale',
+      'conflict',
+      'unknown',
+    ]);
   });
 
   it('maps evidence and omissions by stable claim ID without fabricating source screenshots', () => {
@@ -282,6 +527,21 @@ describe('Human Data Review Board projection (#340, #343)', () => {
           'route:example-route:half-day:origin_travel_time_guidance:ja',
         comparedPresentationValue: '東京駅 / 60分',
         finding: 'presentation_mismatch',
+        verification: 'demo',
+        appSurface: 'Result',
+        issues: ['#333'],
+      }),
+      claim({
+        claimId: 'route:example-route:half-day:region_guidance:ja',
+        entityType: 'Route',
+        entityId: 'example-route',
+        entityName: '例の食旅',
+        fieldId: 'region_guidance:ja',
+        fieldLabel: 'Region guidance (ja)',
+        displayedValue: '奥多摩',
+        finding: 'canonical_missing',
+        verification: 'demo',
+        appSurface: 'Route',
         issues: ['#333'],
       }),
       claim({
@@ -319,7 +579,7 @@ describe('Human Data Review Board projection (#340, #343)', () => {
     ]);
     expect(board.entities[0]).toMatchObject({
       name: '例の食旅',
-      facts: [
+      facts: expect.arrayContaining([
         expect.objectContaining({
           fieldKey: 'route:half-day:duration_minutes',
           label: '半日の所要時間（分）',
@@ -334,10 +594,48 @@ describe('Human Data Review Board projection (#340, #343)', () => {
           displayedValue: '東京駅 / 約120分',
           comparedPresentationValue: '東京駅 / 60分',
           finding: 'presentation_mismatch',
-          status: 'needs_confirmation',
+          status: 'demo',
         }),
-      ],
+        expect.objectContaining({
+          fieldKey: 'route:half-day:region_guidance',
+          displayedValue: '奥多摩',
+          finding: 'canonical_missing',
+          status: 'demo',
+        }),
+      ]),
+      reviewContext: {
+        findings: expect.arrayContaining([
+          expect.objectContaining({
+            fieldKey: 'route:presentation:result_origin_travel_time',
+            finding: 'presentation_mismatch',
+            verification: 'demo',
+          }),
+          expect.objectContaining({
+            fieldKey: 'route:half-day:region_guidance',
+            finding: 'canonical_missing',
+            verification: 'demo',
+          }),
+        ]),
+        uncertainties: [expect.objectContaining({
+          fieldKey: 'route:half-day:duration_minutes',
+          status: 'needs_confirmation',
+        })],
+      },
     });
+    expect(board.entities[0]?.facts.find((fact) =>
+      fact.fieldKey === 'route:presentation:result_origin_travel_time')?.affectedSurfaces)
+      .toEqual(['Result']);
+    expect(board.entities[0]?.facts.find((fact) =>
+      fact.fieldKey === 'route:half-day:region_guidance')?.affectedSurfaces)
+      .toEqual(['Route']);
+    const summary = createDataReviewShareSummaryJa(
+      board.entities[0]!,
+      'https://preview.example/data-review/#example-route',
+    );
+    expect(summary).not.toContain('presentation_mismatch');
+    expect(summary).not.toContain('canonical_missing');
+    expect(summary).not.toContain('表示間の不一致');
+    expect(summary).not.toContain('正本未登録');
     expect(board.entities[1]).toMatchObject({
       name: '例のストーリー',
       facts: [expect.objectContaining({
@@ -349,11 +647,53 @@ describe('Human Data Review Board projection (#340, #343)', () => {
     });
   });
 
+  it('adds unresolved Home ownership only to Route entity review context', () => {
+    const board = buildHumanDataReviewBoard({
+      claims: [
+        claim({
+          claimId: 'route:example-route:half-day:duration_minutes',
+          entityType: 'Route',
+          entityId: 'example-route',
+          entityName: '例の食旅',
+          fieldId: 'duration_minutes',
+          displayedValue: '150',
+          canonicalValue: '200',
+          appSurface: 'Route',
+        }),
+        claim({
+          claimId: 'route:example-route:home.factual.duration',
+          entityType: 'Route',
+          entityId: 'example-route',
+          entityName: '例の食旅',
+          fieldId: 'home.factual.duration',
+          fieldLabel: 'Home journey duration',
+          verification: 'unknown',
+          origin: 'demo',
+          appSurface: 'Home',
+        }),
+      ],
+      currentProductEntities: [{ id: 'example-route', type: 'Route' }],
+      evidenceManifest: { evidence: [], omissions: [] },
+    });
+    const route = board.entities[0]!;
+
+    expect(route.facts.find((fact) => fact.fieldKey === 'route:half-day:duration_minutes')
+      ?.affectedSurfaces).toEqual(['Route']);
+    expect(route.unknowns).toEqual([
+      expect.objectContaining({
+        fieldKey: 'route:home.factual.duration',
+        label: '確認項目（Home journey duration）',
+      }),
+    ]);
+    expect(route.reviewContext.affectedSurfaces).toEqual(['Home', 'Route']);
+  });
+
   it('projects the complete current Product inventory and preserves reconciled entities', () => {
     const board = buildHumanDataReviewBoard({
       claims: buildRepositoryLedgerClaims(),
       currentProductEntities: CURRENT_PRODUCT_FACTUAL_INVENTORY,
       evidenceManifest: DATA_VERIFICATION_EVIDENCE_MANIFEST,
+      places,
     });
 
     expect(board.entities).toHaveLength(15);
@@ -397,6 +737,26 @@ describe('Human Data Review Board projection (#340, #343)', () => {
     expect(portOkutama?.sources).toEqual(expect.arrayContaining([
       expect.objectContaining({ coordinateProvider: true }),
     ]));
+    expect(portOkutama?.facts.find((fact) => fact.fieldKey === 'address')?.sources).toEqual([
+      expect.objectContaining({
+        role: 'address',
+        url: 'https://www.jreast.co.jp/hachioji/ome-itsukaichi/spot/detail382787.html',
+      }),
+    ]);
+    expect(portOkutama?.facts.find((fact) => fact.fieldKey === 'coordinates')?.sources).toEqual([
+      expect.objectContaining({
+        role: 'coordinates',
+        url: 'https://www.openstreetmap.org/node/6552267871',
+      }),
+    ]);
+    expect(portOkutama?.facts.find((fact) => fact.fieldKey === 'phone')?.sources).toEqual([
+      expect.objectContaining({
+        role: 'content',
+        url: 'https://www.okutama.ne.jp/',
+      }),
+    ]);
+    expect(portOkutama?.facts.find((fact) => fact.fieldKey === 'service_availability')?.affectedSurfaces)
+      .toEqual(['Spot', 'Story', 'Route']);
     expect(portOkutama?.evidence).toHaveLength(3);
     expect(portOkutama?.evidence.map((item) => item.kind)).toEqual(['app', 'app', 'app']);
     expect(portOkutama?.omissions.some((item) => item.sourceUrl === 'https://www.okutama.ne.jp/')).toBe(true);
@@ -431,6 +791,20 @@ describe('Human Data Review Board projection (#340, #343)', () => {
         coordinateProvider: true,
       }),
     ]));
+    const akabekoPhone = akabeko?.facts.find((fact) => fact.fieldKey === 'phone');
+    expect(akabekoPhone?.sources.map((source) => source.url)).toEqual([
+      'https://akabeko.tokyo/',
+      'https://akabeko.tokyo/news',
+      'https://arasawaya.co.jp/contact/',
+    ]);
+    expect(akabekoPhone?.sources.map((source) => source.value)).toEqual([
+      '050-5304-3644 / reservation_inquiry / shared_business_group / unresolved',
+      '0428-83-2365 / reservation_inquiry / shared_business_group / unresolved',
+      '0428-83-2365 / reservation_inquiry / related_business / unresolved',
+    ]);
+    expect(akabekoPhone?.affectedSurfaces).toEqual(['Spot']);
+    expect(akabeko?.facts.find((fact) => fact.fieldKey === 'price_availability')
+      ?.affectedSurfaces).toEqual(['Spot', 'Story', 'Route']);
 
     const wasabiKitchen = board.entities.find((entity) => entity.id === 'wasabi-kitchen');
     expect(wasabiKitchen).toMatchObject({
@@ -460,12 +834,51 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       'https://tokyowasabi.com/wasabi-don/',
       'https://tokyowasabi.com/hitoshi/2573/fussa-tanabata-challenge/',
     ]));
+    expect(wasabiKitchen?.reviewContext.affectedSurfaces).toEqual(['Spot', 'Story', 'Route']);
+    expect(wasabiKitchen?.facts.find((fact) => fact.fieldKey === 'venue_model')?.affectedSurfaces)
+      .toEqual(['Spot', 'Story', 'Route']);
+    expect(wasabiKitchen?.facts.find((fact) => fact.fieldKey === 'schedule_conflict')?.sources.map((source) => source.url))
+      .toEqual([
+        'https://tokyowasabi.com/information/2751/260728/',
+        'https://tokyowasabi.com/hitoshi/2573/fussa-tanabata-challenge/',
+      ]);
+
+    const syntheticBoard = buildHumanDataReviewBoard({
+      claims: [
+        claim({
+          claimId: 'place:synthetic-mobile:venue_model',
+          entityId: 'synthetic-mobile',
+          entityName: '合成モバイル店舗',
+          fieldId: 'venue_model',
+          canonicalValue: 'irrelevant synthetic value',
+        }),
+      ],
+      currentProductEntities: [{ id: 'synthetic-mobile', type: 'Spot' }],
+      evidenceManifest: { evidence: [], omissions: [] },
+      places: [syntheticMobilePlace],
+    });
+    const mobileImpactIds = ['no-fixed-location-behavior', 'current-information-caveat'];
+    expect(wasabiKitchen?.reviewContext.productImpacts
+      .filter((item) => mobileImpactIds.includes(item.id)))
+      .toEqual(syntheticBoard.entities[0]?.reviewContext.productImpacts
+        .filter((item) => mobileImpactIds.includes(item.id)));
+
+    const boardWithoutEvidence = buildHumanDataReviewBoard({
+      claims: buildRepositoryLedgerClaims(),
+      currentProductEntities: CURRENT_PRODUCT_FACTUAL_INVENTORY,
+      evidenceManifest: { evidence: [], omissions: [] },
+      places,
+    });
+    expect(boardWithoutEvidence.entities.find((entity) => entity.id === 'wasabi-kitchen')?.reviewContext.affectedSurfaces)
+      .toEqual(['Spot', 'Story', 'Route']);
 
     const kitchen = board.entities.find((entity) => entity.id === 'okutama-kitchen');
     expect(kitchen?.facts).toEqual(expect.arrayContaining([
       expect.objectContaining({ fieldKey: 'hours', status: 'needs_confirmation' }),
       expect.objectContaining({ fieldKey: 'price_availability', status: 'needs_confirmation' }),
     ]));
+    expect(kitchen?.facts.find((fact) => fact.fieldKey === 'price_availability')
+      ?.affectedSurfaces).toEqual(['Spot', 'Story', 'Route']);
     expect(kitchen?.unknowns.map((field) => field.fieldKey)).toEqual([
       'reservation',
       'booking_destination',
@@ -493,6 +906,34 @@ describe('Human Data Review Board projection (#340, #343)', () => {
         status: 'needs_confirmation',
       }),
     ]));
+    expect(route?.facts.find((fact) => fact.fieldKey === 'route:half-day:duration_minutes')
+      ?.affectedSurfaces).toEqual(['Route']);
+    expect(route?.facts.find((fact) => fact.fieldKey === 'route:presentation:result_origin_travel_time')
+      ?.affectedSurfaces).toEqual(['Route', 'Result']);
+    expect(route?.reviewContext.findings).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        fieldKey: 'route:presentation:result_origin_travel_time',
+        finding: 'presentation_mismatch',
+        verification: 'demo',
+      }),
+      expect.objectContaining({
+        finding: 'canonical_missing',
+        verification: 'demo',
+      }),
+    ]));
+    expect(route?.reviewContext.uncertainties).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        fieldKey: 'route:half-day:duration_minutes',
+        status: 'needs_confirmation',
+      }),
+    ]));
+    const routeSummary = createDataReviewShareSummaryJa(
+      route!,
+      'https://preview.example/data-review/#okutama-wasabi-journey',
+    );
+    expect(routeSummary).not.toContain('表示間の不一致');
+    expect(routeSummary).not.toContain('正本未登録');
+    expect(route?.reviewContext.affectedSurfaces).toEqual(['Home', 'Story', 'Route', 'Result']);
 
     expect(board.entities.find((entity) => entity.id === 'okutama-yamame-journey')).toMatchObject({
       type: 'Route',
@@ -522,6 +963,7 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       claims: buildRepositoryLedgerClaims(),
       currentProductEntities: CURRENT_PRODUCT_FACTUAL_INVENTORY,
       evidenceManifest: DATA_VERIFICATION_EVIDENCE_MANIFEST,
+      places,
     }));
     expect(second).toBe(first);
 
@@ -532,6 +974,7 @@ describe('Human Data Review Board projection (#340, #343)', () => {
         evidence: [...DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence].reverse(),
         omissions: [...DATA_VERIFICATION_EVIDENCE_MANIFEST.omissions].reverse(),
       },
+      places: [...places].reverse(),
     }));
     expect(reversed).toBe(first);
   });
@@ -541,6 +984,7 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       claims: buildRepositoryLedgerClaims(),
       currentProductEntities: CURRENT_PRODUCT_FACTUAL_INVENTORY,
       evidenceManifest: DATA_VERIFICATION_EVIDENCE_MANIFEST,
+      places,
     });
     const kitchen = board.entities.find((entity) => entity.id === 'okutama-kitchen')!;
 
@@ -549,10 +993,12 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       'https://preview.example/data-review/#okutama-kitchen',
     );
 
-    expect(summary).toContain('🟡 出典あり・要確認');
-    expect(summary).toContain('最終確認: 2026-08-28');
-    expect(summary).toContain('未確認');
+    expect(summary).toContain('🟡 出典確認済み・人の確認待ち');
+    expect(summary).toContain('最新出典確認: 2026-08-28');
+    expect(summary).toContain('未解決・要対応');
     expect(summary).toContain('https://preview.example/data-review/#okutama-kitchen');
-    expect(summary).not.toContain('✅ 確認済み');
+    expect(summary).not.toContain('✅ 人による確認済み');
+    expect(summary).not.toContain('Productへの影響');
+    expect(summary).not.toContain('固定マップピン');
   });
 });
