@@ -358,11 +358,11 @@ describe('seed data contract (#2)', () => {
           verificationStatus: 'conflict',
           statements: [
             {
-              id: 'akabeko-reservation-desk',
+              id: 'akabeko-home-shared-contact',
               number: '050-5304-3644',
-              role: 'reservation_desk',
+              role: 'reservation_inquiry',
               scope: 'shared_business_group',
-              placeRoutingStatus: 'explicit',
+              placeRoutingStatus: 'unresolved',
               source: { url: 'https://akabeko.tokyo/' },
             },
             {

@@ -612,7 +612,7 @@ export const DATA_VERIFICATION_EVIDENCE_MANIFEST: DataVerificationEvidenceManife
         'place:akabeko:name:ja',
         'place:akabeko:address:ja',
         'place:akabeko:phone:ja',
-        'place:akabeko:phone:source:akabeko-reservation-desk',
+        'place:akabeko:phone:source:akabeko-home-shared-contact',
         'spot:akabeko:hours',
         'spot:akabeko:closed_days',
         'spot:akabeko:reservation',

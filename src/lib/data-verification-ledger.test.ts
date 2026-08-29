@@ -618,7 +618,7 @@ describe('repository data verification ledger (#333)', () => {
     expect(phone?.canonicalValue).toContain('unresolved');
 
     for (const [statementId, number, sourceUrl, routing] of [
-      ['akabeko-reservation-desk', '050-5304-3644', 'https://akabeko.tokyo/', 'explicit'],
+      ['akabeko-home-shared-contact', '050-5304-3644', 'https://akabeko.tokyo/', 'unresolved'],
       ['akabeko-news-shared-contact', '0428-83-2365', 'https://akabeko.tokyo/news', 'unresolved'],
       ['arasawaya-reservation-inquiry', '0428-83-2365', 'https://arasawaya.co.jp/contact/', 'unresolved'],
     ] as const) {

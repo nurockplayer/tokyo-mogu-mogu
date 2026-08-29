@@ -415,13 +415,13 @@ describe('Netlify parity presentation content', () => {
       expect(phone[locale]).toContain('050-5304-3644');
       expect(phone[locale]).toContain('0428-83-2365');
       expect(phone[locale]).toMatch(
-        locale === 'ja' ? /取次.*未確認/ : locale === 'en' ? /routing.*unconfirmed/i : /轉接.*未確認/,
+        locale === 'ja' ? /利用する番号.*未確認/ : locale === 'en' ? /which number to use.*unconfirmed/i : /應使用哪個號碼.*尚未確認/,
       );
       expect(detail.caution.map((item) => item[locale]).join(' ')).toMatch(
         locale === 'ja' ? /2つの電話番号|公式/ : locale === 'en' ? /two phone|official/i : /兩個電話|官方/,
       );
       expect(detail.caution.map((item) => item[locale]).join(' ')).toMatch(
-        locale === 'ja' ? /050.*荒澤屋共通/ : locale === 'en' ? /050.*shared with Arasawaya/i : /050.*與荒澤屋共用/,
+        locale === 'ja' ? /050.*0428.*荒澤屋共通/ : locale === 'en' ? /050.*0428.*shared with Arasawaya/i : /050.*0428.*與荒澤屋共用/,
       );
     }
 

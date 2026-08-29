@@ -490,7 +490,7 @@ test('keeps Akabeko phone divergence and source-backed operations visible in eve
       name: '炉ばた あかべこ',
       hours: 'ランチ 11:30〜L.O. 13:30',
       reservation: '予約推奨',
-      routing: '店舗への取次は未確認',
+      routing: '利用する番号は未確認',
       conflict: '電話情報に不一致',
     },
     {
@@ -498,7 +498,7 @@ test('keeps Akabeko phone divergence and source-backed operations visible in eve
       name: 'Robata Akabeko',
       hours: 'Lunch 11:30–L.O. 13:30',
       reservation: 'Reservations recommended',
-      routing: 'venue routing unconfirmed',
+      routing: 'which number to use remains unconfirmed',
       conflict: 'Phone sources conflict',
     },
     {
@@ -506,7 +506,7 @@ test('keeps Akabeko phone divergence and source-backed operations visible in eve
       name: '爐端燒 AKABEKO',
       hours: '午餐 11:30–最後點餐 13:30',
       reservation: '建議預約',
-      routing: '轉接至店家尚未確認',
+      routing: '應使用哪個號碼尚未確認',
       conflict: '電話資訊不一致',
     },
   ] as const;

@@ -111,20 +111,16 @@ export function localizePlaceClosureConflict(
 export function localizePlacePhoneConflict(
   statements: readonly PlacePhoneSourceStatement[],
 ): LocalizedText {
-  const explicitPlaceRouting = statements.find(
-    (statement) => statement.placeRoutingStatus === 'explicit',
-  );
-  const unresolvedRouting = statements.find(
-    (statement) => statement.placeRoutingStatus === 'unresolved'
-      && statement.number !== explicitPlaceRouting?.number,
-  );
-  if (!explicitPlaceRouting || !unresolvedRouting) {
-    throw new Error('Phone conflict presentation requires explicit and unresolved routing statements.');
+  const numbers = [...new Set(statements.map((statement) => statement.number))];
+  if (numbers.length < 2 || statements.some((statement) => statement.placeRoutingStatus !== 'unresolved')) {
+    throw new Error('Phone conflict presentation requires at least two unresolved source-published numbers.');
   }
+  const numbersJa = numbers.join('／');
+  const numbersEn = numbers.join(' / ');
   return localized(
-    `${explicitPlaceRouting.number}（店舗予約窓口）／${unresolvedRouting.number}（関連事業者の予約・問合せ。店舗への取次は未確認）`,
-    `${explicitPlaceRouting.number} (venue reservation desk) / ${unresolvedRouting.number} (related-business reservations & inquiries; venue routing unconfirmed)`,
-    `${explicitPlaceRouting.number}（店家預約窗口）／${unresolvedRouting.number}（關聯業者預約與洽詢；轉接至店家尚未確認）`,
+    `${numbersJa}（あかべこ公式ページはいずれも荒澤屋共通の予約・問合せ先として掲載。利用する番号は未確認）`,
+    `${numbersEn} (Akabeko official pages publish both as reservation/contact numbers shared with Arasawaya; which number to use remains unconfirmed)`,
+    `${numbersJa}（AKABEKO 官方頁面皆將其刊載為與荒澤屋共用的預約／洽詢電話；應使用哪個號碼尚未確認）`,
   );
 }
 
@@ -565,9 +561,9 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
       { tagId: 'source-conflict', color: '#E05B5B', label: localized('電話情報に不一致', 'Phone sources conflict', '電話資訊不一致') },
     ],
     description: localized(
-      `${akabekoPlace.nameJa}と民話の宿 荒澤屋の公式情報に基づく参考情報です。公式情報には2つの電話番号が掲載され、用途の一部を確認中です。`,
-      `Reference information based on official pages from ${akabekoPlace.nameEn} and Arasawaya. The official sources publish two phone numbers, and part of their routing remains unconfirmed.`,
-      `依據${akabekoPlace.nameJa}與民話之宿荒澤屋官方資訊整理。官方資訊刊載兩個電話號碼，部分轉接用途仍在確認中。`,
+      `${akabekoPlace.nameJa}と民話の宿 荒澤屋の公式情報に基づく参考情報です。あかべこ公式ページには共通の予約・問合せ番号が2つ掲載され、どちらを利用するか確認中です。`,
+      `Reference information based on official pages from ${akabekoPlace.nameEn} and Arasawaya. Akabeko official pages publish two shared reservation/contact numbers, and which number to use remains unconfirmed.`,
+      `依據${akabekoPlace.nameJa}與民話之宿荒澤屋官方資訊整理。AKABEKO 官方頁面刊載兩個共用的預約／洽詢電話，應使用哪個號碼仍在確認中。`,
     ),
     information: [
       {
@@ -639,9 +635,9 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
         icon: 'information',
         label: localized('確認状況', 'Verification status', '確認狀態'),
         value: localized(
-          '掲載内容は現在確認中です。電話番号・営業時間・休業・予約・メニュー提供状況は、訪問前に公式情報をご確認ください。',
-          'This listing is still being confirmed. Check official information for phone routing, hours, closures, reservations, and menu availability before visiting.',
-          '刊載內容仍在確認中。造訪前請以官方資訊確認電話轉接、營業時間、休息日、預約與菜單供應狀況。',
+          '掲載内容は現在確認中です。利用する電話番号・営業時間・休業・予約・メニュー提供状況は、訪問前に公式情報をご確認ください。',
+          'This listing is still being confirmed. Check official information for which phone number to use, hours, closures, reservations, and menu availability before visiting.',
+          '刊載內容仍在確認中。造訪前請以官方資訊確認應使用的電話號碼、營業時間、休息日、預約與菜單供應狀況。',
         ),
       },
     ],
@@ -656,9 +652,9 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
     },
     caution: [
       localized(
-        '・公式情報には2つの電話番号があります。050番号はあかべこ予約窓口（荒澤屋共通表記）、0428番号は荒澤屋の予約・問合せとして掲載され、あかべこへの取次は未確認です。',
-        '• Official sources publish two phone numbers. The 050 number is the Akabeko reservation desk and is also labeled shared with Arasawaya; the 0428 number is published for Arasawaya reservations and inquiries, with Akabeko routing unconfirmed.',
-        '・官方資訊刊載兩個電話號碼。050 號碼為 AKABEKO 預約窗口，並標示與荒澤屋共用；0428 號碼刊載為荒澤屋預約與洽詢，轉接至 AKABEKO 尚未確認。',
+        '・あかべこ公式ページには、050番号と0428番号の両方が荒澤屋共通の予約・問合せ先として掲載されています。どちらを利用するかは未確認です。',
+        '• Akabeko official pages publish both the 050 and 0428 numbers as reservation/contact numbers shared with Arasawaya. Which number to use remains unconfirmed.',
+        '・AKABEKO 官方頁面將 050 與 0428 兩個號碼都刊載為與荒澤屋共用的預約／洽詢電話。應使用哪個號碼尚未確認。',
       ),
       localized(
         '・営業時間、休業、予約受付、メニューの提供状況は変更される場合があります。訪問前に公式情報をご確認ください。',
