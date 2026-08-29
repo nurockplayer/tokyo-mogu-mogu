@@ -109,28 +109,33 @@ function ProfileInputModal({
 }: ProfileInputModalProps) {
   const dismissible = Boolean(onCancel);
   const cancelRef = useRef(onCancel);
+  const dismissRef = useRef<() => void>(() => undefined);
   cancelRef.current = onCancel;
+  const dismiss = () => {
+    const returnFocusTarget = returnFocusRef?.current;
+    cancelRef.current?.();
+    window.setTimeout(() => returnFocusTarget?.focus(), 0);
+  };
+  dismissRef.current = dismiss;
 
   useEffect(() => {
     if (!dismissible) return;
-    const returnFocusTarget = returnFocusRef?.current;
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key !== 'Escape') return;
       event.preventDefault();
-      cancelRef.current?.();
+      dismissRef.current();
     };
     document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      window.setTimeout(() => returnFocusTarget?.focus(), 0);
     };
-  }, [dismissible, returnFocusRef]);
+  }, [dismissible]);
 
   return (
     <div
       className="profile-input-modal"
       onClick={(event) => {
-        if (event.target === event.currentTarget) onCancel?.();
+        if (event.target === event.currentTarget) dismiss();
       }}
     >
       <form
@@ -147,7 +152,7 @@ function ProfileInputModal({
             className="profile-input-close"
             type="button"
             aria-label={dismissLabel}
-            onClick={onCancel}
+            onClick={dismiss}
           >
             <span aria-hidden="true">×</span>
           </button>
@@ -417,6 +422,12 @@ export function FoodProfileConversation({
     });
     return () => window.cancelAnimationFrame(frame);
   }, [state.entries.length]);
+
+  useEffect(() => {
+    if (!active && state.otherInputOpen) {
+      dispatch({ type: 'TOGGLE_OTHER' });
+    }
+  }, [active, dispatch, state.otherInputOpen]);
 
   const submitName = (event: FormEvent) => {
     event.preventDefault();

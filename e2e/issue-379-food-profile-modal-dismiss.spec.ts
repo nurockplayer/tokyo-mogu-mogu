@@ -47,6 +47,7 @@ test('close button cancels an accidental Other input without changing the questi
   await other.click();
 
   const dialog = profile.getByRole('dialog', { name: '食材を入力してください' });
+  await expect(dialog.getByRole('textbox', { name: '食材を入力してください' })).toBeFocused();
   await expect(dialog).toBeVisible();
   await dialog.getByRole('button', { name: '入力を閉じる' }).click();
 
@@ -192,4 +193,16 @@ test('desktop keeps the shared close target reachable inside the viewport', asyn
   expect(box!.y).toBeGreaterThanOrEqual(0);
   expect(box!.x + box!.width).toBeLessThanOrEqual(1280);
   expect(box!.y + box!.height).toBeLessThanOrEqual(900);
+});
+
+test('leaving Food Profile closes the hidden modal and removes its Escape behavior', async ({ page }) => {
+  const { allergy } = await openAllergyQuestion(page);
+  await allergy.getByRole('button', { name: /その他/ }).click();
+  await page.goto('/home');
+
+  const home = page.locator('[data-screen="home"][data-screen-active="true"]');
+  await expect(home).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(home).toBeVisible();
+  await expect(page.locator('.profile-input-card')).toBeHidden();
 });
