@@ -709,6 +709,8 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       '0428-83-2365 / reservation_inquiry / related_business / unresolved',
     ]);
     expect(akabekoPhone?.affectedSurfaces).toEqual(['Spot']);
+    expect(akabeko?.facts.find((fact) => fact.fieldKey === 'price_availability')
+      ?.affectedSurfaces).toEqual(['Spot', 'Story', 'Route']);
 
     const wasabiKitchen = board.entities.find((entity) => entity.id === 'wasabi-kitchen');
     expect(wasabiKitchen).toMatchObject({
@@ -781,6 +783,8 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       expect.objectContaining({ fieldKey: 'hours', status: 'needs_confirmation' }),
       expect.objectContaining({ fieldKey: 'price_availability', status: 'needs_confirmation' }),
     ]));
+    expect(kitchen?.facts.find((fact) => fact.fieldKey === 'price_availability')
+      ?.affectedSurfaces).toEqual(['Spot', 'Story', 'Route']);
     expect(kitchen?.unknowns.map((field) => field.fieldKey)).toEqual([
       'reservation',
       'booking_destination',
@@ -810,6 +814,8 @@ describe('Human Data Review Board projection (#340, #343)', () => {
     ]));
     expect(route?.facts.find((fact) => fact.fieldKey === 'route:half-day:duration_minutes')
       ?.affectedSurfaces).toEqual(['Route']);
+    expect(route?.facts.find((fact) => fact.fieldKey === 'route:presentation:result_origin_travel_time')
+      ?.affectedSurfaces).toEqual(['Route', 'Result']);
     expect(route?.reviewContext.affectedSurfaces).toEqual(['Story', 'Route', 'Result']);
 
     expect(board.entities.find((entity) => entity.id === 'okutama-yamame-journey')).toMatchObject({

@@ -168,7 +168,12 @@ const HUMAN_FIELDS: readonly HumanFieldDefinition[] = [
   { key: 'schedule_url', label: '最新の出店予定', aliases: ['schedule_url'], order: 64 },
   { key: 'schedule_conflict', label: '日程情報の不一致', aliases: ['schedule_conflict'], order: 66 },
   { key: 'closed_days', label: '休業日', aliases: ['closed_days'], order: 70 },
-  { key: 'price_availability', label: '価格・取扱情報', aliases: ['price_availability', 'price'], order: 80 },
+  {
+    key: 'price_availability',
+    label: '価格・取扱情報',
+    aliases: ['price_availability', 'product_availability', 'price'],
+    order: 80,
+  },
   { key: 'service_availability', label: '取扱・サービス', aliases: ['service_availability'], order: 85 },
   { key: 'reservation', label: '予約', aliases: ['reservation'], order: 90 },
   { key: 'booking_destination', label: '予約方法・URL', aliases: ['booking_destination'], order: 100 },
@@ -431,6 +436,7 @@ function affectedSurfacesForFact(
   entityType: CurrentProductFactualEntityType,
   definition: HumanFieldDefinition,
   claim: LedgerClaim,
+  claims: readonly LedgerClaim[],
 ): HumanDataReviewSurface[] {
   const surfaces = new Set<HumanDataReviewSurface>();
   const spotAudit = PRESENTATION_SPOT_AUDIT.find((audit) =>
@@ -439,8 +445,15 @@ function affectedSurfacesForFact(
 
   if (entityType === 'Story') surfaces.add('Story');
   if (entityType === 'Route') {
-    const claimSurface = SURFACE_ORDER.find((surface) => surface === claim.appSurface);
-    surfaces.add(claimSurface ?? 'Route');
+    const ownedClaims = [
+      claim,
+      claims.find((candidate) => candidate.claimId === claim.comparedPresentationClaimId),
+    ].filter((candidate): candidate is LedgerClaim => candidate !== undefined);
+    for (const ownedClaim of ownedClaims) {
+      const claimSurface = SURFACE_ORDER.find((surface) => surface === ownedClaim.appSurface);
+      if (claimSurface) surfaces.add(claimSurface);
+    }
+    if (surfaces.size === 0) surfaces.add('Route');
   }
 
   const matchesCanonicalField = (canonicalFieldId: string | undefined) =>
@@ -507,7 +520,7 @@ function buildFacts(
         claimIds: traceability.claimIds,
         sources: traceability.sources,
         sourceChecked,
-        affectedSurfaces: affectedSurfacesForFact(entityId, entityType, definition, claim),
+        affectedSurfaces: affectedSurfacesForFact(entityId, entityType, definition, claim, claims),
         sourceName: claim.primarySource,
         sourceUrl: claim.primarySourceUrl,
         retrievedAt: claim.retrievedAt,

@@ -291,6 +291,9 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(presentationRow.getByText('東京駅 / から電車で　約120分', { exact: true })).toBeVisible();
     await expect(presentationRow.getByText('比較対象の表示', { exact: true })).toBeVisible();
     await expect(presentationRow.getByText('東京駅 / 60 分', { exact: true })).toBeVisible();
+    await expect(presentationRow.getByText('Route', { exact: true })).toBeVisible();
+    await expect(presentationRow.getByText('Result', { exact: true })).toBeVisible();
+    await expect(presentationRow.getByText('Story', { exact: true })).toHaveCount(0);
     await expect(page.getByRole('table', { name: '現在わかっていること' })
       .getByText('取扱・運行情報（okutama-kitchen）', { exact: true })).toBeVisible();
     await expect(page.getByText('特選ソフトジェラート（わさび味を含む・提供状況は要確認）', { exact: true }).first()).toBeVisible();
