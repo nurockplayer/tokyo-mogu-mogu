@@ -120,7 +120,7 @@ export interface FoodCulture {
   origin: DataOrigin;
 }
 
-export type PlaceType = 'shop' | 'restaurant' | 'farm' | 'brewery' | 'info-center' | 'other';
+export type PlaceType = 'shop' | 'restaurant' | 'food-truck' | 'farm' | 'brewery' | 'info-center' | 'other';
 
 export interface PlaceBusinessHours {
   opens: string;
@@ -231,18 +231,39 @@ export interface PlaceVisitorInformation {
   };
 }
 
+export interface PlaceMobileVenue {
+  /** The operator explicitly states that the venue has no permanent storefront. */
+  noFixedStorefront: true;
+  /** Broad source-published operating area; never a substitute address. */
+  primaryOperatingAreaJa: string;
+  /** English presentation of the same broad operating area. */
+  primaryOperatingAreaEn: string;
+  /** Traditional Chinese presentation of the same broad operating area. */
+  primaryOperatingAreaZhTw: string;
+  /** Stable qualitative pattern only; exact dates belong to dated schedule evidence. */
+  operatingPattern: 'mainly-weekends';
+  /** Conditions that make a published schedule non-guaranteed. */
+  scheduleVariability: Array<'published-schedule' | 'weather' | 'sell-out'>;
+  /** Durable first-party directory that leads visitors to the latest schedule post. */
+  scheduleDirectorySource: DataSource;
+  /** Dated first-party schedule post used as observed operational provenance. */
+  datedScheduleSource: DataSource;
+  /** Explicit unresolved schedule statements from first-party sources. */
+  scheduleConflict?: {
+    verificationStatus: 'conflict';
+    statements: PlaceSourceConflictStatement[];
+  };
+}
+
 /**
- * A physical place where a user can experience one or more food cultures
- * (shop, restaurant, farm, brewery, information center, ...).
+ * A venue where a user can experience one or more food cultures. Fixed venues
+ * carry an address and coordinates; mobile venues explicitly omit them.
  */
-export interface Place {
+interface PlaceBase {
   /** Stable identifier, e.g. "place-wasabi-farm". */
   id: string;
   nameJa: string;
   nameEn: string;
-  address: string;
-  latitude: number;
-  longitude: number;
   /**
    * Coordinate precision (Issue #127). 'precise' = field-verified / precise OSM
    * point; 'approximate' = district centroid, usable for map display but never
@@ -264,6 +285,31 @@ export interface Place {
   visitorInformation?: PlaceVisitorInformation;
   /** Whether this entry is real source data, editorial, or a demo fixture. */
   origin: DataOrigin;
+}
+
+export interface FixedPlace extends PlaceBase {
+  locationKind?: 'fixed';
+  address: string;
+  latitude: number;
+  longitude: number;
+  mobileVenue?: never;
+}
+
+export interface MobilePlace extends PlaceBase {
+  locationKind: 'mobile';
+  address?: never;
+  latitude?: never;
+  longitude?: never;
+  coordinatePrecision?: never;
+  coordinateSource?: never;
+  addressSource?: never;
+  mobileVenue: PlaceMobileVenue;
+}
+
+export type Place = FixedPlace | MobilePlace;
+
+export function isFixedPlace(place: Place): place is FixedPlace {
+  return place.locationKind !== 'mobile';
 }
 
 /** Distance check used for location-based check-in (meters). */

@@ -688,11 +688,7 @@ describe('repository data verification ledger (#333)', () => {
       claims.find(
         (row) => row.claimId === 'route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:note:zh-TW',
       ),
-    ).toMatchObject({
-      displayedValue: '平日建議前往 AKABEKO',
-      verification: 'demo',
-      finding: 'canonical_missing',
-    });
+    ).toBeUndefined();
     expect(
       claims.find(
         (row) => row.claimId === 'spot:okutama-tourism-office:presentation:lead:en',
@@ -905,21 +901,11 @@ describe('repository data verification ledger (#333)', () => {
     });
   });
 
-  it('keeps visible Route notes as stable time-sensitive presentation claims', () => {
+  it('removes the unsupported weekday fallback and fixed-location Route geometry (#324)', () => {
     const claims = buildRepositoryLedgerClaims();
 
-    expect(
-      claims.find(
-        (row) => row.claimId === 'route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:note:ja',
-      ),
-    ).toMatchObject({
-      canonicalValue: undefined,
-      displayedValue: '※平日はあかべこ推奨',
-      verification: 'demo',
-      finding: 'canonical_missing',
-      timeSensitive: true,
-      appSurface: 'Route',
-    });
+    expect(claims.some((row) => row.claimId.includes('step:wasabi-kitchen:note'))).toBe(false);
+    expect(claims.some((row) => row.claimId.includes('step:wasabi-kitchen:transport_guidance'))).toBe(false);
   });
 
   it('inventories visible Route summary labels separately from structural counts', () => {
@@ -952,27 +938,60 @@ describe('repository data verification ledger (#333)', () => {
     ).toMatchObject({ displayedValue: '4', finding: 'canonical_missing' });
   });
 
-  it('queues operational facts embedded in structured Route guidance without parsing prose', () => {
+  it('maps mobile Route guidance to canonical source-backed facts (#324)', () => {
     const claims = buildRepositoryLedgerClaims();
+    const scheduleDirectory = claims.find(
+      (row) => row.claimId === 'place:wasabi-kitchen:schedule_url',
+    );
+    const datedConflictStatement = claims.find(
+      (row) => row.claimId === 'place:wasabi-kitchen:schedule_conflict:source:august-schedule-event-dates',
+    );
     const guidance = claims.find(
       (row) => row.claimId === 'route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:guidance:ja',
     );
-    const minimumPrice = claims.find(
-      (row) => row.claimId === 'route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:factual:minimum-price',
+    const weekendOperation = claims.find(
+      (row) => row.claimId === 'route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:factual:weekend-operation',
+    );
+    const referencePrice = claims.find(
+      (row) => row.claimId === 'route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:factual:wasabi-don-reference-price',
+    );
+    const venueModel = claims.find(
+      (row) => row.claimId === 'route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:factual:venue-model',
     );
 
-    expect(guidance?.timeSensitive).toBe(true);
-    expect(minimumPrice).toMatchObject({
-      canonicalValue: undefined,
-      displayedValue: undefined,
-      verification: 'unknown',
-      finding: 'none',
-      timeSensitive: true,
-      auditSourceFile: 'src/data/data-verification-audit-manifest.ts',
+    expect(scheduleDirectory).toMatchObject({
+      canonicalValue: 'https://tokyowasabi.com/category/information/',
+      primarySourceUrl: 'https://tokyowasabi.com/category/information/',
+      verification: 'needs_confirmation',
     });
+    expect(datedConflictStatement).toMatchObject({
+      canonicalValue: '2026-08-07〜2026-08-09',
+      primarySourceUrl: 'https://tokyowasabi.com/information/2751/260728/',
+      verification: 'conflict',
+    });
+    expect(guidance?.timeSensitive).toBe(true);
+    expect(weekendOperation).toMatchObject({
+      canonicalValue: expect.stringContaining('mainly-weekends'),
+      displayedValue: expect.stringContaining('最新の公式予定'),
+      verification: 'needs_confirmation',
+      timeSensitive: true,
+      primarySourceUrl: 'https://tokyowasabi.com/information/2751/260728/',
+    });
+    expect(referencePrice).toMatchObject({
+      canonicalValue: expect.stringContaining('900 JPY'),
+      displayedValue: expect.stringContaining('2026年7月'),
+      verification: 'needs_confirmation',
+      primarySourceUrl: 'https://tokyowasabi.com/wasabi-don/',
+    });
+    expect(venueModel).toMatchObject({
+      canonicalValue: 'mobile_food_truck / no_permanent_storefront',
+      displayedValue: expect.stringContaining('固定店舗のないキッチンカー'),
+      primarySourceUrl: 'https://tokyowasabi.com/foodtruck/',
+    });
+    expect(claims.some((row) => row.claimId.endsWith('factual:minimum-price'))).toBe(false);
   });
 
-  it('queues Story spot-card assertions as stable metadata-only unknowns', () => {
+  it('maps Story mobile-venue assertions to canonical authority (#324)', () => {
     const claims = buildRepositoryLedgerClaims();
 
     expect(
@@ -980,12 +999,21 @@ describe('repository data verification ledger (#333)', () => {
         (row) => row.claimId === 'story:wasabi-okutama:story.spot.wasabi-kitchen.weekend-operation',
       ),
     ).toMatchObject({
-      canonicalValue: undefined,
-      displayedValue: undefined,
-      verification: 'unknown',
+      canonicalValue: expect.stringContaining('mainly-weekends'),
+      displayedValue: expect.stringContaining('固定店舗のないキッチンカー'),
+      verification: 'needs_confirmation',
       finding: 'none',
       timeSensitive: true,
-      auditSourceFile: 'src/data/data-verification-audit-manifest.ts',
+      primarySourceUrl: 'https://tokyowasabi.com/information/2751/260728/',
+    });
+    expect(
+      claims.find(
+        (row) => row.claimId === 'story:wasabi-okutama:story.spot.wasabi-kitchen.venue-model',
+      ),
+    ).toMatchObject({
+      canonicalValue: 'mobile_food_truck / no_permanent_storefront',
+      verification: 'needs_confirmation',
+      primarySourceUrl: 'https://tokyowasabi.com/foodtruck/',
     });
   });
 

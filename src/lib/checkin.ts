@@ -7,7 +7,7 @@
  * and tests can drive location without a real device.
  */
 import { distanceInMeters, isWithinRadius } from './geo';
-import { UNLOCK_RADIUS_METERS, getPlaceById, type Place } from '../data';
+import { UNLOCK_RADIUS_METERS, getPlaceById, isFixedPlace, type FixedPlace } from '../data';
 
 /** Outcome of a check-in attempt at a place. */
 export type CheckInResult =
@@ -37,7 +37,7 @@ export type CheckInResult =
 export function checkInAtPlace(
   userLat: number,
   userLng: number,
-  place: Place,
+  place: FixedPlace,
   radiusMeters: number = UNLOCK_RADIUS_METERS,
 ): CheckInResult {
   const distanceMeters = distanceInMeters(userLat, userLng, place.latitude, place.longitude);
@@ -150,7 +150,7 @@ export function parseDemoLocationOverride(params: URLSearchParams): DemoLocation
   const at = params.get('at');
   if (at !== null && at.startsWith('place:')) {
     const place = getPlaceById(at.slice('place:'.length));
-    if (place) {
+    if (place && isFixedPlace(place)) {
       return { enabled: true, latitude: place.latitude, longitude: place.longitude };
     }
   }

@@ -4,7 +4,7 @@ import type {
   DataVerificationEvidenceOmission,
 } from '../data/data-verification-evidence-manifest';
 import tourismDirectory from '../../scripts/ingest-okutama/snapshots/okutama-tourism-directory.json';
-import { foodCultures, modelRoutes, places } from '../data';
+import { foodCultures, isFixedPlace, modelRoutes, places } from '../data';
 import {
   PRESENTATION_ROUTE_AUDIT,
   PRESENTATION_ROUTE_MEETING_TIME_AUDIT,
@@ -436,7 +436,38 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
         };
 
     if (fieldId === 'name') return defaultFact(place.nameJa);
-    if (fieldId === 'address') return defaultFact(place.address, place.addressSource);
+    if (fieldId === 'address' && isFixedPlace(place)) {
+      return defaultFact(place.address, place.addressSource);
+    }
+    if (fieldId === 'venue_model' && place.locationKind === 'mobile') {
+      return defaultFact(place.mobileVenue.noFixedStorefront
+        ? 'mobile_food_truck / no_permanent_storefront'
+        : 'mobile_food_truck');
+    }
+    if (fieldId === 'operating_area' && place.locationKind === 'mobile') {
+      return defaultFact(place.mobileVenue.primaryOperatingAreaJa);
+    }
+    if (fieldId === 'schedule_guidance' && place.locationKind === 'mobile') {
+      return defaultFact(
+        `${place.mobileVenue.operatingPattern} / ${place.mobileVenue.scheduleVariability.join(', ')}`,
+        place.mobileVenue.datedScheduleSource,
+      );
+    }
+    if (fieldId === 'schedule_url' && place.locationKind === 'mobile') {
+      return defaultFact(
+        place.mobileVenue.scheduleDirectorySource.url,
+        place.mobileVenue.scheduleDirectorySource,
+      );
+    }
+    if (fieldId === 'schedule_conflict' && place.locationKind === 'mobile') {
+      const conflict = place.mobileVenue.scheduleConflict;
+      if (!conflict) return undefined;
+      return {
+        value: conflict.statements.map((statement) => statement.value).join(' | '),
+        source: place.mobileVenue.datedScheduleSource,
+        verification: conflict.verificationStatus,
+      };
+    }
     if (fieldId === 'official_current_url') return defaultFact(place.source.url);
     if (!visitor) return undefined;
     if (fieldId === 'phone' && visitor.phoneConflict) {
@@ -550,14 +581,27 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
       timeSensitive: false,
       issues: ['#129', '#133', '#333'],
     };
-    const values = [
+    const values: Array<readonly [string, string, string | undefined, boolean]> = [
       ['name', 'Name', place.nameJa, false],
-      ['address', 'Address', place.address, true],
-      ['coordinates', 'Coordinates', `${place.latitude}, ${place.longitude}${place.coordinatePrecision ? ` (${place.coordinatePrecision})` : ''}`, true],
       ['place_type', 'Place type', place.type, false],
       ['food_culture_ids', 'Related FoodCulture IDs', place.foodCultureIds.join(', ') || 'none', false],
       ['official_current_url', 'Official / current-information URL', place.source.url, true],
-    ] as const;
+      ...(isFixedPlace(place) ? [
+        ['address', 'Address', place.address, true] as const,
+        ['coordinates', 'Coordinates', `${place.latitude}, ${place.longitude}${place.coordinatePrecision ? ` (${place.coordinatePrecision})` : ''}`, true] as const,
+      ] : [
+        ['venue_model', 'Venue model', 'mobile_food_truck / no_permanent_storefront', false] as const,
+        ['operating_area', 'Primary operating area', place.mobileVenue.primaryOperatingAreaJa, true] as const,
+        ['schedule_guidance', 'Operating schedule guidance', `${place.mobileVenue.operatingPattern} / ${place.mobileVenue.scheduleVariability.join(', ')}`, true] as const,
+        ['schedule_url', 'Latest schedule directory URL', place.mobileVenue.scheduleDirectorySource.url, true] as const,
+        ...(place.mobileVenue.scheduleConflict ? [[
+          'schedule_conflict',
+          'Conflicting first-party event dates',
+          place.mobileVenue.scheduleConflict.statements.map((statement) => statement.value).join(' | '),
+          true,
+        ] as const] : []),
+      ]),
+    ];
 
     for (const [fieldId, fieldLabel, value, timeSensitive] of values) {
       if (value === undefined) continue;
@@ -570,7 +614,19 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
         ? place.coordinateSource
         : fieldId === 'address' && place.addressSource
           ? place.addressSource
-          : place.source;
+          : place.locationKind === 'mobile' && fieldId === 'schedule_url'
+            ? place.mobileVenue.scheduleDirectorySource
+            : place.locationKind === 'mobile' && (
+              fieldId === 'schedule_guidance'
+              || fieldId === 'schedule_conflict'
+            )
+              ? place.mobileVenue.datedScheduleSource
+              : place.source;
+      const verification = fieldId === 'schedule_conflict'
+        && place.locationKind === 'mobile'
+        && place.mobileVenue.scheduleConflict
+        ? place.mobileVenue.scheduleConflict.verificationStatus
+        : deriveVerificationStatus(source, place.origin);
       addCanonicalClaim({
         claimId: `place:${place.id}:${fieldId}`,
         ...base,
@@ -580,7 +636,7 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
           value,
           place.origin,
           source,
-          deriveVerificationStatus(source, place.origin),
+          verification,
           SOURCE_FILES.places,
         ),
         timeSensitive,
@@ -629,6 +685,28 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
           ? 'First-party source explicitly routes this Place reservation desk; the conflict remains because another official number is also published.'
           : 'One side of an unresolved first-party phone conflict; this row does not infer routing to the Place.',
       });
+    }
+
+    if (place.locationKind === 'mobile') {
+      for (const statement of place.mobileVenue.scheduleConflict?.statements ?? []) {
+        addCanonicalClaim({
+          claimId: `place:${place.id}:schedule_conflict:source:${statement.id}`,
+          ...base,
+          fieldId: `schedule_conflict:source:${statement.id}`,
+          fieldLabel: `Schedule source statement (${statement.id})`,
+          canonical: canonicalValue(
+            statement.value,
+            place.origin,
+            statement.source,
+            'conflict',
+            SOURCE_FILES.places,
+          ),
+          timeSensitive: true,
+          timeSensitiveNote: 'Conflicting first-party event-date statement; recheck the current schedule or confirm with the operator.',
+          issues: ['#324', '#333'],
+          note: 'One side of an unresolved first-party schedule conflict; this row does not select a winning value.',
+        });
+      }
     }
   }
 

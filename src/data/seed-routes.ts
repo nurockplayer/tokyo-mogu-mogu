@@ -16,6 +16,7 @@
  * This module is additive: it imports from `src/data/model.ts` but never edits
  * it. All types below are route-specific and live here.
  */
+import { isFixedPlace } from './model';
 import type { DataSource, Place } from './model';
 
 /** Which of the two authored route durations is shown. */
@@ -1381,7 +1382,9 @@ export function projectRoutePins(
 
   const resolve = (placeId: string): { latitude: number; longitude: number } | undefined => {
     const place = places.find((p) => p.id === placeId);
-    return place ? { latitude: place.latitude, longitude: place.longitude } : undefined;
+    return place && isFixedPlace(place)
+      ? { latitude: place.latitude, longitude: place.longitude }
+      : undefined;
   };
 
   const coords = steps

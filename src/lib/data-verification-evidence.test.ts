@@ -538,6 +538,62 @@ describe('data verification evidence manifest (#334)', () => {
     ).not.toThrow();
   });
 
+  it('records localized Wasabi Shokudo evidence and source-rights omissions (#324)', () => {
+    const repositoryClaims = buildRepositoryLedgerClaims();
+    const evidenceById = new Map(
+      DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.map((item) => [item.evidenceId, item]),
+    );
+    const omissionsById = new Map(
+      DATA_VERIFICATION_EVIDENCE_MANIFEST.omissions.map((item) => [item.omissionId, item]),
+    );
+
+    for (const locale of ['ja', 'en', 'zh-TW'] as const) {
+      expect(evidenceById.get(`wasabi-kitchen-app-${locale}-375`)).toMatchObject({
+        kind: 'app',
+        entityId: 'wasabi-kitchen',
+        locale,
+        viewport: { width: 375, height: 1372 },
+        path: `docs/data-evidence/wasabi-kitchen/app-${locale}-375.webp`,
+        capturedAt: '2026-08-29',
+      });
+      for (const surface of ['route', 'story']) {
+        expect(evidenceById.get(`wasabi-kitchen-${surface}-app-${locale}-375`)).toMatchObject({
+          kind: 'app',
+          locale,
+          viewport: { width: 375, height: 812 },
+          path: `docs/data-evidence/wasabi-kitchen/${surface}-app-${locale}-375.webp`,
+          capturedAt: '2026-08-29',
+        });
+      }
+    }
+
+    expect(evidenceById.get('wasabi-kitchen-app-ja-375')?.claimIds).toEqual(expect.arrayContaining([
+      'spot:wasabi-kitchen:venue_model',
+      'spot:wasabi-kitchen:operating_area',
+      'spot:wasabi-kitchen:schedule_guidance',
+      'spot:wasabi-kitchen:schedule_conflict',
+      'spot:wasabi-kitchen:price_availability',
+    ]));
+    for (const [omissionId, sourceUrl] of [
+      ['wasabi-kitchen-foodtruck-source-rights-restricted', 'https://tokyowasabi.com/foodtruck/'],
+      ['wasabi-kitchen-august-schedule-source-rights-restricted', 'https://tokyowasabi.com/information/2751/260728/'],
+      ['wasabi-kitchen-schedule-directory-source-rights-restricted', 'https://tokyowasabi.com/category/information/'],
+      ['wasabi-kitchen-wasabi-don-source-rights-restricted', 'https://tokyowasabi.com/wasabi-don/'],
+      ['wasabi-kitchen-hitoshi-event-source-rights-restricted', 'https://tokyowasabi.com/hitoshi/2573/fussa-tanabata-challenge/'],
+    ] as const) {
+      expect(omissionsById.get(omissionId)).toMatchObject({
+        kind: 'source',
+        entityId: 'wasabi-kitchen',
+        sourceUrl,
+        recordedAt: '2026-08-29',
+      });
+    }
+    expect(() => validateDataVerificationEvidenceManifest(
+      DATA_VERIFICATION_EVIDENCE_MANIFEST,
+      repositoryClaims,
+    )).not.toThrow();
+  });
+
   it.each([
     {
       name: 'orphan claim reference',

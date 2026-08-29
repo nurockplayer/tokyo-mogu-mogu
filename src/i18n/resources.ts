@@ -236,6 +236,7 @@ export const strings = {
     /* S6 spot detail (Issue #45) */
     s6CategoryShop: 'お店',
     s6CategoryRestaurant: '食事処',
+    s6CategoryFoodTruck: 'キッチンカー',
     s6CategoryFarm: '栽培現場',
     s6CategoryBrewery: '醸造所',
     s6CategoryInfoCenter: '観光案内所',
@@ -1072,6 +1073,7 @@ export const strings = {
     /* S6 spot detail (Issue #45) */
     s6CategoryShop: 'Shop',
     s6CategoryRestaurant: 'Restaurant',
+    s6CategoryFoodTruck: 'Food truck',
     s6CategoryFarm: 'Farm / Field',
     s6CategoryBrewery: 'Brewery',
     s6CategoryInfoCenter: 'Tourist information',
@@ -1917,6 +1919,7 @@ export const strings = {
     /* S6 spot detail (Issue #45) */
     s6CategoryShop: '店家',
     s6CategoryRestaurant: '餐廳',
+    s6CategoryFoodTruck: '行動餐車',
     s6CategoryFarm: '栽培現場',
     s6CategoryBrewery: '釀造所',
     s6CategoryInfoCenter: '遊客服務中心',

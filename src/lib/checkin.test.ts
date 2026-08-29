@@ -1,12 +1,17 @@
 import { describe, expect, it } from 'vitest';
 import { PLACES } from '../data/seed-places';
-import { UNLOCK_RADIUS_METERS } from '../data/model';
+import { isFixedPlace, UNLOCK_RADIUS_METERS } from '../data/model';
 import { checkInAtPlace, parseDemoLocationOverride } from './checkin';
 import type { CheckInResult } from './checkin';
+import type { FixedPlace } from '../data/model';
 
 /** A real seed place used across the check-in tests. */
-const wasabiField = PLACES.find((p) => p.id === 'okutama-wasabi-field');
-const sobaShop = PLACES.find((p) => p.id === 'okutama-soba-shop');
+const wasabiField = PLACES.find(
+  (p): p is FixedPlace => p.id === 'okutama-wasabi-field' && isFixedPlace(p),
+);
+const sobaShop = PLACES.find(
+  (p): p is FixedPlace => p.id === 'okutama-soba-shop' && isFixedPlace(p),
+);
 
 function resultOf(r: CheckInResult) {
   return r;

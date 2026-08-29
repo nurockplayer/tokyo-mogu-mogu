@@ -11,6 +11,7 @@ import type {
   SpotDetail,
   VerificationStatus,
 } from '../data';
+import { isFixedPlace } from '../data';
 import { storyContent } from '../i18n/data-content';
 import { resolveKey } from '../i18n/fallback';
 import { DEFAULT_LOCALE, strings, type LocaleKey } from '../i18n/resources';
@@ -235,8 +236,13 @@ export function generateStakeholderReviewPacket(input: StakeholderReviewPacketIn
     ['FoodCulture 概要', foodCulture.descriptionJa, STATUS_JA[cultureStatus]],
     ...narrativeRows,
     ['施設・事業者名', place.nameJa, STATUS_JA[placeStatus]],
-    ['住所', place.address, STATUS_JA[placeStatus]],
-    ['位置情報', `${place.latitude}, ${place.longitude}（${place.coordinatePrecision ?? '精度未指定'}）`, STATUS_JA[placeStatus]],
+    ...(isFixedPlace(place) ? [
+      ['住所', place.address, STATUS_JA[placeStatus]],
+      ['位置情報', `${place.latitude}, ${place.longitude}（${place.coordinatePrecision ?? '精度未指定'}）`, STATUS_JA[placeStatus]],
+    ] satisfies Array<[string, string, string]> : [
+      ['営業形態', '固定店舗のない移動型会場', STATUS_JA[placeStatus]],
+      ['主な出店エリア', place.mobileVenue.primaryOperatingAreaJa, STATUS_JA[placeStatus]],
+    ] satisfies Array<[string, string, string]>),
     ['Spot 紹介文', spot?.roleJa, fieldStatus(spot?.roleJa, spotStatus)],
     ['営業時間', spot?.practical?.hoursJa, fieldStatus(spot?.practical?.hoursJa, spotStatus)],
     ['定休日', spot?.practical?.closedDaysJa, fieldStatus(spot?.practical?.closedDaysJa, spotStatus)],

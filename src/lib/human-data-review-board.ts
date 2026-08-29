@@ -98,11 +98,16 @@ interface HumanFieldDefinition {
 
 const HUMAN_FIELDS: readonly HumanFieldDefinition[] = [
   { key: 'name', label: '施設名', aliases: ['information_name', 'name'], order: 10 },
+  { key: 'venue_model', label: '営業形態', aliases: ['venue_model', 'place_type'], order: 15 },
   { key: 'address', label: '住所', aliases: ['address'], order: 20 },
+  { key: 'operating_area', label: '主な出店エリア', aliases: ['operating_area'], order: 25 },
   { key: 'phone', label: '電話番号', aliases: ['phone'], order: 30 },
   { key: 'phone_hours', label: '電話受付時間', aliases: ['phone_hours'], order: 40 },
   { key: 'access', label: 'アクセス', aliases: ['access'], order: 50 },
   { key: 'hours', label: '営業時間', aliases: ['hours'], order: 60 },
+  { key: 'schedule_guidance', label: '出店案内', aliases: ['schedule_guidance'], order: 62 },
+  { key: 'schedule_url', label: '最新の出店予定', aliases: ['schedule_url'], order: 64 },
+  { key: 'schedule_conflict', label: '日程情報の不一致', aliases: ['schedule_conflict'], order: 66 },
   { key: 'closed_days', label: '休業日', aliases: ['closed_days'], order: 70 },
   { key: 'price_availability', label: '価格・取扱情報', aliases: ['price_availability', 'price'], order: 80 },
   { key: 'service_availability', label: '取扱・サービス', aliases: ['service_availability'], order: 85 },

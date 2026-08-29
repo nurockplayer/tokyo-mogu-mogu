@@ -116,12 +116,74 @@ const AKABEKO_RELATED_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
     })),
   );
 
+const WASABI_KITCHEN_EVIDENCE_LOCALES = ['ja', 'en', 'zh-TW'] as const;
+
+const WASABI_KITCHEN_SPOT_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  WASABI_KITCHEN_EVIDENCE_LOCALES.map((locale) => ({
+    evidenceId: `wasabi-kitchen-app-${locale}-375`,
+    claimIds: [
+      locale === 'ja' ? 'spot:wasabi-kitchen:venue_model' : `place:wasabi-kitchen:venue_model:${locale}`,
+      locale === 'ja' ? 'spot:wasabi-kitchen:operating_area' : `place:wasabi-kitchen:operating_area:${locale}`,
+      locale === 'ja' ? 'spot:wasabi-kitchen:schedule_guidance' : `place:wasabi-kitchen:schedule_guidance:${locale}`,
+      locale === 'ja' ? 'spot:wasabi-kitchen:schedule_url' : `place:wasabi-kitchen:schedule_url:${locale}`,
+      locale === 'ja' ? 'spot:wasabi-kitchen:schedule_conflict' : `place:wasabi-kitchen:schedule_conflict:${locale}`,
+      locale === 'ja' ? 'spot:wasabi-kitchen:price_availability' : `place:wasabi-kitchen:price_availability:${locale}`,
+      locale === 'ja' ? 'spot:wasabi-kitchen:official_current_url' : `place:wasabi-kitchen:official_current_url:${locale}`,
+      `spot:wasabi-kitchen:presentation:verification_note:${locale}`,
+    ],
+    entityId: 'wasabi-kitchen',
+    kind: 'app',
+    capturedAt: '2026-08-29',
+    path: `docs/data-evidence/wasabi-kitchen/app-${locale}-375.webp`,
+    locale,
+    viewport: { width: 375, height: 1372 },
+    note: `Final #324 ${locale} Spot state showing mobile/no-fixed-storefront semantics, primary operating area, current-schedule guidance, dated price, and unresolved schedule conflict at 375px.`,
+  }));
+
+const WASABI_KITCHEN_ROUTE_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  WASABI_KITCHEN_EVIDENCE_LOCALES.map((locale) => ({
+    evidenceId: `wasabi-kitchen-route-app-${locale}-375`,
+    claimIds: [
+      `route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:guidance:${locale}`,
+      'route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:factual:venue-model',
+      'route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:factual:weekend-operation',
+      'route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:factual:wasabi-don-reference-price',
+    ],
+    entityId: 'okutama-wasabi-journey',
+    kind: 'app',
+    capturedAt: '2026-08-29',
+    path: `docs/data-evidence/wasabi-kitchen/route-app-${locale}-375.webp`,
+    locale,
+    viewport: { width: 375, height: 812 },
+    note: `Final #324 ${locale} half-day Route card showing source-derived mobile, current-schedule, and dated-price guidance without fixed walking geometry or weekday fallback.`,
+  }));
+
+const WASABI_KITCHEN_STORY_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  WASABI_KITCHEN_EVIDENCE_LOCALES.map((locale) => ({
+    evidenceId: `wasabi-kitchen-story-app-${locale}-375`,
+    claimIds: [
+      'story:wasabi-okutama:story.spot.wasabi-kitchen.venue-model',
+      'story:wasabi-okutama:story.spot.wasabi-kitchen.weekend-operation',
+      `story:wasabi-okutama:presentation:spot_group:nearby:reference:wasabi-kitchen:badge:${locale}`,
+    ],
+    entityId: 'wasabi-okutama',
+    kind: 'app',
+    capturedAt: '2026-08-29',
+    path: `docs/data-evidence/wasabi-kitchen/story-app-${locale}-375.webp`,
+    locale,
+    viewport: { width: 375, height: 812 },
+    note: `Final #324 ${locale} Story card showing the FOOD TRUCK identity, no-fixed-storefront semantics, and current-schedule caveat at 375px.`,
+  }));
+
 /**
  * Review evidence only. Entries reference #333 claim IDs and never duplicate or
  * alter canonical/displayed factual values, provenance, or verification state.
  */
 export const DATA_VERIFICATION_EVIDENCE_MANIFEST: DataVerificationEvidenceManifest = {
   evidence: [
+    ...WASABI_KITCHEN_SPOT_APP_EVIDENCE,
+    ...WASABI_KITCHEN_ROUTE_APP_EVIDENCE,
+    ...WASABI_KITCHEN_STORY_APP_EVIDENCE,
     ...AKABEKO_SPOT_APP_EVIDENCE,
     ...AKABEKO_RELATED_APP_EVIDENCE,
     {
@@ -435,6 +497,109 @@ export const DATA_VERIFICATION_EVIDENCE_MANIFEST: DataVerificationEvidenceManife
     },
   ],
   omissions: [
+    {
+      omissionId: 'wasabi-kitchen-foodtruck-source-rights-restricted',
+      claimIds: [
+        'spot:wasabi-kitchen:venue_model',
+        'spot:wasabi-kitchen:operating_area',
+        'spot:wasabi-kitchen:official_current_url',
+      ],
+      entityId: 'wasabi-kitchen',
+      kind: 'source',
+      sourceUrl: 'https://tokyowasabi.com/foodtruck/',
+      recordedAt: '2026-08-29',
+      reason: 'TOKYO WASABI prohibits unauthorized reproduction and direct image linking; the first-party FOOD TRUCK page was rechecked without copying its text, photographs, logo, or screenshot.',
+    },
+    {
+      omissionId: 'wasabi-kitchen-route-foodtruck-source-rights-restricted',
+      claimIds: ['route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:factual:venue-model'],
+      entityId: 'okutama-wasabi-journey',
+      kind: 'source',
+      sourceUrl: 'https://tokyowasabi.com/foodtruck/',
+      recordedAt: '2026-08-29',
+      reason: 'The Route venue-model claim traces to the TOKYO WASABI page that prohibits unauthorized reproduction; no official-site capture is committed.',
+    },
+    {
+      omissionId: 'wasabi-kitchen-story-foodtruck-source-rights-restricted',
+      claimIds: ['story:wasabi-okutama:story.spot.wasabi-kitchen.venue-model'],
+      entityId: 'wasabi-okutama',
+      kind: 'source',
+      sourceUrl: 'https://tokyowasabi.com/foodtruck/',
+      recordedAt: '2026-08-29',
+      reason: 'The Story venue-model claim traces to the TOKYO WASABI page that prohibits unauthorized reproduction; no official-site capture is committed.',
+    },
+    {
+      omissionId: 'wasabi-kitchen-august-schedule-source-rights-restricted',
+      claimIds: [
+        'spot:wasabi-kitchen:schedule_guidance',
+        'spot:wasabi-kitchen:schedule_conflict',
+        'place:wasabi-kitchen:schedule_conflict:source:august-schedule-event-dates',
+      ],
+      entityId: 'wasabi-kitchen',
+      kind: 'source',
+      sourceUrl: 'https://tokyowasabi.com/information/2751/260728/',
+      recordedAt: '2026-08-29',
+      reason: 'TOKYO WASABI prohibits unauthorized reproduction and direct image linking; the dated August 2026 schedule and calendar were retained as provenance without copying or rehosting the page, calendar image, or photographs.',
+    },
+    {
+      omissionId: 'wasabi-kitchen-schedule-directory-source-rights-restricted',
+      claimIds: ['spot:wasabi-kitchen:schedule_url'],
+      entityId: 'wasabi-kitchen',
+      kind: 'source',
+      sourceUrl: 'https://tokyowasabi.com/category/information/',
+      recordedAt: '2026-08-29',
+      reason: 'TOKYO WASABI prohibits unauthorized reproduction and direct image linking; the durable official announcements directory is linked for the latest schedule without copying or rehosting its page thumbnails.',
+    },
+    {
+      omissionId: 'wasabi-kitchen-route-schedule-source-rights-restricted',
+      claimIds: ['route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:factual:weekend-operation'],
+      entityId: 'okutama-wasabi-journey',
+      kind: 'source',
+      sourceUrl: 'https://tokyowasabi.com/information/2751/260728/',
+      recordedAt: '2026-08-29',
+      reason: 'The Route schedule-guidance claim traces to the TOKYO WASABI schedule page that prohibits unauthorized reproduction; no page or calendar capture is committed.',
+    },
+    {
+      omissionId: 'wasabi-kitchen-story-schedule-source-rights-restricted',
+      claimIds: ['story:wasabi-okutama:story.spot.wasabi-kitchen.weekend-operation'],
+      entityId: 'wasabi-okutama',
+      kind: 'source',
+      sourceUrl: 'https://tokyowasabi.com/information/2751/260728/',
+      recordedAt: '2026-08-29',
+      reason: 'The Story schedule-guidance claim traces to the TOKYO WASABI schedule page that prohibits unauthorized reproduction; no page or calendar capture is committed.',
+    },
+    {
+      omissionId: 'wasabi-kitchen-wasabi-don-source-rights-restricted',
+      claimIds: [
+        'spot:wasabi-kitchen:price_availability',
+      ],
+      entityId: 'wasabi-kitchen',
+      kind: 'source',
+      sourceUrl: 'https://tokyowasabi.com/wasabi-don/',
+      recordedAt: '2026-08-29',
+      reason: 'TOKYO WASABI prohibits unauthorized reproduction; the July 2026 official reference price was recorded as provenance without copying page text, photography, or screenshots.',
+    },
+    {
+      omissionId: 'wasabi-kitchen-route-wasabi-don-source-rights-restricted',
+      claimIds: ['route:okutama-wasabi-journey:half-day:step:wasabi-kitchen:factual:wasabi-don-reference-price'],
+      entityId: 'okutama-wasabi-journey',
+      kind: 'source',
+      sourceUrl: 'https://tokyowasabi.com/wasabi-don/',
+      recordedAt: '2026-08-29',
+      reason: 'The Route dated-price claim traces to the TOKYO WASABI page that prohibits unauthorized reproduction; no page or photograph is copied.',
+    },
+    {
+      omissionId: 'wasabi-kitchen-hitoshi-event-source-rights-restricted',
+      claimIds: [
+        'spot:wasabi-kitchen:schedule_conflict',
+        'place:wasabi-kitchen:schedule_conflict:source:hitoshi-event-dates',
+      ],
+      entityId: 'wasabi-kitchen',
+      kind: 'source',
+      sourceUrl: 'https://tokyowasabi.com/hitoshi/2573/fussa-tanabata-challenge/',
+      recordedAt: '2026-08-29',
+      reason: 'TOKYO WASABI prohibits unauthorized reproduction; the conflicting first-party event dates were retained as structured provenance without copying the page or its images.',
+    },
     {
       omissionId: 'okutama-tourism-office-source-rights-restricted',
       claimIds: [

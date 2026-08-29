@@ -7,7 +7,7 @@
  * collection store. Handles failure reasons and duplicate check-ins.
  */
 import { useState, type ReactNode } from 'react';
-import type { Place } from '../data/model';
+import type { FixedPlace } from '../data/model';
 import { UNLOCK_RADIUS_METERS } from '../data/model';
 import { useCollection } from '../store/collection';
 import { useI18n } from '../i18n';
@@ -36,7 +36,7 @@ function format(template: string, values: Record<string, string | number>): stri
   );
 }
 
-export function CheckInPanel({ place }: { place: Place }) {
+export function CheckInPanel({ place }: { place: FixedPlace }) {
   const { t } = useI18n();
   const { isCollected, isVisited, collect, visitPlace } = useCollection();
   const [status, setStatus] = useState<PanelStatus>({ kind: 'idle' });

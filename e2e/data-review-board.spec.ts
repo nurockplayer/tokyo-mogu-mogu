@@ -124,6 +124,47 @@ test.describe('Human Data Review Board (#340)', () => {
     );
   });
 
+  test('enriches the existing Wasabi Shokudo entity with mobile authority (#324)', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/data-review/#wasabi-kitchen');
+
+    await expect(page.getByRole('heading', { name: 'わさび食堂' })).toBeVisible();
+    await expect(page.getByText('⚠️ 情報に矛盾あり', { exact: true }).first()).toBeVisible();
+    for (const label of [
+      '営業形態',
+      '主な出店エリア',
+      '出店案内',
+      '最新の出店予定',
+      '日程情報の不一致',
+      '価格・取扱情報',
+      '最新の公式情報',
+    ]) {
+      await expect(page.getByText(label, { exact: true })).toBeVisible();
+    }
+    await expect(page.getByText('住所', { exact: true })).toHaveCount(0);
+    await expect(page.getByText('位置情報', { exact: true })).toHaveCount(0);
+    await expect(page.getByText('mobile_food_truck / no_permanent_storefront', { exact: true })).toBeVisible();
+    await expect(page.getByText('固定店舗のないキッチンカー', { exact: true })).toBeVisible();
+    for (const url of [
+      'https://tokyowasabi.com/foodtruck/',
+      'https://tokyowasabi.com/category/information/',
+      'https://tokyowasabi.com/information/2751/260728/',
+      'https://tokyowasabi.com/wasabi-don/',
+      'https://tokyowasabi.com/hitoshi/2573/fussa-tanabata-challenge/',
+    ]) {
+      await expect(page.locator(`.drb-source a[href="${url}"]`)).toBeVisible();
+    }
+    await expect(page.getByRole('img', { name: /わさび食堂.*ja・375px/ })).toBeVisible();
+    await expect(page.getByRole('img', { name: /わさび食堂.*en・375px/ })).toBeVisible();
+    await expect(page.getByRole('img', { name: /わさび食堂.*zh-TW・375px/ })).toBeVisible();
+    await expect(page.getByRole('heading', { name: '証拠を保存していない理由' })).toBeVisible();
+    await expect(page.getByText('サイトが無断転載や画像への直接リンクを禁止しているため、参照元だけを記録し画像は保存していません。').first()).toBeVisible();
+    await expect(page.getByRole('link', { name: '#324' })).toHaveAttribute(
+      'href',
+      'https://github.com/nurockplayer/tokyo-mogu-mogu/issues/324',
+    );
+  });
+
   test('represents both current Route and Story identities', async ({ page }) => {
     const identities = [
       ['okutama-wasabi-journey', '東京わさび文化を巡る旅'],

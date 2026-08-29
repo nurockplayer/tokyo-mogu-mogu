@@ -37,7 +37,6 @@ import openGraphImage from '../../assets/netlify-parity/og.png';
 import portCafe from '../../assets/netlify-parity/port_cafe.jpg';
 import port from '../../assets/netlify-parity/port.jpg';
 import portDetail from '../../assets/netlify-parity/port2.jpg';
-import wasabiKitchen from '../../assets/netlify-parity/shokudo_new.jpg';
 import wasabiHero from '../../assets/netlify-parity/wasabi_photo.jpg';
 import wasapy from '../../assets/netlify-parity/wasapy.jpg';
 import welcomeCta from '../../assets/netlify-parity/welcome_cta.png';
@@ -272,7 +271,6 @@ export const referenceAssetFiles = {
   tourismOfficeExterior: '../../assets/netlify-parity/okutama-tourism-office-exterior.png',
   tourismOfficeRoute: '../../assets/netlify-parity/okutama-tourism-office-route.png',
   okuHikawaShrine: '../../assets/netlify-parity/oku-hikawa-shrine.png',
-  wasabiKitchen: '../../assets/netlify-parity/shokudo_new.jpg',
   okutamaKitchen: '../../assets/netlify-parity/daidokoro_new.jpg',
   okutamaKitchenDetail: '../../assets/netlify-parity/daidokoro2.jpg',
   wasabiGelato: '../../assets/netlify-parity/gelato.jpg',
@@ -322,7 +320,6 @@ export const referenceAssets: Record<ReferenceAssetId, string> = {
   tourismOfficeExterior,
   tourismOfficeRoute,
   okuHikawaShrine,
-  wasabiKitchen,
   okutamaKitchen,
   okutamaKitchenDetail,
   wasabiGelato,
