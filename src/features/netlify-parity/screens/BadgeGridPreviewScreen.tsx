@@ -1,3 +1,7 @@
+import { useId, useState } from 'react';
+import binderGreen from '../../../assets/figma-296/binder-green.svg';
+import binderPage from '../../../assets/figma-296/binder-page.svg';
+import binderRing from '../../../assets/figma-296/binder-ring.svg';
 import edoTokyoVegetablesBadge from '../../../assets/figma-360/badge-edo-tokyo-vegetables.png';
 import yamameBadge from '../../../assets/figma-360/badge-yamame.png';
 import earnedBadge from '../../../assets/figma-296/badge-earned.png';
@@ -11,64 +15,22 @@ import '../badge-grid-preview.css';
 const previewCopy = referenceCopy('ja');
 
 const categories = ['すべて', '食べる', 'つくる', '買う', '学ぶ', 'その他'] as const;
+type BadgeCategory = (typeof categories)[number];
 
 const badgeFixtures = [
-  {
-    name: '地元グルメ入門',
-    description: '地元の料理を\n食べてみよう',
-    artwork: earnedBadge,
-    earned: true,
-    isNew: true,
-  },
-  {
-    name: 'おにぎり好き',
-    description: 'おにぎりを\n食べた',
-    artwork: yamameBadge,
-    earned: true,
-  },
-  {
-    name: '和スイーツ通',
-    description: '和スイーツを\n食べた',
-    artwork: edoTokyoVegetablesBadge,
-    earned: true,
-  },
-  {
-    name: '地産地消サポーター',
-    description: '地元の食材を\n味わった',
-    artwork: earnedBadge,
-    earned: true,
-  },
-  {
-    name: 'おみやげコレクター',
-    description: 'お土産を\n購入した',
-    artwork: yamameBadge,
-    earned: true,
-  },
-  {
-    name: '食文化を学ぶ人',
-    description: '食の歴史や文化を\n学んだ',
-    artwork: edoTokyoVegetablesBadge,
-    earned: true,
-  },
-  {
-    name: '海の幸マスター',
-    description: '海の幸を\n食べた',
-    artwork: lockedBadge,
-    earned: false,
-  },
-  {
-    name: '料理体験チャレンジャー',
-    description: '料理体験に\n参加した',
-    artwork: lockedBadge,
-    earned: false,
-  },
-  {
-    name: '発酵食品ラバー',
-    description: '発酵食品を\n体験した',
-    artwork: lockedBadge,
-    earned: false,
-  },
+  { id: 'local-gourmet', name: '地元グルメ入門', description: '地元の料理を\n食べてみよう', category: '食べる', artwork: earnedBadge, earned: true, isNew: true },
+  { id: 'onigiri', name: 'おにぎり好き', description: 'おにぎりを\n食べた', category: '食べる', artwork: yamameBadge, earned: true, isNew: false },
+  { id: 'sweets', name: '和スイーツ通', description: '和スイーツを\nつくった', category: 'つくる', artwork: edoTokyoVegetablesBadge, earned: true, isNew: false },
+  { id: 'local-ingredients', name: '地産地消サポーター', description: '地元の食材を\n味わった', category: 'その他', artwork: earnedBadge, earned: true, isNew: false },
+  { id: 'souvenir', name: 'おみやげコレクター', description: 'お土産を\n購入した', category: '買う', artwork: yamameBadge, earned: true, isNew: false },
+  { id: 'food-culture', name: '食文化を学ぶ人', description: '食の歴史や文化を\n学んだ', category: '学ぶ', artwork: edoTokyoVegetablesBadge, earned: true, isNew: false },
+  { id: 'seafood', name: '海の幸マスター', description: '海の幸を\n食べた', category: '食べる', artwork: lockedBadge, earned: false, isNew: false },
+  { id: 'cooking', name: '料理体験チャレンジャー', description: '料理体験に\n参加した', category: 'つくる', artwork: lockedBadge, earned: false, isNew: false },
+  { id: 'fermented-food', name: '発酵食品ラバー', description: '発酵食品を\n体験した', category: 'その他', artwork: lockedBadge, earned: false, isNew: false },
 ] as const;
+
+type BadgeFixture = (typeof badgeFixtures)[number];
+type PreviewPresentation = { kind: 'badge'; badge: BadgeFixture } | { kind: 'progress' } | null;
 
 interface BadgeGridPreviewScreenProps {
   active: boolean;
@@ -95,11 +57,67 @@ function LockIcon() {
   );
 }
 
-export function BadgeGridPreviewScreen({
-  active,
-  onBack,
-  onNavigate,
-}: BadgeGridPreviewScreenProps) {
+interface PreviewDialogProps {
+  presentation: Exclude<PreviewPresentation, null>;
+  onClose: () => void;
+}
+
+function PreviewDialog({ presentation, onClose }: PreviewDialogProps) {
+  const titleId = useId();
+  const isProgress = presentation.kind === 'progress';
+  const badge = isProgress ? null : presentation.badge;
+  const title = isProgress ? 'バッジの進みかた' : badge?.name ?? '';
+
+  return (
+    <div className="badge-grid-preview__dialog-backdrop">
+      <section className="badge-grid-preview__dialog" role="dialog" aria-modal="true" aria-labelledby={titleId}>
+        <img className="badge-grid-preview__dialog-binder" src={binderGreen} alt="" aria-hidden="true" />
+        <img className="badge-grid-preview__dialog-page" src={binderPage} alt="" aria-hidden="true" />
+        <img className="badge-grid-preview__dialog-ring" src={binderRing} alt="" aria-hidden="true" />
+        <button className="badge-grid-preview__dialog-close" type="button" onClick={onClose} aria-label="閉じる">
+          <span aria-hidden="true" />
+        </button>
+
+        {isProgress ? (
+          <div className="badge-grid-preview__dialog-content badge-grid-preview__dialog-content--progress">
+            <span className="badge-grid-preview__dialog-kicker">実験用プレビュー</span>
+            <h2 id={titleId}>{title}</h2>
+            <p className="badge-grid-preview__dialog-count"><strong>12</strong> / 24</p>
+            <p>この画面の進み具合は、表示を試すための固定データです。</p>
+            <p>バッジの獲得や記録にはつながりません。</p>
+          </div>
+        ) : badge?.earned ? (
+          <div className="badge-grid-preview__dialog-content">
+            <span className="badge-grid-preview__dialog-kicker">実験用プレビュー</span>
+            <img className="badge-grid-preview__dialog-artwork" src={badge.artwork} alt="" aria-hidden="true" />
+            <h2 id={titleId}>{title}</h2>
+            <span className="badge-grid-preview__dialog-status">獲得済み</span>
+            <p>{badge.description.replace('\n', ' ')}</p>
+            <small>この詳細は表示検証用の固定データです。</small>
+          </div>
+        ) : (
+          <div className="badge-grid-preview__dialog-content">
+            <span className="badge-grid-preview__dialog-kicker">実験用プレビュー</span>
+            <img className="badge-grid-preview__dialog-artwork badge-grid-preview__dialog-artwork--locked" src={badge?.artwork} alt="" aria-hidden="true" />
+            <h2 id={titleId}>{title}</h2>
+            <span className="badge-grid-preview__dialog-status badge-grid-preview__dialog-status--locked">未獲得</span>
+            <h3>実験用の解除条件</h3>
+            <p>{badge?.description.replace('\n', ' ')}という表示を確認するためのサンプルです。</p>
+            <small>実際の獲得条件や記録にはつながりません。</small>
+          </div>
+        )}
+      </section>
+    </div>
+  );
+}
+
+export function BadgeGridPreviewScreen({ active, onBack, onNavigate }: BadgeGridPreviewScreenProps) {
+  const [category, setCategory] = useState<BadgeCategory>('すべて');
+  const [presentation, setPresentation] = useState<PreviewPresentation>(null);
+  const visibleBadges = category === 'すべて'
+    ? badgeFixtures
+    : badgeFixtures.filter((badge) => badge.category === category);
+
   return (
     <section
       className={`reference-screen issue-296-screen badge-grid-preview${active ? ' on' : ''}`}
@@ -123,56 +141,55 @@ export function BadgeGridPreviewScreen({
           <img src={mascot} alt="" aria-hidden="true" />
         </div>
 
-        <section className="badge-grid-preview__summary" aria-label="バッジ獲得状況">
-          <div className="badge-grid-preview__count">
+        <button className="badge-grid-preview__summary" type="button" aria-haspopup="dialog" aria-label="バッジの進みかた" onClick={() => setPresentation({ kind: 'progress' })}>
+          <span className="badge-grid-preview__count">
             <span>獲得数</span>
-            <p><strong>12</strong><small>/ 24</small></p>
-          </div>
-          <div className="badge-grid-preview__next">
-            <p>次のバッジまであと <strong>2</strong> 個！</p>
+            <span><strong>12</strong><small>/ 24</small></span>
+          </span>
+          <span className="badge-grid-preview__next">
+            <span>次のバッジまであと <strong>2</strong> 個！</span>
             <span className="badge-grid-preview__track" aria-hidden="true"><i /></span>
-          </div>
+          </span>
           <span className="badge-grid-preview__flag"><ProgressFlag /></span>
-        </section>
+        </button>
 
-        <div className="badge-grid-preview__filters" aria-label="カテゴリ表示見本">
-          {categories.map((category, index) => (
-            <span className={index === 0 ? 'is-selected' : undefined} key={category}>
-              {category}
-            </span>
+        <div className="badge-grid-preview__filters" aria-label="カテゴリで絞り込む">
+          {categories.map((item) => (
+            <button className={category === item ? 'is-selected' : undefined} type="button" aria-pressed={category === item} onClick={() => setCategory(item)} key={item}>
+              {item}
+            </button>
           ))}
         </div>
 
-        <ul className="badge-grid-preview__grid">
-          {badgeFixtures.map((badge) => (
-            <li
-              className={`badge-grid-preview__card${badge.earned ? '' : ' badge-grid-preview__card--locked'}`}
-              key={badge.name}
-            >
-              {'isNew' in badge && badge.isNew ? (
-                <span className="badge-grid-preview__new">NEW</span>
-              ) : null}
-              {!badge.earned ? <span className="badge-grid-preview__lock"><LockIcon /></span> : null}
-              <img src={badge.artwork} alt="" aria-hidden="true" />
-              <strong>{badge.name}</strong>
-              <p>{badge.description}</p>
+        <ul className="badge-grid-preview__grid" aria-live="polite">
+          {visibleBadges.map((badge) => (
+            <li key={badge.id}>
+              <button
+                className={`badge-grid-preview__card${badge.earned ? '' : ' badge-grid-preview__card--locked'}`}
+                type="button"
+                aria-haspopup="dialog"
+                aria-label={badge.earned ? badge.name : `${badge.name}（未獲得）`}
+                onClick={() => setPresentation({ kind: 'badge', badge })}
+              >
+                {badge.isNew ? <span className="badge-grid-preview__new">NEW</span> : null}
+                {!badge.earned ? <span className="badge-grid-preview__lock"><LockIcon /></span> : null}
+                <img src={badge.artwork} alt="" aria-hidden="true" />
+                <strong>{badge.name}</strong>
+                <span>{badge.description}</span>
+              </button>
             </li>
           ))}
         </ul>
 
-        <div className="badge-grid-preview__cta" aria-disabled="true">
+        <button className="badge-grid-preview__cta" type="button" aria-haspopup="dialog" onClick={() => setPresentation({ kind: 'progress' })}>
           <span className="badge-grid-preview__cta-flag"><ProgressFlag /></span>
-          <p><strong>次のバッジまであと 2 個！</strong><small>いろいろな食体験をして、コレクションを増やそう！</small></p>
+          <span className="badge-grid-preview__cta-copy"><strong>次のバッジまであと 2 個！</strong><small>いろいろな食体験をして、コレクションを増やそう！</small></span>
           <span className="badge-grid-preview__chevron" aria-hidden="true" />
-        </div>
+        </button>
       </div>
 
-      <BottomNavigation
-        active="my"
-        copy={previewCopy.nav}
-        onNavigate={onNavigate}
-        variant="issue-296-my"
-      />
+      <BottomNavigation active="my" copy={previewCopy.nav} onNavigate={onNavigate} variant="issue-296-my" />
+      {presentation ? <PreviewDialog presentation={presentation} onClose={() => setPresentation(null)} /> : null}
     </section>
   );
 }

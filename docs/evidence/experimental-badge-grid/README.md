@@ -32,6 +32,12 @@ remains authoritative and unchanged.
 - Existing #296/#360 artwork is reused decoratively. The visible names, counts,
   category chips, and earned/locked states are isolated fixture data copied
   from the flattened reference; they do not award or persist badges.
+- The interactive extension is likewise fixture-only: category chips filter
+  those static cards, earned cards present a binder-styled detail view, locked
+  cards present an explicitly experimental requirement sample, and the progress
+  rows explain the fixed count. None of those presentations infers a Product
+  rule or connects to acquisition, QR, reward, persistence, recommendations,
+  or a backend.
 - Focused Playwright verification checks the 390px composition, nine-card grid,
-  locked states, isolation from `/badges`, and exact 375px document/phone/screen
-  widths with no horizontal overflow.
+  locked states, isolated interactions, isolation from `/badges`, and exact
+  375px document/phone/screen widths with no horizontal overflow.

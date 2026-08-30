@@ -40,6 +40,8 @@ test('keeps the badge grid prototype isolated from the current binder', async ({
 test('has no horizontal overflow at 375px', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 844 });
   await page.goto('/_preview/badge-grid');
+  await page.getByRole('button', { name: '地元グルメ入門' }).click();
+  await expect(page.getByRole('dialog', { name: '地元グルメ入門' })).toBeVisible();
 
   const widths = await page.evaluate(() => ({
     viewport: window.innerWidth,
@@ -51,4 +53,38 @@ test('has no horizontal overflow at 375px', async ({ page }) => {
   }));
 
   expect(widths).toEqual({ viewport: 375, document: 375, phone: 375, screen: 375 });
+});
+
+test('filters fixture badges and presents local-only badge details', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/_preview/badge-grid');
+
+  const preview = page.locator(
+    '[data-screen="badge-grid-preview"][data-screen-active="true"]',
+  );
+
+  await preview.getByRole('button', { name: '食べる' }).click();
+  await expect(preview.getByRole('button', { name: '食べる' })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  );
+  await expect(preview.locator('.badge-grid-preview__card')).toHaveCount(3);
+
+  await preview.getByRole('button', { name: '地元グルメ入門' }).click();
+  const earnedDialog = page.getByRole('dialog', { name: '地元グルメ入門' });
+  await expect(earnedDialog).toContainText('獲得済み');
+  await expect(earnedDialog).toContainText('実験用プレビュー');
+  await earnedDialog.getByRole('button', { name: '閉じる' }).click();
+  await expect(earnedDialog).toHaveCount(0);
+
+  await preview.getByRole('button', { name: 'その他' }).click();
+  await preview.getByRole('button', { name: '発酵食品ラバー（未獲得）' }).click();
+  const lockedDialog = page.getByRole('dialog', { name: '発酵食品ラバー' });
+  await expect(lockedDialog).toContainText('実験用の解除条件');
+  await lockedDialog.getByRole('button', { name: '閉じる' }).click();
+
+  await preview.getByRole('button', { name: 'バッジの進みかた' }).click();
+  const progressDialog = page.getByRole('dialog', { name: 'バッジの進みかた' });
+  await expect(progressDialog).toContainText('12 / 24');
+  await expect(progressDialog).toContainText('実験用プレビュー');
 });
