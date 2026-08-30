@@ -168,6 +168,51 @@ export interface PlaceMenuListing {
   source: DataSource;
 }
 
+export interface PlaceExperienceTourInformation {
+  /** Source-published seasonal meeting windows; never flatten to one year-round time. */
+  seasonalMeetingTimes: Array<{
+    season: 'may-september' | 'october-april';
+    time: string;
+  }>;
+  /** Source-published seasonal times may change. */
+  meetingTimeMayChange: true;
+  /** The first-party English page says the confirmation email provides the exact meeting time. */
+  confirmationEmailProvidesExactMeetingTime: true;
+  /** First-party JP/EN duration statements conflict; retain both without selecting one. */
+  durationConflict: {
+    verificationStatus: 'conflict';
+    statements: Array<{
+      id: 'japanese-page' | 'english-page';
+      durationMinutes: { min: number; max: number };
+      source: DataSource;
+    }>;
+  };
+  privateGroupsPerDay: number;
+  reservationRequired: true;
+  /** First-party form used for the published booking / reservation flow. */
+  bookingUrl: string;
+  listedPrice: {
+    amountYen: number;
+    taxIncluded: true;
+    conditionalPrice?: {
+      amountYen: number;
+      eligibility: 'japan-resident-and-japanese-conversation';
+    };
+    surcharge?: {
+      amountYen: number;
+      appliesOn: Array<
+        | 'weekends'
+        | 'public-holidays'
+        | 'golden-week'
+        | 'obon'
+        | 'year-end-new-year'
+      >;
+    };
+  };
+  weekendHolidayAvailability: 'request-only';
+  weatherMayCancelOrPostpone: true;
+}
+
 export interface PlaceSourceConflictStatement {
   /** Stable statement identity within the canonical Place record. */
   id: string;
@@ -201,6 +246,8 @@ export interface PlaceVisitorInformation {
   access?: {
     stationJa: string;
     walkMinutes: number;
+    /** Access provenance when it differs from the Place's primary source. */
+    source?: DataSource;
   };
   regularClosedDays?: PlaceWeekday[];
   /** The operator publishes no regular closure while warning that irregular closures occur. */
@@ -229,6 +276,8 @@ export interface PlaceVisitorInformation {
     verificationStatus: 'conflict';
     statements: PlacePhoneSourceStatement[];
   };
+  /** Structured, time-sensitive visitor facts for a bookable operator experience. */
+  experienceTour?: PlaceExperienceTourInformation;
 }
 
 export interface PlaceMobileVenue {

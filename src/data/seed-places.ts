@@ -207,6 +207,38 @@ const TOKYO_WASABI_HITOSHI_EVENT_SOURCE = {
   originalId: 'hitoshi-2573-fussa-tanabata-challenge',
 };
 
+const TOKYO_WASABI_EXPERIENCE_SOURCE = {
+  name: 'TOKYO WASABI（WASABI EXPERIENCE）',
+  url: 'https://tokyowasabi.com/wasabi-experience/',
+  license: '© TOKYO WASABI / 無断転載不可（リンク参照・事実の要約のみ、ソース画像保存なし）',
+  sourceType: 'official_web' as const,
+  retrievedAt: '2026-08-30',
+  sourceUpdatedAt: '2026-08-11',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'wasabi-experience-page-1343',
+};
+
+const TOKYO_WASABI_EXPERIENCE_ACCESS_SOURCE = {
+  name: 'TOKYO WASABI（WASABI EXPERIENCE / English）',
+  url: 'https://tokyowasabi.com/wasabi-experience-en/',
+  license: '© TOKYO WASABI / 無断転載不可（リンク参照・事実の要約のみ、ソース画像保存なし）',
+  sourceType: 'official_web' as const,
+  retrievedAt: '2026-08-30',
+  sourceUpdatedAt: '2026-08-12',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'wasabi-experience-en-page-20',
+};
+
+const TOKYO_WASABI_EXPERIENCE_COORDINATE_SOURCE = {
+  name: 'Google Maps（TOKYO WASABI公式ページの埋め込み地図）',
+  url: 'https://www.google.com/maps/search/?api=1&query=35.798697%2C139.177867',
+  license: 'Google Maps terms apply; operator-embedded map-provider point, not open data and not field-verified. Reference use only.',
+  sourceType: 'business' as const,
+  retrievedAt: '2026-08-30',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'google-maps-0x60193b6d59bf9f3b',
+};
+
 const OKUTAMA_KITCHEN_HOME_SOURCE = {
   name: '奥多摩の台所（公式サイト）',
   url: 'https://www.okutamanodaidokoro.com/',
@@ -459,6 +491,75 @@ export const PLACES: Place[] = [
           source: TOKYO_WASABI_DON_SOURCE,
         },
       ],
+    },
+    origin: 'source',
+  },
+  {
+    id: 'wasabi-experience',
+    nameJa: 'WASABI EXPERIENCE',
+    nameEn: 'WASABI EXPERIENCE',
+    address: '〒198-0147 東京都青梅市御岳1-192-4',
+    // Provider point from the Google Maps iframe embedded by TOKYO WASABI.
+    // It is separate from first-party place authority and remains approximate.
+    latitude: 35.798697,
+    longitude: 139.177867,
+    coordinatePrecision: 'approximate',
+    coordinateSource: TOKYO_WASABI_EXPERIENCE_COORDINATE_SOURCE,
+    foodCultureIds: ['wasabi-okutama'],
+    type: 'other',
+    source: TOKYO_WASABI_EXPERIENCE_SOURCE,
+    visitorInformation: {
+      access: {
+        stationJa: 'JR青梅線「御嶽駅」',
+        walkMinutes: 7,
+        source: TOKYO_WASABI_EXPERIENCE_ACCESS_SOURCE,
+      },
+      experienceTour: {
+        seasonalMeetingTimes: [
+          { season: 'may-september', time: '08:30' },
+          { season: 'october-april', time: '11:00' },
+        ],
+        meetingTimeMayChange: true,
+        confirmationEmailProvidesExactMeetingTime: true,
+        durationConflict: {
+          verificationStatus: 'conflict',
+          statements: [
+            {
+              id: 'japanese-page',
+              durationMinutes: { min: 120, max: 150 },
+              source: TOKYO_WASABI_EXPERIENCE_SOURCE,
+            },
+            {
+              id: 'english-page',
+              durationMinutes: { min: 120, max: 120 },
+              source: TOKYO_WASABI_EXPERIENCE_ACCESS_SOURCE,
+            },
+          ],
+        },
+        privateGroupsPerDay: 1,
+        reservationRequired: true,
+        bookingUrl: 'https://tokyowasabi.com/wasabi-experience/#booking-form',
+        listedPrice: {
+          amountYen: 19500,
+          taxIncluded: true,
+          conditionalPrice: {
+            amountYen: 14500,
+            eligibility: 'japan-resident-and-japanese-conversation',
+          },
+          surcharge: {
+            amountYen: 5000,
+            appliesOn: [
+              'weekends',
+              'public-holidays',
+              'golden-week',
+              'obon',
+              'year-end-new-year',
+            ],
+          },
+        },
+        weekendHolidayAvailability: 'request-only',
+        weatherMayCancelOrPostpone: true,
+      },
     },
     origin: 'source',
   },
