@@ -11,6 +11,7 @@ import canonicalConfig from './playwright.config';
 export default defineConfig({
   ...canonicalConfig,
   testMatch: [
+    'experimental-badge-grid.spec.ts',
     'issue-283-visual-parity.spec.ts',
     'issue-296-my-badges.spec.ts',
     'issue-313-my-badges-layout.spec.ts',

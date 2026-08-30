@@ -122,7 +122,8 @@ export function AppRouter() {
     pathname === '/mogu' ||
     pathname === '/my-route' ||
     pathname === '/my' ||
-    pathname === '/badges';
+    pathname === '/badges' ||
+    pathname === '/_preview/badge-grid';
 
   if (referencePath) return <ReferenceApp />;
 

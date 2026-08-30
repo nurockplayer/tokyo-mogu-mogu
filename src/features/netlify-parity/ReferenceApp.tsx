@@ -25,6 +25,7 @@ import {
 } from './exploration/explorationMachine';
 import { FavoritesScreen } from './screens/FavoritesScreen';
 import { BadgesScreen } from './screens/BadgesScreen';
+import { BadgeGridPreviewScreen } from './screens/BadgeGridPreviewScreen';
 import { HomeScreen } from './screens/HomeScreen';
 import { MoguScreen } from './screens/MoguScreen';
 import { MyScreen } from './screens/MyScreen';
@@ -238,6 +239,7 @@ export function ReferenceApp() {
   const isFavorites = pathname === '/my-route';
   const isMy = pathname === '/my';
   const isBadges = pathname === '/badges';
+  const isBadgeGridPreview = pathname === '/_preview/badge-grid';
 
   return (
     <main className="reference-app" data-locale={locale} data-pathname={pathname}>
@@ -395,6 +397,11 @@ export function ReferenceApp() {
           onNotify={setToast}
         />
         <BadgesScreen active={isBadges} locale={locale} onBack={() => navigate('/my')} />
+        <BadgeGridPreviewScreen
+          active={isBadgeGridPreview}
+          onBack={() => navigate('/my')}
+          onNavigate={navigate}
+        />
 
         {toast ? <div className="reference-toast" role="status">{toast}</div> : null}
       </div>
