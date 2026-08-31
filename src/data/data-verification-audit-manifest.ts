@@ -134,6 +134,27 @@ export const PRESENTATION_SPOT_AUDIT = [
     issues: ['#328', '#333', '#334'],
   },
   {
+    presentationSpotId: 'hikawa-valley',
+    canonicalPlaceId: 'hikawa-valley',
+    surface: 'Spot',
+    stableCanonicalFieldIds: [
+      'location_area',
+      'access',
+      'trail_duration',
+      'water_safety',
+      'current_safety_information_url',
+      'official_current_url',
+    ],
+    issues: ['#329', '#333', '#334'],
+  },
+  {
+    presentationSpotId: 'oku-hikawa-shrine',
+    canonicalPlaceId: 'oku-hikawa-shrine',
+    surface: 'Spot',
+    stableCanonicalFieldIds: ['address', 'official_current_url'],
+    issues: ['#329', '#333', '#334'],
+  },
+  {
     presentationSpotId: 'sawai-ozawa-shuzo',
     canonicalPlaceId: 'sawai-ozawa-shuzo',
     surface: 'Spot',
@@ -258,7 +279,9 @@ export const REQUIRED_ROUTE_GUIDANCE_FACTUAL_CLAIMS = [
   { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'full-day', spotId: 'yamashiroya', claimId: 'product-availability', fieldLabel: 'Wasabi product availability', timeSensitive: true, canonicalPlaceId: 'yamashiroya', canonicalFieldId: 'product_availability', issues: ['#323'] },
   { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'full-day', spotId: 'port-okutama', claimId: 'coffee-availability', fieldLabel: 'Coffee service availability', timeSensitive: true, canonicalPlaceId: 'port-okutama', canonicalFieldId: 'service_availability', issues: ['#327'] },
   { presentationJourneyId: 'demo-okutama-yamame', variantId: 'half-day', spotId: 'okutama-tourism-office', claimId: 'information-stop-duration', fieldLabel: 'Information stop duration', timeSensitive: true },
-  { presentationJourneyId: 'demo-okutama-yamame', variantId: 'half-day', spotId: 'hikawa-valley', claimId: 'walk-duration', fieldLabel: 'Streamside walk duration', timeSensitive: true },
+  { presentationJourneyId: 'demo-okutama-wasabi', variantId: 'half-day', spotId: 'hikawa-valley', claimId: 'river-safety', fieldLabel: 'Hikawa Valley no-entry river safety', timeSensitive: true, canonicalPlaceId: 'hikawa-valley', canonicalFieldId: 'water_safety', issues: ['#329', '#334'] },
+  { presentationJourneyId: 'demo-okutama-yamame', variantId: 'half-day', spotId: 'hikawa-valley', claimId: 'walk-duration', fieldLabel: 'Hikawa Valley promenade duration', timeSensitive: true, canonicalPlaceId: 'hikawa-valley', canonicalFieldId: 'trail_duration', issues: ['#329', '#334'] },
+  { presentationJourneyId: 'demo-okutama-yamame', variantId: 'half-day', spotId: 'hikawa-valley', claimId: 'river-safety', fieldLabel: 'Hikawa Valley no-entry river safety', timeSensitive: true, canonicalPlaceId: 'hikawa-valley', canonicalFieldId: 'water_safety', issues: ['#329', '#334'] },
   { presentationJourneyId: 'demo-okutama-yamame', variantId: 'half-day', spotId: 'akabeko', claimId: 'lunch-duration', fieldLabel: 'Yamame lunch duration', timeSensitive: true },
   { presentationJourneyId: 'demo-okutama-yamame', variantId: 'half-day', spotId: 'akabeko', claimId: 'dish-availability', fieldLabel: 'Yamame lunch availability', timeSensitive: true, canonicalPlaceId: 'akabeko', canonicalFieldId: 'product_availability', issues: ['#326'] },
 ] as const;

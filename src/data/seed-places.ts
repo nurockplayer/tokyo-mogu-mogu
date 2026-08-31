@@ -299,7 +299,79 @@ const PORT_OKUTAMA_COORDINATE_SOURCE = {
   originalId: 'node/6552267871',
 };
 
+const HIKAWA_VALLEY_TRAIL_SOURCE = {
+  name: '一般社団法人奥多摩観光協会（氷川渓谷遊歩道）',
+  url: 'https://www.okutama.gr.jp/site/walking/pdf/hikawa.pdf',
+  license: 'All Rights Reserved（参考情報としてのみ利用・スクリーンショット未保存）',
+  sourceType: 'official_web' as const,
+  retrievedAt: '2026-08-31',
+  sourceUpdatedAt: '2018-07-29',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'hikawa-walking-map',
+};
+
+const HIKAWA_VALLEY_SAFETY_SOURCE = {
+  name: '奥多摩町（河川水難事故防止・氷川渓谷遊歩道入口情報）',
+  url: 'https://www.town.okutama.tokyo.jp/1/kankosangyoka/kankojoho/3/436.html',
+  license: 'All Rights Reserved（参考情報としてのみ利用・スクリーンショット未保存）',
+  sourceType: 'official_web' as const,
+  retrievedAt: '2026-08-31',
+  sourceUpdatedAt: '2026-08-16',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: '436',
+};
+
+const OKU_HIKAWA_SHRINE_SOURCE = {
+  name: '武蔵一宮氷川神社（社報 第二十一号）',
+  url: 'https://musashiichinomiya-hikawa.or.jp/report/report_img/report21.pdf',
+  license: 'All Rights Reserved（参考情報としてのみ利用・スクリーンショット未保存）',
+  sourceType: 'official_web' as const,
+  retrievedAt: '2026-08-31',
+  sourceUpdatedAt: '2022-04-15',
+  verificationStatus: 'needs_confirmation' as const,
+  originalId: 'report-21-oku-hikawa-shrine',
+};
+
 export const PLACES: Place[] = [
+  {
+    id: 'hikawa-valley',
+    nameJa: '氷川渓谷',
+    nameEn: 'Hikawa Valley',
+    locationKind: 'area',
+    foodCultureIds: [],
+    type: 'other',
+    source: HIKAWA_VALLEY_TRAIL_SOURCE,
+    naturalArea: {
+      locationDescriptionJa: '多摩川と日原川の合流地点を中心とする氷川渓谷遊歩道周辺',
+      locationDescriptionEn: 'Around the Hikawa Valley Promenade at the confluence of the Tama and Nippara rivers',
+      locationDescriptionZhTw: '以多摩川與日原川匯流處為中心的冰川溪谷步道周邊',
+      access: {
+        stationJa: 'JR青梅線「奥多摩駅」',
+        walkMinutes: 5,
+        source: HIKAWA_VALLEY_TRAIL_SOURCE,
+      },
+      trailDurationMinutes: { min: 40, max: 50, source: HIKAWA_VALLEY_TRAIL_SOURCE },
+      safety: {
+        noSwimmingInTamaRiver: true,
+        avoidEnteringWaterDuringHighWater: true,
+        currentInformationUrl: HIKAWA_VALLEY_SAFETY_SOURCE.url,
+        source: HIKAWA_VALLEY_SAFETY_SOURCE,
+      },
+    },
+    origin: 'source',
+  },
+  {
+    id: 'oku-hikawa-shrine',
+    nameJa: '奥氷川神社',
+    nameEn: 'Oku-Hikawa Shrine',
+    locationKind: 'address-only',
+    address: '東京都西多摩郡奥多摩町氷川178番地',
+    addressSource: OKU_HIKAWA_SHRINE_SOURCE,
+    foodCultureIds: [],
+    type: 'other',
+    source: OKU_HIKAWA_SHRINE_SOURCE,
+    origin: 'source',
+  },
   {
     id: 'okutama-wasabi-field',
     nameJa: '奥多摩わさび田',

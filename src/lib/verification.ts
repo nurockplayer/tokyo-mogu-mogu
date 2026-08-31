@@ -255,8 +255,9 @@ export interface UnverifiedFieldEntry {
  * Until the model gains per-field provenance, both are claims that need
  * stakeholder confirmation regardless of origin (Issue #129).
  */
-export function placeReviewFields(place?: { locationKind?: 'fixed' | 'mobile' }): ReviewField[] {
-  return place?.locationKind === 'mobile' ? [] : ['address', 'coordinates'];
+export function placeReviewFields(place?: { locationKind?: 'fixed' | 'address-only' | 'area' | 'mobile' }): ReviewField[] {
+  if (place?.locationKind === 'mobile' || place?.locationKind === 'area') return [];
+  return place?.locationKind === 'address-only' ? ['address'] : ['address', 'coordinates'];
 }
 
 /**
@@ -297,7 +298,7 @@ export function listUnverifiedFields(input: {
   places: ReadonlyArray<{
     id: string;
     origin: 'source' | 'editorial' | 'demo';
-    locationKind?: 'fixed' | 'mobile';
+    locationKind?: 'fixed' | 'address-only' | 'area' | 'mobile';
     address?: string;
     latitude?: number;
     longitude?: number;

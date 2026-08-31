@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import type {
   DataVerificationEvidenceManifest,
   DataVerificationEvidence,
+  DataVerificationAppEvidence,
 } from '../data/data-verification-evidence-manifest';
 import { DATA_VERIFICATION_EVIDENCE_MANIFEST } from '../data/data-verification-evidence-manifest';
 import { validateDataVerificationEvidenceManifest } from './data-verification-evidence';
@@ -91,6 +92,64 @@ describe('data verification evidence manifest (#334)', () => {
         repositoryClaims,
       ),
     ).not.toThrow();
+  });
+
+  it('records #329 app evidence in every locale and rights-restricted source omissions', () => {
+    const repositoryClaims = buildRepositoryLedgerClaims();
+    const valleyApps = DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.filter(
+      (item): item is DataVerificationAppEvidence => item.entityId === 'hikawa-valley' && item.kind === 'app',
+    );
+    const shrineApps = DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.filter(
+      (item): item is DataVerificationAppEvidence => item.entityId === 'oku-hikawa-shrine' && item.kind === 'app',
+    );
+    const routeApps = DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.filter(
+      (item): item is DataVerificationAppEvidence => item.evidenceId.startsWith('hikawa-route-') && item.kind === 'app',
+    );
+    const safetyOmission = DATA_VERIFICATION_EVIDENCE_MANIFEST.omissions.find(
+      (item) => item.omissionId === 'hikawa-valley-safety-source-rights-restricted',
+    );
+    const tourismSiteOmission = DATA_VERIFICATION_EVIDENCE_MANIFEST.omissions.find(
+      (item) => item.omissionId === 'hikawa-valley-tourism-site-rights-restricted',
+    );
+    const shrineOmission = DATA_VERIFICATION_EVIDENCE_MANIFEST.omissions.find(
+      (item) => item.omissionId === 'oku-hikawa-shrine-report-source-rights-restricted',
+    );
+
+    expect(valleyApps.map((item) => item.locale).sort()).toEqual(['en', 'ja', 'zh-TW']);
+    expect(shrineApps.map((item) => item.locale).sort()).toEqual(['en', 'ja', 'zh-TW']);
+    expect(valleyApps.every((item) => item.viewport.width === 375)).toBe(true);
+    expect(shrineApps.every((item) => item.viewport.width === 375)).toBe(true);
+    expect(routeApps).toHaveLength(6);
+    expect(routeApps.every((item) => item.viewport.width === 375)).toBe(true);
+    expect(routeApps.find((item) => item.evidenceId === 'hikawa-route-yamame-ja-375')?.claimIds).toEqual(
+      expect.arrayContaining([
+        'route:okutama-yamame-journey:half-day:step:hikawa-valley:factual:walk-duration',
+        'route:okutama-yamame-journey:half-day:step:hikawa-valley:factual:river-safety',
+      ]),
+    );
+    expect(valleyApps.find((item) => item.locale === 'ja')?.claimIds).toEqual(expect.arrayContaining([
+      'spot:hikawa-valley:water_safety',
+      'spot:hikawa-valley:current_safety_information_url',
+    ]));
+    expect(shrineApps.find((item) => item.locale === 'ja')?.claimIds).toEqual(expect.arrayContaining([
+      'spot:oku-hikawa-shrine:address',
+      'spot:oku-hikawa-shrine:official_current_url',
+    ]));
+    expect(safetyOmission).toMatchObject({
+      sourceUrl: 'https://www.town.okutama.tokyo.jp/1/kankosangyoka/kankojoho/3/436.html',
+      recordedAt: '2026-08-31',
+    });
+    expect(tourismSiteOmission).toMatchObject({
+      sourceUrl: 'https://www.okutama.gr.jp/site/',
+      recordedAt: '2026-08-31',
+      claimIds: ['place:hikawa-valley:name:ja'],
+    });
+    expect(shrineOmission?.claimIds).toEqual([
+      'spot:oku-hikawa-shrine:address',
+      'spot:oku-hikawa-shrine:official_current_url',
+    ]);
+    expect(repositoryClaims.some((claim) => claim.claimId === 'place:hikawa-valley:coordinates')).toBe(false);
+    expect(repositoryClaims.some((claim) => claim.claimId === 'place:oku-hikawa-shrine:coordinates')).toBe(false);
   });
 
   it('records final Japanese Yamashiroya app evidence and the official-site rights omission (#323)', () => {

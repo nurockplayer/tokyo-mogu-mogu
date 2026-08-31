@@ -9,7 +9,7 @@ import type {
   DataVerificationEvidenceOmission,
 } from '../data/data-verification-evidence-manifest';
 import tourismDirectory from '../../scripts/ingest-okutama/snapshots/okutama-tourism-directory.json';
-import { foodCultures, isFixedPlace, modelRoutes, places } from '../data';
+import { foodCultures, isAddressedPlace, isFixedPlace, modelRoutes, places } from '../data';
 import {
   PRESENTATION_ROUTE_AUDIT,
   PRESENTATION_ROUTE_MEETING_TIME_AUDIT,
@@ -462,8 +462,24 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
         };
 
     if (fieldId === 'name') return defaultFact(place.nameJa);
-    if (fieldId === 'address' && isFixedPlace(place)) {
+    if (fieldId === 'address' && isAddressedPlace(place)) {
       return defaultFact(place.address, place.addressSource);
+    }
+    if (fieldId === 'location_area' && place.locationKind === 'area') {
+      return defaultFact(place.naturalArea.locationDescriptionJa);
+    }
+    if (fieldId === 'trail_duration' && place.locationKind === 'area') {
+      const { min, max } = place.naturalArea.trailDurationMinutes;
+      return defaultFact(`${min}–${max} minutes`, place.naturalArea.trailDurationMinutes.source);
+    }
+    if (fieldId === 'water_safety' && place.locationKind === 'area') {
+      return defaultFact(
+        'no_swimming_in_tama_river / avoid_entering_water_during_high_water',
+        place.naturalArea.safety.source,
+      );
+    }
+    if (fieldId === 'current_safety_information_url' && place.locationKind === 'area') {
+      return defaultFact(place.naturalArea.safety.currentInformationUrl, place.naturalArea.safety.source);
     }
     if (fieldId === 'venue_model' && place.locationKind === 'mobile') {
       return defaultFact(place.mobileVenue.noFixedStorefront
@@ -528,6 +544,12 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
     if (fieldId === 'phone_hours' && visitor.phoneHours) {
       return defaultFact(
         `${visitor.phoneHours.opens}–${visitor.phoneHours.closes} / unavailable: ${visitor.phoneHours.unavailableOn.join(', ')}`,
+      );
+    }
+    if (fieldId === 'access' && place.locationKind === 'area') {
+      return defaultFact(
+        `${place.naturalArea.access.stationJa} / 徒歩${place.naturalArea.access.walkMinutes}分`,
+        place.naturalArea.access.source,
       );
     }
     if (fieldId === 'access' && visitor.access) {
@@ -674,7 +696,9 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
       entityName: place.nameJa,
       appSurface: 'Spot / Route / Map',
       timeSensitive: false,
-      issues: ['#129', '#133', '#333'],
+      issues: place.id === 'hikawa-valley' || place.id === 'oku-hikawa-shrine'
+        ? ['#329', '#333', '#334']
+        : ['#129', '#133', '#333'],
     };
     const values: Array<readonly [string, string, string | undefined, boolean]> = [
       ['name', 'Name', place.nameJa, false],
@@ -684,6 +708,14 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
       ...(isFixedPlace(place) ? [
         ['address', 'Address', place.address, true] as const,
         ['coordinates', 'Coordinates', `${place.latitude}, ${place.longitude}${place.coordinatePrecision ? ` (${place.coordinatePrecision})` : ''}`, true] as const,
+      ] : place.locationKind === 'address-only' ? [
+        ['address', 'Address', place.address, true] as const,
+      ] : place.locationKind === 'area' ? [
+        ['location_area', 'Natural-area / trail location', place.naturalArea.locationDescriptionJa, false] as const,
+        ['access', 'Access guidance', `${place.naturalArea.access.stationJa} / 徒歩${place.naturalArea.access.walkMinutes}分`, true] as const,
+        ['trail_duration', 'Promenade duration guidance', `${place.naturalArea.trailDurationMinutes.min}–${place.naturalArea.trailDurationMinutes.max} minutes`, true] as const,
+        ['water_safety', 'Stable river-safety guidance', 'no_swimming_in_tama_river / avoid_entering_water_during_high_water', true] as const,
+        ['current_safety_information_url', 'Current official safety / closure information URL', place.naturalArea.safety.currentInformationUrl, true] as const,
       ] : [
         ['venue_model', 'Venue model', 'mobile_food_truck / no_permanent_storefront', false] as const,
         ['operating_area', 'Primary operating area', place.mobileVenue.primaryOperatingAreaJa, true] as const,
@@ -718,8 +750,16 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
         ? place.visitorInformation.experienceTour.durationConflict.statements[0]?.source ?? place.source
         : fieldId === 'coordinates' && place.coordinateSource
         ? place.coordinateSource
-        : fieldId === 'address' && place.addressSource
+        : fieldId === 'address' && isAddressedPlace(place) && place.addressSource
           ? place.addressSource
+          : place.locationKind === 'area' && fieldId === 'access'
+            ? place.naturalArea.access.source
+            : place.locationKind === 'area' && fieldId === 'trail_duration'
+              ? place.naturalArea.trailDurationMinutes.source
+              : place.locationKind === 'area' && (
+                fieldId === 'water_safety' || fieldId === 'current_safety_information_url'
+              )
+                ? place.naturalArea.safety.source
           : place.locationKind === 'mobile' && fieldId === 'schedule_url'
             ? place.mobileVenue.scheduleDirectorySource
             : place.locationKind === 'mobile' && (
