@@ -78,6 +78,17 @@ function canonicalVisitorInformation(place: Place): PlaceVisitorInformation {
 const yamashiroyaPlace = canonicalFixedPlace('yamashiroya');
 const yamashiroyaVisitor = canonicalVisitorInformation(yamashiroyaPlace);
 
+const hikawaValleyPlace = canonicalPlace('hikawa-valley');
+if (hikawaValleyPlace.locationKind !== 'area') {
+  throw new Error('Expected natural-area canonical Place for Hikawa Valley presentation.');
+}
+const hikawaValley = hikawaValleyPlace.naturalArea;
+
+const okuHikawaShrinePlace = canonicalPlace('oku-hikawa-shrine');
+if (okuHikawaShrinePlace.locationKind !== 'address-only') {
+  throw new Error('Expected address-only canonical Place for Oku-Hikawa Shrine presentation.');
+}
+
 const yamashiroyaName = localized(
   yamashiroyaPlace.nameJa,
   yamashiroyaPlace.nameEn,
@@ -965,7 +976,7 @@ export const routeStepText: Record<string, RouteStepText[]> = {
     { spotId: 'okutama-tourism-office', walk: localized('徒歩 約1分', 'About 1 min on foot', '步行約 1 分鐘'), description: localized('わさぴーと観光案内で情報をチェック！', 'Check maps and local tips with Wasapy!', '和 Wasapy 一起確認觀光資訊！') },
     { spotId: 'wasabi-kitchen', description: wasabiKitchenRouteDescription },
     { spotId: 'okutama-kitchen', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: okutamaKitchenProductAvailability },
-    { spotId: 'hikawa-valley', walk: localized('徒歩 約 10 分', 'About 10 min on foot', '步行約 10 分鐘'), description: localized('川辺で涼む', 'Cool off beside the river', '在河畔納涼') },
+    { spotId: 'hikawa-valley', description: localized('遊歩道を歩く（川には入らない）', 'Walk the promenade (do not enter the river)', '漫步步道（請勿進入河中）') },
     { spotId: 'oku-hikawa-shrine', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: localized('お参り！', 'Visit the shrine', '參拜神社！') },
     { spotId: 'port-okutama', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: portOkutamaRouteServices },
   ],
@@ -980,7 +991,7 @@ export const routeStepText: Record<string, RouteStepText[]> = {
   'demo-okutama-yamame:half-day': [
     { spotId: 'okutama-station', description: localized('旅のスタート地点', 'Starting point', '旅程起點') },
     { spotId: 'okutama-tourism-office', walk: localized('徒歩 約 1 分', 'About 1 min on foot', '步行約 1 分鐘'), description: localized('情報収集 30分', 'Gather information · 30 min', '蒐集資訊・30 分鐘') },
-    { spotId: 'hikawa-valley', walk: localized('徒歩 約 10 分', 'About 10 min on foot', '步行約 10 分鐘'), description: localized('渓流さんぽ 60分', 'Streamside walk · 60 min', '溪流散步・60 分鐘') },
+    { spotId: 'hikawa-valley', description: localized('遊歩道散策 40〜50分（入水・遊泳はしない）', 'Promenade walk · 40–50 min (do not enter or swim in the river)', '步道散步・40–50 分鐘（請勿進入河中或游泳）') },
     { spotId: 'akabeko', walk: localized('徒歩 約 15 分', 'About 15 min on foot', '步行約 15 分鐘'), description: akabekoYamameRouteDescription },
   ],
   'demo-ome-sake:half-day': omeRouteSteps('half-day'),
@@ -1047,6 +1058,7 @@ export interface ReferenceSpotDetail {
     fieldId:
       | 'name'
       | 'address'
+      | 'location_area'
       | 'venue_model'
       | 'operating_area'
       | 'schedule_guidance'
@@ -1056,6 +1068,9 @@ export interface ReferenceSpotDetail {
       | 'hours'
       | 'phone_hours'
       | 'access'
+      | 'trail_duration'
+      | 'water_safety'
+      | 'current_safety_information_url'
       | 'parking'
       | 'price_availability'
       | 'reservation'
@@ -1212,6 +1227,57 @@ function omeReferenceSpotDetail(id: string): ReferenceSpotDetail {
 }
 
 export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> = {
+  'hikawa-valley': {
+    tags: [
+      { tagId: 'natural-area', color: '#8FAE5C', label: localized('自然の遊歩道', 'Natural-area promenade', '自然步道') },
+      { tagId: 'official-source', color: '#F0A24C', label: localized('公式・公的情報参照', 'Official/public source', '參考官方・公部門資訊') },
+      { tagId: 'water-safety', color: '#E05B5B', label: localized('川に入らない', 'Keep out of the river', '請勿進入河中') },
+    ],
+    description: localized(
+      '多摩川と日原川の合流地点周辺を歩く氷川渓谷遊歩道の参考情報です。川には入らず、訪問前に町の最新の安全・入口情報をご確認ください。',
+      'Reference information for the Hikawa Valley Promenade around the confluence of the Tama and Nippara rivers. Stay out of the river and check the town’s latest safety and entrance information before visiting.',
+      '以多摩川與日原川匯流處周邊的冰川溪谷步道為參考資訊。請勿進入河中，造訪前請查看町公所最新的安全與入口資訊。',
+    ),
+    information: [
+      { fieldId: 'name', icon: 'information', label: localized('名称', 'Name', '名稱'), value: localized(hikawaValleyPlace.nameJa, hikawaValleyPlace.nameEn, '冰川溪谷') },
+      { fieldId: 'location_area', icon: 'information', label: localized('散策エリア', 'Walking area', '散步區域'), value: localized(hikawaValley.locationDescriptionJa, hikawaValley.locationDescriptionEn, hikawaValley.locationDescriptionZhTw) },
+      { fieldId: 'access', icon: 'train', label: localized('アクセス', 'Access', '交通'), value: localized('JR青梅線「奥多摩駅」から徒歩約5分（目安）', 'About 5 min on foot from JR Okutama Station (guide)', '從 JR 青梅線「奧多摩站」步行約 5 分鐘（參考）') },
+      { fieldId: 'trail_duration', icon: 'clock', label: localized('散策時間', 'Promenade time', '散步時間'), value: localized('約40〜50分（目安）', 'About 40–50 min (guide)', '約 40–50 分鐘（參考）') },
+      { fieldId: 'water_safety', icon: 'information', label: localized('川辺の安全', 'Riverside safety', '河畔安全'), value: localized('多摩川は遊泳禁止です。増水時を含め、川には入らないでください。', 'Swimming is prohibited in the Tama River. Do not enter the water, including during high water.', '多摩川禁止游泳。包括水位上升時在內，請勿進入河中。') },
+      { fieldId: 'official_current_url', icon: 'information', label: localized('遊歩道情報', 'Promenade information', '步道資訊'), value: localized(hikawaValleyPlace.source.url ?? '', hikawaValleyPlace.source.url ?? '', hikawaValleyPlace.source.url ?? '') },
+      { fieldId: 'current_safety_information_url', icon: 'information', label: localized('最新の安全・入口情報', 'Current safety and entrance information', '最新安全與入口資訊'), value: localized(hikawaValley.safety.currentInformationUrl, hikawaValley.safety.currentInformationUrl, hikawaValley.safety.currentInformationUrl) },
+      { fieldId: 'verification_note', icon: 'information', label: localized('確認状態', 'Verification', '確認狀態'), value: localized('公式・公的情報を2026年8月31日に取得。遊歩道の入口状況・天候・水位は訪問前に最新情報をご確認ください。', 'Official/public information retrieved Aug 31, 2026. Check current promenade entrance conditions, weather, and water levels before visiting.', '官方／公部門資訊於 2026 年 8 月 31 日取得。造訪前請確認步道入口、天候與水位的最新資訊。') },
+    ],
+    guide: {
+      title: localized('訪問前に町の最新情報を確認', 'Check current town information before visiting', '造訪前查看町公所最新資訊'),
+      body: localized('多摩川は常に遊泳禁止です。局地的な大雨や放流などで危険な場合、入口が一時閉鎖されることがあります。現在の状況は奥多摩町の案内でご確認ください。', 'Swimming in the Tama River is always prohibited. The entrance can temporarily close when conditions such as heavy rain or dam discharge are hazardous; check Okutama Town’s current notice.', '多摩川一律禁止游泳。若局部豪雨、洩洪等情況有危險，入口可能暫時關閉；請查看奧多摩町的最新公告。'),
+      action: localized('町の安全・入口情報を確認する', 'Check town safety and entrance information', '查看町公所安全與入口資訊'),
+      url: hikawaValley.safety.currentInformationUrl,
+    },
+    caution: [
+      localized('・多摩川は遊泳禁止です。増水時を含め、川には入らないでください。', '• Swimming in the Tama River is prohibited. Do not enter the water, including during high water.', '・多摩川禁止游泳。包括水位上升時在內，請勿進入河中。'),
+      localized('・大雨や奥多摩湖からの放流などで水位が上がることがあります。遊歩道入口の最新状況は町の公式情報で確認してください。', '• Water levels can rise because of heavy rain or releases from Lake Okutama. Check the town’s official information for current promenade entrance conditions.', '・大雨或奧多摩湖洩洪可能使水位上升。請以町公所官方資訊確認步道入口的最新狀況。'),
+    ],
+  },
+  'oku-hikawa-shrine': {
+    tags: [
+      { tagId: 'shrine', color: '#8FAE5C', label: localized('神社', 'Shrine', '神社') },
+      { tagId: 'institutional-source', color: '#F0A24C', label: localized('神社の公表資料参照', 'Institutional source', '參考神社公開資料') },
+      { tagId: 'confirmation-pending', color: '#5D9BEF', label: localized('確認中', 'Confirmation pending', '確認中') },
+    ],
+    description: localized(
+      '武蔵一宮氷川神社の公表資料に基づく参考情報です。所在地は同資料の鎮座地を掲載し、座標は追加していません。',
+      'Reference information based on a publication by Musashi Ichinomiya Hikawa Shrine. The listed location is the shrine address in that publication; no coordinate is added.',
+      '依據武藏一宮冰川神社公開資料整理。所在地採用該資料的鎮座地，未新增座標。',
+    ),
+    information: [
+      { fieldId: 'name', icon: 'information', label: localized('名称', 'Name', '名稱'), value: localized(okuHikawaShrinePlace.nameJa, okuHikawaShrinePlace.nameEn, '奧冰川神社') },
+      { fieldId: 'address', icon: 'information', label: localized('鎮座地', 'Published shrine address', '鎮座地'), value: localized(okuHikawaShrinePlace.address, '178 Hikawa, Okutama, Nishitama, Tokyo', '東京都西多摩郡奧多摩町冰川 178 番地') },
+      { fieldId: 'official_current_url', icon: 'information', label: localized('公表資料', 'Published source', '公開資料'), value: localized(okuHikawaShrinePlace.source.url ?? '', okuHikawaShrinePlace.source.url ?? '', okuHikawaShrinePlace.source.url ?? '') },
+      { fieldId: 'verification_note', icon: 'information', label: localized('確認状態', 'Verification', '確認狀態'), value: localized('神社の公表資料を2026年8月31日に取得。参拝・行事・交通などは訪問前に最新情報をご確認ください。', 'Institutional information retrieved Aug 31, 2026. Check current visiting, event, and access information before going.', '神社公開資料於 2026 年 8 月 31 日取得。造訪前請確認參拜、活動與交通的最新資訊。') },
+    ],
+    caution: [localized('・参拝・行事・交通の条件は変更される場合があります。訪問前に公式・現地情報をご確認ください。', '• Visiting, events, and access conditions can change. Check current official and local information before going.', '・參拜、活動與交通條件可能變更。造訪前請確認官方與當地的最新資訊。')],
+  },
   'wasabi-experience': {
     tags: [
       { tagId: 'private-experience', color: '#8FAE5C', label: localized('プライベート体験', 'Private experience', '私人體驗') },

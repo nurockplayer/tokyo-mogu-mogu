@@ -1099,15 +1099,15 @@ describe('repository data verification ledger (#333)', () => {
     });
   });
 
-  it('preserves fallback Spot verification notices in every locale', () => {
+  it('preserves Hikawa Valley safety and verification notices in every locale (#329)', () => {
     const claims = buildRepositoryLedgerClaims();
 
     expect(
       claims.find(
-        (row) => row.claimId === 'spot:hikawa-valley:presentation:practical_information:en',
+        (row) => row.claimId === 'spot:hikawa-valley:presentation:safety_guidance:en',
       ),
     ).toMatchObject({
-      displayedValue: 'Verification: This listing is reference information and may not be verified. Check the venue’s official information before visiting.',
+      displayedValue: expect.stringMatching(/Swimming in the Tama River is prohibited.*Do not enter the water/i),
       verification: 'demo',
       finding: 'none',
       timeSensitive: true,
@@ -1115,11 +1115,11 @@ describe('repository data verification ledger (#333)', () => {
     });
     expect(
       claims.find(
-        (row) => row.claimId === 'spot:hikawa-valley:presentation:tags:en',
+        (row) => row.claimId === 'spot:hikawa-valley:presentation:verification_note:en',
       ),
     ).toMatchObject({
-      displayedValue: 'Reference information',
-      verification: 'demo',
+      displayedValue: expect.stringMatching(/Official\/public information retrieved Aug 31, 2026/),
+      verification: 'needs_confirmation',
       finding: 'none',
       timeSensitive: true,
     });

@@ -241,6 +241,85 @@ const WASABI_KITCHEN_STORY_APP_EVIDENCE: readonly DataVerificationAppEvidence[] 
 
 const WASABI_EXPERIENCE_EVIDENCE_LOCALES = ['ja', 'en', 'zh-TW'] as const;
 
+const HIKAWA_LOCATION_SAFETY_EVIDENCE_LOCALES = ['ja', 'en', 'zh-TW'] as const;
+
+const HIKAWA_VALLEY_SPOT_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  HIKAWA_LOCATION_SAFETY_EVIDENCE_LOCALES.map((locale) => ({
+    evidenceId: `hikawa-valley-app-${locale}-375`,
+    claimIds: [
+      `place:hikawa-valley:name:${locale}`,
+      locale === 'ja' ? 'spot:hikawa-valley:water_safety' : `place:hikawa-valley:water_safety:${locale}`,
+      locale === 'ja' ? 'spot:hikawa-valley:trail_duration' : `place:hikawa-valley:trail_duration:${locale}`,
+      locale === 'ja'
+        ? 'spot:hikawa-valley:current_safety_information_url'
+        : `place:hikawa-valley:current_safety_information_url:${locale}`,
+      `spot:hikawa-valley:presentation:safety_guidance:${locale}`,
+      `spot:hikawa-valley:presentation:verification_note:${locale}`,
+    ],
+    entityId: 'hikawa-valley',
+    kind: 'app',
+    capturedAt: '2026-08-31',
+    path: `docs/data-evidence/hikawa-location-safety/hikawa-valley-app-${locale}-375.webp`,
+    locale,
+    viewport: { width: 375, height: 2300 },
+    note: `Final #329 ${locale} Hikawa Valley Spot state showing natural-area semantics, no-swimming guidance, the current town-information path, and 375px wrapping.`,
+  }));
+
+const OKU_HIKAWA_SHRINE_SPOT_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  HIKAWA_LOCATION_SAFETY_EVIDENCE_LOCALES.map((locale) => ({
+    evidenceId: `oku-hikawa-shrine-app-${locale}-375`,
+    claimIds: [
+      `place:oku-hikawa-shrine:name:${locale}`,
+      locale === 'ja'
+        ? 'spot:oku-hikawa-shrine:address'
+        : `place:oku-hikawa-shrine:address:${locale}`,
+      locale === 'ja'
+        ? 'spot:oku-hikawa-shrine:official_current_url'
+        : `place:oku-hikawa-shrine:official_current_url:${locale}`,
+      `spot:oku-hikawa-shrine:presentation:verification_note:${locale}`,
+    ],
+    entityId: 'oku-hikawa-shrine',
+    kind: 'app',
+    capturedAt: '2026-08-31',
+    path: `docs/data-evidence/hikawa-location-safety/oku-hikawa-shrine-app-${locale}-375.webp`,
+    locale,
+    viewport: { width: 375, height: 1800 },
+    note: `Final #329 ${locale} Oku-Hikawa Shrine Spot state showing the institutional address provenance without an invented coordinate and 375px wrapping.`,
+  }));
+
+const HIKAWA_ROUTE_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  HIKAWA_LOCATION_SAFETY_EVIDENCE_LOCALES.flatMap((locale) => [
+    {
+      evidenceId: `hikawa-route-wasabi-${locale}-375`,
+      claimIds: [
+        `route:okutama-wasabi-journey:half-day:step:hikawa-valley:guidance:${locale}`,
+        'route:okutama-wasabi-journey:half-day:step:hikawa-valley:factual:river-safety',
+      ],
+      entityId: 'okutama-wasabi-journey',
+      kind: 'app' as const,
+      capturedAt: '2026-08-31',
+      path: `docs/data-evidence/hikawa-location-safety/route-wasabi-${locale}-375.webp`,
+      locale,
+      viewport: { width: 375, height: 2400 },
+      note: `Final #329 ${locale} half-day wasabi Route state showing the Hikawa Valley promenade instruction without an unsupported leg-time claim at the 375px baseline.`,
+    },
+    {
+      evidenceId: `hikawa-route-yamame-${locale}-375`,
+      claimIds: [
+        `route:okutama-yamame-journey:half-day:step:hikawa-valley:guidance:${locale}`,
+        'route:okutama-yamame-journey:half-day:step:hikawa-valley:factual:walk-duration',
+        'route:okutama-yamame-journey:half-day:step:hikawa-valley:factual:river-safety',
+      ],
+      entityId: 'okutama-yamame-journey',
+      kind: 'app' as const,
+      capturedAt: '2026-08-31',
+      path: `docs/data-evidence/hikawa-location-safety/route-yamame-${locale}-375.webp`,
+      locale,
+      viewport: { width: 375, height: 2200 },
+      note: `Final #329 ${locale} half-day yamame Route state showing the 40–50 minute promenade guidance and no-entry/no-swimming wording at the 375px baseline.`,
+    },
+  ]);
+
 const WASABI_EXPERIENCE_SPOT_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
   WASABI_EXPERIENCE_EVIDENCE_LOCALES.map((locale) => ({
     evidenceId: `wasabi-experience-app-${locale}-375`,
@@ -310,6 +389,9 @@ const WASABI_EXPERIENCE_STORY_APP_EVIDENCE: readonly DataVerificationAppEvidence
  */
 export const DATA_VERIFICATION_EVIDENCE_MANIFEST: DataVerificationEvidenceManifest = {
   evidence: [
+    ...HIKAWA_VALLEY_SPOT_APP_EVIDENCE,
+    ...OKU_HIKAWA_SHRINE_SPOT_APP_EVIDENCE,
+    ...HIKAWA_ROUTE_APP_EVIDENCE,
     ...WASABI_EXPERIENCE_SPOT_APP_EVIDENCE,
     ...WASABI_EXPERIENCE_ROUTE_APP_EVIDENCE,
     ...WASABI_EXPERIENCE_STORY_APP_EVIDENCE,
@@ -646,6 +728,79 @@ export const DATA_VERIFICATION_EVIDENCE_MANIFEST: DataVerificationEvidenceManife
     },
   ],
   omissions: [
+    {
+      omissionId: 'hikawa-valley-tourism-site-rights-restricted',
+      claimIds: ['place:hikawa-valley:name:ja'],
+      entityId: 'hikawa-valley',
+      kind: 'source',
+      sourceUrl: 'https://www.okutama.gr.jp/site/',
+      recordedAt: '2026-08-31',
+      reason: 'The Tourism Association site was rechecked as the publisher context for the named walking material; the place claim remains anchored to the PDF, and no homepage capture is committed because reuse rights are not stated.',
+    },
+    {
+      omissionId: 'hikawa-valley-trail-source-rights-restricted',
+      claimIds: [
+        'place:hikawa-valley:location_area',
+        'place:hikawa-valley:access',
+        'spot:hikawa-valley:trail_duration',
+      ],
+      entityId: 'hikawa-valley',
+      kind: 'source',
+      sourceUrl: 'https://www.okutama.gr.jp/site/walking/pdf/hikawa.pdf',
+      recordedAt: '2026-08-31',
+      reason: 'The tourism-association PDF is All Rights Reserved; its trail location, station guidance, and duration were rechecked without committing a source capture.',
+    },
+    {
+      omissionId: 'hikawa-valley-safety-source-rights-restricted',
+      claimIds: [
+        'spot:hikawa-valley:water_safety',
+        'place:hikawa-valley:current_safety_information_url',
+      ],
+      entityId: 'hikawa-valley',
+      kind: 'source',
+      sourceUrl: 'https://www.town.okutama.tokyo.jp/1/kankosangyoka/kankojoho/3/436.html',
+      recordedAt: '2026-08-31',
+      reason: 'The municipal safety page is used as a current-information link and reference; no source screenshot is committed because reuse rights are not stated and a capture would not establish a permanent closure state.',
+    },
+    {
+      omissionId: 'hikawa-route-yamame-trail-source-rights-restricted',
+      claimIds: ['route:okutama-yamame-journey:half-day:step:hikawa-valley:factual:walk-duration'],
+      entityId: 'okutama-yamame-journey',
+      kind: 'source',
+      sourceUrl: 'https://www.okutama.gr.jp/site/walking/pdf/hikawa.pdf',
+      recordedAt: '2026-08-31',
+      reason: 'The tourism-association PDF is All Rights Reserved; the source-backed promenade duration is retained in the Route ledger without committing a source capture.',
+    },
+    {
+      omissionId: 'hikawa-route-wasabi-safety-source-rights-restricted',
+      claimIds: ['route:okutama-wasabi-journey:half-day:step:hikawa-valley:factual:river-safety'],
+      entityId: 'okutama-wasabi-journey',
+      kind: 'source',
+      sourceUrl: 'https://www.town.okutama.tokyo.jp/1/kankosangyoka/kankojoho/3/436.html',
+      recordedAt: '2026-08-31',
+      reason: 'The municipal safety page is referenced for the Route no-entry instruction; no source screenshot is committed because reuse rights are not stated and it must not freeze a temporary closure state.',
+    },
+    {
+      omissionId: 'hikawa-route-yamame-safety-source-rights-restricted',
+      claimIds: ['route:okutama-yamame-journey:half-day:step:hikawa-valley:factual:river-safety'],
+      entityId: 'okutama-yamame-journey',
+      kind: 'source',
+      sourceUrl: 'https://www.town.okutama.tokyo.jp/1/kankosangyoka/kankojoho/3/436.html',
+      recordedAt: '2026-08-31',
+      reason: 'The municipal safety page is referenced for the Route no-entry/no-swimming instruction; no source screenshot is committed because reuse rights are not stated and it must not freeze a temporary closure state.',
+    },
+    {
+      omissionId: 'oku-hikawa-shrine-report-source-rights-restricted',
+      claimIds: [
+        'spot:oku-hikawa-shrine:address',
+        'spot:oku-hikawa-shrine:official_current_url',
+      ],
+      entityId: 'oku-hikawa-shrine',
+      kind: 'source',
+      sourceUrl: 'https://musashiichinomiya-hikawa.or.jp/report/report_img/report21.pdf',
+      recordedAt: '2026-08-31',
+      reason: 'The shrine report is All Rights Reserved; its published shrine address was rechecked without copying a PDF page or photography into the repository.',
+    },
     {
       omissionId: 'wasabi-experience-source-rights-restricted',
       claimIds: [

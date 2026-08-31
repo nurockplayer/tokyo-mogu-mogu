@@ -280,6 +280,25 @@ export interface PlaceVisitorInformation {
   experienceTour?: PlaceExperienceTourInformation;
 }
 
+/** Stable facts for a trail or natural area without a building-style address. */
+export interface PlaceNaturalAreaInformation {
+  locationDescriptionJa: string;
+  locationDescriptionEn: string;
+  locationDescriptionZhTw: string;
+  access: {
+    stationJa: string;
+    walkMinutes: number;
+    source: DataSource;
+  };
+  trailDurationMinutes: { min: number; max: number; source: DataSource };
+  safety: {
+    noSwimmingInTamaRiver: true;
+    avoidEnteringWaterDuringHighWater: true;
+    currentInformationUrl: string;
+    source: DataSource;
+  };
+}
+
 export interface PlaceMobileVenue {
   /** The operator explicitly states that the venue has no permanent storefront. */
   noFixedStorefront: true;
@@ -305,8 +324,9 @@ export interface PlaceMobileVenue {
 }
 
 /**
- * A venue where a user can experience one or more food cultures. Fixed venues
- * carry an address and coordinates; mobile venues explicitly omit them.
+ * A venue or place where a user can experience one or more food cultures.
+ * Fixed venues carry coordinates; address-only and natural-area records retain
+ * their honest location precision instead of fabricating a map point.
  */
 interface PlaceBase {
   /** Stable identifier, e.g. "place-wasabi-farm". */
@@ -344,6 +364,31 @@ export interface FixedPlace extends PlaceBase {
   mobileVenue?: never;
 }
 
+/** A source-backed address without a separately sourced coordinate. */
+export interface AddressPlace extends PlaceBase {
+  locationKind: 'address-only';
+  address: string;
+  addressSource?: DataSource;
+  latitude?: never;
+  longitude?: never;
+  coordinatePrecision?: never;
+  coordinateSource?: never;
+  mobileVenue?: never;
+  naturalArea?: never;
+}
+
+/** A natural area or trail whose official source does not establish an address or map point. */
+export interface NaturalAreaPlace extends PlaceBase {
+  locationKind: 'area';
+  address?: never;
+  latitude?: never;
+  longitude?: never;
+  coordinatePrecision?: never;
+  coordinateSource?: never;
+  mobileVenue?: never;
+  naturalArea: PlaceNaturalAreaInformation;
+}
+
 export interface MobilePlace extends PlaceBase {
   locationKind: 'mobile';
   address?: never;
@@ -355,10 +400,14 @@ export interface MobilePlace extends PlaceBase {
   mobileVenue: PlaceMobileVenue;
 }
 
-export type Place = FixedPlace | MobilePlace;
+export type Place = FixedPlace | AddressPlace | NaturalAreaPlace | MobilePlace;
 
 export function isFixedPlace(place: Place): place is FixedPlace {
-  return place.locationKind !== 'mobile';
+  return place.locationKind === undefined || place.locationKind === 'fixed';
+}
+
+export function isAddressedPlace(place: Place): place is FixedPlace | AddressPlace {
+  return isFixedPlace(place) || place.locationKind === 'address-only';
 }
 
 /** Distance check used for location-based check-in (meters). */
