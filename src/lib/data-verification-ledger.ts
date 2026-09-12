@@ -511,6 +511,12 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
       };
     }
     if (fieldId === 'official_current_url') return defaultFact(place.source.url);
+    if (fieldId === 'access' && place.locationKind === 'area') {
+      return defaultFact(
+        `${place.naturalArea.access.stationJa} / 徒歩${place.naturalArea.access.walkMinutes}分`,
+        place.naturalArea.access.source,
+      );
+    }
     if (!visitor) return undefined;
     if (fieldId === 'phone' && visitor.phoneConflict) {
       return {
@@ -544,12 +550,6 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
     if (fieldId === 'phone_hours' && visitor.phoneHours) {
       return defaultFact(
         `${visitor.phoneHours.opens}–${visitor.phoneHours.closes} / unavailable: ${visitor.phoneHours.unavailableOn.join(', ')}`,
-      );
-    }
-    if (fieldId === 'access' && place.locationKind === 'area') {
-      return defaultFact(
-        `${place.naturalArea.access.stationJa} / 徒歩${place.naturalArea.access.walkMinutes}分`,
-        place.naturalArea.access.source,
       );
     }
     if (fieldId === 'access' && visitor.access) {

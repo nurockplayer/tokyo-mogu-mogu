@@ -119,8 +119,10 @@ describe('data verification evidence manifest (#334)', () => {
     expect(shrineApps.map((item) => item.locale).sort()).toEqual(['en', 'ja', 'zh-TW']);
     expect(valleyApps.every((item) => item.viewport.width === 375)).toBe(true);
     expect(shrineApps.every((item) => item.viewport.width === 375)).toBe(true);
+    expect([...valleyApps, ...shrineApps].every((item) => item.capturedAt === '2026-09-12')).toBe(true);
     expect(routeApps).toHaveLength(6);
     expect(routeApps.every((item) => item.viewport.width === 375)).toBe(true);
+    expect(routeApps.every((item) => item.capturedAt === '2026-09-12')).toBe(true);
     expect(routeApps.find((item) => item.evidenceId === 'hikawa-route-yamame-ja-375')?.claimIds).toEqual(
       expect.arrayContaining([
         'route:okutama-yamame-journey:half-day:step:hikawa-valley:factual:walk-duration',
@@ -137,11 +139,11 @@ describe('data verification evidence manifest (#334)', () => {
     ]));
     expect(safetyOmission).toMatchObject({
       sourceUrl: 'https://www.town.okutama.tokyo.jp/1/kankosangyoka/kankojoho/3/436.html',
-      recordedAt: '2026-08-31',
+      recordedAt: '2026-09-12',
     });
     expect(tourismSiteOmission).toMatchObject({
       sourceUrl: 'https://www.okutama.gr.jp/site/',
-      recordedAt: '2026-08-31',
+      recordedAt: '2026-09-12',
       claimIds: ['place:hikawa-valley:name:ja'],
     });
     expect(shrineOmission?.claimIds).toEqual([

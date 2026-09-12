@@ -158,20 +158,20 @@ describe('Netlify parity presentation content', () => {
       locales.map((locale) => [locale, valley?.caution.map((line) => line[locale]).join(' ')]),
     );
     expect(valleyCaution).toMatchObject({
-      ja: expect.stringMatching(/遊泳禁止.*川には入らない/),
-      en: expect.stringMatching(/Swimming.*prohibited.*Do not enter/i),
-      'zh-TW': expect.stringMatching(/禁止游泳.*請勿進入河中/),
+      ja: expect.stringMatching(/遊泳.*禁止.*増水時.*流量.*避け/),
+      en: expect.stringMatching(/Swimming.*prohibited.*Avoid entering.*high water.*increased flow/i),
+      'zh-TW': expect.stringMatching(/禁止游泳.*水位.*流量增加.*避免進入水中/),
     });
     expect(wasabiStep?.description).toMatchObject({
-      ja: expect.stringMatching(/川には入らない/),
-      en: expect.stringMatching(/do not enter the river/i),
-      'zh-TW': expect.stringMatching(/請勿進入河中/),
+      ja: expect.stringMatching(/遊泳は禁止.*増水時.*流量.*入水を避ける/),
+      en: expect.stringMatching(/Swimming.*prohibited.*Avoid entering.*high water.*increased flow/i),
+      'zh-TW': expect.stringMatching(/禁止游泳.*水位.*流量增加.*避免進入水中/),
     });
     expect(wasabiStep).not.toHaveProperty('walk');
     expect(yamameStep?.description).toMatchObject({
-      ja: expect.stringMatching(/40〜50分.*入水・遊泳はしない/),
-      en: expect.stringMatching(/40–50 min.*do not enter or swim/i),
-      'zh-TW': expect.stringMatching(/40–50 分鐘.*請勿進入河中或游泳/),
+      ja: expect.stringMatching(/40〜50分.*遊泳は禁止.*増水時.*流量.*入水を避ける/),
+      en: expect.stringMatching(/40–50 min.*Swimming.*prohibited.*Avoid entering.*high water.*increased flow/i),
+      'zh-TW': expect.stringMatching(/40–50 分鐘.*禁止游泳.*水位.*流量增加.*避免進入水中/),
     });
     expect(yamameStep).not.toHaveProperty('walk');
 

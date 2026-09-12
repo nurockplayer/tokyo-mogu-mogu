@@ -315,8 +315,8 @@ const HIKAWA_VALLEY_SAFETY_SOURCE = {
   url: 'https://www.town.okutama.tokyo.jp/1/kankosangyoka/kankojoho/3/436.html',
   license: 'All Rights Reserved（参考情報としてのみ利用・スクリーンショット未保存）',
   sourceType: 'official_web' as const,
-  retrievedAt: '2026-08-31',
-  sourceUpdatedAt: '2026-08-16',
+  retrievedAt: '2026-09-12',
+  sourceUpdatedAt: '2026-09-11',
   verificationStatus: 'needs_confirmation' as const,
   originalId: '436',
 };

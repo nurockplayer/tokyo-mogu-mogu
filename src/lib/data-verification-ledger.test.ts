@@ -1107,7 +1107,7 @@ describe('repository data verification ledger (#333)', () => {
         (row) => row.claimId === 'spot:hikawa-valley:presentation:safety_guidance:en',
       ),
     ).toMatchObject({
-      displayedValue: expect.stringMatching(/Swimming in the Tama River is prohibited.*Do not enter the water/i),
+      displayedValue: expect.stringMatching(/Swimming in the Tama River is prohibited.*Avoid entering the water during high water or increased flow/i),
       verification: 'demo',
       finding: 'none',
       timeSensitive: true,
@@ -1118,10 +1118,26 @@ describe('repository data verification ledger (#333)', () => {
         (row) => row.claimId === 'spot:hikawa-valley:presentation:verification_note:en',
       ),
     ).toMatchObject({
-      displayedValue: expect.stringMatching(/Official\/public information retrieved Aug 31, 2026/),
+      displayedValue: expect.stringMatching(/Official\/public information checked Sep 12, 2026/),
       verification: 'needs_confirmation',
       finding: 'none',
       timeSensitive: true,
+    });
+  });
+
+  it('uses the mapped Hikawa Valley Place access fact instead of reporting it as unknown (#329)', () => {
+    const claims = buildRepositoryLedgerClaims();
+
+    expect(
+      claims.find((row) => row.claimId === 'spot:hikawa-valley:access'),
+    ).toMatchObject({
+      canonicalValue: 'JR青梅線「奥多摩駅」 / 徒歩5分',
+      displayedValue: 'JR青梅線「奥多摩駅」から徒歩約5分（目安）',
+      origin: 'source',
+      verification: 'needs_confirmation',
+      finding: 'mismatch',
+      primarySource: '一般社団法人奥多摩観光協会（氷川渓谷遊歩道）',
+      canonicalSourceFile: 'src/data/seed-places.ts',
     });
   });
 
