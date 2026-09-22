@@ -192,7 +192,6 @@ describe('Netlify parity presentation content', () => {
       'current_safety_information_url',
     ]));
     expect(valley?.information.map((row) => row.fieldId)).not.toContain('address');
-    expect(valley?.guide?.url).toBe('https://www.town.okutama.tokyo.jp/1/kankosangyoka/kankojoho/3/436.html');
     const valleyCaution = Object.fromEntries(
       locales.map((locale) => [locale, valley?.caution.map((line) => line[locale]).join(' ')]),
     );
@@ -387,7 +386,6 @@ describe('Netlify parity presentation content', () => {
       expect.objectContaining({ fieldId: 'seasonal_meeting_times', value: expect.objectContaining({ ja: expect.stringContaining('5〜9月 8:30') }) }),
       expect.objectContaining({ fieldId: 'booking_destination', value: expect.objectContaining({ en: expect.stringContaining('#booking-form') }) }),
     ]));
-    expect(detail?.guide?.url).toBe('https://tokyowasabi.com/wasabi-experience/#booking-form');
     expect(routeStep?.walk?.ja).toContain('5〜9月 8:30');
     expect(routeStep?.walk?.ja).toContain('10〜4月 11:00');
     expect(routeStep?.walk?.ja).not.toBe('集合 8:30');
@@ -628,7 +626,6 @@ describe('Netlify parity presentation content', () => {
       en: 'Mainly around the front of JR Okutama Station',
       'zh-TW': '主要在 JR 奧多摩站前一帶出攤',
     });
-    expect(detail.guide?.url).toBe('https://tokyowasabi.com/category/information/');
     expect(place.mobileVenue.scheduleDirectorySource.url).toBe(
       'https://tokyowasabi.com/category/information/',
     );

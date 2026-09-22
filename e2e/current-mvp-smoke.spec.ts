@@ -1,5 +1,68 @@
 import { expect, test, type Page } from '@playwright/test';
 
+test('opens canonical Spot information safely with the keyboard', async ({ page, context }) => {
+  const destinations = [
+    ['okutama-tourism-office', 'https://www.okutama.gr.jp/site/'],
+    ['wasabi-kitchen', 'https://tokyowasabi.com/category/information/'],
+    ['wasabi-experience', 'https://tokyowasabi.com/wasabi-experience/#booking-form'],
+    ['hikawa-valley', 'https://www.town.okutama.tokyo.jp/1/kankosangyoka/kankojoho/3/436.html'],
+    ['sawai-ozawa-shuzo', 'https://www.sawanoi-sake.com/service/kengaku/'],
+  ];
+  for (const [id, url] of destinations) {
+    // Fulfil the external request locally: no operator traffic or booking action.
+    await context.route(url.split('#')[0], (route) => route.fulfill({ contentType: 'text/html', body: '<title>Official destination test</title>' }));
+    await page.goto(`/spot/${id}`);
+    const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
+    const link = spot.locator('.guide-box a.book');
+    await expect(link).toHaveAttribute('href', url);
+    await expect(link).toHaveAttribute('target', '_blank');
+    await expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+    await link.focus();
+    await expect(link).toBeFocused();
+    const popupPromise = page.waitForEvent('popup');
+    await page.keyboard.press('Enter');
+    const popup = await popupPromise;
+    await expect(popup).toHaveURL(url);
+    await popup.waitForLoadState();
+    expect(await popup.evaluate(() => window.opener)).toBeNull();
+    await popup.close();
+    await expect(page).toHaveURL(new RegExp(`/spot/${id}$`));
+  }
+});
+
+test('keeps an unavailable official destination local with honest feedback in every locale', async ({ page }) => {
+  let unavailableSourceInjected = false;
+  // Exercise a missing/unsupported source in the production bundle without a
+  // test-only runtime route or a guessed URL in canonical Product data.
+  await page.route('**/assets/*.js', async (route) => {
+    const response = await route.fetch();
+    const body = await response.text();
+    const source = 'https://www.okutama.gr.jp/site/';
+    unavailableSourceInjected ||= body.includes(source);
+    await route.fulfill({ response, body: body.replaceAll(source, 'unsupported:') });
+  });
+  for (const [locale, feedback] of [
+    ['ja', 'このスポットの公式最新情報リンクは現在用意されていません。'],
+    ['en', 'An official current-information link is not available for this spot yet.'],
+    ['zh-TW', '目前尚未提供此景點的官方最新資訊連結。'],
+  ]) {
+    await page.goto('/');
+    await page.evaluate((value) => localStorage.setItem('tmm:locale', value), locale);
+    await page.goto('/spot/okutama-tourism-office');
+    expect(unavailableSourceInjected).toBe(true);
+    const guide = page.locator('[data-screen="spot"][data-screen-active="true"] .guide-box');
+    await expect(guide.getByRole('link')).toHaveCount(0);
+    const action = guide.getByRole('button');
+    await action.focus();
+    await expect(action).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(page.getByRole('status')).toHaveText(feedback);
+    await expect(page).toHaveURL(/\/spot\/okutama-tourism-office$/);
+    expect(page.context().pages()).toHaveLength(1);
+    await expectNoHorizontalOverflow(page);
+  }
+});
+
 const persistedFoodProfile = {
   dietary: [],
   dietaryOther: '',
@@ -672,7 +735,6 @@ test('keeps the tourism-office caveat complete in every locale', async ({ page }
       official: '訪問前に奥多摩観光協会の公式情報をご確認ください',
       actionTitle: '公式情報',
       action: '公式情報を確認する',
-      prototypeFeedback: '外部サイトへ（プロトタイプ）',
     },
     {
       locale: 'en',
@@ -681,7 +743,6 @@ test('keeps the tourism-office caveat complete in every locale', async ({ page }
       official: 'Check the Okutama Tourism Association’s official information before visiting',
       actionTitle: 'Official information',
       action: 'Check official information',
-      prototypeFeedback: 'External site (prototype)',
     },
     {
       locale: 'zh-TW',
@@ -690,7 +751,6 @@ test('keeps the tourism-office caveat complete in every locale', async ({ page }
       official: '造訪前請以奧多摩觀光協會的官方資訊為準',
       actionTitle: '官方資訊',
       action: '查看官方資訊',
-      prototypeFeedback: '前往外部網站（原型）',
     },
   ] as const;
   const unsupportedClaims =
@@ -711,8 +771,10 @@ test('keeps the tourism-office caveat complete in every locale', async ({ page }
     await expect(spot).toContainText(expected.pending);
     await expect(spot).toContainText(expected.official);
     await expect(spot.getByRole('heading', { name: expected.actionTitle })).toBeVisible();
-    await spot.getByRole('button', { name: expected.action }).click();
-    await expect(page.getByRole('status')).toHaveText(expected.prototypeFeedback);
+    const officialLink = spot.getByRole('link', { name: expected.action });
+    await expect(officialLink).toHaveAttribute('href', 'https://www.okutama.gr.jp/site/');
+    await expect(officialLink).toHaveAttribute('target', '_blank');
+    await expect(officialLink).toHaveAttribute('rel', 'noopener noreferrer');
     await expect(spot).not.toContainText(unsupportedClaims);
     await expect(spot).not.toContainText(/Netlify|デモ用編集情報|デモ参考情報/);
     await expectNoHorizontalOverflow(page);

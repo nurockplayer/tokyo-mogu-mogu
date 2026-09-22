@@ -1143,7 +1143,7 @@ export interface ReferenceSpotDetail {
     label: LocalizedText;
     value: LocalizedText;
   }>;
-  guide?: { title: LocalizedText; body: LocalizedText; action: LocalizedText; url?: string };
+  guide?: { title: LocalizedText; body: LocalizedText; action: LocalizedText };
   caution: LocalizedText[];
 }
 
@@ -1308,7 +1308,6 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
       title: localized('訪問前に町の最新情報を確認', 'Check current town information before visiting', '造訪前查看町公所最新資訊'),
       body: localized('多摩川は常に遊泳禁止です。局地的な大雨や放流などで危険な場合、入口が一時閉鎖されることがあります。現在の状況は奥多摩町の案内でご確認ください。', 'Swimming in the Tama River is always prohibited. The entrance can temporarily close when conditions such as heavy rain or dam discharge are hazardous; check Okutama Town’s current notice.', '多摩川一律禁止游泳。若局部豪雨、洩洪等情況有危險，入口可能暫時關閉；請查看奧多摩町的最新公告。'),
       action: localized('町の安全・入口情報を確認する', 'Check town safety and entrance information', '查看町公所安全與入口資訊'),
-      url: hikawaValley.safety.currentInformationUrl,
     },
     caution: [
       localized('・多摩川での遊泳は禁止です。増水時や流量が増しているときは、川に入ることを避けてください。', '• Swimming in the Tama River is prohibited. Avoid entering the water during high water or increased flow.', '・多摩川禁止游泳。水位或流量增加時，請避免進入水中。'),
@@ -1363,7 +1362,6 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
       title: localized('公式フォームから予約', 'Book on the official form', '透過官方表單預約'),
       body: wasabiExperiencePresentation.guideBody,
       action: localized('公式予約フォームを開く', 'Open the official booking form', '開啟官方預約表單'),
-      url: wasabiExperienceTour.bookingUrl,
     },
     caution: wasabiExperiencePresentation.caution,
   },
@@ -1393,7 +1391,6 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
       title: localized('訪問前に出店予定を確認', 'Check the schedule before visiting', '造訪前請確認出攤行程'),
       body: localized('固定店舗はありません。公式のお知らせ・Instagramで最新の営業日と出店先を確認してください。', 'There is no permanent storefront. Check official announcements or Instagram for the latest operating dates and locations.', '沒有固定店面。請透過官方公告或 Instagram 確認最新營業日期與出攤地點。'),
       action: localized('最新の公式予定を確認する', 'Check the current official schedule', '查看最新官方行程'),
-      url: wasabiKitchenPlace.mobileVenue.scheduleDirectorySource.url,
     },
     caution: [
       localized('・営業日・時間・出店先は変更される場合があります。天候や売り切れで変更・終了する場合もあります。', '• Dates, hours, and locations can change. Weather or sell-out may alter or end service.', '・營業日期、時間與地點可能變更，亦可能因天候或售罄而調整或提早結束。'),

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { Locale } from '../../../i18n';
+import { getPlaceById, getSpotDetail } from '../../../data';
+import { resolveSpotOfficialLink } from '../../../data/spot-official-link';
 import { BottomNavigation } from '../components/BottomNavigation';
 import { PresentationMedia } from '../components/PresentationMedia';
 import { referenceAssets, type ReferenceCopy, type SpotPresentation } from '../content';
@@ -52,6 +54,7 @@ export function SpotScreen({
   const [photoIndex, setPhotoIndex] = useState(0);
   const localized = spot.copy[locale];
   const referenceDetail = referenceSpotDetails[spot.id];
+  const officialLink = resolveSpotOfficialLink(getPlaceById(spot.id), getSpotDetail(spot.id));
   const displayTags = referenceDetail?.tags.map((tag) => ({ color: tag.color, label: tag.label[locale] }))
     ?? localized.tags.map((label, index) => ({ color: tagColors[index % tagColors.length], label }));
   const information = referenceDetail?.information.map((row) => ({
@@ -64,9 +67,8 @@ export function SpotScreen({
         title: referenceDetail.guide.title[locale],
         body: referenceDetail.guide.body[locale],
         action: referenceDetail.guide.action[locale],
-        url: referenceDetail.guide.url,
       }
-    : localized.guide ? { ...localized.guide, url: undefined } : undefined;
+    : localized.guide;
   const cautions = referenceDetail?.caution.map((item) => item[locale]) ?? localized.caution;
 
   useEffect(() => setPhotoIndex(0), [spot.id]);
@@ -156,8 +158,8 @@ export function SpotScreen({
           <section className="guide-box">
             <h2>{guide.title}</h2>
             <p style={{ whiteSpace: 'pre-line' }}>{guide.body}</p>
-            {guide.url ? (
-              <a className="book" href={guide.url} target="_blank" rel="noreferrer">
+            {officialLink ? (
+              <a className="book" href={officialLink.url} target="_blank" rel="noopener noreferrer">
                 {guide.action}
               </a>
             ) : (
