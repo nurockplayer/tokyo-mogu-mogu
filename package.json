@@ -26,7 +26,7 @@
     "figma:gate": "tsx scripts/figma-drift/gate.ts",
     "submission:inventory": "tsx scripts/submission-inventory.ts --write",
     "submission:check": "tsx scripts/check-submission-rights.ts",
-    "build:submission": "pnpm submission:check && vite build --outDir dist-submission"
+    "build:submission": "tsx scripts/build-submission.ts"
   },
   "dependencies": {
     "leaflet": "^1.9.4",

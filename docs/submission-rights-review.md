@@ -51,8 +51,10 @@ factual `verified` status, and factual status never clears media.
 Run `pnpm submission:inventory` after adding/removing media, then review its
 metadata in `src/data/submission-rights.ts`. `pnpm submission:check` exits
 nonzero for an outdated inventory, any uncleared intended submission/public
-asset, or unreviewed final presentation. `pnpm build:submission` runs that gate
-before emitting `dist-submission`; it currently must fail. The standard
+asset, or unreviewed final presentation. `pnpm build:submission` deletes old
+`dist-submission` output before checking and removes partial output if the build
+fails. It runs the rights gate before emitting a fresh package; it currently
+must fail. The standard
 `pnpm build` remains the engineering validation build and is **not submission
 approval**. The gate does not retroactively approve any existing deployment.
 
