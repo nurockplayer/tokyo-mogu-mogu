@@ -20,3 +20,6 @@ playwright/.cache
 # local tool state (oh-my-claudecode)
 .omc
 .claude/worktrees
+
+# Only emitted after the independent submission-rights gate passes.
+dist-submission

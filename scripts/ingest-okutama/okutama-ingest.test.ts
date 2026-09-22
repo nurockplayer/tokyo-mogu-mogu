@@ -71,6 +71,14 @@ describe('parseGeneralCsv', () => {
 });
 
 describe('parseDirectoryJson', () => {
+  it('retains only the ledger-required phone and no unused editorial notes', () => {
+    const rows = parseDirectoryJson(DIRECTORY_JSON);
+    expect(rows.every((row) => !('note' in row))).toBe(true);
+    expect(rows.filter((row) => row.phone)).toEqual([
+      expect.objectContaining({ key: 'okutama-tourism-office', phone: '0428-83-2152' }),
+    ]);
+  });
+
   it('parses the tourism-directory snapshot', () => {
     const rows = parseDirectoryJson(DIRECTORY_JSON);
     expect(rows.length).toBeGreaterThanOrEqual(1);

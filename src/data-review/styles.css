@@ -239,3 +239,27 @@ button:focus-visible, a:focus-visible { outline: 3px solid #5572cb; outline-offs
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
 }
+
+/* Compliance uses the existing review panels, with disclosure for large queues. */
+.drb-compliance { margin-top: 28px; }
+.drb-compliance .drb-panel__heading { margin-bottom: 12px; }
+.drb-rights-details { padding: 14px 0; border-bottom: 1px solid var(--drb-line); font-size: 0.84rem; line-height: 1.8; }
+.drb-rights-details summary { cursor: pointer; color: var(--drb-indigo); font-weight: 700; }
+.drb-rights-details summary:focus-visible { outline: 3px solid #5572cb; outline-offset: 3px; }
+.drb-rights-details ul { padding-left: 22px; }
+.drb-rights-details li + li { margin-top: 8px; }
+.drb-rights-details a { color: var(--drb-indigo); }
+.drb-rights-warning { border-left: 4px solid var(--drb-coral); padding: 12px 16px; background: #fff5ef; font-size: 0.86rem; line-height: 1.8; }
+.drb-rights-warning strong { display: block; color: #913c31; }
+.drb-asset-list { list-style: none; padding-left: 0 !important; }
+.drb-asset-list > li { padding: 12px; border: 1px solid var(--drb-line); }
+.drb-asset-list summary span { display: block; font-size: 0.75rem; }
+.drb-asset-list code { overflow-wrap: anywhere; font-size: 0.75rem; }
+.drb-asset-list dl { display: grid; grid-template-columns: minmax(100px, 0.35fr) minmax(0, 1fr); gap: 8px 16px; }
+.drb-asset-list dt { color: var(--drb-muted); }
+.drb-asset-list dd { margin: 0; overflow-wrap: anywhere; }
+@media (max-width: 600px) {
+  .drb-compliance { padding: 20px; }
+  .drb-asset-list dl { grid-template-columns: 1fr; gap: 4px; }
+  .drb-asset-list dd { margin-bottom: 8px; }
+}

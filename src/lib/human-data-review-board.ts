@@ -45,6 +45,7 @@ export interface HumanDataReviewFactSource {
   name: string;
   url?: string;
   sourceType?: SourceType;
+  license?: string;
   retrievedAt?: string;
   confirmedAt?: string;
   status: LedgerVerification;
@@ -126,6 +127,7 @@ export interface HumanDataReviewSource {
   name: string;
   url?: string;
   sourceType?: SourceType;
+  license?: string;
   retrievedAt?: string;
   confirmedAt?: string;
   status: LedgerVerification;
@@ -446,6 +448,7 @@ function sourceEdgesForFact(
       name: candidate.primarySource,
       url: candidate.primarySourceUrl,
       sourceType: candidate.primarySourceType,
+      license: candidate.primarySourceLicense,
       retrievedAt: candidate.retrievedAt,
       confirmedAt: candidate.confirmedAt,
       status: candidate.verification,
@@ -598,13 +601,16 @@ function buildSources(claims: readonly LedgerClaim[]): HumanDataReviewSource[] {
   for (const claim of claims) {
     if (!claim.primarySource) continue;
     const coordinateProvider = baseFieldId(claim.fieldId) === 'coordinates';
-    const key = `${coordinateProvider ? 'coordinates' : 'venue'}\u0000${claim.primarySourceUrl ?? ''}\u0000${claim.primarySource}`;
+    // Keep missing/different license records visible rather than borrowing a
+    // reuse grant from another claim that happens to cite the same URL.
+    const key = `${coordinateProvider ? 'coordinates' : 'venue'}\u0000${claim.primarySourceUrl ?? ''}\u0000${claim.primarySource}\u0000${claim.primarySourceType ?? ''}\u0000${claim.primarySourceLicense ?? ''}`;
     const current = sources.get(key);
     if (!current) {
       sources.set(key, {
         name: claim.primarySource,
         url: claim.primarySourceUrl,
         sourceType: claim.primarySourceType,
+        license: claim.primarySourceLicense,
         retrievedAt: claim.retrievedAt,
         confirmedAt: claim.confirmedAt,
         status: claim.verification,

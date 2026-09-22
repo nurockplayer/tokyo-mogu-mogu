@@ -14,6 +14,7 @@ import {
   type HumanDataReviewFact,
   type HumanDataReviewSource,
 } from '../lib/human-data-review-board';
+import { SubmissionRightsPanel } from './SubmissionRightsPanel';
 import { dataReviewEvidenceAssetUrl } from './evidence-assets';
 
 type ReviewFilter = 'all' | 'needs_confirmation' | 'conflict' | 'unknown';
@@ -155,6 +156,7 @@ function FactTraceability({ fact }: { fact: HumanDataReviewFact }) {
                     {dataReviewStatusLabelJa(source.status, Boolean(source.retrievedAt))}
                     {' · '}出典確認 {source.retrievedAt ?? '未登録'}
                     {source.confirmedAt && <> · 人による確認 {source.confirmedAt}</>}
+                    {' · '}利用条件 {source.license ?? '未登録・要確認'}
                   </small>
                 </article>
               ))}
@@ -311,6 +313,8 @@ function Overview({ onSelect }: { onSelect: (entityId: string) => void }) {
         </aside>
       </header>
 
+      <SubmissionRightsPanel sources={board.entities.flatMap((entity) => entity.sources)} />
+
       <section className="drb-summary" aria-labelledby="summary-heading">
         <div className="drb-section-heading">
           <p>STATUS SNAPSHOT</p>
@@ -393,7 +397,9 @@ function Overview({ onSelect }: { onSelect: (entityId: string) => void }) {
   );
 }
 
-function SourceCard({ source }: { source: HumanDataReviewSource }) {
+function SourceCard({ source, entity }: { source: HumanDataReviewSource; entity: HumanDataReviewEntity }) {
+  const captures = entity.evidence.filter((item) => item.kind === 'source' && item.sourceUrl === source.url);
+  const omissions = entity.omissions.filter((item) => item.sourceUrl === source.url);
   return (
     <article className={source.coordinateProvider ? 'drb-source drb-source--coordinates' : 'drb-source'}>
       <div className="drb-source__topline">
@@ -405,9 +411,12 @@ function SourceCard({ source }: { source: HumanDataReviewSource }) {
       <strong>{source.name}</strong>
       <dl>
         {source.sourceType && <><dt>種別</dt><dd>{SOURCE_TYPE_JA[source.sourceType]}</dd></>}
+        <dt>利用条件</dt><dd>{source.license ?? '未登録・提出での再利用条件を要確認'}</dd>
+        <dt>出典の画像証拠</dt><dd>{captures.length ? `記録あり ${captures.length}件（再利用許諾とは別）` : omissions.length ? '意図的に保存しない' : '未登録'}</dd>
         <dt>出典確認日</dt><dd>{source.retrievedAt ?? '未登録'}</dd>
         {source.confirmedAt && <><dt>人による確認日</dt><dd>{source.confirmedAt}</dd></>}
       </dl>
+      {omissions.map((item) => <p key={item.omissionId} className="drb-panel__note">{humanOmissionReason(item.reason)}</p>)}
       {source.url && <a href={source.url} target="_blank" rel="noreferrer">参照元を開く ↗</a>}
     </article>
   );
@@ -492,7 +501,7 @@ function Detail({ entity, onBack }: { entity: HumanDataReviewEntity; onBack: () 
             <div className="drb-sources">
               {entity.sources.length === 0 && <p className="drb-empty">記録された出典はありません。</p>}
               {entity.sources.map((source) => (
-                <SourceCard key={`${source.coordinateProvider}:${source.name}:${source.url ?? ''}`} source={source} />
+                <SourceCard key={`${source.coordinateProvider}:${source.name}:${source.url ?? ''}:${source.sourceType ?? ''}:${source.license ?? ''}`} source={source} entity={entity} />
               ))}
             </div>
           </section>
