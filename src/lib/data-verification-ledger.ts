@@ -1393,7 +1393,10 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
           fieldId: localizedFieldId('presentation:result_origin_travel_time', locale),
           fieldLabel: `Result origin travel-time guidance (${locale})`,
           comparisonExpected: false,
-          presentation: presentationValue(resultTravel, 'Result'),
+          canonical: result.source && result.sourceValue
+            ? canonicalValue(result.sourceValue, 'source', result.source, 'needs_confirmation', SOURCE_FILES.routes)
+            : undefined,
+          presentation: presentationValue(resultTravel, 'Result', 'source', 'needs_confirmation'),
           comparedPresentation: routeTravel
             ? {
                 claimId: resultComparisonClaimId,
@@ -1403,7 +1406,7 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
               }
             : undefined,
           timeSensitive: true,
-          timeSensitiveNote: 'Raw cross-surface display comparison; no duration is parsed from prose.',
+          timeSensitiveNote: 'Approximate official planning guidance, checked 2026-09-22; confirm current trains. Raw cross-surface comparison does not parse durations.',
           issues: [...audit.issues],
           note: 'Localized Result and Route presentation values are compared byte-for-byte without normalization or factual inference.',
         });
@@ -1804,8 +1807,8 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
           note: 'No corresponding canonical localized field exists; report canonical_missing rather than inventing one.',
         });
         for (const [fieldId, fieldLabel, value] of [
-          ['origin_travel_time_guidance', 'Origin travel-time guidance', stats.access ?? `${stats.station} / ${stats.minutes}`],
-          ['distance_guidance', 'Distance guidance', stats.distance],
+          ['origin_travel_time_guidance', 'Origin travel-time guidance', stats.source ? (stats.station ? `${stats.station} / ${stats.minutes}` : stats.access ?? '') : stats.access ?? `${stats.station} / ${stats.minutes}`],
+          ['distance_guidance', 'Mobility guidance (unsupported distance omitted)', stats.distance],
         ] as const) {
           inputs.push({
             claimId: localizedClaimId(`${variantPrefix}:${fieldId}`, locale),
@@ -1814,12 +1817,22 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
             entityName,
             fieldId: localizedFieldId(fieldId, locale),
             fieldLabel: `${fieldLabel} (${locale})`,
-            comparisonExpected: true,
-            presentation: presentationValue(value, 'Route'),
+            comparisonExpected: fieldId === 'origin_travel_time_guidance' && !stats.source,
+            canonical: fieldId === 'origin_travel_time_guidance' && stats.source && stats.sourceValue
+              ? canonicalValue(stats.sourceValue, 'source', stats.source, 'needs_confirmation',
+                variant.steps[0]?.spotId === 'mitake-station' ? SOURCE_FILES.places : SOURCE_FILES.routes)
+              : undefined,
+            presentation: stats.source && fieldId === 'origin_travel_time_guidance'
+              ? presentationValue(value, 'Route', 'source', 'needs_confirmation')
+              : presentationValue(value, 'Route'),
             timeSensitive: true,
             timeSensitiveNote: 'Presentation guidance; confirm current travel conditions.',
             issues: [...audit.issues],
-            note: 'No corresponding canonical localized field exists; report canonical_missing rather than inventing one.',
+            note: fieldId === 'distance_guidance'
+              ? 'No documented route geometry exists. Numeric walking distance is omitted; the stable claim now inventories mobility/confirmation guidance only.'
+              : stats.source
+                ? 'Localized paraphrase of the recorded source; no semantic equivalence or stakeholder verification is inferred. Origin travel is separate from local itinerary duration.'
+                : 'No corresponding canonical localized field exists; report canonical_missing rather than inventing one.',
           });
         }
         for (const [fieldId, fieldLabel, value, timeSensitive] of [
@@ -1840,7 +1853,7 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
               ? 'Visible presentation summary; confirm current travel conditions.'
               : undefined,
             issues: [...audit.issues],
-            note: 'Visible localized summary label is inventoried separately from structural duration and rendered-step claims; no value is parsed and no semantic equivalence is inferred.',
+            note: 'Derived by routeVariantSummary from the same displayed variant.durationMinutes and variant.steps rendered by RouteScreen. Duration is an editorial local estimate excluding travel from the origin; count includes the starting station. No real-world verification is inferred.',
           });
         }
         if (stats.caution) {

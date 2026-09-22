@@ -19,6 +19,23 @@
 import { isFixedPlace } from './model';
 import type { DataSource, Place } from './model';
 
+/** Planning guidance to Okutama Station, not a timetable or a tour meeting time. */
+export const OKUTAMA_STATION_ACCESS = {
+  tokyo: { originStationId: 'tokyo', approximateMinutes: 135 },
+  shinjuku: { originStationId: 'shinjuku', approximateMinutes: 120 },
+  destinationStationId: 'okutama-station',
+  source: {
+    name: 'GO TOKYO — Okutama & Around: How to Get There',
+    url: 'https://www.gotokyo.org/en/destinations/outlying-area/okutama-and-around/index.html',
+    license: 'All Rights Reserved; factual paraphrase only; no copied media',
+    sourceType: 'official_web',
+    sourceUpdatedAt: '2025-12-19',
+    retrievedAt: '2026-09-22',
+    lastVerified: '2026-09-22',
+    verificationStatus: 'needs_confirmation',
+  } satisfies DataSource,
+} as const;
+
 /** Which of the two authored route durations is shown. */
 export type RouteDuration = 'half-day' | '1-day';
 

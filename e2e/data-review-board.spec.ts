@@ -51,7 +51,7 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(page.getByText('炉ばた あかべこ', { exact: true })).toBeVisible();
     await expect(page.getByText('PORT OKUTAMA', { exact: true })).toBeVisible();
     await expect(page.getByText('わさび食堂', { exact: true })).toBeVisible();
-    await expect(page.getByText('新宿から約90分、奥多摩やまめを味わう旅', { exact: true })).toBeVisible();
+    await expect(page.getByText('奥多摩やまめを味わう旅', { exact: true })).toBeVisible();
     await expect(page.getByText('奥多摩やまめのストーリー', { exact: true })).toBeVisible();
 
     const portCard = page.getByRole('button', { name: /PORT OKUTAMAの詳細/ });
@@ -322,7 +322,7 @@ test.describe('Human Data Review Board (#340)', () => {
   test('represents both current Route and Story identities', async ({ page }) => {
     const identities = [
       ['okutama-wasabi-journey', '東京わさび文化を巡る旅'],
-      ['okutama-yamame-journey', '新宿から約90分、奥多摩やまめを味わう旅'],
+      ['okutama-yamame-journey', '奥多摩やまめを味わう旅'],
       ['wasabi-okutama', '奥多摩わさびのストーリー'],
       ['yamame-okutama', '奥多摩やまめのストーリー'],
     ] as const;
@@ -383,13 +383,13 @@ test.describe('Human Data Review Board (#340)', () => {
       name: '一般社団法人奥多摩観光協会（奥多摩町観光案内所）',
     })).toHaveCount(0);
     await expect(durationDecision.getByText('Route', { exact: true })).toBeVisible();
-    const presentationDecision = reviewLayer.getByRole('article', { name: 'Result と Route の移動時間表示の判断' });
-    await expect(presentationDecision).toContainText('表示間に差異あり');
-    await expect(presentationDecision).toContainText('比較対象のProduct表示');
-    await expect(presentationDecision.getByText('Route', { exact: true })).toBeVisible();
-    await expect(presentationDecision.getByText('Result', { exact: true })).toBeVisible();
-    const canonicalMissingDecision = reviewLayer.getByRole('article', { name: '1日の距離の目安の判断' });
-    await expect(canonicalMissingDecision).toContainText('根拠側の情報が不足');
+    // Reconciled access and omitted unsupported distance no longer create false review decisions.
+    await expect(reviewLayer.getByRole('article', {
+      name: 'Result と Route の移動時間表示の判断',
+    })).toHaveCount(0);
+    await expect(reviewLayer.getByRole('article', {
+      name: '1日の距離の目安の判断',
+    })).toHaveCount(0);
 
     const sourceLessGuidanceRow = page.getByRole('row').filter({
       hasText: '確認項目（Per-step guidance (akabeko, ja)）',
@@ -397,18 +397,9 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(sourceLessGuidanceRow.getByText('🟡 出典未登録・人の確認待ち', { exact: true })).toBeVisible();
     await expect(sourceLessGuidanceRow.getByText('出典確認 未登録', { exact: true })).toBeVisible();
 
-    const presentationRow = page.getByRole('row').filter({
+    await expect(page.getByRole('row').filter({
       hasText: 'Result と Route の移動時間表示',
-    });
-    await expect(presentationRow.getByText('表示差異あり（レビュー対象）', { exact: true })).toBeVisible();
-    await expect(presentationRow.getByText('現在の表示', { exact: true })).toBeVisible();
-    await expect(presentationRow.getByText('東京駅 / から電車で　約120分', { exact: true })).toBeVisible();
-    await expect(presentationRow.getByText('比較対象の表示', { exact: true })).toBeVisible();
-    await expect(presentationRow.getByText('東京駅 / 60 分', { exact: true })).toBeVisible();
-    await presentationRow.getByText('根拠を見る', { exact: true }).click();
-    await expect(presentationRow.getByText('Route', { exact: true })).toBeVisible();
-    await expect(presentationRow.getByText('Result', { exact: true })).toBeVisible();
-    await expect(presentationRow.getByText('Story', { exact: true })).toHaveCount(0);
+    })).toHaveCount(0);
     await expect(page.getByRole('table', { name: '現在わかっていること' })
       .getByText('取扱・運行情報（okutama-kitchen）', { exact: true })).toBeVisible();
     await expect(page.getByText('特選ソフトジェラート（わさび味を含む・提供状況は要確認）', { exact: true }).first()).toBeVisible();

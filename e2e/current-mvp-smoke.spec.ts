@@ -802,3 +802,30 @@ test('keeps header and footer fixed while only the middle content scrolls', asyn
   expect(resultAfter.head?.y).toBeCloseTo(resultBefore.head?.y ?? 0, 1);
   expect(resultAfter.progress?.y).toBeCloseTo(resultBefore.progress?.y ?? 0, 1);
 });
+
+test('keeps route aggregates and station guidance consistent in all locales (#330)', async ({ page }) => {
+  for (const locale of ['ja', 'en', 'zh-TW']) {
+    await page.goto('/');
+    await page.evaluate((value) => localStorage.setItem('tmm:locale', value), locale);
+    for (const [candidateId, count, minutes] of [
+      ['demo-okutama-wasabi', 7, 135],
+      ['demo-okutama-yamame', 4, 120],
+    ] as const) {
+      await page.goto(`/route?candidateId=${candidateId}`);
+      const route = page.locator('[data-screen="route"][data-screen-active="true"]');
+      await expect(route.locator('[data-spot-id]')).toHaveCount(count);
+      await expect(route.locator('.route-stats .st').last()).toContainText(String(count));
+      await expect(route.locator('.route-info')).toContainText(String(minutes));
+      await expect(route.locator('.route-stats')).not.toContainText(/\d+\s*km/i);
+      await expectNoHorizontalOverflow(page);
+      if (candidateId === 'demo-okutama-wasabi') {
+        await route.locator('.day-toggle button').nth(1).click();
+        await expect(route.locator('[data-spot-id]')).toHaveCount(6);
+        await expect(route.locator('.route-stats .st').last()).toContainText('6');
+        await expect(route.locator('.route-info')).toContainText(/御嶽|Mitake/);
+        await expect(route.locator('.route-info')).not.toContainText(/135|90|東京駅|Tokyo Station|東京站/);
+        await expectNoHorizontalOverflow(page);
+      }
+    }
+  }
+});

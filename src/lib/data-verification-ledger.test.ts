@@ -479,7 +479,7 @@ describe('repository data verification ledger (#333)', () => {
       ),
     ).toMatchObject({
       canonicalValue: undefined,
-      displayedValue: '徒歩 約 5 分',
+      displayedValue: '出店場所からの移動は要確認',
       origin: 'demo',
       verification: 'demo',
     });
@@ -581,7 +581,7 @@ describe('repository data verification ledger (#333)', () => {
       ),
     ).toMatchObject({
       canonicalValue: undefined,
-      displayedValue: '徒歩 約 5 分',
+      displayedValue: '奥多摩駅へ（移動時間は要確認）',
       origin: 'demo',
       verification: 'demo',
     });
@@ -975,12 +975,17 @@ describe('repository data verification ledger (#333)', () => {
         (row) => row.claimId === 'route:okutama-wasabi-journey:presentation:result_origin_travel_time:en',
       ),
     ).toMatchObject({
-      displayedValue: 'Tokyo Station / About 120 min by train',
+      primarySourceType: 'official_web',
+      retrievedAt: '2026-09-22',
+      sourceUpdatedAt: '2025-12-19',
+      confirmedAt: undefined,
+      canonicalValue: 'tokyo → okutama-station / approximately 135 min by train',
+      displayedValue: 'Tokyo Station / → Okutama Station · about 135 min by train (recheck)',
       comparedPresentationClaimId:
         'route:okutama-wasabi-journey:half-day:origin_travel_time_guidance:en',
-      comparedPresentationValue: 'Tokyo Station / 60 min',
-      verification: 'demo',
-      finding: 'presentation_mismatch',
+      comparedPresentationValue: 'Tokyo Station / → Okutama Station · about 135 min by train (recheck)',
+      verification: 'needs_confirmation',
+      finding: 'none',
     });
     expect(
       claims.find(
@@ -1174,12 +1179,12 @@ describe('repository data verification ledger (#333)', () => {
         (row) => row.claimId === 'route:okutama-wasabi-journey:presentation:result_origin_travel_time:ja',
       ),
     ).toMatchObject({
-      displayedValue: '東京駅 / から電車で　約120分',
+      displayedValue: '東京駅 / → 奥多摩駅 電車約135分（要再確認）',
       comparedPresentationClaimId:
         'route:okutama-wasabi-journey:half-day:origin_travel_time_guidance:ja',
-      comparedPresentationValue: '東京駅 / 60 分',
-      verification: 'demo',
-      finding: 'presentation_mismatch',
+      comparedPresentationValue: '東京駅 / → 奥多摩駅 電車約135分（要再確認）',
+      verification: 'needs_confirmation',
+      finding: 'none',
     });
   });
 
@@ -1230,7 +1235,7 @@ describe('repository data verification ledger (#333)', () => {
         (row) => row.claimId === 'route:okutama-yamame-journey:half-day:summary_time:ja',
       ),
     ).toMatchObject({
-      displayedValue: '約 4 時間',
+      displayedValue: '目安 4 時間',
       verification: 'demo',
       finding: 'none',
       timeSensitive: true,
@@ -1240,7 +1245,7 @@ describe('repository data verification ledger (#333)', () => {
         (row) => row.claimId === 'route:okutama-yamame-journey:half-day:summary_stop_count:ja',
       ),
     ).toMatchObject({
-      displayedValue: '3 スポット',
+      displayedValue: '4 スポット',
       verification: 'demo',
       finding: 'none',
       timeSensitive: false,
