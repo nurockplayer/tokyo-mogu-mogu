@@ -1,4 +1,5 @@
 import type { DataSource, Place } from './model';
+import type { SpotDetail } from './seed-routes';
 
 export interface SpotOfficialLink {
   url: string;
@@ -23,7 +24,7 @@ function officialLink(source: DataSource, kind: SpotOfficialLink['kind']): SpotO
 }
 
 /** Consume provenance without treating a working outbound link as factual confirmation. */
-export function resolveSpotOfficialLink(place: Place | undefined): SpotOfficialLink | undefined {
+export function resolveSpotOfficialLink(place: Place | undefined, detail?: SpotDetail): SpotOfficialLink | undefined {
   if (!place) return undefined;
   if (place.locationKind === 'mobile') {
     return officialLink(place.mobileVenue.scheduleDirectorySource, 'current-schedule');
@@ -40,6 +41,13 @@ export function resolveSpotOfficialLink(place: Place | undefined): SpotOfficialL
     // A booking CTA must not silently fall back to an unrelated information page.
     return official && booking && booking.origin === new URL(official.url).origin
       ? { ...official, url: tour.bookingUrl, kind: 'booking' } : undefined;
+  }
+  if (detail?.practical) {
+    const practical = officialLink(detail.source, 'official-information');
+    // Prefer the source of the displayed visitor guidance over a generic homepage.
+    return detail.placeId === place.id && official && practical
+      && new URL(practical.url).origin === new URL(official.url).origin
+      ? practical : undefined;
   }
   return official;
 }

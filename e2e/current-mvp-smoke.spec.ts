@@ -6,7 +6,7 @@ test('opens canonical Spot information safely with the keyboard', async ({ page,
     ['wasabi-kitchen', 'https://tokyowasabi.com/category/information/'],
     ['wasabi-experience', 'https://tokyowasabi.com/wasabi-experience/#booking-form'],
     ['hikawa-valley', 'https://www.town.okutama.tokyo.jp/1/kankosangyoka/kankojoho/3/436.html'],
-    ['sawai-ozawa-shuzo', 'https://www.sawanoi-sake.com/'],
+    ['sawai-ozawa-shuzo', 'https://www.sawanoi-sake.com/service/kengaku/'],
   ];
   for (const [id, url] of destinations) {
     // Fulfil the external request locally: no operator traffic or booking action.

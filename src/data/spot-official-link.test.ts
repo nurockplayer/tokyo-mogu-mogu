@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getPlaceById, places } from './index';
+import { getPlaceById, getSpotDetail, places } from './index';
 import { resolveSpotOfficialLink } from './spot-official-link';
 
 describe('source-backed Spot destinations', () => {
@@ -12,11 +12,11 @@ describe('source-backed Spot destinations', () => {
     ['akabeko', 'https://akabeko.tokyo/', 'official-information'],
     ['okutama-kitchen', 'https://www.okutamanodaidokoro.com/', 'official-information'],
     ['port-okutama', 'https://www.okutama.ne.jp/', 'official-information'],
-    ['sawai-ozawa-shuzo', 'https://www.sawanoi-sake.com/', 'official-information'],
+    ['sawai-ozawa-shuzo', 'https://www.sawanoi-sake.com/service/kengaku/', 'official-information'],
     ['sawanoien-garden', 'https://www.sawanoi-sake.com/service/sawanoien/', 'official-information'],
   ])('uses the supported visitor destination for %s', (id, url, kind) => {
     const place = getPlaceById(id)!;
-    expect(resolveSpotOfficialLink(place)).toMatchObject({ url, kind });
+    expect(resolveSpotOfficialLink(place, getSpotDetail(id))).toMatchObject({ url, kind });
   });
 
   it.each(['mitake-shrine', 'baba-oshijutaku', 'okutama-station', 'missing'])('does not guess a destination for %s', (id) => {
@@ -53,11 +53,23 @@ describe('source-backed Spot destinations', () => {
   });
 
   it('never changes confirmation, provenance, or rights metadata', () => {
-    const before = JSON.stringify(places);
-    places.forEach(resolveSpotOfficialLink);
-    expect(JSON.stringify(places)).toBe(before);
+    const details = places.map((place) => getSpotDetail(place.id));
+    const before = JSON.stringify({ places, details });
+    places.forEach((place) => resolveSpotOfficialLink(place, getSpotDetail(place.id)));
+    expect(JSON.stringify({ places, details })).toBe(before);
     const mobile = getPlaceById('wasabi-kitchen')!;
     if (mobile.locationKind !== 'mobile') throw new Error('Expected mobile venue');
     expect(resolveSpotOfficialLink(mobile)?.source).toBe(mobile.mobileVenue.scheduleDirectorySource);
+  });
+
+  it('uses matching official practical provenance and fails closed when it loses support', () => {
+    const place = getPlaceById('sawai-ozawa-shuzo')!;
+    const detail = getSpotDetail(place.id)!;
+    expect(resolveSpotOfficialLink(place, detail)?.source).toBe(detail.source);
+    expect(resolveSpotOfficialLink(place, { ...detail, placeId: 'other-place' })).toBeUndefined();
+    for (const url of [undefined, 'broken', 'javascript:alert(1)', 'https://unrelated.test/', 'https://user@www.sawanoi-sake.com/']) {
+      expect(resolveSpotOfficialLink(place, { ...detail, source: { ...detail.source, url } })).toBeUndefined();
+    }
+    expect(resolveSpotOfficialLink(place, { ...detail, source: { ...detail.source, sourceType: 'open_data' } })).toBeUndefined();
   });
 });

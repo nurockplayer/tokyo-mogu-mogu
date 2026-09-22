@@ -4,11 +4,13 @@ Checked on 2026-09-22 after #324–#330 merged. This is a navigation audit,
 not stakeholder confirmation, availability verification, or a media license.
 Canonical records and their verification dates/statuses are unchanged.
 
-The Spot guide consumes `resolveSpotOfficialLink(getPlaceById(spot.id))`.
+The Spot guide consumes `resolveSpotOfficialLink(getPlaceById(spot.id), getSpotDetail(spot.id))`.
 There is no presentation-only URL table. Existing guide titles, bodies and
 actions remain localized; unsupported destinations display localized feedback
 without navigating. Only credential-free HTTP(S) official-web sources qualify.
 Sensitive records fail closed instead of falling back to a less relevant page.
+Matching Spot-detail practical provenance takes precedence over a generic Place
+homepage when both sources are official and share the same origin.
 
 | Destination | Existing source used | Re-check |
 | --- | --- | --- |
@@ -20,7 +22,7 @@ Sensitive records fail closed instead of falling back to a less relevant page.
 | Akabeko | [Official site](https://akabeko.tokyo/) | Current restaurant page with operating information and calendar links. |
 | Okutama Kitchen | [Official site](https://www.okutamanodaidokoro.com/) | Current operator page. |
 | PORT Okutama | [Official operator site](https://www.okutama.ne.jp/) | Current Okutama Stations Life page. |
-| Ozawa Brewery | [Official site](https://www.sawanoi-sake.com/) | Current brewery site; no unsupported tour-booking deep link is invented. |
+| Ozawa Brewery | [Official brewery-tour page](https://www.sawanoi-sake.com/service/kengaku/) | Existing Spot-detail practical source, rechecked September 22: tour information and operator reservation link. No booking submitted. |
 | Sawanoien | [Official garden page](https://www.sawanoi-sake.com/service/sawanoien/) | Current venue page; no guide block is added where the existing composition has none. |
 
 Mitake Shrine and Baba House have public-dataset provenance but no supported
