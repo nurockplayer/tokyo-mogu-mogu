@@ -1270,14 +1270,10 @@ describe('Human Data Review Board projection (#340, #343)', () => {
     ]));
     expect(route?.facts.find((fact) => fact.fieldKey === 'route:half-day:duration_minutes')
       ?.affectedSurfaces).toEqual(['Route']);
-    expect(route?.facts.find((fact) => fact.fieldKey === 'route:presentation:result_origin_travel_time')
-      ?.affectedSurfaces).toEqual(['Route', 'Result']);
+    // #330 reconciles Result and Route access; the Board must not retain the old drift finding.
+    expect(route?.reviewContext.findings.some((finding) =>
+      finding.fieldKey === 'route:presentation:result_origin_travel_time')).toBe(false);
     expect(route?.reviewContext.findings).toEqual(expect.arrayContaining([
-      expect.objectContaining({
-        fieldKey: 'route:presentation:result_origin_travel_time',
-        finding: 'presentation_mismatch',
-        verification: 'demo',
-      }),
       expect.objectContaining({
         finding: 'canonical_missing',
         verification: 'demo',
@@ -1300,7 +1296,7 @@ describe('Human Data Review Board projection (#340, #343)', () => {
 
     expect(board.entities.find((entity) => entity.id === 'okutama-yamame-journey')).toMatchObject({
       type: 'Route',
-      name: '新宿から約90分、奥多摩やまめを味わう旅',
+      name: '奥多摩やまめを味わう旅',
       headlineStatus: 'needs_confirmation',
     });
     expect(board.entities.find((entity) => entity.id === 'wasabi-okutama')).toMatchObject({

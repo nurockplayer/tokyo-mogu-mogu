@@ -11,8 +11,9 @@ import { DEMO_RECOMMENDATION_CANDIDATES } from '../../data/demo-recommendation';
 import { buildJourneyPresentation } from '../../data/journey-presentation';
 import { FOOD_CULTURES } from '../../data/seed-food-cultures';
 import { PLACES } from '../../data/seed-places';
-import { getRouteById, getSpotDetail } from '../../data/seed-routes';
+import { getRouteById, getSpotDetail, OKUTAMA_STATION_ACCESS } from '../../data/seed-routes';
 import type {
+  DataSource,
   FixedPlace,
   MobilePlace,
   Place,
@@ -409,6 +410,9 @@ const wasabiKitchenStoryDescription = localized(
 );
 
 const wasabiExperiencePlace = canonicalFixedPlace('wasabi-experience');
+const wasabiExperienceMeetingAccess = requiredRecord(
+  wasabiExperiencePlace.visitorInformation?.access, 'WASABI EXPERIENCE meeting-place access',
+);
 
 export function buildWasabiExperiencePresentation(place: FixedPlace) {
   const visitor = canonicalVisitorInformation(place);
@@ -911,7 +915,7 @@ export interface RouteStepText {
 
 export const routeNames: Record<string, LocalizedText> = {
   'demo-okutama-wasabi': localized('東京わさび文化を巡る旅', 'A journey through Tokyo wasabi culture', '走訪東京山葵文化之旅'),
-  'demo-okutama-yamame': localized('新宿から約90分、奥多摩やまめを味わう旅', 'Taste Okutama yamame, 90 minutes from Shinjuku', '從新宿約 90 分鐘，品嚐奧多摩山女魚'),
+  'demo-okutama-yamame': localized('奥多摩やまめを味わう旅', 'A journey to taste Okutama yamame', '品嚐奧多摩山女魚之旅'),
   'demo-ome-sake': localized(omeRoute.nameJa, omeRoute.nameEn, strings['zh-TW'].dataSakeRouteName),
 };
 
@@ -919,18 +923,33 @@ export interface ResultLocation {
   area: string;
   station: string;
   access: string;
+  source?: DataSource;
+  sourceValue?: string;
+}
+
+function okutamaStationAccess(origin: 'tokyo' | 'shinjuku', locale: Locale): Pick<ResultLocation, 'access' | 'source' | 'sourceValue'> {
+  const minutes = OKUTAMA_STATION_ACCESS[origin].approximateMinutes;
+  return {
+    access: localized(
+      `→ 奥多摩駅 電車約${minutes}分（要再確認）`,
+      `→ Okutama Station · about ${minutes} min by train (recheck)`,
+      `→ 奧多摩站 電車約 ${minutes} 分鐘（請再確認）`,
+    )[locale],
+    source: OKUTAMA_STATION_ACCESS.source,
+    sourceValue: `${origin} → ${OKUTAMA_STATION_ACCESS.destinationStationId} / approximately ${minutes} min by train`,
+  };
 }
 
 export const resultLocation: Record<string, Record<Locale, ResultLocation>> = {
   'demo-okutama-wasabi': {
-    ja: { area: '奥多摩地区 (東京西部)', station: '東京駅', access: 'から電車で　約120分' },
-    en: { area: 'Okutama area (Western Tokyo)', station: 'Tokyo Station', access: 'About 120 min by train' },
-    'zh-TW': { area: '奧多摩地區（東京西部）', station: '東京站', access: '搭乘電車約 120 分鐘' },
+    ja: { area: '奥多摩地区 (東京西部)', station: '東京駅', ...okutamaStationAccess('tokyo', 'ja') },
+    en: { area: 'Okutama area (Western Tokyo)', station: 'Tokyo Station', ...okutamaStationAccess('tokyo', 'en') },
+    'zh-TW': { area: '奧多摩地區（東京西部）', station: '東京站', ...okutamaStationAccess('tokyo', 'zh-TW') },
   },
   'demo-okutama-yamame': {
-    ja: { area: '奥多摩地区 (東京西部)', station: '新宿駅', access: 'から電車で　約90分' },
-    en: { area: 'Okutama area (Western Tokyo)', station: 'Shinjuku Station', access: 'About 90 min by train' },
-    'zh-TW': { area: '奧多摩地區（東京西部）', station: '新宿站', access: '搭乘電車約 90 分鐘' },
+    ja: { area: '奥多摩地区 (東京西部)', station: '新宿駅', ...okutamaStationAccess('shinjuku', 'ja') },
+    en: { area: 'Okutama area (Western Tokyo)', station: 'Shinjuku Station', ...okutamaStationAccess('shinjuku', 'en') },
+    'zh-TW': { area: '奧多摩地區（東京西部）', station: '新宿站', ...okutamaStationAccess('shinjuku', 'zh-TW') },
   },
   'demo-ome-sake': {
     ja: { area: '青梅・沢井 (東京西部)', station: '沢井駅', access: 'から徒歩 約5分' },
@@ -973,26 +992,26 @@ function omeRouteSteps(canonicalId: 'half-day' | '1-day'): RouteStepText[] {
 export const routeStepText: Record<string, RouteStepText[]> = {
   'demo-okutama-wasabi:half-day': [
     { spotId: 'okutama-station', description: localized('旅のスタート地点', 'Starting point', '旅程起點') },
-    { spotId: 'okutama-tourism-office', walk: localized('徒歩 約1分', 'About 1 min on foot', '步行約 1 分鐘'), description: localized('わさぴーと観光案内で情報をチェック！', 'Check maps and local tips with Wasapy!', '和 Wasapy 一起確認觀光資訊！') },
+    { spotId: 'okutama-tourism-office', walk: localized('観光案内所への経路を確認', 'Check the route to the visitor center', '請確認前往觀光服務處的路線'), description: localized('わさぴーと観光案内で情報をチェック！', 'Check maps and local tips with Wasapy!', '和 Wasapy 一起確認觀光資訊！') },
     { spotId: 'wasabi-kitchen', description: wasabiKitchenRouteDescription },
-    { spotId: 'okutama-kitchen', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: okutamaKitchenProductAvailability },
+    { spotId: 'okutama-kitchen', walk: localized('出店場所からの移動は要確認', 'Confirm travel from the current stall location', '請確認從當日攤位地點出發的交通'), description: okutamaKitchenProductAvailability },
     { spotId: 'hikawa-valley', description: localized('遊歩道を歩く（多摩川での遊泳は禁止。増水時や流量が増しているときは入水を避ける）', 'Walk the promenade (swimming in the Tama River is prohibited; avoid entering the water during high water or increased flow)', '漫步步道（多摩川禁止游泳；水位或流量增加時請避免進入水中）') },
-    { spotId: 'oku-hikawa-shrine', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: localized('お参り！', 'Visit the shrine', '參拜神社！') },
-    { spotId: 'port-okutama', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: portOkutamaRouteServices },
+    { spotId: 'oku-hikawa-shrine', walk: localized('通行状況・移動経路を確認', 'Check access conditions and the walking route', '請確認通行情況與步行路線'), description: localized('お参り！', 'Visit the shrine', '參拜神社！') },
+    { spotId: 'port-okutama', walk: localized('奥多摩駅へ（移動時間は要確認）', 'Continue to Okutama Station (confirm travel time)', '前往奧多摩站（請確認交通時間）'), description: portOkutamaRouteServices },
   ],
   'demo-okutama-wasabi:full-day': [
     { spotId: 'mitake-station', description: wasabiExperiencePresentation.stationDescription },
     { spotId: 'wasabi-experience', walk: wasabiExperienceSeasonalTimes, description: wasabiExperienceRouteDescription },
-    { spotId: 'okutama-station', walk: localized('御岳駅から電車', 'Train from Mitake Station', '從御嶽站搭電車'), description: localized('青梅線 約20分', 'About 20 min on the Ome Line', '青梅線約 20 分鐘') },
-    { spotId: 'akabeko', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: akabekoWasabiRouteDescription },
+    { spotId: 'okutama-station', walk: localized('体験後、御嶽駅へ戻り電車（要確認）', 'After the tour, return to Mitake Station for the train (confirm arrangements)', '體驗後返回御嶽站搭電車（請確認安排）'), description: localized('JR青梅線で奥多摩駅へ。集合地への帰着時刻と当日の列車を確認', 'Take the JR Ome Line to Okutama. Confirm the tour return time and that day’s trains.', '搭乘 JR 青梅線前往奧多摩。請確認返回集合地的時間與當日班次。') },
+    { spotId: 'akabeko', walk: localized('駅からの経路を確認', 'Check the route from the station', '請確認從車站出發的路線'), description: akabekoWasabiRouteDescription },
     { spotId: 'yamashiroya', description: yamashiroyaProducts },
-    { spotId: 'port-okutama', walk: localized('徒歩 約 5 分', 'About 5 min on foot', '步行約 5 分鐘'), description: portOkutamaCoffeeAvailability },
+    { spotId: 'port-okutama', walk: localized('奥多摩駅へ（移動時間は要確認）', 'Continue to Okutama Station (confirm travel time)', '前往奧多摩站（請確認交通時間）'), description: portOkutamaCoffeeAvailability },
   ],
   'demo-okutama-yamame:half-day': [
     { spotId: 'okutama-station', description: localized('旅のスタート地点', 'Starting point', '旅程起點') },
-    { spotId: 'okutama-tourism-office', walk: localized('徒歩 約 1 分', 'About 1 min on foot', '步行約 1 分鐘'), description: localized('情報収集 30分', 'Gather information · 30 min', '蒐集資訊・30 分鐘') },
+    { spotId: 'okutama-tourism-office', walk: localized('観光案内所への経路を確認', 'Check the route to the visitor center', '請確認前往觀光服務處的路線'), description: localized('情報収集 30分', 'Gather information · 30 min', '蒐集資訊・30 分鐘') },
     { spotId: 'hikawa-valley', description: localized('遊歩道散策 40〜50分（多摩川での遊泳は禁止。増水時や流量が増しているときは入水を避ける）', 'Promenade walk · 40–50 min (swimming in the Tama River is prohibited; avoid entering the water during high water or increased flow)', '步道散步・40–50 分鐘（多摩川禁止游泳；水位或流量增加時請避免進入水中）') },
-    { spotId: 'akabeko', walk: localized('徒歩 約 15 分', 'About 15 min on foot', '步行約 15 分鐘'), description: akabekoYamameRouteDescription },
+    { spotId: 'akabeko', walk: localized('遊歩道の出口からの経路を確認', 'Check the route from the promenade exit', '請確認從步道出口出發的路線'), description: akabekoYamameRouteDescription },
   ],
   'demo-ome-sake:half-day': omeRouteSteps('half-day'),
   'demo-ome-sake:full-day': omeRouteSteps('1-day'),
@@ -1004,6 +1023,8 @@ export interface RouteStats {
   spots: string;
   station: string;
   minutes: string;
+  source?: DataSource;
+  sourceValue?: string;
   /** Complete access sentence for routes whose source does not support a base-area estimate. */
   access?: string;
   /** Visible caveat for editorial route timing/order that lacks live transport authority. */
@@ -1018,33 +1039,68 @@ export const routeRegionGuidance: Record<string, Record<Locale, string>> = {
   'demo-ome-sake:full-day': localized('青梅・沢井・東京都 (東京西部)', 'Ome / Sawai, Tokyo (Western Tokyo)', '東京都青梅・沢井（東京西部）'),
 };
 
-export const routeStats: Record<string, Record<Locale, RouteStats>> = {
-  'demo-okutama-wasabi:half-day': {
-    ja: { time: '約 2.5 時間', distance: '徒歩約 6 km', spots: '6 スポット', station: '東京駅', minutes: '60 分' },
-    en: { time: 'About 2.5 hr', distance: 'Walk about 6 km', spots: '6 spots', station: 'Tokyo Station', minutes: '60 min' },
-    'zh-TW': { time: '約 2.5 小時', distance: '步行約 6 km', spots: '6 個景點', station: '東京站', minutes: '60 分鐘' },
-  },
-  'demo-okutama-wasabi:full-day': {
-    ja: { time: '約 7 時間', distance: '電車 + 徒歩', spots: '6 スポット', station: '東京駅', minutes: '90 分' },
-    en: { time: 'About 7 hr', distance: 'Train + walking', spots: '6 spots', station: 'Tokyo Station', minutes: '90 min' },
-    'zh-TW': { time: '約 7 小時', distance: '電車＋步行', spots: '6 個景點', station: '東京站', minutes: '90 分鐘' },
-  },
-  'demo-okutama-yamame:half-day': {
-    ja: { time: '約 4 時間', distance: '徒歩約 4 km', spots: '3 スポット', station: '新宿駅', minutes: '90 分' },
-    en: { time: 'About 4 hr', distance: 'Walk about 4 km', spots: '3 spots', station: 'Shinjuku Station', minutes: '90 min' },
-    'zh-TW': { time: '約 4 小時', distance: '步行約 4 km', spots: '3 個景點', station: '新宿站', minutes: '90 分鐘' },
-  },
-  'demo-ome-sake:half-day': {
-    ja: { time: '目安 3 時間 35 分', distance: omeRoute.variants['half-day'].transportJa, spots: '3 スポット', station: '沢井駅', minutes: '徒歩 約5分', access: '沢井駅から小澤酒造まで徒歩約5分', caution: '所要時間と移動順は編集部による目安です。訪問前に交通・営業の公式情報をご確認ください。' },
-    en: { time: 'Est. 3 hr 35 min', distance: omeRoute.variants['half-day'].transportEn, spots: '3 spots', station: 'Sawai Station', minutes: 'About 5 min on foot', access: 'About 5 minutes on foot from Sawai Station to Ozawa Shuzo', caution: 'Route timing and order are editorial estimates. Check official transport and operating information before visiting.' },
-    'zh-TW': { time: '參考 3 小時 35 分鐘', distance: 'JR／巴士／纜車／步行（編輯部參考）', spots: '3 個景點', station: '沢井站', minutes: '步行約 5 分鐘', access: '從沢井站步行約 5 分鐘可抵達小澤酒造', caution: '所需時間與移動順序僅供參考。造訪前請確認交通與營業的官方資訊。' },
-  },
-  'demo-ome-sake:full-day': {
-    ja: { time: '目安 6 時間 10 分', distance: omeRoute.variants['1-day'].transportJa, spots: '4 スポット', station: '沢井駅', minutes: '徒歩 約5分', access: '沢井駅から小澤酒造まで徒歩約5分', caution: '所要時間と移動順は編集部による目安です。訪問前に交通・営業の公式情報をご確認ください。' },
-    en: { time: 'Est. 6 hr 10 min', distance: omeRoute.variants['1-day'].transportEn, spots: '4 spots', station: 'Sawai Station', minutes: 'About 5 min on foot', access: 'About 5 minutes on foot from Sawai Station to Ozawa Shuzo', caution: 'Route timing and order are editorial estimates. Check official transport and operating information before visiting.' },
-    'zh-TW': { time: '參考 6 小時 10 分鐘', distance: 'JR／巴士／纜車／步行（編輯部參考）', spots: '4 個景點', station: '沢井站', minutes: '步行約 5 分鐘', access: '從沢井站步行約 5 分鐘可抵達小澤酒造', caution: '所需時間與移動順序僅供參考。造訪前請確認交通與營業的官方資訊。' },
-  },
-};
+const routeTimingCaution = localized(
+  '現地の所要時間・順序は編集部の目安（出発地からの移動は別）。訪問前に公式情報で出店・営業・通行状況、列車、体験の予約・帰着時刻を確認してください。',
+  'Local timing and order are editorial estimates, excluding travel from your origin. Check official information for stalls, opening and path conditions, trains, tour bookings and return times.',
+  '當地所需時間與順序僅供參考（不含出發地交通）。請以官方資訊確認攤位、營業與通行情況、當日班次、體驗預約及返回時間。',
+);
+
+/** Summaries derive from the same variant rendered as the timeline. */
+export function routeVariantSummary(variant: JourneyPresentation['routeVariants'][number], locale: Locale) {
+  const hours = Math.floor(variant.durationMinutes / 60);
+  const minutes = variant.durationMinutes % 60;
+  const time = localized(
+    `目安 ${hours} 時間${minutes ? ` ${minutes} 分` : ''}`,
+    `Est. ${hours} hr${minutes ? ` ${minutes} min` : ''}`,
+    `參考 ${hours} 小時${minutes ? ` ${minutes} 分鐘` : ''}`,
+  )[locale];
+  const count = variant.steps.length;
+  return { time, spots: localized(`${count} スポット`, `${count} spots`, `${count} 個景點`)[locale] };
+}
+
+export const routeStats: Record<string, Record<Locale, RouteStats>> = Object.fromEntries(
+  currentJourneys.flatMap((journey) => journey.routeVariants.map((variant) => {
+    const key = `${journey.id}:${variant.id}`;
+    const ome = journey.id === 'demo-ome-sake';
+    const mitakeStart = variant.steps[0]?.spotId === 'mitake-station';
+    const values = Object.fromEntries((['ja', 'en', 'zh-TW'] as const).map((locale) => {
+      const location = requiredRecord(resultLocation[journey.id]?.[locale], `${key} access`);
+      const fullDayAccess = localized(
+        '御嶽駅から集合場所へ。列車・集合時刻は予約時に確認',
+        'Via Mitake Station to the meeting place. Confirm trains and the meeting time when booking.',
+        '由御嶽站前往集合地點。預約時請確認班次與集合時間',
+      )[locale];
+      const transport = ome
+        ? localized(omeRoute.variants[variant.id === 'half-day' ? 'half-day' : '1-day'].transportJa,
+          omeRoute.variants[variant.id === 'half-day' ? 'half-day' : '1-day'].transportEn,
+          'JR／巴士／纜車／步行（編輯部參考）')[locale]
+        : localized('経路は要確認', 'Confirm route', '請確認路線')[locale];
+      return [locale, {
+        ...routeVariantSummary(variant, locale),
+        distance: transport,
+        station: mitakeStart ? '' : location.station,
+        minutes: mitakeStart ? '' : location.access,
+        access: mitakeStart ? fullDayAccess : ome ? localized(
+          '沢井駅から小澤酒造まで徒歩約5分',
+          'About 5 minutes on foot from Sawai Station to Ozawa Shuzo',
+          '從沢井站步行約 5 分鐘可抵達小澤酒造',
+        )[locale] : `${location.station} ${location.access}`,
+        source: mitakeStart ? wasabiExperienceMeetingAccess.source : location.source,
+        sourceValue: mitakeStart ? `${wasabiExperienceMeetingAccess.stationJa} / ${wasabiExperienceMeetingAccess.walkMinutes} min on foot to meeting place` : location.sourceValue,
+        caution: ome ? localized(
+          '所要時間と移動順は編集部による目安です。訪問前に交通・営業の公式情報をご確認ください。',
+          'Route timing and order are editorial estimates. Check official transport and operating information before visiting.',
+          '所需時間與移動順序僅供參考。造訪前請確認交通與營業的官方資訊。',
+        )[locale] : routeTimingCaution[locale] + (mitakeStart ? localized(
+          ' 冬季の体験後は「あかべこ」の昼営業に間に合わない場合があります。予約前に順序・訪問可否を調整してください。',
+          ' After a winter tour, Akabeko lunch may be out of reach. Adjust the order and stops before booking.',
+          ' 冬季體驗結束後可能趕不上 AKABEKO 午餐時段，預約前請調整順序與造訪安排。',
+        )[locale] : ''),
+      }];
+    })) as Record<Locale, RouteStats>;
+    return [key, values];
+  })),
+);
 
 export interface ReferenceSpotDetail {
   tags: Array<{

@@ -387,8 +387,43 @@ const WASABI_EXPERIENCE_STORY_APP_EVIDENCE: readonly DataVerificationAppEvidence
  * Review evidence only. Entries reference #333 claim IDs and never duplicate or
  * alter canonical/displayed factual values, provenance, or verification state.
  */
+const ROUTE_AGGREGATE_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  (['ja', 'en', 'zh-TW'] as const).flatMap((locale) => [
+    ...([
+      ['wasabi', 'okutama-wasabi-journey', 'half-day'],
+      ['wasabi', 'okutama-wasabi-journey', 'full-day'],
+      ['yamame', 'okutama-yamame-journey', 'half-day'],
+    ] as const).flatMap(([name, entityId, variant]) =>
+      (['access', 'summary'] as const).map((position) => ({
+        evidenceId: `route-aggregate-${name}-${variant}-${locale}-${position}-375`,
+        claimIds: (position === 'access'
+          ? ['origin_travel_time_guidance', 'operational_caution']
+          : ['summary_time', 'summary_stop_count', 'distance_guidance'])
+          .map((field) => `route:${entityId}:${variant}:${field}:${locale}`),
+        entityId,
+        kind: 'app' as const,
+        capturedAt: '2026-09-22',
+        path: `docs/data-evidence/route-aggregates/${name}-${variant}-${locale}-${position}-375.webp`,
+        locale,
+        viewport: { width: 375, height: 812 },
+        note: '#330 current production-bundle presentation. Counts include the start; timing is editorial. Capture does not verify route feasibility or grant media rights.',
+      }))),
+    ...(['wasabi', 'yamame'] as const).map((name) => ({
+      evidenceId: `route-aggregate-result-${name}-${locale}-375`,
+      claimIds: [`route:okutama-${name}-journey:presentation:result_origin_travel_time:${locale}`],
+      entityId: `okutama-${name}-journey`,
+      kind: 'app' as const,
+      capturedAt: '2026-09-22',
+      path: `docs/data-evidence/route-aggregates/result-${name}-${locale}-375.webp`,
+      locale,
+      viewport: { width: 375, height: 812 },
+      note: '#330 shared approximate station-access guidance on Result, not a live timetable.',
+    })),
+  ]);
+
 export const DATA_VERIFICATION_EVIDENCE_MANIFEST: DataVerificationEvidenceManifest = {
   evidence: [
+    ...ROUTE_AGGREGATE_APP_EVIDENCE,
     ...HIKAWA_VALLEY_SPOT_APP_EVIDENCE,
     ...OKU_HIKAWA_SHRINE_SPOT_APP_EVIDENCE,
     ...HIKAWA_ROUTE_APP_EVIDENCE,
@@ -728,6 +763,38 @@ export const DATA_VERIFICATION_EVIDENCE_MANIFEST: DataVerificationEvidenceManife
     },
   ],
   omissions: [
+    ...(['wasabi', 'yamame'] as const).map((name) => ({
+      omissionId: `route-aggregate-${name}-go-tokyo-source-rights`,
+      claimIds: (['ja', 'en', 'zh-TW'] as const).flatMap((locale) => [
+        `route:okutama-${name}-journey:presentation:result_origin_travel_time:${locale}`,
+        `route:okutama-${name}-journey:half-day:origin_travel_time_guidance:${locale}`,
+      ]),
+      entityId: `okutama-${name}-journey`,
+      kind: 'source' as const,
+      sourceUrl: 'https://www.gotokyo.org/en/destinations/outlying-area/okutama-and-around/index.html',
+      recordedAt: '2026-09-22',
+      reason: 'GO TOKYO planning guidance rechecked: Tokyo Station approximately 2h15 and Shinjuku approximately 2h to Okutama Station; page updated 2025-12-19. All Rights Reserved; source screenshot omitted. These are approximate rail estimates, not live departure-specific times.',
+    })),
+    {
+      omissionId: 'route-aggregate-mitake-access-source-rights',
+      claimIds: (['ja', 'en', 'zh-TW'] as const).map((locale) =>
+        `route:okutama-wasabi-journey:full-day:origin_travel_time_guidance:${locale}`),
+      entityId: 'okutama-wasabi-journey',
+      kind: 'source',
+      sourceUrl: 'https://tokyowasabi.com/wasabi-experience-en/',
+      recordedAt: '2026-09-22',
+      reason: 'Existing canonical meeting-place access source retained from #328; its source retrieval dates are unchanged. No reproduction permission is established, so no source screenshot is committed.',
+    },
+    {
+      omissionId: 'route-aggregate-mitake-timetable-source-rights',
+      claimIds: (['ja', 'en', 'zh-TW'] as const).map((locale) =>
+        `route:okutama-wasabi-journey:full-day:origin_travel_time_guidance:${locale}`),
+      entityId: 'okutama-wasabi-journey',
+      kind: 'source',
+      sourceUrl: 'https://timetables.jreast.co.jp/timetable/list1464.html',
+      recordedAt: '2026-09-22',
+      reason: 'JR station index rechecked: this is Mitake, not Okutama (list0368). Used only to identify the correct station; no fixed journey duration derived. Reproduction permission is unestablished, so no source screenshot is included.',
+    },
     {
       omissionId: 'hikawa-valley-tourism-site-rights-restricted',
       claimIds: ['place:hikawa-valley:name:ja'],

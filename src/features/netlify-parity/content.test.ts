@@ -21,6 +21,8 @@ import {
   localizePlaceProductCategories,
   referenceSpotDetails,
   routeRegionGuidance,
+  resultLocation,
+  routeNames,
   routeStats,
   routeStepText,
   storySpotGroups,
@@ -29,6 +31,43 @@ import {
 const locales = ['ja', 'en', 'zh-TW'] as const;
 
 describe('Netlify parity presentation content', () => {
+  it('keeps Route aggregates aligned with rendered itineraries and source-backed access (#330)', () => {
+    for (const journey of currentJourneys) {
+      for (const variant of journey.routeVariants) {
+        const stats = routeStats[`${journey.id}:${variant.id}`];
+        expect(routeStepText[`${journey.id}:${variant.id}`].map((step) => step.spotId))
+          .toEqual(variant.steps.map((step) => step.spotId));
+        for (const locale of locales) {
+          expect(stats[locale].spots).toMatch(new RegExp(`^${variant.steps.length} `));
+          expect(stats[locale].distance).not.toMatch(/\d+\s*km/i);
+        }
+      }
+    }
+    expect(routeStats['demo-okutama-wasabi:half-day'].en.time).toBe('Est. 2 hr 30 min');
+    expect(routeStats['demo-okutama-wasabi:full-day'].en.time).toBe('Est. 7 hr');
+    expect(routeStats['demo-okutama-yamame:half-day'].en.time).toBe('Est. 4 hr');
+    for (const [id, minutes] of [['demo-okutama-wasabi', 135], ['demo-okutama-yamame', 120]] as const) {
+      for (const locale of locales) {
+        const location = resultLocation[id][locale];
+        expect(location.access).toContain(String(minutes));
+        expect(routeStats[`${id}:half-day`][locale].minutes).toBe(location.access);
+        expect(location.source).toMatchObject({
+          sourceType: 'official_web', retrievedAt: '2026-09-22', verificationStatus: 'needs_confirmation',
+        });
+        expect(routeNames[id][locale]).not.toMatch(/90/);
+      }
+    }
+    for (const locale of locales) {
+      const fullDay = routeStats['demo-okutama-wasabi:full-day'][locale];
+      expect(fullDay.access).toMatch(/御嶽|Mitake/);
+      expect(fullDay.access).not.toMatch(/135|90|Tokyo Station|東京駅|東京站/);
+      expect(fullDay.source?.sourceType).toBe('official_web');
+      expect(fullDay.caution).toMatch(/帰着|return|返回/);
+      const mobileExit = routeStepText['demo-okutama-wasabi:half-day'].find((step) => step.spotId === 'okutama-kitchen');
+      expect(mobileExit?.walk?.[locale]).not.toMatch(/\d/);
+    }
+  });
+
   it('adds the canonical Ome/Sawai journey to browse without changing Result', () => {
     expect(resultJourneys.map((journey) => journey.id)).toEqual([
       'demo-okutama-wasabi',
@@ -697,9 +736,9 @@ describe('Netlify parity presentation content', () => {
       );
     }
     expect(halfDayStep.walk).toEqual({
-      ja: '徒歩 約 5 分',
-      en: 'About 5 min on foot',
-      'zh-TW': '步行約 5 分鐘',
+      ja: '奥多摩駅へ（移動時間は要確認）',
+      en: 'Continue to Okutama Station (confirm travel time)',
+      'zh-TW': '前往奧多摩站（請確認交通時間）',
     });
   });
 
