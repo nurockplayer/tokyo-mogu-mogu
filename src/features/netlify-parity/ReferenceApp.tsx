@@ -360,7 +360,7 @@ export function ReferenceApp() {
                 ? `/route?candidateId=${encodeURIComponent(locationJourney.id)}`
                 : spotBack,
           )}
-          onOpenGuide={() => setToast(locale === 'ja' ? '外部サイトへ（プロトタイプ）' : locale === 'zh-TW' ? '前往外部網站（原型）' : 'External site (prototype)')}
+          onOpenGuide={() => setToast(locale === 'ja' ? 'このスポットの公式最新情報リンクは現在用意されていません。' : locale === 'zh-TW' ? '目前尚未提供此景點的官方最新資訊連結。' : 'An official current-information link is not available for this spot yet.')}
           onToggleSaved={toggleSpotFavorite}
           onNavigate={navigate}
         />
