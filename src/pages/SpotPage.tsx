@@ -32,6 +32,7 @@ import {
   getPlaceById,
   getRelatedFoodCultures,
   getSpotDetail,
+  isAddressedPlace,
   isFixedPlace,
 } from '../data';
 import type { DataSource, PlaceType } from '../data';
@@ -311,8 +312,17 @@ export function SpotPage() {
 
   // Info list built only from data that actually exists.
   const infoItems: { label: string; value: string }[] = [];
-  if (isFixedPlace(place)) {
+  if (isAddressedPlace(place)) {
     infoItems.push({ label: t('s6InfoAddress'), value: place.address });
+  } else if (place.locationKind === 'area') {
+    infoItems.push({
+      label: t('s6InfoAccess'),
+      value: recordField(
+        place.naturalArea.locationDescriptionJa,
+        place.naturalArea.locationDescriptionEn,
+        place.naturalArea.locationDescriptionZhTw,
+      ),
+    });
   } else {
     infoItems.push({
       label: t('s6InfoAccess'),

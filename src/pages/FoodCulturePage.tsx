@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { FoodCultureImage } from '../components/FoodCultureImage';
 import { CheckInPanel } from '../components/CheckInPanel';
-import { getFoodCultureById, getRelatedPlaces, isFixedPlace } from '../data';
+import { getFoodCultureById, getRelatedPlaces, isAddressedPlace, isFixedPlace } from '../data';
 import type { DataOrigin, FoodCultureCategory } from '../data';
 import { sourceDateLabel } from '../lib/verification';
 import { useI18n, type LocaleKey } from '../i18n';
@@ -123,11 +123,19 @@ export function FoodCulturePage() {
                     <div className="fcp-place-main">
                       <span className="place-name">{pick(place.nameJa, place.nameEn)}</span>
                       <span className="place-address">
-                        {locale === 'ja'
-                          ? place.mobileVenue.primaryOperatingAreaJa
-                          : locale === 'zh-TW'
-                            ? place.mobileVenue.primaryOperatingAreaZhTw
-                            : place.mobileVenue.primaryOperatingAreaEn}
+                        {isAddressedPlace(place)
+                          ? place.address
+                          : place.locationKind === 'area'
+                            ? locale === 'ja'
+                              ? place.naturalArea.locationDescriptionJa
+                              : locale === 'zh-TW'
+                                ? place.naturalArea.locationDescriptionZhTw
+                                : place.naturalArea.locationDescriptionEn
+                            : locale === 'ja'
+                              ? place.mobileVenue.primaryOperatingAreaJa
+                              : locale === 'zh-TW'
+                                ? place.mobileVenue.primaryOperatingAreaZhTw
+                                : place.mobileVenue.primaryOperatingAreaEn}
                       </span>
                       <span className={`badge fcp-origin fcp-origin--${place.origin}`}>
                         {t(ORIGIN_LABEL_KEY[place.origin])}

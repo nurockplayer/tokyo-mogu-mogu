@@ -121,6 +121,44 @@ describe('seed data contract (#2)', () => {
     expect(tourismOffice?.source).not.toHaveProperty('confirmedAt');
   });
 
+  it('keeps Hikawa Valley and Oku-Hikawa Shrine source-backed without fabricating map precision (#329)', () => {
+    const hikawaValley = getPlaceById('hikawa-valley');
+    const shrine = getPlaceById('oku-hikawa-shrine');
+
+    expect(hikawaValley).toMatchObject({
+      locationKind: 'area',
+      foodCultureIds: [],
+      naturalArea: {
+        locationDescriptionJa: '多摩川と日原川の合流地点を中心とする氷川渓谷遊歩道周辺',
+        access: { stationJa: 'JR青梅線「奥多摩駅」', walkMinutes: 5 },
+        trailDurationMinutes: { min: 40, max: 50 },
+        safety: {
+          noSwimmingInTamaRiver: true,
+          avoidEnteringWaterDuringHighWater: true,
+          currentInformationUrl: 'https://www.town.okutama.tokyo.jp/1/kankosangyoka/kankojoho/3/436.html',
+        },
+      },
+      source: { originalId: 'hikawa-walking-map', retrievedAt: '2026-08-31' },
+    });
+    expect(hikawaValley).not.toHaveProperty('address');
+    expect(hikawaValley).not.toHaveProperty('latitude');
+    expect(hikawaValley).not.toHaveProperty('longitude');
+    expect(getFoodCultureById('wasabi-okutama')?.placeIds).not.toContain('hikawa-valley');
+
+    expect(shrine).toMatchObject({
+      locationKind: 'address-only',
+      address: '東京都西多摩郡奥多摩町氷川178番地',
+      addressSource: {
+        originalId: 'report-21-oku-hikawa-shrine',
+        retrievedAt: '2026-08-31',
+      },
+    });
+    expect(shrine).not.toHaveProperty('latitude');
+    expect(shrine).not.toHaveProperty('longitude');
+    expect(shrine).not.toHaveProperty('coordinateSource');
+    expect(getFoodCultureById('wasabi-okutama')?.placeIds).not.toContain('oku-hikawa-shrine');
+  });
+
   it('keeps Yamashiroya facts and the unresolved closure conflict in one canonical Place (#323)', () => {
     const yamashiroya = getPlaceById('yamashiroya');
 
@@ -694,6 +732,9 @@ describe('seed data contract (#2)', () => {
       'gotokyo-seoto-no-yu-397',
       'kurumiru-fussa-honcho23',
       'wasabi-experience-page-1343',
+      'hikawa-walking-map',
+      '436',
+      'report-21-oku-hikawa-shrine',
     ]);
     for (const fc of foodCultures) {
       for (const s of fc.sources) {

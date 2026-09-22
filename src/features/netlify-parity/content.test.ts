@@ -135,6 +135,54 @@ describe('Netlify parity presentation content', () => {
     });
   });
 
+  it('presents Hikawa Valley safety and Oku-Hikawa Shrine address without invented map precision (#329)', () => {
+    const valley = referenceSpotDetails['hikawa-valley'];
+    const shrine = referenceSpotDetails['oku-hikawa-shrine'];
+    const wasabiStep = routeStepText['demo-okutama-wasabi:half-day'].find(
+      (step) => step.spotId === 'hikawa-valley',
+    );
+    const yamameStep = routeStepText['demo-okutama-yamame:half-day'].find(
+      (step) => step.spotId === 'hikawa-valley',
+    );
+
+    expect(valley?.information.map((row) => row.fieldId)).toEqual(expect.arrayContaining([
+      'location_area',
+      'access',
+      'trail_duration',
+      'water_safety',
+      'current_safety_information_url',
+    ]));
+    expect(valley?.information.map((row) => row.fieldId)).not.toContain('address');
+    expect(valley?.guide?.url).toBe('https://www.town.okutama.tokyo.jp/1/kankosangyoka/kankojoho/3/436.html');
+    const valleyCaution = Object.fromEntries(
+      locales.map((locale) => [locale, valley?.caution.map((line) => line[locale]).join(' ')]),
+    );
+    expect(valleyCaution).toMatchObject({
+      ja: expect.stringMatching(/遊泳.*禁止.*増水時.*流量.*避け/),
+      en: expect.stringMatching(/Swimming.*prohibited.*Avoid entering.*high water.*increased flow/i),
+      'zh-TW': expect.stringMatching(/禁止游泳.*水位.*流量增加.*避免進入水中/),
+    });
+    expect(wasabiStep?.description).toMatchObject({
+      ja: expect.stringMatching(/遊泳は禁止.*増水時.*流量.*入水を避ける/),
+      en: expect.stringMatching(/Swimming.*prohibited.*Avoid entering.*high water.*increased flow/i),
+      'zh-TW': expect.stringMatching(/禁止游泳.*水位.*流量增加.*避免進入水中/),
+    });
+    expect(wasabiStep).not.toHaveProperty('walk');
+    expect(yamameStep?.description).toMatchObject({
+      ja: expect.stringMatching(/40〜50分.*遊泳は禁止.*増水時.*流量.*入水を避ける/),
+      en: expect.stringMatching(/40–50 min.*Swimming.*prohibited.*Avoid entering.*high water.*increased flow/i),
+      'zh-TW': expect.stringMatching(/40–50 分鐘.*禁止游泳.*水位.*流量增加.*避免進入水中/),
+    });
+    expect(yamameStep).not.toHaveProperty('walk');
+
+    expect(shrine?.information.find((row) => row.fieldId === 'address')?.value).toMatchObject({
+      ja: '東京都西多摩郡奥多摩町氷川178番地',
+      en: '178 Hikawa, Okutama, Nishitama, Tokyo',
+      'zh-TW': '東京都西多摩郡奧多摩町冰川 178 番地',
+    });
+    expect(shrine?.description.ja).toMatch(/座標は追加していません/);
+  });
+
   it.each(locales)('%s exposes every primary action', (locale) => {
     const copy = referenceCopy(locale);
 

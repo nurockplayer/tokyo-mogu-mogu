@@ -1099,15 +1099,15 @@ describe('repository data verification ledger (#333)', () => {
     });
   });
 
-  it('preserves fallback Spot verification notices in every locale', () => {
+  it('preserves Hikawa Valley safety and verification notices in every locale (#329)', () => {
     const claims = buildRepositoryLedgerClaims();
 
     expect(
       claims.find(
-        (row) => row.claimId === 'spot:hikawa-valley:presentation:practical_information:en',
+        (row) => row.claimId === 'spot:hikawa-valley:presentation:safety_guidance:en',
       ),
     ).toMatchObject({
-      displayedValue: 'Verification: This listing is reference information and may not be verified. Check the venue’s official information before visiting.',
+      displayedValue: expect.stringMatching(/Swimming in the Tama River is prohibited.*Avoid entering the water during high water or increased flow/i),
       verification: 'demo',
       finding: 'none',
       timeSensitive: true,
@@ -1115,13 +1115,29 @@ describe('repository data verification ledger (#333)', () => {
     });
     expect(
       claims.find(
-        (row) => row.claimId === 'spot:hikawa-valley:presentation:tags:en',
+        (row) => row.claimId === 'spot:hikawa-valley:presentation:verification_note:en',
       ),
     ).toMatchObject({
-      displayedValue: 'Reference information',
-      verification: 'demo',
+      displayedValue: expect.stringMatching(/Official\/public information checked Sep 12, 2026/),
+      verification: 'needs_confirmation',
       finding: 'none',
       timeSensitive: true,
+    });
+  });
+
+  it('uses the mapped Hikawa Valley Place access fact instead of reporting it as unknown (#329)', () => {
+    const claims = buildRepositoryLedgerClaims();
+
+    expect(
+      claims.find((row) => row.claimId === 'spot:hikawa-valley:access'),
+    ).toMatchObject({
+      canonicalValue: 'JR青梅線「奥多摩駅」 / 徒歩5分',
+      displayedValue: 'JR青梅線「奥多摩駅」から徒歩約5分（目安）',
+      origin: 'source',
+      verification: 'needs_confirmation',
+      finding: 'mismatch',
+      primarySource: '一般社団法人奥多摩観光協会（氷川渓谷遊歩道）',
+      canonicalSourceFile: 'src/data/seed-places.ts',
     });
   });
 
