@@ -23,7 +23,10 @@
     "review-packet": "tsx scripts/generate-review-packet.ts",
     "figma:check": "tsx scripts/figma-drift/check.ts",
     "figma:checkpoint": "tsx scripts/figma-drift/checkpoint.ts",
-    "figma:gate": "tsx scripts/figma-drift/gate.ts"
+    "figma:gate": "tsx scripts/figma-drift/gate.ts",
+    "submission:inventory": "tsx scripts/submission-inventory.ts --write",
+    "submission:check": "tsx scripts/check-submission-rights.ts",
+    "build:submission": "tsx scripts/build-submission.ts"
   },
   "dependencies": {
     "leaflet": "^1.9.4",

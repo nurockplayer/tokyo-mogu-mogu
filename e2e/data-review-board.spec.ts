@@ -86,7 +86,7 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(page.getByRole('heading', { name: 'アプリでの表示' })).toBeVisible();
     await expect(page.getByRole('img', { name: /奥多摩の台所.*アプリ表示/ })).toBeVisible();
     await expect(page.getByRole('heading', { name: '証拠を保存していない理由' })).toBeVisible();
-    await expect(page.getByText(/All Rights Reserved/).first()).toBeVisible();
+    await expect(page.getByRole('region', { name: '出典・確認状況' }).getByText(/All Rights Reserved/).first()).toBeVisible();
     await expect(page.getByRole('heading', { name: '関連する作業' })).toBeVisible();
     await expect(page.getByRole('link', { name: '#325' })).toHaveAttribute(
       'href',
@@ -368,7 +368,7 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(durationRow.getByText('Story', { exact: true })).toHaveCount(0);
     await expect(durationRow.getByText('Result', { exact: true })).toHaveCount(0);
 
-    const reviewLayer = page.getByRole('region', { name: '34件の判断が必要です' });
+    const reviewLayer = page.getByRole('region', { name: /件の判断が必要です/ });
     const durationDecision = reviewLayer.getByRole('article', { name: '半日の所要時間（分）の判断' });
     await expect(durationDecision).toContainText('表示差異あり');
     await expect(durationDecision).toContainText('現在のProduct表示');
@@ -417,4 +417,30 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(summary).not.toContainText('表示間の不一致');
     await expect(summary).not.toContainText('正本未登録');
   });
+});
+
+
+test('separates source reuse and asset submission readiness at 375px', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto('/data-review/');
+  const panel = page.getByRole('region', { name: '大会ルール・提出権利チェック' });
+  await expect(panel).toContainText('公式ルール確認日：2026-09-22');
+  await expect(panel).toContainText('提出・公開の承認が完了していません');
+  await panel.getByText('大会ルールを確認する', { exact: true }).click();
+  await expect(panel).toContainText('元素材の権利が不明なら使用できません');
+  await expect(panel.getByRole('link', { name: '公式参加者ガイドブック' })).toHaveAttribute('href', 'https://odh-tokyo2026.code4japan.org/');
+  await panel.getByText(/素材ごとの許諾・AI申告を見る/).click();
+  await panel.getByText(/Figma素材（/).click();
+  const asset = panel.locator('li').filter({ has: page.getByText('src/assets/figma/story-hero.png', { exact: true }) });
+  await asset.locator('summary').click();
+  await expect(asset).toContainText('権利確認待ち');
+  await expect(asset).toContainText('許諾済み範囲');
+  await expect(asset).toContainText('登録なし');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.goto('/data-review/#okutama-kitchen');
+  const sources = page.getByRole('region', { name: '出典・確認状況' });
+  await expect(sources).toContainText('利用条件');
+  await expect(sources).toContainText('All Rights Reserved');
+  await expect(sources).toContainText('意図的に保存しない');
+  await expect(sources).toContainText('事業者情報');
 });

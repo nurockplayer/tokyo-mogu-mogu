@@ -4,7 +4,7 @@
     "url": "https://www.okutama.gr.jp/site/",
     "retrievedAt": "2026-08-08",
     "license": "All Rights Reserved — Copyright(C) 一般社団法人奥多摩観光協会. Directory content is referenced as editorial/demo input only; these rows are committed as origin:'demo' with approximate coordinates and are NOT claimed to be licensed open data.",
-    "note": "The Okutama tourism association publishes the town's real 観光施設一覧 as HTML pages (観光スポット/食事処/温泉/買う etc.). It does not publish a downloadable open-data file. Facility names, addresses, and official URLs below are copied from those pages; coordinates are approximate (district centroid via OpenStreetMap Nominatim) and must be re-verified in the field before production use."
+    "note": "All Rights Reserved HTML directory; retained only as a non-runtime historical reference. Coordinates are independently supplied and require verification. Only the tourism-office phone is retained for its current Ledger comparison."
   },
   "records": [
     {
@@ -18,8 +18,7 @@
       "phone": "0428-83-2152",
       "retrievedAt": "2026-08-26",
       "category": "info-center",
-      "coordApprox": false,
-      "note": "Visitor anchor; geocoded from OSM '奥多摩観光案内所'."
+      "coordApprox": false
     },
     {
       "key": "yamasemi-cafe",
@@ -29,10 +28,8 @@
       "latitude": 35.7677639,
       "longitude": 139.0225429,
       "url": "https://okutama-yamasemi.cafe/",
-      "phone": "0428-86-2552",
       "category": "restaurant",
-      "coordApprox": false,
-      "note": "Located inside 山のふるさと村; yamame dishes."
+      "coordApprox": false
     },
     {
       "key": "hatonosu-kamameshi",
@@ -42,10 +39,8 @@
       "latitude": 35.8150523,
       "longitude": 139.1287096,
       "url": "http://www.hatonosukamameshi.com/",
-      "phone": "0428-85-1970",
       "category": "restaurant",
-      "coordApprox": true,
-      "note": "Coordinate = 鳩ノ巣駅 area (approx); river-fish kamameshi."
+      "coordApprox": true
     },
     {
       "key": "soba-tanzaburo",
@@ -55,10 +50,8 @@
       "latitude": 35.8104963,
       "longitude": 139.1538298,
       "url": "https://www.instagram.com/tanzaburo/",
-      "phone": "0428-84-7777",
       "category": "restaurant",
-      "coordApprox": true,
-      "note": "Coordinate = 丹三郎 district centroid (approx)."
+      "coordApprox": true
     },
     {
       "key": "soba-isshintei",
@@ -68,10 +61,8 @@
       "latitude": 35.8104963,
       "longitude": 139.1538298,
       "url": "http://okutama-k.jimdo.com/食事/一心亭/",
-      "phone": "0428-85-2231",
       "category": "restaurant",
-      "coordApprox": true,
-      "note": "Coordinate = 丹三郎 district centroid (approx)."
+      "coordApprox": true
     },
     {
       "key": "chishima-wasabi-garden",
@@ -81,10 +72,8 @@
       "latitude": 35.8104963,
       "longitude": 139.1538298,
       "url": "https://www.okutama.gr.jp/site/shopping/",
-      "phone": "0428-85-1872",
       "category": "farm",
-      "coordApprox": true,
-      "note": "Wasabi + wasabi products; no own site (listed in 買う page). Coordinate = 丹三郎 district centroid (approx)."
+      "coordApprox": true
     },
     {
       "key": "tokyo-tenkusansei-komura",
@@ -92,11 +81,10 @@
       "nameEn": "Tokyo Tenkusansei (Wasabiya Komura)",
       "address": "東京都西多摩郡奥多摩町（川苔山山裾）",
       "latitude": 35.8098,
-      "longitude": 139.0900,
+      "longitude": 139.09,
       "url": "https://www.komura-ss.com/",
       "category": "farm",
-      "coordApprox": true,
-      "note": "Wasabi grown at the foot of Mt. Kawatai; exact plot not published, coordinate is an Okutama-center approximation. Must be re-verified in the field."
+      "coordApprox": true
     },
     {
       "key": "shishiguchiya",
@@ -106,10 +94,8 @@
       "latitude": 35.8305487,
       "longitude": 139.1621017,
       "url": "https://www.okutama.gr.jp/site/shopping/",
-      "phone": "0428-85-2161",
       "category": "shop",
-      "coordApprox": true,
-      "note": "Wasabi shop (no own site). Coordinate = 大丹波 district centroid (approx)."
+      "coordApprox": true
     },
     {
       "key": "wasabi-experience",
@@ -120,8 +106,7 @@
       "longitude": 139.1640333,
       "url": "https://okutamawasabi.com/",
       "category": "other",
-      "coordApprox": true,
-      "note": "Wasabi tasting/experience; coordinate = 川井 district centroid (approx)."
+      "coordApprox": true
     },
     {
       "key": "misuzudo",
@@ -131,10 +116,8 @@
       "latitude": 35.8092044,
       "longitude": 139.0966838,
       "url": "https://www.okutama.gr.jp/site/shopping/",
-      "phone": "0428-83-2015",
       "category": "shop",
-      "coordApprox": true,
-      "note": "Sells wasabi, wasabi products, fishing gear. Coordinate = 氷川 district centroid (approx)."
+      "coordApprox": true
     },
     {
       "key": "hikawa-masu-fishing",
@@ -144,10 +127,8 @@
       "latitude": 35.8092044,
       "longitude": 139.0966838,
       "url": "http://www.okutamas.co.jp/kokusai/",
-      "phone": "0428-83-2147",
       "category": "other",
-      "coordApprox": true,
-      "note": "Trout fishing; coordinate = 氷川 district centroid (approx)."
+      "coordApprox": true
     },
     {
       "key": "odanba-trout-fishing",
@@ -157,10 +138,8 @@
       "latitude": 35.8305487,
       "longitude": 139.1621017,
       "url": "http://www.ohtabaturiba.com/",
-      "phone": "0428-85-2235",
       "category": "other",
-      "coordApprox": true,
-      "note": "Rainbow trout fishing; coordinate = 大丹波 district centroid (approx)."
+      "coordApprox": true
     },
     {
       "key": "tsuribori-cafe-futami",
@@ -170,10 +149,8 @@
       "latitude": 35.8036302,
       "longitude": 139.1137461,
       "url": "http://www.futami23-design.com/",
-      "phone": "0428-83-8778",
       "category": "other",
-      "coordApprox": true,
-      "note": "Fishing-pond cafe (yamame/rainbow trout); coordinate = 海沢 district centroid (approx)."
+      "coordApprox": true
     },
     {
       "key": "tokyo-trout-country",
@@ -183,10 +160,8 @@
       "latitude": 35.8260689,
       "longitude": 139.0721619,
       "url": "http://ttcmayfly.web.fc2.com/",
-      "phone": "0428-83-2788",
       "category": "other",
-      "coordApprox": true,
-      "note": "Lure/fly/tenkara fishing; coordinate = 日原 district centroid (approx)."
+      "coordApprox": true
     },
     {
       "key": "makino-fish-farm",
@@ -196,10 +171,8 @@
       "latitude": 35.8036302,
       "longitude": 139.1137461,
       "url": "https://www.okutama.gr.jp/site/shopping/",
-      "phone": "0428-83-3200",
       "category": "farm",
-      "coordApprox": true,
-      "note": "Direct sales of yamame/rainbow trout; coordinate = 海沢 district centroid (approx)."
+      "coordApprox": true
     },
     {
       "key": "moegi-no-yu",
@@ -209,10 +182,8 @@
       "latitude": 35.8046405,
       "longitude": 139.1026411,
       "url": "https://www.okutamas.co.jp/moegi/",
-      "phone": "0428-82-7770",
       "category": "other",
-      "coordApprox": false,
-      "note": "Day-use hot spring; geocoded from OSM."
+      "coordApprox": false
     },
     {
       "key": "nishihara-cave",
@@ -223,8 +194,7 @@
       "longitude": 139.0407726,
       "url": "https://www.okutama.gr.jp/site/sightseeing/",
       "category": "other",
-      "coordApprox": false,
-      "note": "Limestone cave (sightseeing); geocoded from OSM."
+      "coordApprox": false
     },
     {
       "key": "yama-no-furusato-mura",
@@ -235,8 +205,7 @@
       "longitude": 139.0225429,
       "url": "https://www.yamafuru.com/",
       "category": "info-center",
-      "coordApprox": false,
-      "note": "Nature park / visitor facility at Okutama Lake; geocoded from OSM."
+      "coordApprox": false
     },
     {
       "key": "cafe-kuala",
@@ -246,10 +215,8 @@
       "latitude": 35.8092044,
       "longitude": 139.0966838,
       "url": "https://www.cafekuala.jp/",
-      "phone": "090-3518-2516",
       "category": "restaurant",
-      "coordApprox": true,
-      "note": "Cafe inside Hikawa Campsite; yuzu goods and potato curry. Coordinate = 氷川 district centroid (approx)."
+      "coordApprox": true
     }
   ]
 }

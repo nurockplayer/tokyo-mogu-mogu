@@ -1365,3 +1365,27 @@ describe('Human Data Review Board projection (#340, #343)', () => {
     expect(summary).not.toContain('固定マップピン');
   });
 });
+
+
+describe('source reuse metadata (#370)', () => {
+  it('retains distinct licenses and missing rights without altering fact status or provider type', () => {
+    const claims = [
+      claim({ claimId: 'address:cc', fieldId: 'address', canonicalValue: 'Example address', primarySource: 'Public dataset', primarySourceUrl: 'https://example.com/data', primarySourceType: 'open_data', primarySourceLicense: 'CC BY 4.0' }),
+      claim({ claimId: 'phone:unknown', fieldId: 'phone', primarySource: 'Public dataset', primarySourceUrl: 'https://example.com/data', primarySourceType: 'open_data' }),
+      claim({ claimId: 'name:official', fieldId: 'name:ja', primarySource: 'Official venue', primarySourceUrl: 'https://example.com/venue', primarySourceType: 'official_web', primarySourceLicense: 'All Rights Reserved' }),
+      claim({ claimId: 'coordinates:google', fieldId: 'coordinates', primarySource: 'Google Maps', primarySourceUrl: 'https://maps.google.com', primarySourceType: 'business' }),
+      claim({ claimId: 'coordinates:osm', fieldId: 'coordinates', primarySource: 'OpenStreetMap', primarySourceUrl: 'https://www.openstreetmap.org', primarySourceType: 'open_data', primarySourceLicense: 'ODbL 1.0' }),
+    ];
+    const entity = buildHumanDataReviewBoard({ claims, currentProductEntities: exampleSpot, evidenceManifest: { evidence: [], omissions: [] } }).entities[0];
+    expect(entity.sources).toHaveLength(5);
+    expect(entity.sources).toEqual(expect.arrayContaining([
+      expect.objectContaining({ name: 'Public dataset', license: 'CC BY 4.0', sourceType: 'open_data' }),
+      expect.objectContaining({ name: 'Public dataset', license: undefined }),
+      expect.objectContaining({ name: 'Official venue', license: 'All Rights Reserved', sourceType: 'official_web' }),
+      expect.objectContaining({ name: 'Google Maps', sourceType: 'business', coordinateProvider: true }),
+      expect.objectContaining({ name: 'OpenStreetMap', license: 'ODbL 1.0', coordinateProvider: true }),
+    ]));
+    expect(entity.sources.every((source) => source.status === 'needs_confirmation')).toBe(true);
+    expect(entity.facts.find((fact) => fact.fieldKey === 'address')?.sources[0].license).toBe('CC BY 4.0');
+  });
+});

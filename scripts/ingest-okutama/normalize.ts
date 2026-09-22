@@ -77,7 +77,6 @@ export interface DirectoryRow {
   retrievedAt?: string;
   category: string;
   coordApprox: boolean;
-  note?: string;
 }
 
 /** Minimal RFC-4180-ish CSV splitter (handles quoted fields). */
