@@ -1257,6 +1257,20 @@ describe('repository data verification ledger (#333)', () => {
     ).toMatchObject({ displayedValue: '4', finding: 'canonical_missing' });
   });
 
+  it('describes the first displayed stop generically in route-summary provenance', () => {
+    const claims = buildRepositoryLedgerClaims();
+    const akiruno = claims.find((row) =>
+      row.claimId === 'route:akiruno-seasonal-produce-journey:half-day:summary_stop_count:ja');
+    const okutama = claims.find((row) =>
+      row.claimId === 'route:okutama-wasabi-journey:half-day:summary_stop_count:ja');
+
+    expect(akiruno?.displayedValue).toBe('2 スポット');
+    expect(okutama?.displayedValue).toBe('7 スポット');
+    expect(akiruno?.note).toContain('count includes the first displayed stop');
+    expect(okutama?.note).toContain('count includes the first displayed stop');
+    expect(akiruno?.note).not.toContain('starting station');
+  });
+
   it('maps mobile Route guidance to canonical source-backed facts (#324)', () => {
     const claims = buildRepositoryLedgerClaims();
     const scheduleDirectory = claims.find(

@@ -949,6 +949,28 @@ describe('data verification evidence manifest (#334)', () => {
     ).toThrow(error);
   });
 
+  it('records exact Akiruno source-page omissions without asserting reuse rights', () => {
+    const omissionsById = new Map(
+      DATA_VERIFICATION_EVIDENCE_MANIFEST.omissions.map((item) => [item.omissionId, item]),
+    );
+    for (const [omissionId, sourceUrl] of [
+      ['akiruno-seasonal-municipal-source-not-captured', 'https://www.city.akiruno.tokyo.jp/kanko/0000001109.html'],
+      ['akiruno-farmers-municipal-source-not-captured', 'https://www.city.akiruno.tokyo.jp/0000003556.html'],
+      ['akiruno-seoto-operator-source-not-captured', 'http://www.seotonoyu.jp/access'],
+      ['akiruno-gotokyo-source-not-captured', 'https://www.gotokyo.org/jp/spot/397/index.html'],
+    ] as const) {
+      expect(omissionsById.get(omissionId)).toMatchObject({
+        kind: 'source',
+        sourceUrl,
+        recordedAt: '2026-09-26',
+        reason: expect.stringContaining('reuse permission is not recorded'),
+      });
+    }
+    expect(DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.some((item) =>
+      item.entityId === 'produce-akiruno' || item.entityId === 'akiruno-seasonal-produce-journey'))
+      .toBe(false);
+  });
+
   it('rejects an unknown omission kind', () => {
     const invalidManifest = {
       evidence: [],

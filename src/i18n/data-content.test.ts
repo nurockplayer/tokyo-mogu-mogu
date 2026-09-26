@@ -59,6 +59,32 @@ describe('S4 story content availability (#123)', () => {
     }
   });
 
+  it('resolves the Akiruno culture, stop, and locale mappings (#351)', () => {
+    const content = storyContent('produce-akiruno');
+    expect(content?.name).toBe('dataAkirunoProduceName');
+    expect(routeNameKey('akiruno-seasonal-produce-journey')).toBe('dataAkirunoRouteName');
+    expect(placeNameKey('akiruno-farmers-center')).toBe('dataPlaceAkirunoFarmersName');
+    expect(placeNameKey('akiruno-seoto-no-yu')).toBe('dataPlaceAkirunoSeotoName');
+    expect(stepRoleKey('akiruno-seasonal-produce-journey', 'akiruno-farmers-center', 'half-day'))
+      .toBe('dataAkirunoStopRoleFarmersHalfDay');
+    expect(stepRoleKey('akiruno-seasonal-produce-journey', 'akiruno-seoto-no-yu', '1-day'))
+      .toBe('dataAkirunoStopRoleSeotoFullDay');
+
+    for (const locale of ['ja', 'en', 'zh-TW'] as const) {
+      for (const key of [
+        'dataAkirunoProduceName',
+        'dataAkirunoProduceStory',
+        'dataAkirunoProduceHowToEnjoy',
+        'dataAkirunoRouteName',
+        'dataAkirunoFarmersHours',
+        'dataAkirunoFarmersClosedDays',
+        'dataAkirunoSeotoAccess',
+      ] as const) {
+        expect(resolveKey(strings, locale, key), `${locale} ${key}`).not.toMatch(/^missing:/);
+      }
+    }
+  });
+
   it('keeps operational cautions specific to each playable journey', () => {
     expect(routeOperationalNoteKey('okutama-wasabi-journey')).toBe('s5ReservationNote');
     expect(routeOperationalNoteKey('ome-sawai-sake-journey')).toBe('dataSakeRouteOperationalNote');

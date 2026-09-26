@@ -17,6 +17,7 @@ export default defineConfig({
     'issue-348-ome-sake.spec.ts',
     'issue-349-hachioji-ginger.spec.ts',
     'issue-350-fussa-sake.spec.ts',
+    'issue-351-akiruno-produce.spec.ts',
     'issue-374-route-spacing.spec.ts',
     'issue-379-food-profile-modal-dismiss.spec.ts',
   ],

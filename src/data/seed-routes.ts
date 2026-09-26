@@ -345,7 +345,7 @@ const SOURCE_AKIRUNO_ROUTE: DataSource = {
   url: 'https://www.city.akiruno.tokyo.jp/kanko/0000001109.html',
   sourceType: 'official_web',
   sourceUpdatedAt: '2024-04-09',
-  retrievedAt: '2026-08-19',
+  retrievedAt: '2026-09-26',
   verificationStatus: 'needs_confirmation',
   originalId: 'seed-route-akiruno-seasonal-produce',
 };
@@ -355,7 +355,7 @@ const SOURCE_AKIRUNO_SPECIALTIES: DataSource = {
   url: 'https://www.city.akiruno.tokyo.jp/kanko/0000001109.html',
   sourceType: 'official_web',
   sourceUpdatedAt: '2024-04-09',
-  retrievedAt: '2026-08-19',
+  retrievedAt: '2026-09-26',
   verificationStatus: 'needs_confirmation',
   originalId: 'akiruno-specialty-foods-1109',
 };
@@ -365,16 +365,16 @@ const SOURCE_AKIRUNO_FARMERS: DataSource = {
   url: 'https://www.city.akiruno.tokyo.jp/0000003556.html',
   sourceType: 'official_web',
   sourceUpdatedAt: '2026-04-02',
-  retrievedAt: '2026-08-19',
+  retrievedAt: '2026-09-26',
   verificationStatus: 'needs_confirmation',
   originalId: 'akiruno-farmers-center-3556',
 };
 
 const SOURCE_AKIRUNO_SEOTO: DataSource = {
   name: '秋川渓谷 瀬音の湯（公式アクセス）',
-  url: 'https://www.seotonoyu.jp/access',
+  url: 'http://www.seotonoyu.jp/access',
   sourceType: 'business',
-  retrievedAt: '2026-08-19',
+  retrievedAt: '2026-09-26',
   verificationStatus: 'needs_confirmation',
   originalId: 'seoto-no-yu-access',
 };
@@ -384,7 +384,7 @@ const SOURCE_AKIRUNO_GOTOKYO: DataSource = {
   url: 'https://www.gotokyo.org/jp/spot/397/index.html',
   sourceType: 'official_web',
   sourceUpdatedAt: '2025-10-31',
-  retrievedAt: '2026-08-19',
+  retrievedAt: '2026-09-26',
   verificationStatus: 'needs_confirmation',
   originalId: 'gotokyo-seoto-no-yu-397',
 };
@@ -914,7 +914,7 @@ export const MODEL_ROUTES: ModelRoute[] = [
   {
     id: 'akiruno-seasonal-produce-journey',
     nameJa: 'あきる野の旬と秋川渓谷をめぐる旅',
-    nameEn: 'Akiruno Seasonal Produce & Akikawa Valley Journey',
+    nameEn: 'Akiruno Seasonal Produce & Akigawa Valley Journey',
     areaJa: 'あきる野',
     areaEn: 'Akiruno',
     defaultDuration: 'half-day',
@@ -950,7 +950,7 @@ export const MODEL_ROUTES: ModelRoute[] = [
             roleJa:
               '瀬音の湯で、秋川渓谷の自然と、地元食材の料理・物産販売につながる食の場を訪ねます。営業内容は公式サイトで確認してください。',
             roleEn:
-              'Continue to Seoto-no-Yu, where the Akikawa valley setting meets local-food dining and specialty sales. Check the official site for current operations.',
+              'Continue to Seoto-no-Yu, where the Akigawa Valley setting meets local-food dining and specialty sales. Check the official site for current operations.',
           },
         ],
         mobility: [
@@ -985,7 +985,7 @@ export const MODEL_ROUTES: ModelRoute[] = [
             roleJa:
               '秋川渓谷の景色と、地元食材を使う料理・物産販売の情報をつなげます。最新の営業・交通情報を出発前に確認してください。',
             roleEn:
-              'Connect the Akikawa valley landscape with local-food dining and specialty sales. Check current operations and transport before setting out.',
+              'Connect the Akigawa Valley landscape with local-food dining and specialty sales. Check current operations and transport before setting out.',
           },
         ],
         mobility: [
@@ -1215,10 +1215,10 @@ export const SPOT_DETAILS: Record<string, SpotDetail> = {
     practical: {
       accessJa: 'JR五日市線「東秋留駅」から徒歩約8分（公式案内）。',
       accessEn: 'About an 8-minute walk from JR Itsukaichi Line Higashi-Akiru Station (official guidance).',
-      hoursJa: '9:00〜17:00',
-      hoursEn: '9:00 a.m.–5:00 p.m.',
-      closedDaysJa: '12月31日〜1月4日。不定休あり。',
-      closedDaysEn: 'Closed December 31–January 4; irregular closures may apply.',
+      hoursJa: '9:00〜17:00（12月30日は15:00まで。訪問前に最新情報をご確認ください）。',
+      hoursEn: '9:00 a.m.–5:00 p.m. (closes at 3:00 p.m. on Dec 30; check current information before visiting).',
+      closedDaysJa: '12月31日〜1月4日。不定休あり。訪問前に最新情報をご確認ください。',
+      closedDaysEn: 'Closed December 31–January 4; irregular closures may apply. Check current information before visiting.',
     },
     tags: {},
     origin: 'editorial',
@@ -1229,10 +1229,10 @@ export const SPOT_DETAILS: Record<string, SpotDetail> = {
     roleJa:
       '瀬音の湯は、秋川渓谷の自然の中で地元食材の料理や地域の物産販売につながる施設です。最新の営業内容と交通を公式サイトで確認します。',
     roleEn:
-      'Seoto-no-Yu sits in the Akikawa valley and connects the landscape with local-food dining and regional products. Check the official site for current operations and transport.',
+      'Seoto-no-Yu sits in the Akigawa Valley and connects the landscape with local-food dining and regional products. Check the official site for current operations and transport.',
     practical: {
-      accessJa: '武蔵五日市駅から西東京バス「瀬音の湯」下車すぐ。バス時刻は当日確認してください。',
-      accessEn: 'From Musashi-Itsukaichi Station, take a Nishi Tokyo Bus to the Seoto-no-Yu stop. Check bus times on the day.',
+      accessJa: 'JR五日市線「武蔵五日市駅」から西東京バス「瀬音の湯経由上養沢行き」で約17分、「瀬音の湯」下車すぐ。時刻は変更される場合があるため事前に確認してください（送迎バスなし）。',
+      accessEn: 'From JR Musashi-Itsukaichi Station, take the Nishi Tokyo Bus for Kami-Yozawa via Seoto-no-Yu (about 17 minutes) to the stop by the facility. Timetables can change; check before travel. No shuttle bus.',
     },
     tags: {},
     origin: 'editorial',

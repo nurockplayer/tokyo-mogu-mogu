@@ -78,6 +78,35 @@ describe('buildJourneyPresentation', () => {
     expect(presentations.every((presentation) => presentation.sourceDate !== undefined)).toBe(true);
   });
 
+  it('projects the Akiruno recovery from canonical facts and preserves its two ordered stops', () => {
+    const candidate = DEMO_RECOMMENDATION_CANDIDATES.find(
+      (item) => item.id === 'demo-tokyo-west-akiruno-produce',
+    )!;
+    const culture = getFoodCultureById('produce-akiruno')!;
+    const route = getRouteById('akiruno-seasonal-produce-journey')!;
+    const presentation = buildJourneyPresentation(candidate, culture, route, places)!;
+
+    expect(presentation).toMatchObject({
+      candidateId: 'demo-tokyo-west-akiruno-produce',
+      foodCultureId: 'produce-akiruno',
+      routeId: 'akiruno-seasonal-produce-journey',
+      sourceStatus: 'needs_confirmation',
+      stopCount: 2,
+      representativePlaces: [{ id: 'akiruno-farmers-center' }, { id: 'akiruno-seoto-no-yu' }],
+    });
+    expect(places.find((place) => place.id === 'akiruno-farmers-center')?.address).toBe('東京都あきる野市二宮811');
+    expect(places.find((place) => place.id === 'akiruno-seoto-no-yu')?.address).toBe('東京都あきる野市乙津565');
+    expect(route.variants['half-day']).toMatchObject({
+      totalMinutes: 195,
+      steps: [{ placeId: 'akiruno-farmers-center' }, { placeId: 'akiruno-seoto-no-yu' }],
+    });
+    expect(route.variants['1-day']).toMatchObject({
+      totalMinutes: 285,
+      steps: [{ placeId: 'akiruno-farmers-center' }, { placeId: 'akiruno-seoto-no-yu' }],
+    });
+    expect(presentation.sourceDate?.date).toBe(route.source.retrievedAt);
+  });
+
   it('does not project unavailable or mismatched candidate data', () => {
     const candidate = DEMO_RECOMMENDATION_CANDIDATES.find(
       (item) => item.id === DEMO_FUSSA_SAKE_CANDIDATE_ID,

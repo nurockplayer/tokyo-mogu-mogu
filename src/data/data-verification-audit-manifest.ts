@@ -74,6 +74,15 @@ export const PRESENTATION_ROUTE_AUDIT = [
     surfaces: ['Story', 'Route'],
     issues: ['#350'],
   },
+  {
+    presentationJourneyId: 'demo-tokyo-west-akiruno-produce',
+    canonicalRouteId: 'akiruno-seasonal-produce-journey',
+    variants: { 'half-day': 'half-day', 'full-day': '1-day' },
+    resultComparisonVariantId: undefined,
+    moguAccess: { presentationSpotId: 'akiruno-farmers-center', canonicalFieldId: 'access' },
+    surfaces: ['Story', 'Route'],
+    issues: ['#351'],
+  },
 ] as const;
 
 export const PRESENTATION_SPOT_AUDIT = [
@@ -220,6 +229,20 @@ export const PRESENTATION_SPOT_AUDIT = [
     issues: ['#350'],
   },
   {
+    presentationSpotId: 'akiruno-farmers-center',
+    canonicalPlaceId: 'akiruno-farmers-center',
+    surface: 'Spot',
+    stableCanonicalFieldIds: ['address', 'access', 'hours', 'closed_days', 'official_current_url'],
+    issues: ['#351'],
+  },
+  {
+    presentationSpotId: 'akiruno-seoto-no-yu',
+    canonicalPlaceId: 'akiruno-seoto-no-yu',
+    surface: 'Spot',
+    stableCanonicalFieldIds: ['address', 'access', 'official_current_url'],
+    issues: ['#351'],
+  },
+  {
     presentationSpotId: 'sawai-ozawa-shuzo',
     canonicalPlaceId: 'sawai-ozawa-shuzo',
     surface: 'Spot',
@@ -333,6 +356,15 @@ export const REQUIRED_STORY_FACTUAL_CLAIMS = {
     { claimId: 'story.factual.editorial-stop-order', fieldLabel: 'Editorial three-stop sequence', parentFieldId: 'presentation:story_chapters', timeSensitive: false },
     { claimId: 'story.factual.visit-conditions', fieldLabel: 'Visit, sales, and operating-condition caveat', parentFieldId: 'presentation:story_point', timeSensitive: true },
   ],
+  'demo-tokyo-west-akiruno-produce': [
+    { claimId: 'story.factual.norabō-itsukaichi-history', fieldLabel: 'Norabō greens cultivated in Itsukaichi since the Edo period', parentFieldId: 'presentation:story_chapters', timeSensitive: false },
+    { claimId: 'story.factual.corn-and-pear-seasonality', fieldLabel: 'Seasonal corn and Akikawa pear harvest windows', parentFieldId: 'presentation:story_chapters', timeSensitive: true },
+    { claimId: 'story.factual.producer-direct-sales', fieldLabel: 'Producer direct-sale market context', parentFieldId: 'presentation:story_chapters', timeSensitive: true },
+    { claimId: 'story.factual.seasonal-stock-caution', fieldLabel: 'Seasonal produce and day-of stock caveat', parentFieldId: 'presentation:story_chapters', timeSensitive: true },
+    { claimId: 'story.factual.akigawa-valley-context', fieldLabel: 'Akigawa Valley and local-food context', parentFieldId: 'presentation:story_intro', timeSensitive: false },
+    { claimId: 'story.factual.editorial-stop-sequence', fieldLabel: 'Editorial Farmers Center to Seoto-no-Yu sequence', parentFieldId: 'presentation:story_chapters', timeSensitive: false },
+    { claimId: 'story.factual.pre-visit-operations-caveat', fieldLabel: 'Season, operations, stock, and transport pre-visit guidance', parentFieldId: 'presentation:story_point', timeSensitive: true },
+  ],
 } as const;
 
 /** Metadata-only identities for operational facts embedded in Route guidance. */
@@ -355,6 +387,8 @@ export const REQUIRED_ROUTE_GUIDANCE_FACTUAL_CLAIMS = [
   { presentationJourneyId: 'demo-okutama-yamame', variantId: 'half-day', spotId: 'hikawa-valley', claimId: 'river-safety', fieldLabel: 'Hikawa Valley swimming and high-water safety', timeSensitive: true, canonicalPlaceId: 'hikawa-valley', canonicalFieldId: 'water_safety', issues: ['#329', '#334'] },
   { presentationJourneyId: 'demo-okutama-yamame', variantId: 'half-day', spotId: 'akabeko', claimId: 'lunch-duration', fieldLabel: 'Yamame lunch duration', timeSensitive: true },
   { presentationJourneyId: 'demo-okutama-yamame', variantId: 'half-day', spotId: 'akabeko', claimId: 'dish-availability', fieldLabel: 'Yamame lunch availability', timeSensitive: true, canonicalPlaceId: 'akabeko', canonicalFieldId: 'product_availability', issues: ['#326'] },
+  { presentationJourneyId: 'demo-tokyo-west-akiruno-produce', variantId: 'half-day', spotId: 'akiruno-farmers-center', claimId: 'seasonal-stock-and-current-hours', fieldLabel: 'Seasonal stock and current Farmers Center hours', timeSensitive: true, canonicalPlaceId: 'akiruno-farmers-center', canonicalFieldId: 'hours', issues: ['#351'] },
+  { presentationJourneyId: 'demo-tokyo-west-akiruno-produce', variantId: 'half-day', spotId: 'akiruno-seoto-no-yu', claimId: 'current-operations-and-transit', fieldLabel: 'Seoto-no-Yu operations and current bus guidance', timeSensitive: true, canonicalSpotDetailId: 'akiruno-seoto-no-yu', canonicalFieldId: 'access', issues: ['#351'] },
 ] as const;
 
 /** Metadata-only identities for factual assertions embedded in Story spot cards. */
@@ -379,6 +413,8 @@ export const REQUIRED_STORY_SPOT_FACTUAL_CLAIMS = [
   { presentationJourneyId: 'demo-ome-sake', spotId: 'sawanoien-garden', claimId: 'story.spot.sawanoien-garden.operating-calendar-check', fieldLabel: 'Sawanoien official operating-calendar check', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true, canonicalSpotDetailId: 'sawanoien-garden', canonicalFieldId: 'closed_days', presentationField: 'note' },
   { presentationJourneyId: 'demo-ome-sake', spotId: 'mitake-shrine', claimId: 'story.spot.mitake-shrine.role-context', fieldLabel: 'Mitake Shrine heritage context', parentFieldId: 'presentation:spot_group:nature', timeSensitive: false, canonicalPlaceId: 'mitake-shrine', canonicalFieldId: 'story_wording' },
   { presentationJourneyId: 'demo-ome-sake', spotId: 'baba-oshijutaku', claimId: 'story.spot.baba-oshijutaku.role-context', fieldLabel: 'Baba House oshi-residence heritage context', parentFieldId: 'presentation:spot_group:nature', timeSensitive: false, canonicalPlaceId: 'baba-oshijutaku', canonicalFieldId: 'story_wording' },
+  { presentationJourneyId: 'demo-tokyo-west-akiruno-produce', spotId: 'akiruno-farmers-center', claimId: 'story.spot.akiruno-farmers-center.seasonal-direct-sales', fieldLabel: 'Farmers Center seasonal direct-sale role and stock caveat', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true, canonicalPlaceId: 'akiruno-farmers-center', canonicalFieldId: 'story_wording', issues: ['#351'] },
+  { presentationJourneyId: 'demo-tokyo-west-akiruno-produce', spotId: 'akiruno-seoto-no-yu', claimId: 'story.spot.akiruno-seoto-no-yu.valley-local-food-role', fieldLabel: 'Seoto-no-Yu valley, dining, and regional-product context', parentFieldId: 'presentation:spot_group:nearby', timeSensitive: true, canonicalPlaceId: 'akiruno-seoto-no-yu', canonicalFieldId: 'story_wording', issues: ['#351'] },
 ] as const;
 
 export const REQUIRED_VISIBLE_SPOT_FIELDS = [

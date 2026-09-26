@@ -1853,7 +1853,7 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
               ? 'Visible presentation summary; confirm current travel conditions.'
               : undefined,
             issues: [...audit.issues],
-            note: 'Derived by routeVariantSummary from the same displayed variant.durationMinutes and variant.steps rendered by RouteScreen. Duration is an editorial local estimate excluding travel from the origin; count includes the starting station. No real-world verification is inferred.',
+            note: 'Derived by routeVariantSummary from the same displayed variant.durationMinutes and variant.steps rendered by RouteScreen. Duration is an editorial local estimate excluding travel from the origin; the count includes the first displayed stop. No real-world verification is inferred.',
           });
         }
         if (stats.caution) {
