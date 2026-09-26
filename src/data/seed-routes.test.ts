@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   getRouteById,
   getRouteIdForPlace,
+  getSpotDetail,
   mapCanvasWidthPx,
   MODEL_ROUTES,
   PIN_LAYOUT,
@@ -63,6 +64,42 @@ describe('model routes (#45 S5)', () => {
         verificationStatus: 'needs_confirmation',
       });
     }
+  });
+
+  it('keeps Akiruno current official access and closure guidance source-bounded (#351)', () => {
+    const route = getRouteById('akiruno-seasonal-produce-journey')!;
+    const farmers = getSpotDetail('akiruno-farmers-center')!;
+    const seoto = getSpotDetail('akiruno-seoto-no-yu')!;
+
+    expect(route.variants['half-day']).toMatchObject({ totalMinutes: 195 });
+    expect(route.variants['1-day']).toMatchObject({ totalMinutes: 285 });
+    expect(route.variants['half-day'].mobility[0]).toMatchObject({
+      durationMinutes: 35,
+      labelJa: '西東京バス（目安）',
+    });
+    expect(route.sources?.find((source) => source.originalId === 'akiruno-farmers-center-3556')).toMatchObject({
+      url: 'https://www.city.akiruno.tokyo.jp/0000003556.html',
+      sourceUpdatedAt: '2026-04-02',
+      retrievedAt: '2026-09-26',
+      verificationStatus: 'needs_confirmation',
+    });
+    expect(route.sources?.find((source) => source.originalId === 'seoto-no-yu-access')).toMatchObject({
+      url: 'http://www.seotonoyu.jp/access',
+      retrievedAt: '2026-09-26',
+      verificationStatus: 'needs_confirmation',
+    });
+    expect(farmers.practical).toMatchObject({
+      hoursJa: expect.stringContaining('12月30日は15:00まで'),
+      hoursEn: expect.stringContaining('closes at 3:00 p.m. on Dec 30'),
+      closedDaysJa: expect.stringContaining('不定休あり'),
+      closedDaysEn: expect.stringContaining('irregular closures may apply'),
+    });
+    expect(seoto.practical?.accessJa).toContain('約17分');
+    expect(seoto.practical?.accessJa).toContain('送迎バスなし');
+    expect(seoto.practical?.accessEn).toContain('about 17 minutes');
+    expect(seoto.practical?.accessEn).toContain('No shuttle bus');
+    expect(seoto.practical?.hoursJa).toBeUndefined();
+    expect(seoto.practical?.hoursEn).toBeUndefined();
   });
 
   it('marks only the frozen 8/23 demo route as demo content', () => {
@@ -184,8 +221,10 @@ describe('spot details (#45 S6)', () => {
           expect(p.accessJa).toContain('熊川1番地');
           expect(p.accessEn).toContain('Kumagawa 1');
         } else if (detail.placeId === 'akiruno-farmers-center') {
-          expect(p.hoursJa).toBe('9:00〜17:00');
+          expect(p.hoursJa).toContain('9:00〜17:00');
+          expect(p.hoursJa).toContain('12月30日は15:00まで');
           expect(p.hoursEn).toContain('5:00 p.m.');
+          expect(p.hoursEn).toContain('closes at 3:00 p.m. on Dec 30');
           expect(p.closedDaysJa).toContain('12月31日');
         } else if (detail.placeId === 'akiruno-seoto-no-yu') {
           expect(p.accessJa).toContain('瀬音の湯');

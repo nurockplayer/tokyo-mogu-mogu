@@ -511,7 +511,7 @@ export const FOOD_CULTURES: FoodCulture[] = [
   },
   // ---- あきる野 × 秋川の旬の農産物 slice (#244) ----------------------
   // The 2024 specialty-food page is retained with its own sourceUpdatedAt so
-  // seasonal claims stay honest; the Farmers Center page was refreshed in 2026.
+  // seasonal claims stay honest; current source checks were refreshed in 2026.
   {
     id: 'produce-akiruno',
     nameJa: '秋川の旬の農産物',
@@ -520,11 +520,11 @@ export const FOOD_CULTURES: FoodCulture[] = [
     area: 'akiruno',
     descriptionJa: 'のらぼう菜や旬の農産物を入口に、あきる野の直売所と秋川渓谷を訪ねる食文化。',
     descriptionEn:
-      'Discover Akiruno through seasonal produce such as norabō greens, direct sales, and the Akikawa valley.',
+      'Discover Akiruno through seasonal produce such as norabō greens, direct sales, and the Akigawa Valley.',
     storyJa:
       'あきる野の五日市地区では、江戸時代からのらぼう菜の栽培が続いてきました。とうもろこしや梨など季節ごとの農産物を、直売所と秋川渓谷の食の場からたどります。',
     storyEn:
-      'In Akiruno’s Itsukaichi area, norabō greens have been cultivated since the Edo period. Follow seasonal produce such as corn and pears through direct-sale and local-food places in the Akikawa valley.',
+      'In Akiruno’s Itsukaichi area, norabō greens have been cultivated since the Edo period. Follow seasonal produce such as corn and pears through direct-sale and local-food places in the Akigawa Valley.',
     historyJa:
       'あきる野市の公式案内は、のらぼう菜を江戸時代から五日市地区で栽培されてきた野菜として紹介しています。とうもろこしの収穫期は初夏、梨は夏から秋が目安です。',
     historyEn:
@@ -548,7 +548,7 @@ export const FOOD_CULTURES: FoodCulture[] = [
         url: 'https://www.city.akiruno.tokyo.jp/kanko/0000001109.html',
         sourceType: 'official_web',
         sourceUpdatedAt: '2024-04-09',
-        retrievedAt: '2026-08-19',
+        retrievedAt: '2026-09-26',
         verificationStatus: 'needs_confirmation',
         originalId: 'akiruno-specialty-foods-1109',
       },
@@ -557,15 +557,15 @@ export const FOOD_CULTURES: FoodCulture[] = [
         url: 'https://www.city.akiruno.tokyo.jp/0000003556.html',
         sourceType: 'official_web',
         sourceUpdatedAt: '2026-04-02',
-        retrievedAt: '2026-08-19',
+        retrievedAt: '2026-09-26',
         verificationStatus: 'needs_confirmation',
         originalId: 'akiruno-farmers-center-3556',
       },
       {
         name: '秋川渓谷 瀬音の湯（公式アクセス）',
-        url: 'https://www.seotonoyu.jp/access',
+        url: 'http://www.seotonoyu.jp/access',
         sourceType: 'business',
-        retrievedAt: '2026-08-19',
+        retrievedAt: '2026-09-26',
         verificationStatus: 'needs_confirmation',
         originalId: 'seoto-no-yu-access',
       },
@@ -574,7 +574,7 @@ export const FOOD_CULTURES: FoodCulture[] = [
         url: 'https://www.gotokyo.org/jp/spot/397/index.html',
         sourceType: 'official_web',
         sourceUpdatedAt: '2025-10-31',
-        retrievedAt: '2026-08-19',
+        retrievedAt: '2026-09-26',
         verificationStatus: 'needs_confirmation',
         originalId: 'gotokyo-seoto-no-yu-397',
       },

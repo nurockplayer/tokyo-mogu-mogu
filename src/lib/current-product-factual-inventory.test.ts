@@ -5,6 +5,8 @@ describe('current Product factual inventory (#343)', () => {
   it('derives the current journeys, their Stories, Routes, and reachable Spots', () => {
     expect(buildCurrentProductFactualInventory()).toEqual([
       { id: 'akabeko', type: 'Spot' },
+      { id: 'akiruno-farmers-center', type: 'Spot' },
+      { id: 'akiruno-seoto-no-yu', type: 'Spot' },
       { id: 'baba-oshijutaku', type: 'Spot' },
       { id: 'fussa-ishikawa-shuzo', type: 'Spot' },
       { id: 'fussa-kurumiru', type: 'Spot' },
@@ -25,10 +27,12 @@ describe('current Product factual inventory (#343)', () => {
       { id: 'wasabi-kitchen', type: 'Spot' },
       { id: 'yamashiroya', type: 'Spot' },
       { id: 'hachioji-ginger', type: 'Story' },
+      { id: 'produce-akiruno', type: 'Story' },
       { id: 'sake-fussa', type: 'Story' },
       { id: 'sake-ome', type: 'Story' },
       { id: 'wasabi-okutama', type: 'Story' },
       { id: 'yamame-okutama', type: 'Story' },
+      { id: 'akiruno-seasonal-produce-journey', type: 'Route' },
       { id: 'fussa-sake-journey', type: 'Route' },
       { id: 'hachioji-ginger-journey', type: 'Route' },
       { id: 'okutama-wasabi-journey', type: 'Route' },
@@ -48,7 +52,8 @@ describe('current Product factual inventory (#343)', () => {
     expect(ids).toContain('fussa-tamura-shuzo');
     expect(ids).toContain('fussa-sake-journey');
     expect(ids).not.toContain('fussa-water-heritage-course');
-    expect(ids).not.toContain('akiruno-seasonal-produce-journey');
+    expect(ids).toContain('akiruno-seasonal-produce-journey');
+    expect(ids).not.toContain('demo-tokyo-west-akiruno-produce');
   });
 
   it('is deterministic', () => {

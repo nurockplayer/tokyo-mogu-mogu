@@ -880,8 +880,8 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       places,
     });
 
-    expect(board.entities).toHaveLength(30);
-    expect(board.entityTypeCounts).toEqual({ Spot: 20, Story: 5, Route: 5 });
+    expect(board.entities).toHaveLength(34);
+    expect(board.entityTypeCounts).toEqual({ Spot: 22, Story: 6, Route: 6 });
     expect(board.entities.map((entity) => entity.id)).toEqual(expect.arrayContaining([
       'akabeko',
       'baba-oshijutaku',
@@ -908,6 +908,10 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       'hachioji-takiyama-castle',
       'hachioji-ginger',
       'hachioji-ginger-journey',
+      'akiruno-farmers-center',
+      'akiruno-seoto-no-yu',
+      'produce-akiruno',
+      'akiruno-seasonal-produce-journey',
       'fussa-tamura-shuzo',
       'fussa-kurumiru',
       'fussa-ishikawa-shuzo',
@@ -916,6 +920,18 @@ describe('Human Data Review Board projection (#340, #343)', () => {
     ]));
 
     const omeStory = board.entities.find((entity) => entity.id === 'sake-ome');
+    const akirunoFarmers = board.entities.find((entity) => entity.id === 'akiruno-farmers-center');
+    const akirunoHours = akirunoFarmers?.facts.find((fact) =>
+      fact.claimIds.includes('spot:akiruno-farmers-center:hours'));
+    expect(akirunoHours).toMatchObject({
+      status: 'needs_confirmation',
+      sources: [expect.objectContaining({
+        url: 'https://www.city.akiruno.tokyo.jp/0000003556.html',
+        retrievedAt: '2026-09-26',
+      })],
+    });
+    expect(akirunoHours?.displayedValue).toContain('12月30日は15:00まで');
+
     for (const [fieldKey, sourceUrl] of [
       [
         'story.factual.brewery-tour-reservation',

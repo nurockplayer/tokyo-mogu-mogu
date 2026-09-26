@@ -288,6 +288,289 @@ const FUSSA_SPOT_APP_EVIDENCE: readonly DataVerificationAppEvidence[] = [
   ]),
 ];
 
+const AKIRUNO_EVIDENCE_LOCALES = ['ja', 'en', 'zh-TW'] as const;
+type AkirunoEvidenceLocale = (typeof AKIRUNO_EVIDENCE_LOCALES)[number];
+
+const AKIRUNO_CAPTURE_TIMES = {
+  mogu: { ja: '13:09:11.408Z', en: '13:09:34.116Z', 'zh-TW': '13:09:54.501Z' },
+  storyTop: { ja: '13:09:11.607Z', en: '13:09:34.304Z', 'zh-TW': '13:09:55.711Z' },
+  storyChapters: { ja: '13:09:11.668Z', en: '13:09:34.409Z', 'zh-TW': '13:09:56.836Z' },
+  storyChapter2: { ja: '13:09:11.746Z', en: '13:09:34.510Z', 'zh-TW': '13:09:57.971Z' },
+  storyChapter3: { ja: '13:11:46.650Z', en: '13:11:57.069Z', 'zh-TW': '13:12:08.755Z' },
+  storyChapter4: { ja: '13:09:11.804Z', en: '13:09:34.576Z', 'zh-TW': '13:09:59.208Z' },
+  storyNearby: { ja: '13:11:46.724Z', en: '13:11:57.188Z', 'zh-TW': '13:12:08.840Z' },
+  storyNearby2: { ja: '13:11:46.821Z', en: '13:11:57.254Z', 'zh-TW': '13:12:08.926Z' },
+  routeUpper: { ja: '13:09:17.160Z', en: '13:09:39.000Z', 'zh-TW': '13:10:05.490Z' },
+  routeHalfStats: { ja: '13:09:17.205Z', en: '13:09:39.094Z', 'zh-TW': '13:10:05.549Z' },
+  routeFullStats: { ja: '13:09:17.364Z', en: '13:09:41.300Z', 'zh-TW': '13:10:05.715Z' },
+  routeHalfStepsEn: { en: '13:13:55.420Z' },
+  routeFullStepsEn: { en: '13:15:22.913Z' },
+  farmersSpot: { ja: '13:09:20.548Z', en: '13:09:44.494Z', 'zh-TW': '13:10:06.889Z' },
+  farmersSpotLower: { ja: '13:11:50.636Z', en: '13:12:00.802Z', 'zh-TW': '13:12:12.511Z' },
+  seotoSpot: { ja: '13:09:29.328Z', en: '13:09:50.302Z', 'zh-TW': '13:10:11.626Z' },
+  seotoSpotLower: { ja: '13:11:54.430Z', en: '13:12:04.619Z', 'zh-TW': '13:12:16.205Z' },
+} as const;
+
+const akirunoCaptureUrl = (frame: string): string => {
+  if (frame === 'mogu') return 'http://localhost:4388/mogu';
+  if (frame === 'story-top') return 'http://localhost:4388/story/produce-akiruno';
+  if (['story-chapters', 'story-chapter-2', 'story-chapter-4'].includes(frame)) {
+    return 'http://localhost:4388/story/produce-akiruno';
+  }
+  if (frame.startsWith('story-')) {
+    return 'http://localhost:4388/story/produce-akiruno?candidateId=demo-tokyo-west-akiruno-produce';
+  }
+  if (frame.startsWith('route-')) {
+    return 'http://localhost:4388/route?candidateId=demo-tokyo-west-akiruno-produce';
+  }
+  const spotId = frame.startsWith('akiruno-farmers-center')
+    ? 'akiruno-farmers-center'
+    : 'akiruno-seoto-no-yu';
+  return `http://localhost:4388/spot/${spotId}?candidateId=demo-tokyo-west-akiruno-produce`;
+};
+
+function akirunoAppEvidence(input: {
+  frame: string;
+  locale: AkirunoEvidenceLocale;
+  capturedAt: string;
+  claimIds: readonly string[];
+  note: string;
+  pathName?: string;
+  entityId?: string;
+  evidenceId?: string;
+}): DataVerificationAppEvidence {
+  const url = akirunoCaptureUrl(input.frame);
+  return {
+    evidenceId: input.evidenceId ?? `akiruno-produce-${input.frame}-${input.locale}-375`,
+    claimIds: input.claimIds,
+    entityId: input.entityId ?? (input.frame === 'mogu' || input.frame.startsWith('route-')
+      ? 'akiruno-seasonal-produce-journey'
+      : input.frame.startsWith('story-')
+        ? 'produce-akiruno'
+        : input.frame.startsWith('akiruno-farmers-center')
+          ? 'akiruno-farmers-center'
+          : 'akiruno-seoto-no-yu'),
+    kind: 'app',
+    capturedAt: '2026-09-26',
+    path: `docs/data-evidence/akiruno-produce/${input.pathName ?? `${input.frame}-${input.locale}.png`}`,
+    locale: input.locale,
+    viewport: { width: 375, height: 812 },
+    note: `#351 ${input.note} Captured at 2026-09-26T${input.capturedAt} from ${url}. Ego-lite's external Shinkansen widget may appear and is not app content. Review evidence only; it does not establish source verification, human confirmation, media rights, or public reuse permission. No appCommit is asserted.`,
+  };
+}
+
+const AKIRUNO_MOGU_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  AKIRUNO_EVIDENCE_LOCALES.map((locale) => akirunoAppEvidence({
+    frame: 'mogu', locale, capturedAt: AKIRUNO_CAPTURE_TIMES.mogu[locale],
+    claimIds: [
+      `route:akiruno-seasonal-produce-journey:name:${locale}`,
+      `route:akiruno-seasonal-produce-journey:mogu.factual.origin-access:${locale}`,
+    ],
+    note: `${locale} MOGU card; only journey title, first-stop access and pending-confirmation card context are linked.`,
+  }));
+
+const AKIRUNO_STORY_TOP_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  AKIRUNO_EVIDENCE_LOCALES.map((locale) => akirunoAppEvidence({
+    frame: 'story-top', locale, capturedAt: AKIRUNO_CAPTURE_TIMES.storyTop[locale],
+    claimIds: [
+      `story:produce-akiruno:presentation:story_intro:${locale}`,
+      `story:produce-akiruno:presentation:story_location:${locale}`,
+    ],
+    note: `${locale} Story opening view with intro and location guidance. Later section heading, chapter/body, and nearby-group claims are excluded.`,
+  }));
+
+const AKIRUNO_STORY_CHAPTER_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  AKIRUNO_EVIDENCE_LOCALES.map((locale) => akirunoAppEvidence({
+    frame: 'story-chapters', locale, capturedAt: AKIRUNO_CAPTURE_TIMES.storyChapters[locale],
+    claimIds: [
+      `story:produce-akiruno:presentation:story_title:${locale}`,
+      `story:produce-akiruno:presentation:story_point:${locale}`,
+      'story:produce-akiruno:story.factual.norabō-itsukaichi-history',
+      'story:produce-akiruno:story.factual.corn-and-pear-seasonality',
+    ],
+    note: `${locale} Story section heading, first chapter history, corn and pear harvest-window wording, and seasonal point; adjacent chapter content is clipped and excluded.`,
+  }));
+
+const AKIRUNO_STORY_SELECTED_CHAPTER_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  AKIRUNO_EVIDENCE_LOCALES.flatMap((locale) => ([
+    {
+      frame: 'story-chapter-2',
+      capturedAt: AKIRUNO_CAPTURE_TIMES.storyChapter2[locale],
+      claims: ['story:produce-akiruno:story.factual.producer-direct-sales'],
+      note: 'selected second chapter with producer direct-sale context',
+    },
+    {
+      frame: 'story-chapter-3',
+      capturedAt: AKIRUNO_CAPTURE_TIMES.storyChapter3[locale],
+      claims: ['story:produce-akiruno:story.factual.seasonal-stock-caution'],
+      note: 'selected third chapter with seasonal stock variability and day-of availability caveat, not crop harvest-window claims',
+    },
+    {
+      frame: 'story-chapter-4',
+      capturedAt: AKIRUNO_CAPTURE_TIMES.storyChapter4[locale],
+      claims: [
+        'story:produce-akiruno:story.factual.editorial-stop-sequence',
+        'story:produce-akiruno:story.factual.pre-visit-operations-caveat',
+      ],
+      note: 'selected fourth chapter with editorial stop sequence and pre-visit caveat',
+    },
+  ].map((chapter) => akirunoAppEvidence({
+    frame: chapter.frame, locale, capturedAt: chapter.capturedAt,
+    claimIds: chapter.claims,
+    note: `${locale} ${chapter.note}; only the selected chapter is linked, not clipped adjacent chapters.`,
+  }))));
+
+const AKIRUNO_STORY_NEARBY_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  AKIRUNO_EVIDENCE_LOCALES.flatMap((locale) => ([
+    {
+      frame: 'story-nearby',
+      capturedAt: AKIRUNO_CAPTURE_TIMES.storyNearby[locale],
+      spotId: 'akiruno-farmers-center',
+      claim: 'story:produce-akiruno:story.spot.akiruno-farmers-center.seasonal-direct-sales',
+    },
+    {
+      frame: 'story-nearby-2',
+      capturedAt: AKIRUNO_CAPTURE_TIMES.storyNearby2[locale],
+      spotId: 'akiruno-seoto-no-yu',
+      claim: 'story:produce-akiruno:story.spot.akiruno-seoto-no-yu.valley-local-food-role',
+    },
+  ].map((nearby) => akirunoAppEvidence({
+    frame: nearby.frame, locale, capturedAt: nearby.capturedAt,
+    claimIds: [
+      nearby.claim,
+      `story:produce-akiruno:presentation:spot_group:nearby:reference:${nearby.spotId}:badge:${locale}`,
+    ],
+    note: `${locale} nearby card for ${nearby.spotId}; only this fully visible card is linked, not the clipped adjacent card.`,
+  }))));
+
+const AKIRUNO_ROUTE_UPPER_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  AKIRUNO_EVIDENCE_LOCALES.map((locale) => {
+    const visibleStops = locale === 'en' ? ['akiruno-farmers-center'] : [
+      'akiruno-farmers-center', 'akiruno-seoto-no-yu',
+    ];
+    return akirunoAppEvidence({
+      frame: 'route-upper', locale, capturedAt: AKIRUNO_CAPTURE_TIMES.routeUpper[locale],
+      claimIds: [
+        `route:akiruno-seasonal-produce-journey:half-day:origin_travel_time_guidance:${locale}`,
+        `route:akiruno-seasonal-produce-journey:half-day:operational_caution:${locale}`,
+        ...visibleStops.flatMap((spotId) => [
+          `route:akiruno-seasonal-produce-journey:half-day:stop:${spotId}:identity`,
+          `route:akiruno-seasonal-produce-journey:half-day:step:${spotId}:guidance:${locale}`,
+        ]),
+      ],
+      note: `${locale} half-day Route upper view with region/access/estimate guidance and fully visible stop cards; English clipped stop description is excluded.`,
+    });
+  });
+
+const akirunoRouteStatsEvidence = (
+  locale: AkirunoEvidenceLocale,
+  variant: 'half-day' | 'full-day',
+  capturedAt: string,
+): DataVerificationAppEvidence => {
+  const visibleStops = locale === 'en' ? ['akiruno-seoto-no-yu'] : [
+    'akiruno-farmers-center', 'akiruno-seoto-no-yu',
+  ];
+  const canonicalVariant = variant === 'half-day' ? 'half-day' : '1-day';
+  return akirunoAppEvidence({
+    frame: variant === 'half-day' ? 'route-half-stats' : 'route-full-stats',
+    locale, capturedAt,
+    claimIds: [
+      `route:akiruno-seasonal-produce-journey:${variant}:summary_time:${locale}`,
+      `route:akiruno-seasonal-produce-journey:${variant}:summary_stop_count:${locale}`,
+      `route:akiruno-seasonal-produce-journey:${canonicalVariant}:transport_summary`,
+      ...visibleStops.flatMap((spotId) => [
+        `route:akiruno-seasonal-produce-journey:${variant}:stop:${spotId}:identity`,
+        `route:akiruno-seasonal-produce-journey:${variant}:step:${spotId}:guidance:${locale}`,
+      ]),
+    ],
+    note: `${locale} ${variant} Route summary with duration, transport, count and fully visible lower stop cards; English first-stop content is excluded from these frames.`,
+  });
+};
+
+const AKIRUNO_ROUTE_STATS_APP_EVIDENCE: readonly DataVerificationAppEvidence[] = [
+  ...AKIRUNO_EVIDENCE_LOCALES.map((locale) => akirunoRouteStatsEvidence(
+    locale, 'half-day', AKIRUNO_CAPTURE_TIMES.routeHalfStats[locale],
+  )),
+  ...AKIRUNO_EVIDENCE_LOCALES.map((locale) => akirunoRouteStatsEvidence(
+    locale, 'full-day', AKIRUNO_CAPTURE_TIMES.routeFullStats[locale],
+  )),
+  ...(['half-day', 'full-day'] as const).map((variant) => akirunoAppEvidence({
+    frame: variant === 'half-day' ? 'route-half-steps-en' : 'route-full-steps-en',
+    locale: 'en',
+    pathName: variant === 'half-day' ? 'route-half-steps-en.png' : 'route-full-steps-en.png',
+    capturedAt: variant === 'half-day'
+      ? AKIRUNO_CAPTURE_TIMES.routeHalfStepsEn.en
+      : AKIRUNO_CAPTURE_TIMES.routeFullStepsEn.en,
+    claimIds: ['akiruno-farmers-center', 'akiruno-seoto-no-yu'].flatMap((spotId) => [
+      `route:akiruno-seasonal-produce-journey:${variant}:stop:${spotId}:identity`,
+      `route:akiruno-seasonal-produce-journey:${variant}:step:${spotId}:guidance:en`,
+    ]),
+    note: `English ${variant} Route frame with both complete stop names and descriptions; summary values are clipped and excluded from this image.`,
+  })),
+];
+
+const akirunoSpotEvidence = (
+  spotId: 'akiruno-farmers-center' | 'akiruno-seoto-no-yu',
+  locale: AkirunoEvidenceLocale,
+  lower: boolean,
+  capturedAt: string,
+): DataVerificationAppEvidence => {
+  const frame = `${spotId}-practical${lower ? '-lower' : ''}`;
+  const claims = [
+    `spot:${spotId}:address`,
+    `spot:${spotId}:access`,
+    `spot:${spotId}:official_current_url`,
+  ];
+  if (lower || spotId === 'akiruno-farmers-center' || locale === 'en') {
+    claims.push(`spot:${spotId}:presentation:verification_note:${locale}`);
+  }
+  if (spotId === 'akiruno-farmers-center') claims.push('spot:akiruno-farmers-center:hours', 'spot:akiruno-farmers-center:closed_days');
+  return akirunoAppEvidence({
+    frame, locale, capturedAt, claimIds: claims,
+    note: `${locale} ${spotId} practical ${lower ? 'lower' : 'upper'} view with the listed current-information fields${lower || spotId === 'akiruno-farmers-center' || locale === 'en' ? ' and visible verification caveat' : '; the clipped verification caveat is excluded'}. Rights, hours beyond displayed guidance, and source-page appearance are not inferred.`,
+  });
+};
+
+const AKIRUNO_SPOT_APP_EVIDENCE: readonly DataVerificationAppEvidence[] = [
+  ...AKIRUNO_EVIDENCE_LOCALES.flatMap((locale) => [
+    akirunoSpotEvidence('akiruno-farmers-center', locale, false, AKIRUNO_CAPTURE_TIMES.farmersSpot[locale]),
+    akirunoSpotEvidence('akiruno-farmers-center', locale, true, AKIRUNO_CAPTURE_TIMES.farmersSpotLower[locale]),
+    akirunoSpotEvidence('akiruno-seoto-no-yu', locale, false, AKIRUNO_CAPTURE_TIMES.seotoSpot[locale]),
+    akirunoSpotEvidence('akiruno-seoto-no-yu', locale, true, AKIRUNO_CAPTURE_TIMES.seotoSpotLower[locale]),
+  ]),
+  ...AKIRUNO_EVIDENCE_LOCALES.flatMap((locale) => ([
+    {
+      spotId: 'akiruno-farmers-center',
+      frame: 'akiruno-farmers-center-practical',
+      capturedAt: AKIRUNO_CAPTURE_TIMES.farmersSpot[locale],
+    },
+    {
+      spotId: 'akiruno-seoto-no-yu',
+      frame: 'akiruno-seoto-no-yu-practical',
+      capturedAt: AKIRUNO_CAPTURE_TIMES.seotoSpot[locale],
+    },
+  ].map((item) => akirunoAppEvidence({
+    frame: item.frame,
+    locale,
+    capturedAt: item.capturedAt,
+    entityId: item.spotId,
+    evidenceId: `akiruno-produce-${item.frame}-${locale}-place-name-375`,
+    claimIds: [`place:${item.spotId}:name:${locale}`],
+    note: `${locale} practical screenshot with the fully visible canonical facility name row for ${item.spotId}.`,
+  })))),
+];
+
+const AKIRUNO_APP_EVIDENCE: readonly DataVerificationAppEvidence[] = [
+  ...AKIRUNO_MOGU_APP_EVIDENCE,
+  ...AKIRUNO_STORY_TOP_APP_EVIDENCE,
+  ...AKIRUNO_STORY_CHAPTER_APP_EVIDENCE,
+  ...AKIRUNO_STORY_SELECTED_CHAPTER_EVIDENCE,
+  ...AKIRUNO_STORY_NEARBY_APP_EVIDENCE,
+  ...AKIRUNO_ROUTE_UPPER_APP_EVIDENCE,
+  ...AKIRUNO_ROUTE_STATS_APP_EVIDENCE,
+  ...AKIRUNO_SPOT_APP_EVIDENCE,
+];
+
 const HACHIOJI_MOGU_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
   HACHIOJI_EVIDENCE_LOCALES.map((locale) => ({
     evidenceId: `hachioji-ginger-mogu-${locale}-375`,
@@ -882,6 +1165,7 @@ export const DATA_VERIFICATION_EVIDENCE_MANIFEST: DataVerificationEvidenceManife
     ...FUSSA_ROUTE_UPPER_APP_EVIDENCE,
     ...FUSSA_ROUTE_STATS_APP_EVIDENCE,
     ...FUSSA_SPOT_APP_EVIDENCE,
+    ...AKIRUNO_APP_EVIDENCE,
     ...HACHIOJI_MOGU_APP_EVIDENCE,
     ...HACHIOJI_STORY_APP_EVIDENCE,
     ...HACHIOJI_STORY_CHAPTER_APP_EVIDENCE,
@@ -1921,6 +2205,52 @@ export const DATA_VERIFICATION_EVIDENCE_MANIFEST: DataVerificationEvidenceManife
       sourceUrl: 'https://www.tamajiman.co.jp/access/',
       recordedAt: '2026-09-26',
       reason: 'The operator access page was rechecked for address and facility-specific guidance. No visitor hours are inferred and no screenshot is copied because repository reuse permission is not recorded.',
+    },
+    {
+      omissionId: 'akiruno-seasonal-municipal-source-not-captured',
+      claimIds: [
+        'story:produce-akiruno:story.factual.norabō-itsukaichi-history',
+        'story:produce-akiruno:story.factual.corn-and-pear-seasonality',
+      ],
+      entityId: 'produce-akiruno',
+      kind: 'source',
+      sourceUrl: 'https://www.city.akiruno.tokyo.jp/kanko/0000001109.html',
+      recordedAt: '2026-09-26',
+      reason: 'The municipal seasonal-food page was rechecked for the displayed crop history and season windows. No page capture is copied because repository reuse permission is not recorded.',
+    },
+    {
+      omissionId: 'akiruno-farmers-municipal-source-not-captured',
+      claimIds: [
+        'spot:akiruno-farmers-center:hours',
+        'spot:akiruno-farmers-center:closed_days',
+        'spot:akiruno-farmers-center:access',
+      ],
+      entityId: 'akiruno-farmers-center',
+      kind: 'source',
+      sourceUrl: 'https://www.city.akiruno.tokyo.jp/0000003556.html',
+      recordedAt: '2026-09-26',
+      reason: 'The municipal Farmers Center page was rechecked for address, access, hours, and closure guidance. No page capture is copied because repository reuse permission is not recorded.',
+    },
+    {
+      omissionId: 'akiruno-seoto-operator-source-not-captured',
+      claimIds: [
+        'spot:akiruno-seoto-no-yu:access',
+        'spot:akiruno-seoto-no-yu:official_current_url',
+      ],
+      entityId: 'akiruno-seoto-no-yu',
+      kind: 'source',
+      sourceUrl: 'http://www.seotonoyu.jp/access',
+      recordedAt: '2026-09-26',
+      reason: 'The operator access page was rechecked for address and bus guidance. No page capture is copied because repository reuse permission is not recorded.',
+    },
+    {
+      omissionId: 'akiruno-gotokyo-source-not-captured',
+      claimIds: ['spot:akiruno-seoto-no-yu:official_current_url'],
+      entityId: 'akiruno-seoto-no-yu',
+      kind: 'source',
+      sourceUrl: 'https://www.gotokyo.org/jp/spot/397/index.html',
+      recordedAt: '2026-09-26',
+      reason: 'The Tokyo tourism page was rechecked as a cross-reference for Seoto-no-Yu. No page capture is copied because repository reuse permission is not recorded.',
     },
   ],
 };

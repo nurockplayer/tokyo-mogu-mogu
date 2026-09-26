@@ -860,10 +860,12 @@ export const strings = {
     dataAkirunoFarmersRole:
       '秋川ファーマーズセンターは、生産者の農産物を季節ごとに買える直売所です。品揃えと不定休の有無は当日に確認します。',
     dataAkirunoFarmersAccess: 'JR五日市線「東秋留駅」から徒歩約8分（公式案内）。',
+    dataAkirunoFarmersHours: '9:00〜17:00（12月30日は15:00まで。訪問前に最新情報をご確認ください）。',
+    dataAkirunoFarmersClosedDays: '12月31日〜1月4日。不定休あり。訪問前に最新情報をご確認ください。',
     dataAkirunoSeotoRole:
       '瀬音の湯は、秋川渓谷の自然の中で地元食材の料理や地域の物産販売につながる施設です。最新の営業内容と交通を公式サイトで確認します。',
     dataAkirunoSeotoAccess:
-      '武蔵五日市駅から西東京バス「瀬音の湯」下車すぐ。バス時刻は当日確認してください。',
+      'JR五日市線「武蔵五日市駅」から西東京バス「瀬音の湯経由上養沢行き」で約17分、「瀬音の湯」下車すぐ。時刻は変更される場合があるため事前に確認してください（送迎バスなし）。',
     dataAkirunoMobilityBus: '西東京バス（目安）',
   },
   en: {
@@ -1674,9 +1676,9 @@ export const strings = {
     // Akiruno seasonal-produce slice (Issue #244).
     dataAkirunoProduceName: 'Akikawa Seasonal Produce',
     dataAkirunoProduceDescription:
-      'Discover Akiruno through seasonal produce such as norabō greens, direct sales, and the Akikawa valley.',
+      'Discover Akiruno through seasonal produce such as norabō greens, direct sales, and the Akigawa Valley.',
     dataAkirunoProduceStory:
-      'In Akiruno’s Itsukaichi area, norabō greens have been cultivated since the Edo period. Follow seasonal produce such as corn and pears through direct-sale and local-food places in the Akikawa valley.',
+      'In Akiruno’s Itsukaichi area, norabō greens have been cultivated since the Edo period. Follow seasonal produce such as corn and pears through direct-sale and local-food places in the Akigawa Valley.',
     dataAkirunoProduceHistory:
       'Akiruno City describes norabō greens as a vegetable cultivated in the Itsukaichi area since the Edo period. The city’s seasonal guide places corn in early summer and pears in summer to autumn.',
     dataAkirunoProduceMaker:
@@ -1695,11 +1697,11 @@ export const strings = {
     dataAkirunoProduceStorySupport:
       'Choosing seasonal goods at a direct-sale market and visiting local-food places is a way to pay attention to producers and the land.',
     dataAkirunoProduceHeroKicker: 'The Story of Akikawa Seasonal Produce',
-    dataAkirunoProduceCraftMediaAlt: 'Illustrative image of Akikawa seasonal produce and the Akikawa valley',
+    dataAkirunoProduceCraftMediaAlt: 'Illustrative image of seasonal produce and the Akigawa Valley',
     dataAkirunoProduceCtaSub:
-      'A route through Akikawa Farmers Center and Seoto-no-Yu, connecting seasonal produce with food places in the valley.',
+      'A route through Akikawa Farmers Center and Seoto-no-Yu, connecting seasonal produce with food places in the Akigawa Valley.',
     dataAkirunoProduceStickyCta: 'Start the Akiruno journey',
-    dataAkirunoRouteName: 'Akiruno Seasonal Produce & Akikawa Valley Journey',
+    dataAkirunoRouteName: 'Akiruno Seasonal Produce & Akigawa Valley Journey',
     dataAkirunoRouteTransport: 'JR Itsukaichi Line & Nishi Tokyo Bus (estimate; check local guidance)',
     dataAkirunoRouteEstimate:
       'Total, stay, and travel times are editorial estimates; check current seasonal, opening, and transport information.',
@@ -1709,18 +1711,20 @@ export const strings = {
     dataAkirunoStopRoleFarmersFullDay:
       'Take time with Akikawa’s seasonal produce, from norabō greens to corn and pears when in season. Stock changes with the season and day.',
     dataAkirunoStopRoleSeotoHalfDay:
-      'Continue to Seoto-no-Yu, where the Akikawa valley setting meets local-food dining and specialty sales. Check the official site for current operations.',
+      'Continue to Seoto-no-Yu, where the Akigawa Valley setting meets local-food dining and specialty sales. Check the official site for current operations.',
     dataAkirunoStopRoleSeotoFullDay:
-      'Connect the Akikawa valley landscape with local-food dining and specialty sales. Check current operations and transport before setting out.',
+      'Connect the Akigawa Valley landscape with local-food dining and specialty sales. Check current operations and transport before setting out.',
     dataPlaceAkirunoFarmersName: 'Akikawa Farmers Center',
     dataPlaceAkirunoSeotoName: 'Akikawa Keikoku Seoto-no-Yu',
     dataAkirunoFarmersRole:
       'Akikawa Farmers Center is a direct-sale market for producers’ seasonal farm products. Check stock and any irregular closure on the day.',
     dataAkirunoFarmersAccess: 'About an 8-minute walk from JR Itsukaichi Line Higashi-Akiru Station (official guidance).',
+    dataAkirunoFarmersHours: '9:00 a.m.–5:00 p.m. (closes at 3:00 p.m. on Dec 30; check current information before visiting).',
+    dataAkirunoFarmersClosedDays: 'Closed December 31–January 4; irregular closures may apply. Check current information before visiting.',
     dataAkirunoSeotoRole:
-      'Seoto-no-Yu sits in the Akikawa valley and connects the landscape with local-food dining and regional products. Check the official site for current operations and transport.',
+      'Seoto-no-Yu sits in the Akigawa Valley and connects the landscape with local-food dining and regional products. Check the official site for current operations and transport.',
     dataAkirunoSeotoAccess:
-      'From Musashi-Itsukaichi Station, take a Nishi Tokyo Bus to the Seoto-no-Yu stop. Check bus times on the day.',
+      'From JR Musashi-Itsukaichi Station, take the Nishi Tokyo Bus for Kami-Yozawa via Seoto-no-Yu (about 17 minutes) to the stop by the facility. Timetables can change; check before travel. No shuttle bus.',
     dataAkirunoMobilityBus: 'Nishi Tokyo Bus (estimate)',
   },
   'zh-TW': {
@@ -2548,9 +2552,11 @@ export const strings = {
     dataAkirunoFarmersRole:
       '秋川 Farmers Center 是可按季節購買生產者農產的直賣所。庫存與臨時休業請在當天確認。',
     dataAkirunoFarmersAccess: '從JR五日市線東秋留站步行約8分鐘（官方指引）。',
+    dataAkirunoFarmersHours: '09:00–17:00（12月30日營業至15:00；造訪前請確認最新資訊）。',
+    dataAkirunoFarmersClosedDays: '12月31日至1月4日休業；另可能不定期休業。造訪前請確認最新資訊。',
     dataAkirunoSeotoRole:
       '瀨音之湯位於秋川溪谷自然中，連結在地食材料理與地區物產販售。最新營業內容與交通請查看官方網站。',
-    dataAkirunoSeotoAccess: '從武藏五日市站搭乘西東京巴士，在「瀨音之湯」下車即達。公車時刻請於當天確認。',
+    dataAkirunoSeotoAccess: '從JR武藏五日市站搭乘西東京巴士「經瀨音之湯往上養澤」路線，約17分鐘於「瀨音之湯」站下車即達。班次可能變更，請事先確認（無接駁巴士）。',
     dataAkirunoMobilityBus: '西東京巴士（估算）',
   },
 } as const;

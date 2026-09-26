@@ -13,7 +13,7 @@ import { FOOD_CULTURES } from '../../data/seed-food-cultures';
 import { PLACES } from '../../data/seed-places';
 import { getRouteById, getSpotDetail, OKUTAMA_STATION_ACCESS } from '../../data/seed-routes';
 import type { ModelRoute } from '../../data/seed-routes';
-import { routeEstimateKey, spotAccessKey, stepRoleKey } from '../../i18n/data-content';
+import { placeNameKey, routeEstimateKey, spotAccessKey, spotRoleKey, stepRoleKey } from '../../i18n/data-content';
 import type { LocaleKey } from '../../i18n/resources';
 import type {
   DataSource,
@@ -822,6 +822,23 @@ const fussaCanonicalPresentation = requiredRecord(
   'Fussa journey identity',
 );
 
+const akirunoCandidate = requiredRecord(
+  DEMO_RECOMMENDATION_CANDIDATES.find((candidate) => candidate.id === 'demo-tokyo-west-akiruno-produce'),
+  'Akiruno recommendation candidate',
+);
+const akirunoCulture = requiredRecord(
+  FOOD_CULTURES.find((culture) => culture.id === akirunoCandidate.foodCultureId),
+  'Akiruno food culture',
+);
+const akirunoRoute = requiredRecord(
+  getRouteById(requiredRecord(akirunoCandidate.journeyId, 'Akiruno candidate route identity')),
+  'Akiruno route',
+);
+const akirunoCanonicalPresentation = requiredRecord(
+  buildJourneyPresentation(akirunoCandidate, akirunoCulture, akirunoRoute, PLACES),
+  'Akiruno journey identity',
+);
+
 function localizedBundleKey(key: LocaleKey, description: string): LocalizedText {
   return localized(
     requiredRecord(strings.ja[key], `${description} Japanese copy`),
@@ -839,6 +856,23 @@ const fussaPresentationDuration = {
   'half-day': 'half-day',
   'full-day': '1-day',
 } as const;
+
+const akirunoPresentationDuration = {
+  'half-day': 'half-day',
+  'full-day': '1-day',
+} as const;
+
+function akirunoRouteVariant(
+  presentationId: keyof typeof akirunoPresentationDuration,
+): JourneyPresentation['routeVariants'][number] {
+  const canonicalId = akirunoPresentationDuration[presentationId];
+  const canonical = requiredRecord(akirunoRoute.variants[canonicalId], `Akiruno ${canonicalId} route variant`);
+  return {
+    id: presentationId,
+    durationMinutes: canonical.totalMinutes,
+    steps: canonical.steps.map((step) => ({ spotId: step.placeId })),
+  };
+}
 
 function fussaRouteVariant(
   presentationId: keyof typeof fussaPresentationDuration,
@@ -979,8 +1013,64 @@ const fussaJourney: JourneyPresentation = {
   routeVariants: [fussaRouteVariant('half-day'), fussaRouteVariant('full-day')],
 };
 
+const akirunoJourney: JourneyPresentation = {
+  id: akirunoCanonicalPresentation.candidateId,
+  regionId: akirunoCandidate.regionId,
+  foodCultureId: akirunoCanonicalPresentation.foodCultureId,
+  storyId: akirunoCanonicalPresentation.foodCultureId,
+  routeId: akirunoCanonicalPresentation.routeId,
+  sourceStatus: akirunoCanonicalPresentation.sourceStatus,
+  copy: {
+    ja: {
+      title: akirunoRoute.nameJa,
+      subtitle: akirunoCulture.nameJa,
+      description: akirunoCulture.descriptionJa,
+      tags: ['旬の農産物', '直売所', '秋川渓谷'],
+      storyTitle: strings.ja.dataAkirunoProduceHeroKicker,
+      intro: [akirunoCulture.storyJa, akirunoCulture.descriptionJa],
+    },
+    en: {
+      title: akirunoRoute.nameEn,
+      subtitle: akirunoCulture.nameEn,
+      description: akirunoCulture.descriptionEn,
+      tags: ['Seasonal produce', 'Direct sales', 'Akigawa Valley'],
+      storyTitle: strings.en.dataAkirunoProduceHeroKicker,
+      intro: [akirunoCulture.storyEn, akirunoCulture.descriptionEn],
+    },
+    'zh-TW': {
+      title: strings['zh-TW'].dataAkirunoRouteName,
+      subtitle: strings['zh-TW'].dataAkirunoProduceName,
+      description: strings['zh-TW'].dataAkirunoProduceDescription,
+      tags: ['當季農產', '直賣所', '秋川溪谷'],
+      storyTitle: strings['zh-TW'].dataAkirunoProduceHeroKicker,
+      intro: [strings['zh-TW'].dataAkirunoProduceStory, strings['zh-TW'].dataAkirunoProduceDescription],
+    },
+  },
+  chapters: {
+    ja: [
+      { number: '01.', title: '五日市に続くのらぼう菜', body: akirunoCulture.historyJa },
+      { number: '02.', title: '生産者と秋川ファーマーズセンター', body: akirunoCulture.makerJa },
+      { number: '03.', title: '季節と当日の入荷', body: strings.ja.dataAkirunoProduceStoryChallenge },
+      { number: '04.', title: '直売所から秋川渓谷へ', body: akirunoCulture.howToEnjoyJa },
+    ],
+    en: [
+      { number: '01.', title: 'Norabō greens in Itsukaichi', body: akirunoCulture.historyEn },
+      { number: '02.', title: 'Producers and the farm market', body: akirunoCulture.makerEn },
+      { number: '03.', title: 'Season and daily stock', body: strings.en.dataAkirunoProduceStoryChallenge },
+      { number: '04.', title: 'From the market to Akigawa Valley', body: akirunoCulture.howToEnjoyEn },
+    ],
+    'zh-TW': [
+      { number: '01.', title: '五日市的野良坊菜', body: strings['zh-TW'].dataAkirunoProduceHistory },
+      { number: '02.', title: '生產者與農產直賣所', body: strings['zh-TW'].dataAkirunoProduceMaker },
+      { number: '03.', title: '季節與每日庫存', body: strings['zh-TW'].dataAkirunoProduceStoryChallenge },
+      { number: '04.', title: '從直賣所前往秋川溪谷', body: strings['zh-TW'].dataAkirunoProduceHowToEnjoy },
+    ],
+  },
+  routeVariants: [akirunoRouteVariant('half-day'), akirunoRouteVariant('full-day')],
+};
+
 /** Every journey reachable in the current presentation, including MOGU browse. */
-export const currentJourneys: JourneyPresentation[] = [...resultJourneys, omeJourney, hachiojiJourney, fussaJourney];
+export const currentJourneys: JourneyPresentation[] = [...resultJourneys, omeJourney, hachiojiJourney, fussaJourney, akirunoJourney];
 
 type SpotCopy = Pick<SpotPresentation['copy'][Locale], 'name' | 'lead' | 'description'>;
 
@@ -1256,12 +1346,92 @@ const fussaSpots: Record<string, SpotPresentation> = Object.fromEntries(
   ['fussa-tamura-shuzo', 'fussa-kurumiru', 'fussa-ishikawa-shuzo'].map((id) => [id, fussaSpot(id)]),
 );
 
+function akirunoSpot(id: string): SpotPresentation {
+  const place = canonicalPlace(id);
+  const detail = requiredRecord(getSpotDetail(id), `${id} Spot detail`);
+  const address = requiredRecord(place.address, `${id} canonical address`);
+  const zhName = requiredRecord(strings['zh-TW'][requiredRecord(placeNameKey(id), `${id} place-name key`)], `${id} Traditional Chinese name`);
+  const zhRole = requiredRecord(strings['zh-TW'][requiredRecord(spotRoleKey(id), `${id} role key`)], `${id} Traditional Chinese role`);
+  const accessKey = spotAccessKey(id);
+  const practicalInfo = [
+    { label: localized('所在地', 'Address', '地址'), value: localized(address, address, address) },
+    ...(detail.practical?.accessJa && detail.practical.accessEn && accessKey
+      ? [{
+          label: localized('アクセス', 'Access', '交通'),
+          value: localized(detail.practical.accessJa, detail.practical.accessEn, strings['zh-TW'][accessKey]),
+        }]
+      : []),
+    ...(detail.practical?.hoursJa && detail.practical.hoursEn
+      ? [{
+          label: localized('営業時間', 'Hours', '營業時間'),
+          value: localized(
+            detail.practical.hoursJa,
+            detail.practical.hoursEn,
+            strings['zh-TW'].dataAkirunoFarmersHours,
+          ),
+        }]
+      : []),
+    ...(detail.practical?.closedDaysJa && detail.practical.closedDaysEn
+      ? [{
+          label: localized('休業日', 'Closures', '休息日'),
+          value: localized(
+            detail.practical.closedDaysJa,
+            detail.practical.closedDaysEn,
+            strings['zh-TW'].dataAkirunoFarmersClosedDays,
+          ),
+        }]
+      : []),
+  ];
+  const caution = localized(
+    '季節の品・在庫、営業、交通は変わる場合があります。訪問前に各公式情報をご確認ください。',
+    'Seasonal stock, operations, and transport can change. Check each official source before visiting.',
+    '季節品庫存、營業與交通可能變動。造訪前請確認各官方資訊。',
+  );
+  return {
+    id,
+    regionId: akirunoCandidate.regionId,
+    foodCultureId: akirunoCulture.id,
+    thumbnailAssetIds: [],
+    copy: {
+      ja: {
+        name: place.nameJa,
+        lead: detail.roleJa,
+        description: detail.roleJa,
+        tags: ['公的・公式情報参照', '確認中'],
+        practicalInfo: practicalInfo.map((row) => ({ label: row.label.ja, value: row.value.ja })),
+        caution: [caution.ja],
+      },
+      en: {
+        name: place.nameEn,
+        lead: detail.roleEn,
+        description: detail.roleEn,
+        tags: ['Official/public information', 'Confirmation pending'],
+        practicalInfo: practicalInfo.map((row) => ({ label: row.label.en, value: row.value.en })),
+        caution: [caution.en],
+      },
+      'zh-TW': {
+        name: zhName,
+        lead: zhRole,
+        description: zhRole,
+        tags: ['參考官方／公部門資訊', '確認中'],
+        practicalInfo: practicalInfo.map((row) => ({ label: row.label['zh-TW'], value: row.value['zh-TW'] })),
+        caution: [caution['zh-TW']],
+      },
+    },
+  };
+}
+
+const akirunoSpots: Record<string, SpotPresentation> = Object.fromEntries(
+  ['akiruno-farmers-center', 'akiruno-seoto-no-yu'].map((id) => [id, akirunoSpot(id)]),
+);
+
 /** Every Spot reachable through a current-presentation journey. */
 export const currentSpots: Record<string, SpotPresentation> = {
   ...demoSpots,
   ...omeSpots,
   ...hachiojiSpots,
   ...fussaSpots,
+  ...akirunoSpots,
 };
 
 export interface RouteStepText {
@@ -1278,6 +1448,7 @@ export const routeNames: Record<string, LocalizedText> = {
   'demo-ome-sake': localized(omeRoute.nameJa, omeRoute.nameEn, strings['zh-TW'].dataSakeRouteName),
   'demo-tokyo-hachioji-ginger': localized(hachiojiRoute.nameJa, hachiojiRoute.nameEn, strings['zh-TW'].dataHachiojiRouteName),
   'demo-tokyo-west-fussa-sake': localized(fussaRoute.nameJa, fussaRoute.nameEn, strings['zh-TW'].dataFussaSakeRouteName),
+  'demo-tokyo-west-akiruno-produce': localized(akirunoRoute.nameJa, akirunoRoute.nameEn, strings['zh-TW'].dataAkirunoRouteName),
 };
 
 export interface ResultLocation {
@@ -1363,6 +1534,29 @@ export const resultLocation: Record<string, Record<Locale, ResultLocation>> = {
       sourceValue: requiredRecord(getSpotDetail('fussa-tamura-shuzo'), 'Fussa first Spot detail').practical?.accessJa,
     },
   },
+  'demo-tokyo-west-akiruno-produce': {
+    ja: {
+      area: 'あきる野・秋川渓谷',
+      station: '',
+      access: requiredRecord(getSpotDetail('akiruno-farmers-center'), 'Akiruno first Spot detail').practical?.accessJa ?? '',
+      source: requiredRecord(getSpotDetail('akiruno-farmers-center'), 'Akiruno first Spot detail').source,
+      sourceValue: requiredRecord(getSpotDetail('akiruno-farmers-center'), 'Akiruno first Spot detail').practical?.accessJa,
+    },
+    en: {
+      area: 'Akiruno, Akigawa Valley',
+      station: '',
+      access: requiredRecord(getSpotDetail('akiruno-farmers-center'), 'Akiruno first Spot detail').practical?.accessEn ?? '',
+      source: requiredRecord(getSpotDetail('akiruno-farmers-center'), 'Akiruno first Spot detail').source,
+      sourceValue: requiredRecord(getSpotDetail('akiruno-farmers-center'), 'Akiruno first Spot detail').practical?.accessEn,
+    },
+    'zh-TW': {
+      area: '東京都秋留野・秋川溪谷',
+      station: '',
+      access: strings['zh-TW'].dataAkirunoFarmersAccess,
+      source: requiredRecord(getSpotDetail('akiruno-farmers-center'), 'Akiruno first Spot detail').source,
+      sourceValue: requiredRecord(getSpotDetail('akiruno-farmers-center'), 'Akiruno first Spot detail').practical?.accessJa,
+    },
+  },
 };
 
 function omeRouteSteps(canonicalId: 'half-day' | '1-day'): RouteStepText[] {
@@ -1424,6 +1618,20 @@ function fussaRouteSteps(canonicalId: 'half-day' | '1-day'): RouteStepText[] {
   });
 }
 
+function akirunoRouteSteps(canonicalId: 'half-day' | '1-day'): RouteStepText[] {
+  const variant = requiredRecord(akirunoRoute.variants[canonicalId], `Akiruno ${canonicalId} route variant`);
+  return variant.steps.map((step) => {
+    const roleKey = requiredRecord(
+      stepRoleKey(akirunoRoute.id, step.placeId, canonicalId),
+      `${step.placeId} Akiruno ${canonicalId} route role key`,
+    );
+    return {
+      spotId: step.placeId,
+      description: localized(step.roleJa, step.roleEn, strings['zh-TW'][roleKey]),
+    };
+  });
+}
+
 export const routeStepText: Record<string, RouteStepText[]> = {
   'demo-okutama-wasabi:half-day': [
     { spotId: 'okutama-station', description: localized('旅のスタート地点', 'Starting point', '旅程起點') },
@@ -1454,6 +1662,8 @@ export const routeStepText: Record<string, RouteStepText[]> = {
   'demo-tokyo-hachioji-ginger:full-day': hachiojiRouteSteps('1-day'),
   'demo-tokyo-west-fussa-sake:half-day': fussaRouteSteps('half-day'),
   'demo-tokyo-west-fussa-sake:full-day': fussaRouteSteps('1-day'),
+  'demo-tokyo-west-akiruno-produce:half-day': akirunoRouteSteps('half-day'),
+  'demo-tokyo-west-akiruno-produce:full-day': akirunoRouteSteps('1-day'),
 };
 
 export interface RouteStats {
@@ -1480,6 +1690,8 @@ export const routeRegionGuidance: Record<string, Record<Locale, string>> = {
   'demo-tokyo-hachioji-ginger:full-day': localized('八王子・東京都', 'Hachioji, Tokyo', '東京都八王子'),
   'demo-tokyo-west-fussa-sake:half-day': localized('福生・東京', 'Fussa, Tokyo', '東京都福生'),
   'demo-tokyo-west-fussa-sake:full-day': localized('福生・東京', 'Fussa, Tokyo', '東京都福生'),
+  'demo-tokyo-west-akiruno-produce:half-day': localized('あきる野・秋川渓谷', 'Akiruno, Akigawa Valley', '東京都秋留野・秋川溪谷'),
+  'demo-tokyo-west-akiruno-produce:full-day': localized('あきる野・秋川渓谷', 'Akiruno, Akigawa Valley', '東京都秋留野・秋川溪谷'),
 };
 
 const routeTimingCaution = localized(
@@ -1545,6 +1757,15 @@ const recoveredJourneyConfig: Record<string, RecoveredJourneyConfig> = {
     caution: localizedBundleKey(
       requiredRecord(routeEstimateKey(fussaRoute.id), 'Fussa route estimate key'),
       'Fussa route estimate',
+    ),
+  },
+  'demo-tokyo-west-akiruno-produce': {
+    route: akirunoRoute,
+    variantIds: { 'half-day': 'half-day', 'full-day': '1-day' },
+    transportZh: strings['zh-TW'].dataAkirunoRouteTransport,
+    caution: localizedBundleKey(
+      requiredRecord(routeEstimateKey(akirunoRoute.id), 'Akiruno route estimate key'),
+      'Akiruno route estimate',
     ),
   },
 };
@@ -1885,6 +2106,86 @@ function fussaReferenceSpotDetail(id: string): ReferenceSpotDetail {
       '・見学、営業、販売、交通などの条件は変更される場合があります。訪問前に各公式情報をご確認ください。',
       '• Tour, operating, sales, and transport conditions can change. Check each official source before visiting.',
       '・參訪、營業、販售與交通條件可能變更。造訪前請查看各官方資訊。',
+    )],
+  };
+}
+
+function akirunoReferenceSpotDetail(id: string): ReferenceSpotDetail {
+  const place = canonicalPlace(id);
+  const detail = requiredRecord(getSpotDetail(id), `${id} Spot detail`);
+  const address = requiredRecord(place.address, `${id} canonical address`);
+  const nameKey = requiredRecord(placeNameKey(id), `${id} place-name key`);
+  const roleKey = requiredRecord(spotRoleKey(id), `${id} role key`);
+  const accessKey = spotAccessKey(id);
+  const information: ReferenceSpotDetail['information'] = [
+    {
+      fieldId: 'name',
+      icon: 'information',
+      label: localized('施設', 'Place', '設施'),
+      value: localized(place.nameJa, place.nameEn, strings['zh-TW'][nameKey]),
+    },
+    {
+      fieldId: 'address',
+      icon: 'information',
+      label: localized('所在地', 'Address', '地址'),
+      value: localized(address, address, address),
+    },
+  ];
+  const practical = detail.practical;
+  if (practical?.accessJa && practical.accessEn && accessKey) {
+    information.push({
+      fieldId: 'access',
+      icon: 'train',
+      label: localized('アクセス', 'Access', '交通'),
+      value: localized(practical.accessJa, practical.accessEn, strings['zh-TW'][accessKey]),
+    });
+  }
+  if (practical?.hoursJa && practical.hoursEn) {
+    information.push({
+      fieldId: 'hours',
+      icon: 'clock',
+      label: localized('営業時間', 'Hours', '營業時間'),
+      value: localized(practical.hoursJa, practical.hoursEn, strings['zh-TW'].dataAkirunoFarmersHours),
+    });
+  }
+  if (practical?.closedDaysJa && practical.closedDaysEn) {
+    information.push({
+      fieldId: 'closed_days',
+      icon: 'clock',
+      label: localized('休業日', 'Closures', '休息日'),
+      value: localized(practical.closedDaysJa, practical.closedDaysEn, strings['zh-TW'].dataAkirunoFarmersClosedDays),
+    });
+  }
+  information.push(
+    {
+      fieldId: 'official_current_url',
+      icon: 'information',
+      label: localized('公式情報', 'Official information', '官方資訊'),
+      value: localized(place.source.url ?? '', place.source.url ?? '', place.source.url ?? ''),
+    },
+    {
+      fieldId: 'verification_note',
+      icon: 'information',
+      label: localized('確認状況', 'Verification status', '確認狀態'),
+      value: localized(
+        '該当する公式・市の情報を2026年9月26日に取得。掲載内容は確認中です。季節品の在庫、営業、休業、交通を訪問前に確認してください。',
+        'Matching official or city information was retrieved Sep 26, 2026. This listing is still being confirmed; check seasonal stock, operations, closures, and transport before visiting.',
+        '對應的官方或市政府資訊於2026年9月26日取得。刊載內容仍在確認中；造訪前請確認季節品庫存、營業、休業與交通。',
+      ),
+    },
+  );
+  return {
+    tags: [
+      { tagId: 'local-produce', color: '#8FAE5C', label: localized('地場農産物', 'Local produce', '在地農產品') },
+      { tagId: 'official-source', color: '#F0A24C', label: localized('公式・公的情報参照', 'Official/public information', '參考官方／公部門資訊') },
+      { tagId: 'confirmation-pending', color: '#5D9BEF', label: localized('確認中', 'Confirmation pending', '確認中') },
+    ],
+    description: localized(detail.roleJa, detail.roleEn, strings['zh-TW'][roleKey]),
+    information,
+    caution: [localized(
+      '・季節品・営業・交通などの条件は変更される場合があります。訪問前に公式情報をご確認ください。',
+      '• Seasonal products, operations, and transport conditions can change. Check official information before visiting.',
+      '・季節品、營業與交通條件可能變更。造訪前請確認官方資訊。',
     )],
   };
 }
@@ -2527,6 +2828,8 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
       '・營業時間、休業、菜單、商品與服務供應狀況可能變更。造訪前請查看官方資訊。',
     )],
   },
+  'akiruno-farmers-center': akirunoReferenceSpotDetail('akiruno-farmers-center'),
+  'akiruno-seoto-no-yu': akirunoReferenceSpotDetail('akiruno-seoto-no-yu'),
 };
 
 export interface StorySpotReference {
@@ -2735,6 +3038,20 @@ export const storySpotGroups: Record<string, {
     }),
     nature: [],
   },
+  'demo-tokyo-west-akiruno-produce': {
+    nearby: ['akiruno-farmers-center', 'akiruno-seoto-no-yu'].map((spotId) => {
+      const detail = requiredRecord(getSpotDetail(spotId), `${spotId} Story Spot detail`);
+      const roleKey = requiredRecord(spotRoleKey(spotId), `${spotId} Traditional Chinese role key`);
+      return {
+        referenceId: spotId,
+        spotId,
+        badgeColor: '#E98A1C',
+        badge: localized('立ち寄り先', 'Route stop', '行程停靠點'),
+        description: localized(detail.roleJa, detail.roleEn, strings['zh-TW'][roleKey]),
+      };
+    }),
+    nature: [],
+  },
 };
 
 export const storyLocation: Record<string, Record<Locale, {
@@ -2766,6 +3083,11 @@ export const storyLocation: Record<string, Record<Locale, {
     en: { region: 'Fussa, Tokyo', station: 'Check current station and route guidance for each stop' },
     'zh-TW': { region: '東京都福生', station: '各停靠點的車站與路線請查看官方指引' },
   },
+  'demo-tokyo-west-akiruno-produce': {
+    ja: { region: 'あきる野・秋川渓谷', station: '駅・路線は各立ち寄り先の公式案内で確認' },
+    en: { region: 'Akiruno, Akigawa Valley', station: 'Check each stop’s official station and route guidance' },
+    'zh-TW': { region: '東京都秋留野・秋川溪谷', station: '各停靠點的車站與路線請查看官方指引' },
+  },
 };
 
 export const chapterPoint: Record<string, Record<Locale, {
@@ -2796,5 +3118,10 @@ export const chapterPoint: Record<string, Record<Locale, {
     ja: { title: '訪問前に確認すること', body: strings.ja.dataFussaSakeOperationalNote },
     en: { title: 'Check before visiting', body: strings.en.dataFussaSakeOperationalNote },
     'zh-TW': { title: '造訪前請確認', body: strings['zh-TW'].dataFussaSakeOperationalNote },
+  },
+  'demo-tokyo-west-akiruno-produce': {
+    ja: { title: '季節と当日の品揃え', body: strings.ja.dataAkirunoRouteOperationalNote },
+    en: { title: 'Season and daily stock', body: strings.en.dataAkirunoRouteOperationalNote },
+    'zh-TW': { title: '季節與當日品項', body: strings['zh-TW'].dataAkirunoRouteOperationalNote },
   },
 };

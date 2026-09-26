@@ -949,6 +949,85 @@ describe('data verification evidence manifest (#334)', () => {
     ).toThrow(error);
   });
 
+  it('records exact Akiruno source-page omissions without asserting reuse rights', () => {
+    const omissionsById = new Map(
+      DATA_VERIFICATION_EVIDENCE_MANIFEST.omissions.map((item) => [item.omissionId, item]),
+    );
+    for (const [omissionId, sourceUrl] of [
+      ['akiruno-seasonal-municipal-source-not-captured', 'https://www.city.akiruno.tokyo.jp/kanko/0000001109.html'],
+      ['akiruno-farmers-municipal-source-not-captured', 'https://www.city.akiruno.tokyo.jp/0000003556.html'],
+      ['akiruno-seoto-operator-source-not-captured', 'http://www.seotonoyu.jp/access'],
+      ['akiruno-gotokyo-source-not-captured', 'https://www.gotokyo.org/jp/spot/397/index.html'],
+    ] as const) {
+      expect(omissionsById.get(omissionId)).toMatchObject({
+        kind: 'source',
+        sourceUrl,
+        recordedAt: '2026-09-26',
+        reason: expect.stringContaining('reuse permission is not recorded'),
+      });
+    }
+    expect(DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.some((item) =>
+      item.kind === 'app' && (item.entityId === 'produce-akiruno' || item.entityId === 'akiruno-seasonal-produce-journey')))
+      .toBe(true);
+  });
+
+  it('links only the inspected Akiruno 375px app captures and excludes clipped claims', () => {
+    const akirunoApps = DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.filter((item) =>
+      item.kind === 'app' && item.evidenceId.startsWith('akiruno-produce-'));
+    const byId = new Map(akirunoApps.map((item) => [item.evidenceId, item]));
+
+    expect(new Set(akirunoApps.map((item) => item.path)).size).toBe(47);
+    expect(akirunoApps).toHaveLength(53);
+    for (const item of akirunoApps) {
+      expect(item).toMatchObject({ kind: 'app', capturedAt: '2026-09-26', viewport: { width: 375, height: 812 } });
+      expect(item).not.toHaveProperty('appCommit');
+      expect(item.note).toMatch(/Captured at 2026-09-26T\d{2}:\d{2}:\d{2}\.\d{3}Z from http:\/\/localhost:4388\//);
+      expect(item.note).toContain('No appCommit is asserted.');
+    }
+
+    expect(byId.get('akiruno-produce-story-top-en-375')?.claimIds).not.toContain(
+      'story:produce-akiruno:presentation:story_title:en',
+    );
+    for (const locale of ['ja', 'en', 'zh-TW'] as const) {
+      expect(byId.get(`akiruno-produce-story-chapters-${locale}-375`)?.claimIds).toContain(
+        'story:produce-akiruno:story.factual.corn-and-pear-seasonality',
+      );
+      const chapter3 = byId.get(`akiruno-produce-story-chapter-3-${locale}-375`);
+      expect(chapter3?.claimIds).not.toContain(
+        'story:produce-akiruno:story.factual.corn-and-pear-seasonality',
+      );
+      expect(chapter3?.claimIds).toContain('story:produce-akiruno:story.factual.seasonal-stock-caution');
+      expect(chapter3?.note).toContain('not crop harvest-window claims');
+    }
+    expect(byId.get('akiruno-produce-route-upper-en-375')?.claimIds).not.toContain(
+      'route:akiruno-seasonal-produce-journey:half-day:step:akiruno-seoto-no-yu:guidance:en',
+    );
+    expect(byId.get('akiruno-produce-route-half-stats-en-375')?.claimIds).not.toContain(
+      'route:akiruno-seasonal-produce-journey:half-day:stop:akiruno-farmers-center:identity',
+    );
+    expect(byId.get('akiruno-produce-route-half-steps-en-en-375')?.claimIds).toEqual(expect.arrayContaining([
+      'route:akiruno-seasonal-produce-journey:half-day:stop:akiruno-farmers-center:identity',
+      'route:akiruno-seasonal-produce-journey:half-day:stop:akiruno-seoto-no-yu:identity',
+    ]));
+    expect(byId.get('akiruno-produce-akiruno-farmers-center-practical-en-375')?.claimIds).toContain(
+      'spot:akiruno-farmers-center:closed_days',
+    );
+    expect(byId.get('akiruno-produce-akiruno-seoto-no-yu-practical-en-375')?.claimIds).not.toContain(
+      'spot:akiruno-seoto-no-yu:hours',
+    );
+    for (const locale of ['ja', 'zh-TW'] as const) {
+      const upperSeoto = byId.get(`akiruno-produce-akiruno-seoto-no-yu-practical-${locale}-375`);
+      expect(upperSeoto?.claimIds).not.toContain(
+        `spot:akiruno-seoto-no-yu:presentation:verification_note:${locale}`,
+      );
+      expect(upperSeoto?.note).toContain('clipped verification caveat is excluded');
+      expect(byId.get(`akiruno-produce-akiruno-seoto-no-yu-practical-lower-${locale}-375`)?.claimIds)
+        .toContain(`spot:akiruno-seoto-no-yu:presentation:verification_note:${locale}`);
+    }
+    expect(byId.get('akiruno-produce-akiruno-seoto-no-yu-practical-en-375')?.claimIds)
+      .toContain('spot:akiruno-seoto-no-yu:presentation:verification_note:en');
+  });
+
   it('rejects an unknown omission kind', () => {
     const invalidManifest = {
       evidence: [],
