@@ -112,6 +112,39 @@ collection section below.
 - Motion, progressive reveal, tactile feedback, nested scrolling, sticky
   actions, and transitions are part of the visible contract.
 
+## Current Exploration inputs and departure
+
+The five current steps ask for experience, departure, one-way travel time,
+duration, then taste and theme. Departure defaults to Tokyo. Its search offers
+six local presets—Tokyo Station, Shinjuku, Shibuya, Tachikawa, Ome, and
+Okutama—and filters those labels rather than resolving arbitrary text. These
+localized presets are not provider station IDs or GPS identities. An empty
+query shows no suggestions; unmatched text has no selectable result. Closing
+the search clears its query while retaining the current departure selection.
+
+The one-way travel-time answer is a traveler-selected tolerance, not a
+calculated travel time. Taste and theme are separate multi-select fields that
+each require one or two choices; choosing a third replaces that field's oldest
+choice.
+
+The mounted flow keeps its raw answers in memory; reopening Exploration returns
+to step one without clearing those answers. A remount or reload starts from
+defaults. On completion the current flow writes a lossy compatibility
+projection to `tmm:exploration:v1` in `sessionStorage`; the current screen does
+not restore its raw state from that projection. The older adapter merges
+several departure, experience, and movement choices, drops taste and theme
+values without a matching older enum, and maps undecided duration to `null`.
+This projection is not a migration of the current answer model. Storage is
+best-effort: a blocked write does not prevent the current Result transition,
+and a caught removal does not prove stored data was erased.
+
+Completing the flow also records the first current Result fixture in legacy
+MOGU Recent. The Result itself remains the two current presentation fixtures,
+which current Exploration answers do not select, rank, or generate reasons
+for. This is not a guarantee that a journey or travel time is feasible. The
+Route screen's half-day start is separate Route state, not a guarantee derived
+from the Exploration duration.
+
 ## Current collection ownership and lifecycle
 
 These are the current accountless prototype semantics, not permanent
@@ -191,9 +224,10 @@ generation.
 Dietary input informs recommendations only and is not a food-safety guarantee.
 
 The five-candidate deterministic helper is dormant/supporting implementation
-state, not the active Result contract. Its future production taxonomy,
-selection, reasons, and score semantics are deferred to Issues #206 and #207;
-do not infer them from the current fixtures.
+state, not the active Result contract. No production taxonomy, provider or
+station identities, travel-time source, selection/scoring/reasons, or migration
+contract is adopted. Any such production semantics require a separate
+authorized contract before activation; do not infer them from current fixtures.
 
 ## Evidence boundary
 

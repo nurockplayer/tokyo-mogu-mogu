@@ -1,33 +1,42 @@
 /**
- * Session persistence for the current Exploration (Issue #78).
+ * Compatibility projection for older Exploration consumers (Issue #78).
  *
- * The Exploration wizard and the Result share one answers payload across route
- * changes (/explore → /explore/result → back to the wizard). sessionStorage
- * keeps it alive across those navigations and a page reload, while staying out
- * of localStorage so it is never part of the durable Food Profile or a saved
- * itinerary. Exploration state is current-session / per-trip data.
+ * The current ReferenceApp keeps raw answers in mounted reducer state and does
+ * not restore this projection after a remount or reload. This per-tab,
+ * best-effort sessionStorage value is separate from the durable Food Profile
+ * and saved itineraries; failed reads return null and failed writes/removes are
+ * ignored.
  */
 import { isExplorationAnswers, type ExplorationAnswers } from '../../lib/exploration';
 
 const STORAGE_KEY = 'tmm:exploration:v1';
 
 export function saveExplorationAnswers(answers: ExplorationAnswers): void {
-  sessionStorage.setItem(STORAGE_KEY, JSON.stringify(answers));
+  try {
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(answers));
+  } catch {
+    // Storage unavailable or blocked — keep the active in-memory flow usable.
+  }
 }
 
 export function loadExplorationAnswers(): ExplorationAnswers | null {
-  const raw = sessionStorage.getItem(STORAGE_KEY);
-  if (!raw) return null;
   try {
+    const raw = sessionStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
     const parsed: unknown = JSON.parse(raw);
     return isExplorationAnswers(parsed) ? parsed : null;
   } catch {
+    // Missing, blocked, or unreadable storage behaves as no saved projection.
     return null;
   }
 }
 
 export function clearExplorationAnswers(): void {
-  sessionStorage.removeItem(STORAGE_KEY);
+  try {
+    sessionStorage.removeItem(STORAGE_KEY);
+  } catch {
+    // Storage unavailable or blocked — removal is best effort.
+  }
 }
 
 /** Starts a genuinely new per-trip Exploration instead of reusing prior answers. */

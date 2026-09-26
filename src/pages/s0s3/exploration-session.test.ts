@@ -30,14 +30,23 @@ class MemorySessionStorage implements Storage {
   }
 }
 
-const originalSessionStorage = globalThis.sessionStorage;
+const originalSessionStorageDescriptor = Object.getOwnPropertyDescriptor(globalThis, 'sessionStorage');
 
 beforeEach(() => {
-  globalThis.sessionStorage = new MemorySessionStorage() as unknown as Storage;
+  Object.defineProperty(globalThis, 'sessionStorage', {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    value: new MemorySessionStorage() as unknown as Storage,
+  });
 });
 
 afterAll(() => {
-  globalThis.sessionStorage = originalSessionStorage;
+  if (originalSessionStorageDescriptor) {
+    Object.defineProperty(globalThis, 'sessionStorage', originalSessionStorageDescriptor);
+  } else {
+    Reflect.deleteProperty(globalThis, 'sessionStorage');
+  }
 });
 
 describe('exploration session persistence (#78)', () => {
@@ -48,6 +57,68 @@ describe('exploration session persistence (#78)', () => {
   });
 
   it('returns null when nothing is stored', () => {
+    expect(loadExplorationAnswers()).toBeNull();
+  });
+
+  it('treats missing storage and a throwing storage getter as unavailable', () => {
+    Reflect.deleteProperty(globalThis, 'sessionStorage');
+    expect(loadExplorationAnswers()).toBeNull();
+    expect(() => saveExplorationAnswers(createDefaultExplorationAnswers())).not.toThrow();
+    expect(() => clearExplorationAnswers()).not.toThrow();
+    expect(() => beginNewExploration()).not.toThrow();
+
+    Object.defineProperty(globalThis, 'sessionStorage', {
+      configurable: true,
+      get() {
+        throw new Error('blocked storage getter');
+      },
+    });
+    expect(loadExplorationAnswers()).toBeNull();
+    expect(() => saveExplorationAnswers(createDefaultExplorationAnswers())).not.toThrow();
+    expect(() => clearExplorationAnswers()).not.toThrow();
+    expect(() => beginNewExploration()).not.toThrow();
+  });
+
+  it('returns null for a throwing read and recovers when storage is available', () => {
+    const answers = createDefaultExplorationAnswers();
+    saveExplorationAnswers(answers);
+    const storage = globalThis.sessionStorage as unknown as MemorySessionStorage;
+    storage.getItem = () => {
+      throw new Error('blocked read');
+    };
+
+    expect(loadExplorationAnswers()).toBeNull();
+    storage.getItem = MemorySessionStorage.prototype.getItem;
+    expect(loadExplorationAnswers()).toEqual(answers);
+  });
+
+  it('ignores a throwing write and recovers when storage is available', () => {
+    const answers = createDefaultExplorationAnswers();
+    const storage = globalThis.sessionStorage as unknown as MemorySessionStorage;
+    storage.setItem = () => {
+      throw new Error('blocked write');
+    };
+
+    expect(() => saveExplorationAnswers(answers)).not.toThrow();
+    storage.setItem = MemorySessionStorage.prototype.setItem;
+    saveExplorationAnswers(answers);
+    expect(loadExplorationAnswers()).toEqual(answers);
+  });
+
+  it('makes clear and new-trip removal best effort, then recovers', () => {
+    const answers = createDefaultExplorationAnswers();
+    saveExplorationAnswers(answers);
+    const storage = globalThis.sessionStorage as unknown as MemorySessionStorage;
+    storage.removeItem = () => {
+      throw new Error('blocked removal');
+    };
+
+    expect(() => clearExplorationAnswers()).not.toThrow();
+    expect(() => beginNewExploration()).not.toThrow();
+    expect(loadExplorationAnswers()).toEqual(answers);
+
+    storage.removeItem = MemorySessionStorage.prototype.removeItem;
+    beginNewExploration();
     expect(loadExplorationAnswers()).toBeNull();
   });
 
