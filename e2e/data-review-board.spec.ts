@@ -169,6 +169,70 @@ test.describe('Human Data Review Board (#340)', () => {
     }
   });
 
+  test('shows distinct semantic icons and keeps wrapped Japanese labels readable at desktop and 375px', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/data-review/#wasabi-kitchen');
+
+    const facts = page.getByRole('table', { name: '現在わかっていること' });
+    const reviewIcon = facts.locator('.drb-facts__review-heading [data-icon-role="verification"]');
+    await expect(reviewIcon).toHaveAttribute('aria-hidden', 'true');
+    const fieldIconPaths: string[] = [];
+    const expectedRoles = [
+      ['name', 'identity'],
+      ['venue_model', 'mobile-business'],
+      ['operating_area', 'location'],
+      ['schedule_url', 'current-information'],
+      ['price_availability', 'price'],
+      ['official_current_url', 'source'],
+    ] as const;
+    for (const [fieldKey, role] of expectedRoles) {
+      const label = facts.locator(`[data-field-key="${fieldKey}"]`);
+      await expect(label.locator('[data-icon-role]')).toHaveAttribute('data-icon-role', role);
+      await expect(label.locator('svg')).toHaveAttribute('aria-hidden', 'true');
+      await expect(label.locator('svg')).toHaveAttribute('focusable', 'false');
+      await expect(label.locator('span')).not.toBeEmpty();
+      expect(await label.locator('svg').getAttribute('data-icon-role')).not.toBe('alert');
+      fieldIconPaths.push(await label.locator('svg').evaluate((svg) => svg.innerHTML));
+    }
+    const reviewIconPath = await reviewIcon.evaluate((svg) => svg.innerHTML);
+    expect(new Set([...fieldIconPaths, reviewIconPath]).size).toBe(expectedRoles.length + 1);
+    const conflictBadge = facts.locator('.drb-status--conflict');
+    await expect(conflictBadge).toHaveCount(1);
+    await expect(conflictBadge).toContainText('⚠️ 情報に矛盾あり');
+
+    await page.goto('/data-review/#wasabi-experience');
+    const longLabel = page.getByRole('table', { name: '現在わかっていること' }).locator('[data-field-key="tour_duration"]');
+    const longIcon = longLabel.locator('svg');
+    const longText = longLabel.locator('span');
+    const [longIconBox, longTextBox, lineHeight] = await Promise.all([
+      longIcon.boundingBox(),
+      longText.boundingBox(),
+      longText.evaluate((element) => Number.parseFloat(getComputedStyle(element).lineHeight)),
+    ]);
+    expect(longIconBox).not.toBeNull();
+    expect(longTextBox).not.toBeNull();
+    expect(longTextBox!.height).toBeGreaterThan(lineHeight);
+    expect(Math.abs(longIconBox!.y - longTextBox!.y)).toBeLessThanOrEqual(2);
+    expect(longIconBox!.x + longIconBox!.width).toBeLessThan(longTextBox!.x);
+
+    await page.goto('/data-review/#wasabi-kitchen');
+    const narrowFacts = page.getByRole('table', { name: '現在わかっていること' });
+    await page.setViewportSize({ width: 375, height: 812 });
+    const wrappedLabel = narrowFacts.locator('[data-field-key="schedule_url"]');
+    const icon = wrappedLabel.locator('svg');
+    const text = wrappedLabel.locator('span');
+    const [iconBox, textBox] = await Promise.all([icon.boundingBox(), text.boundingBox()]);
+    expect(iconBox).not.toBeNull();
+    expect(textBox).not.toBeNull();
+    expect(Math.abs(iconBox!.y - textBox!.y)).toBeLessThanOrEqual(2);
+    expect(iconBox!.x + iconBox!.width).toBeLessThan(textBox!.x);
+    const dimensions = await page.evaluate(() => ({
+      scrollWidth: document.documentElement.scrollWidth,
+      clientWidth: document.documentElement.clientWidth,
+    }));
+    expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth);
+  });
+
   test('shows source-backed PORT OKUTAMA facts without hiding unknowns or evidence omissions (#327)', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto('/data-review/#port-okutama');
