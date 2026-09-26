@@ -179,6 +179,33 @@ async function completeExploration(page: Page): Promise<void> {
   await explore.getByRole('button', { name: '次へ', exact: true }).click();
 }
 
+test('completes the current Exploration when its sessionStorage write is blocked', async ({
+  page,
+}) => {
+  const pageErrors: string[] = [];
+  page.on('pageerror', (error) => pageErrors.push(error.message));
+  await page.addInitScript(() => {
+    const originalSetItem = Storage.prototype.setItem;
+    Storage.prototype.setItem = function (key, value) {
+      if (this === window.sessionStorage && key === 'tmm:exploration:v1') {
+        throw new Error('blocked exploration session write');
+      }
+      originalSetItem.call(this, key, value);
+    };
+  });
+
+  await page.goto('/home');
+  const home = page.locator('[data-screen="home"][data-screen-active="true"]');
+  await home.getByRole('button', { name: /Let's Go!/ }).click();
+  await expect(page).toHaveURL(/\/explore$/);
+  await completeExploration(page);
+
+  await expect(page).toHaveURL(/\/explore\/result$/);
+  const result = page.locator('[data-screen="result"][data-screen-active="true"]');
+  await expect(result.getByRole('button', { name: /この物語を読む:/ })).toHaveCount(2);
+  expect(pageErrors).toEqual([]);
+});
+
 test.describe('Issue #316 Welcome entry routing', () => {
   test('starts the Food Profile conversation with clean storage', async ({ page }) => {
     await startFromWelcome(page);
