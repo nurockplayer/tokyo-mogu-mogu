@@ -227,7 +227,7 @@ const SOURCE_HACHIOJI_ROUTE: DataSource = {
   name: '編集部（八王子ショウガと滝山の食文化）',
   url: 'https://www.tokyo-ja.or.jp/farm/edo/41.php',
   sourceType: 'official_web',
-  retrievedAt: '2026-08-19',
+  retrievedAt: '2026-09-26',
   verificationStatus: 'needs_confirmation',
   originalId: 'seed-route-hachioji-ginger',
 };
@@ -236,7 +236,7 @@ const SOURCE_HACHIOJI_MARKET: DataSource = {
   name: '道の駅八王子滝山（公式）',
   url: 'https://www.michinoeki-hachioji.net/',
   sourceType: 'official_web',
-  retrievedAt: '2026-08-19',
+  retrievedAt: '2026-09-26',
   verificationStatus: 'needs_confirmation',
   originalId: 'michi-no-eki-hachioji-takiyama',
 };
@@ -247,7 +247,7 @@ const SOURCE_HACHIOJI_HERITAGE: DataSource = {
   license: 'CC BY 4.0',
   sourceType: 'open_data',
   sourceDatasetId: 't132012d3000000018',
-  retrievedAt: '2026-08-15',
+  retrievedAt: '2026-09-26',
   verificationStatus: 'needs_confirmation',
   originalId: 'cp-t132012d3000000018-0000000003',
 };
@@ -1133,6 +1133,10 @@ export const SPOT_DETAILS: Record<string, SpotDetail> = {
     roleEn:
       'A roadside station where visitors can meet Hachioji produce and local food culture. Hachioji ginger is seasonal, so check the day’s stock on site.',
     practical: {
+      accessJa:
+        'JR・京王八王子駅からひよどり山トンネル経由の戸吹方面行きバスに乗り、「道の駅八王子滝山入口」下車、徒歩約3分。バス時刻は利用前に確認してください。',
+      accessEn:
+        'From JR or Keio Hachioji Station, take a bus via the Hiyodoriyama Tunnel toward Tobuki, get off at Michi-no-Eki Hachioji Takiyama Iriguchi, then walk about 3 minutes. Check current bus times before travel.',
       hoursJa: '8:00〜19:00（施設内一部店舗を除く）',
       hoursEn: '8:00 a.m.–7:00 p.m. (some facilities have separate hours)',
       closedDaysJa: '年中無休（施設内一部店舗を除く）',

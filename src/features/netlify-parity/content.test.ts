@@ -108,6 +108,91 @@ describe('Netlify parity presentation content', () => {
     expect(ome?.heroAssetId).toBeUndefined();
   });
 
+  it('projects Hachioji ginger through shared Story, Route, Spot, Board, and Ledger data', () => {
+    expect(resultJourneys.map((journey) => journey.id)).toEqual([
+      'demo-okutama-wasabi',
+      'demo-okutama-yamame',
+    ]);
+    const journey = currentJourneys.find((candidate) => candidate.id === 'demo-tokyo-hachioji-ginger');
+    expect(journey).toMatchObject({
+      regionId: 'hachioji',
+      foodCultureId: 'hachioji-ginger',
+      storyId: 'hachioji-ginger',
+      routeId: 'hachioji-ginger-journey',
+      sourceStatus: 'needs_confirmation',
+      routeVariants: [
+        {
+          id: 'half-day',
+          durationMinutes: 145,
+          steps: [{ spotId: 'hachioji-takiyama-roadside-station' }, { spotId: 'hachioji-takiyama-castle' }],
+        },
+        {
+          id: 'full-day',
+          durationMinutes: 220,
+          steps: [{ spotId: 'hachioji-takiyama-roadside-station' }, { spotId: 'hachioji-takiyama-castle' }],
+        },
+      ],
+    });
+    expect(journey).not.toHaveProperty('matchPercent');
+    expect(journey?.imageAssetId).toBeUndefined();
+    expect(journey?.heroAssetId).toBeUndefined();
+    expect(Object.keys(currentSpots)).toContain('hachioji-takiyama-roadside-station');
+    expect(Object.keys(currentSpots)).toContain('hachioji-takiyama-castle');
+
+    for (const variantId of ['half-day', 'full-day']) {
+      const key = `demo-tokyo-hachioji-ginger:${variantId}`;
+      expect(routeStepText[key].map((step) => step.spotId)).toEqual(
+        journey?.routeVariants.find((variant) => variant.id === variantId)?.steps.map((step) => step.spotId),
+      );
+      for (const [index, step] of routeStepText[key].entries()) {
+        const spot = currentSpots[step.spotId];
+        expect(spot).toBeDefined();
+        for (const locale of locales) {
+          expect(`${spot.copy[locale].name} ${spot.copy[locale].lead}`).not.toMatch(/奥多摩|Okutama|奧多摩/i);
+          expect(step.description[locale]).not.toMatch(/奥多摩|Okutama|奧多摩/i);
+          expect(step.description[locale]).toMatch(index === 0
+            ? locale === 'ja' ? /八王子|農産|ショウガ/ : locale === 'en' ? /Hachioji|produce|ginger/i : /八王子|農產|薑/
+            : locale === 'ja' ? /滝山城跡|文化財/ : locale === 'en' ? /castle ruins|heritage/i : /滝山城跡|文化財/);
+        }
+        expect(routeStepText[key][index].walk).toBeUndefined();
+      }
+      expect(routeStats[key].ja.time).toMatch(variantId === 'half-day' ? /2 時間 25 分/ : /3 時間 40 分/);
+      expect(routeStats[key].en.time).toMatch(variantId === 'half-day' ? /2 hr 25 min/ : /3 hr 40 min/);
+      expect(routeStats[key]['zh-TW'].time).toMatch(variantId === 'half-day' ? /2 小時 25 分鐘/ : /3 小時 40 分鐘/);
+    expect(routeStats[key].ja.access).toContain('JR・京王八王子駅');
+    expect(routeStats[key].en.access).toContain('JR or Keio Hachioji Station');
+    expect(routeStats[key]['zh-TW'].access).toContain('八王子站');
+      for (const locale of locales) {
+        expect(routeStats[key][locale].caution).toMatch(/確認|check|確認/);
+        expect(routeStats[key][locale].distance).not.toMatch(/奥多摩|Okutama|奧多摩/i);
+      }
+    }
+    for (const locale of locales) {
+      const location = resultLocation['demo-tokyo-hachioji-ginger'][locale];
+      expect(location.station).toBe('');
+      expect(location.access).toContain(locale === 'ja'
+        ? 'JR・京王八王子駅から'
+        : locale === 'en' ? 'From JR or Keio Hachioji Station' : '從 JR／京王八王子站');
+      const stationLead = locale === 'ja'
+        ? 'JR・京王八王子駅から'
+        : locale === 'en' ? 'From JR or Keio Hachioji Station' : '從 JR／京王八王子站';
+      expect(location.access.split(stationLead)).toHaveLength(2);
+    }
+
+    const market = referenceSpotDetails['hachioji-takiyama-roadside-station'];
+    const castle = referenceSpotDetails['hachioji-takiyama-castle'];
+    expect(market?.information.find((field) => field.fieldId === 'official_current_url')?.value.ja)
+      .toBe('https://www.michinoeki-hachioji.net/');
+    expect(market?.information.find((field) => field.fieldId === 'verification_note')?.value.ja)
+      .toContain('2026年9月26日');
+    expect(castle?.information.find((field) => field.fieldId === 'official_current_url')?.value.ja)
+      .toBe('https://catalog.data.metro.tokyo.lg.jp/dataset/t132012d3000000018');
+    expect(castle?.information.find((field) => field.fieldId === 'verification_note')?.value.en)
+      .toMatch(/contains no coordinates/i);
+    expect(castle?.caution.map((entry) => entry.ja).join(' ')).toMatch(/見学可能範囲|入口/);
+    expect(castle?.caution.map((entry) => entry.en).join(' ')).toMatch(/entrances/i);
+  });
+
   it('exposes the four canonical Ome route stops without borrowed imagery', () => {
     const omeSpotIds = [
       'sawai-ozawa-shuzo',

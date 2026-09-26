@@ -1320,7 +1320,7 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
             moguAccessFact.sourceFile,
           ),
           presentation: presentationValue(
-            `${cardLocation.station} / ${cardLocation.access}`,
+            [cardLocation.station, cardLocation.access].filter(Boolean).join(' / '),
             'MOGU',
             moguAccessFact.origin,
             moguAccessFact.verification,

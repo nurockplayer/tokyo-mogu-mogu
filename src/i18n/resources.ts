@@ -752,6 +752,10 @@ export const strings = {
     dataPlaceHachiojiCastleName: '滝山城跡',
     dataHachiojiMarketRole:
       '市内の農産物や地域の食文化に出会える道の駅です。八王子ショウガは季節商品として扱われるため、当日の入荷は現地で確認します。',
+    dataHachiojiMarketAccess:
+      'JR・京王八王子駅からひよどり山トンネル経由の戸吹方面行きバスに乗り、「道の駅八王子滝山入口」下車、徒歩約3分。バス時刻は利用前に確認してください。',
+    dataHachiojiMarketHours: '8:00〜19:00（施設内一部店舗を除く）',
+    dataHachiojiMarketOpeningDays: '年中無休（施設内一部店舗を除く）',
     dataHachiojiCastleRole:
       '八王子市の文化財一覧に掲載される滝山城跡。食材を買う場所ではなく、八王子ショウガを育ててきた加住・滝山の土地の背景をたどる文化財ストップです。',
     // Fussa × Tokyo Sake slice (Issue #243).
@@ -1601,6 +1605,10 @@ export const strings = {
     dataPlaceHachiojiCastleName: 'Takiyama Castle Ruins',
     dataHachiojiMarketRole:
       'A roadside station where visitors can meet Hachioji produce and local food culture. Hachioji ginger is seasonal, so check the day’s stock on site.',
+    dataHachiojiMarketAccess:
+      'From JR or Keio Hachioji Station, take a bus via the Hiyodoriyama Tunnel toward Tobuki, get off at Michi-no-Eki Hachioji Takiyama Iriguchi, then walk about 3 minutes. Check current bus times before travel.',
+    dataHachiojiMarketHours: '8:00 a.m.–7:00 p.m. (some facilities have separate hours)',
+    dataHachiojiMarketOpeningDays: 'Open year-round (some facilities have separate schedules)',
     dataHachiojiCastleRole:
       'Listed in Hachioji’s cultural-property data, Takiyama Castle Ruins provide heritage context for the Kazumi and Takiyama land behind Hachioji ginger; they are not a food venue.',
     // Fussa × Tokyo Sake slice (Issue #243).
@@ -2426,6 +2434,10 @@ export const strings = {
     dataPlaceHachiojiCastleName: '滝山城跡',
     dataHachiojiMarketRole:
       '可以遇見市內農產品與地方飲食文化的道之驛。八王子薑是季節商品，當日是否進貨請在現場確認。',
+    dataHachiojiMarketAccess:
+      '從 JR／京王八王子站搭乘經由ひよどり山隧道、往戸吹方向的巴士，在「道の駅八王子滝山入口」下車後步行約 3 分鐘。搭車前請確認最新班次。',
+    dataHachiojiMarketHours: '08:00–19:00（設施內部分店鋪除外）',
+    dataHachiojiMarketOpeningDays: '全年營業（設施內部分店鋪另有安排）',
     dataHachiojiCastleRole:
       '滝山城跡登載於八王子市文化財資料。這裡不是購買食材的地方，而是追尋孕育八王子薑的加住・滝山土地背景的文化財景點。',
     // Fussa × Tokyo Sake slice (Issue #243).

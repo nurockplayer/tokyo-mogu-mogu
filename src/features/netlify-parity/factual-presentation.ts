@@ -12,6 +12,9 @@ import { buildJourneyPresentation } from '../../data/journey-presentation';
 import { FOOD_CULTURES } from '../../data/seed-food-cultures';
 import { PLACES } from '../../data/seed-places';
 import { getRouteById, getSpotDetail, OKUTAMA_STATION_ACCESS } from '../../data/seed-routes';
+import type { ModelRoute } from '../../data/seed-routes';
+import { routeEstimateKey, spotAccessKey, stepRoleKey } from '../../i18n/data-content';
+import type { LocaleKey } from '../../i18n/resources';
 import type {
   DataSource,
   FixedPlace,
@@ -779,8 +782,115 @@ const omeJourney: JourneyPresentation = {
   ],
 };
 
+const hachiojiCandidate = requiredRecord(
+  DEMO_RECOMMENDATION_CANDIDATES.find((candidate) => candidate.id === 'demo-tokyo-hachioji-ginger'),
+  'Hachioji recommendation candidate',
+);
+const hachiojiCulture = requiredRecord(
+  FOOD_CULTURES.find((culture) => culture.id === hachiojiCandidate.foodCultureId),
+  'Hachioji food culture',
+);
+const hachiojiRoute = requiredRecord(
+  getRouteById(requiredRecord(hachiojiCandidate.journeyId, 'Hachioji candidate route identity')),
+  'Hachioji route',
+);
+const hachiojiCanonicalPresentation = requiredRecord(
+  buildJourneyPresentation(hachiojiCandidate, hachiojiCulture, hachiojiRoute, PLACES),
+  'Hachioji journey identity',
+);
+const hachiojiMarketPlace = canonicalPlace('hachioji-takiyama-roadside-station');
+const hachiojiMarketDetail = requiredRecord(
+  getSpotDetail(hachiojiMarketPlace.id),
+  'Hachioji roadside market Spot detail',
+);
+const hachiojiCastlePlace = canonicalPlace('hachioji-takiyama-castle');
+
+function localizedBundleKey(key: LocaleKey, description: string): LocalizedText {
+  return localized(
+    requiredRecord(strings.ja[key], `${description} Japanese copy`),
+    requiredRecord(strings.en[key], `${description} English copy`),
+    requiredRecord(strings['zh-TW'][key], `${description} Traditional Chinese copy`),
+  );
+}
+
+const hachiojiPresentationDuration = {
+  'half-day': 'half-day',
+  'full-day': '1-day',
+} as const;
+
+function hachiojiRouteVariant(
+  presentationId: keyof typeof hachiojiPresentationDuration,
+): JourneyPresentation['routeVariants'][number] {
+  const canonicalId = hachiojiPresentationDuration[presentationId];
+  const canonical = requiredRecord(hachiojiRoute.variants[canonicalId], `Hachioji ${canonicalId} route variant`);
+  return {
+    id: presentationId,
+    durationMinutes: canonical.totalMinutes,
+    steps: canonical.steps.map((step) => ({ spotId: step.placeId })),
+  };
+}
+
+const hachiojiJourney: JourneyPresentation = {
+  id: hachiojiCanonicalPresentation.candidateId,
+  regionId: hachiojiCandidate.regionId,
+  foodCultureId: hachiojiCanonicalPresentation.foodCultureId,
+  storyId: hachiojiCanonicalPresentation.foodCultureId,
+  routeId: hachiojiCanonicalPresentation.routeId,
+  sourceStatus: hachiojiCanonicalPresentation.sourceStatus,
+  copy: {
+    ja: {
+      title: hachiojiRoute.nameJa,
+      subtitle: hachiojiCulture.nameJa,
+      description: hachiojiCulture.descriptionJa,
+      tags: ['八王子ショウガ', '旬の農産物', '八王子'],
+      storyTitle: strings.ja.dataHachiojiHeroKicker,
+      intro: [hachiojiCulture.storyJa, hachiojiCulture.descriptionJa],
+    },
+    en: {
+      title: hachiojiRoute.nameEn,
+      subtitle: hachiojiCulture.nameEn,
+      description: hachiojiCulture.descriptionEn,
+      tags: ['Hachioji ginger', 'Seasonal produce', 'Hachioji'],
+      storyTitle: strings.en.dataHachiojiHeroKicker,
+      intro: [hachiojiCulture.storyEn, hachiojiCulture.descriptionEn],
+    },
+    'zh-TW': {
+      title: strings['zh-TW'].dataHachiojiRouteName,
+      subtitle: strings['zh-TW'].dataHachiojiName,
+      description: strings['zh-TW'].dataHachiojiDescription,
+      tags: ['八王子薑', '當季農產品', '八王子'],
+      storyTitle: strings['zh-TW'].dataHachiojiHeroKicker,
+      intro: [strings['zh-TW'].dataHachiojiStory, strings['zh-TW'].dataHachiojiDescription],
+    },
+  },
+  chapters: {
+    ja: [
+      { number: '01.', title: '八王子ショウガの歩み', body: hachiojiCulture.historyJa },
+      { number: '02.', title: '生産者と直売所', body: hachiojiCulture.makerJa },
+      { number: '03.', title: '季節と当日の入荷', body: strings.ja.dataHachiojiStoryChallenge },
+      { number: '04.', title: '旬の八王子を楽しむ', body: hachiojiCulture.howToEnjoyJa },
+    ],
+    en: [
+      { number: '01.', title: 'Hachioji ginger through time', body: hachiojiCulture.historyEn },
+      { number: '02.', title: 'Growers and the farm market', body: hachiojiCulture.makerEn },
+      { number: '03.', title: 'Season and daily deliveries', body: strings.en.dataHachiojiStoryChallenge },
+      { number: '04.', title: 'Enjoy Hachioji in season', body: hachiojiCulture.howToEnjoyEn },
+    ],
+    'zh-TW': [
+      { number: '01.', title: '八王子薑的歷史', body: strings['zh-TW'].dataHachiojiHistory },
+      { number: '02.', title: '生產者與農產直賣所', body: strings['zh-TW'].dataHachiojiStoryMakerRole },
+      { number: '03.', title: '季節與每日進貨', body: strings['zh-TW'].dataHachiojiStoryChallenge },
+      { number: '04.', title: '品味當季八王子', body: strings['zh-TW'].dataHachiojiHowToEnjoy },
+    ],
+  },
+  routeVariants: [
+    hachiojiRouteVariant('half-day'),
+    hachiojiRouteVariant('full-day'),
+  ],
+};
+
 /** Every journey reachable in the current presentation, including MOGU browse. */
-export const currentJourneys: JourneyPresentation[] = [...resultJourneys, omeJourney];
+export const currentJourneys: JourneyPresentation[] = [...resultJourneys, omeJourney, hachiojiJourney];
 
 type SpotCopy = Pick<SpotPresentation['copy'][Locale], 'name' | 'lead' | 'description'>;
 
@@ -899,10 +1009,89 @@ const omeSpots: Record<string, SpotPresentation> = Object.fromEntries(
     .map((id) => [id, omeSpot(id)]),
 );
 
+const hachiojiPlaceNameZh: Record<string, string> = {
+  'hachioji-takiyama-roadside-station': strings['zh-TW'].dataPlaceHachiojiRoadsideStationName,
+  'hachioji-takiyama-castle': strings['zh-TW'].dataPlaceHachiojiCastleName,
+};
+
+const hachiojiSpotRoleZh: Record<string, string> = {
+  'hachioji-takiyama-roadside-station': strings['zh-TW'].dataHachiojiMarketRole,
+  'hachioji-takiyama-castle': strings['zh-TW'].dataHachiojiCastleRole,
+};
+
+function hachiojiSpot(id: string): SpotPresentation {
+  const place = canonicalPlace(id);
+  const detail = requiredRecord(getSpotDetail(id), `${id} Spot detail`);
+  const zhName = requiredRecord(hachiojiPlaceNameZh[id], `${id} Traditional Chinese name`);
+  const zhRole = requiredRecord(hachiojiSpotRoleZh[id], `${id} Traditional Chinese role`);
+  const accessKey = spotAccessKey(id);
+  const practicalInfo = [
+    ...(place.address ? [{ label: localized('所在地', 'Address', '地址'), value: localized(place.address, place.address, place.address) }] : []),
+    ...(detail.practical?.accessJa && detail.practical.accessEn && accessKey
+      ? [{
+          label: localized('アクセス', 'Access', '交通'),
+          value: localized(detail.practical.accessJa, detail.practical.accessEn, strings['zh-TW'][accessKey]),
+        }]
+      : []),
+    ...(detail.practical?.hoursJa && detail.practical.hoursEn
+      ? [{
+          label: localized('営業時間', 'Hours', '營業時間'),
+          value: localized(detail.practical.hoursJa, detail.practical.hoursEn,
+            strings['zh-TW'].dataHachiojiMarketHours),
+        }]
+      : []),
+    ...(detail.practical?.closedDaysJa && detail.practical.closedDaysEn
+      ? [{
+          label: localized('営業日', 'Opening days', '營業日'),
+          value: localized(detail.practical.closedDaysJa, detail.practical.closedDaysEn,
+            strings['zh-TW'].dataHachiojiMarketOpeningDays),
+        }]
+      : []),
+  ];
+  return {
+    id,
+    regionId: hachiojiCandidate.regionId,
+    foodCultureId: hachiojiCulture.id,
+    thumbnailAssetIds: [],
+    copy: {
+      ja: {
+        name: place.nameJa,
+        lead: detail.roleJa,
+        description: detail.roleJa,
+        tags: ['公式・公的情報参照', '確認中'],
+        practicalInfo: practicalInfo.map((row) => ({ label: row.label.ja, value: row.value.ja })),
+        caution: ['掲載内容は確認中です。営業時間・バス時刻・当日の入荷は訪問前・現地でご確認ください。'],
+      },
+      en: {
+        name: place.nameEn,
+        lead: detail.roleEn,
+        description: detail.roleEn,
+        tags: ['Official/public information', 'Confirmation pending'],
+        practicalInfo: practicalInfo.map((row) => ({ label: row.label.en, value: row.value.en })),
+        caution: ['This listing is still being confirmed. Check current hours, bus times, and day-of stock before or during your visit.'],
+      },
+      'zh-TW': {
+        name: zhName,
+        lead: zhRole,
+        description: zhRole,
+        tags: ['參考官方／公部門資訊', '確認中'],
+        practicalInfo: practicalInfo.map((row) => ({ label: row.label['zh-TW'], value: row.value['zh-TW'] })),
+        caution: ['刊載內容仍在確認中。造訪前或現場請確認最新營業時間、巴士班次與當日進貨。'],
+      },
+    },
+  };
+}
+
+const hachiojiSpots: Record<string, SpotPresentation> = Object.fromEntries(
+  ['hachioji-takiyama-roadside-station', 'hachioji-takiyama-castle']
+    .map((id) => [id, hachiojiSpot(id)]),
+);
+
 /** Every Spot reachable through a current-presentation journey. */
 export const currentSpots: Record<string, SpotPresentation> = {
   ...demoSpots,
   ...omeSpots,
+  ...hachiojiSpots,
 };
 
 export interface RouteStepText {
@@ -917,6 +1106,7 @@ export const routeNames: Record<string, LocalizedText> = {
   'demo-okutama-wasabi': localized('東京わさび文化を巡る旅', 'A journey through Tokyo wasabi culture', '走訪東京山葵文化之旅'),
   'demo-okutama-yamame': localized('奥多摩やまめを味わう旅', 'A journey to taste Okutama yamame', '品嚐奧多摩山女魚之旅'),
   'demo-ome-sake': localized(omeRoute.nameJa, omeRoute.nameEn, strings['zh-TW'].dataSakeRouteName),
+  'demo-tokyo-hachioji-ginger': localized(hachiojiRoute.nameJa, hachiojiRoute.nameEn, strings['zh-TW'].dataHachiojiRouteName),
 };
 
 export interface ResultLocation {
@@ -956,6 +1146,29 @@ export const resultLocation: Record<string, Record<Locale, ResultLocation>> = {
     en: { area: 'Ome / Sawai (Western Tokyo)', station: 'Sawai Station', access: 'About 5 min on foot' },
     'zh-TW': { area: '青梅・沢井（東京西部）', station: '沢井站', access: '步行約 5 分鐘' },
   },
+  'demo-tokyo-hachioji-ginger': {
+    ja: {
+      area: '八王子・東京',
+      station: '',
+      access: hachiojiMarketDetail.practical?.accessJa ?? '',
+      source: hachiojiMarketDetail.source,
+      sourceValue: hachiojiMarketDetail.practical?.accessJa,
+    },
+    en: {
+      area: 'Hachioji, Tokyo',
+      station: '',
+      access: hachiojiMarketDetail.practical?.accessEn ?? '',
+      source: hachiojiMarketDetail.source,
+      sourceValue: hachiojiMarketDetail.practical?.accessEn,
+    },
+    'zh-TW': {
+      area: '東京都八王子',
+      station: '',
+      access: strings['zh-TW'].dataHachiojiMarketAccess,
+      source: hachiojiMarketDetail.source,
+      sourceValue: hachiojiMarketDetail.practical?.accessJa,
+    },
+  },
 };
 
 function omeRouteSteps(canonicalId: 'half-day' | '1-day'): RouteStepText[] {
@@ -989,6 +1202,20 @@ function omeRouteSteps(canonicalId: 'half-day' | '1-day'): RouteStepText[] {
   });
 }
 
+function hachiojiRouteSteps(canonicalId: 'half-day' | '1-day'): RouteStepText[] {
+  const variant = requiredRecord(hachiojiRoute.variants[canonicalId], `Hachioji ${canonicalId} route variant`);
+  return variant.steps.map((step) => {
+    const roleKey = requiredRecord(
+      stepRoleKey(hachiojiRoute.id, step.placeId, canonicalId),
+      `${step.placeId} Hachioji ${canonicalId} route role key`,
+    );
+    return {
+      spotId: step.placeId,
+      description: localized(step.roleJa, step.roleEn, strings['zh-TW'][roleKey]),
+    };
+  });
+}
+
 export const routeStepText: Record<string, RouteStepText[]> = {
   'demo-okutama-wasabi:half-day': [
     { spotId: 'okutama-station', description: localized('旅のスタート地点', 'Starting point', '旅程起點') },
@@ -1015,6 +1242,8 @@ export const routeStepText: Record<string, RouteStepText[]> = {
   ],
   'demo-ome-sake:half-day': omeRouteSteps('half-day'),
   'demo-ome-sake:full-day': omeRouteSteps('1-day'),
+  'demo-tokyo-hachioji-ginger:half-day': hachiojiRouteSteps('half-day'),
+  'demo-tokyo-hachioji-ginger:full-day': hachiojiRouteSteps('1-day'),
 };
 
 export interface RouteStats {
@@ -1037,6 +1266,8 @@ export const routeRegionGuidance: Record<string, Record<Locale, string>> = {
   'demo-okutama-yamame:half-day': localized('奥多摩・東京都 (東京西部)', 'Okutama, Tokyo (Western Tokyo)', '東京都奧多摩（東京西部）'),
   'demo-ome-sake:half-day': localized('青梅・沢井・東京都 (東京西部)', 'Ome / Sawai, Tokyo (Western Tokyo)', '東京都青梅・沢井（東京西部）'),
   'demo-ome-sake:full-day': localized('青梅・沢井・東京都 (東京西部)', 'Ome / Sawai, Tokyo (Western Tokyo)', '東京都青梅・沢井（東京西部）'),
+  'demo-tokyo-hachioji-ginger:half-day': localized('八王子・東京都', 'Hachioji, Tokyo', '東京都八王子'),
+  'demo-tokyo-hachioji-ginger:full-day': localized('八王子・東京都', 'Hachioji, Tokyo', '東京都八王子'),
 };
 
 const routeTimingCaution = localized(
@@ -1058,44 +1289,118 @@ export function routeVariantSummary(variant: JourneyPresentation['routeVariants'
   return { time, spots: localized(`${count} スポット`, `${count} spots`, `${count} 個景點`)[locale] };
 }
 
+type PresentationVariantId = JourneyPresentation['routeVariants'][number]['id'];
+type CanonicalRouteVariantId = 'half-day' | '1-day';
+
+interface RecoveredJourneyConfig {
+  route: ModelRoute;
+  variantIds: Record<PresentationVariantId, CanonicalRouteVariantId>;
+  transportZh: string;
+  accessCopy?: LocalizedText;
+  caution: LocalizedText;
+}
+
+/** Shared display projection for non-Result journeys recovered into MOGU. */
+const recoveredJourneyConfig: Record<string, RecoveredJourneyConfig> = {
+  'demo-ome-sake': {
+    route: omeRoute,
+    variantIds: { 'half-day': 'half-day', 'full-day': '1-day' },
+    transportZh: 'JR／巴士／纜車／步行（編輯部參考）',
+    accessCopy: localized(
+      '沢井駅から小澤酒造まで徒歩約5分',
+      'About 5 minutes on foot from Sawai Station to Ozawa Shuzo',
+      '從沢井站步行約 5 分鐘可抵達小澤酒造',
+    ),
+    caution: localized(
+      '所要時間と移動順は編集部による目安です。訪問前に交通・営業の公式情報をご確認ください。',
+      'Route timing and order are editorial estimates. Check official transport and operating information before visiting.',
+      '所需時間與移動順序僅供參考。造訪前請確認交通與營業的官方資訊。',
+    ),
+  },
+  'demo-tokyo-hachioji-ginger': {
+    route: hachiojiRoute,
+    variantIds: { 'half-day': 'half-day', 'full-day': '1-day' },
+    transportZh: strings['zh-TW'].dataHachiojiRouteTransport,
+    caution: localizedBundleKey(
+      requiredRecord(routeEstimateKey(hachiojiRoute.id), 'Hachioji route estimate key'),
+      'Hachioji route estimate',
+    ),
+  },
+};
+
+const OKUTAMA_JOURNEY_IDS = new Set(['demo-okutama-wasabi', 'demo-okutama-yamame']);
+
+function recoveredFirstStopAccess(
+  config: RecoveredJourneyConfig,
+  variant: JourneyPresentation['routeVariants'][number],
+  locale: Locale,
+  description: string,
+): Pick<RouteStats, 'access' | 'source' | 'sourceValue'> {
+  const canonicalVariantId = requiredRecord(config.variantIds[variant.id], `${description} canonical variant mapping`);
+  const canonicalVariant = requiredRecord(config.route.variants[canonicalVariantId], `${description} canonical route variant`);
+  const firstStopId = requiredRecord(canonicalVariant.steps[0]?.placeId, `${description} first stop identity`);
+  const detail = requiredRecord(getSpotDetail(firstStopId), `${description} first Spot detail`);
+  const accessKey = spotAccessKey(firstStopId);
+  const practical = detail.practical;
+  const access = config.accessCopy?.[locale]
+    ?? (practical?.accessJa && practical.accessEn && accessKey
+      ? localized(practical.accessJa, practical.accessEn, strings['zh-TW'][accessKey])[locale]
+      : undefined);
+  return {
+    access: requiredRecord(access, `${description} first-stop access`),
+    source: detail.source,
+    sourceValue: practical?.accessJa,
+  };
+}
+
 export const routeStats: Record<string, Record<Locale, RouteStats>> = Object.fromEntries(
   currentJourneys.flatMap((journey) => journey.routeVariants.map((variant) => {
     const key = `${journey.id}:${variant.id}`;
-    const ome = journey.id === 'demo-ome-sake';
-    const mitakeStart = variant.steps[0]?.spotId === 'mitake-station';
+    const recovered = recoveredJourneyConfig[journey.id];
+    if (!recovered && !OKUTAMA_JOURNEY_IDS.has(journey.id)) {
+      throw new Error(`Missing explicit Route configuration for current journey: ${journey.id}`);
+    }
+    const canonicalVariant = recovered
+      ? requiredRecord(recovered.route.variants[requiredRecord(recovered.variantIds[variant.id], `${key} variant mapping`)], `${key} canonical variant`)
+      : undefined;
+    const isOkutamaMitakeStart = OKUTAMA_JOURNEY_IDS.has(journey.id)
+      && variant.steps[0]?.spotId === 'mitake-station';
     const values = Object.fromEntries((['ja', 'en', 'zh-TW'] as const).map((locale) => {
-      const location = requiredRecord(resultLocation[journey.id]?.[locale], `${key} access`);
+      const localizedLocation = recovered ? undefined
+        : requiredRecord(resultLocation[journey.id]?.[locale], `${key} localized access`);
       const fullDayAccess = localized(
         '御嶽駅から集合場所へ。列車・集合時刻は予約時に確認',
         'Via Mitake Station to the meeting place. Confirm trains and the meeting time when booking.',
         '由御嶽站前往集合地點。預約時請確認班次與集合時間',
       )[locale];
-      const transport = ome
-        ? localized(omeRoute.variants[variant.id === 'half-day' ? 'half-day' : '1-day'].transportJa,
-          omeRoute.variants[variant.id === 'half-day' ? 'half-day' : '1-day'].transportEn,
-          'JR／巴士／纜車／步行（編輯部參考）')[locale]
+      const recoveredAccess = recovered
+        ? recoveredFirstStopAccess(recovered, variant, locale, key)
+        : undefined;
+      const transport = recovered && canonicalVariant
+        ? localized(canonicalVariant.transportJa, canonicalVariant.transportEn, recovered.transportZh)[locale]
         : localized('経路は要確認', 'Confirm route', '請確認路線')[locale];
+      const caution = recovered
+        ? recovered.caution[locale]
+        : routeTimingCaution[locale] + (isOkutamaMitakeStart ? localized(
+            ' 冬季の体験後は「あかべこ」の昼営業に間に合わない場合があります。予約前に順序・訪問可否を調整してください。',
+            ' After a winter tour, Akabeko lunch may be out of reach. Adjust the order and stops before booking.',
+            ' 冬季體驗結束後可能趕不上 AKABEKO 午餐時段，預約前請調整順序與造訪安排。',
+          )[locale] : '');
       return [locale, {
         ...routeVariantSummary(variant, locale),
         distance: transport,
-        station: mitakeStart ? '' : location.station,
-        minutes: mitakeStart ? '' : location.access,
-        access: mitakeStart ? fullDayAccess : ome ? localized(
-          '沢井駅から小澤酒造まで徒歩約5分',
-          'About 5 minutes on foot from Sawai Station to Ozawa Shuzo',
-          '從沢井站步行約 5 分鐘可抵達小澤酒造',
-        )[locale] : `${location.station} ${location.access}`,
-        source: mitakeStart ? wasabiExperienceMeetingAccess.source : location.source,
-        sourceValue: mitakeStart ? `${wasabiExperienceMeetingAccess.stationJa} / ${wasabiExperienceMeetingAccess.walkMinutes} min on foot to meeting place` : location.sourceValue,
-        caution: ome ? localized(
-          '所要時間と移動順は編集部による目安です。訪問前に交通・営業の公式情報をご確認ください。',
-          'Route timing and order are editorial estimates. Check official transport and operating information before visiting.',
-          '所需時間與移動順序僅供參考。造訪前請確認交通與營業的官方資訊。',
-        )[locale] : routeTimingCaution[locale] + (mitakeStart ? localized(
-          ' 冬季の体験後は「あかべこ」の昼営業に間に合わない場合があります。予約前に順序・訪問可否を調整してください。',
-          ' After a winter tour, Akabeko lunch may be out of reach. Adjust the order and stops before booking.',
-          ' 冬季體驗結束後可能趕不上 AKABEKO 午餐時段，預約前請調整順序與造訪安排。',
-        )[locale] : ''),
+        station: recovered || isOkutamaMitakeStart ? '' : localizedLocation?.station ?? '',
+        minutes: recovered || isOkutamaMitakeStart ? '' : localizedLocation?.access ?? '',
+        access: recoveredAccess?.access ?? (isOkutamaMitakeStart
+          ? fullDayAccess
+          : `${localizedLocation?.station ?? ''} ${localizedLocation?.access ?? ''}`),
+        source: recoveredAccess?.source ?? (isOkutamaMitakeStart
+          ? wasabiExperienceMeetingAccess.source
+          : localizedLocation?.source),
+        sourceValue: recoveredAccess?.sourceValue ?? (isOkutamaMitakeStart
+          ? `${wasabiExperienceMeetingAccess.stationJa} / ${wasabiExperienceMeetingAccess.walkMinutes} min on foot to meeting place`
+          : localizedLocation?.sourceValue),
+        caution,
       }];
     })) as Record<Locale, RouteStats>;
     return [key, values];
@@ -1283,6 +1588,47 @@ function omeReferenceSpotDetail(id: string): ReferenceSpotDetail {
 }
 
 export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> = {
+  'hachioji-takiyama-roadside-station': {
+    tags: [
+      { tagId: 'local-produce-market', color: '#8FAE5C', label: localized('地場農産物', 'Local produce', '在地農產品') },
+      { tagId: 'official-source', color: '#F0A24C', label: localized('公式情報参照', 'Official source', '參考官方資訊') },
+      { tagId: 'confirmation-pending', color: '#5D9BEF', label: localized('確認中', 'Confirmation pending', '確認中') },
+    ],
+    description: localized(
+      '八王子市内の農産物と食文化に出会う道の駅です。八王子ショウガは季節商品として扱われるため、当日の入荷は現地でご確認ください。',
+      'A roadside station for Hachioji produce and food culture. Hachioji ginger is seasonal, so check day-of stock on site.',
+      '可認識八王子市農產品與飲食文化的道之驛。八王子薑為季節商品，當日進貨請於現場確認。',
+    ),
+    information: [
+      { fieldId: 'name', icon: 'information', label: localized('名称', 'Name', '名稱'), value: localized(hachiojiMarketPlace.nameJa, hachiojiMarketPlace.nameEn, strings['zh-TW'].dataPlaceHachiojiRoadsideStationName) },
+      { fieldId: 'address', icon: 'information', label: localized('所在地', 'Address', '地址'), value: localized(hachiojiMarketPlace.address ?? '', hachiojiMarketPlace.address ?? '', hachiojiMarketPlace.address ?? '') },
+      { fieldId: 'access', icon: 'train', label: localized('アクセス', 'Access', '交通'), value: localized(hachiojiMarketDetail.practical?.accessJa ?? '', hachiojiMarketDetail.practical?.accessEn ?? '', strings['zh-TW'].dataHachiojiMarketAccess) },
+      { fieldId: 'hours', icon: 'clock', label: localized('営業時間', 'Hours', '營業時間'), value: localized(hachiojiMarketDetail.practical?.hoursJa ?? '', hachiojiMarketDetail.practical?.hoursEn ?? '', strings['zh-TW'].dataHachiojiMarketHours) },
+      { fieldId: 'closed_days', icon: 'information', label: localized('営業日', 'Opening days', '營業日'), value: localized(hachiojiMarketDetail.practical?.closedDaysJa ?? '', hachiojiMarketDetail.practical?.closedDaysEn ?? '', strings['zh-TW'].dataHachiojiMarketOpeningDays) },
+      { fieldId: 'official_current_url', icon: 'information', label: localized('公式案内', 'Official information', '官方資訊'), value: localized(hachiojiMarketPlace.source.url ?? '', hachiojiMarketPlace.source.url ?? '', hachiojiMarketPlace.source.url ?? '') },
+      { fieldId: 'verification_note', icon: 'information', label: localized('確認状態', 'Verification', '確認狀態'), value: localized('公式情報を2026年9月26日に再取得。営業時間・バス時刻・当日の入荷は訪問前・現地でご確認ください。', 'Official information retrieved Sep 26, 2026. Check current hours, bus times, and day-of stock before or during your visit.', '官方資訊於 2026 年 9 月 26 日重新取得。造訪前或現場請確認最新營業時間、巴士班次與當日進貨。') },
+    ],
+    caution: [localized('・八王子ショウガは季節商品です。入荷・営業時間・交通は変わる場合があるため、訪問前に公式情報をご確認ください。', '• Hachioji ginger is seasonal. Stock, hours, and transport can change; check official information before visiting.', '・八王子薑為季節商品。進貨、營業時間與交通可能變動，造訪前請查看官方資訊。')],
+  },
+  'hachioji-takiyama-castle': {
+    tags: [
+      { tagId: 'heritage-context', color: '#8FAE5C', label: localized('文化財', 'Heritage', '文化財') },
+      { tagId: 'open-data-source', color: '#F0A24C', label: localized('東京都オープンデータ', 'Tokyo open data', '東京都開放資料') },
+      { tagId: 'confirmation-pending', color: '#5D9BEF', label: localized('確認中', 'Confirmation pending', '確認中') },
+    ],
+    description: localized(
+      '東京都のオープンデータに掲載される国指定史跡・滝山城跡です。食材を購入する場所ではなく、八王子ショウガの土地の背景を知る文化財ストップです。',
+      'Takiyama Castle Ruins, a national historic site listed in Tokyo open data. This is heritage context for Hachioji ginger, not a place to buy food.',
+      '東京都開放資料所載的國指定史跡・滝山城跡。這是了解八王子薑產地背景的文化財停靠點，並非購買食材的場所。',
+    ),
+    information: [
+      { fieldId: 'name', icon: 'information', label: localized('名称', 'Name', '名稱'), value: localized(hachiojiCastlePlace.nameJa, hachiojiCastlePlace.nameEn, strings['zh-TW'].dataPlaceHachiojiCastleName) },
+      { fieldId: 'address', icon: 'information', label: localized('所在地', 'Published area', '所在地'), value: localized(hachiojiCastlePlace.address ?? '', hachiojiCastlePlace.address ?? '', hachiojiCastlePlace.address ?? '') },
+      { fieldId: 'official_current_url', icon: 'information', label: localized('文化財一覧', 'Cultural-property data', '文化財列表'), value: localized(hachiojiCastlePlace.source.url ?? '', hachiojiCastlePlace.source.url ?? '', hachiojiCastlePlace.source.url ?? '') },
+      { fieldId: 'verification_note', icon: 'information', label: localized('確認状態', 'Verification', '確認狀態'), value: localized('東京都オープンデータの掲載行を2026年9月26日に取得。原資料に座標はありません。現地の見学・入口情報は訪問前にご確認ください。', 'The Tokyo open-data record was retrieved Sep 26, 2026; the source row contains no coordinates. Check current access and entrance information before visiting.', '東京都開放資料於 2026 年 9 月 26 日取得；原始資料列未提供座標。造訪前請確認現地參觀與入口資訊。') },
+    ],
+    caution: [localized('・滝山城跡は文化財の背景紹介です。見学可能範囲・入口・現地状況は訪問前に公的情報をご確認ください。', '• Takiyama Castle Ruins are included as heritage context. Check official information for current visiting areas, entrances, and conditions.', '・滝山城跡作為文化財背景介紹。造訪前請查看公部門資訊，確認可參觀範圍、入口與現場狀況。')],
+  },
   'hikawa-valley': {
     tags: [
       { tagId: 'natural-area', color: '#8FAE5C', label: localized('自然の遊歩道', 'Natural-area promenade', '自然步道') },
@@ -2034,6 +2380,43 @@ export const storySpotGroups: Record<string, {
       },
     ],
   },
+  'demo-tokyo-hachioji-ginger': {
+    nearby: [
+      {
+        referenceId: 'hachioji-takiyama-roadside-station',
+        spotId: 'hachioji-takiyama-roadside-station',
+        badgeColor: '#E98A1C',
+        badge: localized('道の駅・直売所', 'Roadside station & farm market', '道之驛・農產直賣所'),
+        description: localized(
+          requiredRecord(getSpotDetail('hachioji-takiyama-roadside-station'), 'Hachioji market Spot detail').roleJa,
+          requiredRecord(getSpotDetail('hachioji-takiyama-roadside-station'), 'Hachioji market Spot detail').roleEn,
+          strings['zh-TW'].dataHachiojiMarketRole,
+        ),
+        note: localized(
+          '八王子ショウガは季節商品です。当日の入荷は現地で確認してください。',
+          'Hachioji ginger is seasonal. Check current stock on site.',
+          '八王子薑為季節商品，當日進貨請在現場確認。',
+        ),
+      },
+      {
+        referenceId: 'hachioji-takiyama-castle',
+        spotId: 'hachioji-takiyama-castle',
+        badgeColor: '#5E7239',
+        badge: localized('文化財', 'Heritage', '文化財'),
+        description: localized(
+          requiredRecord(getSpotDetail('hachioji-takiyama-castle'), 'Takiyama Castle Spot detail').roleJa,
+          requiredRecord(getSpotDetail('hachioji-takiyama-castle'), 'Takiyama Castle Spot detail').roleEn,
+          strings['zh-TW'].dataHachiojiCastleRole,
+        ),
+        note: localized(
+          '食材の販売場所ではなく、土地の背景を知るための文化財です。',
+          'This is heritage context for the landscape, not a place to buy food.',
+          '此處是認識土地背景的文化財，並非食材販售地點。',
+        ),
+      },
+    ],
+    nature: [],
+  },
 };
 
 export const storyLocation: Record<string, Record<Locale, {
@@ -2055,6 +2438,11 @@ export const storyLocation: Record<string, Record<Locale, {
     en: { region: 'Ome / Sawai, Tokyo (Western Tokyo)', station: 'Nearest station: Sawai' },
     'zh-TW': { region: '東京都青梅・沢井（東京西部）', station: '最近車站：沢井站' },
   },
+  'demo-tokyo-hachioji-ginger': {
+    ja: { region: '八王子・東京都', station: 'JR・京王八王子駅からバス（時刻は要確認）' },
+    en: { region: 'Hachioji, Tokyo', station: 'Bus from JR or Keio Hachioji Station (check current times)' },
+    'zh-TW': { region: '東京都八王子', station: '從 JR／京王八王子站搭乘巴士（請確認最新班次）' },
+  },
 };
 
 export const chapterPoint: Record<string, Record<Locale, {
@@ -2075,5 +2463,10 @@ export const chapterPoint: Record<string, Record<Locale, {
     ja: { title: '訪問前に確認すること', body: strings.ja.dataSakeRouteOperationalNote },
     en: { title: 'Check before setting out', body: strings.en.dataSakeRouteOperationalNote },
     'zh-TW': { title: '出發前請確認', body: strings['zh-TW'].dataSakeRouteOperationalNote },
+  },
+  'demo-tokyo-hachioji-ginger': {
+    ja: { title: '季節と当日の入荷', body: strings.ja.dataHachiojiRouteOperationalNote },
+    en: { title: 'Season and daily stock', body: strings.en.dataHachiojiRouteOperationalNote },
+    'zh-TW': { title: '季節與每日進貨', body: strings['zh-TW'].dataHachiojiRouteOperationalNote },
   },
 };

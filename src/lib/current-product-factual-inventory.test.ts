@@ -6,6 +6,8 @@ describe('current Product factual inventory (#343)', () => {
     expect(buildCurrentProductFactualInventory()).toEqual([
       { id: 'akabeko', type: 'Spot' },
       { id: 'baba-oshijutaku', type: 'Spot' },
+      { id: 'hachioji-takiyama-castle', type: 'Spot' },
+      { id: 'hachioji-takiyama-roadside-station', type: 'Spot' },
       { id: 'hikawa-valley', type: 'Spot' },
       { id: 'mitake-shrine', type: 'Spot' },
       { id: 'mitake-station', type: 'Spot' },
@@ -19,9 +21,11 @@ describe('current Product factual inventory (#343)', () => {
       { id: 'wasabi-experience', type: 'Spot' },
       { id: 'wasabi-kitchen', type: 'Spot' },
       { id: 'yamashiroya', type: 'Spot' },
+      { id: 'hachioji-ginger', type: 'Story' },
       { id: 'sake-ome', type: 'Story' },
       { id: 'wasabi-okutama', type: 'Story' },
       { id: 'yamame-okutama', type: 'Story' },
+      { id: 'hachioji-ginger-journey', type: 'Route' },
       { id: 'okutama-wasabi-journey', type: 'Route' },
       { id: 'okutama-yamame-journey', type: 'Route' },
       { id: 'ome-sawai-sake-journey', type: 'Route' },
@@ -34,8 +38,10 @@ describe('current Product factual inventory (#343)', () => {
     expect(ids).toContain('sawai-ozawa-shuzo');
     expect(ids).toContain('ome-sawai-sake-journey');
     expect(ids).toContain('sake-ome');
-    expect(ids).not.toContain('hachioji-takiyama-roadside-station');
-    expect(ids).not.toContain('hachioji-ginger-journey');
+    expect(ids).toContain('hachioji-takiyama-roadside-station');
+    expect(ids).toContain('hachioji-ginger-journey');
+    expect(ids).not.toContain('fussa-tamura-shuzo');
+    expect(ids).not.toContain('sake-fussa-journey');
   });
 
   it('is deterministic', () => {
