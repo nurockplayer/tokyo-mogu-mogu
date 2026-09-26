@@ -112,6 +112,33 @@ collection section below.
 - Motion, progressive reveal, tactile feedback, nested scrolling, sticky
   actions, and transitions are part of the visible contract.
 
+## Current design and engineering adaptation
+
+At the existing 375px review baseline and Japanese-default runtime, engineering
+preserves the inspected hierarchy, composition, typography, color, imagery, and
+interaction intent. Engineering owns wrapping, content-driven height,
+overflow, semantic structure, keyboard focus, and responsive mechanics within
+that intent. This boundary never waives direct inspection of the currently
+connected KiKi Figma file before any visible change. Meaningful changes to
+hierarchy, brand expression, image crop, information priority, or interaction
+need a current design decision.
+
+The current phone layout is fluid, capped at 430px, fills `100dvh`, and uses
+nested scrolling. My currently contains language selection; that placement is
+not a permanent information-architecture decision. Reduced-motion CSS shortens
+animation and transition durations and disables smooth scrolling, while Food
+Profile conversation timers remain active.
+Focus handling is partial; this does not establish complete reduced-motion
+support, accessibility conformance, or usability certification.
+
+Shared styles and tokens coexist in the current code but do not establish a
+synchronized Figma/code design-system contract. A future token or component
+system and tablet or desktop compositions remain unadopted. Issue #287's
+contrast/focus concern and Issue #385's modal Figma backprojection remain
+separate unresolved obligations, not a general future-design catchall.
+Historical 390px frames, maps, and node references do not establish current
+design approval.
+
 ## Current Exploration inputs and departure
 
 The five current steps ask for experience, departure, one-way travel time,
