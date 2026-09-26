@@ -7,6 +7,7 @@ import {
   PRESENTATION_ROUTE_AUDIT,
   PRESENTATION_SPOT_AUDIT,
   REQUIRED_ROUTE_GUIDANCE_FACTUAL_CLAIMS,
+  REQUIRED_STORY_FACTUAL_CLAIMS,
   REQUIRED_STORY_SPOT_FACTUAL_CLAIMS,
 } from '../data/data-verification-audit-manifest';
 import type { DataOrigin, DataSource, Place } from '../data/model';
@@ -15,6 +16,7 @@ import type {
   CurrentProductFactualEntityType,
 } from './current-product-factual-inventory';
 import type { LedgerClaim, LedgerVerification } from './data-verification-ledger';
+import { currentJourneys } from '../features/netlify-parity/factual-presentation';
 
 export const DATA_REVIEW_STATUS_LABELS_JA: Readonly<Record<LedgerVerification, string>> = {
   verified: '✅ 人による確認済み',
@@ -429,16 +431,81 @@ function sourceRoleFor(definition: HumanFieldDefinition): HumanDataReviewFactSou
   return 'content';
 }
 
+type MappedCanonicalField = { entityType: 'Place' | 'Spot'; entityId: string; fieldId: string };
+
+function canonicalTarget(mapping: object): MappedCanonicalField | undefined {
+  const fields = mapping as {
+    canonicalPlaceId?: string;
+    canonicalSpotDetailId?: string;
+    canonicalFieldId?: string;
+  };
+  if (!fields.canonicalFieldId) return undefined;
+  if (fields.canonicalPlaceId) {
+    return { entityType: 'Place', entityId: fields.canonicalPlaceId, fieldId: fields.canonicalFieldId };
+  }
+  return fields.canonicalSpotDetailId
+    ? { entityType: 'Spot', entityId: fields.canonicalSpotDetailId, fieldId: fields.canonicalFieldId }
+    : undefined;
+}
+
+/** Resolve only exact audited Route/Story parent identities to canonical fields. */
+function mappedCanonicalFieldForClaim(claim: LedgerClaim): MappedCanonicalField | undefined {
+  if (claim.entityType === 'Route') {
+    const audit = PRESENTATION_ROUTE_AUDIT.find((candidate) => candidate.canonicalRouteId === claim.entityId);
+    if (!audit) return undefined;
+    const mappings = REQUIRED_ROUTE_GUIDANCE_FACTUAL_CLAIMS.map((mapping) => {
+      if (mapping.presentationJourneyId !== audit.presentationJourneyId) return undefined;
+      const variantExists = mapping.variantId === 'half-day'
+        ? 'half-day' in audit.variants
+        : mapping.variantId === 'full-day' && 'full-day' in audit.variants;
+      return variantExists
+        && claim.claimId === `route:${claim.entityId}:${mapping.variantId}:step:${mapping.spotId}:factual:${mapping.claimId}`
+        ? canonicalTarget(mapping)
+        : undefined;
+    }).filter((mapping): mapping is MappedCanonicalField => mapping !== undefined);
+    if (mappings.length !== 1) return undefined;
+    return mappings[0];
+  }
+
+  if (claim.entityType !== 'Story') return undefined;
+  const journey = currentJourneys.find((candidate) => candidate.storyId === claim.entityId);
+  if (!journey) return undefined;
+  const mappings = [
+    ...(REQUIRED_STORY_FACTUAL_CLAIMS[journey.id as keyof typeof REQUIRED_STORY_FACTUAL_CLAIMS] ?? []),
+    ...REQUIRED_STORY_SPOT_FACTUAL_CLAIMS.filter((mapping) => mapping.presentationJourneyId === journey.id),
+  ].map((mapping) => claim.claimId === `story:${claim.entityId}:${mapping.claimId}`
+    ? canonicalTarget(mapping)
+    : undefined)
+    .filter((mapping): mapping is MappedCanonicalField => mapping !== undefined);
+  if (mappings.length !== 1) return undefined;
+  return mappings[0];
+}
+
+function mappedSourceStatementsForFact(claim: LedgerClaim, allClaims: readonly LedgerClaim[]): LedgerClaim[] {
+  const mapped = mappedCanonicalFieldForClaim(claim);
+  if (!mapped) return [];
+  return allClaims.filter((candidate) => candidate.entityType === mapped.entityType
+    && candidate.entityId === mapped.entityId
+    && sourceStatementParentFieldId(candidate.fieldId) === mapped.fieldId)
+    .sort((left, right) => left.claimId.localeCompare(right.claimId));
+}
+
 function sourceEdgesForFact(
   claim: LedgerClaim,
   definition: HumanFieldDefinition,
   claims: readonly LedgerClaim[],
+  allClaims: readonly LedgerClaim[],
 ): { claimIds: string[]; sources: HumanDataReviewFactSource[] } {
-  const statementClaims = claims
+  const ownedStatementClaims = claims
     .filter((candidate) => {
       const parentFieldId = sourceStatementParentFieldId(candidate.fieldId);
       return parentFieldId !== undefined && definition.aliases.includes(parentFieldId);
     })
+    .sort((left, right) => left.claimId.localeCompare(right.claimId));
+  const statementClaims = [...new Map([
+    ...ownedStatementClaims,
+    ...mappedSourceStatementsForFact(claim, allClaims),
+  ].map((candidate) => [candidate.claimId, candidate])).values()]
     .sort((left, right) => left.claimId.localeCompare(right.claimId));
   const sourceClaims = statementClaims.length > 0 ? statementClaims : [claim];
   const sources = sourceClaims
@@ -515,6 +582,7 @@ function affectedSurfacesForFact(
 
 function buildFacts(
   claims: readonly LedgerClaim[],
+  allClaims: readonly LedgerClaim[],
   entityId: string,
   entityType: CurrentProductFactualEntityType,
 ): HumanDataReviewFact[] {
@@ -544,7 +612,7 @@ function buildFacts(
       || left.definition.key.localeCompare(right.definition.key),
     )
     .map(({ claim, definition }) => {
-      const traceability = sourceEdgesForFact(claim, definition, claims);
+      const traceability = sourceEdgesForFact(claim, definition, claims, allClaims);
       const sourceChecked = Boolean(claim.retrievedAt)
         || traceability.sources.some((source) => Boolean(source.retrievedAt));
       return {
@@ -899,7 +967,7 @@ export function buildHumanDataReviewBoard(input: HumanDataReviewBoardInput): Hum
     .map(([entityId, type]): HumanDataReviewEntity => {
     const projectionClaims = input.claims.filter((claim) => claim.entityId === entityId);
     const claimIds = new Set(projectionClaims.map((claim) => claim.claimId));
-    const facts = buildFacts(projectionClaims, entityId, type);
+    const facts = buildFacts(projectionClaims, input.claims, entityId, type);
     const unknowns = buildUnknowns(projectionClaims);
     const statuses = [
       ...facts.map((fact) => fact.status),
@@ -911,8 +979,10 @@ export function buildHumanDataReviewBoard(input: HumanDataReviewBoardInput): Hum
       ?? preferredEntityName(projectionClaims, type)
       ?? projectionClaims.find((claim) => claim.entityName)?.entityName
       ?? entityId;
-    const relevantDates = projectionClaims.map((claim) => claim.retrievedAt).filter((date): date is string => Boolean(date));
-    const confirmedDates = projectionClaims.map((claim) => claim.confirmedAt).filter((date): date is string => Boolean(date));
+    const traceabilityClaimIds = new Set(facts.flatMap((fact) => fact.claimIds));
+    const traceabilityClaims = input.claims.filter((claim) => claim.entityId === entityId || traceabilityClaimIds.has(claim.claimId));
+    const relevantDates = traceabilityClaims.map((claim) => claim.retrievedAt).filter((date): date is string => Boolean(date));
+    const confirmedDates = traceabilityClaims.map((claim) => claim.confirmedAt).filter((date): date is string => Boolean(date));
     const needsConfirmationFacts = facts.filter((fact) => fact.status === 'needs_confirmation');
     const sourceCheckedCount = needsConfirmationFacts.filter((fact) => fact.sourceChecked).length;
     const needsConfirmationSourceChecked = needsConfirmationFacts.length === 0
@@ -949,10 +1019,10 @@ export function buildHumanDataReviewBoard(input: HumanDataReviewBoardInput): Hum
       reviewContext,
       facts,
       unknowns,
-      sources: buildSources(projectionClaims),
+      sources: buildSources(traceabilityClaims),
       evidence: evidenceForEntity(entityId, claimIds, input.evidenceManifest.evidence),
       omissions: omissionsForEntity(entityId, claimIds, input.evidenceManifest.omissions),
-      references: buildReferences(projectionClaims),
+      references: buildReferences(traceabilityClaims),
     };
   });
 

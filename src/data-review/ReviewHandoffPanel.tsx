@@ -222,8 +222,20 @@ export function ReviewHandoffPanel({
                         <div><dt>正本</dt><dd>{field.canonicalValue ?? '記録なし'}</dd></div>
                         <div><dt>現在の表示</dt><dd>{field.displayedValue ?? '記録なし'}</dd></div>
                       </dl>
+                    ) : field.canonicalValue !== undefined && field.displayedValue === undefined ? (
+                      <dl className="drb-handoff-field__comparison">
+                        <div><dt>正本</dt><dd>{field.canonicalValue}</dd></div>
+                        <div><dt>現在の表示</dt><dd>表示値未登録</dd></div>
+                      </dl>
+                    ) : field.canonicalValue === undefined && field.displayedValue !== undefined ? (
+                      <dl className="drb-handoff-field__comparison">
+                        <div><dt>正本</dt><dd>正本の値未登録</dd></div>
+                        <div><dt>現在の表示</dt><dd>{field.displayedValue}</dd></div>
+                      </dl>
+                    ) : field.canonicalValue !== undefined && field.displayedValue !== undefined ? (
+                      <p>正本・現在の表示: {field.displayedValue}</p>
                     ) : (
-                      <p>現在の表示: {field.displayedValue ?? field.canonicalValue ?? '記録なし'}</p>
+                      <p>正本・現在の表示: 記録なし</p>
                     ))}
                   {field.sources.map((source) => (
                     <div className="drb-handoff-field__source" key={source.claimId}>

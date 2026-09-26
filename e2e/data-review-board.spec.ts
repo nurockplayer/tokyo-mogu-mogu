@@ -47,6 +47,19 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(nameField.getByText('奥多摩町観光案内所', { exact: true })).toBeVisible();
   });
 
+  test('labels canonical-only Route facts without calling them current display values', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/data-review/#okutama-wasabi-journey');
+
+    const handoff = page.getByRole('region', { name: '確認結果を引き継ぐ' });
+    const roleField = handoff.locator('.drb-handoff-field').filter({
+      has: page.getByText('Route/okutama-wasabi-journey/route:step:chishima-wasabi-garden:role', { exact: true }),
+    });
+    await expect(roleField).toContainText('正本');
+    await expect(roleField).toContainText('表示値未登録');
+    await expect(roleField).not.toContainText('現在の表示:');
+  });
+
   test('lets a desktop reviewer filter entities and inspect source/evidence boundaries', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto('/data-review/');

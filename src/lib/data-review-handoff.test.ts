@@ -112,6 +112,62 @@ describe('Board review handoff and confirmation progress (#133)', () => {
     expect(await fingerprintReviewField(unknown)).not.toBe(await fingerprintReviewField({ ...unknown, status: 'needs_confirmation' }));
   });
 
+  it('invalidates current Route progress when a mapped English source date changes or that source statement disappears', async () => {
+    const claims = buildRepositoryLedgerClaims();
+    const makeBoard = (currentClaims: typeof claims) => buildHumanDataReviewBoard({
+      claims: currentClaims,
+      currentProductEntities: CURRENT_PRODUCT_FACTUAL_INVENTORY,
+      evidenceManifest: DATA_VERIFICATION_EVIDENCE_MANIFEST,
+      places,
+    });
+    const routeId = 'okutama-wasabi-journey';
+    const fieldKey = 'route:full-day:step:wasabi-experience:tour-duration';
+    const initialBoard = makeBoard(claims);
+    const initialRoute = initialBoard.entities.find((entity) => entity.id === routeId)!;
+    const initialField = currentReviewFieldSnapshots(initialRoute).find((field) => field.fieldKey === fieldKey)!;
+    const priorRecord = await recordFor(initialField, 'correction_required');
+
+    const dateChanged = makeBoard(claims.map((claim) => claim.claimId === 'place:wasabi-experience:tour_duration:source:english-page'
+      ? { ...claim, sourceUpdatedAt: '2026-08-13' }
+      : claim));
+    const changedRoute = dateChanged.entities.find((entity) => entity.id === routeId)!;
+    const changedFields = dateChanged.entities.flatMap(currentReviewFieldSnapshots);
+    expect(await summarizeEntityConfirmationProgress(changedRoute, [priorRecord], changedFields))
+      .toMatchObject({ answered: 0, confirmed: 0, stale: 1 });
+
+    const retrievalChanged = makeBoard(claims.map((claim) => claim.claimId === 'place:wasabi-experience:tour_duration:source:english-page'
+      ? { ...claim, retrievedAt: '2026-09-01' }
+      : claim));
+    const retrievalRoute = retrievalChanged.entities.find((entity) => entity.id === routeId)!;
+    expect(await summarizeEntityConfirmationProgress(
+      retrievalRoute,
+      [priorRecord],
+      retrievalChanged.entities.flatMap(currentReviewFieldSnapshots),
+    )).toMatchObject({ answered: 0, confirmed: 0, stale: 1 });
+
+    const statementRemoved = makeBoard(claims.filter((claim) =>
+      claim.claimId !== 'place:wasabi-experience:tour_duration:source:english-page'));
+    const removedRoute = statementRemoved.entities.find((entity) => entity.id === routeId)!;
+    const removedFields = statementRemoved.entities.flatMap(currentReviewFieldSnapshots);
+    expect(await summarizeEntityConfirmationProgress(removedRoute, [priorRecord], removedFields))
+      .toMatchObject({ answered: 0, confirmed: 0, stale: 1 });
+
+    const englishStatement = claims.find((claim) => claim.claimId === 'place:wasabi-experience:tour_duration:source:english-page')!;
+    const statementAdded = makeBoard([...claims, {
+      ...englishStatement,
+      claimId: 'place:wasabi-experience:tour_duration:source:additional-fixture',
+      fieldId: 'tour_duration:source:additional-fixture',
+      primarySource: 'Synthetic additional source statement',
+      primarySourceUrl: 'https://example.test/additional-tour-duration',
+    }]);
+    const addedRoute = statementAdded.entities.find((entity) => entity.id === routeId)!;
+    expect(await summarizeEntityConfirmationProgress(
+      addedRoute,
+      [priorRecord],
+      statementAdded.entities.flatMap(currentReviewFieldSnapshots),
+    )).toMatchObject({ answered: 0, confirmed: 0, stale: 1 });
+  });
+
   it('fails closed when Web Crypto SHA-256 is unavailable', async () => {
     vi.stubGlobal('crypto', {});
     await expect(fingerprintReviewField(currentReviewFieldSnapshots(fixtureEntity())[0]))
