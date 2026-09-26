@@ -242,7 +242,8 @@ test.describe('Human Data Review Board (#340)', () => {
     }
     await expect(page.getByText('住所', { exact: true })).toHaveCount(0);
     await expect(page.getByText('位置情報', { exact: true })).toHaveCount(0);
-    await expect(page.getByText('mobile_food_truck / no_permanent_storefront', { exact: true })).toBeVisible();
+    await expect(page.getByRole('table', { name: '現在わかっていること' })
+      .getByText('mobile_food_truck / no_permanent_storefront', { exact: true })).toBeVisible();
     await expect(page.getByRole('heading', { name: '5件の判断が必要です' })).toBeVisible();
     const mobileDecision = page.getByRole('article', { name: '営業形態の判断' });
     await expect(mobileDecision).toContainText('固定地点として扱わない');
@@ -575,7 +576,11 @@ test('retains in-memory drafts across entity navigation and keeps correction rec
   expect(receipt).toContain('"proposed_value": "確認先と記録の照合が必要"');
   expect(receipt).toContain('does not set confirmedAt');
   expect(receipt).not.toContain('Slack共有用');
-  await expect(phone).toContainText('現在の表示: 050-5304-3644');
+  const phoneComparison = phone.locator('.drb-handoff-field__comparison');
+  await expect(phoneComparison.locator('dd').nth(0)).toContainText('050-5304-3644');
+  await expect(phoneComparison.locator('dd').nth(1)).toContainText('0428-83-2365');
+  await expect(phone.locator('.drb-handoff-field__source').nth(0)).toContainText('050-5304-3644');
+  await expect(phone.locator('.drb-handoff-field__source').nth(1)).toContainText('0428-83-2365');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
 
