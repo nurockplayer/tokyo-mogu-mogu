@@ -144,9 +144,8 @@ describe('spot details (#45 S6)', () => {
   });
 
   it('keeps practical details bounded to source-backed fields', () => {
-    // Practical data is allowed only for fields transcribed from the official
-    // pages: the Hachioji roadside station, the Ozawa brewery tour, and
-    // Sawanoien. Every other spot keeps the explicit unknown state.
+    // Practical fields are bounded to each place's recorded official/source
+    // guidance; unsupported fields retain the explicit unknown state.
     for (const detail of Object.values(SPOT_DETAILS)) {
       const p = detail.practical;
       if (p) {
@@ -168,6 +167,19 @@ describe('spot details (#45 S6)', () => {
           expect(p.accessEn).toContain('10-minute walk');
           expect(p.hoursJa).toContain('営業カレンダー');
           expect(p.hoursEn).toContain('calendar');
+        } else if (detail.placeId === 'fussa-kurumiru') {
+          expect(detail.source).toMatchObject({
+            url: 'https://www.city.fussa.tokyo.jp/map/shiyakusho/1001605.html',
+            sourceUpdatedAt: '2021-06-16',
+            retrievedAt: '2026-09-26',
+            verificationStatus: 'needs_confirmation',
+          });
+          expect(p.accessJa).toBe('JR青梅線「福生駅」西口から徒歩約5分（市の案内）。');
+          expect(p.accessEn).toBe('About a 5-minute walk from the west exit of JR Ome Line Fussa Station (city guidance).');
+          expect(p.hoursJa).toBe('10:00〜18:00（訪問前に最新情報を確認してください）。');
+          expect(p.hoursEn).toBe('10:00 a.m.–6:00 p.m. (check current information before visiting).');
+          expect(p.closedDaysJa).toBe('月曜・木曜（祝日の場合は翌平日）、年末年始（12月29日〜1月3日）。最新情報を確認してください。');
+          expect(p.closedDaysEn).toBe('Monday and Thursday (when a holiday, the following business day); Dec 29–Jan 3. Check current information.');
         } else if (detail.placeId === 'fussa-ishikawa-shuzo') {
           expect(p.accessJa).toContain('熊川1番地');
           expect(p.accessEn).toContain('Kumagawa 1');

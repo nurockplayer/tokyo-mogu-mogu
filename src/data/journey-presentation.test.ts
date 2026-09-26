@@ -33,7 +33,10 @@ describe('buildJourneyPresentation', () => {
       ],
       origin: 'editorial',
       sourceStatus: 'needs_confirmation',
-      sourceDate: { label: 'detailRetrieved', date: '2026-08-19' },
+      sourceDate: {
+        label: 'detailRetrieved',
+        date: route!.source.retrievedAt,
+      },
     });
   });
 
