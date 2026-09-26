@@ -12,12 +12,34 @@ function activeScreen(page: Page, screen: string): Locator {
   return page.locator(`[data-screen="${screen}"][data-screen-active="true"]`);
 }
 
-async function setLocale(page: Page, locale: 'ja' | 'en' | 'zh-TW'): Promise<void> {
-  await page.goto('/');
-  await page.evaluate((nextLocale) => {
+async function initializeApp(page: Page, locale: 'ja' | 'en' | 'zh-TW' = 'ja'): Promise<void> {
+  await page.addInitScript((nextLocale) => {
     localStorage.clear();
+    sessionStorage.clear();
     localStorage.setItem('tmm:locale', nextLocale);
   }, locale);
+}
+
+const localizedCopy = {
+  ja: {
+    journeyTitle: '八王子ショウガと滝山の食文化をたどる旅',
+    marketName: '道の駅八王子滝山',
+    castleName: '滝山城跡',
+  },
+  en: {
+    journeyTitle: 'Hachioji Ginger & Takiyama Food Culture Journey',
+    marketName: 'Michi-no-Eki Hachioji Takiyama',
+    castleName: 'Takiyama Castle Ruins',
+  },
+  'zh-TW': {
+    journeyTitle: '八王子薑與滝山飲食文化之旅',
+    marketName: '道之驛八王子滝山',
+    castleName: '滝山城跡',
+  },
+} as const;
+
+async function expectRenderedLocale(page: Page, locale: 'ja' | 'en' | 'zh-TW'): Promise<void> {
+  await expect(page.locator('.reference-app')).toHaveAttribute('data-locale', locale);
 }
 
 async function expectNoHorizontalOverflow(page: Page): Promise<void> {
@@ -31,13 +53,10 @@ async function expectNoHorizontalOverflow(page: Page): Promise<void> {
 
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
-  await page.addInitScript(() => {
-    localStorage.clear();
-    sessionStorage.clear();
-  });
 });
 
 test('keeps Result at two cards while the recovered Hachioji journey resolves without Okutama fallback', async ({ page }) => {
+  await initializeApp(page);
   await page.goto('/explore/result');
   const result = activeScreen(page, 'result');
   const cards = result.locator('[data-journey-id]');
@@ -73,33 +92,45 @@ test('keeps Result at two cards while the recovered Hachioji journey resolves wi
 
 for (const locale of ['ja', 'en', 'zh-TW'] as const) {
   test(`renders the Hachioji route and Spots in ${locale} at 375px without overflow`, async ({ page }) => {
-    await setLocale(page, locale);
+    await initializeApp(page, locale);
     await page.goto('/mogu');
     const mogu = activeScreen(page, 'mogu');
     const card = mogu.locator(`[data-journey-id="${HACHIOJI.candidateId}"]`);
+    await expectRenderedLocale(page, locale);
     await expect(card).toBeVisible();
+    await expect(card.locator('h3')).toHaveText(localizedCopy[locale].journeyTitle);
     await expect(card.locator('[data-verification-status="needs_confirmation"]')).toBeVisible();
     await expectNoHorizontalOverflow(page);
 
     await page.goto(`/story/${HACHIOJI.foodCultureId}?candidateId=${HACHIOJI.candidateId}`);
-    await expect(activeScreen(page, 'story').locator('h1').first()).toContainText(/八王子|Hachioji/);
+    const story = activeScreen(page, 'story');
+    await expectRenderedLocale(page, locale);
+    await expect(story.locator('h1').first()).toHaveText(localizedCopy[locale].journeyTitle);
     await expectNoHorizontalOverflow(page);
 
     await page.goto(`/route?candidateId=${HACHIOJI.candidateId}`);
     const route = activeScreen(page, 'route');
+    await expectRenderedLocale(page, locale);
+    await expect(route.locator('.ghead span')).toHaveText(localizedCopy[locale].journeyTitle);
     await expect(route.locator(`[data-spot-id="${HACHIOJI.marketId}"]`)).toBeVisible();
     await expect(route.locator(`[data-spot-id="${HACHIOJI.castleId}"]`)).toBeVisible();
     await expectNoHorizontalOverflow(page);
 
     for (const spotId of [HACHIOJI.marketId, HACHIOJI.castleId]) {
       await page.goto(`/spot/${spotId}?candidateId=${HACHIOJI.candidateId}`);
-      await expect(activeScreen(page, 'spot')).toHaveAttribute('data-spot-id', spotId);
+      const spot = activeScreen(page, 'spot');
+      await expectRenderedLocale(page, locale);
+      await expect(spot).toHaveAttribute('data-spot-id', spotId);
+      await expect(spot.locator('h1')).toHaveText(
+        spotId === HACHIOJI.marketId ? localizedCopy[locale].marketName : localizedCopy[locale].castleName,
+      );
       await expectNoHorizontalOverflow(page);
     }
   });
 }
 
 test('fails closed for mismatched Hachioji identities', async ({ page }) => {
+  await initializeApp(page);
   await page.goto(`/story/${HACHIOJI.foodCultureId}?candidateId=demo-okutama-wasabi`);
   await expect(page.locator('.reference-app')).toHaveCount(0);
   await expect(page.locator('.page-title')).toBeVisible();
