@@ -16,6 +16,10 @@ import {
 } from '../lib/human-data-review-board';
 import { SubmissionRightsPanel } from './SubmissionRightsPanel';
 import { dataReviewEvidenceAssetUrl } from './evidence-assets';
+import { isDirtyReviewHandoffDraft, type ReviewHandoffDraft } from '../lib/data-review-handoff-drafts';
+import {
+  ReviewHandoffPanel,
+} from './ReviewHandoffPanel';
 
 type ReviewFilter = 'all' | 'needs_confirmation' | 'conflict' | 'unknown';
 
@@ -422,7 +426,17 @@ function SourceCard({ source, entity }: { source: HumanDataReviewSource; entity:
   );
 }
 
-function Detail({ entity, onBack }: { entity: HumanDataReviewEntity; onBack: () => void }) {
+function Detail({
+  entity,
+  onBack,
+  handoffDraft,
+  onHandoffDraftChange,
+}: {
+  entity: HumanDataReviewEntity;
+  onBack: () => void;
+  handoffDraft?: ReviewHandoffDraft;
+  onHandoffDraftChange: (draft: ReviewHandoffDraft) => void;
+}) {
   const summary = useMemo(
     () => createDataReviewShareSummaryJa(entity, detailUrl(entity.id)),
     [entity],
@@ -457,6 +471,8 @@ function Detail({ entity, onBack }: { entity: HumanDataReviewEntity; onBack: () 
       <div className="drb-detail-grid">
         <div className="drb-detail-main">
           <DecisionLayer entity={entity} />
+
+          <ReviewHandoffPanel key={`${entity.type}:${entity.id}`} entity={entity} allEntities={board.entities} draft={handoffDraft} onDraftChange={onHandoffDraftChange} />
 
           <section className="drb-panel" aria-labelledby="known-heading">
             <div className="drb-panel__heading"><span>01</span><h2 id="known-heading">現在確認できる情報</h2></div>
@@ -568,6 +584,17 @@ function Detail({ entity, onBack }: { entity: HumanDataReviewEntity; onBack: () 
 
 export function DataReviewBoardApp() {
   const [entityId, setEntityId] = useState(selectedEntityId);
+  const [handoffDrafts, setHandoffDrafts] = useState<Readonly<Record<string, ReviewHandoffDraft>>>({});
+
+  useEffect(() => {
+    const onBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (!Object.values(handoffDrafts).some(isDirtyReviewHandoffDraft)) return;
+      event.preventDefault();
+      event.returnValue = '';
+    };
+    window.addEventListener('beforeunload', onBeforeUnload);
+    return () => window.removeEventListener('beforeunload', onBeforeUnload);
+  }, [handoffDrafts]);
 
   useEffect(() => {
     const onHashChange = () => setEntityId(selectedEntityId());
@@ -576,6 +603,9 @@ export function DataReviewBoardApp() {
   }, []);
 
   const entity = board.entities.find((candidate) => candidate.id === entityId);
+  const updateHandoffDraft = (id: string, draft: ReviewHandoffDraft) => {
+    setHandoffDrafts((current) => ({ ...current, [id]: draft }));
+  };
   const selectEntity = (nextEntityId: string) => {
     window.location.hash = nextEntityId;
     setEntityId(nextEntityId);
@@ -588,6 +618,11 @@ export function DataReviewBoardApp() {
   };
 
   return entity
-    ? <Detail entity={entity} onBack={showOverview} />
+    ? <Detail
+      entity={entity}
+      onBack={showOverview}
+      handoffDraft={handoffDrafts[entity.id]}
+      onHandoffDraftChange={(draft) => updateHandoffDraft(entity.id, draft)}
+    />
     : <Overview onSelect={selectEntity} />;
 }

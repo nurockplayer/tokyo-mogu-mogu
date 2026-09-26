@@ -258,8 +258,43 @@ button:focus-visible, a:focus-visible { outline: 3px solid #5572cb; outline-offs
 .drb-asset-list dl { display: grid; grid-template-columns: minmax(100px, 0.35fr) minmax(0, 1fr); gap: 8px 16px; }
 .drb-asset-list dt { color: var(--drb-muted); }
 .drb-asset-list dd { margin: 0; overflow-wrap: anywhere; }
+.drb-handoff { margin-top: 24px; }
+.drb-handoff__progress { display: grid; gap: 5px; margin: 12px 0 22px; padding: 14px; border-left: 4px solid var(--drb-indigo); background: #f0f2f8; }
+.drb-handoff__progress span, .drb-handoff__progress small { overflow-wrap: anywhere; }
+.drb-handoff__progress small, .drb-handoff section > small { color: var(--drb-muted); line-height: 1.65; }
+.drb-handoff__grid { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.35fr); gap: 18px; align-items: start; }
+.drb-handoff__grid > section { min-width: 0; padding: 16px; border: 1px solid var(--drb-line); background: #fff; }
+.drb-handoff__grid h3, .drb-handoff__application h3 { margin: 0 0 8px; color: var(--drb-indigo); font-size: 1rem; }
+.drb-handoff__grid p { color: var(--drb-muted); font-size: 0.82rem; line-height: 1.7; }
+.drb-handoff label { display: grid; gap: 6px; margin: 12px 0; font-size: 0.8rem; font-weight: 700; }
+.drb-handoff input, .drb-handoff select, .drb-handoff textarea { box-sizing: border-box; width: 100%; min-height: 42px; max-width: 100%; padding: 9px 10px; border: 1px solid #aeb5c5; border-radius: 6px; color: var(--drb-ink); background: #fff; font: inherit; font-weight: 400; }
+.drb-handoff textarea { min-height: 76px; resize: vertical; }
+.drb-handoff input:focus-visible, .drb-handoff select:focus-visible, .drb-handoff textarea:focus-visible, .drb-handoff button:focus-visible { outline: 3px solid #5572cb; outline-offset: 2px; }
+.drb-handoff button { max-width: 100%; padding: 11px 14px; border: 0; border-radius: 5px; color: #fff; background: var(--drb-indigo); cursor: pointer; font: inherit; font-size: 0.82rem; font-weight: 700; overflow-wrap: anywhere; }
+.drb-handoff__grid section > small { display: block; margin-top: 9px; }
+.drb-handoff__context { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 10px; }
+.drb-handoff__context label:last-child { grid-column: 1 / -1; }
+.drb-handoff__fields { display: grid; gap: 10px; margin: 15px 0; }
+.drb-handoff-field { min-width: 0; padding: 12px; border: 1px solid var(--drb-line); background: #f9fafc; }
+.drb-handoff-field h4 { margin: 0 0 7px; font-size: 0.88rem; }
+.drb-handoff-field code { display: block; overflow-wrap: anywhere; color: var(--drb-indigo); font-size: 0.7rem; }
+.drb-handoff-field > p { margin: 7px 0; overflow-wrap: anywhere; }
+.drb-handoff-field__comparison { display: grid; gap: 6px; min-width: 0; margin: 7px 0; }
+.drb-handoff-field__comparison > div { display: grid; grid-template-columns: minmax(5.5em, 0.38fr) minmax(0, 1fr); gap: 7px; align-items: start; }
+.drb-handoff-field__comparison dt { color: var(--drb-muted); font-size: 0.72rem; }
+.drb-handoff-field__comparison dd { min-width: 0; margin: 0; overflow-wrap: anywhere; color: var(--drb-ink); font-size: 0.78rem; line-height: 1.55; white-space: pre-wrap; }
+.drb-handoff-field__source { display: grid; gap: 3px; margin: 8px 0; padding: 8px; background: #fff; font-size: 0.76rem; }
+.drb-handoff-field__source span, .drb-handoff-field__source small { overflow-wrap: anywhere; }
+.drb-handoff-field__source small { color: var(--drb-muted); line-height: 1.6; }
+.drb-handoff__application { margin-top: 20px; padding: 14px; background: #f5f6f8; }
+.drb-handoff__application pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--drb-ink); font-family: inherit; font-size: 0.78rem; line-height: 1.8; }
+.drb-handoff__feedback { min-height: 1.4em; color: var(--drb-indigo) !important; font-weight: 700; overflow-wrap: anywhere; }
+.drb-handoff__temporary { display: block; color: var(--drb-muted); }
 @media (max-width: 600px) {
   .drb-compliance { padding: 20px; }
   .drb-asset-list dl { grid-template-columns: 1fr; gap: 4px; }
   .drb-asset-list dd { margin-bottom: 8px; }
+  .drb-handoff__grid, .drb-handoff__context { grid-template-columns: minmax(0, 1fr); }
+  .drb-handoff__context label:last-child { grid-column: auto; }
+  .drb-handoff__grid > section { padding: 12px; }
 }

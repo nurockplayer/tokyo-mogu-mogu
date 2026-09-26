@@ -33,6 +33,27 @@ export interface StakeholderReviewPacketInput {
   contextNoteJa?: string;
 }
 
+/** Shared canonical application guidance for both the legacy packet and Board handoffs. */
+export function stakeholderConfirmationApplicationGuidanceJa(input?: {
+  foodCultureId?: string;
+  placeId?: string;
+  entityId?: string;
+}): string {
+  if (input?.foodCultureId && input.placeId) {
+    return `## 反映手順\n\n1. 修正内容と確認者・確認日を記録する。\n2. \`${input.foodCultureId}\` / \`${input.placeId}\` の canonical data record を修正し、資料だけに事実を残さない。\n3. 確認できた source に \`confirmedAt: YYYY-MM-DD\` を追加する。source 全体の表示項目を確認できた場合のみ \`verificationStatus: 'verified'\` にする。一部だけなら \`needs_confirmation\` を維持する。\n4. アプリで表示、出典、unknown 表示を再確認する。`;
+  }
+  const target = `対象 entity（${input?.entityId ?? '安定した entity ID'}）の canonical/source record`;
+  return [
+    '## 反映手順',
+    '',
+    '1. 人が `/data-review/` で事実を確認し、構造化 handoff を owning Issue / PR または Project Steward / Codex に渡します。',
+    `2. 通常のレビュー付き PR で ${target} を更新し、事実を Board 専用データに追加しません。修正案は適用前の正本ではありません。`,
+    '3. 確認日と必要最小限の方法・所属/役割または記録参照だけを記録し、個人の連絡先は保存しません。',
+    '4. 対象 source の表示対象項目をすべて実際に確認できた場合だけ `confirmedAt` / `verificationStatus: \'verified\'` を適用します。一部の確認や Board の進捗だけでは source を verified にしません。',
+    '5. Ledger / Board を再生成・検証し、Product 上の表示をもう一度確認します。',
+  ].join('\n');
+}
+
 const STATUS_JA: Record<VerificationStatus, string> = {
   verified: '確認済み',
   needs_confirmation: '要確認',
@@ -292,7 +313,10 @@ export function generateStakeholderReviewPacket(input: StakeholderReviewPacketIn
       (reviewEntries.length > 0
         ? reviewEntries.map((entry) => `- [ ] ${REVIEW_FIELD_JA[entry.field]} — ${STATUS_JA[entry.status]} / 出典: ${entry.source}`).join('\n')
         : '- 確認待ち項目なし'),
-    `## 反映手順\n\n1. 修正内容と確認者・確認日を記録する。\n2. \`${foodCulture.id}\` / \`${place.id}\` の canonical data record を修正し、資料だけに事実を残さない。\n3. 確認できた source に \`confirmedAt: YYYY-MM-DD\` を追加する。source 全体の表示項目を確認できた場合のみ \`verificationStatus: 'verified'\` にする。一部だけなら \`needs_confirmation\` を維持する。\n4. アプリで表示、出典、unknown 表示を再確認する。`,
+    stakeholderConfirmationApplicationGuidanceJa({
+      foodCultureId: foodCulture.id,
+      placeId: place.id,
+    }),
   ];
 
   if (storyEvidence?.municipality) {

@@ -47,6 +47,7 @@ export interface HumanDataReviewFactSource {
   sourceType?: SourceType;
   license?: string;
   retrievedAt?: string;
+  sourceUpdatedAt?: string;
   confirmedAt?: string;
   status: LedgerVerification;
   value?: string;
@@ -450,6 +451,7 @@ function sourceEdgesForFact(
       sourceType: candidate.primarySourceType,
       license: candidate.primarySourceLicense,
       retrievedAt: candidate.retrievedAt,
+      sourceUpdatedAt: candidate.sourceUpdatedAt,
       confirmedAt: candidate.confirmedAt,
       status: candidate.verification,
       value: statementClaims.length > 0 ? preferredValueFor(candidate) : undefined,
