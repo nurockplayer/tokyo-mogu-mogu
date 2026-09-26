@@ -2,6 +2,7 @@ import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { PLACES } from '../../data/seed-places';
+import { FOOD_CULTURES } from '../../data/seed-food-cultures';
 import { isFixedPlace } from '../../data/model';
 import { MODEL_ROUTES } from '../../data/seed-routes';
 import { strings } from '../../i18n/resources';
@@ -211,6 +212,95 @@ describe('Netlify parity presentation content', () => {
       .toMatch(/contains no coordinates/i);
     expect(castle?.caution.map((entry) => entry.ja).join(' ')).toMatch(/見学可能範囲|入口/);
     expect(castle?.caution.map((entry) => entry.en).join(' ')).toMatch(/entrances/i);
+  });
+
+  it('projects Fussa sake through the shared recovery adapter and canonical route variants (#350)', () => {
+    const journey = currentJourneys.find((candidate) => candidate.id === 'demo-tokyo-west-fussa-sake');
+    const route = MODEL_ROUTES.find((candidate) => candidate.id === 'fussa-sake-journey');
+    expect(resultJourneys.map((candidate) => candidate.id)).toEqual([
+      'demo-okutama-wasabi',
+      'demo-okutama-yamame',
+    ]);
+    expect(journey).toMatchObject({
+      regionId: 'fussa',
+      foodCultureId: 'sake-fussa',
+      storyId: 'sake-fussa',
+      routeId: 'fussa-sake-journey',
+      sourceStatus: 'needs_confirmation',
+      routeVariants: [
+        {
+          id: 'half-day',
+          durationMinutes: 195,
+          steps: [
+            { spotId: 'fussa-tamura-shuzo' },
+            { spotId: 'fussa-kurumiru' },
+            { spotId: 'fussa-ishikawa-shuzo' },
+          ],
+        },
+        {
+          id: 'full-day',
+          durationMinutes: 265,
+          steps: [
+            { spotId: 'fussa-tamura-shuzo' },
+            { spotId: 'fussa-kurumiru' },
+            { spotId: 'fussa-ishikawa-shuzo' },
+          ],
+        },
+      ],
+    });
+    expect(journey).not.toHaveProperty('matchPercent');
+    expect(journey?.imageAssetId).toBeUndefined();
+    expect(journey?.heroAssetId).toBeUndefined();
+    expect(route).toBeDefined();
+
+    const culture = FOOD_CULTURES.find((candidate) => candidate.id === 'sake-fussa');
+    expect(culture?.howToEnjoyJa).toMatch(/田村酒造場から.*くるみる.*石川酒造/);
+    expect(culture?.howToEnjoyJa).not.toMatch(/^まず観光案内所/);
+    expect(culture?.howToEnjoyEn).toMatch(/Tamura Shuzojo.*Kurumiru Fussa.*Ishikawa Brewery/);
+
+    const expectedStops = ['fussa-tamura-shuzo', 'fussa-kurumiru', 'fussa-ishikawa-shuzo'];
+    for (const [variantId, canonicalId, duration] of [
+      ['half-day', 'half-day', '3 hr 15 min'],
+      ['full-day', '1-day', '4 hr 25 min'],
+    ] as const) {
+      const key = `demo-tokyo-west-fussa-sake:${variantId}`;
+      const canonicalVariant = route!.variants[canonicalId];
+      expect(journey!.routeVariants.find((variant) => variant.id === variantId)?.steps.map((step) => step.spotId))
+        .toEqual(canonicalVariant.steps.map((step) => step.placeId));
+      expect(routeStepText[key].map((step) => step.spotId)).toEqual(expectedStops);
+      expect(routeStepText[key].map((step) => step.description.ja))
+        .toEqual(canonicalVariant.steps.map((step) => step.roleJa));
+      expect(routeStepText[key].map((step) => step.description.en))
+        .toEqual(canonicalVariant.steps.map((step) => step.roleEn));
+      expect(routeStats[key].ja.time).toContain(variantId === 'half-day' ? '3 時間 15 分' : '4 時間 25 分');
+      expect(routeStats[key].en.time).toContain(duration);
+      expect(routeStats[key].ja.access).toContain('福生駅');
+      expect(routeStats[key].en.access).toContain('Fussa Station');
+      expect(routeStats[key]['zh-TW'].access).toContain('福生站');
+      for (const locale of locales) {
+        expect(routeStats[key][locale].caution).toMatch(/確認|check|確認/);
+        expect(routeStats[key][locale].distance).not.toMatch(/奥多摩|Okutama|奧多摩/i);
+      }
+    }
+    for (const spotId of expectedStops) {
+      expect(currentSpots[spotId]).toMatchObject({ regionId: 'fussa', foodCultureId: 'sake-fussa' });
+      expect(currentSpots[spotId].imageAssetId).toBeUndefined();
+      expect(currentSpots[spotId].thumbnailAssetIds).toEqual([]);
+      expect(referenceSpotDetails[spotId]?.information.find((field) => field.fieldId === 'official_current_url'))
+        .toBeDefined();
+      const canonicalAddress = PLACES.find((place) => place.id === spotId)?.address;
+      expect(referenceSpotDetails[spotId]?.information.find((field) => field.fieldId === 'address')?.value)
+        .toEqual({ ja: canonicalAddress, en: canonicalAddress, 'zh-TW': canonicalAddress });
+      for (const locale of locales) {
+        expect(currentSpots[spotId].copy[locale].practicalInfo.find((row) => row.label === {
+          ja: '所在地', en: 'Address', 'zh-TW': '地址',
+        }[locale])?.value).toBe(canonicalAddress);
+      }
+    }
+    expect(referenceSpotDetails['fussa-kurumiru']?.information.map((field) => field.fieldId))
+      .toEqual(expect.arrayContaining(['address', 'access', 'hours', 'closed_days', 'official_current_url']));
+    expect(resultLocation['demo-tokyo-west-fussa-sake'].ja.station).toBe('');
+    expect(resultLocation['demo-tokyo-west-fussa-sake'].ja.access).toBe(routeStats['demo-tokyo-west-fussa-sake:half-day'].ja.access);
   });
 
   it('exposes the four canonical Ome route stops without borrowed imagery', () => {

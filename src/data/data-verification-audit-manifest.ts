@@ -59,6 +59,21 @@ export const PRESENTATION_ROUTE_AUDIT = [
     surfaces: ['Story', 'Route'],
     issues: ['#349'],
   },
+  {
+    presentationJourneyId: 'demo-tokyo-west-fussa-sake',
+    canonicalRouteId: 'fussa-sake-journey',
+    variants: {
+      'half-day': 'half-day',
+      'full-day': '1-day',
+    },
+    resultComparisonVariantId: undefined,
+    moguAccess: {
+      presentationSpotId: 'fussa-tamura-shuzo',
+      canonicalFieldId: 'access',
+    },
+    surfaces: ['Story', 'Route'],
+    issues: ['#350'],
+  },
 ] as const;
 
 export const PRESENTATION_SPOT_AUDIT = [
@@ -184,6 +199,27 @@ export const PRESENTATION_SPOT_AUDIT = [
     issues: ['#349'],
   },
   {
+    presentationSpotId: 'fussa-tamura-shuzo',
+    canonicalPlaceId: 'fussa-tamura-shuzo',
+    surface: 'Spot',
+    stableCanonicalFieldIds: ['address', 'access', 'hours', 'official_current_url'],
+    issues: ['#350'],
+  },
+  {
+    presentationSpotId: 'fussa-kurumiru',
+    canonicalPlaceId: 'fussa-kurumiru',
+    surface: 'Spot',
+    stableCanonicalFieldIds: ['address', 'access', 'hours', 'closed_days', 'official_current_url'],
+    issues: ['#350'],
+  },
+  {
+    presentationSpotId: 'fussa-ishikawa-shuzo',
+    canonicalPlaceId: 'fussa-ishikawa-shuzo',
+    surface: 'Spot',
+    stableCanonicalFieldIds: ['address', 'access', 'official_current_url'],
+    issues: ['#350'],
+  },
+  {
     presentationSpotId: 'sawai-ozawa-shuzo',
     canonicalPlaceId: 'sawai-ozawa-shuzo',
     surface: 'Spot',
@@ -290,6 +326,12 @@ export const REQUIRED_STORY_FACTUAL_CLAIMS = {
     { claimId: 'story.factual.brewery-tour-reservation', fieldLabel: 'Brewery-tour reservation requirement', parentFieldId: 'presentation:story_chapters', timeSensitive: true, canonicalSpotDetailId: 'sawai-ozawa-shuzo', canonicalFieldId: 'reservation', presentationChapterNumber: '03.' },
     { claimId: 'story.factual.mitake-heritage-designation', fieldLabel: 'Mitake Shrine former-main-hall heritage designation', parentFieldId: 'presentation:story_chapters', timeSensitive: false },
     { claimId: 'story.factual.pre-visit-operational-check', fieldLabel: 'Pre-visit operations, tour, and transport check', parentFieldId: 'presentation:story_point', timeSensitive: true },
+  ],
+  'demo-tokyo-west-fussa-sake': [
+    { claimId: 'story.factual.brewery-founding-dates', fieldLabel: 'Fussa brewery founding dates', parentFieldId: 'presentation:story_chapters', timeSensitive: false },
+    { claimId: 'story.factual.brewery-product-names', fieldLabel: 'Named brewery products', parentFieldId: 'presentation:story_chapters', timeSensitive: true },
+    { claimId: 'story.factual.editorial-stop-order', fieldLabel: 'Editorial three-stop sequence', parentFieldId: 'presentation:story_chapters', timeSensitive: false },
+    { claimId: 'story.factual.visit-conditions', fieldLabel: 'Visit, sales, and operating-condition caveat', parentFieldId: 'presentation:story_point', timeSensitive: true },
   ],
 } as const;
 

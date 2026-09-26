@@ -41,10 +41,10 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex,nofollow');
     await expect(page.getByRole('heading', { name: 'Human Data Review Board' })).toBeVisible();
     const coverage = page.getByLabel('現在のProduct確認対象');
-    await expect(coverage).toContainText('現在のProduct確認対象 25件');
-    await expect(coverage).toContainText('Spot 17件');
-    await expect(coverage).toContainText('Story 4件');
-    await expect(coverage).toContainText('Route 4件');
+    await expect(coverage).toContainText('現在のProduct確認対象 30件');
+    await expect(coverage).toContainText('Spot 20件');
+    await expect(coverage).toContainText('Story 5件');
+    await expect(coverage).toContainText('Route 5件');
     await expect(page.getByText('奥多摩町観光案内所', { exact: true })).toBeVisible();
     await expect(page.getByText('奥多摩わさび本舗 山城屋', { exact: true })).toBeVisible();
     await expect(page.getByText('手作りお弁当・お惣菜の専門店 奥多摩の台所', { exact: true })).toBeVisible();
@@ -115,7 +115,7 @@ test.describe('Human Data Review Board (#340)', () => {
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto('/data-review/');
 
-    await expect(page.getByLabel('現在のProduct確認対象')).toContainText('25件');
+    await expect(page.getByLabel('現在のProduct確認対象')).toContainText('30件');
     const overviewDimensions = await page.evaluate(() => ({
       scrollWidth: document.documentElement.scrollWidth,
       clientWidth: document.documentElement.clientWidth,
@@ -330,6 +330,8 @@ test.describe('Human Data Review Board (#340)', () => {
       ['wasabi-okutama', '奥多摩わさびのストーリー'],
       ['yamame-okutama', '奥多摩やまめのストーリー'],
       ['hachioji-ginger-journey', '八王子ショウガと滝山の食文化をたどる旅'],
+      ['sake-fussa', '福生の日本酒'],
+      ['fussa-sake-journey', '福生の2つの酒蔵と水のまちをめぐる旅'],
     ] as const;
 
     for (const [id, name] of identities) {
@@ -361,6 +363,21 @@ test.describe('Human Data Review Board (#340)', () => {
     const hachiojiMarketFacts = page.getByRole('table', { name: '現在わかっていること' });
     await expect(hachiojiMarketFacts.getByText('アクセス', { exact: true })).toBeVisible();
     await expect(hachiojiMarketFacts.getByText('最新の公式情報', { exact: true })).toBeVisible();
+
+    await page.goto('/data-review/#fussa-sake-journey');
+    await expect(page.getByRole('heading', { name: '福生の2つの酒蔵と水のまちをめぐる旅' })).toBeVisible();
+    const fussaRoute = page.locator('[data-decision-kind="current_information"]');
+    await expect(fussaRoute).toContainText('195');
+    await expect(fussaRoute).toContainText('265');
+    await expect(fussaRoute).toContainText('2026-09-26');
+
+    await page.goto('/data-review/#fussa-kurumiru');
+    await expect(page.getByRole('heading', { name: 'くるみる ふっさ' })).toBeVisible();
+    const fussaSpotFacts = page.getByRole('table', { name: '現在わかっていること' });
+    await expect(fussaSpotFacts.getByText('アクセス', { exact: true })).toBeVisible();
+    await expect(fussaSpotFacts.getByText('営業時間', { exact: true })).toBeVisible();
+    await expect(fussaSpotFacts.getByText('休業日', { exact: true })).toBeVisible();
+    await expect(fussaSpotFacts.getByText('最新の公式情報', { exact: true })).toBeVisible();
   });
 
   test('does not expose the team Board in consumer Product navigation', async ({ page }) => {

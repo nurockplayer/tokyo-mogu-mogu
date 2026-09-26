@@ -154,6 +154,59 @@ describe('data verification evidence manifest (#334)', () => {
     expect(repositoryClaims.some((claim) => claim.claimId === 'place:oku-hikawa-shrine:coordinates')).toBe(false);
   });
 
+  it('records only the inspected #350 Fussa app claims and leaves capture rights unresolved', () => {
+    const fussaEvidence = DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.filter(
+      (item) => item.evidenceId.startsWith('fussa-sake-'),
+    );
+    const byId = (id: string) => fussaEvidence.find((item) => item.evidenceId === id);
+    const routeUpperEn = byId('fussa-sake-route-upper-en-375');
+    const routeHalfStatsJa = byId('fussa-sake-route-half-stats-ja-375');
+    const ishikawaJa = byId('fussa-sake-fussa-ishikawa-shuzo-practical-ja-375');
+    const storyTopEn = byId('fussa-sake-story-top-en-375');
+    const storyChaptersEn = byId('fussa-sake-story-chapters-en-375');
+
+    expect(fussaEvidence).toHaveLength(33);
+    for (const item of fussaEvidence) {
+      expect(item.kind).toBe('app');
+      expect(item.capturedAt).toBe('2026-09-26');
+      expect(item.path).toMatch(/^docs\/data-evidence\/fussa-sake\/.+\.png$/);
+      expect(item).toMatchObject({ viewport: { width: 375, height: 812 } });
+      expect(item).not.toHaveProperty('appCommit');
+      expect(item.note).toContain('Shinkansen widget');
+      expect(item.note).toContain('public reuse permission');
+    }
+    expect(fussaEvidence.some((item) => item.path.includes('practical-lower'))).toBe(false);
+    expect(storyTopEn?.claimIds).not.toContain('story:sake-fussa:presentation:story_title:en');
+    expect(storyChaptersEn?.claimIds).toContain('story:sake-fussa:presentation:story_title:en');
+    expect(storyChaptersEn?.note).toContain('/story/sake-fussa?candidateId=demo-tokyo-west-fussa-sake');
+    expect(routeUpperEn?.claimIds).toContain(
+      'route:fussa-sake-journey:half-day:stop:fussa-kurumiru:identity',
+    );
+    expect(routeUpperEn?.claimIds).not.toContain(
+      'route:fussa-sake-journey:half-day:stop:fussa-ishikawa-shuzo:identity',
+    );
+    expect(routeHalfStatsJa?.claimIds).toContain(
+      'route:fussa-sake-journey:half-day:summary_time:ja',
+    );
+    expect(routeHalfStatsJa?.claimIds).not.toContain(
+      'route:fussa-sake-journey:half-day:stop:fussa-tamura-shuzo:identity',
+    );
+    expect(ishikawaJa?.claimIds).toContain('spot:fussa-ishikawa-shuzo:access');
+    expect(ishikawaJa?.claimIds).not.toContain('spot:fussa-ishikawa-shuzo:hours');
+  });
+
+  it('omits the below-fold English Hachioji Story heading from its top-frame claims', () => {
+    const evidence = DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence;
+    const english = evidence.find((item) => item.evidenceId === 'hachioji-ginger-story-en-375');
+    const japanese = evidence.find((item) => item.evidenceId === 'hachioji-ginger-story-ja-375');
+    const traditionalChinese = evidence.find((item) => item.evidenceId === 'hachioji-ginger-story-zh-TW-375');
+
+    expect(english?.claimIds).not.toContain('story:hachioji-ginger:presentation:story_title:en');
+    expect(japanese?.claimIds).toContain('story:hachioji-ginger:presentation:story_title:ja');
+    expect(traditionalChinese?.claimIds).toContain('story:hachioji-ginger:presentation:story_title:zh-TW');
+    expect(english?.note).toContain('English section heading');
+  });
+
   it('records final Japanese Yamashiroya app evidence and the official-site rights omission (#323)', () => {
     const repositoryClaims = buildRepositoryLedgerClaims();
     const app = DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.find(

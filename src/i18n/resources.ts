@@ -769,7 +769,7 @@ export const strings = {
     dataFussaSakeMaker:
       '田村酒造場は「嘉泉」、石川酒造は「多満自慢」などを醸す、福生の2つの酒蔵です。見学・販売の条件は各公式サイトで確認します。',
     dataFussaSakeHowToEnjoy:
-      'まず観光案内所で最新情報を集め、2つの酒蔵を訪ねます。見学・試飲・飲食・商品の在庫や営業条件は当日に各公式サイトで確認してください。',
+      '田村酒造場からくるみる ふっさを経て石川酒造へ。順路は編集部の提案です。見学・飲食・販売の条件や交通は、訪問前と当日に各公式情報で確認してください。',
     dataFussaSakeStoryLead:
       '福生に続く2つの酒蔵と、水のまちの記憶。その背景を、読み物としてたどってみましょう。',
     dataFussaSakeStoryMakerName: '福生の2つの酒蔵',
@@ -794,7 +794,7 @@ export const strings = {
     dataFussaSakeStopRoleTamura:
       '福生駅から田村酒造場へ。文政5年（1822年）創業と紹介される酒蔵の物語をたどり、見学や販売の条件は公式情報で確認します。',
     dataFussaSakeStopRoleKurumiru:
-      'くるみる ふっさで、市内の観光情報や名産品の情報を集めます。2つの酒蔵をめぐる最新の案内を確認しましょう。',
+      'くるみる ふっさで市内の観光情報や名産品の情報を集め、次に訪ねる酒蔵の最新案内を確認しましょう。',
     dataFussaSakeStopRoleIshikawa:
       '石川酒造で、福生に続く酒造りのもう一つの系譜をたどります。施設ごとの営業・見学条件は公式サイトで確認してください。',
     dataPlaceFussaTamuraName: '田村酒造場',
@@ -803,8 +803,12 @@ export const strings = {
     dataFussaTamuraRole:
       '田村酒造場は福生で酒造りを続ける酒蔵です。見学・販売・営業日の条件は、当日の公式情報を確認してください。',
     dataFussaTamuraAccess: 'JR青梅線「福生駅」から徒歩約10分（公式案内）。',
+    dataFussaTamuraHours: '営業時間は公式案内の営業カレンダーを確認してください。',
     dataFussaKurumiruRole:
       'くるみる ふっさは、福生の観光情報や名産品の情報を集める案内所です。酒蔵めぐりの最新情報を確認する中継点にします。',
+    dataFussaKurumiruAccess: 'JR青梅線「福生駅」西口から徒歩約5分（市の案内）。',
+    dataFussaKurumiruHours: '10:00〜18:00（訪問前に最新情報を確認してください）。',
+    dataFussaKurumiruClosedDays: '月曜・木曜（祝日の場合は翌平日）、年末年始（12月29日〜1月3日）。最新情報を確認してください。',
     dataFussaIshikawaRole:
       '石川酒造は福生・熊川にある酒蔵です。日本酒を軸にした施設や飲食・販売の条件は、公式サイトで確認してください。',
     dataFussaIshikawaAccess:
@@ -1622,7 +1626,7 @@ export const strings = {
     dataFussaSakeMaker:
       'Fussa’s two breweries include Tamura Shuzojo, maker of Kasen, and Ishikawa Brewery, maker of Tamajiman. Check each operator’s current site for visits and sales.',
     dataFussaSakeHowToEnjoy:
-      'Start by checking current information at the tourist center, then visit both breweries. Confirm tours, tastings, dining, stock, and opening conditions with each operator on the day.',
+      'Follow an editorial sequence from Tamura Shuzojo through Kurumiru Fussa to Ishikawa Brewery. Check current tour, dining, sales, and transport information with official sources before and during the visit.',
     dataFussaSakeStoryLead:
       'Two breweries and a water-shaped town in Fussa. Follow their background as a story.',
     dataFussaSakeStoryMakerName: 'Fussa’s two breweries',
@@ -1647,7 +1651,7 @@ export const strings = {
     dataFussaSakeStopRoleTamura:
       'Walk from Fussa Station to Tamura Shuzojo. Follow the story of a brewery founded in 1822, and check the official site for current visit and sales conditions.',
     dataFussaSakeStopRoleKurumiru:
-      'Use Kurumiru Fussa to gather current sightseeing and local-product information before continuing to the second brewery.',
+      'Use Kurumiru Fussa to gather current sightseeing and local-product information, then check the latest details for the next brewery.',
     dataFussaSakeStopRoleIshikawa:
       'Trace Fussa’s other brewing lineage at Ishikawa Brewery. Check the operator site for current conditions by facility and visit type.',
     dataPlaceFussaTamuraName: 'Tamura Shuzojo',
@@ -1656,8 +1660,12 @@ export const strings = {
     dataFussaTamuraRole:
       'Tamura Shuzojo is a Fussa brewery with a long brewing history. Check the current official information for tours, sales, and opening conditions.',
     dataFussaTamuraAccess: 'About a 10-minute walk from JR Ome Line Fussa Station (official guidance).',
+    dataFussaTamuraHours: 'Check the operator’s calendar for current opening hours.',
     dataFussaKurumiruRole:
       'Kurumiru Fussa is a visitor center for local sightseeing information and products — a useful checkpoint for current brewery-visit details.',
+    dataFussaKurumiruAccess: 'About a 5-minute walk from the west exit of JR Ome Line Fussa Station (city guidance).',
+    dataFussaKurumiruHours: '10:00 a.m.–6:00 p.m. (check current information before visiting).',
+    dataFussaKurumiruClosedDays: 'Monday and Thursday (when a holiday, the following business day); Dec 29–Jan 3. Check current information.',
     dataFussaIshikawaRole:
       'Ishikawa Brewery is a Fussa brewery in Kumagawa. Check the official site for current conditions across its sake, dining, and retail facilities.',
     dataFussaIshikawaAccess:
@@ -2451,7 +2459,7 @@ export const strings = {
     dataFussaSakeMaker:
       '福生的兩座酒藏包括釀造「嘉泉」的田村酒造場，以及釀造「多満自慢」的石川酒造。參訪與販售條件請查看各經營者的最新網站。',
     dataFussaSakeHowToEnjoy:
-      '先在觀光服務中心確認最新資訊，再造訪兩座酒藏。見學、試飲、餐飲、庫存與營業條件，請於當天向各經營者確認。',
+      '這是編輯部建議的順序：從田村酒造場出發，經過くるみる ふっさ，再前往石川酒造。造訪前與當天請向官方資訊確認參訪、餐飲、販售及交通安排。',
     dataFussaSakeStoryLead:
       '福生延續至今的兩座酒藏，以及水之城的記憶。讓我們以閱讀的方式走進它們的背景。',
     dataFussaSakeStoryMakerName: '福生的兩座酒藏',
@@ -2476,7 +2484,7 @@ export const strings = {
     dataFussaSakeStopRoleTamura:
       '從福生站步行前往田村酒造場。追尋一座官方介紹為1822年創業的酒藏故事，參訪與販售條件請查看官方網站。',
     dataFussaSakeStopRoleKurumiru:
-      '在くるみる ふっさ收集最新觀光與在地名產資訊，再前往第二座酒藏。',
+      '在くるみる ふっさ收集最新觀光與在地名產資訊，並確認接下來酒藏的最新安排。',
     dataFussaSakeStopRoleIshikawa:
       '在石川酒造追尋福生另一條釀酒脈絡。各設施與參訪形式的最新條件請查看經營者網站。',
     dataPlaceFussaTamuraName: '田村酒造場',
@@ -2485,8 +2493,12 @@ export const strings = {
     dataFussaTamuraRole:
       '田村酒造場是在福生延續釀酒歷史的酒藏。見學、販售與營業日條件請確認當天的官方資訊。',
     dataFussaTamuraAccess: '從JR青梅線福生站步行約10分鐘（官方指引）。',
+    dataFussaTamuraHours: '請查看經營者日曆以確認最新營業時間。',
     dataFussaKurumiruRole:
       'くるみる ふっさ是收集福生觀光與名產資訊的服務中心，也可作為確認酒藏最新資訊的中繼點。',
+    dataFussaKurumiruAccess: '從 JR 青梅線福生站西口步行約 5 分鐘（市政府指引）。',
+    dataFussaKurumiruHours: '10:00–18:00（造訪前請確認最新資訊）。',
+    dataFussaKurumiruClosedDays: '週一、週四（遇國定假日則順延至下一個工作日）；12 月 29 日至 1 月 3 日。請確認最新資訊。',
     dataFussaIshikawaRole:
       '石川酒造位於福生熊川。以日本酒為主的設施、餐飲與販售條件請查看官方網站。',
     dataFussaIshikawaAccess: '東京都福生市熊川1番地。各設施的營業條件請查看官方交通頁面。',

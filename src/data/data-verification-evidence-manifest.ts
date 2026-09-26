@@ -53,6 +53,241 @@ const OME_SAKE_EVIDENCE_LOCALES = ['ja', 'en', 'zh-TW'] as const;
 
 const HACHIOJI_EVIDENCE_LOCALES = ['ja', 'en', 'zh-TW'] as const;
 
+const FUSSA_EVIDENCE_LOCALES = ['ja', 'en', 'zh-TW'] as const;
+type FussaEvidenceLocale = (typeof FUSSA_EVIDENCE_LOCALES)[number];
+
+const FUSSA_CAPTURE_TIMES = {
+  mogu: {
+    ja: '10:59:15.679Z', en: '10:59:35.316Z', 'zh-TW': '10:59:57.537Z',
+  },
+  storyTop: {
+    ja: '10:59:16.012Z', en: '10:59:35.559Z', 'zh-TW': '10:59:58.770Z',
+  },
+  storyChapters: {
+    ja: '11:07:37.589Z', en: '11:07:40.414Z', 'zh-TW': '11:07:43.491Z',
+  },
+  routeUpper: {
+    ja: '10:59:20.618Z', en: '10:59:40.063Z', 'zh-TW': '11:00:05.373Z',
+  },
+  routeHalfStats: {
+    ja: '10:59:20.700Z', en: '10:59:40.129Z', 'zh-TW': '11:00:05.442Z',
+  },
+  routeFullStats: {
+    ja: '10:59:20.964Z', en: '10:59:40.298Z', 'zh-TW': '11:00:05.643Z',
+  },
+  tamuraSpot: {
+    ja: '10:59:22.207Z', en: '10:59:43.603Z', 'zh-TW': '11:00:07.813Z',
+  },
+  kurumiruSpot: {
+    ja: '10:59:26.179Z', en: '10:59:49.451Z', 'zh-TW': '11:00:11.381Z',
+  },
+  ishikawaSpot: {
+    ja: '10:59:32.037Z', en: '10:59:54.341Z', 'zh-TW': '11:00:16.203Z',
+  },
+  storyChapter2: {
+    ja: '11:00:51.836Z', en: '11:00:55.549Z', 'zh-TW': '11:00:57.701Z',
+  },
+  storyChapter4: {
+    ja: '11:00:52.957Z', en: '11:00:55.723Z', 'zh-TW': '11:00:57.806Z',
+  },
+} as const satisfies Record<string, Record<FussaEvidenceLocale, string>>;
+
+const fussaCaptureUrl = (screen: string, frame: string): string => {
+  if (screen === 'mogu') return 'http://localhost:4388/mogu';
+  if (screen === 'story') {
+    return frame === 'story-chapters' || frame === 'story-chapter-2' || frame === 'story-chapter-4'
+      ? 'http://localhost:4388/story/sake-fussa?candidateId=demo-tokyo-west-fussa-sake'
+      : 'http://localhost:4388/story/sake-fussa';
+  }
+  if (screen.startsWith('route')) return 'http://localhost:4388/route?candidateId=demo-tokyo-west-fussa-sake';
+  return `http://localhost:4388/spot/${screen}?candidateId=demo-tokyo-west-fussa-sake`;
+};
+
+function fussaAppEvidence(input: {
+  frame: string;
+  screen: string;
+  locale: FussaEvidenceLocale;
+  capturedAt: string;
+  claimIds: readonly string[];
+  note: string;
+}): DataVerificationAppEvidence {
+  const url = fussaCaptureUrl(input.screen, input.frame);
+  return {
+    evidenceId: `fussa-sake-${input.frame}-${input.locale}-375`,
+    claimIds: input.claimIds,
+    entityId: input.screen === 'mogu' || input.screen.startsWith('route')
+      ? 'fussa-sake-journey'
+      : input.screen.startsWith('story')
+        ? 'sake-fussa'
+        : input.screen,
+    kind: 'app',
+    capturedAt: '2026-09-26',
+    path: `docs/data-evidence/fussa-sake/${input.frame}-${input.locale}.png`,
+    locale: input.locale,
+    viewport: { width: 375, height: 812 },
+    note: `#350 ${input.note} Captured at ${input.capturedAt} from ${url}. Ego-lite's external Shinkansen widget may appear and is not app content. Review evidence only; it does not establish source verification, media rights, or public reuse permission. No appCommit is asserted.`,
+  };
+}
+
+const FUSSA_MOGU_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  FUSSA_EVIDENCE_LOCALES.map((locale) => fussaAppEvidence({
+    frame: 'mogu',
+    screen: 'mogu',
+    locale,
+    capturedAt: FUSSA_CAPTURE_TIMES.mogu[locale],
+    claimIds: [
+      `route:fussa-sake-journey:name:${locale}`,
+      `route:fussa-sake-journey:mogu.factual.origin-access:${locale}`,
+    ],
+    note: `${locale} MOGU card with Fussa journey title, first-stop access, and pending-confirmation status at 375×812.`,
+  }));
+
+const FUSSA_STORY_TOP_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  FUSSA_EVIDENCE_LOCALES.map((locale) => fussaAppEvidence({
+    frame: 'story-top',
+    screen: 'story',
+    locale,
+    capturedAt: FUSSA_CAPTURE_TIMES.storyTop[locale],
+    claimIds: [
+      `story:sake-fussa:presentation:story_intro:${locale}`,
+      ...(locale === 'en' ? [] : [`story:sake-fussa:presentation:story_title:${locale}`]),
+      `story:sake-fussa:presentation:story_location:${locale}`,
+    ],
+    note: `${locale} Story opening view with the Fussa title, intro, and location. Chapter body claims are mapped to separate scrolled captures.`,
+  }));
+
+const FUSSA_STORY_CHAPTER_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  FUSSA_EVIDENCE_LOCALES.map((locale) => fussaAppEvidence({
+    frame: 'story-chapters',
+    screen: 'story',
+    locale,
+    capturedAt: FUSSA_CAPTURE_TIMES.storyChapters[locale],
+    claimIds: [
+      `story:sake-fussa:presentation:story_title:${locale}`,
+      `story:sake-fussa:presentation:story_point:${locale}`,
+      'story:sake-fussa:story.factual.brewery-founding-dates',
+      'story:sake-fussa:story.factual.visit-conditions',
+    ],
+    note: `${locale} first chapter view with the fully visible section heading, founding-history point, and current-conditions caveat; the clipped second chapter is not claimed.`,
+  }));
+
+const FUSSA_STORY_CHAPTER_2_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  FUSSA_EVIDENCE_LOCALES.map((locale) => fussaAppEvidence({
+    frame: 'story-chapter-2',
+    screen: 'story',
+    locale,
+    capturedAt: FUSSA_CAPTURE_TIMES.storyChapter2[locale],
+    claimIds: [
+      'story:sake-fussa:story.factual.brewery-product-names',
+      'story:sake-fussa:story.factual.visit-conditions',
+    ],
+    note: `${locale} second-chapter view with brewery product-name wording and a current operator-information caveat.`,
+  }));
+
+const FUSSA_STORY_CHAPTER_4_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  FUSSA_EVIDENCE_LOCALES.map((locale) => fussaAppEvidence({
+    frame: 'story-chapter-4',
+    screen: 'story',
+    locale,
+    capturedAt: FUSSA_CAPTURE_TIMES.storyChapter4[locale],
+    claimIds: [
+      'story:sake-fussa:story.factual.editorial-stop-order',
+      'story:sake-fussa:story.factual.visit-conditions',
+    ],
+    note: `${locale} fourth-chapter view with the editorial Tamura→Kurumiru→Ishikawa sequence and a reminder to check current conditions.`,
+  }));
+
+const FUSSA_ROUTE_UPPER_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  FUSSA_EVIDENCE_LOCALES.map((locale) => {
+    const visibleStops = locale === 'en'
+      ? ['fussa-tamura-shuzo', 'fussa-kurumiru']
+      : ['fussa-tamura-shuzo', 'fussa-kurumiru', 'fussa-ishikawa-shuzo'];
+    return fussaAppEvidence({
+      frame: 'route-upper',
+      screen: 'route',
+      locale,
+      capturedAt: FUSSA_CAPTURE_TIMES.routeUpper[locale],
+      claimIds: [
+        `route:fussa-sake-journey:half-day:origin_travel_time_guidance:${locale}`,
+        `route:fussa-sake-journey:half-day:operational_caution:${locale}`,
+        ...visibleStops.flatMap((spotId) => [
+          `route:fussa-sake-journey:half-day:stop:${spotId}:identity`,
+          `route:fussa-sake-journey:half-day:step:${spotId}:guidance:${locale}`,
+        ]),
+      ],
+      note: `${locale} half-day Route upper view with access/current-condition guidance and only the fully visible stop cards; the third card is excluded for English because it is clipped.`,
+    });
+  });
+
+const fussaRouteStatsEvidence = (
+  locale: FussaEvidenceLocale,
+  variant: 'half-day' | 'full-day',
+  capturedAt: string,
+): DataVerificationAppEvidence => {
+  const visibleStops = ['fussa-kurumiru', 'fussa-ishikawa-shuzo'];
+  const canonicalVariant = variant === 'half-day' ? 'half-day' : '1-day';
+  return fussaAppEvidence({
+    frame: variant === 'half-day' ? 'route-half-stats' : 'route-full-stats',
+    screen: 'route',
+    locale,
+    capturedAt,
+    claimIds: [
+      `route:fussa-sake-journey:${variant}:summary_time:${locale}`,
+      `route:fussa-sake-journey:${variant}:summary_stop_count:${locale}`,
+      `route:fussa-sake-journey:${canonicalVariant}:transport_summary`,
+      ...visibleStops.flatMap((spotId) => [
+        `route:fussa-sake-journey:${variant}:stop:${spotId}:identity`,
+        `route:fussa-sake-journey:${variant}:step:${spotId}:guidance:${locale}`,
+      ]),
+    ],
+    note: `${locale} ${variant} Route stats show the duration, three-stop count, transport estimate, and lower visible stop cards. The clipped first stop is not claimed by this frame.`,
+  });
+};
+
+const FUSSA_ROUTE_STATS_APP_EVIDENCE: readonly DataVerificationAppEvidence[] = [
+  ...FUSSA_EVIDENCE_LOCALES.map((locale) => fussaRouteStatsEvidence(
+    locale, 'half-day', FUSSA_CAPTURE_TIMES.routeHalfStats[locale],
+  )),
+  ...FUSSA_EVIDENCE_LOCALES.map((locale) => fussaRouteStatsEvidence(
+    locale, 'full-day', FUSSA_CAPTURE_TIMES.routeFullStats[locale],
+  )),
+];
+
+const fussaSpotEvidence = (
+  spotId: 'fussa-tamura-shuzo' | 'fussa-kurumiru' | 'fussa-ishikawa-shuzo',
+  locale: FussaEvidenceLocale,
+  capturedAt: string,
+): DataVerificationAppEvidence => {
+  const claimIds = [
+    `spot:${spotId}:address`,
+    `spot:${spotId}:access`,
+    `spot:${spotId}:official_current_url`,
+    `spot:${spotId}:presentation:verification_note:${locale}`,
+  ];
+  if (spotId === 'fussa-tamura-shuzo') claimIds.push(`spot:${spotId}:hours`);
+  if (spotId === 'fussa-kurumiru') claimIds.push(`spot:${spotId}:hours`, `spot:${spotId}:closed_days`);
+  return fussaAppEvidence({
+    frame: `${spotId}-practical`,
+    screen: spotId,
+    locale,
+    capturedAt,
+    claimIds,
+    note: spotId === 'fussa-tamura-shuzo'
+      ? `${locale} Tamura practical view with canonical address/access, official URL, calendar-only hours guidance, and pending-confirmation notice.`
+      : spotId === 'fussa-kurumiru'
+        ? `${locale} Kurumiru practical view with address/access, 10:00–18:00 guidance, closure exceptions, source URL, and pending-confirmation notice.`
+        : `${locale} Ishikawa practical view with canonical address/access, source URL, and pending-confirmation notice; no visitor hours are asserted.`,
+  });
+};
+
+const FUSSA_SPOT_APP_EVIDENCE: readonly DataVerificationAppEvidence[] = [
+  ...FUSSA_EVIDENCE_LOCALES.flatMap((locale) => [
+    fussaSpotEvidence('fussa-tamura-shuzo', locale, FUSSA_CAPTURE_TIMES.tamuraSpot[locale]),
+    fussaSpotEvidence('fussa-kurumiru', locale, FUSSA_CAPTURE_TIMES.kurumiruSpot[locale]),
+    fussaSpotEvidence('fussa-ishikawa-shuzo', locale, FUSSA_CAPTURE_TIMES.ishikawaSpot[locale]),
+  ]),
+];
+
 const HACHIOJI_MOGU_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
   HACHIOJI_EVIDENCE_LOCALES.map((locale) => ({
     evidenceId: `hachioji-ginger-mogu-${locale}-375`,
@@ -74,7 +309,7 @@ const HACHIOJI_STORY_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
     evidenceId: `hachioji-ginger-story-${locale}-375`,
     claimIds: [
       `story:hachioji-ginger:presentation:story_intro:${locale}`,
-      `story:hachioji-ginger:presentation:story_title:${locale}`,
+      ...(locale === 'en' ? [] : [`story:hachioji-ginger:presentation:story_title:${locale}`]),
       `story:hachioji-ginger:presentation:story_location:${locale}`,
     ],
     entityId: 'hachioji-ginger',
@@ -83,7 +318,7 @@ const HACHIOJI_STORY_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
     path: `docs/data-evidence/hachioji-ginger/story-app-${locale}-375.png`,
     locale,
     viewport: { width: 375, height: 812 },
-    note: `#349 current ${locale} Hachioji Story top view with intro, title, and location at 375px; chapter body and seasonal callout are below the captured area. Captured through Ego-lite; its external browser widget may remain visible and is not app UI.`,
+    note: `#349 current ${locale} Hachioji Story top view with intro and location at 375px; chapter body and seasonal callout are below the captured area${locale === 'en' ? ', including the English section heading, which is excluded' : ''}. Captured through Ego-lite; its external browser widget may remain visible and is not app UI.`,
   }));
 
 const HACHIOJI_STORY_CHAPTER_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
@@ -639,6 +874,14 @@ const ROUTE_AGGREGATE_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
 
 export const DATA_VERIFICATION_EVIDENCE_MANIFEST: DataVerificationEvidenceManifest = {
   evidence: [
+    ...FUSSA_MOGU_APP_EVIDENCE,
+    ...FUSSA_STORY_TOP_APP_EVIDENCE,
+    ...FUSSA_STORY_CHAPTER_APP_EVIDENCE,
+    ...FUSSA_STORY_CHAPTER_2_APP_EVIDENCE,
+    ...FUSSA_STORY_CHAPTER_4_APP_EVIDENCE,
+    ...FUSSA_ROUTE_UPPER_APP_EVIDENCE,
+    ...FUSSA_ROUTE_STATS_APP_EVIDENCE,
+    ...FUSSA_SPOT_APP_EVIDENCE,
     ...HACHIOJI_MOGU_APP_EVIDENCE,
     ...HACHIOJI_STORY_APP_EVIDENCE,
     ...HACHIOJI_STORY_CHAPTER_APP_EVIDENCE,
@@ -1618,6 +1861,66 @@ export const DATA_VERIFICATION_EVIDENCE_MANIFEST: DataVerificationEvidenceManife
       sourceUrl: 'https://www.openstreetmap.org/node/4916080538',
       recordedAt: '2026-08-29',
       reason: 'The ODbL provider node identifies the co-located Arasawaya building and attribution is preserved canonically; a provider screenshot would not field-verify the first-floor restaurant, so none is committed.',
+    },
+    {
+      omissionId: 'fussa-tamura-overview-source-not-captured',
+      claimIds: ['spot:fussa-tamura-shuzo:access', 'spot:fussa-tamura-shuzo:hours', 'spot:fussa-tamura-shuzo:official_current_url'],
+      entityId: 'fussa-tamura-shuzo',
+      kind: 'source',
+      sourceUrl: 'https://www.tamurashuzojo.com/page/kura',
+      recordedAt: '2026-09-26',
+      reason: 'The operator page was rechecked for the displayed access and calendar guidance. No screenshot or photography is copied because repository reuse permission is not recorded.',
+    },
+    {
+      omissionId: 'fussa-tamura-tour-source-not-captured',
+      claimIds: ['spot:fussa-tamura-shuzo:access', 'spot:fussa-tamura-shuzo:hours'],
+      entityId: 'fussa-tamura-shuzo',
+      kind: 'source',
+      sourceUrl: 'https://www.tamurashuzojo.com/page/tour',
+      recordedAt: '2026-09-26',
+      reason: 'The operator tour page confirms that tour conditions vary; no tour promise or screenshot is copied, and repository reuse permission is not recorded.',
+    },
+    {
+      omissionId: 'fussa-city-brewery-context-source-not-captured',
+      claimIds: ['food-culture:sake-fussa:source:fussa-tokyo-sake-brewery-1005934'],
+      entityId: 'sake-fussa',
+      kind: 'source',
+      sourceUrl: 'https://www.city.fussa.tokyo.jp/sightseeing/amuse/1005934.html',
+      recordedAt: '2026-09-26',
+      reason: 'The municipal history page was rechecked for brewery context. Its text is paraphrased, publisher date remains 2017-01-10, and no screenshot is copied because repository reuse permission is not recorded.',
+    },
+    {
+      omissionId: 'fussa-water-course-source-not-captured',
+      claimIds: ['route:fussa-sake-journey:source:fussa-water-heritage-course-1004236'],
+      entityId: 'fussa-sake-journey',
+      kind: 'source',
+      sourceUrl: 'https://www.city.fussa.tokyo.jp/sightseeing/jousui/1004236.html',
+      recordedAt: '2026-09-26',
+      reason: 'The municipal water/heritage course was rechecked for local context. The combined three-stop route remains editorial and is not represented as that official course; no screenshot is copied because repository reuse permission is not recorded.',
+    },
+    {
+      omissionId: 'fussa-kurumiru-city-source-not-captured',
+      claimIds: [
+        'spot:fussa-kurumiru:address',
+        'spot:fussa-kurumiru:access',
+        'spot:fussa-kurumiru:hours',
+        'spot:fussa-kurumiru:closed_days',
+        'spot:fussa-kurumiru:official_current_url',
+      ],
+      entityId: 'fussa-kurumiru',
+      kind: 'source',
+      sourceUrl: 'https://www.city.fussa.tokyo.jp/map/shiyakusho/1001605.html',
+      recordedAt: '2026-09-26',
+      reason: 'The municipal place page was rechecked for address, access, hours, and closure guidance; its publisher date remains 2021-06-16. No screenshot is copied because repository reuse permission is not recorded.',
+    },
+    {
+      omissionId: 'fussa-ishikawa-access-source-not-captured',
+      claimIds: ['spot:fussa-ishikawa-shuzo:address', 'spot:fussa-ishikawa-shuzo:access', 'spot:fussa-ishikawa-shuzo:official_current_url'],
+      entityId: 'fussa-ishikawa-shuzo',
+      kind: 'source',
+      sourceUrl: 'https://www.tamajiman.co.jp/access/',
+      recordedAt: '2026-09-26',
+      reason: 'The operator access page was rechecked for address and facility-specific guidance. No visitor hours are inferred and no screenshot is copied because repository reuse permission is not recorded.',
     },
   ],
 };

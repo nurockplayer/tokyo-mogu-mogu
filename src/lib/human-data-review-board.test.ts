@@ -880,8 +880,8 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       places,
     });
 
-    expect(board.entities).toHaveLength(25);
-    expect(board.entityTypeCounts).toEqual({ Spot: 17, Story: 4, Route: 4 });
+    expect(board.entities).toHaveLength(30);
+    expect(board.entityTypeCounts).toEqual({ Spot: 20, Story: 5, Route: 5 });
     expect(board.entities.map((entity) => entity.id)).toEqual(expect.arrayContaining([
       'akabeko',
       'baba-oshijutaku',
@@ -908,6 +908,11 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       'hachioji-takiyama-castle',
       'hachioji-ginger',
       'hachioji-ginger-journey',
+      'fussa-tamura-shuzo',
+      'fussa-kurumiru',
+      'fussa-ishikawa-shuzo',
+      'sake-fussa',
+      'fussa-sake-journey',
     ]));
 
     const omeStory = board.entities.find((entity) => entity.id === 'sake-ome');
