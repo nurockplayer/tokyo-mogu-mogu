@@ -56,6 +56,37 @@ The visible Dock destinations are **食旅を見つけ / モグモグる / お�
 マイ**. Old Home/Discover/MOGU/My or Home/Diagnosis/Support/My Route
 descriptions do not define the current Dock.
 
+## Current navigation roles and entry
+
+The current Dock roles and visible labels are:
+
+| Role | Route | Japanese | English | Traditional Chinese |
+| --- | --- | --- | --- | --- |
+| Home and exploration entry | `/home` | 食旅を見つけ | Home | 首頁 |
+| Browse current journeys | `/mogu` | モグモグる | MOGU | MOGU |
+| Favorites | `/my-route` | お気に入り | Favorites | 收藏 |
+| My | `/my` | マイ | My | 我的 |
+
+The Home exploration CTA opens `/explore` at its first step. In the current
+mounted prototype it retains the exploration answer values in memory, but
+returns to step one; it does not clear all answers or resume the previously
+viewed step. `/discover` is an alias for `/mogu`; the retained `discover`
+translation key is not a fifth Dock destination. The Dock is shown on Home,
+MOGU, Favorites, My, and Spot. Story and Route use their contextual journey
+controls, while Spot marks MOGU active regardless of how Spot was opened; that
+visual selection does not record navigation provenance.
+
+The Welcome Start action opens Food Profile for both new and returning local
+users, including when a profile is already stored. From onboarding, choosing
+recommendation or skipping the profile leads to Home, while choosing browse
+opens MOGU. Editing remains a separate Food Profile flow reached from My. These
+routes are accountless and do not impose an account or profile gate.
+
+These are current prototype observations, not future information architecture,
+authentication, redirect, translation-usability, or session-resumption
+requirements. Home and collection ownership are described in the current
+collection section below.
+
 ## Current interaction contract
 
 - Food Profile progressively reveals nickname, dietary questions, summary, and
