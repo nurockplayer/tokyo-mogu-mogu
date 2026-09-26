@@ -741,7 +741,7 @@ export const strings = {
       '所要時間・滞在時間・徒歩時間は編集部の目安です。現地の案内と当日の状況を確認してください。',
     dataHachiojiRouteOperationalNote: '品揃えは季節と当日の入荷で変わります。現地の案内を確認してください。',
     dataHachiojiStopRoleMarketHalfDay:
-      '八王子市の食文化ミュージアムに認定された道の駅。市内の生産者が届ける野菜や、旬の八王子ショウガを探します。品揃えは季節と当日の入荷で変わります。',
+      '文化庁の「食文化ミュージアム」に認定された道の駅。市内の生産者が届ける野菜や、旬の八王子ショウガを探します。品揃えは季節と当日の入荷で変わります。',
     dataHachiojiStopRoleMarketFullDay:
       '直売所と地場食材の料理をゆっくり見て、八王子ショウガが入荷しているか現地で確認します。品揃えは季節と当日の入荷で変わります。',
     dataHachiojiStopRoleCastleHalfDay:
@@ -752,6 +752,10 @@ export const strings = {
     dataPlaceHachiojiCastleName: '滝山城跡',
     dataHachiojiMarketRole:
       '市内の農産物や地域の食文化に出会える道の駅です。八王子ショウガは季節商品として扱われるため、当日の入荷は現地で確認します。',
+    dataHachiojiMarketAccess:
+      'JR・京王八王子駅からひよどり山トンネル経由の戸吹方面行きバスに乗り、「道の駅八王子滝山入口」下車、徒歩約3分。バス時刻は利用前に確認してください。',
+    dataHachiojiMarketHours: '8:00〜19:00（施設内一部店舗を除く）',
+    dataHachiojiMarketOpeningDays: '年中無休（施設内一部店舗を除く）',
     dataHachiojiCastleRole:
       '八王子市の文化財一覧に掲載される滝山城跡。食材を買う場所ではなく、八王子ショウガを育ててきた加住・滝山の土地の背景をたどる文化財ストップです。',
     // Fussa × Tokyo Sake slice (Issue #243).
@@ -1590,7 +1594,7 @@ export const strings = {
       'Total, stay, and walking times are editorial estimates; check local guidance and conditions on the day.',
     dataHachiojiRouteOperationalNote: 'Stock changes by season and day; check current local guidance.',
     dataHachiojiStopRoleMarketHalfDay:
-      'Start at the city-recognized food culture museum and farm market. Look for Hachioji produce and seasonal ginger; stock changes with the season and day.',
+      "Start at the farm market of a roadside station recognized under the Agency for Cultural Affairs' Food Culture Museum program. Look for Hachioji produce and seasonal ginger; stock changes with the season and day.",
     dataHachiojiStopRoleMarketFullDay:
       'Take time with the farm market and local-food options, then check on site whether Hachioji ginger has arrived. Stock changes with the season and day.',
     dataHachiojiStopRoleCastleHalfDay:
@@ -1601,6 +1605,10 @@ export const strings = {
     dataPlaceHachiojiCastleName: 'Takiyama Castle Ruins',
     dataHachiojiMarketRole:
       'A roadside station where visitors can meet Hachioji produce and local food culture. Hachioji ginger is seasonal, so check the day’s stock on site.',
+    dataHachiojiMarketAccess:
+      'From JR or Keio Hachioji Station, take a bus via the Hiyodoriyama Tunnel toward Tobuki, get off at Michi-no-Eki Hachioji Takiyama Iriguchi, then walk about 3 minutes. Check current bus times before travel.',
+    dataHachiojiMarketHours: '8:00 a.m.–7:00 p.m. (some facilities have separate hours)',
+    dataHachiojiMarketOpeningDays: 'Open year-round (some facilities have separate schedules)',
     dataHachiojiCastleRole:
       'Listed in Hachioji’s cultural-property data, Takiyama Castle Ruins provide heritage context for the Kazumi and Takiyama land behind Hachioji ginger; they are not a food venue.',
     // Fussa × Tokyo Sake slice (Issue #243).
@@ -2415,7 +2423,7 @@ export const strings = {
       '總時間、停留時間與步行時間為編輯部估算；請確認現地指引與當日狀況。',
     dataHachiojiRouteOperationalNote: '品項會隨季節與當日進貨變動；請確認現地指引。',
     dataHachiojiStopRoleMarketHalfDay:
-      '從獲認定為食文化博物館的道之驛與農產直賣所開始，尋找八王子農產與當季八王子薑；品項會隨季節與當日進貨變動。',
+      '從獲日本文化廳「食文化博物館」計畫認可的道之驛開始，尋找八王子農產與當季八王子薑；品項會隨季節與當日進貨變動。',
     dataHachiojiStopRoleMarketFullDay:
       '慢慢逛直賣所與在地食材料理，並在現場確認八王子薑是否到貨。品項會隨季節與當日進貨變動。',
     dataHachiojiStopRoleCastleHalfDay:
@@ -2426,6 +2434,10 @@ export const strings = {
     dataPlaceHachiojiCastleName: '滝山城跡',
     dataHachiojiMarketRole:
       '可以遇見市內農產品與地方飲食文化的道之驛。八王子薑是季節商品，當日是否進貨請在現場確認。',
+    dataHachiojiMarketAccess:
+      '從 JR／京王八王子站搭乘經由ひよどり山隧道、往戸吹方向的巴士，在「道の駅八王子滝山入口」下車後步行約 3 分鐘。搭車前請確認最新班次。',
+    dataHachiojiMarketHours: '08:00–19:00（設施內部分店鋪除外）',
+    dataHachiojiMarketOpeningDays: '全年營業（設施內部分店鋪另有安排）',
     dataHachiojiCastleRole:
       '滝山城跡登載於八王子市文化財資料。這裡不是購買食材的地方，而是追尋孕育八王子薑的加住・滝山土地背景的文化財景點。',
     // Fussa × Tokyo Sake slice (Issue #243).

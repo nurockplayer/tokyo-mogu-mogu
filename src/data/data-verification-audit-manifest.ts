@@ -44,6 +44,21 @@ export const PRESENTATION_ROUTE_AUDIT = [
     surfaces: ['Story', 'Route'],
     issues: ['#348'],
   },
+  {
+    presentationJourneyId: 'demo-tokyo-hachioji-ginger',
+    canonicalRouteId: 'hachioji-ginger-journey',
+    variants: {
+      'half-day': 'half-day',
+      'full-day': '1-day',
+    },
+    resultComparisonVariantId: undefined,
+    moguAccess: {
+      presentationSpotId: 'hachioji-takiyama-roadside-station',
+      canonicalFieldId: 'access',
+    },
+    surfaces: ['Story', 'Route'],
+    issues: ['#349'],
+  },
 ] as const;
 
 export const PRESENTATION_SPOT_AUDIT = [
@@ -153,6 +168,20 @@ export const PRESENTATION_SPOT_AUDIT = [
     surface: 'Spot',
     stableCanonicalFieldIds: ['address', 'official_current_url'],
     issues: ['#329', '#333', '#334'],
+  },
+  {
+    presentationSpotId: 'hachioji-takiyama-roadside-station',
+    canonicalPlaceId: 'hachioji-takiyama-roadside-station',
+    surface: 'Spot',
+    stableCanonicalFieldIds: ['access', 'hours', 'closed_days', 'official_current_url'],
+    issues: ['#349'],
+  },
+  {
+    presentationSpotId: 'hachioji-takiyama-castle',
+    canonicalPlaceId: 'hachioji-takiyama-castle',
+    surface: 'Spot',
+    stableCanonicalFieldIds: ['address', 'official_current_url'],
+    issues: ['#349'],
   },
   {
     presentationSpotId: 'sawai-ozawa-shuzo',

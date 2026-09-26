@@ -735,6 +735,7 @@ describe('seed data contract (#2)', () => {
       'hikawa-walking-map',
       '436',
       'report-21-oku-hikawa-shrine',
+      'hachioji-food-culture-museum-p035222',
     ]);
     for (const fc of foodCultures) {
       for (const s of fc.sources) {

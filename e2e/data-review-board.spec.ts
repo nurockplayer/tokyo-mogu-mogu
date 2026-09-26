@@ -41,10 +41,10 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex,nofollow');
     await expect(page.getByRole('heading', { name: 'Human Data Review Board' })).toBeVisible();
     const coverage = page.getByLabel('現在のProduct確認対象');
-    await expect(coverage).toContainText('現在のProduct確認対象 21件');
-    await expect(coverage).toContainText('Spot 15件');
-    await expect(coverage).toContainText('Story 3件');
-    await expect(coverage).toContainText('Route 3件');
+    await expect(coverage).toContainText('現在のProduct確認対象 25件');
+    await expect(coverage).toContainText('Spot 17件');
+    await expect(coverage).toContainText('Story 4件');
+    await expect(coverage).toContainText('Route 4件');
     await expect(page.getByText('奥多摩町観光案内所', { exact: true })).toBeVisible();
     await expect(page.getByText('奥多摩わさび本舗 山城屋', { exact: true })).toBeVisible();
     await expect(page.getByText('手作りお弁当・お惣菜の専門店 奥多摩の台所', { exact: true })).toBeVisible();
@@ -53,6 +53,10 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(page.getByText('わさび食堂', { exact: true })).toBeVisible();
     await expect(page.getByText('奥多摩やまめを味わう旅', { exact: true })).toBeVisible();
     await expect(page.getByText('奥多摩やまめのストーリー', { exact: true })).toBeVisible();
+    await expect(page.getByText('道の駅八王子滝山', { exact: true })).toBeVisible();
+    await expect(page.getByText('滝山城跡', { exact: true })).toBeVisible();
+    await expect(page.getByText('八王子ショウガと八王子野菜の物語', { exact: true })).toBeVisible();
+    await expect(page.getByText('八王子ショウガと滝山の食文化をたどる旅', { exact: true })).toBeVisible();
 
     const portCard = page.getByRole('button', { name: /PORT OKUTAMAの詳細/ });
     await expect(portCard).toContainText('出典確認済み・人の確認待ち');
@@ -111,7 +115,7 @@ test.describe('Human Data Review Board (#340)', () => {
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto('/data-review/');
 
-    await expect(page.getByLabel('現在のProduct確認対象')).toContainText('21件');
+    await expect(page.getByLabel('現在のProduct確認対象')).toContainText('25件');
     const overviewDimensions = await page.evaluate(() => ({
       scrollWidth: document.documentElement.scrollWidth,
       clientWidth: document.documentElement.clientWidth,
@@ -325,12 +329,16 @@ test.describe('Human Data Review Board (#340)', () => {
       ['okutama-yamame-journey', '奥多摩やまめを味わう旅'],
       ['wasabi-okutama', '奥多摩わさびのストーリー'],
       ['yamame-okutama', '奥多摩やまめのストーリー'],
+      ['hachioji-ginger-journey', '八王子ショウガと滝山の食文化をたどる旅'],
     ] as const;
 
     for (const [id, name] of identities) {
       await page.goto(`/data-review/#${id}`);
       await expect(page.getByRole('heading', { name })).toBeVisible();
     }
+    await page.goto('/data-review/');
+    await page.getByRole('button', { name: '八王子ショウガと八王子野菜の物語の詳細を見る' }).click();
+    await expect(page.getByRole('heading', { name: '八王子ショウガと八王子野菜の物語' })).toBeVisible();
 
     await page.goto('/data-review/#sake-ome');
     await expect(page.getByRole('heading', { name: '1件の判断が必要です' })).toBeVisible();
@@ -338,6 +346,21 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(currentInformation).toContainText('見学は予約制・訪問前に公式情報を確認');
     await expect(currentInformation).toContainText('営業日は公式カレンダーを確認');
     await expect(currentInformation.getByText('Story', { exact: true })).toBeVisible();
+
+    await page.goto('/data-review/#hachioji-ginger-journey');
+    await expect(page.getByRole('heading', { name: '八王子ショウガと滝山の食文化をたどる旅' })).toBeVisible();
+    const hachiojiRoute = page.locator('[data-decision-kind="current_information"]');
+    await expect(hachiojiRoute).toContainText('145');
+    await expect(hachiojiRoute).toContainText('2026-09-26');
+    await expect(page.getByLabel('Slack共有用サマリー')).toContainText('🟡 出典確認済み・人の確認待ち');
+
+    await page.goto('/data-review/#hachioji-takiyama-roadside-station');
+    await expect(page.getByRole('heading', { name: '道の駅八王子滝山' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: '現在確認できる情報' })).toBeVisible();
+    await expect(page.getByLabel('Slack共有用サマリー')).toContainText('🟡 出典確認済み・人の確認待ち');
+    const hachiojiMarketFacts = page.getByRole('table', { name: '現在わかっていること' });
+    await expect(hachiojiMarketFacts.getByText('アクセス', { exact: true })).toBeVisible();
+    await expect(hachiojiMarketFacts.getByText('最新の公式情報', { exact: true })).toBeVisible();
   });
 
   test('does not expose the team Board in consumer Product navigation', async ({ page }) => {

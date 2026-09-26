@@ -51,6 +51,222 @@ export interface DataVerificationEvidenceManifest {
 
 const OME_SAKE_EVIDENCE_LOCALES = ['ja', 'en', 'zh-TW'] as const;
 
+const HACHIOJI_EVIDENCE_LOCALES = ['ja', 'en', 'zh-TW'] as const;
+
+const HACHIOJI_MOGU_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  HACHIOJI_EVIDENCE_LOCALES.map((locale) => ({
+    evidenceId: `hachioji-ginger-mogu-${locale}-375`,
+    claimIds: [
+      `route:hachioji-ginger-journey:name:${locale}`,
+      `route:hachioji-ginger-journey:mogu.factual.origin-access:${locale}`,
+    ],
+    entityId: 'hachioji-ginger-journey',
+    kind: 'app',
+    capturedAt: '2026-09-26',
+    path: `docs/data-evidence/hachioji-ginger/mogu-app-${locale}-375.png`,
+    locale,
+    viewport: { width: 375, height: 812 },
+    note: '#349 current MOGU Hachioji card at 375px, showing the pending-confirmation state and first-stop access sourced from the roadside station SpotDetail. Captured through Ego-lite; its external browser widget may remain visible and is not app UI.',
+  }));
+
+const HACHIOJI_STORY_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  HACHIOJI_EVIDENCE_LOCALES.map((locale) => ({
+    evidenceId: `hachioji-ginger-story-${locale}-375`,
+    claimIds: [
+      `story:hachioji-ginger:presentation:story_intro:${locale}`,
+      `story:hachioji-ginger:presentation:story_title:${locale}`,
+      `story:hachioji-ginger:presentation:story_location:${locale}`,
+    ],
+    entityId: 'hachioji-ginger',
+    kind: 'app',
+    capturedAt: '2026-09-26',
+    path: `docs/data-evidence/hachioji-ginger/story-app-${locale}-375.png`,
+    locale,
+    viewport: { width: 375, height: 812 },
+    note: `#349 current ${locale} Hachioji Story top view with intro, title, and location at 375px; chapter body and seasonal callout are below the captured area. Captured through Ego-lite; its external browser widget may remain visible and is not app UI.`,
+  }));
+
+const HACHIOJI_STORY_CHAPTER_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  HACHIOJI_EVIDENCE_LOCALES.map((locale) => ({
+    evidenceId: `hachioji-ginger-story-chapters-${locale}-375`,
+    claimIds: [`story:hachioji-ginger:presentation:story_point:${locale}`],
+    entityId: 'hachioji-ginger',
+    kind: 'app',
+    capturedAt: '2026-09-26',
+    path: `docs/data-evidence/hachioji-ginger/story-chapters-app-${locale}-375.png`,
+    locale,
+    viewport: { width: 375, height: 812 },
+    note: `#349 ${locale} Story chapter view includes the history section and seasonal-stock callout. The aggregate ledger chapter claim covers additional content not visible in this frame, so only the visible callout claim is linked. Captured through Ego-lite; its external browser widget may remain visible and is not app UI.`,
+  }));
+
+const HACHIOJI_HALF_DAY_DETAIL_APP_EVIDENCE: readonly DataVerificationAppEvidence[] = [
+  {
+    evidenceId: 'hachioji-route-half-day-stops-ja-375',
+    claimIds: [
+      'route:hachioji-ginger-journey:half-day:summary_time:ja',
+      'route:hachioji-ginger-journey:half-day:summary_stop_count:ja',
+      'route:hachioji-ginger-journey:half-day:stop_sequence',
+      'route:hachioji-ginger-journey:half-day:stop:hachioji-takiyama-roadside-station:identity',
+      'route:hachioji-ginger-journey:half-day:stop:hachioji-takiyama-castle:identity',
+      'route:hachioji-ginger-journey:half-day:step:hachioji-takiyama-roadside-station:guidance:ja',
+      'route:hachioji-ginger-journey:half-day:step:hachioji-takiyama-castle:guidance:ja',
+      'route:hachioji-ginger-journey:half-day:transport_summary',
+    ],
+    entityId: 'hachioji-ginger-journey',
+    kind: 'app',
+    capturedAt: '2026-09-26',
+    path: 'docs/data-evidence/hachioji-ginger/route-half-day-stops-app-ja-375.png',
+    locale: 'ja',
+    viewport: { width: 375, height: 812 },
+    note: '#349 half-day Route detail at 375px shows both canonical stops, 145-minute editorial estimate, stop count, and displayed transport guidance. Captured through Ego-lite; its external browser widget may remain visible and is not app UI.',
+  },
+  {
+    evidenceId: 'hachioji-route-half-day-stats-ja-375',
+    claimIds: [
+      'route:hachioji-ginger-journey:half-day:summary_time:ja',
+      'route:hachioji-ginger-journey:half-day:summary_stop_count:ja',
+      'route:hachioji-ginger-journey:half-day:distance_guidance:ja',
+    ],
+    entityId: 'hachioji-ginger-journey',
+    kind: 'app',
+    capturedAt: '2026-09-26',
+    path: 'docs/data-evidence/hachioji-ginger/route-half-day-stats-app-ja-375.png',
+    locale: 'ja',
+    viewport: { width: 375, height: 812 },
+    note: '#349 half-day Route stats view at 375px documents the 145-minute editorial estimate and current travel-condition caveat. Captured through Ego-lite; its external browser widget may remain visible and is not app UI.',
+  },
+  {
+    evidenceId: 'hachioji-route-half-day-stops-en-375',
+    claimIds: [
+      'route:hachioji-ginger-journey:half-day:stop_sequence',
+      'route:hachioji-ginger-journey:half-day:stop:hachioji-takiyama-roadside-station:identity',
+      'route:hachioji-ginger-journey:half-day:stop:hachioji-takiyama-castle:identity',
+      'route:hachioji-ginger-journey:half-day:step:hachioji-takiyama-roadside-station:guidance:en',
+    ],
+    entityId: 'hachioji-ginger-journey',
+    kind: 'app',
+    capturedAt: '2026-09-26',
+    path: 'docs/data-evidence/hachioji-ginger/route-half-day-stops-app-en-375.png',
+    locale: 'en',
+    viewport: { width: 375, height: 812 },
+    note: '#349 English half-day Route view shows both stop identities and the roadside-market guidance with Agency for Cultural Affairs attribution; lower summary stats are clipped. Captured through Ego-lite; its external browser widget may remain visible and is not app UI.',
+  },
+  {
+    evidenceId: 'hachioji-route-half-day-stops-zh-TW-375',
+    claimIds: [
+      'route:hachioji-ginger-journey:half-day:summary_time:zh-TW',
+      'route:hachioji-ginger-journey:half-day:summary_stop_count:zh-TW',
+      'route:hachioji-ginger-journey:half-day:stop_sequence',
+      'route:hachioji-ginger-journey:half-day:stop:hachioji-takiyama-roadside-station:identity',
+      'route:hachioji-ginger-journey:half-day:stop:hachioji-takiyama-castle:identity',
+      'route:hachioji-ginger-journey:half-day:step:hachioji-takiyama-roadside-station:guidance:zh-TW',
+      'route:hachioji-ginger-journey:half-day:step:hachioji-takiyama-castle:guidance:zh-TW',
+    ],
+    entityId: 'hachioji-ginger-journey',
+    kind: 'app',
+    capturedAt: '2026-09-26',
+    path: 'docs/data-evidence/hachioji-ginger/route-half-day-stops-app-zh-TW-375.png',
+    locale: 'zh-TW',
+    viewport: { width: 375, height: 812 },
+    note: '#349 Traditional Chinese half-day Route view shows both stops, the editorial duration/count, and both localized stop descriptions with cultural-agency attribution. Captured through Ego-lite; its external browser widget may remain visible and is not app UI.',
+  },
+];
+
+const HACHIOJI_FULL_DAY_DETAIL_APP_EVIDENCE: readonly DataVerificationAppEvidence[] = [
+  {
+    evidenceId: 'hachioji-route-full-day-stops-ja-375',
+    claimIds: [
+      'route:hachioji-ginger-journey:full-day:summary_time:ja',
+      'route:hachioji-ginger-journey:full-day:summary_stop_count:ja',
+      'route:hachioji-ginger-journey:full-day:stop_sequence',
+      'route:hachioji-ginger-journey:full-day:stop:hachioji-takiyama-roadside-station:identity',
+      'route:hachioji-ginger-journey:full-day:stop:hachioji-takiyama-castle:identity',
+      'route:hachioji-ginger-journey:full-day:step:hachioji-takiyama-roadside-station:guidance:ja',
+      'route:hachioji-ginger-journey:full-day:step:hachioji-takiyama-castle:guidance:ja',
+      'route:hachioji-ginger-journey:1-day:transport_summary',
+    ],
+    entityId: 'hachioji-ginger-journey',
+    kind: 'app',
+    capturedAt: '2026-09-26',
+    path: 'docs/data-evidence/hachioji-ginger/route-full-day-stops-app-ja-375.png',
+    locale: 'ja',
+    viewport: { width: 375, height: 812 },
+    note: '#349 full-day Route detail at 375px shows both canonical stops, 220-minute editorial estimate, stop count, and displayed transport guidance. Captured through Ego-lite; its external browser widget may remain visible and is not app UI.',
+  },
+  {
+    evidenceId: 'hachioji-route-full-day-stats-ja-375',
+    claimIds: [
+      'route:hachioji-ginger-journey:full-day:summary_time:ja',
+      'route:hachioji-ginger-journey:full-day:summary_stop_count:ja',
+      'route:hachioji-ginger-journey:full-day:distance_guidance:ja',
+    ],
+    entityId: 'hachioji-ginger-journey',
+    kind: 'app',
+    capturedAt: '2026-09-26',
+    path: 'docs/data-evidence/hachioji-ginger/route-full-day-stats-app-ja-375.png',
+    locale: 'ja',
+    viewport: { width: 375, height: 812 },
+    note: '#349 full-day Route stats view at 375px documents the 220-minute editorial estimate and current travel-condition caveat. Captured through Ego-lite; its external browser widget may remain visible and is not app UI.',
+  },
+];
+
+const HACHIOJI_CASTLE_PRACTICAL_APP_EVIDENCE: DataVerificationAppEvidence = {
+  evidenceId: 'hachioji-castle-practical-ja-375',
+  claimIds: [
+    'place:hachioji-takiyama-castle:name:ja',
+    'spot:hachioji-takiyama-castle:address',
+    'spot:hachioji-takiyama-castle:official_current_url',
+    'spot:hachioji-takiyama-castle:presentation:verification_note:ja',
+  ],
+  entityId: 'hachioji-takiyama-castle',
+  kind: 'app',
+  capturedAt: '2026-09-26',
+  path: 'docs/data-evidence/hachioji-ginger/castle-practical-app-ja-375.png',
+  locale: 'ja',
+  viewport: { width: 375, height: 812 },
+  note: '#349 castle practical-information state shows published municipal area, catalog URL, and that the source row contains no coordinates. Captured through Ego-lite; its external browser widget may remain visible and is not app UI.',
+};
+
+const HACHIOJI_ROUTE_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  HACHIOJI_EVIDENCE_LOCALES.map((locale) => ({
+    evidenceId: `hachioji-ginger-route-${locale}-375`,
+    claimIds: [
+      `route:hachioji-ginger-journey:name:${locale}`,
+      ...(locale === 'ja' ? [
+        'route:hachioji-ginger-journey:half-day:origin_travel_time_guidance:ja',
+        'route:hachioji-ginger-journey:half-day:operational_caution:ja',
+      ] : []),
+    ],
+    entityId: 'hachioji-ginger-journey',
+    kind: 'app',
+    capturedAt: '2026-09-26',
+    path: `docs/data-evidence/hachioji-ginger/route-app-${locale}-375.png`,
+    locale,
+    viewport: { width: 375, height: 812 },
+    note: `#349 current ${locale} Hachioji half-day Route first-stop view at 375px; screenshot evidence is limited to the visible roadside-market stop. Captured through Ego-lite; its external browser widget may remain visible and is not app UI.`,
+  }));
+
+const HACHIOJI_MARKET_SPOT_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
+  HACHIOJI_EVIDENCE_LOCALES.map((locale) => ({
+    evidenceId: `hachioji-market-spot-${locale}-375`,
+    claimIds: [
+      `place:hachioji-takiyama-roadside-station:name:${locale}`,
+      `place:hachioji-takiyama-roadside-station:address:${locale}`,
+      locale === 'ja' ? 'spot:hachioji-takiyama-roadside-station:access' : `place:hachioji-takiyama-roadside-station:access:${locale}`,
+      locale === 'ja' ? 'spot:hachioji-takiyama-roadside-station:hours' : `place:hachioji-takiyama-roadside-station:hours:${locale}`,
+      locale === 'ja' ? 'spot:hachioji-takiyama-roadside-station:closed_days' : `place:hachioji-takiyama-roadside-station:closed_days:${locale}`,
+      locale === 'ja' ? 'spot:hachioji-takiyama-roadside-station:official_current_url' : `place:hachioji-takiyama-roadside-station:official_current_url:${locale}`,
+      `spot:hachioji-takiyama-roadside-station:presentation:verification_note:${locale}`,
+    ],
+    entityId: 'hachioji-takiyama-roadside-station',
+    kind: 'app',
+    capturedAt: '2026-09-26',
+    path: `docs/data-evidence/hachioji-ginger/spot-app-${locale}-375.png`,
+    locale,
+    viewport: { width: 375, height: 812 },
+    note: `#349 current ${locale} roadside-station Spot with source-backed access and practical details, seasonal-stock caveat, and pending-confirmation state at 375px. Captured through Ego-lite; its external browser widget may remain visible and is not app UI.`,
+  }));
+
 const OME_SAKE_STORY_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
   OME_SAKE_EVIDENCE_LOCALES.map((locale) => ({
     evidenceId: `ome-sake-story-${locale}-375`,
@@ -423,6 +639,14 @@ const ROUTE_AGGREGATE_APP_EVIDENCE: readonly DataVerificationAppEvidence[] =
 
 export const DATA_VERIFICATION_EVIDENCE_MANIFEST: DataVerificationEvidenceManifest = {
   evidence: [
+    ...HACHIOJI_MOGU_APP_EVIDENCE,
+    ...HACHIOJI_STORY_APP_EVIDENCE,
+    ...HACHIOJI_STORY_CHAPTER_APP_EVIDENCE,
+    ...HACHIOJI_ROUTE_APP_EVIDENCE,
+    ...HACHIOJI_HALF_DAY_DETAIL_APP_EVIDENCE,
+    ...HACHIOJI_FULL_DAY_DETAIL_APP_EVIDENCE,
+    ...HACHIOJI_MARKET_SPOT_APP_EVIDENCE,
+    HACHIOJI_CASTLE_PRACTICAL_APP_EVIDENCE,
     ...ROUTE_AGGREGATE_APP_EVIDENCE,
     ...HIKAWA_VALLEY_SPOT_APP_EVIDENCE,
     ...OKU_HIKAWA_SHRINE_SPOT_APP_EVIDENCE,
@@ -763,6 +987,50 @@ export const DATA_VERIFICATION_EVIDENCE_MANIFEST: DataVerificationEvidenceManife
     },
   ],
   omissions: [
+    {
+      omissionId: 'hachioji-ja-source-page-capture-omitted',
+      claimIds: [
+        'food-culture:hachioji-ginger:source:edo-tokyo-vegetable-hachioji-ginger',
+        'story:hachioji-ginger:presentation:story_chapters:ja',
+      ],
+      entityId: 'hachioji-ginger',
+      kind: 'source',
+      sourceUrl: 'https://www.tokyo-ja.or.jp/farm/edo/41.php',
+      recordedAt: '2026-09-26',
+      reason: 'The factual copy was rechecked and paraphrased from the JA source; no source-page screenshot or source photography is copied because reproduction rights are not established.',
+    },
+    {
+      omissionId: 'hachioji-city-source-page-capture-omitted',
+      claimIds: [
+        'food-culture:hachioji-ginger:source:hachioji-food-culture-museum-p035222',
+        'story:hachioji-ginger:presentation:story_chapters:en',
+      ],
+      entityId: 'hachioji-ginger',
+      kind: 'source',
+      sourceUrl: 'https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/003/p035222.html',
+      recordedAt: '2026-09-26',
+      reason: 'The city notice was rechecked and its facts paraphrased; no source-page screenshot or source photography is copied because reproduction rights are not established.',
+    },
+    {
+      omissionId: 'hachioji-station-source-page-capture-omitted',
+      claimIds: [
+        'route:hachioji-ginger-journey:mogu.factual.origin-access:ja',
+      ],
+      entityId: 'hachioji-ginger-journey',
+      kind: 'source',
+      sourceUrl: 'https://www.michinoeki-hachioji.net/',
+      recordedAt: '2026-09-26',
+      reason: 'The station site was rechecked for access and practical details; no source-page screenshot or station photography is copied because reproduction rights are not established.',
+    },
+    {
+      omissionId: 'hachioji-station-image-rights-unconfirmed',
+      claimIds: ['spot:hachioji-takiyama-roadside-station:photo_reuse_permission'],
+      entityId: 'hachioji-takiyama-roadside-station',
+      kind: 'source',
+      sourceUrl: 'https://www.michinoeki-hachioji.net/',
+      recordedAt: '2026-09-26',
+      reason: 'No permission to reproduce station photographs has been established; the app uses the current unavailable-media state and does not copy source photography.',
+    },
     ...(['wasabi', 'yamame'] as const).map((name) => ({
       omissionId: `route-aggregate-${name}-go-tokyo-source-rights`,
       claimIds: (['ja', 'en', 'zh-TW'] as const).flatMap((locale) => [
