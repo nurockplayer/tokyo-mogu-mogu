@@ -41,10 +41,10 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex,nofollow');
     await expect(page.getByRole('heading', { name: 'Human Data Review Board' })).toBeVisible();
     const coverage = page.getByLabel('現在のProduct確認対象');
-    await expect(coverage).toContainText('現在のProduct確認対象 30件');
-    await expect(coverage).toContainText('Spot 20件');
-    await expect(coverage).toContainText('Story 5件');
-    await expect(coverage).toContainText('Route 5件');
+    await expect(coverage).toContainText('現在のProduct確認対象 34件');
+    await expect(coverage).toContainText('Spot 22件');
+    await expect(coverage).toContainText('Story 6件');
+    await expect(coverage).toContainText('Route 6件');
     await expect(page.getByText('奥多摩町観光案内所', { exact: true })).toBeVisible();
     await expect(page.getByText('奥多摩わさび本舗 山城屋', { exact: true })).toBeVisible();
     await expect(page.getByText('手作りお弁当・お惣菜の専門店 奥多摩の台所', { exact: true })).toBeVisible();
@@ -57,6 +57,9 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(page.getByText('滝山城跡', { exact: true })).toBeVisible();
     await expect(page.getByText('八王子ショウガと八王子野菜の物語', { exact: true })).toBeVisible();
     await expect(page.getByText('八王子ショウガと滝山の食文化をたどる旅', { exact: true })).toBeVisible();
+    await expect(page.getByText('秋川ファーマーズセンター', { exact: true })).toBeVisible();
+    await expect(page.getByText('秋川渓谷 瀬音の湯', { exact: true })).toBeVisible();
+    await expect(page.getByText('あきる野の旬と秋川渓谷をめぐる旅', { exact: true })).toBeVisible();
 
     const portCard = page.getByRole('button', { name: /PORT OKUTAMAの詳細/ });
     await expect(portCard).toContainText('出典確認済み・人の確認待ち');
@@ -115,7 +118,7 @@ test.describe('Human Data Review Board (#340)', () => {
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto('/data-review/');
 
-    await expect(page.getByLabel('現在のProduct確認対象')).toContainText('30件');
+    await expect(page.getByLabel('現在のProduct確認対象')).toContainText('34件');
     const overviewDimensions = await page.evaluate(() => ({
       scrollWidth: document.documentElement.scrollWidth,
       clientWidth: document.documentElement.clientWidth,
@@ -330,6 +333,8 @@ test.describe('Human Data Review Board (#340)', () => {
       ['wasabi-okutama', '奥多摩わさびのストーリー'],
       ['yamame-okutama', '奥多摩やまめのストーリー'],
       ['hachioji-ginger-journey', '八王子ショウガと滝山の食文化をたどる旅'],
+      ['produce-akiruno', '秋川の旬の農産物'],
+      ['akiruno-seasonal-produce-journey', 'あきる野の旬と秋川渓谷をめぐる旅'],
       ['sake-fussa', '福生の日本酒'],
       ['fussa-sake-journey', '福生の2つの酒蔵と水のまちをめぐる旅'],
     ] as const;
@@ -378,6 +383,23 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(fussaSpotFacts.getByText('営業時間', { exact: true })).toBeVisible();
     await expect(fussaSpotFacts.getByText('休業日', { exact: true })).toBeVisible();
     await expect(fussaSpotFacts.getByText('最新の公式情報', { exact: true })).toBeVisible();
+
+    await page.goto('/data-review/#akiruno-seasonal-produce-journey');
+    await expect(page.getByRole('heading', { name: 'あきる野の旬と秋川渓谷をめぐる旅' })).toBeVisible();
+    const akirunoRoute = page.locator('[data-decision-kind="current_information"]');
+    await expect(akirunoRoute).toContainText('195');
+    await expect(akirunoRoute).toContainText('285');
+    await expect(akirunoRoute).toContainText('2026-09-26');
+
+    await page.goto('/data-review/#akiruno-farmers-center');
+    await expect(page.getByRole('heading', { name: '秋川ファーマーズセンター' })).toBeVisible();
+    const akirunoSpotFacts = page.getByRole('table', { name: '現在わかっていること' });
+    await expect(akirunoSpotFacts.getByText('住所', { exact: true })).toBeVisible();
+    await expect(akirunoSpotFacts.getByText('アクセス', { exact: true })).toBeVisible();
+    await expect(akirunoSpotFacts.getByText('営業時間', { exact: true })).toBeVisible();
+    await expect(akirunoSpotFacts.getByText('休業日', { exact: true })).toBeVisible();
+    await expect(akirunoSpotFacts).toContainText('12月30日は15:00まで');
+    await expect(page.getByLabel('Slack共有用サマリー')).toContainText('人の確認待ち');
   });
 
   test('does not expose the team Board in consumer Product navigation', async ({ page }) => {
