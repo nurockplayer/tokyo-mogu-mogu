@@ -33,6 +33,33 @@ test.describe('Human Data Review Board (#340)', () => {
     await expect(summary).not.toContainText('期待する扱い');
   });
 
+  test('shows canonical and displayed tourism-office names in the stakeholder handoff', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/data-review/#okutama-tourism-office');
+
+    const handoff = page.getByRole('region', { name: '確認結果を引き継ぐ' });
+    const nameField = handoff.locator('.drb-handoff-field').filter({
+      has: page.getByText('Spot/okutama-tourism-office/name', { exact: true }),
+    });
+    await expect(nameField.getByText('正本', { exact: true })).toBeVisible();
+    await expect(nameField.getByText('奥多摩観光案内所', { exact: true })).toBeVisible();
+    await expect(nameField.getByText('現在の表示', { exact: true })).toBeVisible();
+    await expect(nameField.getByText('奥多摩町観光案内所', { exact: true })).toBeVisible();
+  });
+
+  test('labels canonical-only Route facts without calling them current display values', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/data-review/#okutama-wasabi-journey');
+
+    const handoff = page.getByRole('region', { name: '確認結果を引き継ぐ' });
+    const roleField = handoff.locator('.drb-handoff-field').filter({
+      has: page.getByText('Route/okutama-wasabi-journey/route:step:chishima-wasabi-garden:role', { exact: true }),
+    });
+    await expect(roleField).toContainText('正本');
+    await expect(roleField).toContainText('表示値未登録');
+    await expect(roleField).not.toContainText('現在の表示:');
+  });
+
   test('lets a desktop reviewer filter entities and inspect source/evidence boundaries', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto('/data-review/');
@@ -228,7 +255,8 @@ test.describe('Human Data Review Board (#340)', () => {
     }
     await expect(page.getByText('住所', { exact: true })).toHaveCount(0);
     await expect(page.getByText('位置情報', { exact: true })).toHaveCount(0);
-    await expect(page.getByText('mobile_food_truck / no_permanent_storefront', { exact: true })).toBeVisible();
+    await expect(page.getByRole('table', { name: '現在わかっていること' })
+      .getByText('mobile_food_truck / no_permanent_storefront', { exact: true })).toBeVisible();
     await expect(page.getByRole('heading', { name: '5件の判断が必要です' })).toBeVisible();
     const mobileDecision = page.getByRole('article', { name: '営業形態の判断' });
     await expect(mobileDecision).toContainText('固定地点として扱わない');
@@ -496,4 +524,101 @@ test('separates source reuse and asset submission readiness at 375px', async ({ 
   await expect(sources).toContainText('All Rights Reserved');
   await expect(sources).toContainText('意図的に保存しない');
   await expect(sources).toContainText('事業者情報');
+});
+
+test('creates a Product-only entity receipt with its own date and visible copy feedback', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
+  await page.goto('/data-review/#akiruno-farmers-center');
+  const handoff = page.getByRole('region', { name: '確認結果を引き継ぐ' });
+  await handoff.scrollIntoViewIfNeeded();
+  const productReview = handoff.locator('section[aria-labelledby="product-review-heading"]');
+
+  await productReview.locator('select').first().focus();
+  await page.keyboard.press('Tab');
+  await expect(productReview.locator('input[type="date"]')).toBeFocused();
+  await productReview.locator('select').nth(0).selectOption('__entity__');
+  await productReview.locator('input[type="date"]').fill('2026-09-26');
+  await productReview.locator('select').nth(1).selectOption('deferred');
+  await productReview.getByRole('button', { name: 'Productレビュー結果をコピー' }).click();
+
+  const productStatus = productReview.locator('[role="status"]');
+  await expect(productStatus).toContainText('Productレビュー結果をコピーしました');
+  await expect(productStatus).toBeInViewport();
+  const productText = await page.evaluate(() => navigator.clipboard.readText());
+  expect(productText).toContain('"review_type": "product_review"');
+  expect(productText).toContain('"scope": "entity_interpretation"');
+  expect(productText).toContain('"reviewed_at": "2026-09-26"');
+  expect(productText).not.toContain('stakeholder_confirmation');
+  expect(productText).not.toContain('"method"');
+  await expect(handoff).toContainText('回答済み 0 /');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+
+test('retains in-memory drafts across entity navigation and keeps correction receipts separate from facts', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
+  await page.goto('/data-review/#akiruno-farmers-center');
+  const handoff = page.getByRole('region', { name: '確認結果を引き継ぐ' });
+  await handoff.scrollIntoViewIfNeeded();
+  await handoff.getByLabel('Productレビューのメモ（任意）').fill('Temporary planning note');
+
+  await page.getByRole('button', { name: '← 一覧へ戻る' }).click();
+  await page.getByRole('button', { name: 'PORT OKUTAMAの詳細を見る' }).click();
+  await expect(page).toHaveURL(/#port-okutama$/);
+  await page.getByRole('button', { name: '← 一覧へ戻る' }).click();
+  await page.getByRole('button', { name: '秋川ファーマーズセンターの詳細を見る' }).click();
+  const restored = page.getByRole('region', { name: '確認結果を引き継ぐ' });
+  await expect(restored.getByLabel('Productレビューのメモ（任意）')).toHaveValue('Temporary planning note');
+
+  await page.goto('/data-review/#akabeko');
+  const confirmation = page.getByRole('region', { name: '確認結果を引き継ぐ' });
+  await confirmation.scrollIntoViewIfNeeded();
+  await confirmation.getByLabel('確認日').fill('2026-09-26');
+  await confirmation.getByLabel('確認方法').selectOption('phone');
+  const phone = confirmation.locator('.drb-handoff-field').filter({ has: page.getByText('Spot/akabeko/phone', { exact: true }) });
+  await expect(phone.locator('option[value="confirmed"]')).toHaveCount(0);
+  await phone.locator('select').selectOption('correction_required');
+  await phone.getByLabel('修正案（提案として handoff に含めます。正本ではありません）').fill('確認先と記録の照合が必要');
+  await confirmation.getByRole('button', { name: '事実確認 handoff をコピー' }).click();
+  const stakeholderStatus = confirmation.locator('section[aria-labelledby="stakeholder-confirmation-heading"] [role="status"]');
+  await expect(stakeholderStatus).toContainText('まだ canonical data に反映されていません');
+  await expect(stakeholderStatus).toBeInViewport();
+  const receipt = await page.evaluate(() => navigator.clipboard.readText());
+  expect(receipt).toContain('"review_type": "stakeholder_confirmation"');
+  expect(receipt).toContain('"proposed_value": "確認先と記録の照合が必要"');
+  expect(receipt).toContain('does not set confirmedAt');
+  expect(receipt).not.toContain('Slack共有用');
+  const phoneComparison = phone.locator('.drb-handoff-field__comparison');
+  await expect(phoneComparison.locator('dd').nth(0)).toContainText('050-5304-3644');
+  await expect(phoneComparison.locator('dd').nth(1)).toContainText('0428-83-2365');
+  await expect(phone.locator('.drb-handoff-field__source').nth(0)).toContainText('050-5304-3644');
+  await expect(phone.locator('.drb-handoff-field__source').nth(1)).toContainText('0428-83-2365');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+
+test('reports clipboard failure beside the action and makes the unsaved-draft warning cancel unload', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: { writeText: async () => { throw new Error('clipboard unavailable'); } },
+    });
+  });
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto('/data-review/#akiruno-farmers-center');
+  const handoff = page.getByRole('region', { name: '確認結果を引き継ぐ' });
+  await handoff.scrollIntoViewIfNeeded();
+  const productReview = handoff.locator('section[aria-labelledby="product-review-heading"]');
+  await productReview.locator('select').nth(0).selectOption('__entity__');
+  await productReview.locator('input[type="date"]').fill('2026-09-26');
+  await productReview.locator('select').nth(1).selectOption('accepted');
+  await productReview.getByRole('button', { name: 'Productレビュー結果をコピー' }).click();
+  const feedback = productReview.locator('[role="status"]');
+  await expect(feedback).toContainText('clipboard unavailable');
+  await expect(feedback).toBeInViewport();
+  expect(await page.evaluate(() => {
+    const event = new Event('beforeunload', { cancelable: true });
+    window.dispatchEvent(event);
+    return event.defaultPrevented;
+  })).toBe(true);
 });

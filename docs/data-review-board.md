@@ -64,6 +64,12 @@ time-sensitive 情報は、Ledger の `timeSensitive` と実際の Product 表�
 5. `Slack共有用` の factual summary をコピーして通知に使います。判断カードの recommendation 文は含めません。
 6. 詳細な判断や修正は canonical data、Ledger / evidence inputs、Issue / PR で行います。
 
+詳細の `確認結果を引き継ぐ` では、チーム内の Product 表示・解釈レビューと、関係者への事実確認を別々の handoff として作成できます。Product レビューは判断項目がない entity にも作成でき、独立した判断日と結果を持ちます。事実確認 handoff は現在の表示値、すべての出典側の記載、stable field identity、確認日・方法を含みます。矛盾・unknown の値は確定扱いにできず、修正案は提案としてのみコピーします。
+
+フォーム入力と未コピーの案はこのタブのメモリに保持され、entity を移動しても残ります。リロード / タブを閉じる場合はブラウザが未保存状態を知らせます。progress は entity・field・claim membership と現在の値/出典スナップショットの SHA-256 が一致する記録だけを数え、古い fingerprint は stale として除外します。fingerprint が作れない場合は fail closed です。progress は stakeholder handoff の履歴であり、canonical `confirmedAt` や `verified` の設定ではありません。
+
+コピーした handoff は owning Issue / PR または Project Steward / Codex に渡し、通常のレビュー付き canonical/source PR で扱います。すべての対象 source 表示項目を実際に確認できた場合だけ canonical `confirmedAt` と `verificationStatus: 'verified'` を適用します。一部の確認、Board progress、Product review、媒体・画像の利用権は互いの代替になりません。Board の Slack summary は従来どおり factual summary のみで、自動投稿は行いません。
+
 Slack サマリーは現在の Board projection から都度生成します。Webhook、Bot、認証情報、自動投稿はありません。
 
 ## ローカル確認

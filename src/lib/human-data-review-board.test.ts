@@ -78,6 +78,108 @@ const syntheticMobilePlace: MobilePlace = {
 };
 
 describe('Human Data Review Board projection (#340, #343)', () => {
+  it('adds only exact mapped source statements to Route and Story traceability', () => {
+    const repositoryClaims = buildRepositoryLedgerClaims();
+    const routeBoard = buildHumanDataReviewBoard({
+      claims: repositoryClaims,
+      currentProductEntities: CURRENT_PRODUCT_FACTUAL_INVENTORY,
+      evidenceManifest: DATA_VERIFICATION_EVIDENCE_MANIFEST,
+      places,
+    });
+    const route = routeBoard.entities.find((entity) => entity.id === 'okutama-wasabi-journey')!;
+    const duration = route.facts.find((fact) =>
+      fact.fieldKey === 'route:full-day:step:wasabi-experience:tour-duration')!;
+    expect(duration).toMatchObject({
+      status: 'conflict',
+      finding: 'none',
+      canonicalValue: expect.stringContaining('japanese-page'),
+    });
+    expect(duration.claimIds).toEqual([
+      'place:wasabi-experience:tour_duration:source:english-page',
+      'place:wasabi-experience:tour_duration:source:japanese-page',
+      'route:okutama-wasabi-journey:full-day:step:wasabi-experience:factual:tour-duration',
+    ]);
+    expect(duration.sources.map((source) => [source.claimId, source.value, source.url, source.retrievedAt, source.sourceUpdatedAt]))
+      .toEqual([
+        ['place:wasabi-experience:tour_duration:source:english-page', '120 minutes', 'https://tokyowasabi.com/wasabi-experience-en/', '2026-08-30', '2026-08-12'],
+        ['place:wasabi-experience:tour_duration:source:japanese-page', '120–150 minutes', 'https://tokyowasabi.com/wasabi-experience/', '2026-08-30', '2026-08-11'],
+      ]);
+    const isolatedTraceability = buildHumanDataReviewBoard({
+      claims: repositoryClaims.filter((candidate) => duration.claimIds.includes(candidate.claimId)),
+      currentProductEntities: [{ id: 'okutama-wasabi-journey', type: 'Route' }],
+      evidenceManifest: { evidence: [], omissions: [] },
+    }).entities[0]!;
+    expect(isolatedTraceability.latestRetrievedAt).toBe('2026-08-30');
+    expect(isolatedTraceability.sources).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        url: 'https://tokyowasabi.com/wasabi-experience-en/',
+        claimIds: ['place:wasabi-experience:tour_duration:source:english-page'],
+      }),
+    ]));
+    const routeWithoutMappedStatements = buildHumanDataReviewBoard({
+      claims: repositoryClaims.filter((candidate) =>
+        candidate.claimId !== 'place:wasabi-experience:tour_duration:source:english-page'
+        && candidate.claimId !== 'place:wasabi-experience:tour_duration:source:japanese-page'),
+      currentProductEntities: CURRENT_PRODUCT_FACTUAL_INVENTORY,
+      evidenceManifest: DATA_VERIFICATION_EVIDENCE_MANIFEST,
+      places,
+    }).entities.find((entity) => entity.id === 'okutama-wasabi-journey')!;
+    expect(route.reviewContext.decisionItems).toEqual(routeWithoutMappedStatements.reviewContext.decisionItems);
+    expect(route.unresolvedCount).toBe(routeWithoutMappedStatements.unresolvedCount);
+
+    const syntheticSpotStatement = claim({
+      claimId: 'spot:sawai-ozawa-shuzo:reservation:source:story-fixture',
+      entityType: 'Spot',
+      entityId: 'sawai-ozawa-shuzo',
+      entityName: '澤乃井小澤酒造',
+      fieldId: 'reservation:source:story-fixture',
+      canonicalValue: 'Synthetic fixture source side',
+      primarySource: 'Synthetic story-only source',
+      primarySourceUrl: 'https://example.test/story-reservation',
+    });
+    const sameIdPlaceStatement = claim({
+      claimId: 'place:sawai-ozawa-shuzo:reservation:source:unrelated-place-fixture',
+      entityId: 'sawai-ozawa-shuzo',
+      entityName: '澤乃井小澤酒造',
+      fieldId: 'reservation:source:unrelated-place-fixture',
+      canonicalValue: 'Unrelated Place-owned side',
+      primarySource: 'Unrelated Place source',
+      primarySourceUrl: 'https://example.test/place-reservation',
+    });
+    const storyBoard = buildHumanDataReviewBoard({
+      claims: [...repositoryClaims, syntheticSpotStatement, sameIdPlaceStatement],
+      currentProductEntities: CURRENT_PRODUCT_FACTUAL_INVENTORY,
+      evidenceManifest: DATA_VERIFICATION_EVIDENCE_MANIFEST,
+      places,
+    });
+    const story = storyBoard.entities.find((entity) => entity.id === 'sake-ome')!;
+    const storyReservation = story.facts.find((fact) =>
+      fact.claimIds.includes('story:sake-ome:story.factual.brewery-tour-reservation'))!;
+    const spotReservation = story.facts.find((fact) =>
+      fact.claimIds.includes('story:sake-ome:story.spot.sawai-ozawa-shuzo.reservation-requirement'))!;
+    expect(storyReservation.claimIds).toContain(syntheticSpotStatement.claimId);
+    expect(storyReservation.claimIds).not.toContain(sameIdPlaceStatement.claimId);
+    expect(storyReservation.claimIds).not.toContain('story:sake-ome:story.spot.sawai-ozawa-shuzo.reservation-requirement');
+    expect(spotReservation.claimIds).toContain(syntheticSpotStatement.claimId);
+    expect(spotReservation.claimIds).not.toContain('story:sake-ome:story.factual.brewery-tour-reservation');
+    expect(storyReservation.sources.some((source) => source.url === syntheticSpotStatement.primarySourceUrl)).toBe(true);
+
+    const foreignStoryParent = claim({
+      claimId: 'story:wasabi-okutama:story.factual.brewery-tour-reservation',
+      entityType: 'Story',
+      entityId: 'wasabi-okutama',
+      entityName: '奥多摩わさびのストーリー',
+      fieldId: 'story.factual.brewery-tour-reservation',
+      displayedValue: 'Foreign-journey fixture',
+    });
+    const foreignStoryBoard = buildHumanDataReviewBoard({
+      claims: [foreignStoryParent, syntheticSpotStatement],
+      currentProductEntities: [{ id: 'wasabi-okutama', type: 'Story' }],
+      evidenceManifest: { evidence: [], omissions: [] },
+    });
+    expect(foreignStoryBoard.entities[0]?.facts[0]?.claimIds).toEqual([foreignStoryParent.claimId]);
+  });
+
   it('keeps source retrieval and human confirmation explicit and separate', () => {
     expect(DATA_REVIEW_STATUS_LABELS_JA).toMatchObject({
       verified: '✅ 人による確認済み',
