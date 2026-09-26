@@ -140,6 +140,43 @@ requirements for a future collection or library model:
 These observed limitations describe the current prototype only. They do not
 decide future visit history, collection, synchronization, or removal behavior.
 
+## Current nickname and Food Profile ownership
+
+Nickname and Food Profile are separate browser-local personalization state:
+`tmm:nickname:v1` stores the nickname, while `tmm:foodProfile:v1` stores a
+versioned dietary summary with broad categories, custom text, and an explicit
+no-restrictions state, and a timestamp. The profile has no account ID and does
+not retain every individual conversation choice. The conversation writes the
+nickname and profile when its summary appears, before the final choice between
+a recommendation and browsing; unfinished earlier answers remain
+conversational state.
+
+The whole onboarding conversation can be skipped, but its name-entry path
+requires a nonblank name once begun and offers no per-name skip. Skipping at
+the start leaves any existing nickname and Food Profile unchanged; it does
+not mark the user as having no restrictions. My's Food Profile edit keeps the
+nickname, starts with empty dietary answers, and re-asks the questions before
+replacing the saved summary. The current flow does not edit the nickname or
+restore the exact previous choices. Home omits the nickname greeting when no
+name is stored; My's displayed “ナナミ” / “Nanami” fallback is presentation copy,
+not a stored identity.
+
+These flows use best-effort browser storage scoped to this site. There is no
+expiry, separation by account, account synchronization, or current-screen
+reconciliation across tabs.
+
+Saved-state UI feedback does not prove a write was durable. Unreadable or
+invalid stored profile data is treated as absent; that does not mean it was
+erased. My's logout control currently reports “Coming soon,” and these flows do
+not provide a complete profile reset, deletion, or logout capability. The
+nickname and Food Profile do not create an account or use the independently
+restored session from the still-mounted legacy AuthProvider.
+
+These are limits of the current accountless prototype, not future consent,
+retention, deletion, migration, authentication, privacy certification, or edit
+requirements. Dietary input informs recommendations only and is not a food
+safety guarantee.
+
 ## Demo and durable Product boundaries
 
 The durable Product scope is Tokyo-wide, multi-region × multi-food-culture, for
