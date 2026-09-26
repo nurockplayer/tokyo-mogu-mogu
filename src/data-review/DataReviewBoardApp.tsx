@@ -20,6 +20,7 @@ import { isDirtyReviewHandoffDraft, type ReviewHandoffDraft } from '../lib/data-
 import {
   ReviewHandoffPanel,
 } from './ReviewHandoffPanel';
+import { BoardSemanticIcon, boardFieldIconRole } from './semantic-icons';
 
 type ReviewFilter = 'all' | 'needs_confirmation' | 'conflict' | 'unknown';
 
@@ -479,12 +480,18 @@ function Detail({
             <p className="drb-panel__note">出典・確認状態はProduct上の判断要否とは別に記録しています。監査上の未解決は {entity.unresolvedCount}件です。</p>
             <div className="drb-facts" role="table" aria-label="現在わかっていること">
               <div className="drb-facts__header" role="row">
-                <span role="columnheader">項目</span><span role="columnheader">値 / 比較</span><span role="columnheader">状態 / 出典確認日</span>
+                <span role="columnheader">項目</span><span role="columnheader">値 / 比較</span>
+                <span role="columnheader" className="drb-facts__review-heading">
+                  <BoardSemanticIcon role="verification" />状態 / 出典確認日
+                </span>
               </div>
               {entity.facts.length === 0 && <p className="drb-empty">構造化された現在値はまだありません。</p>}
               {entity.facts.map((fact) => (
                 <div className="drb-fact" role="row" key={fact.fieldKey}>
-                  <strong role="cell">{fact.label}</strong>
+                  <strong role="cell" className="drb-fact__label" data-field-key={fact.fieldKey}>
+                    <BoardSemanticIcon role={boardFieldIconRole(fact.fieldKey, entity.reviewContext)} />
+                    <span>{fact.label}</span>
+                  </strong>
                   <div role="cell" className="drb-fact__detail">
                     <FactValue fact={fact} />
                     <FactTraceability fact={fact} />
