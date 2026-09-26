@@ -805,6 +805,23 @@ const hachiojiMarketDetail = requiredRecord(
 );
 const hachiojiCastlePlace = canonicalPlace('hachioji-takiyama-castle');
 
+const fussaCandidate = requiredRecord(
+  DEMO_RECOMMENDATION_CANDIDATES.find((candidate) => candidate.id === 'demo-tokyo-west-fussa-sake'),
+  'Fussa recommendation candidate',
+);
+const fussaCulture = requiredRecord(
+  FOOD_CULTURES.find((culture) => culture.id === fussaCandidate.foodCultureId),
+  'Fussa food culture',
+);
+const fussaRoute = requiredRecord(
+  getRouteById(requiredRecord(fussaCandidate.journeyId, 'Fussa candidate route identity')),
+  'Fussa route',
+);
+const fussaCanonicalPresentation = requiredRecord(
+  buildJourneyPresentation(fussaCandidate, fussaCulture, fussaRoute, PLACES),
+  'Fussa journey identity',
+);
+
 function localizedBundleKey(key: LocaleKey, description: string): LocalizedText {
   return localized(
     requiredRecord(strings.ja[key], `${description} Japanese copy`),
@@ -817,6 +834,23 @@ const hachiojiPresentationDuration = {
   'half-day': 'half-day',
   'full-day': '1-day',
 } as const;
+
+const fussaPresentationDuration = {
+  'half-day': 'half-day',
+  'full-day': '1-day',
+} as const;
+
+function fussaRouteVariant(
+  presentationId: keyof typeof fussaPresentationDuration,
+): JourneyPresentation['routeVariants'][number] {
+  const canonicalId = fussaPresentationDuration[presentationId];
+  const canonical = requiredRecord(fussaRoute.variants[canonicalId], `Fussa ${canonicalId} route variant`);
+  return {
+    id: presentationId,
+    durationMinutes: canonical.totalMinutes,
+    steps: canonical.steps.map((step) => ({ spotId: step.placeId })),
+  };
+}
 
 function hachiojiRouteVariant(
   presentationId: keyof typeof hachiojiPresentationDuration,
@@ -889,8 +923,64 @@ const hachiojiJourney: JourneyPresentation = {
   ],
 };
 
+const fussaJourney: JourneyPresentation = {
+  id: fussaCanonicalPresentation.candidateId,
+  regionId: fussaCandidate.regionId,
+  foodCultureId: fussaCanonicalPresentation.foodCultureId,
+  storyId: fussaCanonicalPresentation.foodCultureId,
+  routeId: fussaCanonicalPresentation.routeId,
+  sourceStatus: fussaCanonicalPresentation.sourceStatus,
+  copy: {
+    ja: {
+      title: fussaRoute.nameJa,
+      subtitle: fussaCulture.nameJa,
+      description: fussaCulture.descriptionJa,
+      tags: ['福生の日本酒', '水のまち', '半日・一日'],
+      storyTitle: strings.ja.dataFussaSakeHeroKicker,
+      intro: [fussaCulture.storyJa, fussaCulture.descriptionJa],
+    },
+    en: {
+      title: fussaRoute.nameEn,
+      subtitle: fussaCulture.nameEn,
+      description: fussaCulture.descriptionEn,
+      tags: ['Fussa sake', 'Water heritage', 'Half or full day'],
+      storyTitle: strings.en.dataFussaSakeHeroKicker,
+      intro: [fussaCulture.storyEn, fussaCulture.descriptionEn],
+    },
+    'zh-TW': {
+      title: strings['zh-TW'].dataFussaSakeRouteName,
+      subtitle: strings['zh-TW'].dataFussaSakeName,
+      description: strings['zh-TW'].dataFussaSakeDescription,
+      tags: ['福生日本酒', '水之歷史', '半日・一日'],
+      storyTitle: strings['zh-TW'].dataFussaSakeHeroKicker,
+      intro: [strings['zh-TW'].dataFussaSakeStory, strings['zh-TW'].dataFussaSakeDescription],
+    },
+  },
+  chapters: {
+    ja: [
+      { number: '01.', title: '福生に続く酒造り', body: fussaCulture.historyJa },
+      { number: '02.', title: '田村酒造場と石川酒造', body: fussaCulture.makerJa },
+      { number: '03.', title: '訪問前に確認すること', body: strings.ja.dataFussaSakeStoryChallenge },
+      { number: '04.', title: '福生の酒蔵を訪ねる', body: fussaCulture.howToEnjoyJa },
+    ],
+    en: [
+      { number: '01.', title: 'Brewing in Fussa', body: fussaCulture.historyEn },
+      { number: '02.', title: 'Tamura Shuzojo and Ishikawa Brewery', body: fussaCulture.makerEn },
+      { number: '03.', title: 'Before visiting', body: strings.en.dataFussaSakeStoryChallenge },
+      { number: '04.', title: 'Follow Fussa’s brewery route', body: fussaCulture.howToEnjoyEn },
+    ],
+    'zh-TW': [
+      { number: '01.', title: '福生延續的釀酒文化', body: strings['zh-TW'].dataFussaSakeHistory },
+      { number: '02.', title: '田村酒造場與石川酒造', body: strings['zh-TW'].dataFussaSakeMaker },
+      { number: '03.', title: '造訪前請確認', body: strings['zh-TW'].dataFussaSakeStoryChallenge },
+      { number: '04.', title: '走訪福生酒藏', body: strings['zh-TW'].dataFussaSakeHowToEnjoy },
+    ],
+  },
+  routeVariants: [fussaRouteVariant('half-day'), fussaRouteVariant('full-day')],
+};
+
 /** Every journey reachable in the current presentation, including MOGU browse. */
-export const currentJourneys: JourneyPresentation[] = [...resultJourneys, omeJourney, hachiojiJourney];
+export const currentJourneys: JourneyPresentation[] = [...resultJourneys, omeJourney, hachiojiJourney, fussaJourney];
 
 type SpotCopy = Pick<SpotPresentation['copy'][Locale], 'name' | 'lead' | 'description'>;
 
@@ -1087,11 +1177,91 @@ const hachiojiSpots: Record<string, SpotPresentation> = Object.fromEntries(
     .map((id) => [id, hachiojiSpot(id)]),
 );
 
+const fussaPlaceNameZh: Record<string, string> = {
+  'fussa-tamura-shuzo': strings['zh-TW'].dataPlaceFussaTamuraName,
+  'fussa-kurumiru': strings['zh-TW'].dataPlaceFussaKurumiruName,
+  'fussa-ishikawa-shuzo': strings['zh-TW'].dataPlaceFussaIshikawaName,
+};
+
+const fussaSpotRoleZh: Record<string, string> = {
+  'fussa-tamura-shuzo': strings['zh-TW'].dataFussaTamuraRole,
+  'fussa-kurumiru': strings['zh-TW'].dataFussaKurumiruRole,
+  'fussa-ishikawa-shuzo': strings['zh-TW'].dataFussaIshikawaRole,
+};
+
+function fussaSpot(id: string): SpotPresentation {
+  const place = canonicalPlace(id);
+  const detail = requiredRecord(getSpotDetail(id), `${id} Spot detail`);
+  const address = requiredRecord(place.address, `${id} canonical address`);
+  const zhName = requiredRecord(fussaPlaceNameZh[id], `${id} Traditional Chinese name`);
+  const zhRole = requiredRecord(fussaSpotRoleZh[id], `${id} Traditional Chinese role`);
+  const accessKey = spotAccessKey(id);
+  const practicalInfo = [
+    { label: localized('所在地', 'Address', '地址'), value: localized(address, address, address) },
+    ...(detail.practical?.accessJa && detail.practical.accessEn && accessKey
+      ? [{
+          label: localized('アクセス', 'Access', '交通'),
+          value: localized(detail.practical.accessJa, detail.practical.accessEn, strings['zh-TW'][accessKey]),
+        }]
+      : []),
+    ...(detail.practical?.hoursJa && detail.practical.hoursEn
+      ? [{
+          label: localized('営業時間', 'Hours', '營業時間'),
+          value: localized(detail.practical.hoursJa, detail.practical.hoursEn,
+            id === 'fussa-kurumiru' ? strings['zh-TW'].dataFussaKurumiruHours : strings['zh-TW'].dataFussaTamuraHours),
+        }]
+      : []),
+    ...(detail.practical?.closedDaysJa && detail.practical.closedDaysEn
+      ? [{
+          label: localized('休業日', 'Closures', '休息日'),
+          value: localized(detail.practical.closedDaysJa, detail.practical.closedDaysEn, strings['zh-TW'].dataFussaKurumiruClosedDays),
+        }]
+      : []),
+  ];
+  return {
+    id,
+    regionId: fussaCandidate.regionId,
+    foodCultureId: fussaCulture.id,
+    thumbnailAssetIds: [],
+    copy: {
+      ja: {
+        name: place.nameJa,
+        lead: detail.roleJa,
+        description: detail.roleJa,
+        tags: ['公的・公式情報参照', '確認中'],
+        practicalInfo: practicalInfo.map((row) => ({ label: row.label.ja, value: row.value.ja })),
+        caution: ['営業・見学・販売・交通などの条件は変わる場合があります。訪問前に各公式情報をご確認ください。'],
+      },
+      en: {
+        name: place.nameEn,
+        lead: detail.roleEn,
+        description: detail.roleEn,
+        tags: ['Official/public information', 'Confirmation pending'],
+        practicalInfo: practicalInfo.map((row) => ({ label: row.label.en, value: row.value.en })),
+        caution: ['Operations, visits, sales, and transport conditions can change. Check each official source before visiting.'],
+      },
+      'zh-TW': {
+        name: zhName,
+        lead: zhRole,
+        description: zhRole,
+        tags: ['參考官方／公部門資訊', '確認中'],
+        practicalInfo: practicalInfo.map((row) => ({ label: row.label['zh-TW'], value: row.value['zh-TW'] })),
+        caution: ['營業、參訪、販售與交通條件可能變更。造訪前請查看各官方資訊。'],
+      },
+    },
+  };
+}
+
+const fussaSpots: Record<string, SpotPresentation> = Object.fromEntries(
+  ['fussa-tamura-shuzo', 'fussa-kurumiru', 'fussa-ishikawa-shuzo'].map((id) => [id, fussaSpot(id)]),
+);
+
 /** Every Spot reachable through a current-presentation journey. */
 export const currentSpots: Record<string, SpotPresentation> = {
   ...demoSpots,
   ...omeSpots,
   ...hachiojiSpots,
+  ...fussaSpots,
 };
 
 export interface RouteStepText {
@@ -1107,6 +1277,7 @@ export const routeNames: Record<string, LocalizedText> = {
   'demo-okutama-yamame': localized('奥多摩やまめを味わう旅', 'A journey to taste Okutama yamame', '品嚐奧多摩山女魚之旅'),
   'demo-ome-sake': localized(omeRoute.nameJa, omeRoute.nameEn, strings['zh-TW'].dataSakeRouteName),
   'demo-tokyo-hachioji-ginger': localized(hachiojiRoute.nameJa, hachiojiRoute.nameEn, strings['zh-TW'].dataHachiojiRouteName),
+  'demo-tokyo-west-fussa-sake': localized(fussaRoute.nameJa, fussaRoute.nameEn, strings['zh-TW'].dataFussaSakeRouteName),
 };
 
 export interface ResultLocation {
@@ -1169,6 +1340,29 @@ export const resultLocation: Record<string, Record<Locale, ResultLocation>> = {
       sourceValue: hachiojiMarketDetail.practical?.accessJa,
     },
   },
+  'demo-tokyo-west-fussa-sake': {
+    ja: {
+      area: '福生・東京',
+      station: '',
+      access: requiredRecord(getSpotDetail('fussa-tamura-shuzo'), 'Fussa first Spot detail').practical?.accessJa ?? '',
+      source: requiredRecord(getSpotDetail('fussa-tamura-shuzo'), 'Fussa first Spot detail').source,
+      sourceValue: requiredRecord(getSpotDetail('fussa-tamura-shuzo'), 'Fussa first Spot detail').practical?.accessJa,
+    },
+    en: {
+      area: 'Fussa, Tokyo',
+      station: '',
+      access: requiredRecord(getSpotDetail('fussa-tamura-shuzo'), 'Fussa first Spot detail').practical?.accessEn ?? '',
+      source: requiredRecord(getSpotDetail('fussa-tamura-shuzo'), 'Fussa first Spot detail').source,
+      sourceValue: requiredRecord(getSpotDetail('fussa-tamura-shuzo'), 'Fussa first Spot detail').practical?.accessEn,
+    },
+    'zh-TW': {
+      area: '東京都福生',
+      station: '',
+      access: strings['zh-TW'].dataFussaTamuraAccess,
+      source: requiredRecord(getSpotDetail('fussa-tamura-shuzo'), 'Fussa first Spot detail').source,
+      sourceValue: requiredRecord(getSpotDetail('fussa-tamura-shuzo'), 'Fussa first Spot detail').practical?.accessJa,
+    },
+  },
 };
 
 function omeRouteSteps(canonicalId: 'half-day' | '1-day'): RouteStepText[] {
@@ -1216,6 +1410,20 @@ function hachiojiRouteSteps(canonicalId: 'half-day' | '1-day'): RouteStepText[] 
   });
 }
 
+function fussaRouteSteps(canonicalId: 'half-day' | '1-day'): RouteStepText[] {
+  const variant = requiredRecord(fussaRoute.variants[canonicalId], `Fussa ${canonicalId} route variant`);
+  return variant.steps.map((step) => {
+    const roleKey = requiredRecord(
+      stepRoleKey(fussaRoute.id, step.placeId, canonicalId),
+      `${step.placeId} Fussa ${canonicalId} route role key`,
+    );
+    return {
+      spotId: step.placeId,
+      description: localized(step.roleJa, step.roleEn, strings['zh-TW'][roleKey]),
+    };
+  });
+}
+
 export const routeStepText: Record<string, RouteStepText[]> = {
   'demo-okutama-wasabi:half-day': [
     { spotId: 'okutama-station', description: localized('旅のスタート地点', 'Starting point', '旅程起點') },
@@ -1244,6 +1452,8 @@ export const routeStepText: Record<string, RouteStepText[]> = {
   'demo-ome-sake:full-day': omeRouteSteps('1-day'),
   'demo-tokyo-hachioji-ginger:half-day': hachiojiRouteSteps('half-day'),
   'demo-tokyo-hachioji-ginger:full-day': hachiojiRouteSteps('1-day'),
+  'demo-tokyo-west-fussa-sake:half-day': fussaRouteSteps('half-day'),
+  'demo-tokyo-west-fussa-sake:full-day': fussaRouteSteps('1-day'),
 };
 
 export interface RouteStats {
@@ -1268,6 +1478,8 @@ export const routeRegionGuidance: Record<string, Record<Locale, string>> = {
   'demo-ome-sake:full-day': localized('青梅・沢井・東京都 (東京西部)', 'Ome / Sawai, Tokyo (Western Tokyo)', '東京都青梅・沢井（東京西部）'),
   'demo-tokyo-hachioji-ginger:half-day': localized('八王子・東京都', 'Hachioji, Tokyo', '東京都八王子'),
   'demo-tokyo-hachioji-ginger:full-day': localized('八王子・東京都', 'Hachioji, Tokyo', '東京都八王子'),
+  'demo-tokyo-west-fussa-sake:half-day': localized('福生・東京', 'Fussa, Tokyo', '東京都福生'),
+  'demo-tokyo-west-fussa-sake:full-day': localized('福生・東京', 'Fussa, Tokyo', '東京都福生'),
 };
 
 const routeTimingCaution = localized(
@@ -1324,6 +1536,15 @@ const recoveredJourneyConfig: Record<string, RecoveredJourneyConfig> = {
     caution: localizedBundleKey(
       requiredRecord(routeEstimateKey(hachiojiRoute.id), 'Hachioji route estimate key'),
       'Hachioji route estimate',
+    ),
+  },
+  'demo-tokyo-west-fussa-sake': {
+    route: fussaRoute,
+    variantIds: { 'half-day': 'half-day', 'full-day': '1-day' },
+    transportZh: strings['zh-TW'].dataFussaSakeRouteTransport,
+    caution: localizedBundleKey(
+      requiredRecord(routeEstimateKey(fussaRoute.id), 'Fussa route estimate key'),
+      'Fussa route estimate',
     ),
   },
 };
@@ -1587,6 +1808,87 @@ function omeReferenceSpotDetail(id: string): ReferenceSpotDetail {
   };
 }
 
+function fussaReferenceSpotDetail(id: string): ReferenceSpotDetail {
+  const place = canonicalPlace(id);
+  const detail = requiredRecord(getSpotDetail(id), `${id} Spot detail`);
+  const address = requiredRecord(place.address, `${id} canonical address`);
+  const nameZh = requiredRecord(fussaPlaceNameZh[id], `${id} Traditional Chinese name`);
+  const accessKey = spotAccessKey(id);
+  const information: ReferenceSpotDetail['information'] = [
+    {
+      fieldId: 'name',
+      icon: 'information',
+      label: localized('施設', 'Place', '設施'),
+      value: localized(place.nameJa, place.nameEn, nameZh),
+    },
+    {
+      fieldId: 'address',
+      icon: 'information',
+      label: localized('所在地', 'Address', '地址'),
+      value: localized(address, address, address),
+    },
+  ];
+  const practical = detail.practical;
+  if (practical?.accessJa && practical.accessEn && accessKey) {
+    information.push({
+      fieldId: 'access',
+      icon: 'train',
+      label: localized('アクセス', 'Access', '交通'),
+      value: localized(practical.accessJa, practical.accessEn, strings['zh-TW'][accessKey]),
+    });
+  }
+  if (practical?.hoursJa && practical.hoursEn) {
+    const hoursZh = id === 'fussa-kurumiru'
+      ? strings['zh-TW'].dataFussaKurumiruHours
+      : strings['zh-TW'].dataFussaTamuraHours;
+    information.push({
+      fieldId: 'hours',
+      icon: 'clock',
+      label: localized('営業時間・案内', 'Hours and guidance', '營業時間與指引'),
+      value: localized(practical.hoursJa, practical.hoursEn, hoursZh),
+    });
+  }
+  if (practical?.closedDaysJa && practical.closedDaysEn) {
+    information.push({
+      fieldId: 'closed_days',
+      icon: 'clock',
+      label: localized('休業日', 'Closures', '休息日'),
+      value: localized(practical.closedDaysJa, practical.closedDaysEn, strings['zh-TW'].dataFussaKurumiruClosedDays),
+    });
+  }
+  information.push(
+    {
+      fieldId: 'official_current_url',
+      icon: 'information',
+      label: localized('公式情報', 'Official information', '官方資訊'),
+      value: localized(place.source.url ?? '', place.source.url ?? '', place.source.url ?? ''),
+    },
+    {
+      fieldId: 'verification_note',
+      icon: 'information',
+      label: localized('確認状況', 'Verification status', '確認狀態'),
+      value: localized(
+        '該当する公式・市の情報を2026年9月26日に取得。掲載内容は確認中です。訪問前に営業・見学・施設ごとの条件を確認してください。',
+        'Matching official or city information was retrieved Sep 26, 2026. This listing is still being confirmed; check current hours, visits, and facility-specific conditions before going.',
+        '對應的官方或市政府資訊於 2026 年 9 月 26 日取得。刊載內容仍在確認中；造訪前請確認營業、參訪與各設施條件。',
+      ),
+    },
+  );
+  return {
+    tags: [
+      { tagId: 'official-source', color: '#F0A24C', label: localized('公式・公的情報参照', 'Official/public information', '參考官方／公部門資訊') },
+      { tagId: 'confirmation-pending', color: '#5D9BEF', label: localized('確認中', 'Confirmation pending', '確認中') },
+    ],
+    description: localized(detail.roleJa, detail.roleEn, requiredRecord(fussaSpotRoleZh[id], `${id} Traditional Chinese role`)),
+    information,
+    caution: [localized(
+      '・見学、営業、販売、交通などの条件は変更される場合があります。訪問前に各公式情報をご確認ください。',
+      '• Tour, operating, sales, and transport conditions can change. Check each official source before visiting.',
+      '・參訪、營業、販售與交通條件可能變更。造訪前請查看各官方資訊。',
+    )],
+  };
+}
+
 export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> = {
   'hachioji-takiyama-roadside-station': {
     tags: [
@@ -1744,6 +2046,9 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
       localized('・メニューと価格は時点付きの参考情報です。食事制限・アレルギー対応は現地で確認してください。', '• Menu and price are dated references. Confirm dietary and allergy needs with the operator.', '・菜單與價格為附日期的參考資訊。飲食限制與過敏需求請向營運方確認。'),
     ],
   },
+  'fussa-tamura-shuzo': fussaReferenceSpotDetail('fussa-tamura-shuzo'),
+  'fussa-kurumiru': fussaReferenceSpotDetail('fussa-kurumiru'),
+  'fussa-ishikawa-shuzo': fussaReferenceSpotDetail('fussa-ishikawa-shuzo'),
   'sawai-ozawa-shuzo': omeReferenceSpotDetail('sawai-ozawa-shuzo'),
   'sawanoien-garden': omeReferenceSpotDetail('sawanoien-garden'),
   'mitake-shrine': omeReferenceSpotDetail('mitake-shrine'),
@@ -2417,6 +2722,19 @@ export const storySpotGroups: Record<string, {
     ],
     nature: [],
   },
+  'demo-tokyo-west-fussa-sake': {
+    nearby: ['fussa-tamura-shuzo', 'fussa-kurumiru', 'fussa-ishikawa-shuzo'].map((spotId) => {
+      const detail = requiredRecord(getSpotDetail(spotId), `${spotId} Story Spot detail`);
+      return {
+        referenceId: spotId,
+        spotId,
+        badgeColor: '#E98A1C',
+        badge: localized('立ち寄り先', 'Route stop', '行程停靠點'),
+        description: localized(detail.roleJa, detail.roleEn, requiredRecord(fussaSpotRoleZh[spotId], `${spotId} Traditional Chinese role`)),
+      };
+    }),
+    nature: [],
+  },
 };
 
 export const storyLocation: Record<string, Record<Locale, {
@@ -2443,6 +2761,11 @@ export const storyLocation: Record<string, Record<Locale, {
     en: { region: 'Hachioji, Tokyo', station: 'Bus from JR or Keio Hachioji Station (check current times)' },
     'zh-TW': { region: '東京都八王子', station: '從 JR／京王八王子站搭乘巴士（請確認最新班次）' },
   },
+  'demo-tokyo-west-fussa-sake': {
+    ja: { region: '福生・東京都', station: '駅・経路は各立ち寄り先の公式案内で確認' },
+    en: { region: 'Fussa, Tokyo', station: 'Check current station and route guidance for each stop' },
+    'zh-TW': { region: '東京都福生', station: '各停靠點的車站與路線請查看官方指引' },
+  },
 };
 
 export const chapterPoint: Record<string, Record<Locale, {
@@ -2468,5 +2791,10 @@ export const chapterPoint: Record<string, Record<Locale, {
     ja: { title: '季節と当日の入荷', body: strings.ja.dataHachiojiRouteOperationalNote },
     en: { title: 'Season and daily stock', body: strings.en.dataHachiojiRouteOperationalNote },
     'zh-TW': { title: '季節與每日進貨', body: strings['zh-TW'].dataHachiojiRouteOperationalNote },
+  },
+  'demo-tokyo-west-fussa-sake': {
+    ja: { title: '訪問前に確認すること', body: strings.ja.dataFussaSakeOperationalNote },
+    en: { title: 'Check before visiting', body: strings.en.dataFussaSakeOperationalNote },
+    'zh-TW': { title: '造訪前請確認', body: strings['zh-TW'].dataFussaSakeOperationalNote },
   },
 };

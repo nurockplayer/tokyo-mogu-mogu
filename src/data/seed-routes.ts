@@ -267,7 +267,7 @@ const SOURCE_FUSSA_ROUTE: DataSource = {
   name: '編集部（福生の2つの酒蔵と水のまち）',
   url: 'https://www.city.fussa.tokyo.jp/sightseeing/amuse/1005934.html',
   sourceType: 'official_web',
-  retrievedAt: '2026-08-19',
+  retrievedAt: '2026-09-26',
   verificationStatus: 'needs_confirmation',
   originalId: 'seed-route-fussa-sake',
 };
@@ -277,7 +277,7 @@ const SOURCE_FUSSA_CITY_SAKE: DataSource = {
   url: 'https://www.city.fussa.tokyo.jp/sightseeing/amuse/1005934.html',
   sourceType: 'official_web',
   sourceUpdatedAt: '2017-01-10',
-  retrievedAt: '2026-08-19',
+  retrievedAt: '2026-09-26',
   verificationStatus: 'needs_confirmation',
   originalId: 'fussa-tokyo-sake-brewery-1005934',
 };
@@ -287,7 +287,7 @@ const SOURCE_FUSSA_WATER: DataSource = {
   url: 'https://www.city.fussa.tokyo.jp/sightseeing/jousui/1004236.html',
   sourceType: 'official_web',
   sourceUpdatedAt: '2016-07-28',
-  retrievedAt: '2026-08-19',
+  retrievedAt: '2026-09-26',
   verificationStatus: 'needs_confirmation',
   originalId: 'fussa-water-heritage-course-1004236',
 };
@@ -296,7 +296,7 @@ const SOURCE_FUSSA_TAMURA: DataSource = {
   name: '田村酒造場（公式）',
   url: 'https://www.tamurashuzojo.com/page/kura',
   sourceType: 'business',
-  retrievedAt: '2026-08-19',
+  retrievedAt: '2026-09-26',
   verificationStatus: 'needs_confirmation',
   originalId: 'tamura-shuzojo-kura',
 };
@@ -305,7 +305,7 @@ const SOURCE_FUSSA_ISHIKAWA: DataSource = {
   name: '石川酒造（公式アクセス）',
   url: 'https://www.tamajiman.co.jp/access/',
   sourceType: 'business',
-  retrievedAt: '2026-08-19',
+  retrievedAt: '2026-09-26',
   verificationStatus: 'needs_confirmation',
   originalId: 'ishikawa-shuzo-access',
 };
@@ -315,7 +315,7 @@ const SOURCE_FUSSA_KURUMIRU: DataSource = {
   url: 'https://www.city.fussa.tokyo.jp/map/shiyakusho/1001605.html',
   sourceType: 'official_web',
   sourceUpdatedAt: '2021-06-16',
-  retrievedAt: '2026-08-19',
+  retrievedAt: '2026-09-26',
   verificationStatus: 'needs_confirmation',
   originalId: 'kurumiru-fussa-1001605',
 };
@@ -824,7 +824,7 @@ export const MODEL_ROUTES: ModelRoute[] = [
             stepNumber: 2,
             stayMinutes: 25,
             roleJa:
-              'くるみる ふっさで、市内の観光情報や名産品の情報を集めます。2つの酒蔵をめぐる最新の案内を出発前に確認しましょう。',
+              'くるみる ふっさで市内の観光情報や名産品の情報を集め、次に訪ねる酒蔵の最新案内を確認しましょう。',
             roleEn:
               'Use Kurumiru Fussa to gather current sightseeing and local-product information before continuing to the second brewery.',
           },
@@ -1179,6 +1179,14 @@ export const SPOT_DETAILS: Record<string, SpotDetail> = {
       'くるみる ふっさは、福生の観光情報や名産品の情報を集める案内所です。酒蔵めぐりの最新情報を確認する中継点にします。',
     roleEn:
       'Kurumiru Fussa is a visitor center for local sightseeing information and products — a useful checkpoint for current brewery-visit details.',
+    practical: {
+      accessJa: 'JR青梅線「福生駅」西口から徒歩約5分（市の案内）。',
+      accessEn: 'About a 5-minute walk from the west exit of JR Ome Line Fussa Station (city guidance).',
+      hoursJa: '10:00〜18:00（訪問前に最新情報を確認してください）。',
+      hoursEn: '10:00 a.m.–6:00 p.m. (check current information before visiting).',
+      closedDaysJa: '月曜・木曜（祝日の場合は翌平日）、年末年始（12月29日〜1月3日）。最新情報を確認してください。',
+      closedDaysEn: 'Monday and Thursday (when a holiday, the following business day); Dec 29–Jan 3. Check current information.',
+    },
     tags: {},
     origin: 'editorial',
     source: SOURCE_FUSSA_KURUMIRU,

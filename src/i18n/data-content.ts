@@ -192,6 +192,7 @@ export const SPOT_ACCESS_KEYS: Record<string, LocaleKey> = {
   'sawai-ozawa-shuzo': 'dataOzawaAccess',
   'hachioji-takiyama-roadside-station': 'dataHachiojiMarketAccess',
   'fussa-tamura-shuzo': 'dataFussaTamuraAccess',
+  'fussa-kurumiru': 'dataFussaKurumiruAccess',
   'fussa-ishikawa-shuzo': 'dataFussaIshikawaAccess',
   'akiruno-farmers-center': 'dataAkirunoFarmersAccess',
   'akiruno-seoto-no-yu': 'dataAkirunoSeotoAccess',
