@@ -135,6 +135,41 @@ const HACHIOJI_HALF_DAY_DETAIL_APP_EVIDENCE: readonly DataVerificationAppEvidenc
     viewport: { width: 375, height: 812 },
     note: '#349 half-day Route stats view at 375px documents the 145-minute editorial estimate and current travel-condition caveat. Captured through Ego-lite; its external browser widget may remain visible and is not app UI.',
   },
+  {
+    evidenceId: 'hachioji-route-half-day-stops-en-375',
+    claimIds: [
+      'route:hachioji-ginger-journey:half-day:stop_sequence',
+      'route:hachioji-ginger-journey:half-day:stop:hachioji-takiyama-roadside-station:identity',
+      'route:hachioji-ginger-journey:half-day:stop:hachioji-takiyama-castle:identity',
+      'route:hachioji-ginger-journey:half-day:step:hachioji-takiyama-roadside-station:guidance:en',
+    ],
+    entityId: 'hachioji-ginger-journey',
+    kind: 'app',
+    capturedAt: '2026-09-26',
+    path: 'docs/data-evidence/hachioji-ginger/route-half-day-stops-app-en-375.png',
+    locale: 'en',
+    viewport: { width: 375, height: 812 },
+    note: '#349 English half-day Route view shows both stop identities and the roadside-market guidance with Agency for Cultural Affairs attribution; lower summary stats are clipped. Captured through Ego-lite; its external browser widget may remain visible and is not app UI.',
+  },
+  {
+    evidenceId: 'hachioji-route-half-day-stops-zh-TW-375',
+    claimIds: [
+      'route:hachioji-ginger-journey:half-day:summary_time:zh-TW',
+      'route:hachioji-ginger-journey:half-day:summary_stop_count:zh-TW',
+      'route:hachioji-ginger-journey:half-day:stop_sequence',
+      'route:hachioji-ginger-journey:half-day:stop:hachioji-takiyama-roadside-station:identity',
+      'route:hachioji-ginger-journey:half-day:stop:hachioji-takiyama-castle:identity',
+      'route:hachioji-ginger-journey:half-day:step:hachioji-takiyama-roadside-station:guidance:zh-TW',
+      'route:hachioji-ginger-journey:half-day:step:hachioji-takiyama-castle:guidance:zh-TW',
+    ],
+    entityId: 'hachioji-ginger-journey',
+    kind: 'app',
+    capturedAt: '2026-09-26',
+    path: 'docs/data-evidence/hachioji-ginger/route-half-day-stops-app-zh-TW-375.png',
+    locale: 'zh-TW',
+    viewport: { width: 375, height: 812 },
+    note: '#349 Traditional Chinese half-day Route view shows both stops, the editorial duration/count, and both localized stop descriptions with cultural-agency attribution. Captured through Ego-lite; its external browser widget may remain visible and is not app UI.',
+  },
 ];
 
 const HACHIOJI_FULL_DAY_DETAIL_APP_EVIDENCE: readonly DataVerificationAppEvidence[] = [

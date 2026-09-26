@@ -724,9 +724,9 @@ export const MODEL_ROUTES: ModelRoute[] = [
             stepNumber: 1,
             stayMinutes: 75,
             roleJa:
-              '八王子市の食文化ミュージアムに認定された道の駅。市内の生産者が届ける野菜や、旬の八王子ショウガを探します。品揃えは季節と当日の入荷で変わります。',
+              '文化庁の「食文化ミュージアム」に認定された道の駅。市内の生産者が届ける野菜や、旬の八王子ショウガを探します。品揃えは季節と当日の入荷で変わります。',
             roleEn:
-              'Start at the city-recognized food culture museum and farm market. Look for Hachioji produce and seasonal ginger; stock changes with the season and day.',
+              "Start at the farm market of a roadside station recognized under the Agency for Cultural Affairs' Food Culture Museum program. Look for Hachioji produce and seasonal ginger; stock changes with the season and day.",
           },
           {
             placeId: 'hachioji-takiyama-castle',

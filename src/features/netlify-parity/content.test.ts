@@ -3,6 +3,8 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { PLACES } from '../../data/seed-places';
 import { isFixedPlace } from '../../data/model';
+import { MODEL_ROUTES } from '../../data/seed-routes';
+import { strings } from '../../i18n/resources';
 import {
   currentJourneys,
   currentSpots,
@@ -136,6 +138,24 @@ describe('Netlify parity presentation content', () => {
     expect(journey).not.toHaveProperty('matchPercent');
     expect(journey?.imageAssetId).toBeUndefined();
     expect(journey?.heroAssetId).toBeUndefined();
+
+    const canonicalMarketRole = MODEL_ROUTES.find((route) => route.id === 'hachioji-ginger-journey')!
+      .variants['half-day'].steps[0]!;
+    expect(canonicalMarketRole.placeId).toBe('hachioji-takiyama-roadside-station');
+    expect(canonicalMarketRole.roleJa).toContain('文化庁');
+    expect(canonicalMarketRole.roleJa).not.toContain('八王子市の食文化ミュージアム');
+    expect(canonicalMarketRole.roleEn).toContain('Agency for Cultural Affairs');
+    expect(canonicalMarketRole.roleEn).not.toContain('city-recognized');
+    expect(strings.ja.dataHachiojiStopRoleMarketHalfDay).toBe(canonicalMarketRole.roleJa);
+    expect(strings.en.dataHachiojiStopRoleMarketHalfDay).toBe(canonicalMarketRole.roleEn);
+    expect(strings['zh-TW'].dataHachiojiStopRoleMarketHalfDay).toContain('日本文化廳');
+    expect(strings['zh-TW'].dataHachiojiStopRoleMarketHalfDay).not.toContain('八王子市');
+    expect(routeStepText['demo-tokyo-hachioji-ginger:half-day'][0]?.description.en)
+      .toBe(canonicalMarketRole.roleEn);
+    expect(routeStepText['demo-tokyo-hachioji-ginger:half-day'][0]?.description.ja)
+      .toBe(canonicalMarketRole.roleJa);
+    expect(routeStepText['demo-tokyo-hachioji-ginger:half-day'][0]?.description['zh-TW'])
+      .toBe(strings['zh-TW'].dataHachiojiStopRoleMarketHalfDay);
     expect(Object.keys(currentSpots)).toContain('hachioji-takiyama-roadside-station');
     expect(Object.keys(currentSpots)).toContain('hachioji-takiyama-castle');
 
