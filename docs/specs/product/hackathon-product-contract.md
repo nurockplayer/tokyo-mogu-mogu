@@ -81,6 +81,34 @@ descriptions do not define the current Dock.
 - Motion, progressive reveal, tactile feedback, nested scrolling, sticky
   actions, and transitions are part of the visible contract.
 
+## Current collection ownership and lifecycle
+
+These are the current accountless prototype semantics, not permanent
+requirements for a future collection or library model:
+
+- MOGU browses `currentJourneys`; it is not a recent-history collection. Home's
+  “past journeys” cards come from `demoJourneys` presentation fixtures and do
+  not record visits. The legacy `tmm:moguRecent:v1` state may still be written,
+  but it does not own either surface.
+- Explicit journey and Spot bookmarks are separate IDs stored under
+  `tmm:figmaFavorites:v1`. Route saves use `tmm:savedRoutes`, keyed by
+  `routeId` with the original `savedAt` timestamp; saving an existing route is
+  idempotent. These are distinct user actions and state.
+- Favorites projects each current journey once, in current content order, when
+  it has either an explicit journey bookmark or a saved route. Spots appear in
+  a separate group. My opens the same `/my-route` Favorites surface.
+- Saved journey and Spot cards reopen their current Story or Spot content.
+  Saved routes retain a route reference rather than a route variant or content
+  snapshot; opening one starts on the current half-day route. The “view saved
+  route” action also performs a save. The visible Route surface currently has
+  no route-unsave control, and removing a journey bookmark leaves its card in
+  Favorites while that journey's route remains saved.
+- Persistence is best-effort local storage. UI feedback confirms the action
+  was requested, not durable storage; there is no account or cross-tab sync.
+
+These observed limitations describe the current prototype only. They do not
+decide future visit history, collection, synchronization, or removal behavior.
+
 ## Demo and durable Product boundaries
 
 The durable Product scope is Tokyo-wide, multi-region × multi-food-culture, for
