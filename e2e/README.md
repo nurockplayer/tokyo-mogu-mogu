@@ -30,7 +30,7 @@ Current live KiKi Figma and current merged `main` remain the authorities.
 | `issue-349-hachioji-ginger.spec.ts` | Hachioji ginger journey | MOGU recovery to Story → Route → Spots, localized content, and identity checks while Result stays at two fixtures | Focused, non-gating (5 cases) | `pnpm test:regressions e2e/issue-349-hachioji-ginger.spec.ts` |
 | `issue-350-fussa-sake.spec.ts` | Fussa sake journey | MOGU recovery to Story → Route → all Spots and identity chain while Result stays at two fixtures | Focused, non-gating (5 cases) | `pnpm test:regressions e2e/issue-350-fussa-sake.spec.ts` |
 | `issue-351-akiruno-produce.spec.ts` | Akiruno produce journey | MOGU recovery to Story → Route → Spots, localized content, and identity checks while Result stays at two fixtures | Focused, non-gating (5 cases) | `pnpm test:regressions e2e/issue-351-akiruno-produce.spec.ts` |
-| `issue-374-route-spacing.spec.ts` | Route surface | Focused route spacing regression across supported viewport sizes | Focused, non-gating (3 cases) | `pnpm test:regressions e2e/issue-374-route-spacing.spec.ts` |
+| `issue-374-route-spacing.spec.ts` | Route surface | At 375px in ja, en, and zh-TW, checks Wasabi mission/card separation, guidance-segment placement, and horizontal overflow | Focused, non-gating (3 cases) | `pnpm test:regressions e2e/issue-374-route-spacing.spec.ts` |
 | `issue-379-food-profile-modal-dismiss.spec.ts` | Food Profile dialogs | Dialog dismissal and return-to-profile interaction | Focused, non-gating (9 cases) | `pnpm test:regressions e2e/issue-379-food-profile-modal-dismiss.spec.ts` |
 
 The nine regression suites are configured by

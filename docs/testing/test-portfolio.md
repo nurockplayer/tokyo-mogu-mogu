@@ -63,6 +63,27 @@ existing regression config; `pnpm test:related` and `pnpm test:focused` are
 also local conveniences and never replace full `pnpm test` in CI or as a
 merge-confidence claim.
 
+### #374 Route-spacing assertions
+
+The three #374 cases remain focused, non-gating checks at **375px in ja, en,
+and zh-TW**. Four obsolete exact-copy/count assertions per locale were removed:
+the asserted one-minute visitor-center text, five-minute following-stop text,
+global uniqueness of the visitor-center text, and exactly five route segments.
+They are replaced by four structural checks per locale: the visitor-center
+step has exactly one direct `.seg` and nonempty text, and the following-kitchen
+step has exactly one direct `.seg` and nonempty text. The Wasabi step still has
+zero direct `.seg` elements.
+
+The cases retain the locale-specific mission badge, at-least-16px card gap,
+mission badge placement after the preceding card, following-segment placement
+after the Wasabi card, following-card placement after its segment, and exact
+375px document/phone overflow checks. The observed current route has four
+guidance segments; the test does not assert a route-wide segment total. Existing
+source/content honesty checks remain unchanged, and no source duration or new
+exact factual copy is introduced. Case counts remain 3 for #374 and 56 across
+all nine focused suites (89 browser cases total); the 84-file/899-case Vitest
+inventory is unchanged.
+
 Build once before running direct browser commands because they reuse the
 production bundle:
 
