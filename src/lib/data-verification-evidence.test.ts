@@ -988,6 +988,17 @@ describe('data verification evidence manifest (#334)', () => {
     expect(byId.get('akiruno-produce-story-top-en-375')?.claimIds).not.toContain(
       'story:produce-akiruno:presentation:story_title:en',
     );
+    for (const locale of ['ja', 'en', 'zh-TW'] as const) {
+      expect(byId.get(`akiruno-produce-story-chapters-${locale}-375`)?.claimIds).toContain(
+        'story:produce-akiruno:story.factual.corn-and-pear-seasonality',
+      );
+      const chapter3 = byId.get(`akiruno-produce-story-chapter-3-${locale}-375`);
+      expect(chapter3?.claimIds).not.toContain(
+        'story:produce-akiruno:story.factual.corn-and-pear-seasonality',
+      );
+      expect(chapter3?.claimIds).toContain('story:produce-akiruno:story.factual.seasonal-stock-caution');
+      expect(chapter3?.note).toContain('not crop harvest-window claims');
+    }
     expect(byId.get('akiruno-produce-route-upper-en-375')?.claimIds).not.toContain(
       'route:akiruno-seasonal-produce-journey:half-day:step:akiruno-seoto-no-yu:guidance:en',
     );

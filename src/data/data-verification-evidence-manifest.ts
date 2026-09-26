@@ -386,8 +386,9 @@ const AKIRUNO_STORY_CHAPTER_APP_EVIDENCE: readonly DataVerificationAppEvidence[]
       `story:produce-akiruno:presentation:story_title:${locale}`,
       `story:produce-akiruno:presentation:story_point:${locale}`,
       'story:produce-akiruno:story.factual.norabō-itsukaichi-history',
+      'story:produce-akiruno:story.factual.corn-and-pear-seasonality',
     ],
-    note: `${locale} Story section heading, first chapter history and seasonal point; adjacent chapter content is clipped and excluded.`,
+    note: `${locale} Story section heading, first chapter history, corn and pear harvest-window wording, and seasonal point; adjacent chapter content is clipped and excluded.`,
   }));
 
 const AKIRUNO_STORY_SELECTED_CHAPTER_EVIDENCE: readonly DataVerificationAppEvidence[] =
@@ -401,11 +402,8 @@ const AKIRUNO_STORY_SELECTED_CHAPTER_EVIDENCE: readonly DataVerificationAppEvide
     {
       frame: 'story-chapter-3',
       capturedAt: AKIRUNO_CAPTURE_TIMES.storyChapter3[locale],
-      claims: [
-        'story:produce-akiruno:story.factual.corn-and-pear-seasonality',
-        'story:produce-akiruno:story.factual.seasonal-stock-caution',
-      ],
-      note: 'selected third chapter with seasonal produce and day-of stock caveat',
+      claims: ['story:produce-akiruno:story.factual.seasonal-stock-caution'],
+      note: 'selected third chapter with seasonal stock variability and day-of availability caveat, not crop harvest-window claims',
     },
     {
       frame: 'story-chapter-4',
