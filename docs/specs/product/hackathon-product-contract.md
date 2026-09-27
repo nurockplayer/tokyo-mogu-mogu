@@ -133,11 +133,16 @@ support, accessibility conformance, or usability certification.
 
 Shared styles and tokens coexist in the current code but do not establish a
 synchronized Figma/code design-system contract. A future token or component
-system and tablet or desktop compositions remain unadopted. Issue #287's
-contrast/focus concern and Issue #385's modal Figma backprojection remain
-separate unresolved obligations, not a general future-design catchall.
-Historical 390px frames, maps, and node references do not establish current
-design approval.
+system and tablet or desktop compositions remain unadopted. Issue #287 applies
+`#222222` foreground text only to enabled orange and light-green filled CTAs
+that failed the measured contrast threshold; fills, geometry, typography,
+motion, passing white controls, and disabled-state treatment remain unchanged.
+The modal input wrappers keep a visible focus cue and the nickname error
+inset. These bounded checks do not establish product-wide WCAG conformance or
+usability certification. Issue #385's modal dismiss affordance has been
+back-projected into the currently connected KiKi file. Neither change creates
+a new design-system or future-design contract. Historical 390px frames, maps,
+and node references do not establish current design approval.
 
 ## Current Exploration inputs and departure
 
