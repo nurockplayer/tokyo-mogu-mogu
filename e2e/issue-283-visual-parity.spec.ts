@@ -8,7 +8,9 @@
 import { expect, test, type Locator } from '@playwright/test';
 
 const WHITE = 'rgb(255, 255, 255)';
+const CTA_FOREGROUND = 'rgb(34, 34, 34)';
 const DARK_ORANGE_FOREGROUND = 'rgb(58, 58, 48)';
+const LOCALES = ['ja', 'en', 'zh-TW'] as const;
 // Hopp live frame 4:2101 is 390px wide. Runtime is verified at 375px.
 const FIGMA_TO_RUNTIME = 375 / 390;
 // Live Figma Frame 256 (23:3206), rows 23:3203–23:3205.
@@ -51,6 +53,90 @@ async function expectForeground(locator: Locator, color: string) {
   await expect.soft(locator).toHaveCSS('color', color, { timeout: 1_500 });
 }
 
+async function computedContrast(locator: Locator) {
+  const colors = await locator.evaluate((element) => {
+    const layers: Array<{ opacity: number; filter: string }> = [];
+    for (let node: HTMLElement | null = element as HTMLElement; node; node = node.parentElement) {
+      const style = getComputedStyle(node);
+      layers.push({ opacity: Number(style.opacity), filter: style.filter });
+    }
+    const style = getComputedStyle(element);
+    return { color: style.color, background: style.backgroundColor, layers };
+  });
+  const parse = (value: string) => {
+    const channels = value.match(/[\d.]+/g)?.map(Number) ?? [];
+    expect(channels.length).toBeGreaterThanOrEqual(3);
+    return {
+      channels: channels.slice(0, 3),
+      alpha: channels.length > 3 ? channels[3] : 1,
+    };
+  };
+  const foreground = parse(colors.color);
+  const background = parse(colors.background);
+  expect(foreground.alpha).toBe(1);
+  expect(background.alpha).toBe(1);
+  expect(colors.layers.map((layer) => layer.opacity)).toEqual(colors.layers.map(() => 1));
+
+  let brightness = 1;
+  for (const { filter } of colors.layers) {
+    if (filter === 'none') continue;
+    const match = filter.match(/^brightness\((\d*\.?\d+)\)$/);
+    expect(match, `unsupported CTA filter: ${filter}`).not.toBeNull();
+    brightness *= Number(match?.[1]);
+  }
+  const luminance = (channels: number[]) => {
+    const linear = channels.map((channel) => {
+      const value = Math.min(255, channel * brightness) / 255;
+      return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+    });
+    return linear[0] * 0.2126 + linear[1] * 0.7152 + linear[2] * 0.0722;
+  };
+  const foregroundLuminance = luminance(foreground.channels);
+  const backgroundLuminance = luminance(background.channels);
+  const ratio = (Math.max(foregroundLuminance, backgroundLuminance) + 0.05)
+    / (Math.min(foregroundLuminance, backgroundLuminance) + 0.05);
+  return { ...colors, brightness, ratio };
+}
+
+async function expectCTAContrast(page: import('@playwright/test').Page, locator: Locator) {
+  await expect(locator).toBeVisible();
+  await locator.evaluate(async (element) => {
+    let settledFrames = 0;
+    for (let frame = 0; frame < 120 && settledFrames < 3; frame += 1) {
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+      let opaque = true;
+      for (let node: HTMLElement | null = element as HTMLElement; node; node = node.parentElement) {
+        if (Number(getComputedStyle(node).opacity) !== 1) opaque = false;
+      }
+      settledFrames = opaque ? settledFrames + 1 : 0;
+    }
+  });
+
+  const expectPassingColors = async () => {
+    const measurement = await computedContrast(locator);
+    expect(measurement.color).toBe(CTA_FOREGROUND);
+    expect(measurement.ratio).toBeGreaterThanOrEqual(4.5);
+    return measurement;
+  };
+  const initial = await expectPassingColors();
+  expect(initial.brightness).toBe(1);
+
+  await locator.focus();
+  await page.keyboard.press('Tab');
+  await page.keyboard.press('Shift+Tab');
+  await expect(locator).toBeFocused();
+  await expect(locator).toHaveCSS('outline-style', 'solid');
+  const focused = await expectPassingColors();
+  expect(focused.brightness).toBe(1);
+}
+
+async function expectPressedCTAContrast(locator: Locator) {
+  await expect.poll(async () => (await computedContrast(locator)).brightness).toBeCloseTo(0.93, 2);
+  const measurement = await computedContrast(locator);
+  expect(measurement.color).toBe(CTA_FOREGROUND);
+  expect(measurement.ratio).toBeGreaterThanOrEqual(4.5);
+}
+
 function expectCloseTo(actual: number, expected: number, tolerance = 1) {
   expect(actual).toBeGreaterThanOrEqual(expected - tolerance);
   expect(actual).toBeLessThanOrEqual(expected + tolerance);
@@ -88,49 +174,135 @@ async function expectModalFieldFocusCue(field: Locator, visible: boolean) {
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
-    localStorage.clear();
-    sessionStorage.clear();
+    if (sessionStorage.getItem('issue-283-test-storage-cleared') !== 'true') {
+      localStorage.clear();
+      sessionStorage.clear();
+      sessionStorage.setItem('issue-283-test-storage-cleared', 'true');
+    }
   });
 });
 
-test('uses the live-Figma foreground on filled CTAs without recoloring orange route markers', async ({ page }) => {
-  await page.goto('/food-profile');
-  const profile = page.locator('[data-screen="food-profile"][data-screen-active="true"]');
+for (const locale of LOCALES) {
+  test(`measures filled CTA contrast in current flows (${locale})`, async ({ page }) => {
+    test.setTimeout(60_000);
+    const chooseLocale = async () => {
+      await page.goto('/my');
+      await page.locator('.issue-296-menu button').first().click();
+      const localeLabel = locale === 'ja' ? '日本語' : locale === 'en' ? 'English' : '繁體中文';
+      await page.getByRole('dialog').getByRole('button', { name: localeLabel }).click();
+      await expect(page.locator('.reference-app')).toHaveAttribute('data-locale', locale);
+    };
 
-  await expectForeground(profile.getByRole('button', { name: 'はじめる！' }), WHITE);
-  await expectForeground(profile.getByRole('button', { name: '登録なし、自分で見てみる' }), 'rgb(94, 114, 57)');
+    await chooseLocale();
+    await page.goto('/food-profile');
+    const profile = page.locator('[data-screen="food-profile"][data-screen-active="true"]');
+    const begin = profile.locator('.choice-card .btn.orange').first();
+    await expectCTAContrast(page, begin);
+    await expectForeground(profile.locator('.choice-card .btn.outline').first(), 'rgb(94, 114, 57)');
+    await begin.click();
 
-  await profile.getByRole('button', { name: 'はじめる！' }).click();
-  const nicknameDialog = profile.getByRole('dialog', { name: '私は...' });
-  await expect(nicknameDialog).toBeVisible();
-  await expectForeground(nicknameDialog.getByRole('button', { name: '送信' }), WHITE);
+    const nicknameDialog = profile.getByRole('dialog');
+    const nicknameInput = nicknameDialog.locator('.profile-name-sentence input');
+    const nicknameSubmit = nicknameDialog.locator('.btn.orange');
+    await expect(nicknameDialog).toBeVisible();
+    await expectCTAContrast(page, nicknameSubmit);
+    await nicknameInput.fill('Nanami');
+    await nicknameSubmit.click();
 
-  await page.goto('/home');
-  await expectForeground(page.locator('.letsgo'), WHITE);
+    const firstQuestion = profile.locator('.crow[data-question-index="0"]');
+    await expect(firstQuestion.locator('.send')).toBeVisible();
+    await firstQuestion.locator('.chips .chip').last().click();
+    const customDialog = profile.getByRole('dialog');
+    const customConfirm = customDialog.locator('.btn.orange');
+    await expect(customDialog).toBeVisible();
+    await expectCTAContrast(page, customConfirm);
+    await customDialog.locator('.profile-input-close').click();
 
-  await page.goto('/explore');
-  const next = page.locator('.wiz-nav .next');
-  await expectForeground(next, WHITE);
-  await page.locator('.exp-card').first().click();
-  await next.click();
-  await expectForeground(page.locator('.wiz-nav .prev'), WHITE);
+    for (let questionIndex = 0; questionIndex < 4; questionIndex += 1) {
+      const question = profile.locator(`.crow[data-question-index="${questionIndex}"]`);
+      const send = question.locator('.send');
+      await expect(send).toBeVisible();
+      await expectCTAContrast(page, send);
+      await question.locator('.chips .chip').first().click();
+      await send.click();
+    }
 
-  await page.goto('/explore/result');
-  await expectForeground(page.getByRole('button', { name: 'もう一度食旅を見つけよう' }), WHITE);
+    const completion = profile.locator('.choice-card .btn.orange');
+    await expect(completion).toBeVisible();
+    await expectCTAContrast(page, completion);
+    await completion.click();
+    await expect(page.locator('[data-screen="home"][data-screen-active="true"]')).toBeVisible();
 
-  await page.goto('/story/wasabi-okutama');
-  await expectForeground(
-    page.getByRole('button', { name: 'この食文化の観光ルートを作成する' }),
-    WHITE,
-  );
+    const homeCTA = page.locator('.letsgo');
+    await expectCTAContrast(page, homeCTA);
+    await expectForeground(page.locator('.wide-btn').first(), WHITE);
+    await homeCTA.focus();
+    await page.keyboard.down('Space');
+    await expectPressedCTAContrast(homeCTA);
+    await page.keyboard.up('Space');
+    await expect(page.locator('[data-screen="explore"][data-screen-active="true"]')).toBeVisible();
 
-  await page.goto('/route?candidateId=demo-okutama-wasabi');
-  await expectForeground(page.locator('.day-toggle button.on'), WHITE);
-  await expectForeground(page.getByRole('button', { name: /ルートを\s*再生成する/ }), WHITE);
-  await expectForeground(page.getByRole('button', { name: 'マイルートに保存' }), WHITE);
-  await expectForeground(page.getByRole('button', { name: 'マイルートを見る' }), WHITE);
-  await expectForeground(page.locator('.tl-row .num:not(.start)').first(), DARK_ORANGE_FOREGROUND);
-});
+    const explore = page.locator('[data-screen="explore"][data-screen-active="true"]');
+    const next = explore.locator('.wiz-nav .next');
+    await expect(next).toBeDisabled();
+    await expect(next).toHaveCSS('opacity', '0.4');
+    await expect(next).toHaveCSS('color', WHITE);
+    await explore.locator('.exp-card').first().click();
+
+    for (let step = 0; step < 5; step += 1) {
+      await expect(explore.locator('[data-exploration-step]')).toHaveAttribute('data-exploration-step', String(step));
+      if (step === 2 || step === 3) await explore.locator('.opt').first().click();
+      if (step === 4) {
+        await explore.locator('.chip-group .chips').nth(0).locator('.chip').first().click();
+        await explore.locator('.chip-group .chips').nth(1).locator('.chip').first().click();
+      }
+      await expectCTAContrast(page, next);
+      const previous = explore.locator('.wiz-nav .prev');
+      if (step > 0) await expectCTAContrast(page, previous);
+      await next.click();
+    }
+
+    await expect(page.locator('[data-screen="result"][data-screen-active="true"]')).toBeVisible();
+    await expectCTAContrast(page, page.locator('.res-sub button'));
+    await page.locator('.res-card').first().click();
+    await expect(page.locator('[data-screen="story"][data-screen-active="true"]')).toBeVisible();
+    const storyCTA = page.locator('.story-cta');
+    await expectCTAContrast(page, storyCTA);
+    await storyCTA.click();
+    await expect(page.locator('[data-screen="route"][data-screen-active="true"]')).toBeVisible({ timeout: 5_000 });
+
+    const route = page.locator('[data-screen="route"][data-screen-active="true"]');
+    const selectedDay = route.locator('.day-toggle button.on');
+    await expectCTAContrast(page, selectedDay);
+    await route.locator('.day-toggle button').nth(1).click();
+    await expectCTAContrast(page, route.locator('.day-toggle button.on'));
+    await expectCTAContrast(page, route.locator('.route-info .regen'));
+    const save = route.locator('.route-actions .save');
+    await expectForeground(save, WHITE);
+    await save.click();
+    await expect(save).toBeDisabled();
+    await expectForeground(save, WHITE);
+    await expectCTAContrast(page, route.locator('.route-actions .view'));
+    await expectForeground(route.locator('.tl-row .num:not(.start)').first(), DARK_ORANGE_FOREGROUND);
+    await route.locator('.route-actions .view').click();
+    await expect(page).toHaveURL(/\/my-route$/);
+
+    await page.goto('/food-profile/edit');
+    const editProfile = page.locator('[data-screen="food-profile"][data-screen-active="true"]');
+    for (let questionIndex = 0; questionIndex < 4; questionIndex += 1) {
+      const question = editProfile.locator(`.crow[data-question-index="${questionIndex}"]`);
+      const send = question.locator('.send');
+      await expect(send).toBeVisible({ timeout: 5_000 });
+      await question.locator('.chips .chip').first().click();
+      await send.click();
+    }
+    const returnToMy = editProfile.locator('.choice-card .btn.orange');
+    await expect(returnToMy).toBeVisible();
+    await expectCTAContrast(page, returnToMy);
+    await returnToMy.click();
+    await expect(page).toHaveURL(/\/my$/);
+  });
+}
 
 test('keeps autofocus typing-ready without splitting the Figma modal fields', async ({ page }) => {
   await page.goto('/food-profile');
@@ -174,7 +346,7 @@ test('keeps autofocus typing-ready without splitting the Figma modal fields', as
   await expect(ingredientInput).toBeVisible();
   await expect(ingredientInput).toBeFocused();
   await expectFigmaModalInputAppearance(ingredientInput, ingredientField);
-  await expectForeground(ingredientDialog.getByRole('button', { name: '確定' }), WHITE);
+  await expectCTAContrast(page, ingredientDialog.locator('.btn.orange'));
 
   await ingredientInput.click();
   await expect(ingredientInput).toBeFocused();
