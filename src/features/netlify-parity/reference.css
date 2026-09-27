@@ -195,6 +195,8 @@ body:has(.reference-app) { overflow:hidden; }
 .reference-app .profile-input-close:focus-visible { outline:var(--tmm-focus-ring); outline-offset:var(--tmm-focus-offset); }
 .reference-app .profile-name-sentence,
 .reference-app .profile-other-field { min-height:46px; display:flex; align-items:center; background:#EFEFF0; border-radius:12px; overflow:hidden; }
+.reference-app .profile-name-sentence:focus-within,
+.reference-app .profile-other-field:focus-within { outline:3px solid #173F8A; outline-offset:2px; }
 .reference-app .profile-name-sentence.invalid { box-shadow:inset 0 0 0 1.5px #F05B5B; }
 .reference-app .profile-name-sentence input,
 .reference-app .profile-other-field input {
