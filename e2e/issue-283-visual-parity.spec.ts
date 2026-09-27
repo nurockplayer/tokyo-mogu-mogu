@@ -76,7 +76,14 @@ async function expectFigmaModalInputAppearance(input: Locator, field: Locator) {
   await expect(input).toHaveCSS('border-top-color', 'rgba(0, 0, 0, 0)');
   await expect(input).toHaveCSS('outline-style', 'none');
   await expect(field).toHaveCSS('background-color', 'rgb(239, 239, 240)');
-  await expect(field).toHaveCSS('outline-style', 'none');
+  await expect(field).toHaveCSS('outline-style', 'solid');
+  await expect(field).toHaveCSS('outline-color', 'rgb(23, 63, 138)');
+  await expect(field).toHaveCSS('outline-width', '3px');
+  await expect(field).toHaveCSS('outline-offset', '2px');
+}
+
+async function expectModalFieldFocusCue(field: Locator, visible: boolean) {
+  await expect(field).toHaveCSS('outline-style', visible ? 'solid' : 'none');
 }
 
 test.beforeEach(async ({ page }) => {
@@ -144,6 +151,7 @@ test('keeps autofocus typing-ready without splitting the Figma modal fields', as
   await page.keyboard.press('Tab');
   const nicknameSend = profile.getByRole('dialog', { name: '私は...' }).getByRole('button', { name: '送信' });
   await expect(nicknameSend).toBeFocused();
+  await expectModalFieldFocusCue(nicknameField, false);
   await page.keyboard.press('Shift+Tab');
   await expect(nicknameInput).toBeFocused();
   await expectFigmaModalInputAppearance(nicknameInput, nicknameField);
@@ -152,6 +160,7 @@ test('keeps autofocus typing-ready without splitting the Figma modal fields', as
   await nicknameSend.click();
   await expect(nicknameInput).toBeFocused();
   await expectFigmaModalInputAppearance(nicknameInput, nicknameField);
+  await expect(nicknameField).toHaveCSS('box-shadow', 'rgb(240, 91, 91) 0px 0px 0px 1.5px inset');
 
   await nicknameInput.fill('ナナミ');
   await profile.getByRole('dialog', { name: '私は...' }).getByRole('button', { name: '送信' }).click();
@@ -171,7 +180,15 @@ test('keeps autofocus typing-ready without splitting the Figma modal fields', as
   await expect(ingredientInput).toBeFocused();
   await expectFigmaModalInputAppearance(ingredientInput, ingredientField);
 
-  await ingredientDialog.getByRole('button', { name: '確定' }).click();
+  const ingredientConfirm = ingredientDialog.getByRole('button', { name: '確定' });
+  await page.keyboard.press('Tab');
+  await expect(ingredientConfirm).toBeFocused();
+  await expectModalFieldFocusCue(ingredientField, false);
+  await page.keyboard.press('Shift+Tab');
+  await expect(ingredientInput).toBeFocused();
+  await expectFigmaModalInputAppearance(ingredientInput, ingredientField);
+
+  await ingredientConfirm.click();
   await expect(ingredientInput).toBeFocused();
   await expectFigmaModalInputAppearance(ingredientInput, ingredientField);
 });
