@@ -63,6 +63,8 @@ body {
   font-family: var(--font-body);
   line-height: 1.6;
   min-height: 100vh;
+  /* iOS resolves 100vh to the large viewport; dvh tracks the visible one (#408). */
+  min-height: 100dvh;
 }
 
 /* Legacy texture: not part of the extracted live-Figma design system. */
