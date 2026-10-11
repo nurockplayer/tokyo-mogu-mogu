@@ -32,8 +32,9 @@ Current live KiKi Figma and current merged `main` remain the authorities.
 | `issue-351-akiruno-produce.spec.ts` | Akiruno produce journey | MOGU recovery to Story → Route → Spots, localized content, and identity checks while Result stays at two fixtures | Focused, non-gating (5 cases) | `pnpm test:regressions e2e/issue-351-akiruno-produce.spec.ts` |
 | `issue-374-route-spacing.spec.ts` | Route surface | At 375px in ja, en, and zh-TW, checks Wasabi mission/card separation, guidance-segment placement, and horizontal overflow | Focused, non-gating (3 cases) | `pnpm test:regressions e2e/issue-374-route-spacing.spec.ts` |
 | `issue-379-food-profile-modal-dismiss.spec.ts` | Food Profile dialogs | Dialog dismissal and return-to-profile interaction | Focused, non-gating (9 cases) | `pnpm test:regressions e2e/issue-379-food-profile-modal-dismiss.spec.ts` |
+| `issue-408-ios-viewport.spec.ts` | Shared shell and departure sheet | Chromium and WebKit: emulated iOS large-viewport `vh` cannot shift the shell; departure suggestions scroll into the sheet on keyboard-sized and landscape viewports | Focused, non-gating (4 cases) | `pnpm test:regressions e2e/issue-408-ios-viewport.spec.ts` |
 
-The nine regression suites are configured by
+The ten regression suites are configured by
 `playwright.regressions.config.ts`; an optional file filter can be appended to
 `pnpm test:regressions` as shown above. Append `--list` to a filtered command
 to inspect the selected tests without running them. They remain non-gating because focused

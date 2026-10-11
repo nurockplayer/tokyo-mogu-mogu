@@ -20,5 +20,6 @@ export default defineConfig({
     'issue-351-akiruno-produce.spec.ts',
     'issue-374-route-spacing.spec.ts',
     'issue-379-food-profile-modal-dismiss.spec.ts',
+    'issue-408-ios-viewport.spec.ts',
   ],
 });

@@ -2,7 +2,12 @@
 
 /* Faithful presentation port of mogu-mogu-5525da.netlify.app. */
 html, body, #root { height:100%; margin:0; }
-body:has(.reference-app) { overflow:hidden; }
+/* The shell is viewport-locked: screens scroll internally, so the document must
+   never be taller than the visible viewport. iOS Safari/Chrome resolve `100vh`
+   (the base body min-height) to the large viewport, which left 40–99px of
+   document scroll that shifted the whole shell under the browser toolbars. */
+html:has(.reference-app), body:has(.reference-app) { overflow:hidden; }
+body:has(.reference-app) { min-height:0; }
 
 .reference-app {
   --cream:#F6EFDD;
@@ -303,7 +308,9 @@ body:has(.reference-app) { overflow:hidden; }
 /* ============ modal ============ */
 .reference-modal { position:absolute; inset:0; background:rgba(60,60,45,.45); display:none; z-index:60; }
 .reference-modal.on, .reference-modal[data-open="true"] { display:block; }
-.reference-modal .sheet { position:absolute; left:0; right:0; top:92px; bottom:0; background:#fff; border-radius:22px 22px 0 0; padding:20px 18px; animation:up .25s ease; }
+/* The sheet scrolls: iOS Chrome shrinks the viewport under the keyboard and
+   short/landscape viewports are smaller than the suggestion list. */
+.reference-modal .sheet { position:absolute; left:0; right:0; top:92px; bottom:0; background:#fff; border-radius:22px 22px 0 0; padding:20px 18px calc(20px + env(safe-area-inset-bottom)); overflow-y:auto; overscroll-behavior:contain; animation:up .25s ease; }
 @keyframes up { from { transform:translateY(40px); opacity:0; } to { transform:none; opacity:1; } }
 .reference-modal h3 { font-size:19px; font-weight:700; }
 .reference-modal .x { position:absolute; top:8px; right:8px; width:44px; height:44px; display:flex; align-items:center; justify-content:center; font-size:22px; color:#555; }
