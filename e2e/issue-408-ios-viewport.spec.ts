@@ -16,12 +16,13 @@ import { expect, test, type Browser, type Page } from '@playwright/test';
 
 const iosLargeViewportDelta = 99;
 
-async function openPage(browser: Browser, baseURL: string | undefined): Promise<Page> {
+async function openPage(browser: Browser, baseURL: string | undefined, withProfile = true): Promise<Page> {
   const context = await browser.newContext({ baseURL, locale: 'ja-JP' });
   const page = await context.newPage();
-  await page.addInitScript(() => {
+  await page.addInitScript((seedProfile) => {
     localStorage.clear();
     sessionStorage.clear();
+    if (!seedProfile) return;
     localStorage.setItem('tmm:nickname:v1', 'ナナ');
     localStorage.setItem(
       'tmm:foodProfile:v1',
@@ -33,8 +34,23 @@ async function openPage(browser: Browser, baseURL: string | undefined): Promise<
         version: 1,
       }),
     );
-  });
+  }, withProfile);
   return page;
+}
+
+/** Whether the control is fully inside its clipping box and the viewport, and receives hits. */
+async function isReachable(page: Page, selector: string, clipSelector: string) {
+  return page.locator(selector).evaluate((control, clip) => {
+    const bounds = control.closest(clip)!.getBoundingClientRect();
+    const rect = control.getBoundingClientRect();
+    const hit = document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
+    return rect.top >= bounds.top - 0.5
+      && rect.bottom <= bounds.bottom + 0.5
+      && rect.top >= -0.5
+      && rect.bottom <= window.innerHeight + 0.5
+      && hit !== null
+      && control.contains(hit);
+  }, clipSelector);
 }
 
 for (const browserName of ['chromium', 'webkit'] as const) {
@@ -112,32 +128,51 @@ for (const browserName of ['chromium', 'webkit'] as const) {
         const suggestions = dialog.locator('.sug li button');
         await expect(suggestions).toHaveCount(6);
 
-        await dialog.evaluate((sheet) => {
-          sheet.scrollTop = sheet.scrollHeight;
+        await dialog.locator('.sug').evaluate((list) => {
+          list.scrollTop = list.scrollHeight;
         });
-        const last = suggestions.last();
-        const geometry = await last.evaluate((button) => {
-          const sheet = button.closest<HTMLElement>('.sheet')!.getBoundingClientRect();
-          const rect = button.getBoundingClientRect();
-          const hit = document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
-          return {
-            insideSheet: rect.top >= sheet.top && rect.bottom <= sheet.bottom + 0.5,
-            insideViewport: rect.bottom <= window.innerHeight + 0.5,
-            hitTestable: hit !== null && button.contains(hit),
-            documentScrollY: window.scrollY,
-            phoneScrollTop: document.querySelector<HTMLElement>('.reference-phone')!.scrollTop,
-          };
-        });
-        expect(geometry, `${viewport.width}x${viewport.height}`).toEqual({
-          insideSheet: true,
-          insideViewport: true,
-          hitTestable: true,
-          documentScrollY: 0,
-          phoneScrollTop: 0,
-        });
+        const sheet = '[data-screen="explore"][data-screen-active="true"] .reference-modal[data-open="true"] .sheet';
+        expect(
+          {
+            lastSuggestion: await isReachable(page, `${sheet} .sug li:last-child button`, '.sug'),
+            close: await isReachable(page, `${sheet} > .x`, '.sheet'),
+            search: await isReachable(page, `${sheet} .field input`, '.sheet'),
+            shellScroll: await page.evaluate(() => [
+              window.scrollY,
+              document.querySelector<HTMLElement>('.reference-phone')!.scrollTop,
+            ]),
+          },
+          `${viewport.width}x${viewport.height}`,
+        ).toEqual({ lastSuggestion: true, close: true, search: true, shellScroll: [0, 0] });
 
+        const last = suggestions.last();
         await last.click();
         await expect(dialog).toBeHidden();
+      }
+    });
+
+    test('keeps the Food Profile input dialog usable on short viewports', async ({ baseURL }) => {
+      const firstRun = await openPage(browser, baseURL, false);
+      for (const viewport of [
+        { width: 430, height: 400 },
+        { width: 667, height: 375 },
+      ]) {
+        await firstRun.setViewportSize(viewport);
+        await firstRun.goto('/food-profile');
+        const profile = firstRun.locator('[data-screen="food-profile"][data-screen-active="true"]');
+        await profile.getByRole('button', { name: 'はじめる！' }).click();
+        const dialog = profile.getByRole('dialog', { name: '私は...' });
+        await expect(dialog.getByRole('textbox', { name: 'ニックネームを入力' })).toBeFocused();
+
+        const card = '[data-screen="food-profile"][data-screen-active="true"] .profile-input-card';
+        expect(
+          {
+            submit: await isReachable(firstRun, `${card} > .btn`, '.profile-input-modal'),
+            input: await isReachable(firstRun, `${card} input`, '.profile-input-modal'),
+            documentScrollY: await firstRun.evaluate(() => window.scrollY),
+          },
+          `${viewport.width}x${viewport.height}`,
+        ).toEqual({ submit: true, input: true, documentScrollY: 0 });
       }
     });
   });
