@@ -8,9 +8,8 @@ import { JOURNEY_RECORDS } from '../../data/journey-records';
  * filesystem/process APIs, and generator code.
  */
 import type { Locale } from '../../i18n';
-import { strings } from '../../i18n/resources';
 import { PLACES } from '../../data/seed-places';
-import { getSpotDetail, OKUTAMA_STATION_ACCESS } from '../../data/seed-routes';
+import { OKUTAMA_STATION_ACCESS } from '../../data/seed-routes';
 import type {
   DataSource,
   FixedPlace,

@@ -132,26 +132,26 @@ describe('municipalities and data-driven journey presentation (#412)', () => {
       expect(p.resultJourneys.map(({ id }) => id)).toEqual(['demo-okutama-wasabi', 'demo-okutama-yamame']);
       for (const locale of locales) {
         const html = renderToStaticMarkup(createElement(MoguScreen, {
-          active: true, copy: referenceCopy[locale], locale,
+          active: true, copy: referenceCopy(locale), locale,
           onOpenJourney: () => {}, onNavigate: () => {},
         }));
         expect(html).toContain('data-journey-id="synthetic-tachikawa"');
         expect(html).toContain(text[locale]);
         expect(html).toContain('data-verification-status="needs_confirmation"');
         const spotHtml = renderToStaticMarkup(createElement(SpotScreen, {
-          active: true, copy: referenceCopy[locale], locale, spot: p.currentSpots['synthetic-spot'],
+          active: true, copy: referenceCopy(locale), locale, spot: p.currentSpots['synthetic-spot'],
           onBack: () => {}, onNavigate: () => {},
         }));
         expect(spotHtml).toContain('href="https://example.test/tachikawa"');
         expect(spotHtml).toContain('rel="noopener noreferrer"');
-        expect(spotHtml).toContain(p.referenceSpotDetails['synthetic-spot'].caution[0][locale]);
+        expect(spotHtml).toContain(p.referenceSpotDetails['synthetic-spot']!.caution[0][locale]);
         expect(p.storyLocation[synthetic.journey.id][locale].region).toBe(text[locale]);
         expect(p.routeStats['synthetic-tachikawa:half-day'][locale].caution).toBe(text[locale]);
       }
       expect(p.storySpotGroups[synthetic.journey.id].nearby[0].spotId).toBe('synthetic-spot');
       expect(p.routeStepText['synthetic-tachikawa:half-day'][0].spotId).toBe('synthetic-spot');
       expect(p.currentSpots['synthetic-spot'].copy).toEqual(synthetic.spots['synthetic-spot'].presentation.copy);
-      expect(p.referenceSpotDetails['synthetic-spot'].tags.at(-1)?.tagId).toBe('confirmation-pending');
+      expect(p.referenceSpotDetails['synthetic-spot']!.tags.at(-1)?.tagId).toBe('confirmation-pending');
     } finally {
       vi.doUnmock('./journey-records');
       vi.resetModules();
