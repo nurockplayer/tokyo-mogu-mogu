@@ -86,7 +86,7 @@ const synthetic: JourneyRecord = {
     },
     detail: { tags: [], description: text, information: [
       { fieldId: 'official_current_url', icon: 'information', label: text, value: localized(() => source.url) },
-    ], caution: [] },
+    ], caution: [], guide: { title: text, body: text, action: text } },
     officialSource: source,
   } },
   story: { groups: { nearby: [{ referenceId: 'synthetic-spot', spotId: 'synthetic-spot', badge: text, badgeColor: '#E98A1C' }], nature: [] }, location: localized((locale) => ({ region: text[locale], station: '' })) },
