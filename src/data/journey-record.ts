@@ -115,8 +115,9 @@ export function adaptJourneyRecords(records: readonly JourneyRecord[]): JourneyR
       output.routeRegionGuidance[key] = metadata.guidance;
     }
     for (const [spotId, { presentation, detail }] of Object.entries(record.spots)) {
+      const spotPath = `spots.${spotId}`;
       const unconfirmed = Object.keys(record.facts)
-        .filter((path) => path === `spots.${spotId}` || path.startsWith(`spots.${spotId}.`))
+        .filter((path) => path === spotPath || path.startsWith(`${spotPath}.`) || spotPath.startsWith(`${path}.`))
         .some((path) => journeyFactStatus(record, path) !== 'verified');
       if (unconfirmed) {
         if (!detail.tags.some((tag) => tag.tagId === 'confirmation-pending')) {

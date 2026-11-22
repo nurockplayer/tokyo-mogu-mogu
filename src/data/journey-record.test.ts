@@ -101,7 +101,11 @@ describe('municipalities and data-driven journey presentation (#412)', () => {
     expect(new Set(MUNICIPALITIES.map(({ id }) => id)).size).toBe(39);
     expect(['tama-cities', 'nishitama', 'islands'].map((group) => MUNICIPALITIES.filter((item) => item.group === group).length)).toEqual([26, 4, 9]);
     for (const item of MUNICIPALITIES) for (const locale of locales) expect(item.names[locale].trim()).not.toBe('');
-    expect(presentation.currentJourneys).toHaveLength(6);
+    expect(presentation.currentJourneys.map(({ id }) => id)).toEqual(expect.arrayContaining([
+      ...Object.keys(beforeMigration), 'demo-okutama-wasabi', 'demo-okutama-yamame',
+    ]));
+    expect(presentation.currentJourneys.filter(({ id }) => id.startsWith('demo-okutama-')))
+      .toEqual(presentation.resultJourneys);
   });
 
   it.each(Object.entries(beforeMigration))('preserves the complete pre-migration presentation of %s', (id, expected) => {
@@ -118,6 +122,16 @@ describe('municipalities and data-driven journey presentation (#412)', () => {
     expect(output.referenceSpotDetails['synthetic-spot'].tags).toContainEqual(expect.objectContaining({ tagId: 'confirmation-pending' }));
     for (const locale of locales) expect(output.referenceSpotDetails['synthetic-spot'].caution[0][locale]).not.toBe('');
     expect(record.spots['synthetic-spot'].detail.tags).toEqual([]);
+  });
+
+  it('inherits pending Spot evidence from a grouped parent path (#414)', () => {
+    const record = structuredClone(synthetic);
+    delete record.facts['spots.synthetic-spot'];
+    record.facts.spots = { sourceIds: ['official'], origin: 'source' };
+    expect(journeyFactStatus(record, 'spots.synthetic-spot.detail.description')).toBe('needs_confirmation');
+    const detail = adaptJourneyRecords([record]).referenceSpotDetails['synthetic-spot'];
+    expect(detail.tags).toContainEqual(expect.objectContaining({ tagId: 'confirmation-pending' }));
+    for (const locale of locales) expect(detail.caution[0][locale]).not.toBe('');
   });
 
   it('publishes a new record through the real MOGU default list in every locale, with Story, Route and Spot data', async () => {
