@@ -9,7 +9,7 @@ export const b01HachiojiTakaoShojinRecord: JourneyRecord = {
     "storyId": "b01-hachioji-takao-shojin",
     "routeId": "b01-hachioji-takao-shojin-route",
     "copy": {"ja":{"title":"薬王院の精進料理を知る","subtitle":"薬王院の精進料理を知る","description":"季節の食材から高尾山の寺の食文化へ。","tags":["八王子市"],"storyTitle":"薬王院の精進料理を知る","intro":["季節の食材から高尾山の寺の食文化へ。","掲載内容は未確認です。訪問前に出典情報をご確認ください。"]},"en":{"title":"Discover Yakuoin’s shojin cuisine","subtitle":"Discover Yakuoin’s shojin cuisine","description":"Explore temple food culture through seasonal ingredients.","tags":["Hachioji"],"storyTitle":"Discover Yakuoin’s shojin cuisine","intro":["Explore temple food culture through seasonal ingredients.","This information is unconfirmed. Check the source information before visiting."]},"zh-TW":{"title":"認識藥王院的精進料理","subtitle":"認識藥王院的精進料理","description":"從季節食材認識高尾山寺院飲食。","tags":["八王子市"],"storyTitle":"認識藥王院的精進料理","intro":["從季節食材認識高尾山寺院飲食。","刊載內容尚未確認。造訪前請查看出處資訊。"]}},
-    "chapters": {"ja":[{"number":"01.","title":"高尾山薬王院の精進料理","body":"東京都は、薬王院本坊の精進料理を、四季の食材を生かす寺の料理として紹介しています。"}],"en":[{"number":"01.","title":"Yakuoin Buddhist Vegetarian Cuisine","body":"Tokyo’s guide presents Yakuoin Honbo’s shojin cuisine as temple cooking shaped by seasonal ingredients."}],"zh-TW":[{"number":"01.","title":"高尾山薬王院の精進料理","body":"東京都介紹藥王院本坊的精進料理，為運用四季食材的寺院飲食。"}]},
+    "chapters": {"ja":[{"number":"01.","title":"高尾山薬王院の精進料理","body":"東京都は、薬王院本坊の精進料理を、四季の食材を生かす寺の料理として紹介しています。"}],"en":[{"number":"01.","title":"Yakuoin Buddhist Vegetarian Cuisine","body":"Tokyo’s guide presents Yakuoin Honbo’s shojin cuisine as temple cooking shaped by seasonal ingredients."}],"zh-TW":[{"number":"01.","title":"高尾山藥王院精進料理","body":"東京都介紹藥王院本坊的精進料理，為運用四季食材的寺院飲食。"}]},
     "routeVariants": [
       {
         "id": "half-day",

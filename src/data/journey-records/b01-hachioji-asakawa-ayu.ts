@@ -9,7 +9,7 @@ export const b01HachiojiAsakawaAyuRecord: JourneyRecord = {
     "storyId": "b01-hachioji-asakawa-ayu",
     "routeId": "b01-hachioji-asakawa-ayu-route",
     "copy": {"ja":{"title":"浅川とアユの地域文化","subtitle":"浅川とアユの地域文化","description":"市の記録から、アユと川のつながりを読む。","tags":["八王子市"],"storyTitle":"浅川とアユの地域文化","intro":["市の記録から、アユと川のつながりを読む。","掲載内容は未確認です。訪問前に出典情報をご確認ください。"]},"en":{"title":"Asakawa and local ayu culture","subtitle":"Asakawa and local ayu culture","description":"Read the connection between ayu and the river through city documentation.","tags":["Hachioji"],"storyTitle":"Asakawa and local ayu culture","intro":["Read the connection between ayu and the river through city documentation.","This information is unconfirmed. Check the source information before visiting."]},"zh-TW":{"title":"淺川與香魚的地方文化","subtitle":"淺川與香魚的地方文化","description":"從市府記錄認識香魚與河川的關係。","tags":["八王子市"],"storyTitle":"淺川與香魚的地方文化","intro":["從市府記錄認識香魚與河川的關係。","刊載內容尚未確認。造訪前請查看出處資訊。"]}},
-    "chapters": {"ja":[{"number":"01.","title":"浅川のアユ釣り","body":"八王子市は、浅川本流と一部の支流に設定された漁場でのアユ釣りを案内しています。"}],"en":[{"number":"01.","title":"Asakawa River Ayu Fishing","body":"Hachioji City documents ayu fishing in designated reaches of the Asakawa main river and some tributaries."}],"zh-TW":[{"number":"01.","title":"浅川のアユ釣り","body":"八王子市介紹淺川主流及部分支流劃定河段的香魚垂釣。"}]},
+    "chapters": {"ja":[{"number":"01.","title":"浅川のアユ釣り","body":"八王子市は、浅川本流と一部の支流に設定された漁場でのアユ釣りを案内しています。"}],"en":[{"number":"01.","title":"Asakawa River Ayu Fishing","body":"Hachioji City documents ayu fishing in designated reaches of the Asakawa main river and some tributaries."}],"zh-TW":[{"number":"01.","title":"淺川香魚垂釣文化","body":"八王子市介紹淺川主流及部分支流劃定河段的香魚垂釣。"}]},
     "routeVariants": [
       {
         "id": "half-day",
