@@ -128,8 +128,7 @@ describe('municipalities and data-driven journey presentation (#412)', () => {
     }
   });
 
-  it.each(JOURNEY_RECORDS.filter(({ journey }) => journey.id.startsWith('b01-')))
-  ('publishes complete pending data for $journey.id in all locales', (record) => {
+  it.each(JOURNEY_RECORDS.filter(({ journey }) => journey.id.startsWith('b01-')))('publishes complete pending data for $journey.id in all locales', (record) => {
     const output = adaptJourneyRecords([record]);
     expect(output.currentJourneys[0].sourceStatus).toBe('needs_confirmation');
     expect(output.currentJourneys[0].imageAssetId).toBeUndefined();
