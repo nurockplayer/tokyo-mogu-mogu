@@ -118,7 +118,7 @@ export function adaptJourneyRecords(records: readonly JourneyRecord[]): JourneyR
       const spotPath = `spots.${spotId}`;
       const unconfirmed = Object.keys(record.facts)
         .filter((path) => path === spotPath || path.startsWith(`${spotPath}.`) || spotPath.startsWith(`${path}.`))
-        .some((path) => journeyFactStatus(record, path) !== 'verified');
+        .some((path) => journeyFactStatus(record, spotPath.startsWith(`${path}.`) ? spotPath : path) !== 'verified');
       if (unconfirmed) {
         if (!detail.tags.some((tag) => tag.tagId === 'confirmation-pending')) {
           detail.tags.push({ tagId: 'confirmation-pending', color: '#5D9BEF', label: pending });

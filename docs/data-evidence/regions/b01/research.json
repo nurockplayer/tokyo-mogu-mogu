@@ -1,0 +1,2742 @@
+{
+ "batch": "b01",
+ "researched_at": "2026-11-22",
+ "municipalities": [
+  {
+   "id": "hachioji",
+   "name_ja": "八王子市",
+   "food_cultures": [
+    {
+     "name_ja": "高倉ダイコン",
+     "name_en": "Takakura Daikon",
+     "kind": "crop",
+     "summary_en": "An Edo-Tokyo heritage radish developed in Hachioji's Takakura area around 1920. Its traditional use in takuan pickles connects local farming with the city's historic textile industry.",
+     "facts": [
+      {
+       "claim_en": "Takakura Daikon originated in Hachioji's Takakura area and became especially valued for making takuan pickles.",
+       "source_url": "https://www.tokyo-ja.or.jp/farm/edo/04.php",
+       "source_title": "高倉ダイコン",
+       "publisher": "JA Tokyo Chuokai"
+      },
+      {
+       "claim_en": "The radish helped supply pickled side dishes for workers in Hachioji's textile factories.",
+       "source_url": "https://www.tokyo-ja.or.jp/farm/edo/04.php",
+       "source_title": "高倉ダイコン",
+       "publisher": "JA Tokyo Chuokai"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "道の駅八王子滝山",
+       "name_en": "Michi-no-Eki Hachioji Takiyama",
+       "relation_en": "A local agricultural marketplace for exploring Hachioji produce; availability of this particular heritage radish requires confirmation.",
+       "address_ja": "東京都八王子市滝山町1-592-2",
+       "official_url": "https://hkc.or.jp/facility/detail.php?id=142",
+       "source_url": "https://hkc.or.jp/facility/detail.php?id=142"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "JA八王子",
+       "relation_en": "Local agricultural cooperative identified by JA Tokyo as serving the radish's production area.",
+       "source_url": "https://www.tokyo-ja.or.jp/farm/edo/04.php"
+      }
+     ],
+     "season_en": "Late autumn to early winter.",
+     "confidence": "high",
+     "notes_en": "A heritage cultivar with limited production; the market is a useful agricultural stop, not a confirmed year-round seller of this variety."
+    },
+    {
+     "name_ja": "川口エンドウ",
+     "name_en": "Kawaguchi Pea",
+     "kind": "crop",
+     "summary_en": "A heritage pea associated with northwestern Hachioji's former Kawaguchi village. Its rise and decline illustrate how urbanization changed local vegetable production.",
+     "facts": [
+      {
+       "claim_en": "Kawaguchi peas were formerly cultivated around present-day Narahara, Inume, Kawaguchi, Kamikawa, and Miyama in Hachioji.",
+       "source_url": "https://www.tokyo-ja.or.jp/farm/edo/45.php",
+       "source_title": "川口エンドウ",
+       "publisher": "JA Tokyo Chuokai"
+      },
+      {
+       "claim_en": "Production was promoted by the Kawaguchi agricultural cooperative in the 1950s and 1960s, before declining as farmland became residential land.",
+       "source_url": "https://www.tokyo-ja.or.jp/farm/edo/45.php",
+       "source_title": "川口エンドウ",
+       "publisher": "JA Tokyo Chuokai"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "JA八王子",
+       "relation_en": "Agricultural cooperative associated with the heritage pea's former production region.",
+       "source_url": "https://www.tokyo-ja.or.jp/farm/edo/45.php"
+      }
+     ],
+     "season_en": "Late spring.",
+     "confidence": "high",
+     "notes_en": "Historical significance is firmly documented, but a currently accessible grower or reliable retail outlet was not verified."
+    },
+    {
+     "name_ja": "八王子ショウガ",
+     "name_en": "Hachioji Ginger",
+     "kind": "crop",
+     "summary_en": "A locally preserved ginger variety with a milder bite and tender texture. It also belongs to the city's autumn shrine-festival food traditions.",
+     "facts": [
+      {
+       "claim_en": "Hachioji Ginger has been maintained by successive growers for more than eight decades and is cultivated in several Hachioji neighborhoods.",
+       "source_url": "https://www.tokyo-ja.or.jp/farm/edo/41.php",
+       "source_title": "八王子ショウガ",
+       "publisher": "JA Tokyo Chuokai"
+      },
+      {
+       "claim_en": "The ginger is offered at the Eifuku Inari Shrine festival as a wish for good health.",
+       "source_url": "https://www.tokyo-ja.or.jp/farm/edo/41.php",
+       "source_title": "八王子ショウガ",
+       "publisher": "JA Tokyo Chuokai"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "道の駅八王子滝山",
+       "name_en": "Michi-no-Eki Hachioji Takiyama",
+       "relation_en": "A documented sales outlet for Hachioji Ginger.",
+       "address_ja": "東京都八王子市滝山町1-592-2",
+       "official_url": "https://hkc.or.jp/facility/detail.php?id=142",
+       "source_url": "https://www.tokyo-ja.or.jp/farm/edo/41.php"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "JA八王子",
+       "relation_en": "Cooperative distributing this local heritage ginger.",
+       "source_url": "https://www.tokyo-ja.or.jp/farm/edo/41.php"
+      }
+     ],
+     "season_en": "Late summer to early autumn.",
+     "confidence": "high",
+     "notes_en": "The festival connection is historical and cultural; no specific future event arrangements are asserted."
+    },
+    {
+     "name_ja": "八王子パッションフルーツ",
+     "name_en": "Hachioji Passion Fruit",
+     "kind": "crop",
+     "summary_en": "A comparatively new local specialty grown by Hachioji farmers. The project deliberately links agriculture, confectioners, food processors, and neighborhood shops.",
+     "facts": [
+      {
+       "claim_en": "Young agricultural successors established a Hachioji passion-fruit growers' association in 2013 to develop the fruit as a local specialty.",
+       "source_url": "https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/001/001/p024147.html",
+       "source_title": "八王子パッションフルーツ",
+       "publisher": "Hachioji City"
+      },
+      {
+       "claim_en": "The growers collaborate with local restaurants and confectioners to develop foods using Hachioji-grown passion fruit.",
+       "source_url": "https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/001/001/p024147.html",
+       "source_title": "八王子パッションフルーツ",
+       "publisher": "Hachioji City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "JA八王子 ふれあい市場",
+       "name_en": "JA Hachioji Fureai Market",
+       "relation_en": "Growers' listed outlet for seasonal fresh passion fruit and related processed products.",
+       "address_ja": "東京都八王子市大和田町5-15-3",
+       "official_url": "https://hachioji-passion.tokyo/shop/",
+       "source_url": "https://hachioji-passion.tokyo/shop/"
+      },
+      {
+       "name_ja": "JA八王子 園芸センター",
+       "name_en": "JA Hachioji Gardening Center",
+       "relation_en": "Another officially listed sales point for the fruit and its processed products.",
+       "address_ja": "東京都八王子市犬目町478-2",
+       "official_url": "https://hachioji-passion.tokyo/shop/",
+       "source_url": "https://hachioji-passion.tokyo/shop/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "八王子パッションフルーツ生産組合",
+       "relation_en": "Local producer organization developing and promoting the fruit.",
+       "source_url": "https://hachioji-passion.tokyo/shop/"
+      }
+     ],
+     "season_en": "Summer, with fresh fruit sold seasonally.",
+     "confidence": "high",
+     "notes_en": "Fresh fruit and processed products have different seasonal availability."
+    },
+    {
+     "name_ja": "八王子パッションフルーツ加工品",
+     "name_en": "Hachioji Passion-Fruit Drinks, Jam, and Wine",
+     "kind": "brand",
+     "summary_en": "Local passion fruit is transformed into fruit drinks, jam, wine, and other products. These products extend the farming project into a recognizable regional food brand.",
+     "facts": [
+      {
+       "claim_en": "The growers' association documents passion-fruit juice drinks, premium jam, and passion-fruit wine marketed through local producers and JA Hachioji.",
+       "source_url": "https://hachioji-passion.tokyo/kakouhin/",
+       "source_title": "加工品のご紹介",
+       "publisher": "Hachioji Passion Fruit Growers Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "JA八王子 ふれあい市場",
+       "name_en": "JA Hachioji Fureai Market",
+       "relation_en": "The growers identify this market as an outlet for passion-fruit drinks, jam, and wine.",
+       "address_ja": "東京都八王子市大和田町5-15-3",
+       "official_url": "https://hachioji-passion.tokyo/shop/",
+       "source_url": "https://hachioji-passion.tokyo/shop/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "八王子パッションフルーツ生産組合",
+       "relation_en": "Producer group behind the processed-fruit project.",
+       "source_url": "https://hachioji-passion.tokyo/kakouhin/"
+      },
+      {
+       "name_ja": "JA八王子",
+       "relation_en": "Distributor identified for selected drinks and wines.",
+       "source_url": "https://hachioji-passion.tokyo/kakouhin/"
+      }
+     ],
+     "season_en": "Processed products are not necessarily restricted to the fresh-fruit season.",
+     "confidence": "high",
+     "notes_en": "The cultivation origin is Hachioji; the sources do not establish that every processing stage occurs within the municipality."
+    },
+    {
+     "name_ja": "桑・桑の葉茶・桑の実加工品",
+     "name_en": "Mulberry, Mulberry-Leaf Tea, and Mulberry Products",
+     "kind": "crop",
+     "summary_en": "Mulberry is inseparable from Hachioji's history as a center of silk production. Its leaves and berries also underpin local teas, sweets, preserves, and drinks.",
+     "facts": [
+      {
+       "claim_en": "Hachioji is known as Sōto, the Mulberry Capital, because of its long connection with sericulture and textiles.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_69.html",
+       "source_title": "桑",
+       "publisher": "Tokyo Metropolitan Government"
+      },
+      {
+       "claim_en": "Mulberry leaves are used as tea and food, while berries are processed into jam, cider, and wine.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_69.html",
+       "source_title": "桑",
+       "publisher": "Tokyo Metropolitan Government"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "道の駅八王子滝山",
+       "name_en": "Michi-no-Eki Hachioji Takiyama",
+       "relation_en": "A local-products destination also identified in metropolitan documentation of mulberry sweets.",
+       "address_ja": "東京都八王子市滝山町1-592-2",
+       "official_url": "https://hkc.or.jp/facility/detail.php?id=142",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_69.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "Mulberry berries are seasonal; tea and processed goods may be available beyond harvest.",
+     "confidence": "high",
+     "notes_en": "The historical association is stronger than any claim that all mulberry-based products use ingredients grown within today's city limits."
+    },
+    {
+     "name_ja": "桑の葉ろーる・桑の葉まんじゅう",
+     "name_en": "Mulberry-Leaf Roll Cake and Manju",
+     "kind": "sweet",
+     "summary_en": "These confections turn Hachioji's silk-industry emblem into edible local souvenirs.",
+     "facts": [
+      {
+       "claim_en": "The Matsuhime confectionery lists mulberry-leaf roll cake and mulberry-leaf manju among its Hachioji products.",
+       "source_url": "https://www.matuhime.co.jp/tennpo.html",
+       "source_title": "松姫 店舗情報",
+       "publisher": "Matsuhime"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "松姫本店",
+       "name_en": "Matsuhime Main Shop",
+       "relation_en": "Local confectionery producing and distributing mulberry-leaf sweets.",
+       "address_ja": "東京都八王子市明神町3-11-15",
+       "official_url": "https://matuhime.co.jp/",
+       "source_url": "https://www.matuhime.co.jp/tennpo.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "松姫",
+       "relation_en": "Hachioji confectioner making mulberry-themed sweets.",
+       "source_url": "https://www.matuhime.co.jp/tennpo.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The products reflect local history; the origin of every ingredient is not specified."
+    },
+    {
+     "name_ja": "八王子産米・高月清流米",
+     "name_en": "Hachioji Rice and Takatsuki Seiryumai",
+     "kind": "crop",
+     "summary_en": "Rice growing remains part of Hachioji's agriculture and supplies a modern local sake project.",
+     "facts": [
+      {
+       "claim_en": "Hachioji includes rice-growing agricultural districts.",
+       "source_url": "https://www.city.hachioji.tokyo.jp/hachioji-kids/004/005/p020557.html",
+       "source_title": "八王子産の農作物",
+       "publisher": "Hachioji City"
+      },
+      {
+       "claim_en": "Hachioji-grown sake rice and Takatsuki Seiryumai rice are used for the Takao no Tengu sake label.",
+       "source_url": "https://maihime.co.jp/products/takao/",
+       "source_title": "髙尾の天狗",
+       "publisher": "Maihime"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "道の駅八王子滝山",
+       "name_en": "Michi-no-Eki Hachioji Takiyama",
+       "relation_en": "A city agricultural-products destination suitable for learning about local rice and farming; any particular rice variety's presence is unverified.",
+       "address_ja": "東京都八王子市滝山町1-592-2",
+       "official_url": "https://hkc.or.jp/facility/detail.php?id=142",
+       "source_url": "https://hkc.or.jp/facility/detail.php?id=142"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "Hachi-Project&TOKYO",
+       "relation_en": "Community project connecting local rice cultivation with sake making.",
+       "source_url": "https://maihime.co.jp/products/takao/"
+      }
+     ],
+     "season_en": "Autumn rice harvest.",
+     "confidence": "high",
+     "notes_en": "The Takao no Tengu sake producer is based in Nagano; Hachioji's contribution is its rice and community project."
+    },
+    {
+     "name_ja": "恩方のブルーベリー・リンゴ・イチゴ",
+     "name_en": "Ongata Blueberries, Apples, and Strawberries",
+     "kind": "crop",
+     "summary_en": "Hachioji's Ongata district has a distinctive fruit-growing profile within the city's broader agricultural landscape.",
+     "facts": [
+      {
+       "claim_en": "Hachioji City identifies blueberries, apples, and strawberries as crops grown in the Ongata district.",
+       "source_url": "https://www.city.hachioji.tokyo.jp/hachioji-kids/004/005/p020557.html",
+       "source_title": "八王子産の農作物",
+       "publisher": "Hachioji City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "道の駅八王子滝山",
+       "name_en": "Michi-no-Eki Hachioji Takiyama",
+       "relation_en": "Citywide local-produce marketplace; specific Ongata fruit availability is not confirmed.",
+       "address_ja": "東京都八王子市滝山町1-592-2",
+       "official_url": "https://hkc.or.jp/facility/detail.php?id=142",
+       "source_url": "https://hkc.or.jp/facility/detail.php?id=142"
+      }
+     ],
+     "makers": [],
+     "season_en": "Fruit-dependent; strawberries generally precede summer blueberries and autumn apples.",
+     "confidence": "high",
+     "notes_en": "The source establishes cultivation by district, not an individual orchard visit."
+    },
+    {
+     "name_ja": "八王子産シイタケ",
+     "name_en": "Hachioji Shiitake Mushrooms",
+     "kind": "crop",
+     "summary_en": "Shiitake growing is documented in several parts of Hachioji and offers a forest-to-table connection within the municipality.",
+     "facts": [
+      {
+       "claim_en": "Hachioji lists shiitake cultivation in the Kazumi, Motohachioji, and Yugi agricultural districts.",
+       "source_url": "https://www.city.hachioji.tokyo.jp/hachioji-kids/004/005/p020557.html",
+       "source_title": "八王子産の農作物",
+       "publisher": "Hachioji City"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "No specific publicly accessible mushroom grower or tasting experience was confirmed."
+    },
+    {
+     "name_ja": "八王子の酪農・地元ミルクアイス",
+     "name_en": "Hachioji Dairy Farming and Local Milk Ice Cream",
+     "kind": "brand",
+     "summary_en": "Hachioji's dairy production supports a local-food experience at its roadside station, including ice cream associated with local milk.",
+     "facts": [
+      {
+       "claim_en": "The city identifies cattle farming among its agricultural activities.",
+       "source_url": "https://www.city.hachioji.tokyo.jp/hachioji-kids/004/005/p020557.html",
+       "source_title": "八王子産の農作物",
+       "publisher": "Hachioji City"
+      },
+      {
+       "claim_en": "The roadside station's MO-MO ice-cream outlet is presented as a place to enjoy milk-based local products.",
+       "source_url": "https://hkc.or.jp/facility/detail.php?id=142",
+       "source_title": "道の駅八王子滝山",
+       "publisher": "Hachioji Tourism and Convention Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ミルクアイスMO-MO",
+       "name_en": "Milk Ice MO-MO",
+       "relation_en": "Milk-ice-cream outlet at the Hachioji Takiyama roadside station.",
+       "address_ja": "東京都八王子市滝山町1-592-2",
+       "official_url": "",
+       "source_url": "https://hkc.or.jp/facility/detail.php?id=142"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "東京X",
+     "name_en": "Tokyo X Pork",
+     "kind": "brand",
+     "summary_en": "Hachioji participates in the production geography of Tokyo's branded pork, linking the municipality to metropolitan livestock food culture.",
+     "facts": [
+      {
+       "claim_en": "The Tokyo Metropolitan Government identifies Hachioji among the places raising Tokyo X pigs.",
+       "source_url": "https://www.kodomokoho.metro.tokyo.lg.jp/article/202408-3/",
+       "source_title": "東京産食材を知って、おいしく食べよう！",
+       "publisher": "Tokyo Metropolitan Government"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Tokyo X is a metropolitan brand, not exclusive to Hachioji."
+    },
+    {
+     "name_ja": "かてめし（糅飯）",
+     "name_en": "Katameshi Mixed Rice",
+     "kind": "dish",
+     "summary_en": "A traditional Hachioji mixed-rice dish once prepared when many people gathered. It reflects everyday farming ingredients and ceremonial hospitality.",
+     "facts": [
+      {
+       "claim_en": "Hachioji's municipal food-culture documentation identifies katameshi as a local celebratory mixed-rice preparation using ingredients such as vegetables, sweet potatoes, and seasonal produce.",
+       "source_url": "https://www.city.hachioji.tokyo.jp/kurashi/hoken/007/az003/p002723_d/fil/3-2.pdf",
+       "source_title": "第3章 食をめぐる現状",
+       "publisher": "Hachioji City"
+      },
+      {
+       "claim_en": "Japan's Agency for Cultural Affairs recognizes katameshi within the Sōto-Hachioji local-food heritage project.",
+       "source_url": "https://www.bunka.go.jp/seisaku/shokubunka/foodculture/hyakunenfood/jirei/list_sa.html",
+       "source_title": "全国各地の100年フード",
+       "publisher": "Agency for Cultural Affairs"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "八王子市教育委員会",
+       "relation_en": "Local organization preserving and teaching this food heritage through educational activities.",
+       "source_url": "https://www.bunka.go.jp/seisaku/shokubunka/foodculture/hyakunenfood/jirei/list_sa.html"
+      }
+     ],
+     "season_en": "Historically associated with gatherings and seasonal ingredients.",
+     "confidence": "high",
+     "notes_en": "This is a documented heritage dish; regular public restaurant availability was not established."
+    },
+    {
+     "name_ja": "やきごめ",
+     "name_en": "Yakigome Soybean Sticky Rice",
+     "kind": "dish",
+     "summary_en": "A local preparation of sticky rice and soybeans historically connected with festivals and wishes for protection from illness.",
+     "facts": [
+      {
+       "claim_en": "Hachioji's traditional-food survey records yakigome as soybean-containing sticky rice associated with fairs and festivals.",
+       "source_url": "https://www.city.hachioji.tokyo.jp/kurashi/hoken/007/az003/p002723_d/fil/3-2.pdf",
+       "source_title": "第3章 食をめぐる現状",
+       "publisher": "Hachioji City"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Traditionally festival-related.",
+     "confidence": "high",
+     "notes_en": "Documented as historical food culture, not as a currently verified commercial dish."
+    },
+    {
+     "name_ja": "煮だんご",
+     "name_en": "Nidango Flour-Dumpling Soup",
+     "kind": "dish",
+     "summary_en": "A homestyle dish of flour dumplings cooked in liquid, related to the broader Japanese suiton tradition.",
+     "facts": [
+      {
+       "claim_en": "Hachioji's municipal food-culture materials identify nidango as a traditional everyday dish resembling suiton.",
+       "source_url": "https://www.city.hachioji.tokyo.jp/kurashi/hoken/007/az003/p002723_d/fil/3-2.pdf",
+       "source_title": "第3章 食をめぐる現状",
+       "publisher": "Hachioji City"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "No independently confirmed restaurant serving this heritage dish was found."
+    },
+    {
+     "name_ja": "煮こみ",
+     "name_en": "Nikomi Simmered Udon",
+     "kind": "dish",
+     "summary_en": "A traditional simmered-udon dish reflecting the importance of wheat-based home cooking in historical Hachioji.",
+     "facts": [
+      {
+       "claim_en": "The city's food-history survey lists nikomi, or simmered udon, among Hachioji's traditional everyday foods.",
+       "source_url": "https://www.city.hachioji.tokyo.jp/kurashi/hoken/007/az003/p002723_d/fil/3-2.pdf",
+       "source_title": "第3章 食をめぐる現状",
+       "publisher": "Hachioji City"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The source documents the traditional dish rather than a particular establishment."
+    },
+    {
+     "name_ja": "石垣だんご",
+     "name_en": "Ishigaki Dango Sweet-Potato Dumplings",
+     "kind": "sweet",
+     "summary_en": "A traditional steamed snack made with diced sweet potato embedded in sweetened flour dough. Its appearance evokes a stone wall.",
+     "facts": [
+      {
+       "claim_en": "Hachioji identifies ishigaki dango as an old snack combining small cubes of sweet potato with sweetened wheat dough.",
+       "source_url": "https://www.city.hachioji.tokyo.jp/kurashi/hoken/007/az003/p002723_d/fil/3-2.pdf",
+       "source_title": "第3章 食をめぐる現状",
+       "publisher": "Hachioji City"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Historic household food; present-day retail availability was not verified."
+    },
+    {
+     "name_ja": "たらし焼き",
+     "name_en": "Tarashiyaki Wheat Pancake",
+     "kind": "dish",
+     "summary_en": "A simple local snack made by pouring wheat-flour batter onto a hot surface and cooking it like a small pancake.",
+     "facts": [
+      {
+       "claim_en": "The municipal account describes tarashiyaki as a wheat-flour batter cooked on a griddle and traditionally eaten with soy sauce.",
+       "source_url": "https://www.city.hachioji.tokyo.jp/kurashi/hoken/007/az003/p002723_d/fil/3-2.pdf",
+       "source_title": "第3章 食をめぐる現状",
+       "publisher": "Hachioji City"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Documented as a heritage snack rather than a verified current menu item."
+    },
+    {
+     "name_ja": "桑都焼き",
+     "name_en": "Sōtoyaki Mulberry-Leaf Dish",
+     "kind": "dish",
+     "summary_en": "A modern local heritage dish featuring mulberry leaves, connecting Hachioji's food education with its silk-producing history.",
+     "facts": [
+      {
+       "claim_en": "The Agency for Cultural Affairs recognizes Sōtoyaki as part of Hachioji's Sōto heritage-food initiative, alongside katameshi.",
+       "source_url": "https://www.bunka.go.jp/seisaku/shokubunka/foodculture/hyakunenfood/jirei/list_sa.html",
+       "source_title": "全国各地の100年フード",
+       "publisher": "Agency for Cultural Affairs"
+      },
+      {
+       "claim_en": "Hachioji's school-meal program helps transmit dishes based on locally significant foods, including mulberry leaves.",
+       "source_url": "https://www.bunka.go.jp/seisaku/shokubunka/foodculture/hyakunenfood/jirei/list_sa.html",
+       "source_title": "全国各地の100年フード",
+       "publisher": "Agency for Cultural Affairs"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "八王子市教育委員会",
+       "relation_en": "Food-heritage preservation and school-meal education.",
+       "source_url": "https://www.bunka.go.jp/seisaku/shokubunka/foodculture/hyakunenfood/jirei/list_sa.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Its documented role is educational and cultural; a public restaurant or visitor tasting was not independently confirmed."
+    },
+    {
+     "name_ja": "八王子ラーメン",
+     "name_en": "Hachioji Ramen",
+     "kind": "dish",
+     "summary_en": "A regional ramen style defined by soy-based seasoning, a layer of lard, and chopped onion. Its local history is traced to an inventive noodle shop in 1959.",
+     "facts": [
+      {
+       "claim_en": "The Hachimenkai local ramen association defines Hachioji ramen by soy-based seasoning, lard covering the soup surface, and chopped onion.",
+       "source_url": "https://hachimen.org/",
+       "source_title": "八麺会",
+       "publisher": "Hachimenkai"
+      },
+      {
+       "claim_en": "Hachimenkai traces the style's origin to a Hachioji ramen specialist established in 1959.",
+       "source_url": "https://hachimen.org/about/",
+       "source_title": "八王子ラーメンとは",
+       "publisher": "Hachimenkai"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "八麺会",
+       "relation_en": "Community association documenting and promoting the city's ramen tradition and participating shops.",
+       "source_url": "https://hachimen.org/"
+      }
+     ],
+     "season_en": "Year-round.",
+     "confidence": "high",
+     "notes_en": "The association provides a shop map, but no individual ramen business was selected without verifying a current visit location."
+    },
+    {
+     "name_ja": "八王子ナポリタン",
+     "name_en": "Hachioji Napolitan",
+     "kind": "dish",
+     "summary_en": "A local adaptation of Japanese-style Napolitan spaghetti emphasizing Hachioji-grown ingredients and chopped onion.",
+     "facts": [
+      {
+       "claim_en": "Hachioji's municipal food-history document identifies Hachioji Napolitan as a newer regional specialty following the city's established ramen culture.",
+       "source_url": "https://www.city.hachioji.tokyo.jp/kurashi/hoken/007/az003/p002723_d/fil/3-2.pdf",
+       "source_title": "第3章 食をめぐる現状",
+       "publisher": "Hachioji City"
+      },
+      {
+       "claim_en": "The local Napolitan style uses chopped onion and ingredients produced in Hachioji.",
+       "source_url": "https://hachioji.keizai.biz/index.php/headline/4352/",
+       "source_title": "「八王子ナポリタン」をカプセルトイ化、期間限定販売　法政大生と協働",
+       "publisher": "Hachioji Keizai Shimbun"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "八王子ナポリタン倶楽部",
+       "relation_en": "Local organization promoting and recognizing participating Hachioji Napolitan establishments.",
+       "source_url": "https://hachioji.keizai.biz/index.php/headline/4352/"
+      }
+     ],
+     "season_en": "Year-round.",
+     "confidence": "high",
+     "notes_en": "A regional recipe and promotion movement rather than a single restaurant."
+    },
+    {
+     "name_ja": "高尾山のとろろそば",
+     "name_en": "Mount Takao Tororo Soba",
+     "kind": "dish",
+     "summary_en": "Grated-yam soba is a long-established food associated with pilgrims, hikers, and the mountain approach to Mount Takao.",
+     "facts": [
+      {
+       "claim_en": "The Tokyo Metropolitan Government identifies grated-yam soba as a Mount Takao specialty associated with nourishment for people climbing the mountain.",
+       "source_url": "https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/toritu/meiji/tourism.html",
+       "source_title": "明治の森高尾の観光",
+       "publisher": "Tokyo Metropolitan Government Bureau of Environment"
+      },
+      {
+       "claim_en": "The local tourism association identifies Momijiya Honten and Takahashiya as established Mount Takao soba businesses.",
+       "source_url": "https://www.hkc.or.jp/takaosan/feature.php",
+       "source_title": "高尾山の見どころ",
+       "publisher": "Hachioji Tourism and Convention Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "紅葉屋本店",
+       "name_en": "Momijiya Honten",
+       "relation_en": "Historic tororo-soba shop on the Mount Takao approach.",
+       "address_ja": "東京都八王子市高尾町2208",
+       "official_url": "",
+       "source_url": "https://www.hkc.or.jp/takaosan/feature.php"
+      },
+      {
+       "name_ja": "髙橋家",
+       "name_en": "Takahashiya",
+       "relation_en": "Long-established soba restaurant offering its own grated-yam preparation.",
+       "address_ja": "東京都八王子市高尾町2209",
+       "official_url": "",
+       "source_url": "https://www.hkc.or.jp/takaosan/feature.php"
+      }
+     ],
+     "makers": [],
+     "season_en": "Year-round regional specialty.",
+     "confidence": "high",
+     "notes_en": "The yam is part of the dish's identity; these sources do not establish that every shop uses Hachioji-grown yam."
+    },
+    {
+     "name_ja": "高尾山薬王院の精進料理",
+     "name_en": "Yakuoin Buddhist Vegetarian Cuisine",
+     "kind": "dish",
+     "summary_en": "Vegetarian temple cuisine connects Mount Takao's religious history with seasonal cooking and the culture of mountain pilgrimage.",
+     "facts": [
+      {
+       "claim_en": "The Tokyo Metropolitan Government documents Buddhist vegetarian meals at Mount Takao's Yakuoin temple, with menus emphasizing seasonal ingredients.",
+       "source_url": "https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/toritu/meiji/tourism.html",
+       "source_title": "明治の森高尾の観光",
+       "publisher": "Tokyo Metropolitan Government Bureau of Environment"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "髙尾山薬王院",
+       "name_en": "Mount Takao Yakuoin Temple",
+       "relation_en": "Buddhist temple associated with the mountain's shojin-ryori tradition.",
+       "address_ja": "東京都八王子市高尾町",
+       "official_url": "",
+       "source_url": "https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/toritu/meiji/tourism.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "髙尾山薬王院",
+       "relation_en": "Temple maintaining the regional vegetarian-dining tradition.",
+       "source_url": "https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/toritu/meiji/tourism.html"
+      }
+     ],
+     "season_en": "Seasonal menus.",
+     "confidence": "high",
+     "notes_en": "Food culture is established; no current visitor dining arrangements are asserted."
+    },
+    {
+     "name_ja": "天狗焼",
+     "name_en": "Tenguyaki",
+     "kind": "sweet",
+     "summary_en": "A tengu-shaped Mount Takao sweet filled with black-bean paste, drawing on the mountain's religious folklore.",
+     "facts": [
+      {
+       "claim_en": "Takao Tozan Railway identifies tenguyaki as a Mount Takao specialty with black-bean filling.",
+       "source_url": "https://www.takaotozan.co.jp/sp/food/",
+       "source_title": "食べる",
+       "publisher": "Takao Tozan Railway"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "高尾山スミカ",
+       "name_en": "Takaosan Sumika",
+       "relation_en": "Named Mount Takao outlet for tenguyaki.",
+       "address_ja": "東京都八王子市高尾町2181",
+       "official_url": "https://www.takaotozan.co.jp/sp/food/",
+       "source_url": "https://www.hkc.or.jp/takaosan/feature.php"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "高尾登山電鉄株式会社",
+       "relation_en": "Operator promoting and selling the Mount Takao sweet.",
+       "source_url": "https://www.takaotozan.co.jp/sp/food/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A place-linked confection rather than a claim of exclusively local agricultural ingredients."
+    },
+    {
+     "name_ja": "東京三福だんご",
+     "name_en": "Tokyo Mitsufuku Dango",
+     "kind": "sweet",
+     "summary_en": "A charcoal-grilled dumpling that combines Hachioji rice's sake-making by-product with Tokyo-style walnut miso glaze.",
+     "facts": [
+      {
+       "claim_en": "The dumpling dough uses rice flour generated during the production of Takao no Tengu sake from Hachioji-grown rice.",
+       "source_url": "https://www.takaotozan.co.jp/sp/food/",
+       "source_title": "食べる",
+       "publisher": "Takao Tozan Railway"
+      },
+      {
+       "claim_en": "Its walnut-miso glaze uses Edo-style sweet miso associated with Tokyo food production.",
+       "source_url": "https://www.takaotozan.co.jp/sp/food/",
+       "source_title": "食べる",
+       "publisher": "Takao Tozan Railway"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "高尾山スミカ",
+       "name_en": "Takaosan Sumika",
+       "relation_en": "Mountain destination serving the locally connected dango.",
+       "address_ja": "東京都八王子市高尾町2181",
+       "official_url": "https://www.takaotozan.co.jp/sp/food/",
+       "source_url": "https://www.hkc.or.jp/takaosan/feature.php"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "高尾登山電鉄株式会社",
+       "relation_en": "Operator and seller of the local dango specialty.",
+       "source_url": "https://www.takaotozan.co.jp/sp/food/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A particularly strong example of a connected farming, sake, and confectionery story."
+    },
+    {
+     "name_ja": "松姫もなか",
+     "name_en": "Matsuhime Monaka",
+     "kind": "sweet",
+     "summary_en": "A named Hachioji monaka confection associated with the city's Matsuhime heritage and sold by a local sweets maker.",
+     "facts": [
+      {
+       "claim_en": "Matsuhime produces and sells Matsuhime Monaka as a signature Hachioji confection.",
+       "source_url": "https://matuhime.co.jp/",
+       "source_title": "八王子松姫～松姫もなか",
+       "publisher": "Matsuhime"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "松姫本店",
+       "name_en": "Matsuhime Main Shop",
+       "relation_en": "Main shop of the confectioner associated with the local Matsuhime monaka.",
+       "address_ja": "東京都八王子市明神町3-11-15",
+       "official_url": "https://matuhime.co.jp/",
+       "source_url": "https://www.matuhime.co.jp/tennpo.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "松姫",
+       "relation_en": "Hachioji confectionery producing the named sweet.",
+       "source_url": "https://matuhime.co.jp/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "都まんじゅう",
+     "name_en": "Miyako Manju",
+     "kind": "sweet",
+     "summary_en": "A longstanding Hachioji souvenir sweet made with a soft cake-like exterior and white-bean filling.",
+     "facts": [
+      {
+       "claim_en": "Hachioji's tourism information presents Tsuruya Seika's Miyako Manju as a local sweet loved for more than six decades.",
+       "source_url": "https://hachioji-mice.org/hachioji/gift/8ee1ccb6de330aa2a69f126cff4a3ca7cfe03c40.html",
+       "source_title": "都まんじゅう",
+       "publisher": "Hachioji MICE Guide"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "つるや製菓",
+       "name_en": "Tsuruya Seika",
+       "relation_en": "Established local maker and shop selling Miyako Manju.",
+       "address_ja": "東京都八王子市旭町7-8",
+       "official_url": "",
+       "source_url": "https://hachioji-mice.org/hachioji/gift/8ee1ccb6de330aa2a69f126cff4a3ca7cfe03c40.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "つるや製菓",
+       "relation_en": "Confectioner making the signature Hachioji sweet.",
+       "source_url": "https://hachioji-mice.org/hachioji/gift/8ee1ccb6de330aa2a69f126cff4a3ca7cfe03c40.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "八王子パッションフルーツどら焼き・洋菓子",
+     "name_en": "Hachioji Passion-Fruit Dorayaki and Pastries",
+     "kind": "sweet",
+     "summary_en": "Confectioners use Hachioji passion fruit in inventive desserts, including fruit-and-mango dorayaki and tart-style pastries.",
+     "facts": [
+      {
+       "claim_en": "The growers' association identifies a passion-fruit-and-mango dorayaki developed by Dorayaki Manyo.",
+       "source_url": "https://hachioji-passion.tokyo/kakouhin/",
+       "source_title": "加工品のご紹介",
+       "publisher": "Hachioji Passion Fruit Growers Association"
+      },
+      {
+       "claim_en": "The association also lists passion-fruit pastries developed with local confectioners, including Patisserie Maison Douce.",
+       "source_url": "https://hachioji-passion.tokyo/kakouhin/",
+       "source_title": "加工品のご紹介",
+       "publisher": "Hachioji Passion Fruit Growers Association"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "どらやき万叶",
+       "relation_en": "Confectioner developing a Hachioji passion-fruit dorayaki.",
+       "source_url": "https://hachioji-passion.tokyo/kakouhin/"
+      },
+      {
+       "name_ja": "パティスリーメゾンドゥース",
+       "relation_en": "Pastry maker using locally grown passion fruit.",
+       "source_url": "https://hachioji-passion.tokyo/kakouhin/"
+      }
+     ],
+     "season_en": "Product-dependent.",
+     "confidence": "high",
+     "notes_en": "Specific confectionery storefront addresses were not independently verified."
+    },
+    {
+     "name_ja": "髙尾の天狗",
+     "name_en": "Takao no Tengu Sake",
+     "kind": "drink",
+     "summary_en": "A sake label connecting Hachioji rice farmers with Mount Takao's tengu imagery and a community revitalization project.",
+     "facts": [
+      {
+       "claim_en": "Takao no Tengu uses sake rice and Takatsuki rice grown by contracted farmers in Hachioji.",
+       "source_url": "https://maihime.co.jp/products/takao/",
+       "source_title": "髙尾の天狗",
+       "publisher": "Maihime"
+      },
+      {
+       "claim_en": "Its branding features calligraphy from a Yakuoin temple leader, and the Hachi-Project community initiative began in 2014.",
+       "source_url": "https://maihime.co.jp/products/takao/",
+       "source_title": "髙尾の天狗",
+       "publisher": "Maihime"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "株式会社舞姫",
+       "relation_en": "Nagano-based sake producer using Hachioji-grown rice.",
+       "source_url": "https://maihime.co.jp/products/takao/"
+      },
+      {
+       "name_ja": "Hachi-Project&TOKYO",
+       "relation_en": "Community partnership connecting Hachioji agriculture, sake, and local identity.",
+       "source_url": "https://maihime.co.jp/products/takao/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Important provenance distinction: the sake is brewed by Maihime in Nagano, not at a Hachioji brewery."
+    },
+    {
+     "name_ja": "桑乃都",
+     "name_en": "Kuwa no Miyako Sake",
+     "kind": "drink",
+     "summary_en": "A Hachioji sake label named for the city's identity as the Mulberry Capital, connecting a local brewery to textile-town heritage.",
+     "facts": [
+      {
+       "claim_en": "The Tokyo Sake Brewers Association lists Ozawa Shuzōjō in Hachioji as the producer of Kuwa no Miyako sake.",
+       "source_url": "https://www.tokyosake.or.jp/brewery/",
+       "source_title": "蔵元一覧",
+       "publisher": "Tokyo Sake Brewers Association"
+      },
+      {
+       "claim_en": "Ozawa Shuzōjō maintains its own official site presenting its Kuwa no Miyako products.",
+       "source_url": "https://www.kuwanomiyako.jp/",
+       "source_title": "小澤酒造場",
+       "publisher": "Ozawa Shuzōjō"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "小澤酒造場",
+       "name_en": "Ozawa Sake Brewery",
+       "relation_en": "Hachioji sake producer and local brand home.",
+       "address_ja": "東京都八王子市八木町2-15",
+       "official_url": "https://www.kuwanomiyako.jp/",
+       "source_url": "https://www.tokyosake.or.jp/brewery/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "有限会社小澤酒造場",
+       "relation_en": "Hachioji brewery associated with the Kuwa no Miyako label.",
+       "source_url": "https://www.tokyosake.or.jp/brewery/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Brewery presence is verified; public tours are not asserted."
+    },
+    {
+     "name_ja": "東京八王子酒造",
+     "name_en": "Tokyo Hachioji Craft Sake",
+     "kind": "drink",
+     "summary_en": "A small urban sake producer operating in Hachioji's historic commercial streets and collaborating with local growers on rice cultivation.",
+     "facts": [
+      {
+       "claim_en": "Tokyo Hachioji Shuzo describes its brewery as an urban microbrewery in Hachioji's historic Kurobei-dori district.",
+       "source_url": "https://www.tokyo-hachioji-shuzo.jp/",
+       "source_title": "東京八王子酒造",
+       "publisher": "Tokyo Hachioji Shuzo"
+      },
+      {
+       "claim_en": "The producer says it works with local people on rice cultivation as part of its sake-making approach.",
+       "source_url": "https://www.tokyo-hachioji-shuzo.jp/",
+       "source_title": "東京八王子酒造",
+       "publisher": "Tokyo Hachioji Shuzo"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "東京八王子酒造",
+       "name_en": "Tokyo Hachioji Shuzo",
+       "relation_en": "Urban sake brewery associated with the historic Kurobei-dori district.",
+       "address_ja": "東京都八王子市中町10-9",
+       "official_url": "https://www.tokyo-hachioji-shuzo.jp/",
+       "source_url": "https://www.tokyosake.or.jp/brewery/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "東京八王子酒造",
+       "relation_en": "Small-batch urban sake maker.",
+       "source_url": "https://www.tokyo-hachioji-shuzo.jp/"
+      }
+     ],
+     "season_en": "Year-round brewing described by the producer.",
+     "confidence": "high",
+     "notes_en": "The producer's address is supported by the Tokyo Sake Brewers Association."
+    },
+    {
+     "name_ja": "高尾ビール",
+     "name_en": "Takao Beer",
+     "kind": "drink",
+     "summary_en": "A craft-beer maker established by residents at the foot of Mount Takao. Its local identity is tied to the mountain and Hachioji's neighborhood food culture.",
+     "facts": [
+      {
+       "claim_en": "Takao Beer describes itself as a local brewery begun by residents of the Mount Takao foothills in 2017.",
+       "source_url": "https://www.takaobeer.com/contact/",
+       "source_title": "Contact – TAKAO BEER",
+       "publisher": "Takao Beer"
+      },
+      {
+       "claim_en": "The company identifies an accessible brewery and taproom at KO52 Takao and a separate production facility in Shimoongata.",
+       "source_url": "https://www.takaobeer.com/contact/",
+       "source_title": "Contact – TAKAO BEER",
+       "publisher": "Takao Beer"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "高尾ビール KO52ブルワリー＆タップルーム",
+       "name_en": "Takao Beer KO52 Brewery and Taproom",
+       "relation_en": "Visitor-facing brewery and taproom near Takao Station.",
+       "address_ja": "東京都八王子市初沢町1231-35 KO52 TAKAO",
+       "official_url": "https://www.takaobeer.com/contact/",
+       "source_url": "https://www.takaobeer.com/contact/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "高尾ビール",
+       "relation_en": "Locally founded Hachioji craft-beer producer.",
+       "source_url": "https://www.takaobeer.com/contact/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The company's Shimoongata production site is explicitly distinguished from its public-facing Takao location."
+    },
+    {
+     "name_ja": "TAKAO 36 BEER",
+     "name_en": "Takao 36 Beer",
+     "kind": "drink",
+     "summary_en": "Another Mount Takao foothills beer project, linking local brewing to a mountain-oriented hospitality destination.",
+     "facts": [
+      {
+       "claim_en": "The T.M.B. company identifies Takao 36 Beer as a craft beer brewed at CRAFTROCK BREWING TAKAO at the foot of Mount Takao.",
+       "source_url": "https://t-m-b.co.jp/business/",
+       "source_title": "事業案内",
+       "publisher": "T.M.B."
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "CRAFTROCK BREWING TAKAO",
+       "name_en": "Craftrock Brewing Takao",
+       "relation_en": "Brewery connected with the Takao 36 Beer project.",
+       "address_ja": "東京都八王子市高尾町2292",
+       "official_url": "https://t-m-b.co.jp/business/",
+       "source_url": "https://t-m-b.co.jp/business/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "CRAFTROCK BREWING TAKAO",
+       "relation_en": "Producer associated with Takao 36 Beer.",
+       "source_url": "https://t-m-b.co.jp/business/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A distinct beer-producing operation from Takao Beer."
+    },
+    {
+     "name_ja": "浅川のアユ釣り",
+     "name_en": "Asakawa River Ayu Fishing",
+     "kind": "fishing",
+     "summary_en": "Seasonal ayu fishing remains a documented food-related river tradition within Hachioji.",
+     "facts": [
+      {
+       "claim_en": "Hachioji City documents ayu fishing along specified sections of the Asakawa River and tributaries.",
+       "source_url": "https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/001/001/p006540.html",
+       "source_title": "アユ釣りの解禁",
+       "publisher": "Hachioji City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "浅川",
+       "name_en": "Asakawa River",
+       "relation_en": "River system associated with Hachioji's seasonal ayu fishery.",
+       "address_ja": "東京都八王子市 浅川流域",
+       "official_url": "",
+       "source_url": "https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/001/001/p006540.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "多摩川漁業協同組合",
+       "relation_en": "Fishery cooperative identified by Hachioji City in relation to the river fishery.",
+       "source_url": "https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/001/001/p006540.html"
+      }
+     ],
+     "season_en": "Summer.",
+     "confidence": "high",
+     "notes_en": "This establishes a river-fishing culture, not a commercial food-tasting or guided fishing experience."
+    }
+   ],
+   "none_found_reason_en": ""
+  },
+  {
+   "id": "tachikawa",
+   "name_ja": "立川市",
+   "food_cultures": [
+    {
+     "name_ja": "東京うど",
+     "name_en": "Tokyo Udo",
+     "kind": "crop",
+     "summary_en": "A distinctive pale, underground-grown vegetable and one of Tachikawa's leading agricultural specialties.",
+     "facts": [
+      {
+       "claim_en": "Tachikawa ranked first among Tokyo municipalities for Tokyo udo production in the city's published 2022 production figures.",
+       "source_url": "https://www.city.tachikawa.lg.jp/sangyo/nogyo/1004072/1004090.html",
+       "source_title": "東京うど【生産量都内1位】",
+       "publisher": "Tachikawa City"
+      },
+      {
+       "claim_en": "The crop is cultivated using the characteristic underground growing technique associated with Tokyo udo.",
+       "source_url": "https://www.city.tachikawa.lg.jp/sangyo/nogyo/1004072/1004090.html",
+       "source_title": "東京うど【生産量都内1位】",
+       "publisher": "Tachikawa City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ファーマーズセンターみのーれ立川",
+       "name_en": "Minore Tachikawa Farmers Center",
+       "relation_en": "City-listed sales destination for locally grown Tokyo udo.",
+       "address_ja": "東京都立川市砂川町2-1-5",
+       "official_url": "https://agripark.tokyo/matching/search/store.php?id=tokyo_midori_minole_tachikawa",
+       "source_url": "https://www.city.tachikawa.lg.jp/sangyo/nogyo/1004072/1004090.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "立川市うど生産組合",
+       "relation_en": "Local growers' organization associated with Tokyo udo cultivation.",
+       "source_url": "https://www.city.tachikawa.lg.jp/sangyo/nogyo/1004072/1004090.html"
+      }
+     ],
+     "season_en": "Primarily winter through spring.",
+     "confidence": "high",
+     "notes_en": "This is a central agricultural identity for Tachikawa."
+    },
+    {
+     "name_ja": "立川こまち",
+     "name_en": "Tachikawa Komachi Udo",
+     "kind": "brand",
+     "summary_en": "A short-format variation of Tachikawa's Tokyo udo marketed as a recognizable local specialty.",
+     "facts": [
+      {
+       "claim_en": "Tachikawa City identifies Tachikawa Komachi as a shorter standardized version of locally produced Tokyo udo.",
+       "source_url": "https://www.city.tachikawa.lg.jp/sangyo/nogyo/1004072/1004090.html",
+       "source_title": "東京うど【生産量都内1位】",
+       "publisher": "Tachikawa City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ファーマーズセンターみのーれ立川",
+       "name_en": "Minore Tachikawa Farmers Center",
+       "relation_en": "The municipality's named direct-purchase location for Tachikawa Komachi.",
+       "address_ja": "東京都立川市砂川町2-1-5",
+       "official_url": "https://agripark.tokyo/matching/search/store.php?id=tokyo_midori_minole_tachikawa",
+       "source_url": "https://www.city.tachikawa.lg.jp/sangyo/nogyo/1004072/1004090.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "立川市うど生産組合",
+       "relation_en": "Local udo production community.",
+       "source_url": "https://www.city.tachikawa.lg.jp/sangyo/nogyo/1004072/1004090.html"
+      }
+     ],
+     "season_en": "Winter through spring.",
+     "confidence": "high",
+     "notes_en": "Distinct market identity, though agriculturally derived from the same Tokyo udo crop."
+    },
+    {
+     "name_ja": "立川産ブロッコリー",
+     "name_en": "Tachikawa Broccoli",
+     "kind": "crop",
+     "summary_en": "Broccoli is a major agricultural specialty in Tachikawa, with the local growers' association reporting a leading share of Tokyo production.",
+     "facts": [
+      {
+       "claim_en": "The Tachikawa Agricultural Research Group identifies broccoli as a leading crop, with the largest share of Tokyo production.",
+       "source_url": "https://tachikawashi-noukenkai.com/harvests/",
+       "source_title": "立川市の農産物",
+       "publisher": "Tachikawa Agricultural Research Group"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ファーマーズセンターみのーれ立川",
+       "name_en": "Minore Tachikawa Farmers Center",
+       "relation_en": "Agricultural market listing broccoli among its autumn and winter products.",
+       "address_ja": "東京都立川市砂川町2-1-5",
+       "official_url": "https://agripark.tokyo/matching/search/store.php?id=tokyo_midori_minole_tachikawa",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=tokyo_midori_minole_tachikawa"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "立川市農研会",
+       "relation_en": "Local agricultural association documenting Tachikawa's broccoli production.",
+       "source_url": "https://tachikawashi-noukenkai.com/harvests/"
+      }
+     ],
+     "season_en": "Autumn and winter.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "立川産トマト・トウモロコシ",
+     "name_en": "Tachikawa Tomatoes and Sweet Corn",
+     "kind": "crop",
+     "summary_en": "Summer vegetables are another part of Tachikawa's active urban agriculture, supported by direct relationships between producers and local shoppers.",
+     "facts": [
+      {
+       "claim_en": "The city's agricultural association documents tomatoes and sweet corn among crops produced in Tachikawa.",
+       "source_url": "https://tachikawashi-noukenkai.com/harvests/",
+       "source_title": "立川市の農産物",
+       "publisher": "Tachikawa Agricultural Research Group"
+      },
+      {
+       "claim_en": "The local JA farmers center identifies tomatoes, cucumbers, and sweet corn as summer offerings.",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=tokyo_midori_minole_tachikawa",
+       "source_title": "ファーマーズセンターみのーれ立川",
+       "publisher": "JA Tokyo Agripark"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ファーマーズセンターみのーれ立川",
+       "name_en": "Minore Tachikawa Farmers Center",
+       "relation_en": "Producer-oriented marketplace for the area's summer vegetables.",
+       "address_ja": "東京都立川市砂川町2-1-5",
+       "official_url": "https://agripark.tokyo/matching/search/store.php?id=tokyo_midori_minole_tachikawa",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=tokyo_midori_minole_tachikawa"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "JA東京みどり",
+       "relation_en": "Agricultural cooperative connecting regional growers with the Tachikawa market.",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=tokyo_midori_minole_tachikawa"
+      }
+     ],
+     "season_en": "Summer.",
+     "confidence": "high",
+     "notes_en": "The JA market also draws from neighboring municipalities; local production is separately supported by the Tachikawa growers' association."
+    },
+    {
+     "name_ja": "立川産エダマメ・落花生",
+     "name_en": "Tachikawa Edamame and Peanuts",
+     "kind": "crop",
+     "summary_en": "Edamame and peanuts belong to the range of vegetables and field crops maintained by Tachikawa's urban farmers.",
+     "facts": [
+      {
+       "claim_en": "The Tachikawa Agricultural Research Group lists both edamame and peanuts among locally produced crops.",
+       "source_url": "https://tachikawashi-noukenkai.com/harvests/",
+       "source_title": "立川市の農産物",
+       "publisher": "Tachikawa Agricultural Research Group"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ファーマーズセンターみのーれ立川",
+       "name_en": "Minore Tachikawa Farmers Center",
+       "relation_en": "General direct-sales destination for local agricultural produce; these specific crops are not guaranteed.",
+       "address_ja": "東京都立川市砂川町2-1-5",
+       "official_url": "https://agripark.tokyo/matching/search/store.php?id=tokyo_midori_minole_tachikawa",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=tokyo_midori_minole_tachikawa"
+      }
+     ],
+     "makers": [],
+     "season_en": "Seasonal field crops.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "立川産ブルーベリー",
+     "name_en": "Tachikawa Blueberries",
+     "kind": "crop",
+     "summary_en": "Blueberries connect Tachikawa's orchards and food producers, including local cakes made with berries harvested in the city.",
+     "facts": [
+      {
+       "claim_en": "The Tachikawa Agricultural Research Group identifies blueberries among the municipality's fruit crops.",
+       "source_url": "https://tachikawashi-noukenkai.com/harvests/",
+       "source_title": "立川市の農産物",
+       "publisher": "Tachikawa Agricultural Research Group"
+      },
+      {
+       "claim_en": "A locally recognized chiffon cake uses blueberries from Blueberry no Sato in Tachikawa's Sunagawa district.",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4242/",
+       "source_title": "立川ブルーベリーシフォン",
+       "publisher": "Tachikawa Tourism and Convention Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ファーマーズセンターみのーれ立川",
+       "name_en": "Minore Tachikawa Farmers Center",
+       "relation_en": "JA market identifying blueberries among regional fruit products.",
+       "address_ja": "東京都立川市砂川町2-1-5",
+       "official_url": "https://agripark.tokyo/matching/search/store.php?id=tokyo_midori_minole_tachikawa",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=tokyo_midori_minole_tachikawa"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ブルーベリーの郷",
+       "relation_en": "Tachikawa blueberry grower identified as a supplier for a local specialty cake.",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4242/"
+      }
+     ],
+     "season_en": "Summer.",
+     "confidence": "high",
+     "notes_en": "An orchard visit was not confirmed from the available source."
+    },
+    {
+     "name_ja": "立川産梨・柿・キウイフルーツ",
+     "name_en": "Tachikawa Pears, Persimmons, and Kiwifruit",
+     "kind": "crop",
+     "summary_en": "A mixed orchard tradition complements Tachikawa's famous vegetables and provides local seasonal fruit.",
+     "facts": [
+      {
+       "claim_en": "Tachikawa growers document pears, persimmons, and kiwifruit among the municipality's cultivated fruits.",
+       "source_url": "https://tachikawashi-noukenkai.com/harvests/",
+       "source_title": "立川市の農産物",
+       "publisher": "Tachikawa Agricultural Research Group"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ファーマーズセンターみのーれ立川",
+       "name_en": "Minore Tachikawa Farmers Center",
+       "relation_en": "JA market listing these fruits among its regional agricultural products.",
+       "address_ja": "東京都立川市砂川町2-1-5",
+       "official_url": "https://agripark.tokyo/matching/search/store.php?id=tokyo_midori_minole_tachikawa",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=tokyo_midori_minole_tachikawa"
+      }
+     ],
+     "makers": [],
+     "season_en": "Primarily late summer and autumn, depending on fruit.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "立川産イチジク・ブドウ",
+     "name_en": "Tachikawa Figs and Grapes",
+     "kind": "crop",
+     "summary_en": "Figs and grapes represent an expanding part of the city's fruit-growing activities.",
+     "facts": [
+      {
+       "claim_en": "The Tachikawa Agricultural Research Group reports increasing local production of figs and grapes.",
+       "source_url": "https://tachikawashi-noukenkai.com/harvests/",
+       "source_title": "立川市の農産物",
+       "publisher": "Tachikawa Agricultural Research Group"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Summer to autumn.",
+     "confidence": "high",
+     "notes_en": "Current individual growers and harvest experiences were not independently confirmed."
+    },
+    {
+     "name_ja": "たまごころ",
+     "name_en": "Tamagokoro Local Eggs",
+     "kind": "brand",
+     "summary_en": "An egg brand from Tachikawa's Ito Poultry Farm, produced by the Japanese Momiji chicken breed and used in local confectionery.",
+     "facts": [
+      {
+       "claim_en": "The tourism association identifies Tamagokoro as eggs produced by Ito Poultry Farm in Tachikawa using Momiji chickens.",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4247/",
+       "source_title": "立川卵プリン",
+       "publisher": "Tachikawa Tourism and Convention Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ホテル日航立川 東京",
+       "name_en": "Hotel Nikko Tachikawa Tokyo",
+       "relation_en": "Uses the local eggs in its Tachikawa egg pudding.",
+       "address_ja": "東京都立川市錦町1-12-1",
+       "official_url": "",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4247/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "伊藤養鶏場",
+       "relation_en": "Tachikawa poultry farm producing the locally branded eggs.",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4247/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "叶烏プレミアム 東京うこっけい卵",
+     "name_en": "Kanau Premium Tokyo Silkie Eggs",
+     "kind": "brand",
+     "summary_en": "Premium eggs from silkie chickens raised by a Tachikawa poultry producer.",
+     "facts": [
+      {
+       "claim_en": "Ito Poultry Farm raises Tokyo silkie chickens and produces its Kanau Premium eggs using a specially formulated feed.",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4265/",
+       "source_title": "叶烏プレミアム 東京うこっけい卵",
+       "publisher": "Tachikawa Tourism and Convention Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "伊藤養鶏場",
+       "name_en": "Ito Poultry Farm",
+       "relation_en": "Producer identified as the sales location for its premium silkie eggs.",
+       "address_ja": "東京都立川市西砂町1-67-7",
+       "official_url": "",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4265/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "伊藤養鶏場",
+       "relation_en": "Poultry producer of Tokyo silkie eggs.",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4265/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A distinct producer-branded food from the broader Tokyo silkie egg category."
+    },
+    {
+     "name_ja": "柔豚（やわらとん）",
+     "name_en": "Yawaraton Pork",
+     "kind": "brand",
+     "summary_en": "A pork brand associated with Tachikawa livestock production and featured in foods sold through the regional agricultural cooperative.",
+     "facts": [
+      {
+       "claim_en": "JA Tokyo Agripark explicitly lists Tachikawa-produced Yawaraton pork among products sold at Minore Tachikawa.",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=tokyo_midori_minole_tachikawa",
+       "source_title": "ファーマーズセンターみのーれ立川",
+       "publisher": "JA Tokyo Agripark"
+      },
+      {
+       "claim_en": "The market also lists processed Yawaraton items, including dumplings.",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=tokyo_midori_minole_tachikawa",
+       "source_title": "ファーマーズセンターみのーれ立川",
+       "publisher": "JA Tokyo Agripark"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ファーマーズセンターみのーれ立川",
+       "name_en": "Minore Tachikawa Farmers Center",
+       "relation_en": "Listed retail destination for Tachikawa Yawaraton pork and prepared foods.",
+       "address_ja": "東京都立川市砂川町2-1-5",
+       "official_url": "https://agripark.tokyo/matching/search/store.php?id=tokyo_midori_minole_tachikawa",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=tokyo_midori_minole_tachikawa"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "JA東京みどり",
+       "relation_en": "Cooperative distributing this locally produced pork.",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=tokyo_midori_minole_tachikawa"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "うどパイ",
+     "name_en": "Udo Pie",
+     "kind": "sweet",
+     "summary_en": "A locally rooted confection built around Tachikawa's emblematic udo and preserved through a confectionery recipe passed between local shops.",
+     "facts": [
+      {
+       "claim_en": "The tourism association identifies Udo Pie as a traditional product whose recipe was inherited from the longstanding confectioner Yanase.",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4186/",
+       "source_title": "うどパイ",
+       "publisher": "Tachikawa Tourism and Convention Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "立川伊勢屋",
+       "name_en": "Tachikawa Iseya",
+       "relation_en": "Confectionery selling the traditional Udo Pie.",
+       "address_ja": "東京都立川市高松町3-17-1",
+       "official_url": "",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4186/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "立川伊勢屋",
+       "relation_en": "Current confectionery associated with the inherited Udo Pie recipe.",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4186/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "うどまんじゅう",
+     "name_en": "Udo Manju",
+     "kind": "sweet",
+     "summary_en": "A Tachikawa confection using locally grown Tokyo udo and celebrating the city's agricultural identity.",
+     "facts": [
+      {
+       "claim_en": "The tourism association identifies Udo Manju as a local sweet made with Tachikawa-grown udo.",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4354/",
+       "source_title": "うどまんじゅう",
+       "publisher": "Tachikawa Tourism and Convention Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "立川伊勢屋",
+       "name_en": "Tachikawa Iseya",
+       "relation_en": "Named retail location for this udo-based sweet.",
+       "address_ja": "東京都立川市高松町3-17-1",
+       "official_url": "",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4354/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "立川伊勢屋",
+       "relation_en": "Confectionery associated with Udo Manju.",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4354/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "うどドレッシング",
+     "name_en": "Udo Dressing",
+     "kind": "brand",
+     "summary_en": "A savory processed product developed around Tokyo udo's aroma, extending Tachikawa's best-known crop into everyday cooking.",
+     "facts": [
+      {
+       "claim_en": "The tourism association documents a dressing featuring the aroma of udo and sold through Minore Tachikawa.",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4211/",
+       "source_title": "うどドレッシング",
+       "publisher": "Tachikawa Tourism and Convention Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ファーマーズセンターみのーれ立川",
+       "name_en": "Minore Tachikawa Farmers Center",
+       "relation_en": "Named sales destination for locally associated udo dressing.",
+       "address_ja": "東京都立川市砂川町2-1-5",
+       "official_url": "https://agripark.tokyo/matching/search/store.php?id=tokyo_midori_minole_tachikawa",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4211/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "JA東京みどり",
+       "relation_en": "Agricultural cooperative associated with the dressing's distribution.",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=tokyo_midori_minole_tachikawa"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "笹らぎ",
+     "name_en": "Sasaragi Leaf-Wrapped Sushi",
+     "kind": "dish",
+     "summary_en": "A contemporary Tachikawa food souvenir combining small pieces of sushi with the city's Tokyo udo specialty.",
+     "facts": [
+      {
+       "claim_en": "Sasaragi is a bite-sized leaf-wrapped sushi product combining fish, Tokyo udo, and preserved ingredients.",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4217/",
+       "source_title": "笹らぎ",
+       "publisher": "Tachikawa Tourism and Convention Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "F.あら井",
+       "name_en": "F. Arai",
+       "relation_en": "Tachikawa food business associated with the sushi souvenir.",
+       "address_ja": "東京都立川市錦町1-6-17",
+       "official_url": "",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4217/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "F.あら井",
+       "relation_en": "Maker associated with the Tachikawa sushi specialty.",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4217/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Local distinctiveness comes from the use of Tokyo udo, not from a claim that the fish was caught in Tachikawa."
+    },
+    {
+     "name_ja": "立川ブルーベリーシフォン",
+     "name_en": "Tachikawa Blueberry Chiffon Cake",
+     "kind": "sweet",
+     "summary_en": "A cake that directly combines two Tachikawa producers: a local blueberry grower and a poultry farm supplying Japanese-breed eggs.",
+     "facts": [
+      {
+       "claim_en": "The cake uses blueberries from Blueberry no Sato in Tachikawa and Momiji chicken eggs from Ito Poultry Farm.",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4242/",
+       "source_title": "立川ブルーベリーシフォン",
+       "publisher": "Tachikawa Tourism and Convention Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ホテル日航立川 東京",
+       "name_en": "Hotel Nikko Tachikawa Tokyo",
+       "relation_en": "Named sales location for the local-producer chiffon cake.",
+       "address_ja": "東京都立川市錦町1-12-1",
+       "official_url": "",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4242/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ブルーベリーの郷",
+       "relation_en": "Tachikawa fruit supplier.",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4242/"
+      },
+      {
+       "name_ja": "伊藤養鶏場",
+       "relation_en": "Tachikawa egg supplier.",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4242/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "立川卵プリン",
+     "name_en": "Tachikawa Egg Pudding",
+     "kind": "sweet",
+     "summary_en": "A locally branded pudding using Tamagokoro eggs raised by a Tachikawa poultry farm.",
+     "facts": [
+      {
+       "claim_en": "The pudding uses Tamagokoro eggs from Ito Poultry Farm, which raises Momiji chickens in Tachikawa.",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4247/",
+       "source_title": "立川卵プリン",
+       "publisher": "Tachikawa Tourism and Convention Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ホテル日航立川 東京",
+       "name_en": "Hotel Nikko Tachikawa Tokyo",
+       "relation_en": "Listed sales destination for Tachikawa Egg Pudding.",
+       "address_ja": "東京都立川市錦町1-12-1",
+       "official_url": "",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4247/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "伊藤養鶏場",
+       "relation_en": "Producer supplying the local eggs.",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4247/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "立川のたいこばん",
+     "name_en": "Tachikawa no Taikoban Local Souvenir Brand",
+     "kind": "brand",
+     "summary_en": "A regional designation for recommended Tachikawa souvenirs, including foods developed from Tokyo udo and other local specialties.",
+     "facts": [
+      {
+       "claim_en": "Tachikawa City identifies Tachikawa no Taikoban as a tourism-association endorsement for representative local souvenirs.",
+       "source_url": "https://www.city.tachikawa.lg.jp/sangyo/nogyo/1004072/1004090.html",
+       "source_title": "東京うど【生産量都内1位】",
+       "publisher": "Tachikawa City"
+      },
+      {
+       "claim_en": "Recognized udo products include Udo Pie, Sasaragi, and Udo Dressing.",
+       "source_url": "https://www.city.tachikawa.lg.jp/sangyo/nogyo/1004072/1004090.html",
+       "source_title": "東京うど【生産量都内1位】",
+       "publisher": "Tachikawa City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ファーマーズセンターみのーれ立川",
+       "name_en": "Minore Tachikawa Farmers Center",
+       "relation_en": "One location carrying locally endorsed agricultural food products.",
+       "address_ja": "東京都立川市砂川町2-1-5",
+       "official_url": "https://agripark.tokyo/matching/search/store.php?id=tokyo_midori_minole_tachikawa",
+       "source_url": "https://tokyo-tachikawa.org/tourism/tourism-4211/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "立川観光コンベンション協会",
+       "relation_en": "Organization recommending and promoting representative Tachikawa souvenirs.",
+       "source_url": "https://www.city.tachikawa.lg.jp/sangyo/nogyo/1004072/1004090.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "This is a collective endorsement rather than a single food item."
+    },
+    {
+     "name_ja": "立飛麦酒醸造所",
+     "name_en": "Tachihi Brewery",
+     "kind": "drink",
+     "summary_en": "A Tachikawa craft brewery linked to the city's aviation-industrial history and built on former airfield land.",
+     "facts": [
+      {
+       "claim_en": "The Tachikawa tourism association describes Tachihi Brewery as a local craft brewery established on the former Tachikawa airfield site in 2021.",
+       "source_url": "https://tokyo-tachikawa.org/walking-spot/walking-spot-11573",
+       "source_title": "立飛麦酒醸造所",
+       "publisher": "Tachikawa Tourism and Convention Association"
+      },
+      {
+       "claim_en": "The site includes a taproom connected to its brewing operation.",
+       "source_url": "https://tokyo-tachikawa.org/walking-spot/walking-spot-11573",
+       "source_title": "立飛麦酒醸造所",
+       "publisher": "Tachikawa Tourism and Convention Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "立飛麦酒醸造所",
+       "name_en": "Tachihi Brewery",
+       "relation_en": "Craft brewery and taproom linking food culture to the former airfield.",
+       "address_ja": "東京都立川市高松町1-23-14",
+       "official_url": "https://www.tachihibrewery.com/view/page/about",
+       "source_url": "https://tokyo-tachikawa.org/walking-spot/walking-spot-11573"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "立飛麦酒醸造所",
+       "relation_en": "Local craft-beer producer.",
+       "source_url": "https://www.tachihibrewery.com/view/page/about"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "SAKAMICHI BREWING",
+     "name_en": "Sakamichi Brewing",
+     "kind": "drink",
+     "summary_en": "An independent Tachikawa craft brewery combining small-scale production with a neighborhood taproom.",
+     "facts": [
+      {
+       "claim_en": "Tachikawa's tourism association identifies Sakamichi Brewing as a local craft brewery with an on-site taproom.",
+       "source_url": "https://tokyo-tachikawa.org/spot/8442/",
+       "source_title": "SAKAMICHI BREWING",
+       "publisher": "Tachikawa Tourism and Convention Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "SAKAMICHI BREWING",
+       "name_en": "Sakamichi Brewing",
+       "relation_en": "Craft-beer brewery and taproom in central Tachikawa.",
+       "address_ja": "東京都立川市柴崎町2-6-5",
+       "official_url": "",
+       "source_url": "https://tokyo-tachikawa.org/spot/8442/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "SAKAMICHI BREWING",
+       "relation_en": "Tachikawa independent brewer.",
+       "source_url": "https://tokyo-tachikawa.org/spot/8442/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A separate producer from Tachihi Brewery."
+    }
+   ],
+   "none_found_reason_en": ""
+  },
+  {
+   "id": "musashino",
+   "name_ja": "武蔵野市",
+   "food_cultures": [
+    {
+     "name_ja": "武蔵野地粉うどん",
+     "name_en": "Musashino Local-Wheat Udon",
+     "kind": "dish",
+     "summary_en": "A revival of the Musashino custom of serving handmade wheat noodles at important gatherings. The modern specialty uses flour associated with the Musashino Plateau.",
+     "facts": [
+      {
+       "claim_en": "Musashino Tourism Organization documents a tradition of making local-wheat udon for guests at weddings, funerals, and other gatherings.",
+       "source_url": "https://musashino-kanko.com/udon/",
+       "source_title": "武蔵野地粉うどん",
+       "publisher": "Musashino Tourism Organization"
+      },
+      {
+       "claim_en": "The modern Musashino Jiko Udon project revived this food culture through a local food event in 2008.",
+       "source_url": "https://musashino-kanko.com/udon/",
+       "source_title": "武蔵野地粉うどん",
+       "publisher": "Musashino Tourism Organization"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "武蔵野市観光機構",
+       "relation_en": "Tourism organization documenting and promoting the udon revival.",
+       "source_url": "https://musashino-kanko.com/udon/"
+      }
+     ],
+     "season_en": "Historically prepared for social and ceremonial occasions.",
+     "confidence": "high",
+     "notes_en": "The history is verified. A currently operating serving location was not independently confirmed, and historical retail products should not be assumed available today."
+    },
+    {
+     "name_ja": "武蔵野うど",
+     "name_en": "Musashino Udo",
+     "kind": "crop",
+     "summary_en": "A heritage vegetable associated with Musashino since the late Edo period, maintained within the city's modern urban-agricultural landscape.",
+     "facts": [
+      {
+       "claim_en": "The city's officially recognized Musashino Premium catalogue identifies Musashino udo as a heritage vegetable cultivated locally since the late Edo period.",
+       "source_url": "https://musashino-premium.com/standard/",
+       "source_title": "認定商品",
+       "publisher": "Musashino Premium"
+      },
+      {
+       "claim_en": "The city identifies udo as one of its characteristic agricultural specialties.",
+       "source_url": "https://www.city.musashino.lg.jp/citypromotion_75/folder/city_profile.html",
+       "source_title": "武蔵野市の特産品やイベントなど",
+       "publisher": "Musashino City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "JA東京むさし 武蔵野新鮮館",
+       "name_en": "JA Tokyo Musashi Musashino Shinsenkan",
+       "relation_en": "Local agricultural marketplace identified with Musashino udo.",
+       "address_ja": "東京都武蔵野市西久保1-18-10",
+       "official_url": "https://musashino-premium.com/standard/",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "JA東京むさし",
+       "relation_en": "Agricultural cooperative marketing the heritage vegetable.",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "season_en": "Primarily winter and spring.",
+     "confidence": "high",
+     "notes_en": "Musashino's heritage udo is related to the broader Tokyo udo tradition but has its own municipal history."
+    },
+    {
+     "name_ja": "境のとんがらし（八つ房唐辛子）",
+     "name_en": "Sakai no Tongarashi Heritage Chili",
+     "kind": "crop",
+     "summary_en": "A revival of the Yatsufusa chili once grown in the Musashino area. Local children and community organizers participate in bringing the crop back.",
+     "facts": [
+      {
+       "claim_en": "Musashino Premium documents that local children revived Yatsufusa chili, formerly grown around Musashino until the early Showa era.",
+       "source_url": "https://musashino-premium.com/standard/",
+       "source_title": "認定商品",
+       "publisher": "Musashino Premium"
+      },
+      {
+       "claim_en": "The revived chili is processed into Sakai no Tongarashi powdered seasoning.",
+       "source_url": "https://musashino-premium.com/standard/",
+       "source_title": "認定商品",
+       "publisher": "Musashino Premium"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ハイナン焼きショーロンポー",
+       "name_en": "Hainan Yaki Shoronpo",
+       "relation_en": "Listed local sales point for Sakai no Tongarashi.",
+       "address_ja": "東京都武蔵野市境2-3-1",
+       "official_url": "",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "武蔵境活性化委員会",
+       "relation_en": "Community organization promoting revival of the local chili.",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "season_en": "Summer to autumn cultivation.",
+     "confidence": "high",
+     "notes_en": "The community-growing story is central to the specialty."
+    },
+    {
+     "name_ja": "武蔵野市産ブルーベリー",
+     "name_en": "Musashino Blueberries",
+     "kind": "crop",
+     "summary_en": "Blueberry growing survives inside urban Musashino, with documented local orchards offering direct sales and harvest experiences.",
+     "facts": [
+      {
+       "claim_en": "Musashino City identifies a Sekimae neighborhood producer growing blueberries and seasonal vegetables.",
+       "source_url": "https://www.city.musashino.lg.jp/kenko_fukushi/kenko_hoken/syokuiku/seisanshashokai/1030723.html",
+       "source_title": "関前2丁目の生産者紹介",
+       "publisher": "Musashino City"
+      },
+      {
+       "claim_en": "JA Tokyo Musashi documents blueberry direct sales and picking at Kenchan Farm in Musashino.",
+       "source_url": "https://www.jatm.or.jp/farming/plant/detail.php?id=23&type=blueberry",
+       "source_title": "Kenchan farm",
+       "publisher": "JA Tokyo Musashi"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "Kenchan farm",
+       "name_en": "Kenchan Farm",
+       "relation_en": "Documented Musashino blueberry orchard with direct sales and fruit-picking activity.",
+       "address_ja": "東京都武蔵野市関前3-12",
+       "official_url": "https://www.jatm.or.jp/farming/plant/detail.php?id=23&type=blueberry",
+       "source_url": "https://www.jatm.or.jp/farming/plant/detail.php?id=23&type=blueberry"
+      },
+      {
+       "name_ja": "関前2丁目のブルーベリー農園",
+       "name_en": "Sekimae 2-chome Blueberry Farm",
+       "relation_en": "Municipally documented neighborhood producer associated with blueberry picking.",
+       "address_ja": "東京都武蔵野市関前2-1",
+       "official_url": "",
+       "source_url": "https://www.city.musashino.lg.jp/kenko_fukushi/kenko_hoken/syokuiku/seisanshashokai/1030723.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "Kenchan farm",
+       "relation_en": "Local blueberry producer.",
+       "source_url": "https://www.jatm.or.jp/farming/plant/detail.php?id=23&type=blueberry"
+      }
+     ],
+     "season_en": "Summer, extending into early autumn at some orchards.",
+     "confidence": "high",
+     "notes_en": "A concrete urban-farm visit opportunity; actual seasonal operation must be checked separately."
+    },
+    {
+     "name_ja": "武蔵野市産梨・ブドウ・柿",
+     "name_en": "Musashino Pears, Grapes, and Persimmons",
+     "kind": "crop",
+     "summary_en": "Small urban orchards remain part of Musashino's agricultural landscape, producing fruit within the municipality.",
+     "facts": [
+      {
+       "claim_en": "JA Tokyo Musashi lists Takeuchi Orchard in Musashino as a producer of grapes, pears, and persimmons.",
+       "source_url": "https://www.jatm.or.jp/farming/garden.php",
+       "source_title": "庭先直売所",
+       "publisher": "JA Tokyo Musashi"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "竹内果樹園",
+       "name_en": "Takeuchi Orchard",
+       "relation_en": "Named local producer growing pears, grapes, and persimmons.",
+       "address_ja": "東京都武蔵野市境南町2-6-5",
+       "official_url": "",
+       "source_url": "https://www.jatm.or.jp/farming/garden.php"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "竹内果樹園",
+       "relation_en": "Musashino fruit grower.",
+       "source_url": "https://www.jatm.or.jp/farming/garden.php"
+      }
+     ],
+     "season_en": "Summer to autumn, depending on fruit.",
+     "confidence": "high",
+     "notes_en": "The source establishes cultivation and the farm's location, not a guided orchard experience."
+    },
+    {
+     "name_ja": "武蔵野市産キャベツ・ブロッコリー・コマツナ",
+     "name_en": "Musashino Urban-Farm Vegetables",
+     "kind": "crop",
+     "summary_en": "Small-scale vegetable farming continues alongside housing, with individual growers contributing to local sales and school food education.",
+     "facts": [
+      {
+       "claim_en": "Musashino City documents Sekimae producers growing cabbage, broccoli, komatsuna, and edamame, including crops supplied to school meals.",
+       "source_url": "https://www.city.musashino.lg.jp/kenko_fukushi/kenko_hoken/syokuiku/seisanshashokai/1030723.html",
+       "source_title": "関前2丁目の生産者紹介",
+       "publisher": "Musashino City"
+      },
+      {
+       "claim_en": "Musashino City provides a direct-sales map covering local agricultural outlets and points visitors to JA Musashino Shinsenkan and the Mugiwara Boshi antenna shop.",
+       "source_url": "https://www.city.musashino.lg.jp/kurashi_tetsuzuki/shigoto_sangyo/nosei/1034430.html",
+       "source_title": "武蔵野市農産物直売所マップ",
+       "publisher": "Musashino City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "JA東京むさし 武蔵野新鮮館",
+       "name_en": "Musashino Shinsenkan Farmers Market",
+       "relation_en": "JA outlet for local produce.",
+       "address_ja": "東京都武蔵野市西久保1-18-10",
+       "official_url": "https://www.city.musashino.lg.jp/kurashi_tetsuzuki/shigoto_sangyo/nosei/1034430.html",
+       "source_url": "https://www.city.musashino.lg.jp/kurashi_tetsuzuki/shigoto_sangyo/nosei/1034430.html"
+      },
+      {
+       "name_ja": "アンテナショップ麦わら帽子",
+       "name_en": "Mugiwara Boshi Antenna Shop",
+       "relation_en": "City-listed outlet for locally grown agricultural products.",
+       "address_ja": "東京都武蔵野市吉祥寺本町2-33-1",
+       "official_url": "https://www.city.musashino.lg.jp/kurashi_tetsuzuki/shigoto_sangyo/nosei/1034430.html",
+       "source_url": "https://www.city.musashino.lg.jp/kurashi_tetsuzuki/shigoto_sangyo/nosei/1034430.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "Crop-dependent.",
+     "confidence": "high",
+     "notes_en": "The municipal sources distinguish actual city-grown produce from products supplied across the wider cooperative region."
+    },
+    {
+     "name_ja": "むさしのくだもののジャム",
+     "name_en": "Musashino Fruit Jam",
+     "kind": "brand",
+     "summary_en": "A small-batch jam line made from fruit harvested in Musashino, including citrus, persimmons, plums, and Japanese apricots.",
+     "facts": [
+      {
+       "claim_en": "Musashino Premium identifies Mi Jam as a producer using fruit harvested within Musashino City.",
+       "source_url": "https://musashino-premium.com/standard/",
+       "source_title": "認定商品",
+       "publisher": "Musashino Premium"
+      },
+      {
+       "claim_en": "The range includes seasonal citrus marmalade, persimmon-and-ginger jam, and plum or Japanese-apricot jam.",
+       "source_url": "https://musashino-premium.com/standard/",
+       "source_title": "認定商品",
+       "publisher": "Musashino Premium"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "JA東京むさし 武蔵野新鮮館",
+       "name_en": "Musashino Shinsenkan Farmers Market",
+       "relation_en": "Listed local sales outlet for these jams.",
+       "address_ja": "東京都武蔵野市西久保1-18-10",
+       "official_url": "https://musashino-premium.com/standard/",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "Miジャム",
+       "relation_en": "Producer turning Musashino-grown fruit into preserves.",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "season_en": "Seasonal varieties change with local harvests.",
+     "confidence": "high",
+     "notes_en": "A strong source-verified example of food processing using fruit actually harvested within the municipality."
+    },
+    {
+     "name_ja": "武蔵野産ホップ",
+     "name_en": "Musashino-Grown Hops",
+     "kind": "crop",
+     "summary_en": "Locally grown hops provide a direct agricultural link to Musashino's neighborhood craft-beer culture.",
+     "facts": [
+      {
+       "claim_en": "The Tokyo Metropolitan Government certifies a craft beer made with fresh hops cultivated in Musashino City.",
+       "source_url": "https://www.e-mark-iishina.metro.tokyo.lg.jp/foods/detail/id=369",
+       "source_title": "みんなのむさしのレールエール",
+       "publisher": "Tokyo Metropolitan Government"
+      },
+      {
+       "claim_en": "The beer's locally grown hops are harvested between July and September.",
+       "source_url": "https://www.e-mark-iishina.metro.tokyo.lg.jp/foods/detail/id=369",
+       "source_title": "みんなのむさしのレールエール",
+       "publisher": "Tokyo Metropolitan Government"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "26Kブルワリー",
+       "name_en": "26K Brewery",
+       "relation_en": "Musashino brewery associated with locally inspired beer production.",
+       "address_ja": "東京都武蔵野市境南町3-2-13",
+       "official_url": "https://26k-brewery.com/",
+       "source_url": "https://26k-brewery.com/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "26Kブルワリー",
+       "relation_en": "Local brewery associated with Musashino's small-scale beer culture.",
+       "source_url": "https://26k-brewery.com/"
+      }
+     ],
+     "season_en": "July to September hop harvest.",
+     "confidence": "high",
+     "notes_en": "The city's actual hop cultivation is explicitly verified by the metropolitan product certification."
+    },
+    {
+     "name_ja": "金箔入り吉祥寺辣油",
+     "name_en": "Kichijoji Chili Oil with Gold Leaf",
+     "kind": "brand",
+     "summary_en": "A locally developed chili oil that incorporates revived Musashisakai chili, linking community agriculture to a city food business.",
+     "facts": [
+      {
+       "claim_en": "Musashino Premium identifies Kichijoji Matsuhiro's chili oil as a product containing Sakai no Tongarashi among its blended seasonings.",
+       "source_url": "https://musashino-premium.com/standard/",
+       "source_title": "認定商品",
+       "publisher": "Musashino Premium"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "アンテナショップ麦わら帽子",
+       "name_en": "Mugiwara Boshi Antenna Shop",
+       "relation_en": "Listed local outlet for the chili oil.",
+       "address_ja": "東京都武蔵野市吉祥寺本町2-33-1",
+       "official_url": "https://musashino-premium.com/standard/",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "吉祥寺MATSUHIRO",
+       "relation_en": "Food producer using the revived local chili.",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Product identity depends partly on a locally grown heritage-chili ingredient."
+    },
+    {
+     "name_ja": "武蔵境とんがらし チョリソーチーズフランク",
+     "name_en": "Musashisakai Chili and Cheese Sausage",
+     "kind": "brand",
+     "summary_en": "A sausage developed with revived Musashisakai chili, showing how a heritage crop can move into a contemporary specialty food.",
+     "facts": [
+      {
+       "claim_en": "Musashino Premium identifies a sausage made by König with Musashisakai chili and cheese.",
+       "source_url": "https://musashino-premium.com/standard/",
+       "source_title": "認定商品",
+       "publisher": "Musashino Premium"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ケーニッヒ 吉祥寺店",
+       "name_en": "König Kichijoji",
+       "relation_en": "Listed retail location for the sausage incorporating local chili.",
+       "address_ja": "東京都武蔵野市吉祥寺南町1-17-1",
+       "official_url": "",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ケーニッヒ",
+       "relation_en": "Sausage maker developing a product around revived Musashisakai chili.",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "26Kブルワリー",
+     "name_en": "26K Brewery Craft Beer",
+     "kind": "drink",
+     "summary_en": "A very small brewery beneath the Chuo Line tracks in Musashisakai, using Musashino water and producing beers connected to its neighborhood.",
+     "facts": [
+      {
+       "claim_en": "26K Brewery describes a compact three-tsubo brewery beneath the Chuo Line railway in Musashino.",
+       "source_url": "https://26k-brewery.com/",
+       "source_title": "26K Brewery",
+       "publisher": "26K Brewery"
+      },
+      {
+       "claim_en": "The producer says its craft beers use Musashino water.",
+       "source_url": "https://26k-brewery.com/",
+       "source_title": "26K Brewery",
+       "publisher": "26K Brewery"
+      },
+      {
+       "claim_en": "The local hop-project website identifies Mr. SAKAI as a beer using Musashisakai chili.",
+       "source_url": "https://tokyo-hop.com/beermap/",
+       "source_title": "ビール購入・提供店",
+       "publisher": "Let's Grow Hops in Tokyo"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "26Kブルワリー・Ond",
+       "name_en": "26K Brewery at Ond",
+       "relation_en": "Brewery and associated taproom in Musashisakai.",
+       "address_ja": "東京都武蔵野市境南町3-2-13",
+       "official_url": "https://26k-brewery.com/",
+       "source_url": "https://26k-brewery.com/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "26Kブルワリー",
+       "relation_en": "Musashisakai neighborhood craft brewery.",
+       "source_url": "https://26k-brewery.com/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Mr. SAKAI's chili ingredient offers a particularly direct connection to the municipality's heritage-crop revival."
+    },
+    {
+     "name_ja": "みんなのむさしのレールエール",
+     "name_en": "Minna no Musashino Rail Ale",
+     "kind": "drink",
+     "summary_en": "A Musashino-themed golden ale distinguished by fresh hops harvested within the municipality.",
+     "facts": [
+      {
+       "claim_en": "The Tokyo Metropolitan Government lists the beer as a certified regional food using fresh hops grown in Musashino City.",
+       "source_url": "https://www.e-mark-iishina.metro.tokyo.lg.jp/foods/detail/id=369",
+       "source_title": "みんなのむさしのレールエール",
+       "publisher": "Tokyo Metropolitan Government"
+      },
+      {
+       "claim_en": "The beer also uses Japanese hebesu citrus juice.",
+       "source_url": "https://www.e-mark-iishina.metro.tokyo.lg.jp/foods/detail/id=369",
+       "source_title": "みんなのむさしのレールエール",
+       "publisher": "Tokyo Metropolitan Government"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "26Kブルワリー（株式会社スイベルアンドノット）",
+       "relation_en": "Business identified by the metropolitan certification as responsible for the ale.",
+       "source_url": "https://www.e-mark-iishina.metro.tokyo.lg.jp/foods/detail/id=369"
+      }
+     ],
+     "season_en": "Fresh local hops harvested July to September; product availability is separate.",
+     "confidence": "high",
+     "notes_en": "The certification page lists a Musashino business address distinct from the taproom on the brewery's own website; availability at a specific venue was not assumed."
+    },
+    {
+     "name_ja": "吉祥寺蜂蜜ミードプロジェクト",
+     "name_en": "Kichijoji Honey Mead Project",
+     "kind": "drink",
+     "summary_en": "A locally branded honey-wine project drawing on the ecological identity of Inokashira Park and its Japanese honeybees.",
+     "facts": [
+      {
+       "claim_en": "Musashino Premium includes a Kichijoji mead project associated with the presence of Japanese honeybees in Inokashira Park.",
+       "source_url": "https://musashino-premium.com/standard/",
+       "source_title": "認定商品",
+       "publisher": "Musashino Premium"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "三浦屋 コピス吉祥寺店",
+       "name_en": "Miuraya Coppice Kichijoji",
+       "relation_en": "Listed sales location for the Kichijoji mead product.",
+       "address_ja": "東京都武蔵野市吉祥寺本町1-11-5",
+       "official_url": "",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "The project is linked to local honeybee conservation and identity. The source does not conclusively establish that every bottle uses honey harvested within Musashino."
+    },
+    {
+     "name_ja": "井の頭煎餅",
+     "name_en": "Inokashira Senbei",
+     "kind": "sweet",
+     "summary_en": "A revived rice cracker recalling the Inokashira Park souvenirs of early- and mid-20th-century Kichijoji.",
+     "facts": [
+      {
+       "claim_en": "Tokyu Department Store states that Inokashira Senbei was a former Inokashira Park souvenir revived in 2004.",
+       "source_url": "https://www.tokyu-dept.co.jp/kichijouji/shop/detail.html?shopcode=musashinomeika",
+       "source_title": "菓子ノマド（諸国銘菓・銘産）",
+       "publisher": "Tokyu Department Store"
+      },
+      {
+       "claim_en": "The revived cracker preserves the original lattice-like design and is made using traditional hand-grilling techniques.",
+       "source_url": "https://www.tokyu-dept.co.jp/kichijouji/shop/detail.html?shopcode=musashinomeika",
+       "source_title": "菓子ノマド（諸国銘菓・銘産）",
+       "publisher": "Tokyu Department Store"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "東急百貨店 吉祥寺店 菓子ノマド",
+       "name_en": "Tokyu Kichijoji Kashi Nomad",
+       "relation_en": "Department-store confectionery section associated with the revived historic cracker.",
+       "address_ja": "東京都武蔵野市吉祥寺本町2-3-1",
+       "official_url": "https://www.tokyu-dept.co.jp/kichijouji/shop/detail.html?shopcode=musashinomeika",
+       "source_url": "https://www.tokyu-dept.co.jp/kichijouji/shop/detail.html?shopcode=musashinomeika"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "東急百貨店 吉祥寺店",
+       "relation_en": "Retailer that organized the historical product's revival.",
+       "source_url": "https://www.tokyu-dept.co.jp/kichijouji/shop/detail.html?shopcode=musashinomeika"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A particularly clear local-history confection with documented revival."
+    },
+    {
+     "name_ja": "ハーモナカ",
+     "name_en": "Harmonaka",
+     "kind": "sweet",
+     "summary_en": "A harmonica-shaped monaka developed as a souvenir of Kichijoji's famous Harmonica Yokocho shopping district.",
+     "facts": [
+      {
+       "claim_en": "Musashino Premium documents Harmonaka as a confection inspired by Harmonica Yokocho and jointly developed with Kichijoji Toraya.",
+       "source_url": "https://musashino-premium.com/standard/",
+       "source_title": "認定商品",
+       "publisher": "Musashino Premium"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "吉祥寺虎屋 ダイヤ街アルファ店",
+       "name_en": "Kichijoji Toraya Daiya-gai Alpha",
+       "relation_en": "Listed confectionery retailer for Harmonaka.",
+       "address_ja": "東京都武蔵野市吉祥寺本町1-2-7",
+       "official_url": "https://musashino-premium.com/standard/",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "リードエンジニアリング",
+       "relation_en": "Product developer working with Kichijoji Toraya.",
+       "source_url": "https://musashino-premium.com/standard/"
+      },
+      {
+       "name_ja": "吉祥寺虎屋",
+       "relation_en": "Local confectioner participating in the product's development.",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Strong connection to a specific shopping-street landmark."
+    },
+    {
+     "name_ja": "吉祥寺スワンクッキー",
+     "name_en": "Kichijoji Swan Cookie",
+     "kind": "sweet",
+     "summary_en": "A cookie designed around the swan boats of Inokashira Park, one of Kichijoji's recognizable local landmarks.",
+     "facts": [
+      {
+       "claim_en": "Musashino Premium identifies this cookie as a confection shaped to evoke Inokashira Park's swan boats.",
+       "source_url": "https://musashino-premium.com/standard/",
+       "source_title": "認定商品",
+       "publisher": "Musashino Premium"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "おかしのいえとパン屋のぱんさん",
+       "name_en": "Okashi no Ie to Panya no Pansan",
+       "relation_en": "Maker and local shop for the Inokashira-themed cookies.",
+       "address_ja": "東京都武蔵野市吉祥寺南町4-27-11",
+       "official_url": "",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "おかしのいえとパン屋のぱんさん",
+       "relation_en": "Local baker creating landmark-themed cookies.",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "武蔵野ジオサブレ",
+     "name_en": "Musashino Geo Sablé",
+     "kind": "sweet",
+     "summary_en": "A shortbread-style cookie series featuring recognizable Musashino landmarks and information about their local history.",
+     "facts": [
+      {
+       "claim_en": "Musashino Premium identifies A.K Labo's sablé as a cookie stamped with local landmarks and accompanied by explanations of those places.",
+       "source_url": "https://musashino-premium.com/standard/",
+       "source_title": "認定商品",
+       "publisher": "Musashino Premium"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "Patisserie A.K Labo",
+       "name_en": "Patisserie A.K Labo",
+       "relation_en": "Local pâtisserie making the landmark-themed sablé.",
+       "address_ja": "東京都武蔵野市中町3-28-11",
+       "official_url": "",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "Patisserie A.K Labo",
+       "relation_en": "Confectioner connecting French pastry craft with Musashino landmarks.",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "吉虎どら焼",
+     "name_en": "Kichitora Dorayaki",
+     "kind": "sweet",
+     "summary_en": "A signature dorayaki from the established Kichijoji Toraya confectionery, representing the neighborhood's longstanding Japanese-sweets culture.",
+     "facts": [
+      {
+       "claim_en": "Musashino Premium recognizes Kichitora Dorayaki as a product of Kichijoji Toraya.",
+       "source_url": "https://musashino-premium.com/standard/",
+       "source_title": "認定商品",
+       "publisher": "Musashino Premium"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "吉祥寺虎屋 弁天通り店",
+       "name_en": "Kichijoji Toraya Benten-dori",
+       "relation_en": "Local confectionery shop associated with the dorayaki.",
+       "address_ja": "東京都武蔵野市吉祥寺本町1-29-4",
+       "official_url": "",
+       "source_url": "https://musashino-premium.com/standard/"
+      },
+      {
+       "name_ja": "吉祥寺虎屋 ダイヤ街アルファ店",
+       "name_en": "Kichijoji Toraya Daiya-gai Alpha",
+       "relation_en": "Second listed Kichijoji Toraya location.",
+       "address_ja": "東京都武蔵野市吉祥寺本町1-2-7",
+       "official_url": "",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "吉祥寺虎屋",
+       "relation_en": "Established local Japanese confectionery maker.",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Its significance lies in neighborhood confectionery heritage, not necessarily Musashino-grown ingredients."
+    },
+    {
+     "name_ja": "武蔵野夫人",
+     "name_en": "Musashino Fujin Confection",
+     "kind": "sweet",
+     "summary_en": "A Western-influenced Japanese sweet from Kichijoji Toraya inspired by the traditional image of Musashino's wooded landscape.",
+     "facts": [
+      {
+       "claim_en": "Musashino Premium describes Musashino Fujin as a walnut-and-yolk-bean-paste confection inspired by Musashino's wooded scenery and local cultural imagery.",
+       "source_url": "https://musashino-premium.com/standard/",
+       "source_title": "認定商品",
+       "publisher": "Musashino Premium"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "吉祥寺虎屋 弁天通り店",
+       "name_en": "Kichijoji Toraya Benten-dori",
+       "relation_en": "Local confectionery associated with the Musashino-themed sweet.",
+       "address_ja": "東京都武蔵野市吉祥寺本町1-29-4",
+       "official_url": "",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "吉祥寺虎屋",
+       "relation_en": "Confectioner producing this locally themed sweet.",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "コキーユ",
+     "name_en": "Coquille Butter-Cream Cake",
+     "kind": "sweet",
+     "summary_en": "A Musashino-born confection preserving a recipe developed by a previous generation of a local pastry business.",
+     "facts": [
+      {
+       "claim_en": "Musashino Premium identifies Coquille as a soft sponge-and-butter confection whose recipe was passed from the shop's predecessor to the current generation.",
+       "source_url": "https://musashino-premium.com/standard/",
+       "source_title": "認定商品",
+       "publisher": "Musashino Premium"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "パティスリー ティアレ",
+       "name_en": "Patisserie Tiare",
+       "relation_en": "Local pâtisserie preserving the inherited Coquille recipe.",
+       "address_ja": "東京都武蔵野市緑町1-4-10",
+       "official_url": "",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "パティスリー ティアレ",
+       "relation_en": "Confectioner associated with the multigenerational recipe.",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "武蔵乃國お米のかすていら",
+     "name_en": "Musashino Rice-Flour Castella",
+     "kind": "sweet",
+     "summary_en": "A rice-flour castella sold as a Musashino souvenir, including a version referencing the city's community bus and another using historic map imagery.",
+     "facts": [
+      {
+       "claim_en": "Musashino Premium lists rice-flour castella from Esprit de Paris in packaging referencing Musashino's Mu Bus and historical geography.",
+       "source_url": "https://musashino-premium.com/standard/",
+       "source_title": "認定商品",
+       "publisher": "Musashino Premium"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "エスプリ・ドゥ・パリ",
+       "name_en": "Esprit de Paris",
+       "relation_en": "Local confectionery producing Musashino-themed rice-flour castella.",
+       "address_ja": "東京都武蔵野市中町3-5-12",
+       "official_url": "",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "エスプリ・ドゥ・パリ",
+       "relation_en": "Confectioner combining regional souvenir design with rice-flour baking.",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The rice flour is domestically sourced; the catalogue does not identify it as Musashino-grown."
+    },
+    {
+     "name_ja": "おいしいムーちゃん餃子",
+     "name_en": "Oishii Mu-chan Gyoza",
+     "kind": "brand",
+     "summary_en": "A regional agricultural-cooperative dumpling featuring cabbage grown by farmers in the JA Tokyo Musashi area.",
+     "facts": [
+      {
+       "claim_en": "Musashino Premium identifies Mu-chan Gyoza as a product using cabbage grown by JA Tokyo Musashi cooperative farmers.",
+       "source_url": "https://musashino-premium.com/standard/",
+       "source_title": "認定商品",
+       "publisher": "Musashino Premium"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "JA東京むさし 武蔵野新鮮館",
+       "name_en": "Musashino Shinsenkan Farmers Market",
+       "relation_en": "Listed local sales outlet for the cooperative's cabbage dumplings.",
+       "address_ja": "東京都武蔵野市西久保1-18-10",
+       "official_url": "https://musashino-premium.com/standard/",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "JA東京むさし",
+       "relation_en": "Regional agricultural cooperative behind the product.",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The cabbage is sourced across the cooperative's wider service area, not necessarily grown in Musashino City itself."
+    },
+    {
+     "name_ja": "むさしのプレミアム",
+     "name_en": "Musashino Premium Local-Product Certification",
+     "kind": "brand",
+     "summary_en": "A regional product-recognition program showcasing foods linked to Musashino's agriculture, makers, neighborhoods, and local history.",
+     "facts": [
+      {
+       "claim_en": "Musashino City identifies Musashino Premium as a program recognizing souvenirs suited to the municipality.",
+       "source_url": "https://www.city.musashino.lg.jp/citypromotion_75/folder/city_profile.html",
+       "source_title": "武蔵野市の特産品やイベントなど",
+       "publisher": "Musashino City"
+      },
+      {
+       "claim_en": "The program's catalogue includes heritage vegetables, locally grown fruit products, confectionery, condiments, and regionally themed drinks.",
+       "source_url": "https://musashino-premium.com/standard/",
+       "source_title": "認定商品",
+       "publisher": "Musashino Premium"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "JA東京むさし 武蔵野新鮮館",
+       "name_en": "Musashino Shinsenkan Farmers Market",
+       "relation_en": "Outlet listed for multiple agricultural products recognized by the program.",
+       "address_ja": "東京都武蔵野市西久保1-18-10",
+       "official_url": "https://musashino-premium.com/standard/",
+       "source_url": "https://musashino-premium.com/standard/"
+      },
+      {
+       "name_ja": "アンテナショップ麦わら帽子",
+       "name_en": "Mugiwara Boshi Antenna Shop",
+       "relation_en": "Outlet listed for selected Musashino Premium food products.",
+       "address_ja": "東京都武蔵野市吉祥寺本町2-33-1",
+       "official_url": "https://musashino-premium.com/standard/",
+       "source_url": "https://musashino-premium.com/standard/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "武蔵野市観光機構",
+       "relation_en": "Local tourism organization promoting Musashino food and souvenir identities.",
+       "source_url": "https://www.city.musashino.lg.jp/citypromotion_75/folder/city_profile.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The certification recognizes local relationships and identity; it does not mean every product contains ingredients grown within the municipality."
+    }
+   ],
+   "none_found_reason_en": ""
+  }
+ ],
+ "url_check": {
+  "checked_at": "2026-11-22",
+  "status": {
+   "https://26k-brewery.com/": 200,
+   "https://agripark.tokyo/matching/search/store.php?id=tokyo_midori_minole_tachikawa": 200,
+   "https://hachimen.org/": 200,
+   "https://hachimen.org/about/": 200,
+   "https://hachioji-mice.org/hachioji/gift/8ee1ccb6de330aa2a69f126cff4a3ca7cfe03c40.html": 200,
+   "https://hachioji-passion.tokyo/kakouhin/": 200,
+   "https://hachioji-passion.tokyo/shop/": 200,
+   "https://hachioji.keizai.biz/index.php/headline/4352/": 200,
+   "https://hkc.or.jp/facility/detail.php?id=142": 200,
+   "https://maihime.co.jp/products/takao/": 200,
+   "https://matuhime.co.jp/": 200,
+   "https://musashino-kanko.com/udon/": 200,
+   "https://musashino-premium.com/standard/": 200,
+   "https://t-m-b.co.jp/business/": 200,
+   "https://tachikawashi-noukenkai.com/harvests/": 200,
+   "https://tokyo-hop.com/beermap/": 200,
+   "https://tokyo-tachikawa.org/spot/8442/": 200,
+   "https://tokyo-tachikawa.org/tourism/tourism-4186/": 200,
+   "https://tokyo-tachikawa.org/tourism/tourism-4211/": 200,
+   "https://tokyo-tachikawa.org/tourism/tourism-4217/": 200,
+   "https://tokyo-tachikawa.org/tourism/tourism-4242/": 200,
+   "https://tokyo-tachikawa.org/tourism/tourism-4247/": 200,
+   "https://tokyo-tachikawa.org/tourism/tourism-4265/": 200,
+   "https://tokyo-tachikawa.org/tourism/tourism-4354/": 200,
+   "https://tokyo-tachikawa.org/walking-spot/walking-spot-11573": 200,
+   "https://www.bunka.go.jp/seisaku/shokubunka/foodculture/hyakunenfood/jirei/list_sa.html": 200,
+   "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_69.html": 200,
+   "https://www.city.hachioji.tokyo.jp/hachioji-kids/004/005/p020557.html": 200,
+   "https://www.city.hachioji.tokyo.jp/kurashi/hoken/007/az003/p002723_d/fil/3-2.pdf": 200,
+   "https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/001/001/p006540.html": 200,
+   "https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/001/001/p024147.html": 200,
+   "https://www.city.musashino.lg.jp/citypromotion_75/folder/city_profile.html": 200,
+   "https://www.city.musashino.lg.jp/kenko_fukushi/kenko_hoken/syokuiku/seisanshashokai/1030723.html": 200,
+   "https://www.city.musashino.lg.jp/kurashi_tetsuzuki/shigoto_sangyo/nosei/1034430.html": 200,
+   "https://www.city.tachikawa.lg.jp/sangyo/nogyo/1004072/1004090.html": 200,
+   "https://www.e-mark-iishina.metro.tokyo.lg.jp/foods/detail/id=369": 200,
+   "https://www.hkc.or.jp/takaosan/feature.php": 200,
+   "https://www.jatm.or.jp/farming/garden.php": 200,
+   "https://www.jatm.or.jp/farming/plant/detail.php?id=23&type=blueberry": 200,
+   "https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/toritu/meiji/tourism.html": 200,
+   "https://www.kodomokoho.metro.tokyo.lg.jp/article/202408-3/": 200,
+   "https://www.kuwanomiyako.jp/": 200,
+   "https://www.matuhime.co.jp/tennpo.html": 200,
+   "https://www.tachihibrewery.com/view/page/about": 200,
+   "https://www.takaobeer.com/contact/": 200,
+   "https://www.takaotozan.co.jp/sp/food/": 200,
+   "https://www.tokyo-hachioji-shuzo.jp/": 200,
+   "https://www.tokyo-ja.or.jp/farm/edo/04.php": 200,
+   "https://www.tokyo-ja.or.jp/farm/edo/41.php": 200,
+   "https://www.tokyo-ja.or.jp/farm/edo/45.php": 200,
+   "https://www.tokyosake.or.jp/brewery/": 200,
+   "https://www.tokyu-dept.co.jp/kichijouji/shop/detail.html?shopcode=musashinomeika": 200
+  }
+ }
+}
