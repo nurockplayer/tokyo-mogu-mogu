@@ -1,3 +1,5 @@
+import { adaptJourneyRecords } from '../../data/journey-record';
+import { JOURNEY_RECORDS } from '../../data/journey-records';
 /**
  * Serializable factual records currently rendered by the reference MVP.
  *
@@ -6,15 +8,8 @@
  * filesystem/process APIs, and generator code.
  */
 import type { Locale } from '../../i18n';
-import { strings } from '../../i18n/resources';
-import { DEMO_RECOMMENDATION_CANDIDATES } from '../../data/demo-recommendation';
-import { buildJourneyPresentation } from '../../data/journey-presentation';
-import { FOOD_CULTURES } from '../../data/seed-food-cultures';
 import { PLACES } from '../../data/seed-places';
-import { getRouteById, getSpotDetail, OKUTAMA_STATION_ACCESS } from '../../data/seed-routes';
-import type { ModelRoute } from '../../data/seed-routes';
-import { placeNameKey, routeEstimateKey, spotAccessKey, spotRoleKey, stepRoleKey } from '../../i18n/data-content';
-import type { LocaleKey } from '../../i18n/resources';
+import { OKUTAMA_STATION_ACCESS } from '../../data/seed-routes';
 import type {
   DataSource,
   FixedPlace,
@@ -678,399 +673,9 @@ export const resultJourneys: JourneyPresentation[] = [
 /** Backwards-compatible name for the two current Result recommendations. */
 export const demoJourneys = resultJourneys;
 
-const omeCandidate = requiredRecord(
-  DEMO_RECOMMENDATION_CANDIDATES.find((candidate) => candidate.id === 'demo-ome-sake'),
-  'Ome recommendation candidate',
-);
-const omeCulture = requiredRecord(
-  FOOD_CULTURES.find((culture) => culture.id === omeCandidate.foodCultureId),
-  'Ome food culture',
-);
-const omeRoute = requiredRecord(
-  getRouteById(requiredRecord(omeCandidate.journeyId, 'Ome candidate route identity')),
-  'Ome route',
-);
-const omeCanonicalPresentation = requiredRecord(
-  buildJourneyPresentation(omeCandidate, omeCulture, omeRoute, PLACES),
-  'Ome journey identity',
-);
-
-const omeStepRoleZh: Record<string, string> = {
-  'sawai-ozawa-shuzo': strings['zh-TW'].dataSakeStopRoleOzawa,
-  'sawanoien-garden': strings['zh-TW'].dataSakeStopRoleSawanoien,
-  'mitake-shrine': strings['zh-TW'].dataSakeStopRoleMitakeShrine,
-  'baba-oshijutaku': strings['zh-TW'].dataSakeStopRoleBaba,
-};
-
-function omeRouteVariant(
-  canonicalId: 'half-day' | '1-day',
-  presentationId: 'half-day' | 'full-day',
-): JourneyPresentation['routeVariants'][number] {
-  const canonical = omeRoute.variants[canonicalId];
-  return {
-    id: presentationId,
-    durationMinutes: canonical.totalMinutes,
-    steps: canonical.steps.map((step) => ({ spotId: step.placeId })),
-  };
-}
-
-const omeTourReservationNote = localized(
-  '見学は予約制・訪問前に公式情報を確認',
-  'Tours require reservations · Check official information before visiting',
-  '參訪需預約・造訪前請查看官方資訊',
-);
-
-const omeJourney: JourneyPresentation = {
-  id: omeCanonicalPresentation.candidateId,
-  regionId: omeCandidate.regionId,
-  foodCultureId: omeCanonicalPresentation.foodCultureId,
-  storyId: omeCanonicalPresentation.foodCultureId,
-  routeId: omeCanonicalPresentation.routeId,
-  sourceStatus: omeCanonicalPresentation.sourceStatus,
-  copy: {
-    ja: {
-      title: omeRoute.nameJa,
-      subtitle: omeCulture.nameJa,
-      description: omeCulture.descriptionJa,
-      tags: ['日本酒', '伝統', '半日・一日'],
-      storyTitle: '青梅・沢井の日本酒の物語',
-      intro: [omeCulture.storyJa, omeCulture.descriptionJa],
-    },
-    en: {
-      title: omeRoute.nameEn,
-      subtitle: omeCulture.nameEn,
-      description: omeCulture.descriptionEn,
-      tags: ['Sake', 'Tradition', 'Half or full day'],
-      storyTitle: 'The story of Sawai sake in Ome',
-      intro: [omeCulture.storyEn, omeCulture.descriptionEn],
-    },
-    'zh-TW': {
-      title: strings['zh-TW'].dataSakeRouteName,
-      subtitle: strings['zh-TW'].dataSakeName,
-      description: strings['zh-TW'].dataSakeDescription,
-      tags: ['日本酒', '傳統', '半日・一日'],
-      storyTitle: strings['zh-TW'].dataSakeHeroKicker,
-      intro: [
-        '沢井是多摩川清流流經的溪谷聚落。小澤酒造在這片溪谷河畔釀造日本酒「澤乃井」。',
-        strings['zh-TW'].dataSakeDescription,
-      ],
-    },
-  },
-  chapters: {
-    ja: [
-      { number: '01.', title: '沢井で受け継がれる酒蔵', body: omeCulture.historyJa },
-      { number: '02.', title: '澤乃井を醸す小澤酒造', body: requiredRecord(getSpotDetail('sawai-ozawa-shuzo'), 'Ozawa Spot detail').roleJa },
-      { number: '03.', title: '酒蔵を訪ねる前に', body: omeTourReservationNote.ja },
-      { number: '04.', title: '御嶽の文化財へ', body: requiredRecord(getSpotDetail('mitake-shrine'), 'Mitake Shrine Spot detail').roleJa },
-    ],
-    en: [
-      { number: '01.', title: 'A brewery carried forward in Sawai', body: omeCulture.historyEn },
-      { number: '02.', title: 'Ozawa Shuzo, brewer of Sawanoi', body: requiredRecord(getSpotDetail('sawai-ozawa-shuzo'), 'Ozawa Spot detail').roleEn },
-      { number: '03.', title: 'Before visiting the brewery', body: omeTourReservationNote.en },
-      { number: '04.', title: 'Continue to Mitake heritage', body: requiredRecord(getSpotDetail('mitake-shrine'), 'Mitake Shrine Spot detail').roleEn },
-    ],
-    'zh-TW': [
-      { number: '01.', title: '在沢井傳承的酒藏', body: strings['zh-TW'].dataSakeHistory },
-      { number: '02.', title: '釀造澤乃井的小澤酒造', body: strings['zh-TW'].dataOzawaRole },
-      { number: '03.', title: '造訪酒藏之前', body: omeTourReservationNote['zh-TW'] },
-      { number: '04.', title: '前往御嶽文化財', body: strings['zh-TW'].dataMitakeShrineRole },
-    ],
-  },
-  routeVariants: [
-    omeRouteVariant('half-day', 'half-day'),
-    omeRouteVariant('1-day', 'full-day'),
-  ],
-};
-
-const hachiojiCandidate = requiredRecord(
-  DEMO_RECOMMENDATION_CANDIDATES.find((candidate) => candidate.id === 'demo-tokyo-hachioji-ginger'),
-  'Hachioji recommendation candidate',
-);
-const hachiojiCulture = requiredRecord(
-  FOOD_CULTURES.find((culture) => culture.id === hachiojiCandidate.foodCultureId),
-  'Hachioji food culture',
-);
-const hachiojiRoute = requiredRecord(
-  getRouteById(requiredRecord(hachiojiCandidate.journeyId, 'Hachioji candidate route identity')),
-  'Hachioji route',
-);
-const hachiojiCanonicalPresentation = requiredRecord(
-  buildJourneyPresentation(hachiojiCandidate, hachiojiCulture, hachiojiRoute, PLACES),
-  'Hachioji journey identity',
-);
-const hachiojiMarketPlace = canonicalPlace('hachioji-takiyama-roadside-station');
-const hachiojiMarketDetail = requiredRecord(
-  getSpotDetail(hachiojiMarketPlace.id),
-  'Hachioji roadside market Spot detail',
-);
-const hachiojiCastlePlace = canonicalPlace('hachioji-takiyama-castle');
-
-const fussaCandidate = requiredRecord(
-  DEMO_RECOMMENDATION_CANDIDATES.find((candidate) => candidate.id === 'demo-tokyo-west-fussa-sake'),
-  'Fussa recommendation candidate',
-);
-const fussaCulture = requiredRecord(
-  FOOD_CULTURES.find((culture) => culture.id === fussaCandidate.foodCultureId),
-  'Fussa food culture',
-);
-const fussaRoute = requiredRecord(
-  getRouteById(requiredRecord(fussaCandidate.journeyId, 'Fussa candidate route identity')),
-  'Fussa route',
-);
-const fussaCanonicalPresentation = requiredRecord(
-  buildJourneyPresentation(fussaCandidate, fussaCulture, fussaRoute, PLACES),
-  'Fussa journey identity',
-);
-
-const akirunoCandidate = requiredRecord(
-  DEMO_RECOMMENDATION_CANDIDATES.find((candidate) => candidate.id === 'demo-tokyo-west-akiruno-produce'),
-  'Akiruno recommendation candidate',
-);
-const akirunoCulture = requiredRecord(
-  FOOD_CULTURES.find((culture) => culture.id === akirunoCandidate.foodCultureId),
-  'Akiruno food culture',
-);
-const akirunoRoute = requiredRecord(
-  getRouteById(requiredRecord(akirunoCandidate.journeyId, 'Akiruno candidate route identity')),
-  'Akiruno route',
-);
-const akirunoCanonicalPresentation = requiredRecord(
-  buildJourneyPresentation(akirunoCandidate, akirunoCulture, akirunoRoute, PLACES),
-  'Akiruno journey identity',
-);
-
-function localizedBundleKey(key: LocaleKey, description: string): LocalizedText {
-  return localized(
-    requiredRecord(strings.ja[key], `${description} Japanese copy`),
-    requiredRecord(strings.en[key], `${description} English copy`),
-    requiredRecord(strings['zh-TW'][key], `${description} Traditional Chinese copy`),
-  );
-}
-
-const hachiojiPresentationDuration = {
-  'half-day': 'half-day',
-  'full-day': '1-day',
-} as const;
-
-const fussaPresentationDuration = {
-  'half-day': 'half-day',
-  'full-day': '1-day',
-} as const;
-
-const akirunoPresentationDuration = {
-  'half-day': 'half-day',
-  'full-day': '1-day',
-} as const;
-
-function akirunoRouteVariant(
-  presentationId: keyof typeof akirunoPresentationDuration,
-): JourneyPresentation['routeVariants'][number] {
-  const canonicalId = akirunoPresentationDuration[presentationId];
-  const canonical = requiredRecord(akirunoRoute.variants[canonicalId], `Akiruno ${canonicalId} route variant`);
-  return {
-    id: presentationId,
-    durationMinutes: canonical.totalMinutes,
-    steps: canonical.steps.map((step) => ({ spotId: step.placeId })),
-  };
-}
-
-function fussaRouteVariant(
-  presentationId: keyof typeof fussaPresentationDuration,
-): JourneyPresentation['routeVariants'][number] {
-  const canonicalId = fussaPresentationDuration[presentationId];
-  const canonical = requiredRecord(fussaRoute.variants[canonicalId], `Fussa ${canonicalId} route variant`);
-  return {
-    id: presentationId,
-    durationMinutes: canonical.totalMinutes,
-    steps: canonical.steps.map((step) => ({ spotId: step.placeId })),
-  };
-}
-
-function hachiojiRouteVariant(
-  presentationId: keyof typeof hachiojiPresentationDuration,
-): JourneyPresentation['routeVariants'][number] {
-  const canonicalId = hachiojiPresentationDuration[presentationId];
-  const canonical = requiredRecord(hachiojiRoute.variants[canonicalId], `Hachioji ${canonicalId} route variant`);
-  return {
-    id: presentationId,
-    durationMinutes: canonical.totalMinutes,
-    steps: canonical.steps.map((step) => ({ spotId: step.placeId })),
-  };
-}
-
-const hachiojiJourney: JourneyPresentation = {
-  id: hachiojiCanonicalPresentation.candidateId,
-  regionId: hachiojiCandidate.regionId,
-  foodCultureId: hachiojiCanonicalPresentation.foodCultureId,
-  storyId: hachiojiCanonicalPresentation.foodCultureId,
-  routeId: hachiojiCanonicalPresentation.routeId,
-  sourceStatus: hachiojiCanonicalPresentation.sourceStatus,
-  copy: {
-    ja: {
-      title: hachiojiRoute.nameJa,
-      subtitle: hachiojiCulture.nameJa,
-      description: hachiojiCulture.descriptionJa,
-      tags: ['八王子ショウガ', '旬の農産物', '八王子'],
-      storyTitle: strings.ja.dataHachiojiHeroKicker,
-      intro: [hachiojiCulture.storyJa, hachiojiCulture.descriptionJa],
-    },
-    en: {
-      title: hachiojiRoute.nameEn,
-      subtitle: hachiojiCulture.nameEn,
-      description: hachiojiCulture.descriptionEn,
-      tags: ['Hachioji ginger', 'Seasonal produce', 'Hachioji'],
-      storyTitle: strings.en.dataHachiojiHeroKicker,
-      intro: [hachiojiCulture.storyEn, hachiojiCulture.descriptionEn],
-    },
-    'zh-TW': {
-      title: strings['zh-TW'].dataHachiojiRouteName,
-      subtitle: strings['zh-TW'].dataHachiojiName,
-      description: strings['zh-TW'].dataHachiojiDescription,
-      tags: ['八王子薑', '當季農產品', '八王子'],
-      storyTitle: strings['zh-TW'].dataHachiojiHeroKicker,
-      intro: [strings['zh-TW'].dataHachiojiStory, strings['zh-TW'].dataHachiojiDescription],
-    },
-  },
-  chapters: {
-    ja: [
-      { number: '01.', title: '八王子ショウガの歩み', body: hachiojiCulture.historyJa },
-      { number: '02.', title: '生産者と直売所', body: hachiojiCulture.makerJa },
-      { number: '03.', title: '季節と当日の入荷', body: strings.ja.dataHachiojiStoryChallenge },
-      { number: '04.', title: '旬の八王子を楽しむ', body: hachiojiCulture.howToEnjoyJa },
-    ],
-    en: [
-      { number: '01.', title: 'Hachioji ginger through time', body: hachiojiCulture.historyEn },
-      { number: '02.', title: 'Growers and the farm market', body: hachiojiCulture.makerEn },
-      { number: '03.', title: 'Season and daily deliveries', body: strings.en.dataHachiojiStoryChallenge },
-      { number: '04.', title: 'Enjoy Hachioji in season', body: hachiojiCulture.howToEnjoyEn },
-    ],
-    'zh-TW': [
-      { number: '01.', title: '八王子薑的歷史', body: strings['zh-TW'].dataHachiojiHistory },
-      { number: '02.', title: '生產者與農產直賣所', body: strings['zh-TW'].dataHachiojiStoryMakerRole },
-      { number: '03.', title: '季節與每日進貨', body: strings['zh-TW'].dataHachiojiStoryChallenge },
-      { number: '04.', title: '品味當季八王子', body: strings['zh-TW'].dataHachiojiHowToEnjoy },
-    ],
-  },
-  routeVariants: [
-    hachiojiRouteVariant('half-day'),
-    hachiojiRouteVariant('full-day'),
-  ],
-};
-
-const fussaJourney: JourneyPresentation = {
-  id: fussaCanonicalPresentation.candidateId,
-  regionId: fussaCandidate.regionId,
-  foodCultureId: fussaCanonicalPresentation.foodCultureId,
-  storyId: fussaCanonicalPresentation.foodCultureId,
-  routeId: fussaCanonicalPresentation.routeId,
-  sourceStatus: fussaCanonicalPresentation.sourceStatus,
-  copy: {
-    ja: {
-      title: fussaRoute.nameJa,
-      subtitle: fussaCulture.nameJa,
-      description: fussaCulture.descriptionJa,
-      tags: ['福生の日本酒', '水のまち', '半日・一日'],
-      storyTitle: strings.ja.dataFussaSakeHeroKicker,
-      intro: [fussaCulture.storyJa, fussaCulture.descriptionJa],
-    },
-    en: {
-      title: fussaRoute.nameEn,
-      subtitle: fussaCulture.nameEn,
-      description: fussaCulture.descriptionEn,
-      tags: ['Fussa sake', 'Water heritage', 'Half or full day'],
-      storyTitle: strings.en.dataFussaSakeHeroKicker,
-      intro: [fussaCulture.storyEn, fussaCulture.descriptionEn],
-    },
-    'zh-TW': {
-      title: strings['zh-TW'].dataFussaSakeRouteName,
-      subtitle: strings['zh-TW'].dataFussaSakeName,
-      description: strings['zh-TW'].dataFussaSakeDescription,
-      tags: ['福生日本酒', '水之歷史', '半日・一日'],
-      storyTitle: strings['zh-TW'].dataFussaSakeHeroKicker,
-      intro: [strings['zh-TW'].dataFussaSakeStory, strings['zh-TW'].dataFussaSakeDescription],
-    },
-  },
-  chapters: {
-    ja: [
-      { number: '01.', title: '福生に続く酒造り', body: fussaCulture.historyJa },
-      { number: '02.', title: '田村酒造場と石川酒造', body: fussaCulture.makerJa },
-      { number: '03.', title: '訪問前に確認すること', body: strings.ja.dataFussaSakeStoryChallenge },
-      { number: '04.', title: '福生の酒蔵を訪ねる', body: fussaCulture.howToEnjoyJa },
-    ],
-    en: [
-      { number: '01.', title: 'Brewing in Fussa', body: fussaCulture.historyEn },
-      { number: '02.', title: 'Tamura Shuzojo and Ishikawa Brewery', body: fussaCulture.makerEn },
-      { number: '03.', title: 'Before visiting', body: strings.en.dataFussaSakeStoryChallenge },
-      { number: '04.', title: 'Follow Fussa’s brewery route', body: fussaCulture.howToEnjoyEn },
-    ],
-    'zh-TW': [
-      { number: '01.', title: '福生延續的釀酒文化', body: strings['zh-TW'].dataFussaSakeHistory },
-      { number: '02.', title: '田村酒造場與石川酒造', body: strings['zh-TW'].dataFussaSakeMaker },
-      { number: '03.', title: '造訪前請確認', body: strings['zh-TW'].dataFussaSakeStoryChallenge },
-      { number: '04.', title: '走訪福生酒藏', body: strings['zh-TW'].dataFussaSakeHowToEnjoy },
-    ],
-  },
-  routeVariants: [fussaRouteVariant('half-day'), fussaRouteVariant('full-day')],
-};
-
-const akirunoJourney: JourneyPresentation = {
-  id: akirunoCanonicalPresentation.candidateId,
-  regionId: akirunoCandidate.regionId,
-  foodCultureId: akirunoCanonicalPresentation.foodCultureId,
-  storyId: akirunoCanonicalPresentation.foodCultureId,
-  routeId: akirunoCanonicalPresentation.routeId,
-  sourceStatus: akirunoCanonicalPresentation.sourceStatus,
-  copy: {
-    ja: {
-      title: akirunoRoute.nameJa,
-      subtitle: akirunoCulture.nameJa,
-      description: akirunoCulture.descriptionJa,
-      tags: ['旬の農産物', '直売所', '秋川渓谷'],
-      storyTitle: strings.ja.dataAkirunoProduceHeroKicker,
-      intro: [akirunoCulture.storyJa, akirunoCulture.descriptionJa],
-    },
-    en: {
-      title: akirunoRoute.nameEn,
-      subtitle: akirunoCulture.nameEn,
-      description: akirunoCulture.descriptionEn,
-      tags: ['Seasonal produce', 'Direct sales', 'Akigawa Valley'],
-      storyTitle: strings.en.dataAkirunoProduceHeroKicker,
-      intro: [akirunoCulture.storyEn, akirunoCulture.descriptionEn],
-    },
-    'zh-TW': {
-      title: strings['zh-TW'].dataAkirunoRouteName,
-      subtitle: strings['zh-TW'].dataAkirunoProduceName,
-      description: strings['zh-TW'].dataAkirunoProduceDescription,
-      tags: ['當季農產', '直賣所', '秋川溪谷'],
-      storyTitle: strings['zh-TW'].dataAkirunoProduceHeroKicker,
-      intro: [strings['zh-TW'].dataAkirunoProduceStory, strings['zh-TW'].dataAkirunoProduceDescription],
-    },
-  },
-  chapters: {
-    ja: [
-      { number: '01.', title: '五日市に続くのらぼう菜', body: akirunoCulture.historyJa },
-      { number: '02.', title: '生産者と秋川ファーマーズセンター', body: akirunoCulture.makerJa },
-      { number: '03.', title: '季節と当日の入荷', body: strings.ja.dataAkirunoProduceStoryChallenge },
-      { number: '04.', title: '直売所から秋川渓谷へ', body: akirunoCulture.howToEnjoyJa },
-    ],
-    en: [
-      { number: '01.', title: 'Norabō greens in Itsukaichi', body: akirunoCulture.historyEn },
-      { number: '02.', title: 'Producers and the farm market', body: akirunoCulture.makerEn },
-      { number: '03.', title: 'Season and daily stock', body: strings.en.dataAkirunoProduceStoryChallenge },
-      { number: '04.', title: 'From the market to Akigawa Valley', body: akirunoCulture.howToEnjoyEn },
-    ],
-    'zh-TW': [
-      { number: '01.', title: '五日市的野良坊菜', body: strings['zh-TW'].dataAkirunoProduceHistory },
-      { number: '02.', title: '生產者與農產直賣所', body: strings['zh-TW'].dataAkirunoProduceMaker },
-      { number: '03.', title: '季節與每日庫存', body: strings['zh-TW'].dataAkirunoProduceStoryChallenge },
-      { number: '04.', title: '從直賣所前往秋川溪谷', body: strings['zh-TW'].dataAkirunoProduceHowToEnjoy },
-    ],
-  },
-  routeVariants: [akirunoRouteVariant('half-day'), akirunoRouteVariant('full-day')],
-};
-
 /** Every journey reachable in the current presentation, including MOGU browse. */
-export const currentJourneys: JourneyPresentation[] = [...resultJourneys, omeJourney, hachiojiJourney, fussaJourney, akirunoJourney];
+const recordPresentations = adaptJourneyRecords(JOURNEY_RECORDS);
+export const currentJourneys: JourneyPresentation[] = [...resultJourneys, ...recordPresentations.currentJourneys];
 
 type SpotCopy = Pick<SpotPresentation['copy'][Locale], 'name' | 'lead' | 'description'>;
 
@@ -1130,309 +735,8 @@ export const demoSpots: Record<string, SpotPresentation> = {
   'mitake-station': spot('mitake-station', 'station', ['wasabiExperience'], { ja: { name: '御岳駅', lead: 'わさび体験へ向かう起点', description: '体験ルートの起点として示す、参考スポットです。' }, en: { name: 'Mitake Station', lead: 'A starting point for the wasabi experience', description: 'A reference stop shown as the experience route’s starting point.' }, 'zh-TW': { name: '御嶽站', lead: '前往山葵體驗的起點', description: '作為體驗路線起點顯示的參考景點。' } }),
 };
 
-const omePlaceNameZh: Record<string, string> = {
-  'sawai-ozawa-shuzo': strings['zh-TW'].dataPlaceOzawaName,
-  'sawanoien-garden': strings['zh-TW'].dataPlaceSawanoienName,
-  'mitake-shrine': strings['zh-TW'].dataPlaceMitakeShrineName,
-  'baba-oshijutaku': strings['zh-TW'].dataPlaceBabaName,
-};
-
-const omeSpotRoleZh: Record<string, string> = {
-  'sawai-ozawa-shuzo': strings['zh-TW'].dataOzawaRole,
-  'sawanoien-garden': strings['zh-TW'].dataSawanoienRole,
-  'mitake-shrine': strings['zh-TW'].dataMitakeShrineRole,
-  'baba-oshijutaku': strings['zh-TW'].dataBabaRole,
-};
-
-function omeSpot(id: string): SpotPresentation {
-  const place = canonicalPlace(id);
-  const detail = requiredRecord(getSpotDetail(id), `${id} Spot detail`);
-  const address = requiredRecord(place.address, `${id} canonical address`);
-  const zhName = requiredRecord(omePlaceNameZh[id], `${id} Traditional Chinese name`);
-  const zhRole = requiredRecord(omeSpotRoleZh[id], `${id} Traditional Chinese role`);
-  return {
-    id,
-    regionId: 'ome',
-    foodCultureId: 'sake-ome',
-    thumbnailAssetIds: [],
-    copy: {
-      ja: {
-        name: place.nameJa,
-        lead: detail.roleJa,
-        description: detail.roleJa,
-        tags: ['公式情報参照', '確認中'],
-        practicalInfo: [{ label: '所在地', value: address }],
-        caution: ['掲載情報は確認中です。営業・見学・交通などは訪問前に公式情報をご確認ください。'],
-      },
-      en: {
-        name: place.nameEn,
-        lead: detail.roleEn,
-        description: detail.roleEn,
-        tags: ['Official source', 'Confirmation pending'],
-        practicalInfo: [{ label: 'Address', value: address }],
-        caution: ['This listing is still being confirmed. Check official information for current operations, tours, and access before visiting.'],
-      },
-      'zh-TW': {
-        name: zhName,
-        lead: zhRole,
-        description: zhRole,
-        tags: ['參考官方資訊', '確認中'],
-        practicalInfo: [{ label: '地址', value: address }],
-        caution: ['刊載內容仍在確認中。造訪前請查看官方資訊，確認營業、參訪與交通條件。'],
-      },
-    },
-  };
-}
-
-const omeSpots: Record<string, SpotPresentation> = Object.fromEntries(
-  ['sawai-ozawa-shuzo', 'sawanoien-garden', 'mitake-shrine', 'baba-oshijutaku']
-    .map((id) => [id, omeSpot(id)]),
-);
-
-const hachiojiPlaceNameZh: Record<string, string> = {
-  'hachioji-takiyama-roadside-station': strings['zh-TW'].dataPlaceHachiojiRoadsideStationName,
-  'hachioji-takiyama-castle': strings['zh-TW'].dataPlaceHachiojiCastleName,
-};
-
-const hachiojiSpotRoleZh: Record<string, string> = {
-  'hachioji-takiyama-roadside-station': strings['zh-TW'].dataHachiojiMarketRole,
-  'hachioji-takiyama-castle': strings['zh-TW'].dataHachiojiCastleRole,
-};
-
-function hachiojiSpot(id: string): SpotPresentation {
-  const place = canonicalPlace(id);
-  const detail = requiredRecord(getSpotDetail(id), `${id} Spot detail`);
-  const zhName = requiredRecord(hachiojiPlaceNameZh[id], `${id} Traditional Chinese name`);
-  const zhRole = requiredRecord(hachiojiSpotRoleZh[id], `${id} Traditional Chinese role`);
-  const accessKey = spotAccessKey(id);
-  const practicalInfo = [
-    ...(place.address ? [{ label: localized('所在地', 'Address', '地址'), value: localized(place.address, place.address, place.address) }] : []),
-    ...(detail.practical?.accessJa && detail.practical.accessEn && accessKey
-      ? [{
-          label: localized('アクセス', 'Access', '交通'),
-          value: localized(detail.practical.accessJa, detail.practical.accessEn, strings['zh-TW'][accessKey]),
-        }]
-      : []),
-    ...(detail.practical?.hoursJa && detail.practical.hoursEn
-      ? [{
-          label: localized('営業時間', 'Hours', '營業時間'),
-          value: localized(detail.practical.hoursJa, detail.practical.hoursEn,
-            strings['zh-TW'].dataHachiojiMarketHours),
-        }]
-      : []),
-    ...(detail.practical?.closedDaysJa && detail.practical.closedDaysEn
-      ? [{
-          label: localized('営業日', 'Opening days', '營業日'),
-          value: localized(detail.practical.closedDaysJa, detail.practical.closedDaysEn,
-            strings['zh-TW'].dataHachiojiMarketOpeningDays),
-        }]
-      : []),
-  ];
-  return {
-    id,
-    regionId: hachiojiCandidate.regionId,
-    foodCultureId: hachiojiCulture.id,
-    thumbnailAssetIds: [],
-    copy: {
-      ja: {
-        name: place.nameJa,
-        lead: detail.roleJa,
-        description: detail.roleJa,
-        tags: ['公式・公的情報参照', '確認中'],
-        practicalInfo: practicalInfo.map((row) => ({ label: row.label.ja, value: row.value.ja })),
-        caution: ['掲載内容は確認中です。営業時間・バス時刻・当日の入荷は訪問前・現地でご確認ください。'],
-      },
-      en: {
-        name: place.nameEn,
-        lead: detail.roleEn,
-        description: detail.roleEn,
-        tags: ['Official/public information', 'Confirmation pending'],
-        practicalInfo: practicalInfo.map((row) => ({ label: row.label.en, value: row.value.en })),
-        caution: ['This listing is still being confirmed. Check current hours, bus times, and day-of stock before or during your visit.'],
-      },
-      'zh-TW': {
-        name: zhName,
-        lead: zhRole,
-        description: zhRole,
-        tags: ['參考官方／公部門資訊', '確認中'],
-        practicalInfo: practicalInfo.map((row) => ({ label: row.label['zh-TW'], value: row.value['zh-TW'] })),
-        caution: ['刊載內容仍在確認中。造訪前或現場請確認最新營業時間、巴士班次與當日進貨。'],
-      },
-    },
-  };
-}
-
-const hachiojiSpots: Record<string, SpotPresentation> = Object.fromEntries(
-  ['hachioji-takiyama-roadside-station', 'hachioji-takiyama-castle']
-    .map((id) => [id, hachiojiSpot(id)]),
-);
-
-const fussaPlaceNameZh: Record<string, string> = {
-  'fussa-tamura-shuzo': strings['zh-TW'].dataPlaceFussaTamuraName,
-  'fussa-kurumiru': strings['zh-TW'].dataPlaceFussaKurumiruName,
-  'fussa-ishikawa-shuzo': strings['zh-TW'].dataPlaceFussaIshikawaName,
-};
-
-const fussaSpotRoleZh: Record<string, string> = {
-  'fussa-tamura-shuzo': strings['zh-TW'].dataFussaTamuraRole,
-  'fussa-kurumiru': strings['zh-TW'].dataFussaKurumiruRole,
-  'fussa-ishikawa-shuzo': strings['zh-TW'].dataFussaIshikawaRole,
-};
-
-function fussaSpot(id: string): SpotPresentation {
-  const place = canonicalPlace(id);
-  const detail = requiredRecord(getSpotDetail(id), `${id} Spot detail`);
-  const address = requiredRecord(place.address, `${id} canonical address`);
-  const zhName = requiredRecord(fussaPlaceNameZh[id], `${id} Traditional Chinese name`);
-  const zhRole = requiredRecord(fussaSpotRoleZh[id], `${id} Traditional Chinese role`);
-  const accessKey = spotAccessKey(id);
-  const practicalInfo = [
-    { label: localized('所在地', 'Address', '地址'), value: localized(address, address, address) },
-    ...(detail.practical?.accessJa && detail.practical.accessEn && accessKey
-      ? [{
-          label: localized('アクセス', 'Access', '交通'),
-          value: localized(detail.practical.accessJa, detail.practical.accessEn, strings['zh-TW'][accessKey]),
-        }]
-      : []),
-    ...(detail.practical?.hoursJa && detail.practical.hoursEn
-      ? [{
-          label: localized('営業時間', 'Hours', '營業時間'),
-          value: localized(detail.practical.hoursJa, detail.practical.hoursEn,
-            id === 'fussa-kurumiru' ? strings['zh-TW'].dataFussaKurumiruHours : strings['zh-TW'].dataFussaTamuraHours),
-        }]
-      : []),
-    ...(detail.practical?.closedDaysJa && detail.practical.closedDaysEn
-      ? [{
-          label: localized('休業日', 'Closures', '休息日'),
-          value: localized(detail.practical.closedDaysJa, detail.practical.closedDaysEn, strings['zh-TW'].dataFussaKurumiruClosedDays),
-        }]
-      : []),
-  ];
-  return {
-    id,
-    regionId: fussaCandidate.regionId,
-    foodCultureId: fussaCulture.id,
-    thumbnailAssetIds: [],
-    copy: {
-      ja: {
-        name: place.nameJa,
-        lead: detail.roleJa,
-        description: detail.roleJa,
-        tags: ['公的・公式情報参照', '確認中'],
-        practicalInfo: practicalInfo.map((row) => ({ label: row.label.ja, value: row.value.ja })),
-        caution: ['営業・見学・販売・交通などの条件は変わる場合があります。訪問前に各公式情報をご確認ください。'],
-      },
-      en: {
-        name: place.nameEn,
-        lead: detail.roleEn,
-        description: detail.roleEn,
-        tags: ['Official/public information', 'Confirmation pending'],
-        practicalInfo: practicalInfo.map((row) => ({ label: row.label.en, value: row.value.en })),
-        caution: ['Operations, visits, sales, and transport conditions can change. Check each official source before visiting.'],
-      },
-      'zh-TW': {
-        name: zhName,
-        lead: zhRole,
-        description: zhRole,
-        tags: ['參考官方／公部門資訊', '確認中'],
-        practicalInfo: practicalInfo.map((row) => ({ label: row.label['zh-TW'], value: row.value['zh-TW'] })),
-        caution: ['營業、參訪、販售與交通條件可能變更。造訪前請查看各官方資訊。'],
-      },
-    },
-  };
-}
-
-const fussaSpots: Record<string, SpotPresentation> = Object.fromEntries(
-  ['fussa-tamura-shuzo', 'fussa-kurumiru', 'fussa-ishikawa-shuzo'].map((id) => [id, fussaSpot(id)]),
-);
-
-function akirunoSpot(id: string): SpotPresentation {
-  const place = canonicalPlace(id);
-  const detail = requiredRecord(getSpotDetail(id), `${id} Spot detail`);
-  const address = requiredRecord(place.address, `${id} canonical address`);
-  const zhName = requiredRecord(strings['zh-TW'][requiredRecord(placeNameKey(id), `${id} place-name key`)], `${id} Traditional Chinese name`);
-  const zhRole = requiredRecord(strings['zh-TW'][requiredRecord(spotRoleKey(id), `${id} role key`)], `${id} Traditional Chinese role`);
-  const accessKey = spotAccessKey(id);
-  const practicalInfo = [
-    { label: localized('所在地', 'Address', '地址'), value: localized(address, address, address) },
-    ...(detail.practical?.accessJa && detail.practical.accessEn && accessKey
-      ? [{
-          label: localized('アクセス', 'Access', '交通'),
-          value: localized(detail.practical.accessJa, detail.practical.accessEn, strings['zh-TW'][accessKey]),
-        }]
-      : []),
-    ...(detail.practical?.hoursJa && detail.practical.hoursEn
-      ? [{
-          label: localized('営業時間', 'Hours', '營業時間'),
-          value: localized(
-            detail.practical.hoursJa,
-            detail.practical.hoursEn,
-            strings['zh-TW'].dataAkirunoFarmersHours,
-          ),
-        }]
-      : []),
-    ...(detail.practical?.closedDaysJa && detail.practical.closedDaysEn
-      ? [{
-          label: localized('休業日', 'Closures', '休息日'),
-          value: localized(
-            detail.practical.closedDaysJa,
-            detail.practical.closedDaysEn,
-            strings['zh-TW'].dataAkirunoFarmersClosedDays,
-          ),
-        }]
-      : []),
-  ];
-  const caution = localized(
-    '季節の品・在庫、営業、交通は変わる場合があります。訪問前に各公式情報をご確認ください。',
-    'Seasonal stock, operations, and transport can change. Check each official source before visiting.',
-    '季節品庫存、營業與交通可能變動。造訪前請確認各官方資訊。',
-  );
-  return {
-    id,
-    regionId: akirunoCandidate.regionId,
-    foodCultureId: akirunoCulture.id,
-    thumbnailAssetIds: [],
-    copy: {
-      ja: {
-        name: place.nameJa,
-        lead: detail.roleJa,
-        description: detail.roleJa,
-        tags: ['公的・公式情報参照', '確認中'],
-        practicalInfo: practicalInfo.map((row) => ({ label: row.label.ja, value: row.value.ja })),
-        caution: [caution.ja],
-      },
-      en: {
-        name: place.nameEn,
-        lead: detail.roleEn,
-        description: detail.roleEn,
-        tags: ['Official/public information', 'Confirmation pending'],
-        practicalInfo: practicalInfo.map((row) => ({ label: row.label.en, value: row.value.en })),
-        caution: [caution.en],
-      },
-      'zh-TW': {
-        name: zhName,
-        lead: zhRole,
-        description: zhRole,
-        tags: ['參考官方／公部門資訊', '確認中'],
-        practicalInfo: practicalInfo.map((row) => ({ label: row.label['zh-TW'], value: row.value['zh-TW'] })),
-        caution: [caution['zh-TW']],
-      },
-    },
-  };
-}
-
-const akirunoSpots: Record<string, SpotPresentation> = Object.fromEntries(
-  ['akiruno-farmers-center', 'akiruno-seoto-no-yu'].map((id) => [id, akirunoSpot(id)]),
-);
-
 /** Every Spot reachable through a current-presentation journey. */
-export const currentSpots: Record<string, SpotPresentation> = {
-  ...demoSpots,
-  ...omeSpots,
-  ...hachiojiSpots,
-  ...fussaSpots,
-  ...akirunoSpots,
-};
+export const currentSpots: Record<string, SpotPresentation> = { ...demoSpots, ...recordPresentations.currentSpots };
 
 export interface RouteStepText {
   /** Stable presentation stop identity; never derived from array position. */
@@ -1443,12 +747,9 @@ export interface RouteStepText {
 }
 
 export const routeNames: Record<string, LocalizedText> = {
-  'demo-okutama-wasabi': localized('東京わさび文化を巡る旅', 'A journey through Tokyo wasabi culture', '走訪東京山葵文化之旅'),
-  'demo-okutama-yamame': localized('奥多摩やまめを味わう旅', 'A journey to taste Okutama yamame', '品嚐奧多摩山女魚之旅'),
-  'demo-ome-sake': localized(omeRoute.nameJa, omeRoute.nameEn, strings['zh-TW'].dataSakeRouteName),
-  'demo-tokyo-hachioji-ginger': localized(hachiojiRoute.nameJa, hachiojiRoute.nameEn, strings['zh-TW'].dataHachiojiRouteName),
-  'demo-tokyo-west-fussa-sake': localized(fussaRoute.nameJa, fussaRoute.nameEn, strings['zh-TW'].dataFussaSakeRouteName),
-  'demo-tokyo-west-akiruno-produce': localized(akirunoRoute.nameJa, akirunoRoute.nameEn, strings['zh-TW'].dataAkirunoRouteName),
+'demo-okutama-wasabi': localized('東京わさび文化を巡る旅', 'A journey through Tokyo wasabi culture', '走訪東京山葵文化之旅'),
+'demo-okutama-yamame': localized('奥多摩やまめを味わう旅', 'A journey to taste Okutama yamame', '品嚐奧多摩山女魚之旅'),
+...recordPresentations.routeNames,
 };
 
 export interface ResultLocation {
@@ -1473,167 +774,21 @@ function okutamaStationAccess(origin: 'tokyo' | 'shinjuku', locale: Locale): Pic
 }
 
 export const resultLocation: Record<string, Record<Locale, ResultLocation>> = {
-  'demo-okutama-wasabi': {
+'demo-okutama-wasabi': {
     ja: { area: '奥多摩地区 (東京西部)', station: '東京駅', ...okutamaStationAccess('tokyo', 'ja') },
     en: { area: 'Okutama area (Western Tokyo)', station: 'Tokyo Station', ...okutamaStationAccess('tokyo', 'en') },
     'zh-TW': { area: '奧多摩地區（東京西部）', station: '東京站', ...okutamaStationAccess('tokyo', 'zh-TW') },
   },
-  'demo-okutama-yamame': {
+'demo-okutama-yamame': {
     ja: { area: '奥多摩地区 (東京西部)', station: '新宿駅', ...okutamaStationAccess('shinjuku', 'ja') },
     en: { area: 'Okutama area (Western Tokyo)', station: 'Shinjuku Station', ...okutamaStationAccess('shinjuku', 'en') },
     'zh-TW': { area: '奧多摩地區（東京西部）', station: '新宿站', ...okutamaStationAccess('shinjuku', 'zh-TW') },
   },
-  'demo-ome-sake': {
-    ja: { area: '青梅・沢井 (東京西部)', station: '沢井駅', access: 'から徒歩 約5分' },
-    en: { area: 'Ome / Sawai (Western Tokyo)', station: 'Sawai Station', access: 'About 5 min on foot' },
-    'zh-TW': { area: '青梅・沢井（東京西部）', station: '沢井站', access: '步行約 5 分鐘' },
-  },
-  'demo-tokyo-hachioji-ginger': {
-    ja: {
-      area: '八王子・東京',
-      station: '',
-      access: hachiojiMarketDetail.practical?.accessJa ?? '',
-      source: hachiojiMarketDetail.source,
-      sourceValue: hachiojiMarketDetail.practical?.accessJa,
-    },
-    en: {
-      area: 'Hachioji, Tokyo',
-      station: '',
-      access: hachiojiMarketDetail.practical?.accessEn ?? '',
-      source: hachiojiMarketDetail.source,
-      sourceValue: hachiojiMarketDetail.practical?.accessEn,
-    },
-    'zh-TW': {
-      area: '東京都八王子',
-      station: '',
-      access: strings['zh-TW'].dataHachiojiMarketAccess,
-      source: hachiojiMarketDetail.source,
-      sourceValue: hachiojiMarketDetail.practical?.accessJa,
-    },
-  },
-  'demo-tokyo-west-fussa-sake': {
-    ja: {
-      area: '福生・東京',
-      station: '',
-      access: requiredRecord(getSpotDetail('fussa-tamura-shuzo'), 'Fussa first Spot detail').practical?.accessJa ?? '',
-      source: requiredRecord(getSpotDetail('fussa-tamura-shuzo'), 'Fussa first Spot detail').source,
-      sourceValue: requiredRecord(getSpotDetail('fussa-tamura-shuzo'), 'Fussa first Spot detail').practical?.accessJa,
-    },
-    en: {
-      area: 'Fussa, Tokyo',
-      station: '',
-      access: requiredRecord(getSpotDetail('fussa-tamura-shuzo'), 'Fussa first Spot detail').practical?.accessEn ?? '',
-      source: requiredRecord(getSpotDetail('fussa-tamura-shuzo'), 'Fussa first Spot detail').source,
-      sourceValue: requiredRecord(getSpotDetail('fussa-tamura-shuzo'), 'Fussa first Spot detail').practical?.accessEn,
-    },
-    'zh-TW': {
-      area: '東京都福生',
-      station: '',
-      access: strings['zh-TW'].dataFussaTamuraAccess,
-      source: requiredRecord(getSpotDetail('fussa-tamura-shuzo'), 'Fussa first Spot detail').source,
-      sourceValue: requiredRecord(getSpotDetail('fussa-tamura-shuzo'), 'Fussa first Spot detail').practical?.accessJa,
-    },
-  },
-  'demo-tokyo-west-akiruno-produce': {
-    ja: {
-      area: 'あきる野・秋川渓谷',
-      station: '',
-      access: requiredRecord(getSpotDetail('akiruno-farmers-center'), 'Akiruno first Spot detail').practical?.accessJa ?? '',
-      source: requiredRecord(getSpotDetail('akiruno-farmers-center'), 'Akiruno first Spot detail').source,
-      sourceValue: requiredRecord(getSpotDetail('akiruno-farmers-center'), 'Akiruno first Spot detail').practical?.accessJa,
-    },
-    en: {
-      area: 'Akiruno, Akigawa Valley',
-      station: '',
-      access: requiredRecord(getSpotDetail('akiruno-farmers-center'), 'Akiruno first Spot detail').practical?.accessEn ?? '',
-      source: requiredRecord(getSpotDetail('akiruno-farmers-center'), 'Akiruno first Spot detail').source,
-      sourceValue: requiredRecord(getSpotDetail('akiruno-farmers-center'), 'Akiruno first Spot detail').practical?.accessEn,
-    },
-    'zh-TW': {
-      area: '東京都秋留野・秋川溪谷',
-      station: '',
-      access: strings['zh-TW'].dataAkirunoFarmersAccess,
-      source: requiredRecord(getSpotDetail('akiruno-farmers-center'), 'Akiruno first Spot detail').source,
-      sourceValue: requiredRecord(getSpotDetail('akiruno-farmers-center'), 'Akiruno first Spot detail').practical?.accessJa,
-    },
-  },
+...recordPresentations.resultLocation,
 };
 
-function omeRouteSteps(canonicalId: 'half-day' | '1-day'): RouteStepText[] {
-  const variant = omeRoute.variants[canonicalId];
-  return variant.steps.map((step) => {
-    const mobility = variant.mobility.find((segment) => segment.toStep === step.stepNumber);
-    const zhMobility = mobility
-      ? mobility.mode === 'walk'
-        ? '步行'
-        : mobility.mode === 'train'
-          ? strings['zh-TW'].dataSakeMobilityCableCar
-          : '巴士'
-      : undefined;
-    return {
-      spotId: step.placeId,
-      ...(mobility && zhMobility
-        ? {
-            walk: localized(
-              `${mobility.labelJa} 約 ${mobility.durationMinutes} 分`,
-              `${mobility.labelEn} · about ${mobility.durationMinutes} min`,
-              `${zhMobility}（編輯部參考）約 ${mobility.durationMinutes} 分鐘`,
-            ),
-          }
-        : {}),
-      description: localized(
-        step.roleJa,
-        step.roleEn,
-        requiredRecord(omeStepRoleZh[step.placeId], `${step.placeId} route role`),
-      ),
-    };
-  });
-}
-
-function hachiojiRouteSteps(canonicalId: 'half-day' | '1-day'): RouteStepText[] {
-  const variant = requiredRecord(hachiojiRoute.variants[canonicalId], `Hachioji ${canonicalId} route variant`);
-  return variant.steps.map((step) => {
-    const roleKey = requiredRecord(
-      stepRoleKey(hachiojiRoute.id, step.placeId, canonicalId),
-      `${step.placeId} Hachioji ${canonicalId} route role key`,
-    );
-    return {
-      spotId: step.placeId,
-      description: localized(step.roleJa, step.roleEn, strings['zh-TW'][roleKey]),
-    };
-  });
-}
-
-function fussaRouteSteps(canonicalId: 'half-day' | '1-day'): RouteStepText[] {
-  const variant = requiredRecord(fussaRoute.variants[canonicalId], `Fussa ${canonicalId} route variant`);
-  return variant.steps.map((step) => {
-    const roleKey = requiredRecord(
-      stepRoleKey(fussaRoute.id, step.placeId, canonicalId),
-      `${step.placeId} Fussa ${canonicalId} route role key`,
-    );
-    return {
-      spotId: step.placeId,
-      description: localized(step.roleJa, step.roleEn, strings['zh-TW'][roleKey]),
-    };
-  });
-}
-
-function akirunoRouteSteps(canonicalId: 'half-day' | '1-day'): RouteStepText[] {
-  const variant = requiredRecord(akirunoRoute.variants[canonicalId], `Akiruno ${canonicalId} route variant`);
-  return variant.steps.map((step) => {
-    const roleKey = requiredRecord(
-      stepRoleKey(akirunoRoute.id, step.placeId, canonicalId),
-      `${step.placeId} Akiruno ${canonicalId} route role key`,
-    );
-    return {
-      spotId: step.placeId,
-      description: localized(step.roleJa, step.roleEn, strings['zh-TW'][roleKey]),
-    };
-  });
-}
-
 export const routeStepText: Record<string, RouteStepText[]> = {
-  'demo-okutama-wasabi:half-day': [
+'demo-okutama-wasabi:half-day': [
     { spotId: 'okutama-station', description: localized('旅のスタート地点', 'Starting point', '旅程起點') },
     { spotId: 'okutama-tourism-office', walk: localized('観光案内所への経路を確認', 'Check the route to the visitor center', '請確認前往觀光服務處的路線'), description: localized('わさぴーと観光案内で情報をチェック！', 'Check maps and local tips with Wasapy!', '和 Wasapy 一起確認觀光資訊！') },
     { spotId: 'wasabi-kitchen', description: wasabiKitchenRouteDescription },
@@ -1642,7 +797,7 @@ export const routeStepText: Record<string, RouteStepText[]> = {
     { spotId: 'oku-hikawa-shrine', walk: localized('通行状況・移動経路を確認', 'Check access conditions and the walking route', '請確認通行情況與步行路線'), description: localized('お参り！', 'Visit the shrine', '參拜神社！') },
     { spotId: 'port-okutama', walk: localized('奥多摩駅へ（移動時間は要確認）', 'Continue to Okutama Station (confirm travel time)', '前往奧多摩站（請確認交通時間）'), description: portOkutamaRouteServices },
   ],
-  'demo-okutama-wasabi:full-day': [
+'demo-okutama-wasabi:full-day': [
     { spotId: 'mitake-station', description: wasabiExperiencePresentation.stationDescription },
     { spotId: 'wasabi-experience', walk: wasabiExperienceSeasonalTimes, description: wasabiExperienceRouteDescription },
     { spotId: 'okutama-station', walk: localized('体験後、御嶽駅へ戻り電車（要確認）', 'After the tour, return to Mitake Station for the train (confirm arrangements)', '體驗後返回御嶽站搭電車（請確認安排）'), description: localized('JR青梅線で奥多摩駅へ。集合地への帰着時刻と当日の列車を確認', 'Take the JR Ome Line to Okutama. Confirm the tour return time and that day’s trains.', '搭乘 JR 青梅線前往奧多摩。請確認返回集合地的時間與當日班次。') },
@@ -1650,20 +805,13 @@ export const routeStepText: Record<string, RouteStepText[]> = {
     { spotId: 'yamashiroya', description: yamashiroyaProducts },
     { spotId: 'port-okutama', walk: localized('奥多摩駅へ（移動時間は要確認）', 'Continue to Okutama Station (confirm travel time)', '前往奧多摩站（請確認交通時間）'), description: portOkutamaCoffeeAvailability },
   ],
-  'demo-okutama-yamame:half-day': [
+'demo-okutama-yamame:half-day': [
     { spotId: 'okutama-station', description: localized('旅のスタート地点', 'Starting point', '旅程起點') },
     { spotId: 'okutama-tourism-office', walk: localized('観光案内所への経路を確認', 'Check the route to the visitor center', '請確認前往觀光服務處的路線'), description: localized('情報収集 30分', 'Gather information · 30 min', '蒐集資訊・30 分鐘') },
     { spotId: 'hikawa-valley', description: localized('遊歩道散策 40〜50分（多摩川での遊泳は禁止。増水時や流量が増しているときは入水を避ける）', 'Promenade walk · 40–50 min (swimming in the Tama River is prohibited; avoid entering the water during high water or increased flow)', '步道散步・40–50 分鐘（多摩川禁止游泳；水位或流量增加時請避免進入水中）') },
     { spotId: 'akabeko', walk: localized('遊歩道の出口からの経路を確認', 'Check the route from the promenade exit', '請確認從步道出口出發的路線'), description: akabekoYamameRouteDescription },
   ],
-  'demo-ome-sake:half-day': omeRouteSteps('half-day'),
-  'demo-ome-sake:full-day': omeRouteSteps('1-day'),
-  'demo-tokyo-hachioji-ginger:half-day': hachiojiRouteSteps('half-day'),
-  'demo-tokyo-hachioji-ginger:full-day': hachiojiRouteSteps('1-day'),
-  'demo-tokyo-west-fussa-sake:half-day': fussaRouteSteps('half-day'),
-  'demo-tokyo-west-fussa-sake:full-day': fussaRouteSteps('1-day'),
-  'demo-tokyo-west-akiruno-produce:half-day': akirunoRouteSteps('half-day'),
-  'demo-tokyo-west-akiruno-produce:full-day': akirunoRouteSteps('1-day'),
+...recordPresentations.routeStepText,
 };
 
 export interface RouteStats {
@@ -1681,17 +829,10 @@ export interface RouteStats {
 }
 
 export const routeRegionGuidance: Record<string, Record<Locale, string>> = {
-  'demo-okutama-wasabi:half-day': localized('奥多摩・東京都 (東京西部)', 'Okutama, Tokyo (Western Tokyo)', '東京都奧多摩（東京西部）'),
-  'demo-okutama-wasabi:full-day': localized('青梅・御岳 → 奥多摩 (東京西部)', 'Ome / Mitake → Okutama (Western Tokyo)', '青梅・御嶽 → 奧多摩（東京西部）'),
-  'demo-okutama-yamame:half-day': localized('奥多摩・東京都 (東京西部)', 'Okutama, Tokyo (Western Tokyo)', '東京都奧多摩（東京西部）'),
-  'demo-ome-sake:half-day': localized('青梅・沢井・東京都 (東京西部)', 'Ome / Sawai, Tokyo (Western Tokyo)', '東京都青梅・沢井（東京西部）'),
-  'demo-ome-sake:full-day': localized('青梅・沢井・東京都 (東京西部)', 'Ome / Sawai, Tokyo (Western Tokyo)', '東京都青梅・沢井（東京西部）'),
-  'demo-tokyo-hachioji-ginger:half-day': localized('八王子・東京都', 'Hachioji, Tokyo', '東京都八王子'),
-  'demo-tokyo-hachioji-ginger:full-day': localized('八王子・東京都', 'Hachioji, Tokyo', '東京都八王子'),
-  'demo-tokyo-west-fussa-sake:half-day': localized('福生・東京', 'Fussa, Tokyo', '東京都福生'),
-  'demo-tokyo-west-fussa-sake:full-day': localized('福生・東京', 'Fussa, Tokyo', '東京都福生'),
-  'demo-tokyo-west-akiruno-produce:half-day': localized('あきる野・秋川渓谷', 'Akiruno, Akigawa Valley', '東京都秋留野・秋川溪谷'),
-  'demo-tokyo-west-akiruno-produce:full-day': localized('あきる野・秋川渓谷', 'Akiruno, Akigawa Valley', '東京都秋留野・秋川溪谷'),
+'demo-okutama-wasabi:half-day': localized('奥多摩・東京都 (東京西部)', 'Okutama, Tokyo (Western Tokyo)', '東京都奧多摩（東京西部）'),
+'demo-okutama-wasabi:full-day': localized('青梅・御岳 → 奥多摩 (東京西部)', 'Ome / Mitake → Okutama (Western Tokyo)', '青梅・御嶽 → 奧多摩（東京西部）'),
+'demo-okutama-yamame:half-day': localized('奥多摩・東京都 (東京西部)', 'Okutama, Tokyo (Western Tokyo)', '東京都奧多摩（東京西部）'),
+...recordPresentations.routeRegionGuidance,
 };
 
 const routeTimingCaution = localized(
@@ -1713,141 +854,41 @@ export function routeVariantSummary(variant: JourneyPresentation['routeVariants'
   return { time, spots: localized(`${count} スポット`, `${count} spots`, `${count} 個景點`)[locale] };
 }
 
-type PresentationVariantId = JourneyPresentation['routeVariants'][number]['id'];
-type CanonicalRouteVariantId = 'half-day' | '1-day';
-
-interface RecoveredJourneyConfig {
-  route: ModelRoute;
-  variantIds: Record<PresentationVariantId, CanonicalRouteVariantId>;
-  transportZh: string;
-  accessCopy?: LocalizedText;
-  caution: LocalizedText;
-}
-
 /** Shared display projection for non-Result journeys recovered into MOGU. */
-const recoveredJourneyConfig: Record<string, RecoveredJourneyConfig> = {
-  'demo-ome-sake': {
-    route: omeRoute,
-    variantIds: { 'half-day': 'half-day', 'full-day': '1-day' },
-    transportZh: 'JR／巴士／纜車／步行（編輯部參考）',
-    accessCopy: localized(
-      '沢井駅から小澤酒造まで徒歩約5分',
-      'About 5 minutes on foot from Sawai Station to Ozawa Shuzo',
-      '從沢井站步行約 5 分鐘可抵達小澤酒造',
-    ),
-    caution: localized(
-      '所要時間と移動順は編集部による目安です。訪問前に交通・営業の公式情報をご確認ください。',
-      'Route timing and order are editorial estimates. Check official transport and operating information before visiting.',
-      '所需時間與移動順序僅供參考。造訪前請確認交通與營業的官方資訊。',
-    ),
-  },
-  'demo-tokyo-hachioji-ginger': {
-    route: hachiojiRoute,
-    variantIds: { 'half-day': 'half-day', 'full-day': '1-day' },
-    transportZh: strings['zh-TW'].dataHachiojiRouteTransport,
-    caution: localizedBundleKey(
-      requiredRecord(routeEstimateKey(hachiojiRoute.id), 'Hachioji route estimate key'),
-      'Hachioji route estimate',
-    ),
-  },
-  'demo-tokyo-west-fussa-sake': {
-    route: fussaRoute,
-    variantIds: { 'half-day': 'half-day', 'full-day': '1-day' },
-    transportZh: strings['zh-TW'].dataFussaSakeRouteTransport,
-    caution: localizedBundleKey(
-      requiredRecord(routeEstimateKey(fussaRoute.id), 'Fussa route estimate key'),
-      'Fussa route estimate',
-    ),
-  },
-  'demo-tokyo-west-akiruno-produce': {
-    route: akirunoRoute,
-    variantIds: { 'half-day': 'half-day', 'full-day': '1-day' },
-    transportZh: strings['zh-TW'].dataAkirunoRouteTransport,
-    caution: localizedBundleKey(
-      requiredRecord(routeEstimateKey(akirunoRoute.id), 'Akiruno route estimate key'),
-      'Akiruno route estimate',
-    ),
-  },
-};
 
-const OKUTAMA_JOURNEY_IDS = new Set(['demo-okutama-wasabi', 'demo-okutama-yamame']);
-
-function recoveredFirstStopAccess(
-  config: RecoveredJourneyConfig,
-  variant: JourneyPresentation['routeVariants'][number],
-  locale: Locale,
-  description: string,
-): Pick<RouteStats, 'access' | 'source' | 'sourceValue'> {
-  const canonicalVariantId = requiredRecord(config.variantIds[variant.id], `${description} canonical variant mapping`);
-  const canonicalVariant = requiredRecord(config.route.variants[canonicalVariantId], `${description} canonical route variant`);
-  const firstStopId = requiredRecord(canonicalVariant.steps[0]?.placeId, `${description} first stop identity`);
-  const detail = requiredRecord(getSpotDetail(firstStopId), `${description} first Spot detail`);
-  const accessKey = spotAccessKey(firstStopId);
-  const practical = detail.practical;
-  const access = config.accessCopy?.[locale]
-    ?? (practical?.accessJa && practical.accessEn && accessKey
-      ? localized(practical.accessJa, practical.accessEn, strings['zh-TW'][accessKey])[locale]
-      : undefined);
-  return {
-    access: requiredRecord(access, `${description} first-stop access`),
-    source: detail.source,
-    sourceValue: practical?.accessJa,
-  };
-}
-
-export const routeStats: Record<string, Record<Locale, RouteStats>> = Object.fromEntries(
-  currentJourneys.flatMap((journey) => journey.routeVariants.map((variant) => {
+export const routeStats: Record<string, Record<Locale, RouteStats>> = {
+  ...Object.fromEntries(resultJourneys.flatMap((journey) => journey.routeVariants.map((variant) => {
     const key = `${journey.id}:${variant.id}`;
-    const recovered = recoveredJourneyConfig[journey.id];
-    if (!recovered && !OKUTAMA_JOURNEY_IDS.has(journey.id)) {
-      throw new Error(`Missing explicit Route configuration for current journey: ${journey.id}`);
-    }
-    const canonicalVariant = recovered
-      ? requiredRecord(recovered.route.variants[requiredRecord(recovered.variantIds[variant.id], `${key} variant mapping`)], `${key} canonical variant`)
-      : undefined;
-    const isOkutamaMitakeStart = OKUTAMA_JOURNEY_IDS.has(journey.id)
-      && variant.steps[0]?.spotId === 'mitake-station';
+    const isOkutamaMitakeStart = variant.steps[0]?.spotId === 'mitake-station';
     const values = Object.fromEntries((['ja', 'en', 'zh-TW'] as const).map((locale) => {
-      const localizedLocation = recovered ? undefined
-        : requiredRecord(resultLocation[journey.id]?.[locale], `${key} localized access`);
+      const location = requiredRecord(resultLocation[journey.id]?.[locale], `${key} localized access`);
       const fullDayAccess = localized(
         '御嶽駅から集合場所へ。列車・集合時刻は予約時に確認',
         'Via Mitake Station to the meeting place. Confirm trains and the meeting time when booking.',
         '由御嶽站前往集合地點。預約時請確認班次與集合時間',
       )[locale];
-      const recoveredAccess = recovered
-        ? recoveredFirstStopAccess(recovered, variant, locale, key)
-        : undefined;
-      const transport = recovered && canonicalVariant
-        ? localized(canonicalVariant.transportJa, canonicalVariant.transportEn, recovered.transportZh)[locale]
-        : localized('経路は要確認', 'Confirm route', '請確認路線')[locale];
-      const caution = recovered
-        ? recovered.caution[locale]
-        : routeTimingCaution[locale] + (isOkutamaMitakeStart ? localized(
-            ' 冬季の体験後は「あかべこ」の昼営業に間に合わない場合があります。予約前に順序・訪問可否を調整してください。',
-            ' After a winter tour, Akabeko lunch may be out of reach. Adjust the order and stops before booking.',
-            ' 冬季體驗結束後可能趕不上 AKABEKO 午餐時段，預約前請調整順序與造訪安排。',
-          )[locale] : '');
+      const caution = routeTimingCaution[locale] + (isOkutamaMitakeStart ? localized(
+        ' 冬季の体験後は「あかべこ」の昼営業に間に合わない場合があります。予約前に順序・訪問可否を調整してください。',
+        ' After a winter tour, Akabeko lunch may be out of reach. Adjust the order and stops before booking.',
+        ' 冬季體驗結束後可能趕不上 AKABEKO 午餐時段，預約前請調整順序與造訪安排。',
+      )[locale] : '');
       return [locale, {
         ...routeVariantSummary(variant, locale),
-        distance: transport,
-        station: recovered || isOkutamaMitakeStart ? '' : localizedLocation?.station ?? '',
-        minutes: recovered || isOkutamaMitakeStart ? '' : localizedLocation?.access ?? '',
-        access: recoveredAccess?.access ?? (isOkutamaMitakeStart
-          ? fullDayAccess
-          : `${localizedLocation?.station ?? ''} ${localizedLocation?.access ?? ''}`),
-        source: recoveredAccess?.source ?? (isOkutamaMitakeStart
-          ? wasabiExperienceMeetingAccess.source
-          : localizedLocation?.source),
-        sourceValue: recoveredAccess?.sourceValue ?? (isOkutamaMitakeStart
+        distance: localized('経路は要確認', 'Confirm route', '請確認路線')[locale],
+        station: isOkutamaMitakeStart ? '' : location.station,
+        minutes: isOkutamaMitakeStart ? '' : location.access,
+        access: isOkutamaMitakeStart ? fullDayAccess : `${location.station} ${location.access}`,
+        source: isOkutamaMitakeStart ? wasabiExperienceMeetingAccess.source : location.source,
+        sourceValue: isOkutamaMitakeStart
           ? `${wasabiExperienceMeetingAccess.stationJa} / ${wasabiExperienceMeetingAccess.walkMinutes} min on foot to meeting place`
-          : localizedLocation?.sourceValue),
+          : location.sourceValue,
         caution,
       }];
     })) as Record<Locale, RouteStats>;
     return [key, values];
-  })),
-);
+  }))),
+  ...recordPresentations.routeStats,
+};
 
 export interface ReferenceSpotDetail {
   tags: Array<{
@@ -1894,345 +935,8 @@ export interface ReferenceSpotDetail {
   caution: LocalizedText[];
 }
 
-const omePracticalZh: Record<string, Partial<Record<'access' | 'hours' | 'closedDays' | 'price', string>>> = {
-  'sawai-ozawa-shuzo': {
-    access: '從 JR 青梅線「沢井站」步行約 5 分鐘。酒藏參訪需預約，約 40 分鐘；個人請使用官方預約頁面。造訪前請確認最新官方資訊。',
-    hours: '酒藏參訪：平日 11:00、13:00／週末及國定假日 11:00、12:30、14:00（需預約）',
-    closedDays: '週一（若逢國定假日則順延至週二）',
-    price: '每人 700 日圓（含稅）',
-  },
-  'sawanoien-garden': {
-    hours: '10:00–17:00',
-    closedDays: '週一（若週一為國定假日則週二休園）、年末年初，另有其他休園日。造訪前請查看最新官方營業日曆。',
-  },
-};
-
-function omeReferenceSpotDetail(id: string): ReferenceSpotDetail {
-  const place = canonicalPlace(id);
-  const detail = requiredRecord(getSpotDetail(id), `${id} Spot detail`);
-  const address = requiredRecord(place.address, `${id} canonical address`);
-  const practical = detail.practical;
-  const zhPractical = omePracticalZh[id] ?? {};
-  const information: ReferenceSpotDetail['information'] = [
-    {
-      fieldId: 'name',
-      icon: 'information',
-      label: localized('施設', 'Place', '設施'),
-      value: localized(place.nameJa, place.nameEn, requiredRecord(omePlaceNameZh[id], `${id} Traditional Chinese name`)),
-    },
-    {
-      fieldId: 'address',
-      icon: 'information',
-      label: localized('所在地', 'Address', '地址'),
-      value: localized(address, address, address),
-    },
-  ];
-
-  if (practical?.accessJa && practical.accessEn && zhPractical.access) {
-    information.push({
-      fieldId: 'access',
-      icon: 'train',
-      label: localized('アクセス・見学', 'Access and tour', '交通・參訪'),
-      value: localized(practical.accessJa, practical.accessEn, zhPractical.access),
-    });
-  }
-  if (practical?.hoursJa && practical.hoursEn && zhPractical.hours) {
-    information.push({
-      fieldId: 'hours',
-      icon: 'clock',
-      label: localized('営業時間・見学時間', 'Hours and tour times', '營業・參訪時間'),
-      value: localized(practical.hoursJa, practical.hoursEn, zhPractical.hours),
-    });
-  }
-  if (practical?.closedDaysJa && practical.closedDaysEn && zhPractical.closedDays) {
-    information.push({
-      fieldId: 'closed_days',
-      icon: 'clock',
-      label: localized('定休日・休業', 'Closures', '公休日・休園'),
-      value: localized(practical.closedDaysJa, practical.closedDaysEn, zhPractical.closedDays),
-    });
-  }
-  if (practical?.priceJa && practical.priceEn && zhPractical.price) {
-    information.push({
-      fieldId: 'price_availability',
-      icon: 'information',
-      label: localized('見学料金', 'Tour price', '參訪費用'),
-      value: localized(practical.priceJa, practical.priceEn, zhPractical.price),
-    });
-  }
-  if (practical?.reservationAvailable) {
-    information.push({
-      fieldId: 'reservation',
-      icon: 'information',
-      label: localized('予約', 'Reservation', '預約'),
-      value: localized('予約制（個人は公式予約ページから申込み）', 'Reservation required (individual visitors use the official booking page)', '需預約（個人請使用官方預約頁面）'),
-    });
-  }
-  information.push(
-    {
-      fieldId: 'official_current_url',
-      icon: 'information',
-      label: localized('公式情報', 'Official source', '官方資訊'),
-      value: localized(place.source.url ?? '', place.source.url ?? '', place.source.url ?? ''),
-    },
-    {
-      fieldId: 'verification_note',
-      icon: 'information',
-      label: localized('確認状況', 'Verification status', '確認狀態'),
-      value: localized(
-        '掲載内容は現在確認中です。営業・見学・交通などは、訪問前に公式情報をご確認ください。',
-        'This listing is still being confirmed. Check official information for current operations, tours, and access before visiting.',
-        '刊載內容仍在確認中。造訪前請以官方資訊確認營業、參訪與交通條件。',
-      ),
-    },
-  );
-
-  const isHeritage = id === 'mitake-shrine' || id === 'baba-oshijutaku';
-  return {
-    tags: [
-      {
-        tagId: isHeritage ? 'heritage-context' : id === 'sawai-ozawa-shuzo' ? 'sake-brewery' : 'brewery-garden',
-        color: '#8FAE5C',
-        label: isHeritage
-          ? localized('文化財', 'Heritage', '文化財')
-          : id === 'sawai-ozawa-shuzo'
-            ? localized('酒蔵', 'Sake brewery', '酒藏')
-            : localized('清流ガーデン', 'Riverside garden', '清流花園'),
-      },
-      { tagId: 'official-source', color: '#F0A24C', label: localized('公式・公的情報参照', 'Official/public source', '參考官方・公部門資訊') },
-      { tagId: 'confirmation-pending', color: '#5D9BEF', label: localized('確認中', 'Confirmation pending', '確認中') },
-    ],
-    description: localized(
-      detail.roleJa,
-      detail.roleEn,
-      requiredRecord(omeSpotRoleZh[id], `${id} Traditional Chinese role`),
-    ),
-    information,
-    ...(id === 'sawai-ozawa-shuzo'
-      ? {
-          guide: {
-            title: localized('酒蔵見学（予約制）', 'Brewery tour (reservation required)', '酒藏參訪（需預約）'),
-            body: localized(
-              '個人見学は公式予約ページから申し込みます。時間・休業・料金は変わる場合があるため、訪問前に最新情報をご確認ください。',
-              'Individual visitors book through the official reservation page. Tour times, closures, and price can change, so check current information before visiting.',
-              '個人參訪請使用官方預約頁面。參訪時間、休業與費用可能變更，造訪前請確認最新資訊。',
-            ),
-            action: localized('公式見学案内を確認する', 'Check official tour information', '查看官方參訪資訊'),
-          },
-        }
-      : {}),
-    caution: [localized(
-      '・営業・見学・交通の条件は変更される場合があります。訪問前に公式情報をご確認ください。',
-      '• Operations, tours, and access conditions can change. Check official information before visiting.',
-      '・營業、參訪與交通條件可能變更。造訪前請查看官方資訊。',
-    )],
-  };
-}
-
-function fussaReferenceSpotDetail(id: string): ReferenceSpotDetail {
-  const place = canonicalPlace(id);
-  const detail = requiredRecord(getSpotDetail(id), `${id} Spot detail`);
-  const address = requiredRecord(place.address, `${id} canonical address`);
-  const nameZh = requiredRecord(fussaPlaceNameZh[id], `${id} Traditional Chinese name`);
-  const accessKey = spotAccessKey(id);
-  const information: ReferenceSpotDetail['information'] = [
-    {
-      fieldId: 'name',
-      icon: 'information',
-      label: localized('施設', 'Place', '設施'),
-      value: localized(place.nameJa, place.nameEn, nameZh),
-    },
-    {
-      fieldId: 'address',
-      icon: 'information',
-      label: localized('所在地', 'Address', '地址'),
-      value: localized(address, address, address),
-    },
-  ];
-  const practical = detail.practical;
-  if (practical?.accessJa && practical.accessEn && accessKey) {
-    information.push({
-      fieldId: 'access',
-      icon: 'train',
-      label: localized('アクセス', 'Access', '交通'),
-      value: localized(practical.accessJa, practical.accessEn, strings['zh-TW'][accessKey]),
-    });
-  }
-  if (practical?.hoursJa && practical.hoursEn) {
-    const hoursZh = id === 'fussa-kurumiru'
-      ? strings['zh-TW'].dataFussaKurumiruHours
-      : strings['zh-TW'].dataFussaTamuraHours;
-    information.push({
-      fieldId: 'hours',
-      icon: 'clock',
-      label: localized('営業時間・案内', 'Hours and guidance', '營業時間與指引'),
-      value: localized(practical.hoursJa, practical.hoursEn, hoursZh),
-    });
-  }
-  if (practical?.closedDaysJa && practical.closedDaysEn) {
-    information.push({
-      fieldId: 'closed_days',
-      icon: 'clock',
-      label: localized('休業日', 'Closures', '休息日'),
-      value: localized(practical.closedDaysJa, practical.closedDaysEn, strings['zh-TW'].dataFussaKurumiruClosedDays),
-    });
-  }
-  information.push(
-    {
-      fieldId: 'official_current_url',
-      icon: 'information',
-      label: localized('公式情報', 'Official information', '官方資訊'),
-      value: localized(place.source.url ?? '', place.source.url ?? '', place.source.url ?? ''),
-    },
-    {
-      fieldId: 'verification_note',
-      icon: 'information',
-      label: localized('確認状況', 'Verification status', '確認狀態'),
-      value: localized(
-        '該当する公式・市の情報を2026年9月26日に取得。掲載内容は確認中です。訪問前に営業・見学・施設ごとの条件を確認してください。',
-        'Matching official or city information was retrieved Sep 26, 2026. This listing is still being confirmed; check current hours, visits, and facility-specific conditions before going.',
-        '對應的官方或市政府資訊於 2026 年 9 月 26 日取得。刊載內容仍在確認中；造訪前請確認營業、參訪與各設施條件。',
-      ),
-    },
-  );
-  return {
-    tags: [
-      { tagId: 'official-source', color: '#F0A24C', label: localized('公式・公的情報参照', 'Official/public information', '參考官方／公部門資訊') },
-      { tagId: 'confirmation-pending', color: '#5D9BEF', label: localized('確認中', 'Confirmation pending', '確認中') },
-    ],
-    description: localized(detail.roleJa, detail.roleEn, requiredRecord(fussaSpotRoleZh[id], `${id} Traditional Chinese role`)),
-    information,
-    caution: [localized(
-      '・見学、営業、販売、交通などの条件は変更される場合があります。訪問前に各公式情報をご確認ください。',
-      '• Tour, operating, sales, and transport conditions can change. Check each official source before visiting.',
-      '・參訪、營業、販售與交通條件可能變更。造訪前請查看各官方資訊。',
-    )],
-  };
-}
-
-function akirunoReferenceSpotDetail(id: string): ReferenceSpotDetail {
-  const place = canonicalPlace(id);
-  const detail = requiredRecord(getSpotDetail(id), `${id} Spot detail`);
-  const address = requiredRecord(place.address, `${id} canonical address`);
-  const nameKey = requiredRecord(placeNameKey(id), `${id} place-name key`);
-  const roleKey = requiredRecord(spotRoleKey(id), `${id} role key`);
-  const accessKey = spotAccessKey(id);
-  const information: ReferenceSpotDetail['information'] = [
-    {
-      fieldId: 'name',
-      icon: 'information',
-      label: localized('施設', 'Place', '設施'),
-      value: localized(place.nameJa, place.nameEn, strings['zh-TW'][nameKey]),
-    },
-    {
-      fieldId: 'address',
-      icon: 'information',
-      label: localized('所在地', 'Address', '地址'),
-      value: localized(address, address, address),
-    },
-  ];
-  const practical = detail.practical;
-  if (practical?.accessJa && practical.accessEn && accessKey) {
-    information.push({
-      fieldId: 'access',
-      icon: 'train',
-      label: localized('アクセス', 'Access', '交通'),
-      value: localized(practical.accessJa, practical.accessEn, strings['zh-TW'][accessKey]),
-    });
-  }
-  if (practical?.hoursJa && practical.hoursEn) {
-    information.push({
-      fieldId: 'hours',
-      icon: 'clock',
-      label: localized('営業時間', 'Hours', '營業時間'),
-      value: localized(practical.hoursJa, practical.hoursEn, strings['zh-TW'].dataAkirunoFarmersHours),
-    });
-  }
-  if (practical?.closedDaysJa && practical.closedDaysEn) {
-    information.push({
-      fieldId: 'closed_days',
-      icon: 'clock',
-      label: localized('休業日', 'Closures', '休息日'),
-      value: localized(practical.closedDaysJa, practical.closedDaysEn, strings['zh-TW'].dataAkirunoFarmersClosedDays),
-    });
-  }
-  information.push(
-    {
-      fieldId: 'official_current_url',
-      icon: 'information',
-      label: localized('公式情報', 'Official information', '官方資訊'),
-      value: localized(place.source.url ?? '', place.source.url ?? '', place.source.url ?? ''),
-    },
-    {
-      fieldId: 'verification_note',
-      icon: 'information',
-      label: localized('確認状況', 'Verification status', '確認狀態'),
-      value: localized(
-        '該当する公式・市の情報を2026年9月26日に取得。掲載内容は確認中です。季節品の在庫、営業、休業、交通を訪問前に確認してください。',
-        'Matching official or city information was retrieved Sep 26, 2026. This listing is still being confirmed; check seasonal stock, operations, closures, and transport before visiting.',
-        '對應的官方或市政府資訊於2026年9月26日取得。刊載內容仍在確認中；造訪前請確認季節品庫存、營業、休業與交通。',
-      ),
-    },
-  );
-  return {
-    tags: [
-      { tagId: 'local-produce', color: '#8FAE5C', label: localized('地場農産物', 'Local produce', '在地農產品') },
-      { tagId: 'official-source', color: '#F0A24C', label: localized('公式・公的情報参照', 'Official/public information', '參考官方／公部門資訊') },
-      { tagId: 'confirmation-pending', color: '#5D9BEF', label: localized('確認中', 'Confirmation pending', '確認中') },
-    ],
-    description: localized(detail.roleJa, detail.roleEn, strings['zh-TW'][roleKey]),
-    information,
-    caution: [localized(
-      '・季節品・営業・交通などの条件は変更される場合があります。訪問前に公式情報をご確認ください。',
-      '• Seasonal products, operations, and transport conditions can change. Check official information before visiting.',
-      '・季節品、營業與交通條件可能變更。造訪前請確認官方資訊。',
-    )],
-  };
-}
-
 export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> = {
-  'hachioji-takiyama-roadside-station': {
-    tags: [
-      { tagId: 'local-produce-market', color: '#8FAE5C', label: localized('地場農産物', 'Local produce', '在地農產品') },
-      { tagId: 'official-source', color: '#F0A24C', label: localized('公式情報参照', 'Official source', '參考官方資訊') },
-      { tagId: 'confirmation-pending', color: '#5D9BEF', label: localized('確認中', 'Confirmation pending', '確認中') },
-    ],
-    description: localized(
-      '八王子市内の農産物と食文化に出会う道の駅です。八王子ショウガは季節商品として扱われるため、当日の入荷は現地でご確認ください。',
-      'A roadside station for Hachioji produce and food culture. Hachioji ginger is seasonal, so check day-of stock on site.',
-      '可認識八王子市農產品與飲食文化的道之驛。八王子薑為季節商品，當日進貨請於現場確認。',
-    ),
-    information: [
-      { fieldId: 'name', icon: 'information', label: localized('名称', 'Name', '名稱'), value: localized(hachiojiMarketPlace.nameJa, hachiojiMarketPlace.nameEn, strings['zh-TW'].dataPlaceHachiojiRoadsideStationName) },
-      { fieldId: 'address', icon: 'information', label: localized('所在地', 'Address', '地址'), value: localized(hachiojiMarketPlace.address ?? '', hachiojiMarketPlace.address ?? '', hachiojiMarketPlace.address ?? '') },
-      { fieldId: 'access', icon: 'train', label: localized('アクセス', 'Access', '交通'), value: localized(hachiojiMarketDetail.practical?.accessJa ?? '', hachiojiMarketDetail.practical?.accessEn ?? '', strings['zh-TW'].dataHachiojiMarketAccess) },
-      { fieldId: 'hours', icon: 'clock', label: localized('営業時間', 'Hours', '營業時間'), value: localized(hachiojiMarketDetail.practical?.hoursJa ?? '', hachiojiMarketDetail.practical?.hoursEn ?? '', strings['zh-TW'].dataHachiojiMarketHours) },
-      { fieldId: 'closed_days', icon: 'information', label: localized('営業日', 'Opening days', '營業日'), value: localized(hachiojiMarketDetail.practical?.closedDaysJa ?? '', hachiojiMarketDetail.practical?.closedDaysEn ?? '', strings['zh-TW'].dataHachiojiMarketOpeningDays) },
-      { fieldId: 'official_current_url', icon: 'information', label: localized('公式案内', 'Official information', '官方資訊'), value: localized(hachiojiMarketPlace.source.url ?? '', hachiojiMarketPlace.source.url ?? '', hachiojiMarketPlace.source.url ?? '') },
-      { fieldId: 'verification_note', icon: 'information', label: localized('確認状態', 'Verification', '確認狀態'), value: localized('公式情報を2026年9月26日に再取得。営業時間・バス時刻・当日の入荷は訪問前・現地でご確認ください。', 'Official information retrieved Sep 26, 2026. Check current hours, bus times, and day-of stock before or during your visit.', '官方資訊於 2026 年 9 月 26 日重新取得。造訪前或現場請確認最新營業時間、巴士班次與當日進貨。') },
-    ],
-    caution: [localized('・八王子ショウガは季節商品です。入荷・営業時間・交通は変わる場合があるため、訪問前に公式情報をご確認ください。', '• Hachioji ginger is seasonal. Stock, hours, and transport can change; check official information before visiting.', '・八王子薑為季節商品。進貨、營業時間與交通可能變動，造訪前請查看官方資訊。')],
-  },
-  'hachioji-takiyama-castle': {
-    tags: [
-      { tagId: 'heritage-context', color: '#8FAE5C', label: localized('文化財', 'Heritage', '文化財') },
-      { tagId: 'open-data-source', color: '#F0A24C', label: localized('東京都オープンデータ', 'Tokyo open data', '東京都開放資料') },
-      { tagId: 'confirmation-pending', color: '#5D9BEF', label: localized('確認中', 'Confirmation pending', '確認中') },
-    ],
-    description: localized(
-      '東京都のオープンデータに掲載される国指定史跡・滝山城跡です。食材を購入する場所ではなく、八王子ショウガの土地の背景を知る文化財ストップです。',
-      'Takiyama Castle Ruins, a national historic site listed in Tokyo open data. This is heritage context for Hachioji ginger, not a place to buy food.',
-      '東京都開放資料所載的國指定史跡・滝山城跡。這是了解八王子薑產地背景的文化財停靠點，並非購買食材的場所。',
-    ),
-    information: [
-      { fieldId: 'name', icon: 'information', label: localized('名称', 'Name', '名稱'), value: localized(hachiojiCastlePlace.nameJa, hachiojiCastlePlace.nameEn, strings['zh-TW'].dataPlaceHachiojiCastleName) },
-      { fieldId: 'address', icon: 'information', label: localized('所在地', 'Published area', '所在地'), value: localized(hachiojiCastlePlace.address ?? '', hachiojiCastlePlace.address ?? '', hachiojiCastlePlace.address ?? '') },
-      { fieldId: 'official_current_url', icon: 'information', label: localized('文化財一覧', 'Cultural-property data', '文化財列表'), value: localized(hachiojiCastlePlace.source.url ?? '', hachiojiCastlePlace.source.url ?? '', hachiojiCastlePlace.source.url ?? '') },
-      { fieldId: 'verification_note', icon: 'information', label: localized('確認状態', 'Verification', '確認狀態'), value: localized('東京都オープンデータの掲載行を2026年9月26日に取得。原資料に座標はありません。現地の見学・入口情報は訪問前にご確認ください。', 'The Tokyo open-data record was retrieved Sep 26, 2026; the source row contains no coordinates. Check current access and entrance information before visiting.', '東京都開放資料於 2026 年 9 月 26 日取得；原始資料列未提供座標。造訪前請確認現地參觀與入口資訊。') },
-    ],
-    caution: [localized('・滝山城跡は文化財の背景紹介です。見学可能範囲・入口・現地状況は訪問前に公的情報をご確認ください。', '• Takiyama Castle Ruins are included as heritage context. Check official information for current visiting areas, entrances, and conditions.', '・滝山城跡作為文化財背景介紹。造訪前請查看公部門資訊，確認可參觀範圍、入口與現場狀況。')],
-  },
-  'hikawa-valley': {
+'hikawa-valley': {
     tags: [
       { tagId: 'natural-area', color: '#8FAE5C', label: localized('自然の遊歩道', 'Natural-area promenade', '自然步道') },
       { tagId: 'official-source', color: '#F0A24C', label: localized('公式・公的情報参照', 'Official/public source', '參考官方・公部門資訊') },
@@ -2263,7 +967,7 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
       localized('・大雨や奥多摩湖からの放流などで水位が上がることがあります。遊歩道入口の最新状況は町の公式情報で確認してください。', '• Water levels can rise because of heavy rain or releases from Lake Okutama. Check the town’s official information for current promenade entrance conditions.', '・大雨或奧多摩湖洩洪可能使水位上升。請以町公所官方資訊確認步道入口的最新狀況。'),
     ],
   },
-  'oku-hikawa-shrine': {
+'oku-hikawa-shrine': {
     tags: [
       { tagId: 'shrine', color: '#8FAE5C', label: localized('神社', 'Shrine', '神社') },
       { tagId: 'institutional-source', color: '#F0A24C', label: localized('神社の公表資料参照', 'Institutional source', '參考神社公開資料') },
@@ -2282,7 +986,7 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
     ],
     caution: [localized('・参拝・行事・交通の条件は変更される場合があります。訪問前に公式・現地情報をご確認ください。', '• Visiting, events, and access conditions can change. Check current official and local information before going.', '・參拜、活動與交通條件可能變更。造訪前請確認官方與當地的最新資訊。')],
   },
-  'wasabi-experience': {
+'wasabi-experience': {
     tags: [
       { tagId: 'private-experience', color: '#8FAE5C', label: localized('プライベート体験', 'Private experience', '私人體驗') },
       { tagId: 'booking-required', color: '#F0A24C', label: wasabiExperiencePresentation.bookingRequiredTag },
@@ -2314,7 +1018,7 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
     },
     caution: wasabiExperiencePresentation.caution,
   },
-  'wasabi-kitchen': {
+'wasabi-kitchen': {
     tags: [
       { tagId: 'mobile-food-truck', color: '#8FAE5C', label: localized('FOOD TRUCK', 'FOOD TRUCK', '行動餐車') },
       { tagId: 'no-fixed-storefront', color: '#F0A24C', label: localized('固定店舗なし', 'No fixed storefront', '無固定店面') },
@@ -2347,14 +1051,7 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
       localized('・メニューと価格は時点付きの参考情報です。食事制限・アレルギー対応は現地で確認してください。', '• Menu and price are dated references. Confirm dietary and allergy needs with the operator.', '・菜單與價格為附日期的參考資訊。飲食限制與過敏需求請向營運方確認。'),
     ],
   },
-  'fussa-tamura-shuzo': fussaReferenceSpotDetail('fussa-tamura-shuzo'),
-  'fussa-kurumiru': fussaReferenceSpotDetail('fussa-kurumiru'),
-  'fussa-ishikawa-shuzo': fussaReferenceSpotDetail('fussa-ishikawa-shuzo'),
-  'sawai-ozawa-shuzo': omeReferenceSpotDetail('sawai-ozawa-shuzo'),
-  'sawanoien-garden': omeReferenceSpotDetail('sawanoien-garden'),
-  'mitake-shrine': omeReferenceSpotDetail('mitake-shrine'),
-  'baba-oshijutaku': omeReferenceSpotDetail('baba-oshijutaku'),
-  akabeko: {
+akabeko: {
     tags: [
       { tagId: 'robata-restaurant', color: '#8FAE5C', label: localized('炉ばた料理店', 'Hearth-grill restaurant', '爐端料理店') },
       { tagId: 'official-source', color: '#F0A24C', label: localized('公式情報参照', 'Official source', '參考官方資訊') },
@@ -2463,7 +1160,7 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
       ),
     ],
   },
-  'okutama-tourism-office': {
+'okutama-tourism-office': {
     tags: [
       { tagId: 'visitor-information', color: '#8FAE5C', label: localized('観光案内', 'Visitor information', '觀光案內') },
       { tagId: 'reference-information', color: '#F0A24C', label: localized('参考情報', 'Reference information', '參考資訊') },
@@ -2519,7 +1216,7 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
       '・營業時間、服務內容與交通方式，請於造訪前以奧多摩觀光協會的官方資訊為準。',
     )],
   },
-  yamashiroya: {
+yamashiroya: {
     tags: [
       { tagId: 'wasabi-specialty-shop', color: '#8FAE5C', label: localized('わさび専門店', 'Wasabi specialty shop', '山葵專門店') },
       { tagId: 'official-source', color: '#F0A24C', label: localized('公式情報参照', 'Official source', '參考官方資訊') },
@@ -2640,7 +1337,7 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
       ),
     ],
   },
-  'okutama-kitchen': {
+'okutama-kitchen': {
     tags: [
       { tagId: 'bento-deli-shop', color: '#8FAE5C', label: localized('弁当・惣菜', 'Bento & deli', '便當・熟食') },
       { tagId: 'official-source', color: '#F0A24C', label: localized('公式情報参照', 'Official source', '參考官方資訊') },
@@ -2740,7 +1437,7 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
       '・營業時間、公休日、停車、價格與山葵口味供應狀況可能變更。造訪前請查看官方資訊。',
     )],
   },
-  'port-okutama': {
+'port-okutama': {
     tags: [
       { tagId: 'station-complex-shop', color: '#8FAE5C', label: localized('駅上複合ショップ', 'Station complex shop', '車站複合商店') },
       { tagId: 'official-source', color: '#F0A24C', label: localized('公式情報参照', 'Official source', '參考官方資訊') },
@@ -2828,8 +1525,7 @@ export const referenceSpotDetails: Partial<Record<string, ReferenceSpotDetail>> 
       '・營業時間、休業、菜單、商品與服務供應狀況可能變更。造訪前請查看官方資訊。',
     )],
   },
-  'akiruno-farmers-center': akirunoReferenceSpotDetail('akiruno-farmers-center'),
-  'akiruno-seoto-no-yu': akirunoReferenceSpotDetail('akiruno-seoto-no-yu'),
+...recordPresentations.referenceSpotDetails,
 };
 
 export interface StorySpotReference {
@@ -2847,7 +1543,7 @@ export const storySpotGroups: Record<string, {
   nearby: StorySpotReference[];
   nature: StorySpotReference[];
 }> = {
-  'demo-okutama-wasabi': {
+'demo-okutama-wasabi': {
     nearby: [
       {
         referenceId: 'akabeko', spotId: 'akabeko', imageAssetId: 'akabeko', badgeColor: '#E98A1C',
@@ -2902,7 +1598,7 @@ export const storySpotGroups: Record<string, {
       },
     ],
   },
-  'demo-okutama-yamame': {
+'demo-okutama-yamame': {
     nearby: [
       {
         referenceId: 'akabeko', spotId: 'akabeko', imageAssetId: 'akabekoYamame', badgeColor: '#E98A1C',
@@ -2936,192 +1632,39 @@ export const storySpotGroups: Record<string, {
       },
     ],
   },
-  'demo-ome-sake': {
-    nearby: [
-      {
-        referenceId: 'sawai-ozawa-shuzo',
-        spotId: 'sawai-ozawa-shuzo',
-        badgeColor: '#E98A1C',
-        badge: localized('酒蔵', 'Sake brewery', '酒藏'),
-        description: localized(
-          requiredRecord(getSpotDetail('sawai-ozawa-shuzo'), 'Ozawa Spot detail').roleJa,
-          requiredRecord(getSpotDetail('sawai-ozawa-shuzo'), 'Ozawa Spot detail').roleEn,
-          strings['zh-TW'].dataOzawaRole,
-        ),
-        note: omeTourReservationNote,
-      },
-      {
-        referenceId: 'sawanoien-garden',
-        spotId: 'sawanoien-garden',
-        badgeColor: '#E98A1C',
-        badge: localized('清流ガーデン', 'Riverside garden', '清流花園'),
-        description: localized(
-          requiredRecord(getSpotDetail('sawanoien-garden'), 'Sawanoien Spot detail').roleJa,
-          requiredRecord(getSpotDetail('sawanoien-garden'), 'Sawanoien Spot detail').roleEn,
-          strings['zh-TW'].dataSawanoienRole,
-        ),
-        note: localized('営業日は公式カレンダーを確認', 'Check the official operating calendar', '請查看官方營業日曆'),
-      },
-    ],
-    nature: [
-      {
-        referenceId: 'mitake-shrine',
-        spotId: 'mitake-shrine',
-        badgeColor: '#5E7239',
-        badge: localized('文化財', 'Heritage', '文化財'),
-        description: localized(
-          requiredRecord(getSpotDetail('mitake-shrine'), 'Mitake Shrine Spot detail').roleJa,
-          requiredRecord(getSpotDetail('mitake-shrine'), 'Mitake Shrine Spot detail').roleEn,
-          strings['zh-TW'].dataMitakeShrineRole,
-        ),
-      },
-      {
-        referenceId: 'baba-oshijutaku',
-        spotId: 'baba-oshijutaku',
-        badgeColor: '#5E7239',
-        badge: localized('文化財', 'Heritage', '文化財'),
-        description: localized(
-          requiredRecord(getSpotDetail('baba-oshijutaku'), 'Baba House Spot detail').roleJa,
-          requiredRecord(getSpotDetail('baba-oshijutaku'), 'Baba House Spot detail').roleEn,
-          strings['zh-TW'].dataBabaRole,
-        ),
-      },
-    ],
-  },
-  'demo-tokyo-hachioji-ginger': {
-    nearby: [
-      {
-        referenceId: 'hachioji-takiyama-roadside-station',
-        spotId: 'hachioji-takiyama-roadside-station',
-        badgeColor: '#E98A1C',
-        badge: localized('道の駅・直売所', 'Roadside station & farm market', '道之驛・農產直賣所'),
-        description: localized(
-          requiredRecord(getSpotDetail('hachioji-takiyama-roadside-station'), 'Hachioji market Spot detail').roleJa,
-          requiredRecord(getSpotDetail('hachioji-takiyama-roadside-station'), 'Hachioji market Spot detail').roleEn,
-          strings['zh-TW'].dataHachiojiMarketRole,
-        ),
-        note: localized(
-          '八王子ショウガは季節商品です。当日の入荷は現地で確認してください。',
-          'Hachioji ginger is seasonal. Check current stock on site.',
-          '八王子薑為季節商品，當日進貨請在現場確認。',
-        ),
-      },
-      {
-        referenceId: 'hachioji-takiyama-castle',
-        spotId: 'hachioji-takiyama-castle',
-        badgeColor: '#5E7239',
-        badge: localized('文化財', 'Heritage', '文化財'),
-        description: localized(
-          requiredRecord(getSpotDetail('hachioji-takiyama-castle'), 'Takiyama Castle Spot detail').roleJa,
-          requiredRecord(getSpotDetail('hachioji-takiyama-castle'), 'Takiyama Castle Spot detail').roleEn,
-          strings['zh-TW'].dataHachiojiCastleRole,
-        ),
-        note: localized(
-          '食材の販売場所ではなく、土地の背景を知るための文化財です。',
-          'This is heritage context for the landscape, not a place to buy food.',
-          '此處是認識土地背景的文化財，並非食材販售地點。',
-        ),
-      },
-    ],
-    nature: [],
-  },
-  'demo-tokyo-west-fussa-sake': {
-    nearby: ['fussa-tamura-shuzo', 'fussa-kurumiru', 'fussa-ishikawa-shuzo'].map((spotId) => {
-      const detail = requiredRecord(getSpotDetail(spotId), `${spotId} Story Spot detail`);
-      return {
-        referenceId: spotId,
-        spotId,
-        badgeColor: '#E98A1C',
-        badge: localized('立ち寄り先', 'Route stop', '行程停靠點'),
-        description: localized(detail.roleJa, detail.roleEn, requiredRecord(fussaSpotRoleZh[spotId], `${spotId} Traditional Chinese role`)),
-      };
-    }),
-    nature: [],
-  },
-  'demo-tokyo-west-akiruno-produce': {
-    nearby: ['akiruno-farmers-center', 'akiruno-seoto-no-yu'].map((spotId) => {
-      const detail = requiredRecord(getSpotDetail(spotId), `${spotId} Story Spot detail`);
-      const roleKey = requiredRecord(spotRoleKey(spotId), `${spotId} Traditional Chinese role key`);
-      return {
-        referenceId: spotId,
-        spotId,
-        badgeColor: '#E98A1C',
-        badge: localized('立ち寄り先', 'Route stop', '行程停靠點'),
-        description: localized(detail.roleJa, detail.roleEn, strings['zh-TW'][roleKey]),
-      };
-    }),
-    nature: [],
-  },
+...recordPresentations.storySpotGroups,
 };
 
 export const storyLocation: Record<string, Record<Locale, {
   region: string;
   station: string;
 }>> = {
-  'demo-okutama-wasabi': {
+'demo-okutama-wasabi': {
     ja: { region: '奥多摩・東京都 (東京西部)', station: '最寄駅：奥多摩駅、御岳駅' },
     en: { region: 'Okutama, Tokyo (Western Tokyo)', station: 'Nearest stations: Okutama and Mitake' },
     'zh-TW': { region: '東京都奧多摩（東京西部）', station: '最近車站：奧多摩站、御嶽站' },
   },
-  'demo-okutama-yamame': {
+'demo-okutama-yamame': {
     ja: { region: '奥多摩・東京都 (東京西部)', station: '最寄駅：奥多摩駅' },
     en: { region: 'Okutama, Tokyo (Western Tokyo)', station: 'Nearest station: Okutama' },
     'zh-TW': { region: '東京都奧多摩（東京西部）', station: '最近車站：奧多摩站' },
   },
-  'demo-ome-sake': {
-    ja: { region: '青梅・沢井・東京都 (東京西部)', station: '最寄駅：沢井駅' },
-    en: { region: 'Ome / Sawai, Tokyo (Western Tokyo)', station: 'Nearest station: Sawai' },
-    'zh-TW': { region: '東京都青梅・沢井（東京西部）', station: '最近車站：沢井站' },
-  },
-  'demo-tokyo-hachioji-ginger': {
-    ja: { region: '八王子・東京都', station: 'JR・京王八王子駅からバス（時刻は要確認）' },
-    en: { region: 'Hachioji, Tokyo', station: 'Bus from JR or Keio Hachioji Station (check current times)' },
-    'zh-TW': { region: '東京都八王子', station: '從 JR／京王八王子站搭乘巴士（請確認最新班次）' },
-  },
-  'demo-tokyo-west-fussa-sake': {
-    ja: { region: '福生・東京都', station: '駅・経路は各立ち寄り先の公式案内で確認' },
-    en: { region: 'Fussa, Tokyo', station: 'Check current station and route guidance for each stop' },
-    'zh-TW': { region: '東京都福生', station: '各停靠點的車站與路線請查看官方指引' },
-  },
-  'demo-tokyo-west-akiruno-produce': {
-    ja: { region: 'あきる野・秋川渓谷', station: '駅・路線は各立ち寄り先の公式案内で確認' },
-    en: { region: 'Akiruno, Akigawa Valley', station: 'Check each stop’s official station and route guidance' },
-    'zh-TW': { region: '東京都秋留野・秋川溪谷', station: '各停靠點的車站與路線請查看官方指引' },
-  },
+...recordPresentations.storyLocation,
 };
 
 export const chapterPoint: Record<string, Record<Locale, {
   title: string;
   body: string;
 }>> = {
-  'demo-okutama-wasabi': {
+'demo-okutama-wasabi': {
     ja: { title: '奥多摩わさびは、どんな味？', body: '奥多摩わさびは、強い辛味とキレ、豊かな風味が特徴。やさしくすりおろすと香りが引き立ち、3〜5分ほどが食べごろです。寿司や蕎麦はもちろん、ステーキやアボカドとも相性抜群です。' },
     en: { title: 'What does Okutama wasabi taste like?', body: 'It is known for vivid heat and a rich aroma. Gently grating it brings the fragrance forward.' },
     'zh-TW': { title: '奧多摩山葵是什麼味道？', body: '特色是鮮明辛味與豐富香氣。輕柔研磨能讓香氣更加突出。' },
   },
-  'demo-okutama-yamame': {
+'demo-okutama-yamame': {
     ja: { title: '奥多摩やまめは、どんな魚？', body: '通常より長く生き、大きく育つ希少な川魚。塩焼きだけでなく、刺身や切り身でも味わえます。' },
     en: { title: 'What kind of fish is Okutama yamame?', body: 'A rare river fish that grows larger over a longer life, served grilled, sliced, or as sashimi.' },
     'zh-TW': { title: '奧多摩山女魚是什麼魚？', body: '壽命較長、體型較大的珍稀河魚，可鹽烤、切片或作為生魚片品嚐。' },
   },
-  'demo-ome-sake': {
-    ja: { title: '訪問前に確認すること', body: strings.ja.dataSakeRouteOperationalNote },
-    en: { title: 'Check before setting out', body: strings.en.dataSakeRouteOperationalNote },
-    'zh-TW': { title: '出發前請確認', body: strings['zh-TW'].dataSakeRouteOperationalNote },
-  },
-  'demo-tokyo-hachioji-ginger': {
-    ja: { title: '季節と当日の入荷', body: strings.ja.dataHachiojiRouteOperationalNote },
-    en: { title: 'Season and daily stock', body: strings.en.dataHachiojiRouteOperationalNote },
-    'zh-TW': { title: '季節與每日進貨', body: strings['zh-TW'].dataHachiojiRouteOperationalNote },
-  },
-  'demo-tokyo-west-fussa-sake': {
-    ja: { title: '訪問前に確認すること', body: strings.ja.dataFussaSakeOperationalNote },
-    en: { title: 'Check before visiting', body: strings.en.dataFussaSakeOperationalNote },
-    'zh-TW': { title: '造訪前請確認', body: strings['zh-TW'].dataFussaSakeOperationalNote },
-  },
-  'demo-tokyo-west-akiruno-produce': {
-    ja: { title: '季節と当日の品揃え', body: strings.ja.dataAkirunoRouteOperationalNote },
-    en: { title: 'Season and daily stock', body: strings.en.dataAkirunoRouteOperationalNote },
-    'zh-TW': { title: '季節與當日品項', body: strings['zh-TW'].dataAkirunoRouteOperationalNote },
-  },
+...recordPresentations.chapterPoint,
 };

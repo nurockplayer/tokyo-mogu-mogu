@@ -54,7 +54,7 @@ export function SpotScreen({
   const [photoIndex, setPhotoIndex] = useState(0);
   const localized = spot.copy[locale];
   const referenceDetail = referenceSpotDetails[spot.id];
-  const officialLink = resolveSpotOfficialLink(getPlaceById(spot.id), getSpotDetail(spot.id));
+  const officialLink = resolveSpotOfficialLink(getPlaceById(spot.id) ?? spot.id, getSpotDetail(spot.id));
   const displayTags = referenceDetail?.tags.map((tag) => ({ color: tag.color, label: tag.label[locale] }))
     ?? localized.tags.map((label, index) => ({ color: tagColors[index % tagColors.length], label }));
   const information = referenceDetail?.information.map((row) => ({

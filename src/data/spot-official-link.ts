@@ -1,3 +1,4 @@
+import { JOURNEY_RECORDS } from './journey-records';
 import type { DataSource, Place } from './model';
 import type { SpotDetail } from './seed-routes';
 
@@ -24,7 +25,11 @@ function officialLink(source: DataSource, kind: SpotOfficialLink['kind']): SpotO
 }
 
 /** Consume provenance without treating a working outbound link as factual confirmation. */
-export function resolveSpotOfficialLink(place: Place | undefined, detail?: SpotDetail): SpotOfficialLink | undefined {
+export function resolveSpotOfficialLink(place: Place | string | undefined, detail?: SpotDetail): SpotOfficialLink | undefined {
+  if (typeof place === 'string') {
+    const source = JOURNEY_RECORDS.find((record) => record.spots[place])?.spots[place].officialSource;
+    return source ? officialLink(source, 'official-information') : undefined;
+  }
   if (!place) return undefined;
   if (place.locationKind === 'mobile') {
     return officialLink(place.mobileVenue.scheduleDirectorySource, 'current-schedule');
