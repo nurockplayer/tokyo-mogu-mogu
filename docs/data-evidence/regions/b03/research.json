@@ -1,0 +1,2044 @@
+{
+ "batch": "b03",
+ "researched_at": "2026-11-22",
+ "municipalities": [
+  {
+   "id": "akishima",
+   "name_ja": "昭島市",
+   "food_cultures": [
+    {
+     "name_ja": "拝島ねぎ",
+     "name_en": "Haijima Negi Heritage Green Onion",
+     "kind": "crop",
+     "summary_en": "Haijima negi is an Edo-Tokyo heritage vegetable associated with Akishima's former Haijima village. Its leaves are tender, and cooking brings out sweetness.",
+     "facts": [
+      {
+       "claim_en": "Akishima identifies Haijima negi as a registered Edo-Tokyo heritage vegetable with thick white stems and tender green leaves.",
+       "source_url": "https://www.city.akishima.lg.jp/promotion/1010463/1010475.html",
+       "source_title": "あきしまの農業",
+       "publisher": "昭島市"
+      },
+      {
+       "claim_en": "A preservation association was formed in 2015 to maintain the inherited variety after its cultivation had declined.",
+       "source_url": "https://www.city.akishima.lg.jp/promotion/1009243/1010189/1009143.html",
+       "source_title": "拝島ねぎ保存会",
+       "publisher": "昭島市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "農産物直売所みどりっ子",
+       "name_en": "Midorikko Farmers' Market",
+       "relation_en": "A local agricultural outlet where visitors can explore Akishima-grown produce; availability of this particular onion is not guaranteed.",
+       "address_ja": "東京都昭島市玉川町5-16-17",
+       "official_url": "https://www.city.akishima.lg.jp/bussiness/nogyo/1004833/1004838.html",
+       "source_url": "https://www.city.akishima.lg.jp/bussiness/nogyo/1004833/1004838.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "拝島ねぎ保存会",
+       "relation_en": "Local growers' association maintaining and promoting the traditional onion.",
+       "source_url": "https://www.city.akishima.lg.jp/promotion/1009243/1010189/1009143.html"
+      }
+     ],
+     "season_en": "Seasonal; current harvest and stock should be checked locally.",
+     "confidence": "high",
+     "notes_en": "A heritage crop, not simply a generic green onion sold in Akishima."
+    },
+    {
+     "name_ja": "拝島ねぎみそ",
+     "name_en": "Haijima Negi Miso",
+     "kind": "other",
+     "summary_en": "A savory miso condiment incorporates the city's heritage Haijima negi. It turns a traditional agricultural product into a distinctive local souvenir.",
+     "facts": [
+      {
+       "claim_en": "The Akishima tourism association documents a miso-based processed food made with Haijima negi.",
+       "source_url": "https://akishima-kanko.org/shop/%E6%8B%9D%E5%B3%B6%E3%81%AD%E3%81%8E%E3%81%BF%E3%81%9D/",
+       "source_title": "拝島ねぎみそ",
+       "publisher": "昭島観光まちづくり協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "昭島観光案内所",
+       "name_en": "Akishima Tourist Information Center",
+       "relation_en": "The tourism association directs visitors here for information about this specialty product.",
+       "address_ja": "",
+       "official_url": "",
+       "source_url": "https://akishima-kanko.org/shop/%E6%8B%9D%E5%B3%B6%E3%81%AD%E3%81%8E%E3%81%BF%E3%81%9D/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The source establishes the product but does not identify its individual manufacturer."
+    },
+    {
+     "name_ja": "拝島ねぎみそせんべい",
+     "name_en": "Haijima Negi Miso Rice Crackers",
+     "kind": "other",
+     "summary_en": "These savory rice crackers combine Haijima negi with miso. They are a second processed-food expression of Akishima's heritage onion.",
+     "facts": [
+      {
+       "claim_en": "The official tourism association lists rice crackers flavored with Haijima negi and miso as a local product.",
+       "source_url": "https://akishima-kanko.org/shop/%E6%8B%9D%E5%B3%B6%E3%81%AD%E3%81%8E%E3%81%BF%E3%81%9D/",
+       "source_title": "拝島ねぎみそ",
+       "publisher": "昭島観光まちづくり協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "昭島観光案内所",
+       "name_en": "Akishima Tourist Information Center",
+       "relation_en": "The association identifies the center as the point of contact for its local onion products.",
+       "address_ja": "",
+       "official_url": "",
+       "source_url": "https://akishima-kanko.org/shop/%E6%8B%9D%E5%B3%B6%E3%81%AD%E3%81%8E%E3%81%BF%E3%81%9D/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Savory snack rather than a sweet confection."
+    },
+    {
+     "name_ja": "多摩川梨",
+     "name_en": "Tamagawa Pears",
+     "kind": "crop",
+     "summary_en": "Pears grown near the Tama River are a recognized Akishima specialty. The well-drained, gravelly riverside soil is associated with their juicy texture and sweetness.",
+     "facts": [
+      {
+       "claim_en": "Akishima describes Tamagawa pears as a local specialty grown in well-drained soil along the Tama River.",
+       "source_url": "https://www.city.akishima.lg.jp/promotion/1010463/1010475.html",
+       "source_title": "あきしまの農業",
+       "publisher": "昭島市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "農産物直売所みどりっ子",
+       "name_en": "Midorikko Farmers' Market",
+       "relation_en": "A documented outlet for locally grown agricultural products; specific pear varieties and stock vary.",
+       "address_ja": "東京都昭島市玉川町5-16-17",
+       "official_url": "https://www.city.akishima.lg.jp/bussiness/nogyo/1004833/1004838.html",
+       "source_url": "https://www.city.akishima.lg.jp/bussiness/nogyo/1004833/1004838.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "昭島市内の梨農家",
+       "relation_en": "Local growers cultivating the city's Tamagawa pears.",
+       "source_url": "https://www.city.akishima.lg.jp/promotion/1010463/1010475.html"
+      }
+     ],
+     "season_en": "Late summer to autumn.",
+     "confidence": "high",
+     "notes_en": "The name refers to a regional pear-growing identity rather than one exclusive cultivar."
+    },
+    {
+     "name_ja": "昭島梨ゼリー",
+     "name_en": "Akishima Pear Jelly",
+     "kind": "sweet",
+     "summary_en": "Akishima's pear harvest also appears in a locally developed jelly used in school meals. It links regional fruit farming with children's food education.",
+     "facts": [
+      {
+       "claim_en": "The city reports that Tamagawa pears are served to local schoolchildren in the form of Akishima pear jelly.",
+       "source_url": "https://www.city.akishima.lg.jp/promotion/1010463/1010475.html",
+       "source_title": "あきしまの農業",
+       "publisher": "昭島市"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "昭島市内の梨農家",
+       "relation_en": "Growers of the pears associated with the school-meal dessert.",
+       "source_url": "https://www.city.akishima.lg.jp/promotion/1010463/1010475.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Documented as a school-meal preparation, not as a confirmed retail product."
+    },
+    {
+     "name_ja": "美味くて多摩卵",
+     "name_en": "Umakute Tamaran Local Eggs",
+     "kind": "brand",
+     "summary_en": "Umakute Tamaran is a locally branded egg produced in Akishima. Its rich flavor has made it an ingredient in several local baked goods.",
+     "facts": [
+      {
+       "claim_en": "Akishima identifies Umakute Tamaran as a local egg brand produced by Sashida Chicken Farm.",
+       "source_url": "https://www.city.akishima.lg.jp/promotion/1010463/1010475.html",
+       "source_title": "あきしまの農業",
+       "publisher": "昭島市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "農産物直売所みどりっ子",
+       "name_en": "Midorikko Farmers' Market",
+       "relation_en": "A general Akishima farm-product outlet; stock of this egg brand is not specifically confirmed.",
+       "address_ja": "東京都昭島市玉川町5-16-17",
+       "official_url": "https://www.city.akishima.lg.jp/bussiness/nogyo/1004833/1004838.html",
+       "source_url": "https://www.city.akishima.lg.jp/bussiness/nogyo/1004833/1004838.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "指田鶏園",
+       "relation_en": "Producer of the branded eggs.",
+       "source_url": "https://www.city.akishima.lg.jp/promotion/1010463/1010475.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "たまごまる",
+     "name_en": "Tamagomaru Egg Cake-Bread",
+     "kind": "sweet",
+     "summary_en": "Bakery Piccolo makes this soft, cake-like specialty with Akishima's Umakute Tamaran eggs and local groundwater. It connects a city farm brand with an accessible neighborhood bakery.",
+     "facts": [
+      {
+       "claim_en": "Bakery Piccolo states that Tamagomaru uses Umakute Tamaran eggs and Akishima's deep groundwater.",
+       "source_url": "https://www.bakerypiccolo.com/tamagomaru/",
+       "source_title": "たまごまる",
+       "publisher": "ベーカリーピッコロ"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ベーカリーピッコロ",
+       "name_en": "Bakery Piccolo",
+       "relation_en": "Bakery producing its signature Tamagomaru.",
+       "address_ja": "東京都昭島市拝島町2-15-8",
+       "official_url": "https://www.bakerypiccolo.com/tamagomaru/",
+       "source_url": "https://www.bakerypiccolo.com/tamagomaru/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ベーカリーピッコロ",
+       "relation_en": "Creator and baker of Tamagomaru.",
+       "source_url": "https://www.bakerypiccolo.com/tamagomaru/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "酒井屋製菓の地元食材カステラ",
+     "name_en": "Sakaiya's Local-Ingredient Castella",
+     "kind": "sweet",
+     "summary_en": "Sakaiya Seika makes castella using Akishima's branded eggs. Another variation uses soy sauce and bamboo charcoal, illustrating the shop's locally connected confectionery.",
+     "facts": [
+      {
+       "claim_en": "The tourism association identifies Sakaiya Seika's castella made with Umakute Tamaran eggs and its soy-sauce-and-bamboo-charcoal castella.",
+       "source_url": "https://akishima-kanko.org/spot/%E9%85%92%E4%BA%95%E5%B1%8B%E8%A3%BD%E8%8F%93/",
+       "source_title": "酒井屋製菓",
+       "publisher": "昭島観光まちづくり協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "酒井屋製菓",
+       "name_en": "Sakaiya Seika",
+       "relation_en": "Confectionery shop making these locally linked castella cakes.",
+       "address_ja": "東京都昭島市玉川町3-10-17",
+       "official_url": "",
+       "source_url": "https://akishima-kanko.org/spot/%E9%85%92%E4%BA%95%E5%B1%8B%E8%A3%BD%E8%8F%93/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "酒井屋製菓",
+       "relation_en": "Maker of the castella specialties.",
+       "source_url": "https://akishima-kanko.org/spot/%E9%85%92%E4%BA%95%E5%B1%8B%E8%A3%BD%E8%8F%93/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The soy sauce used in one variation is identified as Kikko-go from Kondo Brewing; its production should not be attributed to Akishima."
+    },
+    {
+     "name_ja": "拝島ハイボール",
+     "name_en": "Haijima Highball",
+     "kind": "drink",
+     "summary_en": "Haijima Highball is a neighborhood drink combining liqueur from a Tama-area brewery with Akishima's deep groundwater. White and black variations are associated with the Haijima Station shopping district.",
+     "facts": [
+      {
+       "claim_en": "Akishima describes Haijima Highball as a locally promoted drink using regional brewery liqueur and water from the city's deep groundwater supply.",
+       "source_url": "https://www.city.akishima.lg.jp/kurashi/water/1005157/1005162.html",
+       "source_title": "拝島駅前商店会の新たな名物「拝島ハイボール」",
+       "publisher": "昭島市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "拝島駅前商店会",
+       "name_en": "Haijima Station Shopping District",
+       "relation_en": "The neighborhood organization behind the drink and its participating establishments.",
+       "address_ja": "東京都昭島市拝島駅周辺",
+       "official_url": "",
+       "source_url": "https://www.city.akishima.lg.jp/kurashi/water/1005157/1005162.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "拝島駅前商店会",
+       "relation_en": "Local merchant association promoting the drink.",
+       "source_url": "https://www.city.akishima.lg.jp/kurashi/water/1005157/1005162.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A place-specific modern drink rather than an inherited historical recipe."
+    },
+    {
+     "name_ja": "あきしまの水",
+     "name_en": "Akishima Deep Groundwater",
+     "kind": "drink",
+     "summary_en": "Akishima's deep groundwater is a defining part of its local food and drink identity. The city promotes it through public refill points, and local producers use it in beverages and baking.",
+     "facts": [
+      {
+       "claim_en": "The city promotes water drawn entirely from its deep groundwater supply and has installed public refill locations.",
+       "source_url": "https://www.city.akishima.lg.jp/promotion/1009243/1010989.html",
+       "source_title": "「あきしまの水」給水スポット",
+       "publisher": "昭島市"
+      },
+      {
+       "claim_en": "ISANA Brewing explicitly uses Akishima deep groundwater in its locally brewed beer.",
+       "source_url": "https://www.isana-brewing.com/",
+       "source_title": "クラフトビール | 東京都昭島市 | ISANA Brewing",
+       "publisher": "ISANA Brewing"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "あきしまの水 給水スポット",
+       "name_en": "Akishima Water Refill Points",
+       "relation_en": "City-managed locations for experiencing the water itself.",
+       "address_ja": "東京都昭島市内各所",
+       "official_url": "https://www.city.akishima.lg.jp/promotion/1009243/1010989.html",
+       "source_url": "https://www.city.akishima.lg.jp/promotion/1009243/1010989.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "昭島市",
+       "relation_en": "Municipal authority managing and promoting the groundwater supply.",
+       "source_url": "https://www.city.akishima.lg.jp/promotion/1009243/1010989.html"
+      }
+     ],
+     "season_en": "Year-round.",
+     "confidence": "high",
+     "notes_en": "A local food-and-drink resource, not a cultivated crop."
+    },
+    {
+     "name_ja": "イサナブルーイングのクラフトビール",
+     "name_en": "ISANA Brewing Craft Beer",
+     "kind": "drink",
+     "summary_en": "ISANA Brewing makes craft beer on site using Akishima groundwater. Its brewery and roastery connect local water, independent production and a direct visitor experience.",
+     "facts": [
+      {
+       "claim_en": "ISANA Brewing operates a brewery-roastery in Akishima and brews original craft beer on site with the city's deep groundwater.",
+       "source_url": "https://www.isana-brewing.com/",
+       "source_title": "クラフトビール | 東京都昭島市 | ISANA Brewing",
+       "publisher": "ISANA Brewing"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "イサナブルーイング ブルワリー＆ロースタリー",
+       "name_en": "ISANA Brewing Brewery & Roastery",
+       "relation_en": "Operating brewery where the locally brewed beer can be experienced.",
+       "address_ja": "東京都昭島市昭和町2-7-15 エクセレンス昭島1F-B",
+       "official_url": "https://www.isana-brewing.com/",
+       "source_url": "https://www.isana-brewing.com/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "イサナブルーイング",
+       "relation_en": "Local craft brewer and roaster.",
+       "source_url": "https://www.isana-brewing.com/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "昭島くじらビール",
+     "name_en": "Akishima Whale Beer",
+     "kind": "drink",
+     "summary_en": "This regionally branded beer commemorates the fossil whale that became an Akishima symbol. The beer is produced by Ishikawa Brewery in neighboring Fussa, rather than brewed in Akishima itself.",
+     "facts": [
+      {
+       "claim_en": "Ishikawa Brewery identifies Akishima Whale Beer as a regional product using the fossil whale as its label motif and associated with sales in Akishima.",
+       "source_url": "https://www.tamajiman.co.jp/product/beer.php",
+       "source_title": "多摩の恵（たまのめぐみ）",
+       "publisher": "石川酒造株式会社"
+      },
+      {
+       "claim_en": "The brewery's own shop describes the product as a whale-themed version of its Meiji Revival Beer.",
+       "source_url": "https://tamajiman.com/SHOP/B-325-0.html",
+       "source_title": "多摩の恵「あきしま くじらビール」500ml 6本入",
+       "publisher": "石川酒造株式会社"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "昭島くじらのらじっく",
+       "name_en": "Akishima Kujira no Rajikku",
+       "relation_en": "An Akishima whale-themed restaurant whose published drink selection includes Akishima Whale Beer.",
+       "address_ja": "東京都昭島市昭和町2-7-4 石野ビル1F",
+       "official_url": "https://akishimarajic.owst.jp/",
+       "source_url": "https://akishimarajic.owst.jp/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "石川酒造株式会社",
+       "relation_en": "Brewer based in Fussa, outside Akishima.",
+       "source_url": "https://www.tamajiman.co.jp/product/beer.php"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The cultural connection is Akishima's fossil-whale identity, not a local whale fishery."
+    },
+    {
+     "name_ja": "くじら行進曲・くじら讃歌",
+     "name_en": "Akishima Whale-Themed Confectionery",
+     "kind": "sweet",
+     "summary_en": "Long-established confectioner Motokiya celebrates Akishima's whale identity through sweets such as Kujira Koshinkyoku and Kujira Sanka. These products turn a distinctive local historical discovery into edible souvenirs.",
+     "facts": [
+      {
+       "claim_en": "The tourism association lists Motokiya's Kujira Koshinkyoku dacquoise and Kujira Sanka chocolate-filled confection among its local products.",
+       "source_url": "https://akishima-kanko.org/shop/%E5%BE%A1%E8%8F%93%E5%AD%90%E5%8F%B8%E3%80%80%E5%85%83%E6%9C%A8%E5%B1%8B/",
+       "source_title": "御菓子司 元木屋",
+       "publisher": "昭島観光まちづくり協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "御菓子司 元木屋",
+       "name_en": "Motokiya Confectionery",
+       "relation_en": "Historic confectionery shop near Haijima Park producing locally themed sweets.",
+       "address_ja": "東京都昭島市拝島公園前",
+       "official_url": "",
+       "source_url": "https://akishima-kanko.org/shop/%E5%BE%A1%E8%8F%93%E5%AD%90%E5%8F%B8%E3%80%80%E5%85%83%E6%9C%A8%E5%B1%8B/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "御菓子司 元木屋",
+       "relation_en": "Maker of the whale-themed sweets.",
+       "source_url": "https://akishima-kanko.org/shop/%E5%BE%A1%E8%8F%93%E5%AD%90%E5%8F%B8%E3%80%80%E5%85%83%E6%9C%A8%E5%B1%8B/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The whale references are symbolic and historical; these are not whale-meat foods."
+    },
+    {
+     "name_ja": "拝島の渡し・拝島のふじ・滝山城伝説",
+     "name_en": "Haijima History-Themed Traditional Sweets",
+     "kind": "sweet",
+     "summary_en": "Motokiya also makes sweets named after local landmarks and history, including the former Haijima river crossing. Its assortment connects confectionery with the area's landscape and historical memory.",
+     "facts": [
+      {
+       "claim_en": "The tourism association lists Motokiya's Haijima no Watashi, Haijima no Fuji and Takiyamajo Densetsu as named sweets.",
+       "source_url": "https://akishima-kanko.org/shop/%E5%BE%A1%E8%8F%93%E5%AD%90%E5%8F%B8%E3%80%80%E5%85%83%E6%9C%A8%E5%B1%8B/",
+       "source_title": "御菓子司 元木屋",
+       "publisher": "昭島観光まちづくり協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "御菓子司 元木屋",
+       "name_en": "Motokiya Confectionery",
+       "relation_en": "Long-established shop producing the district-themed assortment.",
+       "address_ja": "東京都昭島市拝島公園前",
+       "official_url": "",
+       "source_url": "https://akishima-kanko.org/shop/%E5%BE%A1%E8%8F%93%E5%AD%90%E5%8F%B8%E3%80%80%E5%85%83%E6%9C%A8%E5%B1%8B/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "御菓子司 元木屋",
+       "relation_en": "Producer of confections named for local history.",
+       "source_url": "https://akishima-kanko.org/shop/%E5%BE%A1%E8%8F%93%E5%AD%90%E5%8F%B8%E3%80%80%E5%85%83%E6%9C%A8%E5%B1%8B/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The history is conveyed through the names and themes; local sourcing of every ingredient is not established."
+    },
+    {
+     "name_ja": "昭島くじら料理",
+     "name_en": "Akishima Whale-Themed Cuisine",
+     "kind": "dish",
+     "summary_en": "Akishima's whale symbolism has also inspired a specialist restaurant offering whale sashimi and other dishes. The proprietor's experience aboard a whaling vessel gives this modern food experience a direct connection to whale-food knowledge.",
+     "facts": [
+      {
+       "claim_en": "Akishima Kujira no Rajikku describes itself as a whale-cuisine specialist operated by a proprietor with whaling-vessel experience.",
+       "source_url": "https://akishimarajic.owst.jp/",
+       "source_title": "昭島くじらのらじっく",
+       "publisher": "昭島くじらのらじっく"
+      },
+      {
+       "claim_en": "The restaurant publishes a menu containing several whale sashimi preparations.",
+       "source_url": "https://akishimarajic.owst.jp/foods",
+       "source_title": "料理 | 昭島くじらのらじっく",
+       "publisher": "昭島くじらのらじっく"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "昭島くじらのらじっく",
+       "name_en": "Akishima Kujira no Rajikku",
+       "relation_en": "Whale-specialist restaurant providing a directly visitable expression of this modern local theme.",
+       "address_ja": "東京都昭島市昭和町2-7-4 石野ビル1F",
+       "official_url": "https://akishimarajic.owst.jp/",
+       "source_url": "https://akishimarajic.owst.jp/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "昭島くじらのらじっく",
+       "relation_en": "Restaurant preparing the whale dishes.",
+       "source_url": "https://akishimarajic.owst.jp/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A modern food-culture association with Akishima's whale identity. The sources do not show that whales were historically caught locally or that the meat is locally sourced."
+    },
+    {
+     "name_ja": "昭島の地場農産物直売文化",
+     "name_en": "Akishima Farm-Direct Produce Culture",
+     "kind": "other",
+     "summary_en": "Local growers sell fresh agricultural products through neighborhood markets and a permanent farm outlet. This gives visitors a way to encounter Akishima's active agriculture beyond its named specialties.",
+     "facts": [
+      {
+       "claim_en": "Akishima documents several local produce-selling events and farm-related activities.",
+       "source_url": "https://www.city.akishima.lg.jp/promotion/1010463/1010475.html",
+       "source_title": "あきしまの農業",
+       "publisher": "昭島市"
+      },
+      {
+       "claim_en": "The city's Midorikko outlet sells fresh agricultural and livestock products together with processed products using local ingredients.",
+       "source_url": "https://www.city.akishima.lg.jp/bussiness/nogyo/1004833/1004838.html",
+       "source_title": "農産物直売所みどりっ子",
+       "publisher": "昭島市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "農産物直売所みどりっ子",
+       "name_en": "Midorikko Farmers' Market",
+       "relation_en": "Permanent local-farm retail outlet.",
+       "address_ja": "東京都昭島市玉川町5-16-17",
+       "official_url": "https://www.city.akishima.lg.jp/bussiness/nogyo/1004833/1004838.html",
+       "source_url": "https://www.city.akishima.lg.jp/bussiness/nogyo/1004833/1004838.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "JA東京みどり",
+       "relation_en": "Agricultural cooperative associated with the Midorikko outlet.",
+       "source_url": "https://www.city.akishima.lg.jp/bussiness/nogyo/1004833/1004838.html"
+      }
+     ],
+     "season_en": "Seasonal harvests throughout the year.",
+     "confidence": "high",
+     "notes_en": "Included as a local producer-and-consumer food tradition, not as an individual named crop."
+    }
+   ],
+   "none_found_reason_en": ""
+  },
+  {
+   "id": "chofu",
+   "name_ja": "調布市",
+   "food_cultures": [
+    {
+     "name_ja": "深大寺そば",
+     "name_en": "Jindaiji Soba",
+     "kind": "dish",
+     "summary_en": "Jindaiji soba is Chofu's best-established regional dish. Its tradition connects buckwheat farming on land poorly suited to rice, hospitality at Jindaiji Temple and the surrounding noodle shops.",
+     "facts": [
+      {
+       "claim_en": "Chofu's tourism association traces the tradition to tenant farmers supplying buckwheat flour to Jindaiji Temple, where noodles were prepared for guests.",
+       "source_url": "https://csa.gr.jp/contents/1211",
+       "source_title": "深大寺そば",
+       "publisher": "調布市観光協会"
+      },
+      {
+       "claim_en": "Japan's Ministry of Agriculture identifies Jindaiji soba as a characteristic traditional food of the Tama River region.",
+       "source_url": "https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/area_stories/tokyo.html",
+       "source_title": "関東地方 東京都 | うちの郷土料理",
+       "publisher": "農林水産省"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "深大寺周辺のそば店",
+       "name_en": "Jindaiji Soba District",
+       "relation_en": "Historic temple-side district where numerous soba restaurants continue the culinary tradition.",
+       "address_ja": "東京都調布市深大寺周辺",
+       "official_url": "https://csa.gr.jp/contents/1211",
+       "source_url": "https://csa.gr.jp/contents/1211"
+      },
+      {
+       "name_ja": "湧水",
+       "name_en": "Yusui Soba Restaurant",
+       "relation_en": "A named soba restaurant in the Jindaiji area.",
+       "address_ja": "東京都調布市深大寺元町5-9-1",
+       "official_url": "",
+       "source_url": "https://trie-keiochofu.jp/cyclemap/temiyage/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "深大寺周辺のそば店",
+       "relation_en": "Local noodle shops maintaining the area-specific dish.",
+       "source_url": "https://csa.gr.jp/contents/1211"
+      }
+     ],
+     "season_en": "Year-round as a restaurant dish.",
+     "confidence": "high",
+     "notes_en": "The historical association does not mean every restaurant currently uses buckwheat grown in Chofu."
+    },
+    {
+     "name_ja": "深大寺在来（そば）",
+     "name_en": "Jindaiji Heirloom Buckwheat",
+     "kind": "crop",
+     "summary_en": "Jindaiji's buckwheat-growing heritage is also recorded in Tokyo's Edo-Tokyo vegetable and crop tradition. It is distinct from the prepared noodle dish.",
+     "facts": [
+      {
+       "claim_en": "JA Tokyo lists Jindaiji heirloom buckwheat among its Edo-Tokyo heritage crop histories and recounts cultivation around Jindaiji.",
+       "source_url": "https://www.tokyo-ja.or.jp/farm/edo/57.php",
+       "source_title": "深大寺在来（ソバ）",
+       "publisher": "JA東京中央会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "深大寺",
+       "name_en": "Jindaiji Temple",
+       "relation_en": "Historical center of the local buckwheat and soba tradition.",
+       "address_ja": "東京都調布市深大寺",
+       "official_url": "",
+       "source_url": "https://www.tokyo-ja.or.jp/farm/edo/57.php"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Historical crop identity is well documented; the source does not establish present-day retail availability of locally grown grain."
+    },
+    {
+     "name_ja": "深大寺そばまんじゅう・そば菓子",
+     "name_en": "Jindaiji Buckwheat Buns and Snacks",
+     "kind": "sweet",
+     "summary_en": "Jindaiji's noodle tradition extends into handheld sweets and snacks made with buckwheat. Soba manju is one example of the foods developed around the temple approach.",
+     "facts": [
+      {
+       "claim_en": "Chofu's tourism association identifies soba manju and other buckwheat-based original foods as specialties of the Jindaiji shop district.",
+       "source_url": "https://csa.gr.jp/contents/1211",
+       "source_title": "深大寺そば",
+       "publisher": "調布市観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "深大寺門前",
+       "name_en": "Jindaiji Temple Approach",
+       "relation_en": "Shopping and dining area associated with buckwheat-based snacks.",
+       "address_ja": "東京都調布市深大寺周辺",
+       "official_url": "",
+       "source_url": "https://csa.gr.jp/contents/1211"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Represents the wider buckwheat-snack tradition rather than a single standardized recipe."
+    },
+    {
+     "name_ja": "深大寺そばようかん",
+     "name_en": "Jindaiji Soba Yokan",
+     "kind": "sweet",
+     "summary_en": "Yusui makes a buckwheat-linked confection using soba cooking liquid, buckwheat flour and red beans. It provides a sweet counterpart to the historic soba meal.",
+     "facts": [
+      {
+       "claim_en": "A Chofu souvenir guide identifies Yusui's soba yokan and describes its combination of soba cooking liquid, buckwheat flour and azuki beans.",
+       "source_url": "https://trie-keiochofu.jp/cyclemap/temiyage/",
+       "source_title": "調布の手みやげめぐり 深大寺〜調布・布田エリア",
+       "publisher": "トリエ京王調布"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "湧水",
+       "name_en": "Yusui Soba Restaurant",
+       "relation_en": "Restaurant associated with this specific buckwheat confection.",
+       "address_ja": "東京都調布市深大寺元町5-9-1",
+       "official_url": "",
+       "source_url": "https://trie-keiochofu.jp/cyclemap/temiyage/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "湧水",
+       "relation_en": "Maker of the soba yokan.",
+       "source_url": "https://trie-keiochofu.jp/cyclemap/temiyage/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "深大寺ビール",
+     "name_en": "Jindaiji Beer",
+     "kind": "drink",
+     "summary_en": "Jindaiji Beer is a locally developed beer inspired by the area's temple identity. Hoppy Beverage began producing it as part of Chofu's early craft-beer culture.",
+     "facts": [
+      {
+       "claim_en": "A Chofu souvenir guide identifies Jindaiji Beer as a product developed by Hoppy Beverage, whose Chofu factory has operated in the Tamagawa district since 1970.",
+       "source_url": "https://omiyage.chofu.com/jindaiji-beer/",
+       "source_title": "深大寺ビール、調布びーる",
+       "publisher": "調布のおみやげ"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "調布市内の酒店",
+       "name_en": "Chofu Local Liquor Shops",
+       "relation_en": "The souvenir guide identifies local liquor stores as retailers of the area's beer brands.",
+       "address_ja": "東京都調布市内",
+       "official_url": "",
+       "source_url": "https://omiyage.chofu.com/jindaiji-beer/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ホッピービバレッジ株式会社",
+       "relation_en": "Developer and producer of Jindaiji Beer.",
+       "source_url": "https://omiyage.chofu.com/jindaiji-beer/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The factory is an established production location; public brewery access is not established."
+    },
+    {
+     "name_ja": "調布びーる",
+     "name_en": "Chofu Beer",
+     "kind": "drink",
+     "summary_en": "Chofu Beer is a second locally branded beer from Hoppy Beverage. Its label uses a textile-inspired color scheme and imagery evoking the Tama River, reflecting the city's name and history.",
+     "facts": [
+      {
+       "claim_en": "The local souvenir guide distinguishes Chofu Beer from Jindaiji Beer and explains its cloth-and-river-inspired label design.",
+       "source_url": "https://omiyage.chofu.com/jindaiji-beer/",
+       "source_title": "深大寺ビール、調布びーる",
+       "publisher": "調布のおみやげ"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "調布市内の酒店",
+       "name_en": "Chofu Local Liquor Shops",
+       "relation_en": "Local retailers identified by the source as outlets for the beer brands.",
+       "address_ja": "東京都調布市内",
+       "official_url": "",
+       "source_url": "https://omiyage.chofu.com/jindaiji-beer/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ホッピービバレッジ株式会社",
+       "relation_en": "Producer of Chofu Beer.",
+       "source_url": "https://omiyage.chofu.com/jindaiji-beer/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "TEGAMISHA BREWERYのクラフトビール",
+     "name_en": "TEGAMISHA BREWERY Craft Beer",
+     "kind": "drink",
+     "summary_en": "TEGAMISHA BREWERY represents newer independent beer production in western Chofu. Its venue near Nishi-Chofu Station connects the city's small creative businesses with craft brewing.",
+     "facts": [
+      {
+       "claim_en": "A Chofu business listing identifies TEGAMISHA BREWERY as a beer venue in the Shimoishiwara district.",
+       "source_url": "https://chofu.com/tegamisyabrewery",
+       "source_title": "TEGAMISHA BREWERY （テガミシャ ブリュワリー）",
+       "publisher": "調布どっとこむ"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "TEGAMISHA BREWERY",
+       "name_en": "TEGAMISHA BREWERY",
+       "relation_en": "Craft-beer venue near Nishi-Chofu Station.",
+       "address_ja": "東京都調布市下石原2-6-14 ラ・メゾン1階",
+       "official_url": "https://tegamisha.com/news_cat/tegamisha-brewery/",
+       "source_url": "https://chofu.com/tegamisyabrewery"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "手紙社",
+       "relation_en": "Operator associated with the brewery venture.",
+       "source_url": "https://tegamisha.com/news_cat/tegamisha-brewery/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "This business also presents beers from other Japanese producers; individual selections should not all be assumed to be brewed in Chofu."
+    },
+    {
+     "name_ja": "調布産ぶどう",
+     "name_en": "Chofu-Grown Grapes",
+     "kind": "crop",
+     "summary_en": "Chofu retains vineyards producing table grapes despite its urban setting. Several farms provide a direct connection between visitors, local growers and seasonal fruit.",
+     "facts": [
+      {
+       "claim_en": "Chofu's official tourism-farm list identifies several grape-growing orchards and the grape varieties associated with their harvest experiences.",
+       "source_url": "https://www.city.chofu.lg.jp/040060/p025016.html",
+       "source_title": "観光農園",
+       "publisher": "調布市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "矢ヶ崎農園",
+       "name_en": "Yagasaki Farm",
+       "relation_en": "Chofu vineyard with grape-harvest activities.",
+       "address_ja": "東京都調布市染地2-37-15",
+       "official_url": "",
+       "source_url": "https://www.city.chofu.lg.jp/040060/p025016.html"
+      },
+      {
+       "name_ja": "深大寺ぶどう園",
+       "name_en": "Jindaiji Grape Farm",
+       "relation_en": "Vineyard growing several table-grape varieties.",
+       "address_ja": "東京都調布市深大寺南町3-5-1",
+       "official_url": "",
+       "source_url": "https://www.city.chofu.lg.jp/040060/p025016.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "矢ヶ崎農園",
+       "relation_en": "Local grape grower.",
+       "source_url": "https://www.city.chofu.lg.jp/040060/p025016.html"
+      },
+      {
+       "name_ja": "深大寺ぶどう園",
+       "relation_en": "Local grape grower.",
+       "source_url": "https://www.city.chofu.lg.jp/040060/p025016.html"
+      }
+     ],
+     "season_en": "Primarily August to September, depending on farm and variety.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "調布産ブルーベリー",
+     "name_en": "Chofu-Grown Blueberries",
+     "kind": "crop",
+     "summary_en": "Blueberry cultivation is another part of Chofu's urban fruit farming. Farms in the Jindaiji and Tobitakyu areas connect seasonal harvesting with local agriculture.",
+     "facts": [
+      {
+       "claim_en": "Chofu lists Shinhomiya Orchard and Nakamura-en among its blueberry-harvest farms.",
+       "source_url": "https://www.city.chofu.lg.jp/040060/p025016.html",
+       "source_title": "観光農園",
+       "publisher": "調布市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "篠宮果樹園",
+       "name_en": "Shinomiya Fruit Orchard",
+       "relation_en": "Blueberry-growing orchard in the Jindaiji area.",
+       "address_ja": "東京都調布市深大寺南町5-13-1、深大寺南町5-36-2",
+       "official_url": "",
+       "source_url": "https://www.city.chofu.lg.jp/040060/p025016.html"
+      },
+      {
+       "name_ja": "中村園",
+       "name_en": "Nakamura-en",
+       "relation_en": "Blueberry-growing farm in Tobitakyu.",
+       "address_ja": "東京都調布市飛田給2-43-1",
+       "official_url": "",
+       "source_url": "https://www.city.chofu.lg.jp/040060/p025016.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "篠宮果樹園",
+       "relation_en": "Blueberry grower.",
+       "source_url": "https://www.city.chofu.lg.jp/040060/p025016.html"
+      },
+      {
+       "name_ja": "中村園",
+       "relation_en": "Blueberry grower.",
+       "source_url": "https://www.city.chofu.lg.jp/040060/p025016.html"
+      }
+     ],
+     "season_en": "Summer, approximately late June to August depending on the farm.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "調布産キウイ・柿",
+     "name_en": "Chofu-Grown Kiwi and Persimmons",
+     "kind": "crop",
+     "summary_en": "Autumn fruit farming in Chofu also includes kiwi fruit and persimmons. Orchards around Jindaiji and Wakabacho demonstrate a broader local fruit tradition beyond grapes.",
+     "facts": [
+      {
+       "claim_en": "The city lists autumn kiwi and persimmon harvest periods at Tamura Farm and identifies persimmons among the fruit at Yamauchi Grape Farm.",
+       "source_url": "https://www.city.chofu.lg.jp/040060/p025016.html",
+       "source_title": "観光農園",
+       "publisher": "調布市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "田村農園",
+       "name_en": "Tamura Farm",
+       "relation_en": "Local orchard associated with autumn kiwi and persimmon growing.",
+       "address_ja": "東京都調布市深大寺東町6-8-1",
+       "official_url": "",
+       "source_url": "https://www.city.chofu.lg.jp/040060/p025016.html"
+      },
+      {
+       "name_ja": "山内ぶどう園",
+       "name_en": "Yamauchi Grape Farm",
+       "relation_en": "Orchard whose listed produce includes persimmons and other seasonal fruit.",
+       "address_ja": "東京都調布市若葉町3-29-3",
+       "official_url": "",
+       "source_url": "https://www.city.chofu.lg.jp/040060/p025016.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "田村農園",
+       "relation_en": "Local fruit grower.",
+       "source_url": "https://www.city.chofu.lg.jp/040060/p025016.html"
+      }
+     ],
+     "season_en": "Autumn; kiwi around October and persimmons around November.",
+     "confidence": "high",
+     "notes_en": "The city's harvest-farm listing is stronger evidence of local cultivation than of any particular packaged specialty."
+    },
+    {
+     "name_ja": "調布の夏野菜収穫文化",
+     "name_en": "Chofu Summer Vegetable Harvest Culture",
+     "kind": "crop",
+     "summary_en": "Chofu's urban farms grow corn, edamame, tomatoes, eggplants and other seasonal vegetables. Some farms provide harvest experiences that expose visitors to working agriculture inside the city.",
+     "facts": [
+      {
+       "claim_en": "The city's tourism-farm list identifies Ito Farm as a producer offering harvest experiences involving corn, edamame, tomatoes and several other summer vegetables.",
+       "source_url": "https://www.city.chofu.lg.jp/040060/p025016.html",
+       "source_title": "観光農園",
+       "publisher": "調布市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "伊藤農園asobibatake",
+       "name_en": "Ito Farm Asobibatake",
+       "relation_en": "Urban farm associated with seasonal vegetable harvesting.",
+       "address_ja": "東京都調布市仙川町1-29",
+       "official_url": "",
+       "source_url": "https://www.city.chofu.lg.jp/040060/p025016.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "伊藤農園asobibatake",
+       "relation_en": "Producer of seasonal vegetables.",
+       "source_url": "https://www.city.chofu.lg.jp/040060/p025016.html"
+      }
+     ],
+     "season_en": "Summer.",
+     "confidence": "high",
+     "notes_en": "A documented local agricultural practice rather than one uniquely named heritage cultivar."
+    },
+    {
+     "name_ja": "調布産野菜の地産地消",
+     "name_en": "Chofu Local Produce and Farm-Stand Culture",
+     "kind": "brand",
+     "summary_en": "Chofu actively connects urban farmers and consumers through local produce outlets. The farm-stand network makes seasonal vegetables a practical part of a food-focused visit.",
+     "facts": [
+      {
+       "claim_en": "Chofu maintains a list of shops where produce grown within the city can be purchased.",
+       "source_url": "https://www.city.chofu.lg.jp/040060/p025002.html",
+       "source_title": "市内産農産物販売店",
+       "publisher": "調布市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "神代農産物直売所うまいんず",
+       "name_en": "Jindai Farmers' Market Umains",
+       "relation_en": "JA-associated outlet for locally grown farm produce.",
+       "address_ja": "東京都調布市西つつじヶ丘3-8-2",
+       "official_url": "https://www.ja-minds.or.jp/farmstand/jindai_fm.php",
+       "source_url": "https://www.city.chofu.lg.jp/040060/p025002.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "JAマインズ",
+       "relation_en": "Agricultural cooperative supporting local produce distribution.",
+       "source_url": "https://www.ja-minds.or.jp/farmstand/jindai_fm.php"
+      }
+     ],
+     "season_en": "Seasonal produce throughout the year.",
+     "confidence": "high",
+     "notes_en": "The farm-stand system is a distinct producer-consumer connection rather than a restaurant category."
+    },
+    {
+     "name_ja": "梅むらさき",
+     "name_en": "Ume Murasaki Plum Confection",
+     "kind": "sweet",
+     "summary_en": "Ume Murasaki is a wagashi inspired by plum blossoms at Chofu's Fudatenjin Shrine. It encloses candied green plum in soft confectionery layers and wraps the result in a shiso leaf.",
+     "facts": [
+      {
+       "claim_en": "A Chofu gift guide attributes Ume Murasaki to Seifudo and describes its connection to the plum trees at Fudatenjin Shrine.",
+       "source_url": "https://trie-keiochofu.jp/cyclemap/temiyage/",
+       "source_title": "調布の手みやげめぐり 深大寺〜調布・布田エリア",
+       "publisher": "トリエ京王調布"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "千代富 清風堂",
+       "name_en": "Chiyotomi Seifudo",
+       "relation_en": "Historic Chofu wagashi shop making Ume Murasaki.",
+       "address_ja": "東京都調布市布田2-40-1",
+       "official_url": "",
+       "source_url": "https://trie-keiochofu.jp/cyclemap/temiyage/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "千代富 清風堂",
+       "relation_en": "Maker of the shrine-inspired confection.",
+       "source_url": "https://trie-keiochofu.jp/cyclemap/temiyage/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "調布多摩清流",
+     "name_en": "Chofu Tama Seiryu Wagashi",
+     "kind": "sweet",
+     "summary_en": "This locally named wagashi draws a connection between Chofu's place name and the history of cloth production along the Tama River. The confectionery style itself originated outside Chofu.",
+     "facts": [
+      {
+       "claim_en": "A local souvenir guide identifies Seifudo's Chofu Tama Seiryu and explains the relationship between the city's name, cloth tribute and the wagashi called chofu.",
+       "source_url": "https://trie-keiochofu.jp/cyclemap/temiyage/",
+       "source_title": "調布の手みやげめぐり 深大寺〜調布・布田エリア",
+       "publisher": "トリエ京王調布"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "千代富 清風堂",
+       "name_en": "Chiyotomi Seifudo",
+       "relation_en": "Local confectioner producing this place-name-themed wagashi.",
+       "address_ja": "東京都調布市布田2-40-1",
+       "official_url": "",
+       "source_url": "https://trie-keiochofu.jp/cyclemap/temiyage/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "千代富 清風堂",
+       "relation_en": "Maker of Chofu Tama Seiryu.",
+       "source_url": "https://trie-keiochofu.jp/cyclemap/temiyage/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Do not describe chofu wagashi as a recipe invented in Chofu; the source identifies its historical origin with Okayama."
+    },
+    {
+     "name_ja": "鬼太郎茶屋の妖怪菓子",
+     "name_en": "Kitaro Chaya Yokai-Themed Sweets",
+     "kind": "sweet",
+     "summary_en": "Food souvenirs at Kitaro Chaya celebrate Chofu's association with manga creator Shigeru Mizuki and his yokai characters. The sweets are part of the city's modern cultural identity rather than an agricultural specialty.",
+     "facts": [
+      {
+       "claim_en": "A Chofu shopping guide identifies yokai-themed confectionery souvenirs at Kitaro Chaya in the Fuda district.",
+       "source_url": "https://trie-keiochofu.jp/cyclemap/temiyage/",
+       "source_title": "調布の手みやげめぐり 深大寺〜調布・布田エリア",
+       "publisher": "トリエ京王調布"
+      },
+      {
+       "claim_en": "The shop's official site connects its activities with Chofu's designation as the city associated with Shigeru Mizuki's manga.",
+       "source_url": "https://kitaro-chaya.jp/diary",
+       "source_title": "ピックアップ - 鬼太郎茶屋",
+       "publisher": "鬼太郎茶屋"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "鬼太郎茶屋",
+       "name_en": "Kitaro Chaya",
+       "relation_en": "Official yokai-themed shop and food venue associated with Chofu's manga heritage.",
+       "address_ja": "東京都調布市布田1-34-1",
+       "official_url": "https://kitaro-chaya.jp/free/takeout",
+       "source_url": "https://trie-keiochofu.jp/cyclemap/temiyage/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "鬼太郎茶屋",
+       "relation_en": "Retailer and operator of the yokai-themed food experience.",
+       "source_url": "https://kitaro-chaya.jp/free/takeout"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Individual products can change. The older Medama no Oyaji Manju should not be treated as a confirmed current offering."
+    },
+    {
+     "name_ja": "多摩川のアユ漁・徒鵜飼い",
+     "name_en": "Tama River Ayu Fishing and Historical Walking Cormorant Fishing",
+     "kind": "fishing",
+     "summary_en": "The Tama River around Chofu has a long history of ayu fishing. Historical accounts also describe fishers controlling cormorants while walking in the river rather than fishing from boats.",
+     "facts": [
+      {
+       "claim_en": "A 2026 report documents ayu migration and fishing near Chofu and records historical walking cormorant fishing in the area.",
+       "source_url": "https://chofu.keizai.biz/headline/4878/",
+       "source_title": "調布・多摩川のアユ遡上数減 65万尾 前年比50％",
+       "publisher": "調布経済新聞"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "多摩川・二ヶ領上河原堰周辺",
+       "name_en": "Tama River Near Nikaryo Kamigawara Weir",
+       "relation_en": "Riverside area associated with ayu migration and contemporary angling observations.",
+       "address_ja": "東京都調布市染地2丁目付近",
+       "official_url": "",
+       "source_url": "https://chofu.keizai.biz/headline/4878/"
+      }
+     ],
+     "makers": [],
+     "season_en": "Ayu migration and fishing are seasonal, particularly spring to summer.",
+     "confidence": "medium",
+     "notes_en": "Historical fishery evidence is stronger than evidence for a present-day visitor food experience. This is not a recommendation to fish without checking applicable local rules."
+    }
+   ],
+   "none_found_reason_en": ""
+  },
+  {
+   "id": "machida",
+   "name_ja": "町田市",
+   "food_cultures": [
+    {
+     "name_ja": "小山田ミツバ",
+     "name_en": "Oyamada Mitsuba",
+     "kind": "crop",
+     "summary_en": "Oyamada mitsuba is an Edo-Tokyo heritage vegetable developed in what is now Machida's Kamioyamada district. Its historical cultivation involved a special blanching technique that enabled winter production.",
+     "facts": [
+      {
+       "claim_en": "JA Tokyo traces the cultivation method to a farmer in Kamioyamada who developed a way to produce blanched mitsuba and began selling it under the Oyamada name in 1915.",
+       "source_url": "https://www.tokyo-ja.or.jp/farm/edo/55.php",
+       "source_title": "ミツバ（小山田ミツバ・白ミツバ）",
+       "publisher": "JA東京中央会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "JA町田市",
+       "relation_en": "Agricultural cooperative associated with the representative growing area.",
+       "source_url": "https://www.tokyo-ja.or.jp/farm/edo/55.php"
+      }
+     ],
+     "season_en": "Historically developed as a winter crop.",
+     "confidence": "high",
+     "notes_en": "A genuinely Machida-associated heritage crop. The cited source does not identify a specific publicly accessible producer."
+    },
+    {
+     "name_ja": "禅寺丸柿",
+     "name_en": "Zenjimaru Persimmon",
+     "kind": "crop",
+     "summary_en": "Zenjimaru is a traditional persimmon associated with the wider Tama region and historically cultivated around Machida. The fruit also provided the basis for a locally branded wine.",
+     "facts": [
+      {
+       "claim_en": "Machida's tourism association describes Zenjimaru persimmons as a long-established Tama-area specialty cultivated around the city.",
+       "source_url": "https://machida-guide.or.jp/post-1142/",
+       "source_title": "町田酒販協同組合",
+       "publisher": "町田市観光コンベンション協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "アグリハウス鶴川",
+       "name_en": "Agrihouse Tsurukawa",
+       "relation_en": "Local agricultural outlet useful for exploring Machida produce; specific availability of Zenjimaru persimmons is not confirmed.",
+       "address_ja": "東京都町田市大蔵町438-1",
+       "official_url": "",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=machidashi_agrihouse_tsurukawa"
+      }
+     ],
+     "makers": [],
+     "season_en": "Autumn.",
+     "confidence": "high",
+     "notes_en": "Historically important in the Tama region; it should not be represented as a cultivar originating exclusively in Machida."
+    },
+    {
+     "name_ja": "禅寺丸柿ワイン",
+     "name_en": "Zenjimaru Persimmon Wine",
+     "kind": "drink",
+     "summary_en": "This local wine uses Zenjimaru persimmons and reflects an effort to turn regional fruit heritage into a branded beverage. Its continued present-day distribution has not been independently confirmed.",
+     "facts": [
+      {
+       "claim_en": "The Machida tourism association documents a wine made from Zenjimaru persimmons and associates it with the Machida Liquor Retailers Cooperative.",
+       "source_url": "https://machida-guide.or.jp/post-1142/",
+       "source_title": "町田酒販協同組合",
+       "publisher": "町田市観光コンベンション協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "町田酒販協同組合",
+       "name_en": "Machida Liquor Retailers Cooperative",
+       "relation_en": "Organization documented in connection with the persimmon wine.",
+       "address_ja": "東京都町田市旭町1-8-4",
+       "official_url": "",
+       "source_url": "https://machida-guide.or.jp/post-1142/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "町田酒販協同組合",
+       "relation_en": "Local cooperative associated with the branded wine.",
+       "source_url": "https://machida-guide.or.jp/post-1142/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "The tourism source documents the product historically; it is not evidence of guaranteed current stock."
+    },
+    {
+     "name_ja": "純米酒 尾根桜",
+     "name_en": "Onezakura Junmai Sake",
+     "kind": "drink",
+     "summary_en": "Onezakura is a sake brand associated with rice grown in Machida. It links the city's former rice-growing landscape with modern regional alcoholic beverages.",
+     "facts": [
+      {
+       "claim_en": "The tourism association describes Onezakura as a junmai sake made from Machida-grown rice.",
+       "source_url": "https://machida-guide.or.jp/post-1142/",
+       "source_title": "町田酒販協同組合",
+       "publisher": "町田市観光コンベンション協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "町田酒販協同組合",
+       "name_en": "Machida Liquor Retailers Cooperative",
+       "relation_en": "Local organization associated with the sake.",
+       "address_ja": "東京都町田市旭町1-8-4",
+       "official_url": "",
+       "source_url": "https://machida-guide.or.jp/post-1142/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "町田酒販協同組合",
+       "relation_en": "Local organization promoting the rice-linked sake.",
+       "source_url": "https://machida-guide.or.jp/post-1142/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The source supports local rice as an ingredient but does not establish that brewing takes place within Machida."
+    },
+    {
+     "name_ja": "まちだシルクメロン",
+     "name_en": "Machida Silk Melon",
+     "kind": "brand",
+     "summary_en": "Machida Silk Melon is a locally developed agricultural brand using an innovative cultivation system. It represents cooperation between urban farming and technical businesses.",
+     "facts": [
+      {
+       "claim_en": "Machida City identifies Machida Silk Melon as an agricultural-commercial-industrial collaboration using technologies developed by local businesses.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/machida-melon-shop.html",
+       "source_title": "市内企業の技術が詰まった「まちだシルクメロン」【農商工連携事業】",
+       "publisher": "町田市"
+      },
+      {
+       "claim_en": "The tourism association describes the melon as a crop grown using a distinctive Machida cultivation system.",
+       "source_url": "https://machida-guide.or.jp/%E3%81%BE%E3%81%A1%E3%81%A0%E3%82%B7%E3%83%AB%E3%82%AF%E3%83%A1%E3%83%AD%E3%83%B3/",
+       "source_title": "まちだシルクメロン",
+       "publisher": "町田市観光コンベンション協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "町田ツーリストギャラリー",
+       "name_en": "Machida Tourist Gallery",
+       "relation_en": "Tourism association outlet documented in connection with the melon brand.",
+       "address_ja": "東京都町田市原町田4-10-20 ぽっぽ町田1階",
+       "official_url": "https://machida-guide.or.jp/%E3%81%BE%E3%81%A1%E3%81%A0%E3%82%B7%E3%83%AB%E3%82%AF%E3%83%A1%E3%83%AD%E3%83%B3/",
+       "source_url": "https://machida-guide.or.jp/%E3%81%BE%E3%81%A1%E3%81%A0%E3%82%B7%E3%83%AB%E3%82%AF%E3%83%A1%E3%83%AD%E3%83%B3/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "まちだシルク農園",
+       "relation_en": "Local melon cultivation venture associated with the brand.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/machida-melon-shop.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "This is a contemporary agricultural innovation, not an inherited Edo-period cultivar."
+    },
+    {
+     "name_ja": "まちだシルクメロン菓子",
+     "name_en": "Machida Silk Melon Confections",
+     "kind": "sweet",
+     "summary_en": "Machida Silk Melon has inspired a range of locally branded sweets, including candy, jelly and dorayaki-style pancakes. These products extend the melon brand into confectionery.",
+     "facts": [
+      {
+       "claim_en": "Machida's current certified-specialty list includes Silk Melon candy, jelly and dorayaki pancakes from local makers.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html",
+       "source_title": "～町田の優れた逸品～「まちだ名産品」をお試しください！",
+       "publisher": "町田市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "町田ツーリストギャラリー",
+       "name_en": "Machida Tourist Gallery",
+       "relation_en": "One of the city-listed general outlets for certified Machida specialty products; individual item stock is not guaranteed.",
+       "address_ja": "東京都町田市原町田4-10-20 ぽっぽ町田1階",
+       "official_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "NPO法人プラナス",
+       "relation_en": "Maker of the listed melon candy and jelly.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html"
+      },
+      {
+       "name_ja": "玉川虎屋",
+       "relation_en": "Maker of the listed melon dorayaki pancake.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "七国山なたね油",
+     "name_en": "Nanakuniyama Rapeseed Oil",
+     "kind": "other",
+     "summary_en": "Rapeseed grown in Machida's Nanakuniyama landscape is pressed into edible oil at the Furusato Farm Tools Museum. The process links countryside preservation, traditional equipment and food production.",
+     "facts": [
+      {
+       "claim_en": "Machida City documents oil pressing at the Furusato Farm Tools Museum using rapeseed harvested in the Nanakuniyama area.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/sangyo/nougyo/event/nataneoil.html",
+       "source_title": "なたね油しぼり実演と販売",
+       "publisher": "町田市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "町田市ふるさと農具館",
+       "name_en": "Machida Furusato Farm Tools Museum",
+       "relation_en": "Museum demonstrating local rapeseed-oil pressing and documenting the area's agriculture.",
+       "address_ja": "東京都町田市野津田町2288",
+       "official_url": "https://www.city.machida.tokyo.jp/kanko/sangyo/nougyo/shimintonou/agri02.html",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/sangyo/nougyo/shimintonou/agri02.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "町田市ふるさと農具館",
+       "relation_en": "Municipal museum demonstrating and distributing the locally pressed oil.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/sangyo/nougyo/shimintonou/agri02.html"
+      }
+     ],
+     "season_en": "Rapeseed is harvested seasonally; demonstrations occur at selected times.",
+     "confidence": "high",
+     "notes_en": "A particularly strong maker-and-history visitor opportunity."
+    },
+    {
+     "name_ja": "七国山そば",
+     "name_en": "Nanakuniyama Buckwheat",
+     "kind": "crop",
+     "summary_en": "Nanakuniyama farmers cultivate buckwheat as part of the area's agricultural landscape. The harvested grain is made into soba and buckwheat flour linked to the Furusato Farm Tools Museum.",
+     "facts": [
+      {
+       "claim_en": "Machida's museum states that soba and buckwheat flour made from grain grown in Nanakuniyama are among its seasonal local agricultural products.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/sangyo/nougyo/shimintonou/agri02.html",
+       "source_title": "ふるさと農具館",
+       "publisher": "町田市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "町田市ふるさと農具館",
+       "name_en": "Machida Furusato Farm Tools Museum",
+       "relation_en": "Museum documenting and serving as an outlet for the locally grown buckwheat products.",
+       "address_ja": "東京都町田市野津田町2288",
+       "official_url": "https://www.city.machida.tokyo.jp/kanko/sangyo/nougyo/shimintonou/agri02.html",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/sangyo/nougyo/shimintonou/agri02.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "七国山地区の農家",
+       "relation_en": "Growers associated with the Nanakuniyama buckwheat crop.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/sangyo/nougyo/shimintonou/agri02.html"
+      }
+     ],
+     "season_en": "Autumn harvest, with processed grain offered seasonally.",
+     "confidence": "high",
+     "notes_en": "The city's November 2026 update says the 2026 crop's soba and flour had already sold out. The historical and agricultural experience remains relevant, but immediate product availability should not be assumed."
+    },
+    {
+     "name_ja": "まち☆ベジ",
+     "name_en": "Machi-Vege Local Produce Brand",
+     "kind": "brand",
+     "summary_en": "Machi-Vege identifies agricultural products grown in Machida and promotes local consumption. It gives the city's diverse farms a shared regional identity.",
+     "facts": [
+      {
+       "claim_en": "Machida City promotes produce grown within its boundaries under the Machi-Vege identity.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/sangyo/nougyo/chisanchishou/machibeji.html",
+       "source_title": "町田産農産物「まち☆ベジ」",
+       "publisher": "町田市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "アグリハウス鶴川",
+       "name_en": "Agrihouse Tsurukawa",
+       "relation_en": "Agricultural outlet for exploring locally grown Machida produce.",
+       "address_ja": "東京都町田市大蔵町438-1",
+       "official_url": "",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=machidashi_agrihouse_tsurukawa"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "町田市内の農業者",
+       "relation_en": "Local farmers associated with the city's produce identity.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/sangyo/nougyo/chisanchishou/machibeji.html"
+      }
+     ],
+     "season_en": "Seasonal produce throughout the year.",
+     "confidence": "high",
+     "notes_en": "A geographic origin brand rather than a single cultivar."
+    },
+    {
+     "name_ja": "町田産花柚子",
+     "name_en": "Machida-Grown Hana-Yuzu",
+     "kind": "crop",
+     "summary_en": "Hana-yuzu grown in Machida supplies a local citrus-processing tradition. Its fragrant juice is used in drinks, condiments and sweets under JA Machida's food brand.",
+     "facts": [
+      {
+       "claim_en": "JA Machida states that its locally developed yuzu food products use juice from hana-yuzu grown in Machida.",
+       "source_url": "https://www.ja-machidashi.or.jp/agri/",
+       "source_title": "農と食",
+       "publisher": "JA町田市"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "JA町田市",
+       "relation_en": "Agricultural cooperative developing products based on locally grown hana-yuzu.",
+       "source_url": "https://www.ja-machidashi.or.jp/agri/"
+      }
+     ],
+     "season_en": "Citrus harvest is seasonal; processed products may be encountered outside harvest season.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "まち☆ベジFoods 花ゆずスイーツ・柚子こんにゃくゼリー",
+     "name_en": "Machi-Vege Hana-Yuzu Sweets and Jelly",
+     "kind": "sweet",
+     "summary_en": "JA Machida turns locally grown hana-yuzu into confections including citrus sweets and konjac jelly. These products connect the region's fruit growers with locally branded food processing.",
+     "facts": [
+      {
+       "claim_en": "JA Machida identifies Hana-Yuzu Sweets and Yuzu Konjac Jelly as products containing Machida-grown hana-yuzu juice.",
+       "source_url": "https://www.ja-machidashi.or.jp/agri/",
+       "source_title": "農と食",
+       "publisher": "JA町田市"
+      },
+      {
+       "claim_en": "Both products appear on Machida City's current certified-specialty list.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html",
+       "source_title": "～町田の優れた逸品～「まちだ名産品」をお試しください！",
+       "publisher": "町田市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "町田ツーリストギャラリー",
+       "name_en": "Machida Tourist Gallery",
+       "relation_en": "General retail outlet for certified Machida specialty products; stock is not confirmed by product.",
+       "address_ja": "東京都町田市原町田4-10-20 ぽっぽ町田1階",
+       "official_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "JA町田市",
+       "relation_en": "Producer and promoter of the Machi-Vege citrus foods.",
+       "source_url": "https://www.ja-machidashi.or.jp/agri/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "まち☆ベジFoods ゆずはちみつ",
+     "name_en": "Machi-Vege Yuzu Honey Syrup",
+     "kind": "drink",
+     "summary_en": "This yuzu-honey product uses juice from Machida-grown hana-yuzu. It can be prepared as a citrus drink or used as a food ingredient.",
+     "facts": [
+      {
+       "claim_en": "JA Machida describes a yuzu-honey product made with juice from locally grown hana-yuzu.",
+       "source_url": "https://www.ja-machidashi.or.jp/agri/",
+       "source_title": "農と食",
+       "publisher": "JA町田市"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "JA町田市",
+       "relation_en": "Developer and promoter of this local citrus product.",
+       "source_url": "https://www.ja-machidashi.or.jp/agri/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The product's local ingredient connection is documented; its current availability at a specific outlet is not verified."
+    },
+    {
+     "name_ja": "町田のはちみつ",
+     "name_en": "Machida Honey",
+     "kind": "brand",
+     "summary_en": "Honey produced by Ogawa Farm represents small-scale food production in Machida's northern green landscape. It is recognized among the city's specialty products.",
+     "facts": [
+      {
+       "claim_en": "Machida's certified-specialty list includes Machida Honey produced by Ogawa Farm.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html",
+       "source_title": "～町田の優れた逸品～「まちだ名産品」をお試しください！",
+       "publisher": "町田市"
+      },
+      {
+       "claim_en": "Ogawa Farm presents honey among the foods produced through its local farming activities.",
+       "source_url": "https://ogawafarm.tokyo/products/",
+       "source_title": "農園の商品",
+       "publisher": "小川ファーム"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "JA町田市アグリハウス忠生",
+       "name_en": "JA Machida Agrihouse Tadao",
+       "relation_en": "Farm-produce retailer identified by the producer; item-specific stock is not guaranteed.",
+       "address_ja": "東京都町田市忠生3-7-18",
+       "official_url": "",
+       "source_url": "https://ogawafarm.tokyo/products/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "小川ファーム",
+       "relation_en": "Local honey producer.",
+       "source_url": "https://ogawafarm.tokyo/products/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "小山田のブルーベリー",
+     "name_en": "Oyamada Blueberries",
+     "kind": "crop",
+     "summary_en": "Blueberries are among the seasonal crops grown by Ogawa Farm in Machida's Oyamada area. They provide a fruit-growing experience connected to the city's remaining agricultural landscape.",
+     "facts": [
+      {
+       "claim_en": "Ogawa Farm identifies blueberries as one of its locally grown seasonal crops.",
+       "source_url": "https://ogawafarm.tokyo/products/",
+       "source_title": "農園の商品",
+       "publisher": "小川ファーム"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "小山田ブルーベリー園",
+       "name_en": "Oyamada Blueberry Farm",
+       "relation_en": "Blueberry-growing location associated with the local producer.",
+       "address_ja": "",
+       "official_url": "https://ogawafarm.tokyo/products/",
+       "source_url": "https://ogawafarm.tokyo/products/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "小川ファーム",
+       "relation_en": "Local blueberry grower.",
+       "source_url": "https://ogawafarm.tokyo/products/"
+      }
+     ],
+     "season_en": "Summer.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "町田の朝掘りたけのこ",
+     "name_en": "Freshly Dug Machida Bamboo Shoots",
+     "kind": "foraging",
+     "summary_en": "Spring bamboo shoots are harvested in Machida's rural northern landscape. The seasonal crop reflects a traditional connection between wooded land, farm households and food.",
+     "facts": [
+      {
+       "claim_en": "Ogawa Farm lists freshly harvested bamboo shoots among its seasonal local products.",
+       "source_url": "https://ogawafarm.tokyo/products/",
+       "source_title": "農園の商品",
+       "publisher": "小川ファーム"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "小川ファーム",
+       "relation_en": "Local harvester and seller of bamboo shoots.",
+       "source_url": "https://ogawafarm.tokyo/products/"
+      }
+     ],
+     "season_en": "Spring.",
+     "confidence": "high",
+     "notes_en": "Cultivated or managed bamboo harvesting is documented. Unsupervised public foraging is not established."
+    },
+    {
+     "name_ja": "井上糀店の糀・手づくり味噌",
+     "name_en": "Inoue Koji Shop's Koji and Handmade Miso",
+     "kind": "other",
+     "summary_en": "Inoue Koji Shop preserves a traditional fermentation craft in Machida. Its koji and rice-miso products connect local food history with present-day artisanal production.",
+     "facts": [
+      {
+       "claim_en": "Inoue Koji Shop presents its business as a long-established producer specializing in koji and miso.",
+       "source_url": "https://inouekoujiten.com/",
+       "source_title": "井上糀店",
+       "publisher": "井上糀店"
+      },
+      {
+       "claim_en": "Machida City currently recognizes several Inoue Koji Shop rice-miso products as local specialties.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html",
+       "source_title": "～町田の優れた逸品～「まちだ名産品」をお試しください！",
+       "publisher": "町田市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "井上糀店",
+       "name_en": "Inoue Koji Shop",
+       "relation_en": "Historic fermentation specialist and direct connection to its food-making tradition.",
+       "address_ja": "東京都町田市小山町2483-2",
+       "official_url": "https://inouekoujiten.com/",
+       "source_url": "https://www.komemiso.com/hpgen/HPB/entries/1.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "井上糀店",
+       "relation_en": "Producer of koji and several Machida-certified rice misos.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "日本一しょうゆ・ゆずポン酢",
+     "name_en": "Nihonichi Soy Sauce and Yuzu Ponzu",
+     "kind": "other",
+     "summary_en": "Soy sauce and related condiments from Okanao Saburo Shoten are included in Machida's official specialty selection. They represent a locally recognized fermentation-and-condiment business.",
+     "facts": [
+      {
+       "claim_en": "Machida's current certified-specialty list includes Nihonichi whole-soybean soy sauce, yuzu ponzu and tomato dressing from Okanao Saburo Shoten.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html",
+       "source_title": "～町田の優れた逸品～「まちだ名産品」をお試しください！",
+       "publisher": "町田市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "町田ツーリストギャラリー",
+       "name_en": "Machida Tourist Gallery",
+       "relation_en": "City-listed outlet for certified specialty products; individual condiment stock is not confirmed.",
+       "address_ja": "東京都町田市原町田4-10-20 ぽっぽ町田1階",
+       "official_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "岡直三郎商店",
+       "relation_en": "Condiment producer represented in Machida's official specialty program.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "City specialty recognition is verified; the source alone does not establish that all ingredients are grown or all manufacturing is performed in Machida."
+    },
+    {
+     "name_ja": "武相ブリュワリーの町田産ホップ・大麦ビール",
+     "name_en": "Buso Brewery Beer Using Machida Hops and Barley",
+     "kind": "drink",
+     "summary_en": "Buso Brewery is a local craft-beer project created through cooperation between Machida businesses and farmers. Its beers incorporate some hops and barley grown within the city.",
+     "facts": [
+      {
+       "claim_en": "The brewery's project description says the initiative was launched in 2023 with local businesses and farmers to use Machida-grown hops and barley in craft beer.",
+       "source_url": "https://www.buso-brewery.com/kawasemi-brew-bc",
+       "source_title": "Kawasemi Brew | カワセミブリュー",
+       "publisher": "武相ブリュワリー"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "武相ブリュワリー",
+       "relation_en": "Machida craft-beer producer working with local agricultural ingredients.",
+       "source_url": "https://www.buso-brewery.com/kawasemi-brew-bc"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The brewer specifies partial use of locally grown hops and barley; it would be inaccurate to call every ingredient entirely Machida-grown."
+    },
+    {
+     "name_ja": "成瀬ギョーザ（腸詰）",
+     "name_en": "Naruse Gyoza Sausage",
+     "kind": "dish",
+     "summary_en": "Naruse Gyoza is a Machida specialty that puts gyoza-style meat-and-vegetable filling into a sausage-like form. Its maker traces the handcrafted product to 1994.",
+     "facts": [
+      {
+       "claim_en": "The official producer describes Naruse Gyoza as a handmade, sausage-shaped gyoza specialty originating in 1994.",
+       "source_url": "https://naruse-gyoza.com/",
+       "source_title": "成瀬ギョーザ【公式】｜町田名産品・ソーセージみたいな餃子",
+       "publisher": "ホームデリカTAICHI"
+      },
+      {
+       "claim_en": "Machida City lists Naruse Gyoza as a certified local specialty.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html",
+       "source_title": "～町田の優れた逸品～「まちだ名産品」をお試しください！",
+       "publisher": "町田市"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "ホームデリカTAICHI",
+       "relation_en": "Producer of Naruse Gyoza.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The published product identity is clear; a specific physical retailer is not confirmed here."
+    },
+    {
+     "name_ja": "元祖町田餃子 味噌ベース",
+     "name_en": "Original Machida Miso-Seasoned Gyoza",
+     "kind": "dish",
+     "summary_en": "Machida Gyoza Shoten offers a locally branded dumpling distinguished by its miso-based flavor. It is a contemporary regional food product included in the city's specialty program.",
+     "facts": [
+      {
+       "claim_en": "Machida City's certified-specialty list includes a miso-based Original Machida Gyoza made by Machida Gyoza Shoten.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html",
+       "source_title": "～町田の優れた逸品～「まちだ名産品」をお試しください！",
+       "publisher": "町田市"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "町田餃子商店",
+       "relation_en": "Producer of the certified miso-based gyoza.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A modern branded specialty, not an established historical regional recipe."
+    },
+    {
+     "name_ja": "町田の地名・歴史を冠した和菓子",
+     "name_en": "Machida Place-and-History-Themed Wagashi",
+     "kind": "sweet",
+     "summary_en": "Machida confectioners make traditional-style sweets named after local landmarks, landscapes and cultural traditions. Examples include Nanakuniyama, Zenjimaru no Sato, Hasu no Mi Monaka and sweets referencing Haramachida's Seven Lucky Gods.",
+     "facts": [
+      {
+       "claim_en": "Machida's current official specialty list identifies locally named wagashi including Nanakuniyama, Zenjimaru no Sato, Hasu no Mi Monaka and Haramachida Shichifukujin Fuku Fuku.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html",
+       "source_title": "～町田の優れた逸品～「まちだ名産品」をお試しください！",
+       "publisher": "町田市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "町田ツーリストギャラリー",
+       "name_en": "Machida Tourist Gallery",
+       "relation_en": "City-listed outlet for certified local confections; specific products vary.",
+       "address_ja": "東京都町田市原町田4-10-20 ぽっぽ町田1階",
+       "official_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "菓匠 華月",
+       "relation_en": "Maker of several wagashi named after Machida landmarks and heritage.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html"
+      },
+      {
+       "name_ja": "蛸八",
+       "relation_en": "Maker of Hasu no Mi Monaka.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html"
+      },
+      {
+       "name_ja": "菓舗 中野屋",
+       "relation_en": "Maker of sweets referencing Haramachida and other local themes.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The local historical connection is supported by product names and city certification; use of local ingredients is not established for every sweet."
+    },
+    {
+     "name_ja": "かとうさんのぷりん",
+     "name_en": "Kato Farm Pudding",
+     "kind": "sweet",
+     "summary_en": "Kato Farm makes custard and Jersey-style puddings using eggs produced through its own chicken-raising operation. It creates a direct link between a Machida farm and a recognized dessert.",
+     "facts": [
+      {
+       "claim_en": "The official Machida specialty catalog identifies Kato Farm's handmade custard and Jersey puddings as egg-based local specialty products.",
+       "source_url": "https://machida-meisanhin.jp/detail/kato",
+       "source_title": "カトウファーム",
+       "publisher": "町田市名産品"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "カトウファーム",
+       "name_en": "Kato Farm",
+       "relation_en": "Farm and producer associated with the handmade puddings.",
+       "address_ja": "東京都町田市相原町4420",
+       "official_url": "https://machida-meisanhin.jp/detail/kato",
+       "source_url": "https://machida-meisanhin.jp/detail/kato"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "カトウファーム",
+       "relation_en": "Producer of the eggs and puddings.",
+       "source_url": "https://machida-meisanhin.jp/detail/kato"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "まちだソーセージ",
+     "name_en": "Machida Sausage",
+     "kind": "brand",
+     "summary_en": "Artisan sausage making is represented in Machida's certified specialty selection through Doitsuya. Its Machida Sausage and other handmade meat products are examples of contemporary local food craftsmanship.",
+     "facts": [
+      {
+       "claim_en": "Machida City's current specialty selection includes Machida Sausage, Takumi Sausage and other meat products made by Doitsuya.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html",
+       "source_title": "～町田の優れた逸品～「まちだ名産品」をお試しください！",
+       "publisher": "町田市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "町田ツーリストギャラリー",
+       "name_en": "Machida Tourist Gallery",
+       "relation_en": "General city-listed specialty-product outlet; chilled-meat stock is not individually confirmed.",
+       "address_ja": "東京都町田市原町田4-10-20 ぽっぽ町田1階",
+       "official_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "手造りハム・ソーセージ 独逸屋",
+       "relation_en": "Artisan producer of the locally certified sausage products.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Machida certification documents the artisan brand but does not demonstrate that all meat ingredients originate in Machida."
+    },
+    {
+     "name_ja": "町田の地域名ブレンドコーヒー",
+     "name_en": "Machida Place-Named Coffee Blends",
+     "kind": "drink",
+     "summary_en": "Several local coffee businesses sell blends named after Machida neighborhoods and scenery. The names connect contemporary roasting and café culture with places such as Yakushi, Nozuta and the Onda River.",
+     "facts": [
+      {
+       "claim_en": "Machida's current specialty list includes Yakushi Blend, Mahoro Blend, Onda River Sakura and Nozuta Blend from locally associated coffee businesses.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html",
+       "source_title": "～町田の優れた逸品～「まちだ名産品」をお試しください！",
+       "publisher": "町田市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "町田ツーリストギャラリー",
+       "name_en": "Machida Tourist Gallery",
+       "relation_en": "Listed outlet for city-certified specialty products, with individual coffee-blend availability unconfirmed.",
+       "address_ja": "東京都町田市原町田4-10-20 ぽっぽ町田1階",
+       "official_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "町田焙煎珈琲",
+       "relation_en": "Maker associated with Yakushi and Mahoro blends.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html"
+      },
+      {
+       "name_ja": "野津田焙煎研究所",
+       "relation_en": "Maker associated with Nozuta Blend.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html"
+      },
+      {
+       "name_ja": "珈琲豆処 こげちゃ家",
+       "relation_en": "Maker associated with Onda River Sakura.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The locality is expressed through the makers and product identities, not through coffee beans grown in Machida."
+    },
+    {
+     "name_ja": "町田の地域農産物を使った加工食品",
+     "name_en": "Machida Small-Batch Local Produce Preserves",
+     "kind": "other",
+     "summary_en": "Machida's specialty program also includes small-batch products such as blueberry sauce and shiso syrup. They show how local makers transform regional produce and botanical flavors into distinctive packaged foods.",
+     "facts": [
+      {
+       "claim_en": "Machida City's certified-specialty list includes Bon's Blueberry Sauce and Bon's Shiso Syrup, produced by Workers' Collective Bon.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html",
+       "source_title": "～町田の優れた逸品～「まちだ名産品」をお試しください！",
+       "publisher": "町田市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "町田ツーリストギャラリー",
+       "name_en": "Machida Tourist Gallery",
+       "relation_en": "General retail location for city-certified specialty products; specific stock is not verified.",
+       "address_ja": "東京都町田市原町田4-10-20 ぽっぽ町田1階",
+       "official_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "企業組合ワーカーズ・コレクティブ凡",
+       "relation_en": "Producer of the certified blueberry sauce and shiso syrup.",
+       "source_url": "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "City certification and product names are verified, but the source alone does not establish that every agricultural ingredient is grown in Machida."
+    }
+   ],
+   "none_found_reason_en": ""
+  }
+ ],
+ "url_check": {
+  "checked_at": "2026-11-22",
+  "status": {
+   "https://agripark.tokyo/matching/search/store.php?id=machidashi_agrihouse_tsurukawa": 200,
+   "https://akishima-kanko.org/shop/%E5%BE%A1%E8%8F%93%E5%AD%90%E5%8F%B8%E3%80%80%E5%85%83%E6%9C%A8%E5%B1%8B/": 200,
+   "https://akishima-kanko.org/shop/%E6%8B%9D%E5%B3%B6%E3%81%AD%E3%81%8E%E3%81%BF%E3%81%9D/": 200,
+   "https://akishima-kanko.org/spot/%E9%85%92%E4%BA%95%E5%B1%8B%E8%A3%BD%E8%8F%93/": 200,
+   "https://akishimarajic.owst.jp/": 200,
+   "https://akishimarajic.owst.jp/foods": 200,
+   "https://chofu.com/tegamisyabrewery": 200,
+   "https://chofu.keizai.biz/headline/4878/": 200,
+   "https://csa.gr.jp/contents/1211": 200,
+   "https://inouekoujiten.com/": 200,
+   "https://kitaro-chaya.jp/diary": 200,
+   "https://kitaro-chaya.jp/free/takeout": 200,
+   "https://machida-guide.or.jp/%E3%81%BE%E3%81%A1%E3%81%A0%E3%82%B7%E3%83%AB%E3%82%AF%E3%83%A1%E3%83%AD%E3%83%B3/": 200,
+   "https://machida-guide.or.jp/post-1142/": 200,
+   "https://machida-meisanhin.jp/detail/kato": 200,
+   "https://naruse-gyoza.com/": 200,
+   "https://ogawafarm.tokyo/products/": 200,
+   "https://omiyage.chofu.com/jindaiji-beer/": 200,
+   "https://tamajiman.com/SHOP/B-325-0.html": 200,
+   "https://tegamisha.com/news_cat/tegamisha-brewery/": 200,
+   "https://trie-keiochofu.jp/cyclemap/temiyage/": 200,
+   "https://www.bakerypiccolo.com/tamagomaru/": 200,
+   "https://www.buso-brewery.com/kawasemi-brew-bc": 200,
+   "https://www.city.akishima.lg.jp/bussiness/nogyo/1004833/1004838.html": 200,
+   "https://www.city.akishima.lg.jp/kurashi/water/1005157/1005162.html": 200,
+   "https://www.city.akishima.lg.jp/promotion/1009243/1010189/1009143.html": 200,
+   "https://www.city.akishima.lg.jp/promotion/1009243/1010989.html": 200,
+   "https://www.city.akishima.lg.jp/promotion/1010463/1010475.html": 200,
+   "https://www.city.chofu.lg.jp/040060/p025002.html": 200,
+   "https://www.city.chofu.lg.jp/040060/p025016.html": 200,
+   "https://www.city.machida.tokyo.jp/kanko/sangyo/nougyo/chisanchishou/machibeji.html": 200,
+   "https://www.city.machida.tokyo.jp/kanko/sangyo/nougyo/event/nataneoil.html": 200,
+   "https://www.city.machida.tokyo.jp/kanko/sangyo/nougyo/shimintonou/agri02.html": 200,
+   "https://www.city.machida.tokyo.jp/kanko/tabe_kau/machida-melon-shop.html": 200,
+   "https://www.city.machida.tokyo.jp/kanko/tabe_kau/meisanhin.html": 200,
+   "https://www.isana-brewing.com/": 200,
+   "https://www.ja-machidashi.or.jp/agri/": 200,
+   "https://www.ja-minds.or.jp/farmstand/jindai_fm.php": 200,
+   "https://www.komemiso.com/hpgen/HPB/entries/1.html": 200,
+   "https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/area_stories/tokyo.html": 200,
+   "https://www.tamajiman.co.jp/product/beer.php": 200,
+   "https://www.tokyo-ja.or.jp/farm/edo/55.php": 200,
+   "https://www.tokyo-ja.or.jp/farm/edo/57.php": 200
+  }
+ }
+}
