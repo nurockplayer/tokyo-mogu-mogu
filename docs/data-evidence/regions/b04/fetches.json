@@ -1,0 +1,279 @@
+{
+  "retrievedAt": "2026-11-24 JST",
+  "requests": [
+    {
+      "i": 0,
+      "url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_40.html",
+      "status": 200,
+      "characters": 4140
+    },
+    {
+      "i": 1,
+      "url": "https://www.city.koganei.lg.jp/kankobunka/kankobunka_oshirase/edoyasaishiyoten.html",
+      "status": 200,
+      "characters": 2968,
+      "transport": "system curl with default TLS verification"
+    },
+    {
+      "i": 2,
+      "url": "https://life.ja-group.jp/farm/market/detail?id=622",
+      "status": 200,
+      "characters": 3207,
+      "transport": "system curl with default TLS verification"
+    },
+    {
+      "i": 3,
+      "url": "https://www.tokyo-ja.or.jp/farm/edo/29.php",
+      "status": 200,
+      "characters": 1505
+    },
+    {
+      "i": 4,
+      "url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_41.html",
+      "status": 200,
+      "characters": 1528
+    },
+    {
+      "i": 5,
+      "url": "https://www.jatm.or.jp/farming/plant/detail.php?id=38&type=kiwi",
+      "status": 200,
+      "characters": 1169
+    },
+    {
+      "i": 6,
+      "url": "https://www.jatm.or.jp/farming/plant/detail.php?id=42&type=kiwi",
+      "status": 200,
+      "characters": 1137
+    },
+    {
+      "i": 7,
+      "url": "https://koganei-s.or.jp/hyakuten-isshu/feature/tatemono/",
+      "status": 200,
+      "characters": 1824
+    },
+    {
+      "i": 8,
+      "url": "https://toshi-nogyo.jp/point/revitalization/639",
+      "status": 200,
+      "characters": 906
+    },
+    {
+      "i": 9,
+      "url": "https://koganei-s.or.jp/hyakuten-isshu/theme/nostalgia/sanyo/",
+      "status": 200,
+      "characters": 520
+    },
+    {
+      "i": 10,
+      "url": "https://www.nouminren.ne.jp/old/shinbun/201309/2013091609.htm",
+      "status": 200,
+      "characters": 1590
+    },
+    {
+      "i": 11,
+      "url": "https://www.city.koganei.lg.jp/shisei/461/pressrelease/r8/press20260511.html",
+      "status": 200,
+      "characters": 3427,
+      "transport": "system curl with default TLS verification"
+    },
+    {
+      "i": 12,
+      "url": "https://www.jrccd.co.jp/chuolinebeerworks/",
+      "status": 200,
+      "characters": 1530
+    },
+    {
+      "i": 13,
+      "url": "https://www.city.koganei.lg.jp/kurashi/nogyo/nougyoushinkou/shinainousannbutu.html",
+      "status": 200,
+      "characters": 1785,
+      "transport": "system curl with default TLS verification"
+    },
+    {
+      "i": 14,
+      "url": "https://www.city.kodaira.tokyo.jp/kurashi/060/060906.html",
+      "status": 200,
+      "characters": 2303
+    },
+    {
+      "i": 15,
+      "url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_144.html",
+      "status": 200,
+      "characters": 1985
+    },
+    {
+      "i": 16,
+      "url": "https://life.ja-group.jp/farm/market/detail/?id=621",
+      "status": 200,
+      "characters": 3272,
+      "transport": "system curl with default TLS verification"
+    },
+    {
+      "i": 17,
+      "url": "https://www.city.kodaira.tokyo.jp/kurashi/061/061332.html",
+      "status": 200,
+      "characters": 1713
+    },
+    {
+      "i": 18,
+      "url": "https://www.kodaira-net.jp/etoile/",
+      "status": 200,
+      "characters": 5366
+    },
+    {
+      "i": 19,
+      "url": "https://www.gotokyo.org/book/list/18364/",
+      "status": 200,
+      "characters": 2041
+    },
+    {
+      "i": 20,
+      "url": "https://www.jatm.or.jp/farming/plant/detail.php?id=46&type=kiwi",
+      "status": 200,
+      "characters": 1177
+    },
+    {
+      "i": 21,
+      "url": "https://www.city.kodaira.tokyo.jp/kurashi/001/001143.html",
+      "status": 200,
+      "characters": 2830
+    },
+    {
+      "i": 22,
+      "url": "https://www.city.kodaira.tokyo.jp/kurashi/012/012203.html",
+      "status": 200,
+      "characters": 4273
+    },
+    {
+      "i": 23,
+      "url": "https://www.city.kodaira.tokyo.jp/kurashi/103/103100.html",
+      "status": 200,
+      "characters": 3744
+    },
+    {
+      "i": 24,
+      "url": "https://www.gotokyo.org/jp/spot/518/index.html",
+      "status": 200,
+      "characters": 2488
+    },
+    {
+      "i": 25,
+      "url": "https://www.city.kodaira.tokyo.jp/kurashi/060/060834.html",
+      "status": 200,
+      "characters": 1774
+    },
+    {
+      "i": 26,
+      "url": "https://www.city.kodaira.tokyo.jp/charm/charm.html",
+      "status": 200,
+      "characters": 3088
+    },
+    {
+      "i": 27,
+      "url": "https://www.city.hino.lg.jp/sangyo/nogyo/1003570.html",
+      "status": 200,
+      "characters": 3450,
+      "transport": "system curl with default TLS verification"
+    },
+    {
+      "i": 28,
+      "url": "https://www.city.hino.lg.jp/sangyo/nogyo/nousanbutsu/1003561.html",
+      "status": 200,
+      "characters": 2005,
+      "transport": "system curl with default TLS verification"
+    },
+    {
+      "i": 29,
+      "url": "https://www.city.hino.lg.jp/shisetsu/shiyakusho/kurashi/1005992.html",
+      "status": 200,
+      "characters": 3093,
+      "transport": "system curl with default TLS verification"
+    },
+    {
+      "i": 30,
+      "url": "https://www.city.hino.lg.jp/bunka/bunka/beer/index.html",
+      "status": 200,
+      "characters": 1831,
+      "transport": "system curl with default TLS verification"
+    },
+    {
+      "i": 31,
+      "url": "https://toyoda-beer.tokyo/approach.html",
+      "status": 200,
+      "characters": 1161
+    },
+    {
+      "i": 32,
+      "url": "https://www.syoseido.co.jp/store/",
+      "status": 200,
+      "characters": 1243
+    },
+    {
+      "i": 33,
+      "url": "https://www.syoseido.co.jp/item/takahata-manju/",
+      "status": 200,
+      "characters": 1180
+    },
+    {
+      "i": 34,
+      "url": "https://www.syoseido.co.jp/item/%E5%9C%9F%E6%96%B9%E6%AD%B3%E4%B8%89%E3%81%BE%E3%82%93%E3%81%98%E3%82%85%E3%81%86/",
+      "status": 200,
+      "characters": 831
+    },
+    {
+      "i": 35,
+      "url": "https://www.syoseido.co.jp/item/toshizo-monaka/",
+      "status": 200,
+      "characters": 832
+    },
+    {
+      "i": 36,
+      "url": "https://www.syoseido.co.jp/item/makoto-sembei/",
+      "status": 200,
+      "characters": 869
+    },
+    {
+      "i": 37,
+      "url": "https://www.syoseido.co.jp/item/manju-goma/",
+      "status": 200,
+      "characters": 814
+    },
+    {
+      "i": 38,
+      "url": "https://www.syoseido.co.jp/item/manju-jizake/",
+      "status": 200,
+      "characters": 775
+    },
+    {
+      "i": 39,
+      "url": "https://www.syoseido.co.jp/item/tama-monorail-monaka/",
+      "status": 200,
+      "characters": 832
+    },
+    {
+      "i": 40,
+      "url": "https://www.syoseido.co.jp/item/hodokubo-kozo/",
+      "status": 200,
+      "characters": 812
+    },
+    {
+      "i": 41,
+      "url": "https://www.syoseido.co.jp/item/toshizo-koiuta/",
+      "status": 200,
+      "characters": 803
+    },
+    {
+      "i": 42,
+      "url": "https://shinsenhino.com/%E6%97%A5%E9%87%8E%E5%B8%82%E8%A6%B3%E5%85%89%E6%A1%88%E5%86%85%E6%89%80",
+      "status": 200,
+      "characters": 1148
+    },
+    {
+      "i": 43,
+      "url": "https://toyoda-beer.tokyo/shop02.html",
+      "status": 200,
+      "characters": 1952,
+      "purpose": "Light confirmation of an existing beer theme visitor stop from linked retailer directory"
+    }
+  ]
+}

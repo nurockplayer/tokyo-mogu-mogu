@@ -117,7 +117,11 @@ describe('municipalities and data-driven journey presentation (#412)', () => {
     const existingUrls = new Set(JOURNEY_RECORDS
       .filter((record) => record.journey.id in beforeMigration)
       .flatMap((record) => Object.values(record.sources).map(({ url }) => url)));
-    for (const record of JOURNEY_RECORDS) {
+    const modules = import.meta.glob<{ [key: string]: JourneyRecord }>('./journey-records/*.ts', { eager: true });
+    const authored = Object.entries(modules).filter(([path]) => !path.endsWith('/index.ts'))
+      .flatMap(([, module]) => Object.values(module));
+    expect(authored.map(({ journey }) => journey.id).sort()).toEqual(JOURNEY_RECORDS.map(({ journey }) => journey.id).sort());
+    for (const record of authored) {
       const batch = record.journey.id.match(/^(b\d+)-/)?.[1];
       const log = batch ? readFileSync(`docs/data-evidence/regions/${batch}/verification.md`, 'utf8') : '';
       const loggedUrls = new Set(log.match(/https?:\/\/[^\s<>]+/g));
@@ -128,13 +132,13 @@ describe('municipalities and data-driven journey presentation (#412)', () => {
     }
   });
 
-  it.each(JOURNEY_RECORDS.filter(({ journey }) => /^b0[13]-/.test(journey.id)))('publishes complete pending data for $journey.id in all locales', (record) => {
+  it.each(JOURNEY_RECORDS.filter(({ journey }) => /^b0[134]-/.test(journey.id)))('publishes complete pending data for $journey.id in all locales', (record) => {
     const output = adaptJourneyRecords([record]);
     expect(output.currentJourneys[0].sourceStatus).toBe('needs_confirmation');
     expect(output.currentJourneys[0].imageAssetId).toBeUndefined();
     for (const source of Object.values(record.sources)) {
       expect(source.verificationStatus).toBe('needs_confirmation');
-      expect(source.retrievedAt).toBe(record.journey.id.startsWith('b03-') ? '2026-11-24' : '2026-11-22');
+      expect(source.retrievedAt).toBe(/^b0[34]-/.test(record.journey.id) ? '2026-11-24' : '2026-11-22');
       expect(source.confirmedAt).toBeUndefined();
     }
     for (const locale of locales) {
