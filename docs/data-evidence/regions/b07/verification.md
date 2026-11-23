@@ -306,3 +306,7 @@ Municipality: musashimurayama. Theme: Musashimurayama milk and vegetable foods.
 - Kiyose municipal pages failed TLS certificate verification: https://www.city.kiyose.lg.jp/bunkasportskankou/shinaimidokoro/1003844.html ; https://www.city.kiyose.lg.jp/sigotosangyou/nougyou/jibasan.html . Rooftop honey is independently supported by the supplied tourism page, but the 2014 start year is omitted; madeleine, processing-program and cattle claims are dropped.
 - Farmers Group Higashikurume returned HTTP 403: https://www.fgh-noujin.com/ . The original crop list is replaced by only the crops in the supplied Tokyo Narayama directory and direct-sales context on the supplied farm access page.
 - The Kiyose burdock soil relation is supported by the supplied Tokyo carrot page; organic/certification claims for blueberries are omitted. No attempt was made to bypass failed access.
+
+## Runtime check
+
+Ego Lite checked all 15 new MOGU cards in ja, en and zh-TW at 375px, then opened each journey’s Story, Route and first Spot in all three locales: 135 surfaces rendered without missing-value placeholders. The Kiyose farm-table Story was visually inspected at 375px and its route-generation action opened the authored Route. No-photo and confirmation-pending copy were present. Automated full-suite and unchanged current-MVP smoke results are tracked in PR #421.
