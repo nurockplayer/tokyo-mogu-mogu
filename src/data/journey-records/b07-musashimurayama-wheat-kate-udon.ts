@@ -31,7 +31,7 @@ export const b07MusashimurayamaWheatKateUdonRecord: JourneyRecord = {
         {"number":"02.","title":"Murayama Boiled Manju","body":"The city describes Murayama boiled manju as a local food made with udon flour and lists Inakaya’s handmade version."},
         {"number":"03.","title":"Murayama Roll Cake","body":"The city describes Chateau’s Murayama roll cake as using Musashimurayama udon flour in its sponge."}
       ],
-      "zh-TW": [{"number":"01.","title":"村山糧烏龍麵","body":"市府將村山糧烏龍麵介紹為家庭儀式中傳承的飲食，並說明以冷水收緊的地粉麵配溫熱沾汁及蔬菜配料食用。"},{"number":"02.","title":"村山水煮饅頭","body":"市府介紹以烏龍麵粉製作並水煮的村山饅頭，並列有田舍屋的手工作品。"},{"number":"03.","title":"村山蛋糕捲","body":"市府介紹 Chateau 洋菓子店的村山生乳捲，將武藏村山烏龍麵粉加入海綿蛋糕。"}]
+      "zh-TW": [{"number":"01.","title":"村山糧烏龍麵","body":"市府將村山糧烏龍麵介紹為家庭儀式中傳承的飲食，並說明以冷水收緊的地粉麵配溫熱沾汁及蔬菜配料食用。"},{"number":"02.","title":"村山水煮饅頭","body":"市府介紹以烏龍麵粉製作並水煮的村山饅頭，並列有田舍屋的手工作品。"},{"number":"03.","title":"村山蛋糕捲","body":"市府介紹 Chateau 洋菓子店的村山蛋糕捲，將武藏村山烏龍麵粉加入海綿蛋糕。"}]
     },
     "routeVariants": [{"id":"half-day","durationMinutes":120,"steps":[{"spotId":"b07-musashimurayama-wheat-kate-udon-mangetsu"},{"spotId":"b07-musashimurayama-wheat-kate-udon-inakaya"},{"spotId":"b07-musashimurayama-wheat-kate-udon-chateau"}]}]
   },
