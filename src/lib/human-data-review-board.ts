@@ -588,6 +588,7 @@ function buildFacts(
   entityType: CurrentProductFactualEntityType,
 ): HumanDataReviewFact[] {
   const candidates = new Map<string, { claim: LedgerClaim; definition: HumanFieldDefinition }>();
+  const statementClaims = claims.filter((claim) => sourceStatementParentFieldId(claim.fieldId) !== undefined);
   for (const claim of claims) {
     if (claim.verification === 'unknown' || !preferredValueFor(claim)) continue;
     const definition = fieldDefinition(claim);
@@ -613,7 +614,7 @@ function buildFacts(
       || left.definition.key.localeCompare(right.definition.key),
     )
     .map(({ claim, definition }) => {
-      const traceability = sourceEdgesForFact(claim, definition, claims, allClaims);
+      const traceability = sourceEdgesForFact(claim, definition, statementClaims, allClaims);
       const sourceChecked = Boolean(claim.retrievedAt)
         || traceability.sources.some((source) => Boolean(source.retrievedAt));
       return {
@@ -668,7 +669,7 @@ function buildUnknowns(claims: readonly LedgerClaim[]): HumanDataReviewUnknown[]
 }
 
 function buildSources(claims: readonly LedgerClaim[]): HumanDataReviewSource[] {
-  const sources = new Map<string, HumanDataReviewSource>();
+  const sources = new Map<string, HumanDataReviewSource & { claimIds: string[] }>();
   for (const claim of claims) {
     if (!claim.primarySource) continue;
     const coordinateProvider = baseFieldId(claim.fieldId) === 'coordinates';
@@ -690,17 +691,18 @@ function buildSources(claims: readonly LedgerClaim[]): HumanDataReviewSource[] {
       });
       continue;
     }
-    const claimIds = [...current.claimIds, claim.claimId].sort();
+    current.claimIds.push(claim.claimId);
     sources.set(key, {
       ...current,
       sourceType: current.sourceType ?? claim.primarySourceType,
       retrievedAt: [current.retrievedAt, claim.retrievedAt].filter(Boolean).sort().at(-1),
       confirmedAt: [current.confirmedAt, claim.confirmedAt].filter(Boolean).sort().at(-1),
       status: headlineStatus([current.status, claim.verification]),
-      claimIds,
+      claimIds: current.claimIds,
     });
   }
 
+  for (const source of sources.values()) source.claimIds.sort();
   return [...sources.values()].sort((left, right) => {
     if (left.coordinateProvider !== right.coordinateProvider) {
       return left.coordinateProvider ? 1 : -1;
@@ -962,11 +964,21 @@ export function buildHumanDataReviewBoard(input: HumanDataReviewBoardInput): Hum
     currentEntityTypes.set(entity.id, entity.type);
   }
   const placesById = new Map((input.places ?? []).map((place) => [place.id, place]));
+  const claimsByEntity = new Map<string, LedgerClaim[]>();
+  const claimsById = new Map<string, LedgerClaim>();
+  const claimOrder = new Map<LedgerClaim, number>();
+  for (const [index, claim] of input.claims.entries()) {
+    const entityClaims = claimsByEntity.get(claim.entityId) ?? [];
+    entityClaims.push(claim);
+    claimsByEntity.set(claim.entityId, entityClaims);
+    claimsById.set(claim.claimId, claim);
+    claimOrder.set(claim, index);
+  }
 
   const entities = [...currentEntityTypes]
     .sort(([left], [right]) => left.localeCompare(right))
     .map(([entityId, type]): HumanDataReviewEntity => {
-    const projectionClaims = input.claims.filter((claim) => claim.entityId === entityId);
+    const projectionClaims = claimsByEntity.get(entityId) ?? [];
     const claimIds = new Set(projectionClaims.map((claim) => claim.claimId));
     const facts = buildFacts(projectionClaims, input.claims, entityId, type);
     const unknowns = buildUnknowns(projectionClaims);
@@ -981,7 +993,11 @@ export function buildHumanDataReviewBoard(input: HumanDataReviewBoardInput): Hum
       ?? projectionClaims.find((claim) => claim.entityName)?.entityName
       ?? entityId;
     const traceabilityClaimIds = new Set(facts.flatMap((fact) => fact.claimIds));
-    const traceabilityClaims = input.claims.filter((claim) => claim.entityId === entityId || traceabilityClaimIds.has(claim.claimId));
+    const traceabilityClaims = [
+      ...projectionClaims,
+      ...[...traceabilityClaimIds].map((claimId) => claimsById.get(claimId)!)
+        .filter((claim) => claim.entityId !== entityId),
+    ].sort((left, right) => claimOrder.get(left)! - claimOrder.get(right)!);
     const relevantDates = traceabilityClaims.map((claim) => claim.retrievedAt).filter((date): date is string => Boolean(date));
     const confirmedDates = traceabilityClaims.map((claim) => claim.confirmedAt).filter((date): date is string => Boolean(date));
     const needsConfirmationFacts = facts.filter((fact) => fact.status === 'needs_confirmation');
