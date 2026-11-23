@@ -16,7 +16,7 @@ describe('Stage C evidence URLs', () => {
       const log = batch ? readFileSync(`docs/data-evidence/regions/${batch}/verification.md`, 'utf8') : '';
       const urls = new Set(log.match(/https?:\/\/[^\s<>]+/g));
       for (const source of Object.values(record.sources)) {
-        expect(originalUrls.has(source.url) || urls.has(source.url),
+        expect(Boolean(source.url && (originalUrls.has(source.url) || urls.has(source.url))),
           `${record.journey.id}: ${source.url}`).toBe(true);
       }
     }
