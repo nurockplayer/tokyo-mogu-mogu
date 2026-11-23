@@ -8,6 +8,8 @@ import type {
   DataVerificationEvidence,
   DataVerificationEvidenceOmission,
 } from '../data/data-verification-evidence-manifest';
+import { JOURNEY_RECORDS } from '../data/journey-records';
+import { journeyFactStatus } from '../data/journey-record';
 import tourismDirectory from '../../scripts/ingest-okutama/snapshots/okutama-tourism-directory.json';
 import { foodCultures, isAddressedPlace, isFixedPlace, modelRoutes, places } from '../data';
 import {
@@ -1195,12 +1197,11 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
   const resultJourneyIds = new Set(resultJourneys.map((journey) => journey.id));
 
   for (const journey of currentJourneys) {
+    const record = JOURNEY_RECORDS.find((candidate) => candidate.journey.id === journey.id);
     const audit = PRESENTATION_ROUTE_AUDIT.find(
       (candidate) => candidate.presentationJourneyId === journey.id,
-    );
-    if (!audit) {
-      throw new Error(`Presentation journey ${journey.id} has no stable ledger mapping.`);
-    }
+    ) ?? (record ? { canonicalRouteId: record.journey.routeId, variants: {}, resultComparisonVariantId: undefined, issues: [] } : undefined);
+    if (!audit) throw new Error(`Presentation journey ${journey.id} has no stable ledger mapping.`);
     const canonicalRoute = modelRoutes.find((route) => route.id === audit.canonicalRouteId);
     const routeStatus = canonicalRoute
       ? deriveVerificationStatus(canonicalRoute.source, 'editorial')
@@ -2555,6 +2556,47 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
         note: 'Report-only unknown; do not write a fabricated value into canonical data.',
       });
     }
+  }
+
+  // Record-backed journeys carry their own field-to-source mappings. Preserve the
+  // established audited projections and derive the remaining claims from records.
+  for (const record of JOURNEY_RECORDS) {
+    if (PRESENTATION_ROUTE_AUDIT.some((audit) => audit.presentationJourneyId === record.journey.id)) continue;
+    const visit = (value: unknown, path: string) => {
+      if (value !== null && typeof value === 'object') {
+        for (const [key, child] of Object.entries(value)) visit(child, `${path}.${key}`);
+        return;
+      }
+      if (typeof value !== 'string' && typeof value !== 'number') return;
+      if (value === '') return;
+      const mapping = Object.entries(record.facts)
+        .filter(([key]) => path === key || path.startsWith(`${key}.`))
+        .sort(([a], [b]) => b.length - a.length)[0];
+      if (!mapping) return;
+      const parts = path.split('.');
+      const isSpot = parts[0] === 'spots';
+      const isRoute = parts[0] === 'variants' || parts[0] === 'routeName' || parts[0] === 'location' || path.startsWith('journey.routeVariants');
+      const entityType = isSpot ? 'Spot' : isRoute ? 'Route' : 'Story';
+      const entityId = isSpot ? parts[1] : isRoute ? record.journey.routeId : record.journey.storyId;
+      const entityName = isSpot ? record.spots[entityId].presentation.copy.ja.name : record.journey.copy.ja.title;
+      const locale = parts.find((part) => PRESENTATION_LOCALES.some((item) => item === part));
+      const fieldId = `record:${path}${locale ? `:${locale}` : ''}`;
+      const claimId = `${entityType.toLowerCase()}:${entityId}:${fieldId}`;
+      const status = journeyFactStatus(record, path);
+      const sourceFile = 'src/data/journey-records';
+      const sourceIds = mapping[1].sourceIds;
+      inputs.push({ claimId, entityType, entityId, entityName, fieldId, fieldLabel: path,
+        comparisonExpected: false, canonical: canonicalValue(String(value), mapping[1].origin, sourceIds.length === 1 ? record.sources[sourceIds[0]] : undefined, status, sourceFile),
+        presentation: presentationValue(String(value), entityType, mapping[1].origin, status),
+        timeSensitive: false, issues: [] });
+      for (const sourceId of new Set(sourceIds)) {
+        inputs.push({ claimId: `${claimId}:source:${sourceId}`, entityType, entityId, entityName,
+          fieldId: `${fieldId.replace(/:(ja|en|zh-TW)$/, '')}:source:${sourceId}${locale ? `:${locale}` : ''}`, fieldLabel: path, comparisonExpected: false,
+          canonical: canonicalValue(String(value), mapping[1].origin, record.sources[sourceId], status, sourceFile),
+          timeSensitive: false, issues: [] });
+      }
+    };
+    for (const key of ['journey', 'routeName', 'location', 'variants', 'spots', 'story'] as const) visit(record[key], key);
   }
 
   return buildLedgerClaims(inputs);

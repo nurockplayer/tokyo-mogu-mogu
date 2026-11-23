@@ -317,6 +317,7 @@ function fieldDefinition(claim: LedgerClaim): HumanFieldDefinition | undefined {
     };
   }
   if (claim.entityType === 'Place' || claim.entityType === 'Spot') {
+    if (base.startsWith('record:')) return { key: base, label: claim.fieldLabel, aliases: [base], order: 200 };
     return FIELD_BY_ALIAS.get(base);
   }
 

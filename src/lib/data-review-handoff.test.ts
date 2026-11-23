@@ -66,7 +66,7 @@ const recordFor = async (
 
 describe('Board review handoff and confirmation progress (#133)', () => {
   it('projects all current Board fields without key collisions and validates the empty repository progress catalog', async () => {
-    expect(board.entities).toHaveLength(34);
+    expect(board.entities).toHaveLength(CURRENT_PRODUCT_FACTUAL_INVENTORY.length);
     const allFields = board.entities.flatMap(currentReviewFieldSnapshots);
     expect(CONFIRMATION_REVIEW_PROGRESS).toEqual([]);
     expect(new Set(allFields.map((field) => `${field.entityType}/${field.entityId}/${field.fieldKey}`)).size)

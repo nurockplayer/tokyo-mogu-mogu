@@ -1,0 +1,364 @@
+[
+  {
+    "id": 0,
+    "url": "https://26k-brewery.com/",
+    "final": "https://26k-brewery.com/",
+    "status": 200,
+    "chars": 1567
+  },
+  {
+    "id": 1,
+    "url": "https://agripark.tokyo/matching/search/store.php?id=tokyo_midori_minole_tachikawa",
+    "final": "https://agripark.tokyo/matching/search/store.php?id=tokyo_midori_minole_tachikawa",
+    "status": 200,
+    "chars": 1332
+  },
+  {
+    "id": 2,
+    "url": "https://hachimen.org/",
+    "final": "https://hachimen.org/",
+    "status": 200,
+    "chars": 365
+  },
+  {
+    "id": 3,
+    "url": "https://hachimen.org/about/",
+    "final": "https://hachimen.org/about/",
+    "status": 200,
+    "chars": 893
+  },
+  {
+    "id": 4,
+    "url": "https://hachioji-mice.org/hachioji/gift/8ee1ccb6de330aa2a69f126cff4a3ca7cfe03c40.html",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "id": 5,
+    "url": "https://hachioji-passion.tokyo/kakouhin/",
+    "final": "https://hachioji-passion.tokyo/kakouhin/",
+    "status": 200,
+    "chars": 1489
+  },
+  {
+    "id": 6,
+    "url": "https://hachioji-passion.tokyo/shop/",
+    "final": "https://hachioji-passion.tokyo/shop/",
+    "status": 200,
+    "chars": 3629
+  },
+  {
+    "id": 7,
+    "url": "https://hachioji.keizai.biz/index.php/headline/4352/",
+    "final": "https://hachioji.keizai.biz/index.php/headline/4352/",
+    "status": 200,
+    "chars": 5748
+  },
+  {
+    "id": 8,
+    "url": "https://hkc.or.jp/facility/detail.php?id=142",
+    "final": "https://hkc.or.jp/facility/detail.php?id=142",
+    "status": 200,
+    "chars": 1647
+  },
+  {
+    "id": 9,
+    "url": "https://maihime.co.jp/products/takao/",
+    "final": "https://maihime.co.jp/products/takao/",
+    "status": 200,
+    "chars": 1523
+  },
+  {
+    "id": 10,
+    "url": "https://matuhime.co.jp/",
+    "final": "https://matuhime.co.jp/",
+    "status": 200,
+    "chars": 420
+  },
+  {
+    "id": 11,
+    "url": "https://musashino-kanko.com/udon/",
+    "final": "https://musashino-kanko.com/udon/",
+    "status": 200,
+    "chars": 1411
+  },
+  {
+    "id": 12,
+    "url": "https://musashino-premium.com/standard/",
+    "final": "https://musashino-premium.com/standard/",
+    "status": 200,
+    "chars": 32097
+  },
+  {
+    "id": 13,
+    "url": "https://t-m-b.co.jp/business/",
+    "final": "https://t-m-b.co.jp/business/",
+    "status": 200,
+    "chars": 1079
+  },
+  {
+    "id": 14,
+    "url": "https://tachikawashi-noukenkai.com/harvests/",
+    "final": "https://tachikawashi-noukenkai.com/harvests/",
+    "status": 200,
+    "chars": 1109
+  },
+  {
+    "id": 15,
+    "url": "https://tokyo-hop.com/beermap/",
+    "final": "https://tokyo-hop.com/beermap/",
+    "status": 200,
+    "chars": 2717
+  },
+  {
+    "id": 16,
+    "url": "https://tokyo-tachikawa.org/spot/8442/",
+    "final": "https://tokyo-tachikawa.org/spot/8442/",
+    "status": 200,
+    "chars": 713
+  },
+  {
+    "id": 17,
+    "url": "https://tokyo-tachikawa.org/tourism/tourism-4186/",
+    "final": "https://tokyo-tachikawa.org/tourism/tourism-4186/",
+    "status": 200,
+    "chars": 524
+  },
+  {
+    "id": 18,
+    "url": "https://tokyo-tachikawa.org/tourism/tourism-4211/",
+    "final": "https://tokyo-tachikawa.org/tourism/tourism-4211/",
+    "status": 200,
+    "chars": 687
+  },
+  {
+    "id": 19,
+    "url": "https://tokyo-tachikawa.org/tourism/tourism-4217/",
+    "final": "https://tokyo-tachikawa.org/tourism/tourism-4217/",
+    "status": 200,
+    "chars": 773
+  },
+  {
+    "id": 20,
+    "url": "https://tokyo-tachikawa.org/tourism/tourism-4242/",
+    "final": "https://tokyo-tachikawa.org/tourism/tourism-4242/",
+    "status": 200,
+    "chars": 744
+  },
+  {
+    "id": 21,
+    "url": "https://tokyo-tachikawa.org/tourism/tourism-4247/",
+    "final": "https://tokyo-tachikawa.org/tourism/tourism-4247/",
+    "status": 200,
+    "chars": 647
+  },
+  {
+    "id": 22,
+    "url": "https://tokyo-tachikawa.org/tourism/tourism-4265/",
+    "final": "https://tokyo-tachikawa.org/tourism/tourism-4265/",
+    "status": 200,
+    "chars": 756
+  },
+  {
+    "id": 23,
+    "url": "https://tokyo-tachikawa.org/tourism/tourism-4354/",
+    "final": "https://tokyo-tachikawa.org/tourism/tourism-4354/",
+    "status": 200,
+    "chars": 538
+  },
+  {
+    "id": 24,
+    "url": "https://tokyo-tachikawa.org/walking-spot/walking-spot-11573",
+    "final": "https://tokyo-tachikawa.org/walking-spot/walking-spot-11573",
+    "status": 200,
+    "chars": 889
+  },
+  {
+    "id": 25,
+    "url": "https://www.bunka.go.jp/seisaku/shokubunka/foodculture/hyakunenfood/jirei/list_sa.html",
+    "final": "https://www.bunka.go.jp/seisaku/shokubunka/foodculture/hyakunenfood/jirei/list_sa.html",
+    "status": 200,
+    "chars": 21353
+  },
+  {
+    "id": 26,
+    "url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_69.html",
+    "final": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_69.html",
+    "status": 200,
+    "chars": 2003
+  },
+  {
+    "id": 27,
+    "url": "https://www.city.hachioji.tokyo.jp/hachioji-kids/004/005/p020557.html",
+    "final": "https://www.city.hachioji.tokyo.jp/hachioji-kids/004/005/p020557.html",
+    "status": 200,
+    "chars": 1063
+  },
+  {
+    "id": 28,
+    "url": "https://www.city.hachioji.tokyo.jp/kurashi/hoken/007/az003/p002723_d/fil/3-2.pdf",
+    "final": "https://www.city.hachioji.tokyo.jp/kurashi/hoken/007/az003/p002723_d/fil/3-2.pdf",
+    "status": 200,
+    "chars": 14347
+  },
+  {
+    "id": 29,
+    "url": "https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/001/001/p006540.html",
+    "final": "https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/001/001/p006540.html",
+    "status": 200,
+    "chars": 997
+  },
+  {
+    "id": 30,
+    "url": "https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/001/001/p024147.html",
+    "final": "https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/001/001/p024147.html",
+    "status": 200,
+    "chars": 1183
+  },
+  {
+    "id": 31,
+    "url": "https://www.city.musashino.lg.jp/citypromotion_75/folder/city_profile.html",
+    "final": "https://www.city.musashino.lg.jp/citypromotion_75/folder/city_profile.html",
+    "status": 200,
+    "chars": 2099
+  },
+  {
+    "id": 32,
+    "url": "https://www.city.musashino.lg.jp/kenko_fukushi/kenko_hoken/syokuiku/seisanshashokai/1030723.html",
+    "final": "https://www.city.musashino.lg.jp/kenko_fukushi/kenko_hoken/syokuiku/seisanshashokai/1030723.html",
+    "status": 200,
+    "chars": 2565
+  },
+  {
+    "id": 33,
+    "url": "https://www.city.musashino.lg.jp/kurashi_tetsuzuki/shigoto_sangyo/nosei/1034430.html",
+    "final": "https://www.city.musashino.lg.jp/kurashi_tetsuzuki/shigoto_sangyo/nosei/1034430.html",
+    "status": 200,
+    "chars": 2782
+  },
+  {
+    "id": 34,
+    "url": "https://www.city.tachikawa.lg.jp/sangyo/nogyo/1004072/1004090.html",
+    "final": "https://www.city.tachikawa.lg.jp/sangyo/nogyo/1004072/1004090.html",
+    "status": 200,
+    "chars": 5510
+  },
+  {
+    "id": 35,
+    "url": "https://www.e-mark-iishina.metro.tokyo.lg.jp/foods/detail/id=369",
+    "final": "https://www.e-mark-iishina.metro.tokyo.lg.jp/foods/detail/id=369",
+    "status": 200,
+    "chars": 864
+  },
+  {
+    "id": 36,
+    "url": "https://www.hkc.or.jp/takaosan/feature.php",
+    "final": "https://www.hkc.or.jp/takaosan/feature.php",
+    "status": 200,
+    "chars": 11826
+  },
+  {
+    "id": 37,
+    "url": "https://www.jatm.or.jp/farming/garden.php",
+    "final": "https://www.jatm.or.jp/farming/garden.php",
+    "status": 200,
+    "chars": 1727
+  },
+  {
+    "id": 38,
+    "url": "https://www.jatm.or.jp/farming/plant/detail.php?id=23&type=blueberry",
+    "final": "https://www.jatm.or.jp/farming/plant/detail.php?id=23&type=blueberry",
+    "status": 200,
+    "chars": 1155
+  },
+  {
+    "id": 39,
+    "url": "https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/toritu/meiji/tourism.html",
+    "final": "https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/toritu/meiji/tourism.html",
+    "status": 200,
+    "chars": 3996
+  },
+  {
+    "id": 40,
+    "url": "https://www.kodomokoho.metro.tokyo.lg.jp/article/202408-3/",
+    "final": "https://www.kodomokoho.metro.tokyo.lg.jp/article/202408-3/",
+    "status": 200,
+    "chars": 3997
+  },
+  {
+    "id": 41,
+    "url": "https://www.kuwanomiyako.jp/",
+    "final": "https://www.kuwanomiyako.jp/",
+    "status": 200,
+    "chars": 871
+  },
+  {
+    "id": 42,
+    "url": "https://www.matuhime.co.jp/tennpo.html",
+    "final": "https://www.matuhime.co.jp/tennpo.html",
+    "status": 200,
+    "chars": 433
+  },
+  {
+    "id": 43,
+    "url": "https://www.tachihibrewery.com/view/page/about",
+    "final": "https://www.tachihibrewery.com/view/page/about",
+    "status": 200,
+    "chars": 4750
+  },
+  {
+    "id": 44,
+    "url": "https://www.takaobeer.com/contact/",
+    "final": "https://www.takaobeer.com/contact/",
+    "status": 200,
+    "chars": 1048
+  },
+  {
+    "id": 45,
+    "url": "https://www.takaotozan.co.jp/sp/food/",
+    "final": "https://www.takaotozan.co.jp/sp/food/",
+    "status": 200,
+    "chars": 1646
+  },
+  {
+    "id": 46,
+    "url": "https://www.tokyo-hachioji-shuzo.jp/",
+    "final": "https://www.tokyo-hachioji-shuzo.jp/",
+    "status": 200,
+    "chars": 5346
+  },
+  {
+    "id": 47,
+    "url": "https://www.tokyo-ja.or.jp/farm/edo/04.php",
+    "final": "https://www.tokyo-ja.or.jp/farm/edo/04.php",
+    "status": 200,
+    "chars": 1686
+  },
+  {
+    "id": 48,
+    "url": "https://www.tokyo-ja.or.jp/farm/edo/41.php",
+    "final": "https://www.tokyo-ja.or.jp/farm/edo/41.php",
+    "status": 200,
+    "chars": 1672
+  },
+  {
+    "id": 49,
+    "url": "https://www.tokyo-ja.or.jp/farm/edo/45.php",
+    "final": "https://www.tokyo-ja.or.jp/farm/edo/45.php",
+    "status": 200,
+    "chars": 1523
+  },
+  {
+    "id": 50,
+    "url": "https://www.tokyosake.or.jp/brewery/",
+    "final": "https://www.tokyosake.or.jp/brewery/",
+    "status": 200,
+    "chars": 2287
+  },
+  {
+    "id": 51,
+    "url": "https://www.tokyu-dept.co.jp/kichijouji/shop/detail.html?shopcode=musashinomeika",
+    "final": "https://www.tokyu-dept.co.jp/kichijouji/shop/detail.html?shopcode=musashinomeika",
+    "status": 200,
+    "chars": 3720
+  }
+]

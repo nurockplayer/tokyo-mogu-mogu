@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
@@ -101,11 +102,57 @@ describe('municipalities and data-driven journey presentation (#412)', () => {
     expect(new Set(MUNICIPALITIES.map(({ id }) => id)).size).toBe(39);
     expect(['tama-cities', 'nishitama', 'islands'].map((group) => MUNICIPALITIES.filter((item) => item.group === group).length)).toEqual([26, 4, 9]);
     for (const item of MUNICIPALITIES) for (const locale of locales) expect(item.names[locale].trim()).not.toBe('');
-    expect(presentation.currentJourneys).toHaveLength(6);
+    expect(presentation.currentJourneys.map(({ id }) => id)).toEqual(expect.arrayContaining([
+      ...Object.keys(beforeMigration), 'demo-okutama-wasabi', 'demo-okutama-yamame',
+    ]));
+    expect(presentation.currentJourneys.filter(({ id }) => id.startsWith('demo-okutama-')))
+      .toEqual(presentation.resultJourneys);
   });
 
   it.each(Object.entries(beforeMigration))('preserves the complete pre-migration presentation of %s', (id, expected) => {
     expect(createHash('sha256').update(JSON.stringify(sorted(currentBundle(id)))).digest('hex')).toBe(expected);
+  });
+
+  it('cites only existing migrated sources or URLs in the record batch verification log', () => {
+    const existingUrls = new Set(JOURNEY_RECORDS
+      .filter((record) => record.journey.id in beforeMigration)
+      .flatMap((record) => Object.values(record.sources).map(({ url }) => url)));
+    for (const record of JOURNEY_RECORDS) {
+      const batch = record.journey.id.match(/^(b\d+)-/)?.[1];
+      const log = batch ? readFileSync(`docs/data-evidence/regions/${batch}/verification.md`, 'utf8') : '';
+      const loggedUrls = new Set(log.match(/https?:\/\/[^\s<>]+/g));
+      for (const source of Object.values(record.sources)) {
+        expect(Boolean(source.url && (existingUrls.has(source.url) || loggedUrls.has(source.url))),
+          `${record.journey.id}: ${source.url}`).toBe(true);
+      }
+    }
+  });
+
+  it.each(JOURNEY_RECORDS.filter(({ journey }) => journey.id.startsWith('b01-')))('publishes complete pending data for $journey.id in all locales', (record) => {
+    const output = adaptJourneyRecords([record]);
+    expect(output.currentJourneys[0].sourceStatus).toBe('needs_confirmation');
+    expect(output.currentJourneys[0].imageAssetId).toBeUndefined();
+    for (const source of Object.values(record.sources)) {
+      expect(source.verificationStatus).toBe('needs_confirmation');
+      expect(source.retrievedAt).toBe('2026-11-22');
+      expect(source.confirmedAt).toBeUndefined();
+    }
+    for (const locale of locales) {
+      expect(record.journey.copy[locale].title.trim()).not.toBe('');
+      for (const chapter of record.journey.chapters[locale]) expect(chapter.body.trim()).not.toBe('');
+      for (const variant of record.journey.routeVariants) {
+        const key = `${record.journey.id}:${variant.id}`;
+        expect(output.routeStepText[key].map(({ spotId }) => spotId)).toEqual(variant.steps.map(({ spotId }) => spotId));
+        expect(output.routeStats[key][locale].spots).toContain(String(variant.steps.length));
+        expect(output.routeStats[key][locale].minutes).toBe(String(variant.durationMinutes));
+        for (const { spotId } of variant.steps) {
+          expect(output.currentSpots[spotId].copy[locale].name.trim()).not.toBe('');
+          expect(output.referenceSpotDetails[spotId].description[locale].trim()).not.toBe('');
+          expect(output.referenceSpotDetails[spotId].tags).toContainEqual(expect.objectContaining({ tagId: 'confirmation-pending' }));
+          expect(output.referenceSpotDetails[spotId].caution[0][locale].trim()).not.toBe('');
+        }
+      }
+    }
   });
 
   it('never treats retrieval or a verified flag without confirmation as verified, and uses no-photo without rights', () => {
@@ -118,6 +165,16 @@ describe('municipalities and data-driven journey presentation (#412)', () => {
     expect(output.referenceSpotDetails['synthetic-spot'].tags).toContainEqual(expect.objectContaining({ tagId: 'confirmation-pending' }));
     for (const locale of locales) expect(output.referenceSpotDetails['synthetic-spot'].caution[0][locale]).not.toBe('');
     expect(record.spots['synthetic-spot'].detail.tags).toEqual([]);
+  });
+
+  it('inherits pending Spot evidence from a grouped parent path (#414)', () => {
+    const record = structuredClone(synthetic);
+    delete record.facts['spots.synthetic-spot'];
+    record.facts.spots = { sourceIds: ['official'], origin: 'source' };
+    expect(journeyFactStatus(record, 'spots.synthetic-spot.detail.description')).toBe('needs_confirmation');
+    const detail = adaptJourneyRecords([record]).referenceSpotDetails['synthetic-spot'];
+    expect(detail.tags).toContainEqual(expect.objectContaining({ tagId: 'confirmation-pending' }));
+    for (const locale of locales) expect(detail.caution[0][locale]).not.toBe('');
   });
 
   it('publishes a new record through the real MOGU default list in every locale, with Story, Route and Spot data', async () => {
