@@ -1,0 +1,1928 @@
+{
+ "batch": "b04",
+ "researched_at": "2026-11-22",
+ "municipalities": [
+  {
+   "id": "koganei",
+   "name_ja": "小金井市",
+   "food_cultures": [
+    {
+     "name_ja": "江戸東京野菜",
+     "name_en": "Edo-Tokyo heritage vegetables",
+     "kind": "brand",
+     "summary_en": "Koganei is a center of the movement to preserve and popularize historic Tokyo vegetable varieties. Its farmers, markets, and municipally recognized restaurants connect Edo-period agricultural heritage with present-day food.",
+     "facts": [
+      {
+       "claim_en": "The name Edo-Tokyo Vegetables originated with a Koganei community revitalization group, and at least nine recognized varieties are cultivated in the city.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_40.html",
+       "source_title": "江戸東京野菜",
+       "publisher": "東京都"
+      },
+      {
+       "claim_en": "Koganei certifies restaurants that incorporate Edo-Tokyo vegetables into their dishes.",
+       "source_url": "https://www.city.koganei.lg.jp/kankobunka/kankobunka_oshirase/edoyasaishiyoten.html",
+       "source_title": "小金井市認定 江戸東京野菜使用店",
+       "publisher": "小金井市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "小金井ファーマーズ・マーケット ムーちゃん広場",
+       "name_en": "Koganei Farmers' Market Mu-chan Plaza",
+       "relation_en": "A JA market for exploring the city's agricultural products; individual heritage varieties depend on harvests.",
+       "address_ja": "東京都小金井市中町4-16-22",
+       "official_url": "https://life.ja-group.jp/farm/market/detail?id=622",
+       "source_url": "https://life.ja-group.jp/farm/market/detail?id=622"
+      },
+      {
+       "name_ja": "えびす菜館",
+       "name_en": "Ebisu Saikan",
+       "relation_en": "A municipally listed restaurant using Edo-Tokyo heritage vegetables.",
+       "address_ja": "東京都小金井市貫井北町3-31-1",
+       "official_url": "",
+       "source_url": "https://www.city.koganei.lg.jp/kankobunka/kankobunka_oshirase/edoyasaishiyoten.html"
+      },
+      {
+       "name_ja": "揚げ処 まさ竜",
+       "name_en": "Agedokoro Masaryu",
+       "relation_en": "Another municipally listed restaurant incorporating heritage vegetables.",
+       "address_ja": "東京都小金井市本町5-36-15",
+       "official_url": "",
+       "source_url": "https://www.city.koganei.lg.jp/kankobunka/kankobunka_oshirase/edoyasaishiyoten.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "小金井市内の江戸東京野菜生産農家",
+       "relation_en": "Local growers preserve and cultivate historic Tokyo varieties.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_40.html"
+      }
+     ],
+     "season_en": "Varies by vegetable and harvest.",
+     "confidence": "high",
+     "notes_en": "The municipal restaurant list is a documented starting point, not confirmation that every variety is served at any particular visit."
+    },
+    {
+     "name_ja": "小金井マクワ",
+     "name_en": "Koganei makuwa melon",
+     "kind": "crop",
+     "summary_en": "This juicy, sweet heritage melon traces its wider ancestry to makuwa cultivation under the Tokugawa government. Koganei farmers revived it, giving the variety its modern local identity.",
+     "facts": [
+      {
+       "claim_en": "Koganei farmers restored this heritage makuwa melon, which is eaten as a sweet fruit.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_40.html",
+       "source_title": "江戸東京野菜",
+       "publisher": "東京都"
+      },
+      {
+       "claim_en": "JA recognizes Koganei Makuwa as an Edo-Tokyo heritage crop linked to local seed preservation.",
+       "source_url": "https://www.tokyo-ja.or.jp/farm/edo/29.php",
+       "source_title": "小金井マクワ",
+       "publisher": "JA東京中央会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "小金井市内の復活栽培農家",
+       "relation_en": "Local growers revived and maintained the melon.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_40.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The variety is specifically tied to Koganei, unlike many heritage vegetables whose original place names refer to other Tokyo districts."
+    },
+    {
+     "name_ja": "シントリ菜（ちりめん白菜）",
+     "name_en": "Shintori-na heritage greens",
+     "kind": "crop",
+     "summary_en": "A crisp Edo-Tokyo leafy vegetable historically prized for its tender inner stalks. Its use in refined soups links the crop to older Tokyo cooking.",
+     "facts": [
+      {
+       "claim_en": "Shintori-na is grown in Koganei; its crisp stalk centers were traditionally selected for soup dishes in high-end restaurants.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_40.html",
+       "source_title": "江戸東京野菜",
+       "publisher": "東京都"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "のらぼう菜",
+     "name_en": "Norabo greens",
+     "kind": "crop",
+     "summary_en": "Norabo is a historic leafy brassica valued for its edible stalks, leaves, and buds. Accounts of its role during past famines give the vegetable particular regional significance.",
+     "facts": [
+      {
+       "claim_en": "Norabo is among the heritage greens cultivated in Koganei; historically its seeds provided oil while its tender greens served as food.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_40.html",
+       "source_title": "江戸東京野菜",
+       "publisher": "東京都"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "伝統大蔵ダイコン",
+     "name_en": "Traditional Okura daikon",
+     "kind": "crop",
+     "summary_en": "This large, thick-rooted heritage daikon has a texture suited to simmered Japanese dishes. Its cultivation in Koganei extends a vegetable tradition originally developed elsewhere in Tokyo.",
+     "facts": [
+      {
+       "claim_en": "Traditional Okura daikon is cultivated in Koganei and is particularly suitable for oden and other simmered dishes.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_40.html",
+       "source_title": "江戸東京野菜",
+       "publisher": "東京都"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "亀戸ダイコン",
+     "name_en": "Kameido daikon",
+     "kind": "crop",
+     "summary_en": "A relatively short, pointed white daikon associated historically with eastern Tokyo. Koganei cultivation helps preserve a variety traditionally used in light pickles and other preparations.",
+     "facts": [
+      {
+       "claim_en": "Kameido daikon is grown as a heritage variety in Koganei; its comparatively dry flesh suits pickling and frying.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_40.html",
+       "source_title": "江戸東京野菜",
+       "publisher": "東京都"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "馬込半白キュウリ",
+     "name_en": "Magome half-white cucumber",
+     "kind": "crop",
+     "summary_en": "This heritage cucumber has a pale lower half and greener upper half. Its distinctive appearance and relatively firm flesh make it part of Tokyo's traditional pickling culture.",
+     "facts": [
+      {
+       "claim_en": "Koganei cultivates Magome half-white cucumber, a Meiji-period variety traditionally suited to rice-bran pickles.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_40.html",
+       "source_title": "江戸東京野菜",
+       "publisher": "東京都"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "寺島ナス",
+     "name_en": "Terajima eggplant",
+     "kind": "crop",
+     "summary_en": "A small, dense heritage eggplant associated with the former Terajima district. It is one of the Tokyo heirlooms maintained by growers in Koganei.",
+     "facts": [
+      {
+       "claim_en": "Koganei grows Terajima eggplants, whose compact flesh suits grilling and simmering after frying.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_40.html",
+       "source_title": "江戸東京野菜",
+       "publisher": "東京都"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "金町コカブ",
+     "name_en": "Kanamachi small turnip",
+     "kind": "crop",
+     "summary_en": "A small Tokyo heritage turnip cultivated in Koganei as part of its Edo-Tokyo vegetable preservation effort.",
+     "facts": [
+      {
+       "claim_en": "Kanamachi small turnip is explicitly listed among the Edo-Tokyo heritage vegetables grown in Koganei.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_40.html",
+       "source_title": "江戸東京野菜",
+       "publisher": "東京都"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "馬込三寸ニンジン",
+     "name_en": "Magome three-sun carrot",
+     "kind": "crop",
+     "summary_en": "A short-rooted carrot developed in the Tokyo area during the modern era. Koganei's growers maintain it within the city's heritage vegetable program.",
+     "facts": [
+      {
+       "claim_en": "Magome three-sun carrot is included in the official list of heritage vegetables cultivated in Koganei.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_40.html",
+       "source_title": "江戸東京野菜",
+       "publisher": "東京都"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "小金井産ルバーブ",
+     "name_en": "Koganei rhubarb",
+     "kind": "crop",
+     "summary_en": "Koganei promotes rhubarb as a newer local specialty. Its tart stalks are turned into jam, compote, confectionery, and educational food projects.",
+     "facts": [
+      {
+       "claim_en": "Koganei promotes local rhubarb production, and its schools have used rhubarb in jam and madeleines.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_41.html",
+       "source_title": "ルバーブ",
+       "publisher": "東京都"
+      },
+      {
+       "claim_en": "JA-affiliated cooking activities in Koganei have introduced rhubarb preparations, and local rhubarb jam is associated with the farmers' market.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_41.html",
+       "source_title": "ルバーブ",
+       "publisher": "東京都"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "小金井ファーマーズ・マーケット ムーちゃん広場",
+       "name_en": "Koganei Farmers' Market Mu-chan Plaza",
+       "relation_en": "A documented outlet for locally made rhubarb jam.",
+       "address_ja": "東京都小金井市中町4-16-22",
+       "official_url": "https://life.ja-group.jp/farm/market/detail?id=622",
+       "source_url": "https://life.ja-group.jp/farm/market/detail?id=622"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "JA東京むさし小金井地区女性部",
+       "relation_en": "Has taught local rhubarb cooking and processing.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_41.html"
+      }
+     ],
+     "season_en": "Approximately May–June and October–November in Koganei.",
+     "confidence": "high",
+     "notes_en": "Rhubarb's regional importance comes from a newer specialty-crop initiative rather than an Edo-period origin."
+    },
+    {
+     "name_ja": "小金井産キウイフルーツ",
+     "name_en": "Koganei-grown kiwifruit",
+     "kind": "crop",
+     "summary_en": "Urban orchards in Koganei cultivate several kiwifruit varieties, including Hayward, Rainbow Red, and Tokyo Gold. Farm-gate orchards make the city's fruit production tangible to visitors.",
+     "facts": [
+      {
+       "claim_en": "Hake-no-Michi Orchard grows Hayward and Rainbow Red kiwifruit in Koganei.",
+       "source_url": "https://www.jatm.or.jp/farming/plant/detail.php?id=38&type=kiwi",
+       "source_title": "はけの道果樹園",
+       "publisher": "JA東京むさし"
+      },
+      {
+       "claim_en": "Motohashi Orchard grows several kiwifruit varieties and offers kiwi-related processed produce.",
+       "source_url": "https://www.jatm.or.jp/farming/plant/detail.php?id=42&type=kiwi",
+       "source_title": "もとはし果樹園",
+       "publisher": "JA東京むさし"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "はけの道果樹園",
+       "name_en": "Hake-no-Michi Orchard",
+       "relation_en": "A local kiwifruit orchard and farm-gate seller.",
+       "address_ja": "東京都小金井市中町1-9-30",
+       "official_url": "https://www.jatm.or.jp/farming/plant/detail.php?id=38&type=kiwi",
+       "source_url": "https://www.jatm.or.jp/farming/plant/detail.php?id=38&type=kiwi"
+      },
+      {
+       "name_ja": "もとはし果樹園",
+       "name_en": "Motohashi Orchard",
+       "relation_en": "A local orchard growing multiple kiwifruit cultivars.",
+       "address_ja": "東京都小金井市貫井北町3-40-15",
+       "official_url": "https://www.jatm.or.jp/farming/plant/detail.php?id=42&type=kiwi",
+       "source_url": "https://www.jatm.or.jp/farming/plant/detail.php?id=42&type=kiwi"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "はけの道果樹園",
+       "relation_en": "Koganei kiwifruit grower.",
+       "source_url": "https://www.jatm.or.jp/farming/plant/detail.php?id=38&type=kiwi"
+      },
+      {
+       "name_ja": "もとはし果樹園",
+       "relation_en": "Koganei kiwifruit grower.",
+       "source_url": "https://www.jatm.or.jp/farming/plant/detail.php?id=42&type=kiwi"
+      }
+     ],
+     "season_en": "Autumn into early winter.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "竹之御所流精進料理",
+     "name_en": "Takenogosho-style Buddhist vegetarian cuisine",
+     "kind": "dish",
+     "summary_en": "Sankoin preserves a style of temple vegetarian cuisine influenced by Muromachi-period court food. Its seasonal dishes offer a direct link between Koganei and an older Japanese culinary tradition.",
+     "facts": [
+      {
+       "claim_en": "Sankoin is a Buddhist nunnery founded in 1934 that preserves Takenogosho-style shojin cuisine derived from courtly food traditions.",
+       "source_url": "https://koganei-s.or.jp/hyakuten-isshu/feature/tatemono/",
+       "source_title": "江戸東京な たてもの探訪",
+       "publisher": "小金井市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "三光院",
+       "name_en": "Sankoin Temple",
+       "relation_en": "The institution preserving and serving this distinctive seasonal vegetarian cooking.",
+       "address_ja": "東京都小金井市本町3-1-36",
+       "official_url": "",
+       "source_url": "https://koganei-s.or.jp/hyakuten-isshu/feature/tatemono/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "三光院",
+       "relation_en": "Preserves and prepares Takenogosho-style cuisine.",
+       "source_url": "https://koganei-s.or.jp/hyakuten-isshu/feature/tatemono/"
+      }
+     ],
+     "season_en": "Seasonal menus throughout the year.",
+     "confidence": "high",
+     "notes_en": "The historical connection concerns culinary tradition, not an assertion that the temple existed in the Muromachi period."
+    },
+    {
+     "name_ja": "江戸雑煮の再現",
+     "name_en": "Revived Edo-style ozoni",
+     "kind": "dish",
+     "summary_en": "Koganei's heritage vegetable movement has also reconstructed historical Tokyo dishes. An Edo-style New Year soup using traditional vegetables was presented as part of a local food-culture event.",
+     "facts": [
+      {
+       "claim_en": "A Koganei heritage-vegetable event at the Edo-Tokyo Open Air Architectural Museum presented Edo-style ozoni incorporating traditional greens and Kameido daikon.",
+       "source_url": "https://toshi-nogyo.jp/point/revitalization/639",
+       "source_title": "江戸東京野菜でまちおこし",
+       "publisher": "都市農業の多面的機能"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "江戸東京たてもの園",
+       "name_en": "Edo-Tokyo Open Air Architectural Museum",
+       "relation_en": "Historic setting of a documented heritage-vegetable and Edo-style food event; the soup is not confirmed as a regular offering.",
+       "address_ja": "東京都小金井市桜町3-7-1 都立小金井公園内",
+       "official_url": "",
+       "source_url": "https://koganei-s.or.jp/hyakuten-isshu/feature/tatemono/"
+      }
+     ],
+     "makers": [],
+     "season_en": "Historically associated with New Year; the cited event was a specific cultural presentation.",
+     "confidence": "medium",
+     "notes_en": "Historical event evidence only. Do not treat this as a permanently available dish."
+    },
+    {
+     "name_ja": "御菓子司 三陽の麩まんじゅう",
+     "name_en": "Sanyo's fu-manju",
+     "kind": "sweet",
+     "summary_en": "A Koganei wagashi shop maintains a traditional wheat-gluten confection with roots in Kyoto's refined cuisine. It has become a locally cherished sweet.",
+     "facts": [
+      {
+       "claim_en": "Sanyo preserves a fu-manju technique derived from Kyoto-style formal cooking and presents the confection as a local specialty.",
+       "source_url": "https://koganei-s.or.jp/hyakuten-isshu/theme/nostalgia/sanyo/",
+       "source_title": "御菓子司 三陽",
+       "publisher": "小金井市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "御菓子司 三陽",
+       "name_en": "Sanyo Wagashi Shop",
+       "relation_en": "The shop making the traditional fu-manju.",
+       "address_ja": "東京都小金井市本町2-9-10",
+       "official_url": "https://koganei-s.or.jp/hyakuten-isshu/theme/nostalgia/sanyo/",
+       "source_url": "https://koganei-s.or.jp/hyakuten-isshu/theme/nostalgia/sanyo/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "御菓子司 三陽",
+       "relation_en": "Traditional wagashi maker.",
+       "source_url": "https://koganei-s.or.jp/hyakuten-isshu/theme/nostalgia/sanyo/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "小金井産トマトの大福・羊羹",
+     "name_en": "Koganei tomato daifuku and yokan",
+     "kind": "sweet",
+     "summary_en": "A documented collaboration transformed locally grown Koganei tomatoes into Japanese sweets. The project illustrates how urban farm produce can become distinctive confectionery.",
+     "facts": [
+      {
+       "claim_en": "A 2013 account documents tomato daifuku and tomato yokan developed using Koganei-grown tomatoes in cooperation with a local confectionery maker.",
+       "source_url": "https://www.nouminren.ne.jp/old/shinbun/201309/2013091609.htm",
+       "source_title": "地元産野菜使って トマト大福 トマト羊かん",
+       "publisher": "農民連"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "亀屋",
+       "relation_en": "Local confectioner involved in the documented tomato-sweets project.",
+       "source_url": "https://www.nouminren.ne.jp/old/shinbun/201309/2013091609.htm"
+      },
+      {
+       "name_ja": "萩原英幸",
+       "relation_en": "Local tomato grower connected to the project.",
+       "source_url": "https://www.nouminren.ne.jp/old/shinbun/201309/2013091609.htm"
+      }
+     ],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "The source documents a historical product initiative; continuation in 2026 is unverified."
+    },
+    {
+     "name_ja": "中央線ビアワークス",
+     "name_en": "Chuo Line Beer Works",
+     "kind": "drink",
+     "summary_en": "Koganei hosts a craft brewery developed from a community hop-growing initiative along the Chuo railway line. Its locally brewed beer connects railway workers, residents, and neighborhood producers.",
+     "facts": [
+      {
+       "claim_en": "Koganei City identified Chuo Line Beer Works as the city's first craft brewery, established in 2025.",
+       "source_url": "https://www.city.koganei.lg.jp/shisei/461/pressrelease/r8/press20260511.html",
+       "source_title": "小金井市ふるさと納税における新たな返礼品について",
+       "publisher": "小金井市"
+      },
+      {
+       "claim_en": "The brewery grew out of hop cultivation involving Chuo Line residents and railway staff.",
+       "source_url": "https://www.jrccd.co.jp/chuolinebeerworks/",
+       "source_title": "中央線ビアワークス",
+       "publisher": "株式会社JR中央線コミュニティデザイン"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "中央線ビアワークス",
+       "name_en": "Chuo Line Beer Works",
+       "relation_en": "The brewery and taproom associated with the Chuo Line community beer project.",
+       "address_ja": "東京都小金井市緑町5-3-45",
+       "official_url": "https://www.jrccd.co.jp/chuolinebeerworks/",
+       "source_url": "https://www.jrccd.co.jp/chuolinebeerworks/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "中央線ビアワークス",
+       "relation_en": "Koganei craft beer producer.",
+       "source_url": "https://www.jrccd.co.jp/chuolinebeerworks/"
+      }
+     ],
+     "season_en": "Year-round brewing, with some seasonal beers.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "小金井の庭先直売文化",
+     "name_en": "Koganei farm-gate produce culture",
+     "kind": "other",
+     "summary_en": "Small urban farms sell vegetables and fruit directly to neighbors, preserving a visible relationship between the city and its agricultural land. This is a useful way to encounter seasonal produce beyond conventional restaurants.",
+     "facts": [
+      {
+       "claim_en": "Koganei City documents produce sold directly from local farms and household-front farm stands.",
+       "source_url": "https://www.city.koganei.lg.jp/kurashi/nogyo/nougyoushinkou/shinainousannbutu.html",
+       "source_title": "市内農産物庭先直売",
+       "publisher": "小金井市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "小金井ファーマーズ・マーケット ムーちゃん広場",
+       "name_en": "Koganei Farmers' Market Mu-chan Plaza",
+       "relation_en": "An accessible introduction to Koganei's seasonal agricultural produce.",
+       "address_ja": "東京都小金井市中町4-16-22",
+       "official_url": "https://life.ja-group.jp/farm/market/detail?id=622",
+       "source_url": "https://life.ja-group.jp/farm/market/detail?id=622"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "小金井市内農家",
+       "relation_en": "Growers operating neighborhood farm-gate sales.",
+       "source_url": "https://www.city.koganei.lg.jp/kurashi/nogyo/nougyoushinkou/shinainousannbutu.html"
+      }
+     ],
+     "season_en": "Different fresh products through the agricultural year.",
+     "confidence": "high",
+     "notes_en": ""
+    }
+   ],
+   "none_found_reason_en": ""
+  },
+  {
+   "id": "kodaira",
+   "name_ja": "小平市",
+   "food_cultures": [
+    {
+     "name_ja": "小平のブルーベリー",
+     "name_en": "Kodaira blueberries",
+     "kind": "crop",
+     "summary_en": "Kodaira identifies itself as the birthplace of commercial blueberry cultivation in Japan. The fruit became a prominent local identity, supported by farms, fruit-picking culture, and processed specialties.",
+     "facts": [
+      {
+       "claim_en": "Commercial blueberry cultivation began in Kodaira in 1968 through the work of agricultural researcher Iwagaki Hayao.",
+       "source_url": "https://www.city.kodaira.tokyo.jp/kurashi/060/060906.html",
+       "source_title": "ブルーベリー栽培発祥の地こだいら",
+       "publisher": "小平市"
+      },
+      {
+       "claim_en": "Tokyo's regional-resource program identifies blueberries as a Kodaira specialty connected to local foods and tourism.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_144.html",
+       "source_title": "ブルーベリー",
+       "publisher": "東京都"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "花小金井駅南口",
+       "name_en": "South Exit of Hanakoganei Station",
+       "relation_en": "A commemorative marker recalls Kodaira's blueberry-cultivation beginnings.",
+       "address_ja": "東京都小平市花小金井南町",
+       "official_url": "https://www.city.kodaira.tokyo.jp/kurashi/060/060906.html",
+       "source_url": "https://www.city.kodaira.tokyo.jp/kurashi/060/060906.html"
+      },
+      {
+       "name_ja": "小平ファーマーズ・マーケット ムーちゃん広場",
+       "name_en": "Kodaira Farmers' Market Mu-chan Plaza",
+       "relation_en": "A local agricultural market for exploring seasonal Kodaira fruit and produce.",
+       "address_ja": "東京都小平市小川町2-1827",
+       "official_url": "https://life.ja-group.jp/farm/market/detail/?id=621",
+       "source_url": "https://life.ja-group.jp/farm/market/detail/?id=621"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "小平市内のブルーベリー生産農家",
+       "relation_en": "Local growers sustain the city's blueberry-growing heritage.",
+       "source_url": "https://www.city.kodaira.tokyo.jp/kurashi/060/060906.html"
+      }
+     ],
+     "season_en": "Approximately June–September, depending on variety.",
+     "confidence": "high",
+     "notes_en": "The origin claim concerns Japanese blueberry cultivation as officially presented by Kodaira City."
+    },
+    {
+     "name_ja": "小平ブルーベリーワイン",
+     "name_en": "Kodaira blueberry wine",
+     "kind": "drink",
+     "summary_en": "Locally associated blueberry wine turns Kodaira's signature crop into a distinctive regional drink. A named city festival celebrates it alongside blueberry-based food products.",
+     "facts": [
+      {
+       "claim_en": "Kodaira holds a blueberry wine festival featuring blueberry wine and processed foods made from local blueberries.",
+       "source_url": "https://www.city.kodaira.tokyo.jp/kurashi/061/061332.html",
+       "source_title": "小平ブルーベリーワインまつり",
+       "publisher": "小平市"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "こだいら観光まちづくり協会",
+       "relation_en": "An organization associated with promotion of Kodaira's blueberry wine festival.",
+       "source_url": "https://www.city.kodaira.tokyo.jp/kurashi/061/061332.html"
+      }
+     ],
+     "season_en": "The documented community festival takes place in October.",
+     "confidence": "high",
+     "notes_en": "The festival's venue can change between editions."
+    },
+    {
+     "name_ja": "小平産ブルーベリー菓子",
+     "name_en": "Kodaira blueberry confections",
+     "kind": "sweet",
+     "summary_en": "Blueberries from Kodaira's agricultural tradition are also used in local pastries and other sweets. These processed foods extend the city's blueberry identity beyond fresh fruit.",
+     "facts": [
+      {
+       "claim_en": "The city's blueberry wine festival also promotes sweets made with Kodaira-grown blueberries.",
+       "source_url": "https://www.city.kodaira.tokyo.jp/kurashi/061/061332.html",
+       "source_title": "小平ブルーベリーワインまつり",
+       "publisher": "小平市"
+      },
+      {
+       "claim_en": "The local bakery Etoile lists blueberry-flavored cakes among its baked and pastry products.",
+       "source_url": "https://www.kodaira-net.jp/etoile/",
+       "source_title": "洋菓子の店 エトアール",
+       "publisher": "こだいらネット"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "洋菓子の店 エトアール",
+       "name_en": "Etoile Patisserie",
+       "relation_en": "A longstanding local confectioner with blueberry-flavored pastries; the source does not establish that every blueberry ingredient is locally grown.",
+       "address_ja": "東京都小平市学園東町2-6-36",
+       "official_url": "https://www.kodaira-net.jp/etoile/",
+       "source_url": "https://www.kodaira-net.jp/etoile/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "洋菓子の店 エトアール",
+       "relation_en": "Local confectionery maker featuring blueberry flavors.",
+       "source_url": "https://www.kodaira-net.jp/etoile/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Local sourcing is documented for the festival's sweets, not individually verified for Etoile's products."
+    },
+    {
+     "name_ja": "東京ゴールド",
+     "name_en": "Tokyo Gold kiwifruit",
+     "kind": "crop",
+     "summary_en": "Tokyo Gold is a golden-fleshed kiwifruit associated with Kodaira, where the variety was discovered and developed. A local origin orchard remains a concrete destination for exploring this producer story.",
+     "facts": [
+      {
+       "claim_en": "Kodaira tourism materials identify Tokyo Gold as a kiwifruit variety discovered in the city.",
+       "source_url": "https://www.gotokyo.org/book/list/18364/",
+       "source_title": "こだいら直売所マップ",
+       "publisher": "東京観光財団"
+      },
+      {
+       "claim_en": "JA identifies Nakamura-en in Kodaira as the origin orchard for Tokyo Gold kiwifruit.",
+       "source_url": "https://www.jatm.or.jp/farming/plant/detail.php?id=46&type=kiwi",
+       "source_title": "中村園",
+       "publisher": "JA東京むさし"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "中村園",
+       "name_en": "Nakamura-en Orchard",
+       "relation_en": "The documented origin orchard of Tokyo Gold kiwifruit.",
+       "address_ja": "東京都小平市大沼町6-13-6",
+       "official_url": "https://www.jatm.or.jp/farming/plant/detail.php?id=46&type=kiwi",
+       "source_url": "https://www.jatm.or.jp/farming/plant/detail.php?id=46&type=kiwi"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "中村園",
+       "relation_en": "Kodaira grower associated with the discovery and production of Tokyo Gold.",
+       "source_url": "https://www.jatm.or.jp/farming/plant/detail.php?id=46&type=kiwi"
+      }
+     ],
+     "season_en": "Autumn into early winter.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "東京うど",
+     "name_en": "Tokyo udo",
+     "kind": "crop",
+     "summary_en": "Blanched udo shoots are a long-established Tokyo vegetable specialty. Kodaira is a notable production area, and the crop represents an older style of metropolitan farming.",
+     "facts": [
+      {
+       "claim_en": "Kodaira City describes udo as one of its signature agricultural products and a vegetable cultivated in Tokyo since the Edo period.",
+       "source_url": "https://www.city.kodaira.tokyo.jp/kurashi/001/001143.html",
+       "source_title": "畑からまっしぐら",
+       "publisher": "小平市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "小平ファーマーズ・マーケット ムーちゃん広場",
+       "name_en": "Kodaira Farmers' Market Mu-chan Plaza",
+       "relation_en": "A local outlet for exploring Kodaira agricultural specialties; individual udo harvest availability is seasonal.",
+       "address_ja": "東京都小平市小川町2-1827",
+       "official_url": "https://life.ja-group.jp/farm/market/detail/?id=621",
+       "source_url": "https://life.ja-group.jp/farm/market/detail/?id=621"
+      }
+     ],
+     "makers": [],
+     "season_en": "Spring is particularly associated with its flavor and aroma.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "小平の梨",
+     "name_en": "Kodaira pears",
+     "kind": "crop",
+     "summary_en": "Pear growing became a substantial part of Kodaira's fruit agriculture after the Second World War. Local cultivars create a harvest sequence spanning late summer and autumn.",
+     "facts": [
+      {
+       "claim_en": "Kodaira City identifies Japanese pears as its leading fruit crop and describes Kosui, Hosui, and Niitaka as important local varieties.",
+       "source_url": "https://www.city.kodaira.tokyo.jp/kurashi/001/001143.html",
+       "source_title": "畑からまっしぐら",
+       "publisher": "小平市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "小平ファーマーズ・マーケット ムーちゃん広場",
+       "name_en": "Kodaira Farmers' Market Mu-chan Plaza",
+       "relation_en": "A JA outlet representing the city's seasonal fruit-growing culture.",
+       "address_ja": "東京都小平市小川町2-1827",
+       "official_url": "https://life.ja-group.jp/farm/market/detail/?id=621",
+       "source_url": "https://life.ja-group.jp/farm/market/detail/?id=621"
+      }
+     ],
+     "makers": [],
+     "season_en": "August–October, depending on cultivar.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "小平の栗",
+     "name_en": "Kodaira chestnuts",
+     "kind": "crop",
+     "summary_en": "Chestnuts form part of Kodaira's locally documented fruit agriculture, reflecting the city's mix of urban settlement and cultivated land.",
+     "facts": [
+      {
+       "claim_en": "Kodaira City explicitly identifies chestnuts among the fruits grown by local farmers.",
+       "source_url": "https://www.city.kodaira.tokyo.jp/kurashi/001/001143.html",
+       "source_title": "畑からまっしぐら",
+       "publisher": "小平市"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Autumn.",
+     "confidence": "high",
+     "notes_en": "The source establishes local production rather than a named chestnut confection or unique processing method."
+    },
+    {
+     "name_ja": "小平の里芋",
+     "name_en": "Kodaira taro",
+     "kind": "crop",
+     "summary_en": "Taro is one of the vegetables specifically highlighted in Kodaira's account of local agriculture. It belongs to the area's everyday farm-produce tradition.",
+     "facts": [
+      {
+       "claim_en": "Kodaira City names taro as one of the prominent vegetable crops cultivated locally.",
+       "source_url": "https://www.city.kodaira.tokyo.jp/kurashi/001/001143.html",
+       "source_title": "畑からまっしぐら",
+       "publisher": "小平市"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "This is a locally supported crop, not a claim of a Kodaira-exclusive cultivar."
+    },
+    {
+     "name_ja": "小平糧うどん",
+     "name_en": "Kodaira kate udon",
+     "kind": "dish",
+     "summary_en": "Traditional hand-cut wheat noodles are eaten with boiled seasonal vegetables called kate and a concentrated dipping broth. The dish reflects Musashino's dry-field wheat farming and its customs surrounding celebrations and communal meals.",
+     "facts": [
+      {
+       "claim_en": "Kodaira's kate udon combines handmade wheat noodles, boiled seasonal vegetables, and dipping broth.",
+       "source_url": "https://www.city.kodaira.tokyo.jp/kurashi/012/012203.html",
+       "source_title": "小平糧うどん",
+       "publisher": "小平市"
+      },
+      {
+       "claim_en": "A city account connects the dish to wheat milling at local watermills and describes it as food associated with special occasions.",
+       "source_url": "https://www.city.kodaira.tokyo.jp/kurashi/103/103100.html",
+       "source_title": "小平の農作物（小平市の昔話）",
+       "publisher": "小平市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "小平ふるさと村",
+       "name_en": "Kodaira Furusato Village",
+       "relation_en": "A reconstructed historic village where visitors can learn about farm life and may encounter handmade Musashino udon.",
+       "address_ja": "東京都小平市天神町3-9-1",
+       "official_url": "https://www.gotokyo.org/jp/spot/518/index.html",
+       "source_url": "https://www.gotokyo.org/jp/spot/518/index.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "武蔵野手打うどん保存普及会",
+       "relation_en": "A preservation group associated with traditional handmade udon.",
+       "source_url": "https://www.city.kodaira.tokyo.jp/kurashi/012/012203.html"
+      }
+     ],
+     "season_en": "The vegetables traditionally vary by season.",
+     "confidence": "high",
+     "notes_en": "Kodaira Furusato Village is a cultural visit opportunity, not confirmation of daily noodle service."
+    },
+    {
+     "name_ja": "陸稲と大麦の混ぜ飯",
+     "name_en": "Historical upland-rice and barley meals",
+     "kind": "dish",
+     "summary_en": "Before urbanization, Kodaira's limited wet-rice land led households to grow upland rice and barley. Mixed rice-and-barley meals were ordinary fare, while plain rice and rice cakes marked special occasions.",
+     "facts": [
+      {
+       "claim_en": "Kodaira's local-history account describes households growing upland rice and barley and routinely cooking them together.",
+       "source_url": "https://www.city.kodaira.tokyo.jp/kurashi/103/103100.html",
+       "source_title": "小平の農作物（小平市の昔話）",
+       "publisher": "小平市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "小平ふるさと村",
+       "name_en": "Kodaira Furusato Village",
+       "relation_en": "A historical village museum that explains the agricultural world in which this everyday food tradition developed.",
+       "address_ja": "東京都小平市天神町3-9-1",
+       "official_url": "https://www.gotokyo.org/jp/spot/518/index.html",
+       "source_url": "https://www.gotokyo.org/jp/spot/518/index.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "Historically everyday food; plain rice and mochi were associated with festivals and New Year.",
+     "confidence": "high",
+     "notes_en": "A documented historical foodway, not an identified contemporary menu."
+    },
+    {
+     "name_ja": "こげらまんじゅう",
+     "name_en": "Kogera manju",
+     "kind": "sweet",
+     "summary_en": "This local manju depicts the Japanese pygmy woodpecker, Kodaira's official bird. Several city confectioners make versions filled with restrained-sweetness red-bean paste.",
+     "facts": [
+      {
+       "claim_en": "Kodaira City recognizes Kogera manju as a confection featuring the city's bird and identifies multiple member shops of the local wagashi association.",
+       "source_url": "https://www.city.kodaira.tokyo.jp/kurashi/060/060834.html",
+       "source_title": "市の鳥をイラストした和菓子",
+       "publisher": "小平市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "旬彩游菓 立花家",
+       "name_en": "Tachibanaya",
+       "relation_en": "A confectioner listed by the city for Kogera manju.",
+       "address_ja": "東京都小平市小川西町2-27-11",
+       "official_url": "",
+       "source_url": "https://www.city.kodaira.tokyo.jp/kurashi/060/060834.html"
+      },
+      {
+       "name_ja": "菓子舗 青柳",
+       "name_en": "Aoyagi Confectionery",
+       "relation_en": "Another city-listed maker of Kogera manju.",
+       "address_ja": "東京都小平市学園東町1-9-17",
+       "official_url": "",
+       "source_url": "https://www.city.kodaira.tokyo.jp/kurashi/060/060834.html"
+      },
+      {
+       "name_ja": "亀屋菓子店",
+       "name_en": "Kameya Confectionery",
+       "relation_en": "A member of the city's Kogera manju confectionery network.",
+       "address_ja": "東京都小平市学園東町3-3-4",
+       "official_url": "",
+       "source_url": "https://www.city.kodaira.tokyo.jp/kurashi/060/060834.html"
+      },
+      {
+       "name_ja": "和菓子 玉川屋",
+       "name_en": "Tamagawaya",
+       "relation_en": "A city-listed local confectioner associated with Kogera manju.",
+       "address_ja": "東京都小平市鈴木町2-175-23",
+       "official_url": "",
+       "source_url": "https://www.city.kodaira.tokyo.jp/kurashi/060/060834.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "小平和菓子組合",
+       "relation_en": "Local wagashi association whose member shops offer the city-bird confection.",
+       "source_url": "https://www.city.kodaira.tokyo.jp/kurashi/060/060834.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "小平の夢ちゃん",
+     "name_en": "Kodaira no Yume-chan",
+     "kind": "sweet",
+     "summary_en": "A named local confection from Etoile, one of Kodaira's established pastry shops. Its Kodaira-branded identity makes it a more specific souvenir than an ordinary bakery cake.",
+     "facts": [
+      {
+       "claim_en": "Etoile explicitly lists Kodaira no Yume-chan among its locally named baked sweets.",
+       "source_url": "https://www.kodaira-net.jp/etoile/",
+       "source_title": "洋菓子の店 エトアール",
+       "publisher": "こだいらネット"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "洋菓子の店 エトアール",
+       "name_en": "Etoile Patisserie",
+       "relation_en": "The local maker of Kodaira no Yume-chan.",
+       "address_ja": "東京都小平市学園東町2-6-36",
+       "official_url": "https://www.kodaira-net.jp/etoile/",
+       "source_url": "https://www.kodaira-net.jp/etoile/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "洋菓子の店 エトアール",
+       "relation_en": "Local pastry maker.",
+       "source_url": "https://www.kodaira-net.jp/etoile/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The maker's listing confirms the product name without providing a full ingredient description."
+    },
+    {
+     "name_ja": "菓夢果夢",
+     "name_en": "Kamukamu",
+     "kind": "sweet",
+     "summary_en": "A distinct named confection produced by Kodaira bakery Etoile. It is part of the shop's range of local specialty gifts.",
+     "facts": [
+      {
+       "claim_en": "Etoile names Kamukamu as one of its baked confectionery products.",
+       "source_url": "https://www.kodaira-net.jp/etoile/",
+       "source_title": "洋菓子の店 エトアール",
+       "publisher": "こだいらネット"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "洋菓子の店 エトアール",
+       "name_en": "Etoile Patisserie",
+       "relation_en": "Maker of the named confection Kamukamu.",
+       "address_ja": "東京都小平市学園東町2-6-36",
+       "official_url": "https://www.kodaira-net.jp/etoile/",
+       "source_url": "https://www.kodaira-net.jp/etoile/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "洋菓子の店 エトアール",
+       "relation_en": "Local maker of Kamukamu.",
+       "source_url": "https://www.kodaira-net.jp/etoile/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The opened source establishes the product, but its precise composition is not specified."
+    },
+    {
+     "name_ja": "小平丸ポストサブレ",
+     "name_en": "Kodaira round-postbox sablé",
+     "kind": "sweet",
+     "summary_en": "A baked souvenir connected to Kodaira's unusual concentration of old-fashioned cylindrical red postboxes. It translates a visible piece of the city's townscape into confectionery.",
+     "facts": [
+      {
+       "claim_en": "Etoile produces a sweet called Kodaira Maru Post Sablé.",
+       "source_url": "https://www.kodaira-net.jp/etoile/",
+       "source_title": "洋菓子の店 エトアール",
+       "publisher": "こだいらネット"
+      },
+      {
+       "claim_en": "Kodaira identifies historic round postboxes as a notable local attraction.",
+       "source_url": "https://www.city.kodaira.tokyo.jp/charm/charm.html",
+       "source_title": "小平の観光",
+       "publisher": "小平市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "洋菓子の店 エトアール",
+       "name_en": "Etoile Patisserie",
+       "relation_en": "Local producer of the postbox-themed sablé.",
+       "address_ja": "東京都小平市学園東町2-6-36",
+       "official_url": "https://www.kodaira-net.jp/etoile/",
+       "source_url": "https://www.kodaira-net.jp/etoile/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "洋菓子の店 エトアール",
+       "relation_en": "Producer of the locally themed baked sweet.",
+       "source_url": "https://www.kodaira-net.jp/etoile/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "小平の農産物庭先直売",
+     "name_en": "Kodaira farm-gate produce trails",
+     "kind": "other",
+     "summary_en": "Kodaira retains a dense network of neighborhood farm stands. Walking or cycling between them offers a direct encounter with local fruit, vegetables, and the historical pattern of long, narrow farms.",
+     "facts": [
+      {
+       "claim_en": "A 2024 Kodaira farm-stand guide describes more than 200 direct-sale locations and recommends exploring them along the city's greenway and roads.",
+       "source_url": "https://www.gotokyo.org/book/list/18364/",
+       "source_title": "こだいら直売所マップ",
+       "publisher": "東京観光財団"
+      },
+      {
+       "claim_en": "Kodaira City describes the long, narrow agricultural plots created during historical settlement along major roads.",
+       "source_url": "https://www.city.kodaira.tokyo.jp/kurashi/001/001143.html",
+       "source_title": "畑からまっしぐら",
+       "publisher": "小平市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "小平ファーマーズ・マーケット ムーちゃん広場",
+       "name_en": "Kodaira Farmers' Market Mu-chan Plaza",
+       "relation_en": "A central local-produce market that complements visits to the surrounding farm stands.",
+       "address_ja": "東京都小平市小川町2-1827",
+       "official_url": "https://life.ja-group.jp/farm/market/detail/?id=621",
+       "source_url": "https://life.ja-group.jp/farm/market/detail/?id=621"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "小平市内の直売農家",
+       "relation_en": "The network of small-scale farms directly selling local seasonal produce.",
+       "source_url": "https://www.gotokyo.org/book/list/18364/"
+      }
+     ],
+     "season_en": "Changes through the agricultural year.",
+     "confidence": "high",
+     "notes_en": "The published farm-stand map is a useful research source for choosing specific stops."
+    }
+   ],
+   "none_found_reason_en": ""
+  },
+  {
+   "id": "hino",
+   "name_ja": "日野市",
+   "food_cultures": [
+    {
+     "name_ja": "東光寺大根",
+     "name_en": "Tokoji daikon",
+     "kind": "crop",
+     "summary_en": "A thin, pungent heirloom daikon with roots in the Nerima radish tradition. Drying and pickling it into takuan formed a distinctive winter agricultural scene in Hino.",
+     "facts": [
+      {
+       "claim_en": "Hino identifies Tokoji daikon as a local specialty derived from Nerima daikon and traditionally processed into dried radish and pickles.",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/1003570.html",
+       "source_title": "日野の特産農産物",
+       "publisher": "日野市"
+      },
+      {
+       "claim_en": "Historically, fields of drying Tokoji daikon were a characteristic winter sight in the area.",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/1003570.html",
+       "source_title": "日野の特産農産物",
+       "publisher": "日野市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ファーマーズマーケット東京みなみの恵み",
+       "name_en": "Tokyo Minami no Megumi Farmers' Market",
+       "relation_en": "A city-listed JA outlet for regional produce; Hino documents local dried and pickled Tokoji daikon among products of this farming tradition.",
+       "address_ja": "東京都日野市万願寺6-31",
+       "official_url": "https://www.city.hino.lg.jp/sangyo/nogyo/nousanbutsu/1003561.html",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/nousanbutsu/1003561.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "日野市内の東光寺大根生産農家",
+       "relation_en": "Growers continuing cultivation and traditional processing of Tokoji daikon.",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/1003570.html"
+      }
+     ],
+     "season_en": "Winter, especially the traditional drying and pickling period.",
+     "confidence": "high",
+     "notes_en": "Tokoji daikon is also part of Tokyo's wider recognized heritage-vegetable tradition."
+    },
+    {
+     "name_ja": "東光寺大根のたくあん・干し大根",
+     "name_en": "Tokoji daikon takuan and dried radish",
+     "kind": "dish",
+     "summary_en": "Drying and pickling Hino's slender heritage radish creates a separate preserved-food tradition. Its sharp flavor is particularly associated with takuan-style pickles.",
+     "facts": [
+      {
+       "claim_en": "Hino documents dried Tokoji daikon and takuan as processed products of the city's traditional radish crop.",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/1003570.html",
+       "source_title": "日野の特産農産物",
+       "publisher": "日野市"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "東光寺大根生産農家",
+       "relation_en": "Local growers and preservers of the radish and its traditional products.",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/1003570.html"
+      }
+     ],
+     "season_en": "Winter.",
+     "confidence": "high",
+     "notes_en": "Related to the preceding crop entry, but classified separately because it represents a traditional preserved preparation."
+    },
+    {
+     "name_ja": "日野ファーストトマト・桃太郎トマト",
+     "name_en": "Hino First and Momotaro tomatoes",
+     "kind": "crop",
+     "summary_en": "Protected tomato cultivation forms part of Hino's local vegetable economy. First-type and Momotaro-type tomatoes appear in the city's farm-stand supply at different points in the growing cycle.",
+     "facts": [
+      {
+       "claim_en": "Hino City identifies First and Momotaro as the two major tomato types cultivated locally.",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/1003570.html",
+       "source_title": "日野の特産農産物",
+       "publisher": "日野市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "農あるまち日野 みのり處",
+       "name_en": "Minori-dokoro Farm Shop",
+       "relation_en": "A municipal agricultural sales point where visitors can explore Hino-grown produce.",
+       "address_ja": "東京都日野市新町5-20-1",
+       "official_url": "https://www.city.hino.lg.jp/shisetsu/shiyakusho/kurashi/1005992.html",
+       "source_url": "https://www.city.hino.lg.jp/shisetsu/shiyakusho/kurashi/1005992.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "Greenhouse Momotaro-type tomatoes begin appearing around December, with First-type tomatoes around March.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "日野のブルーベリー",
+     "name_en": "Hino blueberries",
+     "kind": "crop",
+     "summary_en": "Hino developed its own blueberry-picking farm culture, supported by a local growers' association. The crop provides a seasonal way to encounter agriculture within the city.",
+     "facts": [
+      {
+       "claim_en": "Hino's blueberry farms expanded from the late twentieth century, and the Hino Blueberry Association was established in 1998.",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/1003570.html",
+       "source_title": "日野の特産農産物",
+       "publisher": "日野市"
+      },
+      {
+       "claim_en": "The city documents a network of blueberry-picking orchards.",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/1003570.html",
+       "source_title": "日野の特産農産物",
+       "publisher": "日野市"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "日野市ブルーベリー組合",
+       "relation_en": "Local association supporting blueberry cultivation and picking orchards.",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/1003570.html"
+      }
+     ],
+     "season_en": "July–early September.",
+     "confidence": "high",
+     "notes_en": "The city provides separate information about specific picking farms."
+    },
+    {
+     "name_ja": "日野梨・多摩川梨",
+     "name_en": "Hino pears and Tamagawa pears",
+     "kind": "crop",
+     "summary_en": "Pear orchards along the Tama River have been part of Hino's agricultural landscape since the early Showa era. Several cultivars extend the fruit season from late summer into autumn.",
+     "facts": [
+      {
+       "claim_en": "Hino's municipal account dates local pear cultivation to around the early Showa period and identifies Hino pears with the wider Tamagawa pear-growing area.",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/1003570.html",
+       "source_title": "日野の特産農産物",
+       "publisher": "日野市"
+      },
+      {
+       "claim_en": "The city documents Kosui, Inagi, Hosui, Akizuki, Niitaka, and Shinko among locally grown pear varieties.",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/1003570.html",
+       "source_title": "日野の特産農産物",
+       "publisher": "日野市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ファーマーズマーケット東京みなみの恵み",
+       "name_en": "Tokyo Minami no Megumi Farmers' Market",
+       "relation_en": "A JA market connecting visitors with Hino's seasonal agricultural produce.",
+       "address_ja": "東京都日野市万願寺6-31",
+       "official_url": "https://www.city.hino.lg.jp/sangyo/nogyo/nousanbutsu/1003561.html",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/nousanbutsu/1003561.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "日野市内の梨栽培農家",
+       "relation_en": "Growers maintaining the city's pear orchards and direct-sales tradition.",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/1003570.html"
+      }
+     ],
+     "season_en": "August–November, varying by cultivar.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "高尾ぶどう",
+     "name_en": "Takao grapes",
+     "kind": "crop",
+     "summary_en": "Takao is a seedless, sweet grape developed by Tokyo's agricultural research system. It has become the principal grape variety grown in Hino.",
+     "facts": [
+      {
+       "claim_en": "Hino City identifies Takao as its principal grape cultivar and explains that the variety was selected from Kyoho seedlings at a Tokyo agricultural research station.",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/1003570.html",
+       "source_title": "日野の特産農産物",
+       "publisher": "日野市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "グリーンライフ七生",
+       "name_en": "Green Life Nanao",
+       "relation_en": "A local JA produce outlet; the city identifies grapes as part of Hino's specialty agriculture.",
+       "address_ja": "東京都日野市三沢3-35-13",
+       "official_url": "https://www.city.hino.lg.jp/sangyo/nogyo/nousanbutsu/1003561.html",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/nousanbutsu/1003561.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Other grape cultivars, including Shine Muscat, are also grown in Hino."
+    },
+    {
+     "name_ja": "百草のりんご",
+     "name_en": "Mogusa apples",
+     "kind": "crop",
+     "summary_en": "Apple orchards in Hino's Mogusa area grow cultivars such as Fuji and Yoko. Some farms offer fruit-picking experiences, and local apples also connect with school meals.",
+     "facts": [
+      {
+       "claim_en": "Hino documents apple orchards around Mogusa, including Fuji and Yoko cultivars, and notes that some support fruit-picking experiences.",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/1003570.html",
+       "source_title": "日野の特産農産物",
+       "publisher": "日野市"
+      },
+      {
+       "claim_en": "Locally grown apples are also supplied to school meals in Hino.",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/1003570.html",
+       "source_title": "日野の特産農産物",
+       "publisher": "日野市"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "百草地区のりんご農家",
+       "relation_en": "Local orchard growers in the Mogusa area.",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/1003570.html"
+      }
+     ],
+     "season_en": "Autumn.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "日野のいちご",
+     "name_en": "Hino strawberries",
+     "kind": "crop",
+     "summary_en": "Hino's greenhouse strawberry growers supply ripe fruit to local produce outlets. The crop also supports a small-scale local wagashi tradition.",
+     "facts": [
+      {
+       "claim_en": "Hino City identifies Tochiotome and Yayoihime among the strawberries grown locally under cover.",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/1003570.html",
+       "source_title": "日野の特産農産物",
+       "publisher": "日野市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "農あるまち日野 みのり處",
+       "name_en": "Minori-dokoro Farm Shop",
+       "relation_en": "A municipal farm-products outlet representing Hino's locally grown fruits and vegetables.",
+       "address_ja": "東京都日野市新町5-20-1",
+       "official_url": "https://www.city.hino.lg.jp/shisetsu/shiyakusho/kurashi/1005992.html",
+       "source_url": "https://www.city.hino.lg.jp/shisetsu/shiyakusho/kurashi/1005992.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "December–May.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "日野産いちご大福",
+     "name_en": "Hino-grown strawberry daifuku",
+     "kind": "sweet",
+     "summary_en": "Wagashi makers in Hino incorporate locally grown strawberries into ichigo daifuku. The confection links the city's fruit farmers to neighborhood Japanese sweets.",
+     "facts": [
+      {
+       "claim_en": "Hino City explicitly reports that local Japanese confectioners use city-grown strawberries in strawberry daifuku.",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/1003570.html",
+       "source_title": "日野の特産農産物",
+       "publisher": "日野市"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "日野市内の和菓子店",
+       "relation_en": "Local confectioners using Hino-grown strawberries.",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/1003570.html"
+      }
+     ],
+     "season_en": "Associated with the local winter-to-spring strawberry season.",
+     "confidence": "high",
+     "notes_en": "The city confirms the product category but does not name a particular confectionery shop."
+    },
+    {
+     "name_ja": "東京御所柿",
+     "name_en": "Tokyo Gosho persimmon",
+     "kind": "crop",
+     "summary_en": "Tokyo Gosho is a persimmon cultivar developed through Tokyo's agricultural research system. It is among Hino's distinctive autumn fruits.",
+     "facts": [
+      {
+       "claim_en": "Hino City identifies Tokyo Gosho as a locally cultivated persimmon developed and registered by Tokyo's agricultural research organization.",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/1003570.html",
+       "source_title": "日野の特産農産物",
+       "publisher": "日野市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ファーマーズマーケット東京みなみの恵み",
+       "name_en": "Tokyo Minami no Megumi Farmers' Market",
+       "relation_en": "A local JA produce outlet relevant to Hino's autumn fruit culture.",
+       "address_ja": "東京都日野市万願寺6-31",
+       "official_url": "https://www.city.hino.lg.jp/sangyo/nogyo/nousanbutsu/1003561.html",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/nousanbutsu/1003561.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "Late October–mid-November.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "禅寺丸柿",
+     "name_en": "Zenjimaru persimmon",
+     "kind": "crop",
+     "summary_en": "Zenjimaru is a traditional persimmon variety included among the cultivars grown in Hino. It also belongs to Tokyo's broader register of historically significant crops.",
+     "facts": [
+      {
+       "claim_en": "Hino City lists Zenjimaru among persimmon cultivars grown locally.",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/1003570.html",
+       "source_title": "日野の特産農産物",
+       "publisher": "日野市"
+      },
+      {
+       "claim_en": "Tokyo's Edo-Tokyo crop register includes Zenjimaru persimmon as a reference-listed traditional crop.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_40.html",
+       "source_title": "江戸東京野菜",
+       "publisher": "東京都"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Autumn.",
+     "confidence": "high",
+     "notes_en": "The traditional cultivar is not exclusive to Hino."
+    },
+    {
+     "name_ja": "TOYODA BEER（豊田ビール）",
+     "name_en": "Toyoda Beer",
+     "kind": "drink",
+     "summary_en": "Hino has revived a beer with roots in an unusually early local brewing enterprise. The modern project connects archaeological and industrial history with a contemporary regional beverage.",
+     "facts": [
+      {
+       "claim_en": "Toyoda Beer was historically brewed in Hino between 1886 and 1894 and was revived through a local heritage project in 2015.",
+       "source_url": "https://www.city.hino.lg.jp/bunka/bunka/beer/index.html",
+       "source_title": "TOYODA BEER プロジェクト",
+       "publisher": "日野市"
+      },
+      {
+       "claim_en": "The revival project worked with Ishikawa Shuzo in neighboring Fussa, drawing on historical ties between brewing families.",
+       "source_url": "https://toyoda-beer.tokyo/approach.html",
+       "source_title": "復刻への取り組み",
+       "publisher": "TOYODA BEER プロジェクト"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "TOYODA BEER プロジェクト",
+       "relation_en": "Local heritage-revival initiative.",
+       "source_url": "https://toyoda-beer.tokyo/approach.html"
+      },
+      {
+       "name_ja": "石川酒造株式会社",
+       "relation_en": "Fussa-based brewing partner in the modern revival.",
+       "source_url": "https://toyoda-beer.tokyo/approach.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Historical brewing in Hino and present-day production arrangements should not be conflated."
+    },
+    {
+     "name_ja": "日野産大麦100％ビール",
+     "name_en": "Beer made entirely with Hino-grown barley",
+     "kind": "drink",
+     "summary_en": "A related local agriculture-and-brewing initiative uses barley grown in Hino. It is distinct from the general Toyoda Beer historical revival because the crop itself becomes a central part of the product story.",
+     "facts": [
+      {
+       "claim_en": "Local farmers began growing barley for beer in 2014, and Premium Toyoda Beer made entirely with Hino barley was produced from 2018 through 2022.",
+       "source_url": "https://toyoda-beer.tokyo/approach.html",
+       "source_title": "復刻への取り組み",
+       "publisher": "TOYODA BEER プロジェクト"
+      },
+      {
+       "claim_en": "Although Premium Toyoda Beer ended, the project reports continuing beer production using entirely Hino-grown barley through local growers and community groups.",
+       "source_url": "https://toyoda-beer.tokyo/approach.html",
+       "source_title": "復刻への取り組み",
+       "publisher": "TOYODA BEER プロジェクト"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "日野市内の大麦生産農家・地元有志団体",
+       "relation_en": "Growers and community participants supporting Hino-barley beer production.",
+       "source_url": "https://toyoda-beer.tokyo/approach.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Premium Toyoda Beer is discontinued. The current Hino-barley beer is a related but distinct continuing initiative."
+    },
+    {
+     "name_ja": "高幡まんじゅう",
+     "name_en": "Takahata manju",
+     "kind": "sweet",
+     "summary_en": "A traditional confection made by a shop founded beside Takahata Fudoson Temple in 1918. Its long association with the temple approach makes it a recognizable Hino pilgrimage sweet.",
+     "facts": [
+      {
+       "claim_en": "Shoseido opened at the entrance to Takahata Fudoson in 1918 and identifies Takahata manju as its signature confection.",
+       "source_url": "https://www.syoseido.co.jp/store/",
+       "source_title": "販売店のご案内",
+       "publisher": "高幡まんじゅう松盛堂"
+      },
+      {
+       "claim_en": "The maker presents Takahata manju as a longstanding local sweet.",
+       "source_url": "https://www.syoseido.co.jp/item/takahata-manju/",
+       "source_title": "高幡まんじゅう",
+       "publisher": "高幡まんじゅう松盛堂"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "高幡まんじゅう松盛堂 本店",
+       "name_en": "Shoseido Main Shop",
+       "relation_en": "The original confectionery business associated with the Takahata Fudoson temple approach.",
+       "address_ja": "東京都日野市高幡1-1",
+       "official_url": "https://www.syoseido.co.jp/store/",
+       "source_url": "https://www.syoseido.co.jp/store/"
+      },
+      {
+       "name_ja": "松盛堂 高幡不動尊 境内売店",
+       "name_en": "Shoseido Temple Precinct Shop",
+       "relation_en": "A second shop located within the temple precincts.",
+       "address_ja": "東京都日野市高幡733",
+       "official_url": "https://www.syoseido.co.jp/store/",
+       "source_url": "https://www.syoseido.co.jp/store/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "高幡まんじゅう松盛堂",
+       "relation_en": "Historic Hino confectionery producer.",
+       "source_url": "https://www.syoseido.co.jp/store/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "土方歳三まんじゅう",
+     "name_en": "Hijikata Toshizo manju",
+     "kind": "sweet",
+     "summary_en": "A Shinsengumi-themed confection associated with Hino-born Hijikata Toshizo. It uses a local historical figure to connect wagashi with the city's late-Edo heritage.",
+     "facts": [
+      {
+       "claim_en": "Shoseido produces a manju commemorating Hijikata Toshizo, the Shinsengumi vice commander closely associated with Hino.",
+       "source_url": "https://www.syoseido.co.jp/item/%E5%9C%9F%E6%96%B9%E6%AD%B3%E4%B8%89%E3%81%BE%E3%82%93%E3%81%98%E3%82%85%E3%81%86/",
+       "source_title": "土方歳三まんじゅう",
+       "publisher": "高幡まんじゅう松盛堂"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "高幡まんじゅう松盛堂 本店",
+       "name_en": "Shoseido Main Shop",
+       "relation_en": "Maker and local retail destination for the historical-figure confection.",
+       "address_ja": "東京都日野市高幡1-1",
+       "official_url": "https://www.syoseido.co.jp/store/",
+       "source_url": "https://www.syoseido.co.jp/store/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "高幡まんじゅう松盛堂",
+       "relation_en": "Creator of the Hijikata-themed confection.",
+       "source_url": "https://www.syoseido.co.jp/item/%E5%9C%9F%E6%96%B9%E6%AD%B3%E4%B8%89%E3%81%BE%E3%82%93%E3%81%98%E3%82%85%E3%81%86/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "歳三最中",
+     "name_en": "Toshizo monaka",
+     "kind": "sweet",
+     "summary_en": "This monaka is shaped around the medicine chest Hijikata Toshizo is said to have carried while selling his family's Ishida Sanyaku medicine. It links confectionery to a very specific episode of Hino history.",
+     "facts": [
+      {
+       "claim_en": "Shoseido's Toshizo monaka takes its design from the medicine chest used by young Hijikata during his family's medicine trade.",
+       "source_url": "https://www.syoseido.co.jp/item/toshizo-monaka/",
+       "source_title": "歳三最中",
+       "publisher": "高幡まんじゅう松盛堂"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "高幡まんじゅう松盛堂 本店",
+       "name_en": "Shoseido Main Shop",
+       "relation_en": "The confectioner making this history-inspired monaka.",
+       "address_ja": "東京都日野市高幡1-1",
+       "official_url": "https://www.syoseido.co.jp/store/",
+       "source_url": "https://www.syoseido.co.jp/store/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "高幡まんじゅう松盛堂",
+       "relation_en": "Maker of Toshizo monaka.",
+       "source_url": "https://www.syoseido.co.jp/item/toshizo-monaka/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "誠せんべい",
+     "name_en": "Makoto senbei",
+     "kind": "sweet",
+     "summary_en": "A sweet tile-style rice-cracker-shaped confection marked with the character associated with the Shinsengumi. The design turns Hino's samurai history into a traditional souvenir.",
+     "facts": [
+      {
+       "claim_en": "Shoseido produces a sweet kawara-senbei marked with the character makoto.",
+       "source_url": "https://www.syoseido.co.jp/item/makoto-sembei/",
+       "source_title": "誠せんべい",
+       "publisher": "高幡まんじゅう松盛堂"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "高幡まんじゅう松盛堂 本店",
+       "name_en": "Shoseido Main Shop",
+       "relation_en": "The producer's shop beside Takahata Fudoson.",
+       "address_ja": "東京都日野市高幡1-1",
+       "official_url": "https://www.syoseido.co.jp/store/",
+       "source_url": "https://www.syoseido.co.jp/store/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "高幡まんじゅう松盛堂",
+       "relation_en": "Maker of Makoto senbei.",
+       "source_url": "https://www.syoseido.co.jp/item/makoto-sembei/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "護摩まんじゅう",
+     "name_en": "Goma manju",
+     "kind": "sweet",
+     "summary_en": "A sesame-based manju whose name evokes the goma fire ritual associated with Buddhist temple worship. Its theme is especially appropriate to the Takahata Fudoson temple district.",
+     "facts": [
+      {
+       "claim_en": "Shoseido makes Goma manju using sesame in both the outer dough and its filling.",
+       "source_url": "https://www.syoseido.co.jp/item/manju-goma/",
+       "source_title": "護摩まんじゅう",
+       "publisher": "高幡まんじゅう松盛堂"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "高幡まんじゅう松盛堂 本店",
+       "name_en": "Shoseido Main Shop",
+       "relation_en": "Maker of the temple-themed sesame manju.",
+       "address_ja": "東京都日野市高幡1-1",
+       "official_url": "https://www.syoseido.co.jp/store/",
+       "source_url": "https://www.syoseido.co.jp/store/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "高幡まんじゅう松盛堂",
+       "relation_en": "Local maker of Goma manju.",
+       "source_url": "https://www.syoseido.co.jp/item/manju-goma/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Goma here refers to the Buddhist ritual as well as the confection's sesame theme."
+    },
+    {
+     "name_ja": "多摩の地酒まんじゅう",
+     "name_en": "Tama local-sake manju",
+     "kind": "sweet",
+     "summary_en": "A confection incorporating sake associated with the wider Tama region and the Shinsengumi theme. It connects Hino's historical souvenir culture with regional brewing.",
+     "facts": [
+      {
+       "claim_en": "Shoseido produces a sake manju using a Tama-region sake associated with the name Shinsengumi.",
+       "source_url": "https://www.syoseido.co.jp/item/manju-jizake/",
+       "source_title": "多摩の地酒まんじゅう",
+       "publisher": "高幡まんじゅう松盛堂"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "高幡まんじゅう松盛堂 本店",
+       "name_en": "Shoseido Main Shop",
+       "relation_en": "Maker of the Tama sake-flavored confection.",
+       "address_ja": "東京都日野市高幡1-1",
+       "official_url": "https://www.syoseido.co.jp/store/",
+       "source_url": "https://www.syoseido.co.jp/store/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "高幡まんじゅう松盛堂",
+       "relation_en": "Confectioner incorporating regional sake into manju.",
+       "source_url": "https://www.syoseido.co.jp/item/manju-jizake/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The sake is associated with the wider Tama region; the source does not establish that the sake itself is brewed in Hino."
+    },
+    {
+     "name_ja": "多摩モノレール最中",
+     "name_en": "Tama Monorail monaka",
+     "kind": "sweet",
+     "summary_en": "A two-color bean-filled monaka shaped like a Tama Monorail train. It commemorates the local railway through a familiar Japanese confectionery form.",
+     "facts": [
+      {
+       "claim_en": "Shoseido introduced its train-shaped Tama Monorail monaka when the monorail began operating.",
+       "source_url": "https://www.syoseido.co.jp/item/tama-monorail-monaka/",
+       "source_title": "多摩モノレール最中",
+       "publisher": "高幡まんじゅう松盛堂"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "高幡まんじゅう松盛堂 本店",
+       "name_en": "Shoseido Main Shop",
+       "relation_en": "Maker of the monorail-themed confection.",
+       "address_ja": "東京都日野市高幡1-1",
+       "official_url": "https://www.syoseido.co.jp/store/",
+       "source_url": "https://www.syoseido.co.jp/store/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "高幡まんじゅう松盛堂",
+       "relation_en": "Producer of the railway-themed monaka.",
+       "source_url": "https://www.syoseido.co.jp/item/tama-monorail-monaka/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "ほどくぼ小僧まんじゅう",
+     "name_en": "Hodokubo Kozo manju",
+     "kind": "sweet",
+     "summary_en": "A confection inspired by a reincarnation legend from Hino's Hodokubo district, a story introduced internationally by Lafcadio Hearn. It preserves an unusually specific local folktale through food.",
+     "facts": [
+      {
+       "claim_en": "Shoseido's Hodokubo Kozo manju is modeled on a reincarnation legend associated with Hino's Hodokubo area.",
+       "source_url": "https://www.syoseido.co.jp/item/hodokubo-kozo/",
+       "source_title": "ほどくぼ小僧まんじゅう",
+       "publisher": "高幡まんじゅう松盛堂"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "高幡まんじゅう松盛堂 本店",
+       "name_en": "Shoseido Main Shop",
+       "relation_en": "Local producer of the folklore-themed manju.",
+       "address_ja": "東京都日野市高幡1-1",
+       "official_url": "https://www.syoseido.co.jp/store/",
+       "source_url": "https://www.syoseido.co.jp/store/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "高幡まんじゅう松盛堂",
+       "relation_en": "Confectioner adapting local folklore into sweets.",
+       "source_url": "https://www.syoseido.co.jp/item/hodokubo-kozo/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "歳三恋歌",
+     "name_en": "Toshizo Koiuta",
+     "kind": "sweet",
+     "summary_en": "A butter-pastry confection with milk-bean filling named after Shinsengumi figure Hijikata Toshizo. It offers a softer, romantic interpretation of Hino's late-Edo historical identity.",
+     "facts": [
+      {
+       "claim_en": "Shoseido produces Toshizo Koiuta with a butter-based outer pastry and milk-flavored bean filling.",
+       "source_url": "https://www.syoseido.co.jp/item/toshizo-koiuta/",
+       "source_title": "歳三恋歌",
+       "publisher": "高幡まんじゅう松盛堂"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "高幡まんじゅう松盛堂 本店",
+       "name_en": "Shoseido Main Shop",
+       "relation_en": "Maker of the historical-figure-themed baked confection.",
+       "address_ja": "東京都日野市高幡1-1",
+       "official_url": "https://www.syoseido.co.jp/store/",
+       "source_url": "https://www.syoseido.co.jp/store/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "高幡まんじゅう松盛堂",
+       "relation_en": "Producer of Toshizo Koiuta.",
+       "source_url": "https://www.syoseido.co.jp/item/toshizo-koiuta/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "土方歳三うどん",
+     "name_en": "Hijikata Toshizo udon",
+     "kind": "brand",
+     "summary_en": "A contemporary Hino souvenir noodle named after the city's Shinsengumi hero. Unlike Kodaira's historical kate udon, its distinctive identity comes primarily from local historical branding.",
+     "facts": [
+      {
+       "claim_en": "The Hino tourism association includes Hijikata Toshizo udon among locally promoted visitor products.",
+       "source_url": "https://shinsenhino.com/%E6%97%A5%E9%87%8E%E5%B8%82%E8%A6%B3%E5%85%89%E6%A1%88%E5%86%85%E6%89%80",
+       "source_title": "日野市観光案内所",
+       "publisher": "日野市観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "日野市観光案内所",
+       "name_en": "Hino Tourist Information Center",
+       "relation_en": "A local visitor-information and souvenir location associated with Hijikata-themed products.",
+       "address_ja": "東京都日野市日野本町7-5-6",
+       "official_url": "https://shinsenhino.com/%E6%97%A5%E9%87%8E%E5%B8%82%E8%A6%B3%E5%85%89%E6%A1%88%E5%86%85%E6%89%80",
+       "source_url": "https://shinsenhino.com/%E6%97%A5%E9%87%8E%E5%B8%82%E8%A6%B3%E5%85%89%E6%A1%88%E5%86%85%E6%89%80"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "Documented as a contemporary historical souvenir, not a traditional recipe originating in Hijikata's lifetime."
+    },
+    {
+     "name_ja": "日野の地産地消直売所",
+     "name_en": "Hino local farm-produce markets",
+     "kind": "other",
+     "summary_en": "Hino maintains municipal and JA outlets that connect visitors with its fruit and vegetable growers. These markets provide a practical introduction to the city's agricultural specialties.",
+     "facts": [
+      {
+       "claim_en": "Hino City identifies Tokyo Minami no Megumi and Green Life Nanao as outlets for locally grown farm products.",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/nousanbutsu/1003561.html",
+       "source_title": "JA直売所・即売事業",
+       "publisher": "日野市"
+      },
+      {
+       "claim_en": "The city's Nanatsuzuka Farmers Center includes a local agricultural outlet called Minori-dokoro.",
+       "source_url": "https://www.city.hino.lg.jp/shisetsu/shiyakusho/kurashi/1005992.html",
+       "source_title": "施設案内 七ツ塚ファーマーズセンター",
+       "publisher": "日野市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ファーマーズマーケット東京みなみの恵み",
+       "name_en": "Tokyo Minami no Megumi Farmers' Market",
+       "relation_en": "JA produce market offering an introduction to Hino's farms.",
+       "address_ja": "東京都日野市万願寺6-31",
+       "official_url": "https://www.city.hino.lg.jp/sangyo/nogyo/nousanbutsu/1003561.html",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/nousanbutsu/1003561.html"
+      },
+      {
+       "name_ja": "グリーンライフ七生",
+       "name_en": "Green Life Nanao",
+       "relation_en": "JA outlet for regional fresh produce.",
+       "address_ja": "東京都日野市三沢3-35-13",
+       "official_url": "https://www.city.hino.lg.jp/sangyo/nogyo/nousanbutsu/1003561.html",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/nousanbutsu/1003561.html"
+      },
+      {
+       "name_ja": "七ツ塚ファーマーズセンター",
+       "name_en": "Nanatsuzuka Farmers Center",
+       "relation_en": "Agricultural community facility housing the Minori-dokoro local produce outlet.",
+       "address_ja": "東京都日野市新町5-20-1",
+       "official_url": "https://www.city.hino.lg.jp/shisetsu/shiyakusho/kurashi/1005992.html",
+       "source_url": "https://www.city.hino.lg.jp/shisetsu/shiyakusho/kurashi/1005992.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "JA東京みなみ",
+       "relation_en": "Agricultural cooperative supporting regional producers and produce sales.",
+       "source_url": "https://www.city.hino.lg.jp/sangyo/nogyo/nousanbutsu/1003561.html"
+      }
+     ],
+     "season_en": "Local products change throughout the agricultural year.",
+     "confidence": "high",
+     "notes_en": ""
+    }
+   ],
+   "none_found_reason_en": ""
+  }
+ ],
+ "url_check": {
+  "checked_at": "2026-11-22",
+  "status": {
+   "https://koganei-s.or.jp/hyakuten-isshu/feature/tatemono/": 200,
+   "https://koganei-s.or.jp/hyakuten-isshu/theme/nostalgia/sanyo/": 200,
+   "https://life.ja-group.jp/farm/market/detail/?id=621": "URLError",
+   "https://life.ja-group.jp/farm/market/detail?id=622": "URLError",
+   "https://shinsenhino.com/%E6%97%A5%E9%87%8E%E5%B8%82%E8%A6%B3%E5%85%89%E6%A1%88%E5%86%85%E6%89%80": 200,
+   "https://toshi-nogyo.jp/point/revitalization/639": 200,
+   "https://toyoda-beer.tokyo/approach.html": 200,
+   "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_144.html": 200,
+   "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_40.html": 200,
+   "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_41.html": 200,
+   "https://www.city.hino.lg.jp/bunka/bunka/beer/index.html": "URLError",
+   "https://www.city.hino.lg.jp/sangyo/nogyo/1003570.html": "URLError",
+   "https://www.city.hino.lg.jp/sangyo/nogyo/nousanbutsu/1003561.html": "URLError",
+   "https://www.city.hino.lg.jp/shisetsu/shiyakusho/kurashi/1005992.html": "URLError",
+   "https://www.city.kodaira.tokyo.jp/charm/charm.html": 200,
+   "https://www.city.kodaira.tokyo.jp/kurashi/001/001143.html": 200,
+   "https://www.city.kodaira.tokyo.jp/kurashi/012/012203.html": 200,
+   "https://www.city.kodaira.tokyo.jp/kurashi/060/060834.html": 200,
+   "https://www.city.kodaira.tokyo.jp/kurashi/060/060906.html": 200,
+   "https://www.city.kodaira.tokyo.jp/kurashi/061/061332.html": 200,
+   "https://www.city.kodaira.tokyo.jp/kurashi/103/103100.html": 200,
+   "https://www.city.koganei.lg.jp/kankobunka/kankobunka_oshirase/edoyasaishiyoten.html": "URLError",
+   "https://www.city.koganei.lg.jp/kurashi/nogyo/nougyoushinkou/shinainousannbutu.html": "URLError",
+   "https://www.city.koganei.lg.jp/shisei/461/pressrelease/r8/press20260511.html": "URLError",
+   "https://www.gotokyo.org/book/list/18364/": 200,
+   "https://www.gotokyo.org/jp/spot/518/index.html": 200,
+   "https://www.jatm.or.jp/farming/plant/detail.php?id=38&type=kiwi": 200,
+   "https://www.jatm.or.jp/farming/plant/detail.php?id=42&type=kiwi": 200,
+   "https://www.jatm.or.jp/farming/plant/detail.php?id=46&type=kiwi": 200,
+   "https://www.jrccd.co.jp/chuolinebeerworks/": 200,
+   "https://www.kodaira-net.jp/etoile/": 200,
+   "https://www.nouminren.ne.jp/old/shinbun/201309/2013091609.htm": 200,
+   "https://www.syoseido.co.jp/item/%E5%9C%9F%E6%96%B9%E6%AD%B3%E4%B8%89%E3%81%BE%E3%82%93%E3%81%98%E3%82%85%E3%81%86/": 200,
+   "https://www.syoseido.co.jp/item/hodokubo-kozo/": 200,
+   "https://www.syoseido.co.jp/item/makoto-sembei/": 200,
+   "https://www.syoseido.co.jp/item/manju-goma/": 200,
+   "https://www.syoseido.co.jp/item/manju-jizake/": 200,
+   "https://www.syoseido.co.jp/item/takahata-manju/": 200,
+   "https://www.syoseido.co.jp/item/tama-monorail-monaka/": 200,
+   "https://www.syoseido.co.jp/item/toshizo-koiuta/": 200,
+   "https://www.syoseido.co.jp/item/toshizo-monaka/": 200,
+   "https://www.syoseido.co.jp/store/": 200,
+   "https://www.tokyo-ja.or.jp/farm/edo/29.php": 200
+  }
+ }
+}
