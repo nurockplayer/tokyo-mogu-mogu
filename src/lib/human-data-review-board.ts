@@ -669,7 +669,7 @@ function buildUnknowns(claims: readonly LedgerClaim[]): HumanDataReviewUnknown[]
 }
 
 function buildSources(claims: readonly LedgerClaim[]): HumanDataReviewSource[] {
-  const sources = new Map<string, HumanDataReviewSource>();
+  const sources = new Map<string, HumanDataReviewSource & { claimIds: string[] }>();
   for (const claim of claims) {
     if (!claim.primarySource) continue;
     const coordinateProvider = baseFieldId(claim.fieldId) === 'coordinates';
