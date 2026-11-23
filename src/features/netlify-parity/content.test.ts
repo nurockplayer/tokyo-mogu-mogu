@@ -41,7 +41,7 @@ describe('Netlify parity presentation content', () => {
         expect(routeStepText[`${journey.id}:${variant.id}`].map((step) => step.spotId))
           .toEqual(variant.steps.map((step) => step.spotId));
         for (const locale of locales) {
-          expect(Number.parseInt(stats[locale].spots, 10)).toBe(variant.steps.length);
+          expect(stats[locale].spots).toMatch(new RegExp(`^${variant.steps.length} `));
           expect(stats[locale].distance).not.toMatch(/\d+\s*km/i);
         }
       }
