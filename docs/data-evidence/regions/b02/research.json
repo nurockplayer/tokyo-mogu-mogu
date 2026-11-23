@@ -1,0 +1,1817 @@
+{
+ "batch": "b02",
+ "researched_at": "2026-11-22",
+ "municipalities": [
+  {
+   "id": "mitaka",
+   "name_ja": "三鷹市",
+   "food_cultures": [
+    {
+     "name_ja": "三鷹大沢わさび",
+     "name_en": "Mitaka Osawa Heritage Wasabi",
+     "kind": "crop",
+     "summary_en": "This Edo-Tokyo heritage vegetable was cultivated using spring water in Mitaka's Osawa district. Once prized by Edo's food markets, it is now being revived through a community conservation project.",
+     "facts": [
+      {
+       "claim_en": "Wasabi cultivation in Osawa reportedly began around the 1820s, using springs along the Kokubunji escarpment. The crop was historically supplied to markets in Edo.",
+       "source_url": "https://www.tokyo-ja.or.jp/farm/edo/59.php",
+       "source_title": "三鷹大沢わさび",
+       "publisher": "JA東京中央会"
+      },
+      {
+       "claim_en": "Mitaka resumed cultivation with International Christian University and residents in 2023. The first harvest from that effort was featured at three local restaurants in spring 2026.",
+       "source_url": "https://www.city.mitaka.lg.jp/koho/2026/20260405/p9.htm",
+       "source_title": "広報みたか2026年4月5日9面",
+       "publisher": "三鷹市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "三鷹大沢わさび田",
+       "name_en": "Mitaka Osawa Wasabi Fields",
+       "relation_en": "Historic growing area preserved by the city; a heritage-agriculture destination rather than an ordinary retail farm.",
+       "address_ja": "東京都三鷹市大沢地区",
+       "official_url": "https://www.tokyo-ja.or.jp/farm/edo/59.php",
+       "source_url": "https://www.tokyo-ja.or.jp/farm/edo/59.php"
+      },
+      {
+       "name_ja": "蕎麦 懐石 御狩野",
+       "name_en": "Mikarino Soba and Kaiseki",
+       "relation_en": "Participated in the documented 2026 tasting initiative for revived Osawa wasabi.",
+       "address_ja": "東京都三鷹市大沢6-3-25",
+       "official_url": "https://www.city.mitaka.lg.jp/koho/2026/20260405/p9.htm",
+       "source_url": "https://www.city.mitaka.lg.jp/koho/2026/20260405/p9.htm"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "三鷹市・国際基督教大学・市民協力者",
+       "relation_en": "Partners in the heritage wasabi cultivation and conservation effort.",
+       "source_url": "https://www.city.mitaka.lg.jp/koho/2026/20260405/p9.htm"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The 2026 restaurant tastings were a specific historical initiative, not evidence of continuing menu availability. Public access to the fields is not established by these sources."
+    },
+    {
+     "name_ja": "三鷹産キウイフルーツ",
+     "name_en": "Mitaka Kiwifruit",
+     "kind": "crop",
+     "summary_en": "Kiwifruit is one of Mitaka's signature urban-farming products. Local orchards grow green-, yellow-, and red-fleshed varieties.",
+     "facts": [
+      {
+       "claim_en": "Kiwifruit cultivation was introduced to Mitaka in 1978. The city identifies Hayward, Tokyo Gold, and Kohi among locally produced varieties.",
+       "source_url": "https://www.city.mitaka.lg.jp/c_news/120/120968.html",
+       "source_title": "三鷹特産キウイフルーツ直販のお知らせ",
+       "publisher": "三鷹市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "JA東京むさし 三鷹緑化センター",
+       "name_en": "JA Tokyo Musashi Mitaka Ryokka Center",
+       "relation_en": "Agricultural direct-sales center associated with Mitaka's locally grown fruit and produce.",
+       "address_ja": "東京都三鷹市新川6-30-22",
+       "official_url": "https://www.jatm.or.jp/economy/mitaka.php",
+       "source_url": "https://www.jatm.or.jp/economy/mitaka.php"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "JA東京むさし管内の三鷹市果樹生産者",
+       "relation_en": "Local orchardists cultivating the city's specialty kiwifruit.",
+       "source_url": "https://www.city.mitaka.lg.jp/c_news/120/120968.html"
+      }
+     ],
+     "season_en": "Autumn to early winter.",
+     "confidence": "high",
+     "notes_en": "Individual varieties have different harvest and sales periods."
+    },
+    {
+     "name_ja": "三鷹キウイワイン",
+     "name_en": "Mitaka Kiwi Wine",
+     "kind": "drink",
+     "summary_en": "Mitaka's fruit growers, retailers, and brewers developed a distinctive local wine using Mitaka-grown kiwifruit. The product connects the city's orchards with its food-processing and retail community.",
+     "facts": [
+      {
+       "claim_en": "Mitaka kiwi wine was developed in 1987, partly to make use of fruit that did not meet ordinary fresh-market size standards.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_104.html",
+       "source_title": "三鷹キウイワイン",
+       "publisher": "東京都地域資源"
+      },
+      {
+       "claim_en": "The municipality continued promoting locally sourced kiwi wine in 2026, including white and rosé styles.",
+       "source_url": "https://www.city.mitaka.lg.jp/c_service/119/119192.html",
+       "source_title": "三鷹の恵み「三鷹キウイワイン2026」",
+       "publisher": "三鷹市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "JA東京むさし 三鷹緑化センター",
+       "name_en": "JA Tokyo Musashi Mitaka Ryokka Center",
+       "relation_en": "One of the locations identified by the city for its kiwi wine project.",
+       "address_ja": "東京都三鷹市新川6-30-22",
+       "official_url": "https://www.jatm.or.jp/economy/mitaka.php",
+       "source_url": "https://www.city.mitaka.lg.jp/c_service/119/119192.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "三鷹市果樹生産者・市内酒販関係者",
+       "relation_en": "Agricultural and commercial participants behind the local wine tradition.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_104.html"
+      }
+     ],
+     "season_en": "Product releases vary; the underlying kiwifruit harvest is primarily in autumn.",
+     "confidence": "high",
+     "notes_en": "This is a locally branded fruit wine, not evidence that wine grapes are cultivated in Mitaka."
+    },
+    {
+     "name_ja": "三鷹のキウイ酒",
+     "name_en": "Mitaka Kiwi Liqueur",
+     "kind": "drink",
+     "summary_en": "A kiwi-based alcoholic specialty extends Mitaka's orchard identity beyond fresh fruit and wine.",
+     "facts": [
+      {
+       "claim_en": "The city presented Mitaka kiwi liqueur as a separate product alongside kiwi wine and kiwi amazake in its 2026 public newsletter.",
+       "source_url": "https://www.city.mitaka.lg.jp/koho/2026/20260201/p7.htm",
+       "source_title": "広報みたか2026年2月1日7面",
+       "publisher": "三鷹市"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Distinct from the city's kiwi wine. No specific producer or current visitor location is established by the cited page."
+    },
+    {
+     "name_ja": "三鷹のキウイ甘酒",
+     "name_en": "Mitaka Kiwi Amazake",
+     "kind": "drink",
+     "summary_en": "This local variation blends the Japanese rice-koji drink amazake with Mitaka's signature kiwifruit.",
+     "facts": [
+      {
+       "claim_en": "Mitaka's 2026 municipal newsletter introduced a nonalcoholic kiwi amazake made with rice, koji, and local kiwi.",
+       "source_url": "https://www.city.mitaka.lg.jp/koho/2026/20260201/p7.htm",
+       "source_title": "広報みたか2026年2月1日7面",
+       "publisher": "三鷹市"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A modern local specialty rather than a documented historical dish."
+    },
+    {
+     "name_ja": "三鷹産ギンナン",
+     "name_en": "Mitaka Ginkgo Nuts",
+     "kind": "crop",
+     "summary_en": "Mitaka orchards produce edible ginkgo nuts, including the large-seeded Reinan variety. This is another established autumn fruit-tree specialty of the city.",
+     "facts": [
+      {
+       "claim_en": "The city identifies locally grown Reinan ginkgo nuts and named orchards participating in direct sales.",
+       "source_url": "https://www.city.mitaka.lg.jp/c_news/120/120888.html",
+       "source_title": "秋の味覚をいかがでしょうか ギンナン直販のお知らせ",
+       "publisher": "三鷹市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "山本果樹園",
+       "name_en": "Yamamoto Orchard",
+       "relation_en": "Named producer of Mitaka ginkgo nuts.",
+       "address_ja": "東京都三鷹市井口3-15-3",
+       "official_url": "https://mitaka-yamamotokajuen.tokyo/",
+       "source_url": "https://www.city.mitaka.lg.jp/c_news/120/120888.html"
+      },
+      {
+       "name_ja": "岡田果樹園",
+       "name_en": "Okada Orchard",
+       "relation_en": "Another orchard identified in the city's ginkgo-nut sales information.",
+       "address_ja": "東京都三鷹市北野3-13-30",
+       "official_url": "https://www.city.mitaka.lg.jp/c_news/120/120888.html",
+       "source_url": "https://www.city.mitaka.lg.jp/c_news/120/120888.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "山本果樹園",
+       "relation_en": "Local producer specializing in orchard crops, including ginkgo nuts.",
+       "source_url": "https://mitaka-yamamotokajuen.tokyo/"
+      }
+     ],
+     "season_en": "Approximately late September to late November.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "三鷹産ブルーベリー",
+     "name_en": "Mitaka Blueberries",
+     "kind": "crop",
+     "summary_en": "Blueberry cultivation and fruit-picking connect visitors with Mitaka's remaining urban orchards.",
+     "facts": [
+      {
+       "claim_en": "Mitaka's tourism association features Yoshino Orchard as a local blueberry-picking destination with growing areas in Nozaki.",
+       "source_url": "https://kanko.mitaka.ne.jp/docs/2026070800010/",
+       "source_title": "吉野果樹園 ブルーベリー摘み取り",
+       "publisher": "みたか都市観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "吉野果樹園",
+       "name_en": "Yoshino Orchard",
+       "relation_en": "Local blueberry farm offering a direct connection with urban fruit cultivation.",
+       "address_ja": "東京都三鷹市野崎3丁目・4丁目周辺",
+       "official_url": "https://kanko.mitaka.ne.jp/docs/2026070800010/",
+       "source_url": "https://kanko.mitaka.ne.jp/docs/2026070800010/"
+      },
+      {
+       "name_ja": "Farm Takahashi",
+       "name_en": "Farm Takahashi",
+       "relation_en": "Mitaka orchard growing blueberries alongside other fruit.",
+       "address_ja": "東京都三鷹市井口3-17-34",
+       "official_url": "https://farm-t.tokyo/",
+       "source_url": "https://farm-t.tokyo/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "吉野果樹園",
+       "relation_en": "Blueberry grower.",
+       "source_url": "https://kanko.mitaka.ne.jp/docs/2026070800010/"
+      }
+     ],
+     "season_en": "Approximately June to August.",
+     "confidence": "high",
+     "notes_en": "Picking areas may be separate from the farm's main address."
+    },
+    {
+     "name_ja": "三鷹産ぶどう",
+     "name_en": "Mitaka-Grown Grapes",
+     "kind": "crop",
+     "summary_en": "Grape cultivation forms part of Mitaka's small-scale urban fruit-farming landscape.",
+     "facts": [
+      {
+       "claim_en": "Farm Takahashi identifies grapes among its locally grown orchard products in Mitaka.",
+       "source_url": "https://farm-t.tokyo/",
+       "source_title": "Farm Takahashi",
+       "publisher": "Farm Takahashi"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "Farm Takahashi",
+       "name_en": "Farm Takahashi",
+       "relation_en": "A Mitaka fruit producer associated with grape cultivation.",
+       "address_ja": "東京都三鷹市井口3-17-34",
+       "official_url": "https://farm-t.tokyo/",
+       "source_url": "https://farm-t.tokyo/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "Farm Takahashi",
+       "relation_en": "Local grape and fruit grower.",
+       "source_url": "https://farm-t.tokyo/"
+      }
+     ],
+     "season_en": "Summer to early autumn.",
+     "confidence": "high",
+     "notes_en": "This is a locally documented orchard product, not a claim that grapes are Mitaka's largest specialty crop."
+    },
+    {
+     "name_ja": "三鷹産小麦のクラフトビール「M.C MITAKAさん」",
+     "name_en": "M.C MITAKA-san Local-Wheat Craft Beer",
+     "kind": "drink",
+     "summary_en": "OGA BREWING developed a craft beer incorporating wheat grown in Mitaka, giving the city's grain farming a locally made beverage identity.",
+     "facts": [
+      {
+       "claim_en": "The city states that OGA BREWING opened Mitaka's first craft brewery in 2019 and developed M.C MITAKA-san using 50 percent Mitaka-grown wheat.",
+       "source_url": "https://www.city.mitaka.lg.jp/c_press/107/107987.html",
+       "source_title": "三鷹のクラフトビール「M.C KIWI」を新発売！",
+       "publisher": "三鷹市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "OGA BREWING",
+       "name_en": "OGA BREWING",
+       "relation_en": "Mitaka craft brewer producing beers connected to local agricultural ingredients.",
+       "address_ja": "東京都三鷹市下連雀4-1-16",
+       "official_url": "https://www.city.mitaka.lg.jp/c_press/107/107987.html",
+       "source_url": "https://www.city.mitaka.lg.jp/c_press/107/107987.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "株式会社小笠原商店 OGA BREWING",
+       "relation_en": "Craft-beer producer using Mitaka-grown wheat.",
+       "source_url": "https://www.city.mitaka.lg.jp/c_press/107/107987.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The cited page documents the product and brewery history but does not independently establish current production of this exact beer."
+    },
+    {
+     "name_ja": "キウイビール「M.C KIWI」",
+     "name_en": "M.C KIWI Fruit Craft Beer",
+     "kind": "drink",
+     "summary_en": "This specialty beer links Mitaka's established kiwifruit orchards with the city's craft-brewing industry.",
+     "facts": [
+      {
+       "claim_en": "Mitaka announced M.C KIWI in 2024 as a fruit-style craft beer using flesh and juice from kiwifruit grown by city farmers.",
+       "source_url": "https://www.city.mitaka.lg.jp/c_press/107/107987.html",
+       "source_title": "三鷹のクラフトビール「M.C KIWI」を新発売！",
+       "publisher": "三鷹市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "OGA BREWING",
+       "name_en": "OGA BREWING",
+       "relation_en": "Producer of the locally sourced kiwi beer.",
+       "address_ja": "東京都三鷹市下連雀4-1-16",
+       "official_url": "https://www.city.mitaka.lg.jp/c_press/107/107987.html",
+       "source_url": "https://www.city.mitaka.lg.jp/c_press/107/107987.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "株式会社小笠原商店 OGA BREWING",
+       "relation_en": "Created the Mitaka kiwi craft beer.",
+       "source_url": "https://www.city.mitaka.lg.jp/c_press/107/107987.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The original release was limited; continued availability is not confirmed."
+    },
+    {
+     "name_ja": "三鷹産キウイの菓子・ジャム",
+     "name_en": "Mitaka Kiwi Confectionery and Jam",
+     "kind": "sweet",
+     "summary_en": "Mitaka's kiwifruit identity also appears in locally branded cookies and preserves.",
+     "facts": [
+      {
+       "claim_en": "The TAKA-1 local souvenir archive lists Mitaka kiwi cookies and jam made with Mitaka-grown kiwifruit.",
+       "source_url": "https://meene.app/taka-1/",
+       "source_title": "TAKA-1（タカワン）アーカイブ",
+       "publisher": "ミィね！mitaka"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "The source is an archive of locally recognized products rather than a verified current retail listing."
+    },
+    {
+     "name_ja": "太宰治ゆかりの三鷹銘菓",
+     "name_en": "Osamu Dazai-Themed Mitaka Sweets",
+     "kind": "sweet",
+     "summary_en": "Mitaka's literary association with Osamu Dazai is reflected in character-shaped cakes and branded cookies.",
+     "facts": [
+      {
+       "claim_en": "The local TAKA-1 souvenir archive includes Dazai-shaped ningyoyaki, Dazai-logo cookies, and Dazai-logo cakes.",
+       "source_url": "https://meene.app/taka-1/",
+       "source_title": "TAKA-1（タカワン）アーカイブ",
+       "publisher": "ミィね！mitaka"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "The literary association is expressed through modern souvenirs. The archived products should not be presented as currently stocked without checking individual producers."
+    },
+    {
+     "name_ja": "みたか鷹場そば",
+     "name_en": "Mitaka Takaba Soba",
+     "kind": "dish",
+     "summary_en": "This Mitaka soba establishment connects the city's historical identity as a falconry ground with cooking that uses locally grown vegetables.",
+     "facts": [
+      {
+       "claim_en": "The restaurant identifies itself with Mitaka's hawking-ground name and states that it uses vegetables grown in the city.",
+       "source_url": "https://takabasoba.thebase.in/",
+       "source_title": "みたか 鷹場そば",
+       "publisher": "みたか鷹場そば"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "みたか鷹場そば",
+       "name_en": "Mitaka Takaba Soba",
+       "relation_en": "Restaurant linking locally sourced vegetables and the city's hawking-ground heritage.",
+       "address_ja": "東京都三鷹市下連雀9-11-8",
+       "official_url": "https://takabasoba.thebase.in/",
+       "source_url": "https://takabasoba.thebase.in/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "みたか鷹場そば",
+       "relation_en": "Local soba maker and restaurant.",
+       "source_url": "https://takabasoba.thebase.in/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A contemporary food-and-history interpretation, not a claim that this is an unchanged Edo-period recipe."
+    },
+    {
+     "name_ja": "三鷹の地域ブランド「TAKA-1」",
+     "name_en": "Mitaka TAKA-1 Local Food Souvenir Brand",
+     "kind": "brand",
+     "summary_en": "TAKA-1 was a community scheme recognizing products suited to Mitaka's identity, including food made with local crops and sweets referring to local landmarks and people.",
+     "facts": [
+      {
+       "claim_en": "The initiative ran from 2012 to 2021, and its archive includes kiwi products, Dazai-related sweets, and confectionery named after Mitaka locations.",
+       "source_url": "https://meene.app/taka-1/",
+       "source_title": "TAKA-1（タカワン）アーカイブ",
+       "publisher": "ミィね！mitaka"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A historical brand-designation program, not a current certification scheme."
+    }
+   ],
+   "none_found_reason_en": ""
+  },
+  {
+   "id": "ome",
+   "name_ja": "青梅市",
+   "food_cultures": [
+    {
+     "name_ja": "青梅・吉野梅郷の梅",
+     "name_en": "Ome and Yoshino Plum-Growing Culture",
+     "kind": "crop",
+     "summary_en": "Plums are central to Ome's place identity, especially the Yoshino Baigo area. Local fruit underpins plum sweets and other preserved products.",
+     "facts": [
+      {
+       "claim_en": "The Nishitama regional tourism organization identifies plums and their food products as a specialty of Ome.",
+       "source_url": "https://www.nishitama-kouiki.jp/%E6%A2%85-%E6%9D%B1%E4%BA%AC%E9%83%BD%E9%9D%92%E6%A2%85%E5%B8%82/",
+       "source_title": "梅 東京都青梅市",
+       "publisher": "西多摩地域広域行政圏協議会"
+      },
+      {
+       "claim_en": "Ome's municipal reporting describes renewed use of locally grown plums in sweets from the Baigo area.",
+       "source_url": "https://www.city.ome.tokyo.jp/soshiki/57/119869.html",
+       "source_title": "学校給食における青梅の銘菓",
+       "publisher": "青梅市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "紅梅苑",
+       "name_en": "Koubaien",
+       "relation_en": "Confectioner in Yoshino Baigo making sweets associated with Ome's plum culture.",
+       "address_ja": "東京都青梅市梅郷3-905-1",
+       "official_url": "https://www.omekanko.gr.jp/spot/06601/",
+       "source_url": "https://www.city.ome.tokyo.jp/soshiki/57/119869.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "株式会社紅梅苑",
+       "relation_en": "Local confectioner processing and interpreting Ome's plum heritage.",
+       "source_url": "https://www.city.ome.tokyo.jp/soshiki/57/119869.html"
+      }
+     ],
+     "season_en": "Plum blossoms in late winter to spring; fruit products are associated with the subsequent growing season.",
+     "confidence": "high",
+     "notes_en": "Flower-viewing tourism and edible plum production are related but distinct."
+    },
+    {
+     "name_ja": "沢井ゆず",
+     "name_en": "Sawai Yuzu",
+     "kind": "crop",
+     "summary_en": "Yuzu grown around Ome's Sawai district is a recognizable local citrus specialty used in confectionery and other processed foods.",
+     "facts": [
+      {
+       "claim_en": "Tokyo's agricultural promotion site identifies Sawai yuzu as a local agricultural product.",
+       "source_url": "https://tokyogrown.jp/node/571231",
+       "source_title": "ユズ",
+       "publisher": "TOKYO GROWN"
+      },
+      {
+       "claim_en": "Ome's tourism association identifies a sweet made entirely with Sawai yuzu.",
+       "source_url": "https://www.omekanko.gr.jp/spot/12401/",
+       "source_title": "みたけ歩楽里道（ぶらりどう）",
+       "publisher": "青梅市観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "みたけ歩楽里道",
+       "name_en": "Mitake Burarido",
+       "relation_en": "Confectionery shop using Sawai yuzu in a signature yokan.",
+       "address_ja": "東京都青梅市御岳本町310",
+       "official_url": "https://www.omekanko.gr.jp/spot/12401/",
+       "source_url": "https://www.omekanko.gr.jp/spot/12401/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "みたけ歩楽里道",
+       "relation_en": "Maker of Sawai-yuzu confectionery.",
+       "source_url": "https://www.omekanko.gr.jp/spot/12401/"
+      }
+     ],
+     "season_en": "Autumn to winter for the fruit.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "のらぼう菜",
+     "name_en": "Norabouna Heritage Greens",
+     "kind": "crop",
+     "summary_en": "Norabouna is a traditional leafy vegetable cultivated across western Tama, including Ome. Its roots in Edo-period agriculture make it part of the area's food heritage.",
+     "facts": [
+      {
+       "claim_en": "Tokyo's regional-resource registry identifies Ome as one of the western Tokyo growing areas for norabouna, an Edo-Tokyo heritage vegetable.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_143.html",
+       "source_title": "のらぼう菜",
+       "publisher": "東京都地域資源"
+      },
+      {
+       "claim_en": "JA producer records identify an Ome farmer cultivating norabouna for the Kasumi direct-sales center.",
+       "source_url": "https://agripark.tokyo/matching/search/producer.php?id=nishi_tokyo_kasumi_fsc",
+       "source_title": "生産者紹介｜かすみ直売センター",
+       "publisher": "JA東京アグリパーク"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "JA西東京 かすみ直売センター",
+       "name_en": "JA Nishitokyo Kasumi Farmers Market",
+       "relation_en": "Receives norabouna and other locally grown crops from Ome producers.",
+       "address_ja": "東京都青梅市新町2-28-19",
+       "official_url": "https://www.ja-nishitokyo.or.jp/archives/store_post/shop_kasumi",
+       "source_url": "https://agripark.tokyo/matching/search/producer.php?id=nishi_tokyo_kasumi_fsc"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "須田智之",
+       "relation_en": "Ome farmer identified by JA as a norabouna grower.",
+       "source_url": "https://agripark.tokyo/matching/search/producer.php?id=nishi_tokyo_kasumi_fsc"
+      }
+     ],
+     "season_en": "Winter to early spring.",
+     "confidence": "high",
+     "notes_en": "The Tokyo regional designation centers on Akiruno, but the source explicitly includes cultivation in Ome."
+    },
+    {
+     "name_ja": "東京狭山茶",
+     "name_en": "Tokyo Sayama Tea",
+     "kind": "drink",
+     "summary_en": "Ome is one of the production areas for Tokyo Sayama tea, a locally grown green-tea tradition.",
+     "facts": [
+      {
+       "claim_en": "JA identifies Tokyo Sayama tea producers in Ome supplying local agricultural outlets.",
+       "source_url": "https://agripark.tokyo/matching/search/producer.php?id=nishi_tokyo_kasumi_fsc",
+       "source_title": "生産者紹介｜かすみ直売センター",
+       "publisher": "JA東京アグリパーク"
+      },
+      {
+       "claim_en": "Sugitaen describes its production and processing of Sayama-style tea in Ome.",
+       "source_url": "https://sugitaen.com/sayama-tea/",
+       "source_title": "狭山茶について",
+       "publisher": "杉田園"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "杉田園",
+       "name_en": "Sugitaen Tea Producer",
+       "relation_en": "Local tea-growing and processing business.",
+       "address_ja": "東京都青梅市今井2-913",
+       "official_url": "https://sugitaen.com/products/tea/",
+       "source_url": "https://sugitaen.com/products/tea/"
+      },
+      {
+       "name_ja": "JA西東京 かすみ直売センター",
+       "name_en": "JA Nishitokyo Kasumi Farmers Market",
+       "relation_en": "JA outlet associated with locally produced tea.",
+       "address_ja": "東京都青梅市新町2-28-19",
+       "official_url": "https://www.ja-nishitokyo.or.jp/archives/store_post/shop_kasumi",
+       "source_url": "https://agripark.tokyo/matching/search/producer.php?id=nishi_tokyo_kasumi_fsc"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "杉田園",
+       "relation_en": "Local tea producer.",
+       "source_url": "https://sugitaen.com/sayama-tea/"
+      },
+      {
+       "name_ja": "川鍋園",
+       "relation_en": "Tokyo Sayama tea producer identified by JA.",
+       "source_url": "https://agripark.tokyo/matching/search/producer.php?id=nishi_tokyo_kasumi_fsc"
+      }
+     ],
+     "season_en": "First-flush tea is associated with spring; processed tea is available beyond the harvest.",
+     "confidence": "high",
+     "notes_en": "Tokyo Sayama tea is a wider regional tradition, not exclusive to Ome."
+    },
+    {
+     "name_ja": "東京紅の柿",
+     "name_en": "Tokyo Beni Persimmons",
+     "kind": "crop",
+     "summary_en": "Ome fruit growers cultivate Tokyo Beni, a rare persimmon variety developed in Tokyo.",
+     "facts": [
+      {
+       "claim_en": "An Ome producer listed by JA grows persimmons and identifies Tokyo Beni as a particularly distinctive Tokyo-bred variety.",
+       "source_url": "https://agripark.tokyo/matching/search/producer.php?id=nishi_tokyo_kasumi_fsc",
+       "source_title": "生産者紹介｜かすみ直売センター",
+       "publisher": "JA東京アグリパーク"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "JA西東京 かすみ直売センター",
+       "name_en": "JA Nishitokyo Kasumi Farmers Market",
+       "relation_en": "Direct-sales destination supplied by the featured persimmon producer.",
+       "address_ja": "東京都青梅市新町2-28-19",
+       "official_url": "https://www.ja-nishitokyo.or.jp/archives/store_post/shop_kasumi",
+       "source_url": "https://agripark.tokyo/matching/search/producer.php?id=nishi_tokyo_kasumi_fsc"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "野村直",
+       "relation_en": "Ome persimmon grower associated with Tokyo Beni.",
+       "source_url": "https://agripark.tokyo/matching/search/producer.php?id=nishi_tokyo_kasumi_fsc"
+      }
+     ],
+     "season_en": "Approximately October to November.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "青梅産キウイフルーツ",
+     "name_en": "Ome-Grown Kiwifruit",
+     "kind": "crop",
+     "summary_en": "Ome's fruit farms also cultivate kiwifruit, showing that urban-edge orchards extend across western Tokyo.",
+     "facts": [
+      {
+       "claim_en": "JA lists an Ome kiwifruit grower producing multiple varieties and supplying the Kasumi direct-sales center.",
+       "source_url": "https://agripark.tokyo/matching/search/producer.php?id=nishi_tokyo_kasumi_fsc",
+       "source_title": "生産者紹介｜かすみ直売センター",
+       "publisher": "JA東京アグリパーク"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ベリーコテージ",
+       "name_en": "Berry Cottage",
+       "relation_en": "Fruit farm featuring locally cultivated kiwifruit.",
+       "address_ja": "東京都青梅市新町2-11-5",
+       "official_url": "https://berry-cottage.com/",
+       "source_url": "https://www.omekanko.gr.jp/spot/19501/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "梅田幸次",
+       "relation_en": "Ome kiwifruit producer documented by JA.",
+       "source_url": "https://agripark.tokyo/matching/search/producer.php?id=nishi_tokyo_kasumi_fsc"
+      }
+     ],
+     "season_en": "Approximately October to winter, depending on variety and producer.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "青梅産ブルーベリー",
+     "name_en": "Ome Blueberries",
+     "kind": "crop",
+     "summary_en": "Blueberry cultivation supports a fruit-picking and farm-made dessert culture in Ome.",
+     "facts": [
+      {
+       "claim_en": "Berry Cottage cultivates blueberries and makes drinks, sweets, and preserves from its own fruit.",
+       "source_url": "https://www.omekanko.gr.jp/spot/19501/",
+       "source_title": "ベリーコテージ",
+       "publisher": "青梅市観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ベリーコテージ",
+       "name_en": "Berry Cottage",
+       "relation_en": "Blueberry farm and producer of berry-based foods.",
+       "address_ja": "東京都青梅市新町2-11-5",
+       "official_url": "https://berry-cottage.com/",
+       "source_url": "https://www.omekanko.gr.jp/spot/19501/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ベリーコテージ",
+       "relation_en": "Local blueberry grower and processor.",
+       "source_url": "https://www.omekanko.gr.jp/spot/19501/"
+      }
+     ],
+     "season_en": "Approximately July to August.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "青梅産ラズベリー",
+     "name_en": "Ome Raspberries",
+     "kind": "crop",
+     "summary_en": "Raspberry growing provides another small-scale specialty fruit experience at Ome's orchard farms.",
+     "facts": [
+      {
+       "claim_en": "The local tourism association identifies raspberry cultivation and fruit picking at Berry Cottage.",
+       "source_url": "https://www.omekanko.gr.jp/spot/19501/",
+       "source_title": "ベリーコテージ",
+       "publisher": "青梅市観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ベリーコテージ",
+       "name_en": "Berry Cottage",
+       "relation_en": "Farm cultivating raspberries and processing its berries into sweets.",
+       "address_ja": "東京都青梅市新町2-11-5",
+       "official_url": "https://berry-cottage.com/",
+       "source_url": "https://www.omekanko.gr.jp/spot/19501/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ベリーコテージ",
+       "relation_en": "Raspberry grower.",
+       "source_url": "https://www.omekanko.gr.jp/spot/19501/"
+      }
+     ],
+     "season_en": "Approximately June to mid-July.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "原木きのこ",
+     "name_en": "Log-Grown Mushrooms",
+     "kind": "crop",
+     "summary_en": "Ome's forested landscape supports mushroom growing, including log-grown varieties that visitors can encounter at a specialist farm.",
+     "facts": [
+      {
+       "claim_en": "Ome city tourism materials feature Uchinuma Mushroom Farm, which produces mushrooms including shiitake and maitake.",
+       "source_url": "https://www.city.ome.tokyo.jp/site/omekanko/20292.html",
+       "source_title": "お子様の自由研究に！いろいろ体験ドライブコース",
+       "publisher": "青梅市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "内沼きのこ園",
+       "name_en": "Uchinuma Mushroom Farm",
+       "relation_en": "Specialist mushroom-growing farm linked to forest food production.",
+       "address_ja": "東京都青梅市成木1-90",
+       "official_url": "https://www.city.ome.tokyo.jp/site/omekanko/20292.html",
+       "source_url": "https://www.city.ome.tokyo.jp/site/omekanko/20292.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "内沼きのこ園",
+       "relation_en": "Local mushroom producer.",
+       "source_url": "https://www.city.ome.tokyo.jp/site/omekanko/20292.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Cultivated mushrooms should not be confused with unrestricted wild-mushroom foraging."
+    },
+    {
+     "name_ja": "御岳山周辺のわさび・わさび漬け",
+     "name_en": "Mitake Wasabi and Wasabi Pickles",
+     "kind": "other",
+     "summary_en": "Fresh wasabi and wasabi pickles are familiar regional food souvenirs around Mount Mitake.",
+     "facts": [
+      {
+       "claim_en": "Ome's tourism association identifies fresh wasabi and wasabi pickles among the foods associated with the Mitake cable-car gateway.",
+       "source_url": "https://www.omekanko.gr.jp/spot/11901/",
+       "source_title": "ケーブルカー滝本駅",
+       "publisher": "青梅市観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "御岳登山鉄道 滝本駅",
+       "name_en": "Mitake Cable Car Takimoto Station",
+       "relation_en": "Visitor gateway featuring wasabi and wasabi-derived regional food souvenirs.",
+       "address_ja": "東京都青梅市御岳2-483",
+       "official_url": "https://www.omekanko.gr.jp/spot/11901/",
+       "source_url": "https://www.omekanko.gr.jp/spot/11901/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "The cited tourism information supports a regional food-souvenir connection but does not prove that every wasabi item is grown within Ome."
+    },
+    {
+     "name_ja": "青梅のこんにゃく・のしこん",
+     "name_en": "Ome Konnyaku and Noshikon",
+     "kind": "dish",
+     "summary_en": "Handmade konnyaku is a recognized Ome food specialty, with producers around Mitake. Noshikon is a local specialist brand.",
+     "facts": [
+      {
+       "claim_en": "Japan's national tourism database lists konnyaku as an Ome specialty and identifies local makers.",
+       "source_url": "https://www.japan47go.travel/ja/detail/a769f2f6-017d-4683-9c83-c8b9f353f414",
+       "source_title": "青梅市のこんにゃく",
+       "publisher": "日本観光振興協会"
+      },
+      {
+       "claim_en": "Noshikon Honpo describes its handmade konnyaku production and its own konnyaku fields.",
+       "source_url": "https://www.noshikon.com/",
+       "source_title": "のしこん本舗",
+       "publisher": "のしこん本舗"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "のしこん本舗",
+       "name_en": "Noshikon Honpo",
+       "relation_en": "Specialist maker and shop for Ome konnyaku.",
+       "address_ja": "東京都青梅市御岳本町340",
+       "official_url": "https://www.noshikon.com/",
+       "source_url": "https://www.noshikon.com/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "のしこん本舗",
+       "relation_en": "Handmade konnyaku producer.",
+       "source_url": "https://www.noshikon.com/"
+      },
+      {
+       "name_ja": "伊藤薗",
+       "relation_en": "Another Ome business identified in the regional konnyaku trade.",
+       "source_url": "https://www.japan47go.travel/ja/detail/a769f2f6-017d-4683-9c83-c8b9f353f414"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "トウキョウX",
+     "name_en": "TOKYO X Heritage Pork Brand",
+     "kind": "brand",
+     "summary_en": "TOKYO X is a premium Tokyo pig breed with an important breeding connection to Ome. The city is associated with the development of the brand through its livestock center.",
+     "facts": [
+      {
+       "claim_en": "Tokyo's agricultural organization identifies the Ome Livestock Center as a breeding base involved in developing and supplying TOKYO X breeding pigs.",
+       "source_url": "https://www.tokyo-aff.or.jp/site/ome/1191.html",
+       "source_title": "東京都青梅畜産センター",
+       "publisher": "東京都農林水産振興財団"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "東京都青梅畜産センター",
+       "name_en": "Tokyo Ome Livestock Center",
+       "relation_en": "Institution connected to TOKYO X breeding and producer development.",
+       "address_ja": "東京都青梅市",
+       "official_url": "https://www.tokyo-aff.or.jp/site/ome/1191.html",
+       "source_url": "https://www.tokyo-aff.or.jp/site/ome/1191.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "東京都青梅畜産センター",
+       "relation_en": "Breeding and agricultural research institution supporting the TOKYO X brand.",
+       "source_url": "https://www.tokyo-aff.or.jp/site/ome/1191.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The breed is produced in multiple Tokyo municipalities. Its Ome connection is breeding history, not exclusive geographic production."
+    },
+    {
+     "name_ja": "澤乃井の日本酒",
+     "name_en": "Sawanoi Sake",
+     "kind": "drink",
+     "summary_en": "Sawanoi is a historic sake tradition rooted in the Sawai district and the waterside landscape of the upper Tama River.",
+     "facts": [
+      {
+       "claim_en": "Ozawa Shuzo is an established sake brewery based in Sawai, Ome, with brewery-related visitor facilities and a shop presenting its sake.",
+       "source_url": "https://www.sawanoi-sake.com/service/baiten/",
+       "source_title": "清流ガーデン澤乃井園 蔵元売店",
+       "publisher": "小澤酒造株式会社"
+      },
+      {
+       "claim_en": "The Tokyo sake brewers' association records Ozawa Shuzo as a historic local brewery.",
+       "source_url": "https://www.tokyosake.or.jp/brewery/",
+       "source_title": "東京の酒蔵",
+       "publisher": "東京都酒造組合"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "小澤酒造・澤乃井園",
+       "name_en": "Ozawa Brewery and Sawanoi Garden",
+       "relation_en": "Historic sake brewery and riverside destination for exploring Ome's brewing culture.",
+       "address_ja": "東京都青梅市沢井2-770",
+       "official_url": "https://www.sawanoi-sake.com/service/baiten/",
+       "source_url": "https://www.sawanoi-sake.com/service/baiten/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "小澤酒造株式会社",
+       "relation_en": "Historic producer of Sawanoi sake.",
+       "source_url": "https://www.sawanoi-sake.com/service/baiten/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "青梅クラフトビール「VEPAR」",
+     "name_en": "VEPAR Ome Craft Beer",
+     "kind": "drink",
+     "summary_en": "VEPAR is a newer locally developed craft-beer brand created to give Ome a recognizable brewing specialty.",
+     "facts": [
+      {
+       "claim_en": "The Ome Chamber of Commerce reported that Muto Jisaku Saketen began producing VEPAR in March 2024 as a locally developed craft beer.",
+       "source_url": "https://www.omecci.jp/member_activity/24997.html",
+       "source_title": "武藤治作酒店 青梅初のクラフトビールを製造",
+       "publisher": "青梅商工会議所"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "武藤治作酒店",
+       "relation_en": "Producer responsible for developing VEPAR.",
+       "source_url": "https://www.omecci.jp/member_activity/24997.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The source documents the 2024 launch rather than current production volume."
+    },
+    {
+     "name_ja": "紅梅饅頭",
+     "name_en": "Koubai Manju",
+     "kind": "sweet",
+     "summary_en": "This confection reflects the plum culture of Yoshino Baigo and the literary heritage associated with Yoshikawa Eiji.",
+     "facts": [
+      {
+       "claim_en": "Koubaien began selling Koubai Manju in 1983. Ome's municipal interview connects the confection with the plum-growing district and the area's literary history.",
+       "source_url": "https://www.city.ome.tokyo.jp/soshiki/57/119869.html",
+       "source_title": "学校給食における青梅の銘菓",
+       "publisher": "青梅市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "紅梅苑",
+       "name_en": "Koubaien",
+       "relation_en": "Original maker in the Yoshino Baigo plum district.",
+       "address_ja": "東京都青梅市梅郷3-905-1",
+       "official_url": "https://www.omekanko.gr.jp/spot/06601/",
+       "source_url": "https://www.city.ome.tokyo.jp/soshiki/57/119869.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "株式会社紅梅苑",
+       "relation_en": "Maker of Koubai Manju.",
+       "source_url": "https://www.city.ome.tokyo.jp/soshiki/57/119869.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The city also selected this sweet for a 2026 school-lunch cultural-awareness initiative."
+    },
+    {
+     "name_ja": "青梅せんべい",
+     "name_en": "Ome Senbei",
+     "kind": "sweet",
+     "summary_en": "Ome senbei is a local sweet-cracker tradition associated with the city's name and plum-blossom imagery.",
+     "facts": [
+      {
+       "claim_en": "The tourism association identifies Ome Senbei Yanagimaru as a long-established maker of plum-blossom-shaped Ome senbei.",
+       "source_url": "https://www.omekanko.gr.jp/spot/04301/",
+       "source_title": "青梅せんべい 柳丸",
+       "publisher": "青梅市観光協会"
+      },
+      {
+       "claim_en": "The Nishitama regional tourism organization identifies Ome senbei as a local confectionery specialty.",
+       "source_url": "https://www.nishitama-kouiki.jp/%E9%9D%92%E6%A2%85%E3%81%9B%E3%82%93%E3%81%B9%E3%81%84-%E6%9D%B1%E4%BA%AC%E9%83%BD%E9%9D%92%E6%A2%85%E5%B8%82/",
+       "source_title": "青梅せんべい 東京都青梅市",
+       "publisher": "西多摩地域広域行政圏協議会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "青梅せんべい 柳丸",
+       "name_en": "Ome Senbei Yanagimaru",
+       "relation_en": "Long-running confectioner specializing in the city's namesake senbei.",
+       "address_ja": "東京都青梅市野上町1-35-10",
+       "official_url": "https://www.omekanko.gr.jp/spot/04301/",
+       "source_url": "https://www.omekanko.gr.jp/spot/04301/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "柳丸",
+       "relation_en": "Maker of plum-blossom-shaped Ome senbei.",
+       "source_url": "https://www.omekanko.gr.jp/spot/04301/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "沢井ゆずようかん",
+     "name_en": "Sawai Yuzu Yokan",
+     "kind": "sweet",
+     "summary_en": "This citrus-infused Japanese jelly sweet connects traditional confectionery with locally grown Sawai yuzu.",
+     "facts": [
+      {
+       "claim_en": "Mitake Burarido makes a yokan using Sawai yuzu and identifies it as a signature product.",
+       "source_url": "https://www.omekanko.gr.jp/spot/12401/",
+       "source_title": "みたけ歩楽里道（ぶらりどう）",
+       "publisher": "青梅市観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "みたけ歩楽里道",
+       "name_en": "Mitake Burarido",
+       "relation_en": "Maker of Sawai-yuzu yokan near Mitake.",
+       "address_ja": "東京都青梅市御岳本町310",
+       "official_url": "https://www.omekanko.gr.jp/spot/12401/",
+       "source_url": "https://www.omekanko.gr.jp/spot/12401/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "みたけ歩楽里道",
+       "relation_en": "Local confectioner using Sawai yuzu.",
+       "source_url": "https://www.omekanko.gr.jp/spot/12401/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "へそまんじゅう",
+     "name_en": "Heso Manju",
+     "kind": "sweet",
+     "summary_en": "A distinctive steamed bun shaped like a belly button has become a recognizable souvenir in Ome's plum-country area.",
+     "facts": [
+      {
+       "claim_en": "Ome's tourism association describes Heso Manju as a navel-shaped bun with sweet azuki filling.",
+       "source_url": "https://www.omekanko.gr.jp/spot/07801/",
+       "source_title": "へそまんじゅう総本舗",
+       "publisher": "青梅市観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "へそまんじゅう総本舗",
+       "name_en": "Heso Manju Sohonpo",
+       "relation_en": "Specialist maker of the local sweet.",
+       "address_ja": "東京都青梅市日向和田3-863",
+       "official_url": "https://www.omekanko.gr.jp/spot/07801/",
+       "source_url": "https://www.omekanko.gr.jp/spot/07801/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "へそまんじゅう総本舗",
+       "relation_en": "Specialist bun maker.",
+       "source_url": "https://www.omekanko.gr.jp/spot/07801/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "青梅の焼きまんじゅう",
+     "name_en": "Ome Grilled Manju",
+     "kind": "dish",
+     "summary_en": "A savory-sweet grilled bun is remembered as a convenient food from Ome's flourishing textile-industry era.",
+     "facts": [
+      {
+       "claim_en": "The Nishitama regional organization traces the dish to Ome's Showa-period textile industry and describes a fermented bun with sweet-bean filling, grilled and coated in a sweet-savory sauce.",
+       "source_url": "https://www.nishitama-kouiki.jp/%E7%84%BC%E3%81%8D%E3%81%BE%E3%82%93%E3%81%98%E3%82%85%E3%81%86-%E6%9D%B1%E4%BA%AC%E9%83%BD%E9%9D%92%E6%A2%85%E5%B8%82/",
+       "source_title": "焼きまんじゅう 東京都青梅市",
+       "publisher": "西多摩地域広域行政圏協議会"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The cited page establishes regional food history but does not name a currently operating specialist shop."
+    },
+    {
+     "name_ja": "青梅生まれトウキョウX肉うどん",
+     "name_en": "Ome TOKYO X Pork Udon",
+     "kind": "dish",
+     "summary_en": "A local udon variation uses the TOKYO X pork brand associated with Ome's livestock-breeding history.",
+     "facts": [
+      {
+       "claim_en": "The Nishitama regional tourism organization identifies TOKYO X pork udon as an Ome-born regional dish.",
+       "source_url": "https://www.nishitama-kouiki.jp/%E9%9D%92%E6%A2%85%E7%94%9F%E3%81%BE%E3%82%8C%E3%83%88%E3%82%A6%E3%82%AD%E3%83%A7%E3%82%A6%EF%BD%98%E8%82%89%E3%81%86%E3%81%A9%E3%82%93-%E6%9D%B1%E4%BA%AC%E9%83%BD%E9%9D%92/",
+       "source_title": "青梅生まれトウキョウX肉うどん",
+       "publisher": "西多摩地域広域行政圏協議会"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A regional preparation rather than evidence that every pork-udon restaurant uses locally raised animals."
+    },
+    {
+     "name_ja": "KINGめし・ライスメンチ",
+     "name_en": "KING Meshi and Rice Menchi",
+     "kind": "dish",
+     "summary_en": "This Ome regional comfort-food creation combines rice with a minced-meat cutlet and other rich fillings.",
+     "facts": [
+      {
+       "claim_en": "The Nishitama regional tourism organization describes KING Meshi and Rice Menchi as a local food creation combining rice, minced meat, and cheese.",
+       "source_url": "https://www.nishitama-kouiki.jp/%EF%BD%8B%EF%BD%89%EF%BD%8E%EF%BD%87%E3%82%81%E3%81%97%E3%83%BB%E3%83%A9%E3%82%A4%E3%82%B9%E3%83%A1%E3%83%B3%E3%83%81-%E6%9D%B1%E4%BA%AC%E9%83%BD%E9%9D%92%E6%A2%85%E5%B8%82/",
+       "source_title": "KINGめし・ライスメンチ 東京都青梅市",
+       "publisher": "西多摩地域広域行政圏協議会"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "The documented recipe is a modern local specialty; present-day retail availability is unverified."
+    },
+    {
+     "name_ja": "御岳山のきび大福",
+     "name_en": "Mount Mitake Millet Daifuku",
+     "kind": "sweet",
+     "summary_en": "Millet daifuku is presented as a recognizable food souvenir at the gateway to Mount Mitake.",
+     "facts": [
+      {
+       "claim_en": "The Ome tourism association specifically recommends kibi daifuku among the local foods associated with Takimoto Station.",
+       "source_url": "https://www.omekanko.gr.jp/spot/11901/",
+       "source_title": "ケーブルカー滝本駅",
+       "publisher": "青梅市観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "御岳登山鉄道 滝本駅",
+       "name_en": "Mitake Cable Car Takimoto Station",
+       "relation_en": "Mount Mitake gateway associated with this regional souvenir sweet.",
+       "address_ja": "東京都青梅市御岳2-483",
+       "official_url": "https://www.omekanko.gr.jp/spot/11901/",
+       "source_url": "https://www.omekanko.gr.jp/spot/11901/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "The cited page confirms the visitor-food association but does not identify the original confectioner."
+    },
+    {
+     "name_ja": "青梅産さつまいもの干し芋・干し芋茶",
+     "name_en": "Ome Sweet-Potato Snacks and Sweet-Potato Tea",
+     "kind": "other",
+     "summary_en": "A local agricultural initiative is developing dried sweet-potato snacks and tea from sweet potatoes grown in Ome.",
+     "facts": [
+      {
+       "claim_en": "In November 2026, Koyo Ome announced food products made from Ome-grown sweet potatoes, including dried sweet potatoes and a sweet-potato tea.",
+       "source_url": "https://life-ome.com/news/11%E6%9C%8823%E6%97%A5%E6%9C%88%EF%BD%A5%E7%A5%9D-ja%E8%A5%BF%E6%9D%B1%E4%BA%AC-%E8%BE%B2%E6%A5%AD%E7%A5%AD%E3%81%B8%E5%87%BA%E5%BA%97%E3%81%97%E3%81%BE%E3%81%99%EF%BC%81%EF%BC%81/",
+       "source_title": "11月23日 JA西東京 農業祭へ出店します",
+       "publisher": "こーよ青梅"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "JA西東京 かすみ直売センター",
+       "name_en": "JA Nishitokyo Kasumi Farmers Market",
+       "relation_en": "Named location for a 2026 presentation of the sweet-potato products.",
+       "address_ja": "東京都青梅市新町2-28-19",
+       "official_url": "https://www.ja-nishitokyo.or.jp/archives/store_post/shop_kasumi",
+       "source_url": "https://life-ome.com/news/11%E6%9C%8823%E6%97%A5%E6%9C%88%EF%BD%A5%E7%A5%9D-ja%E8%A5%BF%E6%9D%B1%E4%BA%AC-%E8%BE%B2%E6%A5%AD%E7%A5%AD%E3%81%B8%E5%87%BA%E5%BA%97%E3%81%97%E3%81%BE%E3%81%99%EF%BC%81%EF%BC%81/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "一般社団法人こーよ青梅",
+       "relation_en": "Organization promoting processed foods made with Ome sweet potatoes.",
+       "source_url": "https://life-ome.com/news/11%E6%9C%8823%E6%97%A5%E6%9C%88%EF%BD%A5%E7%A5%9D-ja%E8%A5%BF%E6%9D%B1%E4%BA%AC-%E8%BE%B2%E6%A5%AD%E7%A5%AD%E3%81%B8%E5%87%BA%E5%BA%97%E3%81%97%E3%81%BE%E3%81%99%EF%BC%81%EF%BC%81/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Documented as a contemporary product initiative immediately before its November 2026 event, not as an old regional dish."
+    }
+   ],
+   "none_found_reason_en": ""
+  },
+  {
+   "id": "fuchu",
+   "name_ja": "府中市",
+   "food_cultures": [
+    {
+     "name_ja": "府中御用ウリ",
+     "name_en": "Fuchu Goyo Melon",
+     "kind": "crop",
+     "summary_en": "Fuchu Goyo Uri is an Edo-Tokyo heritage makuwa melon tied to the city's role in supplying produce to the Tokugawa authorities.",
+     "facts": [
+      {
+       "claim_en": "JA Tokyo's heritage-vegetable account describes Fuchu as a historical growing area for makuwa melons supplied to the shogunate, with specialist growers brought from Mino to cultivate the crop.",
+       "source_url": "https://www.tokyo-ja.or.jp/farm/edo/31.php",
+       "source_title": "鳴子ウリ・府中御用ウリ",
+       "publisher": "JA東京中央会"
+      },
+      {
+       "claim_en": "Fuchu's municipal library presents Goyo Uri among the city's historically important agricultural specialties.",
+       "source_url": "https://library.city.fuchu.tokyo.jp/kids/pdf/fuchuhakase13.pdf",
+       "source_title": "きみはいくつ知っている？ 府中市の特産品",
+       "publisher": "府中市立図書館"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "府中特産品直売所",
+       "name_en": "Fuchu Specialty Farmers Market",
+       "relation_en": "A practical local-produce stop; the source does not specifically confirm regular availability of Goyo Uri.",
+       "address_ja": "東京都府中市寿町1-1",
+       "official_url": "https://www.ja-minds.or.jp/farmstand/fuchu_fm.php",
+       "source_url": "https://www.ja-minds.or.jp/farmstand/fuchu_fm.php"
+      }
+     ],
+     "makers": [],
+     "season_en": "Summer.",
+     "confidence": "high",
+     "notes_en": "A historically specific heritage crop. Conservation and cultivation should not be mistaken for widespread commercial distribution."
+    },
+    {
+     "name_ja": "府中産小松菜",
+     "name_en": "Fuchu Komatsuna Greens",
+     "kind": "crop",
+     "summary_en": "Komatsuna is a major vegetable crop of Fuchu's remaining urban farmland and has a connection to local school-food education.",
+     "facts": [
+      {
+       "claim_en": "The city's educational booklet identifies komatsuna as a leading local crop, especially in the Oshitate area, and discusses its role in local food culture.",
+       "source_url": "https://library.city.fuchu.tokyo.jp/kids/pdf/fuchuhakase13.pdf",
+       "source_title": "きみはいくつ知っている？ 府中市の特産品",
+       "publisher": "府中市立図書館"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "府中特産品直売所",
+       "name_en": "Fuchu Specialty Farmers Market",
+       "relation_en": "JA market supplied by Fuchu producers, with komatsuna among its listed seasonal vegetables.",
+       "address_ja": "東京都府中市寿町1-1",
+       "official_url": "https://www.ja-minds.or.jp/farmstand/fuchu_fm.php",
+       "source_url": "https://www.ja-minds.or.jp/farmstand/fuchu_fm.php"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "府中農産物出荷組合",
+       "relation_en": "Local producer association supplying the city's specialty farmers market.",
+       "source_url": "https://www.ja-minds.or.jp/farmstand/fuchu_fm.php"
+      }
+     ],
+     "season_en": "Cool-season production is significant, although cultivation occurs across multiple seasons.",
+     "confidence": "high",
+     "notes_en": "Komatsuna originated in the wider Edo area; Fuchu is a documented production center, not its historical birthplace."
+    },
+    {
+     "name_ja": "府中の古代米・黒米",
+     "name_en": "Fuchu Ancient Black Rice",
+     "kind": "crop",
+     "summary_en": "Fuchu farmers cultivate black rice and have developed a distinctive range of foods around it.",
+     "facts": [
+      {
+       "claim_en": "The municipal library documents local black-rice farming and the Fuchu Ancient Rice Research Association, which promotes processing and food uses.",
+       "source_url": "https://library.city.fuchu.tokyo.jp/kids/pdf/fuchuhakase13.pdf",
+       "source_title": "きみはいくつ知っている？ 府中市の特産品",
+       "publisher": "府中市立図書館"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "府中市郷土の森観光物産館",
+       "name_en": "Fuchu Kyodo-no-Mori Tourism and Products Center",
+       "relation_en": "Local agricultural-product and specialty-food destination connected with the city's black-rice food culture.",
+       "address_ja": "東京都府中市是政6-32-10",
+       "official_url": "https://www.city.fuchu.tokyo.jp/kanko/shisetsu/kankoubussankan.html",
+       "source_url": "https://satomono.jp/market/13206/2791/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "府中市古代米研究会",
+       "relation_en": "Association of local farmers working with black rice and its processed products.",
+       "source_url": "https://library.city.fuchu.tokyo.jp/kids/pdf/fuchuhakase13.pdf"
+      }
+     ],
+     "season_en": "Autumn rice harvest.",
+     "confidence": "high",
+     "notes_en": "This is a documented modern local cultivation and processing tradition; the source does not prove uninterrupted cultivation since ancient times."
+    },
+    {
+     "name_ja": "黒米うどん",
+     "name_en": "Fuchu Black-Rice Udon",
+     "kind": "dish",
+     "summary_en": "Black-rice udon turns Fuchu's distinctive rice crop into a recognizable local noodle product.",
+     "facts": [
+      {
+       "claim_en": "Fuchu's municipal library identifies black-rice udon as a processed local specialty recognized by the tourism association.",
+       "source_url": "https://library.city.fuchu.tokyo.jp/kids/pdf/fuchuhakase13.pdf",
+       "source_title": "きみはいくつ知っている？ 府中市の特産品",
+       "publisher": "府中市立図書館"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "府中市郷土の森観光物産館",
+       "name_en": "Fuchu Kyodo-no-Mori Tourism and Products Center",
+       "relation_en": "Local products center identified with Fuchu specialty foods, including black-rice noodles.",
+       "address_ja": "東京都府中市是政6-32-10",
+       "official_url": "https://www.city.fuchu.tokyo.jp/kanko/shisetsu/kankoubussankan.html",
+       "source_url": "https://satomono.jp/market/13206/2791/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "府中市古代米研究会",
+       "relation_en": "Local black-rice growers and processors behind the specialty.",
+       "source_url": "https://library.city.fuchu.tokyo.jp/kids/pdf/fuchuhakase13.pdf"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "黒米パン",
+     "name_en": "Fuchu Black-Rice Bread",
+     "kind": "other",
+     "summary_en": "Bread made with locally grown black rice is one of Fuchu's agricultural value-added foods.",
+     "facts": [
+      {
+       "claim_en": "The city's library booklet documents black-rice bread as a processed food developed from Fuchu's black-rice crop.",
+       "source_url": "https://library.city.fuchu.tokyo.jp/kids/pdf/fuchuhakase13.pdf",
+       "source_title": "きみはいくつ知っている？ 府中市の特産品",
+       "publisher": "府中市立図書館"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "府中市古代米研究会",
+       "relation_en": "Local agricultural group associated with black-rice processing.",
+       "source_url": "https://library.city.fuchu.tokyo.jp/kids/pdf/fuchuhakase13.pdf"
+      }
+     ],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "Documented as a local product, but the cited booklet does not establish current producers or stockists."
+    },
+    {
+     "name_ja": "黒米わら納豆",
+     "name_en": "Fuchu Black-Rice-Straw Natto",
+     "kind": "other",
+     "summary_en": "Fuchu has used straw from its black-rice harvest in a distinctive form of traditionally wrapped natto.",
+     "facts": [
+      {
+       "claim_en": "The municipal library describes natto using straw from the local black-rice crop.",
+       "source_url": "https://library.city.fuchu.tokyo.jp/kids/pdf/fuchuhakase13.pdf",
+       "source_title": "きみはいくつ知っている？ 府中市の特産品",
+       "publisher": "府中市立図書館"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "府中市古代米研究会",
+       "relation_en": "Agricultural association associated with the city's black-rice product development.",
+       "source_url": "https://library.city.fuchu.tokyo.jp/kids/pdf/fuchuhakase13.pdf"
+      }
+     ],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "The distinctive element is the use of black-rice straw; it should not be described as natto made primarily from black-rice grains."
+    },
+    {
+     "name_ja": "府中産分葱",
+     "name_en": "Fuchu Wakegi Scallions",
+     "kind": "crop",
+     "summary_en": "Wakegi is specifically recognized among Fuchu's agricultural specialty crops.",
+     "facts": [
+      {
+       "claim_en": "The city identifies locally cultivated wakegi among Fuchu's specialty agricultural products.",
+       "source_url": "https://www.city.fuchu.tokyo.jp/kurashi/nogyonituite/tokusan/nousannbutsuchokubaijomap.html",
+       "source_title": "府中農産物直売所マップ無料配布",
+       "publisher": "府中市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "府中特産品直売所",
+       "name_en": "Fuchu Specialty Farmers Market",
+       "relation_en": "Local farmers market where seasonal Fuchu produce is represented.",
+       "address_ja": "東京都府中市寿町1-1",
+       "official_url": "https://www.ja-minds.or.jp/farmstand/fuchu_fm.php",
+       "source_url": "https://www.ja-minds.or.jp/farmstand/fuchu_fm.php"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "府中農産物出荷組合",
+       "relation_en": "Local farmers supplying produce to the specialty market.",
+       "source_url": "https://www.ja-minds.or.jp/farmstand/fuchu_fm.php"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "大房ぶどう「藤稔」",
+     "name_en": "Fujiminori Large-Bunch Grapes",
+     "kind": "crop",
+     "summary_en": "Fujiminori is a large-grape variety highlighted as a specialty of Fuchu's local orchards.",
+     "facts": [
+      {
+       "claim_en": "Fuchu city explicitly identifies locally cultivated Fujiminori grapes in its agricultural direct-sales information.",
+       "source_url": "https://www.city.fuchu.tokyo.jp/kurashi/nogyonituite/tokusan/nousannbutsuchokubaijomap.html",
+       "source_title": "府中農産物直売所マップ無料配布",
+       "publisher": "府中市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "府中特産品直売所",
+       "name_en": "Fuchu Specialty Farmers Market",
+       "relation_en": "Destination for locally grown seasonal fruit and vegetables; individual grape availability is not independently verified.",
+       "address_ja": "東京都府中市寿町1-1",
+       "official_url": "https://www.ja-minds.or.jp/farmstand/fuchu_fm.php",
+       "source_url": "https://www.ja-minds.or.jp/farmstand/fuchu_fm.php"
+      }
+     ],
+     "makers": [],
+     "season_en": "Late summer to early autumn.",
+     "confidence": "high",
+     "notes_en": "The variety is grown in multiple regions of Japan; the local link is cultivation in Fuchu."
+    },
+    {
+     "name_ja": "多摩川梨",
+     "name_en": "Tamagawa Pears",
+     "kind": "crop",
+     "summary_en": "Japanese pear cultivation along the Tama River is part of Fuchu's traditional fruit-farming landscape.",
+     "facts": [
+      {
+       "claim_en": "The city's municipal library identifies Tamagawa pears among Fuchu's specialty crops and connects production with areas along the Tama River.",
+       "source_url": "https://library.city.fuchu.tokyo.jp/kids/pdf/fuchuhakase13.pdf",
+       "source_title": "きみはいくつ知っている？ 府中市の特産品",
+       "publisher": "府中市立図書館"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "府中市郷土の森観光物産館",
+       "name_en": "Fuchu Kyodo-no-Mori Tourism and Products Center",
+       "relation_en": "Local produce destination useful for discovering agricultural specialties from the Tama River area.",
+       "address_ja": "東京都府中市是政6-32-10",
+       "official_url": "https://www.city.fuchu.tokyo.jp/kanko/shisetsu/kankoubussankan.html",
+       "source_url": "https://www.city.fuchu.tokyo.jp/kanko/shisetsu/kankoubussankan.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "Late summer to autumn.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "府中産しいたけ",
+     "name_en": "Fuchu Shiitake Mushrooms",
+     "kind": "crop",
+     "summary_en": "Locally cultivated shiitake mushrooms are another recognized agricultural specialty of Fuchu.",
+     "facts": [
+      {
+       "claim_en": "The city's agricultural education booklet identifies shiitake among Fuchu's specialty products.",
+       "source_url": "https://library.city.fuchu.tokyo.jp/kids/pdf/fuchuhakase13.pdf",
+       "source_title": "きみはいくつ知っている？ 府中市の特産品",
+       "publisher": "府中市立図書館"
+      },
+      {
+       "claim_en": "JA's Fuchu direct-sales center identifies shiitake among its autumn agricultural products.",
+       "source_url": "https://www.ja-minds.or.jp/farmstand/fuchu_fm.php",
+       "source_title": "府中特産品直売所",
+       "publisher": "JAマインズ"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "府中特産品直売所",
+       "name_en": "Fuchu Specialty Farmers Market",
+       "relation_en": "Local direct-sales location listing shiitake among seasonal produce.",
+       "address_ja": "東京都府中市寿町1-1",
+       "official_url": "https://www.ja-minds.or.jp/farmstand/fuchu_fm.php",
+       "source_url": "https://www.ja-minds.or.jp/farmstand/fuchu_fm.php"
+      }
+     ],
+     "makers": [],
+     "season_en": "Autumn is specifically identified for direct-sales produce.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "大國魂神社のくり祭と武蔵野の栗",
+     "name_en": "Okunitama Shrine Chestnut Festival and Musashino Chestnuts",
+     "kind": "other",
+     "summary_en": "Fuchu's autumn chestnut festival preserves the memory of Musashino's historical chestnut production and offerings to the Tokugawa rulers.",
+     "facts": [
+      {
+       "claim_en": "Tokyo's official tourism site explains that chestnuts were a valued Musashino crop and that their harvest became associated with Okunitama Shrine's autumn festival.",
+       "source_url": "https://www.gotokyo.org/jp/spot/ev010/index.html",
+       "source_title": "大國魂神社―秋季祭・くり祭―",
+       "publisher": "東京観光財団 GO TOKYO"
+      },
+      {
+       "claim_en": "Fuchu city identifies the chestnut festival as a surviving reminder of the Musashino plateau's historical chestnut-growing culture.",
+       "source_url": "https://www.city.fuchu.tokyo.jp/gyosei/fuchusinogaiyo/jiko/fuchu_autumn.html",
+       "source_title": "府中市の秋の行事（9～11月）",
+       "publisher": "府中市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "大國魂神社",
+       "name_en": "Okunitama Shrine",
+       "relation_en": "Historic setting of the chestnut festival and its harvest-related traditions.",
+       "address_ja": "東京都府中市宮町3-1",
+       "official_url": "https://www.gotokyo.org/jp/spot/ev010/index.html",
+       "source_url": "https://www.gotokyo.org/jp/spot/ev010/index.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "September.",
+     "confidence": "high",
+     "notes_en": "This primarily documents a historical crop and living festival tradition, not substantial contemporary commercial chestnut farming within the municipality."
+    },
+    {
+     "name_ja": "國府鶴",
+     "name_en": "Kozuru Sake",
+     "kind": "drink",
+     "summary_en": "Kozuru is Fuchu's historic local sake, closely connected with Musashi Province's former administrative center and Okunitama Shrine.",
+     "facts": [
+      {
+       "claim_en": "Noguchi Brewery traces its origins to 1860, when the family began brewing sacred sake connected with Okunitama Shrine.",
+       "source_url": "https://www.noguchi-brewery.co.jp/",
+       "source_title": "武蔵府中の地酒 國府鶴",
+       "publisher": "野口酒造店"
+      },
+      {
+       "claim_en": "The brewery reports that local sake production resumed at its own Fuchu facility in spring 2024 after an earlier period of outsourced brewing.",
+       "source_url": "https://www.noguchi-brewery.co.jp/",
+       "source_title": "武蔵府中の地酒 國府鶴",
+       "publisher": "野口酒造店"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "野口酒造店",
+       "name_en": "Noguchi Brewery",
+       "relation_en": "Historic Fuchu sake maker with a direct connection to Okunitama Shrine.",
+       "address_ja": "東京都府中市寿町2-4-8",
+       "official_url": "https://www.noguchi-brewery.co.jp/",
+       "source_url": "https://www.noguchi-brewery.co.jp/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "合名会社野口酒造店",
+       "relation_en": "Brewer of Kozuru sake.",
+       "source_url": "https://www.noguchi-brewery.co.jp/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The site's history distinguishes the brewery's establishment from the 2024 resumption of production in Fuchu."
+    },
+    {
+     "name_ja": "青木屋の府中銘菓・六社万頭",
+     "name_en": "Aokiya's Fuchu Shrine Confectionery and Rokusha Manju",
+     "kind": "sweet",
+     "summary_en": "Aokiya's confectionery heritage began with manju sales at Okunitama Shrine, and its sweets preserve references to Fuchu's shrine culture.",
+     "facts": [
+      {
+       "claim_en": "Aokiya traces its beginnings to selling manju within the grounds of Okunitama Shrine and dates its business history to 1893.",
+       "source_url": "https://aokiya.net/history/",
+       "source_title": "青木屋ものがたり",
+       "publisher": "青木屋"
+      },
+      {
+       "claim_en": "Aokiya's local retail listing includes Rokusha Manju, a confection whose name recalls the shrine's identity as Musashi's six-shrine sanctuary.",
+       "source_url": "https://mitten-foris.jp/shop/index.jsp?bf=1&fmt=6&shopid=2102",
+       "source_title": "青木屋 府中けやき並木通り店",
+       "publisher": "ミッテン府中・フォーリス"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "青木屋 府中けやき並木通り店",
+       "name_en": "Aokiya Fuchu Keyaki-Namiki Store",
+       "relation_en": "Local branch of the historic confectioner.",
+       "address_ja": "",
+       "official_url": "https://mitten-foris.jp/shop/index.jsp?bf=1&fmt=6&shopid=2102",
+       "source_url": "https://mitten-foris.jp/shop/index.jsp?bf=1&fmt=6&shopid=2102"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "青木屋",
+       "relation_en": "Historic confectioner linked to Okunitama Shrine.",
+       "source_url": "https://aokiya.net/history/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The shrine connection is historical; the sweets are not evidence of ingredients grown locally."
+    },
+    {
+     "name_ja": "青木屋「栗まつり」",
+     "name_en": "Aokiya Kurimatsuri Chestnut Sweet",
+     "kind": "sweet",
+     "summary_en": "This confection takes its name from Fuchu's autumn chestnut festival and turns local festival history into a sweet souvenir.",
+     "facts": [
+      {
+       "claim_en": "Aokiya's Fuchu retail listing includes a confection named Kurimatsuri, linking the bakery's products with the local chestnut-festival identity.",
+       "source_url": "https://mitten-foris.jp/shop/index.jsp?bf=1&fmt=6&shopid=2102",
+       "source_title": "青木屋 府中けやき並木通り店",
+       "publisher": "ミッテン府中・フォーリス"
+      },
+      {
+       "claim_en": "The city's autumn-events description confirms that Kurimatsuri commemorates the area's historic chestnut-growing culture.",
+       "source_url": "https://www.city.fuchu.tokyo.jp/gyosei/fuchusinogaiyo/jiko/fuchu_autumn.html",
+       "source_title": "府中市の秋の行事（9～11月）",
+       "publisher": "府中市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "青木屋 府中けやき並木通り店",
+       "name_en": "Aokiya Fuchu Keyaki-Namiki Store",
+       "relation_en": "Local confectionery shop associated with the festival-themed sweet.",
+       "address_ja": "",
+       "official_url": "https://mitten-foris.jp/shop/index.jsp?bf=1&fmt=6&shopid=2102",
+       "source_url": "https://mitten-foris.jp/shop/index.jsp?bf=1&fmt=6&shopid=2102"
+      },
+      {
+       "name_ja": "大國魂神社",
+       "name_en": "Okunitama Shrine",
+       "relation_en": "Historical source of the festival name and its chestnut tradition.",
+       "address_ja": "東京都府中市宮町3-1",
+       "official_url": "https://www.gotokyo.org/jp/spot/ev010/index.html",
+       "source_url": "https://www.gotokyo.org/jp/spot/ev010/index.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "青木屋",
+       "relation_en": "Maker of the chestnut-festival-themed confection.",
+       "source_url": "https://mitten-foris.jp/shop/index.jsp?bf=1&fmt=6&shopid=2102"
+      }
+     ],
+     "season_en": "Associated culturally with the September chestnut festival.",
+     "confidence": "high",
+     "notes_en": "The historical link is the festival and product name; the cited pages do not establish that the confection uses chestnuts grown in Fuchu."
+    },
+    {
+     "name_ja": "府中の地場農産物直売文化",
+     "name_en": "Fuchu Direct-Sale Urban Agriculture",
+     "kind": "brand",
+     "summary_en": "Fuchu maintains a local producer-to-consumer food culture through direct-sales outlets, connecting residents and visitors with crops grown inside the city.",
+     "facts": [
+      {
+       "claim_en": "JA Minds identifies the Fuchu Specialty Farmers Market as an outlet supplied by city producers, offering seasonal vegetables and farmer-made processed foods.",
+       "source_url": "https://www.ja-minds.or.jp/farmstand/fuchu_fm.php",
+       "source_title": "府中特産品直売所",
+       "publisher": "JAマインズ"
+      },
+      {
+       "claim_en": "The municipal government publishes a local farm-stand map and specifically highlights Fuchu-grown Fujiminori grapes and wakegi.",
+       "source_url": "https://www.city.fuchu.tokyo.jp/kurashi/nogyonituite/tokusan/nousannbutsuchokubaijomap.html",
+       "source_title": "府中農産物直売所マップ無料配布",
+       "publisher": "府中市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "府中特産品直売所",
+       "name_en": "Fuchu Specialty Farmers Market",
+       "relation_en": "City-center outlet for fresh produce and agricultural products from local farmers.",
+       "address_ja": "東京都府中市寿町1-1",
+       "official_url": "https://www.ja-minds.or.jp/farmstand/fuchu_fm.php",
+       "source_url": "https://www.ja-minds.or.jp/farmstand/fuchu_fm.php"
+      },
+      {
+       "name_ja": "府中市郷土の森観光物産館",
+       "name_en": "Fuchu Kyodo-no-Mori Tourism and Products Center",
+       "relation_en": "Additional visitor destination for local agricultural and specialty foods.",
+       "address_ja": "東京都府中市是政6-32-10",
+       "official_url": "https://www.city.fuchu.tokyo.jp/kanko/shisetsu/kankoubussankan.html",
+       "source_url": "https://www.city.fuchu.tokyo.jp/kanko/shisetsu/kankoubussankan.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "府中農産物出荷組合",
+       "relation_en": "Association of local agricultural producers supplying direct-sales outlets.",
+       "source_url": "https://www.ja-minds.or.jp/farmstand/fuchu_fm.php"
+      }
+     ],
+     "season_en": "Year-round, with the selection changing by harvest season.",
+     "confidence": "high",
+     "notes_en": "This is a producer-to-consumer food culture rather than a single named crop or recipe. The two outlets should be checked individually when planning a specific product-focused visit."
+    }
+   ],
+   "none_found_reason_en": ""
+  }
+ ],
+ "url_check": {
+  "checked_at": "2026-11-22",
+  "status": {
+   "https://agripark.tokyo/matching/search/producer.php?id=nishi_tokyo_kasumi_fsc": 200,
+   "https://aokiya.net/history/": 200,
+   "https://berry-cottage.com/": 200,
+   "https://farm-t.tokyo/": 200,
+   "https://kanko.mitaka.ne.jp/docs/2026070800010/": 200,
+   "https://library.city.fuchu.tokyo.jp/kids/pdf/fuchuhakase13.pdf": 200,
+   "https://life-ome.com/news/11%E6%9C%8823%E6%97%A5%E6%9C%88%EF%BD%A5%E7%A5%9D-ja%E8%A5%BF%E6%9D%B1%E4%BA%AC-%E8%BE%B2%E6%A5%AD%E7%A5%AD%E3%81%B8%E5%87%BA%E5%BA%97%E3%81%97%E3%81%BE%E3%81%99%EF%BC%81%EF%BC%81/": 200,
+   "https://meene.app/taka-1/": 200,
+   "https://mitaka-yamamotokajuen.tokyo/": 200,
+   "https://mitten-foris.jp/shop/index.jsp?bf=1&fmt=6&shopid=2102": 200,
+   "https://satomono.jp/market/13206/2791/": 200,
+   "https://sugitaen.com/products/tea/": 200,
+   "https://sugitaen.com/sayama-tea/": 200,
+   "https://takabasoba.thebase.in/": 200,
+   "https://tokyogrown.jp/node/571231": 200,
+   "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_104.html": 200,
+   "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_143.html": 200,
+   "https://www.city.fuchu.tokyo.jp/gyosei/fuchusinogaiyo/jiko/fuchu_autumn.html": "URLError",
+   "https://www.city.fuchu.tokyo.jp/kanko/shisetsu/kankoubussankan.html": "URLError",
+   "https://www.city.fuchu.tokyo.jp/kurashi/nogyonituite/tokusan/nousannbutsuchokubaijomap.html": "URLError",
+   "https://www.city.mitaka.lg.jp/c_news/120/120888.html": 404,
+   "https://www.city.mitaka.lg.jp/c_news/120/120968.html": 200,
+   "https://www.city.mitaka.lg.jp/c_press/107/107987.html": 200,
+   "https://www.city.mitaka.lg.jp/c_service/119/119192.html": 200,
+   "https://www.city.mitaka.lg.jp/koho/2026/20260201/p7.htm": 200,
+   "https://www.city.mitaka.lg.jp/koho/2026/20260405/p9.htm": 200,
+   "https://www.city.ome.tokyo.jp/site/omekanko/20292.html": 200,
+   "https://www.city.ome.tokyo.jp/soshiki/57/119869.html": 200,
+   "https://www.gotokyo.org/jp/spot/ev010/index.html": 200,
+   "https://www.ja-minds.or.jp/farmstand/fuchu_fm.php": 200,
+   "https://www.ja-nishitokyo.or.jp/archives/store_post/shop_kasumi": 200,
+   "https://www.japan47go.travel/ja/detail/a769f2f6-017d-4683-9c83-c8b9f353f414": 200,
+   "https://www.jatm.or.jp/economy/mitaka.php": 200,
+   "https://www.nishitama-kouiki.jp/%E6%A2%85-%E6%9D%B1%E4%BA%AC%E9%83%BD%E9%9D%92%E6%A2%85%E5%B8%82/": 200,
+   "https://www.nishitama-kouiki.jp/%E7%84%BC%E3%81%8D%E3%81%BE%E3%82%93%E3%81%98%E3%82%85%E3%81%86-%E6%9D%B1%E4%BA%AC%E9%83%BD%E9%9D%92%E6%A2%85%E5%B8%82/": 200,
+   "https://www.nishitama-kouiki.jp/%E9%9D%92%E6%A2%85%E3%81%9B%E3%82%93%E3%81%B9%E3%81%84-%E6%9D%B1%E4%BA%AC%E9%83%BD%E9%9D%92%E6%A2%85%E5%B8%82/": 200,
+   "https://www.nishitama-kouiki.jp/%E9%9D%92%E6%A2%85%E7%94%9F%E3%81%BE%E3%82%8C%E3%83%88%E3%82%A6%E3%82%AD%E3%83%A7%E3%82%A6%EF%BD%98%E8%82%89%E3%81%86%E3%81%A9%E3%82%93-%E6%9D%B1%E4%BA%AC%E9%83%BD%E9%9D%92/": 200,
+   "https://www.nishitama-kouiki.jp/%EF%BD%8B%EF%BD%89%EF%BD%8E%EF%BD%87%E3%82%81%E3%81%97%E3%83%BB%E3%83%A9%E3%82%A4%E3%82%B9%E3%83%A1%E3%83%B3%E3%83%81-%E6%9D%B1%E4%BA%AC%E9%83%BD%E9%9D%92%E6%A2%85%E5%B8%82/": 200,
+   "https://www.noguchi-brewery.co.jp/": 200,
+   "https://www.noshikon.com/": 200,
+   "https://www.omecci.jp/member_activity/24997.html": 200,
+   "https://www.omekanko.gr.jp/spot/04301/": 200,
+   "https://www.omekanko.gr.jp/spot/06601/": 200,
+   "https://www.omekanko.gr.jp/spot/07801/": 200,
+   "https://www.omekanko.gr.jp/spot/11901/": 200,
+   "https://www.omekanko.gr.jp/spot/12401/": 200,
+   "https://www.omekanko.gr.jp/spot/19501/": 200,
+   "https://www.sawanoi-sake.com/service/baiten/": 200,
+   "https://www.tokyo-aff.or.jp/site/ome/1191.html": "URLError",
+   "https://www.tokyo-ja.or.jp/farm/edo/31.php": 200,
+   "https://www.tokyo-ja.or.jp/farm/edo/59.php": 200,
+   "https://www.tokyosake.or.jp/brewery/": 200
+  }
+ }
+}
