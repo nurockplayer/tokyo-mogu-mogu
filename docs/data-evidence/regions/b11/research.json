@@ -1,0 +1,3131 @@
+{
+ "batch": "b11",
+ "researched_at": "2026-11-22",
+ "municipalities": [
+  {
+   "id": "oshima",
+   "name_ja": "大島町",
+   "food_cultures": [
+    {
+     "name_ja": "明日葉",
+     "name_en": "Ashitaba, Izu Oshima's Island Green",
+     "kind": "crop",
+     "summary_en": "Ashitaba is one of Izu Oshima's signature edible plants. Islanders prepare its young leaves and shoots as tempura, simmered preserves, rice dishes and other everyday foods.",
+     "facts": [
+      {
+       "claim_en": "The Oshima Tourism Association identifies ashitaba as a longstanding local specialty eaten in tempura and preserved preparations.",
+       "source_url": "https://izu-oshima.or.jp/specialty.html",
+       "source_title": "特産品（Specialty goods）",
+       "publisher": "大島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ぶらっとハウス",
+       "name_en": "Buratto House",
+       "relation_en": "Local agricultural market selling produce and foods made with island ingredients.",
+       "address_ja": "東京都大島町岡田字新開87-1",
+       "official_url": "https://www.town.oshima.tokyo.jp/soshiki/sangyou/buratto.html",
+       "source_url": "https://www.gotokyo.org/jp/spot/1265/index.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Ashitaba is also one of the recognized Izu Oshima Geopark Brand resources."
+    },
+    {
+     "name_ja": "明日葉ごはん",
+     "name_en": "Ashitaba Rice",
+     "kind": "dish",
+     "summary_en": "A traditional rice preparation incorporating ashitaba. It appears in Oshima's documented collection of community recipes.",
+     "facts": [
+      {
+       "claim_en": "The town's traditional-food collection records ashitaba rice as a local preparation.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8865.pdf",
+       "source_title": "伊豆大島の郷土料理・食文化記録",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Documented household food; current restaurant availability is not established."
+    },
+    {
+     "name_ja": "明日葉茶",
+     "name_en": "Ashitaba Tea",
+     "kind": "drink",
+     "summary_en": "Island-grown ashitaba is processed into a herbal tea, extending the local green's use beyond cooked dishes.",
+     "facts": [
+      {
+       "claim_en": "A local souvenir shop lists ashitaba tea and related herbal-drink products among its Oshima specialty foods.",
+       "source_url": "https://www.miyoshi-miyage.com/concept.html",
+       "source_title": "お土産",
+       "publisher": "みよしみやげ品店"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "みよしみやげ品店",
+       "name_en": "Miyoshi Souvenir Shop",
+       "relation_en": "Shop listing several ashitaba tea products.",
+       "address_ja": "東京都大島町元町1-16-1",
+       "official_url": "https://www.miyoshi-miyage.com/concept.html",
+       "source_url": "https://www.miyoshi-miyage.com/concept.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "大島明日葉研究所",
+       "relation_en": "Producer associated with ashitaba products in the town's specialty-goods listing.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8743.pdf"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "明日葉地のり炒め",
+     "name_en": "Stir-Fried Ashitaba and Local Seaweed",
+     "kind": "dish",
+     "summary_en": "A combination of two Oshima ingredients: ashitaba and locally gathered seaweed. A participating island restaurant describes frying them together with sesame oil.",
+     "facts": [
+      {
+       "claim_en": "Sushikou identifies stir-fried ashitaba and local nori as one of its island-ingredient dishes.",
+       "source_url": "https://www.izu-oshima.or.jp/geopark/brand/member/",
+       "source_title": "伊豆大島ジオパーク認定ブランド 伝え隊メンバー紹介",
+       "publisher": "伊豆大島ジオパーク認定ブランド"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "寿し光",
+       "name_en": "Sushikou",
+       "relation_en": "Island restaurant describing this preparation and other local seafood and ashitaba dishes.",
+       "address_ja": "東京都大島町元町1丁目4-7",
+       "official_url": "https://www.izu-oshima.or.jp/geopark/brand/member/",
+       "source_url": "https://www.izu-oshima.or.jp/geopark/brand/member/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "寿し光",
+       "relation_en": "Restaurant documenting the dish.",
+       "source_url": "https://www.izu-oshima.or.jp/geopark/brand/member/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A contemporary local preparation rather than a separately established historical recipe."
+    },
+    {
+     "name_ja": "大島牛乳",
+     "name_en": "Oshima Milk",
+     "kind": "other",
+     "summary_en": "Dairy farming is a significant part of Oshima's food history. The island once became known for its extensive Holstein cattle industry, and locally produced milk remains a signature product.",
+     "facts": [
+      {
+       "claim_en": "The Geopark Brand history explains how cattle raising developed into dairying after the introduction of Holstein cows in 1900.",
+       "source_url": "https://www.izu-oshima.or.jp/geopark/brand/brand/brand01.html",
+       "source_title": "牛乳煎餅｜伊豆大島ジオパーク認定ブランド",
+       "publisher": "伊豆大島ジオパーク認定ブランド"
+      },
+      {
+       "claim_en": "The town identifies Oshima milk as a product sold at its agricultural market.",
+       "source_url": "https://www.town.oshima.tokyo.jp/soshiki/sangyou/buratto.html",
+       "source_title": "ぶらっとハウス",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ぶらっとハウス",
+       "name_en": "Buratto House",
+       "relation_en": "Agricultural market beside Oshima's dairy-farming landscape, selling locally produced milk.",
+       "address_ja": "東京都大島町岡田字新開87-1",
+       "official_url": "https://www.town.oshima.tokyo.jp/soshiki/sangyou/buratto.html",
+       "source_url": "https://www.gotokyo.org/jp/spot/1265/index.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "株式会社大島牛乳",
+       "relation_en": "Local dairy producer.",
+       "source_url": "https://island-net.or.jp/info/membership/%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE%E3%80%80%E5%A4%A7%E5%B3%B6%E7%89%9B%E4%B9%B3/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The dairy industry's history also explains the emergence of the island's milk crackers."
+    },
+    {
+     "name_ja": "牛乳煎餅",
+     "name_en": "Oshima Milk Crackers",
+     "kind": "sweet",
+     "summary_en": "A traditional baked confection made with island milk. Its development is linked to Oshima's dairy industry and the historic scarcity of fresh water on the volcanic island.",
+     "facts": [
+      {
+       "claim_en": "The Geopark Brand documents the confection's local history and recognizes it as an island heritage product.",
+       "source_url": "https://www.izu-oshima.or.jp/geopark/brand/brand/brand01.html",
+       "source_title": "牛乳煎餅｜伊豆大島ジオパーク認定ブランド",
+       "publisher": "伊豆大島ジオパーク認定ブランド"
+      },
+      {
+       "claim_en": "Ebisuya continues a family tradition of baking milk crackers by hand.",
+       "source_url": "https://www.izu-oshima.or.jp/geopark/brand/member/",
+       "source_title": "伝え隊メンバー紹介",
+       "publisher": "伊豆大島ジオパーク認定ブランド"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "えびす屋土産店",
+       "name_en": "Ebisuya Souvenir Shop",
+       "relation_en": "Associated with the family-run production of hand-baked milk crackers.",
+       "address_ja": "東京都大島町元町1丁目17-1",
+       "official_url": "https://www.izu-oshima.or.jp/geopark/brand/member/",
+       "source_url": "https://www.izu-oshima.or.jp/geopark/brand/member/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "えびす屋製菓所",
+       "relation_en": "Hand-bakes Oshima milk crackers.",
+       "source_url": "https://www.izu-oshima.or.jp/geopark/brand/member/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Distinct from the milk crackers also produced in Niijima."
+    },
+    {
+     "name_ja": "大島牛乳ジェラート",
+     "name_en": "Oshima Milk Gelato",
+     "kind": "sweet",
+     "summary_en": "Gelato using local Oshima milk and island-inspired flavors such as ashitaba, sweet potato and salt connects the island's dairy industry with its other food resources.",
+     "facts": [
+      {
+       "claim_en": "The town identifies milk, ashitaba, sweet potato and salt among the gelato flavors associated with Buratto House.",
+       "source_url": "https://www.town.oshima.tokyo.jp/soshiki/sangyou/buratto.html",
+       "source_title": "ぶらっとハウス",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ぶらっとハウス",
+       "name_en": "Buratto House",
+       "relation_en": "Local market associated with the island-milk gelato.",
+       "address_ja": "東京都大島町岡田字新開87-1",
+       "official_url": "https://www.town.oshima.tokyo.jp/soshiki/sangyou/buratto.html",
+       "source_url": "https://www.gotokyo.org/jp/spot/1265/index.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Individual flavors may vary; the source establishes the product rather than guaranteed availability of each flavor."
+    },
+    {
+     "name_ja": "食用椿油",
+     "name_en": "Edible Camellia Seed Oil",
+     "kind": "other",
+     "summary_en": "Oil pressed from the seeds of Oshima's native yabutsubaki camellias is part of the island's agricultural heritage. Food-grade versions are used in cooking.",
+     "facts": [
+      {
+       "claim_en": "The Oshima Tourism Association identifies camellia seed oil as an island specialty with culinary as well as cosmetic uses.",
+       "source_url": "https://izu-oshima.or.jp/specialty.html",
+       "source_title": "特産品（Specialty goods）",
+       "publisher": "大島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "みよしみやげ品店",
+       "name_en": "Miyoshi Souvenir Shop",
+       "relation_en": "Island shop carrying Oshima camellia-oil products; food-grade use must be distinguished from cosmetics.",
+       "address_ja": "東京都大島町元町1-16-1",
+       "official_url": "https://www.miyoshi-miyage.com/concept.html",
+       "source_url": "https://www.miyoshi-miyage.com/concept.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Not every camellia-oil product sold locally is intended for consumption."
+    },
+    {
+     "name_ja": "海の精・大島の海塩",
+     "name_en": "Oshima Sea Salt and Umi no Sei",
+     "kind": "brand",
+     "summary_en": "Oshima has a longstanding salt-making history. The modern Umi no Sei producer processes seawater on the island using evaporation and heating methods.",
+     "facts": [
+      {
+       "claim_en": "The Oshima Tourism Association describes island sea salt produced through sunlight, wind and heat.",
+       "source_url": "https://izu-oshima.or.jp/specialty.html",
+       "source_title": "特産品（Specialty goods）",
+       "publisher": "大島観光協会"
+      },
+      {
+       "claim_en": "Umi no Sei identifies production facilities in Oshima's Nomashi and Motomachi areas.",
+       "source_url": "https://www.uminosei.com/uminosei/koujo/",
+       "source_title": "海の精の工場",
+       "publisher": "海の精株式会社"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "海の精 千波工場",
+       "name_en": "Umi no Sei Senba Factory",
+       "relation_en": "Documented sea-salt production site; public visitor access is not established.",
+       "address_ja": "東京都大島町野増字上山764-28",
+       "official_url": "https://www.uminosei.com/uminosei/koujo/",
+       "source_url": "https://www.uminosei.com/uminosei/koujo/"
+      },
+      {
+       "name_ja": "海の精 元町工場",
+       "name_en": "Umi no Sei Motomachi Factory",
+       "relation_en": "Additional documented production location.",
+       "address_ja": "東京都大島町元町字神達575",
+       "official_url": "https://www.uminosei.com/uminosei/koujo/",
+       "source_url": "https://www.uminosei.com/uminosei/koujo/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "海の精株式会社",
+       "relation_en": "Island sea-salt manufacturer.",
+       "source_url": "https://www.uminosei.com/uminosei/koujo/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Oshima's historic salt production also figures in the Geopark account of its cattle and dairy history."
+    },
+    {
+     "name_ja": "べっこう・べっこう寿司",
+     "name_en": "Bekko-Marinated Fish and Sushi",
+     "kind": "dish",
+     "summary_en": "Fresh island fish is marinated in a soy-based sauce flavored with green chili, then eaten as a local seafood preparation or used as a sushi topping. This pepper-marinated style is a signature Oshima dish.",
+     "facts": [
+      {
+       "claim_en": "The tourism association describes bekko sushi made with fish such as medai or budai in a green-chili soy marinade.",
+       "source_url": "https://www.izu-oshima.or.jp/eat.html",
+       "source_title": "食べる（Gourmet）",
+       "publisher": "大島観光協会"
+      },
+      {
+       "claim_en": "The town's traditional-food collection preserves a recipe for bekko marinade.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8865.pdf",
+       "source_title": "伊豆大島の郷土料理・食文化記録",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Distinct from mustard-seasoned island sushi associated with other Izu Islands."
+    },
+    {
+     "name_ja": "青唐辛子と青唐辛子醤油",
+     "name_en": "Green Chili and Green-Chili Soy Sauce",
+     "kind": "other",
+     "summary_en": "On Oshima, green chili is traditionally used to give soy sauce a sharp bite when eating sashimi. It is also central to the bekko marinade.",
+     "facts": [
+      {
+       "claim_en": "The tourism association documents using crushed green chili in soy sauce for sashimi and bekko sushi.",
+       "source_url": "https://www.izu-oshima.or.jp/eat.html",
+       "source_title": "食べる（Gourmet）",
+       "publisher": "大島観光協会"
+      },
+      {
+       "claim_en": "Oshima shops list green-chili soy sauce and related condiments among local products.",
+       "source_url": "https://www.miyoshi-miyage.com/concept.html",
+       "source_title": "お土産",
+       "publisher": "みよしみやげ品店"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "みよしみやげ品店",
+       "name_en": "Miyoshi Souvenir Shop",
+       "relation_en": "Carries green-chili and bekko-style soy sauces.",
+       "address_ja": "東京都大島町元町1-16-1",
+       "official_url": "https://www.miyoshi-miyage.com/concept.html",
+       "source_url": "https://www.miyoshi-miyage.com/concept.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "TARO'S",
+       "relation_en": "Producer named for Oshima green-chili sauces and seasonings.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8743.pdf"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "くさや",
+     "name_en": "Oshima Kusaya Fermented Dried Fish",
+     "kind": "other",
+     "summary_en": "Fish preserved in a repeatedly maintained fermented brine and dried is an important part of Oshima's food heritage. The method creates the distinctive flavor and aroma associated with kusaya.",
+     "facts": [
+      {
+       "claim_en": "The tourism association describes fish soaked in traditional kusaya liquid and dried in sunlight.",
+       "source_url": "https://izu-oshima.or.jp/specialty.html",
+       "source_title": "特産品（Specialty goods）",
+       "publisher": "大島観光協会"
+      },
+      {
+       "claim_en": "Oshima's Geopark Brand network identifies multiple local kusaya producers.",
+       "source_url": "https://www.izu-oshima.or.jp/geopark/brand/member/",
+       "source_title": "伝え隊メンバー紹介",
+       "publisher": "伊豆大島ジオパーク認定ブランド"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "みよしみやげ品店",
+       "name_en": "Miyoshi Souvenir Shop",
+       "relation_en": "Retail location listing kusaya among its island specialties.",
+       "address_ja": "東京都大島町元町1-16-1",
+       "official_url": "https://www.miyoshi-miyage.com/concept.html",
+       "source_url": "https://www.miyoshi-miyage.com/concept.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "くさやの小宮山",
+       "relation_en": "Local kusaya maker.",
+       "source_url": "https://www.izu-oshima.or.jp/geopark/brand/member/"
+      },
+      {
+       "name_ja": "藤文商店",
+       "relation_en": "Local kusaya maker.",
+       "source_url": "https://www.izu-oshima.or.jp/geopark/brand/member/"
+      },
+      {
+       "name_ja": "まるい水産",
+       "relation_en": "Local seafood-processing business associated with kusaya.",
+       "source_url": "https://www.izu-oshima.or.jp/geopark/brand/member/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Kusaya is shared across the Izu Islands, with distinct local makers and traditions."
+    },
+    {
+     "name_ja": "くさやピザ",
+     "name_en": "Kusaya Pizza",
+     "kind": "dish",
+     "summary_en": "A contemporary Oshima interpretation of fermented fish, combining kusaya with cheese on pizza. It shows how the island's traditional preserved seafood is adapted to newer dishes.",
+     "facts": [
+      {
+       "claim_en": "Sushikou describes kusaya pizza as a popular preparation using fermented island fish and cheese.",
+       "source_url": "https://www.izu-oshima.or.jp/geopark/brand/member/",
+       "source_title": "伝え隊メンバー紹介",
+       "publisher": "伊豆大島ジオパーク認定ブランド"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "寿し光",
+       "name_en": "Sushikou",
+       "relation_en": "Restaurant documenting its kusaya pizza.",
+       "address_ja": "東京都大島町元町1丁目4-7",
+       "official_url": "https://www.izu-oshima.or.jp/geopark/brand/member/",
+       "source_url": "https://www.izu-oshima.or.jp/geopark/brand/member/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "寿し光",
+       "relation_en": "Restaurant preparing kusaya pizza.",
+       "source_url": "https://www.izu-oshima.or.jp/geopark/brand/member/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Modern local adaptation, not an ancestral dish."
+    },
+    {
+     "name_ja": "御神火",
+     "name_en": "Gojinka Island Shochu",
+     "kind": "drink",
+     "summary_en": "An Oshima shochu tradition represented by Taniguchi Shuzo, founded in 1937. Its Gojinka range includes barley-based spirits made with the island's volcanic landscape as part of the producer's identity.",
+     "facts": [
+      {
+       "claim_en": "The Tokyo Seven Islands Distillers Association identifies Taniguchi Shuzo's Oshima address, founding history and Gojinka barley shochu products.",
+       "source_url": "https://shimazake.com/kuramotolist/taniguchi/",
+       "source_title": "有限会社谷口酒造｜蔵元一覧",
+       "publisher": "東京七島酒造組合"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "谷口酒造",
+       "name_en": "Taniguchi Distillery",
+       "relation_en": "Documented production site for Gojinka shochu; visitor access is not established.",
+       "address_ja": "東京都大島町野増字ワダ167",
+       "official_url": "https://shimazake.com/kuramotolist/taniguchi/",
+       "source_url": "https://shimazake.com/kuramotolist/taniguchi/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "有限会社谷口酒造",
+       "relation_en": "Local shochu producer.",
+       "source_url": "https://shimazake.com/kuramotolist/taniguchi/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "明日葉焼酎",
+     "name_en": "Ashitaba Shochu",
+     "kind": "drink",
+     "summary_en": "Oshima's signature leafy plant also appears in the island's distilled-spirit culture, alongside more conventional barley and sweet-potato shochu.",
+     "facts": [
+      {
+       "claim_en": "The Oshima Tourism Association specifically identifies shochu made with local ashitaba.",
+       "source_url": "https://izu-oshima.or.jp/specialty.html",
+       "source_title": "特産品（Specialty goods）",
+       "publisher": "大島観光協会"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The source establishes the product category but does not identify a current producer or specific label."
+    },
+    {
+     "name_ja": "さつまもち",
+     "name_en": "Satsuma Mochi",
+     "kind": "sweet",
+     "summary_en": "A traditional sweet-potato-based mochi preparation preserved in Oshima's regional recipe collection.",
+     "facts": [
+      {
+       "claim_en": "The municipal collection records satsuma mochi as an island traditional food.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8865.pdf",
+       "source_title": "伊豆大島の郷土料理・食文化記録",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Traditional household preparation; no present-day retail source was established."
+    },
+    {
+     "name_ja": "フキの甘酢漬け",
+     "name_en": "Sweet-Vinegar-Pickled Fuki",
+     "kind": "foraging",
+     "summary_en": "Edible fuki stalks are preserved in a sweet vinegar mixture, reflecting Oshima's use of mountain plants and seasonal produce.",
+     "facts": [
+      {
+       "claim_en": "The town's collection documents a traditional recipe for sweet-and-sour pickled fuki.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8865.pdf",
+       "source_title": "伊豆大島の郷土料理・食文化記録",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "背ごし",
+     "name_en": "Segoshi, Thinly Cut Fish with Small Bones",
+     "kind": "dish",
+     "summary_en": "A traditional fish preparation in which small fish are cut into thin pieces with their fine bones, then served with a vinegar-based accompaniment.",
+     "facts": [
+      {
+       "claim_en": "Oshima's regional recipe collection describes segoshi using local fish such as takabe.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8865.pdf",
+       "source_title": "伊豆大島の郷土料理・食文化記録",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Recorded as a traditional preparation, not a confirmed restaurant menu."
+    },
+    {
+     "name_ja": "おぼろ寿司",
+     "name_en": "Oboro Sushi",
+     "kind": "dish",
+     "summary_en": "A local sushi preparation that uses seasoned, flaked fish over rice. The documented island recipe uses fish such as takabe or budai.",
+     "facts": [
+      {
+       "claim_en": "The municipal traditional-food collection records oboro sushi made with locally available fish.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8865.pdf",
+       "source_title": "伊豆大島の郷土料理・食文化記録",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A separate traditional recipe from bekko sushi."
+    },
+    {
+     "name_ja": "ハンバごはん",
+     "name_en": "Hanba Seaweed Rice",
+     "kind": "dish",
+     "summary_en": "A rice dish featuring hanba, a locally gathered edible seaweed. It connects the island's coastal foraging traditions with home cooking.",
+     "facts": [
+      {
+       "claim_en": "The municipal recipe collection preserves hanba rice as a traditional Oshima preparation.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8865.pdf",
+       "source_title": "伊豆大島の郷土料理・食文化記録",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "一匹じょっから",
+     "name_en": "Whole-Fish Jokkara",
+     "kind": "other",
+     "summary_en": "A traditional salted and fermented fish preparation using small fish whole. It belongs to Oshima's broader tradition of preserving marine catches.",
+     "facts": [
+      {
+       "claim_en": "The Oshima traditional-food collection documents whole-fish jokkara, using small fish such as muroaji.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8865.pdf",
+       "source_title": "伊豆大島の郷土料理・食文化記録",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Preserve the local name rather than equating it directly with kusaya."
+    },
+    {
+     "name_ja": "えんばい汁・しょっから汁",
+     "name_en": "Enbai or Shokkara Fermented-Fish Soup",
+     "kind": "dish",
+     "summary_en": "A soup drawing flavor from salted fermented fish. It demonstrates how Oshima households used preserved seafood as a seasoning ingredient.",
+     "facts": [
+      {
+       "claim_en": "The municipal recipe collection includes enbai soup, also called shokkara soup.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8865.pdf",
+       "source_title": "伊豆大島の郷土料理・食文化記録",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "カシカメ鍋",
+     "name_en": "Kashikame Fish Hot Pot",
+     "kind": "dish",
+     "summary_en": "A traditional fish hot pot associated with locally caught reef fish, including parrotfish.",
+     "facts": [
+      {
+       "claim_en": "Oshima's documented regional recipes include kashikame hot pot made with local fish.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8865.pdf",
+       "source_title": "伊豆大島の郷土料理・食文化記録",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "ヒロメのしょうが醤油",
+     "name_en": "Hirome Seaweed with Ginger Soy Sauce",
+     "kind": "dish",
+     "summary_en": "A simple preparation of locally used hirome seaweed served with ginger and soy sauce.",
+     "facts": [
+      {
+       "claim_en": "The town's food-culture collection records hirome with ginger soy sauce.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8865.pdf",
+       "source_title": "伊豆大島の郷土料理・食文化記録",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Reflects coastal seaweed-gathering culture."
+    },
+    {
+     "name_ja": "かしゃんば",
+     "name_en": "Kashanba Leaf-Wrapped Mochi",
+     "kind": "sweet",
+     "summary_en": "A traditional sweet mochi preparation incorporating ingredients such as sweet potato and yomogi and wrapped in a leaf. The recipe is associated with Oshima's community and ceremonial food traditions.",
+     "facts": [
+      {
+       "claim_en": "The municipal recipe collection documents kashanba and its leaf-wrapped preparation.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8865.pdf",
+       "source_title": "伊豆大島の郷土料理・食文化記録",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Documented traditional food rather than a verified retail confection."
+    },
+    {
+     "name_ja": "野増のそうめん汁",
+     "name_en": "Nomashi Somen Soup",
+     "kind": "dish",
+     "summary_en": "A local variation of noodle soup associated with the Nomashi area. The documented recipe combines somen noodles with fish-based ingredients.",
+     "facts": [
+      {
+       "claim_en": "Oshima's recipe collection separately records a Nomashi-style somen soup.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8865.pdf",
+       "source_title": "伊豆大島の郷土料理・食文化記録",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Kept separate from the more general somen soup because the source documents a named neighborhood variation."
+    },
+    {
+     "name_ja": "野増の漬物",
+     "name_en": "Nomashi-Style Pickles",
+     "kind": "other",
+     "summary_en": "A traditional pickled-vegetable preparation from Oshima's Nomashi community, preserving vegetables through a locally documented method.",
+     "facts": [
+      {
+       "claim_en": "The town collection records Nomashi pickles as a distinct regional recipe.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8865.pdf",
+       "source_title": "伊豆大島の郷土料理・食文化記録",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "イルカの煮付け",
+     "name_en": "Historical Simmered Dolphin Dish",
+     "kind": "dish",
+     "summary_en": "Oshima's historical recipe record includes a simmered dolphin dish, reflecting a past marine-food tradition.",
+     "facts": [
+      {
+       "claim_en": "The municipal traditional-food collection preserves a recipe for simmered dolphin.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8865.pdf",
+       "source_title": "伊豆大島の郷土料理・食文化記録",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Historical documentation only. No claim is made about present-day sale, consumption or tourist availability."
+    },
+    {
+     "name_ja": "タカベのこぶ汁",
+     "name_en": "Takabe and Kelp Soup",
+     "kind": "dish",
+     "summary_en": "A traditional soup built around takabe fish and kelp, illustrating the importance of coastal catches in island home cooking.",
+     "facts": [
+      {
+       "claim_en": "The Oshima regional recipe collection documents takabe no kobujiru.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8865.pdf",
+       "source_title": "伊豆大島の郷土料理・食文化記録",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "落花生おこわ",
+     "name_en": "Peanut Sticky Rice",
+     "kind": "dish",
+     "summary_en": "A traditional rice preparation combining glutinous rice and peanuts. It is one of the named island household dishes recorded by the town.",
+     "facts": [
+      {
+       "claim_en": "The municipality's traditional-food collection records peanut okowa.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8865.pdf",
+       "source_title": "伊豆大島の郷土料理・食文化記録",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "ところてん",
+     "name_en": "Tokoroten Seaweed Jelly",
+     "kind": "dish",
+     "summary_en": "An agar-based jelly preparation made from seaweed, included among Oshima's traditional foods.",
+     "facts": [
+      {
+       "claim_en": "The town's food-culture collection preserves a recipe for tokoroten.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8865.pdf",
+       "source_title": "伊豆大島の郷土料理・食文化記録",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Represents the use of seaweed in everyday food."
+    },
+    {
+     "name_ja": "そうめん汁",
+     "name_en": "Oshima Somen Soup",
+     "kind": "dish",
+     "summary_en": "A traditional soup incorporating somen noodles and fish-based ingredients, documented separately from the Nomashi variation.",
+     "facts": [
+      {
+       "claim_en": "The regional recipe collection includes a general somen soup in addition to the Nomashi version.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8865.pdf",
+       "source_title": "伊豆大島の郷土料理・食文化記録",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "らっきょう漬け",
+     "name_en": "Pickled Rakkyo",
+     "kind": "other",
+     "summary_en": "Preserved rakkyo bulbs are part of Oshima's documented household food traditions.",
+     "facts": [
+      {
+       "claim_en": "The municipal food-culture collection includes a preparation of rakkyo.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8865.pdf",
+       "source_title": "伊豆大島の郷土料理・食文化記録",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "遠夜のうどん",
+     "name_en": "Toya Udon",
+     "kind": "dish",
+     "summary_en": "A locally named udon preparation recorded in Oshima's food history, featuring a broth associated with dried shiitake.",
+     "facts": [
+      {
+       "claim_en": "The municipal recipe collection preserves Toya udon as a distinct traditional dish.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8865.pdf",
+       "source_title": "伊豆大島の郷土料理・食文化記録",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "ぼたもち",
+     "name_en": "Oshima Botamochi",
+     "kind": "sweet",
+     "summary_en": "Traditional sweet rice cakes prepared with coatings or accompaniments such as sesame, soybean flour and sweet red beans, associated with family or ceremonial occasions.",
+     "facts": [
+      {
+       "claim_en": "The Oshima collection documents a local botamochi preparation.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8865.pdf",
+       "source_title": "伊豆大島の郷土料理・食文化記録",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "酢五目",
+     "name_en": "Vinegar-Seasoned Mixed Rice",
+     "kind": "dish",
+     "summary_en": "A traditional mixed-rice preparation seasoned with vinegar, recorded among Oshima's regional home-cooking recipes.",
+     "facts": [
+      {
+       "claim_en": "The town's traditional-food collection includes su-gomoku.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8865.pdf",
+       "source_title": "伊豆大島の郷土料理・食文化記録",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "伊勢海老",
+     "name_en": "Oshima Spiny Lobster",
+     "kind": "fishing",
+     "summary_en": "Spiny lobster caught around Oshima's rocky volcanic coastline is an established local seafood specialty.",
+     "facts": [
+      {
+       "claim_en": "The tourism association connects local spiny lobster to habitats created by Oshima's lava rock formations.",
+       "source_url": "https://www.izu-oshima.or.jp/eat.html",
+       "source_title": "食べる（Gourmet）",
+       "publisher": "大島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "海市場",
+       "name_en": "Umi Ichiba Seafood Market",
+       "relation_en": "Island seafood market identified as carrying local spiny lobster and other marine products.",
+       "address_ja": "",
+       "official_url": "https://www.izu-oshima.or.jp/eat.html",
+       "source_url": "https://www.izu-oshima.or.jp/eat.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "サザエ",
+     "name_en": "Oshima Turban Shell",
+     "kind": "fishing",
+     "summary_en": "Turban shells grow around Oshima's seaweed-rich rocky shores and are eaten in preparations including grilled shellfish.",
+     "facts": [
+      {
+       "claim_en": "The Oshima Tourism Association describes large local turban shells and their grilled preparation.",
+       "source_url": "https://www.izu-oshima.or.jp/eat.html",
+       "source_title": "食べる（Gourmet）",
+       "publisher": "大島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "海市場",
+       "name_en": "Umi Ichiba Seafood Market",
+       "relation_en": "Island seafood market associated with local marine produce.",
+       "address_ja": "",
+       "official_url": "https://www.izu-oshima.or.jp/eat.html",
+       "source_url": "https://www.izu-oshima.or.jp/eat.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "トコブシ",
+     "name_en": "Oshima Tokobushi Abalone",
+     "kind": "fishing",
+     "summary_en": "Tokobushi, a small abalone-like shellfish, is locally harvested and prepared by simmering or steaming.",
+     "facts": [
+      {
+       "claim_en": "The tourism association identifies tokobushi as a local shellfish and describes simmered and steamed preparations.",
+       "source_url": "https://www.izu-oshima.or.jp/eat.html",
+       "source_title": "食べる（Gourmet）",
+       "publisher": "大島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "海市場",
+       "name_en": "Umi Ichiba Seafood Market",
+       "relation_en": "Seafood market identified as carrying live and processed tokobushi.",
+       "address_ja": "",
+       "official_url": "https://www.izu-oshima.or.jp/eat.html",
+       "source_url": "https://www.izu-oshima.or.jp/eat.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "セセリ・メッカリ",
+     "name_en": "Rocky-Shore Shellfish: Seseri and Mekkari",
+     "kind": "foraging",
+     "summary_en": "Small shellfish gathered from rocky island shores are another part of Oshima's coastal food culture, alongside larger turban shells and tokobushi.",
+     "facts": [
+      {
+       "claim_en": "The Geopark Brand member account identifies seseri among the local shellfish used in island cooking.",
+       "source_url": "https://www.izu-oshima.or.jp/geopark/brand/member/",
+       "source_title": "伝え隊メンバー紹介",
+       "publisher": "伊豆大島ジオパーク認定ブランド"
+      },
+      {
+       "claim_en": "The Tokyo Islands tourism guide identifies mekkari among Oshima's local seafood.",
+       "source_url": "https://stg.tokyoislands.jp/oshima",
+       "source_title": "大島",
+       "publisher": "東京諸島観光連盟"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The names identify different locally recognized shellfish; no independent harvest activity is suggested."
+    },
+    {
+     "name_ja": "椿の花びらジャム",
+     "name_en": "Camellia Petal Jam",
+     "kind": "sweet",
+     "summary_en": "A specialty jam using the island's emblematic camellia flower, turning a cultural and landscape symbol into a food product.",
+     "facts": [
+      {
+       "claim_en": "The town's specialty-goods listing includes camellia petal jam.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8743.pdf",
+       "source_title": "広報おおしま 2026年9月号・優良特産品紹介",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "大島藤倉学園",
+       "relation_en": "Producer named for camellia petal jam in the town's specialty-goods listing.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8743.pdf"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "大島桜さくらんぼジャム",
+     "name_en": "Oshima Cherry Jam",
+     "kind": "sweet",
+     "summary_en": "A local jam made from the fruit associated with Oshima's cherry trees, marketed as an island specialty.",
+     "facts": [
+      {
+       "claim_en": "The town's specialty-product listing identifies Oshima cherry jam among locally produced preserves.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8743.pdf",
+       "source_title": "広報おおしま 2026年9月号・優良特産品紹介",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "mashio",
+       "relation_en": "Maker of Oshima cherry jam.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8743.pdf"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "明日葉牛乳ジャム・牛乳塩ジャム",
+     "name_en": "Ashitaba Milk Jam and Salted Milk Jam",
+     "kind": "sweet",
+     "summary_en": "Modern island preserves combining Oshima's established dairy tradition with ashitaba or salt.",
+     "facts": [
+      {
+       "claim_en": "The town lists ashitaba milk jam and salted milk jam among Oshima specialty products.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8743.pdf",
+       "source_title": "広報おおしま 2026年9月号・優良特産品紹介",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "mashio",
+       "relation_en": "Producer of these milk-based preserves.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8743.pdf"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Two documented flavors within the same local milk-jam tradition."
+    },
+    {
+     "name_ja": "島とうがらしジャム",
+     "name_en": "Island Chili Jam",
+     "kind": "sweet",
+     "summary_en": "A sweet preserve using island chili peppers, adapting Oshima's chili culture beyond the familiar savory sauces.",
+     "facts": [
+      {
+       "claim_en": "The town's specialty-goods listing includes island chili jam.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8743.pdf",
+       "source_title": "広報おおしま 2026年9月号・優良特産品紹介",
+       "publisher": "大島町"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "mashio",
+       "relation_en": "Producer listed for island chili jam.",
+       "source_url": "https://www.town.oshima.tokyo.jp/uploaded/attachment/8743.pdf"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    }
+   ],
+   "none_found_reason_en": ""
+  },
+  {
+   "id": "toshima",
+   "name_ja": "利島村",
+   "food_cultures": [
+    {
+     "name_ja": "食用椿油・神代椿",
+     "name_en": "Toshima Edible Camellia Oil and Jindai Tsubaki",
+     "kind": "brand",
+     "summary_en": "Camellia seed oil is central to Toshima's agricultural identity. Cultivation extends back more than two centuries, and the island's oil-making developed in part because camellia oil was historically delivered as a form of tax.",
+     "facts": [
+      {
+       "claim_en": "Toshima Village documents the history of camellia terraces, historic oil production and its use as a tax payment.",
+       "source_url": "https://www.toshimamura.org/tourism/buy/item.html",
+       "source_title": "椿油の紹介",
+       "publisher": "利島村"
+      },
+      {
+       "claim_en": "Tokyo's islands promotion body identifies food-grade camellia oil pressed from Toshima-grown seeds.",
+       "source_url": "https://www.t-treasureislands.metro.tokyo.lg.jp/toshima/",
+       "source_title": "利島",
+       "publisher": "東京都"
+      },
+      {
+       "claim_en": "The local agricultural cooperative markets camellia oil under the Jindai Tsubaki identity.",
+       "source_url": "https://ja-toshima.jp/tsubaki/",
+       "source_title": "利島の椿油",
+       "publisher": "利島農業協同組合"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "利島農業協同組合",
+       "name_en": "JA Toshima",
+       "relation_en": "The cooperative directly sells Toshima-produced camellia oil.",
+       "address_ja": "東京都利島村13番地",
+       "official_url": "https://ja-toshima.jp/",
+       "source_url": "https://www.toshimamura.org/tourism/buy/restaurant.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "利島農業協同組合",
+       "relation_en": "Presses, markets and promotes Toshima camellia oil.",
+       "source_url": "https://ja-toshima.jp/tsubaki/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Use only explicitly food-grade camellia oil for cooking."
+    },
+    {
+     "name_ja": "明日葉",
+     "name_en": "Toshima Ashitaba",
+     "kind": "crop",
+     "summary_en": "Ashitaba is a local edible green used in Toshima's island cooking and specialty sauces.",
+     "facts": [
+      {
+       "claim_en": "Tokyo's islands promotion page identifies Toshima ashitaba as one of the ingredients in a locally branded sauce.",
+       "source_url": "https://www.t-treasureislands.metro.tokyo.lg.jp/toshima/",
+       "source_title": "利島",
+       "publisher": "東京都"
+      },
+      {
+       "claim_en": "The village identifies ashitaba as a local ingredient paired with turban shell in kakiage.",
+       "source_url": "https://www.toshimamura.org/tourism/buy/shellfish.html",
+       "source_title": "伊勢海老・サザエ",
+       "publisher": "利島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "利島の明日葉椿油ソース",
+     "name_en": "Toshima Ashitaba and Camellia Oil Sauce",
+     "kind": "brand",
+     "summary_en": "A contemporary condiment bringing together two of Toshima's most representative crops: ashitaba and camellia. Miso contributes an additional savory note.",
+     "facts": [
+      {
+       "claim_en": "Tokyo's official islands promotion site describes the sauce as a blend of Toshima ashitaba, edible camellia oil and miso.",
+       "source_url": "https://www.t-treasureislands.metro.tokyo.lg.jp/toshima/",
+       "source_title": "利島",
+       "publisher": "東京都"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "利島農業協同組合",
+       "name_en": "JA Toshima",
+       "relation_en": "Local agricultural cooperative associated with the island's camellia products.",
+       "address_ja": "東京都利島村13番地",
+       "official_url": "https://ja-toshima.jp/",
+       "source_url": "https://www.toshimamura.org/tourism/buy/restaurant.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A modern processed product rather than a historical village recipe."
+    },
+    {
+     "name_ja": "さくゆり焼酎",
+     "name_en": "Sakuyuri Lily Shochu",
+     "kind": "drink",
+     "summary_en": "Shochu made using Toshima's sakuyuri lily is a distinctive attempt to turn the island's botanical resources into a regional spirit. The product connects Toshima-grown ingredients with distilling expertise in Kumamoto.",
+     "facts": [
+      {
+       "claim_en": "Tokyo's official islands site identifies sakuyuri shochu as a Toshima specialty made through collaboration with the Hitoyoshi-Kuma region.",
+       "source_url": "https://www.t-treasureislands.metro.tokyo.lg.jp/toshima/",
+       "source_title": "利島",
+       "publisher": "東京都"
+      },
+      {
+       "claim_en": "Tokyo's relocation portal also lists sakuyuri shochu among Toshima's notable specialty products.",
+       "source_url": "https://tokyo-tamashima-iju.metro.tokyo.lg.jp/introduction/toshima/",
+       "source_title": "利島村",
+       "publisher": "東京都"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "利島ふぁーむ株式会社",
+       "relation_en": "Business associated with Toshima sakuyuri shochu.",
+       "source_url": "https://xn--y8jl2mqa5414b9sn.tokyo/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Do not describe the distillation as occurring on Toshima; the official source identifies collaboration with Kumamoto."
+    },
+    {
+     "name_ja": "シドケ",
+     "name_en": "Shidoke Mountain Vegetable",
+     "kind": "foraging",
+     "summary_en": "Shidoke, also known as momijigasa, is an edible spring woodland plant cultivated within Toshima's camellia groves. It is eaten in blanched and seasoned dishes or tempura.",
+     "facts": [
+      {
+       "claim_en": "Tokyo's island agricultural research center documents the cultivation and shipment of shidoke from Toshima camellia plantations.",
+       "source_url": "https://www.ifarc.metro.tokyo.lg.jp/archive/22,15194,45.html",
+       "source_title": "大島事業所トピックNo.360 ツバキ園内を活用した山菜の栽培について（利島）",
+       "publisher": "東京都島しょ農林水産総合センター"
+      },
+      {
+       "claim_en": "Tokyo's relocation portal lists shidoke as a Toshima specialty.",
+       "source_url": "https://tokyo-tamashima-iju.metro.tokyo.lg.jp/introduction/toshima/",
+       "source_title": "利島村",
+       "publisher": "東京都"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Spring",
+     "confidence": "high",
+     "notes_en": "This is a documented cultivated and harvested mountain vegetable, not a suggestion to forage independently."
+    },
+    {
+     "name_ja": "シオデ",
+     "name_en": "Shiode Wild Asparagus-Like Shoots",
+     "kind": "foraging",
+     "summary_en": "Shiode is an edible woodland shoot that has been explored as another crop within Toshima's camellia-growing landscape.",
+     "facts": [
+      {
+       "claim_en": "Tokyo's island agricultural research center describes trial cultivation of shiode alongside other edible woodland plants in Toshima.",
+       "source_url": "https://www.ifarc.metro.tokyo.lg.jp/archive/22,15194,45.html",
+       "source_title": "大島事業所トピックNo.360 ツバキ園内を活用した山菜の栽培について（利島）",
+       "publisher": "東京都島しょ農林水産総合センター"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "The source documents a cultivation initiative rather than established current commercial availability."
+    },
+    {
+     "name_ja": "伊勢海老",
+     "name_en": "Toshima Spiny Lobster",
+     "kind": "fishing",
+     "summary_en": "Spiny lobster is one of Toshima's major marine specialties. The village traces its modern lobster fishery to developments in the early twentieth century.",
+     "facts": [
+      {
+       "claim_en": "The village describes the historical development of spiny-lobster fishing and the prominence of lobster among present-day island seafood.",
+       "source_url": "https://www.toshimamura.org/tourism/buy/shellfish.html",
+       "source_title": "伊勢海老・サザエ",
+       "publisher": "利島村"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "スナック オレンジ",
+       "name_en": "Orange Izakaya",
+       "relation_en": "Village-listed restaurant associated with serving seasonal local seafood, including lobster.",
+       "address_ja": "東京都利島村53番地",
+       "official_url": "https://www.toshimamura.org/tourism/buy/restaurant.html",
+       "source_url": "https://www.toshimamura.org/tourism/buy/restaurant.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "利島村漁業協同組合",
+       "relation_en": "Local fishing cooperative.",
+       "source_url": "https://www.toshimamura.org/tourism/buy/shellfish.html"
+      }
+     ],
+     "season_en": "Autumn and winter are highlighted for lobster dining.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "サザエ・ぼっこ",
+     "name_en": "Toshima Giant Turban Shell, Bokko",
+     "kind": "fishing",
+     "summary_en": "Large turban shells are a distinctive Toshima seafood product. Islanders use the name bokko for particularly large shells and prepare them in grilled dishes, rice and fritters.",
+     "facts": [
+      {
+       "claim_en": "Toshima Village explains the local term bokko and describes the island's large turban shells and their customary cooking methods.",
+       "source_url": "https://www.toshimamura.org/tourism/buy/shellfish.html",
+       "source_title": "伊勢海老・サザエ",
+       "publisher": "利島村"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "スナック オレンジ",
+       "name_en": "Orange Izakaya",
+       "relation_en": "Village-listed restaurant connected with Toshima's shellfish cuisine.",
+       "address_ja": "東京都利島村53番地",
+       "official_url": "https://www.toshimamura.org/tourism/buy/restaurant.html",
+       "source_url": "https://www.toshimamura.org/tourism/buy/restaurant.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "利島村漁業協同組合",
+       "relation_en": "Local fishing cooperative associated with Toshima shellfish.",
+       "source_url": "https://www.toshimamura.org/tourism/buy/shellfish.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "サザエと明日葉のかき揚げ",
+     "name_en": "Turban Shell and Ashitaba Kakiage",
+     "kind": "dish",
+     "summary_en": "A fritter preparation combining Toshima's large turban shells with the local leafy plant ashitaba.",
+     "facts": [
+      {
+       "claim_en": "The village recommends turban-shell kakiage with ashitaba as an island combination.",
+       "source_url": "https://www.toshimamura.org/tourism/buy/shellfish.html",
+       "source_title": "伊勢海老・サザエ",
+       "publisher": "利島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A locally described preparation; no specific establishment is confirmed as serving it."
+    },
+    {
+     "name_ja": "めっかり",
+     "name_en": "Mekkari Rocky-Shore Shellfish",
+     "kind": "foraging",
+     "summary_en": "Mekkari is a small rocky-shore shellfish, valued on Toshima for its size and commonly cooked by boiling in salted water.",
+     "facts": [
+      {
+       "claim_en": "Toshima Village identifies mekkari as a summer island specialty and describes its simple boiled preparation.",
+       "source_url": "https://www.toshimamura.org/tourism/buy/shellfish.html",
+       "source_title": "伊勢海老・サザエ",
+       "publisher": "利島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Summer",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "とさかのり",
+     "name_en": "Tosakanori Edible Seaweed",
+     "kind": "foraging",
+     "summary_en": "Tosakanori is an edible seaweed harvested around Toshima and valued for its texture. The village describes its use in simple seasoned dishes.",
+     "facts": [
+      {
+       "claim_en": "Toshima Village lists tosakanori as a local marine food, describing its texture and use after desalting preserved seaweed.",
+       "source_url": "https://www.toshimamura.org/tourism/buy/shellfish.html",
+       "source_title": "伊勢海老・サザエ",
+       "publisher": "利島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Spring to early summer",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "テングサ採取",
+     "name_en": "Historical Tengusa Seaweed Harvesting",
+     "kind": "foraging",
+     "summary_en": "Tengusa seaweed was among the important products of Toshima's early organized fishing industry, forming part of the village's historic marine livelihood.",
+     "facts": [
+      {
+       "claim_en": "The village's history identifies tengusa among the main catches when organized fishing developed in the early twentieth century.",
+       "source_url": "https://www.toshimamura.org/tourism/buy/shellfish.html",
+       "source_title": "伊勢海老・サザエ",
+       "publisher": "利島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Historical fishing and seaweed-gathering tradition; no present-day commercial product is asserted."
+    },
+    {
+     "name_ja": "トビウオ・サバ漁",
+     "name_en": "Historical Flying-Fish and Mackerel Fisheries",
+     "kind": "fishing",
+     "summary_en": "Flying fish and mackerel became important catches in Toshima's developing fishing industry during the Taisho period.",
+     "facts": [
+      {
+       "claim_en": "The village's fisheries history records the expansion of flying-fish and mackerel fishing during the Taisho era.",
+       "source_url": "https://www.toshimamura.org/tourism/buy/shellfish.html",
+       "source_title": "伊勢海老・サザエ",
+       "publisher": "利島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Historical fishery context rather than verified contemporary tourist dining."
+    },
+    {
+     "name_ja": "椿の花のシフォンケーキ",
+     "name_en": "Camellia Flower Chiffon Cake",
+     "kind": "sweet",
+     "summary_en": "Toshima's agricultural cooperative developed a confection using fragrance extracted from camellia flowers as part of an effort to create value from additional parts of the island's signature crop.",
+     "facts": [
+      {
+       "claim_en": "A Ministry of Agriculture report documents the cooperative's camellia flower fragrance initiative and chiffon-cake commercialization beginning in fiscal 2020.",
+       "source_url": "https://www.maff.go.jp/kanto/nouson/shinkou/discover/attach/pdf/index-78.pdf",
+       "source_title": "利島農業協同組合：日本一の椿島の産業継承",
+       "publisher": "農林水産省関東農政局"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "利島農業協同組合",
+       "relation_en": "Cooperative responsible for the documented camellia by-product development.",
+       "source_url": "https://www.maff.go.jp/kanto/nouson/shinkou/discover/attach/pdf/index-78.pdf"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The source documents production historically; current retail availability is not independently confirmed."
+    },
+    {
+     "name_ja": "椿ビール",
+     "name_en": "Experimental Camellia Beer",
+     "kind": "drink",
+     "summary_en": "A Toshima product-development project uses yeast isolated from camellia flowers to explore a distinctive island beer. The initiative is intended to create another use for the village's central agricultural resource.",
+     "facts": [
+      {
+       "claim_en": "Tokyo's official islands initiative describes trials using camellia flower yeast, with camellia oil also under consideration for the recipe.",
+       "source_url": "https://www.t-treasureislands.metro.tokyo.lg.jp/information/archive/2024-toshima2.html",
+       "source_title": "原料は利島の椿？色鮮やかなピンクのビールが島に眠る可能性を掘り起こす。",
+       "publisher": "東京都"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "椿ビールで乾杯チーム",
+       "relation_en": "Project team developing the camellia beer concept.",
+       "source_url": "https://www.t-treasureislands.metro.tokyo.lg.jp/information/archive/2024-toshima2.html"
+      },
+      {
+       "name_ja": "利島農業協同組合",
+       "relation_en": "Local agricultural organization involved in the project.",
+       "source_url": "https://ritoku.tokyo/2024/06/1106/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "The opened sources establish trials and product development, but do not conclusively verify ongoing commercial availability as of November 2026."
+    }
+   ],
+   "none_found_reason_en": ""
+  },
+  {
+   "id": "niijima",
+   "name_ja": "新島村",
+   "food_cultures": [
+    {
+     "name_ja": "あめりか芋・七福芋",
+     "name_en": "America-imo, the Shichifuku Sweet Potato",
+     "kind": "crop",
+     "summary_en": "This pale-skinned heritage sweet potato was a vital food crop on Niijima's sandy, rice-unsuitable land. It remains central to local cooking, sweets and shochu, including foods made with potatoes grown on Shikinejima.",
+     "facts": [
+      {
+       "claim_en": "The local agricultural cooperative documents the crop's role as a historical staple and its identity as the Shichifuku sweet-potato variety.",
+       "source_url": "https://niijima-noukyo.or.jp/product/amerikaimo",
+       "source_title": "あめりか芋",
+       "publisher": "新島村農業協同組合"
+      },
+      {
+       "claim_en": "The village tourism site identifies America-imo as a traditional potato used for roasting, sweets, dumplings and shochu.",
+       "source_url": "https://niijima.com/kankou/purposemenu/gourmet_index.html",
+       "source_title": "人気のグルメ",
+       "publisher": "新島村"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "新島村農業協同組合",
+       "name_en": "JA Niijima",
+       "relation_en": "Local cooperative selling island-grown vegetables and America-imo processed foods.",
+       "address_ja": "東京都新島村本村1-5-9",
+       "official_url": "https://niijima-noukyo.or.jp/",
+       "source_url": "https://niijima-noukyo.or.jp/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "新島村農業協同組合",
+       "relation_en": "Supports production and sells local crops and processed foods.",
+       "source_url": "https://niijima-noukyo.or.jp/product/amerikaimo"
+      }
+     ],
+     "season_en": "Harvest around November",
+     "confidence": "high",
+     "notes_en": "A foundational ingredient connecting several otherwise distinct Niijima and Shikinejima food cultures."
+    },
+    {
+     "name_ja": "ぐつ煮",
+     "name_en": "Gutsuni, Seawater-Boiled Sweet Potatoes",
+     "kind": "dish",
+     "summary_en": "A traditional island preparation in which small America-imo sweet potatoes are boiled in seawater. The practice is remembered as part of everyday life and childhood outings by the shore.",
+     "facts": [
+      {
+       "claim_en": "JA Niijima describes gutsuni as an old preparation of small America-imo cooked in seawater.",
+       "source_url": "https://niijima-noukyo.or.jp/product/amerikaimo",
+       "source_title": "あめりか芋",
+       "publisher": "新島村農業協同組合"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Historical household dish; no contemporary commercial serving location was verified."
+    },
+    {
+     "name_ja": "芋団子",
+     "name_en": "America-imo Dumplings",
+     "kind": "dish",
+     "summary_en": "Traditional dumplings prepared from the local sweet potato. The cooperative describes versions that may be fried, steamed or cooked in soup.",
+     "facts": [
+      {
+       "claim_en": "JA Niijima identifies imo dango as a regional dish and sells a prepared base made with America-imo and starch.",
+       "source_url": "https://niijima-noukyo.or.jp/processfood",
+       "source_title": "新島野菜の加工品",
+       "publisher": "新島村農業協同組合"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "新島村農業協同組合",
+       "name_en": "JA Niijima",
+       "relation_en": "Cooperative associated with the America-imo dumpling base.",
+       "address_ja": "東京都新島村本村1-5-9",
+       "official_url": "https://niijima-noukyo.or.jp/",
+       "source_url": "https://niijima-noukyo.or.jp/processfood"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "新島村農業協同組合",
+       "relation_en": "Produces or distributes the documented dumpling base.",
+       "source_url": "https://niijima-noukyo.or.jp/processfood"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "明日葉",
+     "name_en": "Niijima and Shikinejima Ashitaba",
+     "kind": "crop",
+     "summary_en": "Ashitaba is a common island vegetable eaten in tempura, seasoned greens, stir-fries and rice. It also supplies flavor to many local snacks and processed foods.",
+     "facts": [
+      {
+       "claim_en": "JA Niijima documents ashitaba cultivation, cooking methods and harvest timing.",
+       "source_url": "https://niijima-noukyo.or.jp/product",
+       "source_title": "新島の農作物",
+       "publisher": "新島村農業協同組合"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "新島村農業協同組合",
+       "name_en": "JA Niijima",
+       "relation_en": "Local source for vegetables and ashitaba-based processed foods.",
+       "address_ja": "東京都新島村本村1-5-9",
+       "official_url": "https://niijima-noukyo.or.jp/",
+       "source_url": "https://niijima-noukyo.or.jp/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "新島村農業協同組合",
+       "relation_en": "Local agricultural cooperative.",
+       "source_url": "https://niijima-noukyo.or.jp/product"
+      }
+     ],
+     "season_en": "Harvested year-round, with spring and autumn peaks",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "島らっきょう",
+     "name_en": "Niijima Island Rakkyo",
+     "kind": "crop",
+     "summary_en": "Niijima's small rakkyo bulbs are harvested young for their sweetness and tenderness. They are eaten fresh with miso, pickled or cooked.",
+     "facts": [
+      {
+       "claim_en": "The agricultural cooperative identifies early harvesting and the characteristic sweetness of Niijima rakkyo.",
+       "source_url": "https://niijima-noukyo.or.jp/product",
+       "source_title": "新島の農作物",
+       "publisher": "新島村農業協同組合"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "新島村農業協同組合",
+       "name_en": "JA Niijima",
+       "relation_en": "Local agricultural sales point.",
+       "address_ja": "東京都新島村本村1-5-9",
+       "official_url": "https://niijima-noukyo.or.jp/",
+       "source_url": "https://niijima-noukyo.or.jp/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "新島村農業協同組合",
+       "relation_en": "Handles locally grown island rakkyo.",
+       "source_url": "https://niijima-noukyo.or.jp/product"
+      }
+     ],
+     "season_en": "Harvest around March–April",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "新島たまねぎ",
+     "name_en": "Niijima Sweet Onions",
+     "kind": "crop",
+     "summary_en": "Onions grown in Niijima's sandy soil and strong seasonal winds are known for their sweetness, allowing them to be enjoyed raw as well as cooked.",
+     "facts": [
+      {
+       "claim_en": "JA Niijima describes the influence of the island's sandy soil and winter winds on its sweet onion crop.",
+       "source_url": "https://niijima-noukyo.or.jp/product",
+       "source_title": "新島の農作物",
+       "publisher": "新島村農業協同組合"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "新島村農業協同組合",
+       "name_en": "JA Niijima",
+       "relation_en": "Producer cooperative and local vegetable outlet.",
+       "address_ja": "東京都新島村本村1-5-9",
+       "official_url": "https://niijima-noukyo.or.jp/",
+       "source_url": "https://niijima-noukyo.or.jp/"
+      }
+     ],
+     "makers": [],
+     "season_en": "Harvest around April",
+     "confidence": "high",
+     "notes_en": "The village also identifies the onions as an agricultural branding effort."
+    },
+    {
+     "name_ja": "島とうがらし",
+     "name_en": "Niijima Island Chili Peppers",
+     "kind": "crop",
+     "summary_en": "A locally grown chili valued for pronounced heat and aroma. Green chilies are commonly used with sashimi, while red chilies appear in seasonings and preserves.",
+     "facts": [
+      {
+       "claim_en": "The agricultural cooperative describes local red and green chilies and the use of green chili as a sashimi condiment.",
+       "source_url": "https://niijima-noukyo.or.jp/product",
+       "source_title": "新島の農作物",
+       "publisher": "新島村農業協同組合"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "新島村農業協同組合",
+       "name_en": "JA Niijima",
+       "relation_en": "Carries local chili-based seasonings.",
+       "address_ja": "東京都新島村本村1-5-9",
+       "official_url": "https://niijima-noukyo.or.jp/",
+       "source_url": "https://niijima-noukyo.or.jp/processfood"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "自然薯",
+     "name_en": "Wild Japanese Yam",
+     "kind": "foraging",
+     "summary_en": "Jinenjo is a traditional yam eaten on Niijima, including raw, grated or fried preparations.",
+     "facts": [
+      {
+       "claim_en": "The village tourism site identifies jinenjo as a local mountain food and describes its customary preparation.",
+       "source_url": "https://niijima.com/kankou/purposemenu/gourmet_index.html",
+       "source_title": "人気のグルメ",
+       "publisher": "新島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The source does not establish a specific public foraging location."
+    },
+    {
+     "name_ja": "ふきんとう・ツワブキ",
+     "name_en": "Fukinto, Edible Leopard Plant Stalks",
+     "kind": "foraging",
+     "summary_en": "Known locally as fukinto, the young stalks of tsuwabuki are a traditional island vegetable. They are prepared in soy-based pickles, miso preserves and stir-fries.",
+     "facts": [
+      {
+       "claim_en": "The municipality identifies fukinto as the local name for tsuwabuki and documents ways its tender shoots are eaten.",
+       "source_url": "https://niijima.com/kankou/purposemenu/gourmet_index.html",
+       "source_title": "人気のグルメ",
+       "publisher": "新島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "赤イカ漁",
+     "name_en": "Red Squid Fishing",
+     "kind": "fishing",
+     "summary_en": "Akaika is one of Niijima and Shikinejima's signature seafood catches. The squid is eaten fresh, simmered, dried and used in a locally developed yakisoba dish.",
+     "facts": [
+      {
+       "claim_en": "Niijima Village identifies spring-to-early-summer red squid as a major local ingredient.",
+       "source_url": "https://niijima.com/kankou/purposemenu/gourmet_index.html",
+       "source_title": "人気のグルメ",
+       "publisher": "新島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Spring to early summer",
+     "confidence": "high",
+     "notes_en": "The local brand page identifies akaika with kensaki squid."
+    },
+    {
+     "name_ja": "赤いか煮",
+     "name_en": "Simmered Akaika",
+     "kind": "dish",
+     "summary_en": "Red squid caught around Shikinejima is simmered in a sweet-savory seasoning, creating a recognized regional seafood dish.",
+     "facts": [
+      {
+       "claim_en": "The Niijima-Shikinejima certified-brand registry identifies simmered Shikinejima red squid as a local dish.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "式根島おさかなサービス",
+       "relation_en": "Producer of the recognized simmered red squid.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "赤いか一夜干し",
+     "name_en": "Overnight-Dried Akaika",
+     "kind": "other",
+     "summary_en": "A locally recognized seafood product made by drying red squid to concentrate its flavor.",
+     "facts": [
+      {
+       "claim_en": "The certified-brand registry lists overnight-dried red squid as a Shikinejima processed seafood product.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "式根島おさかなサービス",
+       "relation_en": "Maker of overnight-dried red squid.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "烏賊野郎",
+     "name_en": "Ika Yaro Dried Squid",
+     "kind": "brand",
+     "summary_en": "A branded line of Niijima red squid caught by local fishermen and processed into dried seafood. Its products include more extensively dried squid, snack-style pieces and overnight-dried versions.",
+     "facts": [
+      {
+       "claim_en": "The certified-brand registry describes the squid's local catch, drying process and three product styles.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "寛永丸",
+       "relation_en": "Local fishing and seafood-processing producer behind the Ika Yaro line.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "Winter drying is documented.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "赤いか焼きそば",
+     "name_en": "Akaika Yakisoba",
+     "kind": "dish",
+     "summary_en": "A modern Niijima and Shikinejima regional noodle dish combining local red squid, thick noodles and a sweet-savory sauce.",
+     "facts": [
+      {
+       "claim_en": "The Niijima Village Chamber of Commerce identifies akaika yakisoba as a signature regional dish made with locally caught squid.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ファミリーストア みやとら",
+       "name_en": "Family Store Miyatora",
+       "relation_en": "Shikinejima food shop associated with local dishes including red-squid yakisoba.",
+       "address_ja": "東京都新島村式根島283-2",
+       "official_url": "https://shikinejima.tokyo/gourmet/bento/378/",
+       "source_url": "https://travelroad.co.jp/izu-tour/spot/miyatora/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "新島村商工会",
+       "relation_en": "Organization promoting the certified regional dish.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Different establishments may prepare their own versions."
+    },
+    {
+     "name_ja": "青ムロアジ・ムロアジ漁",
+     "name_en": "Muroaji Fishing and Fish Processing",
+     "kind": "fishing",
+     "summary_en": "Muroaji is an important fish in Niijima's food economy, supplying the preserved fish used for kusaya and the minced fish used in tataki.",
+     "facts": [
+      {
+       "claim_en": "The municipality identifies local blue muroaji as a fish used in Niijima kusaya production.",
+       "source_url": "https://niijima.com/kankou/omiyage/",
+       "source_title": "人気のおみやげ",
+       "publisher": "新島村"
+      },
+      {
+       "claim_en": "The village's gourmet guide describes muroaji as the basis of traditional tataki fish paste.",
+       "source_url": "https://niijima.com/kankou/purposemenu/gourmet_index.html",
+       "source_title": "人気のグルメ",
+       "publisher": "新島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Locally caught blue muroaji used for kusaya is identified for August–November.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "新島たたき",
+     "name_en": "Niijima Tataki Fish Paste",
+     "kind": "dish",
+     "summary_en": "A traditional seasoned fish paste made from locally caught muroaji, sometimes with flying fish. It can be fried into fish cakes or added to soups and hot pots.",
+     "facts": [
+      {
+       "claim_en": "The village describes tataki as seasoned minced fish combined with ingredients such as ginger and onion.",
+       "source_url": "https://niijima.com/kankou/purposemenu/gourmet_index.html",
+       "source_title": "人気のグルメ",
+       "publisher": "新島村"
+      },
+      {
+       "claim_en": "The certified-brand registry documents both Niijima and Shikinejima producers of tataki.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "菊孫商店",
+       "relation_en": "Producer of certified Niijima tataki.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      },
+      {
+       "name_ja": "にいじま漁業協同組合 式根島事業所",
+       "relation_en": "Produces a Shikinejima version using muroaji and flying fish.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The regional meaning is seasoned fish paste, not the seared meat preparation also called tataki elsewhere in Japan."
+    },
+    {
+     "name_ja": "新島くさや",
+     "name_en": "Niijima Kusaya",
+     "kind": "other",
+     "summary_en": "Niijima is particularly associated with kusaya, fish soaked in inherited fermented brine and dried. Producers use different local fish and maintain their own distinctive brines.",
+     "facts": [
+      {
+       "claim_en": "Niijima Village describes the traditional brine and the different fish species used in kusaya production.",
+       "source_url": "https://niijima.com/kankou/omiyage/",
+       "source_title": "人気のおみやげ",
+       "publisher": "新島村"
+      },
+      {
+       "claim_en": "The Chamber of Commerce identifies Niijima kusaya as a local specialty with more than three centuries of history.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "くさやの里",
+       "name_en": "Kusaya no Sato",
+       "relation_en": "Island seafood-processing district associated with the local kusaya cooperative.",
+       "address_ja": "東京都新島村本村くさやの里",
+       "official_url": "https://niijima.com/kankou/omiyage/",
+       "source_url": "https://niijima.com/kankou/omiyage/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "新島水産加工業協同組合",
+       "relation_en": "Association of local kusaya processors.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "Different fish are processed across the year.",
+     "confidence": "high",
+     "notes_en": "Do not confuse Niijima's producer network with the separate kusaya makers on Oshima."
+    },
+    {
+     "name_ja": "新島焼くさや",
+     "name_en": "Ready-Prepared Grilled Kusaya",
+     "kind": "other",
+     "summary_en": "A processed form of Niijima kusaya that has already been grilled and portioned, offering another way to enjoy the island's fermented-fish tradition.",
+     "facts": [
+      {
+       "claim_en": "The Chamber of Commerce lists prepared grilled kusaya as a certified Niijima product.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "くさやの里",
+       "name_en": "Kusaya no Sato",
+       "relation_en": "Island processing district associated with the producers.",
+       "address_ja": "東京都新島村本村くさやの里",
+       "official_url": "https://niijima.com/kankou/omiyage/",
+       "source_url": "https://niijima.com/kankou/omiyage/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "新島水産加工業協同組合",
+       "relation_en": "Producer association for certified grilled kusaya.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "くさやスパゲティー",
+     "name_en": "Kusaya Spaghetti",
+     "kind": "dish",
+     "summary_en": "A Shikinejima pasta dish combining Niijima kusaya, island nori and chili-infused oil in a locally inspired variation of aglio e olio.",
+     "facts": [
+      {
+       "claim_en": "The regional certified-brand registry identifies a kusaya-and-seaweed spaghetti by Miyatora.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ファミリーストア みやとら",
+       "name_en": "Family Store Miyatora",
+       "relation_en": "Producer associated with certified kusaya spaghetti.",
+       "address_ja": "東京都新島村式根島283-2",
+       "official_url": "https://shikinejima.tokyo/gourmet/bento/378/",
+       "source_url": "https://shikinejima.tokyo/gourmet/bento/378/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ファミリーストアみやとら",
+       "relation_en": "Maker of the regional pasta dish.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "くさや弁当",
+     "name_en": "Kusaya Bento",
+     "kind": "dish",
+     "summary_en": "A Shikinejima boxed meal combining Niijima's fermented fish with tempura made from locally grown ashitaba.",
+     "facts": [
+      {
+       "claim_en": "The certified-brand registry documents Miyatora's bento combining kusaya and Shikinejima ashitaba tempura.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ファミリーストア みやとら",
+       "name_en": "Family Store Miyatora",
+       "relation_en": "Producer of the certified regional bento.",
+       "address_ja": "東京都新島村式根島283-2",
+       "official_url": "https://shikinejima.tokyo/gourmet/bento/378/",
+       "source_url": "https://shikinejima.tokyo/gourmet/bento/378/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ファミリーストアみやとら",
+       "relation_en": "Maker of the kusaya bento.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "たたき丸",
+     "name_en": "Tataki-maru Fried Fish-Paste Rice Ball",
+     "kind": "dish",
+     "summary_en": "A distinctive Shikinejima snack in which rice and fillings such as ashitaba preserves or kusaya are wrapped in traditional fish paste and fried.",
+     "facts": [
+      {
+       "claim_en": "The certified-brand registry describes Miyatora's rice balls wrapped in tataki fish paste.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      },
+      {
+       "claim_en": "The Shikinejima Tourism Association also identifies tataki-maru as a Miyatora specialty.",
+       "source_url": "https://shikinejima.tokyo/gourmet/bento/378/",
+       "source_title": "ファミリーストア みやとら",
+       "publisher": "式根島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ファミリーストア みやとら",
+       "name_en": "Family Store Miyatora",
+       "relation_en": "Named maker and local food shop for tataki-maru.",
+       "address_ja": "東京都新島村式根島283-2",
+       "official_url": "https://shikinejima.tokyo/gourmet/bento/378/",
+       "source_url": "https://shikinejima.tokyo/gourmet/bento/378/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ファミリーストアみやとら",
+       "relation_en": "Creator or producer of the certified tataki-maru.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "たたきバーガー",
+     "name_en": "Shikinejima Tataki Burger",
+     "kind": "dish",
+     "summary_en": "A burger built around a fried local-fish patty mixed with Shikinejima ashitaba. It is a modern adaptation of traditional island tataki.",
+     "facts": [
+      {
+       "claim_en": "The regional certified-brand registry identifies Ikemura Shoten's tataki burger using island fish and ashitaba.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "池村商店",
+       "name_en": "Ikemura Shoten",
+       "relation_en": "Shikinejima shop associated with the local tataki burger.",
+       "address_ja": "東京都新島村式根島348-1",
+       "official_url": "https://shikinejima.tokyo/gourmet/bento/381/",
+       "source_url": "https://shikinejima.tokyo/gourmet/bento/381/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "池村商店",
+       "relation_en": "Maker of the certified tataki burger.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "島づけ丼",
+     "name_en": "Shikinejima Marinated Local-Fish Rice Bowl",
+     "kind": "dish",
+     "summary_en": "A seafood rice bowl featuring locally landed fish marinated in a special soy-based sauce and served over vinegared rice.",
+     "facts": [
+      {
+       "claim_en": "The certified-brand registry describes a bowl prepared with seasonal Shikinejima fish including medai and kanpachi.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "有限会社おくやま",
+       "relation_en": "Producer associated with the certified island-marinated seafood bowl.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "Fish selection changes with the local catch.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "島むすび",
+     "name_en": "Shikinejima Island Rice Balls",
+     "kind": "dish",
+     "summary_en": "Rice balls that bring together Shikinejima ashitaba preserves and naturally gathered rock laver.",
+     "facts": [
+      {
+       "claim_en": "The Chamber of Commerce certified-brand listing identifies island rice balls made with locally grown ashitaba and natural rock laver.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "池村商店",
+       "name_en": "Ikemura Shoten",
+       "relation_en": "Maker of the certified island rice balls.",
+       "address_ja": "東京都新島村式根島348-1",
+       "official_url": "https://shikinejima.tokyo/gourmet/bento/381/",
+       "source_url": "https://shikinejima.tokyo/gourmet/bento/381/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "池村商店",
+       "relation_en": "Producer of island rice balls.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "明日葉スパゲティー",
+     "name_en": "Ashitaba Spaghetti",
+     "kind": "dish",
+     "summary_en": "A Shikinejima pasta preparation using homegrown ashitaba, onions, garlic and island chili peppers.",
+     "facts": [
+      {
+       "claim_en": "The certified-brand registry describes Ikemura Shoten's ashitaba pasta made with island-grown vegetables.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "池村商店",
+       "name_en": "Ikemura Shoten",
+       "relation_en": "Producer associated with the local ashitaba pasta.",
+       "address_ja": "東京都新島村式根島348-1",
+       "official_url": "https://shikinejima.tokyo/gourmet/bento/381/",
+       "source_url": "https://shikinejima.tokyo/gourmet/bento/381/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "池村商店",
+       "relation_en": "Maker of the certified pasta dish.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "伊勢海老",
+     "name_en": "Niijima and Shikinejima Spiny Lobster",
+     "kind": "fishing",
+     "summary_en": "Spiny lobster from the waters around the village is an established high-value catch, used in sashimi, grilled dishes and soups.",
+     "facts": [
+      {
+       "claim_en": "The municipality identifies spiny lobster as a valued local marine food and ceremonial gift.",
+       "source_url": "https://niijima.com/kankou/purposemenu/gourmet_index.html",
+       "source_title": "人気のグルメ",
+       "publisher": "新島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "This is a fishing and food tradition, not a suggestion that visitors collect shellfish or lobster themselves."
+    },
+    {
+     "name_ja": "キンメダイ",
+     "name_en": "Splendid Alfonsino",
+     "kind": "fishing",
+     "summary_en": "Kinmedai caught in waters around the Izu Islands is a prominent local fish, especially valued in simmered preparations.",
+     "facts": [
+      {
+       "claim_en": "The Niijima tourism guide describes the area's kinmedai catch and its use in simmered dishes.",
+       "source_url": "https://niijima.com/kankou/purposemenu/gourmet_index.html",
+       "source_title": "人気のグルメ",
+       "publisher": "新島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Winter is highlighted as its best season.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "タカベ",
+     "name_en": "Takabe Fish",
+     "kind": "fishing",
+     "summary_en": "Takabe is a locally enjoyed summer fish, commonly grilled with salt or simmered.",
+     "facts": [
+      {
+       "claim_en": "The municipality identifies takabe as a representative summer fish and describes its local cooking methods.",
+       "source_url": "https://niijima.com/kankou/purposemenu/gourmet_index.html",
+       "source_title": "人気のグルメ",
+       "publisher": "新島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Summer",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "サザエ",
+     "name_en": "Niijima Turban Shell",
+     "kind": "fishing",
+     "summary_en": "Turban shell is part of Niijima's local shellfish cuisine, including grilled and simmered dishes.",
+     "facts": [
+      {
+       "claim_en": "The Niijima tourism guide includes sazae among the village's characteristic local shellfish.",
+       "source_url": "https://niijima.com/kankou/purposemenu/gourmet_index.html",
+       "source_title": "人気のグルメ",
+       "publisher": "新島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "トコブシ",
+     "name_en": "Niijima Tokobushi",
+     "kind": "fishing",
+     "summary_en": "Tokobushi is another locally caught shellfish that appears in the village's seafood cooking.",
+     "facts": [
+      {
+       "claim_en": "The Niijima tourism guide identifies tokobushi among the shellfish found around the islands.",
+       "source_url": "https://niijima.com/kankou/purposemenu/gourmet_index.html",
+       "source_title": "人気のグルメ",
+       "publisher": "新島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "カメノテ",
+     "name_en": "Kamenote Goose Barnacles",
+     "kind": "foraging",
+     "summary_en": "Kamenote, a shellfish-like marine invertebrate named for its resemblance to a turtle's foot, is counted among the village's edible coastal resources.",
+     "facts": [
+      {
+       "claim_en": "The municipality includes kamenote among the local marine foods collected around Niijima.",
+       "source_url": "https://niijima.com/kankou/purposemenu/gourmet_index.html",
+       "source_title": "人気のグルメ",
+       "publisher": "新島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "No independent coastal collecting activity is suggested."
+    },
+    {
+     "name_ja": "岩海苔・島のり",
+     "name_en": "Wild Rock Laver",
+     "kind": "foraging",
+     "summary_en": "Wild rock laver gathered from island coasts is an established local food, used in rice dishes, noodles and processed specialty foods.",
+     "facts": [
+      {
+       "claim_en": "Niijima Village lists rock laver among its characteristic food souvenirs.",
+       "source_url": "https://niijima.com/kankou/omiyage/",
+       "source_title": "人気のおみやげ",
+       "publisher": "新島村"
+      },
+      {
+       "claim_en": "The certified-brand registry identifies natural rock laver as an ingredient in Shikinejima rice balls and kusaya spaghetti.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "牛乳せんべい",
+     "name_en": "Niijima Milk Crackers",
+     "kind": "sweet",
+     "summary_en": "Milk crackers are also an established Niijima confection, appearing among the municipality's signature food souvenirs.",
+     "facts": [
+      {
+       "claim_en": "The village identifies milk crackers among Niijima and Shikinejima specialty products.",
+       "source_url": "https://niijima.com/kankou/omiyage/",
+       "source_title": "人気のおみやげ",
+       "publisher": "新島村"
+      },
+      {
+       "claim_en": "The local brand registry identifies milk crackers as the base for a separate ashitaba-flavored confection.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "池村製菓",
+       "relation_en": "Maker of a certified milk-cracker-based ashitaba confection.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Distinct local production context from Oshima's better-documented milk-cracker history."
+    },
+    {
+     "name_ja": "あしたばせんべい",
+     "name_en": "Ashitaba Milk Crackers",
+     "kind": "sweet",
+     "summary_en": "A Niijima confection incorporating locally grown ashitaba paste into the island's milk-cracker tradition.",
+     "facts": [
+      {
+       "claim_en": "The certified-brand registry describes the milk-cracker preparation incorporating Niijima ashitaba paste.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "池村製菓",
+       "relation_en": "Producer of certified ashitaba milk crackers.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "明日葉シフォンケーキ",
+     "name_en": "Ashitaba Chiffon Cake",
+     "kind": "sweet",
+     "summary_en": "A Shikinejima-style chiffon cake using ashitaba and island coarse sugar, adapting a local vegetable into a soft baked confection.",
+     "facts": [
+      {
+       "claim_en": "The certified-brand registry identifies an ashitaba chiffon cake made with island coarse sugar.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "Na2iro",
+       "relation_en": "Maker of the certified ashitaba chiffon cake.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "あしたばパウンドケーキ",
+     "name_en": "Ashitaba Pound Cake",
+     "kind": "sweet",
+     "summary_en": "A baked confection combining Niijima-grown ashitaba with the island's Habushiura shochu.",
+     "facts": [
+      {
+       "claim_en": "The certified-brand registry describes an ashitaba pound cake flavored with Niijima shochu.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "パン工房・帆風",
+       "relation_en": "Baker of the certified pound cake.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "あめりか芋パウンドケーキ",
+     "name_en": "America-imo Pound Cake",
+     "kind": "sweet",
+     "summary_en": "A regional cake using Shikinejima America-imo sweet potatoes and the island-associated Jinata sweet-potato shochu.",
+     "facts": [
+      {
+       "claim_en": "The local certified-brand registry identifies an America-imo pound cake combining Shikinejima potatoes and Jinata shochu.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "パン工房・帆風",
+       "relation_en": "Maker of the America-imo pound cake.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "明日葉フィナンシェ",
+     "name_en": "Ashitaba Financiers",
+     "kind": "sweet",
+     "summary_en": "A small butter cake made with farm-grown Niijima ashitaba, representing a modern confection created from island agricultural produce.",
+     "facts": [
+      {
+       "claim_en": "The Chamber of Commerce lists ashitaba financiers as a certified product made with locally cultivated ashitaba.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "A-FARM",
+       "relation_en": "Farm producer of the certified ashitaba confection.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "明日葉サブレー",
+     "name_en": "Ashitaba Sable Cookies",
+     "kind": "sweet",
+     "summary_en": "Short, crumbly cookies made using Niijima ashitaba, another example of the local green's use in confectionery.",
+     "facts": [
+      {
+       "claim_en": "The certified-brand registry lists ashitaba sable cookies made from island-grown ashitaba.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "パン工房・帆風",
+       "relation_en": "Maker of the certified cookies.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "くりい～も",
+     "name_en": "Kuriimo America-imo Cream",
+     "kind": "sweet",
+     "summary_en": "A smooth sweet-potato cream made with Shikinejima-grown America-imo, preserving the crop's sweetness in a modern spread.",
+     "facts": [
+      {
+       "claim_en": "The regional certified-brand registry identifies a Shikinejima America-imo cream product.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "パン工房・帆風",
+       "relation_en": "Maker of the certified sweet-potato cream.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "あめりか芋と林檎のジャム",
+     "name_en": "America-imo and Apple Jam",
+     "kind": "sweet",
+     "summary_en": "A preserve combining Niijima's heritage white sweet potato with apple, offered as a local agricultural specialty.",
+     "facts": [
+      {
+       "claim_en": "JA Niijima lists jam made from the locally distinctive pale-skinned sweet potato and apple.",
+       "source_url": "https://niijima-noukyo.or.jp/processfood",
+       "source_title": "新島野菜の加工品",
+       "publisher": "新島村農業協同組合"
+      },
+      {
+       "claim_en": "A-FARM's America-imo jam also appears in the regional certified-brand registry.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "新島村農業協同組合",
+       "name_en": "JA Niijima",
+       "relation_en": "Local agricultural outlet associated with America-imo preserves.",
+       "address_ja": "東京都新島村本村1-5-9",
+       "official_url": "https://niijima-noukyo.or.jp/",
+       "source_url": "https://niijima-noukyo.or.jp/processfood"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "A-FARM",
+       "relation_en": "Producer of a certified America-imo and apple preserve.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      },
+      {
+       "name_ja": "新島村農業協同組合",
+       "relation_en": "Lists a locally produced America-imo and apple jam.",
+       "source_url": "https://niijima-noukyo.or.jp/processfood"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Related products are grouped as one sweet-potato-and-apple preserve culture."
+    },
+    {
+     "name_ja": "新らっきょう塩漬け",
+     "name_en": "Salt-Pickled Young Island Rakkyo",
+     "kind": "other",
+     "summary_en": "Young, tender Niijima rakkyo bulbs are preserved in salt, turning the local spring crop into a recognized regional product.",
+     "facts": [
+      {
+       "claim_en": "The certified-brand registry identifies salt-pickled young Niijima rakkyo.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "新島村農業協同組合",
+       "name_en": "JA Niijima",
+       "relation_en": "Producer cooperative associated with the certified preserved rakkyo.",
+       "address_ja": "東京都新島村本村1-5-9",
+       "official_url": "https://niijima-noukyo.or.jp/",
+       "source_url": "https://niijima-noukyo.or.jp/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "新島村農業協同組合",
+       "relation_en": "Producer of the certified preserved rakkyo.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "The fresh crop is harvested around March–April.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "生とうがらし・青唐一味・赤唐一味",
+     "name_en": "Fresh and Dried Island Chili Condiments",
+     "kind": "other",
+     "summary_en": "Niijima's pungent green and red chilies are processed into fresh chopped condiments and dried chili seasonings, maintaining their traditional association with sashimi and everyday cooking.",
+     "facts": [
+      {
+       "claim_en": "JA Niijima lists fresh island chili, green-chili seasoning and red-chili seasoning among its processed foods.",
+       "source_url": "https://niijima-noukyo.or.jp/processfood",
+       "source_title": "新島野菜の加工品",
+       "publisher": "新島村農業協同組合"
+      },
+      {
+       "claim_en": "The regional registry identifies a fresh-chili condiment made with Niijima green chili and island salt.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "新島村農業協同組合",
+       "name_en": "JA Niijima",
+       "relation_en": "Retail and producer outlet for island chili condiments.",
+       "address_ja": "東京都新島村本村1-5-9",
+       "official_url": "https://niijima-noukyo.or.jp/",
+       "source_url": "https://niijima-noukyo.or.jp/processfood"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "みやがわ農園",
+       "relation_en": "Producer of a certified fresh green-chili condiment.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      },
+      {
+       "name_ja": "新島村農業協同組合",
+       "relation_en": "Produces or distributes local chili seasonings.",
+       "source_url": "https://niijima-noukyo.or.jp/processfood"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "唐辛子味噌",
+     "name_en": "Island Chili Miso",
+     "kind": "other",
+     "summary_en": "A seasoned miso paste using the island's aromatic green chili peppers, commonly paired with rice or other foods.",
+     "facts": [
+      {
+       "claim_en": "The Chamber of Commerce identifies chili miso made with summer-harvested green chili as a certified regional product.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "新島村農業協同組合",
+       "name_en": "JA Niijima",
+       "relation_en": "Lists a local island-chili miso among processed foods.",
+       "address_ja": "東京都新島村本村1-5-9",
+       "official_url": "https://niijima-noukyo.or.jp/",
+       "source_url": "https://niijima-noukyo.or.jp/processfood"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "A-FARM",
+       "relation_en": "Maker of a certified chili miso.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "The certified A-FARM product uses summer-harvested green chilies.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "あしたば味噌・明日葉入り油味噌",
+     "name_en": "Ashitaba Miso and Ashitaba Oil-Miso",
+     "kind": "other",
+     "summary_en": "Savory miso condiments incorporating Niijima ashitaba. Local producers offer variations including preparations using ashitaba stems and a sweeter oil-miso style.",
+     "facts": [
+      {
+       "claim_en": "The Chamber of Commerce identifies an ashitaba-stem miso as a certified local product.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      },
+      {
+       "claim_en": "JA Niijima separately lists a sweet ashitaba oil-miso product.",
+       "source_url": "https://niijima-noukyo.or.jp/processfood",
+       "source_title": "新島野菜の加工品",
+       "publisher": "新島村農業協同組合"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "新島村農業協同組合",
+       "name_en": "JA Niijima",
+       "relation_en": "Producer cooperative carrying an ashitaba miso variation.",
+       "address_ja": "東京都新島村本村1-5-9",
+       "official_url": "https://niijima-noukyo.or.jp/",
+       "source_url": "https://niijima-noukyo.or.jp/processfood"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "A-FARM",
+       "relation_en": "Maker of certified ashitaba miso.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      },
+      {
+       "name_ja": "新島村農業協同組合",
+       "relation_en": "Lists an ashitaba oil-miso variation.",
+       "source_url": "https://niijima-noukyo.or.jp/processfood"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Related condiments grouped rather than counted as unrelated food traditions."
+    },
+    {
+     "name_ja": "明日葉ペースト",
+     "name_en": "Ashitaba Paste",
+     "kind": "other",
+     "summary_en": "Processed local ashitaba is made into a paste for further use in cooking, including pasta sauces and vegetable-based drinks.",
+     "facts": [
+      {
+       "claim_en": "JA Niijima lists a processed ashitaba paste and describes its culinary uses.",
+       "source_url": "https://niijima-noukyo.or.jp/processfood",
+       "source_title": "新島野菜の加工品",
+       "publisher": "新島村農業協同組合"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "新島村農業協同組合",
+       "name_en": "JA Niijima",
+       "relation_en": "Agricultural cooperative offering locally processed ashitaba products.",
+       "address_ja": "東京都新島村本村1-5-9",
+       "official_url": "https://niijima-noukyo.or.jp/",
+       "source_url": "https://niijima-noukyo.or.jp/processfood"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "新島村農業協同組合",
+       "relation_en": "Developer or distributor of processed ashitaba.",
+       "source_url": "https://niijima-noukyo.or.jp/processfood"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "新島村農協シェイク・明日葉ジュース",
+     "name_en": "JA Niijima Shakes and Ashitaba Juice",
+     "kind": "drink",
+     "summary_en": "The agricultural cooperative offers drinks developed around Niijima's island produce, including ashitaba juice and specialty shakes.",
+     "facts": [
+      {
+       "claim_en": "JA Niijima documents its original shakes and ashitaba juice as products using the island's food resources.",
+       "source_url": "https://niijima-noukyo.or.jp/processfood",
+       "source_title": "新島野菜の加工品",
+       "publisher": "新島村農業協同組合"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "新島村農業協同組合",
+       "name_en": "JA Niijima",
+       "relation_en": "Cooperative associated with these regional drinks.",
+       "address_ja": "東京都新島村本村1-5-9",
+       "official_url": "https://niijima-noukyo.or.jp/",
+       "source_url": "https://niijima-noukyo.or.jp/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "新島村農業協同組合",
+       "relation_en": "Developer of island-produce drinks.",
+       "source_url": "https://niijima-noukyo.or.jp/processfood"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "明日葉茶・明日葉そば",
+     "name_en": "Ashitaba Tea and Ashitaba Soba",
+     "kind": "other",
+     "summary_en": "Ashitaba is also processed into herbal tea and noodles, extending the island green's use beyond fresh vegetable dishes.",
+     "facts": [
+      {
+       "claim_en": "The municipality lists ashitaba tea and soba among the processed foods associated with the village's ashitaba culture.",
+       "source_url": "https://niijima.com/kankou/purposemenu/gourmet_index.html",
+       "source_title": "人気のグルメ",
+       "publisher": "新島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Two related processed uses of the same island crop are grouped here."
+    },
+    {
+     "name_ja": "しおさいの塩",
+     "name_en": "Shiosai no Shio Sea Salt",
+     "kind": "brand",
+     "summary_en": "Sea salt made from Niijima seawater in a kiln constructed from the island's distinctive koga stone, connecting a local mineral resource with food production.",
+     "facts": [
+      {
+       "claim_en": "The certified-brand registry documents sea salt produced using a locally made koga-stone kiln and island seawater.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "サンシャイン",
+       "relation_en": "Producer of the certified Niijima sea salt.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Distinct from the sea-salt makers on Oshima."
+    },
+    {
+     "name_ja": "嶋自慢",
+     "name_en": "Shimajiman Barley Shochu",
+     "kind": "drink",
+     "summary_en": "Shimajiman is a longstanding Niijima shochu brand produced by Miyahara, the village's established distillery. Its core range includes barley shochu and aged variations.",
+     "facts": [
+      {
+       "claim_en": "The certified-brand registry identifies Miyahara as Niijima's distillery and describes its barley-based Shimajiman spirits.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "株式会社宮原",
+       "relation_en": "Niijima distillery producing Shimajiman shochu.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The local brand listing dates the business's founding to 1926."
+    },
+    {
+     "name_ja": "嶋自慢 羽伏浦",
+     "name_en": "Shimajiman Habushiura Shochu",
+     "kind": "drink",
+     "summary_en": "A Niijima barley shochu named after Habushiura, one of the island's best-known coastal landscapes.",
+     "facts": [
+      {
+       "claim_en": "The local certified-brand registry identifies Habushiura as a barley shochu named for the Niijima beach.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "株式会社宮原",
+       "relation_en": "Producer of Habushiura shochu.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "七福嶋自慢",
+     "name_en": "Shichifuku Shimajiman Sweet-Potato Shochu",
+     "kind": "drink",
+     "summary_en": "A regional shochu made with Niijima's heritage America-imo sweet potatoes, linking the island's historical staple crop with modern distilling.",
+     "facts": [
+      {
+       "claim_en": "The certified-brand registry documents Shichifuku Shimajiman as sweet-potato shochu made from America-imo.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "株式会社宮原",
+       "relation_en": "Distiller of the America-imo shochu.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "しきね",
+     "name_en": "Shikine Sweet-Potato Shochu",
+     "kind": "drink",
+     "summary_en": "A Shikinejima-associated shochu made using Niijima America-imo sweet potatoes.",
+     "facts": [
+      {
+       "claim_en": "The certified-brand registry identifies Shikine as a special sweet-potato shochu using Niijima America-imo.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "株式会社宮原",
+       "relation_en": "Producer of Shikine shochu.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "地鉈",
+     "name_en": "Jinata Sweet-Potato Shochu",
+     "kind": "drink",
+     "summary_en": "A Shikinejima-branded sweet-potato shochu using America-imo grown on Shikinejima. The production story extends to distilling and aging on Hachijojima.",
+     "facts": [
+      {
+       "claim_en": "The certified-brand registry documents Jinata's use of Shikinejima sweet potatoes and its production connection to Hachijojima.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "有限会社おくやま",
+       "relation_en": "Shikinejima business behind the Jinata shochu brand.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Do not describe Jinata as distilled on Shikinejima."
+    },
+    {
+     "name_ja": "神引",
+     "name_en": "Kanbiki Barley Shochu",
+     "kind": "drink",
+     "summary_en": "A Shikinejima-associated barley shochu named after Kanbiki, a famous island viewpoint.",
+     "facts": [
+      {
+       "claim_en": "The certified-brand registry identifies Kanbiki as a barley shochu named after Shikinejima's Kanbiki viewpoint.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/",
+       "source_title": "認定ブランド事業",
+       "publisher": "新島村商工会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "株式会社宮原",
+       "relation_en": "Producer of Kanbiki barley shochu.",
+       "source_url": "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    }
+   ],
+   "none_found_reason_en": ""
+  }
+ ],
+ "url_check": {
+  "checked_at": "2026-11-22",
+  "status": {
+   "https://island-net.or.jp/info/membership/%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE%E3%80%80%E5%A4%A7%E5%B3%B6%E7%89%9B%E4%B9%B3/": 200,
+   "https://izu-oshima.or.jp/specialty.html": 200,
+   "https://ja-toshima.jp/": 200,
+   "https://ja-toshima.jp/tsubaki/": 200,
+   "https://niijima-noukyo.or.jp/": 200,
+   "https://niijima-noukyo.or.jp/processfood": 200,
+   "https://niijima-noukyo.or.jp/product": 200,
+   "https://niijima-noukyo.or.jp/product/amerikaimo": 200,
+   "https://niijima.com/kankou/omiyage/": 200,
+   "https://niijima.com/kankou/purposemenu/gourmet_index.html": 200,
+   "https://niijima.or.jp/shokokai/mission/%E8%AA%8D%E5%AE%9A%E3%83%96%E3%83%A9%E3%83%B3%E3%83%89%E4%BA%8B%E6%A5%AD/": "URLError",
+   "https://ritoku.tokyo/2024/06/1106/": 200,
+   "https://shikinejima.tokyo/gourmet/bento/378/": 200,
+   "https://shikinejima.tokyo/gourmet/bento/381/": 200,
+   "https://shimazake.com/kuramotolist/taniguchi/": 200,
+   "https://stg.tokyoislands.jp/oshima": 200,
+   "https://tokyo-tamashima-iju.metro.tokyo.lg.jp/introduction/toshima/": 200,
+   "https://travelroad.co.jp/izu-tour/spot/miyatora/": 200,
+   "https://www.gotokyo.org/jp/spot/1265/index.html": 200,
+   "https://www.ifarc.metro.tokyo.lg.jp/archive/22,15194,45.html": 200,
+   "https://www.izu-oshima.or.jp/eat.html": 200,
+   "https://www.izu-oshima.or.jp/geopark/brand/brand/brand01.html": 200,
+   "https://www.izu-oshima.or.jp/geopark/brand/member/": 200,
+   "https://www.maff.go.jp/kanto/nouson/shinkou/discover/attach/pdf/index-78.pdf": 200,
+   "https://www.miyoshi-miyage.com/concept.html": 200,
+   "https://www.t-treasureislands.metro.tokyo.lg.jp/information/archive/2024-toshima2.html": 200,
+   "https://www.t-treasureislands.metro.tokyo.lg.jp/toshima/": 200,
+   "https://www.toshimamura.org/tourism/buy/item.html": "URLError",
+   "https://www.toshimamura.org/tourism/buy/restaurant.html": "URLError",
+   "https://www.toshimamura.org/tourism/buy/shellfish.html": "URLError",
+   "https://www.town.oshima.tokyo.jp/soshiki/sangyou/buratto.html": "URLError",
+   "https://www.town.oshima.tokyo.jp/uploaded/attachment/8743.pdf": "URLError",
+   "https://www.town.oshima.tokyo.jp/uploaded/attachment/8865.pdf": "URLError",
+   "https://www.uminosei.com/uminosei/koujo/": 200,
+   "https://xn--y8jl2mqa5414b9sn.tokyo/": "URLError"
+  }
+ }
+}
