@@ -983,7 +983,7 @@ describe('Human Data Review Board projection (#340, #343)', () => {
     });
 
     expect(board.entities).toHaveLength(CURRENT_PRODUCT_FACTUAL_INVENTORY.length);
-    expect(board.entityTypeCounts).toEqual({ Spot: 205, Story: 115, Route: 115 });
+    expect(board.entityTypeCounts).toEqual({ Spot: 234, Story: 130, Route: 130 });
     expect(board.entities.map((entity) => entity.id)).toEqual(expect.arrayContaining([
       'akabeko',
       'baba-oshijutaku',

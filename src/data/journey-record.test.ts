@@ -132,13 +132,13 @@ describe('municipalities and data-driven journey presentation (#412)', () => {
     }
   });
 
-  it.each(JOURNEY_RECORDS.filter(({ journey }) => /^b0[134]-/.test(journey.id)))('publishes complete pending data for $journey.id in all locales', (record) => {
+  it.each(JOURNEY_RECORDS.filter(({ journey }) => /^b0[1348]-/.test(journey.id)))('publishes complete pending data for $journey.id in all locales', (record) => {
     const output = adaptJourneyRecords([record]);
     expect(output.currentJourneys[0].sourceStatus).toBe('needs_confirmation');
     expect(output.currentJourneys[0].imageAssetId).toBeUndefined();
     for (const source of Object.values(record.sources)) {
       expect(source.verificationStatus).toBe('needs_confirmation');
-      expect(source.retrievedAt).toBe(/^b0[34]-/.test(record.journey.id) ? '2026-11-24' : '2026-11-22');
+      expect(source.retrievedAt).toBe(/^b0[348]-/.test(record.journey.id) ? '2026-11-24' : '2026-11-22');
       expect(source.confirmedAt).toBeUndefined();
     }
     for (const locale of locales) {
