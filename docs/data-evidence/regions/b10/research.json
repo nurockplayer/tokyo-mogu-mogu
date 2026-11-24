@@ -1,0 +1,2045 @@
+{
+ "batch": "b10",
+ "researched_at": "2026-11-22",
+ "municipalities": [
+  {
+   "id": "hinode",
+   "name_ja": "日の出町",
+   "food_cultures": [
+    {
+     "name_ja": "日の出トマト",
+     "name_en": "Hinode Tomatoes",
+     "kind": "crop",
+     "summary_en": "Hinode has developed a local greenhouse tomato specialty known for sweetness, acidity, and firm flesh. The crop is closely associated with the town's agricultural identity and farm-direct sales.",
+     "facts": [
+      {
+       "claim_en": "The town promotes greenhouse-grown Hinode tomatoes as a local specialty, with a principal harvest period from December through June.",
+       "source_url": "https://www.town.hinode.tokyo.jp/cmsfiles/contents/0000000/410/iine_jimoto.pdf",
+       "source_title": "いいね！日の出：地元グルメ＆特産品",
+       "publisher": "日の出町"
+      },
+      {
+       "claim_en": "JA identifies tomatoes as the signature product of the Hinode farmers' market.",
+       "source_url": "https://life.ja-group.jp/farm/market/detail/?id=584",
+       "source_title": "日の出町ふれあい農産物直売所",
+       "publisher": "JAグループ"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "日の出町ふれあい農産物直売所",
+       "name_en": "Hinode Farmers' Market",
+       "relation_en": "A JA-operated direct-sales destination highlighting the town's tomatoes and other farm products.",
+       "address_ja": "東京都西多摩郡日の出町大久野17-2",
+       "official_url": "https://life.ja-group.jp/farm/market/detail/?id=584",
+       "source_url": "https://life.ja-group.jp/farm/market/detail/?id=584"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "JAあきがわ",
+       "relation_en": "Agricultural cooperative associated with the local direct-sales market.",
+       "source_url": "https://life.ja-group.jp/farm/market/detail/?id=584"
+      }
+     ],
+     "season_en": "Main greenhouse harvest: December to June.",
+     "confidence": "high",
+     "notes_en": "The town's illustrated guide is particularly useful for connecting this crop with local dishes."
+    },
+    {
+     "name_ja": "赤いうどん",
+     "name_en": "Red Udon",
+     "kind": "dish",
+     "summary_en": "Hinode's tomato-based red udon turns a local agricultural specialty into an identifiable regional dish. Local establishments have developed different preparations rather than a single fixed recipe.",
+     "facts": [
+      {
+       "claim_en": "The town's specialty guide introduces red udon made using locally grown tomatoes and illustrates chilled, stir-fried, Chinese-style, and hot-soup variations.",
+       "source_url": "https://www.town.hinode.tokyo.jp/cmsfiles/contents/0000000/410/iine_jimoto.pdf",
+       "source_title": "いいね！日の出：地元グルメ＆特産品",
+       "publisher": "日の出町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "つるつる温泉",
+       "name_en": "Tsurutsuru Onsen",
+       "relation_en": "The town's guide identifies a red-udon preparation associated with this local bathing facility.",
+       "address_ja": "",
+       "official_url": "https://www.town.hinode.tokyo.jp/cmsfiles/contents/0000000/410/iine_jimoto.pdf",
+       "source_url": "https://www.town.hinode.tokyo.jp/cmsfiles/contents/0000000/410/iine_jimoto.pdf"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The published guide documents several preparations; current menus should not be inferred from the brochure alone."
+    },
+    {
+     "name_ja": "のらぼう菜",
+     "name_en": "Norabo Greens",
+     "kind": "crop",
+     "summary_en": "Norabo is a longstanding leafy vegetable of the western Tokyo region. Its cultivation connects Hinode's contemporary farmers with food traditions dating back to the Edo period.",
+     "facts": [
+      {
+       "claim_en": "Hinode's town guide identifies norabo as a traditional regional vegetable harvested mainly between March and May.",
+       "source_url": "https://www.town.hinode.tokyo.jp/cmsfiles/contents/0000000/410/iine_jimoto.pdf",
+       "source_title": "いいね！日の出：地元グルメ＆特産品",
+       "publisher": "日の出町"
+      },
+      {
+       "claim_en": "JA Tokyo recognizes norabo as an Edo-Tokyo traditional vegetable.",
+       "source_url": "https://www.tokyo-ja.or.jp/farm/edo/15.php",
+       "source_title": "のらぼう菜：江戸東京野菜について",
+       "publisher": "JA東京中央会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "日の出町ふれあい農産物直売所",
+       "name_en": "Hinode Farmers' Market",
+       "relation_en": "A practical destination for seeking locally grown vegetables.",
+       "address_ja": "東京都西多摩郡日の出町大久野17-2",
+       "official_url": "https://life.ja-group.jp/farm/market/detail/?id=584",
+       "source_url": "https://life.ja-group.jp/farm/market/detail/?id=584"
+      }
+     ],
+     "makers": [],
+     "season_en": "March to May.",
+     "confidence": "high",
+     "notes_en": "Edo-Tokyo vegetable heritage adds historical value beyond the crop itself."
+    },
+    {
+     "name_ja": "日の出町のしいたけ",
+     "name_en": "Hinode Shiitake Mushrooms",
+     "kind": "crop",
+     "summary_en": "Hinode's wooded mountain setting supports shiitake cultivation. The town highlights the mushrooms' substantial texture and aroma as local agricultural qualities.",
+     "facts": [
+      {
+       "claim_en": "Hinode's official food guide identifies shiitake grown in the town as a local specialty.",
+       "source_url": "https://www.town.hinode.tokyo.jp/cmsfiles/contents/0000000/410/iine_jimoto.pdf",
+       "source_title": "いいね！日の出：地元グルメ＆特産品",
+       "publisher": "日の出町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "日の出町ふれあい農産物直売所",
+       "name_en": "Hinode Farmers' Market",
+       "relation_en": "Local produce market suitable for exploring Hinode's agricultural products.",
+       "address_ja": "東京都西多摩郡日の出町大久野17-2",
+       "official_url": "https://life.ja-group.jp/farm/market/detail/?id=584",
+       "source_url": "https://life.ja-group.jp/farm/market/detail/?id=584"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The source establishes local cultivation, not a specific farm tour."
+    },
+    {
+     "name_ja": "日の出町のゆず",
+     "name_en": "Hinode Yuzu",
+     "kind": "crop",
+     "summary_en": "Yuzu is one of Hinode's recognized local fruits. Its fragrance and winter ripening make it a distinctive seasonal product of the town's agricultural landscape.",
+     "facts": [
+      {
+       "claim_en": "Hinode's town guide identifies yuzu as a local specialty that ripens from early winter.",
+       "source_url": "https://www.town.hinode.tokyo.jp/cmsfiles/contents/0000000/410/iine_jimoto.pdf",
+       "source_title": "いいね！日の出：地元グルメ＆特産品",
+       "publisher": "日の出町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "日の出町ふれあい農産物直売所",
+       "name_en": "Hinode Farmers' Market",
+       "relation_en": "A local agricultural outlet where seasonal products can be explored.",
+       "address_ja": "東京都西多摩郡日の出町大久野17-2",
+       "official_url": "https://life.ja-group.jp/farm/market/detail/?id=584",
+       "source_url": "https://life.ja-group.jp/farm/market/detail/?id=584"
+      }
+     ],
+     "makers": [],
+     "season_en": "Early winter.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "日の出町のブルーベリー",
+     "name_en": "Hinode Blueberries",
+     "kind": "crop",
+     "summary_en": "Blueberry cultivation provides Hinode with a seasonal fruit-picking tradition. The town presents the opportunity to harvest berries directly as part of its agricultural tourism.",
+     "facts": [
+      {
+       "claim_en": "The municipality promotes blueberry-picking experiences during the summer harvest.",
+       "source_url": "https://www.town.hinode.tokyo.jp/cmsfiles/contents/0000000/410/iine_jimoto.pdf",
+       "source_title": "いいね！日の出：地元グルメ＆特産品",
+       "publisher": "日の出町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Approximately mid-July to late August.",
+     "confidence": "high",
+     "notes_en": "The official brochure documents the activity but does not establish a specific currently participating farm."
+    },
+    {
+     "name_ja": "竹の子狩り",
+     "name_en": "Bamboo Shoot Harvesting",
+     "kind": "foraging",
+     "summary_en": "Spring bamboo-shoot harvesting is a recognized food-growing experience in Hinode. It connects visitors with edible produce from the town's bamboo-covered landscape.",
+     "facts": [
+      {
+       "claim_en": "Hinode maintains an official visitor-information page devoted to bamboo-shoot harvesting.",
+       "source_url": "https://www.town.hinode.tokyo.jp/0000000414.html",
+       "source_title": "竹の子狩り",
+       "publisher": "日の出町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Spring, generally April to May.",
+     "confidence": "high",
+     "notes_en": "This refers to organized agricultural harvesting, not unrestricted gathering in forests."
+    },
+    {
+     "name_ja": "サツマイモ掘り",
+     "name_en": "Sweet Potato Digging",
+     "kind": "crop",
+     "summary_en": "Sweet potato digging is part of Hinode's autumn agricultural tourism. It provides an interactive connection to the town's farming landscape.",
+     "facts": [
+      {
+       "claim_en": "The town's tourism calendar features sweet potato digging as a seasonal activity.",
+       "source_url": "https://www.town.hinode.tokyo.jp/0000000440.html",
+       "source_title": "日の出町観光カレンダー",
+       "publisher": "日の出町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Approximately late September to early November.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "みかん狩り",
+     "name_en": "Mandarin Orange Picking",
+     "kind": "crop",
+     "summary_en": "Hinode also has a late-autumn mandarin-picking tradition. The municipality specifically associates this activity with the Hirai-Miyamoto area.",
+     "facts": [
+      {
+       "claim_en": "The official tourism calendar identifies mandarin picking in Hirai-Miyamoto from late November into December.",
+       "source_url": "https://www.town.hinode.tokyo.jp/0000000440.html",
+       "source_title": "日の出町観光カレンダー",
+       "publisher": "日の出町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "平井宮本地区",
+       "name_en": "Hirai-Miyamoto Area",
+       "relation_en": "Area identified by the town for seasonal mandarin-picking experiences.",
+       "address_ja": "東京都西多摩郡日の出町平井宮本",
+       "official_url": "https://www.town.hinode.tokyo.jp/0000000440.html",
+       "source_url": "https://www.town.hinode.tokyo.jp/0000000440.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "Late November to December.",
+     "confidence": "high",
+     "notes_en": "The source identifies an area rather than an individual orchard."
+    },
+    {
+     "name_ja": "ひので肝要の里の地元産ジャム",
+     "name_en": "Hinode Kanyo-no-Sato Local Fruit Preserves",
+     "kind": "sweet",
+     "summary_en": "Hinode Kanyo-no-Sato develops foods using ingredients produced in the area, including fruit preserves. This is an example of the town transforming agricultural harvests into local gifts.",
+     "facts": [
+      {
+       "claim_en": "The municipality identifies Hinode Kanyo-no-Sato as a developer of specialty products using local ingredients, including jams.",
+       "source_url": "https://www.town.hinode.tokyo.jp/cmsfiles/contents/0000000/410/iine_jimoto.pdf",
+       "source_title": "いいね！日の出：地元グルメ＆特産品",
+       "publisher": "日の出町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ひので肝要の里",
+       "name_en": "Hinode Kanyo-no-Sato",
+       "relation_en": "Local specialty-products facility associated with processing regional produce.",
+       "address_ja": "東京都西多摩郡日の出町大字大久野4089",
+       "official_url": "https://www.town.hinode.tokyo.jp/cmsfiles/contents/0000000/410/iine_jimoto.pdf",
+       "source_url": "https://www.town.hinode.tokyo.jp/cmsfiles/contents/0000000/410/iine_jimoto.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ひので肝要の里",
+       "relation_en": "Develops and handles local specialty food products.",
+       "source_url": "https://www.town.hinode.tokyo.jp/cmsfiles/contents/0000000/410/iine_jimoto.pdf"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The facility also appears in municipal agricultural tourism literature."
+    },
+    {
+     "name_ja": "日の出町産牛乳のソフトクリーム",
+     "name_en": "Hinode Dairy Soft Serve",
+     "kind": "sweet",
+     "summary_en": "Soft-serve ice cream made from milk produced by a local dairy farm links Hinode's livestock farming with a readily accessible food experience.",
+     "facts": [
+      {
+       "claim_en": "JA describes soft-serve ice cream made from milk from a farm within the town, sold beside the Hinode farmers' market.",
+       "source_url": "https://life.ja-group.jp/farm/market/detail/?id=584",
+       "source_title": "日の出町ふれあい農産物直売所",
+       "publisher": "JAグループ"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "日の出町ふれあい農産物直売所",
+       "name_en": "Hinode Farmers' Market",
+       "relation_en": "The market grounds provide a visitor destination for the locally produced dairy dessert.",
+       "address_ja": "東京都西多摩郡日の出町大久野17-2",
+       "official_url": "https://life.ja-group.jp/farm/market/detail/?id=584",
+       "source_url": "https://life.ja-group.jp/farm/market/detail/?id=584"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "福嶋牧場",
+       "relation_en": "Local dairy farm associated with the soft-serve outlet.",
+       "source_url": "https://san-tatsu.jp/spots/562213/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "さかな園のマス釣りと塩焼き",
+     "name_en": "Trout Fishing and Grilling at Sakana-en",
+     "kind": "fishing",
+     "summary_en": "Hinode's mountain streams are connected to recreational trout fishing and cooking the catch. Sakana-en provides a concrete setting for experiencing this relationship between water, food, and place.",
+     "facts": [
+      {
+       "claim_en": "Hinode Town identifies Sakana-en as a destination for trout fishing and handling fish as a food experience.",
+       "source_url": "https://www.town.hinode.tokyo.jp/0000000413.html",
+       "source_title": "さかな園",
+       "publisher": "日の出町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "自然休養村さかな園",
+       "name_en": "Sakana-en",
+       "relation_en": "Fishing and riverside food-experience facility.",
+       "address_ja": "東京都西多摩郡日の出町大字大久野3882",
+       "official_url": "https://www.town.hinode.tokyo.jp/0000000413.html",
+       "source_url": "https://www.town.hinode.tokyo.jp/0000000413.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "将門うどん",
+     "name_en": "Masakado Udon",
+     "kind": "dish",
+     "summary_en": "A locally named udon dish is associated with Hinode's Sakana-en. It adds a regional food reference to a venue otherwise known for river fish.",
+     "facts": [
+      {
+       "claim_en": "The regional tourism federation lists Masakado udon among the food offerings associated with Sakana-en.",
+       "source_url": "https://www.ohtama.or.jp/sightseeing/239.html",
+       "source_title": "さかな園",
+       "publisher": "大多摩観光連盟"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "自然休養村さかな園",
+       "name_en": "Sakana-en",
+       "relation_en": "Visitor destination associated with this named udon dish.",
+       "address_ja": "東京都西多摩郡日の出町大字大久野3882",
+       "official_url": "https://www.town.hinode.tokyo.jp/0000000413.html",
+       "source_url": "https://www.town.hinode.tokyo.jp/0000000413.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "The source supports the dish's local association but does not establish a documented historical origin."
+    }
+   ],
+   "none_found_reason_en": ""
+  },
+  {
+   "id": "hinohara",
+   "name_ja": "檜原村",
+   "food_cultures": [
+    {
+     "name_ja": "おいねのつるいも",
+     "name_en": "Oine-no-Tsuruimo Heritage Potato",
+     "kind": "crop",
+     "summary_en": "This inherited potato variety is associated with Hinohara's Kazuma settlement and a story from the Edo period. Its history reflects the movement of seeds and food traditions between neighboring mountain communities.",
+     "facts": [
+      {
+       "claim_en": "The village tourism association relates the potato's introduction to a woman named Oine who came from the Tsuru area of Yamanashi to Kazuma during the Edo period.",
+       "source_url": "https://hinohara-kankou.jp/ecotourism/",
+       "source_title": "檜原村エコツーリズム",
+       "publisher": "檜原村観光協会"
+      },
+      {
+       "claim_en": "JA Tokyo includes Oine-no-Tsuruimo among the traditional Edo-Tokyo vegetables.",
+       "source_url": "https://www.tokyo-ja.or.jp/farm/edo/24.php",
+       "source_title": "おいねのつる芋：江戸東京野菜について",
+       "publisher": "JA東京中央会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "特産物直売所やまぶき屋",
+       "name_en": "Yamabukiya Local Products Shop",
+       "relation_en": "A village-operated sales outlet for local vegetables and potato products; availability of this specific heritage variety is not established.",
+       "address_ja": "東京都西多摩郡檜原村847",
+       "official_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/",
+       "source_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Important Edo-Tokyo vegetable heritage. Do not confuse this Hinohara variety with Okutama's separately branded Jisuke potato."
+    },
+    {
+     "name_ja": "昔のきゅうり",
+     "name_en": "Mukashi-no-Kyuri Heritage Cucumber",
+     "kind": "crop",
+     "summary_en": "The southern valleys of Hinohara preserve a large local cucumber variety. It represents the village's continuing cultivation of unusual inherited vegetables.",
+     "facts": [
+      {
+       "claim_en": "Hinohara's tourism association identifies Mukashi-no-Kyuri with the village's southern valley and describes it as a large cucumber eaten chilled for its crisp texture.",
+       "source_url": "https://hinohara-kankou.jp/ecotourism/",
+       "source_title": "檜原村エコツーリズム",
+       "publisher": "檜原村観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "特産物直売所やまぶき屋",
+       "name_en": "Yamabukiya Local Products Shop",
+       "relation_en": "Direct-sales outlet for village-grown vegetables; stock of the individual heritage cucumber is not confirmed.",
+       "address_ja": "東京都西多摩郡檜原村847",
+       "official_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/",
+       "source_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/"
+      }
+     ],
+     "makers": [],
+     "season_en": "Summer cucumber season.",
+     "confidence": "high",
+     "notes_en": "Distinct from the northern-valley Shiraya-uri."
+    },
+    {
+     "name_ja": "白岩ウリ",
+     "name_en": "Shiraya-uri Heritage Gourd",
+     "kind": "crop",
+     "summary_en": "Shiraya-uri is a large heritage cucumber-like vegetable retained in Hinohara's northern valley. Its unusual local history and appearance make it an especially distinctive edible heritage crop.",
+     "facts": [
+      {
+       "claim_en": "The tourism association identifies Shiraya-uri as the traditional northern-valley counterpart to the southern Mukashi-no-Kyuri.",
+       "source_url": "https://hinohara-kankou.jp/ecotourism/",
+       "source_title": "檜原村エコツーリズム",
+       "publisher": "檜原村観光協会"
+      },
+      {
+       "claim_en": "JA Tokyo recognizes Shiraya-uri as an Edo-Tokyo traditional vegetable.",
+       "source_url": "https://www.tokyo-ja.or.jp/farm/edo/27.php",
+       "source_title": "白岩ウリ（シラヤウリ）：江戸東京野菜について",
+       "publisher": "JA東京中央会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "特産物直売所やまぶき屋",
+       "name_en": "Yamabukiya Local Products Shop",
+       "relation_en": "A practical village-produce stop, though stocking this rare variety is not confirmed.",
+       "address_ja": "東京都西多摩郡檜原村847",
+       "official_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/",
+       "source_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/"
+      }
+     ],
+     "makers": [],
+     "season_en": "Summer growing season.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "檜原村のじゃがいも",
+     "name_en": "Hinohara Mountain Potatoes",
+     "kind": "crop",
+     "summary_en": "Potatoes are a central Hinohara agricultural specialty, grown in the village's steep mountain environment. They also support a recognizable family of local processed foods.",
+     "facts": [
+      {
+       "claim_en": "The village's ecotourism description lists potatoes and their transformation into cookies and distilled spirits among Hinohara's specialties.",
+       "source_url": "https://hinohara-kankou.jp/ecotourism/",
+       "source_title": "檜原村エコツーリズム",
+       "publisher": "檜原村観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "特産物直売所やまぶき屋",
+       "name_en": "Yamabukiya Local Products Shop",
+       "relation_en": "Sells local potatoes and potato-derived specialty foods.",
+       "address_ja": "東京都西多摩郡檜原村847",
+       "official_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/",
+       "source_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "檜原村のじゃがいも焼酎",
+     "name_en": "Hinohara Potato Shochu",
+     "kind": "drink",
+     "summary_en": "Hinohara distills locally grown potatoes into shochu, creating a drink directly tied to the village's staple mountain crop. A local factory provides a concrete producer connection.",
+     "facts": [
+      {
+       "claim_en": "Hinohara Factory is identified by the tourism association as a production facility associated with the village's potato shochu.",
+       "source_url": "https://hinohara-kankou.jp/spot/hinoharafactory/",
+       "source_title": "ひのはらファクトリー",
+       "publisher": "檜原村観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ひのはらファクトリー",
+       "name_en": "Hinohara Factory",
+       "relation_en": "Local production facility associated with the potato-based spirit.",
+       "address_ja": "東京都西多摩郡檜原村小沢4023-1",
+       "official_url": "https://hinohara-kankou.jp/spot/hinoharafactory/",
+       "source_url": "https://hinohara-kankou.jp/spot/hinoharafactory/"
+      },
+      {
+       "name_ja": "特産物直売所やまぶき屋",
+       "name_en": "Yamabukiya Local Products Shop",
+       "relation_en": "Lists village potato shochu among its specialty products.",
+       "address_ja": "東京都西多摩郡檜原村847",
+       "official_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/",
+       "source_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ひのはらファクトリー",
+       "relation_en": "Village-associated distillery and specialty-food producer.",
+       "source_url": "https://hinohara-kankou.jp/spot/hinoharafactory/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "じゃがいもクッキー",
+     "name_en": "Hinohara Potato Cookies",
+     "kind": "sweet",
+     "summary_en": "Potato cookies turn one of Hinohara's signature crops into a distinctive local confection. They are promoted through the village's specialty-products shops.",
+     "facts": [
+      {
+       "claim_en": "Yamabukiya identifies potato cookies as a popular Hinohara specialty.",
+       "source_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/",
+       "source_title": "特産物直売所やまぶき屋",
+       "publisher": "檜原村観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "特産物直売所やまぶき屋",
+       "name_en": "Yamabukiya Local Products Shop",
+       "relation_en": "Officially listed retail destination for Hinohara potato cookies.",
+       "address_ja": "東京都西多摩郡檜原村847",
+       "official_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/",
+       "source_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "じゃがいもアイス",
+     "name_en": "Hinohara Potato Ice Cream",
+     "kind": "sweet",
+     "summary_en": "Potato ice cream is another expression of Hinohara's crop-based food identity. The village tourism association treats it as a recognizable local specialty.",
+     "facts": [
+      {
+       "claim_en": "The Hinohara tourism association lists potato ice cream among the products offered at Yamabukiya.",
+       "source_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/",
+       "source_title": "特産物直売所やまぶき屋",
+       "publisher": "檜原村観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "特産物直売所やまぶき屋",
+       "name_en": "Yamabukiya Local Products Shop",
+       "relation_en": "Village specialty shop associated with potato ice cream.",
+       "address_ja": "東京都西多摩郡檜原村847",
+       "official_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/",
+       "source_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "檜原村の手づくりこんにゃく",
+     "name_en": "Hinohara Handmade Konnyaku",
+     "kind": "dish",
+     "summary_en": "Konnyaku is an established Hinohara specialty supported by local food processors. Its regional expression includes handmade blocks, sashimi-style konnyaku, and other preparations.",
+     "facts": [
+      {
+       "claim_en": "The tourism association identifies Inoue Foods as a Hinohara producer of sashimi konnyaku, cooking konnyaku, and konnyaku noodles.",
+       "source_url": "https://hinohara-kankou.jp/spot/inoueshokuhin/",
+       "source_title": "（株）井上食品",
+       "publisher": "檜原村観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "株式会社井上食品",
+       "name_en": "Inoue Foods",
+       "relation_en": "Village producer of locally associated konnyaku foods.",
+       "address_ja": "東京都西多摩郡檜原村人里1800",
+       "official_url": "https://hinohara-kankou.jp/spot/inoueshokuhin/",
+       "source_url": "https://hinohara-kankou.jp/spot/inoueshokuhin/"
+      },
+      {
+       "name_ja": "ばんば特産物直売所",
+       "name_en": "Banba Local Products Market",
+       "relation_en": "Lists handmade sashimi-style konnyaku.",
+       "address_ja": "東京都西多摩郡檜原村本宿717",
+       "official_url": "https://hinohara-kankou.jp/spot/banbatokusanbutsucyokubaijo/",
+       "source_url": "https://hinohara-kankou.jp/spot/banbatokusanbutsucyokubaijo/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "株式会社井上食品",
+       "relation_en": "Specialist village processor of konnyaku products.",
+       "source_url": "https://hinohara-kankou.jp/spot/inoueshokuhin/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "檜原とうふ",
+     "name_en": "Hinohara Spring-Water Tofu",
+     "kind": "dish",
+     "summary_en": "Hinohara's clean mountain water is part of the identity of its local tofu-making tradition. Chitoseya produces multiple tofu varieties, including a version flavored with yuzu.",
+     "facts": [
+      {
+       "claim_en": "Chitoseya makes tofu using Hinohara's water and offers several varieties, including yuzu tofu.",
+       "source_url": "https://hinohara-kankou.jp/spot/chitoseya/",
+       "source_title": "檜原とうふ ちとせ屋",
+       "publisher": "檜原村観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "檜原とうふ ちとせ屋",
+       "name_en": "Chitoseya Tofu Shop",
+       "relation_en": "Village tofu producer and food-shopping destination near the Hossawa Falls approach.",
+       "address_ja": "東京都西多摩郡檜原村本宿5557",
+       "official_url": "https://hinohara-kankou.jp/spot/chitoseya/",
+       "source_url": "https://hinohara-kankou.jp/spot/chitoseya/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "檜原とうふ ちとせ屋",
+       "relation_en": "Local tofu maker.",
+       "source_url": "https://hinohara-kankou.jp/spot/chitoseya/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "うの花ドーナツ",
+     "name_en": "Unohana Okara Doughnuts",
+     "kind": "sweet",
+     "summary_en": "Chitoseya turns the soybean pulp produced during tofu-making into doughnuts prepared with soy milk. This locally celebrated confection links a traditional food craft with a modern snack.",
+     "facts": [
+      {
+       "claim_en": "The village tourism association identifies Chitoseya's okara-and-soy-milk doughnuts as a popular local specialty.",
+       "source_url": "https://hinohara-kankou.jp/spot/chitoseya/",
+       "source_title": "檜原とうふ ちとせ屋",
+       "publisher": "檜原村観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "檜原とうふ ちとせ屋",
+       "name_en": "Chitoseya Tofu Shop",
+       "relation_en": "Producer and direct destination for the confection.",
+       "address_ja": "東京都西多摩郡檜原村本宿5557",
+       "official_url": "https://hinohara-kankou.jp/spot/chitoseya/",
+       "source_url": "https://hinohara-kankou.jp/spot/chitoseya/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "檜原とうふ ちとせ屋",
+       "relation_en": "Makes the okara doughnuts as an extension of its tofu production.",
+       "source_url": "https://hinohara-kankou.jp/spot/chitoseya/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "檜原村のゆず",
+     "name_en": "Hinohara Yuzu",
+     "kind": "crop",
+     "summary_en": "Yuzu is a characteristic Hinohara fruit and the starting point for several village specialty foods. Local makers use it in preserves, condiments, and drinks.",
+     "facts": [
+      {
+       "claim_en": "Hinohara's ecotourism information explicitly identifies yuzu and yuzu-derived products among village specialties.",
+       "source_url": "https://hinohara-kankou.jp/ecotourism/",
+       "source_title": "檜原村エコツーリズム",
+       "publisher": "檜原村観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "特産物直売所やまぶき屋",
+       "name_en": "Yamabukiya Local Products Shop",
+       "relation_en": "Sells yuzu-related specialties produced for the local market.",
+       "address_ja": "東京都西多摩郡檜原村847",
+       "official_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/",
+       "source_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/"
+      }
+     ],
+     "makers": [],
+     "season_en": "Autumn to winter.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "ゆずジャム・ゆず味噌",
+     "name_en": "Hinohara Yuzu Jam and Yuzu Miso",
+     "kind": "other",
+     "summary_en": "Hinohara transforms its aromatic yuzu into sweet preserves and savory miso-based condiments. These products preserve the identity of a local seasonal fruit beyond its harvest.",
+     "facts": [
+      {
+       "claim_en": "Yamabukiya lists both yuzu jam and yuzu miso among its Hinohara specialty products.",
+       "source_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/",
+       "source_title": "特産物直売所やまぶき屋",
+       "publisher": "檜原村観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "特産物直売所やまぶき屋",
+       "name_en": "Yamabukiya Local Products Shop",
+       "relation_en": "Sales destination for both forms of yuzu preservation.",
+       "address_ja": "東京都西多摩郡檜原村847",
+       "official_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/",
+       "source_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "合同会社ともすび",
+       "relation_en": "Uses Hinohara fruits and vegetables to make preserves and other condiments, including yuzu jam.",
+       "source_url": "https://hinohara-kankou.jp/spot/tomosubi/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "柚子ワイン",
+     "name_en": "Hinohara Yuzu Wine",
+     "kind": "drink",
+     "summary_en": "Yuzu wine is a distinctive Hinohara specialty drink built around the village's aromatic citrus identity.",
+     "facts": [
+      {
+       "claim_en": "The village tourism association identifies yuzu wine as one of Hinohara's specialty products and lists it at Yamabukiya.",
+       "source_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/",
+       "source_title": "特産物直売所やまぶき屋",
+       "publisher": "檜原村観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "特産物直売所やまぶき屋",
+       "name_en": "Yamabukiya Local Products Shop",
+       "relation_en": "Village specialty shop associated with yuzu wine.",
+       "address_ja": "東京都西多摩郡檜原村847",
+       "official_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/",
+       "source_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "檜原村の柚子胡椒・唐辛子味噌",
+     "name_en": "Hinohara Yuzu Pepper and Chili Miso",
+     "kind": "other",
+     "summary_en": "Local vegetables and fruit are preserved as intensely flavored condiments, including yuzu pepper and chili miso. These are examples of a village producer turning small-scale harvests into regional food products.",
+     "facts": [
+      {
+       "claim_en": "Tomosubi produces yuzu pepper and chili miso using vegetables and fruits associated with Hinohara.",
+       "source_url": "https://hinohara-kankou.jp/spot/tomosubi/",
+       "source_title": "合同会社ともすび",
+       "publisher": "檜原村観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "山の店",
+       "name_en": "Yama-no-Mise",
+       "relation_en": "One of the documented retail outlets for Tomosubi's local specialty products.",
+       "address_ja": "東京都西多摩郡檜原村下元郷22",
+       "official_url": "https://hinohara-kankou.jp/spot/yamanomise/",
+       "source_url": "https://hinohara-kankou.jp/spot/tomosubi/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "合同会社ともすび",
+       "relation_en": "Local maker of preserved vegetable and fruit condiments.",
+       "source_url": "https://hinohara-kankou.jp/spot/tomosubi/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "檜原村産梅シロップ",
+     "name_en": "Hinohara Plum Syrup",
+     "kind": "drink",
+     "summary_en": "Plum syrup is one of the fruit-based specialty products produced in Hinohara. It extends the village's preserved-fruit traditions into a drink ingredient.",
+     "facts": [
+      {
+       "claim_en": "Tomosubi lists plum syrup among the food products it makes using Hinohara's fruits and vegetables.",
+       "source_url": "https://hinohara-kankou.jp/spot/tomosubi/",
+       "source_title": "合同会社ともすび",
+       "publisher": "檜原村観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "山の店",
+       "name_en": "Yama-no-Mise",
+       "relation_en": "Listed as a seller of Tomosubi's local specialty goods.",
+       "address_ja": "東京都西多摩郡檜原村下元郷22",
+       "official_url": "https://hinohara-kankou.jp/spot/yamanomise/",
+       "source_url": "https://hinohara-kankou.jp/spot/tomosubi/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "合同会社ともすび",
+       "relation_en": "Producer of fruit-based preserves and syrups.",
+       "source_url": "https://hinohara-kankou.jp/spot/tomosubi/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A product for preparing drinks; the source does not establish a specific ready-to-drink serving."
+    },
+    {
+     "name_ja": "ひのはら紅茶",
+     "name_en": "Hinohara Black Tea",
+     "kind": "drink",
+     "summary_en": "Hinohara black tea comes from a revived mountain tea field. The producer's work preserves a small-scale agricultural landscape and creates a locally identifiable tea.",
+     "facts": [
+      {
+       "claim_en": "The village tourism association describes a tea producer who restored a hillside field that had been close to abandonment.",
+       "source_url": "https://hinohara-kankou.jp/spot/hinoharamasako/",
+       "source_title": "檜原雅子（紅茶製茶工房）",
+       "publisher": "檜原村観光協会"
+      },
+      {
+       "claim_en": "Hinohara black tea is listed among the specialty products sold by Yamabukiya.",
+       "source_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/",
+       "source_title": "特産物直売所やまぶき屋",
+       "publisher": "檜原村観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "特産物直売所やまぶき屋",
+       "name_en": "Yamabukiya Local Products Shop",
+       "relation_en": "Retail destination for village-produced black tea.",
+       "address_ja": "東京都西多摩郡檜原村847",
+       "official_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/",
+       "source_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "檜原雅子（紅茶製茶工房）",
+       "relation_en": "Producer associated with reviving mountain tea cultivation.",
+       "source_url": "https://hinohara-kankou.jp/spot/hinoharamasako/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The producer's agricultural site should not automatically be treated as a public visitor attraction."
+    },
+    {
+     "name_ja": "檜原村産舞茸",
+     "name_en": "Hinohara Maitake Mushrooms",
+     "kind": "crop",
+     "summary_en": "Maitake cultivated in Hinohara's cool mountain environment is a prominent local producer specialty. The mushrooms are marketed for their substantial texture and aroma.",
+     "facts": [
+      {
+       "claim_en": "Hinohara Kinoko Center cultivates maitake at a mountain site around 850 meters in elevation.",
+       "source_url": "https://hinohara-kankou.jp/spot/hinoharakinokocenter/",
+       "source_title": "（株）桧原きのこセンター",
+       "publisher": "檜原村観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "株式会社桧原きのこセンター",
+       "name_en": "Hinohara Mushroom Center",
+       "relation_en": "Identified production site for locally cultivated maitake.",
+       "address_ja": "東京都西多摩郡檜原村藤倉5169",
+       "official_url": "https://hinohara-kankou.jp/spot/hinoharakinokocenter/",
+       "source_url": "https://hinohara-kankou.jp/spot/hinoharakinokocenter/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "株式会社桧原きのこセンター",
+       "relation_en": "Mountain mushroom grower.",
+       "source_url": "https://hinohara-kankou.jp/spot/hinoharakinokocenter/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The tourism association's location is used; address representations should be checked before navigation to this remote production site."
+    },
+    {
+     "name_ja": "檜原村産あわび茸",
+     "name_en": "Hinohara Abalone Mushrooms",
+     "kind": "crop",
+     "summary_en": "Alongside maitake, Hinohara Kinoko Center grows abalone mushrooms. This is a second documented cultivated mushroom product associated with the village's mountain producer.",
+     "facts": [
+      {
+       "claim_en": "The tourism association lists abalone mushrooms among the products of Hinohara Kinoko Center.",
+       "source_url": "https://hinohara-kankou.jp/spot/hinoharakinokocenter/",
+       "source_title": "（株）桧原きのこセンター",
+       "publisher": "檜原村観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "株式会社桧原きのこセンター",
+       "name_en": "Hinohara Mushroom Center",
+       "relation_en": "Grower associated with both maitake and abalone mushrooms.",
+       "address_ja": "東京都西多摩郡檜原村藤倉5169",
+       "official_url": "https://hinohara-kankou.jp/spot/hinoharakinokocenter/",
+       "source_url": "https://hinohara-kankou.jp/spot/hinoharakinokocenter/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "株式会社桧原きのこセンター",
+       "relation_en": "Producer of abalone mushrooms.",
+       "source_url": "https://hinohara-kankou.jp/spot/hinoharakinokocenter/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "檜原村の天然はちみつ",
+     "name_en": "Hinohara Mountain Honey",
+     "kind": "brand",
+     "summary_en": "Small-scale beekeeping turns flowers in Hinohara's mountain landscape into a distinctive local food product. Kaoru Apiary is a documented specialist producer.",
+     "facts": [
+      {
+       "claim_en": "The tourism association identifies Kaoru Apiary as a producer of natural honey in Hinohara.",
+       "source_url": "https://hinohara-kankou.jp/spot/kaoruyohoen/",
+       "source_title": "薫る養蜂園",
+       "publisher": "檜原村観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "特産物直売所やまぶき屋",
+       "name_en": "Yamabukiya Local Products Shop",
+       "relation_en": "Lists local honey among its food specialties.",
+       "address_ja": "東京都西多摩郡檜原村847",
+       "official_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/",
+       "source_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "薫る養蜂園",
+       "relation_en": "Village honey producer.",
+       "source_url": "https://hinohara-kankou.jp/spot/kaoruyohoen/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "檜原村産ルバーブジャム",
+     "name_en": "Hinohara Rhubarb Jam",
+     "kind": "sweet",
+     "summary_en": "Locally grown rhubarb is made into jam by the Hinohara producer Hinatabokko. The product highlights a less familiar crop within Tokyo's mountain agriculture.",
+     "facts": [
+      {
+       "claim_en": "Hinatabokko manufactures jam using rhubarb grown in Hinohara.",
+       "source_url": "https://hinohara-kankou.jp/spot/hinatabokko/",
+       "source_title": "ひなたぼっこ",
+       "publisher": "檜原村観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "特産物直売所やまぶき屋",
+       "name_en": "Yamabukiya Local Products Shop",
+       "relation_en": "Named as a retailer of Hinatabokko products.",
+       "address_ja": "東京都西多摩郡檜原村847",
+       "official_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/",
+       "source_url": "https://hinohara-kankou.jp/spot/hinatabokko/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ひなたぼっこ",
+       "relation_en": "Maker of preserves from village-grown crops.",
+       "source_url": "https://hinohara-kankou.jp/spot/hinatabokko/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "檜原村産ナツハゼジャム",
+     "name_en": "Hinohara Natsuhaze Berry Jam",
+     "kind": "sweet",
+     "summary_en": "Natsuhaze, a Japanese woodland berry, is used in a local Hinohara preserve. This product connects mountain plant resources with small-batch food making.",
+     "facts": [
+      {
+       "claim_en": "Hinatabokko makes jam from natsuhaze harvested or grown in Hinohara.",
+       "source_url": "https://hinohara-kankou.jp/spot/hinatabokko/",
+       "source_title": "ひなたぼっこ",
+       "publisher": "檜原村観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "特産物直売所やまぶき屋",
+       "name_en": "Yamabukiya Local Products Shop",
+       "relation_en": "A named retail outlet for Hinatabokko's preserves.",
+       "address_ja": "東京都西多摩郡檜原村847",
+       "official_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/",
+       "source_url": "https://hinohara-kankou.jp/spot/hinatabokko/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ひなたぼっこ",
+       "relation_en": "Local producer of natsuhaze jam.",
+       "source_url": "https://hinohara-kankou.jp/spot/hinatabokko/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "檜原村産メープルシロップ",
+     "name_en": "Hinohara Maple Syrup",
+     "kind": "sweet",
+     "summary_en": "Hinohara has a small-scale maple-syrup product made from sap collected from village trees. The producer presents it as a seasonal mountain resource.",
+     "facts": [
+      {
+       "claim_en": "Hinatabokko produces maple syrup from sap collected from maple trees in Hinohara during winter.",
+       "source_url": "https://hinohara-kankou.jp/spot/hinatabokko/",
+       "source_title": "ひなたぼっこ",
+       "publisher": "檜原村観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "特産物直売所やまぶき屋",
+       "name_en": "Yamabukiya Local Products Shop",
+       "relation_en": "Listed as a retailer of Hinatabokko products, though maple syrup specifically may be limited.",
+       "address_ja": "東京都西多摩郡檜原村847",
+       "official_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/",
+       "source_url": "https://hinohara-kankou.jp/spot/hinatabokko/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ひなたぼっこ",
+       "relation_en": "Makes maple syrup using sap from local trees.",
+       "source_url": "https://hinohara-kankou.jp/spot/hinatabokko/"
+      }
+     ],
+     "season_en": "Winter sap collection.",
+     "confidence": "high",
+     "notes_en": "The product is described as small-scale and seasonal."
+    },
+    {
+     "name_ja": "ひのはら漬",
+     "name_en": "Hinohara Pickles",
+     "kind": "dish",
+     "summary_en": "Hinohara pickles preserve the village's vegetable harvests in a recognizable local souvenir food. They represent the practical tradition of keeping mountain-grown vegetables for later use.",
+     "facts": [
+      {
+       "claim_en": "The village tourism association lists Hinohara-zuke as a specialty food sold at Yamabukiya.",
+       "source_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/",
+       "source_title": "特産物直売所やまぶき屋",
+       "publisher": "檜原村観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "特産物直売所やまぶき屋",
+       "name_en": "Yamabukiya Local Products Shop",
+       "relation_en": "Direct-sales destination for the named village pickle.",
+       "address_ja": "東京都西多摩郡檜原村847",
+       "official_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/",
+       "source_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "檜原村の山菜",
+     "name_en": "Hinohara Wild Mountain Vegetables",
+     "kind": "foraging",
+     "summary_en": "Wild mountain vegetables form part of Hinohara's food landscape and seasonal culinary culture. Local shops provide a way to encounter these foods without gathering plants independently.",
+     "facts": [
+      {
+       "claim_en": "Yamabukiya lists seasonal wild mountain vegetables among its locally associated products.",
+       "source_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/",
+       "source_title": "特産物直売所やまぶき屋",
+       "publisher": "檜原村観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "特産物直売所やまぶき屋",
+       "name_en": "Yamabukiya Local Products Shop",
+       "relation_en": "A village outlet handling mountain vegetables.",
+       "address_ja": "東京都西多摩郡檜原村847",
+       "official_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/",
+       "source_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/"
+      },
+      {
+       "name_ja": "山の店",
+       "name_en": "Yama-no-Mise",
+       "relation_en": "A local produce and specialty shop that also handles mountain vegetables.",
+       "address_ja": "東京都西多摩郡檜原村下元郷22",
+       "official_url": "https://hinohara-kankou.jp/spot/yamanomise/",
+       "source_url": "https://hinohara-kankou.jp/spot/yamanomise/"
+      }
+     ],
+     "makers": [],
+     "season_en": "Primarily spring, varying by plant.",
+     "confidence": "high",
+     "notes_en": "The sources establish local retail and food use, not permission to harvest wild plants."
+    },
+    {
+     "name_ja": "檜原村のわさび栽培",
+     "name_en": "Hinohara Wasabi Cultivation",
+     "kind": "crop",
+     "summary_en": "Wasabi cultivation is one of the activities undertaken by a Hinohara local-food producer. It connects the village's mountain water resources with traditional Japanese condiments.",
+     "facts": [
+      {
+       "claim_en": "Tomosubi explicitly identifies wasabi cultivation as one of its activities in Hinohara.",
+       "source_url": "https://hinohara-kankou.jp/spot/tomosubi/",
+       "source_title": "合同会社ともすび",
+       "publisher": "檜原村観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "特産物直売所やまぶき屋",
+       "name_en": "Yamabukiya Local Products Shop",
+       "relation_en": "Listed as a retail outlet for Tomosubi's local products; specific fresh-wasabi availability is not documented.",
+       "address_ja": "東京都西多摩郡檜原村847",
+       "official_url": "https://hinohara-kankou.jp/spot/yamabuki-ya/",
+       "source_url": "https://hinohara-kankou.jp/spot/tomosubi/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "合同会社ともすび",
+       "relation_en": "Village business engaged in wasabi cultivation and local food processing.",
+       "source_url": "https://hinohara-kankou.jp/spot/tomosubi/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "Evidence establishes a producer's cultivation activity rather than a village-wide wasabi brand."
+    },
+    {
+     "name_ja": "檜原村の川魚文化",
+     "name_en": "Hinohara River Fish and Trout",
+     "kind": "fishing",
+     "summary_en": "Fish from the Akigawa river system contribute to Hinohara's food experiences and local sales. Yamame and ayu are among the freshwater fish associated with the village.",
+     "facts": [
+      {
+       "claim_en": "Banba Local Products Market lists ayu and yamame among its food products.",
+       "source_url": "https://hinohara-kankou.jp/spot/banbatokusanbutsucyokubaijo/",
+       "source_title": "ばんば特産物直売所",
+       "publisher": "檜原村観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ばんば特産物直売所",
+       "name_en": "Banba Local Products Market",
+       "relation_en": "A documented local-sales point for ayu and yamame.",
+       "address_ja": "東京都西多摩郡檜原村本宿717",
+       "official_url": "https://hinohara-kankou.jp/spot/banbatokusanbutsucyokubaijo/",
+       "source_url": "https://hinohara-kankou.jp/spot/banbatokusanbutsucyokubaijo/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The retail source does not establish whether every fish sold was caught wild or raised locally."
+    }
+   ],
+   "none_found_reason_en": ""
+  },
+  {
+   "id": "okutama",
+   "name_ja": "奥多摩町",
+   "food_cultures": [
+    {
+     "name_ja": "奥多摩わさび",
+     "name_en": "Okutama Wasabi",
+     "kind": "crop",
+     "summary_en": "Wasabi grown in Okutama's mountain streams is a signature specialty with roots reaching back to the Edo period. Historical records describe its quality and its presentation to the shogunate.",
+     "facts": [
+      {
+       "claim_en": "Tokyo Metropolitan Government identifies Okutama wasabi as a designated regional resource associated with Ome and Okutama.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_107.html",
+       "source_title": "奥多摩わさび：地域資源紹介",
+       "publisher": "東京都"
+      },
+      {
+       "claim_en": "Historical accounts from the late Edo period record Okutama wasabi as a valued regional product presented to the shogunate.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_107.html",
+       "source_title": "奥多摩わさび：地域資源紹介",
+       "publisher": "東京都"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "千島わさび園",
+       "name_en": "Chishima Wasabi Farm",
+       "relation_en": "A locally listed business specializing in wasabi and processed wasabi products.",
+       "address_ja": "東京都西多摩郡奥多摩町丹三郎8-2",
+       "official_url": "https://www.okutama.gr.jp/site/shopping/",
+       "source_url": "https://www.okutama.gr.jp/site/shopping/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "千島わさび園",
+       "relation_en": "Local wasabi producer and seller.",
+       "source_url": "https://www.okutama.gr.jp/site/shopping/"
+      }
+     ],
+     "season_en": "Cultivation spans multiple seasons; root maturation requires an extended growing period.",
+     "confidence": "high",
+     "notes_en": "The crop's historical significance is independently documented by the Tokyo Metropolitan Government."
+    },
+    {
+     "name_ja": "東京天空山葵",
+     "name_en": "Tokyo Tenku Wasabi",
+     "kind": "brand",
+     "summary_en": "Tokyo Tenku Wasabi is a producer-linked expression of Okutama's established wasabi culture. Its cultivation is associated with mountain spring water in the Mount Kawanori area.",
+     "facts": [
+      {
+       "claim_en": "The Okutama Tourism Association identifies Tokyo Tenku Wasabi as wasabi grown by Wasabiya Komura using mountain water from the Mount Kawanori area.",
+       "source_url": "https://www.okutama.gr.jp/site/shopping/",
+       "source_title": "奥多摩のショップリスト",
+       "publisher": "奥多摩観光協会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "山葵屋小村",
+       "relation_en": "Grower associated with the Tokyo Tenku Wasabi brand.",
+       "source_url": "https://www.okutama.gr.jp/site/shopping/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "This is a producer-specific brand within the wider Okutama wasabi tradition. No confirmed visitor-accessible farm address was established."
+    },
+    {
+     "name_ja": "治助イモ",
+     "name_en": "Jisuke Heritage Potatoes",
+     "kind": "crop",
+     "summary_en": "Jisuke is a traditional potato retained in Okutama's mountain settlements. Its rich flavor, sticky texture, and resistance to breaking apart during cooking have made it a major local food brand.",
+     "facts": [
+      {
+       "claim_en": "JA Tokyo describes the variety as being preserved in the Mineya area after seed potatoes were brought from neighboring Hinohara during the Meiji period.",
+       "source_url": "https://www.tokyo-ja.or.jp/farm/edo/56.php",
+       "source_title": "治助イモ（ジャガイモ）：江戸東京野菜について",
+       "publisher": "JA東京中央会"
+      },
+      {
+       "claim_en": "Okutama Town holds the registered trademark for Jisuke potatoes and identifies participating establishments serving the ingredient.",
+       "source_url": "https://www.town.okutama.tokyo.jp/1/kankosangyoka/sangyoshinko/2/2/724.html",
+       "source_title": "治助イモ",
+       "publisher": "奥多摩町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "カフェクアラ",
+       "name_en": "Café Kuala",
+       "relation_en": "A town-recognized establishment using Jisuke potatoes in local cooking.",
+       "address_ja": "東京都西多摩郡奥多摩町氷川702",
+       "official_url": "https://www.cafekuala.jp/",
+       "source_url": "https://www.town.okutama.tokyo.jp/1/kankosangyoka/sangyoshinko/2/2/724.html"
+      },
+      {
+       "name_ja": "手づくり工房 四季の家",
+       "name_en": "Shiki-no-Ie",
+       "relation_en": "Another establishment on the town's Jisuke-potato certification list.",
+       "address_ja": "東京都西多摩郡奥多摩町白丸313",
+       "official_url": "https://www.okutamas.co.jp/sikinoie/",
+       "source_url": "https://www.town.okutama.tokyo.jp/1/kankosangyoka/sangyoshinko/2/2/724.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "奥多摩町の治助イモ生産者",
+       "relation_en": "Participating local growers maintaining the town's registered heritage-potato brand.",
+       "source_url": "https://www.town.okutama.tokyo.jp/1/kankosangyoka/sangyoshinko/2/2/724.html"
+      }
+     ],
+     "season_en": "Autumn potato harvest.",
+     "confidence": "high",
+     "notes_en": "Recognized by JA as an Edo-Tokyo vegetable and separately protected as a municipal trademark."
+    },
+    {
+     "name_ja": "治助芋のネギ味噌",
+     "name_en": "Jisuke Potatoes with Scallion Miso",
+     "kind": "dish",
+     "summary_en": "This Okutama regional dish combines the area's heritage potato with a savory scallion-miso topping. It expresses a traditional approach to preparing a locally preserved staple crop.",
+     "facts": [
+      {
+       "claim_en": "Japan's Ministry of Agriculture, Forestry and Fisheries documents Jisuke potatoes with scallion miso as a Tokyo regional dish.",
+       "source_url": "https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/34_14_tokyo.html",
+       "source_title": "治助芋のネギ味噌：東京都の郷土料理",
+       "publisher": "農林水産省"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "カフェクアラ",
+       "name_en": "Café Kuala",
+       "relation_en": "Recognized by the town as a Jisuke-potato establishment, although this precise traditional preparation is not confirmed.",
+       "address_ja": "東京都西多摩郡奥多摩町氷川702",
+       "official_url": "https://www.cafekuala.jp/",
+       "source_url": "https://www.town.okutama.tokyo.jp/1/kankosangyoka/sangyoshinko/2/2/724.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "MAFF provides the historical and culinary basis; the visit location is associated with the ingredient rather than verified as serving the precise dish."
+    },
+    {
+     "name_ja": "おくたまカレー",
+     "name_en": "Okutama Curry",
+     "kind": "dish",
+     "summary_en": "Okutama Curry is a local specialty combining the town's traditional potatoes and venison. It brings together two identifiable mountain food resources in a contemporary regional dish.",
+     "facts": [
+      {
+       "claim_en": "Café Kuala describes its curry as using potatoes and venison produced in Okutama.",
+       "source_url": "https://www.cafekuala.jp/",
+       "source_title": "奥多摩 森のカフェ クアラ",
+       "publisher": "Café Kuala"
+      },
+      {
+       "claim_en": "The Okutama Tourism Association identifies Café Kuala as a destination for curry prepared with Jisuke potatoes.",
+       "source_url": "https://www.okutama.gr.jp/site/shopping/",
+       "source_title": "奥多摩のショップリスト",
+       "publisher": "奥多摩観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "カフェクアラ",
+       "name_en": "Café Kuala",
+       "relation_en": "Offers a curry rooted in the town's heritage potatoes and mountain food products.",
+       "address_ja": "東京都西多摩郡奥多摩町氷川702",
+       "official_url": "https://www.cafekuala.jp/",
+       "source_url": "https://www.okutama.gr.jp/site/shopping/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "カフェクアラ",
+       "relation_en": "Local establishment making food from Jisuke potatoes and Okutama venison.",
+       "source_url": "https://www.cafekuala.jp/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The locally cooked curry and packaged souvenir versions should not automatically be treated as identical recipes."
+    },
+    {
+     "name_ja": "奥多摩の鹿肉料理",
+     "name_en": "Okutama Venison Cuisine",
+     "kind": "dish",
+     "summary_en": "Venison is part of Okutama's contemporary mountain-food identity. Local restaurants use deer meat in dishes that connect regional wildlife management and food culture.",
+     "facts": [
+      {
+       "claim_en": "Café Kuala explicitly identifies Okutama venison among the local ingredients used in its cooking.",
+       "source_url": "https://www.cafekuala.jp/",
+       "source_title": "奥多摩 森のカフェ クアラ",
+       "publisher": "Café Kuala"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "カフェクアラ",
+       "name_en": "Café Kuala",
+       "relation_en": "A documented place to encounter a dish made with local venison.",
+       "address_ja": "東京都西多摩郡奥多摩町氷川702",
+       "official_url": "https://www.cafekuala.jp/",
+       "source_url": "https://www.okutama.gr.jp/site/shopping/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Current evidence supports local venison cookery, not a specific centuries-old hunting tradition."
+    },
+    {
+     "name_ja": "奥多摩やまめ",
+     "name_en": "Okutama Yamame",
+     "kind": "brand",
+     "summary_en": "Okutama Yamame is a distinctive Tokyo aquaculture product developed to produce larger yamame suitable for a broader range of dishes. It combines river-fish culture with regional fisheries research.",
+     "facts": [
+      {
+       "claim_en": "The Tokyo Metropolitan agricultural and fisheries foundation describes Okutama Yamame as a specially developed aquaculture fish.",
+       "source_url": "https://www.tokyo-aff.or.jp/site/aquafarming/88889.html",
+       "source_title": "奥多摩やまめ",
+       "publisher": "東京都農林水産振興財団"
+      },
+      {
+       "claim_en": "The Tokyo Environmental Bureau describes its use in sashimi, sushi, grilled or fried preparations, and other dishes.",
+       "source_url": "https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/kokuritsu/chichibu/okutama/tourism.html",
+       "source_title": "奥多摩の観光",
+       "publisher": "東京都環境局"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "小河内漁業協同組合",
+       "name_en": "Ogouchi Fisheries Cooperative",
+       "relation_en": "A documented local producer cultivating Okutama Yamame and other freshwater fish.",
+       "address_ja": "東京都西多摩郡奥多摩町川野529",
+       "official_url": "https://ogouchi-fishery.org/",
+       "source_url": "https://ogouchi-fishery.org/wholesale/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "小河内漁業協同組合",
+       "relation_en": "Cultivates and distributes Okutama Yamame.",
+       "source_url": "https://ogouchi-fishery.org/wholesale/"
+      },
+      {
+       "name_ja": "東京都奥多摩さかな養殖センター",
+       "relation_en": "Public fisheries research institution associated with developing the Okutama Yamame variety.",
+       "source_url": "https://www.tokyo-aff.or.jp/site/aquafarming/88889.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A particularly strong producer-and-place story because the fish is supported by public research and local aquaculture."
+    },
+    {
+     "name_ja": "やまぼこ",
+     "name_en": "Yamaboko Yamame Fish Cakes",
+     "kind": "dish",
+     "summary_en": "Yamaboko is a processed food associated with the local fisheries cooperative. It extends Okutama's yamame culture beyond whole fresh fish into a value-added product.",
+     "facts": [
+      {
+       "claim_en": "The Ogouchi Fisheries Cooperative identifies Yamaboko as one of its processed fish products.",
+       "source_url": "https://ogouchi-fishery.org/product/",
+       "source_title": "やまぼこ等の加工品",
+       "publisher": "小河内漁業協同組合"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "小河内漁業協同組合",
+       "name_en": "Ogouchi Fisheries Cooperative",
+       "relation_en": "Producer organization associated with Yamaboko.",
+       "address_ja": "東京都西多摩郡奥多摩町川野529",
+       "official_url": "https://ogouchi-fishery.org/",
+       "source_url": "https://ogouchi-fishery.org/wholesale/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "小河内漁業協同組合",
+       "relation_en": "Producer and promoter of processed yamame products.",
+       "source_url": "https://ogouchi-fishery.org/product/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The source establishes a processed fish product; it does not establish the cooperative site as a walk-in retail shop."
+    },
+    {
+     "name_ja": "奥多摩のヤマメ・イワナ・ニジマス養殖",
+     "name_en": "Okutama Freshwater Fish Farming",
+     "kind": "fishing",
+     "summary_en": "Okutama's freshwater fisheries culture extends beyond its namesake yamame brand. Local producers also cultivate conventional yamame, char, and rainbow trout for regional food businesses.",
+     "facts": [
+      {
+       "claim_en": "Ogouchi Fisheries Cooperative raises yamame, iwana, rainbow trout, and Okutama Yamame, supplying local establishments.",
+       "source_url": "https://ogouchi-fishery.org/wholesale/",
+       "source_title": "奥多摩の鮮魚卸",
+       "publisher": "小河内漁業協同組合"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "小河内漁業協同組合",
+       "name_en": "Ogouchi Fisheries Cooperative",
+       "relation_en": "Local fisheries producer handling multiple freshwater fish species.",
+       "address_ja": "東京都西多摩郡奥多摩町川野529",
+       "official_url": "https://ogouchi-fishery.org/",
+       "source_url": "https://ogouchi-fishery.org/wholesale/"
+      },
+      {
+       "name_ja": "牧野養魚場",
+       "name_en": "Makino Fish Farm",
+       "relation_en": "A tourism-association-listed farm selling yamame and rainbow trout.",
+       "address_ja": "東京都西多摩郡奥多摩町海沢59-3",
+       "official_url": "https://www.okutama.gr.jp/site/shopping/",
+       "source_url": "https://www.okutama.gr.jp/site/shopping/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "小河内漁業協同組合",
+       "relation_en": "Aquaculture and distribution of regional freshwater fish.",
+       "source_url": "https://ogouchi-fishery.org/wholesale/"
+      },
+      {
+       "name_ja": "牧野養魚場",
+       "relation_en": "Freshwater fish grower and direct seller.",
+       "source_url": "https://www.okutama.gr.jp/site/shopping/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "奥多摩の川魚釣り",
+     "name_en": "Okutama River Fishing and Eating the Catch",
+     "kind": "fishing",
+     "summary_en": "Mountain-stream fishing is a visitor-facing aspect of Okutama's freshwater food culture. The Tokyo government highlights the opportunity to catch and eat fish within the area's natural landscape.",
+     "facts": [
+      {
+       "claim_en": "Tokyo's Environmental Bureau identifies fishing venues where visitors can catch fish and experience eating their catch in Okutama.",
+       "source_url": "https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/kokuritsu/chichibu/okutama/tourism.html",
+       "source_title": "奥多摩の観光",
+       "publisher": "東京都環境局"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "氷川国際ます釣場",
+       "name_en": "Hikawa International Trout Fishing Area",
+       "relation_en": "Named Okutama trout-fishing destination.",
+       "address_ja": "東京都西多摩郡奥多摩町氷川397-1",
+       "official_url": "https://www.okutamas.co.jp/hikawa/surrounding-facilities/",
+       "source_url": "https://www.okutamas.co.jp/hikawa/surrounding-facilities/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "奥多摩の生味噌",
+     "name_en": "Okutama Naturally Fermented Miso",
+     "kind": "other",
+     "summary_en": "Shiki-no-Ie produces miso using Okutama spring water and traditional fermentation methods. The product grew out of a local specialty-processing initiative and remains strongly tied to the area's food identity.",
+     "facts": [
+      {
+       "claim_en": "Shiki-no-Ie describes beginning its production with miso prepared using Okutama spring water and later developing its handmade local-products range.",
+       "source_url": "https://www.okutamas.co.jp/sikinoie/about/",
+       "source_title": "四季の家について",
+       "publisher": "手づくり工房 四季の家"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "手づくり工房 四季の家",
+       "name_en": "Shiki-no-Ie",
+       "relation_en": "Local producer and direct-sales destination for traditionally fermented miso.",
+       "address_ja": "東京都西多摩郡奥多摩町白丸313",
+       "official_url": "https://www.okutamas.co.jp/sikinoie/",
+       "source_url": "https://www.town.okutama.tokyo.jp/1/kankosangyoka/sangyoshinko/2/2/724.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "手づくり工房 四季の家",
+       "relation_en": "Manufactures and sells fermented miso using local water.",
+       "source_url": "https://www.okutamas.co.jp/sikinoie/about/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The producer's history links the food to regional development and preserving local resources."
+    },
+    {
+     "name_ja": "東京の森ピクルス",
+     "name_en": "Tokyo Forest Pickles",
+     "kind": "brand",
+     "summary_en": "Tokyo Forest Pickles is a distinctive preserved-food brand developed by an Okutama specialty producer. It expresses the surrounding mountain environment through a contemporary preserved-vegetable product.",
+     "facts": [
+      {
+       "claim_en": "Shiki-no-Ie identifies Tokyo Forest Pickles as a product brand developed alongside its established miso and other local specialty foods.",
+       "source_url": "https://www.okutamas.co.jp/sikinoie/about/",
+       "source_title": "四季の家について",
+       "publisher": "手づくり工房 四季の家"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "手づくり工房 四季の家",
+       "name_en": "Shiki-no-Ie",
+       "relation_en": "Developer and direct-sales outlet for the pickle brand.",
+       "address_ja": "東京都西多摩郡奥多摩町白丸313",
+       "official_url": "https://www.okutamas.co.jp/sikinoie/",
+       "source_url": "https://www.town.okutama.tokyo.jp/1/kankosangyoka/sangyoshinko/2/2/724.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "手づくり工房 四季の家",
+       "relation_en": "Creator of Tokyo Forest Pickles.",
+       "source_url": "https://www.okutamas.co.jp/sikinoie/about/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "わさび丸ごと根っ辛うどん",
+     "name_en": "Whole-Wasabi Nekkar Udon",
+     "kind": "dish",
+     "summary_en": "This Okutama noodle dish makes unusually extensive use of the local wasabi plant. Grated root and chopped leaves and stems flavor the broth, showcasing the town's most famous agricultural specialty.",
+     "facts": [
+      {
+       "claim_en": "Tokyo's Environmental Bureau describes an Okutama udon preparation incorporating grated wasabi root together with chopped wasabi stems and leaves.",
+       "source_url": "https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/kokuritsu/chichibu/okutama/tourism.html",
+       "source_title": "奥多摩の観光",
+       "publisher": "東京都環境局"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The source confirms the regional dish but should not be used to infer an unchanged current restaurant menu."
+    },
+    {
+     "name_ja": "奥多摩の本わさび漬",
+     "name_en": "Okutama Wasabi Pickles",
+     "kind": "other",
+     "summary_en": "Wasabi pickles represent a longstanding way to process Okutama's fresh wasabi into a preserved specialty. Yamashiroya is a specialist local maker and seller.",
+     "facts": [
+      {
+       "claim_en": "Yamashiroya sells a hon-wasabi-zuke product through its official specialty-shop website.",
+       "source_url": "https://www.yamasiroya.co.jp/item/K01/",
+       "source_title": "本わさび漬 商品詳細",
+       "publisher": "奥多摩わさび本舗 山城屋"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "奥多摩わさび本舗 山城屋",
+       "name_en": "Yamashiroya Wasabi Shop",
+       "relation_en": "Specialist producer and shop for wasabi-derived preserved foods.",
+       "address_ja": "東京都西多摩郡奥多摩町氷川717-3",
+       "official_url": "https://www.yamasiroya.co.jp/",
+       "source_url": "https://www.yamasiroya.co.jp/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "奥多摩わさび本舗 山城屋",
+       "relation_en": "Specialist in processing and selling wasabi foods.",
+       "source_url": "https://www.yamasiroya.co.jp/item/K01/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "わさび醤油漬け",
+     "name_en": "Soy-Marinated Wasabi",
+     "kind": "other",
+     "summary_en": "Soy-marinated wasabi is a separate preserved expression of Okutama's flagship crop. It complements the sake-lees-style wasabi pickles traditionally associated with the region.",
+     "facts": [
+      {
+       "claim_en": "Yamashiroya lists a seasonal soy-marinated wasabi product in its official product catalog.",
+       "source_url": "https://www.yamasiroya.co.jp/item/K05/",
+       "source_title": "わさび醤油漬け 商品詳細",
+       "publisher": "奥多摩わさび本舗 山城屋"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "奥多摩わさび本舗 山城屋",
+       "name_en": "Yamashiroya Wasabi Shop",
+       "relation_en": "Documented producer of this wasabi preparation.",
+       "address_ja": "東京都西多摩郡奥多摩町氷川717-3",
+       "official_url": "https://www.yamasiroya.co.jp/",
+       "source_url": "https://www.yamasiroya.co.jp/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "奥多摩わさび本舗 山城屋",
+       "relation_en": "Processes wasabi into soy-marinated products.",
+       "source_url": "https://www.yamasiroya.co.jp/item/K05/"
+      }
+     ],
+     "season_en": "Seasonal product.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "わさび大福",
+     "name_en": "Wasabi Daifuku",
+     "kind": "sweet",
+     "summary_en": "Wasabi daifuku combines an established Japanese confection format with a local mountain crop. The result is a highly place-specific Okutama sweet.",
+     "facts": [
+      {
+       "claim_en": "The Okutama Tourism Association lists wasabi daifuku among the sweets handled by the local confectioner Kobido.",
+       "source_url": "https://www.okutama.gr.jp/site/shopping/",
+       "source_title": "奥多摩のショップリスト",
+       "publisher": "奥多摩観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "弘美堂",
+       "name_en": "Kobido",
+       "relation_en": "Traditional sweets shop associated with Okutama wasabi daifuku.",
+       "address_ja": "東京都西多摩郡奥多摩町小丹波79",
+       "official_url": "https://www.okutama.gr.jp/site/shopping/",
+       "source_url": "https://www.okutama.gr.jp/site/shopping/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "弘美堂",
+       "relation_en": "Local confectioner selling wasabi-based sweets.",
+       "source_url": "https://www.okutama.gr.jp/site/shopping/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "わさび羊羹",
+     "name_en": "Wasabi Yokan",
+     "kind": "sweet",
+     "summary_en": "Wasabi yokan adapts traditional Japanese bean-jelly confectionery to Okutama's signature plant. It is another documented example of the crop's use beyond ordinary savory cooking.",
+     "facts": [
+      {
+       "claim_en": "The tourism association specifically identifies wasabi yokan among the confections sold by Kobido.",
+       "source_url": "https://www.okutama.gr.jp/site/shopping/",
+       "source_title": "奥多摩のショップリスト",
+       "publisher": "奥多摩観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "弘美堂",
+       "name_en": "Kobido",
+       "relation_en": "Local confectionery shop associated with wasabi yokan.",
+       "address_ja": "東京都西多摩郡奥多摩町小丹波79",
+       "official_url": "https://www.okutama.gr.jp/site/shopping/",
+       "source_url": "https://www.okutama.gr.jp/site/shopping/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "弘美堂",
+       "relation_en": "Local confectionery seller.",
+       "source_url": "https://www.okutama.gr.jp/site/shopping/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "わさびジェラート",
+     "name_en": "Wasabi Gelato",
+     "kind": "sweet",
+     "summary_en": "Okutama wasabi is also used in a gelato combining fresh grated root with dairy sweetness. This locally promoted dessert offers a different sensory expression of the town's historic crop.",
+     "facts": [
+      {
+       "claim_en": "Tokyo's Environmental Bureau identifies a gelato prepared with grated fresh Okutama wasabi and dairy ingredients.",
+       "source_url": "https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/kokuritsu/chichibu/okutama/tourism.html",
+       "source_title": "奥多摩の観光",
+       "publisher": "東京都環境局"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A specific confirmed current producer or retail location was not established."
+    },
+    {
+     "name_ja": "奥多摩産ゆず",
+     "name_en": "Okutama Yuzu",
+     "kind": "crop",
+     "summary_en": "Yuzu is another locally grown fruit used in Okutama specialty foods. Its fragrant peel and juice are transformed into prepared gifts and desserts.",
+     "facts": [
+      {
+       "claim_en": "The Okutama Tourism Association describes products made with Okutama-grown yuzu, including yuzu pepper and yuzu butter.",
+       "source_url": "https://www.okutama.gr.jp/site/shopping/",
+       "source_title": "奥多摩のショップリスト",
+       "publisher": "奥多摩観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "カフェクアラ",
+       "name_en": "Café Kuala",
+       "relation_en": "A documented sales and food destination using locally grown yuzu.",
+       "address_ja": "東京都西多摩郡奥多摩町氷川702",
+       "official_url": "https://www.cafekuala.jp/",
+       "source_url": "https://www.okutama.gr.jp/site/shopping/"
+      }
+     ],
+     "makers": [],
+     "season_en": "Autumn to winter.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "奥多摩の柚子胡椒・柚子バター",
+     "name_en": "Okutama Yuzu Pepper and Yuzu Butter",
+     "kind": "other",
+     "summary_en": "Yuzu pepper and yuzu butter are locally promoted products that use Okutama-grown citrus. Together they illustrate how the area's fruit is adapted to savory and sweet food preparations.",
+     "facts": [
+      {
+       "claim_en": "The tourism association specifically lists yuzu pepper and yuzu butter made with Okutama yuzu as specialty products associated with Café Kuala.",
+       "source_url": "https://www.okutama.gr.jp/site/shopping/",
+       "source_title": "奥多摩のショップリスト",
+       "publisher": "奥多摩観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "カフェクアラ",
+       "name_en": "Café Kuala",
+       "relation_en": "Local shop and cafe associated with both yuzu products.",
+       "address_ja": "東京都西多摩郡奥多摩町氷川702",
+       "official_url": "https://www.cafekuala.jp/",
+       "source_url": "https://www.okutama.gr.jp/site/shopping/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "カフェクアラ",
+       "relation_en": "Local establishment promoting and handling Okutama-yuzu products.",
+       "source_url": "https://www.okutama.gr.jp/site/shopping/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "VERTERE 奥多摩クラフトビール",
+     "name_en": "VERTERE Okutama Craft Beer",
+     "kind": "drink",
+     "summary_en": "VERTERE brews craft beer in Okutama and operates a local taproom. It represents a contemporary producer-led drinking culture rooted in the town's identity as a mountain destination.",
+     "facts": [
+      {
+       "claim_en": "VERTERE identifies itself as a craft brewery producing beer in Okutama and lists its Okutama taproom.",
+       "source_url": "https://verterebrew.com/",
+       "source_title": "VERTERE - Craft Beer Brewed in Okutama, Tokyo",
+       "publisher": "VERTERE"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "VERTERE Okutama Taproom",
+       "name_en": "VERTERE Okutama Taproom",
+       "relation_en": "Producer-operated destination for the town's craft beer.",
+       "address_ja": "東京都西多摩郡奥多摩町氷川212",
+       "official_url": "https://verterebrew.com/",
+       "source_url": "https://verterebrew.com/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "VERTERE",
+       "relation_en": "Craft beer producer based in Okutama.",
+       "source_url": "https://verterebrew.com/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "しろまるたまご",
+     "name_en": "Shiromaru Eggs",
+     "kind": "brand",
+     "summary_en": "Shiromaru Tamago is a small local egg-farming brand in Okutama. It offers a producer-linked food experience distinct from the town's better-known wasabi and river-fish specialties.",
+     "facts": [
+      {
+       "claim_en": "The Okutama Tourism Association lists Shiromaru Tamago as a farm-direct egg producer using a free-range-style rearing system.",
+       "source_url": "https://www.okutama.gr.jp/site/shopping/",
+       "source_title": "奥多摩のショップリスト",
+       "publisher": "奥多摩観光協会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "しろまるたまご",
+       "relation_en": "Local producer and seller of farm eggs.",
+       "source_url": "https://www.okutama.gr.jp/site/shopping/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The source confirms farm-direct sales but does not provide a sufficiently grounded street address."
+    },
+    {
+     "name_ja": "奥多摩産しいたけ",
+     "name_en": "Okutama Shiitake",
+     "kind": "crop",
+     "summary_en": "Shiitake is among the agricultural products cultivated commercially in Okutama. The crop complements the town's potatoes and wasabi as part of its small-scale mountain agriculture.",
+     "facts": [
+      {
+       "claim_en": "Okutama Town's food-education plan identifies locally grown shiitake as an agricultural product shipped to market.",
+       "source_url": "https://www.town.okutama.tokyo.jp/material/files/group/7/kenkouzoushinn2025.pdf",
+       "source_title": "第4期奥多摩町健康増進計画・食育推進計画",
+       "publisher": "奥多摩町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Municipal agricultural documentation supports production; a specific visitor-facing producer was not established."
+    }
+   ],
+   "none_found_reason_en": ""
+  }
+ ],
+ "url_check": {
+  "checked_at": "2026-11-22",
+  "status": {
+   "https://hinohara-kankou.jp/ecotourism/": 200,
+   "https://hinohara-kankou.jp/spot/banbatokusanbutsucyokubaijo/": 200,
+   "https://hinohara-kankou.jp/spot/chitoseya/": 200,
+   "https://hinohara-kankou.jp/spot/hinatabokko/": 200,
+   "https://hinohara-kankou.jp/spot/hinoharafactory/": 200,
+   "https://hinohara-kankou.jp/spot/hinoharakinokocenter/": 200,
+   "https://hinohara-kankou.jp/spot/hinoharamasako/": 200,
+   "https://hinohara-kankou.jp/spot/inoueshokuhin/": 200,
+   "https://hinohara-kankou.jp/spot/kaoruyohoen/": 200,
+   "https://hinohara-kankou.jp/spot/tomosubi/": 200,
+   "https://hinohara-kankou.jp/spot/yamabuki-ya/": 200,
+   "https://hinohara-kankou.jp/spot/yamanomise/": 200,
+   "https://life.ja-group.jp/farm/market/detail/?id=584": "URLError",
+   "https://ogouchi-fishery.org/": 200,
+   "https://ogouchi-fishery.org/product/": 200,
+   "https://ogouchi-fishery.org/wholesale/": 200,
+   "https://san-tatsu.jp/spots/562213/": 200,
+   "https://verterebrew.com/": 200,
+   "https://www.cafekuala.jp/": 200,
+   "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_107.html": 200,
+   "https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/kokuritsu/chichibu/okutama/tourism.html": 200,
+   "https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/34_14_tokyo.html": 200,
+   "https://www.ohtama.or.jp/sightseeing/239.html": 200,
+   "https://www.okutama.gr.jp/site/shopping/": 200,
+   "https://www.okutamas.co.jp/hikawa/surrounding-facilities/": 200,
+   "https://www.okutamas.co.jp/sikinoie/": 200,
+   "https://www.okutamas.co.jp/sikinoie/about/": 200,
+   "https://www.tokyo-aff.or.jp/site/aquafarming/88889.html": "URLError",
+   "https://www.tokyo-ja.or.jp/farm/edo/15.php": 200,
+   "https://www.tokyo-ja.or.jp/farm/edo/24.php": 200,
+   "https://www.tokyo-ja.or.jp/farm/edo/27.php": 200,
+   "https://www.tokyo-ja.or.jp/farm/edo/56.php": 200,
+   "https://www.town.hinode.tokyo.jp/0000000413.html": 200,
+   "https://www.town.hinode.tokyo.jp/0000000414.html": 200,
+   "https://www.town.hinode.tokyo.jp/0000000440.html": 200,
+   "https://www.town.hinode.tokyo.jp/cmsfiles/contents/0000000/410/iine_jimoto.pdf": 200,
+   "https://www.town.okutama.tokyo.jp/1/kankosangyoka/sangyoshinko/2/2/724.html": "URLError",
+   "https://www.town.okutama.tokyo.jp/material/files/group/7/kenkouzoushinn2025.pdf": "URLError",
+   "https://www.yamasiroya.co.jp/": 200,
+   "https://www.yamasiroya.co.jp/item/K01/": 200,
+   "https://www.yamasiroya.co.jp/item/K05/": 200
+  }
+ }
+}
