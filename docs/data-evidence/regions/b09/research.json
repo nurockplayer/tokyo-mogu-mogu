@@ -1,0 +1,2480 @@
+{
+ "batch": "b09",
+ "researched_at": "2026-11-22",
+ "municipalities": [
+  {
+   "id": "akiruno",
+   "name_ja": "あきる野市",
+   "food_cultures": [
+    {
+     "name_ja": "のらぼう菜",
+     "name_en": "Norabo-na, a traditional Edo-Tokyo leafy vegetable",
+     "kind": "crop",
+     "summary_en": "Norabo-na is a traditional leafy brassica associated with the Itsukaichi area since the Edo period. Local accounts credit it with helping residents survive historic famines.",
+     "facts": [
+      {
+       "claim_en": "Norabo-na is a recognized Edo-Tokyo vegetable with a long cultivation history in Akiruno's Itsukaichi district.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_143.html",
+       "source_title": "のらぼう菜",
+       "publisher": "東京都"
+      },
+      {
+       "claim_en": "Koyasu Shrine has a memorial stone commemorating norabo-na, and the traditional harvest season runs from February through April.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_143.html",
+       "source_title": "のらぼう菜",
+       "publisher": "東京都"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "五日市ファーマーズセンター",
+       "name_en": "Itsukaichi Farmers Center",
+       "relation_en": "Farmers' market in the historic Itsukaichi growing area.",
+       "address_ja": "東京都あきる野市高尾3-1",
+       "official_url": "",
+       "source_url": "https://www.ohtama.or.jp/sightseeing/301.html"
+      },
+      {
+       "name_ja": "子生神社",
+       "name_en": "Koyasu Shrine",
+       "relation_en": "Site of a memorial honoring the vegetable's role in local history.",
+       "address_ja": "",
+       "official_url": "",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_143.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "JAあきがわ管内の生産者",
+       "relation_en": "Farmers continuing local vegetable cultivation.",
+       "source_url": "https://www.city.akiruno.tokyo.jp/0000003556.html"
+      }
+     ],
+     "season_en": "February–April",
+     "confidence": "high",
+     "notes_en": "The vegetable also appears in locally made noodles."
+    },
+    {
+     "name_ja": "のらぼううどん・のらぼうそば",
+     "name_en": "Norabo-na udon and soba",
+     "kind": "dish",
+     "summary_en": "Itsukaichi noodle makers turn the area's historic leafy vegetable into distinctive udon and soba, connecting a traditional crop with an accessible food souvenir.",
+     "facts": [
+      {
+       "claim_en": "Established noodle maker Sumiya produces udon and soba featuring norabo-na.",
+       "source_url": "https://www.akirunokanko.com/?p=342",
+       "source_title": "寿美屋",
+       "publisher": "あきる野市観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "寿美屋",
+       "name_en": "Sumiya Noodle Shop",
+       "relation_en": "Local producer and retailer of norabo-na noodles.",
+       "address_ja": "東京都あきる野市五日市64",
+       "official_url": "https://www.akirunokanko.com/?p=342",
+       "source_url": "https://www.akirunokanko.com/?p=342"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "寿美屋",
+       "relation_en": "Producer of norabo-na udon and soba.",
+       "source_url": "https://www.akirunokanko.com/?p=342"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A processed-food expression of the historic norabo-na crop."
+    },
+    {
+     "name_ja": "秋川とうもろこし・とうもろこし街道",
+     "name_en": "Akigawa sweetcorn and Corn Road",
+     "kind": "crop",
+     "summary_en": "Large, sweet kernels distinguish Akiruno's locally grown corn. Roadside sales along Itsukaichi Kaido gave the route its informal name, Corn Road.",
+     "facts": [
+      {
+       "claim_en": "Akiruno is known for sweetcorn with large, sweet kernels and a local roadside-selling tradition.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_139.html",
+       "source_title": "とうもろこし",
+       "publisher": "東京都"
+      },
+      {
+       "claim_en": "Akigawa Farmers Center stands along the road historically associated with freshly picked corn sales and sells the area's corn.",
+       "source_url": "https://www.city.akiruno.tokyo.jp/0000003556.html",
+       "source_title": "秋川ファーマーズセンター",
+       "publisher": "あきる野市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "秋川ファーマーズセンター",
+       "name_en": "Akigawa Farmers Center",
+       "relation_en": "Farm-direct outlet for locally harvested corn and other produce.",
+       "address_ja": "東京都あきる野市二宮811",
+       "official_url": "https://www.city.akiruno.tokyo.jp/0000003556.html",
+       "source_url": "https://www.city.akiruno.tokyo.jp/0000003556.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "JAあきがわ管内のとうもろこし農家",
+       "relation_en": "Local producers participating in the farmers' market.",
+       "source_url": "https://www.city.akiruno.tokyo.jp/0000003556.html"
+      }
+     ],
+     "season_en": "June–July",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "もろこし街道・とうもろこしどら焼き",
+     "name_en": "Corn Road confectionery and sweetcorn dorayaki",
+     "kind": "sweet",
+     "summary_en": "Taishodo incorporates Akiruno-grown corn into traditional Japanese sweets, including a white-bean confection named after the town's historic corn-selling road.",
+     "facts": [
+      {
+       "claim_en": "Taishodo makes a sweet called Morokoshi Kaido using corn in white-bean filling, and also produces corn-flavored dorayaki.",
+       "source_url": "https://akiruno.town-info.com/units/36232/taishodo/",
+       "source_title": "昔ながらの手作りの味 和菓子 大正堂",
+       "publisher": "あきる野市・檜原村タウン情報"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "和菓子 大正堂",
+       "name_en": "Taishodo Japanese Confectionery",
+       "relation_en": "Maker of corn-based local sweets.",
+       "address_ja": "東京都あきる野市小川777-11",
+       "official_url": "https://akiruno.town-info.com/units/36232/taishodo/",
+       "source_url": "https://akiruno.town-info.com/units/36232/taishodo/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "和菓子 大正堂",
+       "relation_en": "Producer of confectionery based on the local sweetcorn tradition.",
+       "source_url": "https://akiruno.town-info.com/units/36232/taishodo/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "秋川梨",
+     "name_en": "Akigawa pears",
+     "kind": "crop",
+     "summary_en": "Akigawa pears are a locally grown fruit generally sold close to where they are harvested rather than through widespread distribution.",
+     "facts": [
+      {
+       "claim_en": "Akigawa Farmers Center sells locally grown pears among its seasonal produce.",
+       "source_url": "https://www.city.akiruno.tokyo.jp/0000003556.html",
+       "source_title": "秋川ファーマーズセンター",
+       "publisher": "あきる野市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "秋川ファーマーズセンター",
+       "name_en": "Akigawa Farmers Center",
+       "relation_en": "Direct-sales destination for seasonal local pears.",
+       "address_ja": "東京都あきる野市二宮811",
+       "official_url": "https://www.city.akiruno.tokyo.jp/0000003556.html",
+       "source_url": "https://www.city.akiruno.tokyo.jp/0000003556.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "秋川地区の果樹生産者",
+       "relation_en": "Local farmers supplying seasonal fruit.",
+       "source_url": "https://www.city.akiruno.tokyo.jp/0000003556.html"
+      }
+     ],
+     "season_en": "Late summer–early autumn",
+     "confidence": "high",
+     "notes_en": "The municipal farmers' market page confirms pears as a local seasonal product."
+    },
+    {
+     "name_ja": "秋川の鮎・鮎釣り",
+     "name_en": "Akigawa sweetfish and ayu fishing",
+     "kind": "fishing",
+     "summary_en": "The Akigawa River supports a recognized sweetfish tradition. The local fishery cooperative manages angling areas and publishes seasonal information.",
+     "facts": [
+      {
+       "claim_en": "The Akigawa Fishery Cooperative maintains designated river areas for ayu fishing.",
+       "source_url": "https://akigawagyokyo.or.jp/ayu/",
+       "source_title": "秋川 鮎釣場ごあんない 2026",
+       "publisher": "秋川漁業協同組合"
+      },
+      {
+       "claim_en": "Akigawa ayu is used in regional prepared foods, including a locally developed fish condiment.",
+       "source_url": "https://www.akirunokanko.com/?p=5614",
+       "source_title": "do-mo factory blan-co",
+       "publisher": "あきる野市観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "秋川",
+       "name_en": "Akigawa River",
+       "relation_en": "River landscape associated with local ayu fishing.",
+       "address_ja": "東京都あきる野市",
+       "official_url": "https://akigawagyokyo.or.jp/ayu/",
+       "source_url": "https://akigawagyokyo.or.jp/ayu/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "秋川漁業協同組合",
+       "relation_en": "Organization maintaining the local fishing tradition and fishing grounds.",
+       "source_url": "https://akigawagyokyo.or.jp/ayu/"
+      }
+     ],
+     "season_en": "Summer onward; consult the cooperative's annual fishing information",
+     "confidence": "high",
+     "notes_en": "The fishing information is year-specific, while the broader river-food tradition is longstanding."
+    },
+    {
+     "name_ja": "鮎チョビ",
+     "name_en": "Ayuchobi, an Akigawa sweetfish condiment",
+     "kind": "other",
+     "summary_en": "Ayuchobi reinterprets the local sweetfish tradition as a prepared condiment used in contemporary dishes.",
+     "facts": [
+      {
+       "claim_en": "The souvenir and cafe shop do-mo factory blan-co identifies Ayuchobi, made with the area's signature ayu, as a regional specialty.",
+       "source_url": "https://www.akirunokanko.com/?p=5614",
+       "source_title": "do-mo factory blan-co",
+       "publisher": "あきる野市観光協会"
+      },
+      {
+       "claim_en": "Ishibune Dining uses a condiment made from Akigawa sweetfish in pasta and fried-noodle dishes.",
+       "source_url": "https://ishibune-dining.com/",
+       "source_title": "Ishibune Dining",
+       "publisher": "石舟Dining"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "do-mo factory blan-co",
+       "name_en": "do-mo factory blan-co",
+       "relation_en": "Cafe and souvenir outlet featuring the local fish condiment.",
+       "address_ja": "東京都あきる野市舘谷台16",
+       "official_url": "https://www.akirunokanko.com/?p=5614",
+       "source_url": "https://www.akirunokanko.com/?p=5614"
+      },
+      {
+       "name_ja": "石舟Dining",
+       "name_en": "Ishibune Dining",
+       "relation_en": "Restaurant incorporating Ayuchobi into prepared dishes.",
+       "address_ja": "東京都あきる野市乙津565",
+       "official_url": "https://ishibune-dining.com/",
+       "source_url": "https://ishibune-dining.com/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "石舟Dining",
+       "relation_en": "Food business developing dishes featuring the sweetfish condiment.",
+       "source_url": "https://ishibune-dining.com/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "秋川ヤマメ・マス釣り",
+     "name_en": "Akigawa yamame and trout fishing",
+     "kind": "fishing",
+     "summary_en": "Yamame and trout fishing form another part of the Akigawa watershed's freshwater culture, especially along its upper and middle reaches.",
+     "facts": [
+      {
+       "claim_en": "The Akigawa Fishery Cooperative identifies separate river districts for yamame and trout fishing.",
+       "source_url": "https://akigawagyokyo.or.jp/yamame/",
+       "source_title": "秋川ヤマメ・マス釣場ごあんない",
+       "publisher": "秋川漁業協同組合"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "秋川上流・中流域",
+       "name_en": "Upper and Middle Akigawa River",
+       "relation_en": "Designated areas associated with mountain-stream fishing.",
+       "address_ja": "東京都あきる野市周辺",
+       "official_url": "https://akigawagyokyo.or.jp/yamame/",
+       "source_url": "https://akigawagyokyo.or.jp/yamame/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "秋川漁業協同組合",
+       "relation_en": "Maintains and documents local freshwater fishing grounds.",
+       "source_url": "https://akigawagyokyo.or.jp/yamame/"
+      }
+     ],
+     "season_en": "Spring onward; annual seasons vary by river district",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "東京都産秋川牛",
+     "name_en": "Akigawa Beef",
+     "kind": "brand",
+     "summary_en": "Akigawa Beef is a Tokyo-produced wagyu brand raised at a farm in Akiruno. Local specialist shops sell the beef and prepared products made from it.",
+     "facts": [
+      {
+       "claim_en": "Takeuchi Farm in Akiruno raises Japanese Black cattle marketed as Akigawa Beef.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_120.html",
+       "source_title": "東京都産秋川牛",
+       "publisher": "東京都"
+      },
+      {
+       "claim_en": "Local butcher Matsumura Shoten handles Akigawa Beef and has developed foods such as croquettes, minced-meat cutlets and curry.",
+       "source_url": "https://www.shijou.metro.tokyo.lg.jp/about/specialist/meat/16",
+       "source_title": "あきる野市「松村商店」",
+       "publisher": "東京都中央卸売市場"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "松村商店",
+       "name_en": "Matsumura Meat Shop",
+       "relation_en": "Specialist retailer of locally raised Akigawa Beef and prepared beef products.",
+       "address_ja": "東京都あきる野市小中野116",
+       "official_url": "",
+       "source_url": "https://www.shijou.metro.tokyo.lg.jp/about/specialist/meat/16"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "竹内牧場",
+       "relation_en": "Farm raising Akigawa Beef.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_120.html"
+      },
+      {
+       "name_ja": "松村商店",
+       "relation_en": "Local retailer and maker of processed Akigawa Beef foods.",
+       "source_url": "https://www.shijou.metro.tokyo.lg.jp/about/specialist/meat/16"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The butcher is a documented customer-facing destination; public access to the cattle farm is not established."
+    },
+    {
+     "name_ja": "地酒 喜正",
+     "name_en": "Kisho sake",
+     "kind": "drink",
+     "summary_en": "Kisho is a longstanding Itsukaichi sake made by Nozaki Shuzo, using underground water associated with nearby Shiroyama.",
+     "facts": [
+      {
+       "claim_en": "Nozaki Shuzo has brewed the local sake Kisho since its founding in 1884 and uses underground water from Shiroyama.",
+       "source_url": "https://www.akirunokanko.com/?p=347",
+       "source_title": "野崎酒造",
+       "publisher": "あきる野市観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "野崎酒造",
+       "name_en": "Nozaki Sake Brewery",
+       "relation_en": "Producer of Kisho sake.",
+       "address_ja": "東京都あきる野市戸倉63",
+       "official_url": "https://www.akirunokanko.com/?p=347",
+       "source_url": "https://www.akirunokanko.com/?p=347"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "野崎酒造",
+       "relation_en": "Historic sake brewery.",
+       "source_url": "https://www.akirunokanko.com/?p=347"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "地酒 千代鶴",
+     "name_en": "Chiyotsuru sake",
+     "kind": "drink",
+     "summary_en": "Chiyotsuru is an Akiruno sake brand made by Nakamura Shuzo, a historic local brewery that also preserves materials relating to traditional brewing.",
+     "facts": [
+      {
+       "claim_en": "Nakamura Shuzo produces Chiyotsuru and maintains a sake-brewing museum.",
+       "source_url": "https://www.chiyotsuru.jp/",
+       "source_title": "【千代鶴】奥多摩 あきる野の酒蔵 中村酒造",
+       "publisher": "中村酒造"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "中村酒造",
+       "name_en": "Nakamura Sake Brewery",
+       "relation_en": "Historic brewery producing Chiyotsuru and preserving brewing heritage.",
+       "address_ja": "東京都あきる野市牛沼63",
+       "official_url": "https://www.chiyotsuru.jp/",
+       "source_url": "https://www.chiyotsuru.jp/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "中村酒造",
+       "relation_en": "Producer of Chiyotsuru sake.",
+       "source_url": "https://www.chiyotsuru.jp/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "東京ルージュ・ヴィンヤード多摩",
+     "name_en": "Tokyo Rouge wine and Vineyard Tama",
+     "kind": "drink",
+     "summary_en": "Vineyard Tama grows grapes in Akiruno and makes wine associated with the Tokyo Rouge label, adding viticulture to the municipality's local drinks.",
+     "facts": [
+      {
+       "claim_en": "Vineyard Tama cultivates grapes in the Uenodai area of Akiruno and produces locally associated wine.",
+       "source_url": "https://www.akirunokanko.com/?p=6481",
+       "source_title": "ヴィンヤード多摩",
+       "publisher": "あきる野市観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ヴィンヤード多摩",
+       "name_en": "Vineyard Tama",
+       "relation_en": "Local grape grower and wine producer.",
+       "address_ja": "東京都あきる野市上ノ台55",
+       "official_url": "https://www.akirunokanko.com/?p=6481",
+       "source_url": "https://www.akirunokanko.com/?p=6481"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ヴィンヤード多摩",
+       "relation_en": "Wine producer growing grapes in Akiruno.",
+       "source_url": "https://www.akirunokanko.com/?p=6481"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "秋川渓谷産柑橘・アキガワオレンジエール",
+     "name_en": "Akigawa Valley citrus and Akigawa Orange Ale",
+     "kind": "drink",
+     "summary_en": "Akigawa Valley citrus growers supplied locally grown Kiyomi oranges for a craft-beer collaboration. The resulting ale demonstrates how small farms have inspired regional drinks.",
+     "facts": [
+      {
+       "claim_en": "Akigawa Valley Citrus Farm grows citrus in Akiruno, including Kiyomi oranges used by 26K Brewery to make Akigawa Orange Ale.",
+       "source_url": "https://fruitsbeer.tokyo/single_02_akigawaorange.html",
+       "source_title": "秋川渓谷産清見オレンジを使用したクラフトビール",
+       "publisher": "TOKYO FRUITS BEER STORY / 26K Brewery"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "秋川渓谷シトラスファーム",
+       "relation_en": "Akiruno citrus grower supplying the fruit.",
+       "source_url": "https://fruitsbeer.tokyo/single_02_akigawaorange.html"
+      },
+      {
+       "name_ja": "26K Brewery",
+       "relation_en": "Collaborating brewer using Akiruno-grown citrus.",
+       "source_url": "https://fruitsbeer.tokyo/single_02_akigawaorange.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The cited collaboration is historical; current production or stock is not established. The beer is not claimed to have been brewed within Akiruno."
+    },
+    {
+     "name_ja": "南沢あじさい山のあじさい茶・クラフトビール",
+     "name_en": "Minamisawa Hydrangea Mountain tea and collaborative craft beer",
+     "kind": "drink",
+     "summary_en": "Tea associated with the locally famous Minamisawa Hydrangea Mountain has become the basis for distinctive drinks, including a collaborative craft beer.",
+     "facts": [
+      {
+       "claim_en": "Ishibune Dining describes hydrangea tea associated with Minamisawa Hydrangea Mountain and a collaborative craft beer made using that tea.",
+       "source_url": "https://ishibune-dining.com/",
+       "source_title": "Ishibune Dining",
+       "publisher": "石舟Dining"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "石舟Dining",
+       "name_en": "Ishibune Dining",
+       "relation_en": "Local restaurant featuring the hydrangea-tea beer collaboration.",
+       "address_ja": "東京都あきる野市乙津565",
+       "official_url": "https://ishibune-dining.com/",
+       "source_url": "https://ishibune-dining.com/"
+      },
+      {
+       "name_ja": "南沢あじさい山",
+       "name_en": "Minamisawa Hydrangea Mountain",
+       "relation_en": "Landscape and local identity behind the associated tea.",
+       "address_ja": "東京都あきる野市深沢368",
+       "official_url": "https://tokyomountain-tours.jp/ajisaimatsuri/ja/index.html",
+       "source_url": "https://tokyomountain-tours.jp/ajisaimatsuri/ja/index.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "石舟Dining",
+       "relation_en": "Collaborator offering the regionally themed craft beer.",
+       "source_url": "https://ishibune-dining.com/"
+      }
+     ],
+     "season_en": "Associated with the early-summer hydrangea season",
+     "confidence": "high",
+     "notes_en": "The source does not establish that the beer itself is brewed in Akiruno."
+    },
+    {
+     "name_ja": "キッコーゴ醤油",
+     "name_en": "Kikkogo soy sauce",
+     "kind": "other",
+     "summary_en": "Kikkogo is an Akiruno soy-sauce brand produced by Kondo Jozo, linking local food businesses to traditional Japanese fermentation.",
+     "facts": [
+      {
+       "claim_en": "Kikkogo soy sauce is a locally made Akiruno specialty used by regional restaurants.",
+       "source_url": "https://ishibune-dining.com/",
+       "source_title": "Ishibune Dining",
+       "publisher": "石舟Dining"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "近藤醸造",
+       "name_en": "Kondo Jozo",
+       "relation_en": "Akiruno soy-sauce producer.",
+       "address_ja": "東京都あきる野市山田733-1",
+       "official_url": "",
+       "source_url": "https://www.akirunokanko.com/?cat=71"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "近藤醸造",
+       "relation_en": "Producer of Kikkogo soy sauce.",
+       "source_url": "https://www.akirunokanko.com/?cat=71"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "一穂のこんにゃく",
+     "name_en": "Ichiho konnyaku",
+     "kind": "other",
+     "summary_en": "Ichiho is a specialist local konnyaku maker in the Akigawa Valley, representing the area's small-scale traditional food production.",
+     "facts": [
+      {
+       "claim_en": "Ichiho is an Akiruno business specializing in the production and sale of konnyaku.",
+       "source_url": "https://www.akirunokanko.com/?p=349",
+       "source_title": "一穂 こんにゃく",
+       "publisher": "あきる野市観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "一穂 こんにゃく",
+       "name_en": "Ichiho Konnyaku",
+       "relation_en": "Specialist local konnyaku producer.",
+       "address_ja": "東京都あきる野市乙津2333",
+       "official_url": "https://www.akirunokanko.com/?p=349",
+       "source_url": "https://www.akirunokanko.com/?p=349"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "一穂",
+       "relation_en": "Local producer of konnyaku foods.",
+       "source_url": "https://www.akirunokanko.com/?p=349"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "五日市おやき",
+     "name_en": "Itsukaichi oyaki",
+     "kind": "sweet",
+     "summary_en": "Itsukaichi oyaki is a locally identified traditional snack with a dedicated specialist shop in the Akigawa Valley area.",
+     "facts": [
+      {
+       "claim_en": "Otokuni Oyaki is a specialist shop describing oyaki as an Itsukaichi specialty.",
+       "source_url": "https://akiruno.town-info.com/units/36232/oyaki/",
+       "source_title": "五日市おやき 乙訓おやき店",
+       "publisher": "あきる野市・檜原村タウン情報"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "乙訓おやき店",
+       "name_en": "Otokuni Oyaki Shop",
+       "relation_en": "Dedicated maker of the local snack.",
+       "address_ja": "東京都あきる野市乙津1303-1",
+       "official_url": "https://akiruno.town-info.com/units/36232/oyaki/",
+       "source_url": "https://akiruno.town-info.com/units/36232/oyaki/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "乙訓おやき店",
+       "relation_en": "Specialist maker of Itsukaichi oyaki.",
+       "source_url": "https://akiruno.town-info.com/units/36232/oyaki/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "恵比寿屋の酒まんじゅう",
+     "name_en": "Ebisuya sake-fermented manju",
+     "kind": "sweet",
+     "summary_en": "Ebisuya preserves an Akigawa-area steamed-bun tradition by fermenting sake koji as part of its longstanding confectionery method.",
+     "facts": [
+      {
+       "claim_en": "Ebisuya has made sake-koji-fermented manju using a traditional method passed down for approximately 120 years.",
+       "source_url": "https://www.akirunokanko.com/?p=341",
+       "source_title": "恵比寿屋",
+       "publisher": "あきる野市観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "恵比寿屋",
+       "name_en": "Ebisuya",
+       "relation_en": "Longstanding maker of sake-fermented steamed buns.",
+       "address_ja": "東京都あきる野市伊奈1496",
+       "official_url": "https://www.akirunokanko.com/?p=341",
+       "source_url": "https://www.akirunokanko.com/?p=341"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "恵比寿屋",
+       "relation_en": "Traditional sake-manju confectioner.",
+       "source_url": "https://www.akirunokanko.com/?p=341"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "久保島本舗のよもぎそば",
+     "name_en": "Kuboshima yomogi soba",
+     "kind": "dish",
+     "summary_en": "A local noodle business produces soba flavored with yomogi, the Japanese mugwort herb, creating a distinctive regional processed food.",
+     "facts": [
+      {
+       "claim_en": "Kuboshima Honpo is identified by the Akiruno Tourism Association as a producer and seller of yomogi soba.",
+       "source_url": "https://www.akirunokanko.com/?p=348",
+       "source_title": "久保島本舗",
+       "publisher": "あきる野市観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "久保島本舗",
+       "name_en": "Kuboshima Honpo",
+       "relation_en": "Producer of mugwort-flavored soba.",
+       "address_ja": "東京都あきる野市乙津2040",
+       "official_url": "https://www.akirunokanko.com/?p=348",
+       "source_url": "https://www.akirunokanko.com/?p=348"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "久保島本舗",
+       "relation_en": "Local yomogi-soba manufacturer.",
+       "source_url": "https://www.akirunokanko.com/?p=348"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The source does not establish that the yomogi itself is locally foraged."
+    },
+    {
+     "name_ja": "枡屋の伝統和菓子",
+     "name_en": "Masuya's historic Japanese confectionery",
+     "kind": "sweet",
+     "summary_en": "Masuya represents the confectionery heritage of old Itsukaichi, with a local history extending over two centuries.",
+     "facts": [
+      {
+       "claim_en": "Masuya has a confectionery-making history exceeding 200 years and is described as one of the area's oldest sweet shops.",
+       "source_url": "https://www.akirunokanko.com/?p=345",
+       "source_title": "枡屋",
+       "publisher": "あきる野市観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "枡屋",
+       "name_en": "Masuya Confectionery",
+       "relation_en": "Historic Japanese sweet shop in Itsukaichi.",
+       "address_ja": "東京都あきる野市五日市836",
+       "official_url": "https://www.akirunokanko.com/?p=345",
+       "source_url": "https://www.akirunokanko.com/?p=345"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "枡屋",
+       "relation_en": "Confectioner preserving a centuries-old local trade.",
+       "source_url": "https://www.akirunokanko.com/?p=345"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "御菓子司 菊屋の伝統和菓子",
+     "name_en": "Kikuya's traditional wagashi",
+     "kind": "sweet",
+     "summary_en": "Kikuya preserves a Japanese confectionery tradition in Akiruno dating back to the closing years of the Edo period.",
+     "facts": [
+      {
+       "claim_en": "Kikuya has produced Japanese sweets in Akiruno for more than 150 years.",
+       "source_url": "https://www.akirunokanko.com/?p=4451",
+       "source_title": "御菓子司 菊屋",
+       "publisher": "あきる野市観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "御菓子司 菊屋",
+       "name_en": "Kikuya Wagashi Shop",
+       "relation_en": "Historic local Japanese confectioner.",
+       "address_ja": "東京都あきる野市二宮2309",
+       "official_url": "https://www.akirunokanko.com/?p=4451",
+       "source_url": "https://www.akirunokanko.com/?p=4451"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "御菓子司 菊屋",
+       "relation_en": "Producer of traditional Japanese confectionery.",
+       "source_url": "https://www.akirunokanko.com/?p=4451"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "東京多摩のはちみつ",
+     "name_en": "Tokyo Tama honey",
+     "kind": "brand",
+     "summary_en": "A honey producer based in Akiruno gathers seasonal nectar from Tokyo's western Tama landscape. Its honey reflects differences among local flowering plants.",
+     "facts": [
+      {
+       "claim_en": "Kenko Shizen Kobo, also known as Tokyo Mitsubachi Farm, produces honey with multiple floral flavor profiles in western Tokyo.",
+       "source_url": "https://tokyogrown.jp/node/856387",
+       "source_title": "自家製東京多摩産はちみつ",
+       "publisher": "とうきょうの恵み TOKYO GROWN"
+      },
+      {
+       "claim_en": "The producer operates a bee-farm museum in Akiruno.",
+       "source_url": "https://88838.net/pages/musium",
+       "source_title": "みつばち里山ファームミュージアム",
+       "publisher": "有限会社健康自然工房"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "みつばち里山ファームミュージアム",
+       "name_en": "Mitsubachi Satoyama Farm Museum",
+       "relation_en": "Producer-operated destination explaining beekeeping and local honey.",
+       "address_ja": "東京都あきる野市上ノ台37-3",
+       "official_url": "https://88838.net/pages/musium",
+       "source_url": "https://88838.net/pages/musium"
+      },
+      {
+       "name_ja": "秋川ファーマーズセンター",
+       "name_en": "Akigawa Farmers Center",
+       "relation_en": "Documented retailer of the producer's honey.",
+       "address_ja": "東京都あきる野市二宮811",
+       "official_url": "https://www.city.akiruno.tokyo.jp/0000003556.html",
+       "source_url": "https://tokyogrown.jp/node/856387"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "有限会社健康自然工房（東京みつばちファーム）",
+       "relation_en": "Akiruno-based beekeeper and honey processor.",
+       "source_url": "https://tokyogrown.jp/node/856387"
+      }
+     ],
+     "season_en": "Floral sources vary by season",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "五日市なめらかプリン",
+     "name_en": "Itsukaichi smooth pudding",
+     "kind": "sweet",
+     "summary_en": "A contemporary Itsukaichi pudding uses eggs from a local poultry farm, connecting a cafe sweet with nearby agricultural production.",
+     "facts": [
+      {
+       "claim_en": "Tokyo Urayama Base features a locally themed smooth pudding made with eggs from a nearby poultry farm.",
+       "source_url": "https://www.akirunokanko.com/?p=2958",
+       "source_title": "東京裏山ベース",
+       "publisher": "あきる野市観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "東京裏山ベース",
+       "name_en": "Tokyo Urayama Base",
+       "relation_en": "Cafe serving the local-egg pudding.",
+       "address_ja": "東京都あきる野市舘谷219-7",
+       "official_url": "https://www.akirunokanko.com/?p=2958",
+       "source_url": "https://www.akirunokanko.com/?p=2958"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "東京裏山ベース",
+       "relation_en": "Cafe preparing the local pudding.",
+       "source_url": "https://www.akirunokanko.com/?p=2958"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "秋川渓谷物語",
+     "name_en": "Akigawa Valley Story regional product brand",
+     "kind": "brand",
+     "summary_en": "Akigawa Valley Story certifies selected locally produced foods and other regional products from Akiruno and neighboring Hinohara. Its range connects visitors with producers of beef products, noodles, confectionery, honey and condiments.",
+     "facts": [
+      {
+       "claim_en": "Akigawa Valley Story is a regional certification brand for selected products made in Akiruno and Hinohara.",
+       "source_url": "https://akiruno.town-info.com/irodori/",
+       "source_title": "いろどり屋",
+       "publisher": "あきる野市・檜原村タウン情報"
+      },
+      {
+       "claim_en": "Irodoriya is a specialty-product shop presenting products covered by the regional brand.",
+       "source_url": "https://www.ohtama.or.jp/sightseeing/271.html",
+       "source_title": "いろどり屋",
+       "publisher": "大多摩観光連盟"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "いろどり屋",
+       "name_en": "Irodoriya Regional Products Shop",
+       "relation_en": "Consolidated destination for discovering locally certified food makers.",
+       "address_ja": "東京都あきる野市秋川1-8 あきる野ルピア1階",
+       "official_url": "https://www.ohtama.or.jp/sightseeing/271.html",
+       "source_url": "https://www.ohtama.or.jp/sightseeing/271.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "あきる野商工会",
+       "relation_en": "Local commercial organization associated with the regional product initiative.",
+       "source_url": "https://akiruno.town-info.com/irodori/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The certification covers Akiruno and Hinohara; not every branded product is produced within Akiruno."
+    }
+   ],
+   "none_found_reason_en": ""
+  },
+  {
+   "id": "nishitokyo",
+   "name_ja": "西東京市",
+   "food_cultures": [
+    {
+     "name_ja": "保谷梨",
+     "name_en": "Hoya pears",
+     "kind": "crop",
+     "summary_en": "Hoya pears are a signature agricultural specialty of Nishitokyo. Farmers often allow fruit to ripen on the tree before selling directly to local customers.",
+     "facts": [
+      {
+       "claim_en": "Hoya pear growers cultivate several varieties and frequently use tree-ripening methods because much of the fruit is sold locally.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_145.html",
+       "source_title": "保谷梨",
+       "publisher": "東京都"
+      },
+      {
+       "claim_en": "The city's pear-growing association has a history exceeding 50 years.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_145.html",
+       "source_title": "保谷梨",
+       "publisher": "東京都"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "桜井園",
+       "name_en": "Sakurai Orchard",
+       "relation_en": "Municipally listed fruit farm selling pears and other fruit.",
+       "address_ja": "東京都西東京市富士町1-4-6",
+       "official_url": "",
+       "source_url": "https://www.city.nishitokyo.lg.jp/kurasi/agriculture/tyokubaisho_rist.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "西東京市梨生産組合",
+       "relation_en": "Local organization of Hoya pear growers.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_145.html"
+      }
+     ],
+     "season_en": "Mid-August–mid-October",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "西東京市産キャベツ",
+     "name_en": "Nishitokyo cabbage",
+     "kind": "crop",
+     "summary_en": "Cabbage is a major product of Nishitokyo's urban farmland, which remains embedded within residential neighborhoods.",
+     "facts": [
+      {
+       "claim_en": "The city describes cabbage as a leading crop and identifies Nishitokyo as a major cabbage producer in the Tama region.",
+       "source_url": "https://farm-nishitokyo-city.jp/about",
+       "source_title": "西東京市 たっぷり畑の恵み",
+       "publisher": "西東京市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "新田農園",
+       "name_en": "Nitta Farm",
+       "relation_en": "Local farm cultivating cabbage and selling seasonal produce.",
+       "address_ja": "東京都西東京市柳沢5-7-2",
+       "official_url": "https://farm-nishitokyo-city.jp/cat_farmers/farmers_aread",
+       "source_url": "https://farm-nishitokyo-city.jp/cat_farmers/farmers_aread"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "新田農園",
+       "relation_en": "Local grower of cabbage and many other seasonal vegetables.",
+       "source_url": "https://farm-nishitokyo-city.jp/cat_farmers/farmers_aread"
+      }
+     ],
+     "season_en": "Cultivation spans multiple seasons",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "西東京の都市農業・多品目野菜",
+     "name_en": "Multi-crop urban vegetable farming",
+     "kind": "crop",
+     "summary_en": "Nishitokyo retains a diverse vegetable-growing culture despite its dense urban surroundings. Farms supply vegetables directly through neighborhood farm stands.",
+     "facts": [
+      {
+       "claim_en": "Local farms produce a wide range of seasonal vegetables, including komatsuna, corn, edamame, cucumbers, tomatoes, daikon and root vegetables.",
+       "source_url": "https://farm-nishitokyo-city.jp/about",
+       "source_title": "西東京市 たっぷり畑の恵み",
+       "publisher": "西東京市"
+      },
+      {
+       "claim_en": "The municipality publishes a list of individual farm stands selling Nishitokyo-grown products.",
+       "source_url": "https://www.city.nishitokyo.lg.jp/kurasi/agriculture/tyokubaisho_rist.html",
+       "source_title": "市内産の農産物を購入できる直売所をご紹介します！",
+       "publisher": "西東京市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "大谷農園",
+       "name_en": "Otani Farm",
+       "relation_en": "Neighborhood farm stand offering a range of local vegetables.",
+       "address_ja": "東京都西東京市芝久保町3-5-15",
+       "official_url": "",
+       "source_url": "https://www.city.nishitokyo.lg.jp/kurasi/agriculture/tyokubaisho_rist.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "大谷農園",
+       "relation_en": "Grower of diverse seasonal vegetables.",
+       "source_url": "https://www.city.nishitokyo.lg.jp/kurasi/agriculture/tyokubaisho_rist.html"
+      }
+     ],
+     "season_en": "Year-round, with seasonal crop changes",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "西東京市産ぶどう",
+     "name_en": "Nishitokyo grapes",
+     "kind": "crop",
+     "summary_en": "Urban orchards cultivate grapes within Nishitokyo, contributing to its direct-sale fruit culture and providing ingredients for local fruit products.",
+     "facts": [
+      {
+       "claim_en": "Grapes are among the fruit crops grown in Nishitokyo.",
+       "source_url": "https://farm-nishitokyo-city.jp/about",
+       "source_title": "西東京市 たっぷり畑の恵み",
+       "publisher": "西東京市"
+      },
+      {
+       "claim_en": "Yagasaki Grape Orchard is identified by the city's agricultural portal as a local grape producer.",
+       "source_url": "https://farm-nishitokyo-city.jp/megumichan",
+       "source_title": "めぐみちゃんメニュー認定店のご紹介",
+       "publisher": "西東京市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "矢ヶ崎ぶどう園",
+       "name_en": "Yagasaki Grape Orchard",
+       "relation_en": "Local orchard and producer of grape-based products.",
+       "address_ja": "東京都西東京市向台町1-13-28",
+       "official_url": "https://farm-nishitokyo-city.jp/megumichan",
+       "source_url": "https://farm-nishitokyo-city.jp/megumichan"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "矢ヶ崎ぶどう園",
+       "relation_en": "Local grape grower.",
+       "source_url": "https://farm-nishitokyo-city.jp/megumichan"
+      }
+     ],
+     "season_en": "Late summer–autumn",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "シャインマスカットワイン「矢ヶ崎」",
+     "name_en": "Yagasaki Shine Muscat wine",
+     "kind": "drink",
+     "summary_en": "Yagasaki Grape Orchard makes wine associated with its locally grown Shine Muscat grapes, giving Nishitokyo an identifiable fruit-to-drink story.",
+     "facts": [
+      {
+       "claim_en": "Yagasaki Grape Orchard presents a wine made using Shine Muscat grapes harvested at high sweetness.",
+       "source_url": "https://farm-nishitokyo-city.jp/megumichan",
+       "source_title": "めぐみちゃんメニュー認定店のご紹介",
+       "publisher": "西東京市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "矢ヶ崎ぶどう園（YAGASAKIGRAPEFRONT内）",
+       "name_en": "Yagasaki Grape Orchard",
+       "relation_en": "Local grape producer associated with the wine.",
+       "address_ja": "東京都西東京市向台町1-13-28",
+       "official_url": "https://farm-nishitokyo-city.jp/megumichan",
+       "source_url": "https://farm-nishitokyo-city.jp/megumichan"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "矢ヶ崎ぶどう園",
+       "relation_en": "Producer supplying the fruit and marketing the wine.",
+       "source_url": "https://farm-nishitokyo-city.jp/megumichan"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The source establishes local fruit production, not necessarily that vinification takes place inside Nishitokyo."
+    },
+    {
+     "name_ja": "西東京市産ブルーベリー",
+     "name_en": "Nishitokyo blueberries",
+     "kind": "crop",
+     "summary_en": "Blueberries are grown by city farms and sold locally, with at least one producer also documenting harvest experiences.",
+     "facts": [
+      {
+       "claim_en": "Kato Farm grows blueberries and identifies blueberry harvesting as an agricultural experience.",
+       "source_url": "https://farm-nishitokyo-city.jp/farmers/katoh_farm",
+       "source_title": "加藤ファーム",
+       "publisher": "西東京市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "加藤ファーム",
+       "name_en": "Kato Farm",
+       "relation_en": "Blueberry grower with a documented agricultural-experience offering.",
+       "address_ja": "東京都西東京市北町1-5-22",
+       "official_url": "https://farm-nishitokyo-city.jp/farmers/katoh_farm",
+       "source_url": "https://farm-nishitokyo-city.jp/farmers/katoh_farm"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "加藤ファーム",
+       "relation_en": "Grower of blueberries and other fruit and vegetables.",
+       "source_url": "https://farm-nishitokyo-city.jp/farmers/katoh_farm"
+      }
+     ],
+     "season_en": "Summer",
+     "confidence": "high",
+     "notes_en": "The city lists a slightly different location for Kato Farm on another farm-stand directory; the address here follows the dedicated farm profile."
+    },
+    {
+     "name_ja": "西東京市産キウイフルーツ",
+     "name_en": "Nishitokyo kiwifruit",
+     "kind": "crop",
+     "summary_en": "Kiwifruit is another local orchard crop, complementing Nishitokyo's pears, grapes and berries.",
+     "facts": [
+      {
+       "claim_en": "The city's agricultural portal identifies kiwifruit as one of its locally cultivated fruits.",
+       "source_url": "https://farm-nishitokyo-city.jp/about",
+       "source_title": "西東京市 たっぷり畑の恵み",
+       "publisher": "西東京市"
+      },
+      {
+       "claim_en": "Kato Farm lists kiwifruit among its principal products.",
+       "source_url": "https://farm-nishitokyo-city.jp/farmers/katoh_farm",
+       "source_title": "加藤ファーム",
+       "publisher": "西東京市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "加藤ファーム",
+       "name_en": "Kato Farm",
+       "relation_en": "Local kiwi and berry producer.",
+       "address_ja": "東京都西東京市北町1-5-22",
+       "official_url": "https://farm-nishitokyo-city.jp/farmers/katoh_farm",
+       "source_url": "https://farm-nishitokyo-city.jp/farmers/katoh_farm"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "加藤ファーム",
+       "relation_en": "Local kiwifruit grower.",
+       "source_url": "https://farm-nishitokyo-city.jp/farmers/katoh_farm"
+      }
+     ],
+     "season_en": "Autumn–winter",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "コリンキー・アイスプラント・ルバーブ",
+     "name_en": "Unusual urban-farm vegetables: colinky, ice plant and rhubarb",
+     "kind": "crop",
+     "summary_en": "Beyond familiar produce, some Nishitokyo farmers grow less common vegetables, illustrating the diversity of the city's small urban farms.",
+     "facts": [
+      {
+       "claim_en": "The municipality specifically identifies colinky squash, ice plant and rhubarb as unusual crops produced by local farmers.",
+       "source_url": "https://farm-nishitokyo-city.jp/about",
+       "source_title": "西東京市 たっぷり畑の恵み",
+       "publisher": "西東京市"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The cited overview does not associate all three crops with a single named farm."
+    },
+    {
+     "name_ja": "西東京産ハーブ・西洋野菜",
+     "name_en": "Locally grown herbs and Western vegetables",
+     "kind": "crop",
+     "summary_en": "Some neighborhood farms specialize in herbs and Western-style vegetables, adding another dimension to Nishitokyo's urban food culture.",
+     "facts": [
+      {
+       "claim_en": "The municipal farm-stand directory identifies a producer in Nakamachi selling herbs and Western vegetables alongside seasonal produce.",
+       "source_url": "https://www.city.nishitokyo.lg.jp/kurasi/agriculture/tyokubaisho_rist.html",
+       "source_title": "市内産の農産物を購入できる直売所をご紹介します！",
+       "publisher": "西東京市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "保谷七緒美さんの直売所",
+       "name_en": "Naomi Hoya's Farm Stand",
+       "relation_en": "Local direct-sales location for herbs and Western vegetables.",
+       "address_ja": "東京都西東京市中町4-2-18",
+       "official_url": "",
+       "source_url": "https://www.city.nishitokyo.lg.jp/kurasi/agriculture/tyokubaisho_rist.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "保谷七緒美",
+       "relation_en": "Local grower of herbs and Western vegetables.",
+       "source_url": "https://www.city.nishitokyo.lg.jp/kurasi/agriculture/tyokubaisho_rist.html"
+      }
+     ],
+     "season_en": "Seasonal",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "髙田農園のキノコ栽培",
+     "name_en": "Takada Farm's specialty mushroom cultivation",
+     "kind": "crop",
+     "summary_en": "Nishitokyo's urban agriculture also includes cultivated mushrooms, with a local producer growing shiitake, oyster mushrooms and black and white wood-ear mushrooms.",
+     "facts": [
+      {
+       "claim_en": "Takada Farm cultivates shiitake, oyster mushrooms and two kinds of wood-ear mushrooms in Nishitokyo.",
+       "source_url": "https://farm-nishitokyo-city.jp/cat_farmers/farmers_areac",
+       "source_title": "西東京市 農家・直売所情報",
+       "publisher": "西東京市"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "髙田農園",
+       "relation_en": "Local cultivator of specialty mushrooms.",
+       "source_url": "https://farm-nishitokyo-city.jp/cat_farmers/farmers_areac"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The cited farm profile does not identify a public on-site farm stand."
+    },
+    {
+     "name_ja": "北多摩の手打ちうどん",
+     "name_en": "Traditional North Tama hand-cut udon",
+     "kind": "dish",
+     "summary_en": "Nishitokyo belongs to the historic wheat-growing culture of North Tama, where hand-cut udon was a celebratory food served with seasonal vegetables and warm dipping broth.",
+     "facts": [
+      {
+       "claim_en": "A municipal food-education plan describes local udon as chilled noodles served with cooked seasonal vegetables and a warm dipping sauce.",
+       "source_url": "https://www.city.nishitokyo.lg.jp/siseizyoho/pub/kanren/shokuiku.files/all.pdf",
+       "source_title": "西東京市食育推進計画",
+       "publisher": "西東京市"
+      },
+      {
+       "claim_en": "The plan connects the tradition with the area's historical wheat cultivation and meals marking family celebrations.",
+       "source_url": "https://www.city.nishitokyo.lg.jp/siseizyoho/pub/kanren/shokuiku.files/all.pdf",
+       "source_title": "西東京市食育推進計画",
+       "publisher": "西東京市"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Documented as historical regional food culture. The cited municipal plan is older and does not establish a current shop serving this exact preparation."
+    },
+    {
+     "name_ja": "北多摩のゆでまんじゅう",
+     "name_en": "Traditional boiled manju of North Tama",
+     "kind": "sweet",
+     "summary_en": "Boiled manju, made by wrapping sweet filling in wheat-flour dough and boiling it, is part of the inherited wheat-based food culture of Nishitokyo and surrounding North Tama.",
+     "facts": [
+      {
+       "claim_en": "Nishitokyo's food-education plan describes boiled manju as a traditional snack made from wheat dough enclosing a filling.",
+       "source_url": "https://www.city.nishitokyo.lg.jp/siseizyoho/pub/kanren/shokuiku.files/all.pdf",
+       "source_title": "西東京市食育推進計画",
+       "publisher": "西東京市"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Historic tradition confirmed; no currently operating specialist seller was established from the inspected sources."
+    },
+    {
+     "name_ja": "めぐみちゃん小麦",
+     "name_en": "Megumi-chan local wheat initiative",
+     "kind": "brand",
+     "summary_en": "Nishitokyo's municipal food-education records document a community wheat-growing initiative intended to preserve the area's traditional wheat and noodle culture.",
+     "facts": [
+      {
+       "claim_en": "The city documented collaboration among volunteer farmers, JA Tokyo Mirai and municipal authorities to grow and market Megumi-chan wheat.",
+       "source_url": "https://www.city.nishitokyo.lg.jp/siseizyoho/pub/kanren/shokuiku.files/all.pdf",
+       "source_title": "西東京市食育推進計画",
+       "publisher": "西東京市"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "JA東京みらい・市内農家有志",
+       "relation_en": "Participants in the documented local wheat-growing project.",
+       "source_url": "https://www.city.nishitokyo.lg.jp/siseizyoho/pub/kanren/shokuiku.files/all.pdf"
+      }
+     ],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "This is an historically documented initiative, not evidence that Megumi-chan wheat remains commercially available in 2026."
+    },
+    {
+     "name_ja": "保谷納豆",
+     "name_en": "Hoya Natto",
+     "kind": "brand",
+     "summary_en": "Hoya Natto is a fermented-soybean brand rooted in the former Hoya town. Although production relocated, its name and history remain associated with the area.",
+     "facts": [
+      {
+       "claim_en": "Hoya Natto was founded in the former Hoya town in 1951 and moved its factory and direct-sales location to Higashimurayama in 1975.",
+       "source_url": "https://nishitokyo-ittenippin.com/shop/439/",
+       "source_title": "株式会社保谷納豆",
+       "publisher": "西東京市の一店逸品 / 西東京商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "すし処 玉八",
+       "name_en": "Tamahachi Sushi",
+       "relation_en": "Nishitokyo restaurant using Hoya Natto in a local-produce sushi roll.",
+       "address_ja": "東京都西東京市南町3-1-13",
+       "official_url": "https://farm-nishitokyo-city.jp/megumichan",
+       "source_url": "https://farm-nishitokyo-city.jp/megumichan"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "株式会社保谷納豆",
+       "relation_en": "Historically Hoya-based fermented-soybean maker.",
+       "source_url": "https://nishitokyo-ittenippin.com/shop/439/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The current natto factory is outside Nishitokyo; the link here is historical origin and contemporary local culinary use."
+    },
+    {
+     "name_ja": "保谷納豆巻き",
+     "name_en": "Hoya Natto sushi roll",
+     "kind": "dish",
+     "summary_en": "A locally recognized sushi roll combines Hoya Natto with scallions and shiso grown in Nishitokyo, expressing regional identity through a contemporary restaurant dish.",
+     "facts": [
+      {
+       "claim_en": "Tamahachi Sushi's Hoya Natto roll includes Hoya Natto and locally grown scallions and shiso.",
+       "source_url": "https://farm-nishitokyo-city.jp/megumichan",
+       "source_title": "めぐみちゃんメニュー認定店のご紹介",
+       "publisher": "西東京市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "すし処 玉八",
+       "name_en": "Tamahachi Sushi",
+       "relation_en": "Restaurant associated with the locally themed sushi roll.",
+       "address_ja": "東京都西東京市南町3-1-13",
+       "official_url": "https://farm-nishitokyo-city.jp/megumichan",
+       "source_url": "https://farm-nishitokyo-city.jp/megumichan"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "すし処 玉八",
+       "relation_en": "Restaurant preparing the local-produce roll.",
+       "source_url": "https://farm-nishitokyo-city.jp/megumichan"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "旭のかりん糖",
+     "name_en": "Asahi karinto",
+     "kind": "sweet",
+     "summary_en": "Asahi Seika's traditional fried sweet snacks form part of Nishitokyo's confectionery identity, supported by several local retail outlets.",
+     "facts": [
+      {
+       "claim_en": "Asahi Seika operates a headquarters factory outlet and multiple stores within Nishitokyo selling its karinto sweets.",
+       "source_url": "https://www.asahi-karinto.com/shop.html",
+       "source_title": "FS旭製菓 店舗のご紹介",
+       "publisher": "旭製菓"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "旭製菓 本社工場直売店",
+       "name_en": "Asahi Seika Factory Outlet",
+       "relation_en": "Company-operated shop for traditional karinto.",
+       "address_ja": "東京都西東京市泉町5-16-3",
+       "official_url": "https://www.asahi-karinto.com/shop.html",
+       "source_url": "https://www.asahi-karinto.com/shop.html"
+      },
+      {
+       "name_ja": "旭製菓 田無店",
+       "name_en": "Asahi Seika Tanashi Store",
+       "relation_en": "Local retail shop for the confectionery brand.",
+       "address_ja": "東京都西東京市田無町4-26-8",
+       "official_url": "https://www.asahi-karinto.com/shop.html",
+       "source_url": "https://www.asahi-karinto.com/shop.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "旭製菓",
+       "relation_en": "Confectionery company producing karinto.",
+       "source_url": "https://www.asahi-karinto.com/shop.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The company also operates production outside Nishitokyo."
+    },
+    {
+     "name_ja": "栗の宿",
+     "name_en": "Kuri no Yado chestnut confection",
+     "kind": "sweet",
+     "summary_en": "Kuri no Yado is a Tanashi sweet that combines a whole candied chestnut with historic Yanagikubo wheat. Its name recalls Tanashi's past as a post town.",
+     "facts": [
+      {
+       "claim_en": "Ishii Confectionery makes Kuri no Yado with a chestnut, white-bean filling and dough containing Yanagikubo wheat.",
+       "source_url": "https://nishitokyo-ittenippin.com/shop/154/",
+       "source_title": "（有）い志井菓子店",
+       "publisher": "西東京市の一店逸品 / 西東京商工会"
+      },
+      {
+       "claim_en": "The sweet's name refers to the historic Tanashi post town, and the confectioner dates to 1914.",
+       "source_url": "https://nishitokyo-ittenippin.com/shop/154/",
+       "source_title": "（有）い志井菓子店",
+       "publisher": "西東京市の一店逸品 / 西東京商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "い志井菓子店",
+       "name_en": "Ishii Confectionery",
+       "relation_en": "Historic Tanashi confectioner producing Kuri no Yado.",
+       "address_ja": "東京都西東京市田無町2-1-1 アスタB1",
+       "official_url": "https://nishitokyo-ittenippin.com/shop/154/",
+       "source_url": "https://nishitokyo-ittenippin.com/shop/154/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "い志井菓子店",
+       "relation_en": "Historic maker of the chestnut confection.",
+       "source_url": "https://nishitokyo-ittenippin.com/shop/154/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The cited source does not establish that Yanagikubo wheat used in the confection is grown inside Nishitokyo."
+    },
+    {
+     "name_ja": "ふしみだんご",
+     "name_en": "Fushimi dango",
+     "kind": "sweet",
+     "summary_en": "Fushimi dango is a distinctive neighborhood sweet near Higashi-Fushimi Inari Shrine, featuring fried dumplings coated in the shop's characteristic sweetened soybean flour.",
+     "facts": [
+      {
+       "claim_en": "The shop's signature fried dango has been passed down from the previous generation and is associated with the Higashi-Fushimi neighborhood.",
+       "source_url": "https://nishitokyo-ittenippin.com/shop/492/",
+       "source_title": "ふしみだんご",
+       "publisher": "西東京市の一店逸品 / 西東京商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ふしみだんご",
+       "name_en": "Fushimi Dango Shop",
+       "relation_en": "Original maker of the neighborhood's signature fried dango.",
+       "address_ja": "東京都西東京市東伏見2-6-2",
+       "official_url": "https://nishitokyo-ittenippin.com/shop/492/",
+       "source_url": "https://nishitokyo-ittenippin.com/shop/492/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ふしみだんご",
+       "relation_en": "Family-run dango producer.",
+       "source_url": "https://nishitokyo-ittenippin.com/shop/492/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "めぐみちゃんメニュー",
+     "name_en": "Megumi-chan local-produce menus",
+     "kind": "brand",
+     "summary_en": "Nishitokyo promotes restaurants and prepared foods that use ingredients grown within the city, connecting urban farmers with nearby diners.",
+     "facts": [
+      {
+       "claim_en": "The municipal Megumi-chan Menu initiative promotes food and processed products using Nishitokyo-grown agricultural ingredients.",
+       "source_url": "https://farm-nishitokyo-city.jp/megumichan",
+       "source_title": "めぐみちゃんメニュー認定店のご紹介",
+       "publisher": "西東京市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "MEG PAN",
+       "name_en": "MEG PAN",
+       "relation_en": "Participating bakery offering bagel sandwiches featuring local vegetables.",
+       "address_ja": "東京都西東京市新町1-13-10 NEIGHBORS西東京",
+       "official_url": "https://farm-nishitokyo-city.jp/megumichan",
+       "source_url": "https://farm-nishitokyo-city.jp/megumichan"
+      },
+      {
+       "name_ja": "すし処 玉八",
+       "name_en": "Tamahachi Sushi",
+       "relation_en": "Participating restaurant combining local greens with Hoya Natto.",
+       "address_ja": "東京都西東京市南町3-1-13",
+       "official_url": "https://farm-nishitokyo-city.jp/megumichan",
+       "source_url": "https://farm-nishitokyo-city.jp/megumichan"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "西東京市内の参加農家・飲食店",
+       "relation_en": "Suppliers and food businesses collaborating through the local-produce initiative.",
+       "source_url": "https://farm-nishitokyo-city.jp/megumichan"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "田無・駅前クラフトビール",
+     "name_en": "Tanashi Ekimae craft beer",
+     "kind": "drink",
+     "summary_en": "A Tanashi restaurant serves several house-branded craft beers, connecting the district's contemporary food scene with small-batch brewing.",
+     "facts": [
+      {
+       "claim_en": "Tanashi Ikkenya Dining offers its own Tanashi Ekimae beers in styles including red ale, weissbier, IPA, saison and black IPA.",
+       "source_url": "https://tanashi-dining.com/homemade-craftbeer/",
+       "source_title": "自家醸造クラフトビール",
+       "publisher": "田無一軒屋ダイニング"
+      },
+      {
+       "claim_en": "The restaurant says its breweries are located elsewhere along the Seibu railway network, including Oizumi-gakuen.",
+       "source_url": "https://tanashi-dining.com/homemade-craftbeer/",
+       "source_title": "自家醸造クラフトビール",
+       "publisher": "田無一軒屋ダイニング"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "田無一軒屋ダイニング",
+       "name_en": "Tanashi Ikkenya Dining",
+       "relation_en": "Tanashi restaurant featuring the locally branded beer series.",
+       "address_ja": "",
+       "official_url": "https://tanashi-dining.com/homemade-craftbeer/",
+       "source_url": "https://tanashi-dining.com/homemade-craftbeer/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "田無一軒屋ダイニング",
+       "relation_en": "Restaurant operator responsible for the craft-beer series.",
+       "source_url": "https://tanashi-dining.com/homemade-craftbeer/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "This is a Tanashi-associated beer brand, not proof of brewing inside Nishitokyo."
+    }
+   ],
+   "none_found_reason_en": ""
+  },
+  {
+   "id": "mizuho",
+   "name_ja": "瑞穂町",
+   "food_cultures": [
+    {
+     "name_ja": "東京狭山茶",
+     "name_en": "Tokyo Sayama tea",
+     "kind": "drink",
+     "summary_en": "Mizuho is one of Tokyo's principal tea-producing areas. Its tea tradition emphasizes a distinctive finishing roast known as Sayama hiire.",
+     "facts": [
+      {
+       "claim_en": "Mizuho identifies itself as Tokyo's leading tea-producing municipality and associates its tea's rich flavor with Sayama-style finishing.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/town/003/p004128.html",
+       "source_title": "瑞穂町の特産品",
+       "publisher": "瑞穂町"
+      },
+      {
+       "claim_en": "Tea harvesting begins around the traditional eighty-eighth-night point of spring.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/town/003/p004128.html",
+       "source_title": "瑞穂町の特産品",
+       "publisher": "瑞穂町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "東京狭山茶 藤本園",
+       "name_en": "Fujimotoen Tea Shop",
+       "relation_en": "Local tea producer represented in the Mizuho brand program.",
+       "address_ja": "東京都西多摩郡瑞穂町大字駒形富士山209",
+       "official_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      },
+      {
+       "name_ja": "お茶の古川園",
+       "name_en": "Furukawaen Tea Shop",
+       "relation_en": "Producer of Tokyo Sayama green tea.",
+       "address_ja": "東京都西多摩郡瑞穂町大字石畑1667",
+       "official_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "東京狭山茶 藤本園",
+       "relation_en": "Producer of Yabukita-based green tea.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      },
+      {
+       "name_ja": "お茶の古川園",
+       "relation_en": "Producer of green tea finished using Sayama roasting traditions.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      },
+      {
+       "name_ja": "お茶の宮﨑園",
+       "relation_en": "Producer of locally branded Sayama tea.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      },
+      {
+       "name_ja": "株式会社栗原園",
+       "relation_en": "Local tea processor and brand producer.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "season_en": "First tea picking around early May; another harvest in summer",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "深むし煎茶",
+     "name_en": "Mizuho deep-steamed sencha",
+     "kind": "drink",
+     "summary_en": "Deep-steamed green tea is a distinct preparation within Mizuho's tea culture, represented by a locally grown leaf blend and careful roasting.",
+     "facts": [
+      {
+       "claim_en": "Moritaen makes deep-steamed sencha entirely from Mizuho-grown tea leaves, blending Yabukita and Sayama Kaori varieties.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_title": "東京みずほブランド",
+       "publisher": "瑞穂町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "森田園",
+       "name_en": "Moritaen Tea Shop",
+       "relation_en": "Maker of deep-steamed sencha using local tea leaves.",
+       "address_ja": "東京都西多摩郡瑞穂町大字駒形富士山327",
+       "official_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "森田園",
+       "relation_en": "Local tea blender and processor.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "東京紅茶 MIZUHO",
+     "name_en": "Tokyo Black Tea MIZUHO",
+     "kind": "drink",
+     "summary_en": "Mizuho's tea culture includes Japanese black tea made from summer-picked Tokyo tea leaves, expanding beyond conventional green tea.",
+     "facts": [
+      {
+       "claim_en": "Nishimuraen makes Tokyo Black Tea MIZUHO from summer-picked tea leaves grown in Tokyo.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_title": "東京みずほブランド",
+       "publisher": "瑞穂町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "東京の茶工房 西村園",
+       "name_en": "Nishimuraen Tokyo Tea Workshop",
+       "relation_en": "Producer of locally branded Japanese black tea.",
+       "address_ja": "東京都西多摩郡瑞穂町大字長岡長谷部52",
+       "official_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "東京の茶工房 西村園",
+       "relation_en": "Producer of Tokyo Black Tea MIZUHO.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "season_en": "Uses summer-picked tea",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "手もみ茶 薫風",
+     "name_en": "Kunpu hand-rolled tea",
+     "kind": "drink",
+     "summary_en": "A named hand-rolled tea from Morifujien represents an artisan preparation within Mizuho's tea-making traditions.",
+     "facts": [
+      {
+       "claim_en": "Mizuho's official regional-brand register lists Morifujien's hand-rolled tea Kunpu as a recognized product.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_title": "東京みずほブランド",
+       "publisher": "瑞穂町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "森藤園",
+       "name_en": "Morifujien Tea Shop",
+       "relation_en": "Producer associated with the certified hand-rolled tea.",
+       "address_ja": "東京都西多摩郡瑞穂町大字駒形富士山326",
+       "official_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "森藤園",
+       "relation_en": "Tea producer offering the named hand-rolled product.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Listed in the 2026 brand register; the detailed product description has not yet been published there."
+    },
+    {
+     "name_ja": "瑞穂産トマト",
+     "name_en": "Mizuho tomatoes",
+     "kind": "crop",
+     "summary_en": "Several Mizuho farms are recognized for locally grown tomatoes, ranging from small sweet varieties to large traditional types.",
+     "facts": [
+      {
+       "claim_en": "The town's regional-brand listings recognize tomato growers including Yoshinaga Farm, Amemiya Farm, Kondo Farm and Murayama Farm.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_title": "東京みずほブランド",
+       "publisher": "瑞穂町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "アメミヤ農園",
+       "name_en": "Amemiya Farm",
+       "relation_en": "Local producer of sweet small- and medium-sized tomatoes with farm-gate sales.",
+       "address_ja": "東京都西多摩郡瑞穂町箱根ケ崎東松原35-7",
+       "official_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      },
+      {
+       "name_ja": "村山農園",
+       "name_en": "Murayama Farm",
+       "relation_en": "Tomato grower with a locally documented farm stand.",
+       "address_ja": "東京都西多摩郡瑞穂町長岡4-11-8",
+       "official_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "吉永農園",
+       "relation_en": "Local producer of fully ripened tomatoes.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      },
+      {
+       "name_ja": "アメミヤ農園",
+       "relation_en": "Local producer of small- and medium-sized tomatoes.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      },
+      {
+       "name_ja": "近藤農園",
+       "relation_en": "Producer of richly flavored local tomatoes.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      },
+      {
+       "name_ja": "村山農園",
+       "relation_en": "Producer of large local tomatoes.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "season_en": "Varies by producer and cultivation method",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "瑞穂産キウイフルーツ",
+     "name_en": "Mizuho kiwifruit",
+     "kind": "crop",
+     "summary_en": "Kiwifruit has been grown in Mizuho's Nagaoka district for decades and is sold through the town's farm-produce distribution network.",
+     "facts": [
+      {
+       "claim_en": "Tanaka Farm has cultivated kiwifruit in Mizuho's Nagaoka district for more than 30 years.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_title": "東京みずほブランド",
+       "publisher": "瑞穂町"
+      },
+      {
+       "claim_en": "The farm distributes both fruit requiring further ripening and fully ripened fruit through the local agricultural direct-sales outlet.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_title": "東京みずほブランド",
+       "publisher": "瑞穂町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ふれっしゅはうす",
+       "name_en": "Fresh House Farmers Market",
+       "relation_en": "Local agricultural direct-sales outlet associated with Mizuho kiwifruit.",
+       "address_ja": "東京都西多摩郡瑞穂町大字箱根ケ崎612-1",
+       "official_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "田中農園",
+       "relation_en": "Established local kiwifruit grower.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "河内椎茸園の瑞穂産シイタケ",
+     "name_en": "Kawachi Farm Mizuho shiitake",
+     "kind": "crop",
+     "summary_en": "Fresh, thick shiitake mushrooms from a named local producer contribute to Mizuho's town-certified agricultural specialties.",
+     "facts": [
+      {
+       "claim_en": "Kawachi Shiitake Farm grows and markets locally harvested shiitake recognized by Mizuho's brand program.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_title": "東京みずほブランド",
+       "publisher": "瑞穂町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ふれっしゅはうす",
+       "name_en": "Fresh House Farmers Market",
+       "relation_en": "Documented outlet for Kawachi Farm shiitake.",
+       "address_ja": "東京都西多摩郡瑞穂町大字箱根ケ崎612-1",
+       "official_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "河内椎茸園",
+       "relation_en": "Local shiitake cultivator.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "瑞穂産自然薯",
+     "name_en": "Mizuho-grown Japanese mountain yam",
+     "kind": "crop",
+     "summary_en": "Locally grown Japanese mountain yam appears in a named Mizuho confection, demonstrating the connection between regional crops and traditional sweets.",
+     "facts": [
+      {
+       "claim_en": "Iseya uses Japanese mountain yam grown in Mizuho to make its karukan-style steamed confection.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_title": "東京みずほブランド",
+       "publisher": "瑞穂町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "和菓子の伊勢屋",
+       "name_en": "Iseya Confectionery",
+       "relation_en": "Confectioner transforming the locally grown yam into a regional sweet.",
+       "address_ja": "東京都西多摩郡瑞穂町大字箱根ケ崎2256",
+       "official_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "和菓子の伊勢屋",
+       "relation_en": "User of locally grown mountain yam in regional confectionery.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The source establishes local yam production through the confection's ingredients, without identifying a specific yam farm."
+    },
+    {
+     "name_ja": "大蔵大根・おふくろ大根",
+     "name_en": "Ohkura and Ofukuro daikon",
+     "kind": "crop",
+     "summary_en": "Mizuho growers use both Ohkura and Ofukuro daikon in local pickles, preserving links between older vegetable varieties and household-style food processing.",
+     "facts": [
+      {
+       "claim_en": "Mizuho Shokusai Kobo cultivates Ohkura and Ofukuro daikon for its pickled-daikon product.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_title": "東京みずほブランド",
+       "publisher": "瑞穂町"
+      },
+      {
+       "claim_en": "Traditional Ohkura daikon is included among JA Tokyo's recognized Edo-Tokyo vegetables.",
+       "source_url": "https://www.tokyo-ja.or.jp/farm/edo/",
+       "source_title": "江戸東京野菜について",
+       "publisher": "JA東京中央会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "みずほ食彩工房",
+       "name_en": "Mizuho Shokusai Kobo",
+       "relation_en": "Local maker processing these daikon varieties into pickles.",
+       "address_ja": "東京都西多摩郡瑞穂町大字高根557-7",
+       "official_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "みずほ食彩工房",
+       "relation_en": "Grower and processor of the daikon varieties.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "season_en": "Traditional Ohkura daikon is a late-autumn to winter crop",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "清水牧場 WESTLAND FARM のジェラート・ソフトクリーム",
+     "name_en": "Westland Farm dairy gelato and soft serve",
+     "kind": "sweet",
+     "summary_en": "Westland Farm makes frozen dairy desserts using milk from its own farm, with some gelato flavors incorporating locally grown seasonal fruit and vegetables.",
+     "facts": [
+      {
+       "claim_en": "Westland Farm makes gelato and soft serve using its own fresh milk and incorporates local produce into some gelato flavors.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_title": "東京みずほブランド",
+       "publisher": "瑞穂町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "清水牧場 WESTLAND FARM",
+       "name_en": "Westland Farm",
+       "relation_en": "Local dairy producer and destination for milk-based frozen desserts.",
+       "address_ja": "東京都西多摩郡瑞穂町大字長岡長谷部353-3",
+       "official_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "清水牧場 WESTLAND FARM",
+       "relation_en": "Local dairy farm and frozen-dessert producer.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "season_en": "Some flavors change with the local harvest",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "まろんしゃんのシフォンケーキ",
+     "name_en": "Maronshan chiffon cake",
+     "kind": "sweet",
+     "summary_en": "Maronshan's chiffon cake is a named local confection recognized within Mizuho's town-brand program.",
+     "facts": [
+      {
+       "claim_en": "Maronshan makes a chiffon cake using a short ingredient list of eggs, flour, sugar and oil.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_title": "東京みずほブランド",
+       "publisher": "瑞穂町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "まろんしゃん",
+       "name_en": "Maronshan",
+       "relation_en": "Maker of the town-recognized chiffon cake.",
+       "address_ja": "東京都西多摩郡瑞穂町大字箱根ケ崎2382-5",
+       "official_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "まろんしゃん",
+       "relation_en": "Local chiffon-cake maker.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "瑞穂プリン",
+     "name_en": "Mizuho pudding",
+     "kind": "sweet",
+     "summary_en": "A local egg producer turns farm-fresh eggs and Tokyo milk into a pudding marketed under the town's name.",
+     "facts": [
+      {
+       "claim_en": "Tamago Kobo Ueno makes Mizuho Pudding using eggs from its own farm and milk produced in Tokyo.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_title": "東京みずほブランド",
+       "publisher": "瑞穂町"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "たまご工房 うえの",
+       "relation_en": "Local egg producer and pudding maker.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The municipal listing describes sales at events rather than establishing a regular walk-in retail location."
+    },
+    {
+     "name_ja": "畑のクッキー",
+     "name_en": "Farm-field cookies",
+     "kind": "sweet",
+     "summary_en": "Tamago Kobo Ueno makes cookies using wheat cultivated on its own farm and seasonal ingredients, giving the confection a direct agricultural connection.",
+     "facts": [
+      {
+       "claim_en": "The cookies use wheat grown at the maker's own farm and incorporate seasonal flavors.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_title": "東京みずほブランド",
+       "publisher": "瑞穂町"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "たまご工房 うえの",
+       "relation_en": "Farm-based cookie producer.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "season_en": "Seasonal flavors",
+     "confidence": "high",
+     "notes_en": "Event-based sales are documented; no regular storefront is confirmed."
+    },
+    {
+     "name_ja": "瑞宝最中",
+     "name_en": "Zuiho monaka",
+     "kind": "sweet",
+     "summary_en": "Zuiho Monaka is an original confection from a Mizuho sweet shop, featuring contrasting bean fillings enclosed in crisp monaka wafers.",
+     "facts": [
+      {
+       "claim_en": "Iseya makes Zuiho Monaka with two fillings prepared from red and white beans.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_title": "東京みずほブランド",
+       "publisher": "瑞穂町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "和菓子の伊勢屋",
+       "name_en": "Iseya Confectionery",
+       "relation_en": "Maker of the locally branded monaka.",
+       "address_ja": "東京都西多摩郡瑞穂町大字箱根ケ崎2256",
+       "official_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "和菓子の伊勢屋",
+       "relation_en": "Traditional confectionery producer.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The product name is 瑞宝最中, not 瑞穂最中."
+    },
+    {
+     "name_ja": "みずほ自然薯 かるかん饅頭",
+     "name_en": "Mizuho mountain-yam karukan manju",
+     "kind": "sweet",
+     "summary_en": "Iseya adapts locally grown Japanese mountain yam into a light, moist steamed sweet, creating a direct link between Mizuho agriculture and confectionery.",
+     "facts": [
+      {
+       "claim_en": "Iseya uses Mizuho-grown Japanese mountain yam in its karukan-style manju.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_title": "東京みずほブランド",
+       "publisher": "瑞穂町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "和菓子の伊勢屋",
+       "name_en": "Iseya Confectionery",
+       "relation_en": "Producer of mountain-yam steamed manju.",
+       "address_ja": "東京都西多摩郡瑞穂町大字箱根ケ崎2256",
+       "official_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "和菓子の伊勢屋",
+       "relation_en": "Confectioner using Mizuho-grown mountain yam.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "season_en": "Late October–February",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "うでっこき 栗どら焼き",
+     "name_en": "Udekkoki chestnut dorayaki",
+     "kind": "sweet",
+     "summary_en": "Enomotoya's signature dorayaki encloses a whole chestnut and red-bean filling in a lightly soy-seasoned cake, representing the town's individually developed confectionery specialties.",
+     "facts": [
+      {
+       "claim_en": "Enomotoya makes a chestnut dorayaki with a soy-flavored outer cake and a whole chestnut.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_title": "東京みずほブランド",
+       "publisher": "瑞穂町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "創作郷土菓子 榎本屋",
+       "name_en": "Enomotoya Local Confectionery",
+       "relation_en": "Maker of Udekkoki chestnut dorayaki.",
+       "address_ja": "東京都西多摩郡瑞穂町大字箱根ケ崎2259-1",
+       "official_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "創作郷土菓子 榎本屋",
+       "relation_en": "Producer of a Mizuho-certified original sweet.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "みず穂のキムチ",
+     "name_en": "Mizuho kimchi",
+     "kind": "other",
+     "summary_en": "A Mizuho food processor makes a locally branded kimchi incorporating Japanese-style kombu and bonito seasoning.",
+     "facts": [
+      {
+       "claim_en": "Kondo Foods makes Mizuho Kimchi with seasonings featuring kombu and bonito stock.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_title": "東京みずほブランド",
+       "publisher": "瑞穂町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "近藤食品有限会社",
+       "name_en": "Kondo Foods",
+       "relation_en": "Local food processor behind the town-branded kimchi.",
+       "address_ja": "東京都西多摩郡瑞穂町箱根ケ崎東松原6-1",
+       "official_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "近藤食品有限会社",
+       "relation_en": "Local maker of Mizuho Kimchi.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "おとうさんのこんにゃく",
+     "name_en": "Otousan no Konnyaku",
+     "kind": "other",
+     "summary_en": "This local handmade konnyaku draws on an older preparation method using alkaline liquid derived from buckwheat ash.",
+     "facts": [
+      {
+       "claim_en": "Mizuho Shokusai Kobo makes handmade sashimi-style konnyaku using a method based on buckwheat-ash lye.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_title": "東京みずほブランド",
+       "publisher": "瑞穂町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "みずほ食彩工房",
+       "name_en": "Mizuho Shokusai Kobo",
+       "relation_en": "Maker of traditional handmade konnyaku.",
+       "address_ja": "東京都西多摩郡瑞穂町大字高根557-7",
+       "official_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "みずほ食彩工房",
+       "relation_en": "Traditional konnyaku producer.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "大根の甘酢漬け",
+     "name_en": "Sweet-vinegar pickled daikon",
+     "kind": "dish",
+     "summary_en": "A local pickle producer processes farm-grown Ohkura and Ofukuro daikon into a sweet-and-sour preserved food.",
+     "facts": [
+      {
+       "claim_en": "Mizuho Shokusai Kobo produces sweet-vinegar daikon pickles from vegetables cultivated on its own farm.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_title": "東京みずほブランド",
+       "publisher": "瑞穂町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "みずほ食彩工房",
+       "name_en": "Mizuho Shokusai Kobo",
+       "relation_en": "Local producer of the town-recognized pickle.",
+       "address_ja": "東京都西多摩郡瑞穂町大字高根557-7",
+       "official_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "みずほ食彩工房",
+       "relation_en": "Farm-based producer of preserved daikon.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "瑞穂クッキー",
+     "name_en": "Mizuho Cookies",
+     "kind": "sweet",
+     "summary_en": "Students in the food department of Tokyo Metropolitan Mizuho Nogei High School make locally recognized cookies, linking agricultural education with food production.",
+     "facts": [
+      {
+       "claim_en": "Food-department students at Mizuho Nogei High School produce Mizuho Cookies for school festivals and other events.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_title": "東京みずほブランド",
+       "publisher": "瑞穂町"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "東京都立瑞穂農芸高等学校 食品科",
+       "relation_en": "Student producers of the locally branded cookies.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "season_en": "School festivals and other events",
+     "confidence": "high",
+     "notes_en": "The school is not presented as a public confectionery shop."
+    },
+    {
+     "name_ja": "多摩のゆでまんじゅう",
+     "name_en": "Tama-style boiled manju",
+     "kind": "sweet",
+     "summary_en": "Boiled manju is a traditional farm-work snack of the Tama region. Mizuho residents continue the custom by making chewy, bean-filled buns for a local farmers' market.",
+     "facts": [
+      {
+       "claim_en": "The town identifies boiled manju as a traditional Tama snack eaten during breaks from agricultural work.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_title": "東京みずほブランド",
+       "publisher": "瑞穂町"
+      },
+      {
+       "claim_en": "Local women handmake boiled manju for the Fresh House agricultural outlet.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_title": "東京みずほブランド",
+       "publisher": "瑞穂町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ふれっしゅはうす",
+       "name_en": "Fresh House Farmers Market",
+       "relation_en": "Direct-sales location for locally made traditional boiled manju.",
+       "address_ja": "東京都西多摩郡瑞穂町大字箱根ケ崎612-1",
+       "official_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "瑞穂町の地域生産者",
+       "relation_en": "Local residents preparing traditional boiled manju.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "瑞穂の手打ちうどん・つるつるかめかめ",
+     "name_en": "Mizuho hand-cut udon and the Tsurutsuru Kamekame custom",
+     "kind": "dish",
+     "summary_en": "Hand-cut udon was traditionally served at the conclusion of important family occasions in Mizuho. Local cooks preserve the custom through noodles made for the farmers' market.",
+     "facts": [
+      {
+       "claim_en": "Mizuho's traditional Tsurutsuru Kamekame custom involved serving homemade udon at the end of major family ceremonies.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_title": "東京みずほブランド",
+       "publisher": "瑞穂町"
+      },
+      {
+       "claim_en": "Fresh House's hand-cut udon draws on noodle-making skills passed down within local households.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_title": "東京みずほブランド",
+       "publisher": "瑞穂町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ふれっしゅはうす",
+       "name_en": "Fresh House Farmers Market",
+       "relation_en": "Local outlet for hand-cut udon preserving the household tradition.",
+       "address_ja": "東京都西多摩郡瑞穂町大字箱根ケ崎612-1",
+       "official_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "瑞穂町の地域生産者",
+       "relation_en": "Local cooks preserving traditional udon-making techniques.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "東京みずほブランド",
+     "name_en": "Tokyo Mizuho regional food brand",
+     "kind": "brand",
+     "summary_en": "Tokyo Mizuho Brand is the municipality's certification initiative for products expressing local food heritage and craftsmanship. It includes tea, farm produce, sweets, processed foods and traditional dishes.",
+     "facts": [
+      {
+       "claim_en": "Mizuho established the Tokyo Mizuho Brand initiative in 2012 to recognize and promote products reflecting the town's identity.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/town/003/p004128.html",
+       "source_title": "瑞穂町の特産品",
+       "publisher": "瑞穂町"
+      },
+      {
+       "claim_en": "The current official product list includes tea makers, farms, confectioners, food processors and producers of traditional local snacks.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_title": "東京みずほブランド",
+       "publisher": "瑞穂町"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ふれっしゅはうす",
+       "name_en": "Fresh House Farmers Market",
+       "relation_en": "Agricultural direct-sales hub associated with several local branded foods and producers.",
+       "address_ja": "東京都西多摩郡瑞穂町大字箱根ケ崎612-1",
+       "official_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "瑞穂町内の認定生産者・事業者",
+       "relation_en": "Agricultural and food businesses contributing to the town-certified product range.",
+       "source_url": "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The regional brand is an umbrella designation; the separately listed foods retain their individual identities."
+    }
+   ],
+   "none_found_reason_en": ""
+  }
+ ],
+ "url_check": {
+  "checked_at": "2026-11-22",
+  "status": {
+   "https://88838.net/pages/musium": 200,
+   "https://akigawagyokyo.or.jp/ayu/": 200,
+   "https://akigawagyokyo.or.jp/yamame/": 200,
+   "https://akiruno.town-info.com/irodori/": 200,
+   "https://akiruno.town-info.com/units/36232/oyaki/": 200,
+   "https://akiruno.town-info.com/units/36232/taishodo/": 200,
+   "https://farm-nishitokyo-city.jp/about": 200,
+   "https://farm-nishitokyo-city.jp/cat_farmers/farmers_areac": 200,
+   "https://farm-nishitokyo-city.jp/cat_farmers/farmers_aread": 200,
+   "https://farm-nishitokyo-city.jp/farmers/katoh_farm": 200,
+   "https://farm-nishitokyo-city.jp/megumichan": 200,
+   "https://fruitsbeer.tokyo/single_02_akigawaorange.html": 200,
+   "https://ishibune-dining.com/": 200,
+   "https://nishitokyo-ittenippin.com/shop/154/": 200,
+   "https://nishitokyo-ittenippin.com/shop/439/": 200,
+   "https://nishitokyo-ittenippin.com/shop/492/": 200,
+   "https://tanashi-dining.com/homemade-craftbeer/": 200,
+   "https://tokyogrown.jp/node/856387": 200,
+   "https://tokyomountain-tours.jp/ajisaimatsuri/ja/index.html": 200,
+   "https://www.akirunokanko.com/?cat=71": 200,
+   "https://www.akirunokanko.com/?p=2958": 200,
+   "https://www.akirunokanko.com/?p=341": 200,
+   "https://www.akirunokanko.com/?p=342": 200,
+   "https://www.akirunokanko.com/?p=345": 200,
+   "https://www.akirunokanko.com/?p=347": 200,
+   "https://www.akirunokanko.com/?p=348": 200,
+   "https://www.akirunokanko.com/?p=349": 200,
+   "https://www.akirunokanko.com/?p=4451": 200,
+   "https://www.akirunokanko.com/?p=5614": 200,
+   "https://www.akirunokanko.com/?p=6481": 200,
+   "https://www.asahi-karinto.com/shop.html": 200,
+   "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_120.html": 200,
+   "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_139.html": 200,
+   "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_143.html": 200,
+   "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_145.html": 200,
+   "https://www.chiyotsuru.jp/": 200,
+   "https://www.city.akiruno.tokyo.jp/0000003556.html": 200,
+   "https://www.city.nishitokyo.lg.jp/kurasi/agriculture/tyokubaisho_rist.html": "URLError",
+   "https://www.city.nishitokyo.lg.jp/siseizyoho/pub/kanren/shokuiku.files/all.pdf": "URLError",
+   "https://www.ohtama.or.jp/sightseeing/271.html": 200,
+   "https://www.ohtama.or.jp/sightseeing/301.html": 200,
+   "https://www.shijou.metro.tokyo.lg.jp/about/specialist/meat/16": 200,
+   "https://www.tokyo-ja.or.jp/farm/edo/": 200,
+   "https://www.town.mizuho.tokyo.jp/bunka/004/p010024.html": 200,
+   "https://www.town.mizuho.tokyo.jp/town/003/p004128.html": 200
+  }
+ }
+}
