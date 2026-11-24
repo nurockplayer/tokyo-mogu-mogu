@@ -182,8 +182,7 @@ export function RouteScreen({
         <div className="route-info">
           <div className="tx">
             <PinIcon /> {localizedRegion[locale]}
-            <br />
-            <TrainIcon /> {stats.access ? <em>{stats.access}</em> : <><em>{stats.station}</em> {labels.from} <em>{stats.minutes}</em></>}
+            {stats.access || stats.station ? <><br /><TrainIcon /> {stats.access ? <em>{stats.access}</em> : <><em>{stats.station}</em> {labels.from} <em>{stats.minutes}</em></>}</> : null}
             {stats.caution ? <small className="route-caution">{stats.caution}</small> : null}
           </div>
           <button className="regen" disabled={regenerating} onClick={startRegeneration} type="button">
