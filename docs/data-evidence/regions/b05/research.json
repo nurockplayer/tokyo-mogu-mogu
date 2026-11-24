@@ -1,0 +1,2769 @@
+{
+ "batch": "b05",
+ "researched_at": "2026-11-22",
+ "municipalities": [
+  {
+   "id": "higashimurayama",
+   "name_ja": "東村山市",
+   "food_cultures": [
+    {
+     "name_ja": "東村山ブランド「里に八国」",
+     "name_en": "Sato ni Hakkoku Local Food Brand",
+     "kind": "brand",
+     "summary_en": "Higashimurayama's chamber of commerce certifies foods representing the city's culinary identity. The name refers to Hakkokuyama, a hill associated with local history and the surrounding landscape.",
+     "facts": [
+      {
+       "claim_en": "The chamber of commerce established the Sato ni Hakkoku trademark and describes 38 certified local products, including foods rooted in the area's wheat-growing tradition.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/about/",
+       "source_title": "里に八国とは？",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "東村山市商工会",
+       "relation_en": "Manages the local food certification program.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/about/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "This umbrella brand includes several separately documented foods below."
+    },
+    {
+     "name_ja": "武蔵野うどん・肉汁うどん",
+     "name_en": "Musashino Udon and Pork Dipping Broth",
+     "kind": "dish",
+     "summary_en": "Wheat noodles served with a warm pork dipping broth and seasonal vegetables are central to Higashimurayama's food traditions. The vegetables accompanying the noodles are known as kate.",
+     "facts": [
+      {
+       "claim_en": "Kojimaya serves handmade meat-broth udon with seasonal kate vegetables, a characteristic of Musashino udon.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_01/",
+       "source_title": "手打ちうどん 小島屋",
+       "publisher": "東村山市商工会"
+      },
+      {
+       "claim_en": "The city's wheat-flour udon was traditionally prepared for family and neighborhood gatherings.",
+       "source_url": "https://shoukoukai.or.jp/city_info/specialty_goods/",
+       "source_title": "東村山市の特産品",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "手打ちうどん 小島屋",
+       "name_en": "Kojimaya Handmade Udon",
+       "relation_en": "Long-established restaurant specializing in meat-broth udon.",
+       "address_ja": "東京都東村山市野口町3-10-3",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_01/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "手打ちうどん 小島屋",
+       "relation_en": "Prepares a traditional local noodle dish.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_01/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The dish has roots in Musashino's wheat-farming culture rather than being unique to the municipal boundary."
+    },
+    {
+     "name_ja": "東村山産小麦・地粉うどん",
+     "name_en": "Higashimurayama-Grown Wheat and Local-Flour Udon",
+     "kind": "crop",
+     "summary_en": "Locally grown wheat remains part of Higashimurayama's culinary identity. A neighborhood noodle maker uses wheat contracted from nearby farmers to produce distinctive local-flour udon.",
+     "facts": [
+      {
+       "claim_en": "Noguchi Seimenjo makes Higashimurayama local-flour meat-broth udon entirely from wheat grown by contracted local farmers.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_05/",
+       "source_title": "野口製麺所",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "野口製麺所",
+       "name_en": "Noguchi Seimenjo",
+       "relation_en": "Makes and serves noodles from locally cultivated wheat.",
+       "address_ja": "東京都東村山市野口町4-46-1",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_05/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "野口製麺所",
+       "relation_en": "Connects local wheat farming with noodle making.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_05/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "東村山黒焼そば",
+     "name_en": "Higashimurayama Black Yakisoba",
+     "kind": "dish",
+     "summary_en": "Black yakisoba is a recognized local specialty made with a dark sauce developed in Higashimurayama. Its appearance references a medieval legend associated with Nitta Yoshisada's army and Hakkokuyama.",
+     "facts": [
+      {
+       "claim_en": "The black sauce contains squid ink, Kagoshima kuroshu and spices and was developed by local condiment producer Pole Star.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_114.html",
+       "source_title": "東村山黒焼そば",
+       "publisher": "東京都 地域資源"
+      },
+      {
+       "claim_en": "The dish's historical story refers to a legend about soldiers eating food covered with charcoal before the 1333 battle at Kumegawa.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_114.html",
+       "source_title": "東村山黒焼そば",
+       "publisher": "東京都 地域資源"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "株式会社ポールスタア",
+       "name_en": "Pole Star",
+       "relation_en": "Developer of the signature sauce; its local shop provides a connection to the maker.",
+       "address_ja": "東京都東村山市久米川町3-28-2",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_08/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "株式会社ポールスタア",
+       "relation_en": "Created the black yakisoba sauce.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_114.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The medieval origin is presented as a legend, not as verified culinary history."
+    },
+    {
+     "name_ja": "東村山黒焼そばソース・ご当地調味料",
+     "name_en": "Black Yakisoba Sauce and Higashimurayama Condiments",
+     "kind": "brand",
+     "summary_en": "Pole Star produces a family of condiments designed to express Higashimurayama's local identity. The range includes black yakisoba sauce, an udon dipping sauce and sauces named after local landmarks.",
+     "facts": [
+      {
+       "claim_en": "Pole Star's local series includes Made in Higashimurayama Sauce, Sentai Jizo Sauce, Higashimurayama Udon Tsuyu and Black Yakisoba Sauce.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_08/",
+       "source_title": "株式会社ポールスタア",
+       "publisher": "東村山市商工会"
+      },
+      {
+       "claim_en": "The producer traces its business history to a soy sauce shop established in 1850.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_114.html",
+       "source_title": "東村山黒焼そば",
+       "publisher": "東京都 地域資源"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "株式会社ポールスタア",
+       "name_en": "Pole Star Shop",
+       "relation_en": "Local condiment maker and retail location.",
+       "address_ja": "東京都東村山市久米川町3-28-2",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_08/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "株式会社ポールスタア",
+       "relation_en": "Develops and manufactures the regional condiment range.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_08/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "黒ソースつけめん",
+     "name_en": "Black-Sauce Tsukemen",
+     "kind": "dish",
+     "summary_en": "A Higashimurayama ramen shop adapted the city's black yakisoba sauce into a dipping noodle dish. Its broth combines pork-bone soup, local black sauce and Higashimurayama wine.",
+     "facts": [
+      {
+       "claim_en": "Ramen Honpo Marumi uses black sauce and Higashimurayama wine in a pork-bone-based dipping broth.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_06/",
+       "source_title": "ラーメン本舗 まるみ",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ラーメン本舗 まるみ",
+       "name_en": "Ramen Honpo Marumi",
+       "relation_en": "Creator of the local black-sauce tsukemen variation.",
+       "address_ja": "東京都東村山市本町2-16-31",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_06/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ラーメン本舗 まるみ",
+       "relation_en": "Adapts the city's signature condiment to ramen.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_06/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "黒焼うどん",
+     "name_en": "Black-Sauce Stir-Fried Udon",
+     "kind": "dish",
+     "summary_en": "Black-sauce udon is a modern variation of Higashimurayama's black yakisoba culture. It replaces the usual noodles with chewy udon while retaining the regional sauce.",
+     "facts": [
+      {
+       "claim_en": "The Higashimurayama-based Ikkyu restaurant group developed black-sauce stir-fried udon as another local noodle specialty.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_21/",
+       "source_title": "一休",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "焼鳥一休 久米川店",
+       "name_en": "Yakitori Ikkyu Kumegawa",
+       "relation_en": "Listed local outlet associated with the black udon product.",
+       "address_ja": "東京都東村山市栄町2-9-32",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_21/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "一休",
+       "relation_en": "Developed this variation using Higashimurayama black sauce.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_21/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "多摩湖梨",
+     "name_en": "Tamako Pears",
+     "kind": "crop",
+     "summary_en": "Tamako pears are among Higashimurayama's best-established local fruit specialties. They connect suburban orchards with the city's seasonal farm-gate food culture.",
+     "facts": [
+      {
+       "claim_en": "The chamber of commerce identifies Tamako pears as a local specialty and describes seasonal fruit sales and picking in the city.",
+       "source_url": "https://shoukoukai.or.jp/city_info/specialty_goods/",
+       "source_title": "東村山市の特産品",
+       "publisher": "東村山市商工会"
+      },
+      {
+       "claim_en": "JA Tokyo Mirai lists Kinhiro-en as a pear and vegetable producer in Ontacho.",
+       "source_url": "https://www.ja-tokyomirai.or.jp/agriculture/niwasaki/",
+       "source_title": "庭先直売所一覧",
+       "publisher": "JA東京みらい"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "金弘園",
+       "name_en": "Kinko-en Farm",
+       "relation_en": "Local orchard and direct-sales producer of pears.",
+       "address_ja": "東京都東村山市恩多町2-4-2",
+       "official_url": "",
+       "source_url": "https://www.ja-tokyomirai.or.jp/agriculture/niwasaki/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "金弘園",
+       "relation_en": "Grows and sells pears locally.",
+       "source_url": "https://www.ja-tokyomirai.or.jp/agriculture/niwasaki/"
+      }
+     ],
+     "season_en": "Mid-August to early September at the listed orchard.",
+     "confidence": "high",
+     "notes_en": "Tamako pear is the local specialty designation; individual orchard varieties are not established by this source."
+    },
+    {
+     "name_ja": "東村山のぶどう・りんご・キウイ",
+     "name_en": "Higashimurayama Grapes, Apples and Kiwifruit",
+     "kind": "crop",
+     "summary_en": "Beyond pears, Higashimurayama maintains orchards growing grapes, apples and kiwifruit. Seasonal orchard sales form part of its local agricultural tourism.",
+     "facts": [
+      {
+       "claim_en": "The chamber of commerce identifies grapes, apples and kiwifruit among the fruits grown in the city's orchards.",
+       "source_url": "https://shoukoukai.or.jp/city_info/specialty_goods/",
+       "source_title": "東村山市の特産品",
+       "publisher": "東村山市商工会"
+      },
+      {
+       "claim_en": "JA Tokyo Mirai lists Omata Farm as a local producer of kiwifruit, persimmons and feijoa.",
+       "source_url": "https://www.ja-tokyomirai.or.jp/agriculture/niwasaki/",
+       "source_title": "庭先直売所一覧",
+       "publisher": "JA東京みらい"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "小俣農園",
+       "name_en": "Omata Farm",
+       "relation_en": "Direct-sales farm offering locally grown specialty fruits.",
+       "address_ja": "東京都東村山市秋津町5-10-1",
+       "official_url": "",
+       "source_url": "https://www.ja-tokyomirai.or.jp/agriculture/niwasaki/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "小俣農園",
+       "relation_en": "Cultivates local fruit including kiwifruit, persimmons and feijoa.",
+       "source_url": "https://www.ja-tokyomirai.or.jp/agriculture/niwasaki/"
+      }
+     ],
+     "season_en": "Seasonal; the chamber describes orchard sales beginning around mid-August.",
+     "confidence": "high",
+     "notes_en": "The chamber's fruit list describes the municipality collectively, not the inventory of a single orchard."
+    },
+    {
+     "name_ja": "多摩湖梨ソース・梨酢",
+     "name_en": "Tamako Pear Sauce and Pear Vinegar",
+     "kind": "brand",
+     "summary_en": "Local pears are processed into sauces and vinegar, extending the orchard harvest into preserved regional condiments. Takeda Shoten also produces small batches of sauce using locally harvested vegetables.",
+     "facts": [
+      {
+       "claim_en": "Takeda Shoten produces Tamako pear sauce, pear vinegar and seasonal sauces using fruit and vegetables obtained from local farms.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_09/",
+       "source_title": "株式会社竹田商店",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "株式会社竹田商店",
+       "name_en": "Takeda Shoten",
+       "relation_en": "Manufacturer and shop for local-fruit condiments.",
+       "address_ja": "東京都東村山市恩多町3-28-5",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_09/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "株式会社竹田商店",
+       "relation_en": "Processes local pears and seasonal produce into condiments.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_09/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "東村山の焼きだんご",
+     "name_en": "Higashimurayama Grilled Dango",
+     "kind": "dish",
+     "summary_en": "Large, soy-glazed grilled rice dumplings are a recognizable traditional snack of Higashimurayama. Local confectioners connect the snack with earlier farming-community customs.",
+     "facts": [
+      {
+       "claim_en": "The city's chamber of commerce identifies soy-glazed grilled dango as a Higashimurayama specialty.",
+       "source_url": "https://shoukoukai.or.jp/city_info/specialty_goods/",
+       "source_title": "東村山市の特産品",
+       "publisher": "東村山市商工会"
+      },
+      {
+       "claim_en": "Sasamoto Dango traces its grilled dumplings to older farming traditions called mayu dango and okama dango.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_10/",
+       "source_title": "笹本だんご店",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "笹本だんご店",
+       "name_en": "Sasamoto Dango",
+       "relation_en": "Traditional maker of large grilled dumplings.",
+       "address_ja": "東京都東村山市久米川町2-2-1",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_10/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "笹本だんご店",
+       "relation_en": "Preserves the region's grilled-dango tradition.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_10/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "おかまだんご・まゆだんごの風習",
+     "name_en": "Okama Dango and Mayu Dango Folk Customs",
+     "kind": "other",
+     "summary_en": "Higashimurayama's grilled-dango tradition preserves memories of dumplings prepared by farming households. Okama dango was associated with offerings to the household kitchen deity.",
+     "facts": [
+      {
+       "claim_en": "Local tradition described at Sasamoto Dango includes offering 36 dumplings in late October for the kitchen deity and the deity's children.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_10/",
+       "source_title": "笹本だんご店",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "笹本だんご店",
+       "name_en": "Sasamoto Dango",
+       "relation_en": "A present-day food maker that explains the historical custom behind grilled dumplings.",
+       "address_ja": "東京都東村山市久米川町2-2-1",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_10/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "笹本だんご店",
+       "relation_en": "Documents the connection between its dumplings and older local customs.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_10/"
+      }
+     ],
+     "season_en": "The okama-dango offering custom is associated with late October.",
+     "confidence": "high",
+     "notes_en": "The source documents historical practice; it does not establish that the ritual remains universally observed."
+    },
+    {
+     "name_ja": "地酒東村山",
+     "name_en": "Jizake Higashimurayama Sake",
+     "kind": "drink",
+     "summary_en": "A locally named sake was created through collaboration between Toshimaya Brewery and Higashimurayama liquor retailers. It represents the city's continuing connection to Edo-period sake-making traditions.",
+     "facts": [
+      {
+       "claim_en": "Toshimaya Brewery and local liquor sellers developed Jizake Higashimurayama as a sake specifically associated with the city.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_14/",
+       "source_title": "豊島屋酒造株式会社",
+       "publisher": "東村山市商工会"
+      },
+      {
+       "claim_en": "The brewery draws brewing water from within its Higashimurayama premises.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_14/",
+       "source_title": "豊島屋酒造株式会社",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "豊島屋酒造",
+       "name_en": "Toshimaya Brewery",
+       "relation_en": "Local sake brewery producing the city's namesake sake.",
+       "address_ja": "東京都東村山市久米川町3-14-10",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_14/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "豊島屋酒造株式会社",
+       "relation_en": "Brews Jizake Higashimurayama.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_14/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "豊島屋の金婚・屋守",
+     "name_en": "Toshimaya Kinkon and Okunokami Sake",
+     "kind": "drink",
+     "summary_en": "Toshimaya's sake portfolio carries a long brewing tradition into modern Higashimurayama. Kinkon reflects historical commemorative naming, while Okunokami represents a different contemporary sake expression.",
+     "facts": [
+      {
+       "claim_en": "Toshimaya identifies Kinkon and Okunokami among its sake brands and describes their distinct histories and production concepts.",
+       "source_url": "https://kanda-toshimaya.co.jp/toshimaya-rita-shop/",
+       "source_title": "豊島屋の日本酒",
+       "publisher": "豊島屋"
+      },
+      {
+       "claim_en": "Higashimurayama is the site of Toshimaya's sake brewery.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_14/",
+       "source_title": "豊島屋酒造株式会社",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "豊島屋酒造",
+       "name_en": "Toshimaya Brewery",
+       "relation_en": "Production site of the brewery's locally associated sake brands.",
+       "address_ja": "東京都東村山市久米川町3-14-10",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_14/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "豊島屋酒造株式会社",
+       "relation_en": "Long-established local sake producer.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_14/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Kinkon and Okunokami are product brands from a brewery with a broader history; they are not separate traditional regional dishes."
+    },
+    {
+     "name_ja": "炭火造り納豆",
+     "name_en": "Charcoal-Fermented Natto",
+     "kind": "other",
+     "summary_en": "Hoya Natto preserves a distinctive local fermentation method using charcoal within the fermentation room. This food-making tradition also draws on deep groundwater.",
+     "facts": [
+      {
+       "claim_en": "Hoya Natto uses a charcoal-heated fermentation process and groundwater pumped from approximately 150 meters below ground.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_17/",
+       "source_title": "株式会社保谷納豆",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "株式会社保谷納豆",
+       "name_en": "Hoya Natto",
+       "relation_en": "Local natto factory and direct-sales location.",
+       "address_ja": "東京都東村山市青葉町2-39-9",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_17/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "株式会社保谷納豆",
+       "relation_en": "Uses a patented charcoal-based fermentation method.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_17/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "たまり漬け干し納豆",
+     "name_en": "Tamari-Marinated Dried Natto",
+     "kind": "other",
+     "summary_en": "A local natto producer makes a preserved soybean snack by seasoning natto with tamari soy sauce and drying it in the sun.",
+     "facts": [
+      {
+       "claim_en": "Hoya Natto's dried natto uses large soybeans marinated in tamari and then sun-dried.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_17/",
+       "source_title": "株式会社保谷納豆",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "株式会社保谷納豆",
+       "name_en": "Hoya Natto",
+       "relation_en": "Factory shop for this regional fermented-soybean product.",
+       "address_ja": "東京都東村山市青葉町2-39-9",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_17/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "株式会社保谷納豆",
+       "relation_en": "Makes the preserved natto specialty.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_17/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "里に八国生ゆば",
+     "name_en": "Sato ni Hakkoku Fresh Yuba",
+     "kind": "other",
+     "summary_en": "Near Hakkokuyama, Iwasakiya Tofu Shop prepares fresh soybean skin with a rich, soft texture. It is part of the chamber-certified regional food range.",
+     "facts": [
+      {
+       "claim_en": "Iwasakiya makes fresh yuba using Fuku-yutaka soybeans and a production method developed over decades.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_15/",
+       "source_title": "岩崎屋豆富店",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "岩崎屋豆富店",
+       "name_en": "Iwasakiya Tofu Shop",
+       "relation_en": "Small producer of fresh yuba near Hakkokuyama.",
+       "address_ja": "東京都東村山市多摩湖町4-9-1",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_15/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "岩崎屋豆富店",
+       "relation_en": "Produces the fresh yuba specialty.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_15/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "すぐりゆば・たぐりゆば",
+     "name_en": "Suguri Yuba and Taguri Yuba",
+     "kind": "other",
+     "summary_en": "Musashino-an makes several forms of yuba using domestic soybeans and groundwater associated with the Okutama watershed. Its rolled and creamy styles represent another distinct yuba-making business in Higashimurayama.",
+     "facts": [
+      {
+       "claim_en": "Musashino-an produces creamy taguri yuba and rolled suguri yuba, along with colored varieties made from different soybean types.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_16/",
+       "source_title": "大豆工房 むさしの庵",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "大豆工房 むさしの庵",
+       "name_en": "Musashino-an Soy Workshop",
+       "relation_en": "Local yuba production workshop.",
+       "address_ja": "東京都東村山市青葉町1-10-15",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_16/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "大豆工房 むさしの庵",
+       "relation_en": "Produces several handmade yuba styles.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_16/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "東村山地粉サーターアンダギー",
+     "name_en": "Local-Wheat Sata Andagi",
+     "kind": "sweet",
+     "summary_en": "A Higashimurayama noodle maker adapts the Okinawan fried sweet using wheat grown in Higashimurayama. It is a modern example of locally harvested grain being used beyond traditional udon.",
+     "facts": [
+      {
+       "claim_en": "Noguchi Seimenjo makes brown-sugar sata andagi using the same locally cultivated wheat as its Higashimurayama udon.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_05/",
+       "source_title": "野口製麺所",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "野口製麺所",
+       "name_en": "Noguchi Seimenjo",
+       "relation_en": "Produces this sweet with Higashimurayama-grown wheat.",
+       "address_ja": "東京都東村山市野口町4-46-1",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_05/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "野口製麺所",
+       "relation_en": "Uses locally grown wheat in both noodles and sweets.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_05/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "This is an Okinawan-style sweet made with local ingredients, not an old Higashimurayama folk dish."
+    },
+    {
+     "name_ja": "縄文土偶パン",
+     "name_en": "Jomon Clay-Figurine Bread",
+     "kind": "sweet",
+     "summary_en": "This bakery product draws its design from a Jomon-period female clay figurine excavated at the Shimo-yakebe archaeological site. Rye, brown sugar and walnuts contribute to its rustic character.",
+     "facts": [
+      {
+       "claim_en": "Home Bakery Madonna developed a figurine-shaped bread inspired by a locally excavated Jomon artifact.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_11/",
+       "source_title": "ホームベーカリーマドンナ",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ホームベーカリーマドンナ",
+       "name_en": "Home Bakery Madonna",
+       "relation_en": "Bakery making the archaeology-inspired bread.",
+       "address_ja": "東京都東村山市諏訪町1-25-14",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_11/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ホームベーカリーマドンナ",
+       "relation_en": "Created the bread based on the local archaeological discovery.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_11/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "東村山アイスクリーム",
+     "name_en": "Higashimurayama Ice Cream",
+     "kind": "sweet",
+     "summary_en": "Chamois makes a locally branded ice cream range as part of its commitment to regional ingredients and food production.",
+     "facts": [
+      {
+       "claim_en": "Chamois presents its handmade Higashimurayama ice cream as a regional specialty and describes a range of 15 flavors.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_12/",
+       "source_title": "シャモア洋菓子店",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "シャモア洋菓子店",
+       "name_en": "Chamois Patisserie",
+       "relation_en": "Maker of the locally branded ice cream.",
+       "address_ja": "東京都東村山市富士見町3-13-18",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_12/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "シャモア洋菓子店",
+       "relation_en": "Produces regional sweets and ice cream.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_12/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The source does not identify which individual flavors contain local produce."
+    },
+    {
+     "name_ja": "ひがっしーサブレ",
+     "name_en": "Higasshi Mascot Sable Cookies",
+     "kind": "sweet",
+     "summary_en": "These cookies feature Higashimurayama's tree-fairy mascot and use locally produced wheat flour, joining local character design with agricultural ingredients.",
+     "facts": [
+      {
+       "claim_en": "Chamois makes Higasshi-shaped sable cookies from Higashimurayama local flour.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_12/",
+       "source_title": "シャモア洋菓子店",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "シャモア洋菓子店",
+       "name_en": "Chamois Patisserie",
+       "relation_en": "Confectioner producing the mascot cookies.",
+       "address_ja": "東京都東村山市富士見町3-13-18",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_12/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "シャモア洋菓子店",
+       "relation_en": "Combines local flour with a city mascot design.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_12/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "けやき丸太",
+     "name_en": "Keyaki Log Chocolate",
+     "kind": "sweet",
+     "summary_en": "A handmade chocolate confection is shaped to evoke the trunk of a zelkova tree, Higashimurayama's municipal tree.",
+     "facts": [
+      {
+       "claim_en": "Chamois individually prepares a chocolate confection modeled on the city's keyaki tree.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_12/",
+       "source_title": "シャモア洋菓子店",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "シャモア洋菓子店",
+       "name_en": "Chamois Patisserie",
+       "relation_en": "Producer of this tree-inspired regional confection.",
+       "address_ja": "東京都東村山市富士見町3-13-18",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_12/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "シャモア洋菓子店",
+       "relation_en": "Makes the local-symbol-themed chocolate.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_12/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "野火止通りのスフレ",
+     "name_en": "Nobidome Street Souffle",
+     "kind": "sweet",
+     "summary_en": "This cheese souffle takes its name from the Nobidome waterway corridor, connecting a neighborhood confectioner with an important part of Higashimurayama's landscape history.",
+     "facts": [
+      {
+       "claim_en": "Enchanter is located beside the Nobidome waterway promenade and produces a souffle bearing the street's name.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_13/",
+       "source_title": "欧風菓子アンシャンテ",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "欧風菓子アンシャンテ",
+       "name_en": "Enchanter Patisserie",
+       "relation_en": "Cheesecake specialist beside the historical waterway.",
+       "address_ja": "東京都東村山市栄町3-14-7",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_13/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "欧風菓子アンシャンテ",
+       "relation_en": "Creates the neighborhood-themed souffle.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_13/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "だいじょうぶだァー饅頭・どら焼き",
+     "name_en": "Daijoubudaa Manju and Dorayaki",
+     "kind": "sweet",
+     "summary_en": "Mochiman offers a range of regionally recognized sweets with playful names closely associated with Higashimurayama's popular culture.",
+     "facts": [
+      {
+       "claim_en": "Mochiman lists Daijoubudaa manju, Daijoubudaa dorayaki and Daffundaa dorayaki among its Higashimurayama specialty products.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_18/",
+       "source_title": "和菓子処 餅萬",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "和菓子処 餅萬 西口本店",
+       "name_en": "Mochiman West Exit Shop",
+       "relation_en": "Traditional confectioner selling the locally named sweets.",
+       "address_ja": "東京都東村山市野口町1-17-3",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_18/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "和菓子処 餅萬",
+       "relation_en": "Maker of locally named manju and dorayaki.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_18/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The cited product page establishes the names but does not itself explain their relationship to a particular entertainer."
+    },
+    {
+     "name_ja": "東村山地酒 酒まんじゅう",
+     "name_en": "Higashimurayama Sake-Lees Manju",
+     "kind": "sweet",
+     "summary_en": "A traditional confectioner uses sake lees from a Higashimurayama brewery to flavor the dough surrounding sweet bean paste.",
+     "facts": [
+      {
+       "claim_en": "Mochiman makes sake manju with lees supplied directly from a local sake brewery.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_18/",
+       "source_title": "和菓子処 餅萬",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "和菓子処 餅萬 総本店",
+       "name_en": "Mochiman Main Shop",
+       "relation_en": "Makes confectionery using a local sake-production byproduct.",
+       "address_ja": "東京都東村山市久米川町3-29-38",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_18/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "和菓子処 餅萬",
+       "relation_en": "Turns local sake lees into a confectionery ingredient.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_18/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "八國山ブルーベリー饅頭・ゼリー",
+     "name_en": "Hakkokuyama Blueberry Manju and Jelly",
+     "kind": "sweet",
+     "summary_en": "Shimizuya uses blueberries harvested in Higashimurayama to create sweets named after nearby Hakkokuyama.",
+     "facts": [
+      {
+       "claim_en": "Shimizuya produces both blueberry manju and blueberry jelly using fruit grown in Higashimurayama.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_19/",
+       "source_title": "御菓子司 清水屋",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "御菓子司 清水屋",
+       "name_en": "Shimizuya Confectionery",
+       "relation_en": "Maker of sweets featuring locally harvested blueberries.",
+       "address_ja": "東京都東村山市野口町2-4-1",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_19/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "御菓子司 清水屋",
+       "relation_en": "Processes local blueberries into regional sweets.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_19/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The fruit is local; the source does not establish the exact blueberry harvesting calendar."
+    },
+    {
+     "name_ja": "千体地蔵最中",
+     "name_en": "Sentai Jizo Monaka",
+     "kind": "sweet",
+     "summary_en": "This bean-filled wafer sweet refers to the nationally designated Shofukuji Jizodo, giving visitors an edible connection to Higashimurayama's Buddhist heritage.",
+     "facts": [
+      {
+       "claim_en": "Shimizuya makes Sentai Jizo Monaka in reference to the nationally treasured Shofukuji Jizodo.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_19/",
+       "source_title": "御菓子司 清水屋",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "御菓子司 清水屋",
+       "name_en": "Shimizuya Confectionery",
+       "relation_en": "Produces the historical-landmark-themed monaka.",
+       "address_ja": "東京都東村山市野口町2-4-1",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_19/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "御菓子司 清水屋",
+       "relation_en": "Created a sweet commemorating a local cultural landmark.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_19/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "東村山塩どら",
+     "name_en": "Higashimurayama Salted-Sakura Dorayaki",
+     "kind": "sweet",
+     "summary_en": "A locally named dorayaki includes salt-preserved cherry blossom, giving the familiar Japanese sweet a distinctive regional presentation.",
+     "facts": [
+      {
+       "claim_en": "Shimizuya makes Higashimurayama Shiodora with a salt-preserved cherry blossom accent.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_19/",
+       "source_title": "御菓子司 清水屋",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "御菓子司 清水屋",
+       "name_en": "Shimizuya Confectionery",
+       "relation_en": "Makes this locally branded dorayaki.",
+       "address_ja": "東京都東村山市野口町2-4-1",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_19/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "御菓子司 清水屋",
+       "relation_en": "Producer of the salted-sakura dorayaki.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_19/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "八国御膳",
+     "name_en": "Hakkoku Eight-Grain Rice Blend",
+     "kind": "brand",
+     "summary_en": "A local rice merchant created an eight-grain blend named for Hakkokuyama. It represents a modern grain-based food product within Higashimurayama's certified specialty range.",
+     "facts": [
+      {
+       "claim_en": "Kimura Shoten's blend contains black rice, glutinous brown rice, several millet varieties, amaranth and pressed barley.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_20/",
+       "source_title": "木村商店",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "木村商店",
+       "name_en": "Kimura Rice Shop",
+       "relation_en": "Creator of the eight-grain blend.",
+       "address_ja": "東京都東村山市廻田町4-23-8",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_20/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "木村商店",
+       "relation_en": "Developed the locally named mixed-grain product.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_20/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The product is developed locally, but the source does not claim all eight grains are cultivated in Higashimurayama."
+    },
+    {
+     "name_ja": "酒粕ガトーショコラ",
+     "name_en": "Sake-Lees Gateau Chocolat",
+     "kind": "sweet",
+     "summary_en": "This chocolate cake combines a European confection with sake lees from a Higashimurayama brewery. It illustrates collaboration between local sake making and pastry production.",
+     "facts": [
+      {
+       "claim_en": "Soup by Suppe developed a chocolate cake using Toshimaya Brewery sake lees together with other fermented ingredients.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_22/",
+       "source_title": "soup by suppe",
+       "publisher": "東村山市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "シャモア洋菓子店 久米川店",
+       "name_en": "Chamois Kumegawa",
+       "relation_en": "Listed retail outlet for the collaborative cake.",
+       "address_ja": "東京都東村山市栄町2-37-8 都営栄町第4アパート104号",
+       "official_url": "",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_22/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "soup by suppe",
+       "relation_en": "Developed the local sake-lees dessert.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_22/"
+      },
+      {
+       "name_ja": "豊島屋酒造",
+       "relation_en": "Supplies the locally produced sake lees.",
+       "source_url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_22/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    }
+   ],
+   "none_found_reason_en": ""
+  },
+  {
+   "id": "kokubunji",
+   "name_ja": "国分寺市",
+   "food_cultures": [
+    {
+     "name_ja": "国分寺三百年野菜「こくベジ」",
+     "name_en": "Kokuvege: Kokubunji's 300-Year Farm Produce",
+     "kind": "brand",
+     "summary_en": "Kokuvege is Kokubunji's regional branding initiative for produce grown by city farmers. It builds on an agricultural landscape established during Edo-period land development about 300 years ago.",
+     "facts": [
+      {
+       "claim_en": "Kokuvege is the collective name for agricultural products produced commercially by Kokubunji farmers.",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/culture-sports-tourism/machi/1012005/1013264.html",
+       "source_title": "国分寺三百年野菜 こくベジ プロジェクトとは",
+       "publisher": "国分寺市"
+      },
+      {
+       "claim_en": "The area's farming tradition developed from Edo-period land reclamation and the use of compost made with woodland leaves and livestock manure.",
+       "source_url": "https://kokubunji-citypro.jp/article/394/",
+       "source_title": "都市農業が盛んな国分寺で生まれた「こくベジ」の魅力とは？",
+       "publisher": "国分寺市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "国分寺ファーマーズ・マーケット",
+       "name_en": "Kokubunji Farmers Market",
+       "relation_en": "JA market selling locally grown agricultural products.",
+       "address_ja": "東京都国分寺市東恋ヶ窪4-23-8",
+       "official_url": "https://kokuvege.jp/direct/",
+       "source_url": "https://kokuvege.jp/direct/"
+      },
+      {
+       "name_ja": "にしこくマルシェ しゅんかしゅんか",
+       "name_en": "Nishikoku Marche Shunka Shunka",
+       "relation_en": "Station-area retailer of Kokubunji farm produce and local processed foods.",
+       "address_ja": "東京都国分寺市西恋ヶ窪2-1-18 nonowa西国分寺内",
+       "official_url": "",
+       "source_url": "https://kokuvege.jp/direct/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "国分寺市内のこくベジ生産農家",
+       "relation_en": "Farmers growing produce included in the regional brand.",
+       "source_url": "https://kokuvege.jp/direct/"
+      }
+     ],
+     "season_en": "Year-round, with the available crops changing by season.",
+     "confidence": "high",
+     "notes_en": "Kokuvege covers multiple crops and agricultural products; notable examples follow as separate entries."
+    },
+    {
+     "name_ja": "東京うど",
+     "name_en": "Tokyo Udo",
+     "kind": "crop",
+     "summary_en": "Tokyo udo is a traditional Edo-Tokyo vegetable strongly associated with Kokubunji agriculture. Local farmers continue cultivating it as part of the area's heritage produce.",
+     "facts": [
+      {
+       "claim_en": "Kokubunji City identifies Tokyo udo as a locally produced specialty recognized among Edo-Tokyo vegetables.",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/faq/kurashi/1005239/1005297/1006217.html",
+       "source_title": "国分寺市の代表的な農畜産物や特産品は何ですか。",
+       "publisher": "国分寺市"
+      },
+      {
+       "claim_en": "Kokubunji Nakamura Farm cultivates Tokyo udo alongside seasonal vegetables and strawberries.",
+       "source_url": "https://kokubunji-citypro.jp/article/394/",
+       "source_title": "都市農業が盛んな国分寺で生まれた「こくベジ」の魅力とは？",
+       "publisher": "国分寺市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "小坂農園",
+       "name_en": "Kosaka Farm",
+       "relation_en": "Listed local farm growing and distributing udo.",
+       "address_ja": "東京都国分寺市東元町2-11-11",
+       "official_url": "",
+       "source_url": "https://kokuvege.jp/direct/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "国分寺中村農園",
+       "relation_en": "Traditional Tokyo udo grower.",
+       "source_url": "https://kokubunji-citypro.jp/article/394/"
+      },
+      {
+       "name_ja": "小坂農園",
+       "relation_en": "Local producer of udo.",
+       "source_url": "https://kokuvege.jp/direct/"
+      }
+     ],
+     "season_en": "Spring in the municipal seasonal-produce guide.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "半次郎胡瓜・島なす",
+     "name_en": "Hanjiro Cucumber and Shima Eggplant",
+     "kind": "crop",
+     "summary_en": "Kokubunji farmers also preserve less-common vegetable varieties within the Edo-Tokyo vegetable tradition. These crops provide visitors with a contrast to ordinary supermarket produce.",
+     "facts": [
+      {
+       "claim_en": "Kokubunji's municipal food reporting identifies Kosaka Farm as a grower of Hanjiro cucumber and Shima eggplant.",
+       "source_url": "https://kokubunji-citypro.jp/article/2746/",
+       "source_title": "人気料理家・栗原心平さんに聞く「こくベジの美味しい食べ方」",
+       "publisher": "国分寺市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "小坂農園",
+       "name_en": "Kosaka Farm",
+       "relation_en": "Local farm associated with these distinctive vegetables.",
+       "address_ja": "東京都国分寺市東元町2-11-11",
+       "official_url": "",
+       "source_url": "https://kokuvege.jp/direct/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "小坂農園",
+       "relation_en": "Cultivates distinctive traditional vegetable varieties.",
+       "source_url": "https://kokubunji-citypro.jp/article/2746/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "Specific farm varieties and current harvest quantities may change."
+    },
+    {
+     "name_ja": "国分寺産トマト",
+     "name_en": "Kokubunji Tomatoes",
+     "kind": "crop",
+     "summary_en": "Tomatoes are one of Kokubunji's major agricultural products. Urban farms supply ripe tomatoes to local consumers and food businesses.",
+     "facts": [
+      {
+       "claim_en": "The city lists tomatoes among its three leading agricultural products by output value.",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/faq/kurashi/1005239/1005297/1006217.html",
+       "source_title": "国分寺市の代表的な農畜産物や特産品は何ですか。",
+       "publisher": "国分寺市"
+      },
+      {
+       "claim_en": "Sekiguchi Farm's Sun Road tomatoes are featured among local ingredients in municipal food reporting.",
+       "source_url": "https://kokubunji-citypro.jp/article/2746/",
+       "source_title": "人気料理家・栗原心平さんに聞く「こくベジの美味しい食べ方」",
+       "publisher": "国分寺市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "国分寺ファーマーズ・マーケット",
+       "name_en": "Kokubunji Farmers Market",
+       "relation_en": "Retail destination for seasonal Kokubunji produce.",
+       "address_ja": "東京都国分寺市東恋ヶ窪4-23-8",
+       "official_url": "https://kokuvege.jp/direct/",
+       "source_url": "https://kokuvege.jp/direct/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "関口園",
+       "relation_en": "Local tomato producer identified in municipal reporting.",
+       "source_url": "https://kokubunji-citypro.jp/article/2746/"
+      }
+     ],
+     "season_en": "Summer.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "国分寺産ブルーベリー",
+     "name_en": "Kokubunji Blueberries",
+     "kind": "crop",
+     "summary_en": "Blueberries are a leading fruit crop in Kokubunji. Orchard visits and local fruit products help connect visitors with suburban agricultural producers.",
+     "facts": [
+      {
+       "claim_en": "Kokubunji lists blueberries among its three leading agricultural products by output value.",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/faq/kurashi/1005239/1005297/1006217.html",
+       "source_title": "国分寺市の代表的な農畜産物や特産品は何ですか。",
+       "publisher": "国分寺市"
+      },
+      {
+       "claim_en": "JA Tokyo Musashi identifies Naito Orchard as a grape and blueberry fruit-growing destination.",
+       "source_url": "https://www.jatm.or.jp/farming/plant/detail.php?id=89&type=grape",
+       "source_title": "ナイトウ果樹園",
+       "publisher": "JA東京むさし"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ナイトウ果樹園",
+       "name_en": "Naito Orchard",
+       "relation_en": "Local fruit farm associated with blueberries and grapes.",
+       "address_ja": "東京都国分寺市内藤1-17-5",
+       "official_url": "",
+       "source_url": "https://www.jatm.or.jp/farming/plant/detail.php?id=89&type=grape"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ナイトウ果樹園",
+       "relation_en": "Produces local berries and orchard fruit.",
+       "source_url": "https://www.jatm.or.jp/farming/plant/detail.php?id=89&type=grape"
+      }
+     ],
+     "season_en": "Summer.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "国分寺産いちご",
+     "name_en": "Kokubunji Strawberries",
+     "kind": "crop",
+     "summary_en": "Strawberry cultivation has become an important part of Kokubunji's diversified urban farming. One established farming family grows several named varieties in greenhouses.",
+     "facts": [
+      {
+       "claim_en": "Kokubunji Nakamura Farm grows multiple strawberry cultivars including Benihoppe, Amaekubo, Yotsuboshi and Kaorino.",
+       "source_url": "https://kokubunji-citypro.jp/article/394/",
+       "source_title": "都市農業が盛んな国分寺で生まれた「こくベジ」の魅力とは？",
+       "publisher": "国分寺市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "にしこくマルシェ しゅんかしゅんか",
+       "name_en": "Nishikoku Marche Shunka Shunka",
+       "relation_en": "Local retail outlet for seasonal Kokubunji farm produce.",
+       "address_ja": "東京都国分寺市西恋ヶ窪2-1-18 nonowa西国分寺内",
+       "official_url": "",
+       "source_url": "https://kokuvege.jp/direct/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "国分寺中村農園",
+       "relation_en": "Eighteenth-generation farming family cultivating strawberries.",
+       "source_url": "https://kokubunji-citypro.jp/article/394/"
+      }
+     ],
+     "season_en": "Spring in the municipal seasonal-produce guide.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "国分寺いちごビール",
+     "name_en": "Kokubunji Strawberry Beer",
+     "kind": "drink",
+     "summary_en": "A Kokubunji strawberry grower uses locally cultivated fruit in a specialty beer, illustrating value-added production by city farmers.",
+     "facts": [
+      {
+       "claim_en": "A municipal food article features strawberry beer produced by Kokubunji Nakamura Farm.",
+       "source_url": "https://kokubunji-citypro.jp/article/2746/",
+       "source_title": "人気料理家・栗原心平さんに聞く「こくベジの美味しい食べ方」",
+       "publisher": "国分寺市"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "国分寺中村農園",
+       "relation_en": "Local strawberry producer associated with the beer.",
+       "source_url": "https://kokubunji-citypro.jp/article/2746/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The source establishes the product and producer but does not establish a permanent tasting venue."
+    },
+    {
+     "name_ja": "国分寺産ナス",
+     "name_en": "Kokubunji Eggplants",
+     "kind": "crop",
+     "summary_en": "Eggplants are among Kokubunji's main commercial crops and feature within its seasonal local vegetable culture.",
+     "facts": [
+      {
+       "claim_en": "The city ranks eggplants among its three largest agricultural product categories by output value.",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/faq/kurashi/1005239/1005297/1006217.html",
+       "source_title": "国分寺市の代表的な農畜産物や特産品は何ですか。",
+       "publisher": "国分寺市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "国分寺ファーマーズ・マーケット",
+       "name_en": "Kokubunji Farmers Market",
+       "relation_en": "JA-operated retailer of seasonal local produce.",
+       "address_ja": "東京都国分寺市東恋ヶ窪4-23-8",
+       "official_url": "https://kokuvege.jp/direct/",
+       "source_url": "https://kokuvege.jp/direct/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "国分寺市内農家",
+       "relation_en": "Commercial producers of this locally important crop.",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/faq/kurashi/1005239/1005297/1006217.html"
+      }
+     ],
+     "season_en": "Summer.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "国分寺産ブロッコリー",
+     "name_en": "Kokubunji Broccoli",
+     "kind": "crop",
+     "summary_en": "Broccoli occupies a substantial share of Kokubunji's cultivated vegetable area and is a recurring part of the Kokuvege seasonal offering.",
+     "facts": [
+      {
+       "claim_en": "The city places broccoli among its three leading vegetables by total planted area.",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/faq/kurashi/1005239/1005297/1006217.html",
+       "source_title": "国分寺市の代表的な農畜産物や特産品は何ですか。",
+       "publisher": "国分寺市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "国分寺ファーマーズ・マーケット",
+       "name_en": "Kokubunji Farmers Market",
+       "relation_en": "Direct-sales outlet for local seasonal vegetables.",
+       "address_ja": "東京都国分寺市東恋ヶ窪4-23-8",
+       "official_url": "https://kokuvege.jp/direct/",
+       "source_url": "https://kokuvege.jp/direct/"
+      }
+     ],
+     "makers": [],
+     "season_en": "Spring in the municipal seasonal-produce guide.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "国分寺産サトイモ",
+     "name_en": "Kokubunji Taro",
+     "kind": "crop",
+     "summary_en": "Taro is another major crop in Kokubunji's vegetable-growing landscape and contributes to its local ingredient base.",
+     "facts": [
+      {
+       "claim_en": "Kokubunji City lists taro among the three leading vegetables by planted area.",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/faq/kurashi/1005239/1005297/1006217.html",
+       "source_title": "国分寺市の代表的な農畜産物や特産品は何ですか。",
+       "publisher": "国分寺市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "国分寺ファーマーズ・マーケット",
+       "name_en": "Kokubunji Farmers Market",
+       "relation_en": "Local farm-produce retailer.",
+       "address_ja": "東京都国分寺市東恋ヶ窪4-23-8",
+       "official_url": "https://kokuvege.jp/direct/",
+       "source_url": "https://kokuvege.jp/direct/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "国分寺産スイートコーン",
+     "name_en": "Kokubunji Sweet Corn",
+     "kind": "crop",
+     "summary_en": "Sweet corn is a major locally planted vegetable and one of the summer tastes highlighted by Kokubunji's agricultural promotion.",
+     "facts": [
+      {
+       "claim_en": "Kokubunji identifies sweet corn among its three leading vegetables by planted area.",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/faq/kurashi/1005239/1005297/1006217.html",
+       "source_title": "国分寺市の代表的な農畜産物や特産品は何ですか。",
+       "publisher": "国分寺市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "にしこくマルシェ しゅんかしゅんか",
+       "name_en": "Nishikoku Marche Shunka Shunka",
+       "relation_en": "Seasonal farm-produce retailer near Nishi-Kokubunji Station.",
+       "address_ja": "東京都国分寺市西恋ヶ窪2-1-18 nonowa西国分寺内",
+       "official_url": "",
+       "source_url": "https://kokuvege.jp/direct/"
+      }
+     ],
+     "makers": [],
+     "season_en": "Summer.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "国分寺の柿・ぶどう・さつまいも",
+     "name_en": "Kokubunji Persimmons, Grapes and Sweet Potatoes",
+     "kind": "crop",
+     "summary_en": "Autumn farm products include persimmons, grapes and sweet potatoes, offering a seasonal counterpart to the city's spring vegetables and summer berries.",
+     "facts": [
+      {
+       "claim_en": "The city's Kokuvege seasonal guide identifies persimmons, sweet potatoes and grapes as autumn products.",
+       "source_url": "https://kokubunji-citypro.jp/article/394/",
+       "source_title": "都市農業が盛んな国分寺で生まれた「こくベジ」の魅力とは？",
+       "publisher": "国分寺市"
+      },
+      {
+       "claim_en": "JA Tokyo Musashi identifies Naito Orchard as a producer of grape varieties including Pione and Shine Muscat.",
+       "source_url": "https://www.jatm.or.jp/farming/plant/detail.php?id=89&type=grape",
+       "source_title": "ナイトウ果樹園",
+       "publisher": "JA東京むさし"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ナイトウ果樹園",
+       "name_en": "Naito Orchard",
+       "relation_en": "Local producer of table grapes.",
+       "address_ja": "東京都国分寺市内藤1-17-5",
+       "official_url": "",
+       "source_url": "https://www.jatm.or.jp/farming/plant/detail.php?id=89&type=grape"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ナイトウ果樹園",
+       "relation_en": "Cultivates grapes locally.",
+       "source_url": "https://www.jatm.or.jp/farming/plant/detail.php?id=89&type=grape"
+      }
+     ],
+     "season_en": "Autumn.",
+     "confidence": "high",
+     "notes_en": "The named orchard is specifically linked to grapes; the other crops are documented at the municipality level."
+    },
+    {
+     "name_ja": "国分寺の季節果樹栽培",
+     "name_en": "Kokubunji Mixed-Fruit Orchards",
+     "kind": "crop",
+     "summary_en": "Small local orchards cultivate a varied selection of seasonal fruits, including uncommon berries and other fruits that are less typical of large commercial farms.",
+     "facts": [
+      {
+       "claim_en": "Enokido Farm describes growing more than ten kinds of seasonal fruit, including blueberries, mulberries, loquats, apricots, raspberries, figs and yamamomo.",
+       "source_url": "https://www.enokido-farm.jp/",
+       "source_title": "季節果樹園 榎戸ファーム",
+       "publisher": "榎戸ファーム"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "榎戸ファーム",
+       "relation_en": "Small-scale grower specializing in diverse seasonal fruits.",
+       "source_url": "https://www.enokido-farm.jp/"
+      }
+     ],
+     "season_en": "Seasonal, varying by fruit.",
+     "confidence": "high",
+     "notes_en": "No visit address is included because a sufficiently verified address was not established from the inspected source."
+    },
+    {
+     "name_ja": "国分寺茶",
+     "name_en": "Kokubunji Green Tea",
+     "kind": "drink",
+     "summary_en": "Kokubunji retains a local tea-growing and tea-processing tradition at Matsumoto-en. Tea leaves are grown beside the shop, harvested and processed into the city's namesake tea.",
+     "facts": [
+      {
+       "claim_en": "Matsumoto-en grows tea in its own field and performs harvesting, steaming, drying, blending and packaging.",
+       "source_url": "https://www.kokubunji-cha.com/koganei",
+       "source_title": "国分寺茶って？",
+       "publisher": "松本園製茶工場"
+      },
+      {
+       "claim_en": "The tea maker's shop and tea field are located in Higashitokura, Kokubunji.",
+       "source_url": "https://www.kokubunji-cha.com/shop/",
+       "source_title": "店舗案内",
+       "publisher": "松本園製茶工場"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "松本園製茶工場",
+       "name_en": "Matsumoto-en Tea Factory",
+       "relation_en": "Tea field, producer and local tea shop.",
+       "address_ja": "東京都国分寺市東戸倉1-6-3",
+       "official_url": "https://www.kokubunji-cha.com/shop/",
+       "source_url": "https://www.kokubunji-cha.com/shop/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "松本園製茶工場",
+       "relation_en": "Cultivates, processes and sells Kokubunji tea.",
+       "source_url": "https://www.kokubunji-cha.com/koganei"
+      }
+     ],
+     "season_en": "New tea harvest is generally late April to early May.",
+     "confidence": "high",
+     "notes_en": "Unlike tea products merely blended or sold in Tokyo, this producer documents tea cultivation within Kokubunji."
+    },
+    {
+     "name_ja": "国分寺百花蜂蜜",
+     "name_en": "Kokubunji Wildflower Honey",
+     "kind": "brand",
+     "summary_en": "Honey collected from flowers in Kokubunji is another example of the city's locally produced food ingredients.",
+     "facts": [
+      {
+       "claim_en": "A municipal tourism publication identifies Kokubunji Hyakka Honey as a product of Kokubunji Nakamura Farm.",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/_res/projects/default_project/_page_/001/017/868/tekuteku.pdf",
+       "source_title": "てくてくごよみ",
+       "publisher": "国分寺市・府中市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "国分寺ファーマーズ・マーケット",
+       "name_en": "Kokubunji Farmers Market",
+       "relation_en": "Market identified in the municipal publication as a local-specialty retail destination.",
+       "address_ja": "東京都国分寺市東恋ヶ窪4-23-8",
+       "official_url": "https://kokuvege.jp/direct/",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/_res/projects/default_project/_page_/001/017/868/tekuteku.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "国分寺中村農園",
+       "relation_en": "Producer associated with Kokubunji wildflower honey.",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/_res/projects/default_project/_page_/001/017/868/tekuteku.pdf"
+      }
+     ],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "The cited municipal product listing is historical; present stock has not been verified."
+    },
+    {
+     "name_ja": "おいしいトマトドレッシング",
+     "name_en": "Kokubunji Tomato Dressing",
+     "kind": "brand",
+     "summary_en": "Locally harvested tomatoes have been processed into a dressing promoted as a Kokubunji agricultural specialty.",
+     "facts": [
+      {
+       "claim_en": "A municipal tourism guide identifies a tomato dressing produced by JA Tokyo Musashi among Kokubunji's specialty food products.",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/_res/projects/default_project/_page_/001/017/868/tekuteku.pdf",
+       "source_title": "てくてくごよみ",
+       "publisher": "国分寺市・府中市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "国分寺ファーマーズ・マーケット",
+       "name_en": "Kokubunji Farmers Market",
+       "relation_en": "Market associated with the local dressing in the tourism guide.",
+       "address_ja": "東京都国分寺市東恋ヶ窪4-23-8",
+       "official_url": "https://kokuvege.jp/direct/",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/_res/projects/default_project/_page_/001/017/868/tekuteku.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "JA東京むさし",
+       "relation_en": "Producer or distributor named for the specialty dressing.",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/_res/projects/default_project/_page_/001/017/868/tekuteku.pdf"
+      }
+     ],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "Historical tourism listing; current product status should be checked separately."
+    },
+    {
+     "name_ja": "真姿の池 名水仕込み純米酒「武蔵国分寺」",
+     "name_en": "Musashi Kokubunji Junmai Sake",
+     "kind": "drink",
+     "summary_en": "A locally branded sake invokes Masugata Pond and Kokubunji's historic spring-water landscape, bringing the city's place identity into a bottled product.",
+     "facts": [
+      {
+       "claim_en": "A municipal tourism guide lists Musashi Kokubunji junmai sake as a product associated with the Kokubunji liquor merchants' association.",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/_res/projects/default_project/_page_/001/017/868/tekuteku.pdf",
+       "source_title": "てくてくごよみ",
+       "publisher": "国分寺市・府中市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "国分寺ファーマーズ・マーケット",
+       "name_en": "Kokubunji Farmers Market",
+       "relation_en": "Historical municipal guide lists this sake among regional gifts associated with the market.",
+       "address_ja": "東京都国分寺市東恋ヶ窪4-23-8",
+       "official_url": "https://kokuvege.jp/direct/",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/_res/projects/default_project/_page_/001/017/868/tekuteku.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "国分寺市酒商組合",
+       "relation_en": "Local liquor merchants' association associated with the sake brand.",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/_res/projects/default_project/_page_/001/017/868/tekuteku.pdf"
+      }
+     ],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "The source does not establish that the sake is brewed within Kokubunji. The product listing is historical."
+    },
+    {
+     "name_ja": "国分寺いちじくのお酒",
+     "name_en": "Kokubunji Fig Liqueur",
+     "kind": "drink",
+     "summary_en": "A fruit liqueur developed by Kokubunji liquor merchants uses local figs, creating a specialty drink from the city's orchard produce.",
+     "facts": [
+      {
+       "claim_en": "The municipal tourism guide lists a fig alcoholic beverage associated with the Kokubunji liquor merchants' association.",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/_res/projects/default_project/_page_/001/017/868/tekuteku.pdf",
+       "source_title": "てくてくごよみ",
+       "publisher": "国分寺市・府中市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "国分寺ファーマーズ・マーケット",
+       "name_en": "Kokubunji Farmers Market",
+       "relation_en": "Listed as a regional-specialty destination in the municipal tourism guide.",
+       "address_ja": "東京都国分寺市東恋ヶ窪4-23-8",
+       "official_url": "https://kokuvege.jp/direct/",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/_res/projects/default_project/_page_/001/017/868/tekuteku.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "国分寺市酒商組合",
+       "relation_en": "Association responsible for the locally named fig liqueur.",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/_res/projects/default_project/_page_/001/017/868/tekuteku.pdf"
+      }
+     ],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "The guide is historical. Present availability and production status are unverified."
+    },
+    {
+     "name_ja": "武蔵国分寺サブレ",
+     "name_en": "Musashi Kokubunji Sable",
+     "kind": "sweet",
+     "summary_en": "AnnBee makes a butter cookie whose packaging features ancient roof-tile imagery from Kokubunji's archaeological heritage.",
+     "facts": [
+      {
+       "claim_en": "AnnBee's Musashi Kokubunji Sable uses an excavated decorative roof-tile motif on its packaging and has been recognized as a Tama specialty.",
+       "source_url": "https://annbee-sweets.com/concept.html",
+       "source_title": "こだわり",
+       "publisher": "社会福祉法人AnnBee"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "AnnBee 国分寺マルイ店",
+       "name_en": "AnnBee Kokubunji Marui",
+       "relation_en": "Local retailer of AnnBee's Kokubunji-themed baked goods.",
+       "address_ja": "東京都国分寺市南町3-20-3 国分寺マルイ1F",
+       "official_url": "https://annbee-sweets.com/",
+       "source_url": "https://kokuvege.jp/shop/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "社会福祉法人AnnBee",
+       "relation_en": "Produces history-themed Kokubunji confectionery.",
+       "source_url": "https://annbee-sweets.com/concept.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "七重塔フィナンシェ",
+     "name_en": "Seven-Story Pagoda Financiers",
+     "kind": "sweet",
+     "summary_en": "These baked sweets reference the seven-story pagoda associated with the historical Musashi Kokubunji temple complex. Their local-history packaging makes them a distinctive Kokubunji souvenir.",
+     "facts": [
+      {
+       "claim_en": "AnnBee offers financiers in packaging inspired by Kokubunji's seven-story pagoda.",
+       "source_url": "https://annbee-sweets.com/",
+       "source_title": "国分寺 洋菓子販売 AnnBee",
+       "publisher": "社会福祉法人AnnBee"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "AnnBee 国分寺マルイ店",
+       "name_en": "AnnBee Kokubunji Marui",
+       "relation_en": "Retailer of the historical-pagoda-themed sweets.",
+       "address_ja": "東京都国分寺市南町3-20-3 国分寺マルイ1F",
+       "official_url": "https://annbee-sweets.com/",
+       "source_url": "https://kokuvege.jp/shop/"
+      },
+      {
+       "name_ja": "AnnBee 製造直売所",
+       "name_en": "AnnBee Factory Shop",
+       "relation_en": "Local production and retail site for AnnBee sweets.",
+       "address_ja": "東京都国分寺市西元町3-6-14",
+       "official_url": "https://annbee-sweets.com/",
+       "source_url": "https://kokuvege.jp/shop/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "社会福祉法人AnnBee",
+       "relation_en": "Confectioner connecting baked sweets with Kokubunji history.",
+       "source_url": "https://annbee-sweets.com/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "こくベジ野菜クッキー",
+     "name_en": "Kokuvege Vegetable Cookies",
+     "kind": "sweet",
+     "summary_en": "AnnBee produces cookies that directly incorporate Kokubunji-grown vegetables. The vegetables are dried, powdered and mixed into the cookie dough.",
+     "facts": [
+      {
+       "claim_en": "AnnBee documents a four-flavor Kokuvege cookie assortment using local carrot, beetroot, butternut squash and molokhia.",
+       "source_url": "https://annbee-sweets.com/",
+       "source_title": "国分寺 洋菓子販売 AnnBee",
+       "publisher": "社会福祉法人AnnBee"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "AnnBee 国分寺マルイ店",
+       "name_en": "AnnBee Kokubunji Marui",
+       "relation_en": "Retailer of cookies made with Kokubunji vegetables.",
+       "address_ja": "東京都国分寺市南町3-20-3 国分寺マルイ1F",
+       "official_url": "https://annbee-sweets.com/",
+       "source_url": "https://kokuvege.jp/shop/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "社会福祉法人AnnBee",
+       "relation_en": "Transforms locally grown vegetables into baked sweets.",
+       "source_url": "https://annbee-sweets.com/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "国分寺の野菜・果実ジャムとシロップ",
+     "name_en": "Kokubunji Fruit Jams and Vegetable-Fruit Syrups",
+     "kind": "brand",
+     "summary_en": "Locally grown fruit and vegetables have been used in preserved foods sold as Kokubunji regional souvenirs.",
+     "facts": [
+      {
+       "claim_en": "A municipal guide documents Kokubunji fruit jam and syrup made with local fruit and vegetables at the historical-site visitor shop.",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/_res/projects/default_project/_page_/001/017/868/tekuteku.pdf",
+       "source_title": "てくてくごよみ",
+       "publisher": "国分寺市・府中市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "史跡の駅 おたカフェ",
+       "name_en": "Otacafe Historical-Site Visitor Center",
+       "relation_en": "Visitor-oriented shop associated with locally made fruit and vegetable products.",
+       "address_ja": "東京都国分寺市西元町1-13-6",
+       "official_url": "",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/_res/projects/default_project/_page_/001/017/868/tekuteku.pdf"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "Products are documented in an older municipal guide; their continued sale is not verified."
+    },
+    {
+     "name_ja": "国分寺野菜のピクルス",
+     "name_en": "Kokubunji Vegetable Pickles",
+     "kind": "brand",
+     "summary_en": "Preserved local vegetables have been promoted as a souvenir that allows visitors to experience Kokubunji farm produce beyond the immediate harvest.",
+     "facts": [
+      {
+       "claim_en": "A municipal guide identifies pickles made with Kokubunji vegetables and names Meguru Labo & Cafe in connection with the product.",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/_res/projects/default_project/_page_/001/017/868/tekuteku.pdf",
+       "source_title": "てくてくごよみ",
+       "publisher": "国分寺市・府中市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "史跡の駅 おたカフェ",
+       "name_en": "Otacafe Historical-Site Visitor Center",
+       "relation_en": "Historical municipal guide associates this visitor center with the local vegetable pickles.",
+       "address_ja": "東京都国分寺市西元町1-13-6",
+       "official_url": "",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/_res/projects/default_project/_page_/001/017/868/tekuteku.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "めぐる Labo & Cafe",
+       "relation_en": "Named in connection with the local vegetable pickle product.",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/_res/projects/default_project/_page_/001/017/868/tekuteku.pdf"
+      }
+     ],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "Historical source; the current maker and sales arrangements have not been independently verified."
+    },
+    {
+     "name_ja": "武蔵国分寺ジェラートアイス",
+     "name_en": "Musashi Kokubunji Gelato",
+     "kind": "sweet",
+     "summary_en": "A locally named frozen dessert has been included among Kokubunji's promoted regional food souvenirs.",
+     "facts": [
+      {
+       "claim_en": "A municipal tourism guide lists Musashi Kokubunji gelato as a product associated with Hirano-en.",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/_res/projects/default_project/_page_/001/017/868/tekuteku.pdf",
+       "source_title": "てくてくごよみ",
+       "publisher": "国分寺市・府中市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "国分寺ファーマーズ・マーケット",
+       "name_en": "Kokubunji Farmers Market",
+       "relation_en": "Historical guide lists the gelato among regional foods associated with the market.",
+       "address_ja": "東京都国分寺市東恋ヶ窪4-23-8",
+       "official_url": "https://kokuvege.jp/direct/",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/_res/projects/default_project/_page_/001/017/868/tekuteku.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "平野園",
+       "relation_en": "Named in the municipal guide as the producer of the gelato.",
+       "source_url": "https://www.city.kokubunji.tokyo.jp/_res/projects/default_project/_page_/001/017/868/tekuteku.pdf"
+      }
+     ],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "The available source documents a historical product listing, not current inventory."
+    }
+   ],
+   "none_found_reason_en": ""
+  },
+  {
+   "id": "kunitachi",
+   "name_ja": "国立市",
+   "food_cultures": [
+    {
+     "name_ja": "くにたちの南部農業・地場野菜",
+     "name_en": "Southern Kunitachi Farm Vegetables",
+     "kind": "crop",
+     "summary_en": "Southern Kunitachi preserves an agricultural landscape supported by the historic Fuchu irrigation canal and local springs. Spinach, komatsuna and eggplants are especially associated with the city's vegetable production.",
+     "facts": [
+      {
+       "claim_en": "Kunitachi's agricultural landscape is concentrated in the southern part of the city, where the Fuchu irrigation canal and springs have supported farming.",
+       "source_url": "https://kunimachi.jp/spot/chokubaijo/",
+       "source_title": "行ってみよう！直売所案内マップ",
+       "publisher": "くにたちNAVI"
+      },
+      {
+       "claim_en": "The tourism association identifies spinach, komatsuna and eggplants as especially well-known Kunitachi vegetables.",
+       "source_url": "https://kunimachi.jp/spot/chokubaijo/",
+       "source_title": "行ってみよう！直売所案内マップ",
+       "publisher": "くにたちNAVI"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "国立市城山さとのいえ",
+       "name_en": "Kunitachi Joyama Satonoie",
+       "relation_en": "Agricultural information and experience center in the city's farming landscape.",
+       "address_ja": "東京都国立市泉5-21-20",
+       "official_url": "",
+       "source_url": "https://kunimachi.jp/spot/chokubaijo/"
+      },
+      {
+       "name_ja": "くにたち野菜 しゅんかしゅんか",
+       "name_en": "Kunitachi Shunka Shunka",
+       "relation_en": "Local-produce retailer connecting nearby farmers with consumers.",
+       "address_ja": "東京都国立市中1-1-1",
+       "official_url": "",
+       "source_url": "https://kunitachi-shokokai.jp/item/honey-candy/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "国立市南部の農家",
+       "relation_en": "Grow vegetables supported by the area's irrigation and agricultural landscape.",
+       "source_url": "https://kunimachi.jp/spot/chokubaijo/"
+      }
+     ],
+     "season_en": "Year-round, with seasonal variations in available vegetables.",
+     "confidence": "high",
+     "notes_en": "The irrigation system is relevant historical context, not a claim that every vegetable is cultivated using canal water today."
+    },
+    {
+     "name_ja": "谷保天神米",
+     "name_en": "Yaho Tenjin Rice",
+     "kind": "brand",
+     "summary_en": "This local rice brand links Kunitachi's remaining rice fields to Yaho Tenmangu Shrine. Its production story includes a traditional blessing of the seed rice.",
+     "facts": [
+      {
+       "claim_en": "The Kunitachi tourism association identifies Yaho Tenjin Rice as a local branded agricultural product.",
+       "source_url": "https://kunimachi.jp/spot/chokubaijo/",
+       "source_title": "行ってみよう！直売所案内マップ",
+       "publisher": "くにたちNAVI"
+      },
+      {
+       "claim_en": "A municipal agricultural document describes the practice of having rice seed blessed at Yaho Tenmangu Shrine.",
+       "source_url": "https://www.city.kunitachi.tokyo.jp/material/files/group/50/46519045.pdf",
+       "source_title": "国立市の農業・地域特産品に関する資料",
+       "publisher": "国立市"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "国立市城山さとのいえ",
+       "name_en": "Kunitachi Joyama Satonoie",
+       "relation_en": "Agricultural learning center near the city's remaining rice-growing landscape.",
+       "address_ja": "東京都国立市泉5-21-20",
+       "official_url": "",
+       "source_url": "https://kunimachi.jp/spot/chokubaijo/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "谷保地域の稲作農家",
+       "relation_en": "Grow the rice associated with the local shrine-linked brand.",
+       "source_url": "https://kunimachi.jp/spot/chokubaijo/"
+      }
+     ],
+     "season_en": "Autumn rice harvest.",
+     "confidence": "high",
+     "notes_en": "This is a Kunitachi rice-growing tradition, distinct from the similarly named alcoholic product."
+    },
+    {
+     "name_ja": "谷保の粋",
+     "name_en": "Yaho no Iki Sake",
+     "kind": "drink",
+     "summary_en": "A locally named sake was developed in connection with Yaho Tenjin Rice, bringing Kunitachi's rice-growing and shrine traditions into an alcoholic beverage.",
+     "facts": [
+      {
+       "claim_en": "A municipal source identifies Yaho no Iki as a local sake associated with Yaho Tenjin Rice.",
+       "source_url": "https://www.city.kunitachi.tokyo.jp/material/files/group/50/46519045.pdf",
+       "source_title": "国立市の農業・地域特産品に関する資料",
+       "publisher": "国立市"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "The evidence establishes a historically documented local sake brand, not a verified active producer or present-day retail location."
+    },
+    {
+     "name_ja": "国立産の古代米・黒米",
+     "name_en": "Kunitachi Ancient Black Rice",
+     "kind": "crop",
+     "summary_en": "Kunitachi's remaining rice farms grow more than conventional white rice. Ancient black rice and glutinous rice are among the specialty grains documented by Tokyo's agricultural authorities.",
+     "facts": [
+      {
+       "claim_en": "Tokyo Metropolitan Government lists farmer Kitajima Kaoru as a Kunitachi producer of ordinary rice, glutinous rice and ancient black rice.",
+       "source_url": "https://www.sangyo-rodo1.metro.tokyo.lg.jp/norin/syoku/econosanbutu/seisansya/215002.html",
+       "source_title": "東京都エコ農産物認証 生産者情報",
+       "publisher": "東京都産業労働局"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "北島薫 生産圃場",
+       "name_en": "Kitajima Farm",
+       "relation_en": "Registered local rice and vegetable producer.",
+       "address_ja": "東京都国立市谷保4-7-1",
+       "official_url": "",
+       "source_url": "https://www.sangyo-rodo1.metro.tokyo.lg.jp/norin/syoku/econosanbutu/seisansya/215002.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "北島薫",
+       "relation_en": "Locally registered producer of several rice types.",
+       "source_url": "https://www.sangyo-rodo1.metro.tokyo.lg.jp/norin/syoku/econosanbutu/seisansya/215002.html"
+      }
+     ],
+     "season_en": "Autumn rice harvest.",
+     "confidence": "high",
+     "notes_en": "The listed address identifies a producer and should not be interpreted as unrestricted visitor access to farmland."
+    },
+    {
+     "name_ja": "谷保村のほうれん草うどん",
+     "name_en": "Yaho Village Spinach Udon",
+     "kind": "dish",
+     "summary_en": "A locally developed dried noodle incorporated spinach associated with Kunitachi's vegetable-growing tradition. It received Tokyo regional-specialty food recognition.",
+     "facts": [
+      {
+       "claim_en": "Municipal materials document Yaho Village Spinach Udon as a Tokyo-recognized regional specialty made with spinach.",
+       "source_url": "https://www.city.kunitachi.tokyo.jp/material/files/group/50/46519045.pdf",
+       "source_title": "国立市の農業・地域特産品に関する資料",
+       "publisher": "国立市"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "This is a historically documented product. The municipal information indicates that the former retailer no longer handles it, so no current purchase destination is claimed."
+    },
+    {
+     "name_ja": "くにたちほうれんそうカステラ",
+     "name_en": "Kunitachi Spinach Castella",
+     "kind": "sweet",
+     "summary_en": "A long-established Kunitachi confectioner makes a castella sponge cake incorporating spinach powder. The sweet reflects the city's association with vegetable farming.",
+     "facts": [
+      {
+       "claim_en": "Hakujuji makes spinach castella using powdered Japanese spinach and has a history in Kunitachi dating to 1955.",
+       "source_url": "https://kunitachi-shokokai.jp/item/sponge-cake-and-madeleine/",
+       "source_title": "くにたちほうれんそうカステラ・小松菜マドレーヌ",
+       "publisher": "国立市商工会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "白十字",
+       "relation_en": "Long-established local confectioner producing spinach castella.",
+       "source_url": "https://kunitachi-shokokai.jp/item/sponge-cake-and-madeleine/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The source specifies Japanese spinach powder, but does not explicitly establish that the powder is grown within Kunitachi."
+    },
+    {
+     "name_ja": "小松菜マドレーヌ",
+     "name_en": "Komatsuna Madeleines",
+     "kind": "sweet",
+     "summary_en": "Another vegetable-based confection from Hakujuji combines Japanese leafy greens with Western-style baked sweets.",
+     "facts": [
+      {
+       "claim_en": "Hakujuji produces madeleines incorporating Japanese komatsuna powder.",
+       "source_url": "https://kunitachi-shokokai.jp/item/sponge-cake-and-madeleine/",
+       "source_title": "くにたちほうれんそうカステラ・小松菜マドレーヌ",
+       "publisher": "国立市商工会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "白十字",
+       "relation_en": "Produces this locally certified vegetable-based pastry.",
+       "source_url": "https://kunitachi-shokokai.jp/item/sponge-cake-and-madeleine/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Japanese-sourced vegetable powder is documented; Kunitachi-grown origin is not explicitly established."
+    },
+    {
+     "name_ja": "くにたちはちみつ飴",
+     "name_en": "Kunitachi Honey Candy",
+     "kind": "sweet",
+     "summary_en": "Kunitachi wildflower honey is used in traditional-style candy made by direct-fire kettle cooking. The product connects local beekeeping with a downtown vegetable retailer.",
+     "facts": [
+      {
+       "claim_en": "Kunitachi Honey Candy uses wildflower honey harvested within Kunitachi.",
+       "source_url": "https://kunitachi-shokokai.jp/item/honey-candy/",
+       "source_title": "くにたち はちみつ飴",
+       "publisher": "国立市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "くにたち野菜 しゅんかしゅんか",
+       "name_en": "Kunitachi Shunka Shunka",
+       "relation_en": "Local produce shop associated with the honey candy and nearby farmers.",
+       "address_ja": "東京都国立市中1-1-1",
+       "official_url": "",
+       "source_url": "https://kunitachi-shokokai.jp/item/honey-candy/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "株式会社エマリコくにたち",
+       "relation_en": "Operates the retailer associated with the locally sourced honey candy.",
+       "source_url": "https://kunitachi-shokokai.jp/item/honey-candy/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "くにたちStyle",
+     "name_en": "Kunitachi Style Regional Brand",
+     "kind": "brand",
+     "summary_en": "Kunitachi's chamber of commerce recognizes local products under the Kunitachi Style program. Its food selections include sweets, beer, tea and packaged dishes developed by local businesses.",
+     "facts": [
+      {
+       "claim_en": "Kunitachi Style includes certified local food and drink products such as brewery beer, spinach castella, Kunitachi Baum, locally named curry and honey candy.",
+       "source_url": "https://kunitachi-shokokai.jp/item/",
+       "source_title": "くにたちStyle 商品一覧",
+       "publisher": "国立市商工会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "国立市商工会",
+       "relation_en": "Administers the regional product promotion program.",
+       "source_url": "https://kunitachi-shokokai.jp/community/style/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "This is a broad regional brand. Its more distinctive food products are separately documented below."
+    },
+    {
+     "name_ja": "KUNITACHI BREWERYのクラフトビール",
+     "name_en": "Kunitachi Brewery Craft Beer",
+     "kind": "drink",
+     "summary_en": "Kunitachi Brewery was established by Sekiya, a local liquor business with more than a century of history. The brewery links modern craft beer with the city's commercial heritage.",
+     "facts": [
+      {
+       "claim_en": "Kunitachi Brewery was established in 2020 by Sekiya and is described as the city's first craft brewery.",
+       "source_url": "https://kunitachi-shokokai.jp/item/kunitachi-brewery-beer/",
+       "source_title": "醸造所KUNITACHI BREWERY BEER",
+       "publisher": "国立市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "KUNITACHI BREWERY 草舎",
+       "name_en": "Kunitachi Brewery Sosha",
+       "relation_en": "Local brewing site.",
+       "address_ja": "東京都国立市東3-17-28",
+       "official_url": "https://kunitachibrewery.com/kuniburu-beer/2026-take-2/",
+       "source_url": "https://kunitachi-shokokai.jp/item/kunitachi-brewery-beer/"
+      },
+      {
+       "name_ja": "SEKIYA TAP STAND",
+       "name_en": "Sekiya Tap Stand",
+       "relation_en": "Town-center outlet for the brewery's beer.",
+       "address_ja": "東京都国立市中1-9-30",
+       "official_url": "",
+       "source_url": "https://kunitachi-shokokai.jp/item/kunitachi-brewery-beer/"
+      },
+      {
+       "name_ja": "麦酒堂かすがい",
+       "name_en": "Bakushudo Kasugai",
+       "relation_en": "Restaurant associated with Kunitachi Brewery.",
+       "address_ja": "東京都国立市東3-17-27",
+       "official_url": "",
+       "source_url": "https://kunitachi-shokokai.jp/item/kunitachi-brewery-beer/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "KUNITACHI BREWERY",
+       "relation_en": "Local craft brewery.",
+       "source_url": "https://kunitachi-shokokai.jp/item/kunitachi-brewery-beer/"
+      },
+      {
+       "name_ja": "せきや",
+       "relation_en": "Long-established liquor merchant behind the brewery.",
+       "source_url": "https://kunitachi-shokokai.jp/item/kunitachi-brewery-beer/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "国立産米のビール「2026 take.2」",
+     "name_en": "2026 Take.2 Kunitachi Rice Lager",
+     "kind": "drink",
+     "summary_en": "A special Japanese rice lager uses rice grown in Kunitachi and commemorates the centenary of the local railway station. It connects contemporary brewing with both agriculture and local railway history.",
+     "facts": [
+      {
+       "claim_en": "Kunitachi Brewery's 2026 Take.2 is brewed with Kunitachi-grown rice, Japanese malt and domestic hops to mark the railway station's centenary.",
+       "source_url": "https://kunitachibrewery.com/kuniburu-beer/2026-take-2/",
+       "source_title": "2026 take.2",
+       "publisher": "KUNITACHI BREWERY"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "KUNITACHI BREWERY 草舎",
+       "name_en": "Kunitachi Brewery Sosha",
+       "relation_en": "Brewer of the locally sourced rice lager.",
+       "address_ja": "東京都国立市東3-17-28 草舎ビル1F",
+       "official_url": "https://kunitachibrewery.com/kuniburu-beer/2026-take-2/",
+       "source_url": "https://kunitachibrewery.com/kuniburu-beer/2026-take-2/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "KUNITACHI BREWERY",
+       "relation_en": "Brews the Kunitachi-rice beer.",
+       "source_url": "https://kunitachibrewery.com/kuniburu-beer/2026-take-2/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A separately documented beer within Kunitachi Brewery's portfolio."
+    },
+    {
+     "name_ja": "くにたちビール",
+     "name_en": "Kunitachi Beer by Hiroshima-ya",
+     "kind": "drink",
+     "summary_en": "A local liquor merchant offers a separately branded beer whose artwork incorporates Kunitachi's municipal bird and tree.",
+     "facts": [
+      {
+       "claim_en": "Hiroshima-ya sells original and premium Kunitachi beer varieties with labels depicting the city's great tit and ginkgo tree.",
+       "source_url": "https://kunitachi-shokokai.jp/item/kunitachi_beer/",
+       "source_title": "くにたちビール",
+       "publisher": "国立市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "広島屋",
+       "name_en": "Hiroshima-ya",
+       "relation_en": "Local liquor merchant associated with this beer brand.",
+       "address_ja": "東京都国立市富士見台1-7",
+       "official_url": "",
+       "source_url": "https://kunitachi-shokokai.jp/item/kunitachi_beer/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "広島屋",
+       "relation_en": "Develops or markets the locally themed beer range.",
+       "source_url": "https://kunitachi-shokokai.jp/item/kunitachi_beer/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The source does not establish where these beers are brewed. Do not conflate this brand with KUNITACHI BREWERY."
+    },
+    {
+     "name_ja": "国立もち助だんご",
+     "name_en": "Kunitachi Mochisuke Dango",
+     "kind": "dish",
+     "summary_en": "Mochisuke dango are grilled rice dumplings served in both sweet and savory varieties. They are presented by the chamber of commerce as an established Kunitachi comfort food.",
+     "facts": [
+      {
+       "claim_en": "Kunitachi Miyoshino prepares dumplings with a sticky texture and offers both sweet varieties and savory versions such as soy sauce and salted flavors.",
+       "source_url": "https://kunitachi-shokokai.jp/item/mochisuke-dumpling/",
+       "source_title": "国立もち助だんご",
+       "publisher": "国立市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "くにたち三芳野",
+       "name_en": "Kunitachi Miyoshino",
+       "relation_en": "Traditional maker of locally popular grilled rice dumplings.",
+       "address_ja": "東京都国立市東2-12-2",
+       "official_url": "",
+       "source_url": "https://kunitachi-shokokai.jp/item/mochisuke-dumpling/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "くにたち三芳野",
+       "relation_en": "Makes the locally established dumpling specialty.",
+       "source_url": "https://kunitachi-shokokai.jp/item/mochisuke-dumpling/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "くにたち最中",
+     "name_en": "Kunitachi Monaka",
+     "kind": "sweet",
+     "summary_en": "A Kunitachi confectioner developed a refined monaka with individually assembled wafers and sweet bean filling as a locally identified gift sweet.",
+     "facts": [
+      {
+       "claim_en": "Isshin-an makes Kunitachi Monaka using Noto Dainagon azuki bean filling and crisp wafer shells assembled before eating.",
+       "source_url": "https://kunitachi-shokokai.jp/item/kunitachimonaka/",
+       "source_title": "くにたち最中",
+       "publisher": "国立市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "御菓子調進所 一真菴",
+       "name_en": "Isshin-an",
+       "relation_en": "Confectionery producing Kunitachi Monaka.",
+       "address_ja": "東京都国立市西2-9-75",
+       "official_url": "",
+       "source_url": "https://kunitachi-shokokai.jp/item/kunitachimonaka/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "御菓子調進所 一真菴",
+       "relation_en": "Locally recognized maker of traditional Japanese confectionery.",
+       "source_url": "https://kunitachi-shokokai.jp/item/kunitachimonaka/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The local connection is the producer and branding, not the agricultural origin of the azuki beans."
+    },
+    {
+     "name_ja": "KUNITACHI Sweets Story",
+     "name_en": "Kunitachi Sweets Story",
+     "kind": "sweet",
+     "summary_en": "A gift assortment uses baked sweets to represent local landmarks and scenery, including the old station building, University Avenue, Joyama and the Yagawa stream.",
+     "facts": [
+      {
+       "claim_en": "Annu Kunitachi Sweets created a themed assortment inspired by recognizable Kunitachi landscapes and historic places.",
+       "source_url": "https://kunitachi-shokokai.jp/item/kunitachi-sweets-story/",
+       "source_title": "KUNITACHI Sweets Story",
+       "publisher": "国立市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "アンヌ国立スイーツ",
+       "name_en": "Annu Kunitachi Sweets",
+       "relation_en": "Maker of the local-landscape confectionery assortment.",
+       "address_ja": "東京都国立市富士見台3-6-4",
+       "official_url": "",
+       "source_url": "https://kunitachi-shokokai.jp/item/kunitachi-sweets-story/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "アンヌ国立スイーツ",
+       "relation_en": "Creates sweets centered on the city's landscape and stories.",
+       "source_url": "https://kunitachi-shokokai.jp/item/kunitachi-sweets-story/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "国立バウム",
+     "name_en": "Kunitachi Baumkuchen",
+     "kind": "sweet",
+     "summary_en": "A local patisserie makes a baumkuchen presented in packaging inspired by the greenery of Kunitachi's University Avenue.",
+     "facts": [
+      {
+       "claim_en": "Les Entremets Kunitachi produces Kunitachi Baum using a distinctive soft-textured recipe and packaging inspired by University Avenue.",
+       "source_url": "https://kunitachi-shokokai.jp/item/kunitachi-baumkuchen/",
+       "source_title": "国立バウム",
+       "publisher": "国立市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "レ・アントルメ国立",
+       "name_en": "Les Entremets Kunitachi",
+       "relation_en": "Local patisserie producing the city-themed baumkuchen.",
+       "address_ja": "東京都国立市東2-25-50",
+       "official_url": "",
+       "source_url": "https://kunitachi-shokokai.jp/item/kunitachi-baumkuchen/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "レ・アントルメ国立",
+       "relation_en": "Creates the University-Avenue-themed cake.",
+       "source_url": "https://kunitachi-shokokai.jp/item/kunitachi-baumkuchen/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "国立プレミアムクッキー",
+     "name_en": "Kunitachi Premium Cookies",
+     "kind": "sweet",
+     "summary_en": "Marronnier, a confectionery business established in Kunitachi in 1950, sells a locally branded cookie assortment that reflects its long neighborhood history.",
+     "facts": [
+      {
+       "claim_en": "The chamber of commerce identifies Marronnier's premium cookies as a Kunitachi Style product and documents the confectioner's establishment in 1950.",
+       "source_url": "https://kunitachi-shokokai.jp/item/premiumcookie/",
+       "source_title": "国立プレミアムクッキー",
+       "publisher": "国立市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "マロニエ 国立旭通り店",
+       "name_en": "Marronnier Asahi-dori",
+       "relation_en": "Long-established local confectioner.",
+       "address_ja": "東京都国立市東2-3-4",
+       "official_url": "",
+       "source_url": "https://kunitachi-shokokai.jp/item/premiumcookie/"
+      },
+      {
+       "name_ja": "マロニエ 谷保ファクトリーショップ",
+       "name_en": "Marronnier Yaho Factory Shop",
+       "relation_en": "Another local retail outlet of the same confectioner.",
+       "address_ja": "東京都国立市富士見台1-13-10",
+       "official_url": "",
+       "source_url": "https://kunitachi-shokokai.jp/item/premiumcookie/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "マロニエ",
+       "relation_en": "Long-running Kunitachi confectionery business.",
+       "source_url": "https://kunitachi-shokokai.jp/item/premiumcookie/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Regional relevance comes from the established maker and locally certified gift product, not Kunitachi-grown cookie ingredients."
+    },
+    {
+     "name_ja": "日本茶くにたち「てくてく」",
+     "name_en": "Kunitachi Tekuteku Japanese Tea",
+     "kind": "drink",
+     "summary_en": "Tokitaen offers a locally branded Japanese tea with a fragrant profile developed through a withering stage unusual in conventional green-tea processing.",
+     "facts": [
+      {
+       "claim_en": "Tokitaen's Tekuteku tea uses an additional withering stage to develop aroma and flavor.",
+       "source_url": "https://kunitachi-shokokai.jp/item/japanese-tea-tekuteku/",
+       "source_title": "日本茶くにたち『てくてく』",
+       "publisher": "国立市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "お茶の時田園 本店",
+       "name_en": "Tokitaen Main Shop",
+       "relation_en": "Long-established Kunitachi tea specialist.",
+       "address_ja": "東京都国立市富士見台1-8-2",
+       "official_url": "",
+       "source_url": "https://kunitachi-shokokai.jp/item/japanese-tea-tekuteku/"
+      },
+      {
+       "name_ja": "お茶の時田園 国立駅前店",
+       "name_en": "Tokitaen Station Shop",
+       "relation_en": "Station-area location for the locally branded tea.",
+       "address_ja": "東京都国立市中1-9-57",
+       "official_url": "",
+       "source_url": "https://kunitachi-shokokai.jp/item/japanese-tea-tekuteku/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "お茶の時田園",
+       "relation_en": "Local tea specialist associated with Tekuteku.",
+       "source_url": "https://kunitachi-shokokai.jp/item/japanese-tea-tekuteku/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The source describes a Kunitachi tea merchant but not tea cultivation within Kunitachi. This differs from Kokubunji's documented locally grown tea."
+    },
+    {
+     "name_ja": "地元野菜のどか盛りバーニャカウダ",
+     "name_en": "Local-Vegetable Bagna Cauda",
+     "kind": "dish",
+     "summary_en": "A Kunitachi restaurant showcases vegetables from nearby farms in an abundant bagna cauda dish. Its significance lies in the local farm-to-restaurant network.",
+     "facts": [
+      {
+       "claim_en": "Kunitachi Mura Sakaba serves bagna cauda featuring locally sourced seasonal vegetables.",
+       "source_url": "https://kunitachi-shokokai.jp/item/murasakababagnacauda/",
+       "source_title": "地元野菜のどか盛りバーニャカウダ",
+       "publisher": "国立市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "くにたち村酒場",
+       "name_en": "Kunitachi Mura Sakaba",
+       "relation_en": "Restaurant that highlights local farm produce.",
+       "address_ja": "東京都国立市中1-9-30 せきやビルB1",
+       "official_url": "",
+       "source_url": "https://kunitachi-shokokai.jp/item/murasakababagnacauda/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "株式会社エマリコくにたち",
+       "relation_en": "Operates local farm-to-table food businesses.",
+       "source_url": "https://kunitachi-shokokai.jp/item/honey-candy/"
+      }
+     ],
+     "season_en": "The vegetable selection varies seasonally.",
+     "confidence": "high",
+     "notes_en": "Bagna cauda is not an indigenous Kunitachi recipe; its local cultural connection is the produce supply chain."
+    },
+    {
+     "name_ja": "国立薬膳カレー",
+     "name_en": "Kunitachi Yakuzen Curry",
+     "kind": "brand",
+     "summary_en": "Two entrepreneurs raised in Kunitachi developed a locally branded prepared curry built around a complex blend of spices and herbs.",
+     "facts": [
+      {
+       "claim_en": "AK Plus developed Kunitachi Yakuzen Curry using approximately 30 spices and herbs.",
+       "source_url": "https://kunitachi-shokokai.jp/item/yakuzen-curry/",
+       "source_title": "国立薬膳カレー",
+       "publisher": "国立市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "くにたち野菜 しゅんかしゅんか",
+       "name_en": "Kunitachi Shunka Shunka",
+       "relation_en": "Local retailer identified by the producer's regional brand listing.",
+       "address_ja": "東京都国立市中1-1-1",
+       "official_url": "",
+       "source_url": "https://kunitachi-shokokai.jp/item/honey-candy/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "株式会社AKプラス",
+       "relation_en": "Kunitachi-based developer of the regional curry product.",
+       "source_url": "https://kunitachi-shokokai.jp/item/yakuzen-curry/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "This is a modern locally developed product, not a historical traditional Kunitachi curry."
+    },
+    {
+     "name_ja": "国立薬膳カリーヌードル",
+     "name_en": "Kunitachi Yakuzen Curry Noodles",
+     "kind": "brand",
+     "summary_en": "A local noodle manufacturer collaborated with the creators of Kunitachi Yakuzen Curry to produce packaged non-fried noodles with the regionally branded curry seasoning.",
+     "facts": [
+      {
+       "claim_en": "Kame Seimen developed Kunitachi Yakuzen Curry Noodles with AK Plus using Japanese wheat noodles and a curry blend containing 30 spices.",
+       "source_url": "https://kunitachi-shokokai.jp/item/kunitachicurrynoodle/",
+       "source_title": "国立薬膳カリーヌードル",
+       "publisher": "国立市商工会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "株式会社亀製麺",
+       "name_en": "Kame Seimen",
+       "relation_en": "Established local noodle manufacturer involved in the collaboration.",
+       "address_ja": "東京都国立市青柳1-10-2",
+       "official_url": "",
+       "source_url": "https://kunitachi-shokokai.jp/item/kunitachicurrynoodle/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "株式会社亀製麺",
+       "relation_en": "Develops and manufactures the noodle component.",
+       "source_url": "https://kunitachi-shokokai.jp/item/kunitachicurrynoodle/"
+      },
+      {
+       "name_ja": "株式会社AKプラス",
+       "relation_en": "Collaborating developer of the curry seasoning.",
+       "source_url": "https://kunitachi-shokokai.jp/item/kunitachicurrynoodle/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "国立の梨・ぶどう・桃",
+     "name_en": "Kunitachi Pears, Grapes and Peaches",
+     "kind": "crop",
+     "summary_en": "Kunitachi's southern agricultural area supports fruit growing alongside vegetables and rice. The city's tourism association identifies pears, grapes and peaches among the fruits cultivated there.",
+     "facts": [
+      {
+       "claim_en": "The Kunitachi tourism association describes local farms producing pears, grapes and peaches as part of the city's agricultural diversity.",
+       "source_url": "https://kunimachi.jp/spot/chokubaijo/",
+       "source_title": "行ってみよう！直売所案内マップ",
+       "publisher": "くにたちNAVI"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "国立市城山さとのいえ",
+       "name_en": "Kunitachi Joyama Satonoie",
+       "relation_en": "Starting point for learning about the surrounding farms and local agricultural landscape.",
+       "address_ja": "東京都国立市泉5-21-20",
+       "official_url": "",
+       "source_url": "https://kunimachi.jp/spot/chokubaijo/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "国立市南部の果樹農家",
+       "relation_en": "Local fruit growers documented by the tourism association.",
+       "source_url": "https://kunimachi.jp/spot/chokubaijo/"
+      }
+     ],
+     "season_en": "Seasonal, varying by fruit.",
+     "confidence": "high",
+     "notes_en": "The source confirms fruit cultivation but does not establish specific individual orchard locations."
+    }
+   ],
+   "none_found_reason_en": ""
+  }
+ ],
+ "url_check": {
+  "checked_at": "2026-11-22",
+  "status": {
+   "https://annbee-sweets.com/": 200,
+   "https://annbee-sweets.com/concept.html": 200,
+   "https://kanda-toshimaya.co.jp/toshimaya-rita-shop/": 200,
+   "https://kokubunji-citypro.jp/article/2746/": 200,
+   "https://kokubunji-citypro.jp/article/394/": 200,
+   "https://kokuvege.jp/direct/": 200,
+   "https://kokuvege.jp/shop/": 200,
+   "https://kunimachi.jp/spot/chokubaijo/": 200,
+   "https://kunitachi-shokokai.jp/community/style/": 200,
+   "https://kunitachi-shokokai.jp/item/": 200,
+   "https://kunitachi-shokokai.jp/item/honey-candy/": 200,
+   "https://kunitachi-shokokai.jp/item/japanese-tea-tekuteku/": 200,
+   "https://kunitachi-shokokai.jp/item/kunitachi-baumkuchen/": 200,
+   "https://kunitachi-shokokai.jp/item/kunitachi-brewery-beer/": 200,
+   "https://kunitachi-shokokai.jp/item/kunitachi-sweets-story/": 200,
+   "https://kunitachi-shokokai.jp/item/kunitachi_beer/": 200,
+   "https://kunitachi-shokokai.jp/item/kunitachicurrynoodle/": 200,
+   "https://kunitachi-shokokai.jp/item/kunitachimonaka/": 200,
+   "https://kunitachi-shokokai.jp/item/mochisuke-dumpling/": 200,
+   "https://kunitachi-shokokai.jp/item/murasakababagnacauda/": 200,
+   "https://kunitachi-shokokai.jp/item/premiumcookie/": 200,
+   "https://kunitachi-shokokai.jp/item/sponge-cake-and-madeleine/": 200,
+   "https://kunitachi-shokokai.jp/item/yakuzen-curry/": 200,
+   "https://kunitachibrewery.com/kuniburu-beer/2026-take-2/": 200,
+   "https://shoukoukai.or.jp/city_info/specialty_goods/": 200,
+   "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_114.html": 200,
+   "https://www.city.kokubunji.tokyo.jp/_res/projects/default_project/_page_/001/017/868/tekuteku.pdf": 404,
+   "https://www.city.kokubunji.tokyo.jp/culture-sports-tourism/machi/1012005/1013264.html": 200,
+   "https://www.city.kokubunji.tokyo.jp/faq/kurashi/1005239/1005297/1006217.html": 200,
+   "https://www.city.kunitachi.tokyo.jp/material/files/group/50/46519045.pdf": 200,
+   "https://www.enokido-farm.jp/": 200,
+   "https://www.ja-tokyomirai.or.jp/agriculture/niwasaki/": 200,
+   "https://www.jatm.or.jp/farming/plant/detail.php?id=89&type=grape": 200,
+   "https://www.kokubunji-cha.com/koganei": 200,
+   "https://www.kokubunji-cha.com/shop/": 200,
+   "https://www.sangyo-rodo1.metro.tokyo.lg.jp/norin/syoku/econosanbutu/seisansya/215002.html": 200,
+   "https://www.shoukoukai.or.jp/satohachi/about/": 200,
+   "https://www.shoukoukai.or.jp/satohachi/shops/shop_01/": 200,
+   "https://www.shoukoukai.or.jp/satohachi/shops/shop_05/": 200,
+   "https://www.shoukoukai.or.jp/satohachi/shops/shop_06/": 200,
+   "https://www.shoukoukai.or.jp/satohachi/shops/shop_08/": 200,
+   "https://www.shoukoukai.or.jp/satohachi/shops/shop_09/": 200,
+   "https://www.shoukoukai.or.jp/satohachi/shops/shop_10/": 200,
+   "https://www.shoukoukai.or.jp/satohachi/shops/shop_11/": 200,
+   "https://www.shoukoukai.or.jp/satohachi/shops/shop_12/": 200,
+   "https://www.shoukoukai.or.jp/satohachi/shops/shop_13/": 200,
+   "https://www.shoukoukai.or.jp/satohachi/shops/shop_14/": 200,
+   "https://www.shoukoukai.or.jp/satohachi/shops/shop_15/": 200,
+   "https://www.shoukoukai.or.jp/satohachi/shops/shop_16/": 200,
+   "https://www.shoukoukai.or.jp/satohachi/shops/shop_17/": 200,
+   "https://www.shoukoukai.or.jp/satohachi/shops/shop_18/": 200,
+   "https://www.shoukoukai.or.jp/satohachi/shops/shop_19/": 200,
+   "https://www.shoukoukai.or.jp/satohachi/shops/shop_20/": 200,
+   "https://www.shoukoukai.or.jp/satohachi/shops/shop_21/": 200,
+   "https://www.shoukoukai.or.jp/satohachi/shops/shop_22/": 200
+  }
+ }
+}
