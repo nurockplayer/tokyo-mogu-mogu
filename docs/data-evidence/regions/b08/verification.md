@@ -97,7 +97,7 @@ Municipality: tama. Theme: Honey from the Seiseki hills.
 - KEPT (はちみつレコード): Hachimitsu Record is a Tama-based beekeeping producer operating around the Seiseki-Sakuragaoka hills. — https://www.tokyo-aff-fc.jp/interview/detail/id=1165 — HTTP 200; extracted page supports the bounded paraphrase below.
 - KEPT (はちみつレコード): The producer distinguishes honey collected from Tokyo flowers during spring, early summer and summer. — https://www.tokyo-aff-fc.jp/interview/detail/id=1165 — HTTP 200; extracted page supports the bounded paraphrase below.
 - KEPT (はちみつレコード): The producer's October 2026 profile identifies Ponte in Tama City as a retail outlet. — https://www.tokyo-aff-fc.jp/interview/detail/id=1165 — HTTP 200; extracted page supports the bounded paraphrase below.
-  Published paraphrase: An October 2026 producer profile describes Hachimitsu Record keeping bees in the Seiseki-Sakuragaoka hills and distinguishing honey from Tokyo flowers in spring, early summer and summer. It names Ponte as a Tama outlet.
+  Published paraphrase: The producer profile describes Hachimitsu Record keeping bees in the Seiseki-Sakuragaoka hills and distinguishing honey from Tokyo flowers in spring, early summer and summer. It names Ponte as a Tama outlet.
 - PLACE: Ponte — https://www.tokyo-aff-fc.jp/interview/detail/id=1165 — HTTP 200; The producer profile names Ponte as an outlet for Hachimitsu Record.
 - EDITORIAL: half-day order and 90 minutes are estimates, not a timetable. Source-linked context: https://www.tokyo-aff-fc.jp/interview/detail/id=1165. Station/access are empty; no images. All new sources remain needs_confirmation.
 

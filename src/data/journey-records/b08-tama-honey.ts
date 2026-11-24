@@ -15,13 +15,13 @@ export const b08TamaHoneyRecord: JourneyRecord = {
     },
     "chapters": {
       "ja": [
-        {"number":"01.","title":"はちみつレコード","body":"2026年10月の生産者紹介では、はちみつレコードは聖蹟桜ヶ丘の丘陵で養蜂し、春・初夏・夏の東京の花の蜜を紹介。多摩市の取扱先にはPonteが挙げられています。"}
+        {"number":"01.","title":"はちみつレコード","body":"生産者紹介では、はちみつレコードは聖蹟桜ヶ丘の丘陵で養蜂し、春・初夏・夏の東京の花の蜜を紹介。多摩市の取扱先にはPonteが挙げられています。"}
       ],
       "en": [
-        {"number":"01.","title":"Hachimitsu Record Local Honey","body":"An October 2026 producer profile describes Hachimitsu Record keeping bees in the Seiseki-Sakuragaoka hills and distinguishing honey from Tokyo flowers in spring, early summer and summer. It names Ponte as a Tama outlet."}
+        {"number":"01.","title":"Hachimitsu Record Local Honey","body":"The producer profile describes Hachimitsu Record keeping bees in the Seiseki-Sakuragaoka hills and distinguishing honey from Tokyo flowers in spring, early summer and summer. It names Ponte as a Tama outlet."}
       ],
       "zh-TW": [
-        {"number":"01.","title":"Hachimitsu Record蜂蜜","body":"2026年10月的生產者介紹記載Hachimitsu Record於聖蹟櫻丘丘陵養蜂，區分春、初夏與夏季東京花蜜，並列出多摩市的Ponte為相關店舖。"}
+        {"number":"01.","title":"Hachimitsu Record蜂蜜","body":"生產者介紹記載Hachimitsu Record於聖蹟櫻丘丘陵養蜂，區分春、初夏與夏季東京花蜜，並列出多摩市的Ponte為相關店舖。"}
       ]
     },
     "routeVariants": [
