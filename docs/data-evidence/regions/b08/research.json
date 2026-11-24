@@ -1,0 +1,2224 @@
+{
+ "batch": "b08",
+ "researched_at": "2026-11-22",
+ "municipalities": [
+  {
+   "id": "tama",
+   "name_ja": "多摩市",
+   "food_cultures": [
+    {
+     "name_ja": "多摩市の地場野菜と農産物直売文化",
+     "name_en": "Tama's Urban Farming and Farm-Direct Food Culture",
+     "kind": "other",
+     "summary_en": "Small farms continue to cultivate vegetables and fruit within this heavily urbanized city. Farmer-operated stalls and local agricultural shops connect residents and visitors with seasonal harvests.",
+     "facts": [
+      {
+       "claim_en": "Tama City identifies three local outlets selling fresh produce grown by city farmers.",
+       "source_url": "https://www.city.tama.lg.jp/shisei/jigyosha/nougyou/nousanbutsu/1005724.html",
+       "source_title": "多摩市産の農産物販売場所",
+       "publisher": "Tama City"
+      },
+      {
+       "claim_en": "At Ikiiki-ichi, participating farmers themselves operate the market and meet customers.",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=ikikiiti_nousanbututyokubaizyo",
+       "source_title": "多摩市内農産物直売所 いきいき市",
+       "publisher": "JA Tokyo Agripark"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "いきいき市",
+       "name_en": "Ikiiki-ichi Farmers' Market",
+       "relation_en": "Farmer-operated market for Tama-grown seasonal produce.",
+       "address_ja": "東京都多摩市一ノ宮2丁目46",
+       "official_url": "https://agripark.tokyo/matching/search/store.php?id=ikikiiti_nousanbututyokubaizyo",
+       "source_url": "https://www.city.tama.lg.jp/shisei/jigyosha/nougyou/nousanbutsu/1005724.html"
+      },
+      {
+       "name_ja": "グリーンショップ多摩",
+       "name_en": "Green Shop Tama",
+       "relation_en": "JA-affiliated outlet selling locally grown produce.",
+       "address_ja": "東京都多摩市関戸6-11-1",
+       "official_url": "https://agripark.tokyo/matching/search/store.php?id=greenshop_tama",
+       "source_url": "https://www.city.tama.lg.jp/shisei/jigyosha/nougyou/nousanbutsu/1005724.html"
+      },
+      {
+       "name_ja": "Ponte（ポンテ）",
+       "name_en": "Ponte Local Products Shop",
+       "relation_en": "Shared Tama and Fujimi Town shop carrying local agricultural products.",
+       "address_ja": "東京都多摩市永山1-4 グリナード永山1階",
+       "official_url": "https://www.city.tama.lg.jp/shisei/jigyosha/nougyou/nousanbutsu/1005724.html",
+       "source_url": "https://www.city.tama.lg.jp/shisei/jigyosha/nougyou/nousanbutsu/1005724.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "多摩市農業団体連絡協議会",
+       "relation_en": "Local agricultural organization operating Ikiiki-ichi.",
+       "source_url": "https://www.city.tama.lg.jp/_res/projects/default_project/_page_/001/015/079/kaitei_03.pdf"
+      },
+      {
+       "name_ja": "JA東京みなみ",
+       "relation_en": "Agricultural cooperative associated with Green Shop Tama.",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=greenshop_tama"
+      }
+     ],
+     "season_en": "Year-round, with changing seasonal crops.",
+     "confidence": "high",
+     "notes_en": "This is a local food-distribution tradition rather than one named specialty crop."
+    },
+    {
+     "name_ja": "のらぼう菜",
+     "name_en": "Norabo-na Traditional Greens",
+     "kind": "crop",
+     "summary_en": "Norabo-na is a traditional spring flowering green associated with the wider Tama region and recognized as an Edo-Tokyo vegetable. Farmers within Tama City grow it, and it appears at local farm-direct markets.",
+     "facts": [
+      {
+       "claim_en": "Ikiiki-ichi lists norabo-na among its principal spring products.",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=ikikiiti_nousanbututyokubaizyo",
+       "source_title": "多摩市内農産物直売所 いきいき市",
+       "publisher": "JA Tokyo Agripark"
+      },
+      {
+       "claim_en": "Tama's agricultural directory identifies Seiji and Sachiyo Omatsu as local growers of norabo-na.",
+       "source_url": "https://agriagri.net/nouka-2/",
+       "source_title": "農家紹介",
+       "publisher": "多摩市農業応援サイト あぐり あぐり"
+      },
+      {
+       "claim_en": "A producer describes norabo-na as an Edo-Tokyo vegetable traditionally eaten in the Tama region during spring.",
+       "source_url": "https://www.biogartenkiriri.com/blank-10/%E3%81%AE%E3%82%89%E3%81%BC%E3%81%86%E8%8F%9C%E3%81%9F%E3%81%A3%E3%81%B7%E3%82%8Abox",
+       "source_title": "限定 のらぼう菜たっぷりBOX",
+       "publisher": "きりり農園"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "いきいき市",
+       "name_en": "Ikiiki-ichi Farmers' Market",
+       "relation_en": "Documented spring outlet for norabo-na.",
+       "address_ja": "東京都多摩市一ノ宮2丁目46",
+       "official_url": "https://agripark.tokyo/matching/search/store.php?id=ikikiiti_nousanbututyokubaizyo",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=ikikiiti_nousanbututyokubaizyo"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "大松誠二・幸代",
+       "relation_en": "Tama City farmers cultivating norabo-na.",
+       "source_url": "https://agriagri.net/nouka-2/"
+      }
+     ],
+     "season_en": "Spring, particularly March and April.",
+     "confidence": "high",
+     "notes_en": "This is a regional traditional vegetable with verified cultivation inside Tama City, not an exclusively Tama City cultivar."
+    },
+    {
+     "name_ja": "多摩産たけのこ",
+     "name_en": "Locally Harvested Bamboo Shoots",
+     "kind": "crop",
+     "summary_en": "Spring bamboo shoots remain part of Tama's seasonal agricultural landscape and local market offerings.",
+     "facts": [
+      {
+       "claim_en": "JA Tokyo Agripark identifies bamboo shoots as a principal spring product at Ikiiki-ichi.",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=ikikiiti_nousanbututyokubaizyo",
+       "source_title": "多摩市内農産物直売所 いきいき市",
+       "publisher": "JA Tokyo Agripark"
+      },
+      {
+       "claim_en": "Tama's agricultural directory lists bamboo shoots among the products grown by local farmer Tadashi Sudo.",
+       "source_url": "https://agriagri.net/nouka-2/",
+       "source_title": "農家紹介",
+       "publisher": "多摩市農業応援サイト あぐり あぐり"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "いきいき市",
+       "name_en": "Ikiiki-ichi Farmers' Market",
+       "relation_en": "A documented outlet for spring bamboo shoots.",
+       "address_ja": "東京都多摩市一ノ宮2丁目46",
+       "official_url": "https://agripark.tokyo/matching/search/store.php?id=ikikiiti_nousanbututyokubaizyo",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=ikikiiti_nousanbututyokubaizyo"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "須藤忠志",
+       "relation_en": "Local grower of bamboo shoots and fruit.",
+       "source_url": "https://agriagri.net/nouka-2/"
+      }
+     ],
+     "season_en": "Spring.",
+     "confidence": "high",
+     "notes_en": "A seasonal agricultural product rather than an independently branded local dish."
+    },
+    {
+     "name_ja": "多摩産米「はるみ」",
+     "name_en": "Tama-Grown Harumi Rice",
+     "kind": "crop",
+     "summary_en": "Rice cultivation persists within Tama City despite extensive urban development. The locally grown Harumi variety has been listed for sale through a JA-affiliated shop.",
+     "facts": [
+      {
+       "claim_en": "Green Shop Tama identifies Tama-grown Harumi rice as a product milled at the shop.",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=greenshop_tama",
+       "source_title": "グリーンショップ多摩",
+       "publisher": "JA Tokyo Agripark"
+      },
+      {
+       "claim_en": "Tama's farmer directory records rice production by farmers in the Ichinomiya district.",
+       "source_url": "https://agriagri.net/nouka-2/",
+       "source_title": "農家紹介",
+       "publisher": "多摩市農業応援サイト あぐり あぐり"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "グリーンショップ多摩",
+       "name_en": "Green Shop Tama",
+       "relation_en": "Documented retail connection to locally grown and milled Harumi rice.",
+       "address_ja": "東京都多摩市関戸6-11-1",
+       "official_url": "https://agripark.tokyo/matching/search/store.php?id=greenshop_tama",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=greenshop_tama"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "太田茂・太田盛久",
+       "relation_en": "Rice-growing farmers listed in the local agricultural directory.",
+       "source_url": "https://agriagri.net/nouka-2/"
+      }
+     ],
+     "season_en": "Autumn rice harvest; processed rice may be distributed beyond harvest season.",
+     "confidence": "medium",
+     "notes_en": "The JA product listing is based partly on older store information; current availability of the Harumi variety was not independently confirmed."
+    },
+    {
+     "name_ja": "多摩うどん「ぽんぽこ」",
+     "name_en": "Tama Udon Ponpoko",
+     "kind": "dish",
+     "summary_en": "Ponpoko is a local udon project incorporating flour milled from wheat grown in Tama City. It offers a tangible connection between local grain production and everyday Japanese noodle culture.",
+     "facts": [
+      {
+       "claim_en": "The udon producer states that its fresh noodles contain a proportion of locally milled Tama wheat flour and identify the wheat grower.",
+       "source_url": "https://tamaudonponpoko.nomaki.jp/menu.htm",
+       "source_title": "メニュー一覧",
+       "publisher": "多摩うどん ぽんぽこ"
+      },
+      {
+       "claim_en": "Tokyo Grown identifies Ponpoko as a Tama City udon shop using local flour in its noodles.",
+       "source_url": "https://tokyogrown.jp/node/571661",
+       "source_title": "多摩うどん「ぽんぽこ」",
+       "publisher": "Tokyo Grown / Tokyo Foundation of Agriculture, Forestry and Fisheries"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "多摩うどん「ぽんぽこ」",
+       "name_en": "Tama Udon Ponpoko",
+       "relation_en": "A documented food venue for udon using locally milled Tama wheat.",
+       "address_ja": "東京都多摩市聖ヶ丘2-21-3-7",
+       "official_url": "https://tamaudonponpoko.nomaki.jp/menu.htm",
+       "source_url": "https://tokyogrown.jp/node/571661"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "多摩うどん「ぽんぽこ」",
+       "relation_en": "Developer and seller of noodles using Tama wheat.",
+       "source_url": "https://tamaudonponpoko.nomaki.jp/menu.htm"
+      }
+     ],
+     "season_en": "Not specifically seasonal.",
+     "confidence": "high",
+     "notes_en": "The documented noodles blend local flour with other flour; they should not be described as entirely Tama-grown wheat."
+    },
+    {
+     "name_ja": "多摩産ブルーベリー",
+     "name_en": "Tama-Grown Blueberries",
+     "kind": "crop",
+     "summary_en": "Blueberries are cultivated by local growers and have also inspired processed foods developed around Tama's agricultural identity.",
+     "facts": [
+      {
+       "claim_en": "Tama's agricultural directory identifies Tadashi Sudo as a city grower of blueberries.",
+       "source_url": "https://agriagri.net/nouka-2/",
+       "source_title": "農家紹介",
+       "publisher": "多摩市農業応援サイト あぐり あぐり"
+      },
+      {
+       "claim_en": "Tama City records the use of locally grown blueberries in a specialty jelly developed with input from farmers and the school-meal program.",
+       "source_url": "https://www.city.tama.lg.jp/_res/projects/default_project/_page_/001/015/079/kaitei_03.pdf",
+       "source_title": "多摩市の農業・特産品開発",
+       "publisher": "Tama City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "Ponte（ポンテ）",
+       "name_en": "Ponte Local Products Shop",
+       "relation_en": "A general outlet for Tama agricultural products; availability of blueberries is seasonal and not established for a specific date.",
+       "address_ja": "東京都多摩市永山1-4 グリナード永山1階",
+       "official_url": "https://www.city.tama.lg.jp/shisei/jigyosha/nougyou/nousanbutsu/1005724.html",
+       "source_url": "https://www.city.tama.lg.jp/shisei/jigyosha/nougyou/nousanbutsu/1005724.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "須藤忠志",
+       "relation_en": "Documented local blueberry grower.",
+       "source_url": "https://agriagri.net/nouka-2/"
+      }
+     ],
+     "season_en": "Summer.",
+     "confidence": "high",
+     "notes_en": "The fresh-fruit culture remains relevant even though the former blueberry-jelly product has been discontinued."
+    },
+    {
+     "name_ja": "多摩産しいたけ・きのこ栽培",
+     "name_en": "Tama Shiitake and Mushroom Cultivation",
+     "kind": "crop",
+     "summary_en": "Shiitake cultivation is an organized part of Tama's local agriculture, with a producers' association and a connection to the city's direct-sale network.",
+     "facts": [
+      {
+       "claim_en": "Tama City documents a shiitake producers' association that supports cultivation and organizes inoculation-related learning activities.",
+       "source_url": "https://www.city.tama.lg.jp/_res/projects/default_project/_page_/001/015/079/kaitei_03.pdf",
+       "source_title": "多摩市の農業・農業者団体",
+       "publisher": "Tama City"
+      },
+      {
+       "claim_en": "Green Shop Tama lists shiitake among its principal products.",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=greenshop_tama",
+       "source_title": "グリーンショップ多摩",
+       "publisher": "JA Tokyo Agripark"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "グリーンショップ多摩",
+       "name_en": "Green Shop Tama",
+       "relation_en": "JA shop documenting shiitake among its agricultural products.",
+       "address_ja": "東京都多摩市関戸6-11-1",
+       "official_url": "https://agripark.tokyo/matching/search/store.php?id=greenshop_tama",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=greenshop_tama"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "多摩市椎茸生産組合",
+       "relation_en": "Local association supporting shiitake and other mushroom cultivation.",
+       "source_url": "https://www.city.tama.lg.jp/_res/projects/default_project/_page_/001/015/079/kaitei_03.pdf"
+      }
+     ],
+     "season_en": "Season varies by cultivation method.",
+     "confidence": "high",
+     "notes_en": "The city documents the agricultural organization, but a specific producer visit has not been established."
+    },
+    {
+     "name_ja": "多摩産ぶどう・栗・いちじく",
+     "name_en": "Tama Grapes, Chestnuts and Figs",
+     "kind": "crop",
+     "summary_en": "Alongside vegetables, Tama's urban farms produce seasonal fruit and nuts, including grapes, chestnuts and figs.",
+     "facts": [
+      {
+       "claim_en": "Ikiiki-ichi lists grapes and chestnuts among its principal autumn products.",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=ikikiiti_nousanbututyokubaizyo",
+       "source_title": "多摩市内農産物直売所 いきいき市",
+       "publisher": "JA Tokyo Agripark"
+      },
+      {
+       "claim_en": "Green Shop Tama also lists grapes and figs among its agricultural offerings.",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=greenshop_tama",
+       "source_title": "グリーンショップ多摩",
+       "publisher": "JA Tokyo Agripark"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "いきいき市",
+       "name_en": "Ikiiki-ichi Farmers' Market",
+       "relation_en": "Documented autumn outlet for locally produced grapes and chestnuts.",
+       "address_ja": "東京都多摩市一ノ宮2丁目46",
+       "official_url": "https://agripark.tokyo/matching/search/store.php?id=ikikiiti_nousanbututyokubaizyo",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=ikikiiti_nousanbututyokubaizyo"
+      },
+      {
+       "name_ja": "グリーンショップ多摩",
+       "name_en": "Green Shop Tama",
+       "relation_en": "Documented outlet for fruit including figs and grapes.",
+       "address_ja": "東京都多摩市関戸6-11-1",
+       "official_url": "https://agripark.tokyo/matching/search/store.php?id=greenshop_tama",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=greenshop_tama"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "藤井睦夫",
+       "relation_en": "Tama farmer whose crops include grapes.",
+       "source_url": "https://agriagri.net/nouka-2/"
+      }
+     ],
+     "season_en": "Mainly summer and autumn, depending on the crop.",
+     "confidence": "high",
+     "notes_en": "These are documented seasonal farm products rather than exclusive Tama cultivars."
+    },
+    {
+     "name_ja": "多摩市の手みやげ「桜ぽるぼろん」",
+     "name_en": "Sakura Polvoron",
+     "kind": "sweet",
+     "summary_en": "This crumbly sweet adapts the Spanish polvoron to Tama's cherry-blossom identity. Salt-preserved cherry blossoms produced in the city provide its distinctive local ingredient.",
+     "facts": [
+      {
+       "claim_en": "A collaboration involving public, academic and private participants developed the confection as a Tama City souvenir.",
+       "source_url": "https://www.city.tama.lg.jp/kanko/1015690/1016140/1006512.html",
+       "source_title": "多摩市の特産品など",
+       "publisher": "Tama City"
+      },
+      {
+       "claim_en": "The confection is topped with salt-preserved cherry blossoms from Tama City and is listed at Ponte and the municipal office shop.",
+       "source_url": "https://www.city.tama.lg.jp/kanko/1015690/1016140/1016146.html",
+       "source_title": "多摩市の手土産「桜ぽるぼろん」販売中！",
+       "publisher": "Tama City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "Ponte（ポンテ）",
+       "name_en": "Ponte Local Products Shop",
+       "relation_en": "Municipally identified seller of Sakura Polvoron.",
+       "address_ja": "東京都多摩市永山1-4 グリナード永山1階",
+       "official_url": "https://www.city.tama.lg.jp/kanko/1015690/1016140/1016146.html",
+       "source_url": "https://www.city.tama.lg.jp/kanko/1015690/1016140/1016146.html"
+      },
+      {
+       "name_ja": "多摩市役所内売店「ひまわり」",
+       "name_en": "Himawari Municipal Office Shop",
+       "relation_en": "Another municipality-listed outlet for the confection.",
+       "address_ja": "東京都多摩市関戸6-12-1 多摩市役所内",
+       "official_url": "https://www.city.tama.lg.jp/kanko/1015690/1016140/1016146.html",
+       "source_url": "https://www.city.tama.lg.jp/kanko/1015690/1016140/1016146.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "多摩市の手みやげプロジェクト",
+       "relation_en": "Public-private-academic collaboration responsible for developing the product.",
+       "source_url": "https://www.city.tama.lg.jp/kanko/1015690/1016140/1006512.html"
+      }
+     ],
+     "season_en": "Not restricted to cherry-blossom season in the municipal description.",
+     "confidence": "high",
+     "notes_en": "The cherries provide a direct link to the city's identity as a place associated with sakura."
+    },
+    {
+     "name_ja": "焼きかりんとう「多摩の散歩道」",
+     "name_en": "Tama no Sanpomichi Baked Karinto",
+     "kind": "sweet",
+     "summary_en": "This local snack transforms Tama-wheat udon into baked karinto and coats it with a sauce based on the city's Haramine miso. Its sweet-miso and chili-miso varieties connect several local agricultural products.",
+     "facts": [
+      {
+       "claim_en": "Tama City describes this non-fried karinto as made from Ponpoko udon noodles containing local wheat flour and a sauce based on Haramine miso.",
+       "source_url": "https://www.city.tama.lg.jp/kanko/1015690/1016140/1006512.html",
+       "source_title": "多摩市の特産品など",
+       "publisher": "Tama City"
+      },
+      {
+       "claim_en": "The chili-miso version uses chili peppers grown within Tama City.",
+       "source_url": "https://www.city.tama.lg.jp/kanko/1015690/1016140/1006512.html",
+       "source_title": "多摩市の特産品など",
+       "publisher": "Tama City"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Not specifically seasonal.",
+     "confidence": "high",
+     "notes_en": "The source establishes the product's historical composition, but the discontinuation of Haramine miso production makes current ingredients and product availability uncertain."
+    },
+    {
+     "name_ja": "手作り多摩の味噌「原峰のかおり」",
+     "name_en": "Haramine no Kaori Handmade Miso",
+     "kind": "other",
+     "summary_en": "Four Tama rice-farming families developed a miso-making tradition using local rice and soybeans. The product took its name from the Haramine area and its spring water, but regular production has ended.",
+     "facts": [
+      {
+       "claim_en": "The Tama Agricultural Processing Cooperative began developing the miso in the late 1990s and marketed it from 2001.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_119.html",
+       "source_title": "手作り多摩の味噌 原峰のかおり",
+       "publisher": "Tokyo Metropolitan Government"
+      },
+      {
+       "claim_en": "The historic range included rice miso, a higher-koji rice miso and barley miso.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_119.html",
+       "source_title": "手作り多摩の味噌 原峰のかおり",
+       "publisher": "Tokyo Metropolitan Government"
+      },
+      {
+       "claim_en": "Tama City's agricultural plan states that the miso has not been produced since the final production in 2023 and that sales would end after existing stock was exhausted.",
+       "source_url": "https://www.city.tama.lg.jp/_res/projects/default_project/_page_/001/015/079/kaitei_03.pdf",
+       "source_title": "多摩市の農業・特産品開発",
+       "publisher": "Tama City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "原峰公園",
+       "name_en": "Haramine Park",
+       "relation_en": "A landscape reference near the historical production area and the spring associated with the miso's name; not a confirmed tasting venue.",
+       "address_ja": "東京都多摩市関戸周辺",
+       "official_url": "",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_119.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "農事組合法人 多摩市農産加工組合",
+       "relation_en": "Former producer cooperative formed by four local rice-farming households.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_119.html"
+      }
+     ],
+     "season_en": "Historic production: winter preparation and autumn maturation; production ended after 2023.",
+     "confidence": "high",
+     "notes_en": "Historical food culture only. Do not present the miso as currently manufactured or reliably available."
+    },
+    {
+     "name_ja": "多摩の地酒「原峰のいずみ」",
+     "name_en": "Haramine no Izumi Local Sake",
+     "kind": "drink",
+     "summary_en": "This junmai ginjo sake linked four Tama rice-growing families with the area's Haramine springs. It was brewed outside Tama City by Ishikawa Brewery and is now a historical local specialty.",
+     "facts": [
+      {
+       "claim_en": "The sake used rice produced by four farmers within Tama City and was associated with the Haramine area.",
+       "source_url": "https://www.sangyo-rodo1.metro.tokyo.lg.jp/tourism/tokyogifts62/product/53/",
+       "source_title": "原峰のいずみ",
+       "publisher": "Tokyo Metropolitan Government, TOKYO GIFTS 62"
+      },
+      {
+       "claim_en": "Ishikawa Brewery in neighboring Fussa brewed the sake.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_119.html",
+       "source_title": "手作り多摩の味噌 原峰のかおり",
+       "publisher": "Tokyo Metropolitan Government"
+      },
+      {
+       "claim_en": "The city's agricultural plan records no further production after 2023 and describes remaining stock as the final supply.",
+       "source_url": "https://www.city.tama.lg.jp/_res/projects/default_project/_page_/001/015/079/kaitei_03.pdf",
+       "source_title": "多摩市の農業・特産品開発",
+       "publisher": "Tama City"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "多摩市酒販組合",
+       "relation_en": "Named developer or marketer of the sake.",
+       "source_url": "https://www.sangyo-rodo1.metro.tokyo.lg.jp/tourism/tokyogifts62/product/53/"
+      },
+      {
+       "name_ja": "石川酒造",
+       "relation_en": "Brewery located in Fussa City, outside Tama City.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_119.html"
+      }
+     ],
+     "season_en": "Historic product; no new production after 2023.",
+     "confidence": "high",
+     "notes_en": "Important cross-municipality production relationship. Do not describe Ishikawa Brewery as a brewery located within Tama City or assume the sake remains available."
+    },
+    {
+     "name_ja": "多摩産梅酒「白加賀」",
+     "name_en": "Shirakaga Plum Liqueur",
+     "kind": "drink",
+     "summary_en": "Tama once marketed a plum liqueur made exclusively with locally harvested Shirakaga plums. It survives as a documented specialty-development story rather than an active product.",
+     "facts": [
+      {
+       "claim_en": "The locally branded liqueur used Shirakaga plums harvested within Tama City.",
+       "source_url": "https://www.city.tama.lg.jp/_res/projects/default_project/_page_/001/015/079/kaitei_03.pdf",
+       "source_title": "多摩市の農業・特産品開発",
+       "publisher": "Tama City"
+      },
+      {
+       "claim_en": "The city records its launch in 2013, the end of production in 2022 and the end of remaining-stock sales in 2023.",
+       "source_url": "https://www.city.tama.lg.jp/_res/projects/default_project/_page_/001/015/079/kaitei_03.pdf",
+       "source_title": "多摩市の農業・特産品開発",
+       "publisher": "Tama City"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Historic, discontinued product.",
+     "confidence": "high",
+     "notes_en": "Include only as local agricultural and beverage history, not as an available tasting or shopping experience."
+    },
+    {
+     "name_ja": "はちみつレコード",
+     "name_en": "Hachimitsu Record Local Honey",
+     "kind": "brand",
+     "summary_en": "A small Tama honey producer keeps bees in the hills around Seiseki-Sakuragaoka. Its honey reflects different flowering periods and provides a direct connection between urban nature and food production.",
+     "facts": [
+      {
+       "claim_en": "Hachimitsu Record is a Tama-based beekeeping producer operating around the Seiseki-Sakuragaoka hills.",
+       "source_url": "https://www.tokyo-aff-fc.jp/interview/detail/id=1165",
+       "source_title": "生産者インタビュー詳細：はちみつレコード",
+       "publisher": "Tokyo Agriculture, Forestry and Fisheries Fan Club"
+      },
+      {
+       "claim_en": "The producer distinguishes honey collected from Tokyo flowers during spring, early summer and summer.",
+       "source_url": "https://www.tokyo-aff-fc.jp/interview/detail/id=1165",
+       "source_title": "生産者インタビュー詳細：はちみつレコード",
+       "publisher": "Tokyo Agriculture, Forestry and Fisheries Fan Club"
+      },
+      {
+       "claim_en": "The producer's October 2026 profile identifies Ponte in Tama City as a retail outlet.",
+       "source_url": "https://www.tokyo-aff-fc.jp/interview/detail/id=1165",
+       "source_title": "生産者インタビュー詳細：はちみつレコード",
+       "publisher": "Tokyo Agriculture, Forestry and Fisheries Fan Club"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "Ponte（ポンテ）",
+       "name_en": "Ponte Local Products Shop",
+       "relation_en": "Documented retail outlet for Hachimitsu Record honey.",
+       "address_ja": "東京都多摩市永山1-4 グリナード永山1階",
+       "official_url": "https://www.city.tama.lg.jp/shisei/jigyosha/nougyou/nousanbutsu/1005724.html",
+       "source_url": "https://www.tokyo-aff-fc.jp/interview/detail/id=1165"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "はちみつレコード（坂本ユカ）",
+       "relation_en": "Local honey producer and beekeeper.",
+       "source_url": "https://www.tokyo-aff-fc.jp/interview/detail/id=1165"
+      }
+     ],
+     "season_en": "Honey produced across spring and summer flowering periods.",
+     "confidence": "high",
+     "notes_en": "Supported by an October 2026 producer profile."
+    },
+    {
+     "name_ja": "たまっ子ベリー",
+     "name_en": "Tamakko Berry Blueberry Jelly",
+     "kind": "sweet",
+     "summary_en": "This former blueberry jelly grew from cooperation between Tama farmers and the city's school-meal program. It illustrates how local fruit cultivation was turned into a distinctive processed food.",
+     "facts": [
+      {
+       "claim_en": "The jelly was developed following discussions involving the school-meal center and local farmers and used blueberries grown in Tama City.",
+       "source_url": "https://www.city.tama.lg.jp/_res/projects/default_project/_page_/001/015/079/kaitei_03.pdf",
+       "source_title": "多摩市の農業・特産品開発",
+       "publisher": "Tama City"
+      },
+      {
+       "claim_en": "Tama City records the product as launched in 2015 and discontinued in 2019.",
+       "source_url": "https://www.city.tama.lg.jp/_res/projects/default_project/_page_/001/015/079/kaitei_03.pdf",
+       "source_title": "多摩市の農業・特産品開発",
+       "publisher": "Tama City"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Formerly seasonal; discontinued in 2019.",
+     "confidence": "high",
+     "notes_en": "Historical product-development example only; not a current visitor purchase."
+    }
+   ],
+   "none_found_reason_en": ""
+  },
+  {
+   "id": "inagi",
+   "name_ja": "稲城市",
+   "food_cultures": [
+    {
+     "name_ja": "稲城の梨",
+     "name_en": "Inagi Pears",
+     "kind": "crop",
+     "summary_en": "Pears are Inagi's defining agricultural specialty, supported by centuries of cultivation and an extensive network of farm-gate sellers. The large pear cultivar also named Inagi is especially closely associated with the city.",
+     "facts": [
+      {
+       "claim_en": "Inagi City identifies pears as its foremost agricultural specialty and describes orchards selling their harvest directly during the growing season.",
+       "source_url": "https://www.city.inagi.tokyo.jp/sangyo/nougyou/1010173/1003690.html",
+       "source_title": "稲城市の特産品「梨」",
+       "publisher": "Inagi City"
+      },
+      {
+       "claim_en": "The local tourism association traces pear cultivation to the early Edo period and explains that it developed around the Tama River and the Daimaru irrigation system.",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%81%8B%E3%82%B0%E3%83%AB%E3%83%A1.pdf",
+       "source_title": "稲城の梨のさわやかグルメ PEAR",
+       "publisher": "Inagi City Tourism Association"
+      },
+      {
+       "claim_en": "Uehara-en cultivates several pear varieties, including Inagi, Niitaka, Kaori, Kosui and Hosui.",
+       "source_url": "https://inagi-nashi.tokyo/pages.php?f=%E4%B8%8A%E5%8E%9F%E5%9C%92",
+       "source_title": "上原園",
+       "publisher": "Inagi Pear Producers' Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "上原園",
+       "name_en": "Uehara-en Pear Orchard",
+       "relation_en": "Pear-producing farm with a documented farm-direct outlet and fruit-picking connection.",
+       "address_ja": "東京都稲城市押立735",
+       "official_url": "https://inagi-nashi.tokyo/pages.php?f=%E4%B8%8A%E5%8E%9F%E5%9C%92",
+       "source_url": "https://inagi-nashi.tokyo/pages.php?f=%E4%B8%8A%E5%8E%9F%E5%9C%92"
+      },
+      {
+       "name_ja": "清玉園",
+       "name_en": "Seigyokuen Pear Orchard",
+       "relation_en": "Pear orchard identified in the tourism association's fruit guide.",
+       "address_ja": "東京都稲城市東長沼2025",
+       "official_url": "",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf"
+      },
+      {
+       "name_ja": "川清園",
+       "name_en": "Kawaseien Pear Orchard",
+       "relation_en": "Another pear-growing site identified in the local tourism guide.",
+       "address_ja": "東京都稲城市東長沼1964",
+       "official_url": "",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "稲城の梨生産組合",
+       "relation_en": "Local pear-growing association documenting orchards, varieties and harvest culture.",
+       "source_url": "https://inagi-nashi.tokyo/pages.php?f=%E4%B8%8A%E5%8E%9F%E5%9C%92"
+      },
+      {
+       "name_ja": "上原幹之",
+       "relation_en": "Pear grower associated with Uehara-en.",
+       "source_url": "https://inagi-nashi.tokyo/pages.php?f=%E4%B8%8A%E5%8E%9F%E5%9C%92"
+      }
+     ],
+     "season_en": "Primarily August to October, varying by cultivar.",
+     "confidence": "high",
+     "notes_en": "The orchard's listed address is its direct-sale location, which the producers' association notes may differ from the actual orchard address."
+    },
+    {
+     "name_ja": "高尾ぶどう",
+     "name_en": "Takao Grapes",
+     "kind": "crop",
+     "summary_en": "Takao is a large, seedless grape developed in Tokyo and sustained by Inagi growers despite the difficulty of cultivation. It has become a local gift-fruit specialty alongside pears.",
+     "facts": [
+      {
+       "claim_en": "The Takao grape is descended from Kyoho and is known for large, elongated, seedless berries.",
+       "source_url": "https://www.city.inagi.tokyo.jp/sangyo/nougyou/1010173/1003691.html",
+       "source_title": "稲城市の特産品「ぶどう」",
+       "publisher": "Inagi City"
+      },
+      {
+       "claim_en": "Inagi farmers began cultivating Takao around 1973–1974 and established a dedicated study group in 1976.",
+       "source_url": "https://www.city.inagi.tokyo.jp/sangyo/nougyou/1010173/1003691.html",
+       "source_title": "稲城市の特産品「ぶどう」",
+       "publisher": "Inagi City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "稲城市内の農産物直売所",
+       "name_en": "Inagi Farm-Direct Produce Outlets",
+       "relation_en": "The city's documented network of seasonal outlets for locally harvested pears and Takao grapes.",
+       "address_ja": "東京都稲城市内各地",
+       "official_url": "https://www.city.inagi.tokyo.jp/sangyo/nougyou/1010173/1003691.html",
+       "source_url": "https://www.city.inagi.tokyo.jp/sangyo/nougyou/1010173/1003691.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "稲城市高尾ぶどう研究会",
+       "relation_en": "Growers' group formed to develop and maintain Takao-grape production.",
+       "source_url": "https://www.city.inagi.tokyo.jp/sangyo/nougyou/1010173/1003691.html"
+      }
+     ],
+     "season_en": "Late August onward, with the wider grape and pear farm-direct season extending into autumn.",
+     "confidence": "high",
+     "notes_en": "This is a particularly strong local cultivation story because the city documents both varietal history and producer organization."
+    },
+    {
+     "name_ja": "大丸用水と稲城の果樹・稲作文化",
+     "name_en": "Daimaru Irrigation Canal and Historic Orchard Farming",
+     "kind": "other",
+     "summary_en": "The Daimaru irrigation system connects Inagi's historical rice cultivation with its modern orchard landscape. Built in the early Edo period, it remains a visible part of the city's agricultural heritage.",
+     "facts": [
+      {
+       "claim_en": "Daimaru Yosui was established around the early Edo period and continues to supply irrigation water to fields and orchards.",
+       "source_url": "https://www.city.inagi.tokyo.jp/sangyo/nougyou/1005414.html",
+       "source_title": "大丸用水",
+       "publisher": "Inagi City"
+      },
+      {
+       "claim_en": "The waterway extends through multiple branches across Inagi and neighboring Kawasaki and has also been incorporated into waterside public spaces.",
+       "source_url": "https://www.city.inagi.tokyo.jp/sangyo/nougyou/1005414.html",
+       "source_title": "大丸用水",
+       "publisher": "Inagi City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "大丸用水",
+       "name_en": "Daimaru Irrigation Canal",
+       "relation_en": "A visible historical agricultural waterway that helps explain the setting in which Inagi's rice fields and orchards developed.",
+       "address_ja": "東京都稲城市大丸・東長沼・押立・矢野口周辺",
+       "official_url": "https://www.city.inagi.tokyo.jp/sangyo/nougyou/1005414.html",
+       "source_url": "https://www.city.inagi.tokyo.jp/sangyo/nougyou/1005414.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "Year-round historical landscape.",
+     "confidence": "high",
+     "notes_en": "A place-and-history experience rather than a verified current specialty rice product."
+    },
+    {
+     "name_ja": "稲城の太鼓判",
+     "name_en": "Inagi no Taikoban Local Certification Brand",
+     "kind": "brand",
+     "summary_en": "Inagi's municipal commercial certification highlights products reflecting the city's local resources and identity. Certified foods include numerous pear-based sweets, drinks and pantry products.",
+     "facts": [
+      {
+       "claim_en": "Inagi City certifies products representing its local character under the Inagi no Taikoban regional brand.",
+       "source_url": "https://www.city.inagi.tokyo.jp/sangyo/shogyo/1010499.html",
+       "source_title": "稲城の太鼓判（地域認証ブランド）",
+       "publisher": "Inagi City"
+      },
+      {
+       "claim_en": "The city's certified-product guide includes pear-based baked goods, jams, sorbets, sauces and other locally themed food products.",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-b.pdf",
+       "source_title": "令和7年度 稲城の太鼓判 認証商品一覧（裏）",
+       "publisher": "Inagi City / Inagi Chamber of Commerce"
+      },
+      {
+       "claim_en": "Five additional pear-derived products from ORTOLANA were publicized in the January 2026 municipal newsletter.",
+       "source_url": "https://www.city.inagi.tokyo.jp/tw/_res/projects/default_project/_page_/001/013/385/inagi_260101_8.pdf",
+       "source_title": "広報いなぎ 2026年1月1日号",
+       "publisher": "Inagi City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ORTOLANA（オルトラーナ）",
+       "name_en": "ORTOLANA",
+       "relation_en": "Producer and shop associated with several recently certified pear-based products.",
+       "address_ja": "東京都稲城市大丸965-1",
+       "official_url": "",
+       "source_url": "https://www.city.inagi.tokyo.jp/tw/_res/projects/default_project/_page_/001/013/385/inagi_260101_8.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "稲城市商工会",
+       "relation_en": "Local business organization involved in promoting the regional certification.",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-f.pdf"
+      }
+     ],
+     "season_en": "Year-round brand; individual foods may be seasonal.",
+     "confidence": "high",
+     "notes_en": "An umbrella brand covering many different products. Specific food cultures are recorded separately below."
+    },
+    {
+     "name_ja": "稲城の梨ワイン",
+     "name_en": "Inagi Pear Wine",
+     "kind": "drink",
+     "summary_en": "Local pear wine transforms Inagi's signature fruit into a bottled regional specialty, extending the pear story beyond fresh harvests.",
+     "facts": [
+      {
+       "claim_en": "The local tourism association documents wine made from the pear cultivar Inagi and promoted by the city's liquor retailers' association.",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf",
+       "source_title": "稲城の梨のさわやかグルメ PEAR",
+       "publisher": "Inagi City Tourism Association"
+      },
+      {
+       "claim_en": "The 2025 municipal certified-product guide also identifies Inagi pear wine as a local specialty.",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-b.pdf",
+       "source_title": "令和7年度 稲城の太鼓判 認証商品一覧（裏）",
+       "publisher": "Inagi City / Inagi Chamber of Commerce"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "稲城市酒販組合",
+       "relation_en": "Local liquor association associated with the pear-wine product.",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf"
+      }
+     ],
+     "season_en": "Bottled product; vintage and availability not verified.",
+     "confidence": "high",
+     "notes_en": "No specific currently stocked retailer was independently verified."
+    },
+    {
+     "name_ja": "梨ビール",
+     "name_en": "Inagi Pear Beer",
+     "kind": "drink",
+     "summary_en": "A locally documented beer incorporates the aroma and flavor of Inagi pears, bringing the orchard harvest into the city's contemporary drinks culture.",
+     "facts": [
+      {
+       "claim_en": "The Inagi tourism association's pear-food guide identifies pear beer at green world cafe.",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf",
+       "source_title": "稲城の梨のさわやかグルメ PEAR",
+       "publisher": "Inagi City Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "green world cafe",
+       "name_en": "Green World Cafe",
+       "relation_en": "Venue documented as offering pear beer.",
+       "address_ja": "東京都稲城市矢野口2208 ステーションサイドビル栗山2階",
+       "official_url": "",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "green world cafe",
+       "relation_en": "Local venue associated with the pear-beer offering; brewing location not established.",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf"
+      }
+     ],
+     "season_en": "Availability not established.",
+     "confidence": "medium",
+     "notes_en": "Documented in a tourism guide; present-day menu inclusion was not verified."
+    },
+    {
+     "name_ja": "稲城産梨ジュース",
+     "name_en": "Inagi Pear Juice",
+     "kind": "drink",
+     "summary_en": "Pear juice preserves the distinctive sweetness of Inagi's main fruit crop in an accessible drink. Both a confectioner and the municipal certified-product guide document locally produced versions.",
+     "facts": [
+      {
+       "claim_en": "The tourism association identifies Cake Factory Whip as a seller of juice made entirely from pear juice.",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf",
+       "source_title": "稲城の梨のさわやかグルメ PEAR",
+       "publisher": "Inagi City Tourism Association"
+      },
+      {
+       "claim_en": "The city's regional-brand guide also includes pear juice made with Inagi-grown pears.",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-b.pdf",
+       "source_title": "令和7年度 稲城の太鼓判 認証商品一覧（裏）",
+       "publisher": "Inagi City / Inagi Chamber of Commerce"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ケーキファクトリー ホイップ",
+       "name_en": "Cake Factory Whip",
+       "relation_en": "Confectioner documented as producing and selling Inagi pear juice.",
+       "address_ja": "東京都稲城市百村1464-12",
+       "official_url": "",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ケーキファクトリー ホイップ",
+       "relation_en": "Local pear-juice and confectionery producer.",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf"
+      }
+     ],
+     "season_en": "Processed product; availability may extend beyond pear harvest.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "梨そば",
+     "name_en": "Pear Soba",
+     "kind": "dish",
+     "summary_en": "This unusual local soba preparation incorporates Inagi pear into a buckwheat-noodle experience, connecting fresh orchard fruit with Japanese noodle cuisine.",
+     "facts": [
+      {
+       "claim_en": "The city's tourism association documents a seasonal pear-soba dish at the hand-made soba restaurant Akariya Kosen.",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf",
+       "source_title": "稲城の梨のさわやかグルメ PEAR",
+       "publisher": "Inagi City Tourism Association"
+      },
+      {
+       "claim_en": "The municipal certified-product guide also recognizes pear soba as a locally distinctive offering.",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-b.pdf",
+       "source_title": "令和7年度 稲城の太鼓判 認証商品一覧（裏）",
+       "publisher": "Inagi City / Inagi Chamber of Commerce"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "手打ち蕎麦 あかりや狐仙",
+       "name_en": "Akariya Kosen Handmade Soba",
+       "relation_en": "Documented local venue associated with the pear-soba specialty.",
+       "address_ja": "東京都稲城市矢野口310-10",
+       "official_url": "",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "手打ち蕎麦 あかりや狐仙",
+       "relation_en": "Restaurant associated with the pear-soba preparation.",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf"
+      }
+     ],
+     "season_en": "Late summer to autumn, tied to pear harvest.",
+     "confidence": "high",
+     "notes_en": "The product is clearly place-linked rather than a generic restaurant listing."
+    },
+    {
+     "name_ja": "梨カレー",
+     "name_en": "Inagi Pear Curry",
+     "kind": "dish",
+     "summary_en": "Local pear curry uses the city's principal fruit within a savory preparation, showing how Inagi's harvest is adapted beyond desserts.",
+     "facts": [
+      {
+       "claim_en": "The tourism association's guide identifies pear curry as a local dish offered by green world cafe.",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf",
+       "source_title": "稲城の梨のさわやかグルメ PEAR",
+       "publisher": "Inagi City Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "green world cafe",
+       "name_en": "Green World Cafe",
+       "relation_en": "Venue documented for pear-based savory curry.",
+       "address_ja": "東京都稲城市矢野口2208 ステーションサイドビル栗山2階",
+       "official_url": "",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "green world cafe",
+       "relation_en": "Local cafe associated with the pear-curry dish.",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf"
+      }
+     ],
+     "season_en": "Historically associated with the late-summer and autumn pear season.",
+     "confidence": "medium",
+     "notes_en": "Current menu availability has not been checked."
+    },
+    {
+     "name_ja": "梨蜜・梨バター・梨チャツネ",
+     "name_en": "Inagi Pear Nectar, Pear Butter and Pear Chutney",
+     "kind": "other",
+     "summary_en": "ORTOLANA develops shelf-stable and prepared products from Inagi pears, including concentrated pear nectar, a pear-based spread and spiced chutney. These turn a strongly seasonal orchard crop into versatile pantry foods.",
+     "facts": [
+      {
+       "claim_en": "A January 2026 municipal publication identifies concentrated pear nectar, pear butter and pear chutney among five newly certified local products.",
+       "source_url": "https://www.city.inagi.tokyo.jp/tw/_res/projects/default_project/_page_/001/013/385/inagi_260101_8.pdf",
+       "source_title": "広報いなぎ 2026年1月1日号",
+       "publisher": "Inagi City"
+      },
+      {
+       "claim_en": "The city names ORTOLANA in Daimaru as the outlet associated with these five products.",
+       "source_url": "https://www.city.inagi.tokyo.jp/tw/_res/projects/default_project/_page_/001/013/385/inagi_260101_8.pdf",
+       "source_title": "広報いなぎ 2026年1月1日号",
+       "publisher": "Inagi City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ORTOLANA",
+       "name_en": "ORTOLANA",
+       "relation_en": "Producer and shop associated with newly certified pear-derived pantry products.",
+       "address_ja": "東京都稲城市大丸965-1",
+       "official_url": "",
+       "source_url": "https://www.city.inagi.tokyo.jp/tw/_res/projects/default_project/_page_/001/013/385/inagi_260101_8.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ORTOLANA（オルトラーナ）",
+       "relation_en": "Developer of pear-based condiments and preserves.",
+       "source_url": "https://www.city.inagi.tokyo.jp/tw/_res/projects/default_project/_page_/001/013/385/inagi_260101_8.pdf"
+      }
+     ],
+     "season_en": "Processed products; not tied to immediate fresh-fruit consumption.",
+     "confidence": "high",
+     "notes_en": "The 2026 municipal announcement provides recent evidence of the products' certification."
+    },
+    {
+     "name_ja": "梨蜜バーベキューソース",
+     "name_en": "Pear-Nectar Barbecue Sauce",
+     "kind": "other",
+     "summary_en": "This savory sauce uses concentrated Inagi pear nectar for sweetness, pairing local fruit processing with contemporary cooking.",
+     "facts": [
+      {
+       "claim_en": "Inagi City certified a barbecue sauce that substitutes concentrated pear nectar for ordinary sugar as part of its 2025 local-product selection.",
+       "source_url": "https://www.city.inagi.tokyo.jp/tw/_res/projects/default_project/_page_/001/013/385/inagi_260101_8.pdf",
+       "source_title": "広報いなぎ 2026年1月1日号",
+       "publisher": "Inagi City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ORTOLANA",
+       "name_en": "ORTOLANA",
+       "relation_en": "Documented outlet for the pear-based barbecue sauce.",
+       "address_ja": "東京都稲城市大丸965-1",
+       "official_url": "",
+       "source_url": "https://www.city.inagi.tokyo.jp/tw/_res/projects/default_project/_page_/001/013/385/inagi_260101_8.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ORTOLANA（オルトラーナ）",
+       "relation_en": "Producer associated with the certified sauce.",
+       "source_url": "https://www.city.inagi.tokyo.jp/tw/_res/projects/default_project/_page_/001/013/385/inagi_260101_8.pdf"
+      }
+     ],
+     "season_en": "Processed product; season not specified.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "梨蜜ジンジャーエール",
+     "name_en": "Pear-Nectar Ginger Ale",
+     "kind": "drink",
+     "summary_en": "A locally certified ginger drink combines concentrated Inagi pear sweetness with ginger, offering a modern non-alcoholic expression of the city's orchards.",
+     "facts": [
+      {
+       "claim_en": "The January 2026 city newsletter identifies pear-nectar ginger ale as one of five newly certified products associated with ORTOLANA.",
+       "source_url": "https://www.city.inagi.tokyo.jp/tw/_res/projects/default_project/_page_/001/013/385/inagi_260101_8.pdf",
+       "source_title": "広報いなぎ 2026年1月1日号",
+       "publisher": "Inagi City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ORTOLANA",
+       "name_en": "ORTOLANA",
+       "relation_en": "Documented producer and seller of the pear-based ginger drink.",
+       "address_ja": "東京都稲城市大丸965-1",
+       "official_url": "",
+       "source_url": "https://www.city.inagi.tokyo.jp/tw/_res/projects/default_project/_page_/001/013/385/inagi_260101_8.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ORTOLANA（オルトラーナ）",
+       "relation_en": "Producer of the certified pear-nectar ginger ale.",
+       "source_url": "https://www.city.inagi.tokyo.jp/tw/_res/projects/default_project/_page_/001/013/385/inagi_260101_8.pdf"
+      }
+     ],
+     "season_en": "Not specified.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "梨と地場野菜のピクルス「PICKLES PUNCH」",
+     "name_en": "PICKLES PUNCH Pear and Local-Vegetable Pickles",
+     "kind": "other",
+     "summary_en": "This locally certified preserve brings Inagi pears together with seasonal vegetables, combining the city's fruit-growing identity with small-scale vegetable processing.",
+     "facts": [
+      {
+       "claim_en": "The Inagi tourism association identifies PICKLES PUNCH as a preserve involving local pears and vegetables.",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf",
+       "source_title": "稲城の梨のさわやかグルメ PEAR",
+       "publisher": "Inagi City Tourism Association"
+      },
+      {
+       "claim_en": "The 2025 Inagi no Taikoban guide includes PICKLES PUNCH among locally certified food products.",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-f.pdf",
+       "source_title": "令和7年度 稲城の太鼓判 認証商品一覧（表）",
+       "publisher": "Inagi City / Inagi Chamber of Commerce"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ORTOLANA",
+       "name_en": "ORTOLANA",
+       "relation_en": "Documented producer and outlet for PICKLES PUNCH.",
+       "address_ja": "東京都稲城市大丸965",
+       "official_url": "",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-f.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ORTOLANA（オルトラーナ）",
+       "relation_en": "Producer of the locally certified pickles.",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-f.pdf"
+      }
+     ],
+     "season_en": "Vegetable and fruit ingredients vary seasonally.",
+     "confidence": "high",
+     "notes_en": "Address formatting differs slightly between tourism and newer municipal materials."
+    },
+    {
+     "name_ja": "稲城梨のコンフィチュール",
+     "name_en": "Inagi Pear Confiture",
+     "kind": "sweet",
+     "summary_en": "Pear confiture turns Inagi-grown fruit into a spread and preserves the flavor of the orchard harvest.",
+     "facts": [
+      {
+       "claim_en": "The 2025 Inagi no Taikoban guide includes pear confiture made from Inagi pears.",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-b.pdf",
+       "source_title": "令和7年度 稲城の太鼓判 認証商品一覧（裏）",
+       "publisher": "Inagi City / Inagi Chamber of Commerce"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "リーフなえぎ",
+       "name_en": "Leaf Naegi",
+       "relation_en": "Documented maker and local contact for the certified pear confiture.",
+       "address_ja": "東京都稲城市東長沼2109-7",
+       "official_url": "",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-b.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "一般社団法人 Seedling リーフなえぎ",
+       "relation_en": "Producer of certified pear confiture and other pear-derived products.",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-b.pdf"
+      }
+     ],
+     "season_en": "Processed product; season not specified.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "梨皮八味唐辛子",
+     "name_en": "Pear-Peel Eight-Spice Seasoning",
+     "kind": "other",
+     "summary_en": "A locally certified spice blend incorporates pear peel, giving Inagi's signature fruit another use beyond its flesh and juice.",
+     "facts": [
+      {
+       "claim_en": "The municipal certification guide identifies an eight-spice seasoning that incorporates pear peel.",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-b.pdf",
+       "source_title": "令和7年度 稲城の太鼓判 認証商品一覧（裏）",
+       "publisher": "Inagi City / Inagi Chamber of Commerce"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "リーフなえぎ",
+       "name_en": "Leaf Naegi",
+       "relation_en": "Local producer associated with the seasoning.",
+       "address_ja": "東京都稲城市東長沼2109-7",
+       "official_url": "",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-b.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "一般社団法人 Seedling リーフなえぎ",
+       "relation_en": "Maker of the pear-peel seasoning.",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-b.pdf"
+      }
+     ],
+     "season_en": "Not specified.",
+     "confidence": "high",
+     "notes_en": "Distinctive example of using pear peel as a culinary ingredient."
+    },
+    {
+     "name_ja": "梨みつ醤油ラスク",
+     "name_en": "Pear-Nectar Soy-Sauce Rusks",
+     "kind": "sweet",
+     "summary_en": "These locally certified baked snacks combine pear-derived sweetness and soy-sauce flavors, extending the fruit's use into sweet-savory confectionery.",
+     "facts": [
+      {
+       "claim_en": "The certified-product guide lists variations of rusks combining pear-derived syrup and soy-sauce flavors.",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-b.pdf",
+       "source_title": "令和7年度 稲城の太鼓判 認証商品一覧（裏）",
+       "publisher": "Inagi City / Inagi Chamber of Commerce"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "リーフなえぎ",
+       "name_en": "Leaf Naegi",
+       "relation_en": "Documented local producer of the pear-flavored rusks.",
+       "address_ja": "東京都稲城市東長沼2109-7",
+       "official_url": "",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-b.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "一般社団法人 Seedling リーフなえぎ",
+       "relation_en": "Producer of the certified rusks.",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-b.pdf"
+      }
+     ],
+     "season_en": "Not specified.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "稲城の梨・高尾ぶどうシャーベット",
+     "name_en": "Inagi Pear and Takao-Grape Sorbets",
+     "kind": "sweet",
+     "summary_en": "A local ice-cream maker creates frozen desserts from both of Inagi's signature orchard fruits.",
+     "facts": [
+      {
+       "claim_en": "The Inagi regional-brand guide identifies sorbets made with local Inagi pears and Takao grapes.",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-b.pdf",
+       "source_title": "令和7年度 稲城の太鼓判 認証商品一覧（裏）",
+       "publisher": "Inagi City / Inagi Chamber of Commerce"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "手づくりアイスクリーム エル・シエロ",
+       "name_en": "El Cielo Handmade Ice Cream",
+       "relation_en": "Local producer listed for Inagi pear and Takao-grape sorbets.",
+       "address_ja": "東京都稲城市平尾1-54-15-101",
+       "official_url": "",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-b.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "手づくりアイスクリーム エル・シエロ",
+       "relation_en": "Maker of fruit sorbets based on Inagi's two specialty crops.",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-b.pdf"
+      }
+     ],
+     "season_en": "Product season not specified; fruits are harvested in late summer and autumn.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "梨の和菓子「梨の実」・梨餡どら焼き",
+     "name_en": "Pear Wagashi and Fruit-Filled Dorayaki",
+     "kind": "sweet",
+     "summary_en": "Inagi confectioners adapt traditional Japanese sweets to the city's orchard products, creating pear-themed wagashi and dorayaki filled with local-fruit flavors.",
+     "facts": [
+      {
+       "claim_en": "The tourism association documents a pear-based Japanese confection called Nashi no Mi made by Kasho Takaoka.",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf",
+       "source_title": "稲城の梨のさわやかグルメ PEAR",
+       "publisher": "Inagi City Tourism Association"
+      },
+      {
+       "claim_en": "The municipal certified-product guide includes dorayaki developed with Inagi pear and Takao-grape flavors.",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-f.pdf",
+       "source_title": "令和7年度 稲城の太鼓判 認証商品一覧（表）",
+       "publisher": "Inagi City / Inagi Chamber of Commerce"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "菓匠 高おか",
+       "name_en": "Kasho Takaoka",
+       "relation_en": "Confectioner associated with the pear sweet Nashi no Mi.",
+       "address_ja": "東京都稲城市矢野口437-1",
+       "official_url": "",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf"
+      },
+      {
+       "name_ja": "御菓子司 三好",
+       "name_en": "Miyoshi Japanese Confectionery",
+       "relation_en": "Producer of fruit-flavored local dorayaki.",
+       "address_ja": "東京都稲城市矢野口1722",
+       "official_url": "",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-f.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "菓匠 高おか",
+       "relation_en": "Maker of the pear confection Nashi no Mi.",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%B0%E3%83%AB%E3%83%A1.pdf"
+      },
+      {
+       "name_ja": "御菓子司 三好",
+       "relation_en": "Maker of the fruit-flavored dorayaki.",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-f.pdf"
+      }
+     ],
+     "season_en": "Individual product season varies.",
+     "confidence": "high",
+     "notes_en": "Two distinct Japanese-confectionery approaches are grouped here because both apply Inagi's orchard identity to traditional wagashi."
+    },
+    {
+     "name_ja": "稲城梨の洋菓子・焼菓子",
+     "name_en": "Inagi Pear Cakes and Baked Sweets",
+     "kind": "sweet",
+     "summary_en": "Inagi confectioners use local pears in cakes, tarts, scones and other baked sweets, creating a substantial contemporary pastry culture around the city's orchards.",
+     "facts": [
+      {
+       "claim_en": "The tourism association documents a pear confection called Kocha no Nashiyama at Cake Factory Whip.",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf",
+       "source_title": "稲城の梨のさわやかグルメ PEAR",
+       "publisher": "Inagi City Tourism Association"
+      },
+      {
+       "claim_en": "The 2025 regional-brand guide includes pear scones, pear pound cake and pear-filled baked sweets from multiple local producers.",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-b.pdf",
+       "source_title": "令和7年度 稲城の太鼓判 認証商品一覧（裏）",
+       "publisher": "Inagi City / Inagi Chamber of Commerce"
+      },
+      {
+       "claim_en": "The guide also lists pear-based French-style pastries, including Inagi Damande and Dacquoise Inagi.",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-f.pdf",
+       "source_title": "令和7年度 稲城の太鼓判 認証商品一覧（表）",
+       "publisher": "Inagi City / Inagi Chamber of Commerce"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ケーキファクトリー ホイップ",
+       "name_en": "Cake Factory Whip",
+       "relation_en": "Local producer of several pear-based baked sweets.",
+       "address_ja": "東京都稲城市百村1464-12",
+       "official_url": "",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-b.pdf"
+      },
+      {
+       "name_ja": "パティスリー ハルキ",
+       "name_en": "Patisserie Haruki",
+       "relation_en": "Producer of certified Inagi-themed baked confections.",
+       "address_ja": "東京都稲城市平尾1-52-18",
+       "official_url": "",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-f.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ケーキファクトリー ホイップ",
+       "relation_en": "Producer of pear pastries and baked goods.",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-b.pdf"
+      },
+      {
+       "name_ja": "パティスリー ハルキ",
+       "relation_en": "Producer of locally certified pastries.",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-f.pdf"
+      }
+     ],
+     "season_en": "Some fresh-pear pastries follow the late-summer and autumn harvest; processed-fruit sweets may have a longer season.",
+     "confidence": "high",
+     "notes_en": "Individual pastries have distinct recipes, but are grouped as the city's broader pear-pastry culture."
+    },
+    {
+     "name_ja": "ふわり梨パン・自家製梨パイ",
+     "name_en": "Pear Bread and Homemade Pear Pie",
+     "kind": "sweet",
+     "summary_en": "A local cafe incorporates Inagi pears into soft bread and homemade pie, bringing the fruit into familiar bakery foods.",
+     "facts": [
+      {
+       "claim_en": "The Inagi tourism association's pear-food guide documents both pear bread and homemade pear pie at imacoco coffee.",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf",
+       "source_title": "稲城の梨のさわやかグルメ PEAR",
+       "publisher": "Inagi City Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "imacoco coffee",
+       "name_en": "Imacoco Coffee",
+       "relation_en": "Documented maker of pear bread and pear pie.",
+       "address_ja": "東京都稲城市東長沼1736-1",
+       "official_url": "",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "imacoco coffee",
+       "relation_en": "Local cafe and bakery producer using Inagi pears.",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf"
+      }
+     ],
+     "season_en": "Associated with the late-summer and autumn pear season.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "稲城の干し梨",
+     "name_en": "Inagi Dried Pears",
+     "kind": "sweet",
+     "summary_en": "Drying Inagi pears creates a concentrated fruit snack and offers a way to enjoy the city's harvest in preserved form.",
+     "facts": [
+      {
+       "claim_en": "The 2025 certified-product guide lists dried pears made by Cake Factory Whip.",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-b.pdf",
+       "source_title": "令和7年度 稲城の太鼓判 認証商品一覧（裏）",
+       "publisher": "Inagi City / Inagi Chamber of Commerce"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ケーキファクトリー ホイップ",
+       "name_en": "Cake Factory Whip",
+       "relation_en": "Producer of the certified dried-pear product.",
+       "address_ja": "東京都稲城市百村1464-12",
+       "official_url": "",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-b.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ケーキファクトリー ホイップ",
+       "relation_en": "Maker of preserved dried pears.",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-b.pdf"
+      }
+     ],
+     "season_en": "Processed product; season not specified.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "梨ジャム・梨とすだちのジャム",
+     "name_en": "Pear Jam and Pear-Sudachi Jam",
+     "kind": "sweet",
+     "summary_en": "Inagi pear preserves range from simple fruit confiture to combinations with sudachi citrus, giving the region's principal crop a distinctive bottled form.",
+     "facts": [
+      {
+       "claim_en": "The tourism association documents a pear-and-sudachi jam made by Ina-gurashi.",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf",
+       "source_title": "稲城の梨のさわやかグルメ PEAR",
+       "publisher": "Inagi City Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "いな暮らし",
+       "name_en": "Ina-gurashi",
+       "relation_en": "Producer and outlet documented for a pear-and-sudachi preserve.",
+       "address_ja": "東京都稲城市押立1744-46",
+       "official_url": "",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "いな暮らし",
+       "relation_en": "Producer of the pear-and-sudachi jam.",
+       "source_url": "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf"
+      }
+     ],
+     "season_en": "Processed product; season not specified.",
+     "confidence": "high",
+     "notes_en": "A distinct citrus pairing within Inagi's broader pear-preservation culture."
+    },
+    {
+     "name_ja": "稲城の地場野菜料理",
+     "name_en": "Inagi Local-Vegetable Cuisine",
+     "kind": "dish",
+     "summary_en": "Beyond fruit specialties, Inagi food businesses incorporate locally grown vegetables into contemporary savory dishes such as vegetable-rich pasta and prepared foods.",
+     "facts": [
+      {
+       "claim_en": "The Inagi regional-brand guide identifies vegetable dishes at local food businesses, including dishes explicitly described as using vegetables grown in Inagi.",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-f.pdf",
+       "source_title": "令和7年度 稲城の太鼓判 認証商品一覧（表）",
+       "publisher": "Inagi City / Inagi Chamber of Commerce"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ORTOLANA",
+       "name_en": "ORTOLANA",
+       "relation_en": "Local business documented for cooking and processed products using Inagi vegetables.",
+       "address_ja": "東京都稲城市大丸965",
+       "official_url": "",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-f.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ORTOLANA（オルトラーナ）",
+       "relation_en": "Producer and food business associated with regional vegetable dishes.",
+       "source_url": "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-f.pdf"
+      }
+     ],
+     "season_en": "Vegetables and menu offerings vary by season.",
+     "confidence": "medium",
+     "notes_en": "Included because the municipal certification explicitly connects the dishes to local vegetables, not simply because a restaurant is located in Inagi."
+    }
+   ],
+   "none_found_reason_en": ""
+  },
+  {
+   "id": "hamura",
+   "name_ja": "羽村市",
+   "food_cultures": [
+    {
+     "name_ja": "羽村米",
+     "name_en": "Hamura Rice",
+     "kind": "crop",
+     "summary_en": "Hamura rice is grown in the city's distinctive Negaramimae paddy landscape beside the Tama River. The fields also connect the city's agricultural identity with its celebrated tulip landscape.",
+     "facts": [
+      {
+       "claim_en": "Hamura City identifies Negaramimae as its only remaining paddy-field area and the source of Hamura Rice.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000005260.html",
+       "source_title": "羽村市内唯一の水田で収穫した「羽村米」",
+       "publisher": "Hamura City"
+      },
+      {
+       "claim_en": "The rice grows using irrigation water associated with the nearby Tama River.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000005260.html",
+       "source_title": "羽村市内唯一の水田で収穫した「羽村米」",
+       "publisher": "Hamura City"
+      },
+      {
+       "claim_en": "The municipal mascot-branded rice uses grain harvested from these fields and is associated with autumn new-rice sales.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000006547.html",
+       "source_title": "はむりん羽村米",
+       "publisher": "Hamura City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "根がらみ前水田",
+       "name_en": "Negaramimae Rice Fields",
+       "relation_en": "Agricultural landscape where the city's specialty rice is grown.",
+       "address_ja": "東京都羽村市羽中・羽加美周辺",
+       "official_url": "https://www.city.hamura.tokyo.jp/0000005260.html",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000005260.html"
+      },
+      {
+       "name_ja": "中村販売所",
+       "name_en": "Nakamura Rice Shop",
+       "relation_en": "Municipality-listed seller of Hamura Rice.",
+       "address_ja": "東京都羽村市羽東2-1-8",
+       "official_url": "https://www.city.hamura.tokyo.jp/0000005260.html",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000005260.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "根がらみ前水田の米生産者",
+       "relation_en": "Local rice growers cultivating Hamura's remaining paddy landscape.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000005260.html"
+      }
+     ],
+     "season_en": "Autumn harvest; municipal materials associate new rice with October.",
+     "confidence": "high",
+     "notes_en": "The newer city listing gives Nakamura's address as 羽東2-1-8; an older mascot-product page still shows an earlier address."
+    },
+    {
+     "name_ja": "日本酒「はむら」",
+     "name_en": "Hamura Local Sake",
+     "kind": "drink",
+     "summary_en": "Hamura's local sake uses Koshihikari rice grown in the city and water associated with Hamura. Ishikawa Brewery in neighboring Fussa produces it, linking local rice production with regional brewing expertise.",
+     "facts": [
+      {
+       "claim_en": "Ishikawa Brewery's 2025 release identifies the sake as using 100% Hamura-grown Koshihikari rice and Hamura water.",
+       "source_url": "https://www.tamajiman.co.jp/info/451",
+       "source_title": "東京都立産業技術研究センターと共同開発した「はむら」発売",
+       "publisher": "Ishikawa Brewery"
+      },
+      {
+       "claim_en": "The brewery describes a yeast selected through collaboration with the Tokyo Metropolitan Industrial Technology Research Institute.",
+       "source_url": "https://www.tamajiman.co.jp/info/451",
+       "source_title": "東京都立産業技術研究センターと共同開発した「はむら」発売",
+       "publisher": "Ishikawa Brewery"
+      },
+      {
+       "claim_en": "Hamura City identifies its tourism association and local liquor shops as retail connections for the locally branded sake.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000015311.html",
+       "source_title": "市民・市内事業者が行う市制施行30周年記念事業・商品",
+       "publisher": "Hamura City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "羽村市観光協会",
+       "name_en": "Hamura City Tourism Association",
+       "relation_en": "Documented local retail connection for Hamura sake.",
+       "address_ja": "東京都羽村市羽東1-13-15",
+       "official_url": "https://www.city.hamura.tokyo.jp/0000015311.html",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000015311.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "石川酒造株式会社",
+       "relation_en": "Brewer located in neighboring Fussa City.",
+       "source_url": "https://www.tamajiman.co.jp/info/451"
+      }
+     ],
+     "season_en": "Bottled sake; production and release periods vary.",
+     "confidence": "high",
+     "notes_en": "The local rice and water are from Hamura, but the brewing site is outside the municipality."
+    },
+    {
+     "name_ja": "堰ワイン",
+     "name_en": "Seki Wine",
+     "kind": "drink",
+     "summary_en": "Seki Wine is a locally branded wine associated with grapes grown in Hamura and the city's historic weir landscape.",
+     "facts": [
+      {
+       "claim_en": "Tokyo Metropolitan Government lists Seki Wine among Hamura's local specialty products.",
+       "source_url": "https://tokyo-tamashima-iju.metro.tokyo.lg.jp/introduction/hamura/",
+       "source_title": "羽村市｜多摩島しょ地域とは",
+       "publisher": "Tokyo Metropolitan Government"
+      },
+      {
+       "claim_en": "Hamura City's anniversary-product record documents Seki Wine as a wine made using grapes grown in Hamura.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000015311.html",
+       "source_title": "市民・市内事業者が行う市制施行30周年記念事業・商品",
+       "publisher": "Hamura City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "羽村市観光協会",
+       "name_en": "Hamura City Tourism Association",
+       "relation_en": "Local tourism organization associated with the Hamura specialty-product program.",
+       "address_ja": "東京都羽村市羽東1-13-15",
+       "official_url": "https://www.city.hamura.tokyo.jp/0000015311.html",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000015311.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "株式会社ヴィンヤード多摩",
+       "relation_en": "Regional wine producer associated with Seki Wine; based outside Hamura.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000015311.html"
+      }
+     ],
+     "season_en": "Bottled wine; current vintage and stock not verified.",
+     "confidence": "medium",
+     "notes_en": "The cited municipal product description dates from an earlier anniversary campaign; present-day availability remains unverified."
+    },
+    {
+     "name_ja": "羽衣の堰",
+     "name_en": "Hagoromo no Seki Sake",
+     "kind": "drink",
+     "summary_en": "Hagoromo no Seki is another sake specialty associated with Hamura's weir and local identity, distinct from the sake sold simply as Hamura.",
+     "facts": [
+      {
+       "claim_en": "The Tokyo Metropolitan Government's Hamura profile identifies Hagoromo no Seki, a refrigerated-storage sake product, as a local specialty.",
+       "source_url": "https://tokyo-tamashima-iju.metro.tokyo.lg.jp/introduction/hamura/",
+       "source_title": "羽村市｜多摩島しょ地域とは",
+       "publisher": "Tokyo Metropolitan Government"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Bottled product; availability not verified.",
+     "confidence": "medium",
+     "notes_en": "The official regional source confirms the local-product identity but does not by itself establish a currently stocked outlet."
+    },
+    {
+     "name_ja": "羽村産ホップのクラフトビール「ペルツェン」",
+     "name_en": "Hamura-Hop Craft Beer, Perutzen",
+     "kind": "drink",
+     "summary_en": "A documented collaboration used hops cultivated in Hamura to brew a limited craft beer in neighboring Fussa. The project connects small-scale hop growing with regional brewing.",
+     "facts": [
+      {
+       "claim_en": "In October 2024 Ishikawa Brewery released a limited beer called Perutzen using hops harvested in Hamura.",
+       "source_url": "https://nishitama.keizai.biz/headline/1669/",
+       "source_title": "羽村産のホップで「ペルツェン」醸造 石川酒造が発売",
+       "publisher": "Nishitama Keizai Shimbun"
+      },
+      {
+       "claim_en": "The report identifies Ryoichi Shimizu as the grower of the hops in Hamura's Hanaka district.",
+       "source_url": "https://nishitama.keizai.biz/headline/1669/",
+       "source_title": "羽村産のホップで「ペルツェン」醸造 石川酒造が発売",
+       "publisher": "Nishitama Keizai Shimbun"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "清水亮一",
+       "relation_en": "Hamura hop grower involved in the 2024 brewing project.",
+       "source_url": "https://nishitama.keizai.biz/headline/1669/"
+      },
+      {
+       "name_ja": "石川酒造",
+       "relation_en": "Brewery in Fussa that produced the limited beer.",
+       "source_url": "https://nishitama.keizai.biz/headline/1669/"
+      }
+     ],
+     "season_en": "Hops harvested in late summer; the documented beer release occurred in autumn 2024.",
+     "confidence": "high",
+     "notes_en": "The source documents a limited 2024 batch, not continuous production or current availability."
+    },
+    {
+     "name_ja": "羽村の地ビール・ASHFORD",
+     "name_en": "Hamura Craft Beer and ASHFORD",
+     "kind": "drink",
+     "summary_en": "Hamura has also supported independent craft-beer making using the city's water. A municipal profile documents a brewer who combined local production with a British-style pub near Ozaku Station.",
+     "facts": [
+      {
+       "claim_en": "Hamura City profiles brewer Keitaro Mori as producing craft beer in Hamura using local water.",
+       "source_url": "https://www.city.hamura.tokyo.jp/prsite/0000017739.html",
+       "source_title": "羽村で味わうロンドンの雰囲気 クラフトビールを楽しめる「たまり場」ASHFORD",
+       "publisher": "Hamura City"
+      },
+      {
+       "claim_en": "The municipal account identifies ASHFORD near Ozaku Station as the pub associated with the locally brewed beer.",
+       "source_url": "https://www.city.hamura.tokyo.jp/prsite/0000017739.html",
+       "source_title": "羽村で味わうロンドンの雰囲気 クラフトビールを楽しめる「たまり場」ASHFORD",
+       "publisher": "Hamura City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ASHFORD（アッシュフォード）",
+       "name_en": "ASHFORD",
+       "relation_en": "Historically documented local venue for Hamura-brewed craft beer.",
+       "address_ja": "東京都羽村市小作台1-11-6",
+       "official_url": "",
+       "source_url": "https://www.city.hamura.tokyo.jp/prsite/0000017739.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "森慶太郎",
+       "relation_en": "Craft brewer featured in Hamura City's business profile.",
+       "source_url": "https://www.city.hamura.tokyo.jp/prsite/0000017739.html"
+      }
+     ],
+     "season_en": "Not specifically seasonal.",
+     "confidence": "medium",
+     "notes_en": "The municipal interview describes conditions as of February 2021 and cautions readers to check newer business information; current operation was not independently verified."
+    },
+    {
+     "name_ja": "羽村銘菓「羽村の堰」",
+     "name_en": "Hamura no Seki Chestnut-Steamed Yokan",
+     "kind": "sweet",
+     "summary_en": "This confection takes its name and visual inspiration from the Hamura weir, the intake point of the historic Tamagawa aqueduct. It uses sweet bean paste and chestnuts wrapped in bamboo leaves.",
+     "facts": [
+      {
+       "claim_en": "Hamura City identifies the sweet as a steamed-yokan-style confection inspired by the weir built to supply Edo with water.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000005256.html",
+       "source_title": "羽村銘菓「羽村の堰（栗蒸風羊かん）」",
+       "publisher": "Hamura City"
+      },
+      {
+       "claim_en": "The city names Yamadaya as the confectioner and identifies its Seki and station-area locations.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000005256.html",
+       "source_title": "羽村銘菓「羽村の堰（栗蒸風羊かん）」",
+       "publisher": "Hamura City"
+      },
+      {
+       "claim_en": "Tokyo's Waterworks Bureau dates the original Hamura intake weir and Tamagawa aqueduct to 1653.",
+       "source_url": "https://www.waterworks.metro.tokyo.lg.jp/kouhou/meisho/hamura",
+       "source_title": "羽村取水堰",
+       "publisher": "Tokyo Metropolitan Government Bureau of Waterworks"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "山田屋 堰店",
+       "name_en": "Yamadaya Seki Shop",
+       "relation_en": "Confectioner associated with the weir-inspired yokan.",
+       "address_ja": "東京都羽村市羽東3-20-15",
+       "official_url": "https://www.city.hamura.tokyo.jp/0000005256.html",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000005256.html"
+      },
+      {
+       "name_ja": "羽村取水堰",
+       "name_en": "Hamura Intake Weir",
+       "relation_en": "Historical landmark that inspired the confection's name and form.",
+       "address_ja": "東京都羽村市羽東付近 多摩川",
+       "official_url": "https://www.waterworks.metro.tokyo.lg.jp/kouhou/meisho/hamura",
+       "source_url": "https://www.waterworks.metro.tokyo.lg.jp/kouhou/meisho/hamura"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "有限会社 山田屋",
+       "relation_en": "Local confectioner producing the weir-inspired specialty.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000005256.html"
+      }
+     ],
+     "season_en": "Not specified.",
+     "confidence": "high",
+     "notes_en": "Especially strong connection between local history, a named maker and a recognizable visitor landmark."
+    },
+    {
+     "name_ja": "桜サブレー",
+     "name_en": "Sakura Sable Cookies",
+     "kind": "sweet",
+     "summary_en": "These cherry-blossom-shaped cookies celebrate the seasonal sakura landscape around Hamura's historic weir. Real cherry-blossom petals decorate the sweets.",
+     "facts": [
+      {
+       "claim_en": "Hamura City connects Sakura Sable to the cherry trees surrounding Hamura Weir.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000005257.html",
+       "source_title": "羽村銘菓「桜サブレー」",
+       "publisher": "Hamura City"
+      },
+      {
+       "claim_en": "The municipal description says the confection features real cherry-blossom petals and is associated with Yamadaya.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000005257.html",
+       "source_title": "羽村銘菓「桜サブレー」",
+       "publisher": "Hamura City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "山田屋 堰店",
+       "name_en": "Yamadaya Seki Shop",
+       "relation_en": "Local confectionery shop identified for Sakura Sable.",
+       "address_ja": "東京都羽村市羽東3-20-15",
+       "official_url": "https://www.city.hamura.tokyo.jp/0000005257.html",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000005257.html"
+      },
+      {
+       "name_ja": "羽村取水堰周辺",
+       "name_en": "Hamura Weir Riverside",
+       "relation_en": "Cherry-blossom landscape that inspired the confection.",
+       "address_ja": "東京都羽村市羽東付近",
+       "official_url": "https://www.city.hamura.tokyo.jp/0000005257.html",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000005257.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "有限会社 山田屋",
+       "relation_en": "Local producer of Sakura Sable.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000005257.html"
+      }
+     ],
+     "season_en": "Cherry blossoms in spring; confection availability not restricted to that season in the source.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "さざれ石",
+     "name_en": "Sazareishi River-Stone Confection",
+     "kind": "sweet",
+     "summary_en": "A baked Japanese confection evokes the small stones of the Tama River, combining sweet bean filling with nuts, dried fruit and a soft rice-cake center.",
+     "facts": [
+      {
+       "claim_en": "Hamura City describes Sazareishi as a sweet inspired by stones in the Tama River.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000005258.html",
+       "source_title": "羽村銘菓「さざれ石（焼菓子）」",
+       "publisher": "Hamura City"
+      },
+      {
+       "claim_en": "The confection combines azuki-bean paste, walnuts, raisins and gyuhi, and Yamadaya is the named producer.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000005258.html",
+       "source_title": "羽村銘菓「さざれ石（焼菓子）」",
+       "publisher": "Hamura City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "山田屋 堰店",
+       "name_en": "Yamadaya Seki Shop",
+       "relation_en": "Named local seller of the Tama River-inspired confection.",
+       "address_ja": "東京都羽村市羽東3-20-15",
+       "official_url": "https://www.city.hamura.tokyo.jp/0000005258.html",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000005258.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "有限会社 山田屋",
+       "relation_en": "Producer of Sazareishi.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000005258.html"
+      }
+     ],
+     "season_en": "Not specified.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "かるたせんべい",
+     "name_en": "Karuta Senbei",
+     "kind": "sweet",
+     "summary_en": "These crackers carry imagery from the early-Showa-era Okutama Iroha Karuta, preserving a regional cultural artifact through an edible souvenir.",
+     "facts": [
+      {
+       "claim_en": "Hamura City states that Karuta Senbei uses designs inspired by the Okutama Iroha Karuta created in the early Showa period.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000005253.html",
+       "source_title": "羽村銘菓「かるたせんべい」・「はむりんせんべい」",
+       "publisher": "Hamura City"
+      },
+      {
+       "claim_en": "The city identifies Yanagimaru Hamura and Onishien as local outlets associated with these crackers.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000005253.html",
+       "source_title": "羽村銘菓「かるたせんべい」・「はむりんせんべい」",
+       "publisher": "Hamura City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "柳丸羽村店",
+       "name_en": "Yanagimaru Hamura",
+       "relation_en": "Named local retail connection for Karuta Senbei.",
+       "address_ja": "東京都羽村市双葉町3-10-1",
+       "official_url": "https://www.city.hamura.tokyo.jp/0000005253.html",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000005253.html"
+      },
+      {
+       "name_ja": "大西園",
+       "name_en": "Onishien",
+       "relation_en": "Another named outlet for the regional crackers.",
+       "address_ja": "東京都羽村市羽東1-27-12",
+       "official_url": "https://www.city.hamura.tokyo.jp/0000005253.html",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000005253.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "Not specified.",
+     "confidence": "high",
+     "notes_en": "Retailers are documented, but the manufacturing entity was not established."
+    },
+    {
+     "name_ja": "はむりんせんべい",
+     "name_en": "Hamurin Senbei",
+     "kind": "sweet",
+     "summary_en": "These locally branded crackers feature Hamura's municipal mascot, connecting the city's identity to a traditional Japanese snack.",
+     "facts": [
+      {
+       "claim_en": "Hamura City identifies Hamurin Senbei as crackers printed with its official mascot.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000006477.html",
+       "source_title": "はむりんせんべい",
+       "publisher": "Hamura City"
+      },
+      {
+       "claim_en": "The municipality identifies Yanagimaru Hamura and Onishien as local outlets for the crackers.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000006477.html",
+       "source_title": "はむりんせんべい",
+       "publisher": "Hamura City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "柳丸羽村店",
+       "name_en": "Yanagimaru Hamura",
+       "relation_en": "Listed retailer for Hamurin Senbei.",
+       "address_ja": "東京都羽村市双葉町3-10-1",
+       "official_url": "https://www.city.hamura.tokyo.jp/0000006477.html",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000006477.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "Not specified.",
+     "confidence": "high",
+     "notes_en": "A mascot-linked local souvenir rather than a crop-specific food."
+    },
+    {
+     "name_ja": "はむりんクッキー",
+     "name_en": "Hamurin Cookies",
+     "kind": "sweet",
+     "summary_en": "A Hamura welfare workshop produces locally branded cookies using the city's mascot, linking confectionery with community-based manufacturing.",
+     "facts": [
+      {
+       "claim_en": "Hamura City lists Hamurin Cookies as mascot-branded confectionery associated with the welfare workshop Smile Kobo.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000009083.html",
+       "source_title": "はむりん クッキー",
+       "publisher": "Hamura City"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "社会福祉法人そよかぜ 福祉作業所スマイル工房",
+       "relation_en": "Community welfare workshop associated with the mascot-branded cookies.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000009083.html"
+      }
+     ],
+     "season_en": "Not specified.",
+     "confidence": "high",
+     "notes_en": "The municipal page identifies the workshop but does not establish a walk-in retail address."
+    },
+    {
+     "name_ja": "はむりん大判焼",
+     "name_en": "Hamurin Obanyaki",
+     "kind": "sweet",
+     "summary_en": "A local variation of the filled Japanese griddle cake is associated with Hamura's official mascot and a specialty shop in Ozaku.",
+     "facts": [
+      {
+       "claim_en": "Hamura City documents a mascot-themed obanyaki associated with the local business Ehon to Obanyaki Trophy.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000006638.html",
+       "source_title": "はむりん大判焼",
+       "publisher": "Hamura City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "絵本と大判焼 トロフィー",
+       "name_en": "Trophy Books and Obanyaki",
+       "relation_en": "Historically documented maker of mascot-themed obanyaki.",
+       "address_ja": "東京都羽村市小作台4-4-23",
+       "official_url": "https://www.city.hamura.tokyo.jp/0000006638.html",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000006638.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "絵本と大判焼 トロフィー",
+       "relation_en": "Local business associated with Hamurin Obanyaki.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000006638.html"
+      }
+     ],
+     "season_en": "Not specified.",
+     "confidence": "medium",
+     "notes_en": "The underlying municipal product listing is older; current product and shop status were not independently verified."
+    },
+    {
+     "name_ja": "羽村の鮎漁・川魚食文化",
+     "name_en": "Hamura Ayu Fishing and Historic River-Fish Cuisine",
+     "kind": "fishing",
+     "summary_en": "Ayu fishing around the Hamura weir was historically important enough to supply fish to the shogunate. The area later became a recreational fishing destination, and riverside establishments once served ayu as a local specialty.",
+     "facts": [
+      {
+       "claim_en": "Hamura's municipal historical research states that ayu caught below the weir were presented to the shogunate during the Edo period.",
+       "source_url": "https://www.city.hamura.tokyo.jp/cmsfiles/contents/0000016/16562/hennsanndayori30-2.pdf",
+       "source_title": "羽村市史編さんだより 第30号「堰下での鮎釣り」",
+       "publisher": "Hamura City, History Compilation Office"
+      },
+      {
+       "claim_en": "The municipal historical article records professional and part-time river fishing, including nets, rods and basket-based methods.",
+       "source_url": "https://www.city.hamura.tokyo.jp/cmsfiles/contents/0000016/16562/hennsanndayori30-2.pdf",
+       "source_title": "羽村市史編さんだより 第30号「堰下での鮎釣り」",
+       "publisher": "Hamura City, History Compilation Office"
+      },
+      {
+       "claim_en": "The same source records former riverside inns and restaurants specializing in ayu, while describing subsequent ecological changes and the fish's later return to the river.",
+       "source_url": "https://www.city.hamura.tokyo.jp/cmsfiles/contents/0000016/16562/hennsanndayori30-2.pdf",
+       "source_title": "羽村市史編さんだより 第30号「堰下での鮎釣り」",
+       "publisher": "Hamura City, History Compilation Office"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "羽村取水堰",
+       "name_en": "Hamura Intake Weir",
+       "relation_en": "Historical center of the city's ayu-fishing and riverside food culture.",
+       "address_ja": "東京都羽村市羽東付近 多摩川",
+       "official_url": "https://www.waterworks.metro.tokyo.lg.jp/kouhou/meisho/hamura",
+       "source_url": "https://www.city.hamura.tokyo.jp/cmsfiles/contents/0000016/16562/hennsanndayori30-2.pdf"
+      },
+      {
+       "name_ja": "羽村市郷土博物館",
+       "name_en": "Hamura City Folk Museum",
+       "relation_en": "Historical museum presenting the relationship between the Tama River, the weir and Hamura's development.",
+       "address_ja": "東京都羽村市羽741",
+       "official_url": "https://www.city.hamura.tokyo.jp/0000001520.html",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000001520.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "Ayu fishing is historically associated with summer, particularly from June onward.",
+     "confidence": "high",
+     "notes_en": "Treat this as a documented historical fishing and food tradition. The cited sources do not establish a present-day restaurant serving locally caught ayu."
+    },
+    {
+     "name_ja": "羽村市の地場野菜直売文化",
+     "name_en": "Hamura Farm-Direct Vegetable Culture",
+     "kind": "other",
+     "summary_en": "Hamura maintains a direct-sale outlet where locally grown vegetables are identified with their producers. It offers a practical way to explore the city's living agricultural landscape beyond its better-known rice fields.",
+     "facts": [
+      {
+       "claim_en": "Hamura City identifies its agricultural direct-sales outlet as a place selling vegetables grown by farmers within the municipality.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000001912.html",
+       "source_title": "羽村市農産物直売所",
+       "publisher": "Hamura City"
+      },
+      {
+       "claim_en": "The city notes that products at the outlet identify their growers and that locally produced processed foods are also represented.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000001912.html",
+       "source_title": "羽村市農産物直売所",
+       "publisher": "Hamura City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "羽村市農産物直売所",
+       "name_en": "Hamura Farmers' Produce Shop",
+       "relation_en": "Municipal farm-direct outlet for seasonal local vegetables and selected processed foods.",
+       "address_ja": "東京都羽村市羽加美1-32-1",
+       "official_url": "https://www.city.hamura.tokyo.jp/0000001912.html",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000001912.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "羽村市内の農業生産者",
+       "relation_en": "Local farmers supplying the municipal direct-sales outlet.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000001912.html"
+      }
+     ],
+     "season_en": "Year-round, with changing seasonal vegetables.",
+     "confidence": "high",
+     "notes_en": "The city establishes the producer-to-consumer connection but does not provide a comprehensive current crop-by-crop inventory."
+    },
+    {
+     "name_ja": "甘酒仕込みのぐるぐる桜あんぱん",
+     "name_en": "Amazake Sakura Anpan",
+     "kind": "sweet",
+     "summary_en": "This local commemorative bread combined an amazake-based preparation with a cherry-blossom theme, reflecting Hamura's sakura landscape and its municipal anniversary celebrations.",
+     "facts": [
+      {
+       "claim_en": "Hamura City documented a sakura-themed anpan made with amazake as part of its thirtieth-anniversary commemorative products.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000015311.html",
+       "source_title": "市民・市内事業者が行う市制施行30周年記念事業・商品",
+       "publisher": "Hamura City"
+      },
+      {
+       "claim_en": "The municipality identifies Hula Dance Hamura anuenue as the business associated with the bread and related baked sweets.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000015311.html",
+       "source_title": "市民・市内事業者が行う市制施行30周年記念事業・商品",
+       "publisher": "Hamura City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "フラダンス羽村 anuenue",
+       "name_en": "Hula Dance Hamura Anuenue",
+       "relation_en": "Historically documented producer of the anniversary-themed sakura bread.",
+       "address_ja": "東京都羽村市川崎2-3-32",
+       "official_url": "https://www.city.hamura.tokyo.jp/0000015311.html",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000015311.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "フラダンス羽村 anuenue",
+       "relation_en": "Local business responsible for the commemorative bread.",
+       "source_url": "https://www.city.hamura.tokyo.jp/0000015311.html"
+      }
+     ],
+     "season_en": "Historical anniversary product; continuing production not verified.",
+     "confidence": "medium",
+     "notes_en": "The available city evidence relates to the 2021–2022 anniversary period, not a confirmed current menu."
+    }
+   ],
+   "none_found_reason_en": ""
+  }
+ ],
+ "url_check": {
+  "checked_at": "2026-11-22",
+  "status": {
+   "https://agriagri.net/nouka-2/": 200,
+   "https://agripark.tokyo/matching/search/store.php?id=greenshop_tama": 200,
+   "https://agripark.tokyo/matching/search/store.php?id=ikikiiti_nousanbututyokubaizyo": 200,
+   "https://inagi-nashi.tokyo/pages.php?f=%E4%B8%8A%E5%8E%9F%E5%9C%92": 200,
+   "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%81%8B%E3%82%B0%E3%83%AB%E3%83%A1.pdf": 200,
+   "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%82%B0%E3%83%AB%E3%83%A1.pdf": 404,
+   "https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%B0%E3%83%AB%E3%83%A1.pdf": 404,
+   "https://nishitama.keizai.biz/headline/1669/": 200,
+   "https://tamaudonponpoko.nomaki.jp/menu.htm": 200,
+   "https://tokyo-tamashima-iju.metro.tokyo.lg.jp/introduction/hamura/": 200,
+   "https://tokyogrown.jp/node/571661": 200,
+   "https://www.biogartenkiriri.com/blank-10/%E3%81%AE%E3%82%89%E3%81%BC%E3%81%86%E8%8F%9C%E3%81%9F%E3%81%A3%E3%81%B7%E3%82%8Abox": 200,
+   "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_119.html": 200,
+   "https://www.city.hamura.tokyo.jp/0000001520.html": 200,
+   "https://www.city.hamura.tokyo.jp/0000001912.html": 200,
+   "https://www.city.hamura.tokyo.jp/0000005253.html": 200,
+   "https://www.city.hamura.tokyo.jp/0000005256.html": 200,
+   "https://www.city.hamura.tokyo.jp/0000005257.html": 200,
+   "https://www.city.hamura.tokyo.jp/0000005258.html": 200,
+   "https://www.city.hamura.tokyo.jp/0000005260.html": 200,
+   "https://www.city.hamura.tokyo.jp/0000006477.html": 200,
+   "https://www.city.hamura.tokyo.jp/0000006547.html": 200,
+   "https://www.city.hamura.tokyo.jp/0000006638.html": 200,
+   "https://www.city.hamura.tokyo.jp/0000009083.html": 200,
+   "https://www.city.hamura.tokyo.jp/0000015311.html": 200,
+   "https://www.city.hamura.tokyo.jp/cmsfiles/contents/0000016/16562/hennsanndayori30-2.pdf": 200,
+   "https://www.city.hamura.tokyo.jp/prsite/0000017739.html": 200,
+   "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-b.pdf": 200,
+   "https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-f.pdf": 200,
+   "https://www.city.inagi.tokyo.jp/sangyo/nougyou/1005414.html": 200,
+   "https://www.city.inagi.tokyo.jp/sangyo/nougyou/1010173/1003690.html": 200,
+   "https://www.city.inagi.tokyo.jp/sangyo/nougyou/1010173/1003691.html": 200,
+   "https://www.city.inagi.tokyo.jp/sangyo/shogyo/1010499.html": 200,
+   "https://www.city.inagi.tokyo.jp/tw/_res/projects/default_project/_page_/001/013/385/inagi_260101_8.pdf": 200,
+   "https://www.city.tama.lg.jp/_res/projects/default_project/_page_/001/015/079/kaitei_03.pdf": 200,
+   "https://www.city.tama.lg.jp/kanko/1015690/1016140/1006512.html": 200,
+   "https://www.city.tama.lg.jp/kanko/1015690/1016140/1016146.html": 200,
+   "https://www.city.tama.lg.jp/shisei/jigyosha/nougyou/nousanbutsu/1005724.html": 200,
+   "https://www.sangyo-rodo1.metro.tokyo.lg.jp/tourism/tokyogifts62/product/53/": 200,
+   "https://www.tamajiman.co.jp/info/451": 200,
+   "https://www.tokyo-aff-fc.jp/interview/detail/id=1165": 200,
+   "https://www.waterworks.metro.tokyo.lg.jp/kouhou/meisho/hamura": 200
+  }
+ }
+}
