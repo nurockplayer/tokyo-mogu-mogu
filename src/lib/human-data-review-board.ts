@@ -482,11 +482,10 @@ function mappedCanonicalFieldForClaim(claim: LedgerClaim): MappedCanonicalField 
   return mappings[0];
 }
 
-function mappedSourceStatementsForFact(claim: LedgerClaim, allClaims: readonly LedgerClaim[]): LedgerClaim[] {
+function mappedSourceStatementsForFact(claim: LedgerClaim, claimsByEntity: ReadonlyMap<string, LedgerClaim[]>): LedgerClaim[] {
   const mapped = mappedCanonicalFieldForClaim(claim);
   if (!mapped) return [];
-  return allClaims.filter((candidate) => candidate.entityType === mapped.entityType
-    && candidate.entityId === mapped.entityId
+  return (claimsByEntity.get(mapped.entityId) ?? []).filter((candidate) => candidate.entityType === mapped.entityType
     && sourceStatementParentFieldId(candidate.fieldId) === mapped.fieldId)
     .sort((left, right) => left.claimId.localeCompare(right.claimId));
 }
@@ -495,7 +494,7 @@ function sourceEdgesForFact(
   claim: LedgerClaim,
   definition: HumanFieldDefinition,
   claims: readonly LedgerClaim[],
-  allClaims: readonly LedgerClaim[],
+  claimsByEntity: ReadonlyMap<string, LedgerClaim[]>,
 ): { claimIds: string[]; sources: HumanDataReviewFactSource[] } {
   const ownedStatementClaims = claims
     .filter((candidate) => {
@@ -505,7 +504,7 @@ function sourceEdgesForFact(
     .sort((left, right) => left.claimId.localeCompare(right.claimId));
   const statementClaims = [...new Map([
     ...ownedStatementClaims,
-    ...mappedSourceStatementsForFact(claim, allClaims),
+    ...mappedSourceStatementsForFact(claim, claimsByEntity),
   ].map((candidate) => [candidate.claimId, candidate])).values()]
     .sort((left, right) => left.claimId.localeCompare(right.claimId));
   const sourceClaims = statementClaims.length > 0 ? statementClaims : [claim];
@@ -583,7 +582,7 @@ function affectedSurfacesForFact(
 
 function buildFacts(
   claims: readonly LedgerClaim[],
-  allClaims: readonly LedgerClaim[],
+  claimsByEntity: ReadonlyMap<string, LedgerClaim[]>,
   entityId: string,
   entityType: CurrentProductFactualEntityType,
 ): HumanDataReviewFact[] {
@@ -614,7 +613,7 @@ function buildFacts(
       || left.definition.key.localeCompare(right.definition.key),
     )
     .map(({ claim, definition }) => {
-      const traceability = sourceEdgesForFact(claim, definition, statementClaims, allClaims);
+      const traceability = sourceEdgesForFact(claim, definition, statementClaims, claimsByEntity);
       const sourceChecked = Boolean(claim.retrievedAt)
         || traceability.sources.some((source) => Boolean(source.retrievedAt));
       return {
@@ -980,7 +979,7 @@ export function buildHumanDataReviewBoard(input: HumanDataReviewBoardInput): Hum
     .map(([entityId, type]): HumanDataReviewEntity => {
     const projectionClaims = claimsByEntity.get(entityId) ?? [];
     const claimIds = new Set(projectionClaims.map((claim) => claim.claimId));
-    const facts = buildFacts(projectionClaims, input.claims, entityId, type);
+    const facts = buildFacts(projectionClaims, claimsByEntity, entityId, type);
     const unknowns = buildUnknowns(projectionClaims);
     const statuses = [
       ...facts.map((fact) => fact.status),
