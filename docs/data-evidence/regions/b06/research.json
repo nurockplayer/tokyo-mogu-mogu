@@ -1,0 +1,2135 @@
+{
+ "batch": "b06",
+ "researched_at": "2026-11-22",
+ "municipalities": [
+  {
+   "id": "fussa",
+   "name_ja": "福生市",
+   "food_cultures": [
+    {
+     "name_ja": "福生の落花生・はっ！ぴー☆ナッツ",
+     "name_en": "Fussa Peanuts and Happy Nuts",
+     "kind": "crop",
+     "summary_en": "Peanuts were once an important autumn crop in Fussa. The city, local farmers and JA Nishitama revived production and established the locally grown Happy Nuts identity.",
+     "facts": [
+      {
+       "claim_en": "Peanut harvesting was historically associated with autumn in Fussa, and a coordinated effort to revive the crop began in 2012.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_147.html",
+       "source_title": "落花生｜地域資源紹介記事",
+       "publisher": "Tokyo Metropolitan Government"
+      },
+      {
+       "claim_en": "Fussa-grown peanuts are promoted under the name はっ！ぴー☆ナッツ.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_147.html",
+       "source_title": "落花生｜地域資源紹介記事",
+       "publisher": "Tokyo Metropolitan Government"
+      },
+      {
+       "claim_en": "JA Nishitama's Fussa farm shop identifies fresh peanuts as a seasonal local product.",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=nishitama_fussa_fs",
+       "source_title": "JAにしたま福生支店農産物直売所",
+       "publisher": "JA Tokyo Agripark"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "JAにしたま福生支店農産物直売所",
+       "name_en": "JA Nishitama Fussa Farm Shop",
+       "relation_en": "A documented local outlet for freshly harvested Fussa peanuts and seasonal produce.",
+       "address_ja": "東京都福生市本町16",
+       "official_url": "https://agripark.tokyo/matching/search/store.php?id=nishitama_fussa_fs",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=nishitama_fussa_fs"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "JAにしたま・福生市内の落花生生産農家",
+       "relation_en": "Agricultural cooperative and local growers involved in reviving Fussa's peanut production.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_147.html"
+      }
+     ],
+     "season_en": "Autumn, especially mid-September through mid-October for fresh peanuts.",
+     "confidence": "high",
+     "notes_en": "A particularly strong crop-based story combining agricultural history, local branding and a documented farm-shop destination."
+    },
+    {
+     "name_ja": "福生の塩ゆで落花生",
+     "name_en": "Fussa-Style Salt-Boiled Peanuts",
+     "kind": "dish",
+     "summary_en": "Fussa residents traditionally enjoy freshly harvested peanuts boiled in their shells with salt. This preparation highlights the sweetness of peanuts before they are dried.",
+     "facts": [
+      {
+       "claim_en": "The Tokyo Metropolitan Government describes boiling fresh, shell-on peanuts in salted water as a characteristic way of eating the local harvest in Fussa.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_147.html",
+       "source_title": "落花生｜地域資源紹介記事",
+       "publisher": "Tokyo Metropolitan Government"
+      },
+      {
+       "claim_en": "Fresh peanuts have a short post-harvest life and are distributed locally before drying.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_147.html",
+       "source_title": "落花生｜地域資源紹介記事",
+       "publisher": "Tokyo Metropolitan Government"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "JAにしたま福生支店農産物直売所",
+       "name_en": "JA Nishitama Fussa Farm Shop",
+       "relation_en": "A source of fresh peanuts that visitors can prepare in the local style.",
+       "address_ja": "東京都福生市本町16",
+       "official_url": "https://agripark.tokyo/matching/search/store.php?id=nishitama_fussa_fs",
+       "source_url": "https://agripark.tokyo/matching/search/store.php?id=nishitama_fussa_fs"
+      }
+     ],
+     "makers": [],
+     "season_en": "Autumn peanut harvest.",
+     "confidence": "high",
+     "notes_en": "This is a documented local eating custom rather than a specific restaurant dish."
+    },
+    {
+     "name_ja": "福生ドッグ",
+     "name_en": "Fussa Dog",
+     "kind": "dish",
+     "summary_en": "Fussa's signature hot dog connects the city's American-influenced streetscape with sausages produced by its two established ham makers. Participating shops develop their own breads and sauces around a locally defined sausage specification.",
+     "facts": [
+      {
+       "claim_en": "A Fussa Dog uses a sausage made by either Otama Ham or Fussa Ham, with a prescribed length of 16 centimeters and diameter of 23 millimeters.",
+       "source_url": "https://fussadog.jp/dog/",
+       "source_title": "福生ドッグとは",
+       "publisher": "Fussa Chamber of Commerce"
+      },
+      {
+       "claim_en": "Local shops distinguish their Fussa Dogs through different breads, sauces and toppings.",
+       "source_url": "https://fussadog.jp/wp-content/themes/fussa-dog/pdf/fussadogmap.pdf",
+       "source_title": "FUSSA DOG GUIDE",
+       "publisher": "Fussa Chamber of Commerce"
+      },
+      {
+       "claim_en": "Fussa has both a traditional sake-brewing district and an American-influenced area associated with Yokota Air Base.",
+       "source_url": "https://www.tamajiman.co.jp/sightseeing/",
+       "source_title": "福生の観光巡り",
+       "publisher": "Ishikawa Brewery"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "シュトゥーベン・オータマ",
+       "name_en": "Stuben Otama",
+       "relation_en": "A restaurant associated with Otama Ham serving a Fussa Dog made with the producer's sausages.",
+       "address_ja": "東京都福生市福生785",
+       "official_url": "https://www.otama.co.jp/",
+       "source_url": "https://fussadog.jp/wp-content/themes/fussa-dog/pdf/fussadogmap.pdf"
+      },
+      {
+       "name_ja": "ジェシー・ジェイムス福生店",
+       "name_en": "Jesse James Fussa",
+       "relation_en": "A Fussa Dog participating restaurant using Fussa Ham sausage and its own chili sauce.",
+       "address_ja": "東京都福生市本町72-2 フコーレ福生1F",
+       "official_url": "https://fussadog.jp/shop/",
+       "source_url": "https://fussadog.jp/wp-content/themes/fussa-dog/pdf/fussadogmap.pdf"
+      },
+      {
+       "name_ja": "小料理ひとよ",
+       "name_en": "Koryori Hitoyo",
+       "relation_en": "A participating restaurant making a Japanese-style version with green onion miso and shiso.",
+       "address_ja": "東京都福生市本町23",
+       "official_url": "https://fussadog.jp/shop/",
+       "source_url": "https://fussadog.jp/wp-content/themes/fussa-dog/pdf/fussadogmap.pdf"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "大多摩ハム",
+       "relation_en": "One of the two designated Fussa Dog sausage producers.",
+       "source_url": "https://fussadog.jp/dog/"
+      },
+      {
+       "name_ja": "福生ハム",
+       "relation_en": "One of the two designated Fussa Dog sausage producers.",
+       "source_url": "https://fussadog.jp/dog/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The producers and restaurant examples are documented in an official 2026 Fussa Dog guide."
+    },
+    {
+     "name_ja": "大多摩ハム",
+     "name_en": "Otama Ham",
+     "kind": "brand",
+     "summary_en": "Otama Ham represents Fussa's German-style meat-processing tradition. Its hams and sausages are also ingredients in the city's signature hot dogs.",
+     "facts": [
+      {
+       "claim_en": "Otama Ham produces German-style hams and sausages in Fussa.",
+       "source_url": "https://www.otama.co.jp/",
+       "source_title": "大多摩ハム",
+       "publisher": "Otama Ham"
+      },
+      {
+       "claim_en": "The company's sausages are one of the two officially specified options for a Fussa Dog.",
+       "source_url": "https://fussadog.jp/wp-content/themes/fussa-dog/pdf/fussadogmap.pdf",
+       "source_title": "FUSSA DOG GUIDE",
+       "publisher": "Fussa Chamber of Commerce"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "シュトゥーベン・オータマ",
+       "name_en": "Stuben Otama",
+       "relation_en": "A producer-linked restaurant and destination for Otama Ham products.",
+       "address_ja": "東京都福生市福生785",
+       "official_url": "https://www.otama.co.jp/",
+       "source_url": "https://www.tamajiman.co.jp/sightseeing/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "大多摩ハム",
+       "relation_en": "Local producer of German-style ham and sausages.",
+       "source_url": "https://www.otama.co.jp/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The meat-processing tradition is a distinct local producer story beyond the Fussa Dog itself."
+    },
+    {
+     "name_ja": "大多摩ハム TOKYO X 桜燻ロースハム",
+     "name_en": "Otama Ham TOKYO X Cherrywood-Smoked Loin Ham",
+     "kind": "brand",
+     "summary_en": "This Fussa-made processed meat connects a local ham producer with TOKYO X pork and a Tokyo-recognized specialty product.",
+     "facts": [
+      {
+       "claim_en": "Tokyo's official specialty-product database lists Otama Ham's TOKYO X cherrywood-smoked loin ham.",
+       "source_url": "https://www.e-mark-iishina.metro.tokyo.lg.jp/foods/detail/id=422",
+       "source_title": "TOKYO X 桜燻ロースハム",
+       "publisher": "Tokyo Metropolitan Government"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "大多摩ハム・シュトゥーベン・オータマ",
+       "name_en": "Otama Ham and Stuben Otama",
+       "relation_en": "Producer-linked destination in Fussa.",
+       "address_ja": "東京都福生市福生785",
+       "official_url": "https://www.otama.co.jp/",
+       "source_url": "https://www.tamajiman.co.jp/sightseeing/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "大多摩ハム",
+       "relation_en": "Processor of the recognized TOKYO X ham product.",
+       "source_url": "https://www.e-mark-iishina.metro.tokyo.lg.jp/foods/detail/id=422"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The source establishes local processing, not that the pigs themselves are raised in Fussa."
+    },
+    {
+     "name_ja": "福生ハムの地酒入りソーセージ",
+     "name_en": "Fussa Ham Sake-Infused Sausages",
+     "kind": "brand",
+     "summary_en": "Fussa Ham makes handmade sausages that incorporate sake from a local brewery. The product connects the city's brewing and meat-processing industries.",
+     "facts": [
+      {
+       "claim_en": "Fussa Ham's specialty Fussa Dog sausage incorporates locally brewed sake.",
+       "source_url": "https://www.ohtama.or.jp/sightseeing/148.html",
+       "source_title": "福生ドッグ（福生ハム）",
+       "publisher": "Ohtama Tourism Federation"
+      },
+      {
+       "claim_en": "Fussa Ham independently markets handmade hams, bacon and sausages, including its Fussa Dog sausage.",
+       "source_url": "https://fussaham.ocnk.net/",
+       "source_title": "福生ハムオンラインショップ",
+       "publisher": "Fussa Ham"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "福生ハム",
+       "name_en": "Fussa Ham",
+       "relation_en": "Local meat producer associated with the sake-infused sausage.",
+       "address_ja": "東京都福生市福生789",
+       "official_url": "https://fussaham.ocnk.net/",
+       "source_url": "https://www.ohtama.or.jp/sightseeing/148.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "福生ハム",
+       "relation_en": "Producer of Fussa sake-infused sausages and other processed meats.",
+       "source_url": "https://www.ohtama.or.jp/sightseeing/148.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The tourism federation documents the producer's Fussa address and sake connection."
+    },
+    {
+     "name_ja": "石川酒造・多満自慢",
+     "name_en": "Ishikawa Brewery Tamajiman Sake",
+     "kind": "drink",
+     "summary_en": "Founded in 1863, Ishikawa Brewery produces Tamajiman sake on a historic brewing estate in Kumagawa. The site brings together sake-making heritage, preserved buildings, a historical exhibition and a direct shop.",
+     "facts": [
+      {
+       "claim_en": "Ishikawa Brewery is a historic Fussa sake brewery with six nationally registered tangible cultural-property buildings.",
+       "source_url": "https://www.tamajiman.co.jp/about/",
+       "source_title": "石川酒造について",
+       "publisher": "Ishikawa Brewery"
+      },
+      {
+       "claim_en": "The brewery makes Tamajiman sake and presents its brewing history in an on-site museum.",
+       "source_url": "https://www.tamajiman.co.jp/about/",
+       "source_title": "石川酒造について",
+       "publisher": "Ishikawa Brewery"
+      },
+      {
+       "claim_en": "The brewery's direct shop, 酒世羅, carries Tamajiman sake and other brewery products.",
+       "source_url": "https://www.tamajiman.co.jp/sightseeing/",
+       "source_title": "福生の観光巡り",
+       "publisher": "Ishikawa Brewery"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "石川酒造",
+       "name_en": "Ishikawa Brewery",
+       "relation_en": "Historic production estate with brewing heritage exhibits.",
+       "address_ja": "東京都福生市熊川1",
+       "official_url": "https://www.tamajiman.co.jp/about/",
+       "source_url": "https://www.tamajiman.co.jp/about/"
+      },
+      {
+       "name_ja": "石川酒造直売店 酒世羅",
+       "name_en": "Shusera Brewery Shop",
+       "relation_en": "On-site shop presenting the brewery's sake and related food products.",
+       "address_ja": "東京都福生市熊川1",
+       "official_url": "https://www.tamajiman.co.jp/sightseeing/",
+       "source_url": "https://www.tamajiman.co.jp/sightseeing/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "石川酒造株式会社",
+       "relation_en": "Producer of Tamajiman sake.",
+       "source_url": "https://www.tamajiman.co.jp/about/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "An especially strong heritage-and-place experience; the brewery grounds and museum are distinct from its production facilities."
+    },
+    {
+     "name_ja": "田村酒造場・嘉泉",
+     "name_en": "Tamura Brewery Kasen Sake",
+     "kind": "drink",
+     "summary_en": "Tamura Brewery has made sake beside the Tama River since 1822. Its Kasen label takes its name from the locally sourced water used in brewing.",
+     "facts": [
+      {
+       "claim_en": "Tamura Brewery traces its sake production in Fussa to 1822.",
+       "source_url": "https://www.tamurashuzojo.com/page/kura",
+       "source_title": "蔵案内",
+       "publisher": "Tamura Brewery"
+      },
+      {
+       "claim_en": "The name 嘉泉 expresses the brewery's appreciation of its local brewing water.",
+       "source_url": "https://www.tamurashuzojo.com/page/kura",
+       "source_title": "蔵案内",
+       "publisher": "Tamura Brewery"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "田村酒造場",
+       "name_en": "Tamura Brewery",
+       "relation_en": "Historic local sake producer and the place associated with the Kasen label.",
+       "address_ja": "東京都福生市福生626",
+       "official_url": "https://www.tamurashuzojo.com/page/kura",
+       "source_url": "https://www.tamurashuzojo.com/page/kura"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "田村酒造場",
+       "relation_en": "Brewer of Kasen sake.",
+       "source_url": "https://www.tamurashuzojo.com/page/kura"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A separate historic sake-making lineage from Ishikawa Brewery."
+    },
+    {
+     "name_ja": "多摩の恵",
+     "name_en": "Tama no Megumi Craft Beer",
+     "kind": "drink",
+     "summary_en": "Ishikawa Brewery revived its beer-making tradition in 1998 with Tama no Megumi. The beer draws on a brewing history that reaches back to the Meiji period.",
+     "facts": [
+      {
+       "claim_en": "Ishikawa Brewery returned to beer production in 1998 with its Tama no Megumi brand.",
+       "source_url": "https://www.tamajiman.co.jp/product/",
+       "source_title": "商品紹介",
+       "publisher": "Ishikawa Brewery"
+      },
+      {
+       "claim_en": "The brewery's on-site Italian restaurant serves freshly brewed Tama no Megumi beers.",
+       "source_url": "https://www.tamajiman.co.jp/sightseeing/",
+       "source_title": "福生の観光巡り",
+       "publisher": "Ishikawa Brewery"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "福生のビール小屋",
+       "name_en": "Fussa Beer Cottage",
+       "relation_en": "Brewery-estate restaurant featuring freshly produced local craft beer.",
+       "address_ja": "東京都福生市熊川1",
+       "official_url": "https://www.tamajiman.co.jp/sightseeing/",
+       "source_url": "https://www.tamajiman.co.jp/sightseeing/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "石川酒造株式会社",
+       "relation_en": "Brewer of Tama no Megumi.",
+       "source_url": "https://www.tamajiman.co.jp/product/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "This modern craft-beer label is supported by an older, place-specific brewing history."
+    },
+    {
+     "name_ja": "TOKYO BLUES",
+     "name_en": "Tokyo Blues Craft Beer",
+     "kind": "drink",
+     "summary_en": "Tokyo Blues is another craft-beer line brewed by Ishikawa Brewery in Fussa. It offers a contemporary Tokyo-branded counterpart to the brewery's older Tama no Megumi label.",
+     "facts": [
+      {
+       "claim_en": "Ishikawa Brewery identifies TOKYO BLUES as a Tokyo craft-beer brand in its product range.",
+       "source_url": "https://www.tamajiman.co.jp/product/",
+       "source_title": "商品紹介",
+       "publisher": "Ishikawa Brewery"
+      },
+      {
+       "claim_en": "The brewery's Fussa restaurant serves beers from the TOKYO BLUES series.",
+       "source_url": "https://www.tamajiman.co.jp/sightseeing/",
+       "source_title": "福生の観光巡り",
+       "publisher": "Ishikawa Brewery"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "福生のビール小屋",
+       "name_en": "Fussa Beer Cottage",
+       "relation_en": "Producer-linked restaurant serving TOKYO BLUES beer.",
+       "address_ja": "東京都福生市熊川1",
+       "official_url": "https://www.tamajiman.co.jp/sightseeing/",
+       "source_url": "https://www.tamajiman.co.jp/sightseeing/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "石川酒造株式会社",
+       "relation_en": "Brewer of TOKYO BLUES.",
+       "source_url": "https://www.tamajiman.co.jp/product/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A distinct branded beer line from the same Fussa producer."
+    },
+    {
+     "name_ja": "福生七夕竹笹おにぎり",
+     "name_en": "Fussa Tanabata Bamboo-Leaf Rice Balls",
+     "kind": "dish",
+     "summary_en": "This local specialty combines rice mixed with simmered kelp and a topping of grilled eel, wrapped in bamboo leaves. The presentation refers directly to Fussa's Tanabata festival.",
+     "facts": [
+      {
+       "claim_en": "Fussa's tourism association lists bamboo-leaf rice balls filled with kelp-seasoned rice and grilled eel as an award-winning local specialty inspired by the Tanabata festival.",
+       "source_url": "https://www.fussakanko.jp/others/specialty/",
+       "source_title": "名物・名産コンテスト受賞品",
+       "publisher": "Fussa Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "味食道 引田屋",
+       "name_en": "Hikitaya",
+       "relation_en": "Maker named in Fussa's local-specialty competition.",
+       "address_ja": "東京都福生市本町107",
+       "official_url": "https://www.fussakanko.jp/others/specialty/",
+       "source_url": "https://www.fussakanko.jp/others/specialty/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "味食道 引田屋",
+       "relation_en": "Creator of the festival-inspired rice balls.",
+       "source_url": "https://www.fussakanko.jp/others/specialty/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "The tourism association documents the competition entry, but current production and shop status were not independently established."
+    },
+    {
+     "name_ja": "ふれあいロール",
+     "name_en": "Fureai Roll Cake",
+     "kind": "sweet",
+     "summary_en": "A buttercream roll cake decorated with Orihime and Hikoboshi, the celestial figures of the Tanabata story. It turns Fussa's prominent festival into a confectionery souvenir.",
+     "facts": [
+      {
+       "claim_en": "The Fureai Roll is a festival-themed cake associated with the two characters in the Tanabata legend.",
+       "source_url": "https://www.fussakanko.jp/others/specialty/",
+       "source_title": "名物・名産コンテスト受賞品",
+       "publisher": "Fussa Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "フランス菓子 アリス",
+       "name_en": "Patisserie Alice",
+       "relation_en": "Named creator of the Tanabata-themed roll cake.",
+       "address_ja": "東京都福生市本町34-1",
+       "official_url": "https://www.fussakanko.jp/others/specialty/",
+       "source_url": "https://www.fussakanko.jp/others/specialty/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "フランス菓子 アリス",
+       "relation_en": "Pastry maker associated with the Fureai Roll.",
+       "source_url": "https://www.fussakanko.jp/others/specialty/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "Listed in a historic local-specialty competition; current availability is unverified."
+    },
+    {
+     "name_ja": "日本酒菓子 酔菓",
+     "name_en": "Suika Sake Castella",
+     "kind": "sweet",
+     "summary_en": "Suika is a castella-style cake made with sake from Fussa's breweries. It connects the city's historic alcohol production with local pastry-making.",
+     "facts": [
+      {
+       "claim_en": "The tourism association identifies Suika as a castella cake using sake produced in Fussa.",
+       "source_url": "https://www.fussakanko.jp/others/specialty/",
+       "source_title": "名物・名産コンテスト受賞品",
+       "publisher": "Fussa Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "洋菓子 ミノン",
+       "name_en": "Minon Patisserie",
+       "relation_en": "Producer named for the sake-based confection.",
+       "address_ja": "東京都福生市本町28",
+       "official_url": "https://www.fussakanko.jp/others/specialty/",
+       "source_url": "https://www.fussakanko.jp/others/specialty/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "洋菓子 ミノン",
+       "relation_en": "Maker of the Suika sake cake.",
+       "source_url": "https://www.fussakanko.jp/others/specialty/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "The connection to Fussa sake is explicit; current production is not independently confirmed."
+    },
+    {
+     "name_ja": "七夕のしずく",
+     "name_en": "Tanabata Drops",
+     "kind": "sweet",
+     "summary_en": "These colorful meringue sweets represent tears associated with Orihime and Hikoboshi. Their story is based on the Tanabata legend celebrated in Fussa.",
+     "facts": [
+      {
+       "claim_en": "The tourism association describes Tanabata Drops as multicolored meringues shaped around the Tanabata lovers' story.",
+       "source_url": "https://www.fussakanko.jp/others/specialty/",
+       "source_title": "名物・名産コンテスト受賞品",
+       "publisher": "Fussa Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "フランス菓子 アリス",
+       "name_en": "Patisserie Alice",
+       "relation_en": "Named creator of the Tanabata-themed meringues.",
+       "address_ja": "東京都福生市本町34-1",
+       "official_url": "https://www.fussakanko.jp/others/specialty/",
+       "source_url": "https://www.fussakanko.jp/others/specialty/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "フランス菓子 アリス",
+       "relation_en": "Maker of Tanabata Drops.",
+       "source_url": "https://www.fussakanko.jp/others/specialty/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "A historical competition listing supports the product and its cultural theme, not its present stock."
+    },
+    {
+     "name_ja": "福が生まれる福うさぎ",
+     "name_en": "Fuku Usagi Lucky-Rabbit Sweets",
+     "kind": "sweet",
+     "summary_en": "A collection of rabbit-shaped cookies and miniature pastries built around the auspicious meaning of Fussa's name. It transforms local wordplay about good fortune into a souvenir.",
+     "facts": [
+      {
+       "claim_en": "Fuku Usagi combines rabbit-shaped cookies and pastries with the slogan that good fortune is born in Fussa.",
+       "source_url": "https://www.fussakanko.jp/others/specialty/",
+       "source_title": "名物・名産コンテスト受賞品",
+       "publisher": "Fussa Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "クラウドナインベーカリー",
+       "name_en": "Cloud Nine Bakery",
+       "relation_en": "Maker identified in the city's specialty competition.",
+       "address_ja": "東京都福生市福生798 佐藤ビル1F",
+       "official_url": "https://www.fussakanko.jp/others/specialty/",
+       "source_url": "https://www.fussakanko.jp/others/specialty/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "クラウドナインベーカリー",
+       "relation_en": "Creator of the rabbit-themed confectionery assortment.",
+       "source_url": "https://www.fussakanko.jp/others/specialty/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "A documented historic specialty; the maker's current business status has not been verified."
+    },
+    {
+     "name_ja": "ミノンのマロンパイ・ブルーベリーパイ",
+     "name_en": "Minon's Seasonal Chestnut and Blueberry Pies",
+     "kind": "sweet",
+     "summary_en": "These seasonal pies were created to evoke Fussa's remaining Musashino woodland and changing natural landscape. The tourism association identifies chestnut and blueberry versions.",
+     "facts": [
+      {
+       "claim_en": "Minon's chestnut and blueberry pies were entered as Fussa specialties inspired by the area's woodland and seasonal produce.",
+       "source_url": "https://www.fussakanko.jp/others/specialty/",
+       "source_title": "名物・名産コンテスト受賞品",
+       "publisher": "Fussa Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "洋菓子 ミノン",
+       "name_en": "Minon Patisserie",
+       "relation_en": "Named producer of the two seasonal pies.",
+       "address_ja": "東京都福生市本町28",
+       "official_url": "https://www.fussakanko.jp/others/specialty/",
+       "source_url": "https://www.fussakanko.jp/others/specialty/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "洋菓子 ミノン",
+       "relation_en": "Producer of the woodland-inspired pies.",
+       "source_url": "https://www.fussakanko.jp/others/specialty/"
+      }
+     ],
+     "season_en": "Chestnut pie: approximately September–December; blueberry pie: approximately March–May, according to the historical listing.",
+     "confidence": "medium",
+     "notes_en": "The woodland connection is a design theme; the source does not establish that all fruit ingredients were grown in Fussa. Current production is unverified."
+    }
+   ],
+   "none_found_reason_en": ""
+  },
+  {
+   "id": "komae",
+   "name_ja": "狛江市",
+   "food_cultures": [
+    {
+     "name_ja": "狛江の枝豆",
+     "name_en": "Komae Edamame",
+     "kind": "crop",
+     "summary_en": "Edamame is one of Komae's best-established agricultural specialties. Farmers cultivate successive crops through the summer, and the beans are a recognizable product of the city's remaining urban farmland.",
+     "facts": [
+      {
+       "claim_en": "Komae's municipal publication identifies edamame as a signature local crop produced by more than twenty farmers.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,123244,597,3536,html",
+       "source_title": "令和4年7月1日号12面（1345号）",
+       "publisher": "Komae City"
+      },
+      {
+       "claim_en": "The city describes a local edamame harvest extending from June through August.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,123244,597,3536,html",
+       "source_title": "令和4年7月1日号12面（1345号）",
+       "publisher": "Komae City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "マインズショップ狛江店",
+       "name_en": "JA Minds Komae Shop",
+       "relation_en": "Local agricultural cooperative shop associated with the city's edamame and other locally produced crops.",
+       "address_ja": "東京都狛江市東和泉1-2-19",
+       "official_url": "https://www.ja-minds.or.jp/farmstand/ms_komae.php",
+       "source_url": "https://www.komae-kankou.jp/eat/komaenoyasai.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "狛江市内の枝豆生産農家",
+       "relation_en": "Local farmers cultivating Komae's signature summer crop.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,123244,597,3536,html"
+      }
+     ],
+     "season_en": "June–August.",
+     "confidence": "high",
+     "notes_en": "One of the clearest agricultural identity stories in Komae."
+    },
+    {
+     "name_ja": "狛江ブランド農産物",
+     "name_en": "Komae Brand Agricultural Products",
+     "kind": "brand",
+     "summary_en": "Local farmers established their own agricultural production-management standard, commonly known as Komae GAP. The associated brand now covers fruits as well as vegetables.",
+     "facts": [
+      {
+       "claim_en": "Komae producers developed a common checklist-based production-management system to establish the Komae agricultural brand.",
+       "source_url": "https://www.komae-kankou.jp/eat/komaenoyasai.html",
+       "source_title": "狛江の野菜",
+       "publisher": "Komae Tourism Association"
+      },
+      {
+       "claim_en": "The original Komae Brand Vegetables identity has been expanded to Komae Brand Agricultural Products, including fruit.",
+       "source_url": "https://www.komae-kankou.jp/eat/komaenoyasai.html",
+       "source_title": "狛江の野菜",
+       "publisher": "Komae Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "マインズショップ狛江店",
+       "name_en": "JA Minds Komae Shop",
+       "relation_en": "A documented local farm-products outlet for exploring Komae's urban agricultural culture.",
+       "address_ja": "東京都狛江市東和泉1-2-19",
+       "official_url": "https://www.ja-minds.or.jp/farmstand/ms_komae.php",
+       "source_url": "https://www.komae-kankou.jp/eat/komaenoyasai.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "狛江GAP研究会・市内農家",
+       "relation_en": "Local growers involved in the Komae agricultural brand system.",
+       "source_url": "https://www.komae-kankou.jp/eat/komaenoyasai.html"
+      }
+     ],
+     "season_en": "Varies by crop.",
+     "confidence": "high",
+     "notes_en": "This is a municipal producer brand rather than a single crop."
+    },
+    {
+     "name_ja": "狛江えだまめ紀行",
+     "name_en": "Komae Edamame Kiko Gelato",
+     "kind": "sweet",
+     "summary_en": "Komae's signature beans became the basis for a locally associated gelato with a distinctive edamame flavor and texture. It is a long-running example of local agricultural product development.",
+     "facts": [
+      {
+       "claim_en": "The municipal publication identifies 狛江えだまめ紀行 as a gelato made with Komae-grown edamame and associated with the local JA outlet since 1999.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,123244,597,3536,html",
+       "source_title": "令和4年7月1日号12面（1345号）",
+       "publisher": "Komae City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "マインズショップ狛江店",
+       "name_en": "JA Minds Komae Shop",
+       "relation_en": "Agricultural cooperative outlet associated with the local edamame gelato.",
+       "address_ja": "東京都狛江市東和泉1-2-19",
+       "official_url": "https://www.ja-minds.or.jp/farmstand/ms_komae.php",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,123244,597,3536,html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "JAマインズ狛江支店",
+       "relation_en": "Local cooperative associated with marketing the edamame gelato.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,123244,597,3536,html"
+      }
+     ],
+     "season_en": "Historically associated with summer.",
+     "confidence": "medium",
+     "notes_en": "The city documents this as an established product in 2022; current availability was not independently verified."
+    },
+    {
+     "name_ja": "えだまめ羊羹",
+     "name_en": "Edamame Yokan",
+     "kind": "sweet",
+     "summary_en": "A Japanese confection using edamame as its defining ingredient. It adapts Komae's signature summer crop into a lightly sweetened traditional-style sweet.",
+     "facts": [
+      {
+       "claim_en": "The tourism association identifies this edamame confection as an entry in the city's 2008 sweets competition.",
+       "source_url": "https://www.komae-kankou.jp/edamameyokan.html",
+       "source_title": "えだまめ羊羹",
+       "publisher": "Komae Tourism Association"
+      },
+      {
+       "claim_en": "菓匠 志むら is listed as its maker.",
+       "source_url": "https://www.komae-kankou.jp/edamameyokan.html",
+       "source_title": "えだまめ羊羹",
+       "publisher": "Komae Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "菓匠 志むら",
+       "name_en": "Kasho Shimura",
+       "relation_en": "Confectioner historically associated with Komae's edamame yokan.",
+       "address_ja": "東京都狛江市東和泉2-2-2",
+       "official_url": "https://www.komae-kankou.jp/edamameyokan.html",
+       "source_url": "https://www.komae-kankou.jp/edamameyokan.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "菓匠 志むら",
+       "relation_en": "Creator of the local edamame confection.",
+       "source_url": "https://www.komae-kankou.jp/edamameyokan.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "The source is an older tourism-association page, so the current product and shop status require confirmation."
+    },
+    {
+     "name_ja": "こまえ～る",
+     "name_en": "Koma Ale",
+     "kind": "drink",
+     "summary_en": "Koma Ale is a local beer-like fermented beverage developed using Komae edamame. Farmers and a local sake merchant collaborated to give the city's best-known vegetable a new form.",
+     "facts": [
+      {
+       "claim_en": "こまえ～る is a locally developed fermented alcoholic beverage using Komae's specialty edamame.",
+       "source_url": "https://www.komae-kankou.jp/eat/komaale.html",
+       "source_title": "こまえ～る",
+       "publisher": "Komae Tourism Association"
+      },
+      {
+       "claim_en": "The product emerged from collaboration between city farmers and the local merchant 籠屋（秋元商店）.",
+       "source_url": "https://www.komae-kankou.jp/eat/komaale.html",
+       "source_title": "こまえ～る",
+       "publisher": "Komae Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "籠屋秋元商店",
+       "name_en": "Kagoya Akimoto Shoten",
+       "relation_en": "Local merchant identified as the product's developer and a sales outlet.",
+       "address_ja": "東京都狛江市駒井町3-34-3",
+       "official_url": "https://www.komae-kankou.jp/eat/komaale.html",
+       "source_url": "https://www.komae-kankou.jp/eat/komaale.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "籠屋（秋元商店）・狛江市内農家",
+       "relation_en": "Collaborating local merchant and farmers.",
+       "source_url": "https://www.komae-kankou.jp/eat/komaale.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A particularly distinctive connection between local agricultural production and brewing."
+    },
+    {
+     "name_ja": "籠屋ブルワリー",
+     "name_en": "Kagoya Brewery Craft Beer",
+     "kind": "drink",
+     "summary_en": "Kagoya grew from a Komae liquor merchant founded in 1902 into the city's first craft brewery. Its beers are part of a modern local brewing scene that remains closely linked to community events and local agriculture.",
+     "facts": [
+      {
+       "claim_en": "Kagoya was founded as a liquor business in Komae in 1902 and established its brewery in 2017.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html",
+       "source_title": "令和7年8月1日号特集「狛江×クラフトビール」",
+       "publisher": "Komae City"
+      },
+      {
+       "claim_en": "Komae City's 2025 brewery feature identifies Kagoya as the first craft brewery in the municipality.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html",
+       "source_title": "令和7年8月1日号特集「狛江×クラフトビール」",
+       "publisher": "Komae City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "籠屋たすく",
+       "name_en": "Kagoya Tasuku",
+       "relation_en": "Brewery-associated restaurant serving locally made craft beer.",
+       "address_ja": "東京都狛江市駒井町3-34-4",
+       "official_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html"
+      },
+      {
+       "name_ja": "籠屋マルシェ狛江店",
+       "name_en": "Kagoya Marche Komae",
+       "relation_en": "Station-area venue associated with Kagoya's freshly brewed craft beer.",
+       "address_ja": "東京都狛江市元和泉1-2 小田急マルシェ狛江",
+       "official_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "籠屋ブルワリー",
+       "relation_en": "Local craft-beer producer.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The municipal feature provides a strong producer history and identifiable tasting destinations."
+    },
+    {
+     "name_ja": "籠屋ブルワリー 宴結",
+     "name_en": "Kagoya Enmusubi Lager",
+     "kind": "drink",
+     "summary_en": "Enmusubi is a community-oriented lager launched by Kagoya Brewery. Its name and label were developed with public participation, connecting the beer to the idea of bringing people together.",
+     "facts": [
+      {
+       "claim_en": "Kagoya introduced 宴結 in 2025 as a lager-style craft beer.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html",
+       "source_title": "令和7年8月1日号特集「狛江×クラフトビール」",
+       "publisher": "Komae City"
+      },
+      {
+       "claim_en": "The beer's concept centers on social connection, and its name and label were chosen through public submissions.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html",
+       "source_title": "令和7年8月1日号特集「狛江×クラフトビール」",
+       "publisher": "Komae City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "籠屋マルシェ狛江店",
+       "name_en": "Kagoya Marche Komae",
+       "relation_en": "Producer-associated venue documented serving Enmusubi.",
+       "address_ja": "東京都狛江市元和泉1-2 小田急マルシェ狛江",
+       "official_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "籠屋ブルワリー",
+       "relation_en": "Producer of the community-designed lager.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A separate beer-product story within Kagoya's broader brewing culture."
+    },
+    {
+     "name_ja": "和泉ブルワリー・3A Farmhouse Ale",
+     "name_en": "Izumi Brewery and 3A Farmhouse Ale",
+     "kind": "drink",
+     "summary_en": "Izumi Brewery produces Belgian-influenced craft beers in Komae, including its flagship 3A Farmhouse Ale. Its attached beer cellar offers a direct connection between the brewer and visitors.",
+     "facts": [
+      {
+       "claim_en": "Izumi Brewery specializes in Belgian-influenced beer styles and identifies 3A Farmhouse Ale as its flagship.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html",
+       "source_title": "令和7年8月1日号特集「狛江×クラフトビール」",
+       "publisher": "Komae City"
+      },
+      {
+       "claim_en": "BEER CELLAR TOKYO is attached to the brewery and offers its locally made beer.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html",
+       "source_title": "令和7年8月1日号特集「狛江×クラフトビール」",
+       "publisher": "Komae City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "BEER CELLAR TOKYO",
+       "name_en": "Beer Cellar Tokyo",
+       "relation_en": "Brewery-linked taproom featuring Izumi Brewery beers.",
+       "address_ja": "東京都狛江市和泉本町1-12-1 豊栄狛江マンション1階",
+       "official_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "和泉ブルワリー",
+       "relation_en": "Komae craft-beer producer.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "One of the three locally documented craft breweries."
+    },
+    {
+     "name_ja": "狛江CSAle",
+     "name_en": "Komae CSAle Community-Hop Beer",
+     "kind": "drink",
+     "summary_en": "Komae CSAle turns hops grown in residents' gardens into locally brewed beer. Kagoya Brewery and Izumi Brewery collaborate in a project connecting urban growing, brewing and community participation.",
+     "facts": [
+      {
+       "claim_en": "The CSAle project began in 2017 using hops grown by Komae residents in their home gardens.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html",
+       "source_title": "令和7年8月1日号特集「狛江×クラフトビール」",
+       "publisher": "Komae City"
+      },
+      {
+       "claim_en": "Kagoya Brewery and Izumi Brewery produce separate interpretations using community-grown hops.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html",
+       "source_title": "令和7年8月1日号特集「狛江×クラフトビール」",
+       "publisher": "Komae City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "籠屋秋元商店",
+       "name_en": "Kagoya Akimoto Shoten",
+       "relation_en": "One of the participating producers' local outlets.",
+       "address_ja": "東京都狛江市駒井町3-34-3",
+       "official_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html"
+      },
+      {
+       "name_ja": "BEER CELLAR TOKYO",
+       "name_en": "Beer Cellar Tokyo",
+       "relation_en": "Outlet associated with participating producer Izumi Brewery.",
+       "address_ja": "東京都狛江市和泉本町1-12-1 豊栄狛江マンション1階",
+       "official_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "狛江CSAle実行委員会",
+       "relation_en": "Community project coordinating locally grown hops.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html"
+      },
+      {
+       "name_ja": "籠屋ブルワリー",
+       "relation_en": "Participating local brewery.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html"
+      },
+      {
+       "name_ja": "和泉ブルワリー",
+       "relation_en": "Participating local brewery.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html"
+      }
+     ],
+     "season_en": "Hops are harvested in summer; the beer is associated with seasonal releases.",
+     "confidence": "high",
+     "notes_en": "An especially distinctive urban-agriculture and craft-beer collaboration. Availability depends on individual releases."
+    },
+    {
+     "name_ja": "狛江産ホップ栽培",
+     "name_en": "Community-Grown Komae Hops",
+     "kind": "crop",
+     "summary_en": "Komae residents cultivate hops as a small-scale urban crop for local brewers. The harvest supports the CSAle beer project and forms a community growing tradition of its own.",
+     "facts": [
+      {
+       "claim_en": "Komae residents grow hops in cooperation with local breweries, and Kagoya organizes summer harvesting activities with participating farmers.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html",
+       "source_title": "令和7年8月1日号特集「狛江×クラフトビール」",
+       "publisher": "Komae City"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "狛江CSAle参加市民・市内農家",
+       "relation_en": "Growers supplying hops for local brewing.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html"
+      }
+     ],
+     "season_en": "Summer harvest.",
+     "confidence": "high",
+     "notes_en": "Individual home gardens and cultivation sites are not identified as public visitor destinations."
+    },
+    {
+     "name_ja": "柴田屋酒店 喜多見ビール醸造所",
+     "name_en": "Shibataya Kitami Beer Brewery",
+     "kind": "drink",
+     "summary_en": "This brewery produces small-batch craft beer in Komae beneath the Odakyu railway infrastructure near Kitami Station. Visitors can encounter beer production and food at the brewery-associated restaurant.",
+     "facts": [
+      {
+       "claim_en": "Shibataya opened a brewery-associated restaurant in Komae in 2021 and later relaunched it under the current Kitami brewery name.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html",
+       "source_title": "令和7年8月1日号特集「狛江×クラフトビール」",
+       "publisher": "Komae City"
+      },
+      {
+       "claim_en": "The local brewery makes several styles of beer in its own small brewing facility.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html",
+       "source_title": "令和7年8月1日号特集「狛江×クラフトビール」",
+       "publisher": "Komae City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "柴田屋酒店 喜多見ビール醸造所",
+       "name_en": "Shibataya Kitami Beer Brewery",
+       "relation_en": "Local brewing facility with an associated restaurant.",
+       "address_ja": "東京都狛江市岩戸北2-20-10 小田急マルシェ喜多見",
+       "official_url": "https://shibataya-kitami.com/",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "柴田屋酒店 喜多見ビール醸造所",
+       "relation_en": "Local craft-beer producer.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The 2025 municipal feature confirms this as Komae's third craft brewery."
+    },
+    {
+     "name_ja": "狛江はちみつ",
+     "name_en": "Komae Honey",
+     "kind": "brand",
+     "summary_en": "Ogawa Farm keeps honeybees near the Tama River and produces honey from nearby flowering plants. The product connects Komae's urban farmland to the river landscape and local ecology.",
+     "facts": [
+      {
+       "claim_en": "Ogawa Farm keeps honeybees near the Tama River and produces Komae Honey from nectar gathered in the surrounding area.",
+       "source_url": "https://www.komae-kankou.jp/eat/komaehachimitsu.html",
+       "source_title": "狛江はちみつ",
+       "publisher": "Komae Tourism Association"
+      },
+      {
+       "claim_en": "The tourism association identifies plants such as acacia, clover and citrus as nectar sources.",
+       "source_url": "https://www.komae-kankou.jp/eat/komaehachimitsu.html",
+       "source_title": "狛江はちみつ",
+       "publisher": "Komae Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "小川農園",
+       "name_en": "Ogawa Farm",
+       "relation_en": "Producer identified as the source of Komae Honey.",
+       "address_ja": "東京都狛江市猪方3-11-5",
+       "official_url": "https://www.komae-kankou.jp/eat/komaehachimitsu.html",
+       "source_url": "https://www.komae-kankou.jp/eat/komaehachimitsu.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "小川農園",
+       "relation_en": "Local beekeeper and honey producer.",
+       "source_url": "https://www.komae-kankou.jp/eat/komaehachimitsu.html"
+      }
+     ],
+     "season_en": "Historically offered from around July following honey production.",
+     "confidence": "high",
+     "notes_en": "The documented production method is place-specific; present harvest quantities are not established."
+    },
+    {
+     "name_ja": "サブレー万頭こまえ",
+     "name_en": "Komae Sable Manju",
+     "kind": "sweet",
+     "summary_en": "This hybrid Japanese-Western baked confection uses a walnut filling and a sable-like exterior. Its design references the city's name and the flowing Tama River.",
+     "facts": [
+      {
+       "claim_en": "Komae Sable Manju incorporates the city's name and the Tama River into its decoration and is produced by Komae Fugetsudo.",
+       "source_url": "https://www.komae-kankou.jp/eat/sable.html",
+       "source_title": "サブレー万頭こまえ",
+       "publisher": "Komae Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "狛江凮月堂 本店",
+       "name_en": "Komae Fugetsudo Main Shop",
+       "relation_en": "Producer and identified shop for the Komae-themed sweet.",
+       "address_ja": "東京都狛江市中和泉4-24-7",
+       "official_url": "https://www.komae-kankou.jp/eat/sable.html",
+       "source_url": "https://www.komae-kankou.jp/eat/sable.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "狛江凮月堂",
+       "relation_en": "Local confectioner.",
+       "source_url": "https://www.komae-kankou.jp/eat/sable.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The official tourism listing was updated in November 2026."
+    },
+    {
+     "name_ja": "狛江史跡銘菓 万葉最中",
+     "name_en": "Manyo Monaka Heritage Sweet",
+     "kind": "sweet",
+     "summary_en": "A traditional bean-filled monaka inspired by Komae's Manyo poetry monument. It links a local confectioner with the city's literary and historic landscape.",
+     "facts": [
+      {
+       "claim_en": "Manyo Monaka is modeled on Komae's historic Manyo poetry monument and uses a red-bean filling.",
+       "source_url": "https://www.komae-kankou.jp/eat/manyomonaka.html",
+       "source_title": "狛江史跡銘菓 万葉最中",
+       "publisher": "Komae Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "狛江凮月堂 本店",
+       "name_en": "Komae Fugetsudo Main Shop",
+       "relation_en": "Maker and documented shop for the heritage-themed monaka.",
+       "address_ja": "東京都狛江市中和泉4-24-7",
+       "official_url": "https://www.komae-kankou.jp/eat/manyomonaka.html",
+       "source_url": "https://www.komae-kankou.jp/eat/manyomonaka.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "狛江凮月堂",
+       "relation_en": "Local maker of the Manyo Monaka.",
+       "source_url": "https://www.komae-kankou.jp/eat/manyomonaka.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The official tourism listing was updated in November 2026."
+    },
+    {
+     "name_ja": "こまえ縄文マドレーヌ",
+     "name_en": "Komae Jomon Madeleine",
+     "kind": "sweet",
+     "summary_en": "A locally branded madeleine using ancient rice, with honey and sesame variations. Its name invokes the area's prehistoric heritage.",
+     "facts": [
+      {
+       "claim_en": "Komae Jomon Madeleine is a confection made with ancient rice and sold in honey and sesame varieties.",
+       "source_url": "https://www.komae-kankou.jp/eat/jomonmadeleine.html",
+       "source_title": "こまえ縄文マドレーヌ",
+       "publisher": "Komae Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "夢菓子工房セ・ジュール",
+       "name_en": "Se Jour Patisserie",
+       "relation_en": "Named producer and local shop.",
+       "address_ja": "東京都狛江市和泉本町1-2-8",
+       "official_url": "https://www.komae-kankou.jp/eat/jomonmadeleine.html",
+       "source_url": "https://www.komae-kankou.jp/eat/jomonmadeleine.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "夢菓子工房セ・ジュール",
+       "relation_en": "Maker of the ancient-rice madeleine.",
+       "source_url": "https://www.komae-kankou.jp/eat/jomonmadeleine.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The source confirms the ancient-rice ingredient but does not establish that the rice is grown in Komae."
+    },
+    {
+     "name_ja": "多摩川のアユ漁・川魚料理",
+     "name_en": "Historic Tama River Ayu Fishing and River-Fish Cuisine",
+     "kind": "fishing",
+     "summary_en": "Fishing for ayu was once a major part of the Tama River's food culture around Komae. Historical accounts describe professional net fishing, fishing demonstrations for visitors and riverside establishments serving freshwater fish.",
+     "facts": [
+      {
+       "claim_en": "Traditional ayu fishing around Komae used several net-fishing methods, including casting nets and the historic unawa technique.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/45,3431,349,2100,html",
+       "source_title": "多摩川のアユ漁",
+       "publisher": "Komae City"
+      },
+      {
+       "claim_en": "From the Meiji period into the early Showa period, tourists visited the river to enjoy ayu dishes and observe fishing demonstrations.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/45,727,349,2102,html",
+       "source_title": "鵜飼も行われていた、多摩川の漁業",
+       "publisher": "Komae City"
+      },
+      {
+       "claim_en": "Komae City records former riverside establishments associated with freshwater fish dishes.",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/45,727,349,2102,html",
+       "source_title": "鵜飼も行われていた、多摩川の漁業",
+       "publisher": "Komae City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "多摩川・狛江市沿岸",
+       "name_en": "Tama River, Komae Riverside",
+       "relation_en": "Historic landscape of ayu fishing and riverside fish cuisine; not a verified current commercial fishing venue.",
+       "address_ja": "東京都狛江市 多摩川沿岸",
+       "official_url": "https://www.city.komae.tokyo.jp/index.cfm/45,727,349,2102,html",
+       "source_url": "https://www.city.komae.tokyo.jp/index.cfm/45,727,349,2102,html"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Historical food culture only. The sources do not establish a present-day fishing demonstration or river-fish restaurant."
+    },
+    {
+     "name_ja": "K.Base Roastery Lab. オリジナルドリップバッグ",
+     "name_en": "K.Base Roastery Lab. Local Coffee",
+     "kind": "brand",
+     "summary_en": "A Komae coffee roaster produces original drip-bag coffee using established roasting techniques. The product is recognized by the city's tourism association as a local specialty.",
+     "facts": [
+      {
+       "claim_en": "Komae Tourism Association lists K.Base Roastery Lab.'s original drip bags among its recommended local products.",
+       "source_url": "https://www.komae-kankou.jp/eat/ayunosugatayaki.html",
+       "source_title": "オリジナルドリップバッグ",
+       "publisher": "Komae Tourism Association"
+      },
+      {
+       "claim_en": "The listed producer uses an established roasting technique and a long-serving roasting machine.",
+       "source_url": "https://www.komae-kankou.jp/eat/ayunosugatayaki.html",
+       "source_title": "オリジナルドリップバッグ",
+       "publisher": "Komae Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "K.Base Roastery Lab.",
+       "name_en": "K.Base Roastery Lab.",
+       "relation_en": "Local coffee roaster and producer of the promoted drip-bag product.",
+       "address_ja": "東京都狛江市中和泉2-11-1 中和泉第一マンション106",
+       "official_url": "https://www.komae-kankou.jp/eat/ayunosugatayaki.html",
+       "source_url": "https://www.komae-kankou.jp/eat/ayunosugatayaki.html"
+      },
+      {
+       "name_ja": "K.BASE COFFEE STAND",
+       "name_en": "K.Base Coffee Stand",
+       "relation_en": "Related local coffee outlet listed by the tourism association.",
+       "address_ja": "東京都狛江市東和泉2-4-11",
+       "official_url": "https://www.komae-kankou.jp/eat/ayunosugatayaki.html",
+       "source_url": "https://www.komae-kankou.jp/eat/ayunosugatayaki.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "K.Base Roastery Lab.",
+       "relation_en": "Local specialty coffee roaster.",
+       "source_url": "https://www.komae-kankou.jp/eat/ayunosugatayaki.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "Included as a locally recognized maker brand, not as a claim that the coffee beans are cultivated in Komae. The source page URL has an older, unrelated slug, but its current displayed title and content are about coffee."
+    }
+   ],
+   "none_found_reason_en": ""
+  },
+  {
+   "id": "higashiyamato",
+   "name_ja": "東大和市",
+   "food_cultures": [
+    {
+     "name_ja": "東大和産狭山茶",
+     "name_en": "Higashiyamato-Grown Sayama Tea",
+     "kind": "drink",
+     "summary_en": "Sayama tea is a defining local crop and beverage of Higashiyamato. The city has tea fields and several established growers that cultivate, process and sell Tokyo-grown tea.",
+     "facts": [
+      {
+       "claim_en": "Higashiyamato City identifies Sayama tea as a locally cultivated agricultural specialty.",
+       "source_url": "https://www.city.higashiyamato.lg.jp/business/nougyo/1003981/1009334.html",
+       "source_title": "東大和市の農産物",
+       "publisher": "Higashiyamato City"
+      },
+      {
+       "claim_en": "The city identifies Kinoshitaen, Sugimotoen and Kouemon as local tea producers.",
+       "source_url": "https://www.city.higashiyamato.lg.jp/business/nougyo/1003981/1009334.html",
+       "source_title": "東大和市の農産物",
+       "publisher": "Higashiyamato City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "お茶の木下園",
+       "name_en": "Kinoshitaen Tea Farm",
+       "relation_en": "Historic local tea grower making green tea and other tea varieties.",
+       "address_ja": "東京都東大和市清水5-1089-1",
+       "official_url": "https://tokyotea.official.ec/about",
+       "source_url": "https://syeahagu.jp/shops/higashiyamato/kinoshitaen/"
+      },
+      {
+       "name_ja": "杉本園製茶",
+       "name_en": "Sugimotoen Tea",
+       "relation_en": "Local tea producer and shop.",
+       "address_ja": "東京都東大和市狭山5-1636-8",
+       "official_url": "https://www.sugimotoen.jp/all/",
+       "source_url": "https://www.sugimotoen.jp/all/"
+      },
+      {
+       "name_ja": "幸右衛門茶舗 本店",
+       "name_en": "Kouemon Tea Main Shop",
+       "relation_en": "Historic tea producer with a shop among tea fields and an adjacent cafe.",
+       "address_ja": "東京都東大和市高木3-220",
+       "official_url": "https://kouemon.jp/",
+       "source_url": "https://kouemon.jp/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "お茶の木下園",
+       "relation_en": "Local grower and processor of Sayama tea.",
+       "source_url": "https://syeahagu.jp/shops/higashiyamato/kinoshitaen/"
+      },
+      {
+       "name_ja": "杉本園製茶",
+       "relation_en": "Local tea producer.",
+       "source_url": "https://www.sugimotoen.jp/all/"
+      },
+      {
+       "name_ja": "幸右衛門茶舗",
+       "relation_en": "Historic local tea grower and merchant.",
+       "source_url": "https://kouemon.jp/"
+      }
+     ],
+     "season_en": "Tea harvests are seasonal; processed tea products extend beyond the harvest.",
+     "confidence": "high",
+     "notes_en": "One of the municipality's strongest producer-and-visit themes."
+    },
+    {
+     "name_ja": "木下園 東京紅茶",
+     "name_en": "Kinoshitaen Tokyo Black Tea",
+     "kind": "drink",
+     "summary_en": "Kinoshitaen makes Tokyo Black Tea from tea grown and processed in Higashiyamato. The brand revives Japanese black-tea production using local expertise in green tea.",
+     "facts": [
+      {
+       "claim_en": "Kinoshitaen produces the 東京紅茶 brand alongside green tea at its Higashiyamato operation.",
+       "source_url": "https://tokyotea.official.ec/about",
+       "source_title": "ABOUT｜お茶の木下園",
+       "publisher": "Kinoshitaen"
+      },
+      {
+       "claim_en": "The producer dates its revival of domestic black tea to 2001.",
+       "source_url": "https://tokyotea.official.ec/about",
+       "source_title": "ABOUT｜お茶の木下園",
+       "publisher": "Kinoshitaen"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "お茶の木下園",
+       "name_en": "Kinoshitaen Tea Farm",
+       "relation_en": "Producer and local sales site for Tokyo Black Tea.",
+       "address_ja": "東京都東大和市清水5-1089-1",
+       "official_url": "https://tokyotea.official.ec/about",
+       "source_url": "https://syeahagu.jp/shops/higashiyamato/kinoshitaen/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "木下園製茶工場",
+       "relation_en": "Grower, processor and brand owner of Tokyo Black Tea.",
+       "source_url": "https://tokyotea.official.ec/about"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A named Tokyo tea brand with a directly identified local producer."
+    },
+    {
+     "name_ja": "杉本園 東大和紅茶",
+     "name_en": "Sugimotoen Higashiyamato Black Tea",
+     "kind": "drink",
+     "summary_en": "Sugimotoen offers a black tea named explicitly for Higashiyamato. It represents another local interpretation of Japanese black-tea production distinct from Kinoshitaen's Tokyo Black Tea.",
+     "facts": [
+      {
+       "claim_en": "Sugimotoen lists 東大和紅茶 in both loose-leaf and tea-bag forms among its own products.",
+       "source_url": "https://www.sugimotoen.jp/all/",
+       "source_title": "商品一覧",
+       "publisher": "Sugimotoen Tea"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "杉本園製茶",
+       "name_en": "Sugimotoen Tea",
+       "relation_en": "Local maker and shop selling Higashiyamato Black Tea.",
+       "address_ja": "東京都東大和市狭山5-1636-8",
+       "official_url": "https://www.sugimotoen.jp/all/",
+       "source_url": "https://www.sugimotoen.jp/all/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "杉本園製茶",
+       "relation_en": "Producer of Higashiyamato Black Tea.",
+       "source_url": "https://www.sugimotoen.jp/all/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A separate local black-tea brand from Kinoshitaen's 東京紅茶."
+    },
+    {
+     "name_ja": "幸右衛門茶舗の茶づくり",
+     "name_en": "Kouemon Historic Tea-Making",
+     "kind": "brand",
+     "summary_en": "Founded in 1780, Kouemon maintains a long-standing tea-making tradition in Higashiyamato. Its estate links tea fields, a historic merchant identity and a contemporary cafe.",
+     "facts": [
+      {
+       "claim_en": "Kouemon dates its founding to 1780 and identifies its business with the Tokyo Sayama tea tradition.",
+       "source_url": "https://kouemon.jp/",
+       "source_title": "幸右衛門茶舗",
+       "publisher": "Kouemon"
+      },
+      {
+       "claim_en": "Its main shop stands among tea fields and has an adjacent cafe called Café de 幸右衛門.",
+       "source_url": "https://kouemon.jp/",
+       "source_title": "幸右衛門茶舗",
+       "publisher": "Kouemon"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "幸右衛門茶舗 本店",
+       "name_en": "Kouemon Tea Main Shop",
+       "relation_en": "Historic tea merchant's principal shop in the tea-growing landscape.",
+       "address_ja": "東京都東大和市高木3-220",
+       "official_url": "https://kouemon.jp/",
+       "source_url": "https://kouemon.jp/"
+      },
+      {
+       "name_ja": "Café de 幸右衛門",
+       "name_en": "Cafe de Kouemon",
+       "relation_en": "Cafe beside the tea merchant's main shop.",
+       "address_ja": "東京都東大和市高木3-220",
+       "official_url": "https://kouemon.jp/",
+       "source_url": "https://kouemon.jp/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "幸右衛門茶舗",
+       "relation_en": "Historic Tokyo Sayama tea producer.",
+       "source_url": "https://kouemon.jp/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Particularly suitable for a producer-centered cultural visit."
+    },
+    {
+     "name_ja": "幸右衛門茶舗のフレーバー紅茶",
+     "name_en": "Kouemon Original Flavored Teas",
+     "kind": "drink",
+     "summary_en": "Kouemon also makes its own flavored black teas. These products demonstrate how a historic Sayama tea merchant has diversified its tea culture.",
+     "facts": [
+      {
+       "claim_en": "Kouemon identifies its flavored black teas as original products made by the historic tea shop.",
+       "source_url": "https://kouemon.jp/",
+       "source_title": "幸右衛門茶舗",
+       "publisher": "Kouemon"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "幸右衛門茶舗 本店",
+       "name_en": "Kouemon Tea Main Shop",
+       "relation_en": "Producer's shop featuring its tea range.",
+       "address_ja": "東京都東大和市高木3-220",
+       "official_url": "https://kouemon.jp/",
+       "source_url": "https://kouemon.jp/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "幸右衛門茶舗",
+       "relation_en": "Creator of original flavored black teas.",
+       "source_url": "https://kouemon.jp/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A distinct contemporary tea product range from the producer's traditional green tea."
+    },
+    {
+     "name_ja": "木下園の烏龍茶・釜炒茶",
+     "name_en": "Kinoshitaen Oolong and Pan-Fired Tea",
+     "kind": "drink",
+     "summary_en": "Kinoshitaen produces more than green and black tea, including oolong and pan-fired teas. These varieties show the diversity of processing techniques practiced by a local tea grower.",
+     "facts": [
+      {
+       "claim_en": "A profile of Kinoshitaen identifies oolong and pan-fired tea among the teas produced by the historic Higashiyamato farm.",
+       "source_url": "https://syeahagu.jp/shops/higashiyamato/kinoshitaen/",
+       "source_title": "木下園",
+       "publisher": "Syeahagu"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "お茶の木下園",
+       "name_en": "Kinoshitaen Tea Farm",
+       "relation_en": "Producer of several locally processed tea styles.",
+       "address_ja": "東京都東大和市清水5-1089-1",
+       "official_url": "https://tokyotea.official.ec/about",
+       "source_url": "https://syeahagu.jp/shops/higashiyamato/kinoshitaen/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "お茶の木下園",
+       "relation_en": "Tea grower and processor.",
+       "source_url": "https://syeahagu.jp/shops/higashiyamato/kinoshitaen/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Grouped as a tea-processing tradition rather than assuming each variety has a separate local origin."
+    },
+    {
+     "name_ja": "ひがしやまと茶うどん",
+     "name_en": "Higashiyamato Tea Udon",
+     "kind": "dish",
+     "summary_en": "Tea udon combines locally produced Sayama tea powder with Higashiyamato's long-standing udon culture. It was developed by the local chamber of commerce as a modern specialty.",
+     "facts": [
+      {
+       "claim_en": "The Higashiyamato Chamber of Commerce developed tea udon using local Sayama tea and the area's traditional udon food culture.",
+       "source_url": "https://e-yamato.or.jp/chaudon/",
+       "source_title": "ひがしやまと茶うどん",
+       "publisher": "Higashiyamato Chamber of Commerce"
+      },
+      {
+       "claim_en": "Sugimotoen lists Higashiyamato Tea Udon among its products.",
+       "source_url": "https://www.sugimotoen.jp/all/",
+       "source_title": "商品一覧",
+       "publisher": "Sugimotoen Tea"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "杉本園製茶",
+       "name_en": "Sugimotoen Tea",
+       "relation_en": "Identified local retailer of tea udon.",
+       "address_ja": "東京都東大和市狭山5-1636-8",
+       "official_url": "https://www.sugimotoen.jp/all/",
+       "source_url": "https://www.sugimotoen.jp/all/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "東大和市商工会",
+       "relation_en": "Organization that developed the local tea-udon specialty.",
+       "source_url": "https://e-yamato.or.jp/chaudon/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A documented fusion of a local crop and a historic dish."
+    },
+    {
+     "name_ja": "東大和の郷土食・うどん",
+     "name_en": "Traditional Higashiyamato Udon",
+     "kind": "dish",
+     "summary_en": "Udon was historically central to family meals in Higashiyamato, especially on ceremonial occasions. It provides the culinary background for the city's modern tea-udon specialty.",
+     "facts": [
+      {
+       "claim_en": "The chamber of commerce records a custom of serving udon at the end of meals for weddings, funerals and other major family occasions.",
+       "source_url": "https://e-yamato.or.jp/chaudon/",
+       "source_title": "ひがしやまと茶うどん",
+       "publisher": "Higashiyamato Chamber of Commerce"
+      },
+      {
+       "claim_en": "A local historical archive describes handmade and simmered udon as festive foods prepared in older village households.",
+       "source_url": "https://higashiyamatoarchive.net/omeka/index.php/items/show/1539",
+       "source_title": "沈んだ村の食生活",
+       "publisher": "Higashiyamato Digital Archive"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Traditionally associated with family ceremonies and special occasions.",
+     "confidence": "high",
+     "notes_en": "This is a documented historical household food custom, not a claim that a particular restaurant preserves the original recipe."
+    },
+    {
+     "name_ja": "東京コーラ",
+     "name_en": "Tokyo Cola",
+     "kind": "drink",
+     "summary_en": "Tokyo Cola is a green carbonated drink made using Tokyo-grown green tea. Developed by Higashiyamato producer Kinoshitaen, it combines local tea cultivation with a modern soft drink.",
+     "facts": [
+      {
+       "claim_en": "Tokyo's official souvenir project identifies Tokyo Cola as a Higashiyamato product made by Kinoshitaen using Tokyo-grown green tea.",
+       "source_url": "https://www.sangyo-rodo1.metro.tokyo.lg.jp/tourism/tokyogifts62/product/49/",
+       "source_title": "東京コーラ｜TOKYO GIFTS 62",
+       "publisher": "Tokyo Metropolitan Government"
+      },
+      {
+       "claim_en": "TOKYO GROWN describes the beverage as a tea-based carbonated drink produced by the local tea maker.",
+       "source_url": "https://tokyogrown.jp/node/633784",
+       "source_title": "東京コーラ",
+       "publisher": "TOKYO GROWN"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "お茶の木下園",
+       "name_en": "Kinoshitaen Tea Farm",
+       "relation_en": "Developer and producer-associated shop for Tokyo Cola.",
+       "address_ja": "東京都東大和市清水5-1089-1",
+       "official_url": "https://tokyotea.official.ec/about",
+       "source_url": "https://tokyogrown.jp/node/633784"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "お茶の木下園",
+       "relation_en": "Local tea producer behind Tokyo Cola.",
+       "source_url": "https://www.sangyo-rodo1.metro.tokyo.lg.jp/tourism/tokyogifts62/product/49/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A strong contemporary product with Tokyo Metropolitan Government recognition."
+    },
+    {
+     "name_ja": "杉本園の狭山茶ジェラート",
+     "name_en": "Sugimotoen Tea Gelato",
+     "kind": "sweet",
+     "summary_en": "Sugimotoen transforms its tea-making identity into gelato in roasted green tea, sencha and black tea varieties. The sweets connect a traditional local producer to contemporary food tourism.",
+     "facts": [
+      {
+       "claim_en": "Sugimotoen lists original gelato varieties made with hojicha, sencha and black tea.",
+       "source_url": "https://www.sugimotoen.jp/all/",
+       "source_title": "商品一覧",
+       "publisher": "Sugimotoen Tea"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "杉本園製茶",
+       "name_en": "Sugimotoen Tea",
+       "relation_en": "Tea producer and identified seller of the three gelato varieties.",
+       "address_ja": "東京都東大和市狭山5-1636-8",
+       "official_url": "https://www.sugimotoen.jp/all/",
+       "source_url": "https://www.sugimotoen.jp/all/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "杉本園製茶",
+       "relation_en": "Producer-associated brand of tea gelato.",
+       "source_url": "https://www.sugimotoen.jp/all/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The producer confirms the product range; it does not specify the source of every non-tea ingredient."
+    },
+    {
+     "name_ja": "けやきリーフの堅焼きパイ",
+     "name_en": "Keyaki Leaf Crisp Pie",
+     "kind": "sweet",
+     "summary_en": "A crisp pastry shaped after the zelkova leaf, a symbol of Higashiyamato. It incorporates locally produced Sayama tea powder.",
+     "facts": [
+      {
+       "claim_en": "The Higashiyamato Chamber of Commerce identifies this zelkova-leaf pastry as a confection made with Higashiyamato-grown Sayama tea powder.",
+       "source_url": "https://e-yamato.or.jp/chaudon/okashi/index.html",
+       "source_title": "狭山茶パウダーのお菓子",
+       "publisher": "Higashiyamato Chamber of Commerce"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ふるや寝装",
+       "name_en": "Furuya Shinso",
+       "relation_en": "Sales agent identified for the tea-powder confection.",
+       "address_ja": "",
+       "official_url": "https://e-yamato.or.jp/chaudon/okashi/index.html",
+       "source_url": "https://e-yamato.or.jp/chaudon/okashi/index.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "お菓子工房Laboふたりしまい",
+       "relation_en": "Confectioner making the pastry with local tea powder.",
+       "source_url": "https://e-yamato.or.jp/chaudon/okashi/index.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "The documented maker is based in neighboring Musashimurayama; the connection to Higashiyamato is the local tea ingredient and city-symbol design. Current availability is not independently verified."
+    },
+    {
+     "name_ja": "茶むらんぐ",
+     "name_en": "Chameringue Tea Meringues",
+     "kind": "sweet",
+     "summary_en": "A lightly bitter-sweet meringue confection made with Higashiyamato Sayama tea powder. It is part of a product-development initiative extending local tea beyond beverages.",
+     "facts": [
+      {
+       "claim_en": "Chameringue is a meringue sweet using Sayama tea powder produced in Higashiyamato.",
+       "source_url": "https://e-yamato.or.jp/chaudon/okashi/index.html",
+       "source_title": "狭山茶パウダーのお菓子",
+       "publisher": "Higashiyamato Chamber of Commerce"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ふるや寝装",
+       "name_en": "Furuya Shinso",
+       "relation_en": "Sales agent listed for the local-tea meringues.",
+       "address_ja": "",
+       "official_url": "https://e-yamato.or.jp/chaudon/okashi/index.html",
+       "source_url": "https://e-yamato.or.jp/chaudon/okashi/index.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "お菓子工房Laboふたりしまい",
+       "relation_en": "Maker of the tea-powder meringue.",
+       "source_url": "https://e-yamato.or.jp/chaudon/okashi/index.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "The confectioner is based outside Higashiyamato, but the tea ingredient is explicitly local. Current availability is unverified."
+    },
+    {
+     "name_ja": "多摩湖梨",
+     "name_en": "Tamako Pears",
+     "kind": "crop",
+     "summary_en": "Tamako Pears are a regional fruit identity shared by Higashiyamato and neighboring Higashimurayama. Their name refers to nearby Lake Tama, and the designation covers several pear varieties.",
+     "facts": [
+      {
+       "claim_en": "Higashiyamato City identifies pears grown around Higashiyamato and Higashimurayama as 多摩湖梨 because of their proximity to Lake Tama.",
+       "source_url": "https://www.city.higashiyamato.lg.jp/business/nougyo/1003981/1009334.html",
+       "source_title": "東大和市の農産物",
+       "publisher": "Higashiyamato City"
+      },
+      {
+       "claim_en": "The regional pear designation includes varieties such as Kosui, Hosui and Inagi.",
+       "source_url": "https://www.city.higashiyamato.lg.jp/business/nougyo/1003981/1009334.html",
+       "source_title": "東大和市の農産物",
+       "publisher": "Higashiyamato City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "東大和市内農産物直売所",
+       "name_en": "Higashiyamato Farm Stands",
+       "relation_en": "The municipality documents a network of direct-sales sites where locally grown fruit may be encountered seasonally.",
+       "address_ja": "東京都東大和市内各所",
+       "official_url": "https://www.city.higashiyamato.lg.jp/business/nougyo/1003981/1003989.html",
+       "source_url": "https://www.city.higashiyamato.lg.jp/business/nougyo/1003981/1003989.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "東大和市内の梨生産農家",
+       "relation_en": "Local growers of Tamako Pears.",
+       "source_url": "https://www.city.higashiyamato.lg.jp/business/nougyo/1003981/1009334.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A named regional fruit identity, not a single pear variety. No individual producing orchard was verified."
+    },
+    {
+     "name_ja": "東大和の大根",
+     "name_en": "Higashiyamato Daikon",
+     "kind": "crop",
+     "summary_en": "Daikon is Higashiyamato's leading vegetable by both cultivated area and harvest volume. It has a longstanding role in the city's urban agriculture.",
+     "facts": [
+      {
+       "claim_en": "The municipality identifies daikon as its largest vegetable crop by both planted area and harvested amount.",
+       "source_url": "https://www.city.higashiyamato.lg.jp/business/nougyo/1003981/1009334.html",
+       "source_title": "東大和市の農産物",
+       "publisher": "Higashiyamato City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "東大和市内農産物直売所",
+       "name_en": "Higashiyamato Farm Stands",
+       "relation_en": "Direct-sales network for locally harvested vegetables.",
+       "address_ja": "東京都東大和市内各所",
+       "official_url": "https://www.city.higashiyamato.lg.jp/business/nougyo/1003981/1003989.html",
+       "source_url": "https://www.city.higashiyamato.lg.jp/business/nougyo/1003981/1003989.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "No claim is made that this is a distinct historical daikon cultivar."
+    },
+    {
+     "name_ja": "東大和のじゃがいも",
+     "name_en": "Higashiyamato Potatoes",
+     "kind": "crop",
+     "summary_en": "Potatoes are cultivated by many Higashiyamato farmers. The municipality specifically identifies Danshaku and Kitaakari among its common varieties.",
+     "facts": [
+      {
+       "claim_en": "Higashiyamato City identifies potatoes as a crop grown by many local farmers, particularly the Danshaku and Kitaakari varieties.",
+       "source_url": "https://www.city.higashiyamato.lg.jp/business/nougyo/1003981/1009334.html",
+       "source_title": "東大和市の農産物",
+       "publisher": "Higashiyamato City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "東大和市内農産物直売所",
+       "name_en": "Higashiyamato Farm Stands",
+       "relation_en": "Municipally documented network of local farm outlets.",
+       "address_ja": "東京都東大和市内各所",
+       "official_url": "https://www.city.higashiyamato.lg.jp/business/nougyo/1003981/1003989.html",
+       "source_url": "https://www.city.higashiyamato.lg.jp/business/nougyo/1003981/1003989.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A documented local crop rather than an exclusive Higashiyamato variety."
+    },
+    {
+     "name_ja": "東大和のほうれん草",
+     "name_en": "Higashiyamato Spinach",
+     "kind": "crop",
+     "summary_en": "Spinach is a representative leafy vegetable of Higashiyamato's urban farms. The city describes its cultivation as spanning the year.",
+     "facts": [
+      {
+       "claim_en": "The municipality identifies spinach as a representative locally grown vegetable cultivated throughout the year.",
+       "source_url": "https://www.city.higashiyamato.lg.jp/business/nougyo/1003981/1009334.html",
+       "source_title": "東大和市の農産物",
+       "publisher": "Higashiyamato City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "東大和市内農産物直売所",
+       "name_en": "Higashiyamato Farm Stands",
+       "relation_en": "Local farm-product sales network.",
+       "address_ja": "東京都東大和市内各所",
+       "official_url": "https://www.city.higashiyamato.lg.jp/business/nougyo/1003981/1003989.html",
+       "source_url": "https://www.city.higashiyamato.lg.jp/business/nougyo/1003981/1003989.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "Cultivated throughout the year.",
+     "confidence": "high",
+     "notes_en": "The source supports local production but not a unique named cultivar."
+    },
+    {
+     "name_ja": "東大和のさつまいも",
+     "name_en": "Higashiyamato Sweet Potatoes",
+     "kind": "crop",
+     "summary_en": "Sweet potatoes remain part of Higashiyamato's agricultural identity and crop-harvest experiences. Historic accounts also describe their importance as everyday food in older local villages.",
+     "facts": [
+      {
+       "claim_en": "The municipality identifies sweet potatoes as a locally grown crop associated with harvest activities.",
+       "source_url": "https://www.city.higashiyamato.lg.jp/business/nougyo/1003981/1009334.html",
+       "source_title": "東大和市の農産物",
+       "publisher": "Higashiyamato City"
+      },
+      {
+       "claim_en": "Historical accounts describe boiled sweet potatoes as an important everyday food in the villages associated with the present Lake Tama area.",
+       "source_url": "https://higashiyamatoarchive.net/omeka/index.php/items/show/1539",
+       "source_title": "沈んだ村の食生活",
+       "publisher": "Higashiyamato Digital Archive"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "東大和市内農産物直売所",
+       "name_en": "Higashiyamato Farm Stands",
+       "relation_en": "Local outlets for crops grown in the municipality.",
+       "address_ja": "東京都東大和市内各所",
+       "official_url": "https://www.city.higashiyamato.lg.jp/business/nougyo/1003981/1003989.html",
+       "source_url": "https://www.city.higashiyamato.lg.jp/business/nougyo/1003981/1003989.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The historical account supplies additional cultural depth beyond the present crop listing."
+    },
+    {
+     "name_ja": "東大和の地場果樹",
+     "name_en": "Higashiyamato Local Orchard Fruits",
+     "kind": "crop",
+     "summary_en": "Alongside Tamako Pears, Higashiyamato farms produce grapes, mandarins, blueberries and apples. These fruits form part of the city's smaller-scale direct-sale agricultural landscape.",
+     "facts": [
+      {
+       "claim_en": "Higashiyamato City identifies grapes, mandarins, blueberries and apples among fruits harvested in the municipality.",
+       "source_url": "https://www.city.higashiyamato.lg.jp/business/nougyo/1003981/1009334.html",
+       "source_title": "東大和市の農産物",
+       "publisher": "Higashiyamato City"
+      },
+      {
+       "claim_en": "The municipality documents a network of local direct-sales outlets that includes seasonal fruit.",
+       "source_url": "https://www.city.higashiyamato.lg.jp/business/nougyo/1003981/1003989.html",
+       "source_title": "市内直売所のご案内",
+       "publisher": "Higashiyamato City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "東大和市内農産物直売所",
+       "name_en": "Higashiyamato Farm Stands",
+       "relation_en": "Network of outlets for seasonal fruit and other locally harvested produce.",
+       "address_ja": "東京都東大和市内各所",
+       "official_url": "https://www.city.higashiyamato.lg.jp/business/nougyo/1003981/1003989.html",
+       "source_url": "https://www.city.higashiyamato.lg.jp/business/nougyo/1003981/1003989.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "Varies by fruit.",
+     "confidence": "high",
+     "notes_en": "Grouped because the municipal source documents these crops collectively without establishing separate named regional varieties."
+    },
+    {
+     "name_ja": "ひきわり飯・麦飯",
+     "name_en": "Historic Cracked-Barley Rice",
+     "kind": "dish",
+     "summary_en": "Before the creation of Lake Tama, households in the affected villages relied heavily on barley-based meals. Cracked barley, sometimes mixed with smaller quantities of rice or millet, was an everyday staple.",
+     "facts": [
+      {
+       "claim_en": "A historical account of villages submerged by the Murayama Reservoir describes cracked-barley rice and barley-based meals as everyday staples.",
+       "source_url": "https://higashiyamatoarchive.net/omeka/index.php/items/show/1539",
+       "source_title": "沈んだ村の食生活",
+       "publisher": "Higashiyamato Digital Archive"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "Historical food culture documented through a local archive; no contemporary establishment offering a reconstruction was verified."
+    },
+    {
+     "name_ja": "ばくめし",
+     "name_en": "Bakumeshi Barley Porridge",
+     "kind": "dish",
+     "summary_en": "Bakumeshi was a slowly cooked dish of whole barley, sometimes eaten with miso soup or daikon. It reflects a period when barley was more accessible than polished rice.",
+     "facts": [
+      {
+       "claim_en": "The local historical archive describes bakumeshi as whole barley cooked until soft and sometimes served with miso soup or daikon.",
+       "source_url": "https://higashiyamatoarchive.net/omeka/index.php/items/show/1539",
+       "source_title": "沈んだ村の食生活",
+       "publisher": "Higashiyamato Digital Archive"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "A historical household dish, not a verified current menu item."
+    },
+    {
+     "name_ja": "煮だんご・だんご汁",
+     "name_en": "Historic Flour Dumpling Soups",
+     "kind": "dish",
+     "summary_en": "Households in the older Higashiyamato area supplemented staple meals with dumplings cooked in broth. Recorded versions include wheat-flour dumplings and a soup using barley-flour dumplings.",
+     "facts": [
+      {
+       "claim_en": "The local historical archive documents 煮だんご, comparable to suiton, and だんご汁 made with barley-flour dumplings.",
+       "source_url": "https://higashiyamatoarchive.net/omeka/index.php/items/show/1539",
+       "source_title": "沈んだ村の食生活",
+       "publisher": "Higashiyamato Digital Archive"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "Historical food preparations associated with the older village economy. No present-day tasting venue was established."
+    },
+    {
+     "name_ja": "やきもち・たらしもち",
+     "name_en": "Historic Pan-Toasted Wheat Cakes",
+     "kind": "dish",
+     "summary_en": "Yaki-mochi, also called tarashi-mochi locally, was made from flattened wheat-flour dough cooked on a metal pan and flavored with soy sauce and sugar.",
+     "facts": [
+      {
+       "claim_en": "The historical archive records a local wheat-flour cake called やきもち or たらしもち, cooked on both sides and seasoned with soy sauce and sugar.",
+       "source_url": "https://higashiyamatoarchive.net/omeka/index.php/items/show/1539",
+       "source_title": "沈んだ村の食生活",
+       "publisher": "Higashiyamato Digital Archive"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "A documented historic preparation without a verified contemporary commercial example."
+    },
+    {
+     "name_ja": "うでまんじゅう",
+     "name_en": "Historic Boiled Manju",
+     "kind": "dish",
+     "summary_en": "Ude-manjyu was a boiled wheat-based bun recorded among the older village foods of the Higashiyamato area. It formed part of a wider flour-based food culture.",
+     "facts": [
+      {
+       "claim_en": "The local historical archive identifies うでまんじゅう as a boiled bun prepared in older village households.",
+       "source_url": "https://higashiyamatoarchive.net/omeka/index.php/items/show/1539",
+       "source_title": "沈んだ村の食生活",
+       "publisher": "Higashiyamato Digital Archive"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "Historical documentation only; ingredients beyond the broader flour-food context and modern availability were not established."
+    }
+   ],
+   "none_found_reason_en": ""
+  }
+ ],
+ "url_check": {
+  "checked_at": "2026-11-22",
+  "status": {
+   "https://agripark.tokyo/matching/search/store.php?id=nishitama_fussa_fs": 200,
+   "https://e-yamato.or.jp/chaudon/": 200,
+   "https://e-yamato.or.jp/chaudon/okashi/index.html": 200,
+   "https://fussadog.jp/dog/": 200,
+   "https://fussadog.jp/shop/": 200,
+   "https://fussadog.jp/wp-content/themes/fussa-dog/pdf/fussadogmap.pdf": 200,
+   "https://fussaham.ocnk.net/": 200,
+   "https://higashiyamatoarchive.net/omeka/index.php/items/show/1539": 200,
+   "https://kouemon.jp/": 200,
+   "https://shibataya-kitami.com/": 200,
+   "https://syeahagu.jp/shops/higashiyamato/kinoshitaen/": 200,
+   "https://tokyogrown.jp/node/633784": 200,
+   "https://tokyotea.official.ec/about": 200,
+   "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_147.html": 200,
+   "https://www.city.higashiyamato.lg.jp/business/nougyo/1003981/1003989.html": "URLError",
+   "https://www.city.higashiyamato.lg.jp/business/nougyo/1003981/1009334.html": "URLError",
+   "https://www.city.komae.tokyo.jp/index.cfm/45,3431,349,2100,html": 200,
+   "https://www.city.komae.tokyo.jp/index.cfm/45,727,349,2102,html": 200,
+   "https://www.city.komae.tokyo.jp/index.cfm/47,123244,597,3536,html": 200,
+   "https://www.city.komae.tokyo.jp/index.cfm/47,139111,611,3699,html": 200,
+   "https://www.e-mark-iishina.metro.tokyo.lg.jp/foods/detail/id=422": 200,
+   "https://www.fussakanko.jp/others/specialty/": "URLError",
+   "https://www.ja-minds.or.jp/farmstand/ms_komae.php": 200,
+   "https://www.komae-kankou.jp/eat/ayunosugatayaki.html": 200,
+   "https://www.komae-kankou.jp/eat/jomonmadeleine.html": 200,
+   "https://www.komae-kankou.jp/eat/komaale.html": 200,
+   "https://www.komae-kankou.jp/eat/komaehachimitsu.html": 200,
+   "https://www.komae-kankou.jp/eat/komaenoyasai.html": 200,
+   "https://www.komae-kankou.jp/eat/manyomonaka.html": 200,
+   "https://www.komae-kankou.jp/eat/sable.html": 200,
+   "https://www.komae-kankou.jp/edamameyokan.html": 200,
+   "https://www.ohtama.or.jp/sightseeing/148.html": 200,
+   "https://www.otama.co.jp/": 200,
+   "https://www.sangyo-rodo1.metro.tokyo.lg.jp/tourism/tokyogifts62/product/49/": 200,
+   "https://www.sugimotoen.jp/all/": 200,
+   "https://www.tamajiman.co.jp/about/": 200,
+   "https://www.tamajiman.co.jp/product/": 200,
+   "https://www.tamajiman.co.jp/sightseeing/": 200,
+   "https://www.tamurashuzojo.com/page/kura": 200
+  }
+ }
+}

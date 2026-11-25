@@ -1,0 +1,44 @@
+import type { JourneyRecord } from '../journey-record';
+
+export const b06FussaCraftBeerRecord: JourneyRecord = {
+  "municipalityId": "fussa",
+  "journey": {
+    "id": "b06-fussa-craft-beer",
+    "regionId": "fussa",
+    "foodCultureId": "fussa-craft-beer",
+    "storyId": "b06-fussa-craft-beer",
+    "routeId": "b06-fussa-craft-beer-route",
+    "copy": {"ja": {"title": "福生のクラフトビール","subtitle": "福生のクラフトビール","description": "出典を手がかりに、福生のクラフトビールを知る旅です。","tags": ["福生市"],"storyTitle": "福生のクラフトビール","intro": ["出典を手がかりに、福生のクラフトビールを知る旅です。","掲載内容は未確認です。訪問前に出典情報をご確認ください。"]},"en": {"title": "Craft beer brewed in Fussa","subtitle": "Craft beer brewed in Fussa","description": "Explore Craft beer brewed in Fussa through the linked sources.","tags": ["Fussa"],"storyTitle": "Craft beer brewed in Fussa","intro": ["Explore Craft beer brewed in Fussa through the linked sources.","This information is unconfirmed. Check the source information before visiting."]},"zh-TW": {"title": "福生精釀啤酒","subtitle": "福生精釀啤酒","description": "以出處為線索，認識福生精釀啤酒。","tags": ["福生市"],"storyTitle": "福生精釀啤酒","intro": ["以出處為線索，認識福生精釀啤酒。","刊載內容尚未確認。造訪前請查看出處資訊。"]}},
+    "chapters": {"ja": [{"number": "01.","title": "再び始まったビール醸造","body": "石川酒造は、明治期のビール醸造を経て1998年に「多摩の恵」で再びビールづくりを始めたと説明しています。"},{"number": "02.","title": "TOKYO BLUESとビール小屋","body": "同社の商品案内には東京のクラフトビール「TOKYO BLUES」もあります。観光案内は「福生のビール小屋」を、多摩の恵とTOKYO BLUESを紹介する敷地内のイタリアンレストランとして掲載しています。"}],"en": [{"number": "01.","title": "A return to brewing beer","body": "Ishikawa recounts returning to beer brewing in 1998 with Tama no Megumi, following its earlier Meiji-era brewing history."},{"number": "02.","title": "TOKYO BLUES and the brewery restaurant","body": "The producer also presents TOKYO BLUES as a Tokyo craft-beer brand. Its visitor guide links both TOKYO BLUES and Tama no Megumi to the on-site Italian restaurant, Fussa no Beer Goya."}],"zh-TW": [{"number": "01.","title": "重新釀造啤酒","body": "石川酒造說明，繼明治時期的釀啤酒歷史後，於1998年以「多摩之惠」重新開始釀造啤酒。"},{"number": "02.","title": "TOKYO BLUES與酒廠餐廳","body": "廠商亦介紹東京精釀品牌TOKYO BLUES。其參訪指南將TOKYO BLUES與多摩之惠連結至酒廠內的義式餐廳「福生啤酒小屋」。"}]},
+    "routeVariants": [{"id": "half-day","durationMinutes": 90,"steps": [{"spotId": "b06-fussa-craft-beer-beer-goya"}]}],
+  },
+  "routeName": {"ja": "福生のクラフトビール","en": "Craft beer brewed in Fussa","zh-TW": "福生精釀啤酒"},
+  "location": {"ja": {"area": "福生市","station": "","access": ""},"en": {"area": "Fussa","station": "","access": ""},"zh-TW": {"area": "福生市","station": "","access": ""}},
+  "variants": {"half-day": {"steps": [{"spotId": "b06-fussa-craft-beer-beer-goya","description": {"ja": "石川酒造が、多摩の恵とTOKYO BLUESを楽しむ醸造所敷地内のイタリアンとして紹介しています。","en": "Ishikawa describes its on-site Italian restaurant in connection with Tama no Megumi and TOKYO BLUES.","zh-TW": "石川酒造介紹其酒廠內義式餐廳與多摩之惠及TOKYO BLUES的關係。"},"note": {"ja": "時間と順序は編集上の目安です。交通手段・経路は各自ご確認ください。紹介した食品をすべて提供する行程ではありません。","en": "Timing and order are editorial estimates. Check transport and directions yourself. The itinerary does not promise every food described.","zh-TW": "時間與順序為編輯估計，請自行確認交通及路線。行程不代表會提供文中每種食品。"}}],"stats": {"ja": {"time": "約90分（編集目安）","distance": "","spots": "1 か所","station": "","minutes": "","access": "","caution": "時間と順序は編集上の目安です。交通手段・経路は各自ご確認ください。紹介した食品をすべて提供する行程ではありません。"},"en": {"time": "About 90 min (editorial estimate)","distance": "","spots": "1 stop","station": "","minutes": "","access": "","caution": "Timing and order are editorial estimates. Check transport and directions yourself. The itinerary does not promise every food described."},"zh-TW": {"time": "約 90 分鐘（編輯估計）","distance": "","spots": "1 處","station": "","minutes": "","access": "","caution": "時間與順序為編輯估計，請自行確認交通及路線。行程不代表會提供文中每種食品。"}},"guidance": {"ja": "掲載内容は未確認です。訪問前に出典情報をご確認ください。","en": "This information is unconfirmed. Check the source information before visiting.","zh-TW": "刊載內容尚未確認。造訪前請查看出處資訊。"}}},
+  "spots": {
+    "b06-fussa-craft-beer-beer-goya": {"presentation": {"id": "b06-fussa-craft-beer-beer-goya","regionId": "fussa","foodCultureId": "fussa-craft-beer","thumbnailAssetIds": [],"copy": {"ja": {"name": "福生のビール小屋","lead": "石川酒造が、多摩の恵とTOKYO BLUESを楽しむ醸造所敷地内のイタリアンとして紹介しています。","description": "石川酒造が、多摩の恵とTOKYO BLUESを楽しむ醸造所敷地内のイタリアンとして紹介しています。","tags": [],"practicalInfo": [{"label": "確認状態","value": "2026年11月24日（JST）に出典を取得。関係者による確認は未実施です。"}],"caution": ["掲載内容は未確認です。訪問前に出典情報をご確認ください。"]},"en": {"name": "Fussa no Beer Goya","lead": "Ishikawa describes its on-site Italian restaurant in connection with Tama no Megumi and TOKYO BLUES.","description": "Ishikawa describes its on-site Italian restaurant in connection with Tama no Megumi and TOKYO BLUES.","tags": [],"practicalInfo": [{"label": "Verification","value": "Sources retrieved 2026-11-24 JST; stakeholder confirmation is pending."}],"caution": ["This information is unconfirmed. Check the source information before visiting."]},"zh-TW": {"name": "福生啤酒小屋","lead": "石川酒造介紹其酒廠內義式餐廳與多摩之惠及TOKYO BLUES的關係。","description": "石川酒造介紹其酒廠內義式餐廳與多摩之惠及TOKYO BLUES的關係。","tags": [],"practicalInfo": [{"label": "確認狀態","value": "2026年11月24日（JST）取得出處，尚待相關人員確認。"}],"caution": ["刊載內容尚未確認。造訪前請查看出處資訊。"]}}},"detail": {"tags": [],"description": {"ja": "石川酒造が、多摩の恵とTOKYO BLUESを楽しむ醸造所敷地内のイタリアンとして紹介しています。","en": "Ishikawa describes its on-site Italian restaurant in connection with Tama no Megumi and TOKYO BLUES.","zh-TW": "石川酒造介紹其酒廠內義式餐廳與多摩之惠及TOKYO BLUES的關係。"},"information": [{"fieldId": "official_current_url","icon": "information","label": {"ja": "出典情報","en": "Source information","zh-TW": "出處資訊"},"value": {"ja": "https://www.tamajiman.co.jp/sightseeing/","en": "https://www.tamajiman.co.jp/sightseeing/","zh-TW": "https://www.tamajiman.co.jp/sightseeing/"}},{"fieldId": "verification_note","icon": "information","label": {"ja": "確認状態","en": "Verification","zh-TW": "確認狀態"},"value": {"ja": "2026年11月24日（JST）に出典を取得。関係者による確認は未実施です。","en": "Sources retrieved 2026-11-24 JST; stakeholder confirmation is pending.","zh-TW": "2026年11月24日（JST）取得出處，尚待相關人員確認。"}}],"caution": [{"ja": "掲載内容は未確認です。訪問前に出典情報をご確認ください。","en": "This information is unconfirmed. Check the source information before visiting.","zh-TW": "刊載內容尚未確認。造訪前請查看出處資訊。"}]},"officialSource": {"name": "福生の観光巡り | 石川酒造株式会社","url": "https://www.tamajiman.co.jp/sightseeing/","sourceType": "official_web","retrievedAt": "2026-11-24","verificationStatus": "needs_confirmation"}},
+  },
+  "story": {"groups": {"nearby": [{"referenceId": "b06-fussa-craft-beer-beer-goya","spotId": "b06-fussa-craft-beer-beer-goya","badgeColor": "#E98A1C","badge": {"ja": "福生のビール小屋","en": "Fussa no Beer Goya","zh-TW": "福生啤酒小屋"},"description": {"ja": "石川酒造が、多摩の恵とTOKYO BLUESを楽しむ醸造所敷地内のイタリアンとして紹介しています。","en": "Ishikawa describes its on-site Italian restaurant in connection with Tama no Megumi and TOKYO BLUES.","zh-TW": "石川酒造介紹其酒廠內義式餐廳與多摩之惠及TOKYO BLUES的關係。"}}],"nature": []},"location": {"ja": {"region": "福生市","station": ""},"en": {"region": "Fussa","station": ""},"zh-TW": {"region": "福生市","station": ""}}},
+  "sources": {
+    "source-4": {"name": "福生の観光巡り | 石川酒造株式会社","url": "https://www.tamajiman.co.jp/sightseeing/","sourceType": "official_web","retrievedAt": "2026-11-24","verificationStatus": "needs_confirmation"},
+    "source-12": {"name": "商品紹介 | 石川酒造株式会社","url": "https://www.tamajiman.co.jp/product/","sourceType": "official_web","retrievedAt": "2026-11-24","verificationStatus": "needs_confirmation"},
+    "editorial": {"name": "b06 editorial itinerary: timing and order estimates, not a timetable","url": "https://www.tamajiman.co.jp/sightseeing/","sourceType": "manual","retrievedAt": "2026-11-24","verificationStatus": "needs_confirmation"},
+  },
+  "facts": {
+    "journey.copy": {"sourceIds": ["source-4","source-12"],"origin": "editorial"},
+    "routeName": {"sourceIds": ["source-4","source-12"],"origin": "editorial"},
+    "location": {"sourceIds": ["source-4","source-12"],"origin": "editorial"},
+    "story.location": {"sourceIds": ["source-4","source-12"],"origin": "editorial"},
+    "journey.chapters.ja.0": {"sourceIds": ["source-12"],"origin": "editorial"},
+    "journey.chapters.en.0": {"sourceIds": ["source-12"],"origin": "editorial"},
+    "journey.chapters.zh-TW.0": {"sourceIds": ["source-12"],"origin": "editorial"},
+    "journey.chapters.ja.1": {"sourceIds": ["source-12","source-4"],"origin": "editorial"},
+    "journey.chapters.en.1": {"sourceIds": ["source-12","source-4"],"origin": "editorial"},
+    "journey.chapters.zh-TW.1": {"sourceIds": ["source-12","source-4"],"origin": "editorial"},
+    "journey.routeVariants": {"sourceIds": ["editorial"],"origin": "editorial"},
+    "variants": {"sourceIds": ["editorial"],"origin": "editorial"},
+    "spots.b06-fussa-craft-beer-beer-goya": {"sourceIds": ["source-4"],"origin": "editorial"},
+    "variants.half-day.steps.0.description": {"sourceIds": ["source-4"],"origin": "editorial"},
+    "story.groups.nearby.0": {"sourceIds": ["source-4"],"origin": "editorial"},
+  },
+};
