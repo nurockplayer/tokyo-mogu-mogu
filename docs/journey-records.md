@@ -6,9 +6,16 @@ independent of the presentation's historical `regionId` food-culture grouping.
 A registry entry alone adds no card. There is no per-municipality journey cap.
 
 Add one TypeScript data record under `src/data/journey-records/`, typed as
-`JourneyRecord` from `src/data/journey-record.ts`. Import it and append it to
-`JOURNEY_RECORDS` in that directory's `index.ts`. That list controls browse
-publication and ordering. Do not add a builder, React component, seed candidate,
+`JourneyRecord` from `src/data/journey-record.ts`. Prefix its filename and
+journey ID with the batch ID (for example, `b06-`). Import it into that
+batch's list in `src/data/journey-records/publication/` (for example, `b06.ts`)
+and add it to the array in the intended MOGU order. The catalog composes the
+batch lists in order. Record the sources in that batch's
+`docs/data-evidence/regions/<batch>/verification.md` and use its documented
+retrieval dates in the records. Start each retrieval note with
+`Retrieved during this run: YYYY-MM-DD JST.` and list its source URLs before
+the next retrieval note.
+Do not add a builder, React component, seed candidate,
 Result recommendation, route switch, persistence key, or slice-manifest switch.
 The adapter supplies the existing MOGU, Story, Route and Spot presentation maps.
 

@@ -4,13 +4,10 @@ import { fileURLToPath } from 'node:url';
 import { generateRepositoryDataVerificationLedger } from '../src/lib/data-verification-ledger-generator';
 
 const repositoryRoot = fileURLToPath(new URL('..', import.meta.url));
-const defaultOutput = fileURLToPath(
-  new URL('../docs/data-verification-ledger.md', import.meta.url),
-);
 
 function parseArguments(argv: readonly string[]): { check: boolean; output: string } {
   let check = false;
-  let output = defaultOutput;
+  let output: string | undefined;
 
   for (let index = 0; index < argv.length; index += 1) {
     const argument = argv[index];
@@ -20,7 +17,7 @@ function parseArguments(argv: readonly string[]): { check: boolean; output: stri
     }
     if (argument === '--output') {
       const value = argv[index + 1];
-      if (!value) throw new Error('--output requires a path.');
+      if (!value || value.startsWith('--')) throw new Error('--output requires a path.');
       output = resolve(repositoryRoot, value);
       index += 1;
       continue;
@@ -28,6 +25,7 @@ function parseArguments(argv: readonly string[]): { check: boolean; output: stri
     throw new Error(`Unknown argument: ${argument}`);
   }
 
+  if (!output) throw new Error('Usage: pnpm data:verification-ledger [--check] --output <path>');
   return { check, output };
 }
 
@@ -36,15 +34,15 @@ function main() {
   const rendered = generateRepositoryDataVerificationLedger();
 
   if (check) {
-    let committed: string;
+    let existing: string;
     try {
-      committed = readFileSync(output, 'utf8');
+      existing = readFileSync(output, 'utf8');
     } catch {
       console.error(`Data verification ledger is stale or missing: ${output}`);
       process.exitCode = 1;
       return;
     }
-    if (committed !== rendered) {
+    if (existing !== rendered) {
       console.error(`Data verification ledger is stale: ${output}`);
       process.exitCode = 1;
       return;

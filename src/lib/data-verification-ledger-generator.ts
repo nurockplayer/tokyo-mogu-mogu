@@ -5,7 +5,7 @@ import {
   renderDataVerificationLedger,
 } from './data-verification-ledger';
 
-/** Generate and validate the committed Ledger in a Node repository process. */
+/** Generate and validate the Ledger in a Node repository process. */
 export function generateRepositoryDataVerificationLedger(): string {
   const claims = buildRepositoryLedgerClaims();
   validateDataVerificationEvidenceManifest(DATA_VERIFICATION_EVIDENCE_MANIFEST, claims);

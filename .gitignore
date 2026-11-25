@@ -7,6 +7,9 @@ dist
 # Data acquisition raw cache (Issue #175) — large/full downloads, never committed
 .data-cache
 
+# Data Verification Ledger generated on demand.
+/docs/data-verification-ledger.md
+
 # Playwright E2E artifacts (Issue #120)
 test-results
 playwright-report

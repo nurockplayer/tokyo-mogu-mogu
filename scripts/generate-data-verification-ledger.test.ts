@@ -16,7 +16,7 @@ function run(...args: string[]) {
 }
 
 describe('data verification ledger repository command (#333)', () => {
-  it('generates deterministic bytes and --check detects drift without rewriting', () => {
+  it('generates the ledger at an explicit path and --check detects drift without rewriting', () => {
     const directory = mkdtempSync(join(tmpdir(), 'tmm-ledger-'));
     const output = join(directory, 'data-verification-ledger.md');
 
@@ -24,10 +24,6 @@ describe('data verification ledger repository command (#333)', () => {
     expect(generated.status, generated.stderr).toBe(0);
     const first = readFileSync(output, 'utf8');
     expect(first).toContain('# Data Verification Ledger');
-
-    const regenerated = run('--output', output);
-    expect(regenerated.status, regenerated.stderr).toBe(0);
-    expect(readFileSync(output, 'utf8')).toBe(first);
 
     const checked = run('--check', '--output', output);
     expect(checked.status, checked.stderr).toBe(0);
@@ -40,7 +36,7 @@ describe('data verification ledger repository command (#333)', () => {
     expect(readFileSync(output, 'utf8')).toBe('stale ledger\n');
   }, 20_000);
 
-  it('exposes the default repository regeneration command', () => {
+  it('exposes the repository regeneration command and requires an output path', () => {
     const pkg = JSON.parse(
       readFileSync(new URL('../package.json', import.meta.url), 'utf8'),
     ) as { scripts: Record<string, string> };
@@ -48,5 +44,8 @@ describe('data verification ledger repository command (#333)', () => {
     expect(pkg.scripts['data:verification-ledger']).toBe(
       'tsx scripts/generate-data-verification-ledger.ts',
     );
+    const missingOutput = run();
+    expect(missingOutput.status).not.toBe(0);
+    expect(missingOutput.stderr).toContain('--output <path>');
   });
 });
