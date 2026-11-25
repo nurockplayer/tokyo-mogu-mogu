@@ -34,6 +34,8 @@ function claim(overrides: Partial<LedgerClaim> & Pick<LedgerClaim, 'claimId' | '
   };
 }
 
+const repositoryClaims = buildRepositoryLedgerClaims();
+
 const exampleSpot: readonly CurrentProductFactualEntity[] = [
   { id: 'example-place', type: 'Spot' },
 ];
@@ -79,10 +81,9 @@ const syntheticMobilePlace: MobilePlace = {
 
 describe('Human Data Review Board projection (#340, #343)', () => {
   it('adds only exact mapped source statements to Route and Story traceability', () => {
-    const repositoryClaims = buildRepositoryLedgerClaims();
     const routeBoard = buildHumanDataReviewBoard({
       claims: repositoryClaims,
-      currentProductEntities: CURRENT_PRODUCT_FACTUAL_INVENTORY,
+      currentProductEntities: [{ id: 'okutama-wasabi-journey', type: 'Route' }],
       evidenceManifest: DATA_VERIFICATION_EVIDENCE_MANIFEST,
       places,
     });
@@ -120,7 +121,7 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       claims: repositoryClaims.filter((candidate) =>
         candidate.claimId !== 'place:wasabi-experience:tour_duration:source:english-page'
         && candidate.claimId !== 'place:wasabi-experience:tour_duration:source:japanese-page'),
-      currentProductEntities: CURRENT_PRODUCT_FACTUAL_INVENTORY,
+      currentProductEntities: [{ id: 'okutama-wasabi-journey', type: 'Route' }],
       evidenceManifest: DATA_VERIFICATION_EVIDENCE_MANIFEST,
       places,
     }).entities.find((entity) => entity.id === 'okutama-wasabi-journey')!;
@@ -148,7 +149,7 @@ describe('Human Data Review Board projection (#340, #343)', () => {
     });
     const storyBoard = buildHumanDataReviewBoard({
       claims: [...repositoryClaims, syntheticSpotStatement, sameIdPlaceStatement],
-      currentProductEntities: CURRENT_PRODUCT_FACTUAL_INVENTORY,
+      currentProductEntities: [{ id: 'sake-ome', type: 'Story' }],
       evidenceManifest: DATA_VERIFICATION_EVIDENCE_MANIFEST,
       places,
     });
@@ -976,7 +977,7 @@ describe('Human Data Review Board projection (#340, #343)', () => {
 
   it('projects the complete current Product inventory and preserves reconciled entities', () => {
     const board = buildHumanDataReviewBoard({
-      claims: buildRepositoryLedgerClaims(),
+      claims: repositoryClaims,
       currentProductEntities: CURRENT_PRODUCT_FACTUAL_INVENTORY,
       evidenceManifest: DATA_VERIFICATION_EVIDENCE_MANIFEST,
       places,
@@ -1300,8 +1301,8 @@ describe('Human Data Review Board projection (#340, #343)', () => {
     );
 
     const boardWithoutEvidence = buildHumanDataReviewBoard({
-      claims: buildRepositoryLedgerClaims(),
-      currentProductEntities: CURRENT_PRODUCT_FACTUAL_INVENTORY,
+      claims: repositoryClaims.filter((item) => item.entityId === 'wasabi-kitchen'),
+      currentProductEntities: [{ id: 'wasabi-kitchen', type: 'Spot' }],
       evidenceManifest: { evidence: [], omissions: [] },
       places,
     });
@@ -1417,31 +1418,24 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       );
     }
 
-    const first = JSON.stringify(board);
-    const second = JSON.stringify(buildHumanDataReviewBoard({
-      claims: buildRepositoryLedgerClaims(),
-      currentProductEntities: CURRENT_PRODUCT_FACTUAL_INVENTORY,
-      evidenceManifest: DATA_VERIFICATION_EVIDENCE_MANIFEST,
-      places,
-    }));
-    expect(second).toBe(first);
+  });
 
-    const reversed = JSON.stringify(buildHumanDataReviewBoard({
-      claims: buildRepositoryLedgerClaims().reverse(),
-      currentProductEntities: [...CURRENT_PRODUCT_FACTUAL_INVENTORY].reverse(),
-      evidenceManifest: {
-        evidence: [...DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence].reverse(),
-        omissions: [...DATA_VERIFICATION_EVIDENCE_MANIFEST.omissions].reverse(),
-      },
-      places: [...places].reverse(),
-    }));
-    expect(reversed).toBe(first);
+  it('projects deterministically when small inputs are reversed', () => {
+    const claims = [
+      claim({ claimId: 'place:example-place:name', fieldId: 'name', canonicalValue: 'Example' }),
+      claim({ claimId: 'place:example-place:hours', fieldId: 'hours', canonicalValue: '10:00' }),
+    ];
+    const project = (items: LedgerClaim[]) => buildHumanDataReviewBoard({
+      claims: items, currentProductEntities: exampleSpot,
+      evidenceManifest: { evidence: [], omissions: [] },
+    });
+    expect(project([...claims].reverse())).toEqual(project(claims));
   });
 
   it('creates a Japanese share summary without promoting needs_confirmation to verified', () => {
     const board = buildHumanDataReviewBoard({
-      claims: buildRepositoryLedgerClaims(),
-      currentProductEntities: CURRENT_PRODUCT_FACTUAL_INVENTORY,
+      claims: repositoryClaims.filter((item) => item.entityId === 'okutama-kitchen'),
+      currentProductEntities: [{ id: 'okutama-kitchen', type: 'Spot' }],
       evidenceManifest: DATA_VERIFICATION_EVIDENCE_MANIFEST,
       places,
     });

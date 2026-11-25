@@ -8,6 +8,8 @@ import { DATA_VERIFICATION_EVIDENCE_MANIFEST } from '../data/data-verification-e
 import { validateDataVerificationEvidenceManifest } from './data-verification-evidence';
 import { buildRepositoryLedgerClaims } from './data-verification-ledger';
 
+const repositoryClaims = buildRepositoryLedgerClaims();
+
 const claims = [
   { claimId: 'place:example:address:ja', entityId: 'example' },
   { claimId: 'place:example:phone:ja', entityId: 'example' },
@@ -45,7 +47,6 @@ describe('data verification evidence manifest (#334)', () => {
   });
 
   it('records the reusable tourism-office app baseline and the unsafe source-copy omission', () => {
-    const repositoryClaims = buildRepositoryLedgerClaims();
     const app = DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.find(
       (item) => item.evidenceId === 'okutama-tourism-office-app-ja-375',
     );
@@ -95,7 +96,6 @@ describe('data verification evidence manifest (#334)', () => {
   });
 
   it('records #329 app evidence in every locale and rights-restricted source omissions', () => {
-    const repositoryClaims = buildRepositoryLedgerClaims();
     const valleyApps = DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.filter(
       (item): item is DataVerificationAppEvidence => item.entityId === 'hikawa-valley' && item.kind === 'app',
     );
@@ -208,7 +208,6 @@ describe('data verification evidence manifest (#334)', () => {
   });
 
   it('records final Japanese Yamashiroya app evidence and the official-site rights omission (#323)', () => {
-    const repositoryClaims = buildRepositoryLedgerClaims();
     const app = DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.find(
       (item) => item.evidenceId === 'yamashiroya-app-ja-375',
     );
@@ -305,7 +304,6 @@ describe('data verification evidence manifest (#334)', () => {
   });
 
   it('records bounded Okutama no Daidokoro app evidence and source-rights omissions (#325)', () => {
-    const repositoryClaims = buildRepositoryLedgerClaims();
     const app = DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.find(
       (item) => item.evidenceId === 'okutama-kitchen-app-ja-375',
     );
@@ -414,7 +412,6 @@ describe('data verification evidence manifest (#334)', () => {
   });
 
   it('records bounded PORT OKUTAMA app evidence and source omissions (#327)', () => {
-    const repositoryClaims = buildRepositoryLedgerClaims();
     const evidenceById = new Map(
       DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.map((item) => [item.evidenceId, item]),
     );
@@ -573,7 +570,6 @@ describe('data verification evidence manifest (#334)', () => {
   });
 
   it('records localized Akabeko app evidence and every source omission (#326)', () => {
-    const repositoryClaims = buildRepositoryLedgerClaims();
     const evidenceById = new Map(
       DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.map((item) => [item.evidenceId, item]),
     );
@@ -653,7 +649,6 @@ describe('data verification evidence manifest (#334)', () => {
   });
 
   it('records localized Wasabi Shokudo evidence and source-rights omissions (#324)', () => {
-    const repositoryClaims = buildRepositoryLedgerClaims();
     const evidenceById = new Map(
       DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.map((item) => [item.evidenceId, item]),
     );
@@ -709,7 +704,6 @@ describe('data verification evidence manifest (#334)', () => {
   });
 
   it('records bounded Ome sake app evidence and exact source omissions (#348)', () => {
-    const repositoryClaims = buildRepositoryLedgerClaims();
     const evidenceById = new Map(
       DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.map((item) => [item.evidenceId, item]),
     );
@@ -832,7 +826,6 @@ describe('data verification evidence manifest (#334)', () => {
   });
 
   it('records localized Wasabi Experience evidence and separate source provenance (#328)', () => {
-    const repositoryClaims = buildRepositoryLedgerClaims();
     const evidenceById = new Map(
       DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence.map((item) => [item.evidenceId, item]),
     );

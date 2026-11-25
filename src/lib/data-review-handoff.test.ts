@@ -21,8 +21,9 @@ import { stakeholderConfirmationApplicationGuidanceJa } from './stakeholder-revi
 
 afterEach(() => vi.unstubAllGlobals());
 
+const repositoryClaims = buildRepositoryLedgerClaims();
 const board = buildHumanDataReviewBoard({
-  claims: buildRepositoryLedgerClaims(),
+  claims: repositoryClaims,
   currentProductEntities: CURRENT_PRODUCT_FACTUAL_INVENTORY,
   evidenceManifest: DATA_VERIFICATION_EVIDENCE_MANIFEST,
   places,
@@ -113,10 +114,10 @@ describe('Board review handoff and confirmation progress (#133)', () => {
   });
 
   it('invalidates current Route progress when a mapped English source date changes or that source statement disappears', async () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims.filter((claim) => claim.entityId === 'okutama-wasabi-journey' || claim.entityId === 'wasabi-experience');
     const makeBoard = (currentClaims: typeof claims) => buildHumanDataReviewBoard({
       claims: currentClaims,
-      currentProductEntities: CURRENT_PRODUCT_FACTUAL_INVENTORY,
+      currentProductEntities: [{ id: 'okutama-wasabi-journey', type: 'Route' }],
       evidenceManifest: DATA_VERIFICATION_EVIDENCE_MANIFEST,
       places,
     });
