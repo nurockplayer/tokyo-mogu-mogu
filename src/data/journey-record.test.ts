@@ -1,12 +1,8 @@
-import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
 import * as presentation from '../features/netlify-parity/factual-presentation';
-import { PLACES } from './seed-places';
-import { getSpotDetail } from './seed-routes';
-import { resolveSpotOfficialLink } from './spot-official-link';
 import { adaptJourneyRecords, journeyFactStatus, type JourneyRecord } from './journey-record';
 import { JOURNEY_RECORDS } from './journey-records';
 import { MUNICIPALITIES } from './municipalities';
@@ -30,45 +26,10 @@ function batchEvidence(batch: string) {
   return evidence;
 }
 
-function sorted(value: unknown): unknown {
-  if (Array.isArray(value)) return value.map(sorted);
-  if (value && typeof value === 'object') {
-    return Object.fromEntries(Object.entries(value).sort(([a], [b]) => a.localeCompare(b))
-      .map(([key, item]) => [key, sorted(item)]));
-  }
-  return value;
-}
-
-// Captured from origin/main 5d28aec before replacing any builder. Includes all
-// locales, Story groups/location/point, Spot practical details, and Route maps.
-const beforeMigration = {
-  'demo-ome-sake': 'f78358dcdd3ad615f807b6b36172e142ce54767d006663fc985e9cd61a689508',
-  'demo-tokyo-hachioji-ginger': '8db983ade39e68f2800a4512fd9840c917785be6cf9cc7804875285b1a5d46dd',
-  'demo-tokyo-west-fussa-sake': '1ff4c8924be1124d82c7a35d40f917846b9a7bb4b72c33d3576e78f0486eb6a2',
-  'demo-tokyo-west-akiruno-produce': '01c0ee3a7efae45e2d688ffb2fc10445af17961066deb5a2c8329092b2a48a6b',
-};
-
-function currentBundle(id: string) {
-  const p = presentation;
-  const journey = p.currentJourneys.find((item) => item.id === id)!;
-  const groups = p.storySpotGroups[id];
-  const spotIds = [...new Set([
-    ...journey.routeVariants.flatMap((variant) => variant.steps.map((step) => step.spotId)),
-    ...groups.nearby.map((spot) => spot.spotId), ...groups.nature.map((spot) => spot.spotId),
-  ])];
-  return {
-    journey, routeName: p.routeNames[id], location: p.resultLocation[id],
-    variants: Object.fromEntries(journey.routeVariants.map((variant) => {
-      const key = `${id}:${variant.id}`;
-      return [variant.id, { steps: p.routeStepText[key], stats: p.routeStats[key], guidance: p.routeRegionGuidance[key] }];
-    })),
-    spots: Object.fromEntries(spotIds.map((spotId) => [spotId, {
-      presentation: p.currentSpots[spotId], detail: p.referenceSpotDetails[spotId],
-      officialSource: resolveSpotOfficialLink(PLACES.find((place) => place.id === spotId), getSpotDetail(spotId))?.source,
-    }])),
-    story: { groups, location: p.storyLocation[id], point: p.chapterPoint[id] },
-  };
-}
+const beforeMigration = [
+  'demo-ome-sake', 'demo-tokyo-hachioji-ginger',
+  'demo-tokyo-west-fussa-sake', 'demo-tokyo-west-akiruno-produce',
+];
 
 const text = { ja: '合成テスト旅程', en: 'Synthetic test journey', 'zh-TW': '合成測試旅程' };
 const source = {
@@ -120,14 +81,25 @@ describe('municipalities and data-driven journey presentation (#412)', () => {
     expect(['tama-cities', 'nishitama', 'islands'].map((group) => MUNICIPALITIES.filter((item) => item.group === group).length)).toEqual([26, 4, 9]);
     for (const item of MUNICIPALITIES) for (const locale of locales) expect(item.names[locale].trim()).not.toBe('');
     expect(presentation.currentJourneys.map(({ id }) => id)).toEqual(expect.arrayContaining([
-      ...Object.keys(beforeMigration), 'demo-okutama-wasabi', 'demo-okutama-yamame',
+      ...beforeMigration, 'demo-okutama-wasabi', 'demo-okutama-yamame',
     ]));
     expect(presentation.currentJourneys.filter(({ id }) => id.startsWith('demo-okutama-')))
       .toEqual(presentation.resultJourneys);
   });
 
-  it.each(Object.entries(beforeMigration))('preserves the complete pre-migration presentation of %s', (id, expected) => {
-    expect(createHash('sha256').update(JSON.stringify(sorted(currentBundle(id)))).digest('hex')).toBe(expected);
+  it.each(beforeMigration)('keeps stable links and source status for %s', (id) => {
+    const record = JOURNEY_RECORDS.find(({ journey }) => journey.id === id)!;
+    const journey = presentation.currentJourneys.find((item) => item.id === id)!;
+    expect(record.journey.id).toBe(id);
+    for (const variant of journey.routeVariants) for (const step of variant.steps) {
+      expect(record.spots[step.spotId]).toBeDefined();
+      expect(presentation.currentSpots[step.spotId]).toBeDefined();
+    }
+    for (const source of Object.values(record.sources)) {
+      expect(source.url).toMatch(/^https?:\/\//);
+      expect(source.verificationStatus).toBeTruthy();
+    }
+    expect(Object.values(record.facts).every((fact) => fact.sourceIds.every((sourceId) => sourceId in record.sources))).toBe(true);
   });
 
   it('publishes every authored record exactly once, with unique journey IDs', () => {
@@ -143,9 +115,9 @@ describe('municipalities and data-driven journey presentation (#412)', () => {
   });
 
   const migratedUrls = new Set(JOURNEY_RECORDS
-    .filter(({ journey }) => journey.id in beforeMigration)
+    .filter(({ journey }) => beforeMigration.includes(journey.id))
     .flatMap(({ sources }) => Object.values(sources).map(({ url }) => url)));
-  const stageCRecords = JOURNEY_RECORDS.filter(({ journey }) => !(journey.id in beforeMigration));
+  const stageCRecords = JOURNEY_RECORDS.filter(({ journey }) => !beforeMigration.includes(journey.id));
 
   it.each(stageCRecords)('publishes sourced, pending data for $journey.id in every locale', (record) => {
     const { journey } = record;

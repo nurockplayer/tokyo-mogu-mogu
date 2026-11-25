@@ -9,7 +9,9 @@ import {
   renderDataVerificationLedger,
   type LedgerClaimInput,
 } from './data-verification-ledger';
-import { generateRepositoryDataVerificationLedger } from './data-verification-ledger-generator';
+import { DATA_VERIFICATION_EVIDENCE_MANIFEST } from '../data/data-verification-evidence-manifest';
+
+const repositoryClaims = buildRepositoryLedgerClaims();
 
 const sourceMetadata = {
   name: 'Example official source',
@@ -230,7 +232,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('consumes #334 evidence links and omissions without changing factual authority', () => {
-    const rendered = generateRepositoryDataVerificationLedger();
+    const rendered = renderDataVerificationLedger(repositoryClaims, DATA_VERIFICATION_EVIDENCE_MANIFEST.evidence, DATA_VERIFICATION_EVIDENCE_MANIFEST.omissions);
     const addressRow = rendered.split('\n').find((line) =>
       line.startsWith('| `place:okutama-tourism-office:address:ja` | Place /'),
     );
@@ -259,7 +261,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('keeps the merged #332 tourism-office facts and provenance honest', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
     const heading = claims.find((row) => row.claimId === 'place:okutama-tourism-office:name:ja');
     const informationName = claims.find(
       (row) => row.claimId === 'place:okutama-tourism-office:information_name:ja',
@@ -309,7 +311,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('traces Yamashiroya Spot, Route, and Story claims to the canonical Place (#323)', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
     const expectedSource = '奥多摩わさび本舗 山城屋（公式店舗案内）';
 
     for (const [claimId, canonicalValue, displayedValue] of [
@@ -374,7 +376,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('keeps the Jan 4 / Jan 5 Yamashiroya closure discrepancy as a conflict (#323)', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
     const conflict = claims.find(
       (claim) => claim.claimId === 'place:yamashiroya:closed_days:ja',
     );
@@ -406,7 +408,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('traces Okutama no Daidokoro Spot, Route, and Story claims to canonical sources (#325)', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
     const homeSource = '奥多摩の台所（公式サイト）';
     const menuSource = '奥多摩の台所（公式メニュー）';
 
@@ -510,7 +512,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('traces PORT OKUTAMA Spot, Route, and Story claims to canonical sources (#327)', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
     const operatorSource = 'PORT OKUTAMA（公式サイト）';
 
     for (const [claimId, canonicalValue, displayedValue] of [
@@ -602,7 +604,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('traces Akabeko facts while retaining every phone source statement (#326)', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
     const phone = claims.find((claim) => claim.claimId === 'place:akabeko:phone:ja');
 
     expect(phone).toMatchObject({
@@ -672,7 +674,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('maps the current Ome journey and Spot identities to canonical records (#348)', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
 
     expect(
       claims.find(
@@ -751,7 +753,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('traces only the displayed Ome operational and Story facts without promoting them (#348)', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
 
     for (const [fieldId, canonicalFragment, displayedFragment] of [
       ['access', '徒歩約5分', '徒歩約5分'],
@@ -893,7 +895,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('maps the visible Ome MOGU access fact to its exact SpotDetail source (#348)', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
 
     for (const [locale, displayedValue] of [
       ['ja', '沢井駅 / から徒歩 約5分'],
@@ -922,7 +924,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('keeps rendered Ome operational claims on the exact SpotDetail source lineage (#348)', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
 
     for (const expected of [
       {
@@ -947,7 +949,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('records the current Mitake cultural-property source recheck without confirmation promotion (#348)', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
 
     for (const claimId of [
       'place:mitake-shrine:name:ja',
@@ -968,7 +970,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('inventories factual presentation records in every visible locale', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
 
     expect(
       claims.find(
@@ -1021,7 +1023,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('inventories localized Story-card badges with stable group and reference IDs', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
 
     expect(
       claims.find(
@@ -1037,7 +1039,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('inventories localized Route region guidance from structured presentation data', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
 
     expect(
       claims.find(
@@ -1054,7 +1056,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('preserves the visible tourism-office pending-confirmation note', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
 
     expect(
       claims.find(
@@ -1070,7 +1072,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('preserves every structured tourism-office verification caveat', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
 
     expect(
       claims.find(
@@ -1105,7 +1107,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('preserves Hikawa Valley safety and verification notices in every locale (#329)', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
 
     expect(
       claims.find(
@@ -1131,7 +1133,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('uses the mapped Hikawa Valley Place access fact instead of reporting it as unknown (#329)', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
 
     expect(
       claims.find((row) => row.claimId === 'spot:hikawa-valley:access'),
@@ -1147,7 +1149,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('surfaces the approved initial Route comparison findings without correcting them', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
 
     expect(
       claims.find(
@@ -1172,7 +1174,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('inventories Result facts and reports cross-surface presentation drift without parsing copy', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
 
     expect(
       claims.find(
@@ -1189,7 +1191,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('inventories localized Home journey-card facts and queues their source mappings', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
     const homeClaims = claims.filter(
       (row) => row.appSurface === 'Home' && row.fieldId.startsWith('presentation:home_card_'),
     );
@@ -1221,14 +1223,14 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('removes the unsupported weekday fallback and fixed-location Route geometry (#324)', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
 
     expect(claims.some((row) => row.claimId.includes('step:wasabi-kitchen:note'))).toBe(false);
     expect(claims.some((row) => row.claimId.includes('step:wasabi-kitchen:transport_guidance'))).toBe(false);
   });
 
   it('inventories visible Route summary labels separately from structural counts', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
 
     expect(
       claims.find(
@@ -1258,7 +1260,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('describes the first displayed stop generically in route-summary provenance', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
     const akiruno = claims.find((row) =>
       row.claimId === 'route:akiruno-seasonal-produce-journey:half-day:summary_stop_count:ja');
     const okutama = claims.find((row) =>
@@ -1272,7 +1274,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('maps mobile Route guidance to canonical source-backed facts (#324)', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
     const scheduleDirectory = claims.find(
       (row) => row.claimId === 'place:wasabi-kitchen:schedule_url',
     );
@@ -1325,7 +1327,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('maps Story mobile-venue assertions to canonical authority (#324)', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
 
     expect(
       claims.find(
@@ -1351,7 +1353,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('maps Wasabi Experience seasonal and booking claims to first-party authority (#328)', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
 
     expect(claims.find((row) => row.claimId === 'spot:wasabi-experience:region_grouping')).toMatchObject({
       displayedValue: 'okutama / journey-culture-grouping',
@@ -1417,7 +1419,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('keeps embedded Story facts as stable report-only unknowns', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
 
     expect(
       claims.find(
@@ -1433,7 +1435,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('queues Story nearest-station guidance as a stable time-sensitive unknown', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
 
     expect(
       claims.find(
@@ -1460,7 +1462,7 @@ describe('repository data verification ledger (#333)', () => {
   });
 
   it('does not infer claim-level provenance from multi-source array order', () => {
-    const claims = buildRepositoryLedgerClaims();
+    const claims = repositoryClaims;
     const claim = claims.find(
       (row) => row.claimId === 'food-culture:wasabi-okutama:description',
     );
