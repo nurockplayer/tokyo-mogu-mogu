@@ -14,6 +14,7 @@ jobs:
     outputs:
       # Classified by the repository-owned shell classifier (Issue #137):
       #   docs — git diff --check only
+      #   data — focused data tests and 375px data journey check
       #   normal — typecheck / lint / test / build
       #   core — normal gates plus the current 375px Japanese MVP smoke
       risk: ${{ steps.classify.outputs.risk }}
@@ -90,8 +91,12 @@ jobs:
         if: steps.classify.outputs.risk != 'docs'
         run: pnpm lint
 
+      - name: Test data and provenance
+        if: steps.classify.outputs.risk == 'data'
+        run: pnpm test src/data/journey-record.test.ts src/lib/verification.test.ts src/lib/verification-access.test.ts src/lib/data-verification-evidence.test.ts src/lib/data-verification-ledger.test.ts src/lib/current-product-factual-inventory.test.ts
+
       - name: Test
-        if: steps.classify.outputs.risk != 'docs'
+        if: steps.classify.outputs.risk != 'docs' && steps.classify.outputs.risk != 'data'
         run: pnpm test
 
       # TypeScript validation is already owned by the explicit Typecheck step;
@@ -111,10 +116,12 @@ jobs:
       image: mcr.microsoft.com/playwright:v1.62.1-noble
       options: --user 1001
     needs: quality-gates
-    if: needs.quality-gates.outputs.risk == 'core'
+    if: contains(fromJSON('["core", "data"]'), needs.quality-gates.outputs.risk)
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -138,7 +145,14 @@ jobs:
         run: pnpm build:bundle
 
       - name: Run current MVP smoke
+        if: needs.quality-gates.outputs.risk == 'core'
         run: pnpm exec playwright test e2e/current-mvp-smoke.spec.ts
+
+      - name: Run focused data journey check
+        if: needs.quality-gates.outputs.risk == 'data'
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: CI_BASE="$(git merge-base "$BASE" "$GITHUB_SHA")" pnpm exec playwright test --config=playwright.data-tier.config.ts
 
   # One always-present status for branch protection. Docs/normal changes may
   # legitimately skip the conditional E2E job; core changes may not. Requiring
@@ -154,9 +168,14 @@ jobs:
         env:
           QUALITY_RESULT: ${{ needs.quality-gates.result }}
           E2E_RESULT: ${{ needs.golden-path-e2e.result }}
+          RISK: ${{ needs.quality-gates.outputs.risk }}
         run: |
           if [ "$QUALITY_RESULT" != "success" ]; then
             echo "Quality Gates result: $QUALITY_RESULT" >&2
+            exit 1
+          fi
+          if { [ "$RISK" = core ] || [ "$RISK" = data ]; } && [ "$E2E_RESULT" != success ]; then
+            echo "Required browser check result: $E2E_RESULT" >&2
             exit 1
           fi
           if [ "$E2E_RESULT" != "success" ] && [ "$E2E_RESULT" != "skipped" ]; then

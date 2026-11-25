@@ -37,6 +37,13 @@ fi
 risk="docs"
 
 for path in "${files[@]}"; do
+  case "$path" in
+    *.test.* | *.spec.*) [ "$risk" = core ] || risk="normal"; continue ;;
+    src/data/journey-records/* | docs/data-evidence/* | docs/research/* | research/*)
+      [ "$risk" != docs ] || risk="data"
+      continue
+      ;;
+  esac
   # normal runtime: deliberately narrow allowlist of isolated presentation
   # surfaces that the deterministic core journey never enters. Adding a new
   # path here requires classifier regression coverage; all other src/** paths
