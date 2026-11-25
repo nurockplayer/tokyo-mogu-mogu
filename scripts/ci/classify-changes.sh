@@ -6,13 +6,12 @@
 #   docs    — documentation / policy-only change: git diff --check + focused
 #             review are sufficient; no dependency install, unit tests, build,
 #             or Playwright.
+#   data    — data and evidence changes: focused unit and browser checks.
 #   normal  — runtime-adjacent change: run typecheck / lint / test / build.
-#   core    — core journey / routing / persistence / shared interaction change:
-#             normal runtime gates plus the 375px Japanese Golden-path E2E.
+#   core    — core runtime change or mixed data and normal changes:
+#             normal runtime gates plus both browser checks.
 #
-# Tier resolution is core > normal > docs: one core path makes the whole change
-# core-risk, and any runtime path overrides a docs-only classification. Unknown
-# paths are treated as "normal" so new runtime files are never skipped.
+# Unknown paths are treated as "normal" so new runtime files are never skipped.
 #
 # The classifier deliberately stays dependency-free (POSIX-ish bash) and
 # prefers simple prefix matching over a third-party path-filter action.
@@ -35,6 +34,7 @@ if [ "${#files[@]}" -eq 0 ]; then
 fi
 
 risk="docs"
+has_data=false
 
 for path in "${files[@]}"; do
   case "$path" in
@@ -44,7 +44,7 @@ for path in "${files[@]}"; do
       ;;
     *.test.* | *.spec.*) risk="normal"; continue ;;
     src/data/journey-records/* | docs/data-evidence/* | docs/research/* | research/*)
-      [ "$risk" != docs ] || risk="data"
+      has_data=true
       continue
       ;;
   esac
@@ -91,5 +91,12 @@ for path in "${files[@]}"; do
   # Unknown paths are conservatively runtime-related.
   risk="normal"
 done
+
+if [ "$has_data" = true ]; then
+  case "$risk" in
+    docs) risk="data" ;;
+    normal) risk="core" ;;
+  esac
+fi
 
 echo "$risk"
