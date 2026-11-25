@@ -13,6 +13,23 @@ import { MUNICIPALITIES } from './municipalities';
 
 const locales = ['ja', 'en', 'zh-TW'] as const;
 
+const evidenceByBatch = new Map<string, { retrievedAt: string; urls: Set<string> }[]>();
+
+function batchEvidence(batch: string) {
+  const cached = evidenceByBatch.get(batch);
+  if (cached) return cached;
+
+  const log = readFileSync(`docs/data-evidence/regions/${batch}/verification.md`, 'utf8');
+  const runs = log.split(/^Retrieved during this run: (\d{4}-\d{2}-\d{2}) JST\./m).slice(1);
+  if (runs.length === 0) throw new Error(`Missing retrieval date in ${batch}/verification.md`);
+  const evidence: { retrievedAt: string; urls: Set<string> }[] = [];
+  for (let i = 0; i < runs.length; i += 2) {
+    evidence.push({ retrievedAt: runs[i], urls: new Set(runs[i + 1].match(/https?:\/\/[^\s<>]+/g)) });
+  }
+  evidenceByBatch.set(batch, evidence);
+  return evidence;
+}
+
 function sorted(value: unknown): unknown {
   if (Array.isArray(value)) return value.map(sorted);
   if (value && typeof value === 'object') {
@@ -113,48 +130,89 @@ describe('municipalities and data-driven journey presentation (#412)', () => {
     expect(createHash('sha256').update(JSON.stringify(sorted(currentBundle(id)))).digest('hex')).toBe(expected);
   });
 
-  it('cites only existing migrated sources or URLs in the record batch verification log', () => {
-    const existingUrls = new Set(JOURNEY_RECORDS
-      .filter((record) => record.journey.id in beforeMigration)
-      .flatMap((record) => Object.values(record.sources).map(({ url }) => url)));
-    const modules = import.meta.glob<{ [key: string]: JourneyRecord }>('./journey-records/*.ts', { eager: true });
-    const authored = Object.entries(modules).filter(([path]) => !path.endsWith('/index.ts'))
-      .flatMap(([, module]) => Object.values(module));
-    expect(authored.map(({ journey }) => journey.id).sort()).toEqual(JOURNEY_RECORDS.map(({ journey }) => journey.id).sort());
-    for (const record of authored) {
-      const batch = record.journey.id.match(/^(b\d+)-/)?.[1];
-      const log = batch ? readFileSync(`docs/data-evidence/regions/${batch}/verification.md`, 'utf8') : '';
-      const loggedUrls = new Set(log.match(/https?:\/\/[^\s<>]+/g));
-      for (const source of Object.values(record.sources)) {
-        expect(Boolean(source.url && (existingUrls.has(source.url) || loggedUrls.has(source.url))),
-          `${record.journey.id}: ${source.url}`).toBe(true);
-      }
-    }
+  it('publishes every authored record exactly once, with unique journey IDs', () => {
+    const modules = import.meta.glob<Record<string, JourneyRecord>>(
+      ['./journey-records/*.ts', '!./journey-records/index.ts', '!./journey-records/*.test.ts'],
+      { eager: true },
+    );
+    const authored = Object.values(modules).flatMap((module) => Object.values(module));
+    expect(JOURNEY_RECORDS).toHaveLength(authored.length);
+    expect(new Set(JOURNEY_RECORDS)).toEqual(new Set(authored));
+    expect(new Set(presentation.currentJourneys.map(({ id }) => id)).size)
+      .toBe(presentation.currentJourneys.length);
   });
 
-  it.each(JOURNEY_RECORDS.filter(({ journey }) => /^b0[1348]-/.test(journey.id)))('publishes complete pending data for $journey.id in all locales', (record) => {
-    const output = adaptJourneyRecords([record]);
-    expect(output.currentJourneys[0].sourceStatus).toBe('needs_confirmation');
-    expect(output.currentJourneys[0].imageAssetId).toBeUndefined();
-    for (const source of Object.values(record.sources)) {
+  const migratedUrls = new Set(JOURNEY_RECORDS
+    .filter(({ journey }) => journey.id in beforeMigration)
+    .flatMap(({ sources }) => Object.values(sources).map(({ url }) => url)));
+  const stageCRecords = JOURNEY_RECORDS.filter(({ journey }) => !(journey.id in beforeMigration));
+
+  it.each(stageCRecords)('publishes sourced, pending data for $journey.id in every locale', (record) => {
+    const { journey } = record;
+    const batch = journey.id.split('-')[0];
+    expect(batch).toMatch(/^b\d+$/);
+    const evidence = batchEvidence(batch);
+
+    const sources = Object.values(record.sources);
+    expect(sources.length).toBeGreaterThan(0);
+    for (const source of sources) {
+      const { url, retrievedAt } = source;
+      expect(evidence.some((run) => retrievedAt === run.retrievedAt
+        && !!url && (run.urls.has(url) || migratedUrls.has(url))),
+      `${journey.id}: ${url} retrieved ${retrievedAt}`).toBe(true);
       expect(source.verificationStatus).toBe('needs_confirmation');
-      expect(source.retrievedAt).toBe(/^b0[348]-/.test(record.journey.id) ? '2026-11-24' : '2026-11-22');
       expect(source.confirmedAt).toBeUndefined();
     }
-    for (const locale of locales) {
-      expect(record.journey.copy[locale].title.trim()).not.toBe('');
-      for (const chapter of record.journey.chapters[locale]) expect(chapter.body.trim()).not.toBe('');
-      for (const variant of record.journey.routeVariants) {
-        const key = `${record.journey.id}:${variant.id}`;
-        expect(output.routeStepText[key].map(({ spotId }) => spotId)).toEqual(variant.steps.map(({ spotId }) => spotId));
+    for (const fact of Object.values(record.facts)) expect(fact.sourceIds.length).toBeGreaterThan(0);
+
+    const output = adaptJourneyRecords([record]);
+    const [published] = output.currentJourneys;
+    expect(published.sourceStatus).toBe('needs_confirmation');
+    const groups = output.storySpotGroups[journey.id];
+    const storySpots = [...groups.nearby, ...groups.nature];
+    for (const { spotId } of storySpots) expect(output.currentSpots[spotId]).toBeDefined();
+
+    expect(journey.routeVariants.some(({ id }) => id === 'half-day')).toBe(true);
+    for (const variant of journey.routeVariants) {
+      const key = `${journey.id}:${variant.id}`;
+      expect(output.routeStepText[key].map(({ spotId }) => spotId))
+        .toEqual(variant.steps.map(({ spotId }) => spotId));
+      for (const { spotId } of variant.steps) expect(output.currentSpots[spotId]).toBeDefined();
+      for (const locale of locales) {
         expect(output.routeStats[key][locale].spots).toContain(String(variant.steps.length));
         expect(output.routeStats[key][locale].minutes).toBe(String(variant.durationMinutes));
-        for (const { spotId } of variant.steps) {
-          expect(output.currentSpots[spotId].copy[locale].name.trim()).not.toBe('');
-          expect(output.referenceSpotDetails[spotId].description[locale].trim()).not.toBe('');
-          expect(output.referenceSpotDetails[spotId].tags).toContainEqual(expect.objectContaining({ tagId: 'confirmation-pending' }));
-          expect(output.referenceSpotDetails[spotId].caution[0][locale].trim()).not.toBe('');
-        }
+      }
+    }
+
+    for (const locale of locales) {
+      expect(journey.copy[locale].title.trim()).not.toBe('');
+      expect(journey.chapters[locale].length).toBeGreaterThan(0);
+      for (const chapter of journey.chapters[locale]) expect(chapter.body.trim()).not.toBe('');
+    }
+    for (const [spotId, spot] of Object.entries(output.currentSpots)) {
+      const detail = output.referenceSpotDetails[spotId];
+      expect(detail.tags).toContainEqual(expect.objectContaining({ tagId: 'confirmation-pending' }));
+      for (const locale of locales) {
+        expect(spot.copy[locale].name.trim()).not.toBe('');
+        expect(detail.description[locale].trim()).not.toBe('');
+        expect(detail.caution[0][locale].trim()).not.toBe('');
+      }
+    }
+
+    const publishedAssets = [
+      published.imageAssetId, published.heroAssetId,
+      ...published.routeVariants.flatMap((variant) => [
+        variant.imageAssetId, ...variant.steps.map(({ imageAssetId }) => imageAssetId),
+      ]),
+      ...storySpots.map(({ imageAssetId }) => imageAssetId),
+      ...Object.values(output.currentSpots).flatMap(({ imageAssetId, thumbnailAssetIds }) => [
+        imageAssetId, ...thumbnailAssetIds,
+      ]),
+    ];
+    for (const asset of publishedAssets) {
+      if (asset) {
+        expect(record.mediaRights?.[asset]?.sourceUrl.trim(), asset).toBeTruthy();
+        expect(record.mediaRights?.[asset]?.license.trim(), asset).toBeTruthy();
       }
     }
   });

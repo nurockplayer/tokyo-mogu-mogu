@@ -982,44 +982,17 @@ describe('Human Data Review Board projection (#340, #343)', () => {
       places,
     });
 
-    expect(board.entities).toHaveLength(CURRENT_PRODUCT_FACTUAL_INVENTORY.length);
-    expect(board.entityTypeCounts).toEqual({ Spot: 234, Story: 130, Route: 130 });
-    expect(board.entities.map((entity) => entity.id)).toEqual(expect.arrayContaining([
-      'akabeko',
-      'baba-oshijutaku',
-      'hikawa-valley',
-      'mitake-station',
-      'mitake-shrine',
-      'oku-hikawa-shrine',
-      'okutama-kitchen',
-      'okutama-station',
-      'okutama-tourism-office',
-      'port-okutama',
-      'sawai-ozawa-shuzo',
-      'sawanoien-garden',
-      'wasabi-experience',
-      'wasabi-kitchen',
-      'yamashiroya',
-      'ome-sawai-sake-journey',
-      'okutama-wasabi-journey',
-      'okutama-yamame-journey',
-      'sake-ome',
-      'wasabi-okutama',
-      'yamame-okutama',
-      'hachioji-takiyama-roadside-station',
-      'hachioji-takiyama-castle',
-      'hachioji-ginger',
-      'hachioji-ginger-journey',
-      'akiruno-farmers-center',
-      'akiruno-seoto-no-yu',
-      'produce-akiruno',
-      'akiruno-seasonal-produce-journey',
-      'fussa-tamura-shuzo',
-      'fussa-kurumiru',
-      'fussa-ishikawa-shuzo',
-      'sake-fussa',
-      'fussa-sake-journey',
-    ]));
+    const inventory = CURRENT_PRODUCT_FACTUAL_INVENTORY;
+    const entityKeys = (entities: readonly CurrentProductFactualEntity[]) =>
+      entities.map(({ id, type }) => `${type}:${id}`).sort();
+    const actualKeys = entityKeys(board.entities);
+    expect(new Set(actualKeys).size).toBe(actualKeys.length);
+    expect(actualKeys).toEqual(entityKeys(inventory));
+    expect(board.entityTypeCounts).toEqual({
+      Spot: inventory.filter(({ type }) => type === 'Spot').length,
+      Story: inventory.filter(({ type }) => type === 'Story').length,
+      Route: inventory.filter(({ type }) => type === 'Route').length,
+    });
 
     const omeStory = board.entities.find((entity) => entity.id === 'sake-ome');
     const akirunoFarmers = board.entities.find((entity) => entity.id === 'akiruno-farmers-center');

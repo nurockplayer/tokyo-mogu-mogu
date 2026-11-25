@@ -21,17 +21,18 @@ current Product factual presentation inventory
 → Human Data Review Board
 ```
 
-- Board の確認対象は、現在公開されている 2 つの journey の Route / Story と、
+- Board の確認対象は、現在公開されている journey の Route / Story と、
   そこから到達できる Spot の構造化された presentation identity から決まります。
 - #321 の担当 Issue がまだ付いていない current Product entity も、`unknown` / `demo`
   や出典・証拠なしの状態を保ったまま表示します。
 - Ledger に claim があるだけの休止中・過去の entity は確認対象に含めません。
 - canonical / presentation の値は Board 専用ファイルへコピーしません。
-- `docs/data-verification-ledger.md` をデータとして読み戻しません。
 - 画像や Issue / PR の文章から事実を推定しません。
 - evidence screenshot はレビュー証拠であり、検証状態や canonical value を変更しません。
 - source screenshot を保存できない場合は、evidence manifest の省略理由を表示し、代替画像を作りません。
 - 位置情報の提供元は、施設・事業者の出典と分けて表示します。
+
+Markdown は[生成手順](data-verification-ledger-guide.md)に沿って出力できます。
 
 ## 状態の読み方
 

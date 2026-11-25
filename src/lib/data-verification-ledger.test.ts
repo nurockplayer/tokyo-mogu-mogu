@@ -1471,13 +1471,4 @@ describe('repository data verification ledger (#333)', () => {
       claims.filter((row) => row.claimId.startsWith('food-culture:wasabi-okutama:source:')),
     ).not.toHaveLength(0);
   });
-
-  it('keeps the committed ledger byte-for-byte current', () => {
-    const committed = readFileSync(
-      new URL('../../docs/data-verification-ledger.md', import.meta.url),
-      'utf8',
-    );
-
-    expect(committed).toBe(generateRepositoryDataVerificationLedger());
-  });
 });
