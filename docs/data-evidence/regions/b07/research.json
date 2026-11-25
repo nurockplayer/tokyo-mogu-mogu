@@ -1,0 +1,2039 @@
+{
+ "batch": "b07",
+ "researched_at": "2026-11-22",
+ "municipalities": [
+  {
+   "id": "kiyose",
+   "name_ja": "清瀬市",
+   "food_cultures": [
+    {
+     "name_ja": "清瀬産にんじん",
+     "name_en": "Kiyose Carrots",
+     "kind": "crop",
+     "summary_en": "Kiyose is Tokyo's leading carrot-producing municipality by both cultivation area and production volume. Its deep volcanic soils support root vegetables, and carrots have become central to the city's agricultural identity.",
+     "facts": [
+      {
+       "claim_en": "Carrot cultivation expanded from the 1950s, and Kiyose ranks first in Tokyo for carrot cultivation area and production.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_141.html",
+       "source_title": "にんじん｜地域資源紹介記事",
+       "publisher": "Tokyo Metropolitan Government"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "みらい清瀬新鮮館",
+       "name_en": "Mirai Kiyose Fresh Market",
+       "relation_en": "JA farmers' market selling local vegetables and carrot-based processed products.",
+       "address_ja": "東京都清瀬市中里3-892-7",
+       "official_url": "https://www.ja-tokyomirai.or.jp/agriculture/",
+       "source_url": "https://life.ja-group.jp/farm/market/detail?id=618"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "JA東京みらい",
+       "relation_en": "Agricultural cooperative supporting local carrot growers and marketing.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_141.html"
+      }
+     ],
+     "season_en": "Autumn and winter are important harvest periods; individual farms have different cropping schedules.",
+     "confidence": "high",
+     "notes_en": "A strong destination anchor linking agricultural fields, direct sales, local manufacturing and municipal identity."
+    },
+    {
+     "name_ja": "清瀬産ごぼう",
+     "name_en": "Kiyose Burdock Root",
+     "kind": "crop",
+     "summary_en": "Burdock is another important crop of Kiyose's root-vegetable agriculture. The city's soil is well suited to long-rooted vegetables, and local burdock is also used in branded snacks.",
+     "facts": [
+      {
+       "claim_en": "Kiyose's deep black soil favors burdock cultivation, and the city is one of Tokyo's significant burdock-producing areas.",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism",
+       "source_title": "お土産・地域産品",
+       "publisher": "Kiyose Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "みらい清瀬新鮮館",
+       "name_en": "Mirai Kiyose Fresh Market",
+       "relation_en": "A local agricultural market suitable for exploring Kiyose's seasonal root vegetables.",
+       "address_ja": "東京都清瀬市中里3-892-7",
+       "official_url": "https://www.ja-tokyomirai.or.jp/agriculture/",
+       "source_url": "https://life.ja-group.jp/farm/market/detail?id=618"
+      }
+     ],
+     "makers": [],
+     "season_en": "Seasonal, with autumn and winter root-vegetable production.",
+     "confidence": "high",
+     "notes_en": "Particularly relevant to the kinpira-flavored Kiyosebo snack."
+    },
+    {
+     "name_ja": "清瀬の葉物野菜",
+     "name_en": "Kiyose Leafy Greens",
+     "kind": "crop",
+     "summary_en": "Spinach and komatsuna are part of Kiyose's substantial urban farming economy. Together with cabbage and daikon, they illustrate the city's tradition of supplying fresh vegetables to Tokyo.",
+     "facts": [
+      {
+       "claim_en": "The local tourism association identifies spinach, cabbage, daikon and komatsuna among Kiyose's principal crops and describes their use in local school meals and direct sales.",
+       "source_url": "https://www.kiyosekanko.tokyo/about",
+       "source_title": "清瀬市はどんなまち？",
+       "publisher": "Kiyose Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "みらい清瀬新鮮館",
+       "name_en": "Mirai Kiyose Fresh Market",
+       "relation_en": "A local-produce market where visitors can explore the city's vegetable-growing culture.",
+       "address_ja": "東京都清瀬市中里3-892-7",
+       "official_url": "https://www.ja-tokyomirai.or.jp/agriculture/",
+       "source_url": "https://life.ja-group.jp/farm/market/detail?id=618"
+      }
+     ],
+     "makers": [],
+     "season_en": "Seasonal production throughout the year; many leafy greens are associated with the cooler months.",
+     "confidence": "high",
+     "notes_en": "The source establishes a local farming culture rather than a uniquely named cultivar."
+    },
+    {
+     "name_ja": "清瀬産とうもろこし",
+     "name_en": "Kiyose Sweet Corn",
+     "kind": "crop",
+     "summary_en": "Sweet corn is grown on Kiyose farms and has become an ingredient in several distinctive city-branded foods. Local processors also use corn that would otherwise be discarded.",
+     "facts": [
+      {
+       "claim_en": "Kiyose-grown sweet corn is used in Kiyoseman and in a locally developed snack that incorporates powdered corn kernels and cobs.",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism",
+       "source_title": "お土産・地域産品",
+       "publisher": "Kiyose Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ミーとモモの店",
+       "name_en": "Mi to Momo Farm Shop",
+       "relation_en": "A producer-direct outlet listing summer sweet corn among its crops.",
+       "address_ja": "東京都清瀬市下清戸5-906-1",
+       "official_url": "",
+       "source_url": "https://www.kiyosekanko.tokyo/useful/agri"
+      }
+     ],
+     "makers": [],
+     "season_en": "Summer, including July harvests at the cited farm.",
+     "confidence": "high",
+     "notes_en": "An important ingredient connecting agricultural production with branded local food."
+    },
+    {
+     "name_ja": "清瀬のいちご栽培",
+     "name_en": "Kiyose Strawberry Farming",
+     "kind": "crop",
+     "summary_en": "Kiyose has strawberry farms offering locally grown fruit and farm-based experiences. The cultivation and direct-sale model connects visitors with the city's agricultural landscape.",
+     "facts": [
+      {
+       "claim_en": "Tucci Strawberry Farm grows varieties including Benihoppe, Kaorino and Yotsuboshi and operates a farm-direct strawberry outlet.",
+       "source_url": "https://www.kiyosekanko.tokyo/useful/agri",
+       "source_title": "農作物直売所 マップ＆検索",
+       "publisher": "Kiyose Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "Tucciいちご農園",
+       "name_en": "Tucci Strawberry Farm",
+       "relation_en": "Local strawberry farm and producer-direct outlet.",
+       "address_ja": "東京都清瀬市下清戸2-528-1",
+       "official_url": "",
+       "source_url": "https://www.kiyosekanko.tokyo/useful/agri"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "Tucciいちご農園",
+       "relation_en": "Producer of locally grown strawberries.",
+       "source_url": "https://www.kiyosekanko.tokyo/useful/agri"
+      }
+     ],
+     "season_en": "Approximately December to May.",
+     "confidence": "high",
+     "notes_en": "A documented agricultural experience rather than a traditional regional dish."
+    },
+    {
+     "name_ja": "清瀬のブルーベリー",
+     "name_en": "Kiyose Blueberries",
+     "kind": "crop",
+     "summary_en": "Blueberry growing and direct sales form part of Kiyose's seasonal fruit-farming culture. Local farms also provide fruit-picking experiences and supply ingredients for preserves.",
+     "facts": [
+      {
+       "claim_en": "Kiyose Tourism Association identifies multiple blueberry farms, including Sakama Engei, which grows blueberries using organic farming methods.",
+       "source_url": "https://www.kiyosekanko.tokyo/useful/agri",
+       "source_title": "農作物直売所 マップ＆検索",
+       "publisher": "Kiyose Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "坂間園芸",
+       "name_en": "Sakama Engei",
+       "relation_en": "Blueberry producer with fruit-picking and direct sales.",
+       "address_ja": "東京都清瀬市下宿1-183",
+       "official_url": "",
+       "source_url": "https://www.kiyosekanko.tokyo/useful/agri"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "坂間園芸",
+       "relation_en": "Local blueberry grower.",
+       "source_url": "https://www.kiyosekanko.tokyo/useful/agri"
+      }
+     ],
+     "season_en": "Summer, especially July and August.",
+     "confidence": "high",
+     "notes_en": "Kiyose also supports processed blueberry products."
+    },
+    {
+     "name_ja": "清瀬のぶどう・梨・季節果樹",
+     "name_en": "Kiyose Orchard Fruits",
+     "kind": "crop",
+     "summary_en": "Kiyose has small-scale orchards producing grapes, pears and other seasonal fruits. Producer-direct sales preserve a connection between local households and fruit growers.",
+     "facts": [
+      {
+       "claim_en": "The local tourism association lists Kaneshinen as a producer of grapes and pears and Seki Engei as a producer of grapes and several other seasonal fruits.",
+       "source_url": "https://www.kiyosekanko.tokyo/useful/agri",
+       "source_title": "農作物直売所 マップ＆検索",
+       "publisher": "Kiyose Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "金信園",
+       "name_en": "Kaneshinen Orchard",
+       "relation_en": "Producer-direct sales of seasonal grapes and pears.",
+       "address_ja": "東京都清瀬市下宿1-217",
+       "official_url": "",
+       "source_url": "https://www.kiyosekanko.tokyo/useful/agri"
+      },
+      {
+       "name_ja": "セキ園芸",
+       "name_en": "Seki Engei",
+       "relation_en": "Orchard growing grapes, persimmons, chestnuts, ginkgo nuts and other fruit.",
+       "address_ja": "東京都清瀬市中清戸4-1031",
+       "official_url": "",
+       "source_url": "https://www.kiyosekanko.tokyo/useful/agri"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "金信園",
+       "relation_en": "Grape and pear producer.",
+       "source_url": "https://www.kiyosekanko.tokyo/useful/agri"
+      },
+      {
+       "name_ja": "セキ園芸",
+       "relation_en": "Producer of multiple orchard crops.",
+       "source_url": "https://www.kiyosekanko.tokyo/useful/agri"
+      }
+     ],
+     "season_en": "Late summer through winter, depending on the fruit.",
+     "confidence": "high",
+     "notes_en": "Individual crops have different seasons and may be available at different producer outlets."
+    },
+    {
+     "name_ja": "きよせにんじんジャム",
+     "name_en": "Kiyose Carrot Jam",
+     "kind": "sweet",
+     "summary_en": "A historic local processed product developed to promote Kiyose's carrot production. It became part of the city's agricultural branding efforts in the early 2000s.",
+     "facts": [
+      {
+       "claim_en": "Kiyose carrot jam was commercialized in 2003, but the local chamber of commerce announced that manufacturing would end after the production planned for July 2026.",
+       "source_url": "https://kiyose.or.jp/%E3%80%8C%E3%81%8D%E3%82%88%E3%81%9B%E3%81%AB%E3%82%93%E3%81%98%E3%83%B3%E3%82%B8%E3%83%A3%E3%83%A0%E3%80%8D%E8%A3%BD%E9%80%A0%E4%B8%AD%E6%AD%A2%E3%81%AE%E3%81%8A%E7%9F%A5%E3%82%89%E3%81%9B/",
+       "source_title": "「きよせにんじんジャム」製造中止のお知らせ",
+       "publisher": "Kiyose Chamber of Commerce"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "清瀬商工会",
+       "relation_en": "Organization involved in developing and promoting the carrot jam.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_141.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Important historical specialty, but manufacturing was discontinued in 2026. Do not present it as a reliably available current souvenir."
+    },
+    {
+     "name_ja": "清瀬にんじん焼酎・君暮らす街",
+     "name_en": "Kimi Kurasu Machi Carrot Shochu",
+     "kind": "drink",
+     "summary_en": "A carrot-based shochu developed as part of Kiyose's effort to turn local carrots into recognizable specialty products.",
+     "facts": [
+      {
+       "claim_en": "The Tokyo Metropolitan Government identifies the carrot shochu Kimi Kurasu Machi as one of the products developed through Kiyose's early carrot-branding activities.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_141.html",
+       "source_title": "にんじん｜地域資源紹介記事",
+       "publisher": "Tokyo Metropolitan Government"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "清瀬商工会",
+       "relation_en": "Participant in the city's original carrot specialty-development efforts.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_141.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Historically documented; current production and sales were not established."
+    },
+    {
+     "name_ja": "きよせ棒（きんぴらごぼう味）",
+     "name_en": "Kiyosebo Burdock-and-Carrot Snack",
+     "kind": "sweet",
+     "summary_en": "A savory souvenir snack made with powdered Kiyose carrots and burdock. It was introduced in connection with the centenary of Kiyose Station.",
+     "facts": [
+      {
+       "claim_en": "Kiyosebo combines locally produced carrot and burdock powders in a snack flavored after kinpira, a Japanese root-vegetable preparation.",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism",
+       "source_title": "お土産・地域産品",
+       "publisher": "Kiyose Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "みらい清瀬新鮮館",
+       "name_en": "Mirai Kiyose Fresh Market",
+       "relation_en": "Listed retail outlet for Kiyosebo.",
+       "address_ja": "東京都清瀬市中里3-892-7",
+       "official_url": "https://www.ja-tokyomirai.or.jp/agriculture/",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "清瀬市観光協会",
+       "relation_en": "Local tourism organization promoting the product.",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A strong contemporary example of combining agricultural products with railway history."
+    },
+    {
+     "name_ja": "きよせ棒（コーンポタージュ味）",
+     "name_en": "Kiyosebo Corn Potage Snack",
+     "kind": "other",
+     "summary_en": "A second Kiyosebo variety developed around locally grown sweet corn. Both corn kernels and cobs are incorporated into the product as part of an agricultural upcycling initiative.",
+     "facts": [
+      {
+       "claim_en": "Introduced in October 2025, the corn-potage version uses powdered kernels and cobs from locally grown corn, including produce unsuitable for ordinary marketing.",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism",
+       "source_title": "お土産・地域産品",
+       "publisher": "Kiyose Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "みらい清瀬新鮮館",
+       "name_en": "Mirai Kiyose Fresh Market",
+       "relation_en": "Listed retailer of the locally developed snack.",
+       "address_ja": "東京都清瀬市中里3-892-7",
+       "official_url": "https://www.ja-tokyomirai.or.jp/agriculture/",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "清瀬市観光協会",
+       "relation_en": "Promoter of the product and its local agricultural story.",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A distinctive local food-culture story about reducing agricultural waste."
+    },
+    {
+     "name_ja": "東京・清瀬 やさいあられ",
+     "name_en": "Tokyo Kiyose Vegetable Arare",
+     "kind": "other",
+     "summary_en": "A vegetable-flavored rice-cracker product created through collaboration between Kiyose's tourism association and a long-established local confectionery company.",
+     "facts": [
+      {
+       "claim_en": "The product uses Kiyose corn and burdock alongside other vegetable ingredients and was jointly developed with Tamagawa Seika, the company behind Senbe Mioku Honpo.",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism",
+       "source_title": "お土産・地域産品",
+       "publisher": "Kiyose Tourism Association"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "玉川製菓株式会社",
+       "relation_en": "Local confectionery manufacturer collaborating on the vegetable rice crackers.",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism"
+      },
+      {
+       "name_ja": "清瀬市観光協会",
+       "relation_en": "Joint developer of the local agricultural souvenir.",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The tourism association explicitly marks this product as temporarily unavailable for sale."
+    },
+    {
+     "name_ja": "キヨセゴーゴーカレー",
+     "name_en": "Kiyose Go Go Curry",
+     "kind": "dish",
+     "summary_en": "A locally branded packaged curry celebrating Kiyose's carrots and municipal anniversary. It incorporates local carrots into a collaboration with the Japanese curry company Go Go Curry.",
+     "facts": [
+      {
+       "claim_en": "Developed to commemorate the city's 55th anniversary in 2025, the curry includes Kiyose carrots as a distinguishing ingredient.",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism",
+       "source_title": "お土産・地域産品",
+       "publisher": "Kiyose Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "みらい清瀬新鮮館",
+       "name_en": "Mirai Kiyose Fresh Market",
+       "relation_en": "Listed local outlet for the packaged curry.",
+       "address_ja": "東京都清瀬市中里3-892-7",
+       "official_url": "https://www.ja-tokyomirai.or.jp/agriculture/",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ゴーゴーカレー",
+       "relation_en": "Commercial collaborator on the locally branded curry.",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A modern branded food rather than a traditional local curry recipe."
+    },
+    {
+     "name_ja": "清瀬まん",
+     "name_en": "Kiyoseman Steamed Bun",
+     "kind": "dish",
+     "summary_en": "A Kiyose-branded steamed bun filled with keema curry containing locally grown carrots and sweet corn. It represents a contemporary attempt to turn the city's vegetables into an identifiable local snack.",
+     "facts": [
+      {
+       "claim_en": "The 2026 version contains a keema curry filling with Kiyose-grown carrots and sweet corn, and the tourism association documents its local distribution.",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism",
+       "source_title": "お土産・地域産品",
+       "publisher": "Kiyose Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "みらい清瀬新鮮館",
+       "name_en": "Mirai Kiyose Fresh Market",
+       "relation_en": "Listed outlet for the local steamed bun.",
+       "address_ja": "東京都清瀬市中里3-892-7",
+       "official_url": "https://www.ja-tokyomirai.or.jp/agriculture/",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "清瀬市観光協会",
+       "relation_en": "Organization promoting this local vegetable-based food.",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The source describes the 2026 product as a frozen food."
+    },
+    {
+     "name_ja": "清瀬産にんじんカヌレ",
+     "name_en": "Kiyose Carrot Canelé",
+     "kind": "sweet",
+     "summary_en": "A contemporary pastry using Kiyose carrot paste in the dough. It illustrates how the city's signature crop is being adapted for Western-style confectionery.",
+     "facts": [
+      {
+       "claim_en": "The Tokyo Metropolitan Government reports that a local business produces canelés incorporating paste made from Kiyose carrots.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_141.html",
+       "source_title": "にんじん｜地域資源紹介記事",
+       "publisher": "Tokyo Metropolitan Government"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The source confirms the product but does not identify a specific retail location."
+    },
+    {
+     "name_ja": "ニンニンパン",
+     "name_en": "Ninnin Carrot Bread",
+     "kind": "other",
+     "summary_en": "A school-lunch bread incorporating powder made from surplus or nonstandard Kiyose carrots. It connects food education, local agriculture and food-waste reduction.",
+     "facts": [
+      {
+       "claim_en": "Kiyose began serving Ninnin Bread in municipal school lunches in 2023 using carrot powder produced by a local welfare workshop.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_141.html",
+       "source_title": "にんじん｜地域資源紹介記事",
+       "publisher": "Tokyo Metropolitan Government"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A school food-education initiative, not a confirmed retail food experience."
+    },
+    {
+     "name_ja": "きよはち",
+     "name_en": "Kiyohachi Municipal Honey",
+     "kind": "brand",
+     "summary_en": "Kiyose produces municipal-branded honey through beekeeping on the roof of its city hall. Begun in 2014, the project connects urban agriculture, local flowers, public administration and food production.",
+     "facts": [
+      {
+       "claim_en": "Kiyose began rooftop beekeeping at city hall in 2014 and markets the harvested honey under the name Kiyohachi.",
+       "source_url": "https://www.city.kiyose.lg.jp/bunkasportskankou/shinaimidokoro/1003844.html",
+       "source_title": "養蜂事業（きよはち）",
+       "publisher": "Kiyose City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "清瀬市役所",
+       "name_en": "Kiyose City Hall",
+       "relation_en": "Location of the rooftop beekeeping initiative and a documented honey retail outlet within the municipal building.",
+       "address_ja": "",
+       "official_url": "https://www.city.kiyose.lg.jp/bunkasportskankou/shinaimidokoro/1003844.html",
+       "source_url": "https://www.city.kiyose.lg.jp/bunkasportskankou/shinaimidokoro/1003844.html"
+      },
+      {
+       "name_ja": "清瀬市郷土博物館",
+       "name_en": "Kiyose Local History Museum",
+       "relation_en": "Another municipally documented outlet for Kiyohachi honey.",
+       "address_ja": "",
+       "official_url": "",
+       "source_url": "https://www.city.kiyose.lg.jp/bunkasportskankou/shinaimidokoro/1003844.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "清瀬市",
+       "relation_en": "Founder and promoter of the municipal rooftop beekeeping project.",
+       "source_url": "https://www.city.kiyose.lg.jp/bunkasportskankou/shinaimidokoro/1003844.html"
+      }
+     ],
+     "season_en": "Spring and summer honey harvests are documented.",
+     "confidence": "high",
+     "notes_en": "A distinctive example of municipal urban agriculture with identifiable food products."
+    },
+    {
+     "name_ja": "きよはちサイダー",
+     "name_en": "Kiyohachi Honey Cider",
+     "kind": "drink",
+     "summary_en": "A honey-flavored soft drink made using Kiyohachi honey harvested from Kiyose City Hall's rooftop hives.",
+     "facts": [
+      {
+       "claim_en": "Kiyohachi Cider incorporates honey from the city hall beekeeping project and is promoted as a Kiyose local souvenir.",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism",
+       "source_title": "お土産・地域産品",
+       "publisher": "Kiyose Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "みらい清瀬新鮮館",
+       "name_en": "Mirai Kiyose Fresh Market",
+       "relation_en": "Listed outlet for the honey-based soft drink.",
+       "address_ja": "東京都清瀬市中里3-892-7",
+       "official_url": "https://www.ja-tokyomirai.or.jp/agriculture/",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "清瀬市",
+       "relation_en": "Producer of the Kiyohachi honey used in the drink.",
+       "source_url": "https://www.city.kiyose.lg.jp/bunkasportskankou/shinaimidokoro/1003844.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A retail-friendly extension of the municipal honey project."
+    },
+    {
+     "name_ja": "KIYOHACHI GIN",
+     "name_en": "Kiyohachi Honey Gin",
+     "kind": "drink",
+     "summary_en": "A craft gin developed around Kiyose's municipal honey, with citrus botanicals. It was distilled outside the municipality using honey produced at Kiyose City Hall.",
+     "facts": [
+      {
+       "claim_en": "Kiyohachi Gin was produced at the Maoi Distillery in Hokkaido using Kiyohachi honey and was recognized at the 2026 Tokyo Whisky and Spirits Competition.",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism",
+       "source_title": "お土産・地域産品",
+       "publisher": "Kiyose Tourism Association"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "馬追蒸溜所",
+       "relation_en": "Hokkaido distillery that manufactured the gin using honey from Kiyose.",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The tourism association reports that the limited sale has ended. This is a documented local brand rather than a currently bookable distillery visit."
+    },
+    {
+     "name_ja": "日本酒きよせ",
+     "name_en": "Kiyose-Branded Sake",
+     "kind": "drink",
+     "summary_en": "A locally branded Japanese sake produced by Toshimaya Shuzo. Its varieties include junmai, junmai ginjo and dry honjozo styles.",
+     "facts": [
+      {
+       "claim_en": "The tourism association identifies Toshimaya Shuzo as the maker of Nihonshu Kiyose and records a packaging update in October 2025.",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism",
+       "source_title": "お土産・地域産品",
+       "publisher": "Kiyose Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "加寿屋酒店",
+       "name_en": "Kasuya Liquor Shop",
+       "relation_en": "Listed Kiyose retailer of the locally branded sake.",
+       "address_ja": "",
+       "official_url": "",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "豊島屋酒造",
+       "relation_en": "Brewer producing the Kiyose-branded sake.",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Brand identity is linked to Kiyose; the source does not establish that brewing occurs inside Kiyose."
+    },
+    {
+     "name_ja": "清瀬産生乳とフレッシュチーズ",
+     "name_en": "Kiyose Dairy Milk and Fresh Cheese",
+     "kind": "other",
+     "summary_en": "Kiyose has a notable dairy-farming tradition for an urban municipality. Milk from local farms is processed into Tokyo Milk products and fresh cheese by businesses outside the city.",
+     "facts": [
+      {
+       "claim_en": "The tourism association describes five dairy farms in Kiyose and identifies GOOD CHEESE LABORATORY as a processor of fresh cheese made with Kiyose milk.",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism",
+       "source_title": "お土産・地域産品",
+       "publisher": "Kiyose Tourism Association"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "清瀬市役所本庁舎1階売店",
+       "name_en": "Kiyose City Hall Shop",
+       "relation_en": "Documented sales location for cheese made from Kiyose dairy milk.",
+       "address_ja": "",
+       "official_url": "",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "GOOD CHEESE LABORATORY",
+       "relation_en": "Cheese processor using milk collected from Kiyose farms.",
+       "source_url": "https://www.kiyosekanko.tokyo/information/souvenir/tourism"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The city is a dairy-production origin; the documented cheese-processing facility is outside Kiyose."
+    },
+    {
+     "name_ja": "ひまわり畑マドレーヌ",
+     "name_en": "Sunflower Field Madeleine",
+     "kind": "sweet",
+     "summary_en": "A locally developed confection associated with Kiyose's municipal honey project and sunflower identity.",
+     "facts": [
+      {
+       "claim_en": "In 2018, Kiyose collaborated with local businesses to develop a madeleine using honey from its municipal beekeeping initiative.",
+       "source_url": "https://www.city.kiyose.lg.jp/bunkasportskankou/shinaimidokoro/1003844.html",
+       "source_title": "養蜂事業（きよはち）",
+       "publisher": "Kiyose City"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "清瀬市",
+       "relation_en": "Municipal collaborator in development of the honey-based confection.",
+       "source_url": "https://www.city.kiyose.lg.jp/bunkasportskankou/shinaimidokoro/1003844.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Historically documented product; current retail availability is not established."
+    },
+    {
+     "name_ja": "清瀬産果物のジャム・加工品",
+     "name_en": "Kiyose Fruit Preserves",
+     "kind": "sweet",
+     "summary_en": "Kiyose supports small-scale processing of locally grown fruit into jams and preserves. Products associated with the municipal support program include blueberry jam, citrus marmalade and mixed orchard-fruit jams.",
+     "facts": [
+      {
+       "claim_en": "Kiyose's agricultural processing program has supported blueberry jam, mandarin jam, amanatsu marmalade and jams made from locally grown orchard fruit.",
+       "source_url": "https://www.city.kiyose.lg.jp/sigotosangyou/nougyou/jibasan.html",
+       "source_title": "地場産農産物加工販売支援事業を活用して生まれた加工品",
+       "publisher": "Kiyose City"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Fruit harvests are seasonal; processed products may have a different distribution cycle.",
+     "confidence": "high",
+     "notes_en": "The municipality cautions that individual listed products may be sold out or discontinued."
+    },
+    {
+     "name_ja": "清瀬の農産加工食品",
+     "name_en": "Kiyose Farm-to-Product Foods",
+     "kind": "brand",
+     "summary_en": "Kiyose supports local producers who transform farm ingredients into juices, sauces, seasonings and other value-added foods. The initiative creates new food identities beyond the city's established carrot products.",
+     "facts": [
+      {
+       "claim_en": "The municipal program has supported tomato juice, tomato jam, genovese sauce, chili powder, celery powder and honey-lemon syrup.",
+       "source_url": "https://www.city.kiyose.lg.jp/sigotosangyou/nougyou/jibasan.html",
+       "source_title": "地場産農産物加工販売支援事業を活用して生まれた加工品",
+       "publisher": "Kiyose City"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "These are documented agricultural-processing initiatives, not a guarantee that all products remain available."
+    },
+    {
+     "name_ja": "清瀬産黒毛和牛",
+     "name_en": "Kiyose Japanese Black Beef",
+     "kind": "brand",
+     "summary_en": "Locally produced Japanese Black beef has been recognized within Kiyose's agricultural processing and marketing initiatives.",
+     "facts": [
+      {
+       "claim_en": "The municipal agricultural processing support program lists meat from Kiyose-produced Japanese Black cattle among its supported products for fiscal 2025.",
+       "source_url": "https://www.city.kiyose.lg.jp/sigotosangyou/nougyou/jibasan.html",
+       "source_title": "地場産農産物加工販売支援事業を活用して生まれた加工品",
+       "publisher": "Kiyose City"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A documented local livestock product; no specific public farm visit or retail location was verified."
+    }
+   ],
+   "none_found_reason_en": ""
+  },
+  {
+   "id": "higashikurume",
+   "name_ja": "東久留米市",
+   "food_cultures": [
+    {
+     "name_ja": "柳久保小麦",
+     "name_en": "Yanagikubo Heritage Wheat",
+     "kind": "crop",
+     "summary_en": "Yanagikubo wheat is a historic local wheat variety originating in what is now Higashikurume. Once valued for fragrant flour and roofing straw, it disappeared from cultivation before being revived from preserved seeds.",
+     "facts": [
+      {
+       "claim_en": "Yanagikubo wheat originated from grain introduced by Oku住 Mataemon in the mid-19th century; a descendant revived cultivation using seeds preserved in a government gene bank.",
+       "source_url": "https://www.tokyo-ja.or.jp/farm/edo/50.php",
+       "source_title": "柳久保小麦（麦）",
+       "publisher": "JA Tokyo Central Union"
+      },
+      {
+       "claim_en": "A farmers' association was established in 2003 to expand cultivation, and the wheat is now used in noodles, confectionery and bread.",
+       "source_url": "https://www.ja-tokyomirai.or.jp/agriculture/",
+       "source_title": "東京みらいの農産物",
+       "publisher": "JA Tokyo Mirai"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "みらい東久留米新鮮館",
+       "name_en": "Mirai Higashikurume Fresh Market",
+       "relation_en": "JA market specializing in local produce and processed Yanagikubo wheat products.",
+       "address_ja": "東京都東久留米市八幡町3-9-3",
+       "official_url": "https://www.ja-tokyomirai.or.jp/agriculture/",
+       "source_url": "https://life.ja-group.jp/farm/market/detail?id=616"
+      },
+      {
+       "name_ja": "野崎書林マルシェ",
+       "name_en": "Nozaki Shorin Marche",
+       "relation_en": "A shop near Higashikurume Station selling regional produce and Yanagikubo wheat products.",
+       "address_ja": "東京都東久留米市本町1-3-1",
+       "official_url": "",
+       "source_url": "https://nonosachi.com/access"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "東久留米柳久保小麦の会",
+       "relation_en": "Association of farmers responsible for expanding production of the revived wheat.",
+       "source_url": "https://www.ja-tokyomirai.or.jp/agriculture/"
+      },
+      {
+       "name_ja": "JA東京みらい",
+       "relation_en": "Agricultural cooperative supporting and promoting this local heritage crop.",
+       "source_url": "https://www.ja-tokyomirai.or.jp/agriculture/"
+      }
+     ],
+     "season_en": "Wheat harvesting is seasonal; processed products are documented at local retailers.",
+     "confidence": "high",
+     "notes_en": "The defining agricultural heritage product of Higashikurume. JA also identifies it as an Edo-Tokyo historical heritage crop."
+    },
+    {
+     "name_ja": "柳久保うどん",
+     "name_en": "Yanagikubo Wheat Udon",
+     "kind": "dish",
+     "summary_en": "Udon made with Higashikurume's revived heritage wheat is valued for its wheat aroma, firmness and flavor. Both fresh handmade noodles and dried noodles represent the local specialty.",
+     "facts": [
+      {
+       "claim_en": "JA Tokyo Mirai describes the distinctive fragrance and texture of Yanagikubo wheat and documents fresh and dried udon products sold at its Higashikurume market.",
+       "source_url": "https://life.ja-group.jp/farm/market/detail?id=616",
+       "source_title": "みらい東久留米新鮮館",
+       "publisher": "JA Group"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "みらい東久留米新鮮館",
+       "name_en": "Mirai Higashikurume Fresh Market",
+       "relation_en": "Directly documented source of Yanagikubo wheat udon.",
+       "address_ja": "東京都東久留米市八幡町3-9-3",
+       "official_url": "https://www.ja-tokyomirai.or.jp/agriculture/",
+       "source_url": "https://life.ja-group.jp/farm/market/detail?id=616"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "東久留米柳久保小麦の会",
+       "relation_en": "Local wheat-producer association associated with Yanagikubo udon.",
+       "source_url": "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/1008029/1006353.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "One of the strongest food experiences for connecting visitors to local agricultural history."
+    },
+    {
+     "name_ja": "柳久保ラーメン",
+     "name_en": "Yanagikubo Wheat Ramen",
+     "kind": "dish",
+     "summary_en": "A local noodle product using the city's heritage-wheat identity beyond traditional udon.",
+     "facts": [
+      {
+       "claim_en": "The Higashikurume municipal brand list recognizes Yanagikubo Ramen as a product associated with the Yanagikubo Wheat Association.",
+       "source_url": "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/1008029/1006353.html",
+       "source_title": "東久留米ブランド商品について",
+       "publisher": "Higashikurume City"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "柳久保小麦の会",
+       "relation_en": "Organization named in the municipal brand listing for Yanagikubo ramen.",
+       "source_url": "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/1008029/1006353.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Municipal recognition is historical; present-day product availability was not independently confirmed."
+    },
+    {
+     "name_ja": "柳久保小麦パン",
+     "name_en": "Yanagikubo Wheat Bread",
+     "kind": "other",
+     "summary_en": "Local bakeries use the revived Yanagikubo wheat variety to develop breads connected to Higashikurume's farming heritage.",
+     "facts": [
+      {
+       "claim_en": "The regional municipal guide identifies bread among the foods now made with Yanagikubo wheat and sold by local businesses.",
+       "source_url": "https://www.tama6.jp/meguri/spproducts/yanagikubo.html",
+       "source_title": "柳久保小麦",
+       "publisher": "Tama Northern Area Municipal Cooperation Council"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "野崎書林マルシェ",
+       "name_en": "Nozaki Shorin Marche",
+       "relation_en": "Retail outlet carrying Yanagikubo wheat products and other regional specialties.",
+       "address_ja": "東京都東久留米市本町1-3-1",
+       "official_url": "",
+       "source_url": "https://nonosachi.com/access"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The specific availability of wheat-based bread varieties depends on individual producers."
+    },
+    {
+     "name_ja": "柳久保かりんとう",
+     "name_en": "Yanagikubo Karinto",
+     "kind": "sweet",
+     "summary_en": "A fried traditional Japanese sweet made using the city's heritage-wheat identity. Black-sugar and almond varieties are documented as local souvenirs.",
+     "facts": [
+      {
+       "claim_en": "JA's Higashikurume market lists Yanagikubo karinto in black-sugar and almond varieties, and the city identifies Nakatani Seika as a maker.",
+       "source_url": "https://life.ja-group.jp/farm/market/detail?id=616",
+       "source_title": "みらい東久留米新鮮館",
+       "publisher": "JA Group"
+      },
+      {
+       "claim_en": "The product is included in the municipality's recognized food-brand list.",
+       "source_url": "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/1008029/1006353.html",
+       "source_title": "東久留米ブランド商品について",
+       "publisher": "Higashikurume City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "みらい東久留米新鮮館",
+       "name_en": "Mirai Higashikurume Fresh Market",
+       "relation_en": "Documented retail outlet for Yanagikubo karinto.",
+       "address_ja": "東京都東久留米市八幡町3-9-3",
+       "official_url": "https://www.ja-tokyomirai.or.jp/agriculture/",
+       "source_url": "https://life.ja-group.jp/farm/market/detail?id=616"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "中谷製菓株式会社",
+       "relation_en": "Manufacturer named in the city's brand recognition list.",
+       "source_url": "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/1008029/1006353.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A well-supported souvenir connecting a traditional confectionery format with local wheat."
+    },
+    {
+     "name_ja": "柳久保まんじゅう",
+     "name_en": "Yanagikubo Manju",
+     "kind": "sweet",
+     "summary_en": "A traditional Japanese steamed sweet adapted to celebrate locally revived Yanagikubo wheat.",
+     "facts": [
+      {
+       "claim_en": "Higashikurume's municipal specialty list identifies handmade Yanagikubo manju as a local confection.",
+       "source_url": "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/tokusan/1003816.html",
+       "source_title": "特産品一覧（「東久留米大好きっ！」掲載品）",
+       "publisher": "Higashikurume City"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A historically documented local specialty; the municipal listing is older and does not establish current stock."
+    },
+    {
+     "name_ja": "柳久保クッキー・小麦ふすま菓子",
+     "name_en": "Yanagikubo Wheat Cookies and Bran Pastries",
+     "kind": "sweet",
+     "summary_en": "Local confectioners make use of Yanagikubo wheat and wheat bran in baked sweets. These products broaden the use of the heritage grain beyond noodles.",
+     "facts": [
+      {
+       "claim_en": "The municipal specialty list includes Yanagikubo bran cookies, while the municipal brand list identifies a wheat-bran madeleine named Fusumadorenu.",
+       "source_url": "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/tokusan/1003816.html",
+       "source_title": "特産品一覧（「東久留米大好きっ！」掲載品）",
+       "publisher": "Higashikurume City"
+      },
+      {
+       "claim_en": "Fusumadorenu was recognized as a product of Okashi Kobo Poshe.",
+       "source_url": "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/1008029/1006353.html",
+       "source_title": "東久留米ブランド商品について",
+       "publisher": "Higashikurume City"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "お菓子工房ポッシュ",
+       "relation_en": "Recognized maker of a wheat-bran madeleine.",
+       "source_url": "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/1008029/1006353.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The named products are documented in historical municipal lists; current availability was not confirmed."
+    },
+    {
+     "name_ja": "農家の煮ぃだんご",
+     "name_en": "Farmhouse Niidango Dumpling Soup",
+     "kind": "dish",
+     "summary_en": "A farmhouse soup from Higashikurume related to the wider Japanese suiton tradition. Handmade flour dumplings are cooked with abundant local vegetables in a savory broth.",
+     "facts": [
+      {
+       "claim_en": "JA Group identifies Niidango as a traditional Higashikurume farmhouse name for suiton, prepared with flour dumplings and vegetables including daikon, carrot, burdock and spinach.",
+       "source_url": "https://life.ja-group.jp/recipe/detail?id=100",
+       "source_title": "東久留米市の郷土料理！「煮ぃだんご」",
+       "publisher": "JA Group"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Especially suited to the cooler months, although the dish is not restricted to a documented festival season.",
+     "confidence": "high",
+     "notes_en": "An especially valuable traditional food-culture entry. The source establishes the farmhouse recipe but not a current restaurant serving it."
+    },
+    {
+     "name_ja": "TOKYOひがしくる麺・肉汁ひがしくる麺",
+     "name_en": "Higashikurume Local-Style Noodles",
+     "kind": "dish",
+     "summary_en": "A locally promoted noodle specialty associated with Higashikurume's regional food branding. Meat-broth Higashikurume noodles also appear among the city's recognized dining-menu products.",
+     "facts": [
+      {
+       "claim_en": "The municipality included TOKYO Higashikurumen in its list of local B-grade gourmet specialties.",
+       "source_url": "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/tokusan/1003816.html",
+       "source_title": "特産品一覧（「東久留米大好きっ！」掲載品）",
+       "publisher": "Higashikurume City"
+      },
+      {
+       "claim_en": "Nikujiru Higashikurumen was separately recognized in the city's food-menu branding program.",
+       "source_url": "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/1008029/1006353.html",
+       "source_title": "東久留米ブランド商品について",
+       "publisher": "Higashikurume City"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "つけ麺屋",
+       "relation_en": "Business credited with the meat-broth noodle menu in the city's historical brand listing.",
+       "source_url": "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/1008029/1006353.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "The sources identify historical branded noodles but do not establish whether the two names represent exactly the same recipe or whether either menu is still served."
+    },
+    {
+     "name_ja": "赤しそ濃縮ジュース「しそすっきり」",
+     "name_en": "Shiso Sukkiri Red Perilla Drink",
+     "kind": "drink",
+     "summary_en": "A concentrated beverage made using red perilla grown in Higashikurume. It transforms a locally cultivated herb into a branded regional drink.",
+     "facts": [
+      {
+       "claim_en": "The municipal specialty list states that Shiso Sukkiri uses red perilla grown in Higashikurume.",
+       "source_url": "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/tokusan/1003816.html",
+       "source_title": "特産品一覧（「東久留米大好きっ！」掲載品）",
+       "publisher": "Higashikurume City"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "株式会社ユニワールド産業",
+       "relation_en": "Company associated with the recognized Shiso Sukkiri product.",
+       "source_url": "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/1008029/1006353.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Historically documented local drink; current distribution was not established."
+    },
+    {
+     "name_ja": "梅うふふ",
+     "name_en": "Ume Ufufu Plum Wine",
+     "kind": "drink",
+     "summary_en": "A plum-based wine marketed as a Higashikurume specialty, including a lightly sparkling version.",
+     "facts": [
+      {
+       "claim_en": "The city's specialty list identifies Ume Ufufu and a lightly sparkling variation as plum wines with a gentle sweetness and refreshing plum character.",
+       "source_url": "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/tokusan/1003816.html",
+       "source_title": "特産品一覧（「東久留米大好きっ！」掲載品）",
+       "publisher": "Higashikurume City"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "An older documented regional drink; current sales and origin of the plums were not verified."
+    },
+    {
+     "name_ja": "ひがしくるめの梅酒さん",
+     "name_en": "Higashikurume Umeshu",
+     "kind": "drink",
+     "summary_en": "A locally branded plum liqueur combining plum flavor with Japanese sake.",
+     "facts": [
+      {
+       "claim_en": "Higashikurume's municipal specialty list describes a plum liqueur named Higashikurume no Umeshu-san, made with plum essence incorporated into sake.",
+       "source_url": "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/tokusan/1003816.html",
+       "source_title": "特産品一覧（「東久留米大好きっ！」掲載品）",
+       "publisher": "Higashikurume City"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Historically documented; present-day availability and the production location are unverified."
+    },
+    {
+     "name_ja": "地酒ひがしくるめ",
+     "name_en": "Higashikurume-Branded Sake",
+     "kind": "drink",
+     "summary_en": "A line of locally branded Japanese sake recognized among Higashikurume's regional specialty products.",
+     "facts": [
+      {
+       "claim_en": "The municipal specialty list identifies Jizake Higashikurume as a range of six sake products.",
+       "source_url": "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/tokusan/1003816.html",
+       "source_title": "特産品一覧（「東久留米大好きっ！」掲載品）",
+       "publisher": "Higashikurume City"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Brand identity is documented, but local brewing and current sales were not confirmed."
+    },
+    {
+     "name_ja": "芋焼酎「黒目川」",
+     "name_en": "Kuromegawa Sweet Potato Shochu",
+     "kind": "drink",
+     "summary_en": "A sweet-potato shochu branded after the Kurome River, a prominent local geographic feature. It links Higashikurume's identity with a spirit produced using Kagoshima expertise.",
+     "facts": [
+      {
+       "claim_en": "The municipal specialty list describes Kuromegawa as a Higashikurume-origin branded shochu prepared in Kagoshima, and the city's branding program associates it with the local liquor retailers' association.",
+       "source_url": "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/tokusan/1003816.html",
+       "source_title": "特産品一覧（「東久留米大好きっ！」掲載品）",
+       "publisher": "Higashikurume City"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "東久留米酒販組合",
+       "relation_en": "Association named for the shochu in the municipal brand-recognition list.",
+       "source_url": "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/1008029/1006353.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Distinctively local branding, but the source does not establish that the sweet potatoes were grown in Higashikurume."
+    },
+    {
+     "name_ja": "東久留米餃子・げんこつシュウマイ",
+     "name_en": "Higashikurume Gyoza and Gekotsu Shumai",
+     "kind": "brand",
+     "summary_en": "Locally named dumpling products were recognized through Higashikurume's food-branding initiative.",
+     "facts": [
+      {
+       "claim_en": "The city recognizes Higashikurume Gyoza and Higashikurume Genkotsu Shumai as products associated with Gyozaya Heihachi.",
+       "source_url": "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/1008029/1006353.html",
+       "source_title": "東久留米ブランド商品について",
+       "publisher": "Higashikurume City"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "ぎょうざやへいはち",
+       "relation_en": "Business recognized for the local dumpling products.",
+       "source_url": "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/1008029/1006353.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The municipal list documents historical brand recognition, not necessarily current availability."
+    },
+    {
+     "name_ja": "東久留米のブルーベリー・キウイ・梅",
+     "name_en": "Higashikurume Blueberries, Kiwi and Plums",
+     "kind": "crop",
+     "summary_en": "Higashikurume has diversified orchard farming, including blueberries, kiwi fruit and plums. Some farms combine cultivation with fruit-picking, direct sales and small-scale food processing.",
+     "facts": [
+      {
+       "claim_en": "Tokyo's certified eco-farmer directory identifies Narayama Farm as a producer of blueberries, kiwi fruit and plums using an agricultural system that emphasizes reduced external inputs.",
+       "source_url": "https://www.sangyo-rodo1.metro.tokyo.lg.jp/norin/syoku/econosanbutu/seisansya/222039.html",
+       "source_title": "東京都エコ農産物認証制度",
+       "publisher": "Tokyo Metropolitan Government"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "奈良山園",
+       "name_en": "Narayama Farm",
+       "relation_en": "Local fruit-producing farm with seasonal fruit-picking.",
+       "address_ja": "東京都東久留米市柳窪1-5-45",
+       "official_url": "https://nonosachi.com/access",
+       "source_url": "https://nonosachi.com/access"
+      },
+      {
+       "name_ja": "畑テラス",
+       "name_en": "Hatake Terrace",
+       "relation_en": "Producer-direct farm outlet for seasonal agricultural products.",
+       "address_ja": "東京都東久留米市柳窪1-10-19",
+       "official_url": "https://nonosachi.com/access",
+       "source_url": "https://nonosachi.com/access"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "奈良山園",
+       "relation_en": "Farm growing certified fruit and vegetable crops.",
+       "source_url": "https://www.sangyo-rodo1.metro.tokyo.lg.jp/norin/syoku/econosanbutu/seisansya/222039.html"
+      }
+     ],
+     "season_en": "Blueberries in summer; kiwi fruit in autumn; other fruit according to harvest.",
+     "confidence": "high",
+     "notes_en": "A verified producer-based destination independent of the better-known Yanagikubo wheat."
+    },
+    {
+     "name_ja": "東久留米の地場野菜",
+     "name_en": "Higashikurume Seasonal Farm Vegetables",
+     "kind": "crop",
+     "summary_en": "Higashikurume retains an active vegetable-growing culture supplying nearby consumers with fresh seasonal produce. Crops include leafy greens, roots, corn, edamame and summer vegetables.",
+     "facts": [
+      {
+       "claim_en": "Farmers Group Higashikurume identifies daikon, spinach, komatsuna, corn, edamame, tomatoes, eggplants and cucumbers among crops its local members produce.",
+       "source_url": "https://www.fgh-noujin.com/",
+       "source_title": "ファーマーズグループ東久留米へようこそ！",
+       "publisher": "Farmers Group Higashikurume"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "みらい東久留米新鮮館",
+       "name_en": "Mirai Higashikurume Fresh Market",
+       "relation_en": "Local agricultural market receiving produce from Higashikurume growers.",
+       "address_ja": "東京都東久留米市八幡町3-9-3",
+       "official_url": "https://www.ja-tokyomirai.or.jp/agriculture/",
+       "source_url": "https://life.ja-group.jp/farm/market/detail?id=616"
+      },
+      {
+       "name_ja": "野崎書林マルシェ",
+       "name_en": "Nozaki Shorin Marche",
+       "relation_en": "Station-area shop offering local farm produce and processed products.",
+       "address_ja": "東京都東久留米市本町1-3-1",
+       "official_url": "",
+       "source_url": "https://nonosachi.com/access"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ファーマーズグループ東久留米",
+       "relation_en": "Association of local vegetable and fruit growers.",
+       "source_url": "https://www.fgh-noujin.com/"
+      }
+     ],
+     "season_en": "Year-round crop rotation, with corn and edamame in early summer and leafy and root vegetables in cooler months.",
+     "confidence": "high",
+     "notes_en": "Represents general local agricultural heritage rather than a unique traditional variety."
+    },
+    {
+     "name_ja": "東久留米ブランド認定食品・菓子",
+     "name_en": "Higashikurume Certified Local Foods and Sweets",
+     "kind": "brand",
+     "summary_en": "Higashikurume established a municipal recognition program highlighting locally distinctive foods and confectionery. The historically recognized products include artisanal sweets, preserved meats, breads and locally named sauces.",
+     "facts": [
+      {
+       "claim_en": "The city recognized foods including Ochiai no Koishi chocolate, Higashi-Kurume-themed wagashi, handmade charcuterie, bran breads and locally named seasonings through its brand program.",
+       "source_url": "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/1008029/1006353.html",
+       "source_title": "東久留米ブランド商品について",
+       "publisher": "Higashikurume City"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "ケーキ工房シャモア",
+       "relation_en": "Maker of an officially recognized local chocolate.",
+       "source_url": "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/1008029/1006353.html"
+      },
+      {
+       "name_ja": "和三盆工芸菓子象東",
+       "relation_en": "Maker of the recognized Higashi-Kurume-themed wasanbon confection.",
+       "source_url": "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/1008029/1006353.html"
+      },
+      {
+       "name_ja": "シャルキュトゥリーモエ",
+       "relation_en": "Producer of several recognized meat and charcuterie products.",
+       "source_url": "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/1008029/1006353.html"
+      },
+      {
+       "name_ja": "ブレッチェン",
+       "relation_en": "Bakery associated with recognized bran bread products.",
+       "source_url": "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/1008029/1006353.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The city explicitly warns that some products in this historical recognition list may no longer be sold. These examples are grouped as a local brand program rather than treated as individually established traditional foods."
+    }
+   ],
+   "none_found_reason_en": ""
+  },
+  {
+   "id": "musashimurayama",
+   "name_ja": "武蔵村山市",
+   "food_cultures": [
+    {
+     "name_ja": "村山かてうどん",
+     "name_en": "Murayama Kate Udon",
+     "kind": "dish",
+     "summary_en": "Murayama Kate Udon is a traditional local noodle dish made from locally milled wheat flour. Chilled noodles are served with warm soy-based dipping broth and kate, usually boiled local vegetables, and the dish has a history of being eaten at family ceremonies.",
+     "facts": [
+      {
+       "claim_en": "The municipality identifies kate udon as a representative food tradition historically served at weddings, funerals and other family occasions.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1005152.html",
+       "source_title": "村山かてうどん",
+       "publisher": "Musashimurayama City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "村山満月うどん",
+       "name_en": "Murayama Mangetsu Udon",
+       "relation_en": "Restaurant listed by the city as a member of the Murayama Udon Association.",
+       "address_ja": "東京都武蔵村山市三ツ木1-12-10",
+       "official_url": "",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      },
+      {
+       "name_ja": "本格手打ちうどん 笑乃讃",
+       "name_en": "Warano San Handmade Udon",
+       "relation_en": "Another listed restaurant associated with the traditional local udon culture.",
+       "address_ja": "東京都武蔵村山市三ツ藤1-86-4",
+       "official_url": "",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "村山うどんの会",
+       "relation_en": "Association preserving and promoting the city's traditional udon culture.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The strongest traditional-dish destination in this municipality, with identifiable local restaurants."
+    },
+    {
+     "name_ja": "村山ゆでまんじゅう",
+     "name_en": "Murayama Boiled Manju",
+     "kind": "dish",
+     "summary_en": "A traditional regional sweet dumpling made with udon-style wheat flour and boiled rather than steamed or baked. The local version combines chewy dough with sweet azuki filling.",
+     "facts": [
+      {
+       "claim_en": "Musashimurayama identifies boiled manju as a food eaten locally for generations and recognizes Inakaya's handmade version as a regional brand product.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html",
+       "source_title": "地域ブランド認証商品",
+       "publisher": "Musashimurayama City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "田舎屋",
+       "name_en": "Inakaya",
+       "relation_en": "Producer of traditional Murayama boiled manju.",
+       "address_ja": "東京都武蔵村山市中藤4-39-5",
+       "official_url": "",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "田舎屋",
+       "relation_en": "Maker of the locally recognized boiled manju.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A useful companion to kate udon for explaining the city's traditional wheat-based cuisine."
+    },
+    {
+     "name_ja": "東京狭山茶",
+     "name_en": "Tokyo Sayama Tea",
+     "kind": "drink",
+     "summary_en": "Musashimurayama is part of Tokyo's Sayama tea-growing region. Tea production uses local tea gardens and processing traditions associated with rich, full-bodied Japanese green tea.",
+     "facts": [
+      {
+       "claim_en": "The city describes Tokyo Sayama tea as Sayama tea produced in Tokyo and explains that local tea gardens begin harvesting new tea around early May.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1022409/1005144.html",
+       "source_title": "東京狭山茶",
+       "publisher": "Musashimurayama City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "森谷園製茶",
+       "name_en": "Moriyaen Tea",
+       "relation_en": "Local producer and seller of Tokyo Sayama tea.",
+       "address_ja": "東京都武蔵村山市中央2-60-1",
+       "official_url": "",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1022409/1005144.html"
+      },
+      {
+       "name_ja": "網代園製茶",
+       "name_en": "Ajiroen Tea",
+       "relation_en": "Local tea producer identified by the municipality.",
+       "address_ja": "東京都武蔵村山市三ツ木1-3-1",
+       "official_url": "",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      },
+      {
+       "name_ja": "本比園製茶",
+       "name_en": "Motohien Tea",
+       "relation_en": "Another tea producer identified by the municipality.",
+       "address_ja": "東京都武蔵村山市三ツ木5-22-1",
+       "official_url": "",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "森谷園製茶",
+       "relation_en": "Tokyo Sayama tea producer.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1022409/1005144.html"
+      },
+      {
+       "name_ja": "網代園製茶",
+       "relation_en": "Tokyo Sayama tea producer.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      },
+      {
+       "name_ja": "本比園製茶",
+       "relation_en": "Tokyo Sayama tea producer.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "season_en": "Spring and summer tea harvests; first flush begins around early May.",
+     "confidence": "high",
+     "notes_en": "A major producer-oriented food culture that can be explored through tea gardens and identified tea sellers."
+    },
+    {
+     "name_ja": "武蔵村山産みかん",
+     "name_en": "Musashimurayama Mandarins",
+     "kind": "crop",
+     "summary_en": "Mandarin oranges grow on the southern slopes of the Sayama Hills in Musashimurayama. The city promotes their balance of sweetness and acidity and a local tradition of seasonal mandarin picking.",
+     "facts": [
+      {
+       "claim_en": "The municipality identifies the southern slopes of the Sayama Hills as its mandarin-growing area and documents multiple local orchards offering seasonal fruit experiences.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1005150.html",
+       "source_title": "蜜柑（みかん）",
+       "publisher": "Musashimurayama City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "内野みかん園",
+       "name_en": "Uchino Mandarin Orchard",
+       "relation_en": "Local mandarin orchard offering seasonal fruit picking.",
+       "address_ja": "東京都武蔵村山市中藤5-83-1",
+       "official_url": "",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1005150.html"
+      },
+      {
+       "name_ja": "小林農園",
+       "name_en": "Kobayashi Farm",
+       "relation_en": "Local orchard producing mandarins and other fruit.",
+       "address_ja": "東京都武蔵村山市中藤5-84-1",
+       "official_url": "",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1005150.html"
+      },
+      {
+       "name_ja": "内武園",
+       "name_en": "Naitakeen Orchard",
+       "relation_en": "Another municipal-listed mandarin-growing orchard.",
+       "address_ja": "東京都武蔵村山市中藤4-62-2",
+       "official_url": "",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1005150.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "内野みかん園",
+       "relation_en": "Mandarin grower.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1005150.html"
+      },
+      {
+       "name_ja": "小林農園",
+       "relation_en": "Mandarin and grape grower.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1005150.html"
+      }
+     ],
+     "season_en": "November is the principal documented mandarin-picking season.",
+     "confidence": "high",
+     "notes_en": "Especially relevant for a late-November 2026 visit. Individual orchards' operating status varies; the city specifically notes that Shimoda Mandarin Orchard's picking activity is suspended for 2026."
+    },
+    {
+     "name_ja": "武蔵村山の梨",
+     "name_en": "Musashimurayama Pears",
+     "kind": "crop",
+     "summary_en": "Pear growing is an established component of Musashimurayama's orchard agriculture. Farms cultivate multiple Japanese pear varieties and some offer seasonal fruit-picking experiences.",
+     "facts": [
+      {
+       "claim_en": "The city identifies cultivars including Kosui, Hosui, Niitaka and Chojuro and lists local farms selling or offering picking experiences for pears.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1022409/1005155.html",
+       "source_title": "梨（なし）",
+       "publisher": "Musashimurayama City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "野﨑園",
+       "name_en": "Nozakien Orchard",
+       "relation_en": "Local orchard producing several pear varieties.",
+       "address_ja": "東京都武蔵村山市榎3-101",
+       "official_url": "",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1022409/1005155.html"
+      },
+      {
+       "name_ja": "東京ひるま農園",
+       "name_en": "Tokyo Hiruma Farm",
+       "relation_en": "Local pear producer with documented fruit-picking experiences.",
+       "address_ja": "東京都武蔵村山市残堀4-1-1",
+       "official_url": "",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1022409/1005155.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "野﨑園",
+       "relation_en": "Local pear grower.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1022409/1005155.html"
+      },
+      {
+       "name_ja": "東京ひるま農園",
+       "relation_en": "Local pear grower.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1022409/1005155.html"
+      }
+     ],
+     "season_en": "Approximately August through early autumn.",
+     "confidence": "high",
+     "notes_en": "A seasonal agricultural culture with documented producer locations."
+    },
+    {
+     "name_ja": "武蔵村山のぶどう",
+     "name_en": "Musashimurayama Grapes",
+     "kind": "crop",
+     "summary_en": "Local vineyards and orchards produce Japanese table grapes, including Takao, Kyoho and Shine Muscat.",
+     "facts": [
+      {
+       "claim_en": "Musashimurayama City identifies several cultivated grape varieties and records local producer-direct sales during late summer.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1022409/1005153.html",
+       "source_title": "葡萄（ぶどう）",
+       "publisher": "Musashimurayama City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "小林農園",
+       "name_en": "Kobayashi Farm",
+       "relation_en": "Orchard listed for locally grown grape sales.",
+       "address_ja": "東京都武蔵村山市中藤5-84-1",
+       "official_url": "",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1022409/1005153.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "小林農園",
+       "relation_en": "Producer of Musashimurayama grapes.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1022409/1005153.html"
+      }
+     ],
+     "season_en": "August and September.",
+     "confidence": "high",
+     "notes_en": "A complementary orchard activity to autumn mandarin picking."
+    },
+    {
+     "name_ja": "武蔵村山のりんご",
+     "name_en": "Musashimurayama Apples",
+     "kind": "crop",
+     "summary_en": "Apple cultivation forms another component of the city's local orchard landscape, with varieties such as Tsugaru, Fuji and Orin.",
+     "facts": [
+      {
+       "claim_en": "The municipality documents locally grown apples and identifies Uchinoen as a producer selling several apple varieties.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1022409/1005154.html",
+       "source_title": "林檎（りんご）",
+       "publisher": "Musashimurayama City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "内野園",
+       "name_en": "Uchinoen Orchard",
+       "relation_en": "Apple-growing orchard listed by the municipality.",
+       "address_ja": "東京都武蔵村山市学園1-1-5",
+       "official_url": "",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1022409/1005154.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "内野園",
+       "relation_en": "Local apple producer.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1022409/1005154.html"
+      }
+     ],
+     "season_en": "Autumn, particularly October and November.",
+     "confidence": "high",
+     "notes_en": "The municipal source establishes the crop and producer but does not guarantee availability on a specific visit."
+    },
+    {
+     "name_ja": "武蔵村山の農産物直売文化",
+     "name_en": "Musashimurayama Farm-Direct Produce Culture",
+     "kind": "other",
+     "summary_en": "Musashimurayama has an extensive network of local farm outlets, supporting direct relationships between producers and consumers. Vegetables, orchard fruit, tea and locally processed dairy products all form part of this agricultural landscape.",
+     "facts": [
+      {
+       "claim_en": "The city documented 55 local farm-direct sales locations as of March 2025 and promotes a municipal farm-shop map.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1006619.html",
+       "source_title": "武蔵村山市農産物直売所",
+       "publisher": "Musashimurayama City"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Seasonal throughout the year.",
+     "confidence": "high",
+     "notes_en": "A cross-cutting local food-culture theme rather than a single agricultural product."
+    },
+    {
+     "name_ja": "アイス工房ヴェルデの自家製アイスクリーム",
+     "name_en": "Verde Farmhouse Ice Cream",
+     "kind": "sweet",
+     "summary_en": "Handmade ice cream using milk from the operator's own dairy farm and seasonal local fruit. It connects Musashimurayama's farming landscape with direct food production.",
+     "facts": [
+      {
+       "claim_en": "The city recognizes Verde's ice cream as a regional brand product made with milk from its own dairy operation and locally grown fruit.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html",
+       "source_title": "地域ブランド認証商品",
+       "publisher": "Musashimurayama City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "アイス工房ヴェルデ",
+       "name_en": "Ice Kobo Verde",
+       "relation_en": "Farm-linked producer of locally recognized handmade ice cream.",
+       "address_ja": "東京都武蔵村山市三ツ藤1-80-3",
+       "official_url": "",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "アイス工房ヴェルデ",
+       "relation_en": "Producer using milk from its own farm and local fruit.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "season_en": "Seasonal flavors depend on local fruit.",
+     "confidence": "high",
+     "notes_en": "A strong producer-to-product example with a verified physical destination."
+    },
+    {
+     "name_ja": "村山お茶食パン",
+     "name_en": "Murayama Green Tea Bread",
+     "kind": "other",
+     "summary_en": "A locally recognized loaf incorporating the city's tea identity into breadmaking. Its flavor combines the bitterness and sweetness of green tea.",
+     "facts": [
+      {
+       "claim_en": "Morino Komugi developed a tea-based loaf as a regional bakery product reflecting Musashimurayama's identity as a tea-growing area.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html",
+       "source_title": "地域ブランド認証商品",
+       "publisher": "Musashimurayama City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "もりのこむぎ",
+       "name_en": "Morino Komugi",
+       "relation_en": "Local bakery producing the tea bread.",
+       "address_ja": "東京都武蔵村山市学園3-42-3",
+       "official_url": "",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "有限会社もりのこむぎ",
+       "relation_en": "Producer of the tea-flavored loaf.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A modern baked product rooted in the city's established tea culture."
+    },
+    {
+     "name_ja": "村山お茶フィナンシェ",
+     "name_en": "Murayama Tea Financier",
+     "kind": "sweet",
+     "summary_en": "A financier cake made with Tokyo Sayama tea grown in Musashimurayama. It is a recent addition to the city's officially recognized regional food brands.",
+     "facts": [
+      {
+       "claim_en": "The municipal brand list describes a financier incorporating local Tokyo Sayama tea and identifies it as a newly certified product in 2026.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html",
+       "source_title": "地域ブランド認証商品",
+       "publisher": "Musashimurayama City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "もりのこむぎ",
+       "name_en": "Morino Komugi",
+       "relation_en": "Bakery producing the local tea financier.",
+       "address_ja": "東京都武蔵村山市学園3-42-3",
+       "official_url": "",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "有限会社もりのこむぎ",
+       "relation_en": "Developer of the locally certified tea financier.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A recently certified 2026 product and a useful contemporary souvenir candidate."
+    },
+    {
+     "name_ja": "手づくり村山さんクッキー",
+     "name_en": "Handmade Murayama-san Cookies",
+     "kind": "sweet",
+     "summary_en": "A collection of locally themed cookies made by a municipal welfare facility. Flavors and designs reflect Musashimurayama's tea, komatsuna and archaeological heritage.",
+     "facts": [
+      {
+       "claim_en": "Nozomi Welfare Facility makes cookies incorporating tea or komatsuna and a Jomon-themed cookie inspired by local history.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html",
+       "source_title": "地域ブランド認証商品",
+       "publisher": "Musashimurayama City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "市立のぞみ福祉園",
+       "name_en": "Municipal Nozomi Welfare Facility",
+       "relation_en": "Producer of the locally themed cookies.",
+       "address_ja": "東京都武蔵村山市本町5-22-1",
+       "official_url": "",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "市立のぞみ福祉園",
+       "relation_en": "Municipal welfare facility producing branded regional sweets.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Combines local food ingredients, community manufacturing and regional historical imagery."
+    },
+    {
+     "name_ja": "村山げんこつシュー",
+     "name_en": "Murayama Genkotsu Cream Puff",
+     "kind": "sweet",
+     "summary_en": "A large cream puff filled with cream flavored using locally grown Sayama tea.",
+     "facts": [
+      {
+       "claim_en": "Cake Kobo La Boom produces a locally recognized cream puff whose filling includes Musashimurayama-produced Sayama tea.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html",
+       "source_title": "地域ブランド認証商品",
+       "publisher": "Musashimurayama City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ケーキ工房 ラ・ブーム",
+       "name_en": "Cake Kobo La Boom",
+       "relation_en": "Local confectionery producer of the tea cream puff.",
+       "address_ja": "東京都武蔵村山市本町2-80-1",
+       "official_url": "",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ケーキ工房 ラ・ブーム",
+       "relation_en": "Maker of the regionally recognized pastry.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A direct example of using regional tea in Western-style pastry."
+    },
+    {
+     "name_ja": "むさし村山四季彩シフォン",
+     "name_en": "Musashi Murayama Seasonal Chiffon Cake",
+     "kind": "sweet",
+     "summary_en": "A seasonal chiffon cake incorporating locally grown wheat flour and other local ingredients. Variations reflect tea, citrus, komatsuna and additional regional crops.",
+     "facts": [
+      {
+       "claim_en": "The city's certified product uses locally produced wheat flour, soy milk and okara with seasonal ingredients including tea, mandarins, yuzu and komatsuna.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html",
+       "source_title": "地域ブランド認証商品",
+       "publisher": "Musashimurayama City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "SHOP ANNE",
+       "name_en": "Shop Anne",
+       "relation_en": "Listed outlet for the regionally recognized chiffon cake.",
+       "address_ja": "東京都武蔵村山市中原2-24-6",
+       "official_url": "",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      },
+      {
+       "name_ja": "紅茶専門店 KANDY",
+       "name_en": "Kandy Tea Shop",
+       "relation_en": "Another municipal-listed outlet for the seasonal chiffon cake.",
+       "address_ja": "東京都武蔵村山市本町2-47-9",
+       "official_url": "",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ANNE・KANDY",
+       "relation_en": "Businesses associated with the certified chiffon-cake product.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "season_en": "Flavors vary seasonally with local crops.",
+     "confidence": "high",
+     "notes_en": "A strong example of multiple local agricultural products being incorporated into one confectionery tradition."
+    },
+    {
+     "name_ja": "むらやまロール",
+     "name_en": "Murayama Roll Cake",
+     "kind": "sweet",
+     "summary_en": "A sponge-roll cake incorporating local udon flour into its cake batter, linking the city's wheat-based noodle tradition with modern confectionery.",
+     "facts": [
+      {
+       "claim_en": "Chateau Confectionery uses Musashimurayama-produced udon flour in the sponge of its locally branded roll cake.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html",
+       "source_title": "地域ブランド認証商品",
+       "publisher": "Musashimurayama City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "シャトー洋菓子店",
+       "name_en": "Chateau Confectionery",
+       "relation_en": "Producer of Murayama Roll.",
+       "address_ja": "東京都武蔵村山市学園3-64-19",
+       "official_url": "",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "シャトー洋菓子店",
+       "relation_en": "Maker of the locally branded roll cake.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "An especially clear connection between traditional local flour production and contemporary sweets."
+    },
+    {
+     "name_ja": "内野みかん園のみかんワイン",
+     "name_en": "Uchino Mandarin Wine",
+     "kind": "drink",
+     "summary_en": "A fruit wine developed from mandarins grown at Uchino Mandarin Orchard in Musashimurayama. It extends the city's orchard culture into locally branded alcoholic beverages.",
+     "facts": [
+      {
+       "claim_en": "The city recognizes a sparkling-style mandarin wine made entirely from mandarins grown at Uchino Mandarin Orchard, along with a premium variation.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html",
+       "source_title": "地域ブランド認証商品",
+       "publisher": "Musashimurayama City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "内野みかん園酒類販売所",
+       "name_en": "Uchino Mandarin Orchard Wine Outlet",
+       "relation_en": "Documented local sales point associated with the orchard's mandarin wine.",
+       "address_ja": "東京都武蔵村山市中藤5-83-3",
+       "official_url": "",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "内野みかん園",
+       "relation_en": "Mandarin producer supplying the fruit used in the wine.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "season_en": "Associated with the autumn mandarin harvest.",
+     "confidence": "high",
+     "notes_en": "The municipal listing links sales to the mandarin-picking period; specific production and inventory were not independently verified."
+    },
+    {
+     "name_ja": "むさむら野菜のバインミー",
+     "name_en": "Musamura Vegetable Banh Mi",
+     "kind": "dish",
+     "summary_en": "A local interpretation of the Vietnamese sandwich using vegetables and fruit grown in Musashimurayama. Its bread is made with a fermented koji-based dough incorporating potato.",
+     "facts": [
+      {
+       "claim_en": "The municipality recognizes Ohana's sandwich for combining locally grown seasonal vegetables and fruit with a house-made koji-fermented bread.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html",
+       "source_title": "地域ブランド認証商品",
+       "publisher": "Musashimurayama City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "パンとおやつに糀 ohana",
+       "name_en": "Pan to Oyatsu ni Koji Ohana",
+       "relation_en": "Local bakery producing the regional vegetable sandwich.",
+       "address_ja": "東京都武蔵村山市大南2-47-14",
+       "official_url": "",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "パンとおやつに糀 ohana",
+       "relation_en": "Producer of the locally certified sandwich.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "season_en": "Ingredients vary with local seasonal produce.",
+     "confidence": "high",
+     "notes_en": "A contemporary fusion-food example emphasizing local sourcing."
+    },
+    {
+     "name_ja": "たんぽぽ焼き（MMクリチーみかん）",
+     "name_en": "Tanpopo Mandarin Cream Cheese Cake",
+     "kind": "sweet",
+     "summary_en": "A rice-flour pancake-style sweet combining homemade cream cheese and Musashimurayama mandarins. The product was developed with local elementary-school pupils and incorporates the school's character into its design.",
+     "facts": [
+      {
+       "claim_en": "Tanpopo Sweets Kobo collaborated with pupils from Musashimurayama Ninth Elementary School to develop a sweet using locally grown mandarins and cream cheese.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html",
+       "source_title": "地域ブランド認証商品",
+       "publisher": "Musashimurayama City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "たんぽぽSWEETS工房",
+       "name_en": "Tanpopo Sweets Kobo",
+       "relation_en": "Maker of the locally developed mandarin sweet.",
+       "address_ja": "東京都武蔵村山市学園3-59-3 コロコロセンター1F",
+       "official_url": "",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "たんぽぽSWEETS工房",
+       "relation_en": "Producer of the locally certified confection.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "One of the new regional products certified in 2026."
+    },
+    {
+     "name_ja": "旬のカッサータ",
+     "name_en": "Seasonal Local-Fruit Cassata",
+     "kind": "sweet",
+     "summary_en": "A Sicilian-style frozen dessert reinterpreted with seasonal fruit grown in Musashimurayama. It connects local orchard production with contemporary cafe confectionery.",
+     "facts": [
+      {
+       "claim_en": "SU COFFEE produces a cassata-style dessert using seasonal Musashimurayama fruit, and the city recognized it as a regional brand product in 2026.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html",
+       "source_title": "地域ブランド認証商品",
+       "publisher": "Musashimurayama City"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "SU COFFEE",
+       "name_en": "SU Coffee",
+       "relation_en": "Cafe producing the locally branded seasonal-fruit cassata.",
+       "address_ja": "東京都武蔵村山市学園1-45-29",
+       "official_url": "",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "SU COFFEE",
+       "relation_en": "Producer of the seasonal local-fruit dessert.",
+       "source_url": "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html"
+      }
+     ],
+     "season_en": "Fruit ingredients vary according to harvest season.",
+     "confidence": "high",
+     "notes_en": "A newly recognized 2026 specialty with a verified physical destination."
+    }
+   ],
+   "none_found_reason_en": ""
+  }
+ ],
+ "url_check": {
+  "checked_at": "2026-11-22",
+  "status": {
+   "https://kiyose.or.jp/%E3%80%8C%E3%81%8D%E3%82%88%E3%81%9B%E3%81%AB%E3%82%93%E3%81%98%E3%83%B3%E3%82%B8%E3%83%A3%E3%83%A0%E3%80%8D%E8%A3%BD%E9%80%A0%E4%B8%AD%E6%AD%A2%E3%81%AE%E3%81%8A%E7%9F%A5%E3%82%89%E3%81%9B/": 404,
+   "https://life.ja-group.jp/farm/market/detail?id=616": "URLError",
+   "https://life.ja-group.jp/farm/market/detail?id=618": "URLError",
+   "https://life.ja-group.jp/recipe/detail?id=100": "URLError",
+   "https://nonosachi.com/access": 200,
+   "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_141.html": 200,
+   "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/1008029/1006353.html": 200,
+   "https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/tokusan/1003816.html": 200,
+   "https://www.city.kiyose.lg.jp/bunkasportskankou/shinaimidokoro/1003844.html": "URLError",
+   "https://www.city.kiyose.lg.jp/sigotosangyou/nougyou/jibasan.html": "URLError",
+   "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html": 200,
+   "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1005150.html": 200,
+   "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1005152.html": 200,
+   "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1006619.html": 404,
+   "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1022409/1005144.html": 200,
+   "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1022409/1005153.html": 200,
+   "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1022409/1005154.html": 200,
+   "https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1022409/1005155.html": 200,
+   "https://www.fgh-noujin.com/": 200,
+   "https://www.ja-tokyomirai.or.jp/agriculture/": 200,
+   "https://www.kiyosekanko.tokyo/about": 200,
+   "https://www.kiyosekanko.tokyo/information/souvenir/tourism": 200,
+   "https://www.kiyosekanko.tokyo/useful/agri": 200,
+   "https://www.sangyo-rodo1.metro.tokyo.lg.jp/norin/syoku/econosanbutu/seisansya/222039.html": 200,
+   "https://www.tama6.jp/meguri/spproducts/yanagikubo.html": 200,
+   "https://www.tokyo-ja.or.jp/farm/edo/50.php": 200
+  }
+ }
+}
