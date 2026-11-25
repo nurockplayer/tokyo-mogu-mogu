@@ -42,5 +42,8 @@ test('opens a published data journey from MOGU through its source-backed Spot', 
   await route.locator('[data-spot-id]').first().click();
   const spot = screen('spot');
   await expect(spot).toBeVisible();
-  await expect(spot.locator('a.book')).toHaveAttribute('href', /^https?:\/\//);
+  const spotId = await spot.getAttribute('data-spot-id');
+  const sourceUrl = record.spots[spotId!]?.officialSource?.url;
+  expect(sourceUrl, 'The opened Spot has an official source URL').toMatch(/^https?:\/\//);
+  await expect(spot.locator('.info-sec').getByText(sourceUrl!, { exact: true })).toBeVisible();
 });
