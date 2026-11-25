@@ -34,12 +34,7 @@ import { SplashScreen } from './screens/SplashScreen';
 import { SpotScreen } from './screens/SpotScreen';
 import { StoryScreen } from './screens/StoryScreen';
 import { journeyToMoguRecent } from './screens/presentation';
-import { resolveCurrentJourneyLocation } from './journey-location';
-
-function spotForPath(pathname: string): SpotPresentation | undefined {
-  if (!pathname.startsWith('/spot/')) return undefined;
-  return currentSpots[decodeURIComponent(pathname.slice('/spot/'.length))];
-}
+import type { CurrentJourneyLocationResolution } from './journey-location';
 
 interface ReferenceFavorites {
   journeyIds: string[];
@@ -74,7 +69,7 @@ function saveReferenceFavorites(value: ReferenceFavorites) {
   }
 }
 
-export function ReferenceApp() {
+export function ReferenceApp({ journeyLocation }: { journeyLocation: CurrentJourneyLocationResolution }) {
   const location = useLocation();
   const navigate = useNavigate();
   const { locale, setLocale } = useI18n();
@@ -94,20 +89,13 @@ export function ReferenceApp() {
   const [savedRouteIds, setSavedRouteIds] = useState(() => loadSavedRoutes().map((entry) => entry.routeId));
   const [favorites, setFavorites] = useState<ReferenceFavorites>(loadReferenceFavorites);
   const [toast, setToast] = useState('');
-  const journeyLocation = resolveCurrentJourneyLocation(location.pathname, location.search);
   const locationJourney = journeyLocation.status === 'resolved'
     ? journeyLocation.journey
     : undefined;
-  const hasJourneyQuery = ['candidateId', 'routeId', 'resultId'].some(
-    (key) => new URLSearchParams(location.search).getAll(key).some(Boolean),
-  );
-  const pathSpot = spotForPath(location.pathname);
-  if (location.pathname.startsWith('/spot/') && !pathSpot) {
-    throw new Error(`Missing current Spot presentation for path: ${location.pathname}`);
-  }
+  const { hasJourneyQuery, fromMy } = journeyLocation;
   // Inactive screens stay mounted for the current transition model; this value
   // is never used to resolve a valid /spot/:id path.
-  const currentSpot = pathSpot ?? currentSpots['okutama-tourism-office'];
+  const currentSpot = journeyLocation.spot ?? currentSpots['okutama-tourism-office'];
   const shownJourney = locationJourney ?? currentJourney;
   const routeJourney = locationJourney ?? currentJourney;
   const savedJourneys = useMemo(
@@ -329,9 +317,8 @@ export function ReferenceApp() {
           journey={routeJourney}
           saved={savedRouteIds.includes(routeJourney.routeId)}
           onBack={() => {
-            const from = new URLSearchParams(location.search).get('from');
             navigate(
-              from === 'my'
+              fromMy
                 ? '/my'
                 : hasJourneyQuery && locationJourney
                   ? `/story/${locationJourney.storyId}`

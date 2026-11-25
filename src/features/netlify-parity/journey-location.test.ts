@@ -18,18 +18,18 @@ describe('current journey location resolution', () => {
     expect(resolveCurrentJourneyLocation(
       '/story/hachioji-ginger',
       '?candidateId=demo-okutama-wasabi',
-    )).toEqual({ status: 'invalid' });
+    )).toMatchObject({ status: 'invalid', isReferenceStoryPath: true, hasJourneyQuery: true });
     expect(resolveCurrentJourneyLocation(
       '/spot/hachioji-takiyama-roadside-station',
       '?routeId=not-a-current-route',
-    )).toEqual({ status: 'invalid' });
-    expect(resolveCurrentJourneyLocation('/story/not-current', '')).toEqual({ status: 'not-current' });
+    )).toMatchObject({ status: 'invalid', spot: { id: 'hachioji-takiyama-roadside-station' }, hasJourneyQuery: true });
+    expect(resolveCurrentJourneyLocation('/story/not-current', '')).toMatchObject({ status: 'not-current', isReferenceStoryPath: false });
   });
 
   it.each([
     '/story/%E0%A4%A',
     '/spot/%E0%A4%A',
   ])('fails closed for a malformed encoded path identity: %s', (pathname) => {
-    expect(resolveCurrentJourneyLocation(pathname, '')).toEqual({ status: 'invalid' });
+    expect(resolveCurrentJourneyLocation(pathname, '').status).toBe('invalid');
   });
 });

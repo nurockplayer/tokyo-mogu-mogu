@@ -16,11 +16,7 @@ import { LoadingBoundary } from './LoadingBoundary';
 import { NotFoundPage } from './NotFoundPage';
 import { JourneyNavigationManager } from './JourneyNavigationManager';
 import { ReferenceApp } from '../features/netlify-parity/ReferenceApp';
-import { currentJourneys, currentSpots } from '../features/netlify-parity/content';
-import {
-  decodeJourneyPathIdentity,
-  resolveCurrentJourneyLocation,
-} from '../features/netlify-parity/journey-location';
+import { resolveCurrentJourneyLocation } from '../features/netlify-parity/journey-location';
 
 const HomePage = lazy(() => import('../pages/HomePage').then((m) => ({ default: m.HomePage })));
 const LandingPage = lazy(() =>
@@ -87,25 +83,12 @@ export function AppRouter() {
   const journeyLocation = resolveCurrentJourneyLocation(pathname, search);
   const referenceJourneyQuery =
     journeyLocation.status === 'default' || journeyLocation.status === 'resolved';
-  const referenceStoryPath =
-    pathname === '/story' ||
-    currentJourneys.some((journey) => pathname === `/story/${journey.storyId}`);
-  const decodedSpotId = pathname.startsWith('/spot/')
-    ? decodeJourneyPathIdentity(pathname.slice('/spot/'.length))
-    : undefined;
-  const referenceSpotPath =
-    decodedSpotId !== undefined && Object.hasOwn(currentSpots, decodedSpotId);
-  const referenceJourneyPath =
+  const journeyIdentityPath =
     pathname === '/explore/result' ||
     pathname === '/route' ||
-    referenceStoryPath ||
-    referenceSpotPath;
-  const encodedJourneyIdentityPath =
+    pathname === '/story' ||
     pathname.startsWith('/story/') || pathname.startsWith('/spot/');
-  if (
-    journeyLocation.status === 'invalid'
-    && (referenceJourneyPath || encodedJourneyIdentityPath)
-  ) {
+  if (journeyLocation.status === 'invalid' && journeyIdentityPath) {
     return <NotFoundPage />;
   }
   const referencePath =
@@ -115,16 +98,16 @@ export function AppRouter() {
     pathname === '/home' ||
     pathname === '/explore' ||
     (pathname === '/explore/result' && referenceJourneyQuery) ||
-    referenceStoryPath ||
+    journeyLocation.isReferenceStoryPath ||
     (pathname === '/route' && referenceJourneyQuery) ||
-    referenceSpotPath ||
+    journeyLocation.spot !== undefined ||
     pathname === '/discover' ||
     pathname === '/mogu' ||
     pathname === '/my-route' ||
     pathname === '/my' ||
     pathname === '/badges';
 
-  if (referencePath) return <ReferenceApp />;
+  if (referencePath) return <ReferenceApp journeyLocation={journeyLocation} />;
 
   return (
     <>

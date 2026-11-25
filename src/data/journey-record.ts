@@ -6,7 +6,7 @@ import type {
 } from '../features/netlify-parity/factual-presentation';
 import { recordVerificationStatus } from '../lib/verification';
 import type { DataOrigin, DataSource, VerificationStatus } from './model';
-import { MUNICIPALITIES, type MunicipalityId } from './municipalities';
+import type { MunicipalityId } from './municipalities';
 
 type VariantId = JourneyPresentation['routeVariants'][number]['id'];
 
@@ -51,17 +51,32 @@ export interface JourneyRecordPresentation {
   chapterPoint: Record<string, NonNullable<JourneyRecord['story']['point']>>;
 }
 
-export function journeyFactStatus(record: JourneyRecord, path: string): VerificationStatus {
-  const entry = Object.entries(record.facts)
-    .filter(([key]) => path === key || path.startsWith(`${key}.`))
-    .sort(([a], [b]) => b.length - a.length)[0];
-  if (!entry) throw new Error(`Missing journey fact evidence: ${record.journey.id} / ${path}`);
-  const { sourceIds, origin } = entry[1];
+function findFact<T>(facts: Record<string, T>, path: string): T | undefined {
+  while (!Object.hasOwn(facts, path)) {
+    const separator = path.lastIndexOf('.');
+    if (separator === -1) return undefined;
+    path = path.slice(0, separator);
+  }
+  return facts[path];
+}
+
+function factStatus(record: JourneyRecord, { sourceIds, origin }: JourneyRecord['facts'][string]): VerificationStatus {
   return recordVerificationStatus(sourceIds.map((id) => {
     const source = record.sources[id];
     if (!source) throw new Error(`Missing journey source: ${record.journey.id} / ${id}`);
     return source;
   }), origin);
+}
+
+export function resolveJourneyFact(record: JourneyRecord, path: string) {
+  const fact = findFact(record.facts, path);
+  if (fact) return { ...fact, status: factStatus(record, fact) };
+}
+
+export function journeyFactStatus(record: JourneyRecord, path: string): VerificationStatus {
+  const fact = resolveJourneyFact(record, path);
+  if (!fact) throw new Error(`Missing journey fact evidence: ${record.journey.id} / ${path}`);
+  return fact.status;
 }
 
 const pending: LocalizedText = { ja: '確認中', en: 'Confirmation pending', 'zh-TW': '確認中' };
@@ -71,18 +86,6 @@ const caution: LocalizedText = {
   'zh-TW': '刊載內容尚未確認。造訪前請查看官方出處資訊。',
 };
 
-/** Use the existing no-photo state unless the record carries explicit media rights. */
-function licensedMedia<T>(value: T, rights: JourneyRecord['mediaRights']): T {
-  if (Array.isArray(value)) return value.map((item) => licensedMedia(item, rights)) as T;
-  if (value === null || typeof value !== 'object') return value;
-  return Object.fromEntries(Object.entries(value).flatMap(([key, item]) => {
-    const licensed = (id: ReferenceAssetId) => Boolean(rights?.[id]?.sourceUrl && rights[id]?.license);
-    if (key === 'imageAssetId' || key === 'heroAssetId') return licensed(item) ? [[key, item]] : [];
-    if (key === 'thumbnailAssetIds') return [[key, item.filter(licensed)]];
-    return [[key, licensedMedia(item, rights)]];
-  })) as T;
-}
-
 /** The only adapter: registration populates every map consumed by MOGU/Story/Route/Spot. */
 export function adaptJourneyRecords(records: readonly JourneyRecord[]): JourneyRecordPresentation {
   const output: JourneyRecordPresentation = {
@@ -90,20 +93,37 @@ export function adaptJourneyRecords(records: readonly JourneyRecord[]): JourneyR
     routeStepText: {}, routeStats: {}, routeRegionGuidance: {}, referenceSpotDetails: {},
     storySpotGroups: {}, storyLocation: {}, chapterPoint: {},
   };
-  for (const authored of records) {
-    if (!MUNICIPALITIES.some(({ id }) => id === authored.municipalityId)) {
-      throw new Error(`Unknown journey municipality: ${authored.municipalityId}`);
-    }
-    const record = licensedMedia(authored, authored.mediaRights);
-    const id = record.journey.id;
-    const statuses = Object.keys(record.facts).map((path) => journeyFactStatus(record, path));
+  for (const record of records) {
+    const licensed = (assetId: ReferenceAssetId | undefined) => {
+      const rights = assetId && record.mediaRights?.[assetId];
+      return Boolean(rights?.sourceUrl && rights.license);
+    };
+    const filterImage = <T extends { imageAssetId?: ReferenceAssetId }>(value: T): T => {
+      const filtered = { ...value };
+      if (!licensed(filtered.imageAssetId)) delete filtered.imageAssetId;
+      return filtered;
+    };
+    const journey = filterImage(record.journey);
+    if (!licensed(journey.heroAssetId)) delete journey.heroAssetId;
+    const id = journey.id;
+    const factStatuses = Object.entries(record.facts).map(([path, fact]) => [path, factStatus(record, fact)] as const);
+    const statusByPath = Object.fromEntries(factStatuses);
     // The existing browse card has one unverified treatment for all non-verified facts.
-    const sourceStatus = statuses.length > 0 && statuses.every((status) => status === 'verified')
+    const sourceStatus = factStatuses.length > 0 && factStatuses.every(([, status]) => status === 'verified')
       ? 'verified' : 'needs_confirmation';
-    output.currentJourneys.push({ ...record.journey, sourceStatus });
+    output.currentJourneys.push({
+      ...journey,
+      sourceStatus,
+      routeVariants: journey.routeVariants.map((variant) => ({
+        ...filterImage(variant), steps: variant.steps.map(filterImage),
+      })),
+    });
     output.routeNames[id] = record.routeName;
     output.resultLocation[id] = record.location;
-    output.storySpotGroups[id] = record.story.groups;
+    output.storySpotGroups[id] = {
+      nearby: record.story.groups.nearby.map(filterImage),
+      nature: record.story.groups.nature.map(filterImage),
+    };
     output.storyLocation[id] = record.story.location;
     if (record.story.point) output.chapterPoint[id] = record.story.point;
     for (const variant of record.journey.routeVariants) {
@@ -116,17 +136,18 @@ export function adaptJourneyRecords(records: readonly JourneyRecord[]): JourneyR
     }
     for (const [spotId, { presentation, detail }] of Object.entries(record.spots)) {
       const spotPath = `spots.${spotId}`;
-      const unconfirmed = Object.keys(record.facts)
-        .filter((path) => path === spotPath || path.startsWith(`${spotPath}.`) || spotPath.startsWith(`${path}.`))
-        .some((path) => journeyFactStatus(record, spotPath.startsWith(`${path}.`) ? spotPath : path) !== 'verified');
-      if (unconfirmed) {
-        if (!detail.tags.some((tag) => tag.tagId === 'confirmation-pending')) {
-          detail.tags.push({ tagId: 'confirmation-pending', color: '#5D9BEF', label: pending });
-        }
-        if (detail.caution.length === 0) detail.caution.push(caution);
-      }
-      output.currentSpots[spotId] = presentation;
-      output.referenceSpotDetails[spotId] = detail;
+      const spotStatus = findFact(statusByPath, spotPath);
+      const unconfirmed = (spotStatus !== undefined && spotStatus !== 'verified')
+        || factStatuses.some(([path, status]) => path.startsWith(`${spotPath}.`) && status !== 'verified');
+      output.currentSpots[spotId] = {
+        ...filterImage(presentation), thumbnailAssetIds: presentation.thumbnailAssetIds.filter(licensed),
+      };
+      output.referenceSpotDetails[spotId] = unconfirmed ? {
+        ...detail,
+        tags: detail.tags.some((tag) => tag.tagId === 'confirmation-pending')
+          ? detail.tags : [...detail.tags, { tagId: 'confirmation-pending', color: '#5D9BEF', label: pending }],
+        caution: detail.caution.length > 0 ? detail.caution : [caution],
+      } : detail;
     }
   }
   return output;

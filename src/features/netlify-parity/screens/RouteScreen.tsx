@@ -135,8 +135,6 @@ export function RouteScreen({
     }, 1_200);
   };
 
-  if (!variant) return null;
-
   return (
     <section
       className={`reference-screen${active ? ' on' : ''}`}
@@ -196,7 +194,7 @@ export function RouteScreen({
           <div className="tl-line" />
           {variant.steps.map((step, index) => {
             const spot = currentSpots[step.spotId];
-            if (!spot) return null;
+            if (!spot) throw new Error(`Missing current Spot presentation: ${routeKey} / ${step.spotId}`);
             const stepText = steps.find((candidate) => candidate.spotId === step.spotId);
             const isStart = index === 0;
             const mission = missionSpotIds.has(step.spotId);
