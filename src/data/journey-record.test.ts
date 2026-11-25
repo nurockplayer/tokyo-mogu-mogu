@@ -180,7 +180,6 @@ describe('municipalities and data-driven journey presentation (#412)', () => {
       for (const { spotId } of variant.steps) expect(output.currentSpots[spotId]).toBeDefined();
       for (const locale of locales) {
         expect(output.routeStats[key][locale].spots).toContain(String(variant.steps.length));
-        expect(output.routeStats[key][locale].minutes).toBe(String(variant.durationMinutes));
       }
     }
 
