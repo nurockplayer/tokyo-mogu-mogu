@@ -5,7 +5,7 @@ import { generateRepositoryDataVerificationLedger } from '../src/lib/data-verifi
 
 const repositoryRoot = fileURLToPath(new URL('..', import.meta.url));
 
-function parseArguments(argv: readonly string[]): { check: boolean; output: string } {
+export function parseArguments(argv: readonly string[]): { check: boolean; output: string } {
   let check = false;
   let output: string | undefined;
 
@@ -29,9 +29,7 @@ function parseArguments(argv: readonly string[]): { check: boolean; output: stri
   return { check, output };
 }
 
-function main() {
-  const { check, output } = parseArguments(process.argv.slice(2));
-  const rendered = generateRepositoryDataVerificationLedger();
+export function writeLedger({ check, output }: { check: boolean; output: string }, rendered: string) {
 
   if (check) {
     let existing: string;
@@ -55,4 +53,7 @@ function main() {
   console.log(`Wrote data verification ledger: ${output}`);
 }
 
-main();
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const options = parseArguments(process.argv.slice(2));
+  writeLedger(options, generateRepositoryDataVerificationLedger());
+}
