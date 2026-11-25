@@ -153,6 +153,7 @@ describe('municipalities and data-driven journey presentation (#412)', () => {
       for (const locale of locales) {
         expect(output.routeStats[key][locale].spots).toContain(String(variant.steps.length));
         expect(output.routeStats[key][locale].time.trim()).not.toBe('');
+        expect(output.routeStats[key][locale].time).toBe(record.variants[variant.id].stats[locale].time);
       }
     }
 
