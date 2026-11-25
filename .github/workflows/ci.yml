@@ -16,7 +16,7 @@ jobs:
       #   docs — git diff --check only
       #   data — focused data tests and 375px data journey check
       #   normal — typecheck / lint / test / build
-      #   core — normal gates plus the current 375px Japanese MVP smoke
+      #   core — normal gates plus both 375px browser checks
       risk: ${{ steps.classify.outputs.risk }}
     steps:
       - name: Checkout
@@ -149,7 +149,6 @@ jobs:
         run: pnpm exec playwright test e2e/current-mvp-smoke.spec.ts
 
       - name: Run focused data journey check
-        if: needs.quality-gates.outputs.risk == 'data'
         env:
           BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: CI_BASE="$(git merge-base "$BASE" "$GITHUB_SHA")" pnpm exec playwright test --config=playwright.data-tier.config.ts

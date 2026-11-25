@@ -38,7 +38,11 @@ risk="docs"
 
 for path in "${files[@]}"; do
   case "$path" in
-    *.test.* | *.spec.*) [ "$risk" = core ] || risk="normal"; continue ;;
+    e2e/* | playwright*.config.ts)
+      risk="core"
+      break
+      ;;
+    *.test.* | *.spec.*) risk="normal"; continue ;;
     src/data/journey-records/* | docs/data-evidence/* | docs/research/* | research/*)
       [ "$risk" != docs ] || risk="data"
       continue
@@ -59,12 +63,12 @@ for path in "${files[@]}"; do
   # and the build/tooling configuration that shapes the shipped bundle. This
   # keeps journey, routing, persistence, shared-interaction, i18n, and demo data
   # changes core even when a new file has not yet been named explicitly.
-  if [[ "$path" == src/* || "$path" == e2e/* ]]; then
+  if [[ "$path" == src/* ]]; then
     risk="core"
     break
   fi
   case "$path" in
-    playwright.config.ts | vite.config.ts | tsconfig.json | tsconfig.app.json \
+    vite.config.ts | tsconfig.json | tsconfig.app.json \
       | tsconfig.node.json | package.json | pnpm-lock.yaml \
       | pnpm-workspace.yaml | eslint.config.js | index.html)
       risk="core"
