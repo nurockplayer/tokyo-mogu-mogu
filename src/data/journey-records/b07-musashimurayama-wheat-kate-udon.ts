@@ -69,17 +69,17 @@ export const b07MusashimurayamaWheatKateUdonRecord: JourneyRecord = {
         }
       ],
       "stats": {
-        "ja": {"time":"約120分（編集目安）","distance":"","spots":"3 か所","station":"","minutes":"120","access":"","caution":"時間と順序は編集上の目安です。交通手段・経路は各自ご確認ください。文中の品目すべてを各立ち寄り先で提供するコースではありません。"},
+        "ja": {"time":"約120分（編集目安）","distance":"","spots":"3 か所","station":"","minutes":"","access":"","caution":"時間と順序は編集上の目安です。交通手段・経路は各自ご確認ください。文中の品目すべてを各立ち寄り先で提供するコースではありません。"},
         "en": {
           "time": "About 120 min (editorial estimate)",
           "distance": "",
           "spots": "3 stops",
           "station": "",
-          "minutes": "120",
+          "minutes": "",
           "access": "",
           "caution": "Timing and order are editorial estimates. Check transport and directions yourself. Each stop is connected to the theme, rather than every item described in the story."
         },
-        "zh-TW": {"time":"約 120 分鐘（編輯估計）","distance":"","spots":"3 處","station":"","minutes":"120","access":"","caution":"時間與順序為編輯估計，請自行確認交通與路線。各據點與主題相關，並非都提供故事中提及的所有品項。"}
+        "zh-TW": {"time":"約 120 分鐘（編輯估計）","distance":"","spots":"3 處","station":"","minutes":"","access":"","caution":"時間與順序為編輯估計，請自行確認交通與路線。各據點與主題相關，並非都提供故事中提及的所有品項。"}
       },
       "guidance": {"ja":"掲載内容は未確認です。訪問前に出典情報をご確認ください。","en":"This information is unconfirmed. Check the source information before visiting.","zh-TW":"刊載內容尚未確認。造訪前請查看出處資訊。"}
     }

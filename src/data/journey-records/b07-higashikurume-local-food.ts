@@ -73,17 +73,17 @@ export const b07HigashikurumeLocalFoodRecord: JourneyRecord = {
         }
       ],
       "stats": {
-        "ja": {"time":"約120分（編集目安）","distance":"","spots":"2 か所","station":"","minutes":"120","access":"","caution":"時間と順序は編集上の目安です。交通手段・経路は各自ご確認ください。文中の品目すべてを各立ち寄り先で提供するコースではありません。 市の認定一覧は過去の記録です。現在の事業・商品情報は出典先でご確認ください。"},
+        "ja": {"time":"約120分（編集目安）","distance":"","spots":"2 か所","station":"","minutes":"","access":"","caution":"時間と順序は編集上の目安です。交通手段・経路は各自ご確認ください。文中の品目すべてを各立ち寄り先で提供するコースではありません。 市の認定一覧は過去の記録です。現在の事業・商品情報は出典先でご確認ください。"},
         "en": {
           "time": "About 120 min (editorial estimate)",
           "distance": "",
           "spots": "2 stops",
           "station": "",
-          "minutes": "120",
+          "minutes": "",
           "access": "",
           "caution": "Timing and order are editorial estimates. Check transport and directions yourself. Each stop is connected to the theme, rather than every item described in the story. The municipal certification list is a historical record. Check the source for current business and product information."
         },
-        "zh-TW": {"time":"約 120 分鐘（編輯估計）","distance":"","spots":"2 處","station":"","minutes":"120","access":"","caution":"時間與順序為編輯估計，請自行確認交通與路線。各據點與主題相關，並非都提供故事中提及的所有品項。 市府認證名錄是過去的記錄。請透過出處確認現行業者與商品資訊。"}
+        "zh-TW": {"time":"約 120 分鐘（編輯估計）","distance":"","spots":"2 處","station":"","minutes":"","access":"","caution":"時間與順序為編輯估計，請自行確認交通與路線。各據點與主題相關，並非都提供故事中提及的所有品項。 市府認證名錄是過去的記錄。請透過出處確認現行業者與商品資訊。"}
       },
       "guidance": {"ja":"掲載内容は未確認です。訪問前に出典情報をご確認ください。","en":"This information is unconfirmed. Check the source information before visiting.","zh-TW":"刊載內容尚未確認。造訪前請查看出處資訊。"}
     }
