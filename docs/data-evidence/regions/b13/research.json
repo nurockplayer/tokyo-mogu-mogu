@@ -1,0 +1,3379 @@
+{
+ "batch": "b13",
+ "researched_at": "2026-11-22",
+ "municipalities": [
+  {
+   "id": "hachijo",
+   "name_ja": "八丈町",
+   "food_cultures": [
+    {
+     "name_ja": "島寿司",
+     "name_en": "Hachijojima island sushi",
+     "kind": "dish",
+     "summary_en": "A traditional sushi made with soy-marinated local fish and Japanese mustard instead of wasabi. Seaweed-topped sushi is another characteristic variation.",
+     "facts": [
+      {
+       "claim_en": "Hachijojima island sushi traditionally uses local fish such as medai and flying fish, while mustard replaces wasabi.",
+       "source_url": "https://www.hachijo.gr.jp/specials/local-dishes/",
+       "source_title": "ひとクセある、だからこそ箸が止まらない逸品たち",
+       "publisher": "八丈島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "郷土・家庭料理のお店 繁",
+       "name_en": "Han Traditional Home Cooking",
+       "relation_en": "Serves island sushi and other Hachijojima home-style dishes.",
+       "address_ja": "東京都八丈島八丈町三根1636-5",
+       "official_url": "https://www.hachijo.gr.jp/restaurant/han/",
+       "source_url": "https://www.hachijo.gr.jp/restaurant/han/"
+      },
+      {
+       "name_ja": "地魚処 魚八家",
+       "name_en": "Uohachiya Local Fish Restaurant",
+       "relation_en": "Serves island sushi and dishes prepared with local seafood.",
+       "address_ja": "東京都八丈島八丈町三根198-1",
+       "official_url": "https://www.hachijo.gr.jp/restaurant/uohachiya/",
+       "source_url": "https://www.hachijo.gr.jp/restaurant/uohachiya/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A central culinary expression of the island's fishing culture."
+    },
+    {
+     "name_ja": "くさや",
+     "name_en": "Hachijojima fermented dried fish",
+     "kind": "dish",
+     "summary_en": "Fish are soaked in a continuously maintained fermented brine and dried. The island's processors have developed individual brine traditions over generations.",
+     "facts": [
+      {
+       "claim_en": "Hachijojima kusaya is commonly prepared from locally caught muroaji and flying fish using fermented brines that were historically adapted from Niijima techniques.",
+       "source_url": "https://www.kusaya.tokyo/about.html",
+       "source_title": "くさやについて",
+       "publisher": "八丈島水産加工業協同組合"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ヤマサ水産 長田商店",
+       "name_en": "Yamasa Suisan Osada Shop",
+       "relation_en": "A local kusaya producer and seller.",
+       "address_ja": "東京都八丈島八丈町三根789",
+       "official_url": "https://www.hachijo.gr.jp/goods/osada/",
+       "source_url": "https://www.hachijo.gr.jp/goods/osada/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "八丈島水産加工業協同組合",
+       "relation_en": "Represents the island's kusaya processing tradition.",
+       "source_url": "https://www.kusaya.tokyo/about.html"
+      },
+      {
+       "name_ja": "ヤマサ水産 長田商店",
+       "relation_en": "Local maker and retailer of kusaya.",
+       "source_url": "https://www.hachijo.gr.jp/goods/osada/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Historically important as a preserved food and as part of household and ceremonial meals."
+    },
+    {
+     "name_ja": "ムロくさや・トビくさや",
+     "name_en": "Muroaji and flying-fish kusaya varieties",
+     "kind": "brand",
+     "summary_en": "Two characteristic Hachijojima versions of fermented dried fish use different local catches.",
+     "facts": [
+      {
+       "claim_en": "Hachijojima identifies kusaya made from muroaji and flying fish as distinctive regional specialties.",
+       "source_url": "https://www.hachijo.gr.jp/specials/kusaya/",
+       "source_title": "八丈島名産 ムロくさや・トビくさや",
+       "publisher": "八丈島観光協会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "八丈島水産加工業協同組合",
+       "relation_en": "Local processors' organization preserving kusaya production.",
+       "source_url": "https://www.kusaya.tokyo/about.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Related to the broader kusaya tradition but distinguished by the fish used."
+    },
+    {
+     "name_ja": "ブド",
+     "name_en": "Budo seaweed aspic",
+     "kind": "dish",
+     "summary_en": "A traditional set seaweed preparation made by boiling local marine plants. Fish paste or shellfish may be incorporated according to household custom.",
+     "facts": [
+      {
+       "claim_en": "Budo is a Hachijojima specialty in which boiled seaweed forms a firm, jelly-like preparation containing ingredients that vary by household.",
+       "source_url": "https://www.hachijo.gr.jp/specials/local-dishes/",
+       "source_title": "ひとクセある、だからこそ箸が止まらない逸品たち",
+       "publisher": "八丈島観光協会"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A particularly distinctive traditional preparation, rather than a generic seaweed dish."
+    },
+    {
+     "name_ja": "明日葉",
+     "name_en": "Ashitaba",
+     "kind": "crop",
+     "summary_en": "This leafy perennial, also called Hachijo grass, is one of the island's defining edible plants. Its young stems and leaves have a distinctive herbal bitterness.",
+     "facts": [
+      {
+       "claim_en": "Ashitaba has long been eaten on Hachijojima and is now cultivated and distributed as a specialty leafy vegetable.",
+       "source_url": "https://www.jahachijo.jp/information/tokusan.html",
+       "source_title": "特産品の農産物",
+       "publisher": "JA八丈島農業協同組合"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "八丈島農業協同組合 坂上店",
+       "name_en": "JA Hachijo Sakagami Shop",
+       "relation_en": "Agricultural cooperative shop selling locally grown vegetables and fruit.",
+       "address_ja": "東京都八丈島八丈町中之郷2616-1",
+       "official_url": "https://www.hachijo.gr.jp/goods/ja-nakanogo/",
+       "source_url": "https://www.hachijo.gr.jp/goods/ja-nakanogo/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "JA八丈島農業協同組合",
+       "relation_en": "Agricultural cooperative supporting local ashitaba production and distribution.",
+       "source_url": "https://www.jahachijo.jp/information/tokusan.html"
+      }
+     ],
+     "season_en": "February–May is the principal season identified by JA Hachijo.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "明日葉の天ぷら・おひたし",
+     "name_en": "Ashitaba tempura and blanched greens",
+     "kind": "dish",
+     "summary_en": "Hachijojima households prepare ashitaba as crisp tempura or as blanched and seasoned vegetables.",
+     "facts": [
+      {
+       "claim_en": "Tempura, blanched greens, sesame dressing and simmered preparations are established ways of eating ashitaba on Hachijojima.",
+       "source_url": "https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/kokuritsu/fujihakone/hatijojima/tourism.html",
+       "source_title": "八丈島の観光",
+       "publisher": "東京都環境局"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "地魚処 魚八家",
+       "name_en": "Uohachiya",
+       "relation_en": "A local restaurant listing ashitaba tempura among its island dishes.",
+       "address_ja": "東京都八丈島八丈町三根198-1",
+       "official_url": "https://www.hachijo.gr.jp/restaurant/uohachiya/",
+       "source_url": "https://www.hachijo.gr.jp/restaurant/uohachiya/"
+      }
+     ],
+     "makers": [],
+     "season_en": "Ashitaba is especially associated with spring.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "明日葉茶・明日葉青汁",
+     "name_en": "Ashitaba tea and green drinks",
+     "kind": "drink",
+     "summary_en": "The island's signature leaf is processed into teas, powders and green drinks as well as eaten fresh.",
+     "facts": [
+      {
+       "claim_en": "JA Hachijo identifies tea and green drinks among the processed uses of locally grown ashitaba.",
+       "source_url": "https://www.jahachijo.jp/information/tokusan.html",
+       "source_title": "特産品の農産物",
+       "publisher": "JA八丈島農業協同組合"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Processed products are not necessarily limited to the fresh-leaf harvest period."
+    },
+    {
+     "name_ja": "明日葉チーズケーキ",
+     "name_en": "Ashitaba cheesecake",
+     "kind": "sweet",
+     "summary_en": "A modern island sweet incorporates ashitaba's distinctive herbal flavor into cheesecake.",
+     "facts": [
+      {
+       "claim_en": "Kukansha is identified by the island tourism association as a place serving ashitaba cheesecake.",
+       "source_url": "https://www.hachijo.gr.jp/specials/local-sweets/",
+       "source_title": "八丈島の甘味に舌鼓を",
+       "publisher": "八丈島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "空間舎 in Long Beach 1983",
+       "name_en": "Kukansha",
+       "relation_en": "Cafe associated with ashitaba cheesecake.",
+       "address_ja": "東京都八丈島八丈町大賀郷8144-1",
+       "official_url": "https://www.hachijo.gr.jp/restaurant/kukansya/",
+       "source_url": "https://www.hachijo.gr.jp/restaurant/kukansya/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "空間舎",
+       "relation_en": "Cafe preparing ashitaba cheesecake.",
+       "source_url": "https://www.hachijo.gr.jp/specials/local-sweets/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "明日葉菓子",
+     "name_en": "Ashitaba confectionery",
+     "kind": "sweet",
+     "summary_en": "Packaged sweets use the island's signature leafy vegetable as a characteristic local flavor.",
+     "facts": [
+      {
+       "claim_en": "The tourism association recommends packaged ashitaba sweets as characteristic Hachijojima food souvenirs.",
+       "source_url": "https://www.hachijo.gr.jp/specials/souvenir/",
+       "source_title": "グルメも喜ぶ八丈島特産品をお土産に",
+       "publisher": "八丈島観光協会"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "パッションフルーツ",
+     "name_en": "Hachijojima passion fruit",
+     "kind": "crop",
+     "summary_en": "A fragrant subtropical fruit grown on the island and used both fresh and in sweets and drinks.",
+     "facts": [
+      {
+       "claim_en": "JA Hachijo identifies passion fruit as a specialty crop with a principal summer harvest.",
+       "source_url": "https://www.jahachijo.jp/information/tokusan.html",
+       "source_title": "特産品の農産物",
+       "publisher": "JA八丈島農業協同組合"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "八丈島農業協同組合 坂上店",
+       "name_en": "JA Hachijo Sakagami Shop",
+       "relation_en": "Local agricultural retail outlet carrying island-grown produce.",
+       "address_ja": "東京都八丈島八丈町中之郷2616-1",
+       "official_url": "https://www.hachijo.gr.jp/goods/ja-nakanogo/",
+       "source_url": "https://www.hachijo.gr.jp/goods/ja-nakanogo/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "JA八丈島農業協同組合",
+       "relation_en": "Local agricultural cooperative.",
+       "source_url": "https://www.jahachijo.jp/information/tokusan.html"
+      }
+     ],
+     "season_en": "July–August.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "生パッションジュース",
+     "name_en": "Fresh passion fruit juice",
+     "kind": "drink",
+     "summary_en": "Freshly prepared passion fruit juice connects island agriculture with a visitor experience involving traditional local performance.",
+     "facts": [
+      {
+       "claim_en": "Hattori Yashiki is identified as a place to drink juice made with Hachijojima-grown fresh passion fruit while experiencing island traditional performing arts.",
+       "source_url": "https://www.hachijo.gr.jp/specials/local-sweets/",
+       "source_title": "八丈島の甘味に舌鼓を",
+       "publisher": "八丈島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "八丈服部屋敷",
+       "name_en": "Hachijo Hattori Yashiki",
+       "relation_en": "Cultural venue associated with fresh passion fruit juice and traditional dance.",
+       "address_ja": "",
+       "official_url": "https://www.hachijo.gr.jp/facility/hattoriyashiki/",
+       "source_url": "https://www.hachijo.gr.jp/facility/hattoriyashiki/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "パッションフルーツかき氷",
+     "name_en": "Passion fruit shaved ice",
+     "kind": "sweet",
+     "summary_en": "A seasonal cafe dessert uses the island's summer passion fruit.",
+     "facts": [
+      {
+       "claim_en": "Kukansha is highlighted for a summer shaved-ice dessert featuring passion fruit.",
+       "source_url": "https://www.hachijo.gr.jp/specials/local-sweets/",
+       "source_title": "八丈島の甘味に舌鼓を",
+       "publisher": "八丈島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "空間舎 in Long Beach 1983",
+       "name_en": "Kukansha",
+       "relation_en": "Cafe associated with this seasonal island-fruit dessert.",
+       "address_ja": "東京都八丈島八丈町大賀郷8144-1",
+       "official_url": "https://www.hachijo.gr.jp/restaurant/kukansya/",
+       "source_url": "https://www.hachijo.gr.jp/restaurant/kukansya/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "空間舎",
+       "relation_en": "Cafe preparing passion fruit shaved ice.",
+       "source_url": "https://www.hachijo.gr.jp/specials/local-sweets/"
+      }
+     ],
+     "season_en": "Summer.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "八丈フルーツレモン",
+     "name_en": "Hachijo fruit lemon",
+     "kind": "crop",
+     "summary_en": "An island-grown, tree-ripened lemon prized for its relatively mild peel, which can be eaten with the flesh.",
+     "facts": [
+      {
+       "claim_en": "Hachijo fruit lemons are generally larger than ordinary commercial lemons and have relatively low peel bitterness when ripened on the tree.",
+       "source_url": "https://www.hachijo.gr.jp/specials/specialty-products/",
+       "source_title": "特産・名産品",
+       "publisher": "八丈島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "八丈島農業協同組合 坂上店",
+       "name_en": "JA Hachijo Sakagami Shop",
+       "relation_en": "A local outlet for island-grown agricultural products.",
+       "address_ja": "東京都八丈島八丈町中之郷2616-1",
+       "official_url": "https://www.hachijo.gr.jp/goods/ja-nakanogo/",
+       "source_url": "https://www.hachijo.gr.jp/goods/ja-nakanogo/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "JA八丈島農業協同組合",
+       "relation_en": "Cooperative promoting this locally grown fruit.",
+       "source_url": "https://www.jahachijo.jp/information/tokusan.html"
+      }
+     ],
+     "season_en": "January–February.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "八丈オクラ（ネリ）",
+     "name_en": "Hachijo okra, locally called neri",
+     "kind": "crop",
+     "summary_en": "This large, round-podded okra remains tender and is used raw, lightly cooked or fried.",
+     "facts": [
+      {
+       "claim_en": "Hachijo okra, locally called neri, has round rather than sharply ridged pods and is a recognized island summer vegetable.",
+       "source_url": "https://www.hachijo.gr.jp/specials/specialty-products/",
+       "source_title": "特産・名産品",
+       "publisher": "八丈島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "八丈島農業協同組合 坂上店",
+       "name_en": "JA Hachijo Sakagami Shop",
+       "relation_en": "Retail outlet for island-grown vegetables.",
+       "address_ja": "東京都八丈島八丈町中之郷2616-1",
+       "official_url": "https://www.hachijo.gr.jp/goods/ja-nakanogo/",
+       "source_url": "https://www.hachijo.gr.jp/goods/ja-nakanogo/"
+      }
+     ],
+     "makers": [],
+     "season_en": "July–August.",
+     "confidence": "high",
+     "notes_en": "The same okra lineage has also been introduced to Ogasawara."
+    },
+    {
+     "name_ja": "八丈島の里芋",
+     "name_en": "Hachijojima taro varieties",
+     "kind": "crop",
+     "summary_en": "Locally grown taro includes waseimo, akameimo and nankinimo. These roots have an established role in autumn and New Year food traditions.",
+     "facts": [
+      {
+       "claim_en": "Hachijojima grows several named taro types, including waseimo, akameimo and nankinimo, with autumn harvests.",
+       "source_url": "https://www.jahachijo.jp/information/tokusan.html",
+       "source_title": "特産品の農産物",
+       "publisher": "JA八丈島農業協同組合"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "October–December.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "里芋の酒盗添え",
+     "name_en": "Taro served with bonito shiokara",
+     "kind": "dish",
+     "summary_en": "A local way to eat boiled taro combines the mild root with a strongly seasoned bonito preparation.",
+     "facts": [
+      {
+       "claim_en": "Hachijojima residents eat peeled boiled taro with bonito shutō, a fermented or salted bonito preparation.",
+       "source_url": "https://www.hachijo.gr.jp/specials/specialty-products/",
+       "source_title": "特産・名産品",
+       "publisher": "八丈島観光協会"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Autumn.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "麦雑炊（麦ぞうすい）",
+     "name_en": "Hachijo barley porridge",
+     "kind": "dish",
+     "summary_en": "A traditional hearty barley-based porridge incorporating local vegetables and miso.",
+     "facts": [
+      {
+       "claim_en": "Hachijo Town publishes barley porridge as a local dish made with barley and vegetables including ashitaba.",
+       "source_url": "https://www.town.hachijo.tokyo.jp/kenko-fukushi/kenkou/shokuiku/kantanrecipe/recipe14/",
+       "source_title": "麦ぞうすい♪八丈島の郷土料理NO.14",
+       "publisher": "八丈町"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A traditional staple reflecting an island food culture that historically made substantial use of barley."
+    },
+    {
+     "name_ja": "芋つき",
+     "name_en": "Mashed local root vegetables",
+     "kind": "dish",
+     "summary_en": "A local preparation of mashed or pounded root vegetables appears in Tokyo Metropolitan Government documentation of Hachijo food culture.",
+     "facts": [
+      {
+       "claim_en": "Tokyo Metropolitan Government identifies imotsuki among Hachijojima's local food preparations.",
+       "source_url": "https://www.hokeniryo.metro.tokyo.lg.jp/shisetsu/jigyosyo/hokenjyo/tousyo/hachijou/katsudou/balanceguide",
+       "source_title": "保健所活動報告（八丈島版 食事バランスガイド）",
+       "publisher": "東京都島しょ保健所"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Different island municipalities also have similarly named root-vegetable dishes."
+    },
+    {
+     "name_ja": "明日葉とくさやのマヨネーズ和え",
+     "name_en": "Ashitaba and kusaya salad",
+     "kind": "dish",
+     "summary_en": "A local preparation combines two iconic Hachijojima foods: bitter ashitaba and strongly flavored fermented fish.",
+     "facts": [
+      {
+       "claim_en": "The Tokyo Islands health office lists an ashitaba and kusaya mayonnaise preparation as a local recipe.",
+       "source_url": "https://www.hokeniryo.metro.tokyo.lg.jp/shisetsu/jigyosyo/hokenjyo/tousyo/hachijou/katsudou/balanceguide",
+       "source_title": "保健所活動報告（八丈島版 食事バランスガイド）",
+       "publisher": "東京都島しょ保健所"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "トビウオのさつま揚げ",
+     "name_en": "Flying-fish fishcakes",
+     "kind": "dish",
+     "summary_en": "The island's flying-fish catch is minced and transformed into fried fishcakes.",
+     "facts": [
+      {
+       "claim_en": "Tokyo Metropolitan Government includes flying-fish satsuma-age among Hachijojima regional food preparations.",
+       "source_url": "https://www.hokeniryo.metro.tokyo.lg.jp/shisetsu/jigyosyo/hokenjyo/tousyo/hachijou/katsudou/balanceguide",
+       "source_title": "保健所活動報告（八丈島版 食事バランスガイド）",
+       "publisher": "東京都島しょ保健所"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "春トビウオ漁",
+     "name_en": "Spring flying-fish fishery",
+     "kind": "fishing",
+     "summary_en": "Flying fish are an important seasonal catch and underpin island sushi, fried dishes, fishcakes and preserved fish.",
+     "facts": [
+      {
+       "claim_en": "Flying fish are an important Hachijojima marine food resource, used in several traditional preparations.",
+       "source_url": "https://sakana.metro.tokyo.lg.jp/shima_no_kurashi/eiyo/shokuzai-2.html",
+       "source_title": "東京食材紹介２",
+       "publisher": "東京都"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Winter to spring, especially the spring flying-fish season.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "ムロアジ漁と加工",
+     "name_en": "Muroaji fishing and processing",
+     "kind": "fishing",
+     "summary_en": "Muroaji is a locally important fish, particularly as the raw material for Hachijojima's fermented dried-fish industry.",
+     "facts": [
+      {
+       "claim_en": "Locally caught muroaji is used by Hachijojima's kusaya processors.",
+       "source_url": "https://www.kusaya.tokyo/about.html",
+       "source_title": "くさやについて",
+       "publisher": "八丈島水産加工業協同組合"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ヤマサ水産 長田商店",
+       "name_en": "Yamasa Suisan Osada Shop",
+       "relation_en": "A local example of the island's fish-processing craft.",
+       "address_ja": "東京都八丈島八丈町三根789",
+       "official_url": "https://www.hachijo.gr.jp/goods/osada/",
+       "source_url": "https://www.hachijo.gr.jp/goods/osada/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "樽カツオ",
+     "name_en": "Barrel bonito",
+     "kind": "brand",
+     "summary_en": "A Hachijojima seafood brand based on individually caught, bled bonito packed into characteristic blue barrels.",
+     "facts": [
+      {
+       "claim_en": "Hachijojima markets taru-katsuo, bonito caught individually by trolling, bled and placed in blue barrels, as a distinctive spring fishery product.",
+       "source_url": "https://www.tokyo-gyoren.or.jp/island/",
+       "source_title": "島しょの漁業",
+       "publisher": "東京都漁業協同組合連合会"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Spring.",
+     "confidence": "high",
+     "notes_en": "A documented island seafood brand rather than simply a generic bonito dish."
+    },
+    {
+     "name_ja": "キンメダイ・メダイ漁",
+     "name_en": "Splendid alfonsino and medai fisheries",
+     "kind": "fishing",
+     "summary_en": "Deepwater fish such as kinmedai and medai support the island's fishing economy and local fish cuisine.",
+     "facts": [
+      {
+       "claim_en": "Tokyo's fisheries federation identifies kinmedai and medai among the important fish caught around Hachijojima.",
+       "source_url": "https://www.tokyo-gyoren.or.jp/island/",
+       "source_title": "島しょの漁業",
+       "publisher": "東京都漁業協同組合連合会"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "うみかぜ椎茸",
+     "name_en": "Umikaze shiitake",
+     "kind": "brand",
+     "summary_en": "A producer-branded shiitake mushroom grown on Hachijojima using Japanese substrate blocks.",
+     "facts": [
+      {
+       "claim_en": "Dairyu Farm produces the Hachijojima-grown Umikaze shiitake brand and offers a farm-based encounter with mushroom production.",
+       "source_url": "https://www.hachijo.gr.jp/goods/dairyufarm/",
+       "source_title": "大竜ファーム",
+       "publisher": "八丈島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "大竜ファーム",
+       "name_en": "Dairyu Farm",
+       "relation_en": "The mushroom farm producing Umikaze shiitake.",
+       "address_ja": "東京都八丈島八丈町中之郷1650",
+       "official_url": "https://www.hachijo.gr.jp/goods/dairyufarm/",
+       "source_url": "https://www.hachijo.gr.jp/goods/dairyufarm/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "大竜ファーム",
+       "relation_en": "Producer of Umikaze shiitake.",
+       "source_url": "https://www.hachijo.gr.jp/goods/dairyufarm/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "八丈島ジャージー牛乳",
+     "name_en": "Hachijojima Jersey milk",
+     "kind": "brand",
+     "summary_en": "Local Jersey dairy production supplies milk and specialty dairy products that have become a recognizable part of the island's food culture.",
+     "facts": [
+      {
+       "claim_en": "Hachijojima Nyugyo produces Jersey dairy products and operates island outlets where these products can be experienced.",
+       "source_url": "https://www.hachijo.gr.jp/specials/specialty-products/",
+       "source_title": "特産・名産品",
+       "publisher": "八丈島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "八丈島ジャージーカフェ",
+       "name_en": "Hachijojima Jersey Cafe",
+       "relation_en": "A cafe serving locally produced Jersey dairy products.",
+       "address_ja": "東京都八丈島八丈町大賀郷2370-1",
+       "official_url": "https://www.hachijo.gr.jp/restaurant/jerseycafe/",
+       "source_url": "https://www.hachijo.gr.jp/restaurant/jerseycafe/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "八丈島乳業",
+       "relation_en": "Local Jersey dairy producer.",
+       "source_url": "https://www.hachijo.gr.jp/specials/specialty-products/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "八丈島ジャージープリン",
+     "name_en": "Hachijojima Jersey pudding",
+     "kind": "sweet",
+     "summary_en": "A dairy dessert associated with the island's Jersey milk industry.",
+     "facts": [
+      {
+       "claim_en": "Hachijojima Jersey Cafe is highlighted for its rich Jersey milk pudding.",
+       "source_url": "https://www.hachijo.gr.jp/specials/local-sweets/",
+       "source_title": "八丈島の甘味に舌鼓を",
+       "publisher": "八丈島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "八丈島ジャージーカフェ",
+       "name_en": "Hachijojima Jersey Cafe",
+       "relation_en": "Cafe associated with locally made Jersey pudding.",
+       "address_ja": "東京都八丈島八丈町大賀郷2370-1",
+       "official_url": "https://www.hachijo.gr.jp/restaurant/jerseycafe/",
+       "source_url": "https://www.hachijo.gr.jp/restaurant/jerseycafe/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "八丈島乳業",
+       "relation_en": "Dairy producer associated with the cafe.",
+       "source_url": "https://www.hachijo.gr.jp/specials/specialty-products/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "八丈島産素材のジェラート",
+     "name_en": "Gelato made with Hachijojima ingredients",
+     "kind": "sweet",
+     "summary_en": "Local dairy is transformed into frozen desserts incorporating island-grown ashitaba and even locally cultivated shiitake.",
+     "facts": [
+      {
+       "claim_en": "Gelateria 365 serves Jersey dairy soft serve and island-specific flavors using ashitaba and Umikaze shiitake.",
+       "source_url": "https://www.hachijo.gr.jp/specials/local-sweets/",
+       "source_title": "八丈島の甘味に舌鼓を",
+       "publisher": "八丈島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ジェラテリア365",
+       "name_en": "Gelateria 365",
+       "relation_en": "Gelato shop in the Hachijo Botanical Garden visitor center featuring island-grown ingredients.",
+       "address_ja": "東京都八丈島八丈町大賀郷2843",
+       "official_url": "https://www.hachijo.gr.jp/restaurant/gelateria365/",
+       "source_url": "https://www.hachijo.gr.jp/restaurant/gelateria365/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ジェラテリア365",
+       "relation_en": "Maker of gelato and soft serve using local ingredients.",
+       "source_url": "https://www.hachijo.gr.jp/restaurant/gelateria365/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The shiitake flavor is an especially unusual example of producer-to-dessert collaboration."
+    },
+    {
+     "name_ja": "八丈焼酎（島酒）",
+     "name_en": "Hachijo island shochu",
+     "kind": "drink",
+     "summary_en": "An island distilling tradition traced to sweet-potato shochu knowledge brought by an exile from Satsuma. Four local distilleries now produce distinct potato, barley and blended spirits.",
+     "facts": [
+      {
+       "claim_en": "Hachijo's shochu tradition is associated with the exiled Satsuma figure Tanso Shoemon, and four distilleries produce island spirits today.",
+       "source_url": "https://www.hachijo.gr.jp/specials/shochu/",
+       "source_title": "島の水から生まれるこの風味。八丈島の島酒",
+       "publisher": "八丈島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "八丈島酒造",
+       "name_en": "Hachijojima Shuzo",
+       "relation_en": "One of the island's traditional shochu distilleries.",
+       "address_ja": "東京都八丈島八丈町大賀郷1576",
+       "official_url": "https://www.hachijo.gr.jp/goods/hachijojimasyuzo_shochu-brewing/",
+       "source_url": "https://www.hachijo.gr.jp/goods/hachijojimasyuzo_shochu-brewing/"
+      },
+      {
+       "name_ja": "八丈興発",
+       "name_en": "Hachijo Kohatsu",
+       "relation_en": "One of the island's shochu distillers.",
+       "address_ja": "東京都八丈島八丈町三根1299",
+       "official_url": "https://www.hachijo.gr.jp/goods/hachijokohatsu_shochu-brewing/",
+       "source_url": "https://www.hachijo.gr.jp/goods/hachijokohatsu_shochu-brewing/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "八丈島酒造",
+       "relation_en": "Makes Yatsubaki, Shimanagashi, Edochu and Ipponzuri.",
+       "source_url": "https://www.hachijo.gr.jp/specials/shochu/"
+      },
+      {
+       "name_ja": "八丈興発",
+       "relation_en": "Makes the Nasakejima shochu family.",
+       "source_url": "https://www.hachijo.gr.jp/specials/shochu/"
+      },
+      {
+       "name_ja": "坂下酒造",
+       "relation_en": "Makes Kuroshio, Jonnalie and Kihachijo.",
+       "source_url": "https://www.hachijo.gr.jp/specials/shochu/"
+      },
+      {
+       "name_ja": "樫立酒造",
+       "relation_en": "Makes Shima no Hana and Shioume.",
+       "source_url": "https://www.hachijo.gr.jp/specials/shochu/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The four named distillers and their brands provide multiple producer-led cultural stories."
+    },
+    {
+     "name_ja": "島流し・江戸酎・八重椿",
+     "name_en": "Hachijojima Shuzo shochu brands",
+     "kind": "brand",
+     "summary_en": "A locally distilled group of Hachijo shochu brands connecting the island's history with contemporary production.",
+     "facts": [
+      {
+       "claim_en": "Hachijojima Shuzo produces Shimanagashi, Edochu, Yatsubaki and Ipponzuri.",
+       "source_url": "https://www.hachijo.gr.jp/specials/shochu/",
+       "source_title": "島の水から生まれるこの風味。八丈島の島酒",
+       "publisher": "八丈島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "八丈島酒造",
+       "name_en": "Hachijojima Shuzo",
+       "relation_en": "Producer associated with these shochu brands.",
+       "address_ja": "東京都八丈島八丈町大賀郷1576",
+       "official_url": "https://www.hachijo.gr.jp/goods/hachijojimasyuzo_shochu-brewing/",
+       "source_url": "https://www.hachijo.gr.jp/goods/hachijojimasyuzo_shochu-brewing/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "八丈島酒造",
+       "relation_en": "Distiller of the named brands.",
+       "source_url": "https://www.hachijo.gr.jp/specials/shochu/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "情け嶋",
+     "name_en": "Nasakejima shochu",
+     "kind": "brand",
+     "summary_en": "A family of locally produced shochu expressions from Hachijo Kohatsu.",
+     "facts": [
+      {
+       "claim_en": "The Nasakejima family includes barley, sweet-potato and other expressions produced by Hachijo Kohatsu.",
+       "source_url": "https://www.hachijo.gr.jp/specials/shochu/",
+       "source_title": "島の水から生まれるこの風味。八丈島の島酒",
+       "publisher": "八丈島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "八丈興発",
+       "name_en": "Hachijo Kohatsu",
+       "relation_en": "Producer of Nasakejima shochu.",
+       "address_ja": "東京都八丈島八丈町三根1299",
+       "official_url": "https://www.hachijo.gr.jp/goods/hachijokohatsu_shochu-brewing/",
+       "source_url": "https://www.hachijo.gr.jp/goods/hachijokohatsu_shochu-brewing/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "八丈興発",
+       "relation_en": "Local distiller.",
+       "source_url": "https://www.hachijo.gr.jp/specials/shochu/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "黒潮・ジョナリー・黄八丈",
+     "name_en": "Sakashita Shuzo shochu brands",
+     "kind": "brand",
+     "summary_en": "A group of locally distilled spirits associated with the Sakashita brewery.",
+     "facts": [
+      {
+       "claim_en": "Sakashita Shuzo produces the Kuroshio, Jonnalie and Kihachijo labels.",
+       "source_url": "https://www.hachijo.gr.jp/specials/shochu/",
+       "source_title": "島の水から生まれるこの風味。八丈島の島酒",
+       "publisher": "八丈島観光協会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "坂下酒造",
+       "relation_en": "Maker of these Hachijo shochu brands.",
+       "source_url": "https://www.hachijo.gr.jp/specials/shochu/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "島の華・潮梅",
+     "name_en": "Kashitate Shuzo shochu brands",
+     "kind": "brand",
+     "summary_en": "A group of island spirits produced in Hachijojima's Kashitate area.",
+     "facts": [
+      {
+       "claim_en": "Kashitate Shuzo produces Shima no Hana and Shioume among its locally recognized products.",
+       "source_url": "https://www.hachijo.gr.jp/specials/shochu/",
+       "source_title": "島の水から生まれるこの風味。八丈島の島酒",
+       "publisher": "八丈島観光協会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "樫立酒造",
+       "relation_en": "Distiller in the Kashitate district.",
+       "source_url": "https://www.hachijo.gr.jp/specials/shochu/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "くさやピザ",
+     "name_en": "Kusaya pizza",
+     "kind": "dish",
+     "summary_en": "A contemporary island fusion dish uses traditional fermented fish as a pizza ingredient.",
+     "facts": [
+      {
+       "claim_en": "The local restaurant Eight identifies kusaya pizza as one of its signature creations.",
+       "source_url": "https://www.hachijo.gr.jp/restaurant/eight/",
+       "source_title": "創作郷土居酒屋 エイト",
+       "publisher": "八丈島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "創作郷土居酒屋 エイト",
+       "name_en": "Eight",
+       "relation_en": "Local restaurant associated with kusaya pizza.",
+       "address_ja": "東京都八丈島八丈町三根362",
+       "official_url": "https://www.hachijo.gr.jp/restaurant/eight/",
+       "source_url": "https://www.hachijo.gr.jp/restaurant/eight/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "創作郷土居酒屋 エイト",
+       "relation_en": "Restaurant preparing modern dishes with island ingredients.",
+       "source_url": "https://www.hachijo.gr.jp/restaurant/eight/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Illustrates a modern reinterpretation of a long-established island food."
+    }
+   ],
+   "none_found_reason_en": ""
+  },
+  {
+   "id": "aogashima",
+   "name_ja": "青ヶ島村",
+   "food_cultures": [
+    {
+     "name_ja": "あおちゅう",
+     "name_en": "Aochu island shochu",
+     "kind": "drink",
+     "summary_en": "Aogashima's distinctive shochu tradition preserves household methods of fermenting sweet potatoes with barley koji. Different makers continue family-derived techniques.",
+     "facts": [
+      {
+       "claim_en": "Aochu developed from household shochu production, traditionally undertaken by women, and individual distillers maintain different methods and flavors.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html",
+       "source_title": "特産品 -特産品のご紹介-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "奥山直子",
+       "relation_en": "One of the makers identified by the village for traditional Aochu.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html"
+      },
+      {
+       "name_ja": "佐々木宏",
+       "relation_en": "One of the makers identified by the village for traditional Aochu.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html"
+      },
+      {
+       "name_ja": "広江順子",
+       "relation_en": "One of the makers identified by the village for traditional Aochu.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html"
+      },
+      {
+       "name_ja": "広江秀一",
+       "relation_en": "One of the makers identified by the village for traditional Aochu.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html"
+      },
+      {
+       "name_ja": "広江マツ",
+       "relation_en": "One of the makers identified by the village for traditional Aochu.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Traditional production is rooted in private households; public distillery visits are not established by the cited sources."
+    },
+    {
+     "name_ja": "自然麹とオオタニワタリを使う青酎造り",
+     "name_en": "Wild-koji and bird's-nest fern distilling tradition",
+     "kind": "other",
+     "summary_en": "Traditional distillers encourage naturally occurring koji to develop on roasted barley with the help of locally growing bird's-nest fern leaves.",
+     "facts": [
+      {
+       "claim_en": "Aogashima's traditional Aochu production uses locally grown barley, wild koji and native ohtaniwatari fern during the fermentation process.",
+       "source_url": "https://www.t-treasureislands.metro.tokyo.lg.jp/about/branding/aochu/",
+       "source_title": "産品の取組 あおちゅう",
+       "publisher": "東京都 東京宝島"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "オオタニワタリ群生地",
+       "name_en": "Ohtaniwatari Fern Habitat",
+       "relation_en": "A natural site associated with the fern used in traditional shochu fermentation.",
+       "address_ja": "東京都青ヶ島村池之沢地区",
+       "official_url": "https://www.vill.aogashima.tokyo.jp/tourism/spot.html",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/spot.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "The traditional production cycle extends across a year, beginning with barley planting in autumn.",
+     "confidence": "high",
+     "notes_en": "The fern's documented role is in koji cultivation, not necessarily as an ingredient consumed directly."
+    },
+    {
+     "name_ja": "青酎伝承",
+     "name_en": "Aochu Densho",
+     "kind": "brand",
+     "summary_en": "A small-production Aochu expression distinguished by the use of ingredients cultivated on Aogashima.",
+     "facts": [
+      {
+       "claim_en": "Aochu Densho is made using sweet potatoes, barley and natural koji sourced from Aogashima.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html",
+       "source_title": "特産品 -特産品のご紹介-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "浅沼寿",
+       "relation_en": "Distiller identified for Aochu Densho.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "青酎伝承 喜久一",
+     "name_en": "Aochu Densho Kikuichi",
+     "kind": "brand",
+     "summary_en": "A family-preserved expression of Aochu named in memory of an earlier maker.",
+     "facts": [
+      {
+       "claim_en": "Densho Kikuichi continues a family Aochu tradition and uses Aogashima-produced sweet potatoes, barley and natural koji.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html",
+       "source_title": "特産品 -特産品のご紹介-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "奥山ミチ代",
+       "relation_en": "Maker continuing the Kikuichi tradition.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "あおちゅう 青宝",
+     "name_en": "Aochu Seiho",
+     "kind": "brand",
+     "summary_en": "A distinctive Aochu expression using natural black koji and a two-stage fermentation method.",
+     "facts": [
+      {
+       "claim_en": "Aochu Seiho uses natural black koji and a two-stage fermentation process, and its name refers to the island's Seiho Tunnel.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html",
+       "source_title": "特産品 -特産品のご紹介-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "菊池松太郎",
+       "relation_en": "Maker identified for Aochu Seiho.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "青酎 池の沢",
+     "name_en": "Aochu Ikenosawa",
+     "kind": "brand",
+     "summary_en": "A locally distilled shochu blended from separately distilled sweet-potato and barley spirits.",
+     "facts": [
+      {
+       "claim_en": "Aochu Ikenosawa combines separately distilled sweet-potato and barley spirits rather than using only the traditional single-vat method.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html",
+       "source_title": "特産品 -特産品のご紹介-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "荒井清",
+       "relation_en": "Distiller identified for Ikenosawa.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "青酎 麦",
+     "name_en": "Aochu barley shochu",
+     "kind": "brand",
+     "summary_en": "A barley-based branch of Aogashima's distilling tradition includes aged expressions.",
+     "facts": [
+      {
+       "claim_en": "The village identifies Aochu Mugi as a local barley shochu, including an expression aged for seven years.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html",
+       "source_title": "特産品 -特産品のご紹介-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "荒井清",
+       "relation_en": "Producer identified for Aochu Mugi.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "ひんぎゃの塩",
+     "name_en": "Hingya geothermal sea salt",
+     "kind": "brand",
+     "summary_en": "Aogashima's iconic salt is produced by evaporating seawater using naturally escaping geothermal steam.",
+     "facts": [
+      {
+       "claim_en": "Hingya salt is made from Kuroshio seawater using geothermal heat instead of a conventional fuel-fired evaporation process.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html",
+       "source_title": "特産品 -特産品のご紹介-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "池之沢地区のひんぎゃ",
+       "name_en": "Ikenosawa Geothermal Vents",
+       "relation_en": "The island's geothermal landscape that makes this salt-production technique possible.",
+       "address_ja": "東京都青ヶ島村池之沢地区",
+       "official_url": "https://www.vill.aogashima.tokyo.jp/tourism/spot.html",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/spot.html"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "株式会社青ヶ島製塩事業所",
+       "relation_en": "Producer of Hingya salt.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The geothermal landscape is a relevant place to visit; the source does not establish access to the salt-production facility."
+    },
+    {
+     "name_ja": "地熱釜料理",
+     "name_en": "Geothermal steam cooking",
+     "kind": "other",
+     "summary_en": "Natural volcanic steam has long been used for cooking. The island's geothermal steam oven allows a visitor to encounter this distinctive relationship between food and geology.",
+     "facts": [
+      {
+       "claim_en": "Aogashima's geothermal ovens can steam local foods such as sweet potatoes, eggs, fish and preserved fish using naturally occurring heat.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/spot.html",
+       "source_title": "見どころ・遊びどころ",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "地熱釜",
+       "name_en": "Geothermal Steam Oven",
+       "relation_en": "A specific visitor-facing place illustrating Aogashima's geothermal food culture.",
+       "address_ja": "東京都青ヶ島村池之沢地区",
+       "official_url": "https://www.vill.aogashima.tokyo.jp/tourism/spot.html",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/spot.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The village documents geothermal cooking as a practice predating island electrification."
+    },
+    {
+     "name_ja": "島唐辛子",
+     "name_en": "Aogashima island chili",
+     "kind": "crop",
+     "summary_en": "Locally grown hot chilies are central to sashimi seasoning and several Aogashima condiments.",
+     "facts": [
+      {
+       "claim_en": "Aogashima island chili is used in sashimi soy sauce and local sauces and is an important island crop.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product2.html",
+       "source_title": "特産品 -野菜やお芋、魚や貝たち-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "June–December.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "島だれ",
+     "name_en": "Aogashima island sauce",
+     "kind": "brand",
+     "summary_en": "A household-style sauce built around island chili, miso, garlic and soy sauce, especially associated with sashimi.",
+     "facts": [
+      {
+       "claim_en": "Shima-dare is a traditional household seasoning from Aogashima, now also made by named local producers.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html",
+       "source_title": "特産品 -特産品のご紹介-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "マツミ荘",
+       "relation_en": "Produces a version of Shima-dare.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html"
+      },
+      {
+       "name_ja": "ビジネス宿中里",
+       "relation_en": "Produces a version of Shima-dare.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "鬼辛",
+     "name_en": "Onikara fermented chili paste",
+     "kind": "brand",
+     "summary_en": "A locally branded red or green chili seasoning developed through extended fermentation.",
+     "facts": [
+      {
+       "claim_en": "Onikara is made from island chilies and local salt and is fermented and matured for approximately three years.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html",
+       "source_title": "特産品 -特産品のご紹介-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "あおがしまふぁーむ",
+       "relation_en": "Producer of Onikara.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "島きゅうり",
+     "name_en": "Aogashima island cucumber",
+     "kind": "crop",
+     "summary_en": "A substantial local cucumber eaten salted when young and green, or peeled and cooked after turning yellow.",
+     "facts": [
+      {
+       "claim_en": "Aogashima's island cucumbers grow larger than ordinary cucumbers, and the village describes different preparations for green and fully mature yellow fruit.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product2.html",
+       "source_title": "特産品 -野菜やお芋、魚や貝たち-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "June–September.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "かんも",
+     "name_en": "Aogashima sweet potatoes",
+     "kind": "crop",
+     "summary_en": "Sweet potatoes known locally as kanmo form part of island agriculture, traditional soups, preserved foods and shochu making.",
+     "facts": [
+      {
+       "claim_en": "Aogashima grows several sweet-potato types called kanmo and uses them in local cooking.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product2.html",
+       "source_title": "特産品 -野菜やお芋、魚や貝たち-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "November.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "青ヶ島の里芋",
+     "name_en": "Aogashima taro",
+     "kind": "crop",
+     "summary_en": "The island cultivates different taro varieties used in soups and other household dishes.",
+     "facts": [
+      {
+       "claim_en": "Aogashima grows taro varieties including wase, nankin and akame.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product2.html",
+       "source_title": "特産品 -野菜やお芋、魚や貝たち-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "November.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "池之沢うこん",
+     "name_en": "Ikenosawa turmeric",
+     "kind": "brand",
+     "summary_en": "A local turmeric product combining three kinds grown within Aogashima's volcanic caldera.",
+     "facts": [
+      {
+       "claim_en": "Ikenosawa Ukon is made by blending three turmeric types cultivated in Aogashima's caldera.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html",
+       "source_title": "特産品 -特産品のご紹介-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "あおがしまふぁーむ",
+       "relation_en": "Producer of Ikenosawa turmeric.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "とびくん",
+     "name_en": "Tobikun smoked flying fish",
+     "kind": "brand",
+     "summary_en": "A locally processed flying-fish product associated with the island's coastal catch and geothermal salt.",
+     "facts": [
+      {
+       "claim_en": "The village lists Tobikun as a processed flying-fish specialty.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html",
+       "source_title": "特産品 -特産品のご紹介-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "有限会社青ヶ島整備工場",
+       "relation_en": "Producer identified for Tobikun.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "タラの芽",
+     "name_en": "Foraged angelica shoots",
+     "kind": "foraging",
+     "summary_en": "Wild spring shoots are gathered on Aogashima and commonly fried as tempura.",
+     "facts": [
+      {
+       "claim_en": "The village identifies locally growing tara shoots as edible wild plants used in tempura.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product2.html",
+       "source_title": "特産品 -野菜やお芋、魚や貝たち-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "February.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "ててんこう",
+     "name_en": "Tetenkou young camellia fruit",
+     "kind": "foraging",
+     "summary_en": "An older island childhood food tradition involved eating newly formed camellia fruit.",
+     "facts": [
+      {
+       "claim_en": "Young camellia fruit called tetenkou was formerly eaten as a children's snack on Aogashima, although the village says this is now uncommon.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product2.html",
+       "source_title": "特産品 -野菜やお芋、魚や貝たち-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "February.",
+     "confidence": "high",
+     "notes_en": "Documented primarily as a historical practice, not a current visitor food offering."
+    },
+    {
+     "name_ja": "ノビル",
+     "name_en": "Foraged wild onions",
+     "kind": "foraging",
+     "summary_en": "The island's wild onions provide edible spring greens and small underground bulbs.",
+     "facts": [
+      {
+       "claim_en": "Aogashima residents eat tender nobiru leaves and the white underground bulbs.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product2.html",
+       "source_title": "特産品 -野菜やお芋、魚や貝たち-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Leaves: March–May; bulbs: year-round.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "ツワブキ",
+     "name_en": "Foraged Japanese silverleaf shoots",
+     "kind": "foraging",
+     "summary_en": "The island uses young tsuwabuki stems in simmered dishes, notably with locally collected rock seaweed.",
+     "facts": [
+      {
+       "claim_en": "Young tsuwabuki shoots are eaten on Aogashima and may be simmered together with rock seaweed.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product2.html",
+       "source_title": "特産品 -野菜やお芋、魚や貝たち-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "February–April.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "イタドリ",
+     "name_en": "Foraged Japanese knotweed shoots",
+     "kind": "foraging",
+     "summary_en": "The tangy young stalks of this wild plant form part of Aogashima's seasonal foraging culture.",
+     "facts": [
+      {
+       "claim_en": "Aogashima uses the acidic young stems of itadori in local food preparations.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product2.html",
+       "source_title": "特産品 -野菜やお芋、魚や貝たち-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Early to mid-April.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "ヌクタチ",
+     "name_en": "Foraged climbing buckwheat shoots",
+     "kind": "foraging",
+     "summary_en": "Aogashima gathers the tart young shoots of a wild plant also known as tsurusoba.",
+     "facts": [
+      {
+       "claim_en": "Nukutachi is a local name for tsurusoba, whose young shoots are eaten dressed or fried as tempura.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product2.html",
+       "source_title": "特産品 -野菜やお芋、魚や貝たち-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "May–June.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "ノダケ",
+     "name_en": "Nodake bamboo shoots",
+     "kind": "foraging",
+     "summary_en": "A slender local bamboo shoot traditionally grilled or simmered.",
+     "facts": [
+      {
+       "claim_en": "Nodake is one of Aogashima's two documented seasonal wild bamboo shoots and may be grilled and peeled before eating.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product2.html",
+       "source_title": "特産品 -野菜やお芋、魚や貝たち-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Late April–May.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "ニガダケ",
+     "name_en": "Nigadake bitter bamboo shoots",
+     "kind": "foraging",
+     "summary_en": "A second slender bamboo shoot follows nodake in the island's seasonal gathering calendar.",
+     "facts": [
+      {
+       "claim_en": "Nigadake appears after nodake and is a somewhat bitter bamboo shoot used in simmered foods.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product2.html",
+       "source_title": "特産品 -野菜やお芋、魚や貝たち-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Mid-June–mid-July.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "自然薯",
+     "name_en": "Foraged wild yam",
+     "kind": "foraging",
+     "summary_en": "Wild yams are dug from the ground in autumn; their aerial bulbils also form a separate household food tradition.",
+     "facts": [
+      {
+       "claim_en": "Aogashima residents traditionally dig wild yams after the above-ground growth dies back in autumn.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product2.html",
+       "source_title": "特産品 -野菜やお芋、魚や貝たち-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "November.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "カンゴごはん",
+     "name_en": "Wild-yam bulbil rice",
+     "kind": "dish",
+     "summary_en": "A local rice preparation uses the small aerial bulbils produced by wild yams.",
+     "facts": [
+      {
+       "claim_en": "The island calls wild-yam bulbils kango and uses them in kango rice.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product2.html",
+       "source_title": "特産品 -野菜やお芋、魚や貝たち-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Autumn.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "エベズ",
+     "name_en": "Foraged wild grape seasoning",
+     "kind": "foraging",
+     "summary_en": "Small wild grape-like fruits are used as a sour flavoring, including with freshly caught fish.",
+     "facts": [
+      {
+       "claim_en": "Aogashima fishermen have used sour ebezu fruit to season freshly caught fish.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product2.html",
+       "source_title": "特産品 -野菜やお芋、魚や貝たち-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "September–October.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "カブツ",
+     "name_en": "Aogashima wild daidai citrus",
+     "kind": "foraging",
+     "summary_en": "An island citrus known locally as kabutsu supplies acidity to seafood, hot-pot sauces and shochu.",
+     "facts": [
+      {
+       "claim_en": "Kabutsu is Aogashima's local name for a daidai citrus traditionally gathered and used as a sour seasoning.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product2.html",
+       "source_title": "特産品 -野菜やお芋、魚や貝たち-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Late November–January.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "青ヶ島の明日葉",
+     "name_en": "Aogashima ashitaba",
+     "kind": "foraging",
+     "summary_en": "Wild ashitaba is a staple island green, eaten blanched, seasoned or stir-fried.",
+     "facts": [
+      {
+       "claim_en": "Ashitaba grows across Aogashima and is an important ingredient in local household cooking.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product2.html",
+       "source_title": "特産品 -野菜やお芋、魚や貝たち-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Year-round.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "クジラヨ",
+     "name_en": "Kujirayo, an island fish",
+     "kind": "fishing",
+     "summary_en": "Despite its name, kujirayo refers to a fish, not a whale. It is eaten grilled, raw or pickled.",
+     "facts": [
+      {
+       "claim_en": "Aogashima's kujirayo is the fish known as tenjiku-isaki and is a representative local seafood.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product2.html",
+       "source_title": "特産品 -野菜やお芋、魚や貝たち-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Caught year-round; the village also associates winter with particularly good fish.",
+     "confidence": "high",
+     "notes_en": "The local name must not be interpreted as whale meat."
+    },
+    {
+     "name_ja": "岩海苔",
+     "name_en": "Gathered rock seaweed",
+     "kind": "foraging",
+     "summary_en": "The island gathers seaweed from coastal rocks when the winter sea permits and uses it in rice and hot-pot dishes.",
+     "facts": [
+      {
+       "claim_en": "Rock seaweed is harvested around Aogashima's coast and used in nori rice and seaweed hot pots.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product2.html",
+       "source_title": "特産品 -野菜やお芋、魚や貝たち-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "December–February.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "ハンバ",
+     "name_en": "Hamba edible seaweed",
+     "kind": "foraging",
+     "summary_en": "This broad seaweed is gathered in winter and cooked with rice or incorporated into fritters with ashitaba.",
+     "facts": [
+      {
+       "claim_en": "Aogashima's hamba seaweed is used in hamba rice and fritters with ashitaba.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product2.html",
+       "source_title": "特産品 -野菜やお芋、魚や貝たち-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "December–February.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "シボウサキ",
+     "name_en": "Shibousaki edible red seaweed",
+     "kind": "foraging",
+     "summary_en": "A reddish-purple seaweed associated with winter seafood and used in clear soups.",
+     "facts": [
+      {
+       "claim_en": "Shibousaki is a locally gathered reddish seaweed used in Aogashima soups.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product2.html",
+       "source_title": "特産品 -野菜やお芋、魚や貝たち-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "December–February.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "ヒラミ",
+     "name_en": "Hirami coastal shellfish",
+     "kind": "foraging",
+     "summary_en": "Locally collected shellfish are used in rice dishes, miso soup and preserved preparations.",
+     "facts": [
+      {
+       "claim_en": "The island collects hirami shellfish and prepares them in rice, soup and salted dishes.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product2.html",
+       "source_title": "特産品 -野菜やお芋、魚や貝たち-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Year-round; collection can be easier around May.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "セノカミ（カメノテ）",
+     "name_en": "Goose barnacles",
+     "kind": "foraging",
+     "summary_en": "A coastal crustacean gathered from rocks and prepared in miso soup or steamed with sake.",
+     "facts": [
+      {
+       "claim_en": "Aogashima calls goose barnacles senokami and eats them in soup or sake-steamed preparations.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product2.html",
+       "source_title": "特産品 -野菜やお芋、魚や貝たち-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Year-round.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "かんべぇめ",
+     "name_en": "Kanbeeme moray eel",
+     "kind": "fishing",
+     "summary_en": "A slender local moray eel is dried for simmering or prepared fresh as tempura.",
+     "facts": [
+      {
+       "claim_en": "Kanbeeme is a slender moray eel eaten dried and simmered, or cut and fried when fresh.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product2.html",
+       "source_title": "特産品 -野菜やお芋、魚や貝たち-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Year-round.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "青ヶ島の島寿司",
+     "name_en": "Aogashima island sushi",
+     "kind": "dish",
+     "summary_en": "The island's own version of Izu Islands sushi places soy-marinated fish over rice dressed with mustard.",
+     "facts": [
+      {
+       "claim_en": "Aogashima's island sushi uses mustard and soy-marinated local seafood, including several types of sea bream and other fish.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product3.html",
+       "source_title": "特産品 -島料理-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The village documents it as traditional food, but this source does not identify a specific public dining venue."
+    },
+    {
+     "name_ja": "鳥鍋",
+     "name_en": "Aogashima chicken hot pot",
+     "kind": "dish",
+     "summary_en": "A celebratory sweet-savory chicken hot pot seasoned with soy sauce and sugar, with ashitaba added to balance its richness.",
+     "facts": [
+      {
+       "claim_en": "Aogashima's traditional torinabe uses chicken extensively, combines it with ashitaba and is commonly finished with noodles.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product3.html",
+       "source_title": "特産品 -島料理-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The village identifies it as one of the island's familiar celebratory dishes."
+    },
+    {
+     "name_ja": "アカバのみそ汁",
+     "name_en": "Akaba grouper miso soup",
+     "kind": "dish",
+     "summary_en": "A winter dish featuring local red grouper cooked in miso soup.",
+     "facts": [
+      {
+       "claim_en": "Akaba miso soup is a characteristic winter preparation on Aogashima.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product3.html",
+       "source_title": "特産品 -島料理-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Winter.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "かんも汁",
+     "name_en": "Sweet-potato and ashitaba soup",
+     "kind": "dish",
+     "summary_en": "A household soup combining local sweet potatoes and ashitaba.",
+     "facts": [
+      {
+       "claim_en": "Kanmo-jiru is a local soup made with sweet potatoes, ashitaba and other ingredients.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product3.html",
+       "source_title": "特産品 -島料理-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "芋汁",
+     "name_en": "Taro soup",
+     "kind": "dish",
+     "summary_en": "A related island soup substitutes taro for sweet potato.",
+     "facts": [
+      {
+       "claim_en": "Aogashima's imo-jiru uses taro in place of the sweet potatoes found in kanmo-jiru.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product3.html",
+       "source_title": "特産品 -島料理-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "きんぼし",
+     "name_en": "Dried sweet-potato slices",
+     "kind": "other",
+     "summary_en": "Sweet potatoes are sliced and dried as a traditional preserved food.",
+     "facts": [
+      {
+       "claim_en": "Kinboshi is made by slicing and drying kanmo sweet potatoes.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product3.html",
+       "source_title": "特産品 -島料理-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "しゅうで",
+     "name_en": "Shuude salted fish",
+     "kind": "dish",
+     "summary_en": "An intensely flavored preserved seafood preparation using salted fish parts, including bones and scraps.",
+     "facts": [
+      {
+       "claim_en": "Shuude is a strongly flavored salted seafood preparation that makes use of fish scraps.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product3.html",
+       "source_title": "特産品 -島料理-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "きゅうりもみ",
+     "name_en": "Salted island cucumber",
+     "kind": "dish",
+     "summary_en": "A simple traditional preparation of locally grown island cucumber rubbed with salt.",
+     "facts": [
+      {
+       "claim_en": "Aogashima lists salted and massaged island cucumber as a local dish.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product3.html",
+       "source_title": "特産品 -島料理-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "The cucumber crop is associated with June–September.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "いもつき",
+     "name_en": "Pounded taro, sweet potato and ashitaba",
+     "kind": "dish",
+     "summary_en": "A rustic dish of boiled local roots and greens pounded together.",
+     "facts": [
+      {
+       "claim_en": "Aogashima's imotsuki combines boiled taro, sweet potato and ashitaba, which are then pounded.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product3.html",
+       "source_title": "特産品 -島料理-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "いりとり",
+     "name_en": "Flaked fish and daikon greens",
+     "kind": "dish",
+     "summary_en": "A traditional preparation combining cooked, flaked fish with daikon and its leaves.",
+     "facts": [
+      {
+       "claim_en": "Iritori mixes cooked fish flesh with daikon radish and daikon greens.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product3.html",
+       "source_title": "特産品 -島料理-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "ボタ和え",
+     "name_en": "Minced flying fish and vegetable salad",
+     "kind": "dish",
+     "summary_en": "A local seafood preparation combines chopped flying fish with vegetables and seasonal wild plants.",
+     "facts": [
+      {
+       "claim_en": "Bota-ae is made with chopped flying fish and ingredients including daikon and itadori.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product3.html",
+       "source_title": "特産品 -島料理-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "麦雑炊（麦ジョウセイ）",
+     "name_en": "Aogashima barley and vegetable porridge",
+     "kind": "dish",
+     "summary_en": "A substantial barley porridge cooked with local vegetables and miso.",
+     "facts": [
+      {
+       "claim_en": "Aogashima's barley porridge includes burdock, ashitaba and taro, and is seasoned with miso.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product3.html",
+       "source_title": "特産品 -島料理-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "酢漬け",
+     "name_en": "Vinegar-pickled island fish",
+     "kind": "dish",
+     "summary_en": "A local way of preparing fish such as kujirayo by salting and pickling in vinegar.",
+     "facts": [
+      {
+       "claim_en": "Aogashima's suzuke uses salted fish, including kujirayo, preserved or seasoned with vinegar.",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product3.html",
+       "source_title": "特産品 -島料理-",
+       "publisher": "青ヶ島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "岩のり入り卵焼き",
+     "name_en": "Rock-seaweed omelet",
+     "kind": "dish",
+     "summary_en": "Locally harvested rock seaweed is incorporated into an omelet, linking coastal gathering with household cuisine.",
+     "facts": [
+      {
+       "claim_en": "Tokyo Islands tourism information identifies rock-seaweed omelet among Aogashima's local foods.",
+       "source_url": "https://www.tokyoislands-net.jp/islands/aogashima/",
+       "source_title": "青ヶ島",
+       "publisher": "東京都島しょ振興公社"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "青ヶ島の近海漁業",
+     "name_en": "Aogashima coastal fisheries",
+     "kind": "fishing",
+     "summary_en": "Marine foods from the surrounding waters include tuna, flying fish and medai, supplying island seafood traditions.",
+     "facts": [
+      {
+       "claim_en": "Tokyo's fisheries federation lists tuna, flying fish and medai among the fish caught around Aogashima.",
+       "source_url": "https://www.tokyo-gyoren.or.jp/island/",
+       "source_title": "島しょの漁業",
+       "publisher": "東京都漁業協同組合連合会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "青ヶ島（三宝）港",
+       "name_en": "Aogashima Sanpo Port",
+       "relation_en": "The island's principal sea gateway, where fishing boats are handled using a shore crane.",
+       "address_ja": "東京都青ヶ島村",
+       "official_url": "https://www.vill.aogashima.tokyo.jp/tourism/spot.html",
+       "source_url": "https://www.vill.aogashima.tokyo.jp/tourism/spot.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The harbor is a cultural landscape, not a documented public fish-tasting venue."
+    }
+   ],
+   "none_found_reason_en": ""
+  },
+  {
+   "id": "ogasawara",
+   "name_ja": "小笠原村",
+   "food_cultures": [
+    {
+     "name_ja": "小笠原の島寿司",
+     "name_en": "Ogasawara island sushi",
+     "kind": "dish",
+     "summary_en": "A local sushi tradition featuring marinated white fish such as sawara, sweetened rice and mustard in place of wasabi.",
+     "facts": [
+      {
+       "claim_en": "Ogasawara island sushi uses soy-and-mirin-marinated local white fish, with mustard as its characteristic condiment.",
+       "source_url": "https://www.ogasawaramura.com/about/food/",
+       "source_title": "郷土料理と特産品",
+       "publisher": "小笠原村観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "郷土料理の店 島寿司",
+       "name_en": "Shima-zushi Restaurant",
+       "relation_en": "A named restaurant specializing in island sushi and local fish sushi.",
+       "address_ja": "東京都小笠原村父島字東町",
+       "official_url": "https://www.ogasawaramura.com/eat/shimazushi/",
+       "source_url": "https://www.ogasawaramura.com/eat/shimazushi/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "アカバのみそ汁",
+     "name_en": "Akaba grouper miso soup",
+     "kind": "dish",
+     "summary_en": "A characteristic island soup prepared using locally caught red grouper.",
+     "facts": [
+      {
+       "claim_en": "Ogasawara's tourism association identifies miso soup made with local akaba grouper as a regional specialty.",
+       "source_url": "https://www.ogasawaramura.com/about/food/",
+       "source_title": "郷土料理と特産品",
+       "publisher": "小笠原村観光協会"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "島唐辛子入り刺身醤油",
+     "name_en": "Island-chili sashimi soy sauce",
+     "kind": "dish",
+     "summary_en": "Local chili is crushed into soy sauce as a pungent alternative to wasabi when eating fresh fish.",
+     "facts": [
+      {
+       "claim_en": "Ogasawara residents season sashimi by crushing locally grown hot chili into soy sauce.",
+       "source_url": "https://www.ogasawaramura.com/about/food/",
+       "source_title": "郷土料理と特産品",
+       "publisher": "小笠原村観光協会"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "ウミガメ料理・カメ煮",
+     "name_en": "Sea turtle stew and traditional turtle dishes",
+     "kind": "dish",
+     "summary_en": "Green sea turtle has a documented place in Ogasawara food history, especially in stews. Chichijima and Hahajima have different traditional seasonings.",
+     "facts": [
+      {
+       "claim_en": "Ogasawara turtle stew is traditionally associated with a salt-based preparation on Chichijima and a soy-based preparation on Hahajima.",
+       "source_url": "https://www.tokyo-gyoren.or.jp/island/",
+       "source_title": "島しょの漁業",
+       "publisher": "東京都漁業協同組合連合会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "郷土料理の店 島寿司",
+       "name_en": "Shima-zushi Restaurant",
+       "relation_en": "Lists a sushi selection combining island sushi and green sea turtle.",
+       "address_ja": "東京都小笠原村父島字東町",
+       "official_url": "https://www.ogasawaramura.com/eat/shimazushi/",
+       "source_url": "https://www.ogasawaramura.com/eat/shimazushi/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Documented as local culinary heritage; this record makes no claim about unrestricted harvesting."
+    },
+    {
+     "name_ja": "ピーマカ",
+     "name_en": "Pimaka marinated fish",
+     "kind": "dish",
+     "summary_en": "A traditional fish preparation with roots attributed to Hawaii, using fish, vegetables and sour citrus or vinegar.",
+     "facts": [
+      {
+       "claim_en": "Tokyo Metropolitan Government describes pimaka as an Ogasawara home dish of fish and daikon marinated with vinegar and daidai juice, with possible Hawaiian roots.",
+       "source_url": "https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/kokuritsu/ogasawara/titijima/tourism.html",
+       "source_title": "父島の観光",
+       "publisher": "東京都環境局"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "An important example of Ogasawara's Pacific cultural connections."
+    },
+    {
+     "name_ja": "ダンプレン",
+     "name_en": "Dumplen soup",
+     "kind": "dish",
+     "summary_en": "A Western-influenced island soup made with chicken broth, vegetables and flour dumplings.",
+     "facts": [
+      {
+       "claim_en": "Dumplen is an Ogasawara home-cooking tradition believed to have been introduced by nineteenth-century American settlers.",
+       "source_url": "https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/kokuritsu/ogasawara/titijima/tourism.html",
+       "source_title": "父島の観光",
+       "publisher": "東京都環境局"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Distinctive for its connection to the islands' early multilingual settlement history."
+    },
+    {
+     "name_ja": "パッションフルーツ",
+     "name_en": "Ogasawara passion fruit",
+     "kind": "crop",
+     "summary_en": "One of the islands' signature subtropical crops, consumed fresh or processed into drinks, jams and confectionery.",
+     "facts": [
+      {
+       "claim_en": "Ogasawara mainly grows the Tainong No. 1 passion fruit cultivar and uses the harvest in fresh and processed products.",
+       "source_url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops",
+       "source_title": "小笠原の農作物",
+       "publisher": "東京都小笠原支庁"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "農産物観光直売所",
+       "name_en": "Chichijima Agricultural Farm Stand",
+       "relation_en": "JA outlet selling island-grown fruit and locally processed food products.",
+       "address_ja": "東京都小笠原村父島字東町",
+       "official_url": "https://ogasawara-islands.or.jp/store/",
+       "source_url": "https://ogasawara-islands.or.jp/store/"
+      },
+      {
+       "name_ja": "PAPAYA MART HAHAJIMA",
+       "name_en": "Papaya Mart Hahajima",
+       "relation_en": "Hahajima outlet for local agricultural products.",
+       "address_ja": "東京都小笠原村母島字元地",
+       "official_url": "https://ogasawara-islands.or.jp/store/",
+       "source_url": "https://ogasawara-islands.or.jp/store/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "小笠原アイランズ農業協同組合",
+       "relation_en": "Agricultural cooperative distributing island passion fruit.",
+       "source_url": "https://ogasawara-islands.or.jp/local-specialty/"
+      }
+     ],
+     "season_en": "January–July; peak April–June.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "島トマト",
+     "name_en": "Ogasawara island mini tomatoes",
+     "kind": "crop",
+     "summary_en": "Sweet mini tomatoes are an established winter-to-spring crop in the islands' subtropical agriculture.",
+     "facts": [
+      {
+       "claim_en": "Ogasawara's island mini tomatoes are grown locally and are known for their high sweetness.",
+       "source_url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops",
+       "source_title": "小笠原の農作物",
+       "publisher": "東京都小笠原支庁"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "農産物観光直売所",
+       "name_en": "Chichijima Agricultural Farm Stand",
+       "relation_en": "Agricultural cooperative shop offering local seasonal produce.",
+       "address_ja": "東京都小笠原村父島字東町",
+       "official_url": "https://ogasawara-islands.or.jp/store/",
+       "source_url": "https://ogasawara-islands.or.jp/store/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "小笠原アイランズ農業協同組合",
+       "relation_en": "Promotes island-grown mini tomatoes.",
+       "source_url": "https://ogasawara-islands.or.jp/local-specialty/"
+      }
+     ],
+     "season_en": "December–May; peak February–April.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "島レモン（菊池レモン）",
+     "name_en": "Ogasawara green island lemon",
+     "kind": "crop",
+     "summary_en": "A Meyer-type lemon picked while green for its aromatic peel. Its history reflects postwar movement of plant material through other Pacific islands.",
+     "facts": [
+      {
+       "claim_en": "The island's Kikuchi lemon was introduced after World War II through Hachijojima from Tinian and is usually harvested while its skin remains green.",
+       "source_url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops",
+       "source_title": "小笠原の農作物",
+       "publisher": "東京都小笠原支庁"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "農産物観光直売所",
+       "name_en": "Chichijima Agricultural Farm Stand",
+       "relation_en": "Local fruit and processed-food retail outlet.",
+       "address_ja": "東京都小笠原村父島字東町",
+       "official_url": "https://ogasawara-islands.or.jp/store/",
+       "source_url": "https://ogasawara-islands.or.jp/store/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "小笠原アイランズ農業協同組合",
+       "relation_en": "Promotes Ogasawara island lemons.",
+       "source_url": "https://ogasawara-islands.or.jp/local-specialty/"
+      }
+     ],
+     "season_en": "September–November, with some off-season harvests.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "小笠原グリーンフラッシュ",
+     "name_en": "Ogasawara Green Flash lemon",
+     "kind": "brand",
+     "summary_en": "A seedless lemon cultivar developed by the local agricultural research center.",
+     "facts": [
+      {
+       "claim_en": "The Ogasawara agricultural center developed a seedless island lemon variety named Ogasawara Green Flash.",
+       "source_url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops",
+       "source_title": "小笠原の農作物",
+       "publisher": "東京都小笠原支庁"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "東京都小笠原支庁亜熱帯農業センター",
+       "relation_en": "Research center associated with development of the seedless lemon cultivar.",
+       "source_url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A plant-breeding distinction; commercial availability is not established by the source."
+    },
+    {
+     "name_ja": "水レモン",
+     "name_en": "Shochu with island lemon",
+     "kind": "drink",
+     "summary_en": "A traditional local drink pairs diluted shochu with aromatic island lemon.",
+     "facts": [
+      {
+       "claim_en": "Mizu-lemon, made by adding local island lemon to diluted shochu, is a long-standing favorite in Ogasawara.",
+       "source_url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops",
+       "source_title": "小笠原の農作物",
+       "publisher": "東京都小笠原支庁"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "小笠原コーヒー",
+     "name_en": "Ogasawara-grown coffee",
+     "kind": "crop",
+     "summary_en": "One of Japan's historically significant coffee-growing traditions began with settlers who arrived in 1830. Historic Typica coffee plants remain part of contemporary island cultivation.",
+     "facts": [
+      {
+       "claim_en": "Coffee plants arrived with Ogasawara's early settlers in 1830, and the islands continue to cultivate coffee including Typica plants descended from historical introductions.",
+       "source_url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops",
+       "source_title": "小笠原の農作物",
+       "publisher": "東京都小笠原支庁"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "農産物観光直売所 Farm Stand Cafe",
+       "name_en": "Farm Stand Cafe",
+       "relation_en": "JA-operated cafe and farm stand showcasing Ogasawara agricultural foods and drinks.",
+       "address_ja": "東京都小笠原村父島字東町",
+       "official_url": "https://ogasawara-islands.or.jp/store/",
+       "source_url": "https://ogasawara-islands.or.jp/store/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "小笠原アイランズ農業協同組合",
+       "relation_en": "Documents and promotes island coffee as an agricultural specialty.",
+       "source_url": "https://ogasawara-islands.or.jp/local-specialty/"
+      }
+     ],
+     "season_en": "Coffee harvest: October–December.",
+     "confidence": "high",
+     "notes_en": "The existence of a historic place named Coffee Mountain does not establish visitor access to a particular plantation."
+    },
+    {
+     "name_ja": "島はちみつ",
+     "name_en": "Ogasawara island honey",
+     "kind": "brand",
+     "summary_en": "Local beekeeping produces honey from flowers in the islands' subtropical environment.",
+     "facts": [
+      {
+       "claim_en": "Ogasawara's warm climate allows honeybees to remain active through winter, and local honey is a recognized island product.",
+       "source_url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops",
+       "source_title": "小笠原の農作物",
+       "publisher": "東京都小笠原支庁"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "農産物観光直売所",
+       "name_en": "Chichijima Agricultural Farm Stand",
+       "relation_en": "JA store and cafe showcasing foods made from island produce.",
+       "address_ja": "東京都小笠原村父島字東町",
+       "official_url": "https://ogasawara-islands.or.jp/store/",
+       "source_url": "https://ogasawara-islands.or.jp/store/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "小笠原アイランズ農業協同組合",
+       "relation_en": "Promotes island honey.",
+       "source_url": "https://ogasawara-islands.or.jp/local-specialty/"
+      }
+     ],
+     "season_en": "Principal harvests in June and November.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "ブンタン（ザボン）",
+     "name_en": "Ogasawara pomelo",
+     "kind": "crop",
+     "summary_en": "Large pomelos have a long island history and are referenced in traditional Ogasawara song.",
+     "facts": [
+      {
+       "claim_en": "Ogasawara cultivates different pomelo types, and the fruit is mentioned in the local folk song Marukibune.",
+       "source_url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops",
+       "source_title": "小笠原の農作物",
+       "publisher": "東京都小笠原支庁"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "December–February.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "小笠原オレンジ",
+     "name_en": "Ogasawara orange",
+     "kind": "crop",
+     "summary_en": "A historically important citrus associated with nineteenth-century settlement and the visit of Commodore Perry.",
+     "facts": [
+      {
+       "claim_en": "Ogasawara oranges were observed by members of Perry's expedition during their 1853 visit, and surviving island trees remain a subject of agricultural study.",
+       "source_url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops",
+       "source_title": "小笠原の農作物",
+       "publisher": "東京都小笠原支庁"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "December–February.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "島バナナ",
+     "name_en": "Ogasawara island bananas",
+     "kind": "crop",
+     "summary_en": "Local banana cultivation includes King, Sanshaku and Sankaku varieties, reflecting the islands' long subtropical agricultural history.",
+     "facts": [
+      {
+       "claim_en": "Ogasawara cultivates King, Sanshaku and Sankaku bananas; the King variety is associated with a long island-growing tradition.",
+       "source_url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops",
+       "source_title": "小笠原の農作物",
+       "publisher": "東京都小笠原支庁"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "農産物観光直売所 Farm Stand Cafe",
+       "name_en": "Farm Stand Cafe",
+       "relation_en": "JA's Chichijima cafe showcases island banana shakes.",
+       "address_ja": "東京都小笠原村父島字東町",
+       "official_url": "https://ogasawara-islands.or.jp/store/",
+       "source_url": "https://ogasawara-islands.or.jp/store/"
+      }
+     ],
+     "makers": [],
+     "season_en": "March–November; peak June.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "母島カカオ",
+     "name_en": "Ogasawara cacao",
+     "kind": "crop",
+     "summary_en": "The islands' subtropical conditions and protected growing facilities support commercially significant Japanese-grown cacao.",
+     "facts": [
+      {
+       "claim_en": "Ogasawara is associated with Japan's first large-scale commercial cacao cultivation, beginning in 2010.",
+       "source_url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops",
+       "source_title": "小笠原の農作物",
+       "publisher": "東京都小笠原支庁"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "平塚製菓",
+       "relation_en": "Confectionery company associated with cultivating and using Ogasawara cacao.",
+       "source_url": "https://www.city.soka.saitama.jp/cont/s1002/010/010/090/PAGE000000000000062533.html"
+      }
+     ],
+     "season_en": "Year-round harvest is documented.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "TOKYO CACAO",
+     "name_en": "Tokyo Cacao chocolate",
+     "kind": "brand",
+     "summary_en": "A chocolate brand built around cacao cultivated in Tokyo's Ogasawara Islands.",
+     "facts": [
+      {
+       "claim_en": "Hiratsuka Seika developed TOKYO CACAO chocolate using Tokyo-grown cacao from Ogasawara.",
+       "source_url": "https://www.city.soka.saitama.jp/cont/s1002/010/010/090/PAGE000000000000062533.html",
+       "source_title": "史上初！東京産カカオを使用したチョコレート平塚製菓「TOKYO CACAO」販売開始",
+       "publisher": "草加市"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "平塚製菓",
+       "relation_en": "Chocolate maker using Ogasawara-grown cacao.",
+       "source_url": "https://www.city.soka.saitama.jp/cont/s1002/010/010/090/PAGE000000000000062533.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The chocolate's island-grown raw material should not be confused with an assertion that the finished chocolate is manufactured on Ogasawara."
+    },
+    {
+     "name_ja": "バニラ",
+     "name_en": "Ogasawara vanilla",
+     "kind": "crop",
+     "summary_en": "Vanilla is cultivated locally and processed into island specialty products.",
+     "facts": [
+      {
+       "claim_en": "Ogasawara grows vanilla and processes the harvested crop for food products.",
+       "source_url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops",
+       "source_title": "小笠原の農作物",
+       "publisher": "東京都小笠原支庁"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "November–December.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "マンゴー",
+     "name_en": "Ogasawara mangoes",
+     "kind": "crop",
+     "summary_en": "Island mango growing has a long history, with older trees surviving from before World War II.",
+     "facts": [
+      {
+       "claim_en": "Ogasawara grows mangoes, particularly the Irwin variety, and still has surviving trees planted before the war.",
+       "source_url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops",
+       "source_title": "小笠原の農作物",
+       "publisher": "東京都小笠原支庁"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "July–August.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "パパイヤ・青パパイヤ",
+     "name_en": "Ogasawara ripe and green papaya",
+     "kind": "crop",
+     "summary_en": "The island uses ripe papaya as fruit and unripe green papaya as a vegetable.",
+     "facts": [
+      {
+       "claim_en": "Ogasawara grows papaya year-round, eating ripe fruits fresh and preparing unripe fruits as vegetables.",
+       "source_url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops",
+       "source_title": "小笠原の農作物",
+       "publisher": "東京都小笠原支庁"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "PAPAYA MART HAHAJIMA",
+       "name_en": "Papaya Mart Hahajima",
+       "relation_en": "Mother-island store showcasing local agricultural products.",
+       "address_ja": "東京都小笠原村母島字元地",
+       "official_url": "https://ogasawara-islands.or.jp/store/",
+       "source_url": "https://ogasawara-islands.or.jp/store/"
+      }
+     ],
+     "makers": [],
+     "season_en": "Year-round.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "ドラゴンフルーツ",
+     "name_en": "Dragon fruit",
+     "kind": "crop",
+     "summary_en": "A colorful cactus fruit cultivated on Ogasawara, with white- and red-fleshed types.",
+     "facts": [
+      {
+       "claim_en": "Ogasawara cultivates dragon fruit, including different flesh-color varieties eaten fresh or frozen.",
+       "source_url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops",
+       "source_title": "小笠原の農作物",
+       "publisher": "東京都小笠原支庁"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "July–October.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "スターフルーツ（ゴレンシ）",
+     "name_en": "Starfruit",
+     "kind": "crop",
+     "summary_en": "This unusual star-shaped fruit is cultivated locally and has more than one harvesting period.",
+     "facts": [
+      {
+       "claim_en": "Ogasawara grows starfruit, also called gorenshi, and harvests it in separate seasonal windows.",
+       "source_url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops",
+       "source_title": "小笠原の農作物",
+       "publisher": "東京都小笠原支庁"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "April and October–December.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "シャカトウ",
+     "name_en": "Sugar apple",
+     "kind": "crop",
+     "summary_en": "A locally grown custard-like fruit from the Annona family.",
+     "facts": [
+      {
+       "claim_en": "Ogasawara cultivates shakatou, an Annona fruit eaten fresh or made into drinks and frozen desserts.",
+       "source_url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops",
+       "source_title": "小笠原の農作物",
+       "publisher": "東京都小笠原支庁"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "June–October.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "アテモヤ",
+     "name_en": "Atemoya",
+     "kind": "crop",
+     "summary_en": "Another locally cultivated sweet Annona-family fruit.",
+     "facts": [
+      {
+       "claim_en": "The Tokyo Metropolitan Government identifies atemoya among Ogasawara's cultivated subtropical fruits.",
+       "source_url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops",
+       "source_title": "小笠原の農作物",
+       "publisher": "東京都小笠原支庁"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "October–December.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "チェリモヤ",
+     "name_en": "Cherimoya",
+     "kind": "crop",
+     "summary_en": "A sweet subtropical fruit cultivated as part of the islands' diversity of Annona-family crops.",
+     "facts": [
+      {
+       "claim_en": "Cherimoya is identified as a cultivated Ogasawara fruit.",
+       "source_url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops",
+       "source_title": "小笠原の農作物",
+       "publisher": "東京都小笠原支庁"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "October–December.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "シャシャップ（トゲバンレイシ）",
+     "name_en": "Soursop",
+     "kind": "crop",
+     "summary_en": "A locally grown Annona-family fruit with more acidity than the island's other custard-apple relatives.",
+     "facts": [
+      {
+       "claim_en": "Ogasawara grows shashappu, or soursop, which has a distinctive acidic flavor.",
+       "source_url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops",
+       "source_title": "小笠原の農作物",
+       "publisher": "東京都小笠原支庁"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "January–March and June–October.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "イオウトウトウガラシ",
+     "name_en": "Iwo-to island chili",
+     "kind": "crop",
+     "summary_en": "A particularly hot chili with roots on Iwo-to, later introduced to Chichijima and Hahajima.",
+     "facts": [
+      {
+       "claim_en": "Iwo-to chili was brought from Iwo-to to Chichijima and Hahajima after World War II and is used to season sashimi.",
+       "source_url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops",
+       "source_title": "小笠原の農作物",
+       "publisher": "東京都小笠原支庁"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "June–November.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "シカクマメ（ウリズン）",
+     "name_en": "Winged bean",
+     "kind": "crop",
+     "summary_en": "A winged-pod vegetable introduced to help supply fresh vegetables during the islands' warm season.",
+     "facts": [
+      {
+       "claim_en": "Ogasawara cultivates winged beans, especially the Urizun cultivar, and eats the pods in tempura, dressed dishes and other preparations.",
+       "source_url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops",
+       "source_title": "小笠原の農作物",
+       "publisher": "東京都小笠原支庁"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "May–October.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "八丈オクラ",
+     "name_en": "Hachijo-type okra grown on Ogasawara",
+     "kind": "crop",
+     "summary_en": "The Ogasawara Islands grow a round-podded okra variety introduced from Hachijojima.",
+     "facts": [
+      {
+       "claim_en": "Ogasawara's Hachijo-type okra has tender round pods and originated from a variety introduced from Hachijojima.",
+       "source_url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops",
+       "source_title": "小笠原の農作物",
+       "publisher": "東京都小笠原支庁"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "June–October.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "小笠原のジャガイモ",
+     "name_en": "Ogasawara potatoes",
+     "kind": "crop",
+     "summary_en": "Potatoes grown in the islands' red soils form part of their distinctive seasonal vegetable production.",
+     "facts": [
+      {
+       "claim_en": "Ogasawara grows potatoes in red island soil, including Danshaku, Kitaakari, May Queen and Dejima cultivars.",
+       "source_url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops",
+       "source_title": "小笠原の農作物",
+       "publisher": "東京都小笠原支庁"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "March–May.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "ミズイモ",
+     "name_en": "Mizuimo taro",
+     "kind": "crop",
+     "summary_en": "An older island taro crop whose edible roots and leaf stalks have been used since before World War II.",
+     "facts": [
+      {
+       "claim_en": "Mizuimo has been eaten on Ogasawara since before the war, using both its tubers and edible stalks.",
+       "source_url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops",
+       "source_title": "小笠原の農作物",
+       "publisher": "東京都小笠原支庁"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Year-round.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "小笠原ラム酒",
+     "name_en": "Ogasawara rum",
+     "kind": "drink",
+     "summary_en": "Rum connects the islands' sugarcane cultivation with their nineteenth-century settlement history and later revival of local distilling.",
+     "facts": [
+      {
+       "claim_en": "Ogasawara's rum tradition grew out of sugarcane cultivation and earlier local spirits called awazake or mitsuzake; the modern rum company was established in 1989.",
+       "source_url": "https://shimazake.com/kuramotolist/boninrum/",
+       "source_title": "小笠原ラム・リキュール株式会社",
+       "publisher": "東京七島酒造組合"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "小笠原ラム・リキュール株式会社",
+       "relation_en": "Local company producing Ogasawara rum.",
+       "source_url": "https://shimazake.com/kuramotolist/boninrum/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The company's registered location is on Chichijima; the cited source does not establish a public distillery tour."
+    },
+    {
+     "name_ja": "パッションリキュール",
+     "name_en": "Ogasawara passion fruit liqueur",
+     "kind": "drink",
+     "summary_en": "A local spirit combining the islands' rum with their signature passion fruit juice.",
+     "facts": [
+      {
+       "claim_en": "Ogasawara Rum and Liqueur produces a passion fruit liqueur by combining local rum with Ogasawara passion fruit juice.",
+       "source_url": "https://shimazake.com/kuramotolist/boninrum/",
+       "source_title": "小笠原ラム・リキュール株式会社",
+       "publisher": "東京七島酒造組合"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "小笠原ラム・リキュール株式会社",
+       "relation_en": "Producer of passion fruit liqueur.",
+       "source_url": "https://shimazake.com/kuramotolist/boninrum/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "BONIN CRAFT",
+     "name_en": "Bonin Craft beer",
+     "kind": "drink",
+     "summary_en": "A locally brewed craft beer brand produced on Chichijima, including expressions incorporating island fruit.",
+     "facts": [
+      {
+       "claim_en": "PAPA'S BREWING COMPANY brews the Bonin Craft brand on Chichijima and is documented as the Ogasawara Islands' first craft brewery.",
+       "source_url": "https://islandbeer.net/map/ogasawara/",
+       "source_title": "PAPA’S BREWING COMPANY（東京都・父島）",
+       "publisher": "離島ビール倶楽部"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "PAPA'S BREWING COMPANY",
+       "name_en": "Papa's Brewing Company",
+       "relation_en": "Chichijima brewery associated with Bonin Craft.",
+       "address_ja": "",
+       "official_url": "https://islandbeer.net/map/ogasawara/",
+       "source_url": "https://islandbeer.net/map/ogasawara/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "PAPA'S BREWING COMPANY",
+       "relation_en": "Island craft brewer producing Bonin Craft.",
+       "source_url": "https://islandbeer.net/map/ogasawara/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A local producer brand rather than a mainland beer simply sold on the island."
+    },
+    {
+     "name_ja": "島塩",
+     "name_en": "Ogasawara sea salt",
+     "kind": "brand",
+     "summary_en": "Marine salt is produced and sold as an island specialty, with multiple versions associated with Chichijima.",
+     "facts": [
+      {
+       "claim_en": "Ogasawara's tourism association identifies several kinds of Chichijima-produced sea salt as regional specialties.",
+       "source_url": "https://www.ogasawaramura.com/about/food/",
+       "source_title": "郷土料理と特産品",
+       "publisher": "小笠原村観光協会"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "ボニンゼリー",
+     "name_en": "Bonin Jelly",
+     "kind": "sweet",
+     "summary_en": "A fruit jelly made with two characteristic Ogasawara crops: passion fruit and island lemon.",
+     "facts": [
+      {
+       "claim_en": "Bonin Jelly is a cooperative product using Ogasawara passion fruit and island lemon juices.",
+       "source_url": "https://ogasawara-islands.or.jp/local-specialty/",
+       "source_title": "特産品",
+       "publisher": "小笠原アイランズ農業協同組合"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "農産物観光直売所",
+       "name_en": "Chichijima Agricultural Farm Stand",
+       "relation_en": "The producer cooperative's retail outlet for local processed foods.",
+       "address_ja": "東京都小笠原村父島字東町",
+       "official_url": "https://ogasawara-islands.or.jp/store/",
+       "source_url": "https://ogasawara-islands.or.jp/store/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "小笠原アイランズ農業協同組合",
+       "relation_en": "Producer of the original cooperative jelly.",
+       "source_url": "https://ogasawara-islands.or.jp/local-specialty/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "島レモン醤油",
+     "name_en": "Island lemon soy sauce",
+     "kind": "brand",
+     "summary_en": "A local condiment combining Ogasawara lemons with soy sauce.",
+     "facts": [
+      {
+       "claim_en": "The agricultural cooperative offers an original soy sauce product flavored with Ogasawara island lemon.",
+       "source_url": "https://ogasawara-islands.or.jp/local-specialty/",
+       "source_title": "特産品",
+       "publisher": "小笠原アイランズ農業協同組合"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "農産物観光直売所",
+       "name_en": "Chichijima Agricultural Farm Stand",
+       "relation_en": "Cooperative outlet for island specialty foods.",
+       "address_ja": "東京都小笠原村父島字東町",
+       "official_url": "https://ogasawara-islands.or.jp/store/",
+       "source_url": "https://ogasawara-islands.or.jp/store/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "小笠原アイランズ農業協同組合",
+       "relation_en": "Developer of the original seasoning product.",
+       "source_url": "https://ogasawara-islands.or.jp/local-specialty/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "クリーミー島レモンカレー",
+     "name_en": "Creamy island lemon curry",
+     "kind": "brand",
+     "summary_en": "A packaged curry product combines island lemon juice and island honey with coconut milk.",
+     "facts": [
+      {
+       "claim_en": "The agricultural cooperative's creamy island lemon curry uses local lemon juice and island honey.",
+       "source_url": "https://ogasawara-islands.or.jp/local-specialty/",
+       "source_title": "特産品",
+       "publisher": "小笠原アイランズ農業協同組合"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "小笠原アイランズ農業協同組合",
+       "relation_en": "Developer of the locally themed processed food.",
+       "source_url": "https://ogasawara-islands.or.jp/local-specialty/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "寶CRAFT 小笠原島レモン",
+     "name_en": "Takara Craft Ogasawara lemon",
+     "kind": "drink",
+     "summary_en": "A regionally themed alcoholic drink made using Ogasawara island lemon.",
+     "facts": [
+      {
+       "claim_en": "Takara Shuzo makes a craft chuhai using Ogasawara-grown green island lemon.",
+       "source_url": "https://ogasawara-islands.or.jp/local-specialty/",
+       "source_title": "特産品",
+       "publisher": "小笠原アイランズ農業協同組合"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "宝酒造株式会社",
+       "relation_en": "Producer using Ogasawara island lemon.",
+       "source_url": "https://ogasawara-islands.or.jp/local-specialty/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The cited source establishes island-grown ingredients, not that the beverage is brewed on the islands."
+    },
+    {
+     "name_ja": "寶CRAFT 小笠原パッションフルーツ",
+     "name_en": "Takara Craft Ogasawara passion fruit",
+     "kind": "drink",
+     "summary_en": "A regionally themed alcoholic drink using the islands' passion fruit crop.",
+     "facts": [
+      {
+       "claim_en": "Takara Shuzo makes a craft chuhai using Ogasawara passion fruit.",
+       "source_url": "https://ogasawara-islands.or.jp/local-specialty/",
+       "source_title": "特産品",
+       "publisher": "小笠原アイランズ農業協同組合"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "宝酒造株式会社",
+       "relation_en": "Beverage producer using local passion fruit.",
+       "source_url": "https://ogasawara-islands.or.jp/local-specialty/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "まるごと柑橘気分 小笠原島レモン",
+     "name_en": "Candied Ogasawara island lemon peel",
+     "kind": "sweet",
+     "summary_en": "A packaged sweet featuring island lemon peel candied and dried with fruit juice.",
+     "facts": [
+      {
+       "claim_en": "Marugoto Kankitsu Kibun Ogasawara Shima Lemon is a candied citrus-peel product made from island lemon.",
+       "source_url": "https://ogasawara-islands.or.jp/local-specialty/",
+       "source_title": "特産品",
+       "publisher": "小笠原アイランズ農業協同組合"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "株式会社日本果汁",
+       "relation_en": "Producer of the lemon-peel confectionery.",
+       "source_url": "https://ogasawara-islands.or.jp/local-specialty/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "さくピー 小笠原島レモン",
+     "name_en": "Saku-Pi lemon-peel chips",
+     "kind": "sweet",
+     "summary_en": "A crisp citrus snack made using Ogasawara island lemon peel.",
+     "facts": [
+      {
+       "claim_en": "Saku-Pi is a fried citrus-peel snack flavored with Ogasawara island lemon.",
+       "source_url": "https://ogasawara-islands.or.jp/local-specialty/",
+       "source_title": "特産品",
+       "publisher": "小笠原アイランズ農業協同組合"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "株式会社日本果汁",
+       "relation_en": "Producer of the island-lemon snack.",
+       "source_url": "https://ogasawara-islands.or.jp/local-specialty/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "小笠原パッションフルーツmix",
+     "name_en": "Ogasawara passion fruit sparkling drink",
+     "kind": "drink",
+     "summary_en": "A sparkling soft drink highlighting the islands' signature passion fruit flavor.",
+     "facts": [
+      {
+       "claim_en": "Ogasawara Passion Fruit Mix is a carbonated drink promoted as a product using the islands' characteristic fruit.",
+       "source_url": "https://ogasawara-islands.or.jp/local-specialty/",
+       "source_title": "特産品",
+       "publisher": "小笠原アイランズ農業協同組合"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "株式会社日本果汁",
+       "relation_en": "Producer of the fruit drink.",
+       "source_url": "https://ogasawara-islands.or.jp/local-specialty/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "マグロの燻製",
+     "name_en": "Smoked tuna",
+     "kind": "other",
+     "summary_en": "Local fishery processing preserves tuna as a distinctive island seafood product.",
+     "facts": [
+      {
+       "claim_en": "The Ogasawara fisheries cooperative makes smoked tuna as a local processed seafood product.",
+       "source_url": "https://www.ogasawaramura.com/about/food/",
+       "source_title": "郷土料理と特産品",
+       "publisher": "小笠原村観光協会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "小笠原島漁業協同組合",
+       "relation_en": "Local fisheries cooperative producing processed fish specialties.",
+       "source_url": "https://www.ogasawaramura.com/about/food/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "タコの燻製",
+     "name_en": "Smoked octopus",
+     "kind": "other",
+     "summary_en": "Octopus is smoked as part of the islands' seafood-preservation and specialty-product tradition.",
+     "facts": [
+      {
+       "claim_en": "Smoked octopus is among the marine specialty products prepared by Ogasawara's fisheries cooperative.",
+       "source_url": "https://www.ogasawaramura.com/about/food/",
+       "source_title": "郷土料理と特産品",
+       "publisher": "小笠原村観光協会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "小笠原島漁業協同組合",
+       "relation_en": "Local processor of marine products.",
+       "source_url": "https://www.ogasawaramura.com/about/food/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "サワラのみりん干し",
+     "name_en": "Mirin-dried Spanish mackerel",
+     "kind": "other",
+     "summary_en": "Sawara is preserved in a sweet mirin-based preparation, extending the use of the same fish central to island sushi.",
+     "facts": [
+      {
+       "claim_en": "Mirin-dried sawara is a processed seafood product made by Ogasawara's fisheries cooperative.",
+       "source_url": "https://www.ogasawaramura.com/about/food/",
+       "source_title": "郷土料理と特産品",
+       "publisher": "小笠原村観光協会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "小笠原島漁業協同組合",
+       "relation_en": "Processor of local fish specialties.",
+       "source_url": "https://www.ogasawaramura.com/about/food/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "メカジキカレー",
+     "name_en": "Swordfish curry",
+     "kind": "brand",
+     "summary_en": "A locally promoted seafood curry transforms Ogasawara's swordfish catch into a distinctive processed food.",
+     "facts": [
+      {
+       "claim_en": "The Tokyo fisheries federation identifies swordfish curry as a specialty product of Chichijima.",
+       "source_url": "https://www.tokyo-gyoren.or.jp/island/",
+       "source_title": "島しょの漁業",
+       "publisher": "東京都漁業協同組合連合会"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "カジキ・メカジキ漁",
+     "name_en": "Marlin and swordfish fisheries",
+     "kind": "fishing",
+     "summary_en": "Large pelagic fish are important to the food economy of Chichijima and Hahajima.",
+     "facts": [
+      {
+       "claim_en": "Swordfish and related large fish are important catches in Ogasawara waters, including the waters around both Chichijima and Hahajima.",
+       "source_url": "https://www.tokyo-gyoren.or.jp/island/",
+       "source_title": "島しょの漁業",
+       "publisher": "東京都漁業協同組合連合会"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "ハマダイ・ハタ類漁",
+     "name_en": "Deepwater snapper and grouper fisheries",
+     "kind": "fishing",
+     "summary_en": "Deepwater fish such as hamadai and grouper support local seafood cuisine across the inhabited islands.",
+     "facts": [
+      {
+       "claim_en": "Hamadai and grouper are documented catches around Ogasawara, particularly Hahajima, while hamadai is also listed for Chichijima.",
+       "source_url": "https://www.tokyo-gyoren.or.jp/island/",
+       "source_title": "島しょの漁業",
+       "publisher": "東京都漁業協同組合連合会"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "ソデイカ漁",
+     "name_en": "Diamondback squid fishery",
+     "kind": "fishing",
+     "summary_en": "Large offshore squid are among the marine products harvested around Chichijima.",
+     "facts": [
+      {
+       "claim_en": "The Tokyo fisheries federation lists sodeika among Chichijima's characteristic marine catches.",
+       "source_url": "https://www.tokyo-gyoren.or.jp/island/",
+       "source_title": "島しょの漁業",
+       "publisher": "東京都漁業協同組合連合会"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "母島のアオリイカ釣り",
+     "name_en": "Hahajima bigfin reef squid fishing",
+     "kind": "fishing",
+     "summary_en": "Coastal squid fishing is part of Hahajima's seasonal relationship with the sea.",
+     "facts": [
+      {
+       "claim_en": "The Hahajima tourism association identifies winter bigfin reef squid fishing among island marine activities.",
+       "source_url": "https://hahajima.com/info/?target=history",
+       "source_title": "小笠原母島観光協会｜知る",
+       "publisher": "小笠原母島観光協会"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Winter.",
+     "confidence": "high",
+     "notes_en": ""
+    }
+   ],
+   "none_found_reason_en": ""
+  }
+ ],
+ "url_check": {
+  "checked_at": "2026-11-22",
+  "status": {
+   "https://hahajima.com/info/?target=history": 200,
+   "https://islandbeer.net/map/ogasawara/": 200,
+   "https://ogasawara-islands.or.jp/local-specialty/": 200,
+   "https://ogasawara-islands.or.jp/store/": 200,
+   "https://sakana.metro.tokyo.lg.jp/shima_no_kurashi/eiyo/shokuzai-2.html": 200,
+   "https://shimazake.com/kuramotolist/boninrum/": 200,
+   "https://www.city.soka.saitama.jp/cont/s1002/010/010/090/PAGE000000000000062533.html": 200,
+   "https://www.hachijo.gr.jp/facility/hattoriyashiki/": 200,
+   "https://www.hachijo.gr.jp/goods/dairyufarm/": 200,
+   "https://www.hachijo.gr.jp/goods/hachijojimasyuzo_shochu-brewing/": 200,
+   "https://www.hachijo.gr.jp/goods/hachijokohatsu_shochu-brewing/": 200,
+   "https://www.hachijo.gr.jp/goods/ja-nakanogo/": 200,
+   "https://www.hachijo.gr.jp/goods/osada/": 200,
+   "https://www.hachijo.gr.jp/restaurant/eight/": 200,
+   "https://www.hachijo.gr.jp/restaurant/gelateria365/": 200,
+   "https://www.hachijo.gr.jp/restaurant/han/": 200,
+   "https://www.hachijo.gr.jp/restaurant/jerseycafe/": 200,
+   "https://www.hachijo.gr.jp/restaurant/kukansya/": 200,
+   "https://www.hachijo.gr.jp/restaurant/uohachiya/": 200,
+   "https://www.hachijo.gr.jp/specials/kusaya/": 200,
+   "https://www.hachijo.gr.jp/specials/local-dishes/": 200,
+   "https://www.hachijo.gr.jp/specials/local-sweets/": 200,
+   "https://www.hachijo.gr.jp/specials/shochu/": 200,
+   "https://www.hachijo.gr.jp/specials/souvenir/": 200,
+   "https://www.hachijo.gr.jp/specials/specialty-products/": 200,
+   "https://www.hokeniryo.metro.tokyo.lg.jp/shisetsu/jigyosyo/hokenjyo/tousyo/hachijou/katsudou/balanceguide": 200,
+   "https://www.jahachijo.jp/information/tokusan.html": 200,
+   "https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/kokuritsu/fujihakone/hatijojima/tourism.html": 200,
+   "https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/kokuritsu/ogasawara/titijima/tourism.html": 200,
+   "https://www.kusaya.tokyo/about.html": 200,
+   "https://www.ogasawaramura.com/about/food/": 200,
+   "https://www.ogasawaramura.com/eat/shimazushi/": 200,
+   "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops": 200,
+   "https://www.t-treasureislands.metro.tokyo.lg.jp/about/branding/aochu/": 200,
+   "https://www.tokyo-gyoren.or.jp/island/": 200,
+   "https://www.tokyoislands-net.jp/islands/aogashima/": 200,
+   "https://www.town.hachijo.tokyo.jp/kenko-fukushi/kenkou/shokuiku/kantanrecipe/recipe14/": 200,
+   "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html": 200,
+   "https://www.vill.aogashima.tokyo.jp/tourism/sp_product2.html": 200,
+   "https://www.vill.aogashima.tokyo.jp/tourism/sp_product3.html": 200,
+   "https://www.vill.aogashima.tokyo.jp/tourism/spot.html": 200
+  }
+ }
+}
