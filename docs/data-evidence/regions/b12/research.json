@@ -1,0 +1,2934 @@
+{
+ "batch": "b12",
+ "researched_at": "2026-11-22",
+ "municipalities": [
+  {
+   "id": "kozushima",
+   "name_ja": "神津島村",
+   "food_cultures": [
+    {
+     "name_ja": "さつまいも",
+     "name_en": "Sweet potatoes as a historical staple",
+     "kind": "crop",
+     "summary_en": "Sweet potatoes once served as a principal staple on Kozushima, where growing conditions made rice cultivation difficult. This history survives in several distinctive island sweets.",
+     "facts": [
+      {
+       "claim_en": "Sweet potatoes were historically a staple food on Kozushima.",
+       "source_url": "https://kozushima.com/ecotourism/contents.html",
+       "source_title": "神津島エコツーリズム推進協議会",
+       "publisher": "神津島エコツーリズム推進協議会"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Historical food culture; contemporary cultivation and public access are not established by this source."
+    },
+    {
+     "name_ja": "あぶらき",
+     "name_en": "Aburaki sweet-potato fritters",
+     "kind": "sweet",
+     "summary_en": "A traditional everyday snack made by combining cooked sweet potatoes with starch and wheat flour before frying.",
+     "facts": [
+      {
+       "claim_en": "Aburaki is a local fried sweet-potato snack eaten in everyday island life.",
+       "source_url": "https://kozushima.com/ecotourism/contents.html",
+       "source_title": "神津島エコツーリズム推進協議会",
+       "publisher": "神津島エコツーリズム推進協議会"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Traditional household food; a permanent retail outlet is not confirmed."
+    },
+    {
+     "name_ja": "切り干し餅",
+     "name_en": "Dried sweet-potato mochi",
+     "kind": "sweet",
+     "summary_en": "A distinctive island mochi combining flour made from dried sweet potatoes with glutinous rice. It is associated with celebrations and can also be found among island specialty products.",
+     "facts": [
+      {
+       "claim_en": "Kozushima's kiriboshi mochi is traditionally prepared for celebrations using dried sweet potatoes and glutinous rice.",
+       "source_url": "https://kozushima.com/ecotourism/contents.html",
+       "source_title": "神津島エコツーリズム推進協議会",
+       "publisher": "神津島エコツーリズム推進協議会"
+      },
+      {
+       "claim_en": "Kiriboshi mochi is listed among products handled at Yocchare Center.",
+       "source_url": "https://kozushima.com/shop/kau/miyage/897/",
+       "source_title": "よっちゃーれセンター",
+       "publisher": "神津島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "よっちゃーれセンター",
+       "name_en": "Yocchare Center",
+       "relation_en": "Island cooperative-linked center listing this traditional sweet-potato mochi among its products.",
+       "address_ja": "東京都神津島村神津島港内",
+       "official_url": "https://kozushima.com/shop/kau/miyage/897/",
+       "source_url": "https://kozushima.com/shop/kau/miyage/897/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "しょうゆめし",
+     "name_en": "Kozushima soy-sauce rice",
+     "kind": "dish",
+     "summary_en": "An island home-style rice dish incorporating rocky seaweed, soy sauce, oil and a little glutinous rice. Families serve it in ordinary meals as well as on special occasions.",
+     "facts": [
+      {
+       "claim_en": "Shoyumeshi is identified as a representative Kozushima regional dish prepared in households for everyday and festive occasions.",
+       "source_url": "https://kozushima.com/ecotourism/contents.html",
+       "source_title": "神津島エコツーリズム推進協議会",
+       "publisher": "神津島エコツーリズム推進協議会"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "No permanently serving restaurant is established by this source."
+    },
+    {
+     "name_ja": "明日葉",
+     "name_en": "Ashitaba greens",
+     "kind": "crop",
+     "summary_en": "Ashitaba is a characteristic edible green of Kozushima, used in home cooking and local processed foods. Traditional preparations include tempura, blanched greens and soup.",
+     "facts": [
+      {
+       "claim_en": "Kozushima lists ashitaba as an island food prepared as tempura, in soup and as seasoned greens.",
+       "source_url": "https://www.vill.kouzushima.tokyo.jp/goods/",
+       "source_title": "おみやげ",
+       "publisher": "神津島村"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "黒潮商会",
+       "name_en": "Kuroshio Shokai",
+       "relation_en": "Island specialty shop listing ashitaba soba among its local products.",
+       "address_ja": "東京都神津島村57番地",
+       "official_url": "https://kozushima.com/shop/kau/miyage/889/",
+       "source_url": "https://kozushima.com/shop/kau/miyage/889/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "明日葉そば・明日葉加工品",
+     "name_en": "Ashitaba soba and processed greens",
+     "kind": "dish",
+     "summary_en": "Ashitaba is incorporated into noodles and other packaged foods, extending the island's green-leaf tradition into products visitors can take home.",
+     "facts": [
+      {
+       "claim_en": "Kuroshio Shokai lists ashitaba soba as an island specialty.",
+       "source_url": "https://kozushima.com/shop/kau/miyage/889/",
+       "source_title": "黒潮商会",
+       "publisher": "神津島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "黒潮商会",
+       "name_en": "Kuroshio Shokai",
+       "relation_en": "Retailer associated with ashitaba soba.",
+       "address_ja": "東京都神津島村57番地",
+       "official_url": "https://kozushima.com/shop/kau/miyage/889/",
+       "source_url": "https://kozushima.com/shop/kau/miyage/889/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "明日葉ビール",
+     "name_en": "Ashitaba craft beer",
+     "kind": "drink",
+     "summary_en": "Local brewers incorporate Kozushima's signature green into craft beer, connecting island agriculture with its contemporary brewing scene.",
+     "facts": [
+      {
+       "claim_en": "Kozushima's local craft-beer culture includes beer flavored with ashitaba.",
+       "source_url": "https://www.tokyoislands-net.jp/islands/kouzushima/",
+       "source_title": "神津島",
+       "publisher": "東京都島しょ振興公社・東京愛らんど"
+      },
+      {
+       "claim_en": "A Tokyo Metropolitan Government feature describes Hyuga Brewery's ashitaba beer.",
+       "source_url": "https://shima.metro.tokyo.lg.jp/post/kozushima03/",
+       "source_title": "神津島のクラフトビール・島の食材",
+       "publisher": "東京都"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "Hyuga brewery",
+       "name_en": "Hyuga Brewery",
+       "relation_en": "Island craft brewery associated with ashitaba beer and other locally inspired products.",
+       "address_ja": "東京都神津島村139-2",
+       "official_url": "https://kozushima.com/shop/taberu/386/",
+       "source_url": "https://kozushima.com/shop/taberu/386/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "トウショ酒販株式会社",
+       "relation_en": "Local brewing business associated with Kozushima craft beer.",
+       "source_url": "https://shimapochi.tokaikisen.co.jp/toshoshuhan/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The brewery's street number differs between published listings; the address here follows the tourism association listing."
+    },
+    {
+     "name_ja": "神津島クラフトビール",
+     "name_en": "Kozushima spring-water craft beer",
+     "kind": "drink",
+     "summary_en": "The island's plentiful spring water supports local craft brewing. Contemporary brewers also experiment with flavors associated with Kozushima's produce.",
+     "facts": [
+      {
+       "claim_en": "Kozushima spring water is used in local beer production.",
+       "source_url": "https://kozushima.com/ecotourism/contents.html",
+       "source_title": "神津島エコツーリズム推進協議会",
+       "publisher": "神津島エコツーリズム推進協議会"
+      },
+      {
+       "claim_en": "A metropolitan feature describes seasonal craft-beer production on the island.",
+       "source_url": "https://shima.metro.tokyo.lg.jp/post/kozushima03/",
+       "source_title": "神津島のクラフトビール・島の食材",
+       "publisher": "東京都"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "Hyuga brewery",
+       "name_en": "Hyuga Brewery",
+       "relation_en": "Local production and food-culture venue.",
+       "address_ja": "東京都神津島村139-2",
+       "official_url": "https://kozushima.com/shop/taberu/386/",
+       "source_url": "https://kozushima.com/shop/taberu/386/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "トウショ酒販株式会社",
+       "relation_en": "Kozushima-based brewing company.",
+       "source_url": "https://shimapochi.tokaikisen.co.jp/toshoshuhan/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "明日葉ピザ・地海苔パスタ",
+     "name_en": "Ashitaba pizza and local seaweed pasta",
+     "kind": "dish",
+     "summary_en": "Contemporary island cuisine places traditional greens and seaweed into familiar pizza and pasta formats.",
+     "facts": [
+      {
+       "claim_en": "A Tokyo Metropolitan Government feature describes ashitaba pizza and local seaweed pasta offered as examples of Kozushima's contemporary island cooking.",
+       "source_url": "https://shima.metro.tokyo.lg.jp/post/kozushima03/",
+       "source_title": "神津島のクラフトビール・島の食材",
+       "publisher": "東京都"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "Hyuga brewery",
+       "name_en": "Hyuga Brewery",
+       "relation_en": "Venue featured for cooking with local greens and seaweed.",
+       "address_ja": "東京都神津島村139-2",
+       "official_url": "https://kozushima.com/shop/taberu/386/",
+       "source_url": "https://kozushima.com/shop/taberu/386/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The cited feature documents these dishes; current menu availability is not asserted."
+    },
+    {
+     "name_ja": "明日葉シフォンケーキ",
+     "name_en": "Ashitaba chiffon cake",
+     "kind": "sweet",
+     "summary_en": "A modern island sweet that uses ashitaba to give a local identity to chiffon cake.",
+     "facts": [
+      {
+       "claim_en": "A metropolitan island-food feature introduces ashitaba chiffon cake associated with an island lodging business.",
+       "source_url": "https://shima.metro.tokyo.lg.jp/post/kozushima03/",
+       "source_title": "神津島のクラフトビール・島の食材",
+       "publisher": "東京都"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "島宿 浜の家",
+       "name_en": "Hamanoie Island Inn",
+       "relation_en": "Island accommodation associated with ashitaba chiffon cake.",
+       "address_ja": "東京都神津島村54",
+       "official_url": "",
+       "source_url": "https://shima.metro.tokyo.lg.jp/post/kozushima03/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "A documented specialty, not a guarantee of present-day retail availability."
+    },
+    {
+     "name_ja": "盛若",
+     "name_en": "Moriwaka island shochu",
+     "kind": "drink",
+     "summary_en": "An island-made barley shochu brand, including oak-aged expressions, linked to Kozushima's water and distilling culture.",
+     "facts": [
+      {
+       "claim_en": "Moriwaka is a Kozushima shochu made with barley and barley koji, with oak-aged varieties listed by the village.",
+       "source_url": "https://www.vill.kouzushima.tokyo.jp/goods/",
+       "source_title": "おみやげ",
+       "publisher": "神津島村"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "神津島酒造株式会社",
+       "name_en": "Kozushima Shuzo",
+       "relation_en": "Producer identified by the village for Moriwaka shochu.",
+       "address_ja": "東京都神津島村142番地",
+       "official_url": "https://www.vill.kouzushima.tokyo.jp/goods/",
+       "source_url": "https://www.vill.kouzushima.tokyo.jp/goods/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "神津島酒造株式会社",
+       "relation_en": "Producer and seller of Moriwaka shochu.",
+       "source_url": "https://www.vill.kouzushima.tokyo.jp/goods/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The producer's address is documented; visitor access to the production site is not established."
+    },
+    {
+     "name_ja": "パッションフルーツ",
+     "name_en": "Kozushima passion fruit",
+     "kind": "crop",
+     "summary_en": "Passion fruit is an established island specialty and provides the basis for fruit-flavored confectionery and preserved products.",
+     "facts": [
+      {
+       "claim_en": "The village identifies passion fruit among Kozushima's specialty products.",
+       "source_url": "https://www.vill.kouzushima.tokyo.jp/goods/",
+       "source_title": "おみやげ",
+       "publisher": "神津島村"
+      },
+      {
+       "claim_en": "A village event featured passion-fruit jam, syrup and crackers.",
+       "source_url": "https://www.vill.kouzushima.tokyo.jp/2024-1024/",
+       "source_title": "神津島村の特産品イベント情報",
+       "publisher": "神津島村"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "黒潮商会",
+       "name_en": "Kuroshio Shokai",
+       "relation_en": "Local retailer listing passion-fruit confectionery.",
+       "address_ja": "東京都神津島村57番地",
+       "official_url": "https://kozushima.com/shop/kau/miyage/889/",
+       "source_url": "https://kozushima.com/shop/kau/miyage/889/"
+      }
+     ],
+     "makers": [],
+     "season_en": "Seasonal fresh-fruit crop; specific harvest months are not established by the cited pages.",
+     "confidence": "high",
+     "notes_en": "The village fair documents examples of processing but does not prove continuing stock of every product."
+    },
+    {
+     "name_ja": "パッションフルーツ菓子・ジャム",
+     "name_en": "Passion-fruit confectionery and preserves",
+     "kind": "sweet",
+     "summary_en": "Island businesses transform locally associated passion fruit into sweets, jam and syrups.",
+     "facts": [
+      {
+       "claim_en": "Kuroshio Shokai lists passion-fruit sweets among its local products.",
+       "source_url": "https://kozushima.com/shop/kau/miyage/889/",
+       "source_title": "黒潮商会",
+       "publisher": "神津島観光協会"
+      },
+      {
+       "claim_en": "The village documented passion-fruit jam, syrup and crackers at a 2024 island-specialty event.",
+       "source_url": "https://www.vill.kouzushima.tokyo.jp/2024-1024/",
+       "source_title": "神津島村の特産品イベント情報",
+       "publisher": "神津島村"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "黒潮商会",
+       "name_en": "Kuroshio Shokai",
+       "relation_en": "Tourism-listed retailer of island fruit sweets.",
+       "address_ja": "東京都神津島村57番地",
+       "official_url": "https://kozushima.com/shop/kau/miyage/889/",
+       "source_url": "https://kozushima.com/shop/kau/miyage/889/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The 2024 fair items should not all be treated as permanent retail lines."
+    },
+    {
+     "name_ja": "島とうがらし・島とーおいる",
+     "name_en": "Island chili peppers and chili oil",
+     "kind": "other",
+     "summary_en": "Island chili peppers are used in locally identified condiments, including chili-infused oil.",
+     "facts": [
+      {
+       "claim_en": "The village documented island chili peppers and an island chili-oil product among local specialties at a 2024 event.",
+       "source_url": "https://www.vill.kouzushima.tokyo.jp/2024-1024/",
+       "source_title": "神津島村の特産品イベント情報",
+       "publisher": "神津島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "Documented event products; current producers and permanent retail availability are unverified."
+    },
+    {
+     "name_ja": "天草採取",
+     "name_en": "Tengusa seaweed gathering",
+     "kind": "foraging",
+     "summary_en": "Gathering agar-producing tengusa seaweed is a longstanding marine food tradition. The seaweed is processed locally into tokoroten.",
+     "facts": [
+      {
+       "claim_en": "Kozushima uses locally collected tengusa seaweed in food processing.",
+       "source_url": "https://www.kozu-tokoroten.jp/%E5%95%86%E5%93%81%E3%81%AE%E3%81%94%E6%A1%88%E5%86%85/",
+       "source_title": "商品のご案内",
+       "publisher": "サンフーズ"
+      },
+      {
+       "claim_en": "The island tourism center lists tengusa among its local products.",
+       "source_url": "https://kozushima.com/shop/kau/miyage/897/",
+       "source_title": "よっちゃーれセンター",
+       "publisher": "神津島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "よっちゃーれセンター",
+       "name_en": "Yocchare Center",
+       "relation_en": "Cooperative-linked retailer of tengusa and related foods.",
+       "address_ja": "東京都神津島村神津島港内",
+       "official_url": "https://kozushima.com/shop/kau/miyage/897/",
+       "source_url": "https://kozushima.com/shop/kau/miyage/897/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "サンフーズ",
+       "relation_en": "Local tokoroten producer using island tengusa.",
+       "source_url": "https://www.kozu-tokoroten.jp/%E5%95%86%E5%93%81%E3%81%AE%E3%81%94%E6%A1%88%E5%86%85/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Collection conditions and conservation requirements are not established as visitor activities."
+    },
+    {
+     "name_ja": "神津島ところてん",
+     "name_en": "Kozushima tokoroten",
+     "kind": "dish",
+     "summary_en": "A chilled jelly-like food made from agar-bearing tengusa seaweed gathered around Kozushima, linking coastal harvesting with small-scale food production.",
+     "facts": [
+      {
+       "claim_en": "Sunfoods describes making Kozushima tokoroten from island-collected tengusa.",
+       "source_url": "https://www.kozu-tokoroten.jp/%E5%95%86%E5%93%81%E3%81%AE%E3%81%94%E6%A1%88%E5%86%85/",
+       "source_title": "商品のご案内",
+       "publisher": "サンフーズ"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "よっちゃーれセンター",
+       "name_en": "Yocchare Center",
+       "relation_en": "Island specialty center listing tokoroten.",
+       "address_ja": "東京都神津島村神津島港内",
+       "official_url": "https://kozushima.com/shop/kau/miyage/897/",
+       "source_url": "https://kozushima.com/shop/kau/miyage/897/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "サンフーズ",
+       "relation_en": "Producer of tengusa-based Kozushima tokoroten.",
+       "source_url": "https://www.kozu-tokoroten.jp/%E5%95%86%E5%93%81%E3%81%AE%E3%81%94%E6%A1%88%E5%86%85/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "地海苔・岩海苔",
+     "name_en": "Locally harvested sea laver",
+     "kind": "foraging",
+     "summary_en": "Locally gathered sea laver is an ingredient in Kozushima rice dishes and contemporary island cooking. Shops also process it as a specialty product.",
+     "facts": [
+      {
+       "claim_en": "Locally used rocky sea laver is a defining ingredient of the island's shoyumeshi.",
+       "source_url": "https://kozushima.com/ecotourism/contents.html",
+       "source_title": "神津島エコツーリズム推進協議会",
+       "publisher": "神津島エコツーリズム推進協議会"
+      },
+      {
+       "claim_en": "Kuroshio Shokai sells locally processed roasted seaweed.",
+       "source_url": "https://kozushima.com/shop/kau/miyage/889/",
+       "source_title": "黒潮商会",
+       "publisher": "神津島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "黒潮商会",
+       "name_en": "Kuroshio Shokai",
+       "relation_en": "Retailer processing and selling local seaweed.",
+       "address_ja": "東京都神津島村57番地",
+       "official_url": "https://kozushima.com/shop/kau/miyage/889/",
+       "source_url": "https://kozushima.com/shop/kau/miyage/889/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "黒潮商会",
+       "relation_en": "Processes roasted local seaweed.",
+       "source_url": "https://kozushima.com/shop/kau/miyage/889/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "地のり丼",
+     "name_en": "Local seaweed rice bowl",
+     "kind": "dish",
+     "summary_en": "A rice-bowl preparation featuring Kozushima's locally gathered seaweed.",
+     "facts": [
+      {
+       "claim_en": "Tokyo's official national-park visitor information identifies a local seaweed rice bowl among Kozushima foods.",
+       "source_url": "https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/kokuritsu/fujihakone/koudushima/tourism.html",
+       "source_title": "神津島の観光情報",
+       "publisher": "東京都環境局"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The cited information documents the dish but does not establish continuous menu availability."
+    },
+    {
+     "name_ja": "あしたば巻き",
+     "name_en": "Ashitaba rolls",
+     "kind": "dish",
+     "summary_en": "An island food preparation featuring ashitaba as a defining ingredient.",
+     "facts": [
+      {
+       "claim_en": "Tokyo Metropolitan Government tourism information includes ashitaba rolls among distinctive Kozushima foods.",
+       "source_url": "https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/kokuritsu/fujihakone/koudushima/tourism.html",
+       "source_title": "神津島の観光情報",
+       "publisher": "東京都環境局"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "美家古寿し",
+     "name_en": "Miyako-zushi island sushi",
+     "kind": "dish",
+     "summary_en": "A locally identified sushi tradition or specialty using island seafood, mentioned in official Kozushima visitor information.",
+     "facts": [
+      {
+       "claim_en": "Official metropolitan visitor information identifies Miyako-zushi as part of Kozushima's local food offering.",
+       "source_url": "https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/kokuritsu/fujihakone/koudushima/tourism.html",
+       "source_title": "神津島の観光情報",
+       "publisher": "東京都環境局"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "The source supports the local food name; the exact preparation and availability require further venue-level confirmation."
+    },
+    {
+     "name_ja": "青むろのくさや",
+     "name_en": "Fermented blue-mackerel-scad kusaya",
+     "kind": "dish",
+     "summary_en": "Fish preserved and dried after treatment in traditional fermented kusaya brine, connecting Kozushima to the Izu Islands' characteristic fish-preservation culture.",
+     "facts": [
+      {
+       "claim_en": "Kozushima Village lists kusaya made from blue mackerel scad among its seafood specialties.",
+       "source_url": "https://www.vill.kouzushima.tokyo.jp/goods/",
+       "source_title": "おみやげ",
+       "publisher": "神津島村"
+      },
+      {
+       "claim_en": "Tokyo's regional-resource register identifies kusaya as a specialty associated with Kozushima and other islands.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_18.html",
+       "source_title": "くさや",
+       "publisher": "東京都"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "トビウオのくさや",
+     "name_en": "Flying-fish kusaya",
+     "kind": "dish",
+     "summary_en": "A local variation of the fermented, dried fish tradition prepared with flying fish.",
+     "facts": [
+      {
+       "claim_en": "The village explicitly lists flying-fish kusaya as a Kozushima seafood specialty.",
+       "source_url": "https://www.vill.kouzushima.tokyo.jp/goods/",
+       "source_title": "おみやげ",
+       "publisher": "神津島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "島キンメ・キンメダイ漁",
+     "name_en": "Shima-kinme deepwater splendid alfonsino fishery",
+     "kind": "brand",
+     "summary_en": "Kozushima's line-caught kinmedai is presented as a distinctive branded island seafood. It links local fishing practices with prepared fish dishes and retail dried seafood.",
+     "facts": [
+      {
+       "claim_en": "Tokyo's official food-tourism publication describes branded Shima-kinme caught around Kozushima.",
+       "source_url": "https://www.gourmet.gotokyo.org/jp/article/134.html",
+       "source_title": "神津島の食文化",
+       "publisher": "東京都・GO TOKYO Gourmet"
+      },
+      {
+       "claim_en": "Yocchare Center lists kinmedai among the fish processed into dried products.",
+       "source_url": "https://kozushima.com/shop/kau/miyage/897/",
+       "source_title": "よっちゃーれセンター",
+       "publisher": "神津島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "よっちゃーれセンター",
+       "name_en": "Yocchare Center",
+       "relation_en": "Harbor-side center connected to the island fishery and local seafood products.",
+       "address_ja": "東京都神津島村神津島港内",
+       "official_url": "https://kozushima.com/shop/kau/miyage/897/",
+       "source_url": "https://kozushima.com/shop/kau/miyage/897/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "キンメダイの煮付け",
+     "name_en": "Simmered kinmedai",
+     "kind": "dish",
+     "summary_en": "Locally caught splendid alfonsino is cooked as a simmered fish dish, giving visitors a direct introduction to Kozushima's deepwater seafood.",
+     "facts": [
+      {
+       "claim_en": "The official Tokyo Islands guide features simmered kinmedai at Yocchare Center.",
+       "source_url": "https://www.tokyoislands-net.jp/islands/kouzushima/",
+       "source_title": "神津島",
+       "publisher": "東京都島しょ振興公社・東京愛らんど"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "よっちゃーれセンター",
+       "name_en": "Yocchare Center",
+       "relation_en": "Harbor-side dining venue associated with simmered island fish.",
+       "address_ja": "東京都神津島村神津島港内",
+       "official_url": "https://kozushima.com/shop/taberu/356/",
+       "source_url": "https://kozushima.com/shop/taberu/356/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The dish is documented by the tourism guide; no claim is made about its current daily menu."
+    },
+    {
+     "name_ja": "ムロアジ・キンメダイの干物",
+     "name_en": "Dried mackerel scad and kinmedai",
+     "kind": "dish",
+     "summary_en": "Drying locally caught fish is an important preservation and souvenir tradition, especially for mackerel scad and kinmedai.",
+     "facts": [
+      {
+       "claim_en": "Yocchare Center lists dried mackerel scad and kinmedai as island seafood products.",
+       "source_url": "https://kozushima.com/shop/kau/miyage/897/",
+       "source_title": "よっちゃーれセンター",
+       "publisher": "神津島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "よっちゃーれセンター",
+       "name_en": "Yocchare Center",
+       "relation_en": "Cooperative-linked outlet for preserved island seafood.",
+       "address_ja": "東京都神津島村神津島港内",
+       "official_url": "https://kozushima.com/shop/kau/miyage/897/",
+       "source_url": "https://kozushima.com/shop/kau/miyage/897/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "カワハギのみりん干し",
+     "name_en": "Mirin-marinated dried filefish",
+     "kind": "dish",
+     "summary_en": "Filefish is preserved with a sweet soy-and-mirin-style seasoning before drying, forming another distinctive island seafood product.",
+     "facts": [
+      {
+       "claim_en": "The village includes mirin-dried filefish in its list of Kozushima seafood specialties.",
+       "source_url": "https://www.vill.kouzushima.tokyo.jp/goods/",
+       "source_title": "おみやげ",
+       "publisher": "神津島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "アカイカ漁",
+     "name_en": "Seasonal red-squid fishery",
+     "kind": "fishing",
+     "summary_en": "Red squid is one of Kozushima's notable seasonal seafood catches. It supports fresh dishes and a range of preserved products.",
+     "facts": [
+      {
+       "claim_en": "The island tourism association highlights red squid among Kozushima's seasonal seafood.",
+       "source_url": "https://www.gotokozu.jp/",
+       "source_title": "神津島観光協会",
+       "publisher": "神津島観光協会"
+      },
+      {
+       "claim_en": "The island ecotourism association identifies red squid among important local marine resources.",
+       "source_url": "https://kozushima.com/ecotourism/contents.html",
+       "source_title": "神津島エコツーリズム推進協議会",
+       "publisher": "神津島エコツーリズム推進協議会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "よっちゃーれセンター",
+       "name_en": "Yocchare Center",
+       "relation_en": "Island seafood outlet listing processed red squid.",
+       "address_ja": "東京都神津島村神津島港内",
+       "official_url": "https://kozushima.com/shop/kau/miyage/897/",
+       "source_url": "https://kozushima.com/shop/kau/miyage/897/"
+      }
+     ],
+     "makers": [],
+     "season_en": "Spring is highlighted for red squid in the tourism association's seasonal guide.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "アカイカの塩辛・一夜干し",
+     "name_en": "Salt-fermented and lightly dried red squid",
+     "kind": "dish",
+     "summary_en": "Kozushima preserves red squid as shiokara and as squid dried for one or two nights, reflecting the island's use of seasonal catches.",
+     "facts": [
+      {
+       "claim_en": "Yocchare Center lists red-squid shiokara and one-night or two-night dried red squid among its specialty products.",
+       "source_url": "https://kozushima.com/shop/kau/miyage/897/",
+       "source_title": "よっちゃーれセンター",
+       "publisher": "神津島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "よっちゃーれセンター",
+       "name_en": "Yocchare Center",
+       "relation_en": "Retail location for local red-squid products.",
+       "address_ja": "東京都神津島村神津島港内",
+       "official_url": "https://kozushima.com/shop/kau/miyage/897/",
+       "source_url": "https://kozushima.com/shop/kau/miyage/897/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "サメジャーキー",
+     "name_en": "Shark jerky",
+     "kind": "brand",
+     "summary_en": "A modern island seafood product that transforms shark into a portable dried snack.",
+     "facts": [
+      {
+       "claim_en": "Tokyo Metropolitan Government lists shark jerky among seafood products developed on Kozushima.",
+       "source_url": "https://www.sangyo-rodo.metro.tokyo.lg.jp/nourin/suisan/about/processed",
+       "source_title": "水産加工品",
+       "publisher": "東京都産業労働局"
+      },
+      {
+       "claim_en": "Yocchare Center lists shark jerky among its products.",
+       "source_url": "https://kozushima.com/shop/kau/miyage/897/",
+       "source_title": "よっちゃーれセンター",
+       "publisher": "神津島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "よっちゃーれセンター",
+       "name_en": "Yocchare Center",
+       "relation_en": "Retailer of this locally developed dried seafood.",
+       "address_ja": "東京都神津島村神津島港内",
+       "official_url": "https://kozushima.com/shop/kau/miyage/897/",
+       "source_url": "https://kozushima.com/shop/kau/miyage/897/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "ウツボの干物・素揚げ",
+     "name_en": "Dried and fried moray eel",
+     "kind": "dish",
+     "summary_en": "Moray eel is part of the island's local seafood tradition and is prepared as dried fish or fried pieces.",
+     "facts": [
+      {
+       "claim_en": "A village food-specialty event documented moray eel served as dried fish and plain-fried pieces.",
+       "source_url": "https://www.vill.kouzushima.tokyo.jp/2024-1024/",
+       "source_title": "神津島村の特産品イベント情報",
+       "publisher": "神津島村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "medium",
+     "notes_en": "Documented at a 2024 event; no permanent restaurant or shop listing is verified."
+    },
+    {
+     "name_ja": "タカベ・カンパチ・ヒラマサなどの季節漁",
+     "name_en": "Seasonal reef and pelagic fishery",
+     "kind": "fishing",
+     "summary_en": "Kozushima's fishing culture follows the changing availability of local species, including takabe, amberjack and yellowtail amberjack relatives.",
+     "facts": [
+      {
+       "claim_en": "The tourism association highlights takabe in summer and amberjack-related fish in autumn as seasonal island catches.",
+       "source_url": "https://www.gotokozu.jp/",
+       "source_title": "神津島観光協会",
+       "publisher": "神津島観光協会"
+      },
+      {
+       "claim_en": "The ecotourism association describes locally managed fisheries for species including amberjack, isaki and striped jack.",
+       "source_url": "https://kozushima.com/ecotourism/contents.html",
+       "source_title": "神津島エコツーリズム推進協議会",
+       "publisher": "神津島エコツーリズム推進協議会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "よっちゃーれセンター",
+       "name_en": "Yocchare Center",
+       "relation_en": "Harbor-side venue offering island fish preparations and local seafood products.",
+       "address_ja": "東京都神津島村神津島港内",
+       "official_url": "https://kozushima.com/shop/taberu/356/",
+       "source_url": "https://kozushima.com/shop/taberu/356/"
+      }
+     ],
+     "makers": [],
+     "season_en": "Takabe: summer; amberjack-related fish: autumn.",
+     "confidence": "high",
+     "notes_en": "The ecotourism association also documents voluntary resource-management rules among local fishers."
+    },
+    {
+     "name_ja": "伊勢海老漁",
+     "name_en": "Spiny-lobster fishery",
+     "kind": "fishing",
+     "summary_en": "Spiny lobster is one of Kozushima's seasonally highlighted marine products.",
+     "facts": [
+      {
+       "claim_en": "The tourism association includes spiny lobster among the island's winter seafood attractions.",
+       "source_url": "https://www.gotokozu.jp/",
+       "source_title": "神津島観光協会",
+       "publisher": "神津島観光協会"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Winter is highlighted by the tourism association.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "島魚のヅケ丼・海鮮料理",
+     "name_en": "Marinated local-fish rice bowls",
+     "kind": "dish",
+     "summary_en": "Island seafood is served fresh, marinated over rice or simmered, giving visitors accessible ways to experience the local fishery.",
+     "facts": [
+      {
+       "claim_en": "Yocchare Center's dining listing includes marinated fish rice bowls and other dishes prepared with island seafood.",
+       "source_url": "https://kozushima.com/shop/taberu/356/",
+       "source_title": "よっちゃーれセンター",
+       "publisher": "神津島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "よっちゃーれセンター",
+       "name_en": "Yocchare Center",
+       "relation_en": "Fishing-community-linked dining venue at Kozushima Port.",
+       "address_ja": "東京都神津島村神津島港内",
+       "official_url": "https://kozushima.com/shop/taberu/356/",
+       "source_url": "https://kozushima.com/shop/taberu/356/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "黒ムツの煮付け",
+     "name_en": "Simmered black gnomefish",
+     "kind": "dish",
+     "summary_en": "Black gnomefish is one of the island fish highlighted in Kozushima's seafood cooking.",
+     "facts": [
+      {
+       "claim_en": "The Tokyo Islands tourism guide features simmered black gnomefish as a Kozushima food.",
+       "source_url": "https://www.tokyoislands-net.jp/islands/kouzushima/",
+       "source_title": "神津島",
+       "publisher": "東京都島しょ振興公社・東京愛らんど"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "神津島 龍宮",
+       "name_en": "Kozushima Ryugu",
+       "relation_en": "Restaurant associated with simmered locally caught black gnomefish in the official island guide.",
+       "address_ja": "",
+       "official_url": "https://www.tokyoislands-net.jp/islands/kouzushima/",
+       "source_url": "https://www.tokyoislands-net.jp/islands/kouzushima/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Current menu availability is not asserted."
+    },
+    {
+     "name_ja": "かつお釣り神事",
+     "name_en": "Ritual reenactment of bonito fishing",
+     "kind": "other",
+     "summary_en": "An annual ritual preserves the island's relationship with bonito fishing and the historical obligation to supply dried bonito as tax. It is a cultural experience rather than a food tasting.",
+     "facts": [
+      {
+       "claim_en": "The August 2 ritual at Moniina-no-Mikoto Shrine commemorates the island's historical bonito industry and offers thanks for fishing safety and abundance.",
+       "source_url": "https://kozushima.com/ecotourism/contents.html",
+       "source_title": "神津島エコツーリズム推進協議会",
+       "publisher": "神津島エコツーリズム推進協議会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "物忌奈命神社",
+       "name_en": "Moniina-no-Mikoto Shrine",
+       "relation_en": "Site of the traditional bonito-fishing ritual.",
+       "address_ja": "東京都神津島村",
+       "official_url": "https://kozushima.com/ecotourism/contents.html",
+       "source_url": "https://kozushima.com/ecotourism/contents.html"
+      }
+     ],
+     "makers": [],
+     "season_en": "August 2, according to the cited cultural account.",
+     "confidence": "high",
+     "notes_en": "A fishing heritage event, not a confirmed commercial culinary experience."
+    }
+   ],
+   "none_found_reason_en": ""
+  },
+  {
+   "id": "miyake",
+   "name_ja": "三宅村",
+   "food_cultures": [
+    {
+     "name_ja": "明日葉",
+     "name_en": "Miyakejima ashitaba",
+     "kind": "crop",
+     "summary_en": "Ashitaba is a leading island agricultural specialty, used fresh in everyday food and as an ingredient in modern processed products.",
+     "facts": [
+      {
+       "claim_en": "Miyake Village names ashitaba among its principal agricultural specialties.",
+       "source_url": "https://www.vill.miyake.tokyo.jp/kankou/tokusanhin.html",
+       "source_title": "主要特産品の紹介",
+       "publisher": "三宅村"
+      },
+      {
+       "claim_en": "Kanbe Farm cultivates ashitaba and produces food products using the green.",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/kanbe_farm/",
+       "source_title": "神戸農園",
+       "publisher": "三宅島観光協会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "神戸農園",
+       "relation_en": "Local ashitaba grower and processor.",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/kanbe_farm/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The source identifies the farm but does not establish public farm visits."
+    },
+    {
+     "name_ja": "明日葉茶",
+     "name_en": "Ashitaba tea",
+     "kind": "drink",
+     "summary_en": "Ashitaba is dried and processed into herbal tea, creating a local beverage from the island's best-known crop.",
+     "facts": [
+      {
+       "claim_en": "Miyake Village lists ashitaba tea as a specialty product.",
+       "source_url": "https://www.vill.miyake.tokyo.jp/kankou/tokusanhin.html",
+       "source_title": "主要特産品の紹介",
+       "publisher": "三宅村"
+      },
+      {
+       "claim_en": "Kanbe Farm is an identified local producer of ashitaba tea.",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/kanbe_farm/",
+       "source_title": "神戸農園",
+       "publisher": "三宅島観光協会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "神戸農園",
+       "relation_en": "Grows and processes ashitaba for herbal tea.",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/kanbe_farm/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "明日葉麺・明日葉粉末",
+     "name_en": "Ashitaba noodles and powdered greens",
+     "kind": "dish",
+     "summary_en": "Ashitaba is incorporated into noodles and sold in powdered form, allowing the island's principal vegetable to be used beyond fresh preparations.",
+     "facts": [
+      {
+       "claim_en": "Miyake Village identifies ashitaba noodles and ashitaba powder as island specialty products.",
+       "source_url": "https://www.vill.miyake.tokyo.jp/kankou/tokusanhin.html",
+       "source_title": "主要特産品の紹介",
+       "publisher": "三宅村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "三宅島あしたば味噌汁",
+     "name_en": "Miyakejima ashitaba miso soup",
+     "kind": "dish",
+     "summary_en": "A packaged miso soup developed using Miyakejima-grown ashitaba, connecting an everyday Japanese dish with island agriculture.",
+     "facts": [
+      {
+       "claim_en": "The Miyakejima Tourism Association lists a freeze-dried miso soup made with island ashitaba.",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/shop/",
+       "source_title": "三宅島観光協会のお土産品",
+       "publisher": "三宅島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "三宅島観光協会",
+       "name_en": "Miyakejima Tourism Association",
+       "relation_en": "Tourism office listing this ashitaba-based food product.",
+       "address_ja": "東京都三宅村阿古672-3 ここぽーと1階",
+       "official_url": "https://www.miyakejima.gr.jp/eatbuy/shop/",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/shop/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "あしたばカレー",
+     "name_en": "Ashitaba curry",
+     "kind": "dish",
+     "summary_en": "A modern island specialty using locally associated ashitaba in curry, developed through a local community business initiative.",
+     "facts": [
+      {
+       "claim_en": "The women's division of the Miyake Village Chamber of Commerce developed an ashitaba curry product.",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/shoukoukai/",
+       "source_title": "三宅村商工会女性部",
+       "publisher": "三宅島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "三宅村商工会",
+       "name_en": "Miyake Village Chamber of Commerce",
+       "relation_en": "Organization behind the local ashitaba curry product.",
+       "address_ja": "東京都三宅島三宅村神着894",
+       "official_url": "https://www.miyakejima.gr.jp/eatbuy/shoukoukai/",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/shoukoukai/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "三宅村商工会女性部",
+       "relation_en": "Developer of the ashitaba curry product.",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/shoukoukai/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The organization is a product contact point, not necessarily a public dining venue."
+    },
+    {
+     "name_ja": "あしたば炊き込みご飯",
+     "name_en": "Ashitaba seasoned rice",
+     "kind": "dish",
+     "summary_en": "An ashitaba-flavored rice preparation also commercialized as a cooking mix by a local women's business group.",
+     "facts": [
+      {
+       "claim_en": "The Miyake Village Chamber of Commerce women's division developed an ashitaba takikomi-gohan mix.",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/shoukoukai/",
+       "source_title": "三宅村商工会女性部",
+       "publisher": "三宅島観光協会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "三宅村商工会女性部",
+       "relation_en": "Producer group associated with the seasoned-rice mix.",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/shoukoukai/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "明日葉パン",
+     "name_en": "Ashitaba bread",
+     "kind": "other",
+     "summary_en": "A local bakery-style adaptation using the island's signature green.",
+     "facts": [
+      {
+       "claim_en": "Gallery Cafe Canon is associated with house-made ashitaba bread.",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/cafecanon/",
+       "source_title": "ギャラリー カフェ カノン",
+       "publisher": "三宅島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ギャラリー カフェ カノン",
+       "name_en": "Gallery Cafe Canon",
+       "relation_en": "Cafe associated with making ashitaba bread.",
+       "address_ja": "東京都三宅村伊豆36",
+       "official_url": "https://www.miyakejima.gr.jp/eatbuy/cafecanon/",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/cafecanon/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ギャラリー カフェ カノン",
+       "relation_en": "Prepares ashitaba bread.",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/cafecanon/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "三宅島の恵み愛す",
+     "name_en": "Miyakejima no Megumi Aisu island-flavor ice cream",
+     "kind": "sweet",
+     "summary_en": "An island-branded frozen dessert range featuring local flavors such as ashitaba, island salt, lemon and passion fruit.",
+     "facts": [
+      {
+       "claim_en": "The tourism association markets a frozen-dessert range with ashitaba, island salt, lemon and passion-fruit flavors.",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/shop/",
+       "source_title": "三宅島観光協会のお土産品",
+       "publisher": "三宅島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "三宅島観光協会",
+       "name_en": "Miyakejima Tourism Association",
+       "relation_en": "Local specialty outlet associated with this product range.",
+       "address_ja": "東京都三宅村阿古672-3 ここぽーと1階",
+       "official_url": "https://www.miyakejima.gr.jp/eatbuy/shop/",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/shop/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The ice cream uses island-associated flavors; its dairy ingredient is not represented as Miyakejima-produced."
+    },
+    {
+     "name_ja": "絹さやえんどう・スナック豌豆",
+     "name_en": "Snow peas and snap peas",
+     "kind": "crop",
+     "summary_en": "Edible peas are among Miyakejima's recognized vegetable specialties, reflecting the island's agricultural production alongside fishing.",
+     "facts": [
+      {
+       "claim_en": "Miyake Village lists snow peas and snap peas among its major agricultural products.",
+       "source_url": "https://www.vill.miyake.tokyo.jp/kankou/tokusanhin.html",
+       "source_title": "主要特産品の紹介",
+       "publisher": "三宅村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "赤芽さといも",
+     "name_en": "Red-sprouted taro",
+     "kind": "crop",
+     "summary_en": "A distinctive taro variety recognized as a Miyakejima agricultural specialty.",
+     "facts": [
+      {
+       "claim_en": "Miyake Village includes red-sprouted taro among its principal crops.",
+       "source_url": "https://www.vill.miyake.tokyo.jp/kankou/tokusanhin.html",
+       "source_title": "主要特産品の紹介",
+       "publisher": "三宅村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "早稲田ミョウガ",
+     "name_en": "Waseda myoga heritage ginger",
+     "kind": "crop",
+     "summary_en": "Miyakejima has become a preservation site for Waseda myoga, a traditional Edo-Tokyo vegetable facing cultivation difficulties in urban Tokyo. This connects island agriculture to the mainland's vegetable heritage.",
+     "facts": [
+      {
+       "claim_en": "A February 2026 JA Tokyo account documents the transplantation and cultivation of the heritage vegetable Waseda myoga on Miyakejima.",
+       "source_url": "https://www.tokyo-ja.or.jp/wp/archives/2953",
+       "source_title": "【江戸東京野菜を語る ⑩】火山の島が引き受けた最後の畑～三宅島で早稲田ミョウガを育てる",
+       "publisher": "JA東京中央会"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "三宅島農業振興会",
+       "relation_en": "Local agricultural organization involved in preserving Waseda myoga cultivation.",
+       "source_url": "https://www.tokyo-ja.or.jp/wp/archives/2953"
+      },
+      {
+       "name_ja": "大年健士",
+       "relation_en": "Agricultural organization leader interviewed about the preservation project.",
+       "source_url": "https://www.tokyo-ja.or.jp/wp/archives/2953"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Preservation-oriented cultivation; commercial sales and farm visits are not verified."
+    },
+    {
+     "name_ja": "伊勢海老漁",
+     "name_en": "Autumn spiny-lobster fishery",
+     "kind": "fishing",
+     "summary_en": "Spiny lobster is an important Miyakejima seafood specialty, with an autumn fishery and local consumption tradition.",
+     "facts": [
+      {
+       "claim_en": "Miyake Village identifies autumn as the start of its spiny-lobster fishery and describes local consumption.",
+       "source_url": "https://www.vill.miyake.tokyo.jp/kankou/tokusanhin.html",
+       "source_title": "主要特産品の紹介",
+       "publisher": "三宅村"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "いきいきお魚センター",
+       "name_en": "Ikiiki Fish Center",
+       "relation_en": "Island fishery-linked outlet for local seafood; specific lobster stock is not established.",
+       "address_ja": "東京都三宅村阿古680",
+       "official_url": "https://www.miyakejima.gr.jp/eatbuy/ikiikiosakanacenter/",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/ikiikiosakanacenter/"
+      }
+     ],
+     "makers": [],
+     "season_en": "Autumn fishery.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "ムロアジ・トビウオ・タカベ漁",
+     "name_en": "Mackerel scad, flying fish and takabe fisheries",
+     "kind": "fishing",
+     "summary_en": "Miyakejima's coastal food culture includes catching mackerel scad, flying fish and takabe, supplying fresh meals and preserved fish products.",
+     "facts": [
+      {
+       "claim_en": "Miyake Village lists mackerel scad, flying fish and takabe among its principal seafood catches.",
+       "source_url": "https://www.vill.miyake.tokyo.jp/kankou/tokusanhin.html",
+       "source_title": "主要特産品の紹介",
+       "publisher": "三宅村"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "いきいきお魚センター",
+       "name_en": "Ikiiki Fish Center",
+       "relation_en": "Island seafood sales center connected to locally caught fish and fish products.",
+       "address_ja": "東京都三宅村阿古680",
+       "official_url": "https://www.miyakejima.gr.jp/eatbuy/ikiikiosakanacenter/",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/ikiikiosakanacenter/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "カツオ・金目鯛・カジキなどの沖合漁",
+     "name_en": "Offshore bonito, kinmedai and marlin fisheries",
+     "kind": "fishing",
+     "summary_en": "Miyakejima's marine economy includes offshore catches such as bonito, kinmedai and marlin, complementing its nearshore fisheries.",
+     "facts": [
+      {
+       "claim_en": "Miyake Village identifies bonito, kinmedai and marlin among its local seafood specialties.",
+       "source_url": "https://www.vill.miyake.tokyo.jp/kankou/tokusanhin.html",
+       "source_title": "主要特産品の紹介",
+       "publisher": "三宅村"
+      },
+      {
+       "claim_en": "A Tokyo Islands interview documents a local fisher catching offshore fish including kinmedai and bonito.",
+       "source_url": "https://www.tokyoislands-net.jp/news/17528/",
+       "source_title": "三宅島の漁業者紹介",
+       "publisher": "東京都島しょ振興公社・東京愛らんど"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "いきいきお魚センター",
+       "name_en": "Ikiiki Fish Center",
+       "relation_en": "Accessible retail connection to the island's fishing industry.",
+       "address_ja": "東京都三宅村阿古680",
+       "official_url": "https://www.miyakejima.gr.jp/eatbuy/ikiikiosakanacenter/",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/ikiikiosakanacenter/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "トコブシ・サザエなどの磯の幸",
+     "name_en": "Abalone relatives and turban-shell seafood",
+     "kind": "fishing",
+     "summary_en": "Rocky coastal shellfish, including tokobushi and turban shells, form another part of Miyakejima's seafood culture.",
+     "facts": [
+      {
+       "claim_en": "Miyake Village lists tokobushi and turban shells among its major marine specialties.",
+       "source_url": "https://www.vill.miyake.tokyo.jp/kankou/tokusanhin.html",
+       "source_title": "主要特産品の紹介",
+       "publisher": "三宅村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Commercial seafood culture is documented; visitor shellfish gathering is not established."
+    },
+    {
+     "name_ja": "三宅島のくさや",
+     "name_en": "Miyakejima fermented dried fish",
+     "kind": "dish",
+     "summary_en": "Miyakejima participates in the Izu Islands' kusaya tradition of preserving fish in fermented brine before drying.",
+     "facts": [
+      {
+       "claim_en": "Miyake Village includes kusaya among its locally produced specialty foods.",
+       "source_url": "https://www.vill.miyake.tokyo.jp/kankou/tokusanhin.html",
+       "source_title": "主要特産品の紹介",
+       "publisher": "三宅村"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "いきいきお魚センター",
+       "name_en": "Ikiiki Fish Center",
+       "relation_en": "Local fish-product retailer; specific kusaya inventory is not confirmed.",
+       "address_ja": "東京都三宅村阿古680",
+       "official_url": "https://www.miyakejima.gr.jp/eatbuy/ikiikiosakanacenter/",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/ikiikiosakanacenter/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "ムロアジ・トビウオ・明日葉の燻製",
+     "name_en": "Smoked local fish and ashitaba",
+     "kind": "brand",
+     "summary_en": "A modern preservation product combines island-caught mackerel scad and flying fish with ashitaba, using smoking techniques connected to Miyakejima's volcanic landscape.",
+     "facts": [
+      {
+       "claim_en": "The Tokyo Islands promotion organization documents smoked mackerel scad, flying fish and ashitaba developed on Miyakejima.",
+       "source_url": "https://www.tokyoislands-net.jp/news/19071/",
+       "source_title": "三宅島の燻製特産品",
+       "publisher": "東京都島しょ振興公社・東京愛らんど"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "いきいきお魚センター",
+       "name_en": "Ikiiki Fish Center",
+       "relation_en": "Outlet associated in the source with local smoked-food products.",
+       "address_ja": "東京都三宅村阿古680",
+       "official_url": "https://www.miyakejima.gr.jp/eatbuy/ikiikiosakanacenter/",
+       "source_url": "https://www.tokyoislands-net.jp/news/19071/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ヤマノベ",
+       "relation_en": "Local business associated with developing smoked island ingredients.",
+       "source_url": "https://www.tokyoislands-net.jp/news/19071/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The cited product feature documents a particular production initiative; continuing retail stock is not guaranteed."
+    },
+    {
+     "name_ja": "オオブサ天草",
+     "name_en": "Oobusa tengusa seaweed",
+     "kind": "brand",
+     "summary_en": "Miyakejima's high-quality oobusa seaweed was historically well known as a branded source of agar-producing tengusa. Production declined following volcanic disruption.",
+     "facts": [
+      {
+       "claim_en": "Miyake Village describes oobusa tengusa as a historically famous Miyakejima brand and notes that current production remains limited.",
+       "source_url": "https://www.vill.miyake.tokyo.jp/kankou/tokusanhin.html",
+       "source_title": "主要特産品の紹介",
+       "publisher": "三宅村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Historical brand importance should not be taken to indicate plentiful current supply."
+    },
+    {
+     "name_ja": "天草ところてん・寒天あんみつ",
+     "name_en": "Tengusa tokoroten and agar anmitsu",
+     "kind": "dish",
+     "summary_en": "The island's seaweed tradition appears in tokoroten and agar-based sweets served at a local cafe.",
+     "facts": [
+      {
+       "claim_en": "Gallery Cafe Canon is described as offering tokoroten and anmitsu connected to island tengusa.",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/cafecanon/",
+       "source_title": "ギャラリー カフェ カノン",
+       "publisher": "三宅島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ギャラリー カフェ カノン",
+       "name_en": "Gallery Cafe Canon",
+       "relation_en": "Cafe connecting local seaweed with tokoroten and agar desserts.",
+       "address_ja": "東京都三宅村伊豆36",
+       "official_url": "https://www.miyakejima.gr.jp/eatbuy/cafecanon/",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/cafecanon/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "トサカノリ",
+     "name_en": "Tosakanori edible seaweed",
+     "kind": "foraging",
+     "summary_en": "Tosakanori is another seaweed identified among Miyakejima's marine food resources, distinct from its tengusa agar tradition.",
+     "facts": [
+      {
+       "claim_en": "Miyake Village lists tosakanori among its major seafood products.",
+       "source_url": "https://www.vill.miyake.tokyo.jp/kankou/tokusanhin.html",
+       "source_title": "主要特産品の紹介",
+       "publisher": "三宅村"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "No visitor harvesting opportunity is established."
+    },
+    {
+     "name_ja": "岩のりラーメン",
+     "name_en": "Rocky-seaweed ramen",
+     "kind": "dish",
+     "summary_en": "A locally associated ramen dish features seaweed gathered during the colder season, combining traditional marine ingredients with contemporary island dining.",
+     "facts": [
+      {
+       "claim_en": "The Tokyo Islands tourism guide highlights rocky-seaweed ramen at Hirano Shokudo.",
+       "source_url": "https://www.t-treasureislands.metro.tokyo.lg.jp/miyakejima/",
+       "source_title": "三宅島",
+       "publisher": "東京都・東京宝島"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "平野食堂",
+       "name_en": "Hirano Shokudo",
+       "relation_en": "Restaurant associated with rocky-seaweed ramen.",
+       "address_ja": "東京都三宅村阿古691-6",
+       "official_url": "https://www.miyakejima.gr.jp/eatbuy/hiranosyokudou/",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/hiranosyokudou/"
+      }
+     ],
+     "makers": [],
+     "season_en": "Winter seaweed gathering is associated with this dish.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "島とうがらしの南国チャーハン",
+     "name_en": "Island-chili fried rice",
+     "kind": "dish",
+     "summary_en": "A modern local dish uses island chili peppers to give fried rice a distinctive Miyakejima flavor.",
+     "facts": [
+      {
+       "claim_en": "Official Tokyo Islands food information features chili-flavored Nankoku fried rice associated with Coconut Garden.",
+       "source_url": "https://www.tokyoislands-net.jp/islands/miyakejima/",
+       "source_title": "三宅島",
+       "publisher": "東京都島しょ振興公社・東京愛らんど"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ココナッツガーデン",
+       "name_en": "Coconut Garden",
+       "relation_en": "Dining venue associated with island-chili fried rice.",
+       "address_ja": "東京都三宅村阿古531",
+       "official_url": "https://www.miyakejima.gr.jp/eatbuy/coconutgarden/",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/coconutgarden/"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "牛乳煎餅",
+     "name_en": "Miyakejima milk crackers",
+     "kind": "sweet",
+     "summary_en": "Thin milk-flavored crackers are an established Miyakejima souvenir sweet, with a locally identified confectionery producer.",
+     "facts": [
+      {
+       "claim_en": "Miyake Village lists milk crackers as a specialty confection.",
+       "source_url": "https://www.vill.miyake.tokyo.jp/kankou/tokusanhin.html",
+       "source_title": "主要特産品の紹介",
+       "publisher": "三宅村"
+      },
+      {
+       "claim_en": "The tourism association identifies Okataro Honpo as a local confectionery business associated with milk crackers.",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/okatarou-honten/",
+       "source_title": "岡太楼本舗",
+       "publisher": "三宅島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "岡太楼本舗",
+       "name_en": "Okataro Honpo",
+       "relation_en": "Local maker of the island's signature milk crackers.",
+       "address_ja": "東京都三宅村神着1168",
+       "official_url": "https://www.miyakejima.gr.jp/eatbuy/okatarou-honten/",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/okatarou-honten/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "岡太楼本舗",
+       "relation_en": "Confectionery producer.",
+       "source_url": "https://www.miyakejima.gr.jp/eatbuy/okatarou-honten/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The confection is locally produced; local milk sourcing is not asserted."
+    },
+    {
+     "name_ja": "雄山一",
+     "name_en": "Oyamaichi island shochu",
+     "kind": "drink",
+     "summary_en": "An island shochu brand associated with the revival of Miyakejima distilling after the 2000 volcanic eruption and evacuation.",
+     "facts": [
+      {
+       "claim_en": "The island-shochu producers' directory identifies Oyamaichi as a Miyakejima shochu associated with Miyakejima Shuzo.",
+       "source_url": "https://shimazake.com/kuramotolist/miyakejima/",
+       "source_title": "三宅島の蔵元",
+       "publisher": "東京七島酒造組合"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "三宅島酒造株式会社",
+       "name_en": "Miyakejima Shuzo",
+       "relation_en": "Shochu producer associated with Oyamaichi.",
+       "address_ja": "東京都三宅島三宅村神着1198-1",
+       "official_url": "https://shimazake.com/kuramotolist/miyakejima/",
+       "source_url": "https://shimazake.com/kuramotolist/miyakejima/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "三宅島酒造株式会社",
+       "relation_en": "Producer of Oyamaichi island shochu.",
+       "source_url": "https://shimazake.com/kuramotolist/miyakejima/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The production address is documented, but distillery tours are not verified."
+    },
+    {
+     "name_ja": "御赦免料理",
+     "name_en": "Goshámen historical pardon cuisine",
+     "kind": "dish",
+     "summary_en": "A contemporary reconstruction of food connected to Edo-period island exile and the granting of a pardon. It brings Miyakejima's history into a distinct dining experience.",
+     "facts": [
+      {
+       "claim_en": "Tokyo Grown describes historical pardon-themed cuisine served by Yamanobe Ryokan, drawing on Miyakejima's exile history.",
+       "source_url": "https://tokyogrown.jp/node/571772",
+       "source_title": "御赦免料理・ヤマノベ旅館",
+       "publisher": "とうきょうの恵み TOKYO GROWN"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ヤマノベ旅館",
+       "name_en": "Yamanobe Ryokan",
+       "relation_en": "Accommodation and dining business presenting historical pardon-themed island cuisine.",
+       "address_ja": "東京都三宅島三宅村阿古1544",
+       "official_url": "https://tokyogrown.jp/node/571772",
+       "source_url": "https://tokyogrown.jp/node/571772"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ヤマノベ旅館",
+       "relation_en": "Developer and presenter of the historically themed food experience.",
+       "source_url": "https://tokyogrown.jp/node/571772"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The historical interpretation is documented; no present-day dining availability is implied."
+    },
+    {
+     "name_ja": "島の釜めし",
+     "name_en": "Miyakejima island pot rice",
+     "kind": "dish",
+     "summary_en": "Pot-cooked rice incorporating local ingredients is presented as part of contemporary Miyakejima cuisine.",
+     "facts": [
+      {
+       "claim_en": "Tokyo Grown features island pot rice among dishes associated with Yamanobe Ryokan.",
+       "source_url": "https://tokyogrown.jp/node/571772",
+       "source_title": "御赦免料理・ヤマノベ旅館",
+       "publisher": "とうきょうの恵み TOKYO GROWN"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ヤマノベ旅館",
+       "name_en": "Yamanobe Ryokan",
+       "relation_en": "Dining venue associated with island pot rice.",
+       "address_ja": "東京都三宅島三宅村阿古1544",
+       "official_url": "https://tokyogrown.jp/node/571772",
+       "source_url": "https://tokyogrown.jp/node/571772"
+      }
+     ],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "船祝い・伊勢海老味噌汁",
+     "name_en": "New Year fishing-boat celebration and lobster miso soup",
+     "kind": "other",
+     "summary_en": "The island's annual fishing-boat celebrations connect wishes for safety and good catches with a communal food tradition that includes spiny-lobster miso soup.",
+     "facts": [
+      {
+       "claim_en": "Tokyo Metropolitan Government information describes the January 2 boat celebration and its association with spiny-lobster miso soup.",
+       "source_url": "https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/kokuritsu/fujihakone/miyakejima/tourism.html",
+       "source_title": "三宅島の観光情報",
+       "publisher": "東京都環境局"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "January 2.",
+     "confidence": "high",
+     "notes_en": "A community fishing ritual, not a guaranteed tourist meal."
+    }
+   ],
+   "none_found_reason_en": ""
+  },
+  {
+   "id": "mikurajima",
+   "name_ja": "御蔵島村",
+   "food_cultures": [
+    {
+     "name_ja": "明日葉",
+     "name_en": "Mikurajima ashitaba",
+     "kind": "foraging",
+     "summary_en": "Ashitaba grows on Mikurajima and is used in traditional dishes as well as modern snacks. The island's relatively substantial stems are also part of its edible appeal.",
+     "facts": [
+      {
+       "claim_en": "Tokyo Islands tourism information highlights Mikurajima's ashitaba, including the edible stems.",
+       "source_url": "https://www.tokyoislands-net.jp/islands/mikurajima/",
+       "source_title": "御蔵島",
+       "publisher": "東京都島しょ振興公社・東京愛らんど"
+      },
+      {
+       "claim_en": "Village life information describes gathering edible wild plants including ashitaba.",
+       "source_url": "https://www.mikurasima-recruit.jp/life/food/",
+       "source_title": "御蔵島の食生活",
+       "publisher": "御蔵島村関連情報サイト"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ふくまる商店",
+       "name_en": "Fukumaru Shoten",
+       "relation_en": "Island specialty shop using ashitaba in sweets and frozen desserts.",
+       "address_ja": "",
+       "official_url": "https://290.tokyo/",
+       "source_url": "https://www.tokyoislands-net.jp/islands/mikurajima/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ふくまる商店",
+       "relation_en": "Processes island ashitaba into locally identified products.",
+       "source_url": "https://www.tokyoislands-net.jp/news/17359/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Wild harvesting is a local practice; no visitor-foraging permission is established."
+    },
+    {
+     "name_ja": "明日葉ジェラート",
+     "name_en": "Ashitaba gelato",
+     "kind": "sweet",
+     "summary_en": "A contemporary island dessert incorporating ashitaba into gelato, developed by a local specialty shop.",
+     "facts": [
+      {
+       "claim_en": "The official Tokyo Islands guide identifies ashitaba gelato made by Fukumaru Shoten.",
+       "source_url": "https://www.tokyoislands-net.jp/islands/mikurajima/",
+       "source_title": "御蔵島",
+       "publisher": "東京都島しょ振興公社・東京愛らんど"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ふくまる商店",
+       "name_en": "Fukumaru Shoten",
+       "relation_en": "Maker and island retail location associated with ashitaba gelato.",
+       "address_ja": "",
+       "official_url": "https://290.tokyo/",
+       "source_url": "https://www.tokyoislands-net.jp/islands/mikurajima/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ふくまる商店",
+       "relation_en": "Local gelato producer.",
+       "source_url": "https://290.tokyo/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "明日葉スパムにぎり",
+     "name_en": "Ashitaba Spam rice balls",
+     "kind": "dish",
+     "summary_en": "A modern Mikurajima takeaway food combining ashitaba-seasoned rice with Spam and egg.",
+     "facts": [
+      {
+       "claim_en": "The Tokyo Islands guide features an ashitaba Spam rice-ball lunch associated with Nishikawa Shoten.",
+       "source_url": "https://www.tokyoislands-net.jp/islands/mikurajima/",
+       "source_title": "御蔵島",
+       "publisher": "東京都島しょ振興公社・東京愛らんど"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "西川商店",
+       "name_en": "Nishikawa Shoten",
+       "relation_en": "Shop associated with the locally flavored rice-ball lunch.",
+       "address_ja": "",
+       "official_url": "https://mikura-isle.com/category/shops/",
+       "source_url": "https://www.tokyoislands-net.jp/islands/mikurajima/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "西川商店",
+       "relation_en": "Shop offering the locally flavored rice-ball product.",
+       "source_url": "https://www.tokyoislands-net.jp/islands/mikurajima/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The guide describes an occasional offering; it is not established as continuously available."
+    },
+    {
+     "name_ja": "かぶつ柑",
+     "name_en": "Kabutsu bitter orange",
+     "kind": "crop",
+     "summary_en": "Kabutsu, a local bitter-orange citrus, has deep roots in Mikurajima households and ritual life. Its juice and peel are now used in condiments, drinks and sweets.",
+     "facts": [
+      {
+       "claim_en": "An island shopkeeper's interview describes kabutsu as a locally important citrus historically grown around homes and used for New Year customs and cooking.",
+       "source_url": "https://www.tokyoislands-net.jp/news/17359/",
+       "source_title": "御蔵島・ふくまる商店の特産品紹介",
+       "publisher": "東京都島しょ振興公社・東京愛らんど"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ふくまる商店",
+       "name_en": "Fukumaru Shoten",
+       "relation_en": "Local maker of sweets and seasonings using kabutsu.",
+       "address_ja": "",
+       "official_url": "https://290.tokyo/",
+       "source_url": "https://www.tokyoislands-net.jp/news/17359/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ふくまる商店",
+       "relation_en": "Processes local kabutsu into food products.",
+       "source_url": "https://www.tokyoislands-net.jp/news/17359/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "かぶつ胡椒",
+     "name_en": "Kabutsu citrus-chili paste",
+     "kind": "brand",
+     "summary_en": "A distinctive island condiment combines kabutsu citrus with chili peppers, expressing a modern use of a historically important local fruit.",
+     "facts": [
+      {
+       "claim_en": "An official island interview describes kabutsu-kosho developed in collaboration with the local agricultural cooperative.",
+       "source_url": "https://www.tokyoislands-net.jp/news/17359/",
+       "source_title": "御蔵島・ふくまる商店の特産品紹介",
+       "publisher": "東京都島しょ振興公社・東京愛らんど"
+      },
+      {
+       "claim_en": "The island tourism association lists kabutsu-kosho among products associated with the agricultural cooperative.",
+       "source_url": "https://mikura-isle.com/category/shops/",
+       "source_title": "御蔵島の商店",
+       "publisher": "御蔵島観光協会"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "御蔵島村農協",
+       "name_en": "Mikurajima Agricultural Cooperative",
+       "relation_en": "Cooperative associated with island kabutsu condiments.",
+       "address_ja": "",
+       "official_url": "https://mikura-isle.com/category/shops/",
+       "source_url": "https://mikura-isle.com/category/shops/"
+      },
+      {
+       "name_ja": "ふくまる商店",
+       "name_en": "Fukumaru Shoten",
+       "relation_en": "Product-development partner associated with kabutsu-kosho.",
+       "address_ja": "",
+       "official_url": "https://290.tokyo/",
+       "source_url": "https://www.tokyoislands-net.jp/news/17359/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ふくまる商店",
+       "relation_en": "Local shop involved in developing kabutsu-kosho.",
+       "source_url": "https://www.tokyoislands-net.jp/news/17359/"
+      },
+      {
+       "name_ja": "御蔵島村農協",
+       "relation_en": "Agricultural cooperative associated with the condiment.",
+       "source_url": "https://mikura-isle.com/category/shops/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "かぶつの酢味噌",
+     "name_en": "Kabutsu citrus-miso dressing",
+     "kind": "dish",
+     "summary_en": "A traditional dressing combining kabutsu juice and miso, reflecting the island's historical use of local citrus when other souring ingredients were limited.",
+     "facts": [
+      {
+       "claim_en": "The Mikurajima traditional-food preservation project documents a miso dressing flavored with kabutsu citrus.",
+       "source_url": "https://cookpad.com/jp/recipes/21267145",
+       "source_title": "かぶつ柑（だいだい）の酢味噌",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "御蔵島郷土料理保存会",
+       "relation_en": "Community preservation initiative documenting the local recipe.",
+       "source_url": "https://www.t-treasureislands.metro.tokyo.lg.jp/information/archive/2023-mikura1.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Recorded household recipe; public food service is not verified."
+    },
+    {
+     "name_ja": "かぶつサワー",
+     "name_en": "Kabutsu citrus sour",
+     "kind": "drink",
+     "summary_en": "The island's own citrus is used in a contemporary alcoholic sour, extending kabutsu into local drinking culture.",
+     "facts": [
+      {
+       "claim_en": "Village lifestyle information mentions an island drink made with kabutsu citrus.",
+       "source_url": "https://www.mikurasima-recruit.jp/life/food/",
+       "source_title": "御蔵島の食生活",
+       "publisher": "御蔵島村関連情報サイト"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The source does not establish a named venue with verified current service."
+    },
+    {
+     "name_ja": "かぶつ酒",
+     "name_en": "Kabutsu-infused liquor",
+     "kind": "drink",
+     "summary_en": "A citrus-infused alcoholic preparation documented as a way to use Mikurajima's characteristic kabutsu fruit.",
+     "facts": [
+      {
+       "claim_en": "The Mikurajima food-project recipe collection documents kabutsu-infused liquor.",
+       "source_url": "https://cookpad.com/jp/recipes/20608862",
+       "source_title": "かぶつ酒",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Recipe evidence only; commercial production is not established."
+    },
+    {
+     "name_ja": "かぶつマーマレード",
+     "name_en": "Kabutsu marmalade",
+     "kind": "sweet",
+     "summary_en": "A preserve made using local bitter-orange citrus, turning the island's distinctive fruit into a spread.",
+     "facts": [
+      {
+       "claim_en": "The Mikurajima food-project account documents marmalade made from kabutsu.",
+       "source_url": "https://cookpad.com/jp/recipes/20608784",
+       "source_title": "かぶつマーマレード",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The recipe does not itself prove commercial supply."
+    },
+    {
+     "name_ja": "かぶつの菓子・シャーベット",
+     "name_en": "Kabutsu cookies and sorbet",
+     "kind": "sweet",
+     "summary_en": "Contemporary local sweets use kabutsu peel and juice in baked cookies and refreshing frozen desserts.",
+     "facts": [
+      {
+       "claim_en": "The island food-project recipe collection documents cookies flavored with kabutsu citrus.",
+       "source_url": "https://cookpad.com/jp/recipes/20608649",
+       "source_title": "かぶつディアマンクッキー",
+       "publisher": "御蔵島★東京宝島"
+      },
+      {
+       "claim_en": "The official Tokyo Islands guide identifies kabutsu sorbet among island specialty frozen desserts.",
+       "source_url": "https://www.tokyoislands-net.jp/islands/mikurajima/",
+       "source_title": "御蔵島",
+       "publisher": "東京都島しょ振興公社・東京愛らんど"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ふくまる商店",
+       "name_en": "Fukumaru Shoten",
+       "relation_en": "Island shop associated with locally flavored sorbet and confectionery.",
+       "address_ja": "",
+       "official_url": "https://290.tokyo/",
+       "source_url": "https://www.tokyoislands-net.jp/islands/mikurajima/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ふくまる商店",
+       "relation_en": "Local shop producing island-flavor sweets.",
+       "source_url": "https://290.tokyo/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The cookies are documented as a recipe, not necessarily as a retail product."
+    },
+    {
+     "name_ja": "パッションフルーツ",
+     "name_en": "Mikurajima passion fruit",
+     "kind": "crop",
+     "summary_en": "Passion fruit grown on the island supplies a distinctive ingredient for local frozen desserts.",
+     "facts": [
+      {
+       "claim_en": "The Tokyo Islands guide describes Mikurajima-grown passion fruit used in local frozen desserts.",
+       "source_url": "https://www.tokyoislands-net.jp/islands/mikurajima/",
+       "source_title": "御蔵島",
+       "publisher": "東京都島しょ振興公社・東京愛らんど"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ふくまる商店",
+       "name_en": "Fukumaru Shoten",
+       "relation_en": "Shop processing local passion fruit into a frozen dessert.",
+       "address_ja": "",
+       "official_url": "https://290.tokyo/",
+       "source_url": "https://www.tokyoislands-net.jp/islands/mikurajima/"
+      }
+     ],
+     "makers": [],
+     "season_en": "Fresh fruit is seasonal.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "パッションフルーツジェラート",
+     "name_en": "Passion-fruit gelato",
+     "kind": "sweet",
+     "summary_en": "A contemporary island dessert showcasing locally grown passion fruit.",
+     "facts": [
+      {
+       "claim_en": "Tokyo Islands tourism information features passion-fruit gelato using fruit grown on Mikurajima.",
+       "source_url": "https://www.tokyoislands-net.jp/islands/mikurajima/",
+       "source_title": "御蔵島",
+       "publisher": "東京都島しょ振興公社・東京愛らんど"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ふくまる商店",
+       "name_en": "Fukumaru Shoten",
+       "relation_en": "Shop associated with locally grown passion-fruit gelato.",
+       "address_ja": "",
+       "official_url": "https://290.tokyo/",
+       "source_url": "https://www.tokyoislands-net.jp/islands/mikurajima/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ふくまる商店",
+       "relation_en": "Island gelato producer.",
+       "source_url": "https://290.tokyo/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "島塩ミルクジェラート",
+     "name_en": "Island-salt milk gelato",
+     "kind": "sweet",
+     "summary_en": "A sweet-and-salty frozen dessert incorporating island salt.",
+     "facts": [
+      {
+       "claim_en": "The official island guide lists island-salt milk gelato associated with Fukumaru Shoten.",
+       "source_url": "https://www.tokyoislands-net.jp/islands/mikurajima/",
+       "source_title": "御蔵島",
+       "publisher": "東京都島しょ振興公社・東京愛らんど"
+      }
+     ],
+     "places": [
+      {
+       "name_ja": "ふくまる商店",
+       "name_en": "Fukumaru Shoten",
+       "relation_en": "Shop associated with the island-salt frozen dessert.",
+       "address_ja": "",
+       "official_url": "https://290.tokyo/",
+       "source_url": "https://www.tokyoislands-net.jp/islands/mikurajima/"
+      }
+     ],
+     "makers": [
+      {
+       "name_ja": "ふくまる商店",
+       "relation_en": "Producer of locally flavored gelato.",
+       "source_url": "https://290.tokyo/"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The milk's origin is not asserted."
+    },
+    {
+     "name_ja": "御蔵の源水",
+     "name_en": "Mikura no Gensui spring water",
+     "kind": "drink",
+     "summary_en": "Bottled island spring water connects Mikurajima's forested landscape and abundant natural water with a locally branded beverage.",
+     "facts": [
+      {
+       "claim_en": "Tokyo Islands tourism information identifies Mikura no Gensui as a bottled water associated with the island.",
+       "source_url": "https://www.tokyoislands-net.jp/islands/mikurajima/",
+       "source_title": "御蔵島",
+       "publisher": "東京都島しょ振興公社・東京愛らんど"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "しょっから",
+     "name_en": "Shokkara fermented fish seasoning",
+     "kind": "other",
+     "summary_en": "A strongly flavored seasoning made by fermenting small fish, especially muroaji, preserving a distinctive Mikurajima seafood tradition.",
+     "facts": [
+      {
+       "claim_en": "Japan's Ministry of Agriculture documents shokkara as a fermented fish product central to Mikurajima's traditional soup.",
+       "source_url": "https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/34_9_tokyo.html",
+       "source_title": "しょっから汁 東京都",
+       "publisher": "農林水産省"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A historical food-preservation tradition; no commercial maker is confirmed."
+    },
+    {
+     "name_ja": "しょっから汁",
+     "name_en": "Shokkara fermented-fish soup",
+     "kind": "dish",
+     "summary_en": "A distinctive Mikurajima soup flavored with fermented fish and incorporating island vegetables such as taro and ashitaba.",
+     "facts": [
+      {
+       "claim_en": "MAFF records shokkara-jiru as a traditional Mikurajima dish made with fermented fish seasoning and vegetables.",
+       "source_url": "https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/34_9_tokyo.html",
+       "source_title": "しょっから汁 東京都",
+       "publisher": "農林水産省"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Traditionally associated with the colder part of the year.",
+     "confidence": "high",
+     "notes_en": "MAFF describes a declining household tradition; no visitor-serving venue is verified."
+    },
+    {
+     "name_ja": "ササヨのワタ汁",
+     "name_en": "Sasayo fish-viscera soup",
+     "kind": "dish",
+     "summary_en": "A traditional soup using the internal organs of sasayo fish, reflecting a culture of using locally caught seafood thoroughly.",
+     "facts": [
+      {
+       "claim_en": "The island traditional-food collection records sasayo no wata-jiru as a regional fish soup and connects it with winter fishing practices.",
+       "source_url": "https://cookpad.com/jp/recipes/21233371",
+       "source_title": "ササヨのワタ汁",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "御蔵島郷土料理保存会",
+       "relation_en": "Group associated with preserving this household recipe.",
+       "source_url": "https://www.t-treasureislands.metro.tokyo.lg.jp/information/archive/2023-mikura1.html"
+      }
+     ],
+     "season_en": "Winter.",
+     "confidence": "high",
+     "notes_en": "Traditional household preparation; restaurant availability is not established."
+    },
+    {
+     "name_ja": "はんば・はばのり採り",
+     "name_en": "Winter hamba seaweed gathering",
+     "kind": "foraging",
+     "summary_en": "Gathering and drying hamba seaweed is an island coastal food practice, with the resulting seaweed used in rice and associated with seasonal fishing.",
+     "facts": [
+      {
+       "claim_en": "The preserved traditional-food recipes document winter hamba seaweed gathered and dried for cooking.",
+       "source_url": "https://cookpad.com/jp/recipes/21193237",
+       "source_title": "はんばご飯",
+       "publisher": "御蔵島★東京宝島"
+      },
+      {
+       "claim_en": "The sasayo soup tradition links local winter fishing with hamba seaweed.",
+       "source_url": "https://cookpad.com/jp/recipes/21233371",
+       "source_title": "ササヨのワタ汁",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Winter.",
+     "confidence": "high",
+     "notes_en": "The source documents traditional collection; it does not authorize tourist gathering."
+    },
+    {
+     "name_ja": "はんばご飯",
+     "name_en": "Hamba seaweed rice",
+     "kind": "dish",
+     "summary_en": "A rice preparation incorporating locally gathered and dried hamba seaweed, preserving Mikurajima's coastal harvesting tradition.",
+     "facts": [
+      {
+       "claim_en": "The island's traditional-food project documents rice prepared with dried hamba seaweed.",
+       "source_url": "https://cookpad.com/jp/recipes/21193237",
+       "source_title": "はんばご飯",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Seaweed traditionally gathered in winter.",
+     "confidence": "high",
+     "notes_en": "Household recipe, not confirmed restaurant fare."
+    },
+    {
+     "name_ja": "くさや",
+     "name_en": "Mikurajima fermented dried fish",
+     "kind": "dish",
+     "summary_en": "Mikurajima is among the islands linked to the regional kusaya tradition of preserving fish in reused fermented brine.",
+     "facts": [
+      {
+       "claim_en": "Tokyo's designated regional-resource information includes Mikurajima among municipalities associated with kusaya.",
+       "source_url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_18.html",
+       "source_title": "くさや",
+       "publisher": "東京都"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Specific present-day Mikurajima producers were not verified."
+    },
+    {
+     "name_ja": "キクラゲの炒り味噌",
+     "name_en": "Wood-ear mushroom with roasted miso",
+     "kind": "dish",
+     "summary_en": "A preserved island recipe combines locally gathered wood-ear mushrooms with miso.",
+     "facts": [
+      {
+       "claim_en": "The traditional-food project documents a Mikurajima dish of wood-ear mushrooms cooked with miso.",
+       "source_url": "https://cookpad.com/jp/recipes/21114621",
+       "source_title": "キクラゲの炒り味噌",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The underlying wild-mushroom tradition is documented, but visitor foraging and commercial service are not."
+    },
+    {
+     "name_ja": "シラミミの煮物",
+     "name_en": "Simmered shiramimi wild mushrooms",
+     "kind": "dish",
+     "summary_en": "A traditional household preparation of local wild fungi simmered in a seasoned broth.",
+     "facts": [
+      {
+       "claim_en": "The island traditional-food collection documents simmered shiramimi mushrooms.",
+       "source_url": "https://cookpad.com/jp/recipes/21115701",
+       "source_title": "シラミミ（きのこ）の煮物",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Not a verified restaurant dish or a recommendation to identify and gather wild mushrooms independently."
+    },
+    {
+     "name_ja": "シラミミの天ぷら",
+     "name_en": "Shiramimi mushroom tempura",
+     "kind": "dish",
+     "summary_en": "A second traditional use of the island's wild shiramimi mushrooms, prepared as tempura.",
+     "facts": [
+      {
+       "claim_en": "The Mikurajima traditional-food project records deep-fried shiramimi mushrooms.",
+       "source_url": "https://cookpad.com/jp/recipes/21111351",
+       "source_title": "シラミミの天ぷら",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Historical or household recipe; no visitor-serving venue is established."
+    },
+    {
+     "name_ja": "かじゅうりの天ぷら",
+     "name_en": "Kajuuri wild-fruit fritters",
+     "kind": "dish",
+     "summary_en": "An unusual traditional sweet fritter made from kajuuri, a locally gathered wild fruit.",
+     "facts": [
+      {
+       "claim_en": "The island preservation project records kajuuri fruit prepared as sweet fritters.",
+       "source_url": "https://cookpad.com/jp/recipes/21072880",
+       "source_title": "かじゅうりの天ぷら《御蔵島の伝統食》",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Autumn, associated with the fruit's collection period.",
+     "confidence": "high",
+     "notes_en": "A recorded traditional recipe; no independent wild-plant identification or gathering is recommended."
+    },
+    {
+     "name_ja": "さつまいも・アメリカ芋",
+     "name_en": "Sweet potatoes and the American sweet-potato variety",
+     "kind": "crop",
+     "summary_en": "Sweet potatoes historically sustained island households and served as the basis for rice-extending dishes, sweets and a traditional syrup.",
+     "facts": [
+      {
+       "claim_en": "The island food-history project documents sweet potatoes as the basis for traditional Mikurajima dishes and sweets.",
+       "source_url": "https://cookpad.com/jp/recipes/21225183",
+       "source_title": "サツマのご飯",
+       "publisher": "御蔵島★東京宝島"
+      },
+      {
+       "claim_en": "The project associates a locally grown American sweet-potato variety with historical sweet-potato candy production.",
+       "source_url": "https://cookpad.com/jp/recipes/20673264",
+       "source_title": "いもあめ",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Historical food culture is established; commercial crop availability is not."
+    },
+    {
+     "name_ja": "サツマのご飯",
+     "name_en": "Sweet-potato rice",
+     "kind": "dish",
+     "summary_en": "A household rice dish incorporating sweet potatoes, reflecting their importance in stretching limited rice supplies.",
+     "facts": [
+      {
+       "claim_en": "The island traditional-food project records sweet-potato rice as part of Mikurajima's regional cuisine.",
+       "source_url": "https://cookpad.com/jp/recipes/21225183",
+       "source_title": "サツマのご飯",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Household food-history documentation."
+    },
+    {
+     "name_ja": "サツマの潰し揚げ",
+     "name_en": "Fried mashed sweet potatoes",
+     "kind": "sweet",
+     "summary_en": "A traditional fried sweet made from mashed sweet potatoes.",
+     "facts": [
+      {
+       "claim_en": "The traditional-food collection documents fried mashed sweet potatoes as a Mikurajima preparation.",
+       "source_url": "https://cookpad.com/jp/recipes/21230334",
+       "source_title": "サツマの潰し揚げ",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A recorded household sweet, not a confirmed shop item."
+    },
+    {
+     "name_ja": "いもあめ",
+     "name_en": "Traditional sweet-potato syrup candy",
+     "kind": "sweet",
+     "summary_en": "An old Mikurajima sweet made by transforming sweet-potato starch into a syrup, reflecting ingenuity when sugar was scarce.",
+     "facts": [
+      {
+       "claim_en": "The island preservation project documents a traditional sweet-potato candy associated with the American sweet-potato variety.",
+       "source_url": "https://cookpad.com/jp/recipes/20673264",
+       "source_title": "いもあめ",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "御蔵島郷土料理保存会",
+       "relation_en": "Community project involved in restoring and documenting traditional recipes.",
+       "source_url": "https://www.t-treasureislands.metro.tokyo.lg.jp/information/archive/2023-mikura1.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Recipe preservation does not establish present-day commercial sales."
+    },
+    {
+     "name_ja": "さつまいもの切り干し・きんとん",
+     "name_en": "Dried sweet-potato kinton",
+     "kind": "sweet",
+     "summary_en": "A traditional sweet preparation using dried sweet potatoes, connecting preserved staple foods with confectionery.",
+     "facts": [
+      {
+       "claim_en": "The Mikurajima food-history project documents a kinton-style preparation using dried sweet potatoes.",
+       "source_url": "https://cookpad.com/jp/recipes/21199422",
+       "source_title": "さつまいもの切り干し（きんとん）",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "芋餅",
+     "name_en": "Mikurajima sweet-potato mochi",
+     "kind": "sweet",
+     "summary_en": "A local mochi tradition using sweet potatoes, including dried or preserved potatoes as a seasonal household ingredient.",
+     "facts": [
+      {
+       "claim_en": "The traditional-food project documents Mikurajima imo-mochi made using sweet-potato ingredients.",
+       "source_url": "https://cookpad.com/jp/recipes/21234786",
+       "source_title": "芋餅",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "Traditionally associated with stored sweet potatoes.",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "よもぎ採り",
+     "name_en": "Mugwort gathering for traditional sweets",
+     "kind": "foraging",
+     "summary_en": "Locally gathered mugwort is a recurring ingredient in Mikurajima sweets, including hayaki and mugwort mochi.",
+     "facts": [
+      {
+       "claim_en": "The preserved hayaki recipe uses mugwort as a defining ingredient.",
+       "source_url": "https://cookpad.com/jp/recipes/21114341",
+       "source_title": "はやき",
+       "publisher": "御蔵島★東京宝島"
+      },
+      {
+       "claim_en": "The island project separately documents mugwort mochi.",
+       "source_url": "https://cookpad.com/jp/recipes/21225090",
+       "source_title": "よもぎ餅",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "These recipes establish culinary use, not visitor foraging access."
+    },
+    {
+     "name_ja": "はやき",
+     "name_en": "Hayaki mugwort fritters",
+     "kind": "sweet",
+     "summary_en": "A traditional Mikurajima fried sweet incorporating mugwort into a lightly sweetened batter.",
+     "facts": [
+      {
+       "claim_en": "The island preservation project documents hayaki as a sweet mugwort-based fried food.",
+       "source_url": "https://cookpad.com/jp/recipes/21114341",
+       "source_title": "はやき",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Traditional home cooking."
+    },
+    {
+     "name_ja": "よもぎ餅",
+     "name_en": "Mikurajima mugwort mochi",
+     "kind": "sweet",
+     "summary_en": "A traditional mochi incorporating island mugwort, linking local gathering with ceremonial and household sweets.",
+     "facts": [
+      {
+       "claim_en": "The island traditional-food collection documents mugwort mochi as a local preparation.",
+       "source_url": "https://cookpad.com/jp/recipes/21225090",
+       "source_title": "よもぎ餅",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "ホウロクヤキ",
+     "name_en": "Horokuyaki pan cakes",
+     "kind": "sweet",
+     "summary_en": "A simple sweet pan-cooked flour cake incorporated into island household food culture in the postwar period.",
+     "facts": [
+      {
+       "claim_en": "The Mikurajima food project records horokuyaki as a local sweet made from a flour-based batter.",
+       "source_url": "https://cookpad.com/jp/recipes/21190191",
+       "source_title": "ホウロクヤキ",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "A preserved household recipe, not a documented commercial confection."
+    },
+    {
+     "name_ja": "明日葉のニンガミ",
+     "name_en": "Ashitaba ningami with miso",
+     "kind": "dish",
+     "summary_en": "A traditional vegetable dish combining ashitaba with miso and oil, reflecting the island's use of wild greens in everyday and ceremonial cooking.",
+     "facts": [
+      {
+       "claim_en": "The Mikurajima traditional-food project documents ashitaba ningami as a regional preparation.",
+       "source_url": "https://cookpad.com/jp/recipes/21191293",
+       "source_title": "明日葉のニンガミ",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "イモカン汁",
+     "name_en": "Imokan New Year vegetable soup",
+     "kind": "dish",
+     "summary_en": "A ceremonial household soup featuring vegetables such as taro and daikon, preserved as part of Mikurajima's New Year food heritage.",
+     "facts": [
+      {
+       "claim_en": "The island preservation project records imokan-jiru as a traditional soup associated with New Year customs.",
+       "source_url": "https://cookpad.com/jp/recipes/21235491",
+       "source_title": "イモカン汁",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "New Year.",
+     "confidence": "high",
+     "notes_en": "Documented household ritual food."
+    },
+    {
+     "name_ja": "里芋と明日葉のご飯",
+     "name_en": "Taro and ashitaba rice",
+     "kind": "dish",
+     "summary_en": "A traditional rice dish using island taro and ashitaba, illustrating how locally available produce extended limited rice supplies.",
+     "facts": [
+      {
+       "claim_en": "The traditional-food project documents rice cooked with taro and ashitaba.",
+       "source_url": "https://cookpad.com/jp/recipes/21261793",
+       "source_title": "里芋と明日葉のご飯",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "御蔵の島コンニャク",
+     "name_en": "Mikurajima handmade konnyaku",
+     "kind": "dish",
+     "summary_en": "Traditional handmade konnyaku is prepared from locally grown konnyaku tubers and island water.",
+     "facts": [
+      {
+       "claim_en": "The Mikurajima preservation project documents handmade island konnyaku using konnyaku tubers.",
+       "source_url": "https://cookpad.com/jp/recipes/21268938",
+       "source_title": "御蔵の島コンニャク",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "No permanent producer or retail location is established."
+    },
+    {
+     "name_ja": "カボチャご飯",
+     "name_en": "Pumpkin rice",
+     "kind": "dish",
+     "summary_en": "A household rice preparation incorporating pumpkin, reflecting the island's agricultural cooking.",
+     "facts": [
+      {
+       "claim_en": "The island traditional-food collection documents pumpkin rice.",
+       "source_url": "https://cookpad.com/jp/recipes/21226064",
+       "source_title": "カボチャご飯",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "大根のハリハリ",
+     "name_en": "Har hari preserved daikon",
+     "kind": "dish",
+     "summary_en": "A traditional preserved-radish dish illustrating the importance of drying and storing vegetables before refrigeration.",
+     "facts": [
+      {
+       "claim_en": "The preservation project records a Mikurajima dish made with dried daikon.",
+       "source_url": "https://cookpad.com/jp/recipes/21189837",
+       "source_title": "大根のハリハリ",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "どぶ漬け",
+     "name_en": "Dobuzuke fermented vegetables",
+     "kind": "dish",
+     "summary_en": "An older vegetable-preservation practice using rice-related fermentation, reflecting household approaches to storing food on an isolated island.",
+     "facts": [
+      {
+       "claim_en": "The Mikurajima traditional-food collection documents dobuzuke as a preserved-vegetable preparation.",
+       "source_url": "https://cookpad.com/jp/recipes/21110478",
+       "source_title": "どぶ漬け",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": ""
+    },
+    {
+     "name_ja": "忌の日のアブラアゲ",
+     "name_en": "I no hi ritual fried rice cakes",
+     "kind": "dish",
+     "summary_en": "A ceremonial fried food prepared using island camellia oil, associated with Mikurajima's distinctive annual day of observance.",
+     "facts": [
+      {
+       "claim_en": "The island traditional-food project documents ritual aburaage associated with I no hi and made with camellia oil.",
+       "source_url": "https://cookpad.com/jp/recipes/21262150",
+       "source_title": "忌の日のアブラアゲ",
+       "publisher": "御蔵島★東京宝島"
+      },
+      {
+       "claim_en": "Tokyo Metropolitan Government visitor information describes Mikurajima's I no hi observance.",
+       "source_url": "https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/kokuritsu/fujihakone/mikurashima/tourism.html",
+       "source_title": "御蔵島の観光情報",
+       "publisher": "東京都環境局"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "January 24.",
+     "confidence": "high",
+     "notes_en": "Cultural and household observance; not a commercial visitor food."
+    },
+    {
+     "name_ja": "椿油の食用文化",
+     "name_en": "Culinary use of camellia oil",
+     "kind": "other",
+     "summary_en": "Camellia oil is documented as a traditional cooking fat in ceremonial Mikurajima food.",
+     "facts": [
+      {
+       "claim_en": "A preserved ritual recipe specifically uses camellia oil to fry rice-based food.",
+       "source_url": "https://cookpad.com/jp/recipes/21262150",
+       "source_title": "忌の日のアブラアゲ",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "This establishes culinary use, not a current branded edible-oil producer."
+    },
+    {
+     "name_ja": "サクユリのきんとん",
+     "name_en": "Sakuyuri lily-bulb kinton",
+     "kind": "sweet",
+     "summary_en": "A traditional New Year sweet prepared from the bulb of the local sakuyuri lily, reflecting the former culinary use of gathered island plants.",
+     "facts": [
+      {
+       "claim_en": "The Mikurajima preservation project documents sakuyuri lily-bulb kinton as a historical New Year food.",
+       "source_url": "https://cookpad.com/jp/recipes/20675530",
+       "source_title": "サクユリのきんとん",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "New Year.",
+     "confidence": "high",
+     "notes_en": "Historical foraging and ceremonial food; availability and permission to harvest wild lilies are not established."
+    },
+    {
+     "name_ja": "ヘンゴ団子",
+     "name_en": "Hengo dumplings from traditionally processed wild tubers",
+     "kind": "dish",
+     "summary_en": "A rare historical Mikurajima food made from a wild tuber that requires specialized traditional detoxification. It preserves knowledge of survival foods rather than representing a casual visitor tasting.",
+     "facts": [
+      {
+       "claim_en": "Tokyo Metropolitan Government heritage information records hengo dumplings as a traditional food prepared from the island's wild arum tubers.",
+       "source_url": "https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/kokuritsu/fujihakone/mikurashima/tourism.html",
+       "source_title": "御蔵島の観光情報",
+       "publisher": "東京都環境局"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "The raw plant is toxic. This entry documents heritage only and must not be presented as a self-foraging or do-it-yourself food activity."
+    },
+    {
+     "name_ja": "たけのこ・しいたけなどの島の採集食",
+     "name_en": "Bamboo shoots and mushrooms in island gathering culture",
+     "kind": "foraging",
+     "summary_en": "Mikurajima residents supplement food supplies with gathered plants and fungi, including bamboo shoots and mushrooms.",
+     "facts": [
+      {
+       "claim_en": "Village lifestyle information describes residents gathering edible products including bamboo shoots and shiitake mushrooms.",
+       "source_url": "https://www.mikurasima-recruit.jp/life/food/",
+       "source_title": "御蔵島の食生活",
+       "publisher": "御蔵島村関連情報サイト"
+      }
+     ],
+     "places": [],
+     "makers": [],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "Resident food practice only; no visitor foraging permission, guided activity or supply is verified."
+    },
+    {
+     "name_ja": "御蔵島郷土料理保存活動",
+     "name_en": "Mikurajima traditional-food preservation",
+     "kind": "other",
+     "summary_en": "A community project collected, reconstructed and published household recipes, providing a rare documentary record of island foods that are not necessarily available in restaurants.",
+     "facts": [
+      {
+       "claim_en": "Tokyo Metropolitan Government documents a project preserving 22 Mikurajima traditional recipes through a local food-preservation group.",
+       "source_url": "https://www.t-treasureislands.metro.tokyo.lg.jp/information/archive/2023-mikura1.html",
+       "source_title": "御蔵島の郷土料理保存プロジェクト",
+       "publisher": "東京都・東京宝島"
+      },
+      {
+       "claim_en": "The Mikurajima Tokyo Treasure Island Cookpad account publishes recipes based on the island's food heritage.",
+       "source_url": "https://cookpad.com/jp/users/40316953",
+       "source_title": "御蔵島★東京宝島",
+       "publisher": "御蔵島★東京宝島"
+      }
+     ],
+     "places": [],
+     "makers": [
+      {
+       "name_ja": "御蔵島郷土料理保存会",
+       "relation_en": "Community organization involved in preserving the island's culinary heritage.",
+       "source_url": "https://www.t-treasureislands.metro.tokyo.lg.jp/information/archive/2023-mikura1.html"
+      }
+     ],
+     "season_en": "",
+     "confidence": "high",
+     "notes_en": "An important documentary and cultural interpretation opportunity rather than a verified physical food venue. All historical recipes listed in this municipality should be distinguished from currently purchasable or restaurant-served foods."
+    }
+   ],
+   "none_found_reason_en": ""
+  }
+ ],
+ "url_check": {
+  "checked_at": "2026-11-22",
+  "status": {
+   "https://290.tokyo/": 200,
+   "https://cookpad.com/jp/recipes/20608649": 200,
+   "https://cookpad.com/jp/recipes/20608784": 200,
+   "https://cookpad.com/jp/recipes/20608862": 200,
+   "https://cookpad.com/jp/recipes/20673264": 200,
+   "https://cookpad.com/jp/recipes/20675530": 200,
+   "https://cookpad.com/jp/recipes/21072880": 200,
+   "https://cookpad.com/jp/recipes/21110478": 200,
+   "https://cookpad.com/jp/recipes/21111351": 200,
+   "https://cookpad.com/jp/recipes/21114341": 200,
+   "https://cookpad.com/jp/recipes/21114621": 200,
+   "https://cookpad.com/jp/recipes/21115701": 200,
+   "https://cookpad.com/jp/recipes/21189837": 200,
+   "https://cookpad.com/jp/recipes/21190191": 200,
+   "https://cookpad.com/jp/recipes/21191293": 200,
+   "https://cookpad.com/jp/recipes/21193237": 200,
+   "https://cookpad.com/jp/recipes/21199422": 200,
+   "https://cookpad.com/jp/recipes/21225090": 200,
+   "https://cookpad.com/jp/recipes/21225183": 200,
+   "https://cookpad.com/jp/recipes/21226064": 200,
+   "https://cookpad.com/jp/recipes/21230334": 200,
+   "https://cookpad.com/jp/recipes/21233371": 200,
+   "https://cookpad.com/jp/recipes/21234786": 200,
+   "https://cookpad.com/jp/recipes/21235491": 200,
+   "https://cookpad.com/jp/recipes/21261793": 200,
+   "https://cookpad.com/jp/recipes/21262150": 200,
+   "https://cookpad.com/jp/recipes/21267145": 200,
+   "https://cookpad.com/jp/recipes/21268938": 200,
+   "https://cookpad.com/jp/users/40316953": 200,
+   "https://kozushima.com/ecotourism/contents.html": 200,
+   "https://kozushima.com/shop/kau/miyage/889/": 200,
+   "https://kozushima.com/shop/kau/miyage/897/": 200,
+   "https://kozushima.com/shop/taberu/356/": 200,
+   "https://kozushima.com/shop/taberu/386/": 200,
+   "https://mikura-isle.com/category/shops/": 200,
+   "https://shima.metro.tokyo.lg.jp/post/kozushima03/": 200,
+   "https://shimapochi.tokaikisen.co.jp/toshoshuhan/": 200,
+   "https://shimazake.com/kuramotolist/miyakejima/": 200,
+   "https://tokyogrown.jp/node/571772": 200,
+   "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_18.html": 200,
+   "https://www.gotokozu.jp/": 200,
+   "https://www.gourmet.gotokyo.org/jp/article/134.html": 200,
+   "https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/kokuritsu/fujihakone/koudushima/tourism.html": 200,
+   "https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/kokuritsu/fujihakone/mikurashima/tourism.html": 200,
+   "https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/kokuritsu/fujihakone/miyakejima/tourism.html": 200,
+   "https://www.kozu-tokoroten.jp/%E5%95%86%E5%93%81%E3%81%AE%E3%81%94%E6%A1%88%E5%86%85/": 200,
+   "https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/34_9_tokyo.html": 200,
+   "https://www.mikurasima-recruit.jp/life/food/": 200,
+   "https://www.miyakejima.gr.jp/eatbuy/cafecanon/": 200,
+   "https://www.miyakejima.gr.jp/eatbuy/coconutgarden/": 200,
+   "https://www.miyakejima.gr.jp/eatbuy/hiranosyokudou/": 200,
+   "https://www.miyakejima.gr.jp/eatbuy/ikiikiosakanacenter/": 200,
+   "https://www.miyakejima.gr.jp/eatbuy/kanbe_farm/": 200,
+   "https://www.miyakejima.gr.jp/eatbuy/okatarou-honten/": 200,
+   "https://www.miyakejima.gr.jp/eatbuy/shop/": 200,
+   "https://www.miyakejima.gr.jp/eatbuy/shoukoukai/": 200,
+   "https://www.sangyo-rodo.metro.tokyo.lg.jp/nourin/suisan/about/processed": 200,
+   "https://www.t-treasureislands.metro.tokyo.lg.jp/information/archive/2023-mikura1.html": 200,
+   "https://www.t-treasureislands.metro.tokyo.lg.jp/miyakejima/": 200,
+   "https://www.tokyo-ja.or.jp/wp/archives/2953": 200,
+   "https://www.tokyoislands-net.jp/islands/kouzushima/": 200,
+   "https://www.tokyoislands-net.jp/islands/mikurajima/": 200,
+   "https://www.tokyoislands-net.jp/islands/miyakejima/": 200,
+   "https://www.tokyoislands-net.jp/news/17359/": 200,
+   "https://www.tokyoislands-net.jp/news/17528/": 200,
+   "https://www.tokyoislands-net.jp/news/19071/": 200,
+   "https://www.vill.kouzushima.tokyo.jp/2024-1024/": 200,
+   "https://www.vill.kouzushima.tokyo.jp/goods/": 200,
+   "https://www.vill.miyake.tokyo.jp/kankou/tokusanhin.html": 200
+  }
+ }
+}
