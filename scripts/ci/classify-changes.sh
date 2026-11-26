@@ -6,13 +6,12 @@
 #   docs    — documentation / policy-only change: git diff --check + focused
 #             review are sufficient; no dependency install, unit tests, build,
 #             or Playwright.
+#   data    — data and evidence changes: focused unit and browser checks.
 #   normal  — runtime-adjacent change: run typecheck / lint / test / build.
-#   core    — core journey / routing / persistence / shared interaction change:
-#             normal runtime gates plus the 375px Japanese Golden-path E2E.
+#   core    — core runtime change or mixed data and normal changes:
+#             normal runtime gates plus both browser checks.
 #
-# Tier resolution is core > normal > docs: one core path makes the whole change
-# core-risk, and any runtime path overrides a docs-only classification. Unknown
-# paths are treated as "normal" so new runtime files are never skipped.
+# Unknown paths are treated as "normal" so new runtime files are never skipped.
 #
 # The classifier deliberately stays dependency-free (POSIX-ish bash) and
 # prefers simple prefix matching over a third-party path-filter action.
@@ -35,8 +34,20 @@ if [ "${#files[@]}" -eq 0 ]; then
 fi
 
 risk="docs"
+has_data=false
 
 for path in "${files[@]}"; do
+  case "$path" in
+    e2e/* | playwright*.config.ts)
+      risk="core"
+      break
+      ;;
+    *.test.* | *.spec.*) risk="normal"; continue ;;
+    src/data/journey-records/* | docs/data-evidence/* | docs/research/* | research/*)
+      has_data=true
+      continue
+      ;;
+  esac
   # normal runtime: deliberately narrow allowlist of isolated presentation
   # surfaces that the deterministic core journey never enters. Adding a new
   # path here requires classifier regression coverage; all other src/** paths
@@ -52,12 +63,12 @@ for path in "${files[@]}"; do
   # and the build/tooling configuration that shapes the shipped bundle. This
   # keeps journey, routing, persistence, shared-interaction, i18n, and demo data
   # changes core even when a new file has not yet been named explicitly.
-  if [[ "$path" == src/* || "$path" == e2e/* ]]; then
+  if [[ "$path" == src/* ]]; then
     risk="core"
     break
   fi
   case "$path" in
-    playwright.config.ts | vite.config.ts | tsconfig.json | tsconfig.app.json \
+    vite.config.ts | tsconfig.json | tsconfig.app.json \
       | tsconfig.node.json | package.json | pnpm-lock.yaml \
       | pnpm-workspace.yaml | eslint.config.js | index.html)
       risk="core"
@@ -80,5 +91,12 @@ for path in "${files[@]}"; do
   # Unknown paths are conservatively runtime-related.
   risk="normal"
 done
+
+if [ "$has_data" = true ]; then
+  case "$risk" in
+    docs) risk="data" ;;
+    normal) risk="core" ;;
+  esac
+fi
 
 echo "$risk"
