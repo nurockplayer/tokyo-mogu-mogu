@@ -45,7 +45,7 @@ for (const record of selectedRecords()) {
     await expect(card.locator('[data-verification-status="needs_confirmation"]')).toBeVisible();
     await card.click();
     await expect(screen('story')).toBeVisible();
-    await expect(screen('story').getByText(/未確認/).first()).toBeVisible();
+    await expect(screen('story').getByText(/確認中/).first()).toBeVisible();
     await screen('story').getByRole('button', { name: 'この食文化の観光ルートを作成する' }).click();
     const route = screen('route');
     await expect(route).toBeVisible();
