@@ -42,10 +42,10 @@ for (const record of selectedRecords()) {
     await page.goto('/mogu');
     const screen = (name: string) => page.locator(`[data-screen="${name}"][data-screen-active="true"]`);
     const card = screen('mogu').locator(`[data-journey-id="${record.journey.id}"]`);
-    await expect(card.locator('[data-verification-status="needs_confirmation"]')).toBeVisible();
+    await expect(card.locator('[data-verification-status="needs_confirmation"]')).toHaveText('確認中');
     await card.click();
     await expect(screen('story')).toBeVisible();
-    await expect(screen('story').getByText(/確認中/).first()).toBeVisible();
+    await expect(screen('story').getByText(/未確認/).first()).toBeVisible();
     await screen('story').getByRole('button', { name: 'この食文化の観光ルートを作成する' }).click();
     const route = screen('route');
     await expect(route).toBeVisible();
