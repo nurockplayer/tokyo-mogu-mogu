@@ -1,48 +1,49 @@
 # Phase 2 backlog proposal
 
-**Order** · Lead and Owner approval → S1 Jindaiji vertical slice → S2 two-journey discovery → S3 local saves and sharing → S4 release and operations.
+**Order** · S1 Stage C admission and first actionable trip → S2 launch catalog and preference-driven discovery → S3 local saves and sharing → S4 release and operations.
 
-The lead can brief S1 from this document after the Owner disposes the [Product decisions](first-release.md#product-decisions-for-the-owner) needed for that stage. The lead files issues and assigns one implementation stage at a time. Each stage starts from the latest approved integration base and records its running-product evidence. Keep candidates local or in approved restricted preview until S4. Confirm the integration branch does not trigger public hosting before moving beyond local preview.
+The lead can brief S1 from this document now. Codex performs source research and verification, records it in the existing evidence files and demonstrates the running slice. The lead handles acceptance one stage at a time. Use current main and the connected KiKi Figma for each visible change. Keep candidates local or in access-restricted preview.
 
-## S1 · Make one cultural trip actionable
-
-| Field | Brief |
-| --- | --- |
-| Current | `/story/b03-chofu-jindaiji-soba` renders trilingual culture content. Its authored half-day Route has blank station/access fields and its Spot data has pending source statuses. Today Story simulates generation, Route can simulate regeneration and Spot may show an unavailable toast. [Jindaiji record][chofu] · [Flow gaps](gap-audit.md#gaps) |
-| Target | In the candidate build, a direct Story link opens a real half-day plan and offers one evidence-backed official next action on a Spot. |
-| Scope | Start with `b03-chofu-jindaiji-soba` and the existing authored half-day variant. Use the editor's approved arrival point, ordered stops, estimate, primary Spot and official destination. Keep the existing Story, Route and Spot components. Render a direct “View itinerary” action, label the estimate as on-site, remove simulation for this slice, and show dated source/unknown state beside the primary action. Use ja/en/zh-TW and no-photo state where required. |
-| Acceptance on the running product | At 375px, open `/story/b03-chofu-jindaiji-soba` in a fresh session, see the maker/crop connection, open `/route?candidateId=b03-chofu-jindaiji-soba`, then open the primary Spot. Confirm the ordered stops, access guidance, estimate, localized caution and source-date label. The primary CTA opens the editor-reviewed destination. For a second Spot with a missing or expired optional destination, see guidance and no action button, and return to the itinerary. For a candidate build with the primary destination expired, direct entry displays unavailable and offers a way back. In all three languages confirm no generation, successful booking or dietary-safety message on this path. Save actual route/Spot URLs and evidence for the fresh and unavailable states. |
-| Dependencies | Lead disposition and Owner approval for D2, D4, D5 and the relevant D6 copy. Editor supplies the dated Jindaiji source pack and identified primary Spot, or the lead waits for admissible inputs. Inspect the connected KiKi Figma for the three affected screens before editing, and record any new design decision. |
-| Out of scope | Public cutover, Ome, Result/filter changes, persistence, share, CMS, authentication, live transit and transactions. Preserve other prototype flows in this candidate. |
-
-## S2 · Put two published journeys behind one discovery flow
+## S1 · Admit Stage C content and make one trip actionable
 
 | Field | Brief |
 | --- | --- |
-| Current → target | Fixture Result and mixed MOGU → entry and Result/MOGU driven by one approved release catalog, with direct entry and no profile requirement. |
-| Scope | D1/D2/D5/D6. Connect release admission to the existing adapter and URL resolver. Add approved Ome data through the same editorial path, cut over Home and discovery, retire scores, faux history and simulated generation. Keep the maker/story/route/spot structure and all three locales. |
-| Acceptance on the running product | A fresh user opens either published Story without onboarding. Selecting Chofu versus Ome changes the returned itinerary and reason. A time limit below all available estimates yields an empty state and Clear restores both. Add the second journey through data and evidence changes only. Old demo, unlisted research and invalid/cross-journey deep links cannot reveal hidden content or default to a fixture. Expiring a primary action removes the itinerary from browse and filters. |
-| Dependencies | S1, approved decisions and second editorial pack, KiKi inspection for entry/discovery and changed navigation. |
-| Out of scope | More regions, recommendations based on profiles, personalized history, external integrations. |
+| Current | The b01–b13 Stage C records flow into the same browse list as demo fixtures, with no release admission. Some routes lack an arrival station or supported Spot destination. Story and Route can simulate generation. [Current catalog][catalog] · [Flow gaps](gap-audit.md#gaps) |
+| Target | Given the existing Stage C records, generate a passing set and a per-record exclusion report. In the running preview, a traveller can find one qualifying route, see where it starts and how long it takes, and tap through to an official destination. |
+| Scope | Implement one shared check against the [admission contract](target-architecture.md#data-and-admission) and run it over b01–b13. Start with the existing batch evidence. For the demo path, verify the arrival point and primary action against official sources and record them in the batch evidence file. Use the first record that passes in existing order for the running sample. Keep failing records hidden and leave their data intact. In the local preview use MOGU → Story → Route → Spot. Display the arrival point, ordered stops, on-site estimate, sourced practical status and official action. Use the existing no-photo layout where needed and remove simulated generation on that path. |
+| Acceptance on the running product | At 375px, open an admitted journey from MOGU, find its arrival point and on-site estimate, read the maker connection and reach the official access or visitor destination in one tap from Route or Spot. Verify the exact destination and show unconfirmed practical information with its retrieved date in ja/en/zh-TW. A record missing both structured arrival data and supporting access evidence stays hidden from browse and direct links. A missing or expired optional action has guidance and no button. An invalid primary action makes the route unavailable. Record the passing ID, exclusion reasons, running URLs and evidence. If the passing set is empty, demonstrate the empty and hidden states and report the reasons for the missing real path. |
+| Dependencies | Codex reads current b01–b13 and their existing evidence, verifies the sample and inspects the connected KiKi Figma for affected screens. Lead accepts the running result. |
+| Out of scope | Profile/Explore/Result changes, public cutover, hand-repair of rejected records, local persistence, sharing, live routing and transactions. |
+
+## S2 · Put the launch catalog behind honest discovery
+
+| Field | Brief |
+| --- | --- |
+| Current → target | Optional Food Profile and five-step Exploration lead to fixed Result cards. MOGU mixes fixtures and research. Keep Food Profile → 食旅を見つけ → Result → Story → Route → Spot and the Dock. Serve the entire passing Stage C set through discovery, MOGU and public links. |
+| Scope | D1/D2/D5/D6. Run the gate for all batches with dated Codex verification in the existing evidence files. Use the same admitted projection everywhere. Use optional profile defaults for area/station, time, interests and alcohol theme. Explore lets today's choices override or clear them. Show plain reasons, a true empty state and guidance-only treatment of dietary input. Keep stable IDs and culture/maker stories. Remove fixture percentages, faux history and public legacy fallthrough. |
+| Acceptance on the running product | From Food Profile, set an area/station and on-site time, then reach Result and see the exact filters reflected in its reasons. Change area/station, time, interests or alcohol preference and exercise the affected result set against admitted records. A short time limit or incompatible choices yields an empty state. Clear restores broader discovery. Changing dietary answers alone changes only “ask the venue” guidance. Skip opens MOGU. In all three locales, open representative trips from distinct areas and cultures, see an arrival point and reach a supported official access or visitor link. Compare browse and deep links with the report and confirm failed records and demo fixtures remain hidden. |
+| Dependencies | S1 admission and pilot path, Codex verification pass and live Figma inspection, lead acceptance. |
+| Out of scope | Hand-repair of rejected records, geolocation, route computations, ranking, dietary eligibility, external integrations and new catalog batches. |
 
 ## S3 · Make a plan easy to reopen and share
 
 | Field | Brief |
 | --- | --- |
-| Current → target | Best-effort saves and site-root sharing → truthful same-browser saves, reset and exact itinerary links. |
-| Scope | D3/D6. Preserve compatible local IDs, retire account/profile affordances and unused dietary collection, and remove the legacy auth dependency from the public flow. Support save/stale/unsave/reset and canonical sharing with localized failure recovery. |
-| Acceptance on the running product | Save a journey and a Spot, reload, reopen and remove each independently. Import an approved legacy route on the same origin and show an unavailable saved item for a withdrawn ID. With browser writes blocked, retain browsing and show save/reset failure without success feedback. With writes enabled, reset and reload to empty saves and defaults. A share from one browser opens the same itinerary in a clean browser without visitor data in the URL. Cancel/fail a share and recover via a selectable link. |
-| Dependencies | S2, stable release IDs, approved persistence scope and KiKi inspection of Favorites, My and share. |
+| Current → target | Best-effort saves and site-root sharing → truthful same-browser preferences and saves, reset and exact itinerary links. |
+| Scope | D3/D6. Keep optional profile editing and store only ordinary preferences. Preserve compatible local IDs, detach legacy auth from the public flow, and provide save, unsave, reset, unavailable and canonical share states. |
+| Acceptance on the running product | Save preferences, a journey and a Spot, then reload and reopen them. Remove journey and Spot saves independently. Import an approved legacy route on the same origin and show a withdrawn saved item as unavailable. With writes blocked, retain browsing and show save/reset failure. Reset successfully and reload to defaults. A share opens the same itinerary in a clean browser without traveller data in the URL. Cancel or fail a share and recover via a selectable link. |
+| Dependencies | S2 and stable admitted IDs, Codex live Figma inspection, lead acceptance. |
 | Out of scope | Accounts, sync, save transfer across origins, offline app and behavioural analytics. |
 
-## S4 · Prove release and editorial operations
+## S4 · Verify the launch artifact and operating path
 
 | Field | Brief |
 | --- | --- |
-| Current → target | Prototype checks and hosted deploy → approved trilingual artifact, named operator and a demonstrated correction/withdrawal cycle. |
-| Scope | Inspect emitted assets and all public route/alias entry points, verify expiry and HTTPS handoffs, audit hosting/cache/privacy and rehearsals, and complete the [traveller and safety gates](first-release.md#editorial-operations-and-release-criteria). |
-| Acceptance on the running product | In the release candidate, complete both trips in all locales and exercise blocked storage, wrong IDs, missing actions, narrow/wide layout, keyboard, screen reader and reduced motion. Demonstrate a data-only correction followed by urgent withdrawal, then verify that reload, shared links and rollback do not resurface withdrawn material on supported public URLs. Record traveller trials and editorial receipts. After Owner launch approval, check the production catalog and a deep link on the promoted build. |
-| Dependencies | S3, completed rights and content review, named editor and deployment operator, approved publication and rollback controls. |
-| Out of scope | Partner portal, live availability, payments, bookings and Tokyo-wide expansion. |
+| Current → target | Prototype smoke and hosted deploy → accepted trilingual release artifact, reported catalog coverage and a demonstrated correction/withdrawal cycle. |
+| Scope | Codex refreshes verification evidence and runs automated admission and artifact checks. Inspect emitted assets, aliases, expiry, official handoffs, hosting/privacy and [traveller and safety criteria](first-release.md#admission-maintenance-and-release-criteria). |
+| Acceptance on the running product | Lead completes representative admitted trips in every locale and checks blocked persistence, wrong IDs, missing actions, narrow/wide layout, keyboard, screen reader and reduced motion. Compare public contents to the admission report. Demonstrate a data-only correction, urgent withdrawal and rollback without restoring withdrawn material. After promotion by the lead, check the catalog and an admitted deep link at the release URL. |
+| Dependencies | S3, automated admission and artifact checks, Codex verification evidence and lead acceptance of the running candidate. |
+| Post-launch improvements | Independent editorial review, moderated traveller trials and a review of exclusions to guide future research. |
+| Out of scope | Partner portal, live availability, payments, booking integration and new catalog batches. |
 
-[chofu]: https://github.com/nurockplayer/tokyo-mogu-mogu/blob/926e686/src/data/journey-records/b03-chofu-jindaiji-soba.ts#L4-L39
+[catalog]: https://github.com/nurockplayer/tokyo-mogu-mogu/blob/926e686/src/features/netlify-parity/factual-presentation.ts#L673-L678
