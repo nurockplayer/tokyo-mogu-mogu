@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
@@ -6,6 +7,9 @@ import * as presentation from '../features/netlify-parity/factual-presentation';
 import { adaptJourneyRecords, journeyFactStatus, type JourneyRecord } from './journey-record';
 import { JOURNEY_RECORDS } from './journey-records';
 import { MUNICIPALITIES } from './municipalities';
+import { PLACES } from './seed-places';
+import { getSpotDetail } from './seed-routes';
+import { resolveSpotOfficialLink } from './spot-official-link';
 
 const locales = ['ja', 'en', 'zh-TW'] as const;
 
@@ -26,10 +30,66 @@ function batchEvidence(batch: string) {
   return evidence;
 }
 
-const beforeMigration = [
-  'demo-ome-sake', 'demo-tokyo-hachioji-ginger',
-  'demo-tokyo-west-fussa-sake', 'demo-tokyo-west-akiruno-produce',
-];
+// Presentation hashes were captured at 5d28aec before the migration. The
+// source hashes use the same commit's seed URLs and statuses, keyed by the
+// source IDs assigned in d14030a.
+const beforeMigration = {
+  'demo-ome-sake': {
+    presentation: 'f78358dcdd3ad615f807b6b36172e142ce54767d006663fc985e9cd61a689508',
+    sources: 'bf2b7deefdcccf14f6de35274dce6116623060d7a3e6afbc28ca43e7e917c071',
+  },
+  'demo-tokyo-hachioji-ginger': {
+    presentation: '8db983ade39e68f2800a4512fd9840c917785be6cf9cc7804875285b1a5d46dd',
+    sources: '229d1b770fe3ab92c9a9fb05d12f5a06d8dcdbcae585e46aeff38349726d5c95',
+  },
+  'demo-tokyo-west-fussa-sake': {
+    presentation: '1ff4c8924be1124d82c7a35d40f917846b9a7bb4b72c33d3576e78f0486eb6a2',
+    sources: '0e057e5269c37098e393c7162cbfcd168b69cfa056d5dfdc46c6111ad30d65b5',
+  },
+  'demo-tokyo-west-akiruno-produce': {
+    presentation: '01c0ee3a7efae45e2d688ffb2fc10445af17961066deb5a2c8329092b2a48a6b',
+    sources: '93ff1d30a3d1f45039885bec3796c0fa153c3133e37b7512b8b6f1c72447626f',
+  },
+};
+const migratedIds = Object.keys(beforeMigration);
+
+function sorted(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(sorted);
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(Object.entries(value).sort(([a], [b]) => a.localeCompare(b))
+      .map(([key, item]) => [key, sorted(item)]));
+  }
+  return value;
+}
+
+function fingerprint(value: unknown) {
+  return createHash('sha256').update(JSON.stringify(sorted(value))).digest('hex');
+}
+
+function currentBundle(record: JourneyRecord) {
+  const { id } = record.journey;
+  const p = presentation;
+  const journey = p.currentJourneys.find((item) => item.id === id)!;
+  const groups = p.storySpotGroups[id];
+  const spotIds = [...new Set([
+    ...journey.routeVariants.flatMap((variant) => variant.steps.map((step) => step.spotId)),
+    ...groups.nearby.map((spot) => spot.spotId), ...groups.nature.map((spot) => spot.spotId),
+  ])];
+  return {
+    journey, routeName: p.routeNames[id], location: p.resultLocation[id],
+    variants: Object.fromEntries(journey.routeVariants.map((variant) => {
+      const key = `${id}:${variant.id}`;
+      return [variant.id, { steps: p.routeStepText[key], stats: p.routeStats[key], guidance: p.routeRegionGuidance[key] }];
+    })),
+    spots: Object.fromEntries(spotIds.map((spotId) => {
+      const place = PLACES.find((item) => item.id === spotId);
+      const officialSource = resolveSpotOfficialLink(place ?? spotId, getSpotDetail(spotId))?.source;
+      expect(record.spots[spotId].officialSource, `${spotId} official source`).toEqual(officialSource);
+      return [spotId, { presentation: p.currentSpots[spotId], detail: p.referenceSpotDetails[spotId], officialSource }];
+    })),
+    story: { groups, location: p.storyLocation[id], point: p.chapterPoint[id] },
+  };
+}
 
 const text = { ja: '合成テスト旅程', en: 'Synthetic test journey', 'zh-TW': '合成測試旅程' };
 const source = {
@@ -81,24 +141,20 @@ describe('municipalities and data-driven journey presentation (#412)', () => {
     expect(['tama-cities', 'nishitama', 'islands'].map((group) => MUNICIPALITIES.filter((item) => item.group === group).length)).toEqual([26, 4, 9]);
     for (const item of MUNICIPALITIES) for (const locale of locales) expect(item.names[locale].trim()).not.toBe('');
     expect(presentation.currentJourneys.map(({ id }) => id)).toEqual(expect.arrayContaining([
-      ...beforeMigration, 'demo-okutama-wasabi', 'demo-okutama-yamame',
+      ...migratedIds, 'demo-okutama-wasabi', 'demo-okutama-yamame',
     ]));
     expect(presentation.currentJourneys.filter(({ id }) => id.startsWith('demo-okutama-')))
       .toEqual(presentation.resultJourneys);
   });
 
-  it.each(beforeMigration)('keeps stable links and source status for %s', (id) => {
+  it.each(Object.entries(beforeMigration))('preserves pre-migration presentation, links and source status for %s', (id, expected) => {
     const record = JOURNEY_RECORDS.find(({ journey }) => journey.id === id)!;
-    const journey = presentation.currentJourneys.find((item) => item.id === id)!;
-    expect(record.journey.id).toBe(id);
-    for (const variant of journey.routeVariants) for (const step of variant.steps) {
-      expect(record.spots[step.spotId]).toBeDefined();
-      expect(presentation.currentSpots[step.spotId]).toBeDefined();
-    }
-    for (const source of Object.values(record.sources)) {
-      expect(source.url).toMatch(/^https?:\/\//);
-      expect(source.verificationStatus).toBeTruthy();
-    }
+    const sources = Object.keys(record.sources).sort().map((key) => {
+      const { url, verificationStatus } = record.sources[key];
+      return [key, url, verificationStatus];
+    });
+    expect(fingerprint(sources), 'source URLs and verification statuses').toBe(expected.sources);
+    expect(fingerprint(currentBundle(record)), 'published presentation and official sources').toBe(expected.presentation);
     expect(Object.values(record.facts).every((fact) => fact.sourceIds.every((sourceId) => sourceId in record.sources))).toBe(true);
   });
 
@@ -115,9 +171,9 @@ describe('municipalities and data-driven journey presentation (#412)', () => {
   });
 
   const migratedUrls = new Set(JOURNEY_RECORDS
-    .filter(({ journey }) => beforeMigration.includes(journey.id))
+    .filter(({ journey }) => migratedIds.includes(journey.id))
     .flatMap(({ sources }) => Object.values(sources).map(({ url }) => url)));
-  const stageCRecords = JOURNEY_RECORDS.filter(({ journey }) => !beforeMigration.includes(journey.id));
+  const stageCRecords = JOURNEY_RECORDS.filter(({ journey }) => !migratedIds.includes(journey.id));
 
   it.each(stageCRecords)('publishes sourced, pending data for $journey.id in every locale', (record) => {
     const { journey } = record;
