@@ -9,7 +9,7 @@ import type {
   DataVerificationEvidenceOmission,
 } from '../data/data-verification-evidence-manifest';
 import { JOURNEY_RECORDS } from '../data/journey-records';
-import { journeyFactStatus } from '../data/journey-record';
+import { resolveJourneyFact } from '../data/journey-record';
 import tourismDirectory from '../../scripts/ingest-okutama/snapshots/okutama-tourism-directory.json';
 import { foodCultures, isAddressedPlace, isFixedPlace, modelRoutes, places } from '../data';
 import {
@@ -2569,10 +2569,9 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
       }
       if (typeof value !== 'string' && typeof value !== 'number') return;
       if (value === '') return;
-      const mapping = Object.entries(record.facts)
-        .filter(([key]) => path === key || path.startsWith(`${key}.`))
-        .sort(([a], [b]) => b.length - a.length)[0];
-      if (!mapping) return;
+      const fact = resolveJourneyFact(record, path);
+      if (!fact) return;
+      const { sourceIds, origin, status } = fact;
       const parts = path.split('.');
       const isSpot = parts[0] === 'spots';
       const isRoute = parts[0] === 'variants' || parts[0] === 'routeName' || parts[0] === 'location' || path.startsWith('journey.routeVariants');
@@ -2582,17 +2581,15 @@ export function buildRepositoryLedgerClaims(): LedgerClaim[] {
       const locale = parts.find((part) => PRESENTATION_LOCALES.some((item) => item === part));
       const fieldId = `record:${path}${locale ? `:${locale}` : ''}`;
       const claimId = `${entityType.toLowerCase()}:${entityId}:${fieldId}`;
-      const status = journeyFactStatus(record, path);
       const sourceFile = 'src/data/journey-records';
-      const sourceIds = mapping[1].sourceIds;
       inputs.push({ claimId, entityType, entityId, entityName, fieldId, fieldLabel: path,
-        comparisonExpected: false, canonical: canonicalValue(String(value), mapping[1].origin, sourceIds.length === 1 ? record.sources[sourceIds[0]] : undefined, status, sourceFile),
-        presentation: presentationValue(String(value), entityType, mapping[1].origin, status),
+        comparisonExpected: false, canonical: canonicalValue(String(value), origin, sourceIds.length === 1 ? record.sources[sourceIds[0]] : undefined, status, sourceFile),
+        presentation: presentationValue(String(value), entityType, origin, status),
         timeSensitive: false, issues: [] });
       for (const sourceId of new Set(sourceIds)) {
         inputs.push({ claimId: `${claimId}:source:${sourceId}`, entityType, entityId, entityName,
           fieldId: `${fieldId.replace(/:(ja|en|zh-TW)$/, '')}:source:${sourceId}${locale ? `:${locale}` : ''}`, fieldLabel: path, comparisonExpected: false,
-          canonical: canonicalValue(String(value), mapping[1].origin, record.sources[sourceId], status, sourceFile),
+          canonical: canonicalValue(String(value), origin, record.sources[sourceId], status, sourceFile),
           timeSensitive: false, issues: [] });
       }
     };

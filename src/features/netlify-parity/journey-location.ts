@@ -5,11 +5,19 @@ import {
   type SpotPresentation,
 } from './content';
 
-export type CurrentJourneyLocationResolution =
+interface JourneyLocationContext {
+  isReferenceStoryPath: boolean;
+  spot?: SpotPresentation;
+  hasJourneyQuery: boolean;
+  fromMy: boolean;
+}
+
+export type CurrentJourneyLocationResolution = JourneyLocationContext & (
   | { status: 'default' }
   | { status: 'resolved'; journey: JourneyPresentation }
   | { status: 'invalid' }
-  | { status: 'not-current' };
+  | { status: 'not-current' }
+);
 
 type JourneyConstraint = JourneyPresentation[];
 
@@ -51,20 +59,28 @@ export function resolveCurrentJourneyLocation(
   pathname: string,
   search: string,
 ): CurrentJourneyLocationResolution {
+  const params = new URLSearchParams(search);
+  const context: JourneyLocationContext = {
+    isReferenceStoryPath: pathname === '/story',
+    hasJourneyQuery: false,
+    fromMy: params.get('from') === 'my',
+  };
   const constraints: JourneyConstraint[] = [];
   let spotDefault: JourneyPresentation | undefined;
 
   if (pathname.startsWith('/story/')) {
     const storyId = decodeJourneyPathIdentity(pathname.slice('/story/'.length));
-    if (storyId === undefined) return { status: 'invalid' };
+    if (storyId === undefined) return { ...context, status: 'invalid' };
     const storyJourney = currentJourneys.find((journey) => journey.storyId === storyId);
-    if (!storyJourney) return { status: 'not-current' };
+    if (!storyJourney) return { ...context, status: 'not-current' };
+    context.isReferenceStoryPath = pathname === `/story/${storyJourney.storyId}`;
     constraints.push([storyJourney]);
   } else if (pathname.startsWith('/spot/')) {
     const spotId = decodeJourneyPathIdentity(pathname.slice('/spot/'.length));
-    if (spotId === undefined) return { status: 'invalid' };
+    if (spotId === undefined) return { ...context, status: 'invalid' };
     const spot = currentSpots[spotId];
-    if (!spot) return { status: 'not-current' };
+    if (!spot) return { ...context, status: 'not-current' };
+    if (Object.hasOwn(currentSpots, spotId)) context.spot = spot;
     const owners = journeysForSpot(spot);
     if (owners.length > 0) {
       constraints.push(owners);
@@ -72,10 +88,10 @@ export function resolveCurrentJourneyLocation(
     }
   }
 
-  const params = new URLSearchParams(search);
   let hasUnknownQueryIdentity = false;
   for (const key of ['candidateId', 'routeId', 'resultId'] as const) {
     for (const value of params.getAll(key).filter(Boolean)) {
+      context.hasJourneyQuery = true;
       const matches = journeysForQueryIdentity(key, value);
       if (matches.length === 0) hasUnknownQueryIdentity = true;
       else constraints.push(matches);
@@ -83,19 +99,18 @@ export function resolveCurrentJourneyLocation(
   }
 
   if (hasUnknownQueryIdentity) {
-    return constraints.length > 0 ? { status: 'invalid' } : { status: 'not-current' };
+    return { ...context, status: constraints.length > 0 ? 'invalid' : 'not-current' };
   }
-  if (constraints.length === 0) return { status: 'default' };
+  if (constraints.length === 0) return { ...context, status: 'default' };
 
   const matchingJourneys = currentJourneys.filter((journey) =>
     constraints.every((constraint) => constraint.includes(journey)),
   );
-  if (matchingJourneys.length === 0) return { status: 'invalid' };
   if (matchingJourneys.length === 1) {
-    return { status: 'resolved', journey: matchingJourneys[0] };
+    return { ...context, status: 'resolved', journey: matchingJourneys[0] };
   }
   if (spotDefault && matchingJourneys.includes(spotDefault)) {
-    return { status: 'resolved', journey: spotDefault };
+    return { ...context, status: 'resolved', journey: spotDefault };
   }
-  return { status: 'invalid' };
+  return { ...context, status: 'invalid' };
 }
