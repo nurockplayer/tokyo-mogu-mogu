@@ -1,4 +1,5 @@
 import { execFile } from 'node:child_process';
+import { existsSync } from 'node:fs';
 import net from 'node:net';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
@@ -16,6 +17,18 @@ import { describe, expect, it } from 'vitest';
 
 const execFileAsync = promisify(execFile);
 const guardScript = fileURLToPath(new URL('../assert-preview-port-free.mjs', import.meta.url));
+const focusedRegressionSpecs = [
+  'issue-283-visual-parity.spec.ts',
+  'issue-296-my-badges.spec.ts',
+  'issue-313-my-badges-layout.spec.ts',
+  'issue-348-ome-sake.spec.ts',
+  'issue-349-hachioji-ginger.spec.ts',
+  'issue-350-fussa-sake.spec.ts',
+  'issue-351-akiruno-produce.spec.ts',
+  'issue-374-route-spacing.spec.ts',
+  'issue-379-food-profile-modal-dismiss.spec.ts',
+  'issue-408-ios-viewport.spec.ts',
+];
 
 /** Grab a currently-free loopback port, then release it. */
 function freePort(): Promise<number> {
@@ -92,5 +105,9 @@ describe('playwright preview-server guard (#188)', () => {
     expect(canonical.testMatch).toBe('current-mvp-smoke.spec.ts');
     expect(Array.isArray(focused.testMatch)).toBe(true);
     expect(focused.testMatch).not.toContain(canonical.testMatch);
+    expect(focused.testMatch).toEqual(expect.arrayContaining(focusedRegressionSpecs));
+    for (const spec of focusedRegressionSpecs) {
+      expect(existsSync(fileURLToPath(new URL(`../../e2e/${spec}`, import.meta.url)))).toBe(true);
+    }
   });
 });
