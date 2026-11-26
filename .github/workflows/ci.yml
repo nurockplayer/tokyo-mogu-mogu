@@ -68,9 +68,11 @@ jobs:
           BASE: ${{ steps.base.outputs.base }}
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
         with:
-          version: 11.13.0
+          node-version-file: false
+          install: false
+          version: 12.11.2
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -124,9 +126,11 @@ jobs:
           fetch-depth: 0
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
         with:
-          version: 11.13.0
+          node-version-file: false
+          install: false
+          version: 12.11.2
 
       - name: Setup Node
         uses: actions/setup-node@v4

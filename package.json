@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "description": "Create reasons to discover outer Tokyo through regional food culture.",
   "type": "module",
-  "packageManager": "pnpm@11.13.0",
+  "packageManager": "pnpm@12.11.2",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
