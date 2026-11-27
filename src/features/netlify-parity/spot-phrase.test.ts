@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { strings, type Locale } from '../../i18n/resources';
+import { spotPhraseStaffNotice, strings, type Locale } from '../../i18n/resources';
 import { createDefaultFoodProfile } from '../../lib/food-profile';
 import { foodProfileToDurableProfile } from './chat/foodProfileMachine';
 import { buildSpotPhrase } from './spot-phrase';
@@ -37,13 +37,34 @@ describe('Spot phrase', () => {
       answers: { allergy: ['custom:Sesame'], diet: [], religion: [], dislike: [] },
       customAnswers: { allergy: ['Sesame'], diet: [], religion: [], dislike: [] },
     });
-    expect(buildSpotPhrase(profile, 'ja')).toContain('食物アレルギー：ごま');
-    expect(buildSpotPhrase(profile, 'ja')).not.toContain('Sesame');
+    const staffPhrase = buildSpotPhrase(profile, 'staff');
+    expect(staffPhrase).toContain('食物アレルギー：ごま');
+    expect(staffPhrase).not.toContain('Sesame');
+    expect(staffPhrase).not.toContain(spotPhraseStaffNotice);
     expect(buildSpotPhrase(profile, 'en')).toContain('Food allergies: Sesame');
+    expect(buildSpotPhrase(profile, 'en')).not.toContain(strings.en.spotPhraseCustomNotice);
 
     const olderProfile = { ...profile };
     delete olderProfile.dietarySelections;
-    expect(buildSpotPhrase(olderProfile, 'ja')).toContain('その他の食事制限：ごま');
+    expect(buildSpotPhrase(olderProfile, 'staff')).toContain('その他の食事制限：ごま');
+  });
+
+  it('preserves unmatched entries and appends one notice for each audience', () => {
+    const profile = foodProfileToDurableProfile({
+      answers: { allergy: ['custom:Sumac', 'custom:Asafoetida'], diet: [], religion: [], dislike: [] },
+      customAnswers: { allergy: ['Sumac', 'Asafoetida'], diet: [], religion: [], dislike: [] },
+    });
+    for (const [language, notice] of [
+      ['staff', spotPhraseStaffNotice],
+      ['ja', strings.ja.spotPhraseCustomNotice],
+      ['en', strings.en.spotPhraseCustomNotice],
+      ['zh-TW', strings['zh-TW'].spotPhraseCustomNotice],
+    ] as const) {
+      const phrase = buildSpotPhrase(profile, language);
+      expect(phrase).toContain('Sumac');
+      expect(phrase).toContain('Asafoetida');
+      expect(phrase.split('\n').filter((line) => line === notice)).toEqual([notice]);
+    }
   });
 
   it('keeps the general question and lists dislikes when they are the only selections', () => {

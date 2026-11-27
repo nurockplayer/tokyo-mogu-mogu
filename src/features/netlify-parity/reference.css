@@ -475,7 +475,7 @@ body:has(.reference-app) { min-height:0; }
 .reference-app .guide-box h2 { font-size:18px; }
 .reference-app :is(.guide-box, .spot-phrase) p { font-size:13.5px; line-height:1.9; margin-top:8px; }
 .reference-app .spot-phrase summary { font-size:18px; font-weight:700; cursor:pointer; }
-.reference-app .spot-phrase p { white-space:pre-line; overflow-wrap:anywhere; }
+.reference-app .spot-phrase p { white-space:pre-wrap; overflow-wrap:anywhere; }
 .reference-app .guide-box .book { width:100%; margin-top:12px; background:var(--header); color:#fff; border-radius:10px; padding:13px; font-weight:500; font-size:14.5px; }
 .reference-app .guide-box a.book { display:block; box-sizing:border-box; text-align:center; text-decoration:none; }
 .reference-app .caution { background:#F3F1DE; border-radius:12px; padding:14px; margin:14px 18px 20px; }

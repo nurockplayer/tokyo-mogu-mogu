@@ -22,6 +22,8 @@ export type Locale = 'ja' | 'en' | 'zh-TW';
  */
 export const DEFAULT_LOCALE: Locale = 'ja';
 
+export const spotPhraseStaffNotice = '※一部はお客様ご本人が入力した表記のままです。';
+
 export const strings = {
   ja: {
     appName: '東京もぐもぐ',
@@ -284,6 +286,7 @@ export const strings = {
     spotPhraseDislikes: '苦手な食材・味',
     spotPhraseOther: 'その他の食事制限',
     spotPhraseSesame: 'ごま',
+    spotPhraseCustomNotice: '自分で入力した項目は入力どおりに表示されます。日本語で伝えられるよう準備しておくと安心です。',
     s6BackToRoute: 'ルートに戻る',
     s6NotFoundTitle: 'スポットが見つかりません',
     s6NotFoundBody: 'このスポットは存在しないか、すでに削除された可能性があります。',
@@ -1145,6 +1148,7 @@ export const strings = {
     spotPhraseDislikes: 'Ingredients and flavors I dislike',
     spotPhraseOther: 'Other dietary restrictions',
     spotPhraseSesame: 'sesame',
+    spotPhraseCustomNotice: 'Items you typed yourself are shown as entered. Have the Japanese name ready if you can.',
     s6BackToRoute: 'Back to route',
     s6NotFoundTitle: 'Spot not found',
     s6NotFoundBody: 'This spot does not exist or may have been removed.',
@@ -2015,6 +2019,7 @@ export const strings = {
     spotPhraseDislikes: '不喜歡的食材或口味',
     spotPhraseOther: '其他飲食限制',
     spotPhraseSesame: '芝麻',
+    spotPhraseCustomNotice: '您自行輸入的項目會照原樣顯示，建議事先準備好日文名稱。',
     s6BackToRoute: '返回路線',
     s6NotFoundTitle: '找不到地點',
     s6NotFoundBody: '此地點不存在，或可能已被刪除。',

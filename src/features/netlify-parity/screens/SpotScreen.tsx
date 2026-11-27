@@ -206,7 +206,7 @@ export function SpotScreen({
           <summary>{strings[locale].spotPhraseOpen}</summary>
           <p>{buildSpotPhrase(foodProfile, locale)}</p>
           <p><strong>{strings[locale].spotPhraseShow}</strong></p>
-          <p lang="ja">{buildSpotPhrase(foodProfile, 'ja')}</p>
+          <p lang="ja">{buildSpotPhrase(foodProfile, 'staff')}</p>
         </details>
 
         <aside className="caution">

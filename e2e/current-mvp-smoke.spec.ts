@@ -1,7 +1,7 @@
 import { expect, test, type Page } from '@playwright/test';
 import { checkJourneyAdmission, resolveJourneyVisitorSource } from '../src/data/journey-admission';
 import { JOURNEY_RECORDS } from '../src/data/journey-records';
-import { strings } from '../src/i18n/resources';
+import { spotPhraseStaffNotice, strings } from '../src/i18n/resources';
 
 const publicationDate = new Date('2026-11-27T13:00:00Z');
 const publication = JOURNEY_RECORDS.map((record) => ({
@@ -204,7 +204,7 @@ test('#443 opens the Spot phrase card offline at 375px in each locale', async ({
   }, {
     ...persistedFoodProfile,
     dietary: ['allergy', 'religious'],
-    dietarySelections: { allergy: ['egg', 'wheat'], religious: ['pork'] },
+    dietarySelections: { allergy: ['egg', 'wheat', 'custom:sesame', 'custom:Sumac'], religious: ['pork'] },
     hasNoRestrictions: false,
   });
 
@@ -215,8 +215,14 @@ test('#443 opens the Spot phrase card offline at 375px in each locale', async ({
     const card = page.locator('[data-screen="spot"][data-screen-active="true"] .spot-phrase');
     await context.setOffline(true);
     await card.getByText(strings[locale].spotPhraseOpen, { exact: true }).click();
-    await expect(card.locator('p').first()).toContainText(wheat);
-    await expect(card.locator('[lang="ja"]')).toContainText('小麦');
+    const traveller = card.locator('p').first();
+    const staff = card.locator('[lang="ja"]');
+    await expect(traveller).toContainText(wheat);
+    await expect(traveller).toContainText(strings[locale].spotPhraseCustomNotice);
+    await expect(staff).toContainText('小麦');
+    await expect(staff).toContainText('ごま');
+    await expect(staff).toContainText('Sumac');
+    await expect(staff).toContainText(spotPhraseStaffNotice);
     await expectNoHorizontalOverflow(page);
     if (locale !== 'en') {
       await card.scrollIntoViewIfNeeded();
