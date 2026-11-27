@@ -50,6 +50,12 @@ const stopLabels: Record<Locale, { alternative: string; noAlternative: string }>
   'zh-TW': { alternative: '替代景點', noAlternative: '這個停靠點沒有替代景點。' },
 };
 
+const shareLabels: Record<Locale, { link: string; close: string }> = {
+  ja: { link: 'ルートのリンクをコピー', close: '閉じる' },
+  en: { link: 'Copy the route link', close: 'Close' },
+  'zh-TW': { link: '複製路線連結', close: '關閉' },
+};
+
 const missionSpotIds = new Set([
   'akabeko',
   'yamashiroya',
@@ -70,10 +76,11 @@ export interface RouteScreenProps {
   locale: Locale;
   journey: JourneyPresentation;
   record?: JourneyRecord;
+  initialVariantId?: RouteVariantId;
   saved?: boolean;
   completedMissionSpotIds?: readonly string[];
   onBack: () => void;
-  onShare?: (journey: JourneyPresentation) => void;
+  onShare: (variant: RouteVariant) => Promise<string | undefined>;
   onRegenerate?: (journey: JourneyPresentation, variant: RouteVariant) => void;
   onOpenSpot: (spot: SpotPresentation) => void;
   onSaveRoute: (journey: JourneyPresentation) => void;
@@ -86,6 +93,7 @@ export function RouteScreen({
   locale,
   journey,
   record,
+  initialVariantId = 'half-day',
   saved = false,
   completedMissionSpotIds = [],
   onBack,
@@ -95,9 +103,10 @@ export function RouteScreen({
   onSaveRoute,
   onViewSavedRoutes,
 }: RouteScreenProps) {
-  const [variantId, setVariantId] = useState<RouteVariantId>('half-day');
+  const [variantId, setVariantId] = useState(initialVariantId);
+  const [shareLink, setShareLink] = useState<string>();
+  const shareDialogRef = useRef<HTMLDialogElement>(null);
   const [regenerating, setRegenerating] = useState(false);
-  const wasActiveRef = useRef(active);
   const regenerationTimerRef = useRef<number | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const labels = routeLabels[locale];
@@ -129,9 +138,13 @@ export function RouteScreen({
   );
 
   useEffect(() => {
-    if (active && !wasActiveRef.current) setVariantId('half-day');
-    wasActiveRef.current = active;
-  }, [active]);
+    if (active) setVariantId(initialVariantId);
+  }, [active, initialVariantId]);
+
+  useEffect(() => {
+    if (active && shareLink) shareDialogRef.current!.showModal();
+    if (!active) shareDialogRef.current!.close();
+  }, [active, shareLink]);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: 0 });
@@ -175,7 +188,7 @@ export function RouteScreen({
         <span>{routeNames[journey.id]?.[locale] ?? journey.copy[locale].title}</span>
         <button
           className="share-btn"
-          onClick={() => onShare?.(journey)}
+          onClick={async () => setShareLink(await onShare(variant))}
           type="button"
           aria-label={copy.actions.shareRoute}
         >
@@ -189,11 +202,30 @@ export function RouteScreen({
             key={candidate.id}
             onClick={() => setVariantId(candidate.id)}
             type="button"
+            aria-pressed={candidate.id === variant.id}
           >
             {candidate.id === 'half-day' ? copy.route.halfDay : copy.route.fullDay}
           </button>
         ))}
       </div>
+      <dialog
+        ref={shareDialogRef}
+        className="route-share-dialog"
+        aria-labelledby="route-share-link-label"
+        onClose={() => setShareLink(undefined)}
+      >
+        <label id="route-share-link-label" htmlFor="route-share-link">{shareLabels[locale].link}</label>
+        <textarea
+          id="route-share-link"
+          readOnly
+          rows={2}
+          value={shareLink ?? ''}
+          onFocus={(event) => event.currentTarget.select()}
+        />
+        <form method="dialog">
+          <button type="submit">{shareLabels[locale].close}</button>
+        </form>
+      </dialog>
       <div className="scroll" ref={scrollRef}>
         <div className="route-map">
           <PresentationMedia

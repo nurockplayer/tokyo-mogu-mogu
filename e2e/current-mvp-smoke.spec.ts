@@ -26,6 +26,99 @@ const retrievalDate = /\d{4}-\d{2}-\d{2}(?: \/ \d{4}-\d{2}-\d{2})* \(JST\)/;
 const activeScreen = (page: Page, screen: string) =>
   page.locator(`[data-screen="${screen}"][data-screen-active="true"]`);
 
+test('S3-6 shares the selected itinerary with a clean browser at 375px', async ({ page, browser }, testInfo) => {
+  const { record, offeredVariants } = publication.find(({ offeredVariants }) => offeredVariants.length > 1) ?? admitted!;
+  const variantId = offeredVariants.at(-1)!.id;
+  const variantLabel = variantId === 'half-day' ? '半日' : '一日';
+  const routePath = `/route?candidateId=${record.journey.id}`;
+  await page.clock.setFixedTime(publicationDate);
+  await page.addInitScript(({ profile, savedRouteId }) => {
+    localStorage.setItem('tmm:nickname:v1', 'private-traveller');
+    localStorage.setItem('tmm:foodProfile:v1', JSON.stringify(profile));
+    localStorage.setItem('tmm:savedRoutes', JSON.stringify([{ routeId: savedRouteId, savedAt: profile.savedAt }]));
+    Object.defineProperty(navigator, 'share', {
+      value: async (payload: ShareData) => sessionStorage.setItem('captured-share', JSON.stringify(payload)),
+    });
+  }, {
+    profile: {
+      ...persistedFoodProfile,
+      dietary: ['allergy'],
+      dietarySelections: { allergy: ['egg'] },
+      hasNoRestrictions: false,
+    },
+    savedRouteId: record.journey.routeId,
+  });
+  await page.goto(`${routePath}&from=my`);
+  const senderRoute = activeScreen(page, 'route');
+  const stops = (route: ReturnType<typeof activeScreen>) => route.locator('[data-spot-id]').evaluateAll(
+    (elements) => elements.map((element) => element.getAttribute('data-spot-id')),
+  );
+  const selectedVariant = senderRoute.getByRole('button', { name: variantLabel, exact: true });
+  await selectedVariant.click();
+  await expect(selectedVariant).toHaveAttribute('aria-pressed', 'true');
+  const sharedStops = await stops(senderRoute);
+  expect(sharedStops.length).toBeGreaterThan(0);
+  await senderRoute.getByRole('button', { name: 'ルートをシェア' }).click();
+  const payload = await page.evaluate(() => JSON.parse(sessionStorage.getItem('captured-share')!) as ShareData);
+  const expected = new URL(`${routePath}&variant=${variantId}`, page.url()).href;
+  expect(payload.url).toBe(expected);
+
+  const clean = await browser.newContext({ viewport: { width: 375, height: 812 }, locale: 'ja-JP' });
+  try {
+    expect(await clean.storageState()).toEqual({ cookies: [], origins: [] });
+    const recipient = await clean.newPage();
+    await recipient.clock.setFixedTime(publicationDate);
+    await recipient.goto(payload.url!);
+    const recipientRoute = activeScreen(recipient, 'route');
+    await expect(recipientRoute.getByRole('button', { name: variantLabel, exact: true })).toHaveAttribute('aria-pressed', 'true');
+    await expect(recipientRoute.locator('.ghead > span')).toHaveText(await senderRoute.locator('.ghead > span').innerText());
+    expect(await stops(recipientRoute)).toEqual(sharedStops);
+    await expectNoHorizontalOverflow(recipient);
+    await recipient.locator('.route-info').scrollIntoViewIfNeeded();
+    await recipient.screenshot({ path: testInfo.outputPath('s3-6-shared-itinerary-ja.png'), animations: 'disabled' });
+    const unavailableVariant = new URL(expected);
+    unavailableVariant.searchParams.set('variant', 'unavailable-variant');
+    await recipient.goto(unavailableVariant.href);
+    await expect(activeScreen(recipient, 'journey-unavailable')).toBeVisible();
+  } finally {
+    await clean.close();
+  }
+});
+
+test('S3-7 copies the selectable link after native share cancellation or failure at 375px', async ({ page, context }, testInfo) => {
+  const { record, defaultVariant } = admitted!;
+  const errors = ['AbortError', 'NotAllowedError'];
+  await page.clock.setFixedTime(publicationDate);
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  await page.addInitScript((names) => {
+    Object.defineProperty(navigator, 'share', {
+      value: async () => { throw new DOMException('Share did not complete', names.shift()); },
+    });
+  }, errors);
+  const routePath = `/route?candidateId=${record.journey.id}`;
+  await page.goto(routePath);
+  const route = activeScreen(page, 'route');
+  const dialog = route.getByRole('dialog', { name: 'ルートのリンクをコピー' });
+  const link = dialog.getByRole('textbox', { name: 'ルートのリンクをコピー' });
+  const expected = new URL(`${routePath}&variant=${defaultVariant!.id}`, page.url()).href;
+  for (const error of errors) {
+    await route.getByRole('button', { name: 'ルートをシェア' }).click();
+    await expect(link).toHaveValue(expected);
+    await expect(link).toBeFocused();
+    expect(await link.evaluate((field: HTMLTextAreaElement) =>
+      field.value.slice(field.selectionStart, field.selectionEnd))).toBe(expected);
+    await page.evaluate(() => navigator.clipboard.writeText(''));
+    await link.press('ControlOrMeta+c');
+    await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(expected);
+    await expectNoHorizontalOverflow(page);
+    if (error === 'AbortError') {
+      await page.screenshot({ path: testInfo.outputPath('s3-7-share-recovery-ja.png'), animations: 'disabled' });
+    }
+    await dialog.getByRole('button', { name: '閉じる' }).click();
+    await expect(dialog).toBeHidden();
+  }
+});
+
 const representativeJourneys = new Map<MunicipalityGroup, (typeof publication)[number]>();
 const sampledCultures = new Set<string>();
 for (const sample of publication) {

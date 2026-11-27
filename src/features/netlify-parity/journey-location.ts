@@ -17,7 +17,7 @@ interface JourneyLocationContext {
 
 export type CurrentJourneyLocationResolution = JourneyLocationContext & (
   | { status: 'default' }
-  | { status: 'resolved'; journey: JourneyPresentation }
+  | { status: 'resolved'; journey: JourneyPresentation; variantId?: JourneyPresentation['routeVariants'][number]['id'] }
   | { status: 'invalid' }
   | { status: 'not-current' }
   | { status: 'unavailable' }
@@ -145,6 +145,14 @@ export function resolvePublishedJourneyLocation(pathname: string, search: string
     (!published.routeVariants.some(({ steps }) => steps.some((step) => selectRouteStop(record, step.spotId) === spotId)) &&
       !Object.values(record.story.groups).some((group) => group.some((spot) => spot.spotId === spotId))))) {
     return { ...location, status: 'unavailable' };
+  }
+  if (pathname === '/route') {
+    const requestedVariant = new URLSearchParams(search).get('variant');
+    if (requestedVariant !== null) {
+      const variant = published.routeVariants.find(({ id }) => id === requestedVariant);
+      if (!variant) return { ...location, status: 'unavailable' };
+      return { ...location, status: 'resolved', journey: published, variantId: variant.id };
+    }
   }
   return { ...location, status: 'resolved', journey: published };
 }
