@@ -181,10 +181,10 @@ function journeyDeepLinks(journey: JourneyPresentation, record?: (typeof JOURNEY
   const spots = new Set(journey.routeVariants.flatMap(({ steps }) =>
     steps.flatMap(({ spotId }) => [spotId, selectRouteStop(record, spotId) ?? spotId])));
   return [
-    { screen: 'story', path: `/story/${journey.storyId}` },
-    { screen: 'route', path: `/route?routeId=${journey.routeId}` },
-    { screen: 'route', path: `/route?candidateId=${journey.id}` },
-    ...[...spots].map((id) => ({ screen: 'spot', path: `/spot/${id}?candidateId=${journey.id}` })),
+    `/story/${journey.storyId}`,
+    `/route?routeId=${journey.routeId}`,
+    `/route?candidateId=${journey.id}`,
+    ...[...spots].map((id) => `/spot/${id}?candidateId=${journey.id}`),
   ];
 }
 
@@ -216,7 +216,7 @@ test('S2-7 reconciles MOGU and published links with the admission command', asyn
       await expect(activeScreen(page, 'story').getByRole('heading', { level: 1 }),
         journey.id).toHaveText(journey.copy.ja.title);
     } else {
-      for (const { path } of journeyDeepLinks(journey, record)) {
+      for (const path of journeyDeepLinks(journey, record)) {
         await page.goto(path, { waitUntil: 'domcontentloaded' });
         await expect(activeScreen(page, 'journey-unavailable').getByRole('heading'), path)
           .toHaveText(strings.ja.journeyUnavailableTitle);
@@ -230,7 +230,8 @@ test('S2-7 reconciles MOGU and published links with the admission command', asyn
   console.log(`S2-7 checked ${admittedIds.length} admitted Stories and ${statuses.size - admittedIds.length} excluded journeys.`);
 });
 
-test('S2-7 demo fixture deep links should show Journey Unavailable', async ({ page }, testInfo) => {
+test('S2-7 demo fixture deep links show Journey Unavailable', async ({ page }, testInfo) => {
+  test.setTimeout(90_000);
   const loader = await createServer({
     configFile: false,
     server: { middlewareMode: true, watch: null, ws: false },
@@ -241,7 +242,6 @@ test('S2-7 demo fixture deep links should show Journey Unavailable', async ({ pa
   } finally {
     await loader.close();
   }
-  const reachable: string[] = [];
   const unavailable = activeScreen(page, 'journey-unavailable');
   await page.goto('/mogu');
   const browse = activeScreen(page, 'mogu');
@@ -249,23 +249,27 @@ test('S2-7 demo fixture deep links should show Journey Unavailable', async ({ pa
   for (const demo of demoJourneys) {
     await expect(browse.locator(`[data-journey-id="${demo.id}"]`)).toHaveCount(0);
   }
-  for (const demo of demoJourneys) {
-    for (const { path, screen } of journeyDeepLinks(demo)) {
-      await page.goto(path);
-      const target = activeScreen(page, screen);
-      await expect(unavailable.or(target), path).toBeVisible();
-      if (await target.isVisible()) {
-        reachable.push(path);
-        if (screen === 'story') {
-          await page.screenshot({ path: testInfo.outputPath(`s2-reachable-${demo.id}-ja.png`) });
-        }
+
+  const paths = ['/story', '/route', ...demoJourneys.flatMap((demo) => journeyDeepLinks(demo))];
+  for (const locale of ['ja', 'en', 'zh-TW'] as const) {
+    await page.evaluate((value) => localStorage.setItem('tmm:locale', value), locale);
+    for (const path of paths) {
+      await page.goto(path, { waitUntil: 'domcontentloaded' });
+      await expect(unavailable.getByRole('heading'), `${locale} ${path}`)
+        .toHaveText(strings[locale].journeyUnavailableTitle);
+      await expect(unavailable.getByRole('link', { name: strings[locale].journeyUnavailableBack }))
+        .toHaveAttribute('href', '/mogu');
+      const demo = demoJourneys.find(({ storyId }) => path === `/story/${storyId}`);
+      if (demo) {
+        await expectNoHorizontalOverflow(page);
+        await page.screenshot({
+          path: testInfo.outputPath(`s2-unavailable-${demo.id}-${locale}.png`),
+          animations: 'disabled',
+        });
       }
     }
   }
-  await testInfo.attach('reachable demo deep links', { body: JSON.stringify(reachable), contentType: 'application/json' });
-  console.log(`S2-7 reachable demo deep links: ${reachable.join(', ')}`);
-  test.fail(true, 'The legacy demo journey deep links remain public on current main.');
-  expect(reachable).toEqual([]);
+  console.log(`S2-7 checked ${paths.length - 2} demo deep links and both bare Story/Route paths in ja, en, and zh-TW.`);
 });
 
 test('S2-10 adding a data record alone adds a MOGU card', async ({ page }, testInfo) => {
@@ -813,21 +817,8 @@ test('completes the current 375px Japanese Golden Path and preserves saved state
   await expect(page.locator('[data-screen="home"][data-screen-active="true"]')).toBeVisible();
 });
 
-test('opens the source-backed Yamashiroya Spot from the full-day Route (#323)', async ({
-  page,
-}) => {
-  await page.goto('/route?candidateId=demo-okutama-wasabi');
-  const route = page.locator('[data-screen="route"][data-screen-active="true"]');
-
-  await route.getByRole('button', { name: '一日', exact: true }).click();
-  const yamashiroyaCard = route.locator('[data-spot-id="yamashiroya"]');
-  await expect(yamashiroyaCard).toContainText('奥多摩わさび本舗 山城屋');
-  await expect(yamashiroyaCard).toContainText('わさび漬・生わさび');
-  await yamashiroyaCard.click();
-
-  await expect(page).toHaveURL(
-    /\/spot\/yamashiroya\?candidateId=demo-okutama-wasabi$/,
-  );
+test('opens the standalone source-backed Yamashiroya Spot (#323)', async ({ page }) => {
+  await page.goto('/spot/yamashiroya');
   const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
   await expect(
     spot.getByRole('heading', { name: '奥多摩わさび本舗 山城屋' }),
@@ -842,39 +833,6 @@ test('opens the source-backed Yamashiroya Spot from the full-day Route (#323)', 
   await expect(spot).toContainText('不一致。最新情報を確認');
   await expect(spot).toContainText('掲載内容は現在確認中です');
   await expect(spot).not.toContainText(/創業172年|6代目|参考スポットです/);
-  await expectNoHorizontalOverflow(page);
-});
-
-test('opens the source-backed Okutama no Daidokoro Spot from the half-day Route (#325)', async ({
-  page,
-}) => {
-  await page.goto('/route?candidateId=demo-okutama-wasabi');
-  const route = page.locator('[data-screen="route"][data-screen-active="true"]');
-  const kitchenCard = route.locator('[data-spot-id="okutama-kitchen"]');
-
-  await expect(kitchenCard).toContainText('手作りお弁当・お惣菜の専門店 奥多摩の台所');
-  await expect(kitchenCard).toContainText('特選ソフトジェラート');
-  await expect(kitchenCard).toContainText('わさび味');
-  await kitchenCard.click();
-
-  await expect(page).toHaveURL(
-    /\/spot\/okutama-kitchen\?candidateId=demo-okutama-wasabi$/,
-  );
-  const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
-  await expect(
-    spot.getByRole('heading', {
-      name: '手作りお弁当・お惣菜の専門店 奥多摩の台所',
-    }),
-  ).toBeVisible();
-  await expect(spot).toContainText('〒198-0212 東京都西多摩郡奥多摩町氷川199-7');
-  await expect(spot).toContainText('0428-83-2401');
-  await expect(spot).toContainText('9:00〜18:00（L.O. 16:00）');
-  await expect(spot).toContainText('JR青梅線「奥多摩駅」より徒歩1分');
-  await expect(spot).toContainText('木曜日');
-  await expect(spot).toContainText('駐車場なし（近隣コインパーキングあり）');
-  await expect(spot).toContainText('サイト掲載価格・提供状況は要確認');
-  await expect(spot).toContainText('掲載内容は現在確認中です');
-  await expect(spot).not.toContainText(/わさびジェラートが名物|参考スポットです/);
   await expectNoHorizontalOverflow(page);
 });
 
@@ -914,7 +872,7 @@ test('keeps the source-backed Okutama no Daidokoro facts safe in every locale (#
       localStorage.clear();
       localStorage.setItem('tmm:locale', locale);
     }, expected.locale);
-    await page.goto('/spot/okutama-kitchen?candidateId=demo-okutama-wasabi');
+    await page.goto('/spot/okutama-kitchen');
 
     const app = page.locator('.reference-app');
     const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
@@ -927,42 +885,6 @@ test('keeps the source-backed Okutama no Daidokoro facts safe in every locale (#
     await expect(spot).not.toContainText(/Netlify|デモ用編集情報|デモ参考情報/);
     await expectNoHorizontalOverflow(page);
   }
-});
-
-test('opens the source-backed PORT OKUTAMA Spot from both Route variants (#327)', async ({
-  page,
-}) => {
-  await page.goto('/route?candidateId=demo-okutama-wasabi');
-  let route = page.locator('[data-screen="route"][data-screen-active="true"]');
-  let portCard = route.locator('[data-spot-id="port-okutama"]');
-
-  await expect(portCard).toContainText('PORT OKUTAMA');
-  await expect(portCard).toContainText('食事・コーヒー・土産');
-  await portCard.click();
-
-  await expect(page).toHaveURL(
-    /\/spot\/port-okutama\?candidateId=demo-okutama-wasabi$/,
-  );
-  const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
-  await expect(spot.getByRole('heading', { name: 'PORT OKUTAMA' })).toBeVisible();
-  await expect(spot).toContainText('東京都西多摩郡奥多摩町氷川210（JR奥多摩駅2階）');
-  await expect(spot).toContainText('0428-85-8630');
-  await expect(spot).toContainText('平日 11:00〜17:00（L.O. 16:30）');
-  await expect(spot).toContainText('土日祝 11:00〜17:30（L.O. 17:00）');
-  await expect(spot).toContainText('無休（不定休あり・最新情報を確認）');
-  await expect(spot).toContainText('食事・スペシャルティコーヒー・クラフトビール');
-  await expect(spot).toContainText('https://www.okutama.ne.jp/');
-  await expect(spot).toContainText('掲載内容は現在確認中です');
-  await expect(spot).not.toContainText(/旅の最後に立ち寄るための、参考スポットです|Netlify/);
-  await expectNoHorizontalOverflow(page);
-
-  await page.goto('/route?candidateId=demo-okutama-wasabi');
-  route = page.locator('[data-screen="route"][data-screen-active="true"]');
-  await route.getByRole('button', { name: '一日', exact: true }).click();
-  portCard = route.locator('[data-spot-id="port-okutama"]');
-  await expect(portCard).toContainText('スペシャルティコーヒー');
-  await expect(portCard).toContainText('提供状況は要確認');
-  await expectNoHorizontalOverflow(page);
 });
 
 test('keeps source-backed PORT OKUTAMA facts safe in every locale (#327)', async ({ page }) => {
@@ -996,7 +918,7 @@ test('keeps source-backed PORT OKUTAMA facts safe in every locale (#327)', async
       localStorage.clear();
       localStorage.setItem('tmm:locale', locale);
     }, expected.locale);
-    await page.goto('/spot/port-okutama?candidateId=demo-okutama-wasabi');
+    await page.goto('/spot/port-okutama');
 
     const app = page.locator('.reference-app');
     const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
@@ -1046,7 +968,7 @@ test('keeps Akabeko phone divergence and source-backed operations visible in eve
       localStorage.clear();
       localStorage.setItem('tmm:locale', locale);
     }, expected.locale);
-    await page.goto('/spot/akabeko?candidateId=demo-okutama-wasabi');
+    await page.goto('/spot/akabeko');
 
     const app = page.locator('.reference-app');
     const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
@@ -1062,19 +984,6 @@ test('keeps Akabeko phone divergence and source-backed operations visible in eve
     await expect(spot).not.toContainText(/Netlify|デモ用編集情報|デモ参考情報/);
     await expectNoHorizontalOverflow(page);
   }
-
-  await page.goto('/');
-  await page.evaluate(() => localStorage.setItem('tmm:locale', 'ja'));
-  await page.goto('/route?candidateId=demo-okutama-wasabi');
-  const route = page.locator('[data-screen="route"][data-screen-active="true"]');
-  await route.getByRole('button', { name: '一日', exact: true }).click();
-  await expect(route.locator('[data-spot-id="akabeko"]')).toContainText('L.O. 13:30');
-  await expectNoHorizontalOverflow(page);
-
-  await page.goto('/story/wasabi-okutama?candidateId=demo-okutama-wasabi');
-  const story = page.locator('[data-screen="story"][data-screen-active="true"]');
-  await expect(story.locator('[data-spot-id="akabeko"]')).toContainText('わさびジェラート');
-  await expectNoHorizontalOverflow(page);
 });
 
 test('keeps Wasabi Shokudo mobile and time-sensitive in every locale (#324)', async ({ page }) => {
@@ -1090,7 +999,7 @@ test('keeps Wasabi Shokudo mobile and time-sensitive in every locale (#324)', as
       localStorage.clear();
       localStorage.setItem('tmm:locale', locale);
     }, expected.locale);
-    await page.goto('/spot/wasabi-kitchen?candidateId=demo-okutama-wasabi');
+    await page.goto('/spot/wasabi-kitchen');
 
     const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
     await expect(spot.getByRole('heading', { name: expected.name })).toBeVisible();
@@ -1108,23 +1017,6 @@ test('keeps Wasabi Shokudo mobile and time-sensitive in every locale (#324)', as
     await expect(spot).not.toContainText(/土日のみ|Weekends only|僅週末營業|平日はあかべこ|Akabeko is recommended|平日建議前往 AKABEKO|¥900〜|From ¥900|¥900 起/);
     await expectNoHorizontalOverflow(page);
 
-    await page.goto('/route?candidateId=demo-okutama-wasabi');
-    const route = page.locator('[data-screen="route"][data-screen-active="true"]');
-    const routeCard = route.locator('[data-spot-id="wasabi-kitchen"]');
-    await expect(routeCard.locator('img')).toHaveAttribute('src', /wasabi_photo/);
-    await expect(routeCard).toContainText(expected.schedule);
-    await expect(routeCard).toContainText(expected.priceDate);
-    await expect(routeCard).not.toContainText(/徒歩 約 1 分|About 1 min on foot|步行約 1 分鐘|土日のみ|Weekends only|僅週末營業|平日はあかべこ|Akabeko is recommended|平日建議前往 AKABEKO|¥900〜|From ¥900|¥900 起/);
-    await expectNoHorizontalOverflow(page);
-
-    await page.goto('/story/wasabi-okutama?candidateId=demo-okutama-wasabi');
-    const story = page.locator('[data-screen="story"][data-screen-active="true"]');
-    const storyCard = story.locator('[data-spot-id="wasabi-kitchen"]');
-    await expect(storyCard.locator('img')).toHaveAttribute('src', /wasabi_photo/);
-    await expect(storyCard).toContainText(expected.locale === 'zh-TW' ? '行動餐車' : 'FOOD TRUCK');
-    await expect(storyCard).toContainText(expected.schedule);
-    await expectNoHorizontalOverflow(page);
-
     await page.goto('/food-cultures/wasabi-okutama');
     const foodCulture = page.locator('main');
     await expect(foodCulture).toContainText(expected.operatingArea);
@@ -1135,22 +1027,22 @@ test('keeps Wasabi Shokudo mobile and time-sensitive in every locale (#324)', as
   }
 });
 
-test('separates the Ome meeting place from Okutama culture and keeps times seasonal (#328)', async ({ page }) => {
+test('shows the Ome meeting place and seasonal times for Wasabi Experience (#328)', async ({ page }) => {
   const localizedExpectations = [
     {
-      locale: 'ja', region: '青梅・御岳 → 奥多摩', name: 'WASABI EXPERIENCE',
+      locale: 'ja', name: 'WASABI EXPERIENCE',
       address: '〒198-0147 東京都青梅市御岳1-192-4', seasonal: '5〜9月 8:30／10〜4月 11:00',
       access: '御嶽駅」から徒歩約7分', booking: '公式フォームから予約してください',
       duration: '日本語公式 約2〜2.5時間／英語公式 約2時間', durationCaveat: '記載不一致。予約時に確認',
     },
     {
-      locale: 'en', region: 'Ome / Mitake → Okutama', name: 'WASABI EXPERIENCE',
+      locale: 'en', name: 'WASABI EXPERIENCE',
       address: '1-192-4 Mitake, Ome, Tokyo 198-0147', seasonal: 'May–Sep 8:30 / Oct–Apr 11:00',
       access: '7 minutes on foot from Mitake Station', booking: 'Use the official form to book',
       duration: 'Japanese official page: about 2–2.5 hours / English official page: about 2 hours', durationCaveat: 'sources differ; confirm when booking',
     },
     {
-      locale: 'zh-TW', region: '青梅・御嶽 → 奧多摩', name: 'WASABI EXPERIENCE',
+      locale: 'zh-TW', name: 'WASABI EXPERIENCE',
       address: '〒198-0147 東京都青梅市御岳 1-192-4', seasonal: '5～9 月 8:30／10～4 月 11:00',
       access: '從 JR 青梅線「御嶽站」步行約 7 分鐘', booking: '請使用官方表單預約',
       duration: '日文官方約 2～2.5 小時／英文官方約 2 小時', durationCaveat: '資訊不一致，預約時請確認',
@@ -1164,18 +1056,7 @@ test('separates the Ome meeting place from Okutama culture and keeps times seaso
       localStorage.setItem('tmm:locale', locale);
     }, expected.locale);
 
-    await page.goto('/route?candidateId=demo-okutama-wasabi');
-    const route = page.locator('[data-screen="route"][data-screen-active="true"]');
-    await route.getByRole('button', { name: expected.locale === 'en' ? 'Full day' : '一日', exact: true }).click();
-    await expect(route).toContainText(expected.region);
-    await expect(route.locator('[data-spot-id="mitake-station"]')).toContainText(expected.locale === 'en' ? 'Ome / Mitake' : expected.locale === 'ja' ? '青梅市御岳' : '青梅市御嶽');
-    await expect(route).toContainText(expected.seasonal);
-    await expect(route).toContainText(expected.duration);
-    await expect(route).toContainText(expected.durationCaveat);
-    await expect(route).not.toContainText(/集合 8:30(?!.*10〜4月)|Meet at 8:30|8:30 集合/);
-    await expectNoHorizontalOverflow(page);
-
-    await page.goto('/spot/wasabi-experience?candidateId=demo-okutama-wasabi');
+    await page.goto('/spot/wasabi-experience');
     const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
     await expect(spot.getByRole('heading', { name: expected.name })).toBeVisible();
     await expect(spot).toContainText(expected.address);
@@ -1228,7 +1109,7 @@ test('keeps the tourism-office caveat complete in every locale', async ({ page }
       localStorage.clear();
       localStorage.setItem('tmm:locale', locale);
     }, expected.locale);
-    await page.goto('/spot/okutama-tourism-office?candidateId=demo-okutama-wasabi');
+    await page.goto('/spot/okutama-tourism-office');
 
     const app = page.locator('.reference-app');
     const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
@@ -1301,31 +1182,4 @@ test('keeps header and footer fixed while only the middle content scrolls', asyn
   expect(Math.round(await page.evaluate(() => window.scrollY))).toBe(0);
   expect(resultAfter.head?.y).toBeCloseTo(resultBefore.head?.y ?? 0, 1);
   expect(resultAfter.progress?.y).toBeCloseTo(resultBefore.progress?.y ?? 0, 1);
-});
-
-test('keeps route aggregates and station guidance consistent in all locales (#330)', async ({ page }) => {
-  for (const locale of ['ja', 'en', 'zh-TW']) {
-    await page.goto('/');
-    await page.evaluate((value) => localStorage.setItem('tmm:locale', value), locale);
-    for (const [candidateId, count, minutes] of [
-      ['demo-okutama-wasabi', 7, 135],
-      ['demo-okutama-yamame', 4, 120],
-    ] as const) {
-      await page.goto(`/route?candidateId=${candidateId}`);
-      const route = page.locator('[data-screen="route"][data-screen-active="true"]');
-      await expect(route.locator('[data-spot-id]')).toHaveCount(count);
-      await expect(route.locator('.route-stats .st').last()).toContainText(String(count));
-      await expect(route.locator('.route-info')).toContainText(String(minutes));
-      await expect(route.locator('.route-stats')).not.toContainText(/\d+\s*km/i);
-      await expectNoHorizontalOverflow(page);
-      if (candidateId === 'demo-okutama-wasabi') {
-        await route.locator('.day-toggle button').nth(1).click();
-        await expect(route.locator('[data-spot-id]')).toHaveCount(6);
-        await expect(route.locator('.route-stats .st').last()).toContainText('6');
-        await expect(route.locator('.route-info')).toContainText(/御嶽|Mitake/);
-        await expect(route.locator('.route-info')).not.toContainText(/135|90|東京駅|Tokyo Station|東京站/);
-        await expectNoHorizontalOverflow(page);
-      }
-    }
-  }
 });

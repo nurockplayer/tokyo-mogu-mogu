@@ -123,15 +123,18 @@ export function resolveCurrentJourneyLocation(
 export function resolvePublishedJourneyLocation(pathname: string, search: string, now = new Date()): CurrentJourneyLocationResolution {
   const location = resolveCurrentJourneyLocation(pathname, search);
   const spotId = location.spot?.id;
+  if (location.status === 'default' && (pathname === '/story' || pathname === '/route')) {
+    return { ...location, status: 'unavailable' };
+  }
   if (location.status !== 'resolved' && !(location.status === 'default' && spotId)) return location;
   const journey = location.status === 'resolved' ? location.journey : currentJourneys.find((candidate) =>
     spotId && journeyRecord(candidate.id)?.spots[spotId],
   );
   const record = journey && journeyRecord(journey.id);
-  if (!journey || !record) return location;
+  if (!journey) return location;
   const published = publishJourney(journey, now);
-  if (!published) {
-    // A standalone canonical Spot can also appear on an excluded journey.
+  if (!published || !record) {
+    // A standalone canonical Spot can also appear on an unpublished journey.
     if (spotId && !location.hasJourneyQuery && getPlaceById(spotId)) {
       return { ...location, status: 'default' };
     }
