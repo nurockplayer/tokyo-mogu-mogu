@@ -136,15 +136,21 @@ for (const [locale, viewRoute, unavailable, backToMogu] of [
   ['zh-TW', '查看這趟美食之旅的路線', '目前無法瀏覽這趟美食之旅', '返回 MOGU'],
 ] as const) {
   test(`#442 walks the admitted journey in ${locale}`, async ({ page, context }, testInfo) => {
-    expect(admitted, 'The publication snapshot must contain an admitted journey').toBeDefined();
-    const { record, defaultVariant } = admitted!;
+    const walkthroughDate = locale === 'ja' ? new Date() : publicationDate;
+    const stageC = /^b\d{2}-/;
+    const sample = locale === 'ja' ? JOURNEY_RECORDS
+      .filter(({ journey }) => stageC.test(journey.id))
+      .map((record) => ({ record, ...checkJourneyAdmission(record, walkthroughDate) }))
+      .find(({ admitted }) => admitted) : admitted;
+    expect(sample, 'The walkthrough must have an admitted journey').toBeDefined();
+    const { record, defaultVariant } = sample!;
     const { id: admittedId, storyId } = record.journey;
     const primarySpotId = defaultVariant!.primarySpotId!;
     const variant = record.variants[defaultVariant!.id]!;
     const arrival = variant.arrival!;
-    const visitorSource = resolveJourneyVisitorSource(record, primarySpotId, publicationDate)!;
+    const visitorSource = resolveJourneyVisitorSource(record, primarySpotId, walkthroughDate)!;
     const officialDestination = visitorSource.url;
-    await page.clock.setFixedTime(publicationDate);
+    await page.clock.setFixedTime(walkthroughDate);
     await page.addInitScript((value) => localStorage.setItem('tmm:locale', value), locale);
     const active = (screen: string) => page.locator(`[data-screen="${screen}"][data-screen-active="true"]`);
     const screenshot = async (name: string) => {
@@ -199,7 +205,7 @@ for (const [locale, viewRoute, unavailable, backToMogu] of [
       const output = execFileSync('pnpm', ['data:journey-admission'], { encoding: 'utf8' });
       const passing = [...output.matchAll(/^(\S+) admitted(?: — .*)?$/gm)].map(([, id]) => id);
       const exclusions = [...output.matchAll(/^\S+ excluded — (.+)$/gm)].map(([line]) => line);
-      expect(passing[0]).toBe(admittedId);
+      expect(passing.find((id) => stageC.test(id))).toBe(admittedId);
       expect(exclusions).toHaveLength(JOURNEY_RECORDS.length - passing.length);
       const origin = new URL(page.url()).origin;
       const report = [
@@ -207,7 +213,7 @@ for (const [locale, viewRoute, unavailable, backToMogu] of [
         '',
         'Record decisions come from `pnpm data:journey-admission`. The Japanese `#442 walks the admitted journey` smoke generates this report after the 375px preview walkthrough. Start the built preview at the origin below to reopen the URLs.',
         '',
-        `Sample: \`${admittedId}\`, the first admitted record in catalog order.`,
+        `Sample: \`${admittedId}\`, the first admitted Stage C record in catalog order.`,
         '',
         `- [MOGU](${origin}/mogu) · [capture](evidence/s1/s1-5-mogu-ja.png)`,
         `- [Story](${origin}/story/${storyId}) · [capture](evidence/s1/s1-5-story-ja.png)`,
@@ -765,19 +771,13 @@ test('#443 applies two Food Profiles, explains empty results and clears filters'
   await firstReason.scrollIntoViewIfNeeded();
   await screenshot('result-profile-one-ja');
   const firstIds = await ids();
-  const firstResultText = (await result.innerText()).replace(/\s+/g, ' ').trim();
 
   await page.goto('/');
   profile = await reachProfilePreferences(page, 'egg');
   await expect(profile.getByLabel('滞在エリア')).toHaveValue('hachioji');
   await findJourneysFromProfile(page, profile);
-  const guidance = result.getByText('調理中の混入', { exact: false });
-  await expect(guidance).toBeVisible();
+  await expect(result.getByText('調理中の混入', { exact: false })).toBeVisible();
   expect(await ids()).toEqual(firstIds);
-  expect((await result.innerText()).replace(await guidance.innerText(), '').replace(/\s+/g, ' ').trim())
-    .toBe(firstResultText);
-  await guidance.scrollIntoViewIfNeeded();
-  await screenshot('s2-4-dietary-guidance-ja');
   await page.reload();
   await expect(result.getByText('調理中の混入', { exact: false })).toHaveCount(0);
   expect(await ids()).toEqual(firstIds);
@@ -812,6 +812,39 @@ test('#443 applies two Food Profiles, explains empty results and clears filters'
   await result.getByRole('button', { name: '条件をクリア' }).click();
   await expect(firstReason).toContainText('公開中の食旅');
   expect((await ids()).some((id) => firstIds.includes(id))).toBe(true);
+});
+
+test('S2-4 changes only venue guidance when dietary answers change', async ({ page }, testInfo) => {
+  test.setTimeout(60_000);
+  await page.clock.setFixedTime(publicationDate);
+  const area = admitted!.record.municipalityId;
+  const expectedIds = publication.filter(({ admitted, record }) => admitted && record.municipalityId === area)
+    .map(({ record }) => record.journey.id);
+  const result = activeScreen(page, 'result');
+  const ids = () => result.locator('[data-journey-id]')
+    .evaluateAll((cards) => cards.map((card) => card.getAttribute('data-journey-id')));
+  const normalize = (text: string) => text.replace(/\s+/g, ' ').trim();
+  const guidance = result.getByText('調理中の混入', { exact: false });
+
+  await page.goto('/');
+  const profile = await reachProfilePreferences(page);
+  await profile.getByLabel('滞在エリア').selectOption(area);
+  await findJourneysFromProfile(page, profile);
+  await expect.poll(ids).toEqual(expectedIds);
+  await expect(guidance).toHaveCount(0);
+  const baseline = normalize(await result.innerText());
+  await page.screenshot({ path: testInfo.outputPath('s2-4-dietary-baseline-ja.png'), animations: 'disabled' });
+
+  await page.goto('/');
+  const allergyProfile = await reachProfilePreferences(page, 'egg');
+  await expect(allergyProfile.getByLabel('滞在エリア')).toHaveValue(area);
+  await findJourneysFromProfile(page, allergyProfile);
+  await expect(guidance).toBeVisible();
+  await expect.poll(ids).toEqual(expectedIds);
+  expect(normalize((await result.innerText()).replace(await guidance.innerText(), ''))).toBe(baseline);
+  await guidance.scrollIntoViewIfNeeded();
+  await expectNoHorizontalOverflow(page);
+  await page.screenshot({ path: testInfo.outputPath('s2-4-dietary-guidance-ja.png'), animations: 'disabled' });
 });
 
 test('S2-2 / S2-9 filters the admitted catalog and opens a sourced Route without generation', async ({ page }, testInfo) => {
