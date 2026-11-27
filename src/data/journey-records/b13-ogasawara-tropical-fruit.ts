@@ -29,6 +29,7 @@ export const b13OgasawaraTropicalFruitRecord: JourneyRecord = {
   "location": {"ja":{"area":"小笠原村","station":"","access":""},"en":{"area":"Ogasawara Village","station":"","access":""},"zh-TW":{"area":"小笠原村","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "ferry-terminal", "name": {"ja": "二見港船客待合所", "en": "Futami Port passenger terminal", "zh-TW": "二見港旅客候船室"}, "spotId": "b13-ogasawara-tropical-fruit-store", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b13-ogasawara-tropical-fruit-store",
@@ -47,6 +48,7 @@ export const b13OgasawaraTropicalFruitRecord: JourneyRecord = {
   },
   "spots": {
     "b13-ogasawara-tropical-fruit-store": {
+      "visitorSourceId": "admission-visitor",
       "presentation": {
         "id": "b13-ogasawara-tropical-fruit-store",
         "regionId": "ogasawara",
@@ -146,6 +148,8 @@ export const b13OgasawaraTropicalFruitRecord: JourneyRecord = {
     "location": {"ja":{"region":"小笠原村","station":""},"en":{"region":"Ogasawara Village","station":""},"zh-TW":{"region":"小笠原村","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "東京観光財団 父島ガイドブック・大村マップ", "url": "https://www.gotokyo.org/book/wp-content/uploads/2026/03/AO2_2603_chichijima-guidebook_low_JP.pdf", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
+    "admission-visitor": {"name": "小笠原アイランズ農業協同組合 店舗紹介", "url": "https://ogasawara-islands.or.jp/store/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-34": {
       "name": "小笠原の農作物|小笠原の農水産物|東京都小笠原支庁",
       "url": "https://www.soumu.metro.tokyo.lg.jp/07ogasawara/farmfish/crops",

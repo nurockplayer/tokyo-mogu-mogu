@@ -26,6 +26,7 @@ export const b01TachikawaTokyoUdoRecord: JourneyRecord = {
   "location": {"ja":{"area":"立川市","station":"","access":""},"en":{"area":"Tachikawa","station":"","access":""},"zh-TW":{"area":"立川市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "砂川五差路", "en": "Sunagawa Gosaro bus stop", "zh-TW": "砂川五岔路巴士站"}, "spotId": "b01-tachikawa-tokyo-udo-minore-udo", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b01-tachikawa-tokyo-udo-minore-udo",
@@ -49,6 +50,7 @@ export const b01TachikawaTokyoUdoRecord: JourneyRecord = {
   },
   "spots": {
     "b01-tachikawa-tokyo-udo-minore-udo": {
+      "visitorSourceId": "admission-access",
       "presentation": {
         "id": "b01-tachikawa-tokyo-udo-minore-udo",
         "regionId": "tachikawa",
@@ -166,6 +168,7 @@ export const b01TachikawaTokyoUdoRecord: JourneyRecord = {
     "location": {"ja":{"region":"立川市","station":""},"en":{"region":"Tachikawa","station":""},"zh-TW":{"region":"立川市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "JA東京みどり みのーれ立川 アクセス", "url": "https://ja-tokyomidori.or.jp/minore/access/index.html", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-17": {"name":"Tachikawa Tourism and Convention Association — うどパイ","url":"https://tokyo-tachikawa.org/tourism/tourism-4186/","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "source-18": {"name":"Tachikawa Tourism and Convention Association — うどドレッシング","url":"https://tokyo-tachikawa.org/tourism/tourism-4211/","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "source-19": {"name":"Tachikawa Tourism and Convention Association — 笹らぎ","url":"https://tokyo-tachikawa.org/tourism/tourism-4217/","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},

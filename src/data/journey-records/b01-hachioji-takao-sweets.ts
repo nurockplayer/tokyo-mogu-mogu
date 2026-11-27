@@ -24,6 +24,7 @@ export const b01HachiojiTakaoSweetsRecord: JourneyRecord = {
   "location": {"ja":{"area":"八王子市","station":"","access":""},"en":{"area":"Hachioji","station":"","access":""},"zh-TW":{"area":"八王子市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "高尾山駅（ケーブルカー）", "en": "Takaosan cable-car station", "zh-TW": "高尾山站（登山纜車）"}, "spotId": "b01-hachioji-takao-sweets-sumika", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b01-hachioji-takao-sweets-sumika",
@@ -37,6 +38,7 @@ export const b01HachiojiTakaoSweetsRecord: JourneyRecord = {
   },
   "spots": {
     "b01-hachioji-takao-sweets-sumika": {
+      "visitorSourceId": "admission-access",
       "presentation": {
         "id": "b01-hachioji-takao-sweets-sumika",
         "regionId": "hachioji",
@@ -82,6 +84,7 @@ export const b01HachiojiTakaoSweetsRecord: JourneyRecord = {
     "location": {"ja":{"region":"八王子市","station":""},"en":{"region":"Hachioji","station":""},"zh-TW":{"region":"八王子市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "高尾登山電鉄 買う・高尾山スミカ", "url": "https://www.takaotozan.co.jp/sp/shop/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-45": {"name":"Takao Tozan Railway — 食べる","url":"https://www.takaotozan.co.jp/sp/food/","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b01 editorial itinerary — timing and order estimates, not a timetable","url":"https://www.takaotozan.co.jp/sp/food/","sourceType":"manual","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"}
   },

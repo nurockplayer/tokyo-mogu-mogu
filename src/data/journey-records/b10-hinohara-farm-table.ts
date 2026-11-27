@@ -25,6 +25,7 @@ export const b10HinoharaFarmTableRecord: JourneyRecord = {
   "location": {"ja": {"area": "檜原村", "station": "", "access": ""}, "en": {"area": "Hinohara Village", "station": "", "access": ""}, "zh-TW": {"area": "檜原村", "station": "", "access": ""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "宮の沢", "en": "Miyanosawa bus stop", "zh-TW": "宮之澤巴士站"}, "spotId": "b10-hinohara-farm-table-yamabukiya", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b10-hinohara-farm-table-yamabukiya",
@@ -43,6 +44,7 @@ export const b10HinoharaFarmTableRecord: JourneyRecord = {
   },
   "spots": {
     "b10-hinohara-farm-table-yamabukiya": {
+      "visitorSourceId": "admission-access",
       "presentation": {
         "id": "b10-hinohara-farm-table-yamabukiya",
         "regionId": "hinohara",
@@ -128,6 +130,7 @@ export const b10HinoharaFarmTableRecord: JourneyRecord = {
     "location": {"ja": {"region": "檜原村", "station": ""}, "en": {"region": "Hinohara Village", "station": ""}, "zh-TW": {"region": "檜原村", "station": ""}}
   },
   "sources": {
+    "admission-access": {"name": "檜原村観光協会 特産物直売所やまぶき屋", "url": "https://hinohara-kankou.jp/spot/yamabuki-ya/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "s0": {"name": "檜原村エコツーリズム", "url": "https://hinohara-kankou.jp/ecotourism/", "sourceType": "official_web", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"},
     "s1": {"name": "白岩ウリ（シラヤウリ）：江戸東京野菜について", "url": "https://www.tokyo-ja.or.jp/farm/edo/27.php", "sourceType": "official_web", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"},
     "s2": {"name": "合同会社ともすび", "url": "https://hinohara-kankou.jp/spot/tomosubi/", "sourceType": "official_web", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"},

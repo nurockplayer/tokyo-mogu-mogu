@@ -338,3 +338,22 @@ Municipality: mizuho. Theme: Mizuho hand-cut udon and boiled manju.
 - Sakurai Orchard, Otani Farm and Nanami Hoya’s stand are omitted because their directory failed TLS certificate validation. Takada Farm has no stand according to its fetched profile, so it is discussed in Story without a route stop.
 - Ueno workshop and Mizuho Nogei High School products are listed for events, so no ordinary shop or visitor access is asserted.
 - No municipality is left without a supportable journey. No hours, prices, reservations, stock promises or allergy statements are published.
+
+## S1a publication admission (#441)
+
+Retrieved during this run: 2026-11-27 JST. The linked pages were opened and checked for the access or visitor information described below. These observations retain needs_confirmation. No venue hours, prices, reservations, or availability were confirmed.
+
+### b09-mizuho-kiwi
+
+- Arrival, half-day → b09-mizuho-kiwi-fresh-house: Hakonegasaki Station. The town’s walking directions from Hakonegasaki Station’s west exit explicitly pass the farm market. — https://www.town.mizuho.tokyo.jp/kirameki/006/p007058.html
+- Official destination, b09-mizuho-kiwi-fresh-house: The town has a dedicated visitor listing for Fresh House. — https://www.town.mizuho.tokyo.jp/tyosei/019/003/p007765.html
+
+### b09-mizuho-shiitake
+
+- Arrival, half-day → b09-mizuho-shiitake-fresh-house: Hakonegasaki Station. The town’s walking directions from Hakonegasaki Station’s west exit explicitly pass the farm market. — https://www.town.mizuho.tokyo.jp/kirameki/006/p007058.html
+- Official destination, b09-mizuho-shiitake-fresh-house: The town has a dedicated visitor listing for Fresh House. — https://www.town.mizuho.tokyo.jp/tyosei/019/003/p007765.html
+
+### b09-mizuho-wheat-snacks
+
+- Arrival, half-day → b09-mizuho-wheat-snacks-fresh-house: Hakonegasaki Station. The town’s walking directions from Hakonegasaki Station’s west exit explicitly pass the farm market. — https://www.town.mizuho.tokyo.jp/kirameki/006/p007058.html
+- Official destination, b09-mizuho-wheat-snacks-fresh-house: The town has a dedicated visitor listing for Fresh House. — https://www.town.mizuho.tokyo.jp/tyosei/019/003/p007765.html

@@ -110,6 +110,7 @@ export const b12KozushimaSeaweedRiceRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "ferry-terminal", "name": {"ja": "前浜（神津島）港船客待合所", "en": "Maehama (Kozushima) Port passenger terminal", "zh-TW": "前濱（神津島）港旅客候船室"}, "spotId": "b12-kozushima-seaweed-rice-kuroshio", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b12-kozushima-seaweed-rice-kuroshio",
@@ -156,6 +157,7 @@ export const b12KozushimaSeaweedRiceRecord: JourneyRecord = {
   },
   "spots": {
     "b12-kozushima-seaweed-rice-kuroshio": {
+      "visitorSourceId": "admission-access",
       "presentation": {
         "id": "b12-kozushima-seaweed-rice-kuroshio",
         "regionId": "kozushima",
@@ -364,6 +366,7 @@ export const b12KozushimaSeaweedRiceRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "神津島観光協会 黒潮商会", "url": "https://kozushima.com/shop/kau/miyage/889/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-0": {
       "name": "神津島エコツーリズム推進協議会",
       "url": "https://kozushima.com/ecotourism/contents.html",

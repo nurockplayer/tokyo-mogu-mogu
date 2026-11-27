@@ -24,6 +24,7 @@ export const b01HachiojiFarmTableRecord: JourneyRecord = {
   "location": {"ja":{"area":"八王子市","station":"","access":""},"en":{"area":"Hachioji","station":"","access":""},"zh-TW":{"area":"八王子市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "道の駅八王子滝山入口", "en": "Michi-no-Eki Hachioji Takiyama Iriguchi bus stop", "zh-TW": "道之驛八王子瀧山入口巴士站"}, "spotId": "b01-hachioji-farm-table-takiyama", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b01-hachioji-farm-table-takiyama",
@@ -37,6 +38,7 @@ export const b01HachiojiFarmTableRecord: JourneyRecord = {
   },
   "spots": {
     "b01-hachioji-farm-table-takiyama": {
+      "visitorSourceId": "admission-access",
       "presentation": {
         "id": "b01-hachioji-farm-table-takiyama",
         "regionId": "hachioji",
@@ -82,6 +84,7 @@ export const b01HachiojiFarmTableRecord: JourneyRecord = {
     "location": {"ja":{"region":"八王子市","station":""},"en":{"region":"Hachioji","station":""},"zh-TW":{"region":"八王子市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "八王子市 道の駅八王子滝山概要", "url": "https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/003/p006476.html", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-8": {"name":"Hachioji Tourism and Convention Association — 道の駅八王子滝山","url":"https://hkc.or.jp/facility/detail.php?id=142","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "source-25": {"name":"Agency for Cultural Affairs — 全国各地の100年フード","url":"https://www.bunka.go.jp/seisaku/shokubunka/foodculture/hyakunenfood/jirei/list_sa.html","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "source-27": {"name":"Hachioji City — 八王子産の農作物","url":"https://www.city.hachioji.tokyo.jp/hachioji-kids/004/005/p020557.html","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},

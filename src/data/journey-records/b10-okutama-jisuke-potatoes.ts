@@ -24,6 +24,7 @@ export const b10OkutamaJisukePotatoesRecord: JourneyRecord = {
   "location": {"ja": {"area": "奥多摩町", "station": "", "access": ""}, "en": {"area": "Okutama", "station": "", "access": ""}, "zh-TW": {"area": "奧多摩町", "station": "", "access": ""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "奥多摩駅", "en": "Okutama Station", "zh-TW": "奧多摩站"}, "spotId": "b10-okutama-jisuke-potatoes-kuala", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b10-okutama-jisuke-potatoes-kuala",
@@ -37,6 +38,7 @@ export const b10OkutamaJisukePotatoesRecord: JourneyRecord = {
   },
   "spots": {
     "b10-okutama-jisuke-potatoes-kuala": {
+      "visitorSourceId": "admission-access",
       "presentation": {
         "id": "b10-okutama-jisuke-potatoes-kuala",
         "regionId": "okutama",
@@ -84,6 +86,7 @@ export const b10OkutamaJisukePotatoesRecord: JourneyRecord = {
     "location": {"ja": {"region": "奥多摩町", "station": ""}, "en": {"region": "Okutama", "station": ""}, "zh-TW": {"region": "奧多摩町", "station": ""}}
   },
   "sources": {
+    "admission-access": {"name": "森のカフェ クアラ アクセス", "url": "https://www.cafekuala.jp/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "s0": {"name": "治助イモ（ジャガイモ）：江戸東京野菜について", "url": "https://www.tokyo-ja.or.jp/farm/edo/56.php", "sourceType": "official_web", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"},
     "s1": {"name": "治助芋のネギ味噌：東京都の郷土料理", "url": "https://www.maff.go.jp/j/keikaku/syokubunka/k_ryouri/search_menu/menu/34_14_tokyo.html", "sourceType": "official_web", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"},
     "s2": {"name": "奥多摩 森のカフェ クアラ", "url": "https://www.cafekuala.jp/", "sourceType": "official_web", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"},

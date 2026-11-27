@@ -24,6 +24,7 @@ export const b01HachiojiTakaoShojinRecord: JourneyRecord = {
   "location": {"ja":{"area":"八王子市","station":"","access":""},"en":{"area":"Hachioji","station":"","access":""},"zh-TW":{"area":"八王子市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "高尾山駅（ケーブルカー）", "en": "Takaosan cable-car station", "zh-TW": "高尾山站（登山纜車）"}, "spotId": "b01-hachioji-takao-shojin-yakuoin", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b01-hachioji-takao-shojin-yakuoin",
@@ -37,6 +38,7 @@ export const b01HachiojiTakaoShojinRecord: JourneyRecord = {
   },
   "spots": {
     "b01-hachioji-takao-shojin-yakuoin": {
+      "visitorSourceId": "admission-access",
       "presentation": {
         "id": "b01-hachioji-takao-shojin-yakuoin",
         "regionId": "hachioji",
@@ -82,6 +84,7 @@ export const b01HachiojiTakaoShojinRecord: JourneyRecord = {
     "location": {"ja":{"region":"八王子市","station":""},"en":{"region":"Hachioji","station":""},"zh-TW":{"region":"八王子市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "高尾山薬王院 参拝のご案内", "url": "https://takaosan.or.jp/sanpai/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-39": {"name":"Tokyo Metropolitan Government Bureau of Environment — 明治の森高尾の観光","url":"https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/toritu/meiji/tourism.html","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b01 editorial itinerary — timing and order estimates, not a timetable","url":"https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/toritu/meiji/tourism.html","sourceType":"manual","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"}
   },

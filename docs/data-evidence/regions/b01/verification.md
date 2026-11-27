@@ -354,3 +354,47 @@ Municipality: musashino. Theme: Sweets that reflect Musashino.
 - Kenchan Farm: omitted as a venue because extracted page text does not name the crop. The city-documented Sekimae 2-1 blueberry grower is used instead, from the already researched city page.
 - Matsuhime: the directory lists mulberry products under the roadside station, not specifically the main shop. The route uses the roadside station for the mulberry connection and identifies the main shop without assigning those products to it.
 - All 77 researched items are accounted for above: 75 appear in themes, ginger is already present, and Miyako Manju is omitted. No municipality is left without a supportable journey.
+
+## S1a publication admission (#441)
+
+Retrieved during this run: 2026-11-27 JST. The linked pages were opened and checked for the access or visitor information described below. These observations retain needs_confirmation. No venue hours, prices, reservations, or availability were confirmed.
+
+### b01-hachioji-takao-shojin
+
+- Arrival, half-day → b01-hachioji-takao-shojin-yakuoin: Takaosan cable-car station. The temple lists the cable-car route from Kiyotaki to Takaosan as an approach to the temple. — https://takaosan.or.jp/sanpai/
+- Official destination, b01-hachioji-takao-shojin-yakuoin: The temple’s own visitor guide explains the approach and visit. — https://takaosan.or.jp/sanpai/
+
+### b01-hachioji-takao-soba
+
+- Arrival, half-day → b01-hachioji-takao-soba-momijiya: Takaosanguchi Station. The tourism association’s Mt. Takao food and shopping map shows Momijiya at the foot of the mountain between Takaosanguchi and Kiyotaki. — https://www.hkc.or.jp/pamphlet/pdf/ikouyo/ikouyo-hachiouji-r7.pdf
+- Official destination, b01-hachioji-takao-soba-momijiya: The tourism association has a dedicated Momijiya Main Shop listing with its address and map. — https://www.hkc.or.jp/gourmet/detail.php?id=67
+
+### b01-hachioji-takao-sweets
+
+- Arrival, half-day → b01-hachioji-takao-sweets-sumika: Takaosan cable-car station. The cable-car operator locates Takaosan Sumika in front of its Takaosan station. — https://www.takaotozan.co.jp/sp/shop/
+- Official destination, b01-hachioji-takao-sweets-sumika: The operator provides a visitor listing for the Sumika shop. — https://www.takaotozan.co.jp/sp/shop/
+
+### b01-hachioji-farm-table
+
+- Arrival, half-day → b01-hachioji-farm-table-takiyama: Michi-no-Eki Hachioji Takiyama Iriguchi bus stop. The city’s access directions identify this bus stop for the roadside station. — https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/003/p006476.html
+- Official destination, b01-hachioji-farm-table-takiyama: The city’s facility page gives directions and links to the roadside station. — https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/003/p006476.html
+
+### b01-hachioji-ramen
+
+- Arrival, half-day → b01-hachioji-ramen-takiyama-ramen: Michi-no-Eki Hachioji Takiyama Iriguchi bus stop. The city’s access page names the stop serving the roadside station. — https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/003/p006476.html
+- Official destination, b01-hachioji-ramen-takiyama-ramen: The city’s facility page identifies the roadside station and supplies directions. — https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/003/p006476.html
+
+### b01-tachikawa-urban-farm-table
+
+- Arrival, half-day → b01-tachikawa-urban-farm-table-minore-table: Sunagawa Gosaro bus stop. The JA operator’s public transport directions name Sunagawa Gosaro for the Sunagawacho market. — https://ja-tokyomidori.or.jp/minore/access/index.html
+- Official destination, b01-tachikawa-urban-farm-table-minore-table: The operator’s access page gives directions to the Minore Tachikawa farmers’ market. — https://ja-tokyomidori.or.jp/minore/access/index.html
+
+### b01-tachikawa-orchard-sweets
+
+- Arrival, half-day → b01-tachikawa-orchard-sweets-minore-fruit: Sunagawa Gosaro bus stop. The JA operator’s public transport directions name Sunagawa Gosaro for the Sunagawacho market. — https://ja-tokyomidori.or.jp/minore/access/index.html
+- Official destination, b01-tachikawa-orchard-sweets-minore-fruit: The operator’s access page gives directions to the Minore Tachikawa farmers’ market. — https://ja-tokyomidori.or.jp/minore/access/index.html
+
+### b01-tachikawa-tokyo-udo
+
+- Arrival, half-day → b01-tachikawa-tokyo-udo-minore-udo: Sunagawa Gosaro bus stop. The JA operator’s public transport directions name Sunagawa Gosaro for the Sunagawacho market. — https://ja-tokyomidori.or.jp/minore/access/index.html
+- Official destination, b01-tachikawa-tokyo-udo-minore-udo: The operator’s access page gives directions to the Minore Tachikawa farmers’ market. — https://ja-tokyomidori.or.jp/minore/access/index.html

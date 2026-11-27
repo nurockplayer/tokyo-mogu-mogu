@@ -291,3 +291,12 @@ Each URL below was requested once during this run. The original research url_che
 - https://tokyogrown.jp/node/633784 — HTTP Error 403: Forbidden; not cited in new records.
 - https://e-yamato.or.jp/chaudon/okashi/index.html — HTTP 200; claims and places documented above.
 - https://www.city.higashiyamato.lg.jp/business/nougyo/1003981/1003989.html — <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1085)>; not cited in new records.
+
+## S1a publication admission (#441)
+
+Retrieved during this run: 2026-11-27 JST. The linked pages were opened and checked for the access or visitor information described below. These observations retain needs_confirmation. No venue hours, prices, reservations, or availability were confirmed.
+
+### b06-fussa-craft-beer
+
+- Arrival, half-day → b06-fussa-craft-beer-beer-goya: Haijima Station. The brewery’s directions name JR Haijima Station for access to its grounds. — https://www.tamajiman.co.jp/access/
+- Official destination, b06-fussa-craft-beer-beer-goya: The brewery’s visitor page identifies the Fussa no Beer Goya restaurant on the grounds. — https://www.tamajiman.co.jp/access/
