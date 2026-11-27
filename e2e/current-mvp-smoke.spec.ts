@@ -950,6 +950,46 @@ test('S3-1 reopens preferences, a journey and a Spot after reload on the Japanes
   await page.screenshot({ path: testInfo.outputPath('s3-1-reloaded-preferences.png'), animations: 'disabled' });
 });
 
+test('S3-1 restores all ordinary Food Profile defaults after reload from legacy and current storage', async ({ page }, testInfo) => {
+  test.setTimeout(60_000);
+  const sample = publication.find(({ record, defaultVariant }) =>
+    record.municipalityId === 'hachioji' && defaultVariant &&
+      record.variants[defaultVariant.id]?.arrival?.name.ja === '八王子駅',
+  )!;
+  const { record, defaultVariant } = sample;
+  const arrival = record.variants[defaultVariant!.id]!.arrival!;
+  const defaults = {
+    area: 'hachioji', arrival: `${arrival.kind}:${arrival.name.ja}`,
+    minutes: 120, cultures: [record.journey.foodCultureId], alcohol: 'exclude',
+  };
+  const expectDefaults = async (profile: Awaited<ReturnType<typeof reachProfilePreferences>>, minutes: number, alcohol: string) => {
+    await expect(profile.getByLabel('滞在エリア')).toHaveValue(defaults.area);
+    await expect(profile.getByLabel('到着駅・停留所')).toHaveValue(defaults.arrival);
+    await expect(profile.getByLabel('現地で使える時間')).toHaveValue(String(minutes));
+    await expect(profile.getByRole('button', { name: `${record.routeName.ja} ×`, exact: true })).toBeVisible();
+    await expect(profile.getByLabel('お酒がテーマの食旅')).toHaveValue(alcohol);
+  };
+
+  await page.clock.setFixedTime(publicationDate);
+  await page.goto('/');
+  await page.evaluate((legacyProfile) => localStorage.setItem('tmm:foodProfile:v1', JSON.stringify(legacyProfile)), {
+    ...persistedFoodProfile, ...defaults, dietary: ['allergy'], dietaryOther: 'test-only', hasNoRestrictions: false,
+  });
+  await page.reload();
+  const imported = await reachProfilePreferences(page);
+  await expectDefaults(imported, 120, 'exclude');
+  await imported.getByLabel('お酒がテーマの食旅').scrollIntoViewIfNeeded();
+  await page.screenshot({ path: testInfo.outputPath('s3-1-legacy-profile.png'), animations: 'disabled' });
+
+  await imported.getByLabel('現地で使える時間').selectOption('90');
+  await imported.getByLabel('お酒がテーマの食旅').selectOption('include');
+  const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('tmm:discoveryPreferences:v1')!));
+  expect(stored).toEqual({ ...defaults, minutes: 90, alcohol: 'include' });
+  await page.goto('/');
+  await page.reload();
+  await expectDefaults(await reachProfilePreferences(page), 90, 'include');
+});
+
 async function saveAdmittedRouteAndSpot(page: Page) {
   const { record, defaultVariant } = admitted!;
   await page.clock.setFixedTime(publicationDate);

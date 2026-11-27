@@ -1,5 +1,6 @@
 import type { JourneyRecord } from '../../data/journey-record';
 import { MUNICIPALITIES } from '../../data/municipalities';
+import { FOOD_PROFILE_KEY } from '../../lib/food-profile-storage';
 import type { LocalizedText } from './factual-presentation';
 import type { JourneyPresentation } from './content';
 
@@ -17,19 +18,28 @@ export const emptyDiscoveryFilters: DiscoveryFilters = {
 
 export const DISCOVERY_PREFERENCES_KEY = 'tmm:discoveryPreferences:v1';
 
-export function loadDiscoveryFilters(): DiscoveryFilters {
+function loadPreferenceFields(key: string): DiscoveryFilters | null {
   try {
-    const value = JSON.parse(localStorage.getItem(DISCOVERY_PREFERENCES_KEY) ?? 'null');
-    if (value && typeof value.area === 'string' && typeof value.arrival === 'string' &&
-      (value.minutes === null || (Number.isInteger(value.minutes) && value.minutes > 0)) &&
-      Array.isArray(value.cultures) && value.cultures.every((id: unknown) => typeof id === 'string') &&
-      ['', 'include', 'exclude'].includes(value.alcohol)) {
-      return value;
-    }
+    const value = JSON.parse(localStorage.getItem(key) ?? 'null') as Record<string, unknown> | null;
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
+    const { area, arrival, minutes, cultures, alcohol } = value;
+    return {
+      area: typeof area === 'string' ? area : '',
+      arrival: typeof arrival === 'string' ? arrival : '',
+      minutes: typeof minutes === 'number' && Number.isInteger(minutes) && minutes > 0 ? minutes : null,
+      cultures: Array.isArray(cultures) ? cultures.filter((id): id is string => typeof id === 'string') : [],
+      alcohol: alcohol === 'include' || alcohol === 'exclude' ? alcohol : '',
+    };
   } catch {
     // The same accountless storage boundary as the existing profile.
+    return null;
   }
-  return emptyDiscoveryFilters;
+}
+
+export function loadDiscoveryFilters(): DiscoveryFilters {
+  return loadPreferenceFields(DISCOVERY_PREFERENCES_KEY)
+    ?? loadPreferenceFields(FOOD_PROFILE_KEY)
+    ?? emptyDiscoveryFilters;
 }
 
 export function saveDiscoveryFilters(filters: DiscoveryFilters): boolean {
