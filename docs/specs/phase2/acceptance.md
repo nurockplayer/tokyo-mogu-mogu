@@ -1,0 +1,43 @@
+# Phase 2 acceptance
+
+**0 / 37 passed**
+
+| ID | Stage / issue | Case | How to check | Status | Evidence link |
+| --- | --- | --- | --- | --- | --- |
+| S1a-1 | S1 / #441 | One command prints every record with `admitted` / `excluded` and the failing criteria (at least: sourced story claims, dated retrieval, arrival point — station, bus stop or ferry terminal — and ≥1 official destination for the primary Spot). | Run the publication admission check once; inspect its per-record output and failing criteria. | not yet | |
+| S1a-2 | S1 / #441 | Researched fills are recorded with source URL and JST retrieval date in the existing `docs/data-evidence/regions/bNN/` files; original research statuses are never promoted without a source; uncertain facts stay `needs_confirmation`. | Run the verification command and inspect the changed batch evidence files for sources, dates, and status. | not yet | |
+| S1a-3 | S1 / #441 | The admitted count goes up versus the first run of the check, and the report states both numbers. | Run the check and compare its report with the recorded first-run count. | not yet | |
+| S1-1 | S1 / backlog S1 | At 375px, open an admitted journey from MOGU, find its arrival point and on-site estimate, read the maker connection and reach the official access or visitor destination in one tap from Route or Spot. Verify the exact destination and show unconfirmed practical information with its retrieved date in ja/en/zh-TW. | Use the running product at 375px in ja, en, and zh-TW; follow MOGU → Story → Route → Spot and verify the official handoff and dated facts. | not yet | |
+| S1-2 | S1 / backlog S1 | A record missing both structured arrival data and supporting access evidence stays hidden from browse and direct links. | In the running product, check browse and open the record's direct links. | not yet | |
+| S1-3 | S1 / backlog S1 | A missing or expired optional action has guidance and no button. | In the running product, open a journey with a missing or expired optional action. | not yet | |
+| S1-4 | S1 / backlog S1 | An invalid primary action makes the route unavailable. | In the running product, open a journey with an invalid primary action. | not yet | |
+| S1-5 | S1 / backlog S1 | Record the passing ID, exclusion reasons, running URLs and evidence. | Inspect the running acceptance report for the passing ID, exclusions, URLs, and evidence. | not yet | |
+| S1-6 | S1 / backlog S1 | If the passing set is empty, demonstrate the empty and hidden states and report the reasons for the missing real path. | Run the admission check and inspect the running product's empty and hidden states and reported reasons. | not yet | |
+| S1b-1 | S1b / #442 | Fresh session, 375px, ja/en/zh-TW: the path above works; each unconfirmed fact shows its retrieved date; no booking-success or dietary-safety wording. | In a fresh session, follow MOGU → Story → Route → Spot at 375px in each locale. | not yet | |
+| S1b-2 | S1b / #442 | A Spot with a missing/expired destination shows guidance and no action button, and a way back. | In the running product, open a Spot with a missing or expired destination and use its return path. | not yet | |
+| S1b-3 | S1b / #442 | Excluded records are absent from MOGU and their direct Story/Route/Spot links show a localized unavailable page. | In the running product, check MOGU and open direct Story, Route, and Spot links for an excluded record in each locale. | not yet | |
+| S1b-4 | S1b / #442 | Inspect live KiKi Figma (figma-bridge) for the touched screens before editing. | Inspect the touched screens in the connected KiKi Figma through figma-bridge. | not yet | |
+| S2-1 | S2 / backlog S2 | From Food Profile, set an area/station and on-site time, then reach Result and see the exact filters reflected in its reasons. | In the running product, set the Food Profile values and inspect Result reasons. | not yet | |
+| S2-2 | S2 / backlog S2 | Change area/station, time, interests or alcohol preference and exercise the affected result set against admitted records. | In the running product, change each preference and compare Result with admitted records. | not yet | |
+| S2-3 | S2 / backlog S2 | A short time limit or incompatible choices yields an empty state. Clear restores broader discovery. | In the running product, create an empty result, then select Clear. | not yet | |
+| S2-4 | S2 / backlog S2 | Changing dietary answers alone changes only “ask the venue” guidance. | In the running product, change dietary answers and compare journeys and guidance. | not yet | |
+| S2-5 | S2 / backlog S2 | Skip opens MOGU. | In the running product, skip Food Profile and confirm MOGU opens. | not yet | |
+| S2-6 | S2 / backlog S2 | In all three locales, open representative trips from distinct areas and cultures, see an arrival point and reach a supported official access or visitor link. | In the running product, open representative trips in ja, en, and zh-TW and follow the official link. | not yet | |
+| S2-7 | S2 / backlog S2 | Compare browse and deep links with the report and confirm failed records and demo fixtures remain hidden. | Run the admission check; compare its report with running-product browse and direct links. | not yet | |
+| S2-8 | S2 / #443 | Two different profiles return different journeys with reasons; an impossible combination shows an empty state naming the active filters with Clear. | In the running product, try two profiles and an impossible combination. | not yet | |
+| S2-9 | S2 / #443 | No match %, ranking, 'best', or 'open now' wording; fixed demo results and simulated generation are gone from this flow. | Exercise the running Result flow and inspect its visible copy and behavior. | not yet | |
+| S2-10 | S2 / #443 | Adding a journey needs data changes only. | Add a journey using data changes only and check it in the running catalog. | not yet | |
+| S2-11 | S2 / #443 | When a primary stop is unavailable the Route offers its alternative (Astra advice, #404 c7219291392). | In the running product, open a journey whose primary stop is unavailable and inspect Route. | not yet | |
+| S2-12 | S2 / #443 | A reviewed ask-the-staff allergen/ingredients phrase card (ja/en/zh-TW + Japanese to show staff) is reachable from Spot. | In the running product, reach the reviewed phrase card from Spot in each locale and verify the Japanese staff phrase. | not yet | |
+| S2-13 | S2 / #443 | Live KiKi Figma inspected first. | Inspect the current connected KiKi Figma before editing the touched screens. | not yet | |
+| S3-1 | S3 / backlog S3 | Save preferences, a journey and a Spot, then reload and reopen them. | In the running product, save each item, reload, and reopen it in the same browser. | not yet | |
+| S3-2 | S3 / backlog S3 | Remove journey and Spot saves independently. | In the running product, remove each save separately and inspect the other. | not yet | |
+| S3-3 | S3 / backlog S3 | Import an approved legacy route on the same origin and show a withdrawn saved item as unavailable. | In the running product, import the approved route and open the withdrawn save. | not yet | |
+| S3-4 | S3 / backlog S3 | With writes blocked, retain browsing and show save/reset failure. | Block writes in the running product; browse and attempt save and reset. | not yet | |
+| S3-5 | S3 / backlog S3 | Reset successfully and reload to defaults. | In the running product, reset and reload. | not yet | |
+| S3-6 | S3 / backlog S3 | A share opens the same itinerary in a clean browser without traveller data in the URL. | Open a share link in a clean browser and inspect the URL and itinerary. | not yet | |
+| S3-7 | S3 / backlog S3 | Cancel or fail a share and recover via a selectable link. | In the running product, cancel or fail sharing and use its selectable link. | not yet | |
+| S4-1 | S4 / backlog S4 | Lead completes representative admitted trips in every locale and checks blocked persistence, wrong IDs, missing actions, narrow/wide layout, keyboard, screen reader and reduced motion. | Exercise representative trips in the running release candidate across locales and listed conditions. | not yet | |
+| S4-2 | S4 / backlog S4 | Compare public contents to the admission report. | Run the admission check and compare its report with public contents. | not yet | |
+| S4-3 | S4 / backlog S4 | Demonstrate a data-only correction, urgent withdrawal and rollback without restoring withdrawn material. | Demonstrate the correction, withdrawal, and rollback using the release operating path. | not yet | |
+| S4-4 | S4 / backlog S4 | After promotion by the lead, check the catalog and an admitted deep link at the release URL. | After lead promotion, open the release URL's catalog and an admitted deep link. | not yet | |
