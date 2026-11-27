@@ -10,6 +10,12 @@ const categoryLabels = {
   dislike: 'spotPhraseDislikes',
 } as const;
 
+const sesameNames = new Set([strings.en.spotPhraseSesame, 'sesame seed', 'sesame seeds', strings['zh-TW'].spotPhraseSesame]);
+
+function staffIngredientName(name: string, locale: Locale): string {
+  return locale === 'ja' && sesameNames.has(name.trim().toLowerCase()) ? strings.ja.spotPhraseSesame : name;
+}
+
 export function buildSpotPhrase(profile: FoodProfile | null, locale: Locale): string {
   const copy = strings[locale];
   const lines: string[] = [];
@@ -25,7 +31,9 @@ export function buildSpotPhrase(profile: FoodProfile | null, locale: Locale): st
 
     const options = referenceCopy(locale).profile.questions[key].options as Record<string, string>;
     const names = selections.map((value) => {
-      if (value.startsWith('custom:')) return value.slice('custom:'.length);
+      if (value.startsWith('custom:')) {
+        return staffIngredientName(value.slice('custom:'.length), locale);
+      }
       const label = options[value];
       return label.slice(label.indexOf(' ') + 1);
     });
@@ -34,7 +42,8 @@ export function buildSpotPhrase(profile: FoodProfile | null, locale: Locale): st
   }
   const note = profile?.dietarySelections ? '' : profile?.dietaryOther.trim();
   if (note) {
-    lines.push(locale === 'en' ? `${copy.spotPhraseOther}: ${note}` : `${copy.spotPhraseOther}：${note}`);
+    const name = staffIngredientName(note, locale);
+    lines.push(locale === 'en' ? `${copy.spotPhraseOther}: ${name}` : `${copy.spotPhraseOther}：${name}`);
   }
   const hasRestrictions = note || profile?.dietary.some((category) => category !== 'dislike');
   const questions = hasRestrictions

@@ -32,6 +32,20 @@ describe('Spot phrase', () => {
     }
   });
 
+  it('renders a recognized custom sesame allergy in Japanese and keeps the English entry', () => {
+    const profile = foodProfileToDurableProfile({
+      answers: { allergy: ['custom:Sesame'], diet: [], religion: [], dislike: [] },
+      customAnswers: { allergy: ['Sesame'], diet: [], religion: [], dislike: [] },
+    });
+    expect(buildSpotPhrase(profile, 'ja')).toContain('食物アレルギー：ごま');
+    expect(buildSpotPhrase(profile, 'ja')).not.toContain('Sesame');
+    expect(buildSpotPhrase(profile, 'en')).toContain('Food allergies: Sesame');
+
+    const olderProfile = { ...profile };
+    delete olderProfile.dietarySelections;
+    expect(buildSpotPhrase(olderProfile, 'ja')).toContain('その他の食事制限：ごま');
+  });
+
   it('keeps the general question and lists dislikes when they are the only selections', () => {
     const profile = foodProfileToDurableProfile({
       answers: { allergy: [], diet: [], religion: [], dislike: ['custom:八角'] },
