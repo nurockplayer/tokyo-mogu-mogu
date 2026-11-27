@@ -1,12 +1,9 @@
-import { useEffect, useMemo, useReducer, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useI18n } from '../../i18n';
-import type { FoodProfile } from '../../lib/food-profile';
 import { loadFoodProfile } from '../../lib/food-profile-storage';
 import { loadNickname } from '../../lib/nickname';
-import { recordMoguRecent } from '../../lib/mogu-recent';
 import { loadSavedRoutes, saveRoute } from '../../lib/saved-routes';
-import { saveExplorationAnswers } from '../../pages/s0s3/exploration-session';
 import { FoodProfileConversation } from './chat/FoodProfileConversation';
 import { BottomNavigation } from './components/BottomNavigation';
 import {
@@ -19,11 +16,16 @@ import {
 } from './content';
 import { ExplorationFlow } from './exploration/ExplorationFlow';
 import {
-  createExplorationState,
-  explorationReducer,
-  toExplorationAnswers,
-  type NetlifyExplorationAnswers,
-} from './exploration/explorationMachine';
+  discoveryJourney,
+  discoveryOptions,
+  emptyDiscoveryFilters,
+  loadDiscoveryFilters,
+  loadTripFilters,
+  saveDiscoveryFilters,
+  saveTripFilters,
+  type DiscoveryFilters,
+} from './discovery';
+import { DiscoveryFields } from './exploration/DiscoveryFields';
 import { FavoritesScreen } from './screens/FavoritesScreen';
 import { BadgesScreen } from './screens/BadgesScreen';
 import { HomeScreen } from './screens/HomeScreen';
@@ -34,9 +36,8 @@ import { RouteScreen } from './screens/RouteScreen';
 import { SplashScreen } from './screens/SplashScreen';
 import { SpotScreen } from './screens/SpotScreen';
 import { StoryScreen } from './screens/StoryScreen';
-import { journeyToMoguRecent } from './screens/presentation';
 import type { CurrentJourneyLocationResolution } from './journey-location';
-import { journeyRecord } from './journey-publication';
+import { journeyRecord, publishedJourneys } from './journey-publication';
 
 interface ReferenceFavorites {
   journeyIds: string[];
@@ -76,16 +77,23 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
   unavailableJourney?: boolean;
 }) {
   const location = useLocation();
+  const pathname = location.pathname;
   const navigate = useNavigate();
   const { locale, setLocale, t } = useI18n();
   const copy = referenceCopy(locale);
   const [nickname, setNickname] = useState(() => loadNickname() ?? '');
-  const [foodProfile, setFoodProfile] = useState<FoodProfile | null>(() => loadFoodProfile());
-  const [exploration, dispatchExploration] = useReducer(
-    explorationReducer,
-    undefined,
-    createExplorationState,
+  const [foodProfile, setFoodProfile] = useState(loadFoodProfile);
+  const [preferences, setPreferences] = useState(loadDiscoveryFilters);
+  const [tripFilters, setTripFilters] = useState(loadTripFilters);
+  const [explorationStep, setExplorationStep] = useState(0);
+  const catalog = useMemo(() =>
+    ['/food-profile', '/food-profile/edit', '/explore', '/explore/result'].includes(pathname)
+      ? publishedJourneys().map((journey) => discoveryJourney(journey, journeyRecord(journey.id)!))
+      : [],
+    [pathname],
   );
+  const options = useMemo(() => discoveryOptions(catalog), [catalog]);
+  const filters = tripFilters ?? preferences;
   const [currentJourney, setCurrentJourney] = useState<JourneyPresentation>(() => resultJourneys[0]);
   const [editSessionId, setEditSessionId] = useState(0);
   const [storyBack, setStoryBack] = useState('/explore/result');
@@ -150,39 +158,25 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
     navigate(`/spot/${spot.id}${routeIdentity}`);
   };
 
-  const completeExploration = (answers: NetlifyExplorationAnswers) => {
-    const establishedAnswers = toExplorationAnswers(answers);
-    saveExplorationAnswers(establishedAnswers);
-    recordMoguRecent(
-      journeyToMoguRecent(
-        resultJourneys[0],
-        establishedAnswers,
-        Boolean(foodProfile && !foodProfile.hasNoRestrictions),
-      ),
-    );
-    setCurrentJourney(resultJourneys[0]);
-    navigate('/explore/result');
+  const updatePreferences = (value: DiscoveryFilters) => {
+    setPreferences(value);
+    saveDiscoveryFilters(value);
+  };
+
+  const updateTripFilters = (value: DiscoveryFilters | null) => {
+    setTripFilters(value);
+    saveTripFilters(value);
+  };
+
+  const openExploration = () => {
+    setExplorationStep(0);
+    navigate('/explore');
   };
 
   const persistCurrentRoute = () => {
     const next = saveRoute(routeJourney.routeId);
     setSavedRouteIds(next.map((entry) => entry.routeId));
     setToast(locale === 'ja' ? 'マイルートに保存しました！' : locale === 'zh-TW' ? '已儲存到我的路線！' : 'Saved to My Routes!');
-  };
-
-  const toggleJourneyFavorite = (journey: JourneyPresentation) => {
-    const removing = favorites.journeyIds.includes(journey.id);
-    const next = {
-      ...favorites,
-      journeyIds: removing
-        ? favorites.journeyIds.filter((id) => id !== journey.id)
-        : [...favorites.journeyIds, journey.id],
-    };
-    setFavorites(next);
-    saveReferenceFavorites(next);
-    setToast(removing
-      ? locale === 'ja' ? 'お気に入りから削除しました' : locale === 'zh-TW' ? '已從收藏移除' : 'Removed from favorites'
-      : locale === 'ja' ? 'お気に入りに保存しました！' : locale === 'zh-TW' ? '已儲存至收藏！' : 'Saved to favorites!');
   };
 
   const toggleSpotFavorite = (spot: SpotPresentation) => {
@@ -218,7 +212,6 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
     }
   };
 
-  const pathname = location.pathname;
   const isSplash = pathname === '/';
   const isProfileOnboarding = pathname === '/food-profile';
   const isProfileEdit = pathname === '/food-profile/edit';
@@ -232,6 +225,9 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
   const isFavorites = pathname === '/my-route';
   const isMy = pathname === '/my';
   const isBadges = pathname === '/badges';
+  const profilePreferences = (
+    <DiscoveryFields locale={locale} options={options} value={preferences} onChange={updatePreferences} />
+  );
 
   return (
     <main className="reference-app" data-locale={locale} data-pathname={pathname}>
@@ -245,12 +241,13 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
           active={isProfileOnboarding}
           copy={copy}
           locale={locale}
+          preferences={isProfileOnboarding ? profilePreferences : null}
           onProfileSaved={(name, profile) => {
             setNickname(name);
             setFoodProfile(profile);
           }}
           onRecommend={() => navigate('/home')}
-          onSkipProfile={() => navigate('/home')}
+          onSkipProfile={() => navigate('/mogu')}
           onBrowse={() => navigate('/mogu')}
         />
         <FoodProfileConversation
@@ -260,6 +257,7 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
           key={`profile-edit-${nickname}-${editSessionId}`}
           locale={locale}
           mode="edit"
+          preferences={isProfileEdit ? profilePreferences : null}
           onProfileSaved={(name, profile) => {
             if (name) setNickname(name);
             setFoodProfile(profile);
@@ -274,33 +272,38 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
           copy={copy}
           locale={locale}
           nickname={nickname}
-          favoriteJourneyIds={favorites.journeyIds}
           onNavigate={navigate}
-          onOpenJourney={openJourney}
-          onToggleFavorite={toggleJourneyFavorite}
           onStartExploration={() => {
-            dispatchExploration({ type: 'OPEN' });
-            navigate('/explore');
+            updateTripFilters(null);
+            openExploration();
           }}
         />
         <ExplorationFlow
           active={isExplore}
           copy={copy}
           locale={locale}
-          state={exploration}
-          dispatch={dispatchExploration}
+          options={options}
+          filters={filters}
+          step={explorationStep}
+          onChange={setTripFilters}
+          onStep={setExplorationStep}
           onBackFromFirst={() => navigate(-1)}
-          onComplete={completeExploration}
+          onComplete={() => {
+            saveTripFilters(tripFilters);
+            navigate('/explore/result');
+          }}
         />
         <ResultScreen
           active={isResult}
           copy={copy}
           locale={locale}
-          onBack={() => navigate('/explore')}
-          onRepeatSearch={() => {
-            dispatchExploration({ type: 'OPEN' });
-            navigate('/explore');
-          }}
+          catalog={catalog}
+          options={options}
+          filters={filters}
+          foodProfile={foodProfile}
+          onRepeatSearch={openExploration}
+          onClear={() => updateTripFilters(emptyDiscoveryFilters)}
+          onBrowse={() => navigate('/mogu')}
           onOpenJourney={openJourney}
         />
         <StoryScreen

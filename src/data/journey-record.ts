@@ -13,6 +13,8 @@ type VariantId = JourneyPresentation['routeVariants'][number]['id'];
 /** One authored, serializable browse journey. See docs/journey-records.md. */
 export interface JourneyRecord {
   municipalityId: MunicipalityId;
+  /** Derived from the record's food culture and story. True when an alcoholic drink is a subject. */
+  alcoholThemed: boolean;
   journey: Omit<JourneyPresentation, 'sourceStatus' | 'matchPercent'>;
   routeName: LocalizedText;
   location: Record<Locale, ResultLocation>;

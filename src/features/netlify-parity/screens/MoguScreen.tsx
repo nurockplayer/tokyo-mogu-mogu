@@ -56,7 +56,6 @@ export function MoguScreen({
             key={journey.id}
             locale={locale}
             onOpen={onOpenJourney}
-            showMatch={false}
             sourceNote={factRetrievalNote(record, locale, `journey.copy.${locale}`, `location.${locale}`)}
           />;
         })}

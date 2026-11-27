@@ -2,6 +2,7 @@ import type { JourneyRecord } from '../journey-record';
 
 export const b01HachiojiRiceSakeRecord: JourneyRecord = {
   "municipalityId": "hachioji",
+  "alcoholThemed": true,
   "journey": {
     "id": "b01-hachioji-rice-sake",
     "regionId": "hachioji",

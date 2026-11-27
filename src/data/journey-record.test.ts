@@ -102,6 +102,7 @@ const localized = <T,>(make: (locale: typeof locales[number]) => T) =>
 
 const synthetic: JourneyRecord = {
   municipalityId: 'tachikawa',
+  alcoholThemed: false,
   journey: {
     id: 'synthetic-tachikawa', regionId: 'synthetic-culture-group', foodCultureId: 'synthetic-culture',
     storyId: 'synthetic-story', routeId: 'synthetic-route',

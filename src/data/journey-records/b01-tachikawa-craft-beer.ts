@@ -2,6 +2,7 @@ import type { JourneyRecord } from '../journey-record';
 
 export const b01TachikawaCraftBeerRecord: JourneyRecord = {
   "municipalityId": "tachikawa",
+  "alcoholThemed": true,
   "journey": {
     "id": "b01-tachikawa-craft-beer",
     "regionId": "tachikawa",

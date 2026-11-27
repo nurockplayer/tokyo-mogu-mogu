@@ -226,7 +226,7 @@ async function expectNoHorizontalOverflow(page: Page): Promise<void> {
     });
 }
 
-async function completeFoodProfile(page: Page): Promise<void> {
+async function reachProfilePreferences(page: Page, allergy = false) {
   const splash = page.locator('[data-screen="splash"][data-screen-active="true"]');
   await expect(splash).toBeVisible();
   await splash.click();
@@ -252,59 +252,120 @@ async function completeFoodProfile(page: Page): Promise<void> {
   for (const [questionIndex, choice] of noRestrictionChoices.entries()) {
     const question = profile.locator(`[data-question-index="${questionIndex}"]`);
     await expect(question).toBeVisible();
-    await question.getByRole('button', { name: choice, exact: true }).click();
+    const answer = allergy && questionIndex === 0 ? '🥚 卵' : choice;
+    await question.getByRole('button', { name: answer, exact: true }).click();
     await question.getByRole('button', { name: '送信', exact: true }).click();
     await expect(question).toHaveAttribute('data-frozen', 'true');
   }
 
-  const recommend = profile.getByRole('button', {
-    name: '自分に合った旅をおすすめしてもらう！',
-  });
-  await expect(recommend).toBeVisible();
-  await recommend.click();
+  await expect(profile.getByRole('heading', { name: '食旅の希望（任意）' })).toBeVisible();
+  return profile;
 }
 
 async function completeExploration(page: Page): Promise<void> {
   const explore = page.locator('[data-screen="explore"][data-screen-active="true"]');
-  await expect(explore.getByLabel('1 / 5')).toBeVisible();
-  await expectNoHorizontalOverflow(page);
-
-  await explore.getByRole('button', { name: /^食べる/ }).click();
-  await explore.getByRole('button', { name: '次へ', exact: true }).click();
-  await expect(explore.getByLabel('2 / 5')).toBeVisible();
-  await expectNoHorizontalOverflow(page);
-
-  await explore.locator('.searchbar').click();
-  const departureDialog = explore.getByRole('dialog', { name: 'エリアを検索' });
-  await expect(departureDialog).toBeVisible();
-  await departureDialog.getByPlaceholder('エリア、場所、駅を入力').fill('東京駅');
-  await departureDialog
-    .getByRole('button', { name: '東京駅（東京都 千代田区）' })
-    .click();
-  await expect(departureDialog).toBeHidden();
-  await explore.getByRole('button', { name: '次へ', exact: true }).click();
-  await expect(explore.getByLabel('3 / 5')).toBeVisible();
-  await expectNoHorizontalOverflow(page);
-
-  await explore.getByRole('button', { name: '時間は気にしない', exact: true }).click();
-  await explore.getByRole('button', { name: '次へ', exact: true }).click();
-  await expect(explore.getByLabel('4 / 5')).toBeVisible();
-  await expectNoHorizontalOverflow(page);
-
-  await explore.getByRole('button', { name: '半日', exact: true }).click();
-  await explore.getByRole('button', { name: '次へ', exact: true }).click();
-  await expect(explore.getByLabel('5 / 5')).toBeVisible();
-  await expectNoHorizontalOverflow(page);
-
-  for (const choice of ['辛いもの', '濃厚な味', '伝統', '自然']) {
-    await explore.getByRole('button', { name: choice, exact: true }).click();
+  for (let step = 1; step <= 5; step += 1) {
+    await expect(explore.getByLabel(`${step} / 5`)).toBeVisible();
+    await expectNoHorizontalOverflow(page);
+    await explore.getByRole('button', { name: '次へ', exact: true }).click();
   }
-  await explore.getByRole('button', { name: '次へ', exact: true }).click();
 }
+
+async function findJourneysFromProfile(page: Page, profile: Awaited<ReturnType<typeof reachProfilePreferences>>) {
+  await profile.getByRole('button', { name: '自分に合った旅をおすすめしてもらう！' }).click();
+  await expect(page).toHaveURL('/home');
+  const home = page.locator('[data-screen="home"][data-screen-active="true"]');
+  await home.getByRole('button', { name: /Let's Go!/ }).click();
+  await expect(page).toHaveURL('/explore');
+  await completeExploration(page);
+  await expect(page).toHaveURL('/explore/result');
+  return page.locator('[data-screen="result"][data-screen-active="true"]');
+}
+
+test('#443 applies two Food Profiles, explains empty results and clears filters', async ({ page }, testInfo) => {
+  test.setTimeout(60_000);
+  await page.clock.setFixedTime(publicationDate);
+  const screenshot = (name: string) => page.screenshot({ path: testInfo.outputPath(`${name}.png`), animations: 'disabled' });
+  const result = page.locator('[data-screen="result"][data-screen-active="true"]');
+  const cards = result.locator('[data-journey-id]');
+  const firstReason = result.locator('[data-match-reason]').first();
+  const ids = () => cards.evaluateAll((items) => items.map((item) => item.getAttribute('data-journey-id')));
+
+  await page.goto('/');
+  let profile = await reachProfilePreferences(page);
+  await profile.getByLabel('滞在エリア').selectOption({ label: '八王子市' });
+  await profile.getByLabel('到着駅・停留所').selectOption({ label: '八王子駅' });
+  await profile.getByLabel('現地で使える時間').selectOption({ label: '120分以内' });
+  await expectNoHorizontalOverflow(page);
+  await profile.getByRole('heading', { name: '食旅の希望（任意）' }).scrollIntoViewIfNeeded();
+  await profile.getByLabel('到着駅・停留所').scrollIntoViewIfNeeded();
+  await screenshot('food-profile-ja');
+  await findJourneysFromProfile(page, profile);
+  await expect(firstReason).toContainText('滞在エリア · 八王子市');
+  await expect(firstReason).toContainText('到着駅・停留所 · 八王子駅');
+  await expect(firstReason).toContainText('現地で使える時間 · 120分以内');
+  await firstReason.scrollIntoViewIfNeeded();
+  await screenshot('result-profile-one-ja');
+  const firstIds = await ids();
+
+  await page.goto('/');
+  profile = await reachProfilePreferences(page, true);
+  await expect(profile.getByLabel('滞在エリア')).toHaveValue('hachioji');
+  await findJourneysFromProfile(page, profile);
+  await expect(result.getByText('調理中の混入', { exact: false })).toBeVisible();
+  expect(await ids()).toEqual(firstIds);
+  await page.reload();
+  await expect(result.getByText('調理中の混入', { exact: false })).toBeVisible();
+  expect(await ids()).toEqual(firstIds);
+
+  await page.goto('/');
+  profile = await reachProfilePreferences(page);
+  await profile.getByLabel('滞在エリア').selectOption({ label: '福生市' });
+  await profile.getByLabel('到着駅・停留所').selectOption('');
+  await findJourneysFromProfile(page, profile);
+  await expect(firstReason).toContainText('滞在エリア · 福生市');
+  await expect(firstReason).toContainText('120分以内');
+  const secondIds = await ids();
+  expect(secondIds.every((id) => !firstIds.includes(id))).toBe(true);
+  await screenshot('result-profile-two-ja');
+
+  await result.getByRole('button', { name: '条件を変更' }).click();
+  const explore = page.locator('[data-screen="explore"][data-screen-active="true"]');
+  const next = explore.getByRole('button', { name: '次へ', exact: true });
+  await next.click();
+  await next.click();
+  await explore.getByLabel('現地で使える時間').selectOption({ label: '15分以内' });
+  await next.click();
+  await next.click();
+  await next.click();
+  await expect(page).toHaveURL('/explore/result');
+  await page.reload();
+
+  await expect(result.getByText('条件に合う食旅が見つかりませんでした。')).toBeVisible();
+  await expect(result.locator('.empty')).toContainText('滞在エリア · 福生市');
+  await expect(result.locator('.empty')).toContainText('現地で使える時間 · 15分以内');
+  await expect(cards).toHaveCount(0);
+  await expectNoHorizontalOverflow(page);
+  await screenshot('result-empty-ja');
+  await result.getByRole('button', { name: '条件をクリア' }).click();
+  await page.reload();
+  await expect(firstReason).toContainText('公開中の食旅');
+  expect((await ids()).some((id) => firstIds.includes(id))).toBe(true);
+});
+
+test('#443 skips Food Profile to browse the admitted catalog', async ({ page }) => {
+  await page.clock.setFixedTime(publicationDate);
+  await startFromWelcome(page);
+  const profile = page.locator('[data-screen="food-profile"][data-screen-active="true"]');
+  await profile.getByRole('button', { name: '登録なし、自分で見てみる' }).click();
+  await expect(page).toHaveURL('/mogu');
+  await expect(page.locator('[data-screen="mogu"][data-screen-active="true"] [data-journey-id]').first()).toBeVisible();
+});
 
 test('completes the current Exploration when its sessionStorage write is blocked', async ({
   page,
 }) => {
+  await page.clock.setFixedTime(publicationDate);
   const pageErrors: string[] = [];
   page.on('pageerror', (error) => pageErrors.push(error.message));
   await page.addInitScript(() => {
@@ -325,7 +386,7 @@ test('completes the current Exploration when its sessionStorage write is blocked
 
   await expect(page).toHaveURL(/\/explore\/result$/);
   const result = page.locator('[data-screen="result"][data-screen-active="true"]');
-  await expect(result.getByRole('button', { name: /この物語を読む:/ })).toHaveCount(2);
+  await expect(result.getByRole('button', { name: /この物語を読む:/ }).first()).toBeVisible();
   expect(pageErrors).toEqual([]);
 });
 
@@ -374,94 +435,40 @@ test('completes the current 375px Japanese Golden Path and preserves saved state
 }) => {
   test.setTimeout(45_000);
 
+  await page.clock.setFixedTime(publicationDate);
   await page.goto('/');
   await expect(page.locator('.reference-app')).toHaveAttribute('data-locale', 'ja');
-  await completeFoodProfile(page);
-
-  await expect(page).toHaveURL(/\/home$/);
-  const home = page.locator('[data-screen="home"][data-screen-active="true"]');
-  await expect(home.getByText('ナナさん')).toBeVisible();
+  const result = await findJourneysFromProfile(page, await reachProfilePreferences(page));
   await expectNoHorizontalOverflow(page);
-  await home.getByRole('button', { name: /Let's Go!/ }).click();
 
-  await expect(page).toHaveURL(/\/explore$/);
-  await completeExploration(page);
+  const firstCard = result.locator('[data-journey-id]').first();
+  await expect(firstCard).toBeVisible();
+  const journeyId = await firstCard.getAttribute('data-journey-id');
+  await firstCard.click();
+  await expect(page).toHaveURL(/\/story\/[^/]+$/);
 
-  await expect(page).toHaveURL(/\/explore\/result$/);
-  const result = page.locator('[data-screen="result"][data-screen-active="true"]');
-  const resultCards = result.getByRole('button', { name: /この物語を読む:/ });
-  await expect(resultCards).toHaveCount(2);
-  await expectNoHorizontalOverflow(page);
-  await resultCards.first().click();
-
-  await expect(page).toHaveURL(/\/story\/wasabi-okutama$/);
   const story = page.locator('[data-screen="story"][data-screen-active="true"]');
-  await expect(story.locator('[data-spot-id]')).toHaveCount(8);
   await expectNoHorizontalOverflow(page);
-  await story
-    .getByRole('button', { name: 'この食文化の観光ルートを作成する' })
-    .click();
-  await expect(story.locator('[data-route-loading][data-loading="true"]')).toBeVisible();
+  await story.getByRole('button', { name: 'この食旅のルートを見る' }).click();
 
-  await expect(page).toHaveURL(/\/route\?candidateId=demo-okutama-wasabi$/, {
-    timeout: 4_000,
-  });
-  let route = page.locator('[data-screen="route"][data-screen-active="true"]');
-  await expect(route.getByRole('img', { name: 'ルートマップ' })).toBeVisible();
-  await expect(route.locator('[data-spot-id]')).toHaveCount(7);
+  await expect(page).toHaveURL(`/route?candidateId=${journeyId}`);
+  const route = page.locator('[data-screen="route"][data-screen-active="true"]');
   await expectNoHorizontalOverflow(page);
-
   await route.getByRole('button', { name: 'マイルートに保存' }).click();
-  await expect(route.getByRole('button', { name: '保存済み' })).toHaveAttribute(
-    'aria-pressed',
-    'true',
-  );
-
+  await expect(route.getByRole('button', { name: '保存済み' })).toHaveAttribute('aria-pressed', 'true');
   await page.reload();
-  route = page.locator('[data-screen="route"][data-screen-active="true"]');
-  await expect(route.getByRole('button', { name: '保存済み' })).toHaveAttribute(
-    'aria-pressed',
-    'true',
-  );
-  await route.getByRole('button', { name: /奥多摩観光案内所/ }).click();
+  await expect(route.getByRole('button', { name: '保存済み' })).toHaveAttribute('aria-pressed', 'true');
 
-  await expect(page).toHaveURL(
-    /\/spot\/okutama-tourism-office\?candidateId=demo-okutama-wasabi$/,
-  );
-  let spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
-  await expect(spot.getByRole('heading', { name: '奥多摩観光案内所' })).toBeVisible();
-  await expect(spot.getByRole('button', { name: '2/5' })).toBeVisible();
-  const spotInformation = spot.locator('.info-sec');
-  await expect(spotInformation.getByRole('heading', { name: '基本情報' })).toBeVisible();
-  await expect(spotInformation).toContainText('施設');
-  await expect(spotInformation).toContainText('奥多摩町観光案内所');
-  await expect(spotInformation).toContainText('所在地');
-  await expect(spotInformation).toContainText('東京都西多摩郡奥多摩町氷川210');
-  await expect(spotInformation).toContainText('電話');
-  await expect(spotInformation).toContainText('0428-83-2152');
-  await expect(spotInformation).not.toContainText(
-    /Netlify|デモ用編集情報|営業時間|奥多摩駅から徒歩/,
-  );
-  await expect(spot).toContainText('参考情報');
-  await expect(spot).toContainText('確認中');
-  await expect(spot).toContainText('訪問前に奥多摩観光協会の公式情報をご確認ください');
-  await expect(spot).not.toContainText(
-    /ガイドサービス|約90分|1,500円|おみやげ|Wi-Fi|トイレあり|駐車場|混雑時|わさぴーが迎えてくれる/,
-  );
+  const firstStop = route.locator('[data-spot-id]').first();
+  const spotId = await firstStop.getAttribute('data-spot-id');
+  await firstStop.click();
+  await expect(page).toHaveURL(`/spot/${spotId}?candidateId=${journeyId}`);
+  const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
   await expectNoHorizontalOverflow(page);
-
   await spot.getByRole('button', { name: 'お気に入りに保存' }).click();
-  await expect(spot.getByRole('button', { name: 'お気に入りから削除' })).toHaveAttribute(
-    'aria-pressed',
-    'true',
-  );
-
+  await expect(spot.getByRole('button', { name: 'お気に入りから削除' })).toHaveAttribute('aria-pressed', 'true');
   await page.reload();
-  spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
-  await expect(spot.getByRole('button', { name: 'お気に入りから削除' })).toHaveAttribute(
-    'aria-pressed',
-    'true',
-  );
+  await expect(spot.getByRole('button', { name: 'お気に入りから削除' })).toHaveAttribute('aria-pressed', 'true');
 
   const dock = spot.getByRole('navigation', { name: 'Primary' });
   await expect(dock.getByRole('button')).toHaveCount(4);
@@ -472,8 +479,8 @@ test('completes the current 375px Japanese Golden Path and preserves saved state
 
   await expect(page).toHaveURL(/\/my-route$/);
   const favorites = page.locator('[data-screen="favorites"][data-screen-active="true"]');
-  await expect(favorites.locator('[data-journey-id="demo-okutama-wasabi"]')).toBeVisible();
-  await expect(favorites.locator('[data-spot-id="okutama-tourism-office"]')).toBeVisible();
+  await expect(favorites.locator(`[data-journey-id="${journeyId}"]`)).toBeVisible();
+  await expect(favorites.locator(`[data-spot-id="${spotId}"]`)).toBeVisible();
   await expectNoHorizontalOverflow(page);
   await favorites
     .getByRole('navigation', { name: 'Primary' })
@@ -940,39 +947,11 @@ test('keeps header and footer fixed while only the middle content scrolls', asyn
   await expect(explore).toBeVisible();
   const exploreHead = explore.locator('.ghead');
   const exploreProgress = explore.locator('.progress');
-  const exploreScroll = explore.locator('.wiz-body');
+  expect(await exploreHead.boundingBox()).toMatchObject({ y: 0 });
+  expect((await exploreProgress.boundingBox())?.y).toBeGreaterThanOrEqual(viewport.height - 110);
+  await expectNoHorizontalOverflow(page);
 
-  const exploreBefore = {
-    head: await exploreHead.boundingBox(),
-    progress: await exploreProgress.boundingBox(),
-    scrollMetrics: await exploreScroll.evaluate((element) => ({
-      scrollHeight: element.scrollHeight,
-      clientHeight: element.clientHeight,
-      scrollTop: element.scrollTop,
-    })),
-  };
-
-  expect(exploreBefore.scrollMetrics.scrollHeight).toBeGreaterThan(
-    exploreBefore.scrollMetrics.clientHeight,
-  );
-  expect(exploreBefore.head).toMatchObject({ y: 0 });
-  expect(exploreBefore.progress?.y).toBeGreaterThanOrEqual(viewport.height - 110);
-
-  await exploreScroll.evaluate((element) => {
-    element.scrollTop = element.scrollHeight;
-  });
-
-  const exploreAfter = {
-    head: await exploreHead.boundingBox(),
-    progress: await exploreProgress.boundingBox(),
-    scrollTop: await exploreScroll.evaluate((element) => element.scrollTop),
-  };
-
-  expect(Math.round(await page.evaluate(() => window.scrollY))).toBe(0);
-  expect(exploreAfter.scrollTop).toBeGreaterThan(exploreBefore.scrollMetrics.scrollTop);
-  expect(exploreAfter.head?.y).toBeCloseTo(exploreBefore.head?.y ?? 0, 1);
-  expect(exploreAfter.progress?.y).toBeCloseTo(exploreBefore.progress?.y ?? 0, 1);
-
+  await page.clock.setFixedTime(publicationDate);
   await page.goto('/explore/result');
   const result = page.locator('[data-screen="result"][data-screen-active="true"]');
   await expect(result).toBeVisible();

@@ -2,6 +2,7 @@ import type { JourneyRecord } from '../journey-record';
 
 export const b12MiyakeTengusaSeaweedRecord: JourneyRecord = {
   "municipalityId": "miyake",
+  "alcoholThemed": false,
   "journey": {
     "id": "b12-miyake-tengusa-seaweed",
     "regionId": "miyake",

@@ -2,6 +2,7 @@ import type { JourneyRecord } from '../journey-record';
 
 export const b11OshimaSeafoodRecord: JourneyRecord = {
   "municipalityId": "oshima",
+  "alcoholThemed": false,
   "journey": {
     "id": "b11-oshima-seafood",
     "regionId": "oshima",

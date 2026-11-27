@@ -2,6 +2,7 @@ import type { JourneyRecord } from '../journey-record';
 
 export const b01MusashinoSakaiChiliRecord: JourneyRecord = {
   "municipalityId": "musashino",
+  "alcoholThemed": false,
   "journey": {
     "id": "b01-musashino-sakai-chili",
     "regionId": "musashino",

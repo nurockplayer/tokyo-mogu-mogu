@@ -2,6 +2,7 @@ import type { JourneyRecord } from '../journey-record';
 
 export const b07MusashimurayamaMandarinsRecord: JourneyRecord = {
   "municipalityId": "musashimurayama",
+  "alcoholThemed": true,
   "journey": {
     "id": "b07-musashimurayama-mandarins",
     "regionId": "musashimurayama",

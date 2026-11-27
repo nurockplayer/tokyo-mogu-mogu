@@ -25,9 +25,6 @@ const LandingPage = lazy(() =>
 const ExplorationWizardPage = lazy(() =>
   import('../pages/s0s3/ExplorationWizardPage').then((m) => ({ default: m.ExplorationWizardPage })),
 );
-const ResultPage = lazy(() =>
-  import('../pages/s0s3/ResultPage').then((m) => ({ default: m.ResultPage })),
-);
 const FoodProfilePage = lazy(() =>
   import('../pages/s0s3/FoodProfilePage').then((m) => ({ default: m.FoodProfilePage })),
 );
@@ -100,7 +97,7 @@ export function AppRouter() {
     pathname === '/food-profile/edit' ||
     pathname === '/home' ||
     pathname === '/explore' ||
-    (pathname === '/explore/result' && referenceJourneyQuery) ||
+    pathname === '/explore/result' ||
     journeyLocation.isReferenceStoryPath ||
     (pathname === '/route' && referenceJourneyQuery) ||
     journeyLocation.spot !== undefined ||
@@ -122,7 +119,6 @@ export function AppRouter() {
         <Route path="/food-profile" element={withBoundary(<FoodProfilePage mode="view" />)} />
         <Route path="/food-profile/edit" element={withBoundary(<FoodProfilePage mode="edit" />)} />
         <Route path="/explore" element={withBoundary(<ExplorationWizardPage />)} />
-        <Route path="/explore/result" element={withBoundary(<ResultPage />)} />
         <Route path="/story/:foodCultureId" element={withBoundary(<StoryPage />)} />
         <Route path="/story" element={withBoundary(<StoryPage />)} />
         <Route path="/route" element={withBoundary(<RoutePage />)} />

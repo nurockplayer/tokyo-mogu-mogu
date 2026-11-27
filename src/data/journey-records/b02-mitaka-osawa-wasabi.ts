@@ -2,6 +2,7 @@ import type { JourneyRecord } from '../journey-record';
 
 export const b02MitakaOsawaWasabiRecord: JourneyRecord = {
   "municipalityId": "mitaka",
+  "alcoholThemed": false,
   "journey": {
     "id": "b02-mitaka-osawa-wasabi",
     "regionId": "mitaka",

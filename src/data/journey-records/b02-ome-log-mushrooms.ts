@@ -2,6 +2,7 @@ import type { JourneyRecord } from '../journey-record';
 
 export const b02OmeLogMushroomsRecord: JourneyRecord = {
   "municipalityId": "ome",
+  "alcoholThemed": false,
   "journey": {
     "id": "b02-ome-log-mushrooms",
     "regionId": "ome",

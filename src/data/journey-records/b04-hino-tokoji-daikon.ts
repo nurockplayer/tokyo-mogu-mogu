@@ -2,6 +2,7 @@ import type { JourneyRecord } from '../journey-record';
 
 export const b04HinoTokojiDaikonRecord: JourneyRecord = {
   "municipalityId": "hino",
+  "alcoholThemed": false,
   "journey": {
     "id": "b04-hino-tokoji-daikon",
     "regionId": "hino",

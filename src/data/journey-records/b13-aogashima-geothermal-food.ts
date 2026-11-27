@@ -2,6 +2,7 @@ import type { JourneyRecord } from '../journey-record';
 
 export const b13AogashimaGeothermalFoodRecord: JourneyRecord = {
   "municipalityId": "aogashima",
+  "alcoholThemed": false,
   "journey": {
     "id": "b13-aogashima-geothermal-food",
     "regionId": "aogashima",

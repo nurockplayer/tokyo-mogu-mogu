@@ -2,6 +2,7 @@ import type { JourneyRecord } from '../journey-record';
 
 export const b05HigashimurayamaNattoRecord: JourneyRecord = {
   "municipalityId": "higashimurayama",
+  "alcoholThemed": false,
   "journey": {
     "id": "b05-higashimurayama-natto",
     "regionId": "higashimurayama",

@@ -2,6 +2,7 @@ import type { JourneyRecord } from '../journey-record';
 
 export const fussaJourneyRecord: JourneyRecord = {
   "municipalityId": "fussa",
+  "alcoholThemed": true,
   "journey": {
     "id": "demo-tokyo-west-fussa-sake",
     "regionId": "fussa",
