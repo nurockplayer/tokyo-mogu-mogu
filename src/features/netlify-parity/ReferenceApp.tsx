@@ -19,6 +19,7 @@ import {
   discoveryOptions,
   emptyDiscoveryFilters,
   loadDiscoveryFilters,
+  migrateLegacyFoodProfile,
   saveDiscoveryFilters,
   type DiscoveryFilters,
 } from './discovery';
@@ -104,6 +105,10 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
 
   useEffect(() => {
     document.documentElement.lang = locale;
+  }, [locale]);
+
+  useEffect(() => {
+    if (!migrateLegacyFoodProfile()) setToast(storageCopy[locale].saveFailed);
   }, [locale]);
 
   useEffect(() => {

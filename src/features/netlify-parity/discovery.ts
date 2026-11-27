@@ -51,6 +51,23 @@ export function saveDiscoveryFilters(filters: DiscoveryFilters): boolean {
   }
 }
 
+export function migrateLegacyFoodProfile(): boolean {
+  try {
+    if (localStorage.getItem(FOOD_PROFILE_KEY) === null) return true;
+
+    if (!loadPreferenceFields(DISCOVERY_PREFERENCES_KEY)) {
+      const legacy = loadPreferenceFields(FOOD_PROFILE_KEY);
+      if (legacy && (legacy.area || legacy.arrival || legacy.minutes !== null || legacy.cultures.length || legacy.alcohol)
+        && !saveDiscoveryFilters(legacy)) return false;
+    }
+
+    localStorage.removeItem(FOOD_PROFILE_KEY);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 interface DiscoveryEntry {
   area: string;
   arrival: { id: string; name: LocalizedText };

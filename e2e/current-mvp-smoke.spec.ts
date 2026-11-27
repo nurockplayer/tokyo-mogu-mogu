@@ -829,7 +829,7 @@ test.describe('Issue #316 Welcome entry routing', () => {
     ).toBeVisible();
   });
 
-  test('starts the Food Profile conversation with a persisted nickname and profile', async ({
+  test('starts the Food Profile conversation with a persisted nickname and a legacy Food Profile', async ({
     page,
   }) => {
     await seedPersistedProfile(page);
@@ -845,7 +845,7 @@ test.describe('Issue #316 Welcome entry routing', () => {
       .toBe('123');
     await expect
       .poll(() => page.evaluate(() => localStorage.getItem('tmm:foodProfile:v1')))
-      .not.toBeNull();
+      .toBeNull();
   });
 
   test('keeps direct Home navigation directly accessible', async ({ page }) => {
@@ -973,11 +973,13 @@ test('S3-1 restores all ordinary Food Profile defaults after reload from legacy 
   await page.clock.setFixedTime(publicationDate);
   await page.goto('/');
   await page.evaluate((legacyProfile) => localStorage.setItem('tmm:foodProfile:v1', JSON.stringify(legacyProfile)), {
-    ...persistedFoodProfile, ...defaults, dietary: ['allergy'], dietaryOther: 'test-only', hasNoRestrictions: false,
+    ...persistedFoodProfile, ...defaults, dietary: ['allergy', 'religious'], dietaryOther: 'test-only', hasNoRestrictions: false,
   });
   await page.reload();
   const imported = await reachProfilePreferences(page);
   await expectDefaults(imported, 120, 'exclude');
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('tmm:discoveryPreferences:v1')!))).toEqual(defaults);
+  expect(await page.evaluate(() => localStorage.getItem('tmm:foodProfile:v1'))).toBeNull();
   await imported.getByLabel('お酒がテーマの食旅').scrollIntoViewIfNeeded();
   await page.screenshot({ path: testInfo.outputPath('s3-1-legacy-profile.png'), animations: 'disabled' });
 
