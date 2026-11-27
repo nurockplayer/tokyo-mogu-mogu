@@ -1,6 +1,6 @@
 # Phase 2 acceptance
 
-**8 / 37 passed**
+**10 / 37 passed**
 
 | ID | Stage / issue | Case | How to check | Status | Evidence link |
 | --- | --- | --- | --- | --- | --- |
@@ -8,14 +8,14 @@
 | S1a-2 | S1 / #441 | Researched fills are recorded with source URL and JST retrieval date in the existing `docs/data-evidence/regions/bNN/` files; original research statuses are never promoted without a source; uncertain facts stay `needs_confirmation`. | Run the verification command and inspect the changed batch evidence files for sources, dates, and status. | pass | https://github.com/nurockplayer/tokyo-mogu-mogu/pull/452
 | S1a-3 | S1 / #441 | The admitted count goes up versus the first run of the check, and the report states both numbers. | Run the check and compare its report with the recorded first-run count. | pass | https://github.com/nurockplayer/tokyo-mogu-mogu/pull/452
 | S1-1 | S1 / backlog S1 | At 375px, open an admitted journey from MOGU, find its arrival point and on-site estimate, read the maker connection and reach the official access or visitor destination in one tap from Route or Spot. Verify the exact destination and show unconfirmed practical information with its retrieved date in ja/en/zh-TW. | Use the running product at 375px in ja, en, and zh-TW; follow MOGU → Story → Route → Spot and verify the official handoff and dated facts. | pass | https://github.com/nurockplayer/tokyo-mogu-mogu/pull/450
-| S1-2 | S1 / backlog S1 | A record missing both structured arrival data and supporting access evidence stays hidden from browse and direct links. | In the running product, check browse and open the record's direct links. | not yet | Not verified: #455 selects the first excluded record rather than a missing-arrival case, and browser launch failed because Chromium was missing from the Playwright image. [#455](https://github.com/nurockplayer/tokyo-mogu-mogu/pull/455) |
+| S1-2 | S1 / backlog S1 | A record missing both structured arrival data and supporting access evidence stays hidden from browse and direct links. | In the running product, check browse and open the record's direct links. | pass | The smoke case selects an excluded record with no structured arrival and a `sourced arrival point` failure. It checks that the record is absent from MOGU and its direct links are unavailable. [Test and command](#s1-browser-evidence) · [Japanese Story screenshot](evidence/s1/s1-2-unavailable-story-ja.png) |
 | S1-3 | S1 / backlog S1 | A missing or expired optional action has guidance and no button. | In the running product, open a journey with a missing or expired optional action. | pass | https://github.com/nurockplayer/tokyo-mogu-mogu/pull/450
 | S1-4 | S1 / backlog S1 | An invalid primary action makes the route unavailable. | In the running product, open a journey with an invalid primary action. | not yet | Current #455 smoke covers dynamically selected excluded links, but does not exercise an invalid primary action. |
 | S1-5 | S1 / backlog S1 | Record the passing ID, exclusion reasons, running URLs and evidence. | Inspect the running acceptance report for the passing ID, exclusions, URLs, and evidence. | not yet | The current app has no acceptance report with passing ID, exclusions, running URLs, and evidence; the admission command prints record decisions and reasons only. |
 | S1-6 | S1 / backlog S1 | If the passing set is empty, demonstrate the empty and hidden states and report the reasons for the missing real path. | Run the admission check and inspect the running product's empty and hidden states and reported reasons. | n/a | The passing set is non-empty: 248/254 admitted.
 | S1b-1 | S1b / #442 | Fresh session, 375px, ja/en/zh-TW: the path above works; each unconfirmed fact shows its retrieved date; no booking-success or dietary-safety wording. | In a fresh session, follow MOGU → Story → Route → Spot at 375px in each locale. | pass | https://github.com/nurockplayer/tokyo-mogu-mogu/pull/450
 | S1b-2 | S1b / #442 | A Spot with a missing/expired destination shows guidance and no action button, and a way back. | In the running product, open a Spot with a missing or expired destination and use its return path. | pass | https://github.com/nurockplayer/tokyo-mogu-mogu/pull/450
-| S1b-3 | S1b / #442 | Excluded records are absent from MOGU and their direct Story/Route/Spot links show a localized unavailable page. | In the running product, check MOGU and open direct Story, Route, and Spot links for an excluded record in each locale. | not yet | Not runtime-verified: the #455 smoke job stopped before browser launch because Chromium was missing from the Playwright image. [#455](https://github.com/nurockplayer/tokyo-mogu-mogu/pull/455) |
+| S1b-3 | S1b / #442 | Excluded records are absent from MOGU and their direct Story/Route/Spot links show a localized unavailable page. | In the running product, check MOGU and open direct Story, Route, and Spot links for an excluded record in each locale. | pass | The smoke case checks MOGU and each direct Story, Route, and Spot link in ja, en, and zh-TW at 375px. [Test and command](#s1-browser-evidence) · [Traditional Chinese Spot screenshot](evidence/s1/s1b-3-unavailable-spot-zh-TW.png) |
 | S1b-4 | S1b / #442 | Inspect live KiKi Figma (figma-bridge) for the touched screens before editing. | Inspect the touched screens in the connected KiKi Figma through figma-bridge. | pass | https://github.com/nurockplayer/tokyo-mogu-mogu/pull/450#issuecomment-7224371426
 | S2-1 | S2 / backlog S2 | From Food Profile, set an area/station and on-site time, then reach Result and see the exact filters reflected in its reasons. | In the running product, set the Food Profile values and inspect Result reasons. | not yet | |
 | S2-2 | S2 / backlog S2 | Change area/station, time, interests or alcohol preference and exercise the affected result set against admitted records. | In the running product, change each preference and compare Result with admitted records. | not yet | |
@@ -41,3 +41,11 @@
 | S4-2 | S4 / backlog S4 | Compare public contents to the admission report. | Run the admission check and compare its report with public contents. | not yet | |
 | S4-3 | S4 / backlog S4 | Demonstrate a data-only correction, urgent withdrawal and rollback without restoring withdrawn material. | Demonstrate the correction, withdrawal, and rollback using the release operating path. | not yet | |
 | S4-4 | S4 / backlog S4 | After promotion by the lead, check the catalog and an admitted deep link at the release URL. | After lead promotion, open the release URL's catalog and an admitted deep link. | not yet | |
+
+## S1 browser evidence
+
+`S1-2 / S1b-3 hides a journey without a sourced arrival point in <locale>` in [e2e/current-mvp-smoke.spec.ts](../../../e2e/current-mvp-smoke.spec.ts#L84) passed in ja, en, and zh-TW. Playwright reported `28 passed (2.3m)` on 2026-11-28 at 04:37 JST. The command exports screenshots to `test-results`.
+
+```sh
+tachi-run --image tachi-run-playwright --out test-results -- sh -ec 'pnpm exec playwright install chromium --only-shell && pnpm typecheck && pnpm lint && pnpm test && pnpm build && pnpm exec playwright test e2e/current-mvp-smoke.spec.ts'
+```
