@@ -1,4 +1,5 @@
 import { getPlaceById } from '../../data';
+import { selectRouteStop } from '../../data/journey-record';
 import {
   currentJourneys,
   currentSpots,
@@ -44,11 +45,12 @@ function journeysForQueryIdentity(
 }
 
 function journeysForSpot(spot: SpotPresentation): JourneyConstraint {
-  return currentJourneys.filter((journey) =>
-    journey.routeVariants.some((variant) =>
-      variant.steps.some((step) => step.spotId === spot.id),
-    ),
-  );
+  return currentJourneys.filter((journey) => {
+    const record = journeyRecord(journey.id);
+    return journey.routeVariants.some(({ steps }) => steps.some(({ spotId }) =>
+      spotId === spot.id || selectRouteStop(record, spotId) === spot.id,
+    ));
+  });
 }
 
 function preferredJourneyForSpot(
@@ -135,8 +137,9 @@ export function resolvePublishedJourneyLocation(pathname: string, search: string
     }
     return { ...location, status: 'unavailable' };
   }
-  if (spotId && !published.routeVariants.some(({ steps }) => steps.some((step) => step.spotId === spotId)) &&
-    !Object.values(record.story.groups).some((group) => group.some((spot) => spot.spotId === spotId))) {
+  if (spotId && (record.spots[spotId]?.unavailable ||
+    (!published.routeVariants.some(({ steps }) => steps.some((step) => selectRouteStop(record, step.spotId) === spotId)) &&
+      !Object.values(record.story.groups).some((group) => group.some((spot) => spot.spotId === spotId))))) {
     return { ...location, status: 'unavailable' };
   }
   return { ...location, status: 'resolved', journey: published };
