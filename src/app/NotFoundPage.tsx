@@ -10,9 +10,9 @@ export function NotFoundPage({ hardNavigation = false, unavailableJourney = fals
   hardNavigation?: boolean;
   unavailableJourney?: boolean;
 } = {}) {
-  const { t } = useI18n();
+  const { locale, t } = useI18n();
   return (
-    <section className="page">
+    <section className="page" lang={locale}>
       <h1 className="page-title">{t(unavailableJourney ? 'journeyUnavailableTitle' : 'notFoundTitle')}</h1>
       <p className="page-sub">{t(unavailableJourney ? 'journeyUnavailableBody' : 'notFoundBody')}</p>
       {unavailableJourney ? (

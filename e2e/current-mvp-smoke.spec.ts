@@ -54,6 +54,7 @@ for (const [locale, viewRoute, arrival, estimate, unavailable, backToMogu] of [
     await expect(handoff).toHaveAttribute('href', officialDestination);
     await expect(handoff).toHaveAttribute('rel', 'noopener noreferrer');
     await expect(spot).not.toContainText(/予約が完了|アレルギーでも安心|booking confirmed|allergy.safe|預約成功|過敏者可安心/i);
+    await expectNoHorizontalOverflow(page);
     await guide.scrollIntoViewIfNeeded();
     await screenshot('spot-ja');
     await context.route(officialDestination, (request) => request.fulfill({ body: 'Official visitor information' }));
@@ -68,7 +69,6 @@ for (const [locale, viewRoute, arrival, estimate, unavailable, backToMogu] of [
       await expect(page.getByRole('heading', { name: unavailable })).toBeVisible();
       await expect(page.getByRole('link', { name: backToMogu })).toHaveAttribute('href', '/mogu');
     }
-    await expectNoHorizontalOverflow(page);
     await screenshot('unavailable-ja');
     await page.getByRole('link', { name: backToMogu }).click();
     await expect(page).toHaveURL('/mogu');

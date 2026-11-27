@@ -1,3 +1,4 @@
+import { getPlaceById } from '../../data';
 import {
   currentJourneys,
   currentSpots,
@@ -127,7 +128,13 @@ export function resolvePublishedJourneyLocation(pathname: string, search: string
   const record = journey && journeyRecord(journey.id);
   if (!journey || !record) return location;
   const published = publishJourney(journey, now);
-  if (!published) return { ...location, status: 'unavailable' };
+  if (!published) {
+    // A standalone canonical Spot can also appear on an excluded journey.
+    if (spotId && !location.hasJourneyQuery && getPlaceById(spotId)) {
+      return { ...location, status: 'default' };
+    }
+    return { ...location, status: 'unavailable' };
+  }
   if (spotId && !published.routeVariants.some(({ steps }) => steps.some((step) => step.spotId === spotId)) &&
     !Object.values(record.story.groups).some((group) => group.some((spot) => spot.spotId === spotId))) {
     return { ...location, status: 'unavailable' };
