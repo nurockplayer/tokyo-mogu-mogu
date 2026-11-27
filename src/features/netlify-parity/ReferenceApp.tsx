@@ -352,6 +352,7 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
           locale={locale}
           spot={currentSpot}
           record={publicationRecord}
+          foodProfile={foodProfile}
           saved={favorites.spotIds.includes(currentSpot.id)}
           onBack={() => navigate(
             hasJourneyQuery && locationJourney

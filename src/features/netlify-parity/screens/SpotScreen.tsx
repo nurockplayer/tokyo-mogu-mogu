@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 import type { Locale } from '../../../i18n';
+import { strings } from '../../../i18n/resources';
 import { getPlaceById, getSpotDetail } from '../../../data';
 import { resolveSpotOfficialLink } from '../../../data/spot-official-link';
 import { resolveJourneyVisitorSource } from '../../../data/journey-admission';
 import type { JourneyRecord } from '../../../data/journey-record';
+import type { FoodProfile } from '../../../lib/food-profile';
 import { factRetrievalNote, retrievalNote } from '../journey-publication';
 import { BottomNavigation } from '../components/BottomNavigation';
 import { PresentationMedia } from '../components/PresentationMedia';
 import { referenceAssets, type ReferenceCopy, type SpotPresentation } from '../content';
+import { buildSpotPhrase } from '../spot-phrase';
 import {
   referenceSpotDetails,
   type ReferenceSpotDetail,
@@ -40,6 +43,7 @@ export interface SpotScreenProps {
   locale: Locale;
   spot: SpotPresentation;
   record?: JourneyRecord;
+  foodProfile: FoodProfile | null;
   saved?: boolean;
   onBack: () => void;
   onOpenGuide?: (spot: SpotPresentation) => void;
@@ -53,6 +57,7 @@ export function SpotScreen({
   locale,
   spot,
   record,
+  foodProfile,
   saved = false,
   onBack,
   onOpenGuide,
@@ -196,6 +201,13 @@ export function SpotScreen({
             )}
           </section>
         ) : null}
+
+        <details className="spot-phrase" key={spot.id}>
+          <summary>{strings[locale].spotPhraseOpen}</summary>
+          <p>{buildSpotPhrase(foodProfile, locale)}</p>
+          <p><strong>{strings[locale].spotPhraseShow}</strong></p>
+          <p lang="ja">{buildSpotPhrase(foodProfile, 'ja')}</p>
+        </details>
 
         <aside className="caution">
           <h3>{cautionHeading[locale]}</h3>
