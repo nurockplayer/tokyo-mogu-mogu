@@ -397,13 +397,14 @@ test('#443 applies two Food Profiles, explains empty results and clears filters'
   expect((await ids()).some((id) => firstIds.includes(id))).toBe(true);
 });
 
-test('#443 skips Food Profile to browse the admitted catalog', async ({ page }) => {
+test('#443 skips Food Profile to browse the admitted catalog', async ({ page }, testInfo) => {
   await page.clock.setFixedTime(publicationDate);
   await startFromWelcome(page);
   const profile = page.locator('[data-screen="food-profile"][data-screen-active="true"]');
   await profile.getByRole('button', { name: '登録なし、自分で見てみる' }).click();
   await expect(page).toHaveURL('/mogu');
   await expect(page.locator('[data-screen="mogu"][data-screen-active="true"] [data-journey-id]').first()).toBeVisible();
+  await page.screenshot({ path: testInfo.outputPath('skip-profile-mogu-ja.png'), animations: 'disabled' });
 });
 
 test('#443 offers a sourced Route alternative or explains that none is offered', async ({ page }, testInfo) => {

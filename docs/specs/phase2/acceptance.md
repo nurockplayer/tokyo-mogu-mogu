@@ -1,6 +1,6 @@
 # Phase 2 acceptance
 
-**10 / 37 passed**
+**16 / 37 passed**
 
 | ID | Stage / issue | Case | How to check | Status | Evidence link |
 | --- | --- | --- | --- | --- | --- |
@@ -17,19 +17,19 @@
 | S1b-2 | S1b / #442 | A Spot with a missing/expired destination shows guidance and no action button, and a way back. | In the running product, open a Spot with a missing or expired destination and use its return path. | pass | https://github.com/nurockplayer/tokyo-mogu-mogu/pull/450
 | S1b-3 | S1b / #442 | Excluded records are absent from MOGU and their direct Story/Route/Spot links show a localized unavailable page. | In the running product, check MOGU and open direct Story, Route, and Spot links for an excluded record in each locale. | pass | The smoke case checks MOGU and each direct Story, Route, and Spot link in ja, en, and zh-TW at 375px. [Test and command](#s1-browser-evidence) · [Traditional Chinese Spot screenshot](evidence/s1/s1b-3-unavailable-spot-zh-TW.png) |
 | S1b-4 | S1b / #442 | Inspect live KiKi Figma (figma-bridge) for the touched screens before editing. | Inspect the touched screens in the connected KiKi Figma through figma-bridge. | pass | https://github.com/nurockplayer/tokyo-mogu-mogu/pull/450#issuecomment-7224371426
-| S2-1 | S2 / backlog S2 | From Food Profile, set an area/station and on-site time, then reach Result and see the exact filters reflected in its reasons. | In the running product, set the Food Profile values and inspect Result reasons. | not yet | |
-| S2-2 | S2 / backlog S2 | Change area/station, time, interests or alcohol preference and exercise the affected result set against admitted records. | In the running product, change each preference and compare Result with admitted records. | not yet | |
-| S2-3 | S2 / backlog S2 | A short time limit or incompatible choices yields an empty state. Clear restores broader discovery. | In the running product, create an empty result, then select Clear. | not yet | |
-| S2-4 | S2 / backlog S2 | Changing dietary answers alone changes only “ask the venue” guidance. | In the running product, change dietary answers and compare journeys and guidance. | not yet | |
-| S2-5 | S2 / backlog S2 | Skip opens MOGU. | In the running product, skip Food Profile and confirm MOGU opens. | not yet | |
-| S2-6 | S2 / backlog S2 | In all three locales, open representative trips from distinct areas and cultures, see an arrival point and reach a supported official access or visitor link. | In the running product, open representative trips in ja, en, and zh-TW and follow the official link. | not yet | |
-| S2-7 | S2 / backlog S2 | Compare browse and deep links with the report and confirm failed records and demo fixtures remain hidden. | Run the admission check; compare its report with running-product browse and direct links. | not yet | |
-| S2-8 | S2 / #443 | Two different profiles return different journeys with reasons; an impossible combination shows an empty state naming the active filters with Clear. | In the running product, try two profiles and an impossible combination. | not yet | |
-| S2-9 | S2 / #443 | No match %, ranking, 'best', or 'open now' wording; fixed demo results and simulated generation are gone from this flow. | Exercise the running Result flow and inspect its visible copy and behavior. | not yet | |
-| S2-10 | S2 / #443 | Adding a journey needs data changes only. | Add a journey using data changes only and check it in the running catalog. | not yet | |
-| S2-11 | S2 / #443 | When a primary stop is unavailable the Route offers its alternative (Astra advice, #404 c7219291392). | In the running product, open a journey whose primary stop is unavailable and inspect Route. | not yet | |
-| S2-12 | S2 / #443 | A reviewed ask-the-staff allergen/ingredients phrase card (ja/en/zh-TW + Japanese to show staff) is reachable from Spot. | In the running product, reach the reviewed phrase card from Spot in each locale and verify the Japanese staff phrase. | not yet | |
-| S2-13 | S2 / #443 | Live KiKi Figma inspected first. | Inspect the current connected KiKi Figma before editing the touched screens. | not yet | |
+| S2-1 | S2 / backlog S2 | From Food Profile, set an area/station and on-site time, then reach Result and see the exact filters reflected in its reasons. | In the running product, set the Food Profile values and inspect Result reasons. | pass | [S2 browser evidence](#s2-browser-evidence) |
+| S2-2 | S2 / backlog S2 | Change area/station, time, interests or alcohol preference and exercise the affected result set against admitted records. | In the running product, change each preference and compare Result with admitted records. | not yet | The smoke case checks area, station, and time; it does not change interests or alcohol preference and compare those result sets. |
+| S2-3 | S2 / backlog S2 | A short time limit or incompatible choices yields an empty state. Clear restores broader discovery. | In the running product, create an empty result, then select Clear. | pass | [S2 browser evidence](#s2-browser-evidence) |
+| S2-4 | S2 / backlog S2 | Changing dietary answers alone changes only “ask the venue” guidance. | In the running product, change dietary answers and compare journeys and guidance. | not yet | The smoke case asserts unchanged journey IDs and ask-the-venue guidance, but does not capture that changed-dietary Result state in a screenshot. |
+| S2-5 | S2 / backlog S2 | Skip opens MOGU. | In the running product, skip Food Profile and confirm MOGU opens. | pass | [S2 browser evidence](#s2-browser-evidence) |
+| S2-6 | S2 / backlog S2 | In all three locales, open representative trips from distinct areas and cultures, see an arrival point and reach a supported official access or visitor link. | In the running product, open representative trips in ja, en, and zh-TW and follow the official link. | not yet | Current locale smoke follows one admitted trip; it does not demonstrate representative trips from distinct areas and cultures. |
+| S2-7 | S2 / backlog S2 | Compare browse and deep links with the report and confirm failed records and demo fixtures remain hidden. | Run the admission check; compare its report with running-product browse and direct links. | not yet | The S1 exclusion smoke checks browse and deep links, but does not compare them with the admission report or check demo fixtures. |
+| S2-8 | S2 / #443 | Two different profiles return different journeys with reasons; an impossible combination shows an empty state naming the active filters with Clear. | In the running product, try two profiles and an impossible combination. | pass | [S2 browser evidence](#s2-browser-evidence) |
+| S2-9 | S2 / #443 | No match %, ranking, 'best', or 'open now' wording; fixed demo results and simulated generation are gone from this flow. | Exercise the running Result flow and inspect its visible copy and behavior. | not yet | The profile smoke verifies result reasons and the empty state, but does not assert the prohibited wording or absence of fixed demo/simulated results. |
+| S2-10 | S2 / #443 | Adding a journey needs data changes only. | Add a journey using data changes only and check it in the running catalog. | not yet | No current smoke case adds a journey through data changes only and verifies it in the running catalog. |
+| S2-11 | S2 / #443 | When a primary stop is unavailable the Route offers its alternative (Astra advice, #404 c7219291392). | In the running product, open a journey whose primary stop is unavailable and inspect Route. | pass | [S2 browser evidence](#s2-browser-evidence) |
+| S2-12 | S2 / #443 | A reviewed ask-the-staff allergen/ingredients phrase card (ja/en/zh-TW + Japanese to show staff) is reachable from Spot. | In the running product, reach the reviewed phrase card from Spot in each locale and verify the Japanese staff phrase. | pass | [S2 browser evidence](#s2-browser-evidence) |
+| S2-13 | S2 / #443 | Live KiKi Figma inspected first. | Inspect the current connected KiKi Figma before editing the touched screens. | not yet | No live Figma inspection was performed during this acceptance run. |
 | S3-1 | S3 / backlog S3 | Save preferences, a journey and a Spot, then reload and reopen them. | In the running product, save each item, reload, and reopen it in the same browser. | not yet | |
 | S3-2 | S3 / backlog S3 | Remove journey and Spot saves independently. | In the running product, remove each save separately and inspect the other. | not yet | |
 | S3-3 | S3 / backlog S3 | Import an approved legacy route on the same origin and show a withdrawn saved item as unavailable. | In the running product, import the approved route and open the withdrawn save. | not yet | |
@@ -41,6 +41,21 @@
 | S4-2 | S4 / backlog S4 | Compare public contents to the admission report. | Run the admission check and compare its report with public contents. | not yet | |
 | S4-3 | S4 / backlog S4 | Demonstrate a data-only correction, urgent withdrawal and rollback without restoring withdrawn material. | Demonstrate the correction, withdrawal, and rollback using the release operating path. | not yet | |
 | S4-4 | S4 / backlog S4 | After promotion by the lead, check the catalog and an admitted deep link at the release URL. | After lead promotion, open the release URL's catalog and an admitted deep link. | not yet | |
+
+## S2 browser evidence
+
+The full validation command passed on 2026-11-28 05:35 JST. Playwright reported `29 passed (2.7m)`.
+
+```sh
+tachi-run --image tachi-run-playwright --out test-results -- sh -ec 'pnpm exec playwright install chromium --only-shell && pnpm typecheck && pnpm lint && pnpm test && pnpm build && pnpm exec playwright test e2e/current-mvp-smoke.spec.ts'
+```
+
+| Rows | Committed test | Screenshots |
+| --- | --- | --- |
+| S2-1, S2-3, S2-8 | `#443 applies two Food Profiles, explains empty results and clears filters` | [Food Profile](evidence/s2/s2-profile-ja.png), [first result](evidence/s2/s2-result-profile-one-ja.png), [second result](evidence/s2/s2-result-profile-two-ja.png), [empty result](evidence/s2/s2-result-empty-ja.png) |
+| S2-5 | `#443 skips Food Profile to browse the admitted catalog` | [MOGU after skip](evidence/s2/s2-skip-mogu-ja.png) |
+| S2-11 | `#443 offers a sourced Route alternative or explains that none is offered` | [Route alternative](evidence/s2/s2-route-alternative-ja.png) |
+| S2-12 | `#443 opens the Spot phrase card offline at 375px in each locale` | [Japanese](evidence/s2/s2-phrase-ja.png), [Traditional Chinese](evidence/s2/s2-phrase-zh-TW.png); the case also checks English and the Japanese staff phrase. |
 
 ## S1 browser evidence
 
