@@ -40,7 +40,7 @@ export function useFoodProfileConversation({
     const summaryVisible = state.entries.some((entry) => entry.kind === 'summary');
     if (!summaryVisible || savedRef.current) return;
     const profile = foodProfileToDurableProfile(state);
-    saveFoodProfile({ ...profile, dietary: [], dietaryOther: '', hasNoRestrictions: false });
+    saveFoodProfile(profile);
     if (state.name) saveNickname(state.name);
     savedRef.current = true;
     onProfileSaved?.(state.name, profile);

@@ -312,6 +312,9 @@ test('#443 applies two Food Profiles, explains empty results and clears filters'
   await findJourneysFromProfile(page, profile);
   await expect(result.getByText('調理中の混入', { exact: false })).toBeVisible();
   expect(await ids()).toEqual(firstIds);
+  await page.reload();
+  await expect(result.getByText('調理中の混入', { exact: false })).toBeVisible();
+  expect(await ids()).toEqual(firstIds);
 
   await page.goto('/');
   profile = await reachProfilePreferences(page);

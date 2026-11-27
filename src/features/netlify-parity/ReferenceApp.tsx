@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useI18n } from '../../i18n';
-import type { FoodProfile } from '../../lib/food-profile';
+import { loadFoodProfile } from '../../lib/food-profile-storage';
 import { loadNickname } from '../../lib/nickname';
 import { loadSavedRoutes, saveRoute } from '../../lib/saved-routes';
 import { FoodProfileConversation } from './chat/FoodProfileConversation';
@@ -80,7 +80,7 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
   const { locale, setLocale, t } = useI18n();
   const copy = referenceCopy(locale);
   const [nickname, setNickname] = useState(() => loadNickname() ?? '');
-  const [foodProfile, setFoodProfile] = useState<FoodProfile | null>(null);
+  const [foodProfile, setFoodProfile] = useState(loadFoodProfile);
   const [preferences, setPreferences] = useState(loadDiscoveryFilters);
   const [tripFilters, setTripFilters] = useState<DiscoveryFilters | null>(null);
   const [explorationStep, setExplorationStep] = useState(0);
