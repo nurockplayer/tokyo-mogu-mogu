@@ -406,6 +406,74 @@ test('#443 skips Food Profile to browse the admitted catalog', async ({ page }) 
   await expect(page.locator('[data-screen="mogu"][data-screen-active="true"] [data-journey-id]').first()).toBeVisible();
 });
 
+test('#443 offers a sourced Route alternative or explains that none is offered', async ({ page }, testInfo) => {
+  const now = new Date('2026-11-28T03:00:00Z');
+  const unavailableStops = JOURNEY_RECORDS.flatMap((record) => {
+    const primarySpotId = checkJourneyAdmission(record, now).defaultVariant?.primarySpotId;
+    const primary = primarySpotId && record.spots[primarySpotId];
+    return primary && primary.unavailable ? [{ record, primary, unavailable: primary.unavailable }] : [];
+  });
+  const withAlternative = unavailableStops.find(({ unavailable }) => unavailable.alternativeSpotId);
+  const withoutAlternative = unavailableStops.find(({ unavailable }) => !unavailable.alternativeSpotId);
+  expect(withAlternative, 'An admitted Route with an unavailable primary and an alternative').toBeDefined();
+  expect(withoutAlternative, 'An admitted Route with an unavailable primary and no alternative').toBeDefined();
+  const { record, primary, unavailable } = withAlternative!;
+  const alternativeId = unavailable.alternativeSpotId!;
+  const missing = withoutAlternative!;
+  const route = page.locator('[data-screen="route"][data-screen-active="true"]');
+  const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
+
+  await page.clock.setFixedTime(now);
+  await page.goto('/');
+  for (const [locale, alternativeLabel, noAlternative] of [
+    ['ja', '代替スポット', 'この立ち寄り先の代替スポットはありません。'],
+    ['en', 'Alternative stop', 'There is no alternative for this stop.'],
+    ['zh-TW', '替代景點', '這個停靠點沒有替代景點。'],
+  ] as const) {
+    await page.evaluate((value) => localStorage.setItem('tmm:locale', value), locale);
+    const routeUrl = `/route?candidateId=${record.journey.id}`;
+    await page.goto(routeUrl);
+    const alternative = route.getByRole('button').filter({ hasText: record.spots[alternativeId].presentation.copy[locale].name });
+    await expect(alternative).toContainText(alternativeLabel);
+    await expect(alternative).toHaveAttribute('data-spot-id', alternativeId);
+    await expect(route.locator(`[data-spot-id="${primary.presentation.id}"]`)).toHaveCount(0);
+    await expect(route.locator('.tl')).toContainText(unavailable.reason[locale]);
+    await expect(route.locator('.tl')).toContainText(retrievalDate);
+    await expectNoHorizontalOverflow(page);
+    if (locale === 'ja') {
+      await page.screenshot({ path: testInfo.outputPath('route-alternative-ja.png'), animations: 'disabled' });
+    }
+    await alternative.click();
+    await expect(page).toHaveURL(`/spot/${alternativeId}?candidateId=${record.journey.id}`);
+    await expect(spot).toBeVisible();
+    await expect(spot.locator('.guide-box').getByRole('link')).toHaveAttribute(
+      'href', resolveJourneyVisitorSource(record, alternativeId, now)!.url,
+    );
+
+    await page.goto(`/route?candidateId=${missing.record.journey.id}`);
+    await expect(route.locator('.tl')).toContainText(missing.primary.presentation.copy[locale].name);
+    await expect(route.locator('.tl')).toContainText(missing.unavailable.reason[locale]);
+    await expect(route.locator('.tl')).toContainText(retrievalDate);
+    await expect(route.getByText(noAlternative, { exact: true })).toBeVisible();
+    await expect(route.locator(`[data-spot-id="${missing.primary.presentation.id}"]`)).toHaveCount(0);
+    await expectNoHorizontalOverflow(page);
+    if (locale === 'ja') {
+      await page.screenshot({ path: testInfo.outputPath('route-no-alternative-ja.png'), animations: 'disabled' });
+    }
+    await page.goto(`/spot/${missing.primary.presentation.id}?candidateId=${missing.record.journey.id}`);
+    await expect(page.locator('[data-screen="journey-unavailable"][data-screen-active="true"]')).toBeVisible();
+  }
+
+  const story = page.locator('[data-screen="story"][data-screen-active="true"]');
+  for (const { record, primary } of [withAlternative!, missing]) {
+    const spotId = primary.presentation.id;
+    await page.goto(`/story/${record.journey.storyId}`);
+    await story.locator(`[data-spot-id="${spotId}"]`).click();
+    await expect(page).toHaveURL(`/spot/${spotId}`);
+    await expect(spot).toHaveAttribute('data-spot-id', spotId);
+  }
+});
+
 test('completes the current Exploration when its sessionStorage write is blocked', async ({
   page,
 }) => {

@@ -2,7 +2,7 @@ import { execFileSync } from 'node:child_process';
 import { expect, test } from '@playwright/test';
 import { checkJourneyAdmission } from '../src/data/journey-admission';
 import { JOURNEY_RECORDS } from '../src/data/journey-records';
-import type { JourneyRecord } from '../src/data/journey-record';
+import { selectRouteStop, type JourneyRecord } from '../src/data/journey-record';
 
 const admittedFixture = 'b01-hachioji-farm-table';
 const fixturePublicationDate = new Date('2026-11-27T13:00:00Z');
@@ -67,7 +67,16 @@ for (const record of selectedRecords()) {
     await screen('story').getByRole('button', { name: 'この食旅のルートを見る' }).click();
     const route = screen('route');
     await expect(route).toBeVisible();
-    const spotId = defaultVariant.primarySpotId!;
+    const primarySpotId = defaultVariant.primarySpotId!;
+    const spotId = selectRouteStop(record, primarySpotId);
+    if (spotId !== primarySpotId) {
+      await expect(route.locator(`[data-spot-id="${primarySpotId}"]`)).toHaveCount(0);
+      await expect(route.locator('.tl')).toContainText(record.spots[primarySpotId].unavailable!.reason.ja);
+    }
+    if (!spotId) {
+      await expect(route.getByText('この立ち寄り先の代替スポットはありません。', { exact: true })).toBeVisible();
+      return;
+    }
     await route.locator(`[data-spot-id="${spotId}"]`).click();
     const spot = screen('spot');
     await expect(spot).toHaveAttribute('data-spot-id', spotId);

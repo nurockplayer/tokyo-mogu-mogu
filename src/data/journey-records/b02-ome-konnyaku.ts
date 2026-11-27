@@ -43,6 +43,13 @@ export const b02OmeKonnyakuRecord: JourneyRecord = {
   },
   "spots": {
     "b02-ome-konnyaku-noshikon": {
+      "unavailable": {
+        "reason": {
+          "ja": "季節による営業状況が未確認のため、このルートでは訪問先から外しています。",
+          "en": "Seasonal opening is unconfirmed, so this route skips the shop.",
+          "zh-TW": "季節性營業情況尚未確認，因此這條路線略過這間店。"
+        }
+      },
       "officialSource": {"name": "Noshikon Honpo – shop and access", "url": "https://www.noshikon.com/%E5%BA%97%E8%88%97%E6%A6%82%E8%A6%81/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
       "presentation": {
         "id": "b02-ome-konnyaku-noshikon",
@@ -88,6 +95,7 @@ export const b02OmeKonnyakuRecord: JourneyRecord = {
     "editorial": {"name":"b02 editorial itinerary — timing and order estimates, not a timetable","url":"https://www.japan47go.travel/ja/detail/a769f2f6-017d-4683-9c83-c8b9f353f414","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}
   },
   "facts": {
+    "spots.b02-ome-konnyaku-noshikon.unavailable": {"sourceIds": ["admission-access"], "origin": "editorial"},
     "spots.b02-ome-konnyaku-noshikon.officialSource": {"sourceIds": ["admission-access"], "origin": "editorial"},
     "journey.copy": {"sourceIds":["source-28"],"origin":"editorial"},
     "routeName": {"sourceIds":["source-28"],"origin":"editorial"},

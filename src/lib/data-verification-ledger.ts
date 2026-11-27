@@ -290,23 +290,24 @@ function sourceCell(claim: LedgerClaim): string {
     : markdown(claim.primarySource);
 }
 
-function evidenceCell(
-  claimId: string,
-  evidenceItems: readonly DataVerificationEvidence[],
-): string {
-  const links = evidenceItems
-    .filter((evidence) => evidence.claimIds.includes(claimId))
-    .sort((left, right) => left.evidenceId.localeCompare(right.evidenceId))
-    .map((evidence) => {
-      const label = evidence.kind === 'app'
-        ? `app · ${evidence.locale} · ${evidence.viewport.width}px`
-        : evidence.kind;
-      const ledgerRelativePath = evidence.path.startsWith('docs/')
-        ? evidence.path.slice('docs/'.length)
-        : evidence.path;
-      return `[${label}](${ledgerRelativePath})`;
-    });
-  return links.length === 0 ? '—' : links.join('<br>');
+function evidenceLinksByClaim(evidenceItems: readonly DataVerificationEvidence[]) {
+  const linksByClaim = new Map<string, string[]>();
+  const sortedEvidence = [...evidenceItems].sort((left, right) => left.evidenceId.localeCompare(right.evidenceId));
+  for (const evidence of sortedEvidence) {
+    const label = evidence.kind === 'app'
+      ? `app · ${evidence.locale} · ${evidence.viewport.width}px`
+      : evidence.kind;
+    const ledgerRelativePath = evidence.path.startsWith('docs/')
+      ? evidence.path.slice('docs/'.length)
+      : evidence.path;
+    const link = `[${label}](${ledgerRelativePath})`;
+    for (const claimId of new Set(evidence.claimIds)) {
+      const links = linksByClaim.get(claimId);
+      if (links) links.push(link);
+      else linksByClaim.set(claimId, [link]);
+    }
+  }
+  return linksByClaim;
 }
 
 function evidenceOmissionTable(omissions: readonly DataVerificationEvidenceOmission[]): string {
@@ -345,6 +346,7 @@ export function renderDataVerificationLedger(
   evidenceOmissions: readonly DataVerificationEvidenceOmission[] = [],
 ): string {
   const claims = [...inputClaims].sort(compareClaimIds);
+  const linksByClaim = evidenceLinksByClaim(evidenceItems);
   const verificationCounts = new Map(
     VERIFICATION_ORDER.map((status) => [
       status,
@@ -363,10 +365,11 @@ export function renderDataVerificationLedger(
     '|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|',
   ];
   const detailRows = claims.map((claim) => {
+    const evidence = linksByClaim.get(claim.claimId)?.join('<br>') ?? '—';
     const timeSensitive = claim.timeSensitive
       ? `yes${claim.timeSensitiveNote ? ` — ${claim.timeSensitiveNote}` : ''}`
       : 'no';
-    return `| \`${claim.claimId}\` | ${markdown(`${claim.entityType} / ${claim.entityId} / ${claim.entityName}`)} | \`${claim.fieldId}\` — ${markdown(claim.fieldLabel)} | ${markdown(claim.canonicalValue)} | ${markdown(claim.displayedValue)} | ${claim.comparedPresentationClaimId ? `\`${markdown(claim.comparedPresentationClaimId)}\`` : '—'} | ${markdown(claim.comparedPresentationValue)} | \`${claim.origin}\` | \`${claim.verification}\` | \`${claim.finding}\` | ${sourceCell(claim)} | ${markdown(claim.primarySourceLicense)} | ${markdown(claim.retrievedAt)} | ${markdown(claim.sourceUpdatedAt)} | ${markdown(claim.confirmedAt)} | ${markdown(timeSensitive)} | ${markdown(claim.appSurface)} | \`${markdown(claim.canonicalSourceFile)}\` | ${claim.presentationSourceFile ? `\`${markdown(claim.presentationSourceFile)}\`` : '—'} | ${claim.auditSourceFile ? `\`${markdown(claim.auditSourceFile)}\`` : '—'} | ${markdown(claim.issues.join(', '))} | ${evidenceCell(claim.claimId, evidenceItems)} | ${markdown(claim.note)} |`;
+    return `| \`${claim.claimId}\` | ${markdown(`${claim.entityType} / ${claim.entityId} / ${claim.entityName}`)} | \`${claim.fieldId}\` — ${markdown(claim.fieldLabel)} | ${markdown(claim.canonicalValue)} | ${markdown(claim.displayedValue)} | ${claim.comparedPresentationClaimId ? `\`${markdown(claim.comparedPresentationClaimId)}\`` : '—'} | ${markdown(claim.comparedPresentationValue)} | \`${claim.origin}\` | \`${claim.verification}\` | \`${claim.finding}\` | ${sourceCell(claim)} | ${markdown(claim.primarySourceLicense)} | ${markdown(claim.retrievedAt)} | ${markdown(claim.sourceUpdatedAt)} | ${markdown(claim.confirmedAt)} | ${markdown(timeSensitive)} | ${markdown(claim.appSurface)} | \`${markdown(claim.canonicalSourceFile)}\` | ${claim.presentationSourceFile ? `\`${markdown(claim.presentationSourceFile)}\`` : '—'} | ${claim.auditSourceFile ? `\`${markdown(claim.auditSourceFile)}\`` : '—'} | ${markdown(claim.issues.join(', '))} | ${evidence} | ${markdown(claim.note)} |`;
   });
 
   const sections = [

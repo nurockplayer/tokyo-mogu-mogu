@@ -33,6 +33,8 @@ export interface JourneyRecord {
   spots: Record<string, {
     presentation: SpotPresentation;
     detail: ReferenceSpotDetail;
+    /** A stop omitted from the route, with an optional substitute from this record. */
+    unavailable?: { reason: LocalizedText; alternativeSpotId?: string };
     officialSource?: DataSource;
     /** Dated official visitor page recorded for publication admission. */
     visitorSourceId?: string;
@@ -88,6 +90,17 @@ export function journeyFactStatus(record: JourneyRecord, path: string): Verifica
   const fact = resolveJourneyFact(record, path);
   if (!fact) throw new Error(`Missing journey fact evidence: ${record.journey.id} / ${path}`);
   return fact.status;
+}
+
+export function selectRouteStop(record: JourneyRecord | undefined, spotId: string): string | undefined {
+  if (!record) return spotId;
+  const unavailable = record.spots[spotId]?.unavailable;
+  if (!unavailable) return spotId;
+  const alternativeId = unavailable.alternativeSpotId;
+  if (!alternativeId) return undefined;
+  const alternative = record.spots[alternativeId];
+  if (!alternative) throw new Error(`Missing alternative Spot: ${record.journey.id} / ${alternativeId}`);
+  return alternative.unavailable ? undefined : alternativeId;
 }
 
 const pending: LocalizedText = { ja: '確認中', en: 'Confirmation pending', 'zh-TW': '確認中' };

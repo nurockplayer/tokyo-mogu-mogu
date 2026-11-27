@@ -4,7 +4,7 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
 import * as presentation from '../features/netlify-parity/factual-presentation';
-import { adaptJourneyRecords, journeyFactStatus, type JourneyRecord } from './journey-record';
+import { adaptJourneyRecords, journeyFactStatus, selectRouteStop, type JourneyRecord } from './journey-record';
 import { JOURNEY_RECORDS } from './journey-records';
 import { MUNICIPALITIES } from './municipalities';
 import { PLACES } from './seed-places';
@@ -134,6 +134,29 @@ const synthetic: JourneyRecord = {
   facts: Object.fromEntries(['journey.copy', 'journey.chapters', 'journey.routeVariants', 'routeName', 'location', 'variants', 'spots.synthetic-spot', 'story']
     .map((path) => [path, { sourceIds: ['official'], origin: 'editorial' as const }])),
 };
+
+it('selects only the available primary or its named alternative', () => {
+  const spotId = 'synthetic-spot';
+  const spot = synthetic.spots[spotId];
+  const unavailable = { reason: text };
+  const alternativeSpotId = 'synthetic-alternative';
+  const alternative = { ...spot, presentation: { ...spot.presentation, id: alternativeSpotId } };
+
+  expect(selectRouteStop(synthetic, spotId)).toBe(spotId);
+  expect(selectRouteStop({ ...synthetic, spots: {
+    [spotId]: { ...spot, unavailable },
+    [alternativeSpotId]: alternative,
+  } }, spotId)).toBeUndefined();
+  const withAlternative = { ...synthetic, spots: {
+    [spotId]: { ...spot, unavailable: { ...unavailable, alternativeSpotId } },
+    [alternativeSpotId]: alternative,
+  } };
+  expect(selectRouteStop(withAlternative, spotId)).toBe(alternativeSpotId);
+  expect(selectRouteStop({ ...withAlternative, spots: {
+    ...withAlternative.spots,
+    [alternativeSpotId]: { ...alternative, unavailable },
+  } }, spotId)).toBeUndefined();
+});
 
 describe('municipalities and data-driven journey presentation (#412)', () => {
   it('registers exactly 39 unique municipalities with all three names and the Owner groups', () => {

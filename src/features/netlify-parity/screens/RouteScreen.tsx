@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Locale } from '../../../i18n';
-import type { JourneyRecord } from '../../../data/journey-record';
+import { selectRouteStop, type JourneyRecord } from '../../../data/journey-record';
 import { factRetrievalNote, retrievalNote } from '../journey-publication';
 import {
   currentSpots,
@@ -42,6 +42,12 @@ const routeLabels: Record<Locale, {
   ja: { from: 'から', regenerate: ['ルートを', '再生成する'], start: '発', goal: 'Goal', completed: 'お疲れ様でした！', mission: 'ミッション', missionDone: 'ミッション達成！' },
   en: { from: 'from', regenerate: ['Regenerate', 'route'], start: 'Go', goal: 'Goal', completed: 'Well done!', mission: 'Mission', missionDone: 'Mission complete!' },
   'zh-TW': { from: '出發', regenerate: ['重新建立', '路線'], start: '發', goal: 'Goal', completed: '辛苦了！', mission: '任務', missionDone: '任務完成！' },
+};
+
+const stopLabels: Record<Locale, { alternative: string; noAlternative: string }> = {
+  ja: { alternative: '代替スポット', noAlternative: 'この立ち寄り先の代替スポットはありません。' },
+  en: { alternative: 'Alternative stop', noAlternative: 'There is no alternative for this stop.' },
+  'zh-TW': { alternative: '替代景點', noAlternative: '這個停靠點沒有替代景點。' },
 };
 
 const missionSpotIds = new Set([
@@ -105,7 +111,16 @@ export function RouteScreen({
     throw new Error(`Missing Route presentation for journey variant: ${routeKey}`);
   }
   const stats = localizedStats[locale];
-  const arrival = record?.variants[variant.id]?.arrival;
+  const plannedStops = variant.steps.map((step, index) => ({
+    step, index, selectedId: selectRouteStop(record, step.spotId),
+  }));
+  const changed = plannedStops.some(({ step, selectedId }) => step.spotId !== selectedId);
+  const substitutes = new Set(plannedStops.flatMap(({ step, selectedId }) =>
+    selectedId && selectedId !== step.spotId ? [selectedId] : []));
+  const timeline = plannedStops.filter(({ step, selectedId }) =>
+    step.spotId !== selectedId || !substitutes.has(step.spotId));
+  const authoredArrival = record?.variants[variant.id]?.arrival;
+  const arrival = authoredArrival && !record?.spots[authoredArrival.spotId]?.unavailable ? authoredArrival : undefined;
   const arrivalNote = arrival && record && retrievalNote(locale, [record.sources[arrival.sourceId]]);
   const routeNote = record && factRetrievalNote(record, locale,
     `journey.routeVariants.${record.journey.routeVariants.findIndex(({ id }) => id === variant.id)}.durationMinutes`,
@@ -183,7 +198,7 @@ export function RouteScreen({
         <div className="route-map">
           <PresentationMedia
             alt={copy.route.mapAlt}
-            assetId={variant.imageAssetId}
+            assetId={changed ? undefined : variant.imageAssetId}
             locale={locale}
           />
         </div>
@@ -192,10 +207,10 @@ export function RouteScreen({
           <div className="tx">
             <PinIcon /> {localizedRegion[locale]}
             {arrival ? <><br /><TrainIcon /> <em>{arrival.name[locale]}</em></>
-              : stats.access || stats.station ? <><br /><TrainIcon /> {stats.access ? <em>{stats.access}</em> : <><em>{stats.station}</em> {labels.from} <em>{stats.minutes}</em></>}</> : null}
+              : !changed && (stats.access || stats.station) ? <><br /><TrainIcon /> {stats.access ? <em>{stats.access}</em> : <><em>{stats.station}</em> {labels.from} <em>{stats.minutes}</em></>}</> : null}
             {arrivalNote ? <small className="route-caution">{arrivalNote}</small> : null}
-            {stats.caution ? <small className="route-caution">{stats.caution}</small> : null}
-            {routeNote ? <small className="route-caution">{stats.time} · {routeNote}</small> : null}
+            {!changed && stats.caution ? <small className="route-caution">{stats.caution}</small> : null}
+            {!changed && routeNote ? <small className="route-caution">{stats.time} · {routeNote}</small> : null}
           </div>
           {!record && <button className="regen" disabled={regenerating} onClick={startRegeneration} type="button">
             {labels.regenerate[0]}
@@ -206,37 +221,42 @@ export function RouteScreen({
 
         <div className="tl">
           <div className="tl-line" />
-          {variant.steps.map((step, index) => {
-            const spot = currentSpots[step.spotId];
+          {timeline.map(({ step, index, selectedId }, position) => {
+            const spot = currentSpots[selectedId ?? step.spotId];
             if (!spot) throw new Error(`Missing current Spot presentation: ${routeKey} / ${step.spotId}`);
-            const stepText = steps.find((candidate) => candidate.spotId === step.spotId);
-            const stepNote = record && factRetrievalNote(record, locale,
-              `variants.${variant.id}.steps.${index}`, `spots.${spot.id}.presentation`,
-            );
-            const isStart = index === 0;
-            const mission = missionSpotIds.has(step.spotId);
-            const missionDone = completedMissionSpotIds.includes(step.spotId);
+            const unavailable = record?.spots[step.spotId]?.unavailable;
+            const isAlternative = unavailable && selectedId;
+            const stepText = steps.find((candidate) => candidate.spotId === spot.id);
+            const stepNote = record && selectedId && (unavailable
+              ? factRetrievalNote(record, locale, `spots.${spot.id}.presentation`)
+              : factRetrievalNote(record, locale, `variants.${variant.id}.steps.${index}`, `spots.${spot.id}.presentation`));
+            const unavailableNote = record && unavailable &&
+              factRetrievalNote(record, locale, `spots.${step.spotId}.unavailable`);
+            const isStart = position === 0;
+            const openSpot = selectedId ? () => onOpenSpot(spot) : undefined;
+            const mission = selectedId && missionSpotIds.has(selectedId);
+            const missionDone = completedMissionSpotIds.includes(spot.id);
             return (
               <div className="tl-step" key={`${step.spotId}-${index}`}>
-                {stepText?.walk ? (
+                {!changed && stepText?.walk ? (
                   <div className="seg">
                     <WalkIcon /> {stepText.walk[locale]}
                   </div>
                 ) : null}
                 <div className="tl-row">
-                  <div className={`num${isStart ? ' start' : ''}`}>{isStart ? labels.start : index}</div>
+                  <div className={`num${isStart ? ' start' : ''}`}>{isStart ? labels.start : position}</div>
                   <article
                     className="card"
-                    data-spot-id={spot.id}
-                    onClick={() => onOpenSpot(spot)}
-                    onKeyDown={(event) => {
+                    data-spot-id={selectedId}
+                    onClick={openSpot}
+                    onKeyDown={openSpot && ((event) => {
                       if (event.key === 'Enter' || event.key === ' ') {
                         event.preventDefault();
-                        onOpenSpot(spot);
+                        openSpot();
                       }
-                    }}
-                    role="button"
-                    tabIndex={active ? 0 : -1}
+                    })}
+                    role={openSpot ? 'button' : undefined}
+                    tabIndex={openSpot ? (active ? 0 : -1) : undefined}
                   >
                     {mission ? (
                       <span className={`mission-tag${missionDone ? ' done' : ''}`}>
@@ -244,26 +264,32 @@ export function RouteScreen({
                         {missionDone ? labels.missionDone : labels.mission}
                       </span>
                     ) : null}
-                    <PresentationMedia assetId={step.imageAssetId} locale={locale} />
+                    <PresentationMedia assetId={isAlternative ? spot.imageAssetId : step.imageAssetId} locale={locale} />
                     <div className="tx">
-                      <b>{spot.copy[locale].name}</b>
-                      <p style={{ whiteSpace: 'pre-line' }}>{stepText?.description[locale] ?? spot.copy[locale].lead}</p>
+                      <b>{isAlternative ? `${stopLabels[locale].alternative} · ` : ''}{spot.copy[locale].name}</b>
+                      <p style={{ whiteSpace: 'pre-line' }}>{selectedId
+                        ? stepText?.description[locale] ?? spot.copy[locale].lead
+                        : stopLabels[locale].noAlternative}</p>
                     </div>
-                    <span className="arw" aria-hidden="true">›</span>
+                    {openSpot ? <span className="arw" aria-hidden="true">›</span> : null}
                   </article>
                 </div>
-                {stepText?.note ? <div className="tl-note">{stepText.note[locale]}</div> : null}
+                {unavailable ? <div className="tl-note">
+                  {isAlternative ? `${currentSpots[step.spotId].copy[locale].name} · ` : ''}{unavailable.reason[locale]}
+                  {unavailableNote ? <><br />{unavailableNote}</> : null}
+                </div> : null}
+                {!changed && stepText?.note ? <div className="tl-note">{stepText.note[locale]}</div> : null}
                 {stepNote ? <div className="tl-note">{stepNote}</div> : null}
               </div>
             );
           })}
-          <div className="goal-row">
+          {timeline.every(({ selectedId }) => selectedId) && <div className="goal-row">
             <div className="num goal">{labels.goal}</div>
             <b>{labels.completed}</b>
-          </div>
+          </div>}
         </div>
 
-        <div className="route-stats">
+        {!changed && <div className="route-stats">
           <div className="st">
             <ClockIcon />
             <b>{stats.time}</b>
@@ -276,7 +302,7 @@ export function RouteScreen({
             <GearIcon />
             <b>{stats.spots}</b>
           </div>
-        </div>
+        </div>}
         <div className="route-actions">
           <button
             className="save"

@@ -58,6 +58,14 @@ export const b02OmeOrchardFruitRecord: JourneyRecord = {
   },
   "spots": {
     "b02-ome-orchard-fruit-berry-cottage": {
+      "unavailable": {
+        "reason": {
+          "ja": "摘み取りの時期と入園の可否が未確認のため、このルートでは訪問先から外しています。",
+          "en": "The picking season and admission are unconfirmed, so this route skips the orchard.",
+          "zh-TW": "採果季節與入園情況尚未確認，因此這條路線略過果園。"
+        },
+        "alternativeSpotId": "b02-ome-orchard-fruit-kasumi-fruit"
+      },
       "presentation": {
         "id": "b02-ome-orchard-fruit-berry-cottage",
         "regionId": "ome",
@@ -88,6 +96,7 @@ export const b02OmeOrchardFruitRecord: JourneyRecord = {
       "officialSource": {"name":"青梅市観光協会 — ベリーコテージ","url":"https://www.omekanko.gr.jp/spot/19501/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}
     },
     "b02-ome-orchard-fruit-kasumi-fruit": {
+      "visitorSourceId": "source-21",
       "presentation": {
         "id": "b02-ome-orchard-fruit-kasumi-fruit",
         "regionId": "ome",
@@ -168,6 +177,7 @@ export const b02OmeOrchardFruitRecord: JourneyRecord = {
     "journey.chapters.en.1": {"sourceIds":["source-24"],"origin":"editorial"},
     "journey.chapters.zh-TW.1": {"sourceIds":["source-24"],"origin":"editorial"},
     "spots.b02-ome-orchard-fruit-berry-cottage": {"sourceIds":["source-24","source-25"],"origin":"editorial"},
+    "spots.b02-ome-orchard-fruit-berry-cottage.unavailable": {"sourceIds":["admission-access","source-20"],"origin":"editorial"},
     "story.groups.nearby.0": {"sourceIds":["source-24","source-25"],"origin":"editorial"},
     "variants.half-day.steps.0.description": {"sourceIds":["source-24","source-25"],"origin":"editorial"},
     "spots.b02-ome-orchard-fruit-kasumi-fruit": {"sourceIds":["source-20","source-21"],"origin":"editorial"},
