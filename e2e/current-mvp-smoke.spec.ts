@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 import { execFileSync } from 'node:child_process';
-import { mkdtemp, rm } from 'node:fs/promises';
+import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { build, createServer, preview } from 'vite';
@@ -194,6 +194,39 @@ for (const [locale, viewRoute, unavailable, backToMogu] of [
     const popup = await popupPromise;
     await expect(popup).toHaveURL(officialDestination);
     await popup.close();
+
+    if (locale === 'ja') {
+      const output = execFileSync('pnpm', ['data:journey-admission'], { encoding: 'utf8' });
+      const passing = [...output.matchAll(/^(\S+) admitted(?: — .*)?$/gm)].map(([, id]) => id);
+      const exclusions = [...output.matchAll(/^\S+ excluded — (.+)$/gm)].map(([line]) => line);
+      expect(passing[0]).toBe(admittedId);
+      expect(exclusions).toHaveLength(JOURNEY_RECORDS.length - passing.length);
+      const origin = new URL(page.url()).origin;
+      const report = [
+        '# S1 journey admission report',
+        '',
+        'Record decisions come from `pnpm data:journey-admission`. The Japanese `#442 walks the admitted journey` smoke generates this report after the 375px preview walkthrough. Start the built preview at the origin below to reopen the URLs.',
+        '',
+        `Sample: \`${admittedId}\`, the first admitted record in catalog order.`,
+        '',
+        `- [MOGU](${origin}/mogu) · [capture](evidence/s1/s1-5-mogu-ja.png)`,
+        `- [Story](${origin}/story/${storyId}) · [capture](evidence/s1/s1-5-story-ja.png)`,
+        `- [Route](${origin}/route?candidateId=${admittedId}) · [arrival and duration](evidence/s1/s1-5-route-ja.png)`,
+        `- [Primary Spot](${page.url()}) · [official handoff](evidence/s1/s1-5-spot-ja.png)`,
+        `- [Official destination](${officialDestination}) · retrieved ${visitorSource.retrievedAt} JST. Smoke verifies the exact popup URL with a stubbed response.`,
+        '- [Excluded invalid primary action](evidence/s1/s1-4-invalid-primary-action-ja.png) · separate test build.',
+        '',
+        `## Admitted IDs (${passing.length})`,
+        '',
+        passing.map((id) => `\`${id}\``).join(', '),
+        '',
+        `## Exclusions (${exclusions.length})`,
+        '',
+        ...exclusions.map((line) => `- ${line}`),
+        '',
+      ].join('\n');
+      await writeFile(testInfo.outputPath('journey-admission-report.md'), report);
+    }
   });
 
   test(`S2-6 follows representative admitted trips in ${locale}`, async ({ page, context }, testInfo) => {
@@ -269,6 +302,65 @@ for (const [locale, viewRoute, unavailable, backToMogu] of [
     await expect(page).toHaveURL('/mogu');
   });
 }
+
+test('S1-4 makes an admitted Route unavailable when its primary action is invalid', async ({ page }, testInfo) => {
+  test.setTimeout(120_000);
+  const { record, defaultVariant } = admitted!;
+  const { id } = record.journey;
+  const sourceId = `${id}-invalid-visitor-action`;
+  const fixture = {
+    ...record,
+    spots: Object.fromEntries(Object.entries(record.spots).map(([spotId, spot]) => [
+      spotId, { ...spot, visitorSourceId: sourceId },
+    ])),
+    sources: {
+      ...record.sources,
+      [sourceId]: {
+        ...resolveJourneyVisitorSource(record, defaultVariant!.primarySpotId!, publicationDate)!,
+        url: 'about:blank',
+      },
+    },
+  };
+  const decision = checkJourneyAdmission(fixture, publicationDate);
+  expect(decision.admitted).toBe(false);
+  expect(decision.storyFailures).toEqual([]);
+  expect(decision.variants.find(({ id }) => id === defaultVariant!.id)?.failures)
+    .toEqual(['official destination for primary Spot']);
+
+  await page.clock.setFixedTime(publicationDate);
+  const path = `/route?candidateId=${id}`;
+  await page.goto(path);
+  await expect(activeScreen(page, 'route')).toBeVisible();
+
+  const outDir = await mkdtemp(join(tmpdir(), 'tmm-s1-invalid-action-'));
+  try {
+    await build({
+      logLevel: 'warn',
+      build: { outDir },
+      plugins: [{
+        name: 's1-test-invalid-visitor-action',
+        transform(source, moduleId) {
+          if (moduleId.endsWith('/src/data/journey-records/index.ts')) {
+            return `${source}\nJOURNEY_RECORDS[JOURNEY_RECORDS.findIndex(({ journey }) => journey.id === ${JSON.stringify(id)})] = ${JSON.stringify(fixture)};`;
+          }
+        },
+      }],
+    });
+    const server = await preview({ build: { outDir }, preview: { host: '127.0.0.1', port: 0 } });
+    try {
+      await page.goto(new URL(path, server.resolvedUrls.local[0]).href);
+      await expect(activeScreen(page, 'journey-unavailable').getByRole('heading'))
+        .toHaveText(strings.ja.journeyUnavailableTitle);
+      await expect(activeScreen(page, 'route')).toHaveCount(0);
+      await expectNoHorizontalOverflow(page);
+      await page.screenshot({ path: testInfo.outputPath('s1-4-invalid-primary-action-ja.png'), animations: 'disabled' });
+    } finally {
+      await server.close();
+    }
+  } finally {
+    await rm(outDir, { recursive: true });
+  }
+});
 
 function journeyDeepLinks(journey: JourneyPresentation, record?: (typeof JOURNEY_RECORDS)[number]) {
   const spots = new Set(journey.routeVariants.flatMap(({ steps }) =>
@@ -673,13 +765,19 @@ test('#443 applies two Food Profiles, explains empty results and clears filters'
   await firstReason.scrollIntoViewIfNeeded();
   await screenshot('result-profile-one-ja');
   const firstIds = await ids();
+  const firstResultText = (await result.innerText()).replace(/\s+/g, ' ').trim();
 
   await page.goto('/');
   profile = await reachProfilePreferences(page, 'egg');
   await expect(profile.getByLabel('滞在エリア')).toHaveValue('hachioji');
   await findJourneysFromProfile(page, profile);
-  await expect(result.getByText('調理中の混入', { exact: false })).toBeVisible();
+  const guidance = result.getByText('調理中の混入', { exact: false });
+  await expect(guidance).toBeVisible();
   expect(await ids()).toEqual(firstIds);
+  expect((await result.innerText()).replace(await guidance.innerText(), '').replace(/\s+/g, ' ').trim())
+    .toBe(firstResultText);
+  await guidance.scrollIntoViewIfNeeded();
+  await screenshot('s2-4-dietary-guidance-ja');
   await page.reload();
   await expect(result.getByText('調理中の混入', { exact: false })).toHaveCount(0);
   expect(await ids()).toEqual(firstIds);
@@ -714,6 +812,83 @@ test('#443 applies two Food Profiles, explains empty results and clears filters'
   await result.getByRole('button', { name: '条件をクリア' }).click();
   await expect(firstReason).toContainText('公開中の食旅');
   expect((await ids()).some((id) => firstIds.includes(id))).toBe(true);
+});
+
+test('S2-2 / S2-9 filters the admitted catalog and opens a sourced Route without generation', async ({ page }, testInfo) => {
+  test.setTimeout(90_000);
+  const catalog = publication.flatMap(({ record, defaultVariant }) => {
+    if (!defaultVariant) return [];
+    const { journey, municipalityId, alcoholThemed } = record;
+    const { durationMinutes } = journey.routeVariants.find(({ id }) => id === defaultVariant.id)!;
+    const arrival = record.variants[defaultVariant.id]!.arrival!;
+    return [{
+      journey, municipalityId, alcoholThemed, durationMinutes,
+      station: `${arrival.kind}:${arrival.name.ja}`,
+    }];
+  });
+  const sample = catalog[0];
+  const explore = activeScreen(page, 'explore');
+  const result = activeScreen(page, 'result');
+  const cards = result.locator('[data-journey-id]');
+  const next = explore.getByRole('button', { name: '次へ', exact: true });
+  const checkResult = async (expected: typeof catalog) => {
+    await expect(page).toHaveURL('/explore/result');
+    await expect.poll(() => cards.evaluateAll((items) => items.map((item) => item.getAttribute('data-journey-id'))))
+      .toEqual(expected.map(({ journey }) => journey.id));
+    await expect(result).not.toContainText(
+      /マッチ度|一致率|ランキング|おすすめ順位|ベスト|営業中|\d\s*[％%]|\b(?:match score|ranking|best|open now)\b|配對度|匹配度|排名|最佳|營業中/i,
+    );
+  };
+
+  // A simulated generation timer cannot finish while the app clock is paused.
+  await page.clock.install({ time: publicationDate });
+  await page.clock.pauseAt(new Date(publicationDate.getTime() + 60_000));
+  await page.goto('/explore');
+  await completeExploration(page);
+  await checkResult(catalog);
+
+  const cases = [
+    { name: 'area', step: 0, label: '滞在エリア', value: sample.municipalityId,
+      matches: (entry: typeof sample) => entry.municipalityId === sample.municipalityId },
+    { name: 'station', step: 1, label: '到着駅・停留所', value: sample.station,
+      matches: (entry: typeof sample) => entry.station === sample.station },
+    { name: 'time', step: 2, label: '現地で使える時間', value: '',
+      matches: (entry: typeof sample, value: string) => entry.durationMinutes <= Number(value) },
+    { name: 'interest', step: 3, label: '気になる食文化', value: sample.journey.foodCultureId,
+      matches: (entry: typeof sample) => entry.journey.foodCultureId === sample.journey.foodCultureId },
+    { name: 'alcohol', step: 4, label: 'お酒がテーマの食旅', value: 'exclude',
+      matches: (entry: typeof sample) => !entry.alcoholThemed },
+  ];
+  for (const { name, step, label, value, matches } of cases) {
+    await result.getByRole('button', { name: '条件を変更' }).click();
+    for (let current = 0; current < step; current++) await next.click();
+    const field = explore.getByLabel(label);
+    const selected = value || (await field.locator('option').evaluateAll((options) =>
+      options.map((option) => (option as HTMLOptionElement).value))).find((limit) =>
+      catalog.some((entry) => matches(entry, limit)) && catalog.some((entry) => !matches(entry, limit)))!;
+    const expected = catalog.filter((entry) => matches(entry, selected));
+    expect(expected.length, name).toBeGreaterThan(0);
+    expect(expected.length, name).toBeLessThan(catalog.length);
+    await field.selectOption(selected);
+    for (let current = step; current < cases.length; current++) await next.click();
+    await checkResult(expected);
+    await expectNoHorizontalOverflow(page);
+    await page.screenshot({ path: testInfo.outputPath(`s2-2-${name}-ja.png`), animations: 'disabled' });
+    if (name !== 'alcohol') await result.getByRole('button', { name: '条件をクリア' }).click();
+  }
+
+  const journey = catalog.find(({ alcoholThemed }) => !alcoholThemed)!.journey;
+  await cards.first().click();
+  await expect(page).toHaveURL(`/story/${journey.storyId}`);
+  const story = activeScreen(page, 'story');
+  await story.getByRole('button', { name: 'この食旅のルートを見る' }).click();
+  await expect(page).toHaveURL(`/route?candidateId=${journey.id}`);
+  await expect(story.locator('[data-route-loading][data-loading="true"]')).toHaveCount(0);
+  const route = activeScreen(page, 'route');
+  await expect(route.locator('.route-info')).toBeVisible();
+  await expect(route.locator('.regen')).toHaveCount(0);
+  await route.locator('.route-info').scrollIntoViewIfNeeded();
+  await page.screenshot({ path: testInfo.outputPath('s2-9-sourced-route-ja.png'), animations: 'disabled' });
 });
 
 test('#443 skips Food Profile to browse the admitted catalog', async ({ page }, testInfo) => {
