@@ -138,7 +138,7 @@ export const fussaJourneyRecord: JourneyRecord = {
       "url": "https://www.city.fussa.tokyo.jp/map/shiyakusho/1001605.html",
       "sourceType": "official_web",
       "sourceUpdatedAt": "2021-06-16",
-      "retrievedAt": "2026-09-26",
+      "retrievedAt": "2026-11-28",
       "verificationStatus": "needs_confirmation",
       "originalId": "kurumiru-fussa-1001605"
     },
@@ -197,7 +197,7 @@ export const fussaJourneyRecord: JourneyRecord = {
       "url": "https://www.city.fussa.tokyo.jp/map/shiyakusho/1001605.html",
       "sourceType": "official_web",
       "sourceUpdatedAt": "2021-06-16",
-      "retrievedAt": "2026-09-26",
+      "retrievedAt": "2026-11-28",
       "verificationStatus": "needs_confirmation",
       "originalId": "kurumiru-fussa-1001605"
     },
@@ -238,7 +238,7 @@ export const fussaJourneyRecord: JourneyRecord = {
       "name": "福生市「くるみる ふっさ」",
       "url": "https://www.city.fussa.tokyo.jp/map/shiyakusho/1001605.html",
       "sourceType": "official_web",
-      "retrievedAt": "2026-09-26",
+      "retrievedAt": "2026-11-28",
       "sourceUpdatedAt": "2021-06-16",
       "verificationStatus": "needs_confirmation",
       "originalId": "kurumiru-fussa-honcho23"
@@ -248,7 +248,7 @@ export const fussaJourneyRecord: JourneyRecord = {
       "url": "https://www.city.fussa.tokyo.jp/map/shiyakusho/1001605.html",
       "sourceType": "official_web",
       "sourceUpdatedAt": "2021-06-16",
-      "retrievedAt": "2026-09-26",
+      "retrievedAt": "2026-11-28",
       "verificationStatus": "needs_confirmation",
       "originalId": "kurumiru-fussa-1001605"
     },

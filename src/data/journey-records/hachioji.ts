@@ -115,7 +115,7 @@ export const hachiojiJourneyRecord: JourneyRecord = {
       "name": "道の駅八王子滝山（公式）",
       "url": "https://www.michinoeki-hachioji.net/",
       "sourceType": "official_web",
-      "retrievedAt": "2026-09-26",
+      "retrievedAt": "2026-11-28",
       "verificationStatus": "needs_confirmation",
       "originalId": "michi-no-eki-hachioji-takiyama"
     },
@@ -139,7 +139,7 @@ export const hachiojiJourneyRecord: JourneyRecord = {
       "name": "道の駅八王子滝山（公式）",
       "url": "https://www.michinoeki-hachioji.net/",
       "sourceType": "official_web",
-      "retrievedAt": "2026-09-26",
+      "retrievedAt": "2026-11-28",
       "verificationStatus": "needs_confirmation",
       "originalId": "michi-no-eki-hachioji-takiyama"
     },
@@ -166,7 +166,7 @@ export const hachiojiJourneyRecord: JourneyRecord = {
       "name": "道の駅八王子滝山（公式）／OpenStreetMap",
       "url": "https://www.michinoeki-hachioji.net/",
       "sourceType": "official_web",
-      "retrievedAt": "2026-09-26",
+      "retrievedAt": "2026-11-28",
       "verificationStatus": "needs_confirmation",
       "originalId": "michi-no-eki-hachioji-takiyama"
     },
@@ -174,7 +174,7 @@ export const hachiojiJourneyRecord: JourneyRecord = {
       "name": "道の駅八王子滝山（公式）",
       "url": "https://www.michinoeki-hachioji.net/",
       "sourceType": "official_web",
-      "retrievedAt": "2026-09-26",
+      "retrievedAt": "2026-11-28",
       "verificationStatus": "needs_confirmation",
       "originalId": "michi-no-eki-hachioji-takiyama"
     },

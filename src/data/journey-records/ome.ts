@@ -144,7 +144,7 @@ export const omeJourneyRecord: JourneyRecord = {
       "name": "小澤酒造 酒蔵見学（公式）",
       "url": "https://www.sawanoi-sake.com/service/kengaku/",
       "sourceType": "official_web",
-      "retrievedAt": "2026-08-29",
+      "retrievedAt": "2026-11-28",
       "verificationStatus": "needs_confirmation",
       "originalId": "sawanoi-brewery-tour"
     },
@@ -186,7 +186,7 @@ export const omeJourneyRecord: JourneyRecord = {
       "name": "小澤酒造 酒蔵見学（公式）",
       "url": "https://www.sawanoi-sake.com/service/kengaku/",
       "sourceType": "official_web",
-      "retrievedAt": "2026-08-29",
+      "retrievedAt": "2026-11-28",
       "verificationStatus": "needs_confirmation",
       "originalId": "sawanoi-brewery-tour"
     },

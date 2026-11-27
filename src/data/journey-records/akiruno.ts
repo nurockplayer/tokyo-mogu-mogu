@@ -108,7 +108,7 @@ export const akirunoJourneyRecord: JourneyRecord = {
       "url": "https://www.city.akiruno.tokyo.jp/0000003556.html",
       "sourceType": "official_web",
       "sourceUpdatedAt": "2026-04-02",
-      "retrievedAt": "2026-09-26",
+      "retrievedAt": "2026-11-28",
       "verificationStatus": "needs_confirmation",
       "originalId": "akiruno-farmers-center-3556"
     },
@@ -161,7 +161,7 @@ export const akirunoJourneyRecord: JourneyRecord = {
       "url": "https://www.city.akiruno.tokyo.jp/0000003556.html",
       "sourceType": "official_web",
       "sourceUpdatedAt": "2026-04-02",
-      "retrievedAt": "2026-09-26",
+      "retrievedAt": "2026-11-28",
       "verificationStatus": "needs_confirmation",
       "originalId": "akiruno-farmers-center-3556"
     },
@@ -203,7 +203,7 @@ export const akirunoJourneyRecord: JourneyRecord = {
       "name": "あきる野市「秋川ファーマーズセンター」",
       "url": "https://www.city.akiruno.tokyo.jp/0000003556.html",
       "sourceType": "official_web",
-      "retrievedAt": "2026-09-26",
+      "retrievedAt": "2026-11-28",
       "sourceUpdatedAt": "2026-04-02",
       "verificationStatus": "needs_confirmation",
       "originalId": "akiruno-farmers-center-3556"
@@ -213,7 +213,7 @@ export const akirunoJourneyRecord: JourneyRecord = {
       "url": "https://www.city.akiruno.tokyo.jp/0000003556.html",
       "sourceType": "official_web",
       "sourceUpdatedAt": "2026-04-02",
-      "retrievedAt": "2026-09-26",
+      "retrievedAt": "2026-11-28",
       "verificationStatus": "needs_confirmation",
       "originalId": "akiruno-farmers-center-3556"
     },
