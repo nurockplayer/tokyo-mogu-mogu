@@ -361,6 +361,9 @@ test('S2-7 demo fixture deep links show Journey Unavailable', async ({ page }, t
         });
       }
     }
+    await page.goto('/spot/okutama-tourism-office');
+    await activeScreen(page, 'spot').locator('.fab-back').click();
+    await expect(activeScreen(page, 'mogu')).toBeVisible();
   }
   console.log(`S2-7 checked ${paths.length - 2} demo deep links and both bare Story/Route paths in ja, en, and zh-TW.`);
 });
