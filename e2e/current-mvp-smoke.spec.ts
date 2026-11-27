@@ -293,22 +293,24 @@ test('#443 applies two Food Profiles, explains empty results and clears filters'
 
   await page.goto('/');
   let profile = await reachProfilePreferences(page);
-  await profile.getByLabel('出発エリア').selectOption({ label: '八王子市' });
-  await profile.getByLabel('出発駅・停留所').selectOption({ label: '八王子駅' });
+  await profile.getByLabel('滞在エリア').selectOption({ label: '八王子市' });
+  await profile.getByLabel('到着駅・停留所').selectOption({ label: '八王子駅' });
   await profile.getByLabel('現地で使える時間').selectOption({ label: '120分以内' });
   await expectNoHorizontalOverflow(page);
   await profile.getByRole('heading', { name: '食旅の希望（任意）' }).scrollIntoViewIfNeeded();
+  await profile.getByLabel('到着駅・停留所').scrollIntoViewIfNeeded();
   await screenshot('food-profile-ja');
   await findJourneysFromProfile(page, profile);
-  await expect(firstReason).toContainText('出発エリア · 八王子市');
-  await expect(firstReason).toContainText('出発駅・停留所 · 八王子駅');
+  await expect(firstReason).toContainText('滞在エリア · 八王子市');
+  await expect(firstReason).toContainText('到着駅・停留所 · 八王子駅');
   await expect(firstReason).toContainText('現地で使える時間 · 120分以内');
+  await firstReason.scrollIntoViewIfNeeded();
   await screenshot('result-profile-one-ja');
   const firstIds = await ids();
 
   await page.goto('/');
   profile = await reachProfilePreferences(page, true);
-  await expect(profile.getByLabel('出発エリア')).toHaveValue('hachioji');
+  await expect(profile.getByLabel('滞在エリア')).toHaveValue('hachioji');
   await findJourneysFromProfile(page, profile);
   await expect(result.getByText('調理中の混入', { exact: false })).toBeVisible();
   expect(await ids()).toEqual(firstIds);
@@ -318,10 +320,10 @@ test('#443 applies two Food Profiles, explains empty results and clears filters'
 
   await page.goto('/');
   profile = await reachProfilePreferences(page);
-  await profile.getByLabel('出発エリア').selectOption({ label: '福生市' });
-  await profile.getByLabel('出発駅・停留所').selectOption('');
+  await profile.getByLabel('滞在エリア').selectOption({ label: '福生市' });
+  await profile.getByLabel('到着駅・停留所').selectOption('');
   await findJourneysFromProfile(page, profile);
-  await expect(firstReason).toContainText('出発エリア · 福生市');
+  await expect(firstReason).toContainText('滞在エリア · 福生市');
   await expect(firstReason).toContainText('120分以内');
   const secondIds = await ids();
   expect(secondIds.every((id) => !firstIds.includes(id))).toBe(true);
@@ -338,7 +340,7 @@ test('#443 applies two Food Profiles, explains empty results and clears filters'
   await next.click();
 
   await expect(result.getByText('条件に合う食旅が見つかりませんでした。')).toBeVisible();
-  await expect(result.locator('.empty')).toContainText('出発エリア · 福生市');
+  await expect(result.locator('.empty')).toContainText('滞在エリア · 福生市');
   await expect(result.locator('.empty')).toContainText('現地で使える時間 · 15分以内');
   await expect(cards).toHaveCount(0);
   await expectNoHorizontalOverflow(page);

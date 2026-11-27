@@ -3,21 +3,21 @@ import type { DiscoveryFilters, DiscoveryOptions } from '../discovery';
 
 const copy = {
   ja: {
-    preferences: '食旅の希望（任意）', area: '出発エリア', arrival: '出発駅・停留所',
+    preferences: '食旅の希望（任意）', area: '滞在エリア', arrival: '到着駅・停留所',
     minutes: '現地で使える時間', cultures: '気になる食文化', alcohol: 'お酒がテーマの食旅',
     any: '指定なし', add: '食文化を選ぶ', include: '含める', exclude: '除く',
     limit: (minutes: number) => `${minutes}分以内`,
     estimated: (minutes: number) => `現地で約${minutes}分（編集目安）`,
   },
   en: {
-    preferences: 'Journey preferences (optional)', area: 'Starting area', arrival: 'Arrival station or stop',
+    preferences: 'Journey preferences (optional)', area: 'Area you’re in or visiting', arrival: 'Arrival station or stop',
     minutes: 'Time on site', cultures: 'Food culture interests', alcohol: 'Alcohol-themed journeys',
     any: 'No preference', add: 'Choose a food culture', include: 'Include', exclude: 'Exclude',
     limit: (minutes: number) => `Up to ${minutes} min`,
     estimated: (minutes: number) => `About ${minutes} min on site (editorial estimate)`,
   },
   'zh-TW': {
-    preferences: '美食之旅偏好（選填）', area: '出發地區', arrival: '抵達車站或站點',
+    preferences: '美食之旅偏好（選填）', area: '所在或預計造訪的地區', arrival: '抵達車站或站點',
     minutes: '可停留時間', cultures: '感興趣的飲食文化', alcohol: '以酒為主題的旅程',
     any: '不限', add: '選擇飲食文化', include: '包含', exclude: '排除',
     limit: (minutes: number) => `${minutes} 分鐘內`,
