@@ -411,8 +411,8 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 
 ### demo-tokyo-hachioji-ginger
 
-- Arrival, half-day → hachioji-takiyama-roadside-station: Michi-no-Eki Hachiōji Takiyama Iriguchi bus stop. Hachioji City names the roadside station entrance stop for the Takiyama roadside station. — https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/003/p006476.html
-- Arrival, full-day → hachioji-takiyama-roadside-station: Michi-no-Eki Hachiōji Takiyama Iriguchi bus stop. Hachioji City names the roadside station entrance stop for the Takiyama roadside station. — https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/003/p006476.html
+- Arrival, half-day → hachioji-takiyama-roadside-station: Michi-no-Eki Hachiōji Takiyama Iriguchi bus stop. The roadside station operator gives this bus stop in its access guide. — https://www.michinoeki-hachioji.net/
+- Arrival, full-day → hachioji-takiyama-roadside-station: Michi-no-Eki Hachiōji Takiyama Iriguchi bus stop. The roadside station operator gives this bus stop in its access guide. — https://www.michinoeki-hachioji.net/
 
 ### b01-musashino-farm-fruit
 

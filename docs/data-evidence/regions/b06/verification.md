@@ -307,8 +307,8 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 
 ### demo-tokyo-west-fussa-sake
 
-- Arrival, half-day → fussa-tamura-shuzo: Fussa Station. The brewery gives JR Fussa Station as the walking approach. — https://www.tamurashuzojo.com/page/kura
-- Arrival, full-day → fussa-tamura-shuzo: Fussa Station. The brewery gives JR Fussa Station as the walking approach. — https://www.tamurashuzojo.com/page/kura
+- Arrival, half-day → fussa-kurumiru: Fussa Station West Exit. Fussa City gives the west-exit walking approach to Kurumiru Fussa, an existing stop in both variants. — https://www.city.fussa.tokyo.jp/map/shiyakusho/1001605.html
+- Arrival, full-day → fussa-kurumiru: Fussa Station West Exit. Fussa City gives the west-exit walking approach to Kurumiru Fussa, an existing stop in both variants. — https://www.city.fussa.tokyo.jp/map/shiyakusho/1001605.html
 
 ### b06-higashiyamato-grain-kitchen
 

@@ -357,8 +357,8 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 
 ### demo-ome-sake
 
-- Arrival, half-day → sawai-ozawa-shuzo: Sawai Station. JR East gives Sawai Station as the walking approach to Ozawa Shuzo. — https://www.jreast.co.jp/hachioji/ome-itsukaichi/spot/detail386847.html
-- Arrival, full-day → sawai-ozawa-shuzo: Sawai Station. JR East gives Sawai Station as the walking approach to Ozawa Shuzo. — https://www.jreast.co.jp/hachioji/ome-itsukaichi/spot/detail386847.html
+- Arrival, half-day → sawai-ozawa-shuzo: Sawai Station. Ozawa Shuzo’s brewery tour page links to its company access guide, which gives the Sawai Station approach. — https://www.sawanoi-sake.com/service/kengaku/
+- Arrival, full-day → sawai-ozawa-shuzo: Sawai Station. Ozawa Shuzo’s brewery tour page links to its company access guide, which gives the Sawai Station approach. — https://www.sawanoi-sake.com/service/kengaku/
 
 ### b02-ome-konnyaku
 
