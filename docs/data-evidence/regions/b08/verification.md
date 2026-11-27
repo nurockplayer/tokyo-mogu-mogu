@@ -333,3 +333,7 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 ### b08-inagi-water-fields
 
 - Arrival, half-day → b08-inagi-water-fields-daimaru: Minami-Tama Station. The city describes the public walking path along Sugabori, a main branch of Daimaru Irrigation Canal, and gives pedestrian access from Minami-Tama Station. Use public paths along the canal. — https://www.city.inagi.tokyo.jp/kankyo/midori/1005312/1012585/1012594.html
+
+### b08-tama-wheat-udon
+
+- Arrival, half-day → b08-tama-wheat-udon-ponpoko: Hijirigaoka Center bus stop. The Tokyo agricultural directory gives Hijirigaoka Center as the bus stop for Ponpoko in Hijirigaoka, where the operator also lists the shop. Confirm schedules and opening times separately. — https://tokyogrown.jp/node/571661

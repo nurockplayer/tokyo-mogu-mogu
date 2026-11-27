@@ -325,3 +325,7 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 ### b04-kodaira-souvenir-sweets
 
 - Arrival, half-day → b04-kodaira-souvenir-sweets-etoile: Hitotsubashi-Gakuen Station. The shop listing gives a walking approach from Hitotsubashi-Gakuen Station's north exit. — https://www.kodaira-net.jp/etoile/
+
+### b04-koganei-kiwi
+
+- Arrival, half-day → b04-koganei-kiwi-motohashi: Musashi-Koganei Station. The farm gives walking directions from Musashi-Koganei Station North Exit. Confirm sales and seasonal access separately. — https://kajul.akibare.ne.jp/access

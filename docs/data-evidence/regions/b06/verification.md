@@ -336,7 +336,7 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 
 ### b06-komae-edamame-fields
 
-- Arrival, half-day → b06-komae-edamame-fields-kagoya: Komai bus stop. The local shop directory gives the walking approach from Komai bus stop to the Kagoya site. Confirm access and product availability before visiting. — https://komanavi.com/category/1/page3.html
+- Arrival, half-day → b06-komae-edamame-fields-kagoya: Komai bus stop. Kagoya Akimoto Shoten locates the shop at the Komai bus stop. Confirm access and product availability before visiting. — https://www.kago-ya.net/company/
 
 ### b06-komae-local-sweets
 

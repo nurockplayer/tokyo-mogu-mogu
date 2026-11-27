@@ -454,3 +454,7 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 ### b05-higashimurayama-eight-grains
 
 - Arrival, half-day → b05-higashimurayama-eight-grains-kimura: Musashi-Yamato Station. The chamber lists the shop at walking distance from Musashi-Yamato Station. Confirm availability of the grain blend separately. — https://www.shoukoukai.or.jp/brand/brandlogo/b_gazou/22kimura.pdf
+
+### b05-kokubunji-tokyo-udo
+
+- Arrival, half-day → b05-kokubunji-tokyo-udo-kosaka: Kokubunji Station. The harvest event organizer describes walking from Kokubunji Station to Kosaka Farm, also identified in the city's farm-stand project directory at https://kokuvege.jp/direct/. Confirm retail access and seasonal stock with the farm. — https://motake.jp/magazine/harvest-cooking01/

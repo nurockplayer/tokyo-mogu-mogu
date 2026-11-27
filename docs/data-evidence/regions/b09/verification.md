@@ -425,7 +425,7 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 
 ### b09-nishitokyo-orchard-fruit
 
-- Arrival, half-day → b09-nishitokyo-orchard-fruit-kato: Hana Bus route 1 stop 12. The grower identifies Hana Bus stop 12 directly outside the farm on the route from Hoya Station. Confirm the picking season. — https://katofarm-hoya.com/access/
+- Arrival, half-day → b09-nishitokyo-orchard-fruit-kato: Shimo-Hoya 2-chome Jutaku Kita bus stop. The grower identifies stop 12 outside the farm. The city gives its stop name at https://www.city.nishitokyo.lg.jp/kurasi/kotu/hanabus/unkouroot/dai1route.html. Confirm the picking season. — https://katofarm-hoya.com/access/
 
 ### b09-nishitokyo-hoya-natto
 

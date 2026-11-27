@@ -514,3 +514,7 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 ### b03-chofu-local-wagashi
 
 - Arrival, half-day → b03-chofu-local-wagashi-seifudo: Chofu Station. The shop listing linked by the station shopping association gives walking access from Chofu Station to Seifudo. Confirm business hours separately. — https://chofu.com/seifuu
+
+### b03-chofu-orchards
+
+- Arrival, half-day → b03-chofu-orchards-grapes: Nishihara bus stop. The metropolitan area map marks Nishihara bus stop and Jindaiji Vineyard. Check the current operator route map at https://www.odakyubus.co.jp/sp/regular/map/doc/kitijyoji.pdf and confirm picking dates with the orchard. — https://www.zaimu.metro.tokyo.lg.jp/documents/d/zaimu/25annaizu

@@ -107,6 +107,7 @@ export const b12MiyakeOyamaichiRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "三ノ輪", "en": "Minowa bus stop", "zh-TW": "三之輪公車站"}, "spotId": "b12-miyake-oyamaichi-shuzo", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b12-miyake-oyamaichi-shuzo",
@@ -263,6 +264,7 @@ export const b12MiyakeOyamaichiRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Tokyo Grown Miyakejima visitor guide", "url": "https://assets.tokyogrown.jp/library/img/rurubu_shima_P8-9.pdf", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-25": {
       "name": "三宅島酒造株式会社 | 蔵元一覧 | 東京七島酒造組合",
       "url": "https://shimazake.com/kuramotolist/miyakejima/",

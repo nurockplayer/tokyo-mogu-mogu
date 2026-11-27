@@ -31,6 +31,7 @@ export const b04KoganeiKiwiRecord: JourneyRecord = {
   "location": {"ja":{"area":"小金井市","station":"","access":""},"en":{"area":"Koganei","station":"","access":""},"zh-TW":{"area":"小金井市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "武蔵小金井駅", "en": "Musashi-Koganei Station", "zh-TW": "武藏小金井站"}, "spotId": "b04-koganei-kiwi-motohashi", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b04-koganei-kiwi-hake",
@@ -172,6 +173,7 @@ export const b04KoganeiKiwiRecord: JourneyRecord = {
     "location": {"ja":{"region":"小金井市","station":""},"en":{"region":"Koganei","station":""},"zh-TW":{"region":"小金井市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Motohashi Kiwi Orchard access", "url": "https://kajul.akibare.ne.jp/access", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-5": {"name":"はけの道果樹園｜店舗一覧｜ＪＡ東京むさし","url":"https://www.jatm.or.jp/farming/plant/detail.php?id=38&type=kiwi","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-6": {"name":"もとはし果樹園｜店舗一覧｜ＪＡ東京むさし","url":"https://www.jatm.or.jp/farming/plant/detail.php?id=42&type=kiwi","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b04 editorial itinerary — estimated timing and order, not a timetable","url":"https://www.jatm.or.jp/farming/plant/detail.php?id=38&type=kiwi","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}
