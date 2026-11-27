@@ -1,4 +1,4 @@
-import { findFact, type JourneyRecord } from './journey-record';
+import { findFact, selectRouteStop, type JourneyRecord } from './journey-record';
 import type { DataSource } from './model';
 
 const locales = ['ja', 'en', 'zh-TW'] as const;
@@ -113,9 +113,11 @@ export function checkJourneyAdmission(record: JourneyRecord, now = new Date()) {
       !accessSource || !official(accessSource) || !retrieved(accessSource)) {
       failures.push('sourced arrival point');
     }
-    const primary = variant.steps.find(({ spotId }) => resolveJourneyVisitorSource(record, spotId, now));
-    if (!primary) failures.push('official destination for primary Spot');
-    return { id: variant.id, failures, primarySpotId: primary?.spotId };
+    const primarySpotId = variant.steps
+      .map(({ spotId }) => selectRouteStop(record, spotId))
+      .find((spotId) => spotId !== undefined && resolveJourneyVisitorSource(record, spotId, now));
+    if (!primarySpotId) failures.push('official destination for primary Spot');
+    return { id: variant.id, failures, primarySpotId };
   });
 
   const offeredVariants = storyFailures.size === 0 ? variants.filter(({ failures }) => failures.length === 0) : [];

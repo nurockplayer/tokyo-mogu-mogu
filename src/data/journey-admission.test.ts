@@ -100,6 +100,35 @@ describe('journey publication admission', () => {
     });
   });
 
+  it('requires a current visitor source for the displayed alternative to an unavailable stop', () => {
+    const record = candidate();
+    const museum = record.spots.museum;
+    const unavailable = { reason: localized('Closed'), alternativeSpotId: 'gallery' };
+    museum.unavailable = unavailable;
+    record.sources.operator.retrievedAt = '2026-11-28';
+    museum.officialSource!.retrievedAt = '2026-11-28';
+    record.sources.gallery = { ...record.sources.operator, retrievedAt: '2026-11-24' };
+    record.spots.gallery = {
+      presentation: { ...museum.presentation, id: 'gallery' },
+      detail: museum.detail,
+      visitorSourceId: 'gallery',
+    };
+
+    const beforeExpiry = new Date('2026-12-23T14:59:59Z');
+    expect(checkJourneyAdmission(record, beforeExpiry)).toMatchObject({
+      admitted: true, defaultVariant: { primarySpotId: 'gallery' },
+    });
+    const expired = new Date('2026-12-23T15:00:00Z');
+    expect(resolveJourneyVisitorSource(record, 'museum', expired)).toBeDefined();
+    expect(checkJourneyAdmission(record, expired)).toMatchObject({ admitted: false, offeredVariants: [] });
+
+    delete record.spots.gallery.visitorSourceId;
+    expect(checkJourneyAdmission(record, beforeExpiry)).toMatchObject({ admitted: false, offeredVariants: [] });
+
+    museum.unavailable = { reason: unavailable.reason };
+    expect(checkJourneyAdmission(record, beforeExpiry)).toMatchObject({ admitted: false, offeredVariants: [] });
+  });
+
   it('requires evidence for every localized story claim, honoring more specific evidence', () => {
     const record = candidate();
     record.facts['journey.chapters.zh-TW.0.body'] = { origin: 'demo', sourceIds: ['operator'] };
