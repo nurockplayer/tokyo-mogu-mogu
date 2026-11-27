@@ -36,7 +36,7 @@
 | S3-4 | S3 / backlog S3 | With writes blocked, retain browsing and show save/reset failure. | Block writes in the running product; browse and attempt save and reset. | not yet | |
 | S3-5 | S3 / backlog S3 | Reset successfully and reload to defaults. | In the running product, reset and reload. | not yet | |
 | S3-6 | S3 / backlog S3 | A share opens the same itinerary in a clean browser without traveller data in the URL. | Open a share link in a clean browser and inspect the URL and itinerary. | not yet | |
-| S3-7 | S3 / backlog S3 | Cancel or fail a share and recover via a selectable link. | In the running product, cancel or fail sharing and use its selectable link. | not yet | |
+| S3-7 | S3 / backlog S3 | Cancel or fail a share and recover via a selectable link. | In the running product, cancel or fail sharing and use its selectable link. | pass | Playwright exercised both native share outcomes and copied the selected URL at 375px. [Share recovery](evidence/s3/s3-7-share-recovery-ja.png) |
 | S4-1 | S4 / backlog S4 | Lead completes representative admitted trips in every locale and checks blocked persistence, wrong IDs, missing actions, narrow/wide layout, keyboard, screen reader and reduced motion. | Exercise representative trips in the running release candidate across locales and listed conditions. | not yet | |
 | S4-2 | S4 / backlog S4 | Compare public contents to the admission report. | Run the admission check and compare its report with public contents. | not yet | |
 | S4-3 | S4 / backlog S4 | Demonstrate a data-only correction, urgent withdrawal and rollback without restoring withdrawn material. | Demonstrate the correction, withdrawal, and rollback using the release operating path. | not yet | |
