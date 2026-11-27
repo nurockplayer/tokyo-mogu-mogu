@@ -110,6 +110,7 @@ export const b12MiyakeIslandSweetsRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "ナダードバス停", "en": "Nadādo bus stop", "zh-TW": "Nadādo 公車站"}, "spotId": "b12-miyake-island-sweets-okataro", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b12-miyake-island-sweets-okataro",
@@ -364,6 +365,7 @@ export const b12MiyakeIslandSweetsRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Miyakejima tourism association – Okatarō main shop", "url": "https://www.miyakejima.gr.jp/eatbuy/okatarou-honten/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-14": {
       "name": "主要特産品の紹介｜観光情報｜三宅村役場ホームページ",
       "url": "https://www.vill.miyake.tokyo.jp/kankou/tokusanhin.html",

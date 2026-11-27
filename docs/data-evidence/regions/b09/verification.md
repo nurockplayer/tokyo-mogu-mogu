@@ -374,3 +374,23 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 ### b09-nishitokyo-tanashi-beer
 
 - Arrival, half-day → b09-nishitokyo-tanashi-beer-dining: Tanashi Station. The operator gives the approach from Tanashi Station. — https://tanashi-dining.com/access/
+
+### b09-akiruno-river-fish
+
+- Arrival, half-day → b09-akiruno-river-fish-ishibune: Akigawa Keikoku Seoto-no-Yu bus stop. JR East names the bus stop for Ishibune Dining at Seoto-no-Yu. Confirm the menu separately. — https://www.jreast.co.jp/ko/hachioji/ome-itsukaichi/spot/detail382800.html
+
+### b09-akiruno-botanical-beer
+
+- Arrival, half-day → b09-akiruno-botanical-beer-ishibune: Akigawa Keikoku Seoto-no-Yu bus stop. JR East names the bus stop for Ishibune Dining at Seoto-no-Yu. Confirm the drinks list separately. — https://www.jreast.co.jp/ko/hachioji/ome-itsukaichi/spot/detail382800.html
+
+### b09-akiruno-honey
+
+- Arrival, half-day → b09-akiruno-honey-museum: Musashi-Masuko Station. The operator gives the walking approach from Musashi-Masuko Station to its farm and museum. — https://88838.net/pages/access
+
+### b09-mizuho-mountain-yam
+
+- Arrival, half-day → b09-mizuho-mountain-yam-iseya: Hakonegasaki Station East Exit. The town maps Iseya on the east side of Hakonegasaki Station. — https://www.town.mizuho.tokyo.jp/bunka/004/p010024_d/fil/BrandPanfuretto.pdf
+
+### b09-mizuho-local-sweets
+
+- Arrival, half-day → b09-mizuho-local-sweets-maronshan: Hakonegasaki Station East Exit. The town maps Maronshan on the east side of Hakonegasaki Station. — https://www.town.mizuho.tokyo.jp/bunka/004/p010024_d/fil/BrandPanfuretto.pdf

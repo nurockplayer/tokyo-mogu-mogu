@@ -107,6 +107,7 @@ export const b12KozushimaMoriwakaRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "ferry-terminal", "name": {"ja": "前浜（神津島）港", "en": "Maehama (Kozushima) Port", "zh-TW": "前濱（神津島）港"}, "spotId": "b12-kozushima-moriwaka-shuzo", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b12-kozushima-moriwaka-shuzo",
@@ -263,6 +264,7 @@ export const b12KozushimaMoriwakaRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Kozushima tourism association – Kozushima Shuzo", "url": "https://kozushima.com/shop/kau/others/527/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-2": {
       "name": "おみやげ | 神津島村",
       "url": "https://www.vill.kouzushima.tokyo.jp/goods/",

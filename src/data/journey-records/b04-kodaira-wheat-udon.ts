@@ -34,6 +34,7 @@ export const b04KodairaWheatUdonRecord: JourneyRecord = {
   "location": {"ja":{"area":"小平市","station":"","access":""},"en":{"area":"Kodaira","station":"","access":""},"zh-TW":{"area":"小平市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "花小金井駅", "en": "Hanakoganei Station", "zh-TW": "花小金井站"}, "spotId": "b04-kodaira-wheat-udon-furusato", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b04-kodaira-wheat-udon-furusato",
@@ -119,6 +120,7 @@ export const b04KodairaWheatUdonRecord: JourneyRecord = {
     "location": {"ja":{"region":"小平市","station":""},"en":{"region":"Kodaira","station":""},"zh-TW":{"region":"小平市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Kodaira Furusato Village – operator directions", "url": "https://kodaira-furusatomura.jp/detail/f00015.html", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-22": {"name":"小平糧うどん｜東京都小平市公式ホームページ","url":"https://www.city.kodaira.tokyo.jp/kurashi/012/012203.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-23": {"name":"小平の農作物（小平市の昔話）｜東京都小平市公式ホームページ","url":"https://www.city.kodaira.tokyo.jp/kurashi/103/103100.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-24": {"name":"小平ふるさと村／東京の観光公式サイトGO TOKYO","url":"https://www.gotokyo.org/jp/spot/518/index.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},

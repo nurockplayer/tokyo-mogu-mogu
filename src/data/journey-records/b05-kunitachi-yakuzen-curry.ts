@@ -126,6 +126,7 @@ export const b05KunitachiYakuzenCurryRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "国立駅南口", "en": "Kunitachi Station South Exit", "zh-TW": "國立站南口"}, "spotId": "b05-kunitachi-yakuzen-curry-shunka", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b05-kunitachi-yakuzen-curry-shunka",
@@ -458,6 +459,7 @@ export const b05KunitachiYakuzenCurryRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Kunitachi tourism and community guide – Shunka Shunka", "url": "https://kunimachi.jp/spot/%E3%81%97%E3%82%85%E3%82%93%E3%81%8B%E3%81%97%E3%82%85%E3%82%93%E3%81%8B%E5%9B%BD%E7%AB%8B%E6%9C%AC%E5%BA%97/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-53": {
       "name": "国立薬膳カレー | 国立市商工会",
       "url": "https://kunitachi-shokokai.jp/item/yakuzen-curry/",

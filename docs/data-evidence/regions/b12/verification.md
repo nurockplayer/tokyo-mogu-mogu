@@ -360,3 +360,19 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 ### b12-miyake-seafood
 
 - Arrival, half-day → b12-miyake-seafood-fish-center: Sabigahama-kō Iriguchi bus stop. The Tokyo guide names the bus stop for Ikiiki Osakana Center. Check the ferry landing separately. — https://www.sangyo-rodo1.metro.tokyo.lg.jp/tourism/accessible/islands/miyakejima.html
+
+### b12-kozushima-moriwaka
+
+- Arrival, half-day → b12-kozushima-moriwaka-shuzo: Maehama (Kozushima) Port. The island tourism guide gives the walking approach from Kozushima Port to the distillery. Confirm ferry landing and shop access. — https://kozushima.com/shop/kau/others/527/
+
+### b12-miyake-tengusa-seaweed
+
+- Arrival, half-day → b12-miyake-tengusa-seaweed-canon: Izu Misaki Iriguchi bus stop. The island tourism guide names the closest bus stop to Café Canon. — https://www.miyakejima.gr.jp/eatbuy/cafecanon/
+
+### b12-miyake-island-chili
+
+- Arrival, half-day → b12-miyake-island-chili-coconut: Nishima bus stop. The island tourism guide names the closest bus stop to Coconut Garden. — https://www.miyakejima.gr.jp/eatbuy/coconutgarden/
+
+### b12-miyake-island-sweets
+
+- Arrival, half-day → b12-miyake-island-sweets-okataro: Nadādo bus stop. The island tourism guide names the closest bus stop to Okatarō. — https://www.miyakejima.gr.jp/eatbuy/okatarou-honten/

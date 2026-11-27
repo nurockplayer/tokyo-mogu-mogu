@@ -293,3 +293,11 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 ### b08-inagi-pears
 
 - Arrival, half-day → b08-inagi-pears-pear-terrace: Inagi-Naganuma Station. Tokyo’s official visitor guide places Pear Terrace immediately outside JR Inagi-Naganuma Station. — https://www.gotokyo.org/jp/spot/1789/index.html
+
+### b08-tama-sakura-sweets
+
+- Arrival, half-day → b08-tama-sakura-sweets-ponte: Keiō Nagayama Station. The shopping centre identifies Ponte and its connection to Keiō Nagayama Station. — https://www.greenade.com/shop/index.jsp?bf=1&fmt=6&shopid=15
+
+### b08-tama-honey
+
+- Arrival, half-day → b08-tama-honey-ponte: Keiō Nagayama Station. The shopping centre identifies Ponte and its connection to Keiō Nagayama Station. Confirm stock at the shop. — https://www.greenade.com/shop/index.jsp?bf=1&fmt=6&shopid=15

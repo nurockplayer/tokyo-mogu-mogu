@@ -123,6 +123,7 @@ export const b05HigashimurayamaGrilledDangoRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "東村山駅", "en": "Higashimurayama Station", "zh-TW": "東村山站"}, "spotId": "b05-higashimurayama-grilled-dango-sasamoto", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b05-higashimurayama-grilled-dango-sasamoto",
@@ -320,6 +321,7 @@ export const b05HigashimurayamaGrilledDangoRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Higashimurayama Chamber of Commerce – Sasamoto Dango", "url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_10/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-2": {
       "name": "東村山市の特産品 – 東村山市商工会",
       "url": "https://shoukoukai.or.jp/city_info/specialty_goods/",

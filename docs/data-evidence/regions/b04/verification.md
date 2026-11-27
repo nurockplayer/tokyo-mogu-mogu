@@ -285,3 +285,7 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 ### b04-hino-souvenir-foods
 
 - Arrival, half-day → b04-hino-souvenir-foods-shoseido: Takahata-fudō Station. The operator identifies the Keio Takahata-fudō Station approach to its main shop. — https://www.syoseido.co.jp/store/
+
+### b04-kodaira-wheat-udon
+
+- Arrival, half-day → b04-kodaira-wheat-udon-furusato: Hanakoganei Station. The park operator lists the walking approach from Hanakoganei Station. Confirm the udon programme separately. — https://kodaira-furusatomura.jp/detail/f00015.html

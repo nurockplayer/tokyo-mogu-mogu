@@ -42,6 +42,7 @@ export const b08TamaHoneyRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "京王永山駅", "en": "Keiō Nagayama Station", "zh-TW": "京王永山站"}, "spotId": "b08-tama-honey-ponte", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b08-tama-honey-ponte",
@@ -145,6 +146,7 @@ export const b08TamaHoneyRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Greenade Nagayama – Ponte shop guide", "url": "https://www.greenade.com/shop/index.jsp?bf=1&fmt=6&shopid=15", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-12": {"name":"生産者インタビュー詳細：はちみつレコード","url":"https://www.tokyo-aff-fc.jp/interview/detail/id=1165","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b08 editorial itinerary — timing and order are estimates","url":"https://www.tokyo-aff-fc.jp/interview/detail/id=1165","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}
   },

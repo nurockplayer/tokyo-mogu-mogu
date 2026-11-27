@@ -390,3 +390,23 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 ### b05-kokubunji-heritage-sweets
 
 - Arrival, half-day → b05-kokubunji-heritage-sweets-annbee: Kokubunji Station South Exit. Marui gives the south-exit approach to the building that houses Annbē. — https://www.0101.co.jp/062/access/
+
+### b05-higashimurayama-grilled-dango
+
+- Arrival, half-day → b05-higashimurayama-grilled-dango-sasamoto: Higashimurayama Station. The chamber identifies the station for Sasamoto Dango. — https://www.shoukoukai.or.jp/satohachi/shops/shop_10/
+
+### b05-kunitachi-beer
+
+- Arrival, half-day → b05-kunitachi-beer-tap-stand: Kunitachi Station South Exit. The guide locates Sekiya Tap Stand by the station's south exit. — https://kunimachi.jp/spot/kunitachibrewery/
+
+### b05-kunitachi-honey
+
+- Arrival, half-day → b05-kunitachi-honey-shunka: Kunitachi Station South Exit. The guide describes the south-exit approach to the relocated main shop. Confirm product availability. — https://kunimachi.jp/spot/%E3%81%97%E3%82%85%E3%82%93%E3%81%8B%E3%81%97%E3%82%85%E3%82%93%E3%81%8B%E5%9B%BD%E7%AB%8B%E6%9C%AC%E5%BA%97/
+
+### b05-kunitachi-yakuzen-curry
+
+- Arrival, half-day → b05-kunitachi-yakuzen-curry-shunka: Kunitachi Station South Exit. The guide describes the south-exit approach to the relocated main shop. Confirm product availability. — https://kunimachi.jp/spot/%E3%81%97%E3%82%85%E3%82%93%E3%81%8B%E3%81%97%E3%82%85%E3%82%93%E3%81%8B%E5%9B%BD%E7%AB%8B%E6%9C%AC%E5%BA%97/
+
+### b05-kunitachi-tekuteku-tea
+
+- Arrival, half-day → b05-kunitachi-tekuteku-tea-tokitaen: Yaho Station. The operator gives the walking approach from Yaho Station to the main shop. — https://tokitaen.com/shop/

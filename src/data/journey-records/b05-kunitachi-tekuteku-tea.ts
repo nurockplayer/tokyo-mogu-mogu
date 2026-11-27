@@ -108,6 +108,7 @@ export const b05KunitachiTekutekuTeaRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "谷保駅", "en": "Yaho Station", "zh-TW": "谷保站"}, "spotId": "b05-kunitachi-tekuteku-tea-tokitaen", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b05-kunitachi-tekuteku-tea-tokitaen",
@@ -305,6 +306,7 @@ export const b05KunitachiTekutekuTeaRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Tokitaen – shop information", "url": "https://tokitaen.com/shop/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-51": {
       "name": "日本茶くにたち『てくてく』 | 国立市商工会",
       "url": "https://kunitachi-shokokai.jp/item/japanese-tea-tekuteku/",

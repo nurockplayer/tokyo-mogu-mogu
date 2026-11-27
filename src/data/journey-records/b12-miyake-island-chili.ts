@@ -107,6 +107,7 @@ export const b12MiyakeIslandChiliRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "二島バス停", "en": "Nishima bus stop", "zh-TW": "二島公車站"}, "spotId": "b12-miyake-island-chili-coconut", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b12-miyake-island-chili-coconut",
@@ -263,6 +264,7 @@ export const b12MiyakeIslandChiliRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Miyakejima tourism association – Coconut Garden", "url": "https://www.miyakejima.gr.jp/eatbuy/coconutgarden/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-23": {
       "name": "三宅島 | 伊豆諸島・小笠原諸島の観光・特産品情報ガイド｜東京都島しょ振興公社公式サイト「東京愛らんど」",
       "url": "https://www.tokyoislands-net.jp/islands/miyakejima/",
