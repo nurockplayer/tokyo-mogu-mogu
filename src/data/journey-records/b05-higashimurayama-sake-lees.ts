@@ -144,6 +144,7 @@ export const b05HigashimurayamaSakeLeesRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "東村山駅", "en": "Higashi-Murayama Station", "zh-TW": "東村山站"}, "spotId": "b05-higashimurayama-sake-lees-toshimaya", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b05-higashimurayama-sake-lees-toshimaya",
@@ -611,6 +612,7 @@ export const b05HigashimurayamaSakeLeesRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Seibu Railway Toshimaya brewery access", "url": "https://www.seiburailway.jp/railways/fillute/experience/202510-01/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-11": {
       "name": "東村山ブランド里に八国 | 認定商品取扱い店一覧",
       "url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_14/",

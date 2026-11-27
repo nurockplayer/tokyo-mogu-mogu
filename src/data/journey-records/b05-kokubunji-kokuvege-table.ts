@@ -159,6 +159,7 @@ export const b05KokubunjiKokuvegeTableRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "恋ヶ窪駅", "en": "Koigakubo Station", "zh-TW": "戀窪站"}, "spotId": "b05-kokubunji-kokuvege-table-farmers-market", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b05-kokubunji-kokuvege-table-farmers-market",
@@ -626,6 +627,7 @@ export const b05KokubunjiKokuvegeTableRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "JA Tokyo Musashi – Kokubunji Farmers' Market", "url": "https://www.jatm.or.jp/economy/kokubunji.php", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-23": {
       "name": "国分寺三百年野菜　こくベジ　プロジェクトとは｜国分寺市",
       "url": "https://www.city.kokubunji.tokyo.jp/culture-sports-tourism/machi/1012005/1013264.html",

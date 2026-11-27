@@ -24,6 +24,7 @@ export const b10HinoharaTofuRecord: JourneyRecord = {
   "location": {"ja": {"area": "檜原村", "station": "", "access": ""}, "en": {"area": "Hinohara Village", "station": "", "access": ""}, "zh-TW": {"area": "檜原村", "station": "", "access": ""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "払沢の滝入口", "en": "Hossawa Falls Entrance bus stop", "zh-TW": "払澤瀑布入口巴士站"}, "spotId": "b10-hinohara-tofu-chitoseya", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b10-hinohara-tofu-chitoseya",
@@ -84,6 +85,7 @@ export const b10HinoharaTofuRecord: JourneyRecord = {
     "location": {"ja": {"region": "檜原村", "station": ""}, "en": {"region": "Hinohara Village", "station": ""}, "zh-TW": {"region": "檜原村", "station": ""}}
   },
   "sources": {
+    "admission-access": {"name": "Hinohara Village Tourism Association Chitoseya access", "url": "https://hinohara-kankou.jp/spot/chitoseya/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "s0": {"name": "檜原とうふ ちとせ屋", "url": "https://hinohara-kankou.jp/spot/chitoseya/", "sourceType": "official_web", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"},
     "editorial": {"name": "b10 editorial itinerary: estimated timing and order, not a timetable", "url": "https://hinohara-kankou.jp/spot/chitoseya/", "sourceType": "manual", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"}
   },

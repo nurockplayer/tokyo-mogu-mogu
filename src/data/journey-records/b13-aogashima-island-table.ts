@@ -29,6 +29,7 @@ export const b13AogashimaIslandTableRecord: JourneyRecord = {
   "location": {"ja":{"area":"青ヶ島村","station":"","access":""},"en":{"area":"Aogashima Village","station":"","access":""},"zh-TW":{"area":"青島村","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "ferry-terminal", "name": {"ja": "青ヶ島（三宝）港", "en": "Aogashima (Sanbō) Port", "zh-TW": "青島（三寶）港"}, "spotId": "b13-aogashima-island-table-port", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b13-aogashima-island-table-oven",
@@ -146,6 +147,7 @@ export const b13AogashimaIslandTableRecord: JourneyRecord = {
     "location": {"ja":{"region":"青ヶ島村","station":""},"en":{"region":"Aogashima Village","station":""},"zh-TW":{"region":"青島村","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Tokyo Metropolitan Government – Aogashima Port", "url": "https://www.soumu.metro.tokyo.lg.jp/09hatijou/kakuka_top/d-top/d-aogasima", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-28": {
       "name": "特産品 -野菜やお芋、魚や貝たち- | 青ヶ島村ホームページ",
       "url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product2.html",

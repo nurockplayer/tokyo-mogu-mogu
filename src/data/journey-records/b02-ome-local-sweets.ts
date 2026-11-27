@@ -34,6 +34,7 @@ export const b02OmeLocalSweetsRecord: JourneyRecord = {
   "location": {"ja":{"area":"青梅市","station":"","access":""},"en":{"area":"Ome","station":"","access":""},"zh-TW":{"area":"青梅市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "日向和田駅", "en": "Hinatawada Station", "zh-TW": "日向和田站"}, "spotId": "b02-ome-local-sweets-hesomanju", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b02-ome-local-sweets-yanagimaru",
@@ -139,6 +140,7 @@ export const b02OmeLocalSweetsRecord: JourneyRecord = {
     "location": {"ja":{"region":"青梅市","station":""},"en":{"region":"Ome","station":""},"zh-TW":{"region":"青梅市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Ōme Tourism Association food guide", "url": "https://www.omekanko.gr.jp/wph8gq9w/wp-content/themes/omekanko/images/pdf/ome_pamphlet_ja_01.pdf", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-34": {"name":"青梅市観光協会 — 青梅せんべい 柳丸","url":"https://www.omekanko.gr.jp/spot/04301/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-35": {"name":"西多摩地域広域行政圏協議会 — 青梅せんべい 東京都青梅市","url":"https://www.nishitama-kouiki.jp/%E9%9D%92%E6%A2%85%E3%81%9B%E3%82%93%E3%81%B9%E3%81%84-%E6%9D%B1%E4%BA%AC%E9%83%BD%E9%9D%92%E6%A2%85%E5%B8%82/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-36": {"name":"青梅市観光協会 — へそまんじゅう総本舗","url":"https://www.omekanko.gr.jp/spot/07801/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},

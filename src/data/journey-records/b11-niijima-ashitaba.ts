@@ -26,6 +26,7 @@ export const b11NiijimaAshitabaRecord: JourneyRecord = {
   "location": {"ja": {"area": "新島村","station": "","access": ""},"en": {"area": "Niijima Village","station": "","access": ""},"zh-TW": {"area": "新島村","station": "","access": ""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "ferry-terminal", "name": {"ja": "新島港（黒根港）", "en": "Niijima Port (Kurone)", "zh-TW": "新島港（黑根港）"}, "spotId": "b11-niijima-ashitaba-ja", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b11-niijima-ashitaba-ja",
@@ -39,6 +40,7 @@ export const b11NiijimaAshitabaRecord: JourneyRecord = {
   },
   "spots": {
     "b11-niijima-ashitaba-ja": {
+      "visitorSourceId": "admission-access",
       "presentation": {
         "id": "b11-niijima-ashitaba-ja",
         "regionId": "niijima",
@@ -93,6 +95,7 @@ export const b11NiijimaAshitabaRecord: JourneyRecord = {
     "location": {"ja": {"region": "新島村","station": ""},"en": {"region": "Niijima Village","station": ""},"zh-TW": {"region": "新島村","station": ""}}
   },
   "sources": {
+    "admission-access": {"name": "Niijima Village visitor map", "url": "https://niijima-info.jp/cms24/wp-content/uploads/2026/06/niijimaA3MAP.pdf", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-26": {
       "name": "b11 — 目的から探す 人気のグルメ｜観光情報｜東京都新島村",
       "url": "https://niijima.com/kankou/purposemenu/gourmet_index.html",

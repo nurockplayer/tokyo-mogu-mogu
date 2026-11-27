@@ -31,6 +31,7 @@ export const b02OmeMitakeFoodsRecord: JourneyRecord = {
   "location": {"ja":{"area":"青梅市","station":"","access":""},"en":{"area":"Ome","station":"","access":""},"zh-TW":{"area":"青梅市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "滝本駅", "en": "Takimoto Station", "zh-TW": "瀧本站"}, "spotId": "b02-ome-mitake-foods-takimoto", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b02-ome-mitake-foods-takimoto",
@@ -94,6 +95,7 @@ export const b02OmeMitakeFoodsRecord: JourneyRecord = {
     "location": {"ja":{"region":"青梅市","station":""},"en":{"region":"Ome","station":""},"zh-TW":{"region":"青梅市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Tokyo Tourist Information Takimoto Station", "url": "https://www.tokyotouristinfo.com/detail/M0072", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-27": {"name":"青梅市観光協会 — ケーブルカー滝本駅","url":"https://www.omekanko.gr.jp/spot/11901/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b02 editorial itinerary — timing and order estimates, not a timetable","url":"https://www.omekanko.gr.jp/spot/11901/","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}
   },

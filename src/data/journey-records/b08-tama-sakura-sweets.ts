@@ -43,6 +43,7 @@ export const b08TamaSakuraSweetsRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "京王永山駅", "en": "Keiō Nagayama Station", "zh-TW": "京王永山站"}, "spotId": "b08-tama-sakura-sweets-ponte", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b08-tama-sakura-sweets-ponte",
@@ -224,6 +225,7 @@ export const b08TamaSakuraSweetsRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Greenade Nagayama – Ponte shop guide", "url": "https://www.greenade.com/shop/index.jsp?bf=1&fmt=6&shopid=15", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-8": {"name":"多摩市の特産品など","url":"https://www.city.tama.lg.jp/kanko/1015690/1016140/1006512.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-9": {"name":"多摩市の手土産「桜ぽるぼろん」販売中！","url":"https://www.city.tama.lg.jp/kanko/1015690/1016140/1016146.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b08 editorial itinerary — timing and order are estimates","url":"https://www.city.tama.lg.jp/kanko/1015690/1016140/1006512.html","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}

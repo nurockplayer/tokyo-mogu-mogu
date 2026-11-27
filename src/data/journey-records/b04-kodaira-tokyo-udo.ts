@@ -31,6 +31,7 @@ export const b04KodairaTokyoUdoRecord: JourneyRecord = {
   "location": {"ja":{"area":"小平市","station":"","access":""},"en":{"area":"Kodaira","station":"","access":""},"zh-TW":{"area":"小平市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "青梅街道駅", "en": "Ōme-kaidō Station", "zh-TW": "青梅街道站"}, "spotId": "b04-kodaira-tokyo-udo-mu-chan", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b04-kodaira-tokyo-udo-mu-chan",
@@ -116,6 +117,7 @@ export const b04KodairaTokyoUdoRecord: JourneyRecord = {
     "location": {"ja":{"region":"小平市","station":""},"en":{"region":"Kodaira","station":""},"zh-TW":{"region":"小平市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Kodaira City farmers’ market access", "url": "https://www.city.kodaira.tokyo.jp/kurashi/001/001143.html", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-16": {"name":"小平ファーマーズ・マーケット ムーちゃん広場（東京都）の詳細情報｜東京都の直売所一覧｜JAファーマーズマーケット(直売所)検索｜JAファーマーズマーケット（直売所） ｜JAグループ","url":"https://life.ja-group.jp/farm/market/detail/?id=621","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-21": {"name":"畑からまっしぐら｜東京都小平市公式ホームページ","url":"https://www.city.kodaira.tokyo.jp/kurashi/001/001143.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b04 editorial itinerary — estimated timing and order, not a timetable","url":"https://life.ja-group.jp/farm/market/detail/?id=621","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}

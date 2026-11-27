@@ -70,6 +70,7 @@ export const b07KiyoseFarmTableRecord: JourneyRecord = {
   "location": {"ja":{"area":"清瀬市","station":"","access":""},"en":{"area":"Kiyose","station":"","access":""},"zh-TW":{"area":"清瀨市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "宮の台住宅", "en": "Miyanodai Jūtaku bus stop", "zh-TW": "宮之台住宅巴士站"}, "spotId": "b07-kiyose-farm-table-shinsenkan", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b07-kiyose-farm-table-shinsenkan",
@@ -225,6 +226,7 @@ export const b07KiyoseFarmTableRecord: JourneyRecord = {
     "location": {"ja":{"region":"清瀬市","station":""},"en":{"region":"Kiyose","station":""},"zh-TW":{"region":"清瀨市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "JA Tokyo Agri Park Kiyose Shinsenkan access", "url": "https://agripark.tokyo/matching/guide/tokyo_mirai/kys_shinsenkan/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-5": {"name":"にんじん ｜地域資源紹介記事 ｜ 東京都　地域資源（TOKYOイチオシナビ）","url":"https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_141.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-20": {"name":"清瀬市はどんなまち？｜清瀬市観光協会公式サイト｜その先の、感動へ。","url":"https://www.kiyosekanko.tokyo/about","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-21": {"name":"お土産・地域産品｜清瀬市観光協会公式サイト｜その先の、感動へ。","url":"https://www.kiyosekanko.tokyo/information/souvenir/tourism","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},

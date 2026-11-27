@@ -34,6 +34,7 @@ export const b02FuchuChestnutFestivalRecord: JourneyRecord = {
   "location": {"ja":{"area":"府中市","station":"","access":""},"en":{"area":"Fuchu","station":"","access":""},"zh-TW":{"area":"府中市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "府中本町駅", "en": "Fuchū-Hommachi Station", "zh-TW": "府中本町站"}, "spotId": "b02-fuchu-chestnut-festival-okunitama", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b02-fuchu-chestnut-festival-okunitama",
@@ -139,6 +140,7 @@ export const b02FuchuChestnutFestivalRecord: JourneyRecord = {
     "location": {"ja":{"region":"府中市","station":""},"en":{"region":"Fuchu","station":""},"zh-TW":{"region":"府中市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Ōkunitama Shrine access", "url": "https://www.ookunitamajinja.or.jp/access/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-47": {"name":"東京観光財団 GO TOKYO — 大國魂神社―秋季祭・くり祭―","url":"https://www.gotokyo.org/jp/spot/ev010/index.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-51": {"name":"Foris — Aokiya shop guide","url":"https://mitten-foris.jp/shop/index.jsp?bf=1&fmt=6&shopid=2102","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b02 editorial itinerary — timing and order estimates, not a timetable","url":"https://www.gotokyo.org/jp/spot/ev010/index.html","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}

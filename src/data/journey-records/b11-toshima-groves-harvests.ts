@@ -26,6 +26,7 @@ export const b11ToshimaGrovesHarvestsRecord: JourneyRecord = {
   "location": {"ja": {"area": "利島村","station": "","access": ""},"en": {"area": "Toshima Village","station": "","access": ""},"zh-TW": {"area": "利島村","station": "","access": ""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "ferry-terminal", "name": {"ja": "利島港", "en": "Toshima Port", "zh-TW": "利島港"}, "spotId": "b11-toshima-groves-harvests-ja", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b11-toshima-groves-harvests-ja",
@@ -93,6 +94,7 @@ export const b11ToshimaGrovesHarvestsRecord: JourneyRecord = {
     "location": {"ja": {"region": "利島村","station": ""},"en": {"region": "Toshima Village","station": ""},"zh-TW": {"region": "利島村","station": ""}}
   },
   "sources": {
+    "admission-access": {"name": "Toshima Village walking map", "url": "https://www.toshimamura.org/fs/1/3/0/4/6/4/_/___________.pdf", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-13": {
       "name": "b11 — 椿油の紹介 - 利島村",
       "url": "https://www.toshimamura.org/tourism/buy/item.html",

@@ -39,6 +39,7 @@ export const b07HigashikurumeFarmFruitRecord: JourneyRecord = {
   "location": {"ja":{"area":"東久留米市","station":"","access":""},"en":{"area":"Higashikurume","station":"","access":""},"zh-TW":{"area":"東久留米市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "東久留米駅", "en": "Higashi-Kurume Station", "zh-TW": "東久留米站"}, "spotId": "b07-higashikurume-farm-fruit-hatake-terrace", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b07-higashikurume-farm-fruit-hatake-terrace",
@@ -177,6 +178,7 @@ export const b07HigashikurumeFarmFruitRecord: JourneyRecord = {
     "location": {"ja":{"region":"東久留米市","station":""},"en":{"region":"Higashikurume","station":""},"zh-TW":{"region":"東久留米市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Narayama Farm Hatake Terrace access", "url": "https://nonosachi.com/access", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-4": {"name":"アクセス – 奈良山園 NARAYAMA FARM","url":"https://nonosachi.com/access","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-7": {"name":"特産品一覧（「東久留米大好きっ！」掲載品）｜東久留米市ホームページ","url":"https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/tokusan/1003816.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-23": {"name":"﻿","url":"https://www.sangyo-rodo1.metro.tokyo.lg.jp/norin/syoku/econosanbutu/seisansya/222039.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},

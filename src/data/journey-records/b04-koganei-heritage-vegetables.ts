@@ -70,6 +70,7 @@ export const b04KoganeiHeritageVegetablesRecord: JourneyRecord = {
   "location": {"ja":{"area":"小金井市","station":"","access":""},"en":{"area":"Koganei","station":"","access":""},"zh-TW":{"area":"小金井市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "武蔵小金井駅", "en": "Musashi-Koganei Station", "zh-TW": "武藏小金井站"}, "spotId": "b04-koganei-heritage-vegetables-mu-chan", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b04-koganei-heritage-vegetables-mu-chan",
@@ -275,6 +276,7 @@ export const b04KoganeiHeritageVegetablesRecord: JourneyRecord = {
     "location": {"ja":{"region":"小金井市","station":""},"en":{"region":"Koganei","station":""},"zh-TW":{"region":"小金井市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "JA Tokyo Musashi farmers’ market access", "url": "https://www.jatm.or.jp/magazine/pdf/kawasemi_09.pdf?dl=true", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-0": {"name":"江戸東京野菜 ｜地域資源紹介記事 ｜ 東京都　地域資源（TOKYOイチオシナビ）","url":"https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_40.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-1": {"name":"小金井市認定　江戸東京野菜使用店：小金井市公式WEBへようこそ","url":"https://www.city.koganei.lg.jp/kankobunka/kankobunka_oshirase/edoyasaishiyoten.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-2": {"name":"小金井ファーマーズ・マーケット ムーちゃん広場（東京都）の詳細情報｜東京都の直売所一覧｜JAファーマーズマーケット(直売所)検索｜JAファーマーズマーケット（直売所） ｜JAグループ","url":"https://life.ja-group.jp/farm/market/detail?id=622","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},

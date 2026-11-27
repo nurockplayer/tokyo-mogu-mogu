@@ -43,6 +43,7 @@ export const b08HamuraAyuHistoryRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "羽村駅", "en": "Hamura Station", "zh-TW": "羽村站"}, "spotId": "b08-hamura-ayu-history-weir", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b08-hamura-ayu-history-weir",
@@ -224,6 +225,7 @@ export const b08HamuraAyuHistoryRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "GO TOKYO Hamura Weir access", "url": "https://www.gotokyo.org/jp/spot/798/index.html", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-38": {"name":"羽村市史編さんだより 第30号「堰下での鮎釣り」","url":"https://www.city.hamura.tokyo.jp/cmsfiles/contents/0000016/16562/hennsanndayori30-2.pdf","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-39": {"name":"Official source information","url":"https://www.city.hamura.tokyo.jp/0000001520.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b08 editorial itinerary — timing and order are estimates","url":"https://www.city.hamura.tokyo.jp/cmsfiles/contents/0000016/16562/hennsanndayori30-2.pdf","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}

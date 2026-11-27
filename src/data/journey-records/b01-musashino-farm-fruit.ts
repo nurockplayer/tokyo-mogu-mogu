@@ -26,6 +26,7 @@ export const b01MusashinoFarmFruitRecord: JourneyRecord = {
   "location": {"ja":{"area":"武蔵野市","station":"","access":""},"en":{"area":"Musashino","station":"","access":""},"zh-TW":{"area":"武藏野市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "三鷹駅北口", "en": "Mitaka Station North Exit", "zh-TW": "三鷹站北口"}, "spotId": "b01-musashino-farm-fruit-shinsenkan-farm", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b01-musashino-farm-fruit-sekimae",
@@ -166,6 +167,7 @@ export const b01MusashinoFarmFruitRecord: JourneyRecord = {
     "location": {"ja":{"region":"武蔵野市","station":""},"en":{"region":"Musashino","station":""},"zh-TW":{"region":"武藏野市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "JA Tokyo Musashi – Musashino Shinsenkan", "url": "https://www.jatm.or.jp/economy/musashino.php", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-12": {"name":"Musashino Premium — 認定商品","url":"https://musashino-premium.com/standard/","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "source-32": {"name":"Musashino City — 関前2丁目の生産者紹介","url":"https://www.city.musashino.lg.jp/kenko_fukushi/kenko_hoken/syokuiku/seisanshashokai/1030723.html","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "source-33": {"name":"Musashino City — 武蔵野市農産物直売所マップ","url":"https://www.city.musashino.lg.jp/kurashi_tetsuzuki/shigoto_sangyo/nosei/1034430.html","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},

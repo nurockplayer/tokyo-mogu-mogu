@@ -31,6 +31,7 @@ export const b02OmeCraftBeerRecord: JourneyRecord = {
   "location": {"ja":{"area":"青梅市","station":"","access":""},"en":{"area":"Ome","station":"","access":""},"zh-TW":{"area":"青梅市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "河辺駅", "en": "Kabe Station", "zh-TW": "河邊站"}, "spotId": "b02-ome-craft-beer-muto", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b02-ome-craft-beer-muto",
@@ -48,6 +49,7 @@ export const b02OmeCraftBeerRecord: JourneyRecord = {
   },
   "spots": {
     "b02-ome-craft-beer-muto": {
+      "officialSource": {"name": "Ōme Tourism Association Mutō Jisaku Saketen access", "url": "https://www.omekanko.gr.jp/spot/05501/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
       "presentation": {
         "id": "b02-ome-craft-beer-muto",
         "regionId": "ome",
@@ -70,7 +72,7 @@ export const b02OmeCraftBeerRecord: JourneyRecord = {
         "tags": [],
         "description": {"ja":"商工会議所がVEPARの作り手として紹介しています。訪問を受け入れているかは資料では確認できません。","en":"The chamber identifies this business as VEPAR’s maker. The source does not establish visitor access.","zh-TW":"商工會議所介紹此業者為 VEPAR 製作者；資料未能確認是否接待訪客。"},
         "information": [
-          {"fieldId":"official_current_url","icon":"information","label":{"ja":"出典情報","en":"Source information","zh-TW":"出處資訊"},"value":{"ja":"https://www.omecci.jp/member_activity/24997.html","en":"https://www.omecci.jp/member_activity/24997.html","zh-TW":"https://www.omecci.jp/member_activity/24997.html"}},
+          {"fieldId":"official_current_url","icon":"information","label":{"ja":"出典情報","en":"Source information","zh-TW":"出處資訊"},"value":{"ja":"https://www.omekanko.gr.jp/spot/05501/","en":"https://www.omekanko.gr.jp/spot/05501/","zh-TW":"https://www.omekanko.gr.jp/spot/05501/"}},
           {"fieldId":"verification_note","icon":"information","label":{"ja":"確認状態","en":"Verification","zh-TW":"確認狀態"},"value":{"ja":"2026年11月24日（JST）に出典を取得。関係者による確認は未実施です。","en":"Sources retrieved 2026-11-24 JST; stakeholder confirmation is pending.","zh-TW":"2026 年 11 月 24 日（JST）取得出處，尚待相關人員確認。"}}
         ],
         "caution": [{"ja":"過去の紹介に基づく記録です。現在の提供や訪問の可否を示すものではありません。","en":"This account is based on a past publication. It does not establish current service or visitor access.","zh-TW":"本記錄依據過去刊載資料，不代表目前仍提供相關服務或可供造訪。"}]
@@ -93,10 +95,12 @@ export const b02OmeCraftBeerRecord: JourneyRecord = {
     "location": {"ja":{"region":"青梅市","station":""},"en":{"region":"Ome","station":""},"zh-TW":{"region":"青梅市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Ōme Tourism Association Mutō Jisaku Saketen access", "url": "https://www.omekanko.gr.jp/spot/05501/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-33": {"name":"青梅商工会議所 — 武藤治作酒店 青梅初のクラフトビールを製造","url":"https://www.omecci.jp/member_activity/24997.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b02 editorial itinerary — timing and order estimates, not a timetable","url":"https://www.omecci.jp/member_activity/24997.html","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}
   },
   "facts": {
+    "spots.b02-ome-craft-beer-muto.officialSource": {"sourceIds": ["admission-access"], "origin": "editorial"},
     "journey.copy": {"sourceIds":["source-33"],"origin":"editorial"},
     "routeName": {"sourceIds":["source-33"],"origin":"editorial"},
     "location": {"sourceIds":["source-33"],"origin":"editorial"},

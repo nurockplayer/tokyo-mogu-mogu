@@ -110,6 +110,7 @@ export const b12MiyakeTengusaSeaweedRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "伊豆岬入口バス停", "en": "Izu Misaki Iriguchi bus stop", "zh-TW": "伊豆岬入口公車站"}, "spotId": "b12-miyake-tengusa-seaweed-canon", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b12-miyake-tengusa-seaweed-canon",
@@ -364,6 +365,7 @@ export const b12MiyakeTengusaSeaweedRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Miyakejima tourism association – Café Canon", "url": "https://www.miyakejima.gr.jp/eatbuy/cafecanon/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-14": {
       "name": "主要特産品の紹介｜観光情報｜三宅村役場ホームページ",
       "url": "https://www.vill.miyake.tokyo.jp/kankou/tokusanhin.html",

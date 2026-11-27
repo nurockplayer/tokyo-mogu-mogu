@@ -24,6 +24,7 @@ export const b02OmeSawaiYuzuRecord: JourneyRecord = {
   "location": {"ja":{"area":"青梅市","station":"","access":""},"en":{"area":"Ome","station":"","access":""},"zh-TW":{"area":"青梅市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "御嶽駅", "en": "Mitake Station", "zh-TW": "御嶽站"}, "spotId": "b02-ome-sawai-yuzu-burarido", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b02-ome-sawai-yuzu-burarido",
@@ -79,6 +80,7 @@ export const b02OmeSawaiYuzuRecord: JourneyRecord = {
     "location": {"ja":{"region":"青梅市","station":""},"en":{"region":"Ome","station":""},"zh-TW":{"region":"青梅市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Ōme Tourism Association Buraridō access", "url": "https://www.omekanko.gr.jp/spot/12401/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-18": {"name":"青梅市観光協会 — みたけ歩楽里道（ぶらりどう）","url":"https://www.omekanko.gr.jp/spot/12401/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b02 editorial itinerary — timing and order estimates, not a timetable","url":"https://www.omekanko.gr.jp/spot/12401/","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}
   },

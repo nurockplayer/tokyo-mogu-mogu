@@ -125,6 +125,7 @@ export const b12MikurajimaKabutsuRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "ferry-terminal", "name": {"ja": "御蔵島港", "en": "Mikurajima Port", "zh-TW": "御藏島港"}, "spotId": "b12-mikurajima-kabutsu-fukumaru", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b12-mikurajima-kabutsu-cooperative",
@@ -379,6 +380,7 @@ export const b12MikurajimaKabutsuRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Tokyo Islands Mikurajima visitor guide", "url": "https://www.tokyoislands-net.jp/islands/mikurajima/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-28": {
       "name": "御蔵島 | 伊豆諸島・小笠原諸島の観光・特産品情報ガイド｜東京都島しょ振興公社公式サイト「東京愛らんど」",
       "url": "https://www.tokyoislands-net.jp/islands/mikurajima/",

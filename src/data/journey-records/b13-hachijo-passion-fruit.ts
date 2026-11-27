@@ -29,6 +29,7 @@ export const b13HachijoPassionFruitRecord: JourneyRecord = {
   "location": {"ja":{"area":"八丈町","station":"","access":""},"en":{"area":"Hachijo Town","station":"","access":""},"zh-TW":{"area":"八丈町","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "樫立出張所前バス停", "en": "Kashitate Shutchōjo-mae bus stop", "zh-TW": "樫立辦事處前公車站"}, "spotId": "b13-hachijo-passion-fruit-hattori", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b13-hachijo-passion-fruit-hattori",
@@ -146,6 +147,7 @@ export const b13HachijoPassionFruitRecord: JourneyRecord = {
     "location": {"ja":{"region":"八丈町","station":""},"en":{"region":"Hachijo Town","station":""},"zh-TW":{"region":"八丈町","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Hachijō Town – Kashitate visitor guide", "url": "https://www.town.hachijo.tokyo.jp/kanko-bunka/kanko/hjk-map/hjk-kashitate/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-6": {
       "name": "JA八丈島農協 | 特産品の農産物 |",
       "url": "https://www.jahachijo.jp/information/tokusan.html",

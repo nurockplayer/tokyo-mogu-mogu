@@ -24,6 +24,7 @@ export const b10HinoharaKonnyakuRecord: JourneyRecord = {
   "location": {"ja": {"area": "檜原村", "station": "", "access": ""}, "en": {"area": "Hinohara Village", "station": "", "access": ""}, "zh-TW": {"area": "檜原村", "station": "", "access": ""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "人里", "en": "Henbori bus stop", "zh-TW": "人里巴士站"}, "spotId": "b10-hinohara-konnyaku-inoue", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b10-hinohara-konnyaku-inoue",
@@ -84,6 +85,7 @@ export const b10HinoharaKonnyakuRecord: JourneyRecord = {
     "location": {"ja": {"region": "檜原村", "station": ""}, "en": {"region": "Hinohara Village", "station": ""}, "zh-TW": {"region": "檜原村", "station": ""}}
   },
   "sources": {
+    "admission-access": {"name": "Hinohara Village Tourism Association Inoue Shokuhin access", "url": "https://hinohara-kankou.jp/spot/inoueshokuhin/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "s0": {"name": "（株）井上食品", "url": "https://hinohara-kankou.jp/spot/inoueshokuhin/", "sourceType": "official_web", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"},
     "editorial": {"name": "b10 editorial itinerary: estimated timing and order, not a timetable", "url": "https://hinohara-kankou.jp/spot/inoueshokuhin/", "sourceType": "manual", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"}
   },

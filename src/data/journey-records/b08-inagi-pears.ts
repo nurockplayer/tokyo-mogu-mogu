@@ -103,6 +103,7 @@ export const b08InagiPearsRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "稲城長沼駅", "en": "Inagi-Naganuma Station", "zh-TW": "稻城長沼站"}, "spotId": "b08-inagi-pears-pear-terrace", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b08-inagi-pears-seigyokuen",
@@ -518,6 +519,7 @@ export const b08InagiPearsRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "GO TOKYO Inagi Pear Terrace access", "url": "https://www.gotokyo.org/jp/spot/1789/index.html", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-13": {"name":"稲城市の特産品「梨」","url":"https://www.city.inagi.tokyo.jp/sangyo/nougyou/1010173/1003690.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-14": {"name":"稲城の梨のさわやかグルメ PEAR","url":"https://mitte-x-img.istsw.jp/inagi-kanko/file/%E2%98%85%E7%A8%B2%E5%9F%8E%E3%81%AE%E6%A2%A8%E3%81%AE%E3%81%95%E3%82%8F%E3%82%84%E3%81%8B%E3%82%B0%E3%83%AB%E3%83%A1.pdf","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-19": {"name":"稲城の太鼓判（地域認証ブランド）","url":"https://www.city.inagi.tokyo.jp/sangyo/shogyo/1010499.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},

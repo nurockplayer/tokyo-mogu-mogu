@@ -26,6 +26,7 @@ export const b11OshimaCamelliaPreservesRecord: JourneyRecord = {
   "location": {"ja": {"area": "大島町","station": "","access": ""},"en": {"area": "Oshima Town","station": "","access": ""},"zh-TW": {"area": "大島町","station": "","access": ""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "元町港", "en": "Motomachi Port bus stop", "zh-TW": "元町港巴士站"}, "spotId": "b11-oshima-camellia-preserves-miyoshi", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b11-oshima-camellia-preserves-miyoshi",
@@ -39,6 +40,7 @@ export const b11OshimaCamelliaPreservesRecord: JourneyRecord = {
   },
   "spots": {
     "b11-oshima-camellia-preserves-miyoshi": {
+      "visitorSourceId": "admission-access",
       "presentation": {
         "id": "b11-oshima-camellia-preserves-miyoshi",
         "regionId": "oshima",
@@ -93,6 +95,7 @@ export const b11OshimaCamelliaPreservesRecord: JourneyRecord = {
     "location": {"ja": {"region": "大島町","station": ""},"en": {"region": "Oshima Town","station": ""},"zh-TW": {"region": "大島町","station": ""}}
   },
   "sources": {
+    "admission-access": {"name": "Miyoshi Souvenir Shop access", "url": "https://miyoshi-miyage.com/access.html", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-0": {
       "name": "b11 — 特産品（Specialty goods）） | 一般社団法人大島観光協会",
       "url": "https://izu-oshima.or.jp/specialty.html",

@@ -357,3 +357,40 @@ Retrieved during this run: 2026-11-27 JST. The linked pages were opened and chec
 
 - Arrival, half-day → b09-mizuho-wheat-snacks-fresh-house: Hakonegasaki Station. The town’s walking directions from Hakonegasaki Station’s west exit explicitly pass the farm market. — https://www.town.mizuho.tokyo.jp/kirameki/006/p007058.html
 - Official destination, b09-mizuho-wheat-snacks-fresh-house: The town has a dedicated visitor listing for Fresh House. — https://www.town.mizuho.tokyo.jp/tyosei/019/003/p007765.html
+
+## S1a publication admission round 2 (#441)
+
+Retrieved during this run: 2026-11-27 JST. Access and visitor observations retain `needs_confirmation`. Check visit availability and transport before departure.
+
+### demo-tokyo-west-akiruno-produce
+
+- Arrival, half-day → akiruno-farmers-center: Higashi-Akiru Station. Akiruno City names JR Higashi-Akiru Station as the walking approach to the farmers center. — https://www.city.akiruno.tokyo.jp/0000003556.html
+- Arrival, full-day → akiruno-farmers-center: Higashi-Akiru Station. Akiruno City names JR Higashi-Akiru Station as the walking approach to the farmers center. — https://www.city.akiruno.tokyo.jp/0000003556.html
+
+### b09-akiruno-kisho-sake
+
+- Arrival, half-day → b09-akiruno-kisho-sake-nozaki: Tokura bus stop. The brewery directs visitors to Tokura bus stop from Musashi-Itsukaichi. — https://www.kisho-sake.jp/guide.htm
+
+### b09-nishitokyo-tanashi-beer
+
+- Arrival, half-day → b09-nishitokyo-tanashi-beer-dining: Tanashi Station. The operator gives the approach from Tanashi Station. — https://tanashi-dining.com/access/
+
+### b09-akiruno-river-fish
+
+- Arrival, half-day → b09-akiruno-river-fish-ishibune: Akigawa Keikoku Seoto-no-Yu bus stop. JR East names the bus stop for Ishibune Dining at Seoto-no-Yu. Confirm the menu separately. — https://www.jreast.co.jp/ko/hachioji/ome-itsukaichi/spot/detail382800.html
+
+### b09-akiruno-botanical-beer
+
+- Arrival, half-day → b09-akiruno-botanical-beer-ishibune: Akigawa Keikoku Seoto-no-Yu bus stop. JR East names the bus stop for Ishibune Dining at Seoto-no-Yu. Confirm the drinks list separately. — https://www.jreast.co.jp/ko/hachioji/ome-itsukaichi/spot/detail382800.html
+
+### b09-akiruno-honey
+
+- Arrival, half-day → b09-akiruno-honey-museum: Musashi-Masuko Station. The operator gives the walking approach from Musashi-Masuko Station to its farm and museum. — https://88838.net/pages/access
+
+### b09-mizuho-mountain-yam
+
+- Arrival, half-day → b09-mizuho-mountain-yam-iseya: Hakonegasaki Station East Exit. The town maps Iseya on the east side of Hakonegasaki Station. — https://www.town.mizuho.tokyo.jp/bunka/004/p010024_d/fil/BrandPanfuretto.pdf
+
+### b09-mizuho-local-sweets
+
+- Arrival, half-day → b09-mizuho-local-sweets-maronshan: Hakonegasaki Station East Exit. The town maps Maronshan on the east side of Hakonegasaki Station. — https://www.town.mizuho.tokyo.jp/bunka/004/p010024_d/fil/BrandPanfuretto.pdf

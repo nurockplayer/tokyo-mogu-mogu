@@ -31,6 +31,7 @@ export const b04KoganeiRhubarbRecord: JourneyRecord = {
   "location": {"ja":{"area":"小金井市","station":"","access":""},"en":{"area":"Koganei","station":"","access":""},"zh-TW":{"area":"小金井市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "武蔵小金井駅", "en": "Musashi-Koganei Station", "zh-TW": "武藏小金井站"}, "spotId": "b04-koganei-rhubarb-mu-chan", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b04-koganei-rhubarb-mu-chan",
@@ -116,6 +117,7 @@ export const b04KoganeiRhubarbRecord: JourneyRecord = {
     "location": {"ja":{"region":"小金井市","station":""},"en":{"region":"Koganei","station":""},"zh-TW":{"region":"小金井市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "JA Tokyo Musashi farmers’ market access", "url": "https://www.jatm.or.jp/magazine/pdf/kawasemi_09.pdf?dl=true", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-2": {"name":"小金井ファーマーズ・マーケット ムーちゃん広場（東京都）の詳細情報｜東京都の直売所一覧｜JAファーマーズマーケット(直売所)検索｜JAファーマーズマーケット（直売所） ｜JAグループ","url":"https://life.ja-group.jp/farm/market/detail?id=622","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-4": {"name":"ルバーブ ｜地域資源紹介記事 ｜ 東京都　地域資源（TOKYOイチオシナビ）","url":"https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_41.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b04 editorial itinerary — estimated timing and order, not a timetable","url":"https://life.ja-group.jp/farm/market/detail?id=622","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}

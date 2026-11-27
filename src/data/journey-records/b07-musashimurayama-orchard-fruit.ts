@@ -52,6 +52,7 @@ export const b07MusashimurayamaOrchardFruitRecord: JourneyRecord = {
   "location": {"ja":{"area":"武蔵村山市","station":"","access":""},"en":{"area":"Musashimurayama","station":"","access":""},"zh-TW":{"area":"武藏村山市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "中藤", "en": "Nakato bus stop", "zh-TW": "中藤巴士站"}, "spotId": "b07-musashimurayama-orchard-fruit-kobayashi", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b07-musashimurayama-orchard-fruit-nozakien",
@@ -317,6 +318,7 @@ export const b07MusashimurayamaOrchardFruitRecord: JourneyRecord = {
     "location": {"ja":{"region":"武蔵村山市","station":""},"en":{"region":"Musashimurayama","station":""},"zh-TW":{"region":"武藏村山市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Kobayashi Farm access", "url": "https://kobayashifarm.tokyo/access/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-10": {"name":"地域ブランド認証商品｜武蔵村山市　公式ホームページ","url":"https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-15": {"name":"葡萄（ぶどう）｜武蔵村山市　公式ホームページ","url":"https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1022409/1005153.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-16": {"name":"林檎（りんご）｜武蔵村山市　公式ホームページ","url":"https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1022409/1005154.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},

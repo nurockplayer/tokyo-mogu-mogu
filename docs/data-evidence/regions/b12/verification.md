@@ -336,3 +336,43 @@ Retrieved during this run: 2026-11-27 JST. The linked pages were opened and chec
 - Arrival, half-day → b12-kozushima-bonito-ritual-shrine: Maehama (Kozushima) Port passenger terminal. The tourism association’s walking guide directs visitors to Mononamina Shrine from Kozushima Port. The Tokyo port guide identifies it as Maehama Port. Check the ferry operator for the day’s arrival port. — https://kozushima.com/tour/tourroute/542/
 - Official destination, b12-kozushima-bonito-ritual-shrine: The tourism association’s mapped itinerary has a named visitor stop for Mononamina Shrine. — https://kozushima.com/tour/tourroute/542/
 - Port identity and visitor terminal: Tokyo Metropolitan Government lists Kozushima Port as Maehama Port — https://www.islandaccess.metro.tokyo.lg.jp/stations/maehama_port/
+
+## S1a publication admission round 2 (#441)
+
+Retrieved during this run: 2026-11-27 JST. Access and visitor observations retain `needs_confirmation`. Check visit availability and transport before departure.
+
+### b12-mikurajima-forest-home-table
+
+- Arrival, half-day → b12-mikurajima-forest-home-table-fukumaru: Mikurajima Port. The Tokyo Islands public corporation identifies Mikurajima Port and includes Fukumaru Shoten in its village visitor guide and linked map. — https://www.tokyoislands-net.jp/islands/mikurajima/
+
+### b12-mikurajima-kabutsu
+
+- Arrival, half-day → b12-mikurajima-kabutsu-fukumaru: Mikurajima Port. The Tokyo Islands public corporation identifies Mikurajima Port and includes Fukumaru Shoten in its village visitor guide and linked map. — https://www.tokyoislands-net.jp/islands/mikurajima/
+
+### b12-mikurajima-island-gelato
+
+- Arrival, half-day → b12-mikurajima-island-gelato-fukumaru: Mikurajima Port. The Tokyo Islands public corporation identifies Mikurajima Port and includes Fukumaru Shoten in its village visitor guide and linked map. — https://www.tokyoislands-net.jp/islands/mikurajima/
+
+### b12-miyake-fields-ashitaba
+
+- Arrival, half-day → b12-miyake-fields-ashitaba-fish-center: Sabigahama-kō Iriguchi bus stop. The Tokyo guide names the bus stop for Ikiiki Osakana Center. Check the ferry landing separately. — https://www.sangyo-rodo1.metro.tokyo.lg.jp/tourism/accessible/islands/miyakejima.html
+
+### b12-miyake-seafood
+
+- Arrival, half-day → b12-miyake-seafood-fish-center: Sabigahama-kō Iriguchi bus stop. The Tokyo guide names the bus stop for Ikiiki Osakana Center. Check the ferry landing separately. — https://www.sangyo-rodo1.metro.tokyo.lg.jp/tourism/accessible/islands/miyakejima.html
+
+### b12-kozushima-moriwaka
+
+- Arrival, half-day → b12-kozushima-moriwaka-shuzo: Maehama (Kozushima) Port. The island tourism guide gives the walking approach from Kozushima Port to the distillery. Confirm ferry landing and shop access. — https://kozushima.com/shop/kau/others/527/
+
+### b12-miyake-tengusa-seaweed
+
+- Arrival, half-day → b12-miyake-tengusa-seaweed-canon: Izu Misaki Iriguchi bus stop. The island tourism guide names the closest bus stop to Café Canon. — https://www.miyakejima.gr.jp/eatbuy/cafecanon/
+
+### b12-miyake-island-chili
+
+- Arrival, half-day → b12-miyake-island-chili-coconut: Nishima bus stop. The island tourism guide names the closest bus stop to Coconut Garden. — https://www.miyakejima.gr.jp/eatbuy/coconutgarden/
+
+### b12-miyake-island-sweets
+
+- Arrival, half-day → b12-miyake-island-sweets-okataro: Nadādo bus stop. The island tourism guide names the closest bus stop to Okatarō. — https://www.miyakejima.gr.jp/eatbuy/okatarou-honten/

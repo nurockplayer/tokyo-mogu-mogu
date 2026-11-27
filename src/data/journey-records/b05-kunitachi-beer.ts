@@ -144,6 +144,7 @@ export const b05KunitachiBeerRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "国立駅南口", "en": "Kunitachi Station South Exit", "zh-TW": "國立站南口"}, "spotId": "b05-kunitachi-beer-tap-stand", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b05-kunitachi-beer-tap-stand",
@@ -611,6 +612,7 @@ export const b05KunitachiBeerRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Kunitachi tourism and community guide – Kunitachi Brewery", "url": "https://kunimachi.jp/spot/kunitachibrewery/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-43": {
       "name": "醸造所KUNITACHI BREWERY BEER | 国立市商工会",
       "url": "https://kunitachi-shokokai.jp/item/kunitachi-brewery-beer/",

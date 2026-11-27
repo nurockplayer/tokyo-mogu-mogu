@@ -26,6 +26,7 @@ export const b13HachijoUmikazeShiitakeRecord: JourneyRecord = {
   "location": {"ja":{"area":"八丈町","station":"","access":""},"en":{"area":"Hachijo Town","station":"","access":""},"zh-TW":{"area":"八丈町","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "ferry-terminal", "name": {"ja": "底土港", "en": "Sokodo Port", "zh-TW": "底土港"}, "spotId": "b13-hachijo-umikaze-shiitake-dairyu", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b13-hachijo-umikaze-shiitake-dairyu",
@@ -93,6 +94,7 @@ export const b13HachijoUmikazeShiitakeRecord: JourneyRecord = {
     "location": {"ja":{"region":"八丈町","station":""},"en":{"region":"Hachijo Town","station":""},"zh-TW":{"region":"八丈町","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Hachijō tourism association – Dairyu Farm", "url": "https://www.hachijo.gr.jp/?p=5366", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-18": {
       "name": "大竜ファーム - 八丈島観光協会",
       "url": "https://www.hachijo.gr.jp/goods/dairyufarm/",

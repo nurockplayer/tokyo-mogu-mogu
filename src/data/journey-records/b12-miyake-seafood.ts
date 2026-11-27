@@ -122,6 +122,7 @@ export const b12MiyakeSeafoodRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "錆ヶ浜港入口バス停", "en": "Sabigahama-kō Iriguchi bus stop", "zh-TW": "錆濱港入口公車站"}, "spotId": "b12-miyake-seafood-fish-center", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b12-miyake-seafood-fish-center",
@@ -278,6 +279,7 @@ export const b12MiyakeSeafoodRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Tokyo Metropolitan Government – Accessible Miyakejima", "url": "https://www.sangyo-rodo1.metro.tokyo.lg.jp/tourism/accessible/islands/miyakejima.html", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-14": {
       "name": "主要特産品の紹介｜観光情報｜三宅村役場ホームページ",
       "url": "https://www.vill.miyake.tokyo.jp/kankou/tokusanhin.html",

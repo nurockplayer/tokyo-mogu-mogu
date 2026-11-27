@@ -366,3 +366,47 @@ Municipality: kunitachi. Theme: Kunitachi yakuzen curry and noodles.
 - https://kunitachi-shokokai.jp/item/murasakababagnacauda/ — HTTP 200; 2026-11-24 JST. Claims supported are listed per journey above; unused context pages are not record sources.
 - https://kunitachi-shokokai.jp/item/yakuzen-curry/ — HTTP 200; 2026-11-24 JST. Claims supported are listed per journey above; unused context pages are not record sources.
 - https://kunitachi-shokokai.jp/item/kunitachicurrynoodle/ — HTTP 200; 2026-11-24 JST. Claims supported are listed per journey above; unused context pages are not record sources.
+
+## S1a publication admission round 2 (#441)
+
+Retrieved during this run: 2026-11-27 JST. Access and visitor observations retain `needs_confirmation`. Check visit availability and transport before departure.
+
+### b05-kunitachi-farm-table
+
+- Arrival, half-day → b05-kunitachi-farm-table-satonoie: Yaho Station. The city names JR Yaho as one walking approach to Shiroyama Satonoie. — https://www.city.kunitachi.tokyo.jp/soshiki/Dept06/Div06/Sec03/gyomu/0486/ie/1464591730071.html
+
+### b05-kunitachi-yaho-rice
+
+- Arrival, half-day → b05-kunitachi-yaho-rice-satonoie: Yaho Station. The city names JR Yaho as one walking approach to Shiroyama Satonoie. — https://www.city.kunitachi.tokyo.jp/soshiki/Dept06/Div06/Sec03/gyomu/0486/ie/1464591730071.html
+
+### b05-higashimurayama-sake-lees
+
+- Arrival, half-day → b05-higashimurayama-sake-lees-toshimaya: Higashi-Murayama Station. Seibu Railway gives walking access to the brewery and its shop from Higashi-Murayama Station’s east exit. — https://www.seiburailway.jp/railways/fillute/experience/202510-01/
+
+### b05-kokubunji-kokuvege-table
+
+- Arrival, half-day → b05-kokubunji-kokuvege-table-farmers-market: Koigakubo Station. JA names Koigakubo Station for the farmers' market. — https://www.jatm.or.jp/economy/kokubunji.php
+
+### b05-kokubunji-heritage-sweets
+
+- Arrival, half-day → b05-kokubunji-heritage-sweets-annbee: Kokubunji Station South Exit. Marui gives the south-exit approach to the building that houses Annbē. — https://www.0101.co.jp/062/access/
+
+### b05-higashimurayama-grilled-dango
+
+- Arrival, half-day → b05-higashimurayama-grilled-dango-sasamoto: Higashimurayama Station. The chamber identifies the station for Sasamoto Dango. — https://www.shoukoukai.or.jp/satohachi/shops/shop_10/
+
+### b05-kunitachi-beer
+
+- Arrival, half-day → b05-kunitachi-beer-tap-stand: Kunitachi Station South Exit. The guide locates Sekiya Tap Stand by the station's south exit. — https://kunimachi.jp/spot/kunitachibrewery/
+
+### b05-kunitachi-honey
+
+- Arrival, half-day → b05-kunitachi-honey-shunka: Kunitachi Station South Exit. The guide describes the south-exit approach to the relocated main shop. Confirm product availability. — https://kunimachi.jp/spot/%E3%81%97%E3%82%85%E3%82%93%E3%81%8B%E3%81%97%E3%82%85%E3%82%93%E3%81%8B%E5%9B%BD%E7%AB%8B%E6%9C%AC%E5%BA%97/
+
+### b05-kunitachi-yakuzen-curry
+
+- Arrival, half-day → b05-kunitachi-yakuzen-curry-shunka: Kunitachi Station South Exit. The guide describes the south-exit approach to the relocated main shop. Confirm product availability. — https://kunimachi.jp/spot/%E3%81%97%E3%82%85%E3%82%93%E3%81%8B%E3%81%97%E3%82%85%E3%82%93%E3%81%8B%E5%9B%BD%E7%AB%8B%E6%9C%AC%E5%BA%97/
+
+### b05-kunitachi-tekuteku-tea
+
+- Arrival, half-day → b05-kunitachi-tekuteku-tea-tokitaen: Yaho Station. The operator gives the walking approach from Yaho Station to the main shop. — https://tokitaen.com/shop/

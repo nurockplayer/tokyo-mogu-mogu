@@ -43,6 +43,7 @@ export const b07KiyoseRooftopHoneyRecord: JourneyRecord = {
   "location": {"ja":{"area":"清瀬市","station":"","access":""},"en":{"area":"Kiyose","station":"","access":""},"zh-TW":{"area":"清瀨市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "清瀬市役所", "en": "Kiyose City Hall bus stop", "zh-TW": "清瀨市公所巴士站"}, "spotId": "b07-kiyose-rooftop-honey-city-hall-shop", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b07-kiyose-rooftop-honey-city-hall-shop",
@@ -128,6 +129,7 @@ export const b07KiyoseRooftopHoneyRecord: JourneyRecord = {
     "location": {"ja":{"region":"清瀬市","station":""},"en":{"region":"Kiyose","station":""},"zh-TW":{"region":"清瀨市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Kiyose City Hall access", "url": "https://mobile.city.kiyose.lg.jp/shisetsu/sisetu/1001180.html", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-21": {"name":"お土産・地域産品｜清瀬市観光協会公式サイト｜その先の、感動へ。","url":"https://www.kiyosekanko.tokyo/information/souvenir/tourism","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b07 editorial itinerary — estimated timing and order, not a timetable","url":"https://www.kiyosekanko.tokyo/information/souvenir/tourism","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}
   },

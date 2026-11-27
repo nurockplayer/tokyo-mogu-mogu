@@ -24,6 +24,7 @@ export const b10HinodeFieldHarvestsRecord: JourneyRecord = {
   "location": {"ja": {"area": "日の出町", "station": "", "access": ""}, "en": {"area": "Hinode", "station": "", "access": ""}, "zh-TW": {"area": "日出町", "station": "", "access": ""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "日の出折り返し場", "en": "Hinode Orikaeshiba bus stop", "zh-TW": "日之出折返場巴士站"}, "spotId": "b10-hinode-field-harvests-tourism-association", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b10-hinode-field-harvests-tourism-association",
@@ -84,6 +85,7 @@ export const b10HinodeFieldHarvestsRecord: JourneyRecord = {
     "location": {"ja": {"region": "日の出町", "station": ""}, "en": {"region": "Hinode", "station": ""}, "zh-TW": {"region": "日出町", "station": ""}}
   },
   "sources": {
+    "admission-access": {"name": "Hinode Tourism Association access", "url": "https://www.hinodekanko.jp/%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9-%E5%95%8F%E5%90%88%E3%81%9B/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "s0": {"name": "のらぼう菜：江戸東京野菜について", "url": "https://www.tokyo-ja.or.jp/farm/edo/15.php", "sourceType": "official_web", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"},
     "s1": {"name": "日の出町観光カレンダー", "url": "https://www.town.hinode.tokyo.jp/0000000440.html", "sourceType": "official_web", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"},
     "s2": {"name": "竹の子狩り", "url": "https://www.town.hinode.tokyo.jp/0000000414.html", "sourceType": "official_web", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"},

@@ -277,3 +277,27 @@ Municipality: hamura. Theme: Hamura farmers and their market.
   Published paraphrase: The city describes its farm-direct market as an outlet for local farmers’ vegetables, with grower names on products and processed foods including cookies and turmeric products.
 - PLACE: Hamura Farm-Direct Market — https://www.city.hamura.tokyo.jp/0000001912.html — HTTP 200; The city describes local vegetables labelled with their growers’ names.
 - EDITORIAL: half-day order and 90 minutes are estimates, not a timetable. Source-linked context: https://www.city.hamura.tokyo.jp/0000001912.html. Station/access are empty; no images. All new sources remain needs_confirmation.
+
+## S1a publication admission round 2 (#441)
+
+Retrieved during this run: 2026-11-27 JST. Access and visitor observations retain `needs_confirmation`. Check visit availability and transport before departure.
+
+### b08-hamura-ayu-history
+
+- Arrival, half-day → b08-hamura-ayu-history-weir: Hamura Station. Tokyo’s official visitor guide gives JR Hamura Station as the walking approach to Hamura Weir. — https://www.gotokyo.org/jp/spot/798/index.html
+
+### b08-tama-haramine-heritage
+
+- Arrival, half-day → b08-tama-haramine-heritage-haramine-park: Sakuragaoka 4-chōme bus stop. Tama City gives the Sakuragaoka 4-chōme stop for Haramine Park. — https://www.city.tama.lg.jp/map/kouen/1002506.html
+
+### b08-inagi-pears
+
+- Arrival, half-day → b08-inagi-pears-pear-terrace: Inagi-Naganuma Station. Tokyo’s official visitor guide places Pear Terrace immediately outside JR Inagi-Naganuma Station. — https://www.gotokyo.org/jp/spot/1789/index.html
+
+### b08-tama-sakura-sweets
+
+- Arrival, half-day → b08-tama-sakura-sweets-ponte: Keiō Nagayama Station. The shopping centre identifies Ponte and its connection to Keiō Nagayama Station. — https://www.greenade.com/shop/index.jsp?bf=1&fmt=6&shopid=15
+
+### b08-tama-honey
+
+- Arrival, half-day → b08-tama-honey-ponte: Keiō Nagayama Station. The shopping centre identifies Ponte and its connection to Keiō Nagayama Station. Confirm stock at the shop. — https://www.greenade.com/shop/index.jsp?bf=1&fmt=6&shopid=15

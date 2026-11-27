@@ -300,3 +300,24 @@ Retrieved during this run: 2026-11-27 JST. The linked pages were opened and chec
 
 - Arrival, half-day → b06-fussa-craft-beer-beer-goya: Haijima Station. The brewery’s directions name JR Haijima Station for access to its grounds. — https://www.tamajiman.co.jp/access/
 - Official destination, b06-fussa-craft-beer-beer-goya: The brewery’s visitor page identifies the Fussa no Beer Goya restaurant on the grounds. — https://www.tamajiman.co.jp/access/
+
+## S1a publication admission round 2 (#441)
+
+Retrieved during this run: 2026-11-27 JST. Access and visitor observations retain `needs_confirmation`. Check visit availability and transport before departure.
+
+### demo-tokyo-west-fussa-sake
+
+- Arrival, half-day → fussa-kurumiru: Fussa Station West Exit. Fussa City gives the west-exit walking approach to Kurumiru Fussa, an existing stop in both variants. — https://www.city.fussa.tokyo.jp/map/shiyakusho/1001605.html
+- Arrival, full-day → fussa-kurumiru: Fussa Station West Exit. Fussa City gives the west-exit walking approach to Kurumiru Fussa, an existing stop in both variants. — https://www.city.fussa.tokyo.jp/map/shiyakusho/1001605.html
+
+### b06-higashiyamato-grain-kitchen
+
+- Arrival, half-day → b06-higashiyamato-grain-kitchen-sugimoto-udon: Tōkyō Kaidō Danchi bus stop. The operator gives access from Tōkyō Kaidō Danchi to its tea shop. — https://www.sugimotoen.jp/sugiotoenseicya-access/
+
+### b06-higashiyamato-sayama-tea
+
+- Arrival, half-day → b06-higashiyamato-sayama-tea-sugimotoen: Tōkyō Kaidō Danchi bus stop. The operator gives access from Tōkyō Kaidō Danchi to its tea shop. — https://www.sugimotoen.jp/sugiotoenseicya-access/
+
+### b06-komae-hops-beer
+
+- Arrival, half-day → b06-komae-hops-beer-kagoya-marche: Komae Station. The city identifies Kago-ya Marche as directly connected to Komae Station. — https://www.city.komae.tokyo.jp/index.cfm/47%2C139111%2C611%2C3699%2Chtml

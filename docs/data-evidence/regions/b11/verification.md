@@ -412,3 +412,66 @@ Python urllib could not build its local certificate chain for Oshima Town, Toshi
 - FETCHED, unused: https://island-net.or.jp/info/membership/%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE%E3%80%80%E5%A4%A7%E5%B3%B6%E7%89%9B%E4%B9%B3/ — HTTP 200; no additional claim published from this page.
 - FETCHED, unused: https://xn--y8jl2mqa5414b9sn.tokyo/ — HTTP 200; no additional claim published from this page.
 - FETCHED, unused: https://ritoku.tokyo/2024/06/1106/ — HTTP 200; no additional claim published from this page.
+
+## S1a publication admission round 2 (#441)
+
+Retrieved during this run: 2026-11-27 JST. Access and visitor observations retain `needs_confirmation`. Check visit availability and transport before departure.
+
+### b11-oshima-ashitaba
+
+- Arrival, half-day → b11-oshima-ashitaba-miyoshi: Motomachi Port bus stop. The shop directs bus passengers to Motomachi Port stop. — https://miyoshi-miyage.com/access.html
+
+### b11-oshima-kusaya
+
+- Arrival, half-day → b11-oshima-kusaya-miyoshi: Motomachi Port bus stop. The shop directs bus passengers to Motomachi Port stop. — https://miyoshi-miyage.com/access.html
+
+### b11-oshima-bekko-chili
+
+- Arrival, half-day → b11-oshima-bekko-chili-miyoshi: Motomachi Port bus stop. The shop directs bus passengers to Motomachi Port stop. — https://miyoshi-miyage.com/access.html
+- Official destination, b11-oshima-bekko-chili-miyoshi: The shop’s access page identifies its street address and visitor approach. — https://miyoshi-miyage.com/access.html
+
+### b11-oshima-camellia-preserves
+
+- Arrival, half-day → b11-oshima-camellia-preserves-miyoshi: Motomachi Port bus stop. The shop directs bus passengers to Motomachi Port stop. — https://miyoshi-miyage.com/access.html
+- Official destination, b11-oshima-camellia-preserves-miyoshi: The shop’s access page identifies its street address and visitor approach. — https://miyoshi-miyage.com/access.html
+
+### b11-oshima-sea-salt
+
+- Arrival, half-day → b11-oshima-sea-salt-miyoshi: Motomachi Port bus stop. The shop directs bus passengers to Motomachi Port stop. — https://miyoshi-miyage.com/access.html
+- Official destination, b11-oshima-sea-salt-miyoshi: The shop’s access page identifies its street address and visitor approach. — https://miyoshi-miyage.com/access.html
+
+### b11-niijima-america-imo
+
+- Arrival, half-day → b11-niijima-america-imo-ja: Niijima Port (Kurone). The village map shows the terminal and the route toward the JA shop in Honson. Check the operator for the actual port because sailings may use Watarine. — https://niijima-info.jp/cms24/wp-content/uploads/2026/06/niijimaA3MAP.pdf
+- Official destination, b11-niijima-america-imo-ja: The village places the JA produce and processed-food shop on the Honson walking map. — https://niijima-info.jp/cms24/wp-content/uploads/2026/06/niijimaA3MAP.pdf
+
+### b11-niijima-ashitaba
+
+- Arrival, half-day → b11-niijima-ashitaba-ja: Niijima Port (Kurone). The village map shows the terminal and the route toward the JA shop in Honson. Check the operator for the actual port because sailings may use Watarine. — https://niijima-info.jp/cms24/wp-content/uploads/2026/06/niijimaA3MAP.pdf
+- Official destination, b11-niijima-ashitaba-ja: The village places the JA produce and processed-food shop on the Honson walking map. — https://niijima-info.jp/cms24/wp-content/uploads/2026/06/niijimaA3MAP.pdf
+
+### b11-niijima-farm-table
+
+- Arrival, half-day → b11-niijima-farm-table-ja: Niijima Port (Kurone). The village map shows the terminal and the route toward the JA shop in Honson. Check the operator for the actual port because sailings may use Watarine. — https://niijima-info.jp/cms24/wp-content/uploads/2026/06/niijimaA3MAP.pdf
+- Official destination, b11-niijima-farm-table-ja: The village places the JA produce and processed-food shop on the Honson walking map. — https://niijima-info.jp/cms24/wp-content/uploads/2026/06/niijimaA3MAP.pdf
+
+### b11-niijima-island-chili
+
+- Arrival, half-day → b11-niijima-island-chili-ja: Niijima Port (Kurone). The village map shows the terminal and the route toward the JA shop in Honson. Check the operator for the actual port because sailings may use Watarine. — https://niijima-info.jp/cms24/wp-content/uploads/2026/06/niijimaA3MAP.pdf
+- Official destination, b11-niijima-island-chili-ja: The village places the JA produce and processed-food shop on the Honson walking map. — https://niijima-info.jp/cms24/wp-content/uploads/2026/06/niijimaA3MAP.pdf
+
+### b11-niijima-kusaya
+
+- Arrival, half-day → b11-niijima-kusaya-kusaya-no-sato: Niijima Port (Kurone). The village map shows the terminal and Kusaya no Sato. Check the operator for the actual port because sailings may use Watarine. — https://niijima-info.jp/cms24/wp-content/uploads/2026/06/niijimaA3MAP.pdf
+
+### b11-niijima-sea-salt
+
+- Arrival, half-day → b11-niijima-sea-salt-sunshine: Niijima Port (Kurone). The village map shows the terminal and lists Sunshine in Honson. Check the operator for the actual port because sailings may use Watarine. — https://niijima-info.jp/cms24/wp-content/uploads/2026/06/niijimaA3MAP.pdf
+
+### b11-niijima-shochu
+
+- Arrival, half-day → b11-niijima-shochu-miyahara: Niijima Port (Kurone). The village map shows the terminal and the Miyahara liquor shop in Honson. Check the operator for the actual port because sailings may use Watarine. — https://niijima-info.jp/cms24/wp-content/uploads/2026/06/niijimaA3MAP.pdf
+
+### b11-toshima-groves-harvests
+
+- Arrival, half-day → b11-toshima-groves-harvests-ja: Toshima Port. The village walking map places Toshima Port and the agricultural cooperative store on the same island walking network. — https://www.toshimamura.org/fs/1/3/0/4/6/4/_/___________.pdf
