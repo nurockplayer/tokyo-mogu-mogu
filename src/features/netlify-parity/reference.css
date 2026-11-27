@@ -471,9 +471,11 @@ body:has(.reference-app) { min-height:0; }
 .reference-app .info-row .ic svg { width:16px; height:16px; fill:var(--green); }
 .reference-app .info-row .k { color:var(--ink); width:64px; flex:none; }
 .reference-app .info-row > span:last-child { min-width:0; overflow-wrap:anywhere; }
-.reference-app .guide-box { background:#FDF8EC; margin-top:12px; padding:18px; }
+.reference-app :is(.guide-box, .spot-phrase) { background:#FDF8EC; margin-top:12px; padding:18px; }
 .reference-app .guide-box h2 { font-size:18px; }
-.reference-app .guide-box p { font-size:13.5px; line-height:1.9; margin-top:8px; }
+.reference-app :is(.guide-box, .spot-phrase) p { font-size:13.5px; line-height:1.9; margin-top:8px; }
+.reference-app .spot-phrase summary { font-size:18px; font-weight:700; cursor:pointer; }
+.reference-app .spot-phrase p { white-space:pre-wrap; overflow-wrap:anywhere; }
 .reference-app .guide-box .book { width:100%; margin-top:12px; background:var(--header); color:#fff; border-radius:10px; padding:13px; font-weight:500; font-size:14.5px; }
 .reference-app .guide-box a.book { display:block; box-sizing:border-box; text-align:center; text-decoration:none; }
 .reference-app .caution { background:#F3F1DE; border-radius:12px; padding:14px; margin:14px 18px 20px; }
