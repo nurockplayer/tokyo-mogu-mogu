@@ -918,7 +918,7 @@ export const b05HigashimurayamaLocalSweetsRecord: JourneyRecord = {
     }
   },
   "sources": {
-    "admission-access": {"name": "Higashimurayama Chamber of Commerce Chamois listing", "url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_22/", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
+    "admission-access": {"name": "Higashimurayama Chamber of Commerce Satohachi guide", "url": "https://www.shoukoukai.or.jp/satohachi/pdf/satohachi_2019.pdf", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-0": {
       "name": "東村山ブランド里に八国 | 里に八国とは？",
       "url": "https://www.shoukoukai.or.jp/satohachi/about/",
