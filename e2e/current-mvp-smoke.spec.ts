@@ -3,12 +3,12 @@ import { execFileSync } from 'node:child_process';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { build, preview } from 'vite';
+import { build, createServer, preview } from 'vite';
 import { checkJourneyAdmission, resolveJourneyVisitorSource } from '../src/data/journey-admission';
 import { selectRouteStop } from '../src/data/journey-record';
 import { JOURNEY_RECORDS } from '../src/data/journey-records';
 import { MUNICIPALITIES, type MunicipalityGroup } from '../src/data/municipalities';
-import { demoJourneys, type JourneyPresentation } from '../src/features/netlify-parity/content';
+import type { JourneyPresentation } from '../src/features/netlify-parity/content';
 import { spotPhraseStaffNotice, strings } from '../src/i18n/resources';
 
 const publicationDate = new Date('2026-11-27T13:00:00Z');
@@ -226,6 +226,16 @@ test('S2-7 reconciles MOGU and published links with the admission command', asyn
 });
 
 test('S2-7 demo fixture deep links should show Journey Unavailable', async ({ page }, testInfo) => {
+  const loader = await createServer({
+    configFile: false,
+    server: { middlewareMode: true, watch: null, ws: false },
+  });
+  let demoJourneys: JourneyPresentation[];
+  try {
+    ({ demoJourneys } = await loader.ssrLoadModule('/src/features/netlify-parity/factual-presentation.ts'));
+  } finally {
+    await loader.close();
+  }
   const reachable: string[] = [];
   const unavailable = activeScreen(page, 'journey-unavailable');
   await page.goto('/mogu');
