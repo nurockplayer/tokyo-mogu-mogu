@@ -8,7 +8,7 @@ interface JourneyResultCardProps {
   copy: ReferenceCopy;
   journey: JourneyPresentation;
   locale: Locale;
-  showMatch?: boolean;
+  reason?: string;
   sourceNote?: string;
   onOpen: (journey: JourneyPresentation) => void;
 }
@@ -18,7 +18,7 @@ export function JourneyResultCard({
   copy,
   journey,
   locale,
-  showMatch = true,
+  reason,
   sourceNote,
   onOpen,
 }: JourneyResultCardProps) {
@@ -45,15 +45,6 @@ export function JourneyResultCard({
     >
       <div className="ph">
         <PresentationMedia assetId={journey.imageAssetId} locale={locale} />
-        {showMatch && journey.matchPercent !== undefined ? (
-          <div className="match" aria-label={`${copy.result.matchLabel} ${journey.matchPercent}%`}>
-            <b>
-              {journey.matchPercent}
-              <small>%</small>
-            </b>
-            <span>{copy.result.matchLabel}</span>
-          </div>
-        ) : null}
       </div>
       <div className="tx">
         <div className="area">{location.area}</div>
@@ -62,6 +53,7 @@ export function JourneyResultCard({
         </div>
         <h3>{localized.title}</h3>
         <h4>{localized.subtitle}</h4>
+        {reason ? <p data-match-reason>{reason}</p> : null}
         <p>{localized.description}</p>
         {sourceNote ? <p>{sourceNote}</p> : null}
         <div className="tags">

@@ -26,6 +26,7 @@ interface FoodProfileConversationProps {
   locale: Locale;
   mode?: 'onboarding' | 'edit';
   initialName?: string;
+  preferences?: ReactNode;
   onProfileSaved?: (name: string, profile: FoodProfile) => void;
   onRecommend: () => void;
   onSkipProfile: () => void;
@@ -399,6 +400,7 @@ export function FoodProfileConversation({
   locale,
   mode = 'onboarding',
   initialName = '',
+  preferences,
   onProfileSaved,
   onRecommend,
   onSkipProfile,
@@ -543,6 +545,7 @@ export function FoodProfileConversation({
             if (state.isEditing) {
               return (
                 <div className="choice-card" key={entry.id}>
+                  {preferences}
                   <button className="btn orange" onClick={onFinishEdit} type="button">
                     {editCopy[locale].returnToMy}
                   </button>
@@ -553,6 +556,7 @@ export function FoodProfileConversation({
               <Fragment key={entry.id}>
                 <BotRow>{copy.profile.finalPrompt}</BotRow>
                 <div className="choice-card">
+                  {preferences}
                   <button className="btn orange glow" onClick={onRecommend} type="button">
                     {copy.actions.recommendJourney}
                   </button>
