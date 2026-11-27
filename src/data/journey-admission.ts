@@ -11,7 +11,7 @@ function webUrl(value: string | undefined) {
     ? url : undefined;
 }
 
-function retrieved(source: DataSource) {
+function retrieved(source: DataSource): source is DataSource & { retrievedAt: string } {
   const date = source.retrievedAt;
   return Boolean(date && /^\d{4}-\d{2}-\d{2}$/.test(date)
     && Number.isFinite(Date.parse(date)) && new Date(date).toISOString().slice(0, 10) === date);
@@ -28,20 +28,29 @@ function factSources(record: JourneyRecord, path: string) {
   return fact && fact.origin !== 'demo' ? fact.sourceIds.map((id) => record.sources[id]) : [];
 }
 
-function hasVisitorDestination(record: JourneyRecord, spotId: string) {
-  const spot = record.spots[spotId];
-  if (!spot) return false;
-  if (spot.visitorSourceId) {
-    const source = record.sources[spot.visitorSourceId];
-    return source && official(source) && retrieved(source);
-  }
-  const source = spot.officialSource;
-  return source && official(source) && retrieved(source)
-    && factSources(record, `spots.${spotId}.officialSource`).some((evidence) =>
-      evidence && official(evidence) && evidence.url === source.url && evidence.retrievedAt === source.retrievedAt);
+const jstDate = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Tokyo', dateStyle: 'short' });
+
+function currentDestination(source: DataSource | undefined, now: Date): source is DataSource & { url: string; retrievedAt: string } {
+  if (!source || !official(source) || !retrieved(source)) return false;
+  const age = Date.parse(jstDate.format(now)) - Date.parse(source.retrievedAt);
+  return age >= 0 && age < 30 * 86_400_000;
 }
 
-export function checkJourneyAdmission(record: JourneyRecord) {
+export function resolveJourneyVisitorSource(record: JourneyRecord, spotId: string, now = new Date()) {
+  const spot = record.spots[spotId];
+  if (!spot) return undefined;
+  if (spot.visitorSourceId) {
+    const source = record.sources[spot.visitorSourceId];
+    return currentDestination(source, now) ? source : undefined;
+  }
+  const source = spot.officialSource;
+  return currentDestination(source, now)
+    && factSources(record, `spots.${spotId}.officialSource`).some((evidence) =>
+      evidence && official(evidence) && evidence.url === source.url && evidence.retrievedAt === source.retrievedAt)
+    ? source : undefined;
+}
+
+export function checkJourneyAdmission(record: JourneyRecord, now = new Date()) {
   const storyFailures = new Set<string>();
   function checkClaim(path: string, value: string) {
     const sources = factSources(record, path);
@@ -104,14 +113,12 @@ export function checkJourneyAdmission(record: JourneyRecord) {
       !accessSource || !official(accessSource) || !retrieved(accessSource)) {
       failures.push('sourced arrival point');
     }
-    const primary = variant.steps.find(({ spotId }) => hasVisitorDestination(record, spotId));
+    const primary = variant.steps.find(({ spotId }) => resolveJourneyVisitorSource(record, spotId, now));
     if (!primary) failures.push('official destination for primary Spot');
     return { id: variant.id, failures, primarySpotId: primary?.spotId };
   });
 
-  return {
-    admitted: storyFailures.size === 0 && variants.some(({ failures }) => failures.length === 0),
-    storyFailures: [...storyFailures],
-    variants,
-  };
+  const offeredVariants = storyFailures.size === 0 ? variants.filter(({ failures }) => failures.length === 0) : [];
+  const defaultVariant = offeredVariants.find(({ id }) => id === 'half-day') ?? offeredVariants[0];
+  return { admitted: defaultVariant !== undefined, defaultVariant, offeredVariants, storyFailures: [...storyFailures], variants };
 }
