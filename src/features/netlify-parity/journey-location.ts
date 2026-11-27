@@ -137,7 +137,8 @@ export function resolvePublishedJourneyLocation(pathname: string, search: string
     }
     return { ...location, status: 'unavailable' };
   }
-  if (spotId && (record.spots[spotId]?.unavailable ||
+  // Route links carry a journey query. Story links can open the editorial Spot details.
+  if (spotId && ((location.hasJourneyQuery && record.spots[spotId]?.unavailable) ||
     (!published.routeVariants.some(({ steps }) => steps.some((step) => selectRouteStop(record, step.spotId) === spotId)) &&
       !Object.values(record.story.groups).some((group) => group.some((spot) => spot.spotId === spotId))))) {
     return { ...location, status: 'unavailable' };

@@ -419,6 +419,15 @@ test('#443 offers a sourced Route alternative or explains that none is offered',
     await page.goto(`/spot/${missing.primary.presentation.id}?candidateId=${missing.record.journey.id}`);
     await expect(page.locator('[data-screen="journey-unavailable"][data-screen-active="true"]')).toBeVisible();
   }
+
+  const story = page.locator('[data-screen="story"][data-screen-active="true"]');
+  for (const { record, primary } of [withAlternative!, missing]) {
+    const spotId = primary.presentation.id;
+    await page.goto(`/story/${record.journey.storyId}`);
+    await story.locator(`[data-spot-id="${spotId}"]`).click();
+    await expect(page).toHaveURL(`/spot/${spotId}`);
+    await expect(spot).toHaveAttribute('data-spot-id', spotId);
+  }
 });
 
 test('completes the current Exploration when its sessionStorage write is blocked', async ({
