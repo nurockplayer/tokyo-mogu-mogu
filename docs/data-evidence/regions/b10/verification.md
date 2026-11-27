@@ -323,3 +323,11 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 ### b10-hinohara-potatoes
 
 - Arrival, half-day → b10-hinohara-potatoes-factory: Natsuchi bus stop. The tourism association names Natsuchi as the access stop for Hinohara Factory. — https://hinohara-kankou.jp/spot/hinoharafactory/
+
+## S1a publication admission round 3 (#441)
+
+Retrieved during this run: 2026-11-28 JST. Access and visitor observations retain `needs_confirmation`. Confirm service, onward access and visit availability before departure.
+
+### b10-okutama-craft-beer
+
+- Arrival, half-day → b10-okutama-craft-beer-vertere: Okutama Station. The association's map marks the VERTERE taproom as point 4 by Okutama Station. — https://www.okutama.gr.jp/site/map/pdf/hikawa-tenpo.pdf

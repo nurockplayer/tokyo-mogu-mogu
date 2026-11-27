@@ -34,6 +34,7 @@ export const b04HinoTokojiDaikonRecord: JourneyRecord = {
   "location": {"ja":{"area":"日野市","station":"","access":""},"en":{"area":"Hino","station":"","access":""},"zh-TW":{"area":"日野市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "万願寺駅", "en": "Manganji Station", "zh-TW": "萬願寺站"}, "spotId": "b04-hino-tokoji-daikon-minami", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b04-hino-tokoji-daikon-minami",
@@ -119,6 +120,7 @@ export const b04HinoTokojiDaikonRecord: JourneyRecord = {
     "location": {"ja":{"region":"日野市","station":""},"en":{"region":"Hino","station":""},"zh-TW":{"region":"日野市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Tokyo Agriculture, Forestry and Fisheries Foundation – Minamitama guide", "url": "https://www.tokyo-aff.or.jp/uploaded/attachment/4110.pdf", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-27": {"name":"日野の特産農産物｜日野市公式ホームページ","url":"https://www.city.hino.lg.jp/sangyo/nogyo/1003570.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-28": {"name":"JA直売所・即売事業｜日野市公式ホームページ","url":"https://www.city.hino.lg.jp/sangyo/nogyo/nousanbutsu/1003561.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b04 editorial itinerary — estimated timing and order, not a timetable","url":"https://www.city.hino.lg.jp/sangyo/nogyo/1003570.html","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}

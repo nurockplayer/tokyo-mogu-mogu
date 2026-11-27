@@ -289,3 +289,19 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 ### b04-kodaira-wheat-udon
 
 - Arrival, half-day → b04-kodaira-wheat-udon-furusato: Hanakoganei Station. The park operator lists the walking approach from Hanakoganei Station. Confirm the udon programme separately. — https://kodaira-furusatomura.jp/detail/f00015.html
+
+## S1a publication admission round 3 (#441)
+
+Retrieved during this run: 2026-11-28 JST. Access and visitor observations retain `needs_confirmation`. Confirm service, onward access and visit availability before departure.
+
+### b04-hino-tokoji-daikon
+
+- Arrival, half-day → b04-hino-tokoji-daikon-minami: Manganji Station. The foundation's guide gives a walking approach from Manganji Station to Minami no Megumi. Confirm produce availability. — https://www.tokyo-aff.or.jp/uploaded/attachment/4110.pdf
+
+### b04-hino-farm-orchard
+
+- Arrival, half-day → b04-hino-farm-orchard-minami: Manganji Station. The foundation's guide gives a walking approach from Manganji Station to Minami no Megumi. — https://www.tokyo-aff.or.jp/uploaded/attachment/4110.pdf
+
+### b04-hino-toyoda-beer
+
+- Arrival, half-day → b04-hino-toyoda-beer-minami: Manganji Station. The foundation's guide gives a walking approach from Manganji Station to Minami no Megumi. Confirm beer availability. — https://www.tokyo-aff.or.jp/uploaded/attachment/4110.pdf
