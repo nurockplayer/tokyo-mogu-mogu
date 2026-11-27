@@ -208,7 +208,11 @@ test('S2-7 reconciles MOGU and published links with the admission command', asyn
   for (const record of JOURNEY_RECORDS) {
     const { journey } = record;
     if (statuses.get(journey.id) === 'admitted') {
-      await page.goto(`/story/${journey.storyId}`, { waitUntil: 'domcontentloaded' });
+      // Exercise the actual browser router without reloading the bundle for each admitted record.
+      await page.evaluate((path) => {
+        window.history.pushState(null, '', path);
+        window.dispatchEvent(new PopStateEvent('popstate'));
+      }, `/story/${journey.storyId}`);
       await expect(activeScreen(page, 'story').getByRole('heading', { level: 1 }),
         journey.id).toHaveText(journey.copy.ja.title);
     } else {
@@ -223,6 +227,7 @@ test('S2-7 reconciles MOGU and published links with the admission command', asyn
       }
     }
   }
+  console.log(`S2-7 checked ${admittedIds.length} admitted Stories and ${statuses.size - admittedIds.length} excluded journeys.`);
 });
 
 test('S2-7 demo fixture deep links should show Journey Unavailable', async ({ page }, testInfo) => {
