@@ -11,6 +11,7 @@ describe('Route station access', () => {
       active: true, copy: referenceCopy(locale), locale,
       journey: currentJourneys.find((journey) => journey.id === id)!,
       onShare: async () => undefined,
+      onSelectVariant: () => {},
       onBack: () => {}, onOpenSpot: () => {}, onSaveRoute: () => {}, onViewSavedRoutes: () => {},
     }));
     const stage = render('b01-hachioji-ramen');
