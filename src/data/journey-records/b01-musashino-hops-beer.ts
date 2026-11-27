@@ -24,6 +24,7 @@ export const b01MusashinoHopsBeerRecord: JourneyRecord = {
   "location": {"ja":{"area":"武蔵野市","station":"","access":""},"en":{"area":"Musashino","station":"","access":""},"zh-TW":{"area":"武藏野市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "武蔵境駅 nonowa口", "en": "Musashi-Sakai Station nonowa Exit", "zh-TW": "武藏境站 nonowa 出口"}, "spotId": "b01-musashino-hops-beer-26k", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b01-musashino-hops-beer-26k",
@@ -82,6 +83,7 @@ export const b01MusashinoHopsBeerRecord: JourneyRecord = {
     "location": {"ja":{"region":"武蔵野市","station":""},"en":{"region":"Musashino","station":""},"zh-TW":{"region":"武藏野市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Chuo Line official guide – Ond and 26K Brewery", "url": "https://chuosuki.jp/9967/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-0": {"name":"26K Brewery — 26K Brewery","url":"https://26k-brewery.com/","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "source-15": {"name":"Let's Grow Hops in Tokyo — ビール購入・提供店","url":"https://tokyo-hop.com/beermap/","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "source-35": {"name":"Tokyo Metropolitan Government — みんなのむさしのレールエール","url":"https://www.e-mark-iishina.metro.tokyo.lg.jp/foods/detail/id=369","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},

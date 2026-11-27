@@ -366,3 +366,11 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 
 - Arrival, half-day → akiruno-farmers-center: Higashi-Akiru Station. Akiruno City names JR Higashi-Akiru Station as the walking approach to the farmers center. — https://www.city.akiruno.tokyo.jp/0000003556.html
 - Arrival, full-day → akiruno-farmers-center: Higashi-Akiru Station. Akiruno City names JR Higashi-Akiru Station as the walking approach to the farmers center. — https://www.city.akiruno.tokyo.jp/0000003556.html
+
+### b09-akiruno-kisho-sake
+
+- Arrival, half-day → b09-akiruno-kisho-sake-nozaki: Tokura bus stop. The brewery directs visitors to Tokura bus stop from Musashi-Itsukaichi. — https://www.kisho-sake.jp/guide.htm
+
+### b09-nishitokyo-tanashi-beer
+
+- Arrival, half-day → b09-nishitokyo-tanashi-beer-dining: Tanashi Station. The operator gives the approach from Tanashi Station. — https://tanashi-dining.com/access/

@@ -359,3 +359,8 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 
 - Arrival, half-day → sawai-ozawa-shuzo: Sawai Station. JR East gives Sawai Station as the walking approach to Ozawa Shuzo. — https://www.jreast.co.jp/hachioji/ome-itsukaichi/spot/detail386847.html
 - Arrival, full-day → sawai-ozawa-shuzo: Sawai Station. JR East gives Sawai Station as the walking approach to Ozawa Shuzo. — https://www.jreast.co.jp/hachioji/ome-itsukaichi/spot/detail386847.html
+
+### b02-ome-konnyaku
+
+- Arrival, half-day → b02-ome-konnyaku-noshikon: Mitake Station. The operator gives the walking approach from the JR Ōme Line station. Confirm seasonal opening before visiting. — https://www.noshikon.com/%E5%BA%97%E8%88%97%E6%A6%82%E8%A6%81/
+- Official destination, b02-ome-konnyaku-noshikon: The operator identifies the Mitake storefront and its konnyaku products. — https://www.noshikon.com/%E5%BA%97%E8%88%97%E6%A6%82%E8%A6%81/

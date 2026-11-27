@@ -377,3 +377,23 @@ Retrieved during this run: 2026-11-27 JST. The linked pages were opened and chec
 
 - Arrival, half-day → b13-ogasawara-island-honey-cafe: Futami Port passenger terminal. The Chichijima guide’s central Omura map (PDF page 17) identifies the ferry passenger terminal and the agricultural direct-sales store in the same arrival district. — https://www.gotokyo.org/book/wp-content/uploads/2026/03/AO2_2603_chichijima-guidebook_low_JP.pdf
 - Official destination, b13-ogasawara-island-honey-cafe: The cooperative’s visitor page identifies the direct-sales store and its attached cafe. — https://ogasawara-islands.or.jp/store/
+
+## S1a publication admission round 2 (#441)
+
+Retrieved during this run: 2026-11-27 JST. Access and visitor observations retain `needs_confirmation`. Check visit availability and transport before departure.
+
+### b13-aogashima-island-table
+
+- Arrival, half-day → b13-aogashima-island-table-port: Aogashima (Sanbō) Port. The port authority identifies the port served by boats from Hachijō. Confirm sailing and any onward road access. — https://www.soumu.metro.tokyo.lg.jp/09hatijou/kakuka_top/d-top/d-aogasima
+
+### b13-hachijo-passion-fruit
+
+- Arrival, half-day → b13-hachijo-passion-fruit-hattori: Kashitate Shutchōjo-mae bus stop. The town gives the walking approach to Hattori Yashiki from the bus stop. — https://www.town.hachijo.tokyo.jp/kanko-bunka/kanko/hjk-map/hjk-kashitate/
+
+### b13-hachijo-umikaze-shiitake
+
+- Arrival, half-day → b13-hachijo-umikaze-shiitake-dairyu: Sokodo Port. The association gives a road approach from Sokodo Port and asks visitors to inquire in advance. Confirm the landing port and onward transport. — https://www.hachijo.gr.jp/?p=5366
+
+### b13-hachijo-jersey-dairy
+
+- Arrival, half-day → b13-hachijo-jersey-dairy-jersey: Sokodo Port. The association gives a road approach from Sokodo Port. Confirm the landing port and onward transport. — https://www.hachijo.gr.jp/restaurant/jerseycafe/

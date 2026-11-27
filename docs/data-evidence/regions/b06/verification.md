@@ -309,3 +309,15 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 
 - Arrival, half-day → fussa-tamura-shuzo: Fussa Station. The brewery gives JR Fussa Station as the walking approach. — https://www.tamurashuzojo.com/page/kura
 - Arrival, full-day → fussa-tamura-shuzo: Fussa Station. The brewery gives JR Fussa Station as the walking approach. — https://www.tamurashuzojo.com/page/kura
+
+### b06-higashiyamato-grain-kitchen
+
+- Arrival, half-day → b06-higashiyamato-grain-kitchen-sugimoto-udon: Tōkyō Kaidō Danchi bus stop. The operator gives access from Tōkyō Kaidō Danchi to its tea shop. — https://www.sugimotoen.jp/sugiotoenseicya-access/
+
+### b06-higashiyamato-sayama-tea
+
+- Arrival, half-day → b06-higashiyamato-sayama-tea-sugimotoen: Tōkyō Kaidō Danchi bus stop. The operator gives access from Tōkyō Kaidō Danchi to its tea shop. — https://www.sugimotoen.jp/sugiotoenseicya-access/
+
+### b06-komae-hops-beer
+
+- Arrival, half-day → b06-komae-hops-beer-kagoya-marche: Komae Station. The city identifies Kago-ya Marche as directly connected to Komae Station. — https://www.city.komae.tokyo.jp/index.cfm/47%2C139111%2C611%2C3699%2Chtml

@@ -352,3 +352,11 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 ### b12-mikurajima-island-gelato
 
 - Arrival, half-day → b12-mikurajima-island-gelato-fukumaru: Mikurajima Port. The Tokyo Islands public corporation identifies Mikurajima Port and includes Fukumaru Shoten in its village visitor guide and linked map. — https://www.tokyoislands-net.jp/islands/mikurajima/
+
+### b12-miyake-fields-ashitaba
+
+- Arrival, half-day → b12-miyake-fields-ashitaba-fish-center: Sabigahama-kō Iriguchi bus stop. The Tokyo guide names the bus stop for Ikiiki Osakana Center. Check the ferry landing separately. — https://www.sangyo-rodo1.metro.tokyo.lg.jp/tourism/accessible/islands/miyakejima.html
+
+### b12-miyake-seafood
+
+- Arrival, half-day → b12-miyake-seafood-fish-center: Sabigahama-kō Iriguchi bus stop. The Tokyo guide names the bus stop for Ikiiki Osakana Center. Check the ferry landing separately. — https://www.sangyo-rodo1.metro.tokyo.lg.jp/tourism/accessible/islands/miyakejima.html

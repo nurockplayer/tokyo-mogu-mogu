@@ -281,3 +281,7 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 ### b04-kodaira-tokyo-udo
 
 - Arrival, half-day → b04-kodaira-tokyo-udo-mu-chan: Ōme-kaidō Station. The city names Ōme-kaidō Station for the Kodaira farmers’ market. — https://www.city.kodaira.tokyo.jp/kurashi/001/001143.html
+
+### b04-hino-souvenir-foods
+
+- Arrival, half-day → b04-hino-souvenir-foods-shoseido: Takahata-fudō Station. The operator identifies the Keio Takahata-fudō Station approach to its main shop. — https://www.syoseido.co.jp/store/

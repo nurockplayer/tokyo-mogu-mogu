@@ -64,6 +64,7 @@ export const b04HinoSouvenirFoodsRecord: JourneyRecord = {
   "location": {"ja":{"area":"日野市","station":"","access":""},"en":{"area":"Hino","station":"","access":""},"zh-TW":{"area":"日野市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "高幡不動駅", "en": "Takahata-fudō Station", "zh-TW": "高幡不動站"}, "spotId": "b04-hino-souvenir-foods-shoseido", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b04-hino-souvenir-foods-shoseido",
@@ -255,6 +256,7 @@ export const b04HinoSouvenirFoodsRecord: JourneyRecord = {
     "location": {"ja":{"region":"日野市","station":""},"en":{"region":"Hino","station":""},"zh-TW":{"region":"日野市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Shōseidō – store information", "url": "https://www.syoseido.co.jp/store/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-32": {"name":"販売店のご案内 - 高幡まんじゅう松盛堂","url":"https://www.syoseido.co.jp/store/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-33": {"name":"高幡まんじゅう - 高幡まんじゅう松盛堂","url":"https://www.syoseido.co.jp/item/takahata-manju/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-34": {"name":"土方歳三まんじゅう - 高幡まんじゅう松盛堂","url":"https://www.syoseido.co.jp/item/%E5%9C%9F%E6%96%B9%E6%AD%B3%E4%B8%89%E3%81%BE%E3%82%93%E3%81%98%E3%82%85%E3%81%86/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},

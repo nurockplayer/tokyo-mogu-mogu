@@ -382,3 +382,11 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 ### b05-higashimurayama-sake-lees
 
 - Arrival, half-day → b05-higashimurayama-sake-lees-toshimaya: Higashi-Murayama Station. Seibu Railway gives walking access to the brewery and its shop from Higashi-Murayama Station’s east exit. — https://www.seiburailway.jp/railways/fillute/experience/202510-01/
+
+### b05-kokubunji-kokuvege-table
+
+- Arrival, half-day → b05-kokubunji-kokuvege-table-farmers-market: Koigakubo Station. JA names Koigakubo Station for the farmers' market. — https://www.jatm.or.jp/economy/kokubunji.php
+
+### b05-kokubunji-heritage-sweets
+
+- Arrival, half-day → b05-kokubunji-heritage-sweets-annbee: Kokubunji Station South Exit. Marui gives the south-exit approach to the building that houses Annbē. — https://www.0101.co.jp/062/access/

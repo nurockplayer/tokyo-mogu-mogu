@@ -413,3 +413,23 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 
 - Arrival, half-day → hachioji-takiyama-roadside-station: Michi-no-Eki Hachiōji Takiyama Iriguchi bus stop. Hachioji City names the roadside station entrance stop for the Takiyama roadside station. — https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/003/p006476.html
 - Arrival, full-day → hachioji-takiyama-roadside-station: Michi-no-Eki Hachiōji Takiyama Iriguchi bus stop. Hachioji City names the roadside station entrance stop for the Takiyama roadside station. — https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/003/p006476.html
+
+### b01-musashino-farm-fruit
+
+- Arrival, half-day → b01-musashino-farm-fruit-shinsenkan-farm: Mitaka Station North Exit. JA gives the station's north-exit approach to Shinsenkan. — https://www.jatm.or.jp/economy/musashino.php
+
+### b01-musashino-udo
+
+- Arrival, half-day → b01-musashino-udo-shinsenkan-udo: Mitaka Station North Exit. JA gives the station's north-exit approach to Shinsenkan. — https://www.jatm.or.jp/economy/musashino.php
+
+### b01-musashino-wheat-udon
+
+- Arrival, half-day → b01-musashino-wheat-udon-shinsenkan-udon: Mitaka Station North Exit. JA gives the station's north-exit approach to Shinsenkan. — https://www.jatm.or.jp/economy/musashino.php
+
+### b01-musashino-hops-beer
+
+- Arrival, half-day → b01-musashino-hops-beer-26k: Musashi-Sakai Station nonowa Exit. The railway-affiliated guide identifies the access from the nonowa exit to Ond, which houses 26K Brewery. — https://chuosuki.jp/9967/
+
+### b01-musashino-souvenir-sweets
+
+- Arrival, half-day → b01-musashino-souvenir-sweets-tokyu: Kichijōji Station. The department store names Kichijōji Station in its access guide. — https://www.tokyu-dept.co.jp/kichijouji/access/

@@ -24,6 +24,7 @@ export const b01MusashinoWheatUdonRecord: JourneyRecord = {
   "location": {"ja":{"area":"武蔵野市","station":"","access":""},"en":{"area":"Musashino","station":"","access":""},"zh-TW":{"area":"武藏野市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "三鷹駅北口", "en": "Mitaka Station North Exit", "zh-TW": "三鷹站北口"}, "spotId": "b01-musashino-wheat-udon-shinsenkan-udon", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b01-musashino-wheat-udon-shinsenkan-udon",
@@ -82,6 +83,7 @@ export const b01MusashinoWheatUdonRecord: JourneyRecord = {
     "location": {"ja":{"region":"武蔵野市","station":""},"en":{"region":"Musashino","station":""},"zh-TW":{"region":"武藏野市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "JA Tokyo Musashi – Musashino Shinsenkan", "url": "https://www.jatm.or.jp/economy/musashino.php", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-11": {"name":"Musashino Tourism Organization — 武蔵野地粉うどん","url":"https://musashino-kanko.com/udon/","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b01 editorial itinerary — timing and order estimates, not a timetable","url":"https://musashino-kanko.com/udon/","sourceType":"manual","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"}
   },

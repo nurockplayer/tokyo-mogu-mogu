@@ -24,6 +24,7 @@ export const b02OmeKonnyakuRecord: JourneyRecord = {
   "location": {"ja":{"area":"青梅市","station":"","access":""},"en":{"area":"Ome","station":"","access":""},"zh-TW":{"area":"青梅市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "御嶽駅", "en": "Mitake Station", "zh-TW": "御嶽站"}, "spotId": "b02-ome-konnyaku-noshikon", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b02-ome-konnyaku-noshikon",
@@ -41,6 +42,7 @@ export const b02OmeKonnyakuRecord: JourneyRecord = {
   },
   "spots": {
     "b02-ome-konnyaku-noshikon": {
+      "visitorSourceId": "admission-access",
       "presentation": {
         "id": "b02-ome-konnyaku-noshikon",
         "regionId": "ome",
@@ -80,6 +82,7 @@ export const b02OmeKonnyakuRecord: JourneyRecord = {
     "location": {"ja":{"region":"青梅市","station":""},"en":{"region":"Ome","station":""},"zh-TW":{"region":"青梅市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Noshikon Honpo – shop and access", "url": "https://www.noshikon.com/%E5%BA%97%E8%88%97%E6%A6%82%E8%A6%81/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-28": {"name":"日本観光振興協会 — 青梅市のこんにゃく","url":"https://www.japan47go.travel/ja/detail/a769f2f6-017d-4683-9c83-c8b9f353f414","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b02 editorial itinerary — timing and order estimates, not a timetable","url":"https://www.japan47go.travel/ja/detail/a769f2f6-017d-4683-9c83-c8b9f353f414","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}
   },

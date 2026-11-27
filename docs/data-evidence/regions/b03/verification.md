@@ -404,3 +404,64 @@ Retrieved during this run: 2026-11-27 JST. The linked pages were opened and chec
 
 - Arrival, half-day → b03-chofu-yokai-sweets-kitaro: Chofu Station. The city links Chofu Station to the relocated Kitaro Chaya in the Tenjin-dori shopping street. — https://www.city.chofu.lg.jp/040040/p023079.html
 - Official destination, b03-chofu-yokai-sweets-kitaro: The operator lists the shop and takeaway location separately from the annex cafe. — https://kitaro-chaya.jp/free/access
+
+## S1a publication admission round 2 (#441)
+
+Retrieved during this run: 2026-11-27 JST. Access and visitor observations retain `needs_confirmation`. Check visit availability and transport before departure.
+
+### b03-akishima-groundwater
+
+- Arrival, half-day → b03-akishima-groundwater-refill: Akishima Station South Exit. The city locates the public water refill spot at the south exit. — https://www.city.akishima.lg.jp/shisei/shisetsu/1008441/1007546.html
+
+### b03-machida-coffee
+
+- Arrival, half-day → b03-machida-coffee-gallery: JR Machida Station. The city gives the walking approach from JR Machida Station to the gallery inside Poppo Machida. Check stock with the gallery. — https://www.city.machida.tokyo.jp/kanko/miru_aso/turisutogyarari.html
+
+### b03-machida-gyoza
+
+- Arrival, half-day → b03-machida-gyoza-gallery: JR Machida Station. The city gives the walking approach from JR Machida Station to the gallery inside Poppo Machida. Check stock with the gallery. — https://www.city.machida.tokyo.jp/kanko/miru_aso/turisutogyarari.html
+
+### b03-machida-hana-yuzu
+
+- Arrival, half-day → b03-machida-hana-yuzu-gallery: JR Machida Station. The city gives the walking approach from JR Machida Station to the gallery inside Poppo Machida. Check stock with the gallery. — https://www.city.machida.tokyo.jp/kanko/miru_aso/turisutogyarari.html
+
+### b03-machida-honey
+
+- Arrival, half-day → b03-machida-honey-gallery: JR Machida Station. The city gives the walking approach from JR Machida Station to the gallery inside Poppo Machida. Check stock with the gallery. — https://www.city.machida.tokyo.jp/kanko/miru_aso/turisutogyarari.html
+
+### b03-machida-local-wagashi
+
+- Arrival, half-day → b03-machida-local-wagashi-gallery: JR Machida Station. The city gives the walking approach from JR Machida Station to the gallery inside Poppo Machida. Check stock with the gallery. — https://www.city.machida.tokyo.jp/kanko/miru_aso/turisutogyarari.html
+
+### b03-machida-sausages
+
+- Arrival, half-day → b03-machida-sausages-gallery: JR Machida Station. The city gives the walking approach from JR Machida Station to the gallery inside Poppo Machida. Check stock with the gallery. — https://www.city.machida.tokyo.jp/kanko/miru_aso/turisutogyarari.html
+
+### b03-machida-silk-melon
+
+- Arrival, half-day → b03-machida-silk-melon-gallery: JR Machida Station. The city gives the walking approach from JR Machida Station to the gallery inside Poppo Machida. Check stock with the gallery. — https://www.city.machida.tokyo.jp/kanko/miru_aso/turisutogyarari.html
+
+### b03-machida-farm-table
+
+- Arrival, half-day → b03-machida-farm-table-gallery: JR Machida Station. The city gives the walking approach from JR Machida Station to the gallery inside Poppo Machida. Check stock with the gallery. — https://www.city.machida.tokyo.jp/kanko/miru_aso/turisutogyarari.html
+
+### b03-machida-fermentation
+
+- Arrival, half-day → b03-machida-fermentation-gallery: JR Machida Station. The city gives the walking approach from JR Machida Station to the gallery inside Poppo Machida. Check stock with the gallery. — https://www.city.machida.tokyo.jp/kanko/miru_aso/turisutogyarari.html
+
+### b03-chofu-beer
+
+- Arrival, half-day → b03-chofu-beer-tegamisha: Nishi-Chōfu Station. The operator names Nishi-Chōfu Station in its walking approach. — https://tegamisha.com/news/news-6111-2-2-2/
+- Official destination, b03-chofu-beer-tegamisha: The operator identifies the brewery as a pub with on-site service and takeout. — https://tegamisha.com/news_cat/tegamisha-brewery/
+
+### b03-machida-zenjimaru
+
+- Arrival, half-day → b03-machida-zenjimaru-liquor: Machida Yūbinkyoku-mae bus stop. The association names the stop for the liquor cooperative. — https://machida-guide.or.jp/post-1142/
+
+### b03-machida-rice-sake
+
+- Arrival, half-day → b03-machida-rice-sake-liquor: Machida Yūbinkyoku-mae bus stop. The association names the stop for the liquor cooperative. — https://machida-guide.or.jp/post-1142/
+
+### b03-machida-nanakuniyama
+
+- Arrival, half-day → b03-machida-nanakuniyama-museum: Yakushigaoka bus stop. The city directs visitors to the museum from Yakushigaoka bus stop. — https://www.city.machida.tokyo.jp/kanko/sangyo/nougyo/shimintonou/agri02.html

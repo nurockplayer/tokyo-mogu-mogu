@@ -108,6 +108,7 @@ export const b05KokubunjiHeritageSweetsRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "国分寺駅南口", "en": "Kokubunji Station South Exit", "zh-TW": "國分寺站南口"}, "spotId": "b05-kokubunji-heritage-sweets-annbee", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b05-kokubunji-heritage-sweets-annbee",
@@ -305,6 +306,7 @@ export const b05KokubunjiHeritageSweetsRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Kokubunji Marui – store access", "url": "https://www.0101.co.jp/062/access/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-33": {
       "name": "こだわり - 社会福祉法人AnnBee",
       "url": "https://annbee-sweets.com/concept.html",
