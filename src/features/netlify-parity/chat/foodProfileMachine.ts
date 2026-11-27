@@ -342,7 +342,7 @@ export function foodProfileReducer(
   }
 }
 
-const CATEGORY_BY_QUESTION: Record<FoodProfileQuestionKey, DietaryRestriction> = {
+export const CATEGORY_BY_QUESTION: Record<FoodProfileQuestionKey, DietaryRestriction> = {
   allergy: 'allergy',
   diet: 'vegetarian-vegan',
   religion: 'religious',
@@ -353,9 +353,15 @@ export function foodProfileToDurableProfile(
   state: Pick<FoodProfileConversationState, 'answers' | 'customAnswers'>,
   savedAt = new Date().toISOString(),
 ): FoodProfile {
-  const dietary = FOOD_PROFILE_QUESTIONS.filter((question) =>
-    state.answers[question.key].some((value) => value !== question.noneValue),
-  ).map((question) => CATEGORY_BY_QUESTION[question.key]);
+  const dietary: DietaryRestriction[] = [];
+  const dietarySelections: NonNullable<FoodProfile['dietarySelections']> = {};
+  for (const question of FOOD_PROFILE_QUESTIONS) {
+    const values = selectedRestrictionValues(state, question.key);
+    if (values.length === 0) continue;
+    const category = CATEGORY_BY_QUESTION[question.key];
+    dietary.push(category);
+    dietarySelections[category] = values;
+  }
   const dietaryOther = FOOD_PROFILE_QUESTIONS.flatMap((question) =>
     state.customAnswers[question.key].filter((custom) =>
       state.answers[question.key].includes(`custom:${custom}`),
@@ -370,6 +376,7 @@ export function foodProfileToDurableProfile(
   return {
     dietary,
     dietaryOther,
+    ...(dietary.length ? { dietarySelections } : {}),
     hasNoRestrictions,
     savedAt,
     version: 1,

@@ -31,6 +31,8 @@ export interface FoodProfile {
   dietary: DietaryRestriction[];
   /** Free-text note for other restrictions / foods the user cannot eat. */
   dietaryOther: string;
+  /** Selected Food Profile option IDs and custom answers, grouped by restriction. */
+  dietarySelections?: Partial<Record<DietaryRestriction, string[]>>;
   /** "No restrictions" skip path; mutually exclusive with `dietary`. */
   hasNoRestrictions: boolean;
   /** ISO 8601 timestamp of when the profile was created or last edited. */
@@ -90,6 +92,17 @@ export function isFoodProfile(value: unknown): value is FoodProfile {
   }
   if (v.hasNoRestrictions && (v.dietary.length > 0 || v.dietaryOther.trim().length > 0)) {
     return false;
+  }
+  if (v.dietarySelections !== undefined) {
+    if (!v.dietarySelections || typeof v.dietarySelections !== 'object' || Array.isArray(v.dietarySelections)) {
+      return false;
+    }
+    if (!Object.entries(v.dietarySelections).every(([category, values]) =>
+      (v.dietary as DietaryRestriction[]).includes(category as DietaryRestriction)
+      && Array.isArray(values) && values.every((value) => typeof value === 'string'),
+    )) {
+      return false;
+    }
   }
   return true;
 }

@@ -259,6 +259,7 @@ describe('Netlify Food Profile conversation choreography', () => {
     expect(foodProfileToDurableProfile(state, '2026-08-23T00:00:00.000Z')).toEqual({
       dietary: ['allergy', 'religious', 'dislike'],
       dietaryOther: '八角',
+      dietarySelections: { allergy: ['egg'], religious: ['halal'], dislike: ['custom:八角'] },
       hasNoRestrictions: false,
       savedAt: '2026-08-23T00:00:00.000Z',
       version: 1,

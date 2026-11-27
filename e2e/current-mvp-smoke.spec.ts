@@ -1,6 +1,7 @@
 import { expect, test, type Page } from '@playwright/test';
 import { checkJourneyAdmission, resolveJourneyVisitorSource } from '../src/data/journey-admission';
 import { JOURNEY_RECORDS } from '../src/data/journey-records';
+import { spotPhraseStaffNotice, strings } from '../src/i18n/resources';
 
 const publicationDate = new Date('2026-11-27T13:00:00Z');
 const publication = JOURNEY_RECORDS.map((record) => ({
@@ -193,6 +194,43 @@ const persistedFoodProfile = {
   savedAt: '2026-08-24T00:00:00.000Z',
   version: 1,
 };
+
+test('#443 opens the Spot phrase card offline at 375px in each locale', async ({ page, context }, testInfo) => {
+  const { record, defaultVariant } = admitted!;
+  const path = `/spot/${defaultVariant!.primarySpotId}?candidateId=${record.journey.id}`;
+  await page.clock.setFixedTime(publicationDate);
+  await page.addInitScript((profile) => {
+    localStorage.setItem('tmm:foodProfile:v1', JSON.stringify(profile));
+  }, {
+    ...persistedFoodProfile,
+    dietary: ['allergy', 'religious'],
+    dietarySelections: { allergy: ['egg', 'wheat', 'custom:sesame', 'custom:Sumac'], religious: ['pork'] },
+    hasNoRestrictions: false,
+  });
+
+  for (const [locale, wheat] of [['ja', '小麦'], ['en', 'Wheat'], ['zh-TW', '小麥']] as const) {
+    await page.goto(path);
+    await page.evaluate((value) => localStorage.setItem('tmm:locale', value), locale);
+    await page.reload();
+    const card = page.locator('[data-screen="spot"][data-screen-active="true"] .spot-phrase');
+    await context.setOffline(true);
+    await card.getByText(strings[locale].spotPhraseOpen, { exact: true }).click();
+    const traveller = card.locator('p').first();
+    const staff = card.locator('[lang="ja"]');
+    await expect(traveller).toContainText(wheat);
+    await expect(traveller).toContainText(strings[locale].spotPhraseCustomNotice);
+    await expect(staff).toContainText('小麦');
+    await expect(staff).toContainText('ごま');
+    await expect(staff).toContainText('Sumac');
+    await expect(staff).toContainText(spotPhraseStaffNotice);
+    await expectNoHorizontalOverflow(page);
+    if (locale !== 'en') {
+      await card.scrollIntoViewIfNeeded();
+      await page.screenshot({ path: testInfo.outputPath(`spot-phrase-${locale}.png`), animations: 'disabled' });
+    }
+    await context.setOffline(false);
+  }
+});
 
 async function seedPersistedProfile(page: Page): Promise<void> {
   await page.addInitScript((profile) => {
