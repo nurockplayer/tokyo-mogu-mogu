@@ -25,6 +25,7 @@ export const b01TachikawaEggsRecord: JourneyRecord = {
   "location": {"ja":{"area":"立川市","station":"","access":""},"en":{"area":"Tachikawa","station":"","access":""},"zh-TW":{"area":"立川市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "立川駅", "en": "Tachikawa Station", "zh-TW": "立川站"}, "spotId": "b01-tachikawa-eggs-nikko-eggs", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b01-tachikawa-eggs-ito",
@@ -124,6 +125,7 @@ export const b01TachikawaEggsRecord: JourneyRecord = {
     "location": {"ja":{"region":"立川市","station":""},"en":{"region":"Tachikawa","station":""},"zh-TW":{"region":"立川市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Hotel Nikko Tachikawa Tokyo – access", "url": "https://hotelnikko-tachikawatokyo.jp/access/", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-21": {"name":"Tachikawa Tourism and Convention Association — 立川卵プリン","url":"https://tokyo-tachikawa.org/tourism/tourism-4247/","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "source-22": {"name":"Tachikawa Tourism and Convention Association — 叶烏プレミアム 東京うこっけい卵","url":"https://tokyo-tachikawa.org/tourism/tourism-4265/","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b01 editorial itinerary — timing and order estimates, not a timetable","url":"https://tokyo-tachikawa.org/tourism/tourism-4247/","sourceType":"manual","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"}

@@ -397,3 +397,27 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 ### b13-hachijo-jersey-dairy
 
 - Arrival, half-day → b13-hachijo-jersey-dairy-jersey: Sokodo Port. The association gives a road approach from Sokodo Port. Confirm the landing port and onward transport. — https://www.hachijo.gr.jp/restaurant/jerseycafe/
+
+## S1a publication admission round 3 (#441)
+
+Retrieved during this run: 2026-11-28 JST. Access and visitor observations retain `needs_confirmation`. Confirm service, onward access and visit availability before departure.
+
+### b13-hachijo-island-seafood
+
+- Arrival, half-day → b13-hachijo-island-seafood-han: Sokodo Port. The association gives a road approach from Sokodo Port to Han. Confirm the operating ferry port and onward transport. — https://www.hachijo.gr.jp/restaurant/han/
+
+### b13-hachijo-kusaya
+
+- Arrival, half-day → b13-hachijo-kusaya-osada: Sokodo Port. The association gives a road approach from Sokodo Port and asks visitors to reserve factory tours. Confirm the operating ferry port and onward transport. — https://www.hachijo.gr.jp/goods/osada/
+
+### b13-hachijo-ashitaba
+
+- Arrival, half-day → b13-hachijo-ashitaba-uohachiya: Sokodo Port. The association gives a road approach from Sokodo Port to Uohachiya. Confirm the operating ferry port and onward transport. — https://www.hachijo.gr.jp/restaurant/uohachiya/
+
+### b13-hachijo-farm-table
+
+- Arrival, half-day → b13-hachijo-farm-table-ja: Sokodo Port. The association gives a road approach from Sokodo Port to the JA shop. Confirm the operating ferry port and onward transport. — https://www.hachijo.gr.jp/goods/ja-nakanogo/
+
+### b13-hachijo-island-shochu
+
+- Arrival, half-day → b13-hachijo-island-shochu-shuzo: Sokodo Port. The association gives a road approach from Sokodo Port and lists tours by reservation. Confirm the operating ferry port and onward transport. — https://www.hachijo.gr.jp/goods/hachijojimasyuzo_shochu-brewing/

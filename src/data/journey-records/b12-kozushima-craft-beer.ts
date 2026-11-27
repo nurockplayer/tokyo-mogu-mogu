@@ -107,6 +107,7 @@ export const b12KozushimaCraftBeerRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "ferry-terminal", "name": {"ja": "神津島港（前浜港）", "en": "Kozushima Port (Maehama)", "zh-TW": "神津島港（前濱港）"}, "spotId": "b12-kozushima-craft-beer-hyuga", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b12-kozushima-craft-beer-hyuga",
@@ -263,6 +264,7 @@ export const b12KozushimaCraftBeerRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Kozushima Tourism Association – lodging and shop map", "url": "https://kozushima.com/newsite/wp-content/uploads/2022/10/202507.pdf", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-0": {
       "name": "神津島エコツーリズム推進協議会",
       "url": "https://kozushima.com/ecotourism/contents.html",

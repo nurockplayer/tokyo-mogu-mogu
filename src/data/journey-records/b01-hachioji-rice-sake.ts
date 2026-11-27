@@ -25,6 +25,7 @@ export const b01HachiojiRiceSakeRecord: JourneyRecord = {
   "location": {"ja":{"area":"八王子市","station":"","access":""},"en":{"area":"Hachioji","station":"","access":""},"zh-TW":{"area":"八王子市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "八王子駅", "en": "Hachioji Station", "zh-TW": "八王子站"}, "spotId": "b01-hachioji-rice-sake-city-brewery", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b01-hachioji-rice-sake-ozawa",
@@ -124,6 +125,7 @@ export const b01HachiojiRiceSakeRecord: JourneyRecord = {
     "location": {"ja":{"region":"八王子市","station":""},"en":{"region":"Hachioji","station":""},"zh-TW":{"region":"八王子市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Tokyo Hachioji Shuzo – brewery and shop", "url": "https://www.tokyo-hachioji-shuzo.jp/", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-9": {"name":"Maihime — 髙尾の天狗","url":"https://maihime.co.jp/products/takao/","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "source-27": {"name":"Hachioji City — 八王子産の農作物","url":"https://www.city.hachioji.tokyo.jp/hachioji-kids/004/005/p020557.html","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "source-41": {"name":"Ozawa Shuzōjō — 小澤酒造場","url":"https://www.kuwanomiyako.jp/","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},

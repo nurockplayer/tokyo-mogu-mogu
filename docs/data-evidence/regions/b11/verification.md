@@ -475,3 +475,23 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 ### b11-toshima-groves-harvests
 
 - Arrival, half-day → b11-toshima-groves-harvests-ja: Toshima Port. The village walking map places Toshima Port and the agricultural cooperative store on the same island walking network. — https://www.toshimamura.org/fs/1/3/0/4/6/4/_/___________.pdf
+
+## S1a publication admission round 3 (#441)
+
+Retrieved during this run: 2026-11-28 JST. Access and visitor observations retain `needs_confirmation`. Confirm service, onward access and visit availability before departure.
+
+### b11-oshima-dairy
+
+- Arrival, half-day → b11-oshima-dairy-buratto: Buratto House-mae bus stop. The bus operator names the stop directly outside Buratto House. Check whether the seasonal route is running. — https://www.oshima-bus.com/sightseeing.php
+
+### b11-oshima-seafood
+
+- Arrival, half-day → b11-oshima-seafood-umi-ichiba: Motomachi Port bus stop. The bus operator gives a walking approach from this stop to Umi Ichiba. — https://www.oshima-bus.com/sightseeing.php
+
+### b11-niijima-seafood-table
+
+- Arrival, half-day → b11-niijima-seafood-table-miyatora: Nobushi Port. The association’s Shikinejima map identifies Nobushi Port and lists Family Store Miyatora as point 26 on the same island. — https://shikinejima.tokyo/cms/wp-content/uploads/2020/09/wifi.pdf
+
+### b11-niijima-tataki
+
+- Arrival, half-day → b11-niijima-tataki-miyatora: Nobushi Port. The association’s Shikinejima map identifies Nobushi Port and lists Family Store Miyatora as point 26 on the same island. — https://shikinejima.tokyo/cms/wp-content/uploads/2020/09/wifi.pdf

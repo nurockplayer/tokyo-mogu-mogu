@@ -24,6 +24,7 @@ export const b01MusashinoMeadRecord: JourneyRecord = {
   "location": {"ja":{"area":"武蔵野市","station":"","access":""},"en":{"area":"Musashino","station":"","access":""},"zh-TW":{"area":"武藏野市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "吉祥寺駅", "en": "Kichijoji Station", "zh-TW": "吉祥寺站"}, "spotId": "b01-musashino-mead-miuraya", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b01-musashino-mead-miuraya",
@@ -82,6 +83,7 @@ export const b01MusashinoMeadRecord: JourneyRecord = {
     "location": {"ja":{"region":"武蔵野市","station":""},"en":{"region":"Musashino","station":""},"zh-TW":{"region":"武藏野市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Miuraya – shop directory", "url": "https://miuraya.co.jp/shop/", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-12": {"name":"Musashino Premium — 認定商品","url":"https://musashino-premium.com/standard/","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b01 editorial itinerary — timing and order estimates, not a timetable","url":"https://musashino-premium.com/standard/","sourceType":"manual","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"}
   },

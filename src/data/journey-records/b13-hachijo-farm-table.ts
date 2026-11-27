@@ -26,6 +26,7 @@ export const b13HachijoFarmTableRecord: JourneyRecord = {
   "location": {"ja":{"area":"八丈町","station":"","access":""},"en":{"area":"Hachijo Town","station":"","access":""},"zh-TW":{"area":"八丈町","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "ferry-terminal", "name": {"ja": "底土港", "en": "Sokodo Port", "zh-TW": "底土港"}, "spotId": "b13-hachijo-farm-table-ja", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b13-hachijo-farm-table-ja",
@@ -93,6 +94,7 @@ export const b13HachijoFarmTableRecord: JourneyRecord = {
     "location": {"ja":{"region":"八丈町","station":""},"en":{"region":"Hachijo Town","station":""},"zh-TW":{"region":"八丈町","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Hachijojima Tourism Association – JA Sakaue shop", "url": "https://www.hachijo.gr.jp/goods/ja-nakanogo/", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-13": {
       "name": "特産・名産品 - 八丈島観光協会",
       "url": "https://www.hachijo.gr.jp/specials/specialty-products/",

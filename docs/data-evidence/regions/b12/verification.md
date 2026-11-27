@@ -376,3 +376,11 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 ### b12-miyake-island-sweets
 
 - Arrival, half-day → b12-miyake-island-sweets-okataro: Nadādo bus stop. The island tourism guide names the closest bus stop to Okatarō. — https://www.miyakejima.gr.jp/eatbuy/okatarou-honten/
+
+## S1a publication admission round 3 (#441)
+
+Retrieved during this run: 2026-11-28 JST. Access and visitor observations retain `needs_confirmation`. Confirm service, onward access and visit availability before departure.
+
+### b12-kozushima-craft-beer
+
+- Arrival, half-day → b12-kozushima-craft-beer-hyuga: Kozushima Port (Maehama). The association’s map identifies the brewery and Maehama in the island’s main village. Confirm the operating ferry port on the day. — https://kozushima.com/newsite/wp-content/uploads/2022/10/202507.pdf

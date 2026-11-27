@@ -25,6 +25,7 @@ export const b01TachikawaCraftBeerRecord: JourneyRecord = {
   "location": {"ja":{"area":"立川市","station":"","access":""},"en":{"area":"Tachikawa","station":"","access":""},"zh-TW":{"area":"立川市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "立飛本社前", "en": "Tachihi Honsha-mae bus stop", "zh-TW": "立飛總公司前公車站"}, "spotId": "b01-tachikawa-craft-beer-tachihi", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b01-tachikawa-craft-beer-tachihi",
@@ -124,6 +125,7 @@ export const b01TachikawaCraftBeerRecord: JourneyRecord = {
     "location": {"ja":{"region":"立川市","station":""},"en":{"region":"Tachikawa","station":""},"zh-TW":{"region":"立川市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Tachihi Brewery – access", "url": "https://www.tachihibrewery.com/view/page/about", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-16": {"name":"Tachikawa Tourism and Convention Association — SAKAMICHI BREWING","url":"https://tokyo-tachikawa.org/spot/8442/","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "source-24": {"name":"Tachikawa Tourism and Convention Association — 立飛麦酒醸造所","url":"https://tokyo-tachikawa.org/walking-spot/walking-spot-11573","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b01 editorial itinerary — timing and order estimates, not a timetable","url":"https://tokyo-tachikawa.org/spot/8442/","sourceType":"manual","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"}

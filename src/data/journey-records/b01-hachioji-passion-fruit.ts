@@ -25,6 +25,7 @@ export const b01HachiojiPassionFruitRecord: JourneyRecord = {
   "location": {"ja":{"area":"八王子市","station":"","access":""},"en":{"area":"Hachioji","station":"","access":""},"zh-TW":{"area":"八王子市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "下犬目", "en": "Shimo-Inume bus stop", "zh-TW": "下犬目公車站"}, "spotId": "b01-hachioji-passion-fruit-garden-center", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b01-hachioji-passion-fruit-fureai",
@@ -124,6 +125,7 @@ export const b01HachiojiPassionFruitRecord: JourneyRecord = {
     "location": {"ja":{"region":"八王子市","station":""},"en":{"region":"Hachioji","station":""},"zh-TW":{"region":"八王子市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "JA Hachioji – Garden Center", "url": "https://ja-hachioji.or.jp/store/engei/", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-5": {"name":"Hachioji Passion Fruit Growers Association — 加工品のご紹介","url":"https://hachioji-passion.tokyo/kakouhin/","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "source-6": {"name":"hachioji-passion.tokyo","url":"https://hachioji-passion.tokyo/shop/","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "source-30": {"name":"Hachioji City — 八王子パッションフルーツ","url":"https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/001/001/p024147.html","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
