@@ -16,8 +16,9 @@ describe('Spot phrase', () => {
       ['en', 'Egg', 'Wheat', 'Pork'],
       ['zh-TW', '蛋', '小麥', '豬肉'],
     ] as const) {
-      const [question, allergies, religious] = buildSpotPhrase(profile, locale).split('\n');
+      const [question, equipment, allergies, religious] = buildSpotPhrase(profile, locale).split('\n');
       expect(question).toBe(strings[locale].spotPhrasePersonal);
+      expect(equipment).toBe(strings[locale].spotPhraseSharedEquipment);
       for (const ingredient of [egg, wheat, 'そば']) expect(allergies).toContain(ingredient);
       expect(religious).toContain(pork);
     }
@@ -31,7 +32,18 @@ describe('Spot phrase', () => {
     }
   });
 
-  it('keeps saved categories and free text from older profiles', () => {
+  it('keeps the general question and lists dislikes when they are the only selections', () => {
+    const profile = foodProfileToDurableProfile({
+      answers: { allergy: [], diet: [], religion: [], dislike: ['custom:八角'] },
+      customAnswers: { allergy: [], diet: [], religion: [], dislike: ['八角'] },
+    });
+    const [question, dislikes] = buildSpotPhrase(profile, 'ja').split('\n');
+    expect(question).toBe(strings.ja.spotPhraseGeneral);
+    expect(dislikes).toContain(strings.ja.spotPhraseDislikes);
+    expect(dislikes).toContain('八角');
+  });
+
+  it('keeps saved categories and treats older free-text notes as restrictions', () => {
     const phrase = buildSpotPhrase({
       ...createDefaultFoodProfile(),
       dietary: ['allergy'],
@@ -40,5 +52,12 @@ describe('Spot phrase', () => {
     }, 'ja');
     expect(phrase).toContain(strings.ja.spotPhraseAllergies);
     expect(phrase).toContain('そば');
+    const [question, equipment] = buildSpotPhrase({
+      ...createDefaultFoodProfile(),
+      dietaryOther: 'そば',
+      hasNoRestrictions: false,
+    }, 'ja').split('\n');
+    expect(question).toBe(strings.ja.spotPhrasePersonal);
+    expect(equipment).toBe(strings.ja.spotPhraseSharedEquipment);
   });
 });

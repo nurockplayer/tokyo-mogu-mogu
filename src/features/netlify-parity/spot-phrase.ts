@@ -32,9 +32,13 @@ export function buildSpotPhrase(profile: FoodProfile | null, locale: Locale): st
     const list = new Intl.ListFormat(locale, { type: 'unit' }).format(names);
     lines.push(locale === 'en' ? `${heading}: ${list}` : `${heading}：${list}`);
   }
-  const note = profile?.dietaryOther.trim();
-  if (!profile?.dietarySelections && note) {
+  const note = profile?.dietarySelections ? '' : profile?.dietaryOther.trim();
+  if (note) {
     lines.push(locale === 'en' ? `${copy.spotPhraseOther}: ${note}` : `${copy.spotPhraseOther}：${note}`);
   }
-  return lines.length ? [copy.spotPhrasePersonal, ...lines].join('\n') : copy.spotPhraseGeneral;
+  const hasRestrictions = note || profile?.dietary.some((category) => category !== 'dislike');
+  const questions = hasRestrictions
+    ? [copy.spotPhrasePersonal, copy.spotPhraseSharedEquipment]
+    : [copy.spotPhraseGeneral];
+  return [...questions, ...lines].join('\n');
 }
