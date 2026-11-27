@@ -302,6 +302,7 @@ describe('municipalities and data-driven journey presentation (#412)', () => {
         expect(html).toContain('data-verification-status="needs_confirmation"');
         const spotHtml = renderToStaticMarkup(createElement(SpotScreen, {
           active: true, copy: referenceCopy(locale), locale, spot: p.currentSpots['synthetic-spot'],
+          foodProfile: null,
           onBack: () => {}, onNavigate: () => {},
         }));
         expect(spotHtml).toContain('href="https://example.test/tachikawa"');
