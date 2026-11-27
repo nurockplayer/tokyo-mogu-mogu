@@ -29,7 +29,7 @@
 | S2-10 | S2 / #443 | Adding a journey needs data changes only. | Add a journey using data changes only and check it in the running catalog. | not yet | No current smoke case adds a journey through data changes only and verifies it in the running catalog. |
 | S2-11 | S2 / #443 | When a primary stop is unavailable the Route offers its alternative (Astra advice, #404 c7219291392). | In the running product, open a journey whose primary stop is unavailable and inspect Route. | pass | [S2 browser evidence](#s2-browser-evidence) |
 | S2-12 | S2 / #443 | A reviewed ask-the-staff allergen/ingredients phrase card (ja/en/zh-TW + Japanese to show staff) is reachable from Spot. | In the running product, reach the reviewed phrase card from Spot in each locale and verify the Japanese staff phrase. | pass | [S2 browser evidence](#s2-browser-evidence) |
-| S2-13 | S2 / #443 | Live KiKi Figma inspected first. | Inspect the current connected KiKi Figma before editing the touched screens. | not yet | No live Figma inspection was performed during this acceptance run. |
+| S2-13 | S2 / #443 | Live KiKi Figma inspected first. | Inspect the current connected KiKi Figma before editing the touched screens. | n/a | The Owner confirmed on 2026-11-28 JST that S2 reused current-main screens and had no new design. The local bridge listed no connected file. [Lead decision on #461](https://github.com/nurockplayer/tokyo-mogu-mogu/issues/461#issuecomment-7228185714) |
 | S3-1 | S3 / backlog S3 | Save preferences, a journey and a Spot, then reload and reopen them. | In the running product, save each item, reload, and reopen it in the same browser. | not yet | |
 | S3-2 | S3 / backlog S3 | Remove journey and Spot saves independently. | In the running product, remove each save separately and inspect the other. | not yet | |
 | S3-3 | S3 / backlog S3 | Import an approved legacy route on the same origin and show a withdrawn saved item as unavailable. | In the running product, import the approved route and open the withdrawn save. | not yet | |
@@ -59,7 +59,7 @@ tachi-run --image tachi-run-playwright --out test-results -- sh -ec 'pnpm exec p
 
 ## S1 browser evidence
 
-`S1-2 / S1b-3 hides a journey without a sourced arrival point in <locale>` in [e2e/current-mvp-smoke.spec.ts](../../../e2e/current-mvp-smoke.spec.ts#L84) passed in ja, en, and zh-TW. Playwright reported `28 passed (2.3m)` on 2026-11-28 at 04:37 JST. The command exports screenshots to `test-results`.
+`S1-2 / S1b-3 hides a journey without a sourced arrival point in <locale>` in [e2e/current-mvp-smoke.spec.ts](../../../e2e/current-mvp-smoke.spec.ts#L145) passed in ja, en, and zh-TW. Playwright reported `28 passed (2.3m)` on 2026-11-28 at 04:37 JST. The command exports screenshots to `test-results`.
 
 ```sh
 tachi-run --image tachi-run-playwright --out test-results -- sh -ec 'pnpm exec playwright install chromium --only-shell && pnpm typecheck && pnpm lint && pnpm test && pnpm build && pnpm exec playwright test e2e/current-mvp-smoke.spec.ts'
