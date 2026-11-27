@@ -25,6 +25,7 @@ export const b01TachikawaOrchardSweetsRecord: JourneyRecord = {
   "location": {"ja":{"area":"立川市","station":"","access":""},"en":{"area":"Tachikawa","station":"","access":""},"zh-TW":{"area":"立川市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "砂川五差路", "en": "Sunagawa Gosaro bus stop", "zh-TW": "砂川五岔路巴士站"}, "spotId": "b01-tachikawa-orchard-sweets-minore-fruit", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b01-tachikawa-orchard-sweets-minore-fruit",
@@ -43,6 +44,7 @@ export const b01TachikawaOrchardSweetsRecord: JourneyRecord = {
   },
   "spots": {
     "b01-tachikawa-orchard-sweets-minore-fruit": {
+      "visitorSourceId": "admission-access",
       "presentation": {
         "id": "b01-tachikawa-orchard-sweets-minore-fruit",
         "regionId": "tachikawa",
@@ -124,6 +126,7 @@ export const b01TachikawaOrchardSweetsRecord: JourneyRecord = {
     "location": {"ja":{"region":"立川市","station":""},"en":{"region":"Tachikawa","station":""},"zh-TW":{"region":"立川市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "JA東京みどり みのーれ立川 アクセス", "url": "https://ja-tokyomidori.or.jp/minore/access/index.html", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-1": {"name":"JA Tokyo Agripark — ファーマーズセンターみのーれ立川","url":"https://agripark.tokyo/matching/search/store.php?id=tokyo_midori_minole_tachikawa","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "source-14": {"name":"Tachikawa Agricultural Research Group — 立川市の農産物","url":"https://tachikawashi-noukenkai.com/harvests/","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "source-20": {"name":"Tachikawa Tourism and Convention Association — 立川ブルーベリーシフォン","url":"https://tokyo-tachikawa.org/tourism/tourism-4242/","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},

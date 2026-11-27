@@ -293,3 +293,46 @@ Municipality: mikurajima. Theme: Mikurajima fruit and salt gelato.
 - https://www.gotokozu.jp/ — HTTP Error 403: Forbidden; omitted, no retry.
 - https://tokyogrown.jp/node/571772 — HTTP Error 403: Forbidden; omitted, no retry.
 - https://290.tokyo/ — HTTP 200; fetched but no additional published fact.
+
+## S1a publication admission (#441)
+
+Retrieved during this run: 2026-11-27 JST. The linked pages were opened and checked for the access or visitor information described below. These observations retain needs_confirmation. No venue hours, prices, reservations, or availability were confirmed.
+
+### b12-kozushima-ashitaba-harvest
+
+- Arrival, half-day → b12-kozushima-ashitaba-harvest-kuroshio: Maehama (Kozushima) Port passenger terminal. The tourism association gives walking access from Kozushima Port. The Tokyo port guide identifies it as Maehama Port. Check the ferry operator for the day’s arrival port. — https://kozushima.com/shop/kau/miyage/889/
+- Official destination, b12-kozushima-ashitaba-harvest-kuroshio: The tourism association’s visitor listing identifies Kuroshio Shokai and maps its location. — https://kozushima.com/shop/kau/miyage/889/
+- Port identity and visitor terminal: Tokyo Metropolitan Government lists Kozushima Port as Maehama Port — https://www.islandaccess.metro.tokyo.lg.jp/stations/maehama_port/
+
+### b12-kozushima-passion-fruit
+
+- Arrival, half-day → b12-kozushima-passion-fruit-kuroshio: Maehama (Kozushima) Port passenger terminal. The tourism association gives walking access from Kozushima Port. The Tokyo port guide identifies it as Maehama Port. Check the ferry operator for the day’s arrival port. — https://kozushima.com/shop/kau/miyage/889/
+- Official destination, b12-kozushima-passion-fruit-kuroshio: The tourism association’s visitor listing identifies Kuroshio Shokai and maps its location. — https://kozushima.com/shop/kau/miyage/889/
+- Port identity and visitor terminal: Tokyo Metropolitan Government lists Kozushima Port as Maehama Port — https://www.islandaccess.metro.tokyo.lg.jp/stations/maehama_port/
+
+### b12-kozushima-seaweed-rice
+
+- Arrival, half-day → b12-kozushima-seaweed-rice-kuroshio: Maehama (Kozushima) Port passenger terminal. The tourism association gives walking access from Kozushima Port. The Tokyo port guide identifies it as Maehama Port. Check the ferry operator for the day’s arrival port. — https://kozushima.com/shop/kau/miyage/889/
+- Official destination, b12-kozushima-seaweed-rice-kuroshio: The tourism association’s visitor listing identifies Kuroshio Shokai and maps its location. — https://kozushima.com/shop/kau/miyage/889/
+- Port identity and visitor terminal: Tokyo Metropolitan Government lists Kozushima Port as Maehama Port — https://www.islandaccess.metro.tokyo.lg.jp/stations/maehama_port/
+
+### b12-kozushima-island-seafood
+
+- Arrival, half-day → b12-kozushima-island-seafood-yocchare-dining: Maehama (Kozushima) Port passenger terminal. The Tokyo port guide identifies the passenger terminal and Yocchare Center at Maehama Port. Check the ferry operator for the day’s arrival port. — https://www.islandaccess.metro.tokyo.lg.jp/stations/maehama_port/
+- Official destination, b12-kozushima-island-seafood-yocchare-dining: The port visitor guide identifies Yocchare Center’s ground-floor shop and upstairs dining. — https://www.islandaccess.metro.tokyo.lg.jp/stations/maehama_port/
+
+### b12-kozushima-sweet-potato
+
+- Arrival, half-day → b12-kozushima-sweet-potato-yocchare: Maehama (Kozushima) Port passenger terminal. The Tokyo port guide identifies the passenger terminal and Yocchare Center at Maehama Port. Check the ferry operator for the day’s arrival port. — https://www.islandaccess.metro.tokyo.lg.jp/stations/maehama_port/
+- Official destination, b12-kozushima-sweet-potato-yocchare: The port visitor guide identifies Yocchare Center’s ground-floor shop and upstairs dining. — https://www.islandaccess.metro.tokyo.lg.jp/stations/maehama_port/
+
+### b12-kozushima-tengusa
+
+- Arrival, half-day → b12-kozushima-tengusa-yocchare: Maehama (Kozushima) Port passenger terminal. The Tokyo port guide identifies the passenger terminal and Yocchare Center at Maehama Port. Check the ferry operator for the day’s arrival port. — https://www.islandaccess.metro.tokyo.lg.jp/stations/maehama_port/
+- Official destination, b12-kozushima-tengusa-yocchare: The port visitor guide identifies Yocchare Center’s ground-floor shop and upstairs dining. — https://www.islandaccess.metro.tokyo.lg.jp/stations/maehama_port/
+
+### b12-kozushima-bonito-ritual
+
+- Arrival, half-day → b12-kozushima-bonito-ritual-shrine: Maehama (Kozushima) Port passenger terminal. The tourism association’s walking guide directs visitors to Mononamina Shrine from Kozushima Port. The Tokyo port guide identifies it as Maehama Port. Check the ferry operator for the day’s arrival port. — https://kozushima.com/tour/tourroute/542/
+- Official destination, b12-kozushima-bonito-ritual-shrine: The tourism association’s mapped itinerary has a named visitor stop for Mononamina Shrine. — https://kozushima.com/tour/tourroute/542/
+- Port identity and visitor terminal: Tokyo Metropolitan Government lists Kozushima Port as Maehama Port — https://www.islandaccess.metro.tokyo.lg.jp/stations/maehama_port/

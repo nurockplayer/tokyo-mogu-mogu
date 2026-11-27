@@ -243,3 +243,47 @@ Municipality: okutama. Theme: Okutama Shiromaru eggs.
 ## Other fetched leads
 
 - https://san-tatsu.jp/spots/562213/ — HTTP 403 Forbidden; no retry; unused.
+
+## S1a publication admission (#441)
+
+Retrieved during this run: 2026-11-27 JST. The linked pages were opened and checked for the access or visitor information described below. These observations retain needs_confirmation. No venue hours, prices, reservations, or availability were confirmed.
+
+### b10-okutama-jisuke-potatoes
+
+- Arrival, half-day → b10-okutama-jisuke-potatoes-kuala: Okutama Station. The cafe’s access directions name JR Okutama Station for its Hikawa Campground site. — https://www.cafekuala.jp/
+- Official destination, b10-okutama-jisuke-potatoes-kuala: The cafe’s own visitor page supplies location and access. — https://www.cafekuala.jp/
+
+### b10-okutama-yuzu
+
+- Arrival, half-day → b10-okutama-yuzu-kuala: Okutama Station. The cafe’s access directions name JR Okutama Station for its Hikawa Campground site. — https://www.cafekuala.jp/
+- Official destination, b10-okutama-yuzu-kuala: The cafe’s own visitor page supplies location and access. — https://www.cafekuala.jp/
+
+### b10-okutama-miso-pickles
+
+- Arrival, half-day → b10-okutama-miso-pickles-shikinoie: Shiromaru Station. The operator’s access guide names Shiromaru Station for the shop. — https://www.okutamas.co.jp/sikinoie/access/
+- Official destination, b10-okutama-miso-pickles-shikinoie: The operator’s directions identify the Shiki no Ie retail location. — https://www.okutamas.co.jp/sikinoie/access/
+
+### b10-hinohara-black-tea
+
+- Arrival, half-day → b10-hinohara-black-tea-yamabukiya: Miyanosawa bus stop. The village tourism association identifies Miyanosawa as the stop in front of the shop. — https://hinohara-kankou.jp/spot/yamabuki-ya/
+- Official destination, b10-hinohara-black-tea-yamabukiya: The village tourism association’s visitor page identifies Yamabukiya and gives its access directions. — https://hinohara-kankou.jp/spot/yamabuki-ya/
+
+### b10-hinohara-farm-table
+
+- Arrival, half-day → b10-hinohara-farm-table-yamabukiya: Miyanosawa bus stop. The village tourism association identifies Miyanosawa as the stop in front of the shop. — https://hinohara-kankou.jp/spot/yamabuki-ya/
+- Official destination, b10-hinohara-farm-table-yamabukiya: The village tourism association’s visitor page identifies Yamabukiya and gives its access directions. — https://hinohara-kankou.jp/spot/yamabuki-ya/
+
+### b10-hinohara-forest-preserves
+
+- Arrival, half-day → b10-hinohara-forest-preserves-yamabukiya: Miyanosawa bus stop. The village tourism association identifies Miyanosawa as the stop in front of the shop. — https://hinohara-kankou.jp/spot/yamabuki-ya/
+- Official destination, b10-hinohara-forest-preserves-yamabukiya: The village tourism association’s visitor page identifies Yamabukiya and gives its access directions. — https://hinohara-kankou.jp/spot/yamabuki-ya/
+
+### b10-hinohara-honey
+
+- Arrival, half-day → b10-hinohara-honey-yamabukiya: Miyanosawa bus stop. The village tourism association identifies Miyanosawa as the stop in front of the shop. — https://hinohara-kankou.jp/spot/yamabuki-ya/
+- Official destination, b10-hinohara-honey-yamabukiya: The village tourism association’s visitor page identifies Yamabukiya and gives its access directions. — https://hinohara-kankou.jp/spot/yamabuki-ya/
+
+### b10-hinohara-yuzu
+
+- Arrival, half-day → b10-hinohara-yuzu-yamabukiya: Miyanosawa bus stop. The village tourism association identifies Miyanosawa as the stop in front of the shop. — https://hinohara-kankou.jp/spot/yamabuki-ya/
+- Official destination, b10-hinohara-yuzu-yamabukiya: The village tourism association’s visitor page identifies Yamabukiya and gives its access directions. — https://hinohara-kankou.jp/spot/yamabuki-ya/

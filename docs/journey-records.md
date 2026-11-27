@@ -87,6 +87,18 @@ Spots use their explicit `officialSource` through the same safe link resolver.
 An absent or unsupported official source keeps the existing unavailable-link
 feedback. Do not invent a Place just to enable that button.
 
+## Publication admission
+
+Run `pnpm data:journey-admission` to list each record's eligibility and gaps.
+For a sourced arrival, add `arrival` to the applicable variant with its transit
+kind, localized name, served Spot ID and official access source ID. An existing
+Spot's dated, source-linked `officialSource` can supply the visitor destination.
+After checking a more specific official visitor page, record its source ID as
+`visitorSourceId` on that Spot. Document the URL, JST retrieval date and what
+each page supports under the journey ID in the batch evidence file. Admission
+uses this metadata independently of the current browse catalog and source
+confirmation statuses.
+
 ## Photography
 
 No image is required. The existing no-photo state preserves screen geometry.

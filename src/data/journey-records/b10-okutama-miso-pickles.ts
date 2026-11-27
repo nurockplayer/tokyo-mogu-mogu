@@ -24,6 +24,7 @@ export const b10OkutamaMisoPicklesRecord: JourneyRecord = {
   "location": {"ja": {"area": "奥多摩町", "station": "", "access": ""}, "en": {"area": "Okutama", "station": "", "access": ""}, "zh-TW": {"area": "奧多摩町", "station": "", "access": ""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "白丸駅", "en": "Shiromaru Station", "zh-TW": "白丸站"}, "spotId": "b10-okutama-miso-pickles-shikinoie", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b10-okutama-miso-pickles-shikinoie",
@@ -37,6 +38,7 @@ export const b10OkutamaMisoPicklesRecord: JourneyRecord = {
   },
   "spots": {
     "b10-okutama-miso-pickles-shikinoie": {
+      "visitorSourceId": "admission-access",
       "presentation": {
         "id": "b10-okutama-miso-pickles-shikinoie",
         "regionId": "okutama",
@@ -84,6 +86,7 @@ export const b10OkutamaMisoPicklesRecord: JourneyRecord = {
     "location": {"ja": {"region": "奥多摩町", "station": ""}, "en": {"region": "Okutama", "station": ""}, "zh-TW": {"region": "奧多摩町", "station": ""}}
   },
   "sources": {
+    "admission-access": {"name": "手づくり工房 四季の家 交通案内", "url": "https://www.okutamas.co.jp/sikinoie/access/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "s0": {"name": "四季の家について", "url": "https://www.okutamas.co.jp/sikinoie/about/", "sourceType": "official_web", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"},
     "editorial": {"name": "b10 editorial itinerary: estimated timing and order, not a timetable", "url": "https://www.okutamas.co.jp/sikinoie/about/", "sourceType": "manual", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"}
   },

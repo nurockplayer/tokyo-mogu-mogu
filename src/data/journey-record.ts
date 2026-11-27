@@ -20,11 +20,20 @@ export interface JourneyRecord {
     steps: RouteStepText[];
     stats: Record<Locale, RouteStats>;
     guidance: LocalizedText;
+    /** Official access evidence for publication admission. */
+    arrival?: {
+      kind: 'station' | 'bus-stop' | 'ferry-terminal';
+      name: LocalizedText;
+      spotId: string;
+      sourceId: string;
+    };
   }>>;
   spots: Record<string, {
     presentation: SpotPresentation;
     detail: ReferenceSpotDetail;
     officialSource?: DataSource;
+    /** Dated official visitor page recorded for publication admission. */
+    visitorSourceId?: string;
   }>;
   story: {
     groups: { nearby: StorySpotReference[]; nature: StorySpotReference[] };
@@ -51,7 +60,7 @@ export interface JourneyRecordPresentation {
   chapterPoint: Record<string, NonNullable<JourneyRecord['story']['point']>>;
 }
 
-function findFact<T>(facts: Record<string, T>, path: string): T | undefined {
+export function findFact<T>(facts: Record<string, T>, path: string): T | undefined {
   while (!Object.hasOwn(facts, path)) {
     const separator = path.lastIndexOf('.');
     if (separator === -1) return undefined;

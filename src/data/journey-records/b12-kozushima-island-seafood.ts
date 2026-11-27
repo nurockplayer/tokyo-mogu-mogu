@@ -128,6 +128,7 @@ export const b12KozushimaIslandSeafoodRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "ferry-terminal", "name": {"ja": "前浜（神津島）港船客待合所", "en": "Maehama (Kozushima) Port passenger terminal", "zh-TW": "前濱（神津島）港旅客候船室"}, "spotId": "b12-kozushima-island-seafood-yocchare-dining", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b12-kozushima-island-seafood-yocchare-dining",
@@ -179,6 +180,7 @@ export const b12KozushimaIslandSeafoodRecord: JourneyRecord = {
   },
   "spots": {
     "b12-kozushima-island-seafood-yocchare-dining": {
+      "visitorSourceId": "admission-access",
       "presentation": {
         "id": "b12-kozushima-island-seafood-yocchare-dining",
         "regionId": "kozushima",
@@ -480,6 +482,7 @@ export const b12KozushimaIslandSeafoodRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "東京都 前浜（神津島）港", "url": "https://www.islandaccess.metro.tokyo.lg.jp/stations/maehama_port/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-0": {
       "name": "神津島エコツーリズム推進協議会",
       "url": "https://kozushima.com/ecotourism/contents.html",

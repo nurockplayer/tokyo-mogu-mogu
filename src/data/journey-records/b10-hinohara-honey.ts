@@ -24,6 +24,7 @@ export const b10HinoharaHoneyRecord: JourneyRecord = {
   "location": {"ja": {"area": "檜原村", "station": "", "access": ""}, "en": {"area": "Hinohara Village", "station": "", "access": ""}, "zh-TW": {"area": "檜原村", "station": "", "access": ""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "宮の沢", "en": "Miyanosawa bus stop", "zh-TW": "宮之澤巴士站"}, "spotId": "b10-hinohara-honey-yamabukiya", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b10-hinohara-honey-yamabukiya",
@@ -37,6 +38,7 @@ export const b10HinoharaHoneyRecord: JourneyRecord = {
   },
   "spots": {
     "b10-hinohara-honey-yamabukiya": {
+      "visitorSourceId": "admission-access",
       "presentation": {
         "id": "b10-hinohara-honey-yamabukiya",
         "regionId": "hinohara",
@@ -84,6 +86,7 @@ export const b10HinoharaHoneyRecord: JourneyRecord = {
     "location": {"ja": {"region": "檜原村", "station": ""}, "en": {"region": "Hinohara Village", "station": ""}, "zh-TW": {"region": "檜原村", "station": ""}}
   },
   "sources": {
+    "admission-access": {"name": "檜原村観光協会 特産物直売所やまぶき屋", "url": "https://hinohara-kankou.jp/spot/yamabuki-ya/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "s0": {"name": "薫る養蜂園", "url": "https://hinohara-kankou.jp/spot/kaoruyohoen/", "sourceType": "official_web", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"},
     "editorial": {"name": "b10 editorial itinerary: estimated timing and order, not a timetable", "url": "https://hinohara-kankou.jp/spot/kaoruyohoen/", "sourceType": "manual", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"}
   },

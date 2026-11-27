@@ -348,3 +348,32 @@ Municipality: ogasawara. Theme: Chichijima BONIN CRAFT.
 - HTTP 200 — https://shimazake.com/kuramotolist/boninrum/ — 小笠原ラム・リキュール株式会社 | 蔵元一覧 | 東京七島酒造組合
 - HTTP 200 — https://islandbeer.net/map/ogasawara/ — PAPA’S BREWING COMPANY（東京都・父島） | 離島ビール倶楽部
 - HTTP 200 — https://hahajima.com/info/?target=history — 小笠原母島観光協会｜知る
+
+## S1a publication admission (#441)
+
+Retrieved during this run: 2026-11-27 JST. The linked pages were opened and checked for the access or visitor information described below. These observations retain needs_confirmation. No venue hours, prices, reservations, or availability were confirmed.
+
+### b13-ogasawara-tropical-fruit
+
+- Arrival, half-day → b13-ogasawara-tropical-fruit-store: Futami Port passenger terminal. The Chichijima guide’s central Omura map (PDF page 17) identifies the ferry passenger terminal and the agricultural direct-sales store in the same arrival district. — https://www.gotokyo.org/book/wp-content/uploads/2026/03/AO2_2603_chichijima-guidebook_low_JP.pdf
+- Official destination, b13-ogasawara-tropical-fruit-store: The cooperative’s visitor page identifies the direct-sales store and its attached cafe. — https://ogasawara-islands.or.jp/store/
+
+### b13-ogasawara-island-lemon
+
+- Arrival, half-day → b13-ogasawara-island-lemon-store: Futami Port passenger terminal. The Chichijima guide’s central Omura map (PDF page 17) identifies the ferry passenger terminal and the agricultural direct-sales store in the same arrival district. — https://www.gotokyo.org/book/wp-content/uploads/2026/03/AO2_2603_chichijima-guidebook_low_JP.pdf
+- Official destination, b13-ogasawara-island-lemon-store: The cooperative’s visitor page identifies the direct-sales store and its attached cafe. — https://ogasawara-islands.or.jp/store/
+
+### b13-ogasawara-farm-table
+
+- Arrival, half-day → b13-ogasawara-farm-table-store: Futami Port passenger terminal. The Chichijima guide’s central Omura map (PDF page 17) identifies the ferry passenger terminal and the agricultural direct-sales store in the same arrival district. — https://www.gotokyo.org/book/wp-content/uploads/2026/03/AO2_2603_chichijima-guidebook_low_JP.pdf
+- Official destination, b13-ogasawara-farm-table-store: The cooperative’s visitor page identifies the direct-sales store and its attached cafe. — https://ogasawara-islands.or.jp/store/
+
+### b13-ogasawara-coffee
+
+- Arrival, half-day → b13-ogasawara-coffee-cafe: Futami Port passenger terminal. The Chichijima guide’s central Omura map (PDF page 17) identifies the ferry passenger terminal and the agricultural direct-sales store in the same arrival district. — https://www.gotokyo.org/book/wp-content/uploads/2026/03/AO2_2603_chichijima-guidebook_low_JP.pdf
+- Official destination, b13-ogasawara-coffee-cafe: The cooperative’s visitor page identifies the direct-sales store and its attached cafe. — https://ogasawara-islands.or.jp/store/
+
+### b13-ogasawara-island-honey
+
+- Arrival, half-day → b13-ogasawara-island-honey-cafe: Futami Port passenger terminal. The Chichijima guide’s central Omura map (PDF page 17) identifies the ferry passenger terminal and the agricultural direct-sales store in the same arrival district. — https://www.gotokyo.org/book/wp-content/uploads/2026/03/AO2_2603_chichijima-guidebook_low_JP.pdf
+- Official destination, b13-ogasawara-island-honey-cafe: The cooperative’s visitor page identifies the direct-sales store and its attached cafe. — https://ogasawara-islands.or.jp/store/

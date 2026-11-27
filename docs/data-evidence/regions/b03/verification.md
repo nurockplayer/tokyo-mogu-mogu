@@ -390,3 +390,17 @@ Municipality: machida. Theme: Coffee blends named for Machida.
 - Buso Brewery: light confirmation of the researched brewery on its homepage establishes the Machida station flagship shop used in the route. — https://www.buso-brewery.com/
 - Oyamada mitsuba, bamboo shoots and Bon processed products: their sources do not establish that the selected farm stops carry them. They remain food-history/product chapters in the broader farm-food journey; no such shop-product relation is published.
 - No hours, prices, reservations, stock or allergy statements from the research or fetched pages were carried into the records. Research seasons are not published.
+
+## S1a publication admission (#441)
+
+Retrieved during this run: 2026-11-27 JST. The linked pages were opened and checked for the access or visitor information described below. These observations retain needs_confirmation. No venue hours, prices, reservations, or availability were confirmed.
+
+### b03-chofu-jindaiji-soba
+
+- Arrival, half-day → b03-chofu-jindaiji-soba-jindaiji: Jindaiji bus stop. The tourism association identifies the Jindaiji stop and describes the soba shops by the temple gate. — https://csa.gr.jp/contents/26469
+- Official destination, b03-chofu-jindaiji-soba-jindaiji: The tourism association’s visitor guide covers access to the temple-side district. — https://csa.gr.jp/contents/26469
+
+### b03-chofu-yokai-sweets
+
+- Arrival, half-day → b03-chofu-yokai-sweets-kitaro: Chofu Station. The city links Chofu Station to the relocated Kitaro Chaya in the Tenjin-dori shopping street. — https://www.city.chofu.lg.jp/040040/p023079.html
+- Official destination, b03-chofu-yokai-sweets-kitaro: The operator lists the shop and takeaway location separately from the annex cafe. — https://kitaro-chaya.jp/free/access

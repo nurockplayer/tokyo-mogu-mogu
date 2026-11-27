@@ -24,6 +24,7 @@ export const b10OkutamaYuzuRecord: JourneyRecord = {
   "location": {"ja": {"area": "奥多摩町", "station": "", "access": ""}, "en": {"area": "Okutama", "station": "", "access": ""}, "zh-TW": {"area": "奧多摩町", "station": "", "access": ""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "奥多摩駅", "en": "Okutama Station", "zh-TW": "奧多摩站"}, "spotId": "b10-okutama-yuzu-kuala", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b10-okutama-yuzu-kuala",
@@ -37,6 +38,7 @@ export const b10OkutamaYuzuRecord: JourneyRecord = {
   },
   "spots": {
     "b10-okutama-yuzu-kuala": {
+      "visitorSourceId": "admission-access",
       "presentation": {
         "id": "b10-okutama-yuzu-kuala",
         "regionId": "okutama",
@@ -84,6 +86,7 @@ export const b10OkutamaYuzuRecord: JourneyRecord = {
     "location": {"ja": {"region": "奥多摩町", "station": ""}, "en": {"region": "Okutama", "station": ""}, "zh-TW": {"region": "奧多摩町", "station": ""}}
   },
   "sources": {
+    "admission-access": {"name": "森のカフェ クアラ アクセス", "url": "https://www.cafekuala.jp/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "s0": {"name": "奥多摩のショップリスト", "url": "https://www.okutama.gr.jp/site/shopping/", "sourceType": "official_web", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"},
     "editorial": {"name": "b10 editorial itinerary: estimated timing and order, not a timetable", "url": "https://www.okutama.gr.jp/site/shopping/", "sourceType": "manual", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"}
   },

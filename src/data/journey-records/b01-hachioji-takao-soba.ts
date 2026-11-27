@@ -25,6 +25,7 @@ export const b01HachiojiTakaoSobaRecord: JourneyRecord = {
   "location": {"ja":{"area":"八王子市","station":"","access":""},"en":{"area":"Hachioji","station":"","access":""},"zh-TW":{"area":"八王子市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "高尾山口駅", "en": "Takaosanguchi Station", "zh-TW": "高尾山口站"}, "spotId": "b01-hachioji-takao-soba-momijiya", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b01-hachioji-takao-soba-momijiya",
@@ -43,6 +44,7 @@ export const b01HachiojiTakaoSobaRecord: JourneyRecord = {
   },
   "spots": {
     "b01-hachioji-takao-soba-momijiya": {
+      "visitorSourceId": "admission-visitor",
       "presentation": {
         "id": "b01-hachioji-takao-soba-momijiya",
         "regionId": "hachioji",
@@ -124,6 +126,8 @@ export const b01HachiojiTakaoSobaRecord: JourneyRecord = {
     "location": {"ja":{"region":"八王子市","station":""},"en":{"region":"Hachioji","station":""},"zh-TW":{"region":"八王子市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "八王子観光コンベンション協会 高尾山パンフレット", "url": "https://www.hkc.or.jp/pamphlet/pdf/ikouyo/ikouyo-hachiouji-r7.pdf", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
+    "admission-visitor": {"name": "八王子観光コンベンション協会 紅葉屋本店", "url": "https://www.hkc.or.jp/gourmet/detail.php?id=67", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-36": {"name":"Hachioji Tourism and Convention Association — 高尾山の見どころ","url":"https://www.hkc.or.jp/takaosan/feature.php","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "source-39": {"name":"Tokyo Metropolitan Government Bureau of Environment — 明治の森高尾の観光","url":"https://www.kankyo1.metro.tokyo.lg.jp/naturepark/know/park/introduction/toritu/meiji/tourism.html","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b01 editorial itinerary — timing and order estimates, not a timetable","url":"https://www.hkc.or.jp/takaosan/feature.php","sourceType":"manual","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"}

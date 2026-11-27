@@ -107,6 +107,7 @@ export const b12KozushimaTengusaRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "ferry-terminal", "name": {"ja": "前浜（神津島）港船客待合所", "en": "Maehama (Kozushima) Port passenger terminal", "zh-TW": "前濱（神津島）港旅客候船室"}, "spotId": "b12-kozushima-tengusa-yocchare", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b12-kozushima-tengusa-yocchare",
@@ -148,6 +149,7 @@ export const b12KozushimaTengusaRecord: JourneyRecord = {
   },
   "spots": {
     "b12-kozushima-tengusa-yocchare": {
+      "visitorSourceId": "admission-access",
       "presentation": {
         "id": "b12-kozushima-tengusa-yocchare",
         "regionId": "kozushima",
@@ -263,6 +265,7 @@ export const b12KozushimaTengusaRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "東京都 前浜（神津島）港", "url": "https://www.islandaccess.metro.tokyo.lg.jp/stations/maehama_port/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-1": {
       "name": "よっちゃーれセンター 1F｜神津島観光ガイド公式サイト",
       "url": "https://kozushima.com/shop/kau/miyage/897/",
