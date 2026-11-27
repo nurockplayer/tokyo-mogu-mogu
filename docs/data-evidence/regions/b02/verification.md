@@ -364,3 +364,55 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 
 - Arrival, half-day → b02-ome-konnyaku-noshikon: Mitake Station. The operator gives the walking approach from the JR Ōme Line station. Confirm seasonal opening before visiting. — https://www.noshikon.com/%E5%BA%97%E8%88%97%E6%A6%82%E8%A6%81/
 - Official destination, b02-ome-konnyaku-noshikon: The operator identifies the Mitake storefront and its konnyaku products. — https://www.noshikon.com/%E5%BA%97%E8%88%97%E6%A6%82%E8%A6%81/
+
+## S1a publication admission round 3 (#441)
+
+Retrieved during this run: 2026-11-28 JST. Access and visitor observations retain `needs_confirmation`. Confirm service, onward access and visit availability before departure.
+
+### b02-mitaka-osawa-wasabi
+
+- Arrival, half-day → b02-mitaka-osawa-wasabi-mikarino: Nogawa Koen Iriguchi bus stop. The city's map identifies Nogawa Koen Iriguchi and marks Mikarino as point F-4 in the same area. — https://www.city.mitaka.lg.jp/c_service/112/attached/attach_112502_3.pdf
+
+### b02-mitaka-orchard-fruit
+
+- Arrival, half-day → b02-mitaka-orchard-fruit-takahashi: Renjaku-dori bus stop. The grower identifies the Mū Bus stop on the west loop. Confirm which fruit is available before visiting. — https://farm-t.tokyo/
+
+### b02-mitaka-wheat-beer
+
+- Arrival, half-day → b02-mitaka-wheat-beer-oga: Mitaka Station. The brewery gives a walking approach from JR Mitaka Station's south exit. — https://oga-brewing.com/pages/%E3%82%B7%E3%83%A7%E3%83%83%E3%83%97
+
+### b02-mitaka-literary-sweets
+
+- Arrival, half-day → b02-mitaka-literary-sweets-muwp: Shinkawa-dori bus stop. The operator identifies Shinkawa-dori as the bus stop for Muwp-sha Nakahara. Confirm product availability and visiting arrangements. — https://muwp.tokyo/support/nakahara/
+
+### b02-ome-farm-table
+
+- Arrival, half-day → b02-ome-farm-table-kasumi: Kabe Station. The cooperative gives a walking approach from JR Kabe Station to the farm shop. — https://www.ja-nishitokyo.or.jp/archives/store_post/shop_kasumi
+
+### b02-ome-sayama-tea
+
+- Arrival, half-day → b02-ome-sayama-tea-kasumi-tea: Kabe Station. The cooperative gives a walking approach from JR Kabe Station. Confirm tea availability. — https://www.ja-nishitokyo.or.jp/archives/store_post/shop_kasumi
+
+### b02-ome-orchard-fruit
+
+- Arrival, half-day → b02-ome-orchard-fruit-berry-cottage: Ozaku Station. The orchard gives a walking approach from JR Ozaku Station's east exit. Confirm season and admission. — https://www.berry-cottage.com/access.html
+
+### b02-ome-log-mushrooms
+
+- Arrival, half-day → b02-ome-log-mushrooms-uchinuma: Osogi Shinryojo bus stop. The city's guide gives a walking approach to Uchinuma from Osogi Shinryojo and describes the buses serving the stop. — https://www.city.ome.tokyo.jp/site/omekanko/20292.html
+
+### b02-ome-local-dishes
+
+- Arrival, half-day → b02-ome-local-dishes-negishiya: Higashi-Ome Station. The city gives a walking approach to Negishiya from JR Higashi-Ome Station. — https://www.city.ome.tokyo.jp/site/omekanko/20292.html
+
+### b02-fuchu-farm-table
+
+- Arrival, half-day → b02-fuchu-farm-table-kyodo-market: Kyodo-no-Mori Seimon-mae bus stop. The city identifies Kyodo-no-Mori Seimon-mae for the visitor market and lists a seasonal alternative when this stop is skipped. — https://www.city.fuchu.tokyo.jp/kanko/shisetsu/kankoubussankan.html
+
+### b02-fuchu-black-rice
+
+- Arrival, half-day → b02-fuchu-black-rice-rice-hall: Kyodo-no-Mori Seimon-mae bus stop. The city identifies Kyodo-no-Mori Seimon-mae for the visitor market and lists a seasonal alternative when this stop is skipped. — https://www.city.fuchu.tokyo.jp/kanko/shisetsu/kankoubussankan.html
+
+### b02-fuchu-kouzuru-sake
+
+- Arrival, half-day → b02-fuchu-kouzuru-sake-noguchi: Fuchu Station. The visitor guide identifies the shop and its walking approach from Fuchu Station. — https://mitte-x-img.istsw.jp/fuchu-kankou/file/guidejap.pdf

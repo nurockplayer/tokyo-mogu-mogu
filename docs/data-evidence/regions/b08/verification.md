@@ -301,3 +301,31 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 ### b08-tama-honey
 
 - Arrival, half-day → b08-tama-honey-ponte: Keiō Nagayama Station. The shopping centre identifies Ponte and its connection to Keiō Nagayama Station. Confirm stock at the shop. — https://www.greenade.com/shop/index.jsp?bf=1&fmt=6&shopid=15
+
+## S1a publication admission round 3 (#441)
+
+Retrieved during this run: 2026-11-28 JST. Access and visitor observations retain `needs_confirmation`. Confirm service, onward access and visit availability before departure.
+
+### b08-tama-farm-table
+
+- Arrival, half-day → b08-tama-farm-table-ikiiki: Seiseki-Sakuragaoka Station. The committee locates Ikiiki-ichi on the approach from Seiseki-Sakuragaoka Station toward the Tama River. — https://www.city.tama.lg.jp/_res/projects/default_project/_page_/001/005/740/46P6-8.pdf
+
+### b08-tama-norabo-na
+
+- Arrival, half-day → b08-tama-norabo-na-ikiiki: Seiseki-Sakuragaoka Station. The committee locates Ikiiki-ichi on the approach from Seiseki-Sakuragaoka Station toward the Tama River. Confirm seasonal availability. — https://www.city.tama.lg.jp/_res/projects/default_project/_page_/001/005/740/46P6-8.pdf
+
+### b08-hamura-rice-sake
+
+- Arrival, half-day → b08-hamura-rice-sake-negaramimae: Hamura Station. The city gives a walking approach to the paddies from Hamura Station's west exit. — https://www.city.hamura.tokyo.jp/0000015860.html
+
+### b08-hamura-seki-wine
+
+- Arrival, half-day → b08-hamura-seki-wine-tourism: Hamura Station. The city gives a walking approach to the information center from Hamura Station's west exit. Confirm wine availability separately. — https://www.city.hamura.tokyo.jp/0000005553.html
+
+### b08-hamura-craft-beer
+
+- Arrival, half-day → b08-hamura-craft-beer-ashford: Ozaku Station. The city locates Ashford near JR Ozaku Station and gives the address. Confirm current opening and beer availability. — https://www.city.hamura.tokyo.jp/prsite/0000017739.html
+
+### b08-hamura-farm-table
+
+- Arrival, half-day → b08-hamura-farm-table-market: Hamura Station. The city gives a walking approach to the farm market from JR Hamura Station. — https://www.city.hamura.tokyo.jp/0000001912.html

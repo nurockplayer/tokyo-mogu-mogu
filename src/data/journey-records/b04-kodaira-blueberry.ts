@@ -39,6 +39,7 @@ export const b04KodairaBlueberryRecord: JourneyRecord = {
   "location": {"ja":{"area":"小平市","station":"","access":""},"en":{"area":"Kodaira","station":"","access":""},"zh-TW":{"area":"小平市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "花小金井駅", "en": "Hana-Koganei Station", "zh-TW": "花小金井站"}, "spotId": "b04-kodaira-blueberry-blueberry-marker", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b04-kodaira-blueberry-blueberry-marker",
@@ -175,6 +176,7 @@ export const b04KodairaBlueberryRecord: JourneyRecord = {
     "location": {"ja":{"region":"小平市","station":""},"en":{"region":"Kodaira","station":""},"zh-TW":{"region":"小平市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Kodaira Tourism and Community Development Association – blueberry marker", "url": "https://kodaira-tourism.com/blueberry/", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-14": {"name":"ブルーベリー栽培発祥の地こだいら｜東京都小平市公式ホームページ","url":"https://www.city.kodaira.tokyo.jp/kurashi/060/060906.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-15": {"name":"ブルーベリー ｜地域資源紹介記事 ｜ 東京都　地域資源（TOKYOイチオシナビ）","url":"https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_144.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-17": {"name":"小平ブルーベリーワインまつり｜東京都小平市公式ホームページ","url":"https://www.city.kodaira.tokyo.jp/kurashi/061/061332.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},

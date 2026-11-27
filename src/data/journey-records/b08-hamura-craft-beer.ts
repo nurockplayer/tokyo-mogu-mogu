@@ -45,6 +45,7 @@ export const b08HamuraCraftBeerRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "小作駅", "en": "Ozaku Station", "zh-TW": "小作站"}, "spotId": "b08-hamura-craft-beer-ashford", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b08-hamura-craft-beer-ashford",
@@ -148,6 +149,7 @@ export const b08HamuraCraftBeerRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Hamura City – Ashford profile", "url": "https://www.city.hamura.tokyo.jp/prsite/0000017739.html", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-28": {"name":"羽村産のホップで「ペルツェン」醸造 石川酒造が発売","url":"https://nishitama.keizai.biz/headline/1669/","sourceType":"business","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-29": {"name":"羽村で味わうロンドンの雰囲気 クラフトビールを楽しめる「たまり場」ASHFORD","url":"https://www.city.hamura.tokyo.jp/prsite/0000017739.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b08 editorial itinerary — timing and order are estimates","url":"https://nishitama.keizai.biz/headline/1669/","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}

@@ -33,6 +33,7 @@ export const b02FuchuBlackRiceRecord: JourneyRecord = {
   "location": {"ja":{"area":"府中市","station":"","access":""},"en":{"area":"Fuchu","station":"","access":""},"zh-TW":{"area":"府中市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "郷土の森正門前", "en": "Kyodo-no-Mori Seimon-mae bus stop", "zh-TW": "鄉土之森正門前公車站"}, "spotId": "b02-fuchu-black-rice-rice-hall", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b02-fuchu-black-rice-rice-market",
@@ -137,6 +138,7 @@ export const b02FuchuBlackRiceRecord: JourneyRecord = {
     "location": {"ja":{"region":"府中市","station":""},"en":{"region":"Fuchu","station":""},"zh-TW":{"region":"府中市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Fuchu City – Kyodo-no-Mori visitor market", "url": "https://www.city.fuchu.tokyo.jp/kanko/shisetsu/kankoubussankan.html", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-42": {"name":"府中市立図書館 — きみはいくつ知っている？ 府中市の特産品","url":"https://library.city.fuchu.tokyo.jp/kids/pdf/fuchuhakase13.pdf","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-44": {"name":"Sato no Monogatari — Fuchu Kyodo no Mori Tourism Products Hall","url":"https://satomono.jp/market/13206/2791/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b02 editorial itinerary — timing and order estimates, not a timetable","url":"https://library.city.fuchu.tokyo.jp/kids/pdf/fuchuhakase13.pdf","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}

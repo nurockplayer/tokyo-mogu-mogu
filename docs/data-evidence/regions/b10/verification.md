@@ -331,3 +331,7 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 ### b10-okutama-craft-beer
 
 - Arrival, half-day → b10-okutama-craft-beer-vertere: Okutama Station. The association's map marks the VERTERE taproom as point 4 by Okutama Station. — https://www.okutama.gr.jp/site/map/pdf/hikawa-tenpo.pdf
+
+### b10-okutama-eggs
+
+- Arrival, half-day → b10-okutama-eggs-shiromaru: Shiromaru Station. The association gives a walking approach to the shop from Shiromaru Station. — https://www.omekanko.gr.jp/spot/%E3%81%97%E3%82%8D%E3%81%BE%E3%82%8B%E3%81%9F%E3%81%BE%E3%81%94/

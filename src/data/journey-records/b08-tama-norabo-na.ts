@@ -42,6 +42,7 @@ export const b08TamaNoraboNaRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "聖蹟桜ヶ丘駅", "en": "Seiseki-Sakuragaoka Station", "zh-TW": "聖蹟櫻丘站"}, "spotId": "b08-tama-norabo-na-ikiiki", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b08-tama-norabo-na-ikiiki",
@@ -145,6 +146,7 @@ export const b08TamaNoraboNaRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Tama City Agriculture Committee – farm-market approach", "url": "https://www.city.tama.lg.jp/_res/projects/default_project/_page_/001/005/740/46P6-8.pdf", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-1": {"name":"多摩市内農産物直売所 いきいき市","url":"https://agripark.tokyo/matching/search/store.php?id=ikikiiti_nousanbututyokubaizyo","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-3": {"name":"農家紹介","url":"https://agriagri.net/nouka-2/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-4": {"name":"限定 のらぼう菜たっぷりBOX","url":"https://www.biogartenkiriri.com/blank-10/%E3%81%AE%E3%82%89%E3%81%BC%E3%81%86%E8%8F%9C%E3%81%9F%E3%81%A3%E3%81%B7%E3%82%8Abox","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},

@@ -46,6 +46,7 @@ export const b02FuchuFarmTableRecord: JourneyRecord = {
   "location": {"ja":{"area":"府中市","station":"","access":""},"en":{"area":"Fuchu","station":"","access":""},"zh-TW":{"area":"府中市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "郷土の森正門前", "en": "Kyodo-no-Mori Seimon-mae bus stop", "zh-TW": "鄉土之森正門前公車站"}, "spotId": "b02-fuchu-farm-table-kyodo-market", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b02-fuchu-farm-table-fuchu-market",
@@ -151,6 +152,7 @@ export const b02FuchuFarmTableRecord: JourneyRecord = {
     "location": {"ja":{"region":"府中市","station":""},"en":{"region":"Fuchu","station":""},"zh-TW":{"region":"府中市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Fuchu City – Kyodo-no-Mori visitor market", "url": "https://www.city.fuchu.tokyo.jp/kanko/shisetsu/kankoubussankan.html", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-41": {"name":"JA東京中央会 — 鳴子ウリ・府中御用ウリ","url":"https://www.tokyo-ja.or.jp/farm/edo/31.php","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-42": {"name":"府中市立図書館 — きみはいくつ知っている？ 府中市の特産品","url":"https://library.city.fuchu.tokyo.jp/kids/pdf/fuchuhakase13.pdf","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-43": {"name":"JAマインズ — 府中特産品直売所","url":"https://www.ja-minds.or.jp/farmstand/fuchu_fm.php","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},

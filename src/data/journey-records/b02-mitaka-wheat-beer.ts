@@ -31,6 +31,7 @@ export const b02MitakaWheatBeerRecord: JourneyRecord = {
   "location": {"ja":{"area":"三鷹市","station":"","access":""},"en":{"area":"Mitaka","station":"","access":""},"zh-TW":{"area":"三鷹市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "三鷹駅", "en": "Mitaka Station", "zh-TW": "三鷹站"}, "spotId": "b02-mitaka-wheat-beer-oga", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b02-mitaka-wheat-beer-oga",
@@ -86,6 +87,7 @@ export const b02MitakaWheatBeerRecord: JourneyRecord = {
     "location": {"ja":{"region":"三鷹市","station":""},"en":{"region":"Mitaka","station":""},"zh-TW":{"region":"三鷹市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "OGA Brewing – taproom", "url": "https://oga-brewing.com/pages/%E3%82%B7%E3%83%A7%E3%83%83%E3%83%97", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-11": {"name":"三鷹市 — 三鷹のクラフトビール「M.C KIWI」を新発売！","url":"https://www.city.mitaka.lg.jp/c_press/107/107987.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b02 editorial itinerary — timing and order estimates, not a timetable","url":"https://www.city.mitaka.lg.jp/c_press/107/107987.html","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}
   },

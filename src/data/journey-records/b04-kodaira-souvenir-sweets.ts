@@ -52,6 +52,7 @@ export const b04KodairaSouvenirSweetsRecord: JourneyRecord = {
   "location": {"ja":{"area":"小平市","station":"","access":""},"en":{"area":"Kodaira","station":"","access":""},"zh-TW":{"area":"小平市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "一橋学園駅", "en": "Hitotsubashi-Gakuen Station", "zh-TW": "一橋學園站"}, "spotId": "b04-kodaira-souvenir-sweets-etoile", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b04-kodaira-souvenir-sweets-tachibanaya",
@@ -356,6 +357,7 @@ export const b04KodairaSouvenirSweetsRecord: JourneyRecord = {
     "location": {"ja":{"region":"小平市","station":""},"en":{"region":"Kodaira","station":""},"zh-TW":{"region":"小平市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Kodaira Chamber of Commerce – Etoile shop listing", "url": "https://www.kodaira-net.jp/etoile/", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-18": {"name":"洋菓子の店　エトアール | こだいらネット","url":"https://www.kodaira-net.jp/etoile/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-25": {"name":"市の鳥をイラストした和菓子｜東京都小平市公式ホームページ","url":"https://www.city.kodaira.tokyo.jp/kurashi/060/060834.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-26": {"name":"小平の観光 | 東京都小平市公式ホームページ","url":"https://www.city.kodaira.tokyo.jp/charm/charm.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},

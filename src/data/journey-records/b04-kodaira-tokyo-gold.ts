@@ -31,6 +31,7 @@ export const b04KodairaTokyoGoldRecord: JourneyRecord = {
   "location": {"ja":{"area":"小平市","station":"","access":""},"en":{"area":"Kodaira","station":"","access":""},"zh-TW":{"area":"小平市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "昭和病院北入口", "en": "Showa Byoin Kita-iriguchi bus stop", "zh-TW": "昭和醫院北入口公車站"}, "spotId": "b04-kodaira-tokyo-gold-nakamura", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b04-kodaira-tokyo-gold-nakamura",
@@ -116,6 +117,7 @@ export const b04KodairaTokyoGoldRecord: JourneyRecord = {
     "location": {"ja":{"region":"小平市","station":""},"en":{"region":"Kodaira","station":""},"zh-TW":{"region":"小平市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Farm Shop Nakamura-en – directions", "url": "https://goldkiwi.tokyo/about", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-19": {"name":"こだいら直売所マップ – 東京観光デジタルパンフレットギャラリー（TOKYO Brochures）","url":"https://www.gotokyo.org/book/list/18364/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-20": {"name":"中村園｜店舗一覧｜ＪＡ東京むさし","url":"https://www.jatm.or.jp/farming/plant/detail.php?id=46&type=kiwi","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b04 editorial itinerary — estimated timing and order, not a timetable","url":"https://www.gotokyo.org/book/list/18364/","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}

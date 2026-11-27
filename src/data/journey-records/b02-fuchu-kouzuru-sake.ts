@@ -31,6 +31,7 @@ export const b02FuchuKouzuruSakeRecord: JourneyRecord = {
   "location": {"ja":{"area":"府中市","station":"","access":""},"en":{"area":"Fuchu","station":"","access":""},"zh-TW":{"area":"府中市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "府中駅", "en": "Fuchu Station", "zh-TW": "府中站"}, "spotId": "b02-fuchu-kouzuru-sake-noguchi", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b02-fuchu-kouzuru-sake-noguchi",
@@ -94,6 +95,7 @@ export const b02FuchuKouzuruSakeRecord: JourneyRecord = {
     "location": {"ja":{"region":"府中市","station":""},"en":{"region":"Fuchu","station":""},"zh-TW":{"region":"府中市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Fuchu Tourism Association – visitor guide", "url": "https://mitte-x-img.istsw.jp/fuchu-kankou/file/guidejap.pdf", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-49": {"name":"野口酒造店 — 武蔵府中の地酒 國府鶴","url":"https://www.noguchi-brewery.co.jp/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b02 editorial itinerary — timing and order estimates, not a timetable","url":"https://www.noguchi-brewery.co.jp/","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}
   },
