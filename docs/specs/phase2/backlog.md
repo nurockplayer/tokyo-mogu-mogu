@@ -1,5 +1,7 @@
 # Phase 2 backlog proposal
 
+Acceptance progress: [Phase 2 acceptance table](acceptance.md).
+
 **Order** · S1 Stage C admission and first actionable trip → S2 launch catalog and preference-driven discovery → S3 local saves and sharing → S4 release and operations.
 
 The lead can brief S1 from this document now. Codex performs source research and verification, records it in the existing evidence files and demonstrates the running slice. The lead handles acceptance one stage at a time. Use current main and the connected KiKi Figma for each visible change. Keep candidates local or in access-restricted preview.
