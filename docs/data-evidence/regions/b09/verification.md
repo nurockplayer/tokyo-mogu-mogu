@@ -446,3 +446,15 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 ### b09-mizuho-dairy
 
 - Arrival, half-day → b09-mizuho-dairy-westland: Hakonegasaki Station. The Tokyo agricultural visitor guide gives road access from JR Hakonegasaki Station to Shimizu Farm's WESTLAND FARM shop. Allow for an onward vehicle trip and confirm shop hours. — https://tokyogrown.jp/tokyoonedaytrip/vol25/
+
+### b09-nishitokyo-farm-table
+
+- Arrival, half-day → b09-nishitokyo-farm-table-nitta: Seibu-Yagisawa Station. The municipal map plots Nitta Farm in the Seibu-Yagisawa area. The farm event organizer gives the station walking approach at https://aibaeco.co.jp/event/event-9396/. Confirm direct-sale days and stock separately. — https://www.city.nishitokyo.lg.jp/kurasi/agriculture/megumi_recipe.files/megumicyokubaijyomappupdf.pdf
+
+### b09-mizuho-tomatoes
+
+- Arrival, half-day → b09-mizuho-tomatoes-amemiya: Hakonegasaki Station. The town's brand map plots Amemiya Farm relative to Hakonegasaki Station. Confirm tomato sale dates and stock separately. — https://www.town.mizuho.tokyo.jp/town/003/p004128_d/fil/p-1.pdf
+
+### b09-mizuho-pickles
+
+- Arrival, half-day → b09-mizuho-pickles-kondo-foods: Hakonegasaki Station. The town's brand map plots Kondo Foods relative to Hakonegasaki Station. The operator describes direct sales at https://kondo-foods.co.jp/real/. Confirm direct-sale hours separately. — https://www.town.mizuho.tokyo.jp/town/003/p004128_d/fil/p-1.pdf

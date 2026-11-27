@@ -26,6 +26,7 @@ export const b11OshimaShochuRecord: JourneyRecord = {
   "location": {"ja": {"area": "大島町","station": "","access": ""},"en": {"area": "Oshima Town","station": "","access": ""},"zh-TW": {"area": "大島町","station": "","access": ""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "野増", "en": "Nomashi bus stop", "zh-TW": "野增公車站"}, "spotId": "b11-oshima-shochu-taniguchi", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b11-oshima-shochu-taniguchi",
@@ -94,6 +95,7 @@ export const b11OshimaShochuRecord: JourneyRecord = {
     "location": {"ja": {"region": "大島町","station": ""},"en": {"region": "Oshima Town","station": ""},"zh-TW": {"region": "大島町","station": ""}}
   },
   "sources": {
+    "admission-access": {"name": "Tokyo tourist board Izu Oshima Nomashi area map", "url": "https://www.gotokyo.org/book/wp-content/uploads/2020/02/2103_izuoosima_low_EN.pdf", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-0": {
       "name": "b11 — 特産品（Specialty goods）） | 一般社団法人大島観光協会",
       "url": "https://izu-oshima.or.jp/specialty.html",

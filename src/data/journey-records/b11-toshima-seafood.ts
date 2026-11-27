@@ -26,6 +26,7 @@ export const b11ToshimaSeafoodRecord: JourneyRecord = {
   "location": {"ja": {"area": "利島村","station": "","access": ""},"en": {"area": "Toshima Village","station": "","access": ""},"zh-TW": {"area": "利島村","station": "","access": ""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "ferry-terminal", "name": {"ja": "利島港船客待合所", "en": "Toshima Port passenger terminal", "zh-TW": "利島港旅客候船室"}, "spotId": "b11-toshima-seafood-orange", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b11-toshima-seafood-orange",
@@ -93,6 +94,7 @@ export const b11ToshimaSeafoodRecord: JourneyRecord = {
     "location": {"ja": {"region": "利島村","station": ""},"en": {"region": "Toshima Village","station": ""},"zh-TW": {"region": "利島村","station": ""}}
   },
   "sources": {
+    "admission-access": {"name": "Toshima Village island access and settlement guide", "url": "https://www.toshimamura.org/about/toshima.html", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-16": {
       "name": "b11 — 飲食店・商店 - 利島村",
       "url": "https://www.toshimamura.org/tourism/buy/restaurant.html",

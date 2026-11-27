@@ -495,3 +495,11 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 ### b11-niijima-tataki
 
 - Arrival, half-day → b11-niijima-tataki-miyatora: Nobushi Port. The association’s Shikinejima map identifies Nobushi Port and lists Family Store Miyatora as point 26 on the same island. — https://shikinejima.tokyo/cms/wp-content/uploads/2020/09/wifi.pdf
+
+### b11-oshima-shochu
+
+- Arrival, half-day → b11-oshima-shochu-taniguchi: Nomashi bus stop. The map shows Taniguchi Shuzo in Nomashi. The producer's former retail partner gives the walking approach from Nomashi bus stop at https://i-origin.colopl.co.jp/news/info/20100401.php. Confirm current bus service and visitor access separately. — https://www.gotokyo.org/book/wp-content/uploads/2020/02/2103_izuoosima_low_EN.pdf
+
+### b11-toshima-seafood
+
+- Arrival, half-day → b11-toshima-seafood-orange: Toshima Port passenger terminal. The village describes walking uphill from the pier to the island's single settlement. Its restaurant guide locates Snack Orange there at https://toshimamura.org/tourism/buy/restaurant.html. Confirm sailings and make any required arrangements with the restaurant. — https://www.toshimamura.org/about/toshima.html

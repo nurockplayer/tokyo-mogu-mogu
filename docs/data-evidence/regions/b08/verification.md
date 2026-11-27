@@ -337,3 +337,11 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 ### b08-tama-wheat-udon
 
 - Arrival, half-day → b08-tama-wheat-udon-ponpoko: Hijirigaoka Center bus stop. The Tokyo agricultural directory gives Hijirigaoka Center as the bus stop for Ponpoko in Hijirigaoka, where the operator also lists the shop. Confirm schedules and opening times separately. — https://tokyogrown.jp/node/571661
+
+### b08-inagi-takao-grapes
+
+- Arrival, half-day → b08-inagi-takao-grapes-el-cielo: Shin-Yurigaoka Station. The shop gives walking access from Odakyu Shin-Yurigaoka Station to its Hirao address. Confirm availability of the grape sorbet separately. — https://www.el-cielo.jp/%E5%BA%97%E9%95%B7%E7%B4%B9%E4%BB%8B-%E5%BA%97%E8%88%97%E6%83%85%E5%A0%B1/
+
+### b08-hamura-local-sweets
+
+- Arrival, half-day → b08-hamura-local-sweets-yamadaya: Hamura Station. The hiking route publisher places Yamadaya's Seki Shop on the walk west from Hamura Station toward the Tama River. The west-exit shopping association lists the exact shop at https://hamura-nshop.com/shop/yamadaya/. Confirm hours separately. — https://yamasta.yamakei.co.jp/article/at260213.php
