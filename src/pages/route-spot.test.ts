@@ -116,9 +116,9 @@ describe('Spot back-target resolution (#93)', () => {
     expect(spotBackHref('?from=my')).toBe('/route?from=my');
   });
 
-  it('defaults to the Route when the caller context is absent', () => {
-    expect(spotBackHref('')).toBe('/route');
-    expect(spotBackHref('?from=unknown')).toBe('/route');
+  it('returns to MOGU when the caller context is absent', () => {
+    expect(spotBackHref('')).toBe('/mogu');
+    expect(spotBackHref('?from=unknown')).toBe('/mogu');
   });
 });
 
