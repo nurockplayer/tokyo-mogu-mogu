@@ -196,8 +196,9 @@ const persistedFoodProfile = {
 };
 
 test('#443 opens the Spot phrase card offline at 375px in each locale', async ({ page, context }, testInfo) => {
-  const { id, routeVariants } = admitted!.record;
-  const path = `/spot/${routeVariants[0].primarySpotId}?candidateId=${id}`;
+  const { record, defaultVariant } = admitted!;
+  const path = `/spot/${defaultVariant!.primarySpotId}?candidateId=${record.journey.id}`;
+  await page.clock.setFixedTime(publicationDate);
   await page.addInitScript((profile) => {
     localStorage.setItem('tmm:foodProfile:v1', JSON.stringify(profile));
   }, {
