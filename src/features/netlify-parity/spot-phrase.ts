@@ -23,7 +23,7 @@ export function buildSpotPhrase(profile: FoodProfile | null, locale: Locale): st
       continue;
     }
 
-    const options = referenceCopy[locale].profile.questions[key].options as Record<string, string>;
+    const options = referenceCopy(locale).profile.questions[key].options as Record<string, string>;
     const names = selections.map((value) => {
       if (value.startsWith('custom:')) return value.slice('custom:'.length);
       const label = options[value];
