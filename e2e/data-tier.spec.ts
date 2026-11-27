@@ -1,7 +1,11 @@
 import { execFileSync } from 'node:child_process';
 import { expect, test } from '@playwright/test';
+import { checkJourneyAdmission } from '../src/data/journey-admission';
 import { JOURNEY_RECORDS } from '../src/data/journey-records';
 import type { JourneyRecord } from '../src/data/journey-record';
+
+const admittedFixture = 'b01-hachioji-farm-table';
+const fixturePublicationDate = new Date('2026-11-27T13:00:00Z');
 
 function selectedRecords(): JourneyRecord[] {
   const ids = new Set<string>();
@@ -25,15 +29,21 @@ function selectedRecords(): JourneyRecord[] {
   }
 
   if (ids.size === 0) ids.add('b08-tama-farm-table');
+  ids.add(admittedFixture);
   return [...ids].map((id) => {
     const record = JOURNEY_RECORDS.find((item) => item.journey.id === id);
-    if (!record) throw new Error(`Changed Stage C record is not published: ${id}`);
+    if (!record) throw new Error(`Stage C record is missing from the registry: ${id}`);
     return record;
   });
 }
 
 for (const record of selectedRecords()) {
-  test(`opens ${record.journey.id} from MOGU through its source-backed Spot`, async ({ page }) => {
+  test(`enforces publication for ${record.journey.id} from MOGU through Spot`, async ({ page }) => {
+    const isFixture = record.journey.id === admittedFixture;
+    const now = isFixture ? fixturePublicationDate : new Date();
+    const { defaultVariant } = checkJourneyAdmission(record, now);
+    if (isFixture) expect(defaultVariant, 'The smoke fixture must be admitted on its publication date').toBeDefined();
+    await page.clock.setFixedTime(now);
     await page.addInitScript(() => {
       localStorage.clear();
       sessionStorage.clear();
@@ -41,20 +51,31 @@ for (const record of selectedRecords()) {
     });
     await page.goto('/mogu');
     const screen = (name: string) => page.locator(`[data-screen="${name}"][data-screen-active="true"]`);
+    await expect(screen('mogu')).toBeVisible();
     const card = screen('mogu').locator(`[data-journey-id="${record.journey.id}"]`);
+    if (!defaultVariant) {
+      await expect(card).toHaveCount(0);
+      await page.goto(`/story/${record.journey.storyId}`);
+      await expect(screen('journey-unavailable').getByRole('heading')).toHaveText('この食旅は現在ご覧いただけません');
+      return;
+    }
+
     await expect(card.locator('[data-verification-status="needs_confirmation"]')).toHaveText('確認中');
     await card.click();
     await expect(screen('story')).toBeVisible();
     await expect(screen('story').getByText(/未確認/).first()).toBeVisible();
-    await screen('story').getByRole('button', { name: 'この食文化の観光ルートを作成する' }).click();
+    await screen('story').getByRole('button', { name: 'この食旅のルートを見る' }).click();
     const route = screen('route');
     await expect(route).toBeVisible();
-    await route.locator('[data-spot-id]').first().click();
+    const spotId = defaultVariant.primarySpotId!;
+    await route.locator(`[data-spot-id="${spotId}"]`).click();
     const spot = screen('spot');
-    await expect(spot).toBeVisible();
-    const spotId = await spot.getAttribute('data-spot-id');
-    const sourceUrl = record.spots[spotId!]?.officialSource?.url;
-    expect(sourceUrl, 'The opened Spot has an official source URL').toMatch(/^https?:\/\//);
-    await expect(spot.locator('.info-sec').getByText(sourceUrl!, { exact: true })).toBeVisible();
+    await expect(spot).toHaveAttribute('data-spot-id', spotId);
+    const { visitorSourceId, officialSource } = record.spots[spotId];
+    const source = visitorSourceId ? record.sources[visitorSourceId] : officialSource;
+    expect(source?.url, 'The primary Spot has an official visitor URL').toMatch(/^https:\/\//);
+    const officialLink = spot.getByRole('link', { name: '公式の訪問案内を開く' });
+    await expect(officialLink).toBeVisible();
+    await expect(officialLink).toHaveAttribute('href', source!.url!);
   });
 }
