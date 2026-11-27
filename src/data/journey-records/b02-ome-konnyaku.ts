@@ -42,7 +42,7 @@ export const b02OmeKonnyakuRecord: JourneyRecord = {
   },
   "spots": {
     "b02-ome-konnyaku-noshikon": {
-      "visitorSourceId": "admission-access",
+      "officialSource": {"name": "Noshikon Honpo – shop and access", "url": "https://www.noshikon.com/%E5%BA%97%E8%88%97%E6%A6%82%E8%A6%81/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
       "presentation": {
         "id": "b02-ome-konnyaku-noshikon",
         "regionId": "ome",
@@ -69,7 +69,7 @@ export const b02OmeKonnyakuRecord: JourneyRecord = {
             "fieldId": "official_current_url",
             "icon": "information",
             "label": {"ja":"出典情報","en":"Source information","zh-TW":"出處資訊"},
-            "value": {"ja":"https://www.japan47go.travel/ja/detail/a769f2f6-017d-4683-9c83-c8b9f353f414","en":"https://www.japan47go.travel/ja/detail/a769f2f6-017d-4683-9c83-c8b9f353f414","zh-TW":"https://www.japan47go.travel/ja/detail/a769f2f6-017d-4683-9c83-c8b9f353f414"}
+            "value": {"ja":"https://www.noshikon.com/%E5%BA%97%E8%88%97%E6%A6%82%E8%A6%81/","en":"https://www.noshikon.com/%E5%BA%97%E8%88%97%E6%A6%82%E8%A6%81/","zh-TW":"https://www.noshikon.com/%E5%BA%97%E8%88%97%E6%A6%82%E8%A6%81/"}
           },
           {"fieldId":"verification_note","icon":"information","label":{"ja":"確認状態","en":"Verification","zh-TW":"確認狀態"},"value":{"ja":"2026年11月24日（JST）に出典を取得。関係者による確認は未実施です。","en":"Sources retrieved 2026-11-24 JST; stakeholder confirmation is pending.","zh-TW":"2026 年 11 月 24 日（JST）取得出處，尚待相關人員確認。"}}
         ],
@@ -87,6 +87,7 @@ export const b02OmeKonnyakuRecord: JourneyRecord = {
     "editorial": {"name":"b02 editorial itinerary — timing and order estimates, not a timetable","url":"https://www.japan47go.travel/ja/detail/a769f2f6-017d-4683-9c83-c8b9f353f414","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}
   },
   "facts": {
+    "spots.b02-ome-konnyaku-noshikon.officialSource": {"sourceIds": ["admission-access"], "origin": "editorial"},
     "journey.copy": {"sourceIds":["source-28"],"origin":"editorial"},
     "routeName": {"sourceIds":["source-28"],"origin":"editorial"},
     "location": {"sourceIds":["source-28"],"origin":"editorial"},

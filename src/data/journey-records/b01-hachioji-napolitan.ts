@@ -38,7 +38,7 @@ export const b01HachiojiNapolitanRecord: JourneyRecord = {
   },
   "spots": {
     "b01-hachioji-napolitan-rocco": {
-      "visitorSourceId": "admission-access",
+      "officialSource": {"name": "Kitchen Rocco official visitor page", "url": "https://kitchenrocco.owst.jp/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
       "presentation": {
         "id": "b01-hachioji-napolitan-rocco",
         "regionId": "hachioji",
@@ -54,7 +54,7 @@ export const b01HachiojiNapolitanRecord: JourneyRecord = {
             "fieldId": "official_current_url",
             "icon": "information",
             "label": {"ja":"出典情報","en":"Source information","zh-TW":"出處資訊"},
-            "value": {"ja":"https://hachioji.keizai.biz/index.php/headline/4352/","en":"https://hachioji.keizai.biz/index.php/headline/4352/","zh-TW":"https://hachioji.keizai.biz/index.php/headline/4352/"}
+            "value": {"ja":"https://kitchenrocco.owst.jp/","en":"https://kitchenrocco.owst.jp/","zh-TW":"https://kitchenrocco.owst.jp/"}
           },
           {
             "fieldId": "verification_note",
@@ -90,6 +90,7 @@ export const b01HachiojiNapolitanRecord: JourneyRecord = {
     "editorial": {"name":"b01 editorial itinerary — timing and order estimates, not a timetable","url":"https://hachioji.keizai.biz/index.php/headline/4352/","sourceType":"manual","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"}
   },
   "facts": {
+    "spots.b01-hachioji-napolitan-rocco.officialSource": {"sourceIds": ["admission-access"], "origin": "editorial"},
     "journey.copy": {
       "sourceIds": [
         "admission-story",
