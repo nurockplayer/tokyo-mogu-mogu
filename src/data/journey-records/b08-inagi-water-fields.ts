@@ -46,6 +46,7 @@ export const b08InagiWaterFieldsRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "南多摩駅", "en": "Minami-Tama Station", "zh-TW": "南多摩站"}, "spotId": "b08-inagi-water-fields-daimaru", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b08-inagi-water-fields-daimaru",
@@ -227,6 +228,7 @@ export const b08InagiWaterFieldsRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Inagi City Daimaru Shinsui Park access", "url": "https://www.city.inagi.tokyo.jp/kankyo/midori/1005312/1012585/1012594.html", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-18": {"name":"大丸用水","url":"https://www.city.inagi.tokyo.jp/sangyo/nougyou/1005414.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-22": {"name":"令和7年度 稲城の太鼓判 認証商品一覧（表）","url":"https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-f.pdf","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b08 editorial itinerary — timing and order are estimates","url":"https://www.city.inagi.tokyo.jp/sangyo/nougyou/1005414.html","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}

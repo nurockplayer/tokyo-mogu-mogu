@@ -438,3 +438,11 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 ### b05-kokubunji-tea
 
 - Arrival, half-day → b05-kokubunji-tea-matsumoto: Koigakubo Station. The chamber listing gives walking access from Koigakubo Station to Cha Matsumoto. Confirm sale hours separately. — https://soh.sci-kokubunji.jp/chaMATSUMOTO
+
+### b05-higashimurayama-black-sauce
+
+- Arrival, half-day → b05-higashimurayama-black-sauce-pole-star: Higashi-Murayama Station. Seibu gives a walking approach from Higashi-Murayama Station East Exit to Pole Star. Confirm visitor offerings and opening times with the operator. — https://www.seiburailway.jp/railways/fillute/food/202304-01/
+
+### b05-kunitachi-style-sweets
+
+- Arrival, half-day → b05-kunitachi-style-sweets-marronnier: Yaho Station. The confectioner gives walking directions from JR Yaho Station to its Yaho Factory Shop. Confirm product availability separately. — https://www.marronnier.co.jp/shop

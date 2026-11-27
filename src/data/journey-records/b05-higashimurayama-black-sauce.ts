@@ -144,6 +144,7 @@ export const b05HigashimurayamaBlackSauceRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "東村山駅", "en": "Higashi-Murayama Station", "zh-TW": "東村山站"}, "spotId": "b05-higashimurayama-black-sauce-pole-star", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b05-higashimurayama-black-sauce-pole-star",
@@ -611,6 +612,7 @@ export const b05HigashimurayamaBlackSauceRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Seibu Railway Pole Star visitor listing", "url": "https://www.seiburailway.jp/railways/fillute/food/202304-01/", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-4": {
       "name": "東村山黒焼そば ｜地域資源紹介記事 ｜ 東京都　地域資源（TOKYOイチオシナビ）",
       "url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_114.html",

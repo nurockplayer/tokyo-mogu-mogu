@@ -442,3 +442,7 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 ### b09-mizuho-sayama-tea
 
 - Arrival, half-day → b09-mizuho-sayama-tea-nishimura: Nagaoka bus stop. The tea grower names the Nagaoka stop on the Tachikawa Bus loop and describes the walking approach. — https://knishimura.com/access/
+
+### b09-mizuho-dairy
+
+- Arrival, half-day → b09-mizuho-dairy-westland: Hakonegasaki Station. The Tokyo agricultural visitor guide gives road access from JR Hakonegasaki Station to Shimizu Farm's WESTLAND FARM shop. Allow for an onward vehicle trip and confirm shop hours. — https://tokyogrown.jp/tokyoonedaytrip/vol25/

@@ -329,3 +329,7 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 ### b08-hamura-farm-table
 
 - Arrival, half-day → b08-hamura-farm-table-market: Hamura Station. The city gives a walking approach to the farm market from JR Hamura Station. — https://www.city.hamura.tokyo.jp/0000001912.html
+
+### b08-inagi-water-fields
+
+- Arrival, half-day → b08-inagi-water-fields-daimaru: Minami-Tama Station. The city describes the public walking path along Sugabori, a main branch of Daimaru Irrigation Canal, and gives pedestrian access from Minami-Tama Station. Use public paths along the canal. — https://www.city.inagi.tokyo.jp/kankyo/midori/1005312/1012585/1012594.html
