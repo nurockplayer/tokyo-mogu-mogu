@@ -165,6 +165,7 @@ export const b05KunitachiStyleSweetsRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "谷保駅", "en": "Yaho Station", "zh-TW": "谷保站"}, "spotId": "b05-kunitachi-style-sweets-marronnier", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b05-kunitachi-style-sweets-miyoshino",
@@ -902,6 +903,7 @@ export const b05KunitachiStyleSweetsRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Marronnier shop directory", "url": "https://www.marronnier.co.jp/shop", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-41": {
       "name": "くにたちStyle | 国立市商工会",
       "url": "https://kunitachi-shokokai.jp/item/",

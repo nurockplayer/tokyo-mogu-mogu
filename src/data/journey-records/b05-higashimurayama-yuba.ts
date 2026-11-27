@@ -126,6 +126,7 @@ export const b05HigashimurayamaYubaRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "久米川駅", "en": "Kumegawa Station", "zh-TW": "久米川站"}, "spotId": "b05-higashimurayama-yuba-musashino-an", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b05-higashimurayama-yuba-iwasakiya",
@@ -458,6 +459,7 @@ export const b05HigashimurayamaYubaRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Higashimurayama Chamber of Commerce Musashino-an listing", "url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_16/", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-14": {
       "name": "東村山ブランド里に八国 | 認定商品取扱い店一覧",
       "url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_15/",

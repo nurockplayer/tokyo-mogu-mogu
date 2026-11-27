@@ -465,3 +465,56 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 ### b03-machida-nanakuniyama
 
 - Arrival, half-day → b03-machida-nanakuniyama-museum: Yakushigaoka bus stop. The city directs visitors to the museum from Yakushigaoka bus stop. — https://www.city.machida.tokyo.jp/kanko/sangyo/nougyo/shimintonou/agri02.html
+
+## S1a publication admission round 3 (#441)
+
+Retrieved during this run: 2026-11-28 JST. Access and visitor observations retain `needs_confirmation`. Confirm service, onward access and visit availability before departure.
+
+### b03-akishima-haijima-negi
+
+- Arrival, half-day → b03-akishima-haijima-negi-midorikko: Nakagami Station. The Tokyo agricultural directory gives a walking approach to the farm shop from JR Nakagami Station. — https://tokyogrown.jp/node/572059
+
+### b03-akishima-farm-pears
+
+- Arrival, half-day → b03-akishima-farm-pears-akifarm: Nakagami Station. The Tokyo agricultural directory gives a walking approach to Midorikko from JR Nakagami Station. Confirm pear availability. — https://tokyogrown.jp/node/572059
+
+### b03-akishima-eggs-sweets
+
+- Arrival, half-day → b03-akishima-eggs-sweets-piccolo: Haijima Station. The association gives a walking approach from Haijima Station's south exit. — https://akishima-kanko.org/spot/%E3%83%99%E3%83%BC%E3%82%AB%E3%83%AA%E3%83%BC%E3%83%94%E3%83%83%E3%82%B3%E3%83%AD/
+
+### b03-akishima-beer
+
+- Arrival, half-day → b03-akishima-beer-isana: Akishima Station. The brewery identifies the walking approach from JR Akishima Station's south exit. — https://www.isana-brewing.com/
+
+### b03-akishima-local-sweets
+
+- Arrival, half-day → b03-akishima-local-sweets-motokiya: Haijima Daishi-mae bus stop. The trade association identifies Haijima Daishi-mae for the bus approach to Motokiya. — https://www.wagashi.or.jp/tokyo_link/shop/3824.htm
+
+### b03-akishima-whale-cuisine
+
+- Arrival, half-day → b03-akishima-whale-cuisine-rajikku: Akishima Station. The restaurant identifies the walk from Akishima Station. Confirm current service. — https://akishimarajic.owst.jp/
+
+### b03-machida-craft-beer
+
+- Arrival, half-day → b03-machida-craft-beer-buso: Machida Station. The brewer identifies its Machida Station shop and gives the address. — https://www.buso-brewery.com/
+
+### b03-chofu-tama-ayu
+
+- Arrival, half-day → b03-chofu-tama-ayu-weir: Nakanoshima Station. The city marks the approach from JR Nakanoshima Station to the riverside near the weir on the Kawasaki bank. — https://www.city.kawasaki.jp/530/cmsfiles/contents/0000065/65389/sansakumap%28tama-takatsu%29.pdf
+- Official destination, b03-chofu-tama-ayu-weir: The municipal walking map identifies the weir as the first destination on the public route. Observe from the riverside and check any access restrictions before visiting. — https://www.city.kawasaki.jp/530/cmsfiles/contents/0000065/65389/sansakumap%28tama-takatsu%29.pdf
+
+### b03-machida-egg-pudding
+
+- Arrival, half-day → b03-machida-egg-pudding-kato: Mizu-no-Kuchi bus stop. The Tokyo agricultural directory gives a walking approach from Mizu-no-Kuchi bus stop to the farm shop. — https://tokyogrown.jp/node/571886
+
+### b03-chofu-vegetables
+
+- Arrival, half-day → b03-chofu-vegetables-umains: Shibasaki Station. The Tokyo agricultural directory gives walking access from Shibasaki Station to the farm shop. Confirm stock separately. — https://tokyogrown.jp/node/571906
+
+### b03-chofu-local-wagashi
+
+- Arrival, half-day → b03-chofu-local-wagashi-seifudo: Chofu Station. The shop listing linked by the station shopping association gives walking access from Chofu Station to Seifudo. Confirm business hours separately. — https://chofu.com/seifuu
+
+### b03-chofu-orchards
+
+- Arrival, half-day → b03-chofu-orchards-grapes: Nishihara bus stop. The metropolitan area map marks Nishihara bus stop and Jindaiji Vineyard. Check the current operator route map at https://www.odakyubus.co.jp/sp/regular/map/doc/kitijyoji.pdf and confirm picking dates with the orchard. — https://www.zaimu.metro.tokyo.lg.jp/documents/d/zaimu/25annaizu

@@ -42,6 +42,7 @@ export const b08HamuraSekiWineRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "羽村駅", "en": "Hamura Station", "zh-TW": "羽村站"}, "spotId": "b08-hamura-seki-wine-tourism", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b08-hamura-seki-wine-tourism",
@@ -145,6 +146,7 @@ export const b08HamuraSekiWineRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Hamura City – tourist information center", "url": "https://www.city.hamura.tokyo.jp/0000005553.html", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-26": {"name":"市民・市内事業者が行う市制施行30周年記念事業・商品","url":"https://www.city.hamura.tokyo.jp/0000015311.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-27": {"name":"羽村市｜多摩島しょ地域とは","url":"https://tokyo-tamashima-iju.metro.tokyo.lg.jp/introduction/hamura/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b08 editorial itinerary — timing and order are estimates","url":"https://www.city.hamura.tokyo.jp/0000015311.html","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}

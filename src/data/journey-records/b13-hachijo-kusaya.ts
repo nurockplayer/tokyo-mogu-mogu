@@ -29,6 +29,7 @@ export const b13HachijoKusayaRecord: JourneyRecord = {
   "location": {"ja":{"area":"八丈町","station":"","access":""},"en":{"area":"Hachijo Town","station":"","access":""},"zh-TW":{"area":"八丈町","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "ferry-terminal", "name": {"ja": "底土港", "en": "Sokodo Port", "zh-TW": "底土港"}, "spotId": "b13-hachijo-kusaya-osada", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b13-hachijo-kusaya-osada",
@@ -146,6 +147,7 @@ export const b13HachijoKusayaRecord: JourneyRecord = {
     "location": {"ja":{"region":"八丈町","station":""},"en":{"region":"Hachijo Town","station":""},"zh-TW":{"region":"八丈町","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Hachijojima Tourism Association – Osada Shoten", "url": "https://www.hachijo.gr.jp/goods/osada/", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-3": {
       "name": "くさやについて | 八丈島水産加工業協同組合",
       "url": "https://www.kusaya.tokyo/about.html",

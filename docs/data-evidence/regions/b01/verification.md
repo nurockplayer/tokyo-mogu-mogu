@@ -433,3 +433,43 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 ### b01-musashino-souvenir-sweets
 
 - Arrival, half-day → b01-musashino-souvenir-sweets-tokyu: Kichijōji Station. The department store names Kichijōji Station in its access guide. — https://www.tokyu-dept.co.jp/kichijouji/access/
+
+## S1a publication admission round 3 (#441)
+
+Retrieved during this run: 2026-11-28 JST. Access and visitor observations retain `needs_confirmation`. Confirm service, onward access and visit availability before departure.
+
+### b01-hachioji-passion-fruit
+
+- Arrival, half-day → b01-hachioji-passion-fruit-garden-center: Shimo-Inume bus stop. The cooperative lists Shimo-Inume as the bus stop for its garden center. Confirm current stock. — https://ja-hachioji.or.jp/store/engei/
+
+### b01-hachioji-mulberry-sweets
+
+- Arrival, half-day → b01-hachioji-mulberry-sweets-takiyama-sweets: Michi-no-Eki Hachioji Takiyama Iriguchi bus stop. The city identifies the stop and the walking approach to the roadside station. — https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/003/p006476.html
+
+### b01-hachioji-rice-sake
+
+- Arrival, half-day → b01-hachioji-rice-sake-city-brewery: Hachioji Station. The brewery gives a walking approach to its shop from Hachioji Station. — https://www.tokyo-hachioji-shuzo.jp/
+
+### b01-hachioji-craft-beer
+
+- Arrival, half-day → b01-hachioji-craft-beer-ko52: Takao Station. The brewer identifies Takao Station's south exit for its KO52 taproom. — https://www.takaobeer.com/
+
+### b01-tachikawa-eggs
+
+- Arrival, half-day → b01-tachikawa-eggs-nikko-eggs: Tachikawa Station. The hotel gives a walking approach from JR Tachikawa Station's south exit. Confirm current menu availability. — https://hotelnikko-tachikawatokyo.jp/access/
+
+### b01-tachikawa-craft-beer
+
+- Arrival, half-day → b01-tachikawa-craft-beer-tachihi: Tachihi Honsha-mae bus stop. The brewery names Tachihi Honsha-mae and gives the walking approach from the bus stop. — https://www.tachihibrewery.com/view/page/about
+
+### b01-musashino-sakai-chili
+
+- Arrival, half-day → b01-musashino-sakai-chili-mugiwara-chili: Kichijoji Station. The visitor guide gives a walking approach to Mugiwara Boshi from Kichijoji Station's north exit. Confirm current stock. — https://musashino-kanko.com/wp/wp-content/uploads/2025/02/musashino_city_visitors_guide-jp.pdf
+
+### b01-musashino-mead
+
+- Arrival, half-day → b01-musashino-mead-miuraya: Kichijoji Station. The retailer identifies Kichijoji Station's north exit for the Coppice branch. Confirm current stock. — https://miuraya.co.jp/shop/
+
+### b01-hachioji-asakawa-ayu
+
+- Arrival, half-day → b01-hachioji-asakawa-ayu-asakawa: Hachioji Station. The city describes a walk from JR Hachioji Station North Exit to the public riverbank downstream of Asakawa Ohashi. Confirm riverbank conditions locally. — https://www.city.hachioji.tokyo.jp/shisetsu/109/p023781.html

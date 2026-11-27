@@ -43,6 +43,7 @@ export const b08InagiTakaoGrapesRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "新百合ヶ丘駅", "en": "Shin-Yurigaoka Station", "zh-TW": "新百合丘站"}, "spotId": "b08-inagi-takao-grapes-el-cielo", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b08-inagi-takao-grapes-el-cielo",
@@ -224,6 +225,7 @@ export const b08InagiTakaoGrapesRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "El Cielo shop and access information", "url": "https://www.el-cielo.jp/%E5%BA%97%E9%95%B7%E7%B4%B9%E4%BB%8B-%E5%BA%97%E8%88%97%E6%83%85%E5%A0%B1/", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-17": {"name":"稲城市の特産品「ぶどう」","url":"https://www.city.inagi.tokyo.jp/sangyo/nougyou/1010173/1003691.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-20": {"name":"令和7年度 稲城の太鼓判 認証商品一覧（裏）","url":"https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-b.pdf","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-22": {"name":"令和7年度 稲城の太鼓判 認証商品一覧（表）","url":"https://www.city.inagi.tokyo.jp/_res/projects/default_project/_page_/001/010/499/taiko-f.pdf","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},

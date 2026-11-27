@@ -35,6 +35,7 @@ export const b02MitakaOrchardFruitRecord: JourneyRecord = {
   "location": {"ja":{"area":"三鷹市","station":"","access":""},"en":{"area":"Mitaka","station":"","access":""},"zh-TW":{"area":"三鷹市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "連雀通り", "en": "Renjaku-dori bus stop", "zh-TW": "連雀通公車站"}, "spotId": "b02-mitaka-orchard-fruit-takahashi", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b02-mitaka-orchard-fruit-yamamoto",
@@ -170,6 +171,7 @@ export const b02MitakaOrchardFruitRecord: JourneyRecord = {
     "location": {"ja":{"region":"三鷹市","station":""},"en":{"region":"Mitaka","station":""},"zh-TW":{"region":"三鷹市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Farm Takahashi – directions", "url": "https://farm-t.tokyo/", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-8": {"name":"Yamamoto Orchard — introduction","url":"https://mitaka-yamamotokajuen.tokyo/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-9": {"name":"みたか都市観光協会 — 吉野果樹園 ブルーベリー摘み取り","url":"https://kanko.mitaka.ne.jp/docs/2026070800010/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-10": {"name":"Farm Takahashi — orchard introduction","url":"https://farm-t.tokyo/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},

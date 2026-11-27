@@ -34,6 +34,7 @@ export const b02OmeLocalDishesRecord: JourneyRecord = {
   "location": {"ja":{"area":"青梅市","station":"","access":""},"en":{"area":"Ome","station":"","access":""},"zh-TW":{"area":"青梅市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "東青梅駅", "en": "Higashi-Ome Station", "zh-TW": "東青梅站"}, "spotId": "b02-ome-local-dishes-negishiya", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b02-ome-local-dishes-negishiya",
@@ -97,6 +98,7 @@ export const b02OmeLocalDishesRecord: JourneyRecord = {
     "location": {"ja":{"region":"青梅市","station":""},"en":{"region":"Ome","station":""},"zh-TW":{"region":"青梅市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Ome City – visitor route", "url": "https://www.city.ome.tokyo.jp/site/omekanko/20292.html", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-26": {"name":"青梅市 — お子様の自由研究に！いろいろ体験ドライブコース","url":"https://www.city.ome.tokyo.jp/site/omekanko/20292.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-38": {
       "name": "西多摩地域広域行政圏協議会 — 青梅生まれトウキョウX肉うどん",

@@ -301,3 +301,47 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 ### b08-tama-honey
 
 - Arrival, half-day → b08-tama-honey-ponte: Keiō Nagayama Station. The shopping centre identifies Ponte and its connection to Keiō Nagayama Station. Confirm stock at the shop. — https://www.greenade.com/shop/index.jsp?bf=1&fmt=6&shopid=15
+
+## S1a publication admission round 3 (#441)
+
+Retrieved during this run: 2026-11-28 JST. Access and visitor observations retain `needs_confirmation`. Confirm service, onward access and visit availability before departure.
+
+### b08-tama-farm-table
+
+- Arrival, half-day → b08-tama-farm-table-ikiiki: Seiseki-Sakuragaoka Station. The committee locates Ikiiki-ichi on the approach from Seiseki-Sakuragaoka Station toward the Tama River. — https://www.city.tama.lg.jp/_res/projects/default_project/_page_/001/005/740/46P6-8.pdf
+
+### b08-tama-norabo-na
+
+- Arrival, half-day → b08-tama-norabo-na-ikiiki: Seiseki-Sakuragaoka Station. The committee locates Ikiiki-ichi on the approach from Seiseki-Sakuragaoka Station toward the Tama River. Confirm seasonal availability. — https://www.city.tama.lg.jp/_res/projects/default_project/_page_/001/005/740/46P6-8.pdf
+
+### b08-hamura-rice-sake
+
+- Arrival, half-day → b08-hamura-rice-sake-negaramimae: Hamura Station. The city gives a walking approach to the paddies from Hamura Station's west exit. — https://www.city.hamura.tokyo.jp/0000015860.html
+
+### b08-hamura-seki-wine
+
+- Arrival, half-day → b08-hamura-seki-wine-tourism: Hamura Station. The city gives a walking approach to the information center from Hamura Station's west exit. Confirm wine availability separately. — https://www.city.hamura.tokyo.jp/0000005553.html
+
+### b08-hamura-craft-beer
+
+- Arrival, half-day → b08-hamura-craft-beer-ashford: Ozaku Station. The city locates Ashford near JR Ozaku Station and gives the address. Confirm current opening and beer availability. — https://www.city.hamura.tokyo.jp/prsite/0000017739.html
+
+### b08-hamura-farm-table
+
+- Arrival, half-day → b08-hamura-farm-table-market: Hamura Station. The city gives a walking approach to the farm market from JR Hamura Station. — https://www.city.hamura.tokyo.jp/0000001912.html
+
+### b08-inagi-water-fields
+
+- Arrival, half-day → b08-inagi-water-fields-daimaru: Minami-Tama Station. The city describes the public walking path along Sugabori, a main branch of Daimaru Irrigation Canal, and gives pedestrian access from Minami-Tama Station. Use public paths along the canal. — https://www.city.inagi.tokyo.jp/kankyo/midori/1005312/1012585/1012594.html
+
+### b08-tama-wheat-udon
+
+- Arrival, half-day → b08-tama-wheat-udon-ponpoko: Hijirigaoka Center bus stop. The Tokyo agricultural directory gives Hijirigaoka Center as the bus stop for Ponpoko in Hijirigaoka, where the operator also lists the shop. Confirm schedules and opening times separately. — https://tokyogrown.jp/node/571661
+
+### b08-inagi-takao-grapes
+
+- Arrival, half-day → b08-inagi-takao-grapes-el-cielo: Shin-Yurigaoka Station. The shop gives walking access from Odakyu Shin-Yurigaoka Station to its Hirao address. Confirm availability of the grape sorbet separately. — https://www.el-cielo.jp/%E5%BA%97%E9%95%B7%E7%B4%B9%E4%BB%8B-%E5%BA%97%E8%88%97%E6%83%85%E5%A0%B1/
+
+### b08-hamura-local-sweets
+
+- Arrival, half-day → b08-hamura-local-sweets-yamadaya: Hamura Station. The hiking route publisher places Yamadaya's Seki Shop on the walk west from Hamura Station toward the Tama River. The west-exit shopping association lists the exact shop at https://hamura-nshop.com/shop/yamadaya/. Confirm hours separately. — https://yamasta.yamakei.co.jp/article/at260213.php

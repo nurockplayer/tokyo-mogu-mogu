@@ -410,3 +410,51 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 ### b05-kunitachi-tekuteku-tea
 
 - Arrival, half-day → b05-kunitachi-tekuteku-tea-tokitaen: Yaho Station. The operator gives the walking approach from Yaho Station to the main shop. — https://tokitaen.com/shop/
+
+## S1a publication admission round 3 (#441)
+
+Retrieved during this run: 2026-11-28 JST. Access and visitor observations retain `needs_confirmation`. Confirm service, onward access and visit availability before departure.
+
+### b05-higashimurayama-wheat-udon
+
+- Arrival, half-day → b05-higashimurayama-wheat-udon-noguchi: Higashi-Murayama Station. The chamber gives walking access from Higashi-Murayama Station to Noguchi Seimen. Confirm shop hours and service separately. — https://www.shoukoukai.or.jp/satohachi/shops/shop_05/
+
+### b05-higashimurayama-orchard-products
+
+- Arrival, half-day → b05-higashimurayama-orchard-products-shimizuya: Higashi-Murayama Station. The Tokyo agricultural directory gives walking access from Higashi-Murayama Station West Exit to Shimizuya. Confirm availability of orchard products separately. — https://tokyogrown.jp/node/597277
+
+### b05-higashimurayama-natto
+
+- Arrival, half-day → b05-higashimurayama-natto-hoya: Aoba Shogakko bus stop. The producer gives Green Bus access via Aoba Shogakko for its factory shop. Confirm bus schedules and retail hours separately. — https://www.hoya-nattou.com/shop.html
+
+### b05-higashimurayama-local-sweets
+
+- Arrival, half-day → b05-higashimurayama-local-sweets-chamois: Kumegawa Station. The chamber guide lists Chamois within walking distance of Kumegawa Station. Confirm the shop's current hours separately. — https://www.shoukoukai.or.jp/satohachi/pdf/satohachi_2019.pdf
+
+### b05-kokubunji-orchard-fruit
+
+- Arrival, half-day → b05-kokubunji-orchard-fruit-enokido: Namiki-cho bus stop. The farm directs visitors to the Namiki-cho stop on Tachikawa Bus for its direct-sale location. Confirm schedules, sale dates and stock separately. — https://www.enokido-farm.jp/map.html
+
+### b05-kokubunji-tea
+
+- Arrival, half-day → b05-kokubunji-tea-matsumoto: Koigakubo Station. The chamber listing gives walking access from Koigakubo Station to Cha Matsumoto. Confirm sale hours separately. — https://soh.sci-kokubunji.jp/chaMATSUMOTO
+
+### b05-higashimurayama-black-sauce
+
+- Arrival, half-day → b05-higashimurayama-black-sauce-pole-star: Higashi-Murayama Station. Seibu gives a walking approach from Higashi-Murayama Station East Exit to Pole Star. Confirm visitor offerings and opening times with the operator. — https://www.seiburailway.jp/railways/fillute/food/202304-01/
+
+### b05-kunitachi-style-sweets
+
+- Arrival, half-day → b05-kunitachi-style-sweets-marronnier: Yaho Station. The confectioner gives walking directions from JR Yaho Station to its Yaho Factory Shop. Confirm product availability separately. — https://www.marronnier.co.jp/shop
+
+### b05-higashimurayama-yuba
+
+- Arrival, half-day → b05-higashimurayama-yuba-musashino-an: Kumegawa Station. The chamber gives road access from Kumegawa Station to the Musashino-an shop. Allow for an onward vehicle trip and confirm shop hours. — https://www.shoukoukai.or.jp/satohachi/shops/shop_16/
+
+### b05-higashimurayama-eight-grains
+
+- Arrival, half-day → b05-higashimurayama-eight-grains-kimura: Musashi-Yamato Station. The chamber lists the shop at walking distance from Musashi-Yamato Station. Confirm availability of the grain blend separately. — https://www.shoukoukai.or.jp/brand/brandlogo/b_gazou/22kimura.pdf
+
+### b05-kokubunji-tokyo-udo
+
+- Arrival, half-day → b05-kokubunji-tokyo-udo-kosaka: Kokubunji Station. The harvest event organizer describes walking from Kokubunji Station to Kosaka Farm, also identified in the city's farm-stand project directory at https://kokuvege.jp/direct/. Confirm retail access and seasonal stock with the farm. — https://motake.jp/magazine/harvest-cooking01/

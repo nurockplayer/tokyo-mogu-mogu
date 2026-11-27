@@ -29,6 +29,7 @@ export const b11OshimaDairyRecord: JourneyRecord = {
   "location": {"ja": {"area": "大島町","station": "","access": ""},"en": {"area": "Oshima Town","station": "","access": ""},"zh-TW": {"area": "大島町","station": "","access": ""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "ぶらっとハウス前", "en": "Buratto House-mae bus stop", "zh-TW": "Buratto House 前公車站"}, "spotId": "b11-oshima-dairy-buratto", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b11-oshima-dairy-buratto",
@@ -146,6 +147,7 @@ export const b11OshimaDairyRecord: JourneyRecord = {
     "location": {"ja": {"region": "大島町","station": ""},"en": {"region": "Oshima Town","station": ""},"zh-TW": {"region": "大島町","station": ""}}
   },
   "sources": {
+    "admission-access": {"name": "Oshima Bus – visitor access", "url": "https://www.oshima-bus.com/sightseeing.php", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-1": {
       "name": "b11 — 農産物直売所ぶらっとハウス／東京の観光公式サイトGO TOKYO",
       "url": "https://www.gotokyo.org/jp/spot/1265/index.html",

@@ -24,6 +24,7 @@ export const b02OmeLogMushroomsRecord: JourneyRecord = {
   "location": {"ja":{"area":"青梅市","station":"","access":""},"en":{"area":"Ome","station":"","access":""},"zh-TW":{"area":"青梅市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "小曾木診療所", "en": "Osogi Shinryojo bus stop", "zh-TW": "小曾木診療所公車站"}, "spotId": "b02-ome-log-mushrooms-uchinuma", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b02-ome-log-mushrooms-uchinuma",
@@ -87,6 +88,7 @@ export const b02OmeLogMushroomsRecord: JourneyRecord = {
     "location": {"ja":{"region":"青梅市","station":""},"en":{"region":"Ome","station":""},"zh-TW":{"region":"青梅市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Ome City – visitor route", "url": "https://www.city.ome.tokyo.jp/site/omekanko/20292.html", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-26": {"name":"青梅市 — お子様の自由研究に！いろいろ体験ドライブコース","url":"https://www.city.ome.tokyo.jp/site/omekanko/20292.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b02 editorial itinerary — timing and order estimates, not a timetable","url":"https://www.city.ome.tokyo.jp/site/omekanko/20292.html","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}
   },

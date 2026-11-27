@@ -394,3 +394,71 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 ### b09-mizuho-local-sweets
 
 - Arrival, half-day → b09-mizuho-local-sweets-maronshan: Hakonegasaki Station East Exit. The town maps Maronshan on the east side of Hakonegasaki Station. — https://www.town.mizuho.tokyo.jp/bunka/004/p010024_d/fil/BrandPanfuretto.pdf
+
+## S1a publication admission round 3 (#441)
+
+Retrieved during this run: 2026-11-28 JST. Access and visitor observations retain `needs_confirmation`. Confirm service, onward access and visit availability before departure.
+
+### b09-akiruno-noodles
+
+- Arrival, half-day → b09-akiruno-noodles-sumiya: Musashi-Itsukaichi Station. The association gives a walking approach to Sumiya's restaurant at the same address from JR Musashi-Itsukaichi Station. — https://www.akirunokanko.com/?p=355
+
+### b09-akiruno-beef
+
+- Arrival, half-day → b09-akiruno-beef-matsumura: Musashi-Itsukaichi Station. The market's profile locates Matsumura west of JR Musashi-Itsukaichi Station on Hinohara Kaido. — https://www.shijou.metro.tokyo.lg.jp/about/specialist/meat/16
+
+### b09-akiruno-wine
+
+- Arrival, half-day → b09-akiruno-wine-vineyard: Musashi-Masuko Station. The rail operator gives a walking approach to the winery from JR Musashi-Masuko Station. — https://www.jreast.co.jp/hachioji/ome-itsukaichi/spot/detail386821.html
+
+### b09-akiruno-soy-sauce
+
+- Arrival, half-day → b09-akiruno-soy-sauce-kondo: Musashi-Masuko Station. The producer gives a walking approach from JR Musashi-Masuko Station. — https://kondojozo.com/company/access/
+
+### b09-akiruno-konnyaku
+
+- Arrival, half-day → b09-akiruno-konnyaku-ichiho: Nutabata bus stop. The association identifies Nutabata bus stop for the restaurant at Otsu 2333, the same address it lists for Ichiho. Confirm service and sales. — https://www.akirunokanko.com/?p=377
+
+### b09-akiruno-local-sweets
+
+- Arrival, half-day → b09-akiruno-local-sweets-urayama: Musashi-Itsukaichi Station. The metropolitan guide locates Tokyo Urayama Base across the junction from JR Musashi-Itsukaichi Station. — https://tokyomokunavi.metro.tokyo.lg.jp/activities/activities02/
+
+### b09-nishitokyo-orchard-fruit
+
+- Arrival, half-day → b09-nishitokyo-orchard-fruit-kato: Shimo-Hoya 2-chome Jutaku Kita bus stop. The grower identifies stop 12 outside the farm. The city gives its stop name at https://www.city.nishitokyo.lg.jp/kurasi/kotu/hanabus/unkouroot/dai1route.html. Confirm the picking season. — https://katofarm-hoya.com/access/
+
+### b09-nishitokyo-hoya-natto
+
+- Arrival, half-day → b09-nishitokyo-hoya-natto-tamahachi: Tanashi Station. The restaurant gives a walking approach from Tanashi Station. Confirm the current menu. — https://tama-hachi.net/
+
+### b09-nishitokyo-karinto
+
+- Arrival, half-day → b09-nishitokyo-karinto-tanashi: Tanashi Station. The producer locates its Tanashi shop by the north exit of Tanashi Station. — https://www.asahi-seika.co.jp/company.html
+
+### b09-nishitokyo-local-sweets
+
+- Arrival, half-day → b09-nishitokyo-local-sweets-ishii: Tanashi Station. The city catalogue locates Ishii Confectionery in Asta, a short walk from Tanashi Station. — https://www.city.nishitokyo.lg.jp/kurasi/sangyou/kakushujigyou/ippin/backnumber/ippin-h26-2.files/itten26.pdf
+
+### b09-mizuho-sayama-tea
+
+- Arrival, half-day → b09-mizuho-sayama-tea-nishimura: Nagaoka bus stop. The tea grower names the Nagaoka stop on the Tachikawa Bus loop and describes the walking approach. — https://knishimura.com/access/
+
+### b09-mizuho-dairy
+
+- Arrival, half-day → b09-mizuho-dairy-westland: Hakonegasaki Station. The Tokyo agricultural visitor guide gives road access from JR Hakonegasaki Station to Shimizu Farm's WESTLAND FARM shop. Allow for an onward vehicle trip and confirm shop hours. — https://tokyogrown.jp/tokyoonedaytrip/vol25/
+
+### b09-nishitokyo-farm-table
+
+- Arrival, half-day → b09-nishitokyo-farm-table-nitta: Seibu-Yagisawa Station. The municipal map plots Nitta Farm in the Seibu-Yagisawa area. The farm event organizer gives the station walking approach at https://aibaeco.co.jp/event/event-9396/. Confirm direct-sale days and stock separately. — https://www.city.nishitokyo.lg.jp/kurasi/agriculture/megumi_recipe.files/megumicyokubaijyomappupdf.pdf
+
+### b09-mizuho-tomatoes
+
+- Arrival, half-day → b09-mizuho-tomatoes-amemiya: Hakonegasaki Station. The town's brand map plots Amemiya Farm relative to Hakonegasaki Station. Confirm tomato sale dates and stock separately. — https://www.town.mizuho.tokyo.jp/town/003/p004128_d/fil/p-1.pdf
+
+### b09-mizuho-pickles
+
+- Arrival, half-day → b09-mizuho-pickles-kondo-foods: Hakonegasaki Station. The town's brand map plots Kondo Foods relative to Hakonegasaki Station. The operator describes direct sales at https://kondo-foods.co.jp/real/. Confirm direct-sale hours separately. — https://www.town.mizuho.tokyo.jp/town/003/p004128_d/fil/p-1.pdf
+
+### b09-mizuho-konnyaku
+
+- Arrival, half-day → b09-mizuho-konnyaku-shokusai: Hakonegasaki Station. The guide maps Mizuho Shokusai Kobo's Takane visitor address and Hakonegasaki Station. Allow for an onward trip from the station and confirm the shop and product availability. — https://www.gotokyo.org/book/wp-content/uploads/2025/10/2510_mizuhobrand_JP_low.pdf

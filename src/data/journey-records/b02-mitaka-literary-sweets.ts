@@ -24,6 +24,7 @@ export const b02MitakaLiterarySweetsRecord: JourneyRecord = {
   "location": {"ja":{"area":"三鷹市","station":"","access":""},"en":{"area":"Mitaka","station":"","access":""},"zh-TW":{"area":"三鷹市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "新川通り", "en": "Shinkawa-dori bus stop", "zh-TW": "新川通公車站"}, "spotId": "b02-mitaka-literary-sweets-muwp", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b02-mitaka-literary-sweets-muwp",
@@ -79,6 +80,7 @@ export const b02MitakaLiterarySweetsRecord: JourneyRecord = {
     "location": {"ja":{"region":"三鷹市","station":""},"en":{"region":"Mitaka","station":""},"zh-TW":{"region":"三鷹市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Muwp – Nakahara facility", "url": "https://muwp.tokyo/support/nakahara/", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-12": {"name":"ミィね！mitaka — TAKA-1（タカワン）アーカイブ","url":"https://meene.app/taka-1/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-52": {"name":"TAKA-1 archive — Muwp-sha Nakahara Dazai-logo cookies","url":"https://meene.app/taka-1/dazai-logo-cookie/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b02 editorial itinerary — timing and order estimates, not a timetable","url":"https://meene.app/taka-1/dazai-logo-cookie/","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}

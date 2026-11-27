@@ -108,6 +108,7 @@ export const b05HigashimurayamaEightGrainsRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "武蔵大和駅", "en": "Musashi-Yamato Station", "zh-TW": "武藏大和站"}, "spotId": "b05-higashimurayama-eight-grains-kimura", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b05-higashimurayama-eight-grains-kimura",
@@ -305,6 +306,7 @@ export const b05HigashimurayamaEightGrainsRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Higashimurayama Chamber of Commerce Kimura Shoten listing", "url": "https://www.shoukoukai.or.jp/brand/brandlogo/b_gazou/22kimura.pdf", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-21": {
       "name": "東村山ブランド里に八国 | 認定商品取扱い店一覧",
       "url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_20/",

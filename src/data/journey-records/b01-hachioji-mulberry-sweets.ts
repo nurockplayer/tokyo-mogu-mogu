@@ -25,6 +25,7 @@ export const b01HachiojiMulberrySweetsRecord: JourneyRecord = {
   "location": {"ja":{"area":"八王子市","station":"","access":""},"en":{"area":"Hachioji","station":"","access":""},"zh-TW":{"area":"八王子市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "道の駅八王子滝山入口", "en": "Michi-no-Eki Hachioji Takiyama Iriguchi bus stop", "zh-TW": "道之驛八王子瀧山入口公車站"}, "spotId": "b01-hachioji-mulberry-sweets-takiyama-sweets", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b01-hachioji-mulberry-sweets-takiyama-sweets",
@@ -124,6 +125,7 @@ export const b01HachiojiMulberrySweetsRecord: JourneyRecord = {
     "location": {"ja":{"region":"八王子市","station":""},"en":{"region":"Hachioji","station":""},"zh-TW":{"region":"八王子市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Hachioji City – roadside station access", "url": "https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/003/p006476.html", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-10": {"name":"Matsuhime — 八王子松姫～松姫もなか","url":"https://matuhime.co.jp/","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "source-26": {"name":"Tokyo Metropolitan Government — 桑","url":"https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_69.html","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "source-42": {"name":"Matsuhime — 松姫 店舗情報","url":"https://www.matuhime.co.jp/tennpo.html","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},

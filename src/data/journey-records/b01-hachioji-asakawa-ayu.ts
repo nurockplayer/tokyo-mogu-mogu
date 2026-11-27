@@ -24,6 +24,7 @@ export const b01HachiojiAsakawaAyuRecord: JourneyRecord = {
   "location": {"ja":{"area":"八王子市","station":"","access":""},"en":{"area":"Hachioji","station":"","access":""},"zh-TW":{"area":"八王子市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "八王子駅", "en": "Hachioji Station", "zh-TW": "八王子站"}, "spotId": "b01-hachioji-asakawa-ayu-asakawa", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b01-hachioji-asakawa-ayu-asakawa",
@@ -82,6 +83,7 @@ export const b01HachiojiAsakawaAyuRecord: JourneyRecord = {
     "location": {"ja":{"region":"八王子市","station":""},"en":{"region":"Hachioji","station":""},"zh-TW":{"region":"八王子市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Hachioji City Asakawa riverbank park access", "url": "https://www.city.hachioji.tokyo.jp/shisetsu/109/p023781.html", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-29": {"name":"Hachioji City — アユ釣りの解禁","url":"https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/001/001/p006540.html","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b01 editorial itinerary — timing and order estimates, not a timetable","url":"https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/001/001/p006540.html","sourceType":"manual","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"}
   },

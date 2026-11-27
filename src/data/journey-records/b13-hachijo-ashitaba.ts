@@ -29,6 +29,7 @@ export const b13HachijoAshitabaRecord: JourneyRecord = {
   "location": {"ja":{"area":"八丈町","station":"","access":""},"en":{"area":"Hachijo Town","station":"","access":""},"zh-TW":{"area":"八丈町","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "ferry-terminal", "name": {"ja": "底土港", "en": "Sokodo Port", "zh-TW": "底土港"}, "spotId": "b13-hachijo-ashitaba-uohachiya", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b13-hachijo-ashitaba-uohachiya",
@@ -146,6 +147,7 @@ export const b13HachijoAshitabaRecord: JourneyRecord = {
     "location": {"ja":{"region":"八丈町","station":""},"en":{"region":"Hachijo Town","station":""},"zh-TW":{"region":"八丈町","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Hachijojima Tourism Association – Uohachiya", "url": "https://www.hachijo.gr.jp/restaurant/uohachiya/", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-6": {
       "name": "JA八丈島農協 | 特産品の農産物 |",
       "url": "https://www.jahachijo.jp/information/tokusan.html",

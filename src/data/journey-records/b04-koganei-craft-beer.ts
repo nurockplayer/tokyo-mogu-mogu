@@ -31,6 +31,7 @@ export const b04KoganeiCraftBeerRecord: JourneyRecord = {
   "location": {"ja":{"area":"小金井市","station":"","access":""},"en":{"area":"Koganei","station":"","access":""},"zh-TW":{"area":"小金井市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "武蔵小金井駅", "en": "Musashi-Koganei Station", "zh-TW": "武藏小金井站"}, "spotId": "b04-koganei-craft-beer-beer-works", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b04-koganei-craft-beer-beer-works",
@@ -116,6 +117,7 @@ export const b04KoganeiCraftBeerRecord: JourneyRecord = {
     "location": {"ja":{"region":"小金井市","station":""},"en":{"region":"Koganei","station":""},"zh-TW":{"region":"小金井市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "JR Chuo Line Community Design – Chuo Line Beer Works", "url": "https://www.jrccd.co.jp/chuolinebeerworks/", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-11": {"name":"小金井市ふるさと納税における新たな返礼品について　令和8年5月11日報道発表：小金井市公式WEBへようこそ","url":"https://www.city.koganei.lg.jp/shisei/461/pressrelease/r8/press20260511.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-12": {"name":"中央線ビアワークス　CHŪŌ LINE BEER WORKS｜株式会社JR中央線コミュニティデザイン","url":"https://www.jrccd.co.jp/chuolinebeerworks/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b04 editorial itinerary — estimated timing and order, not a timetable","url":"https://www.city.koganei.lg.jp/shisei/461/pressrelease/r8/press20260511.html","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}

@@ -26,6 +26,7 @@ export const b11OshimaSeafoodRecord: JourneyRecord = {
   "location": {"ja": {"area": "大島町","station": "","access": ""},"en": {"area": "Oshima Town","station": "","access": ""},"zh-TW": {"area": "大島町","station": "","access": ""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "元町港", "en": "Motomachi Port bus stop", "zh-TW": "元町港公車站"}, "spotId": "b11-oshima-seafood-umi-ichiba", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b11-oshima-seafood-umi-ichiba",
@@ -93,6 +94,7 @@ export const b11OshimaSeafoodRecord: JourneyRecord = {
     "location": {"ja": {"region": "大島町","station": ""},"en": {"region": "Oshima Town","station": ""},"zh-TW": {"region": "大島町","station": ""}}
   },
   "sources": {
+    "admission-access": {"name": "Oshima Bus – visitor access", "url": "https://www.oshima-bus.com/sightseeing.php", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-6": {
       "name": "b11 — 認定ブランド",
       "url": "https://www.izu-oshima.or.jp/geopark/brand/member/",

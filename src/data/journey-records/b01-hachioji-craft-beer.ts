@@ -25,6 +25,7 @@ export const b01HachiojiCraftBeerRecord: JourneyRecord = {
   "location": {"ja":{"area":"八王子市","station":"","access":""},"en":{"area":"Hachioji","station":"","access":""},"zh-TW":{"area":"八王子市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "高尾駅", "en": "Takao Station", "zh-TW": "高尾站"}, "spotId": "b01-hachioji-craft-beer-ko52", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b01-hachioji-craft-beer-ko52",
@@ -124,6 +125,7 @@ export const b01HachiojiCraftBeerRecord: JourneyRecord = {
     "location": {"ja":{"region":"八王子市","station":""},"en":{"region":"Hachioji","station":""},"zh-TW":{"region":"八王子市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Takao Beer – KO52 brewery and taproom", "url": "https://www.takaobeer.com/", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-13": {"name":"T.M.B. — 事業案内","url":"https://t-m-b.co.jp/business/","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "source-44": {"name":"Takao Beer — Contact – TAKAO BEER","url":"https://www.takaobeer.com/contact/","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b01 editorial itinerary — timing and order estimates, not a timetable","url":"https://t-m-b.co.jp/business/","sourceType":"manual","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"}

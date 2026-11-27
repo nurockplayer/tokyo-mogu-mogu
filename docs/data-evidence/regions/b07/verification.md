@@ -338,3 +338,43 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 ### b07-musashimurayama-orchard-fruit
 
 - Arrival, half-day → b07-musashimurayama-orchard-fruit-kobayashi: Nakato bus stop. The farm’s access page directs bus passengers to Nakato. — https://kobayashifarm.tokyo/access/
+
+## S1a publication admission round 3 (#441)
+
+Retrieved during this run: 2026-11-28 JST. Access and visitor observations retain `needs_confirmation`. Confirm service, onward access and visit availability before departure.
+
+### b07-kiyose-strawberry
+
+- Arrival, half-day → b07-kiyose-strawberry-tucci: Shimo-Kiyoto 2-chome bus stop. The farm identifies Shimo-Kiyoto 2-chome on the bus route from Kiyose Station. Confirm season and reservations. — https://tucci.tokyo/access/
+
+### b07-kiyose-blueberry
+
+- Arrival, half-day → b07-kiyose-blueberry-sakama: Daida bus stop. The grower identifies Daida and the walking approach to the farm. Confirm the sales location and fruit season. — https://www.sakama-nursery.jp/farm
+
+### b07-higashikurume-local-food
+
+- Arrival, half-day → b07-higashikurume-local-food-heihachi: Higashi-Kurume Station. The guide identifies the west exit of Higashi-Kurume Station as the approach to Gyozaya Heihachi. — https://assets.tokyogrown.jp/library/img/tokyoguide2020.pdf
+
+### b07-musashimurayama-wheat-kate-udon
+
+- Arrival, half-day → b07-musashimurayama-wheat-kate-udon-mangetsu: Mitsugi bus stop. The Tama visitor guide identifies the Tachikawa Bus stop for Murayama Mangetsu Udon. — https://at-tama.tokyo/theme_files/digitalstamprally.pdf
+
+### b07-musashimurayama-sayama-tea
+
+- Arrival, half-day → b07-musashimurayama-sayama-tea-morino-komugi: Gakuen bus stop. The bureau gives the walking approach from Gakuen bus stop to the bakery. Confirm product availability. — https://go-to-higashiyamato.tokyo/introduce/%E3%82%82%E3%82%8A%E3%81%AE%E3%81%93%E3%82%80%E3%81%8E/
+
+### b07-musashimurayama-mandarins
+
+- Arrival, half-day → b07-musashimurayama-mandarins-uchino-mikan: Nakato bus stop. The city identifies Nakato as the approach to Uchino Mandarin Orchard. Confirm the current picking season. — https://mobile.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1005150.html
+
+### b07-musashimurayama-farm-table
+
+- Arrival, half-day → b07-musashimurayama-farm-table-ohana: Tokyo Nishi-kaido bus stop. The bakery lists Tokyo Nishi-kaido as the nearest Tachikawa Bus stop. — https://pankoji.com/
+
+### b07-kiyose-orchard-fruit
+
+- Arrival, half-day → b07-kiyose-orchard-fruit-kaneshinen: Asahigaoka 2-chome bus stop. The city maps the Shitajuku 1-chome farm stand at point 4 near Asahigaoka 2-chome. Seibu lists bus service to the stop at https://transfer-cloud.navitime.biz/seibubus/courses?busstop=00111103. Confirm seasonal sales with the orchard. — https://www.city.kiyose.lg.jp/_res/projects/default_project/_page_/001/004/763/chokubaimap202102.pdf
+
+### b07-kiyose-local-sake
+
+- Arrival, half-day → b07-kiyose-local-sake-kasuya: Daida Danchi bus stop. The city directs travelers to Daida Danchi for Shitajuku 2-chome. For the onward walk use the shop pin at https://kiyose.or.jp/town/info/%E5%8A%A0%E5%AF%BF%E5%B1%8B%E9%85%92%E5%BA%97/. Confirm the timetable, shop hours and sake stock. — https://www.city.kiyose.lg.jp/shisetsu/bousaisisetu/hinanjo/1001450.html

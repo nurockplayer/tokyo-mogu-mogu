@@ -39,6 +39,7 @@ export const b07MusashimurayamaMandarinsRecord: JourneyRecord = {
   "location": {"ja":{"area":"武蔵村山市","station":"","access":""},"en":{"area":"Musashimurayama","station":"","access":""},"zh-TW":{"area":"武藏村山市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "中藤", "en": "Nakato bus stop", "zh-TW": "中藤公車站"}, "spotId": "b07-musashimurayama-mandarins-uchino-mikan", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b07-musashimurayama-mandarins-uchino-mikan",
@@ -187,6 +188,7 @@ export const b07MusashimurayamaMandarinsRecord: JourneyRecord = {
     "location": {"ja":{"region":"武蔵村山市","station":""},"en":{"region":"Musashimurayama","station":""},"zh-TW":{"region":"武藏村山市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Musashimurayama City – mandarin orchards", "url": "https://mobile.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1005150.html", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-10": {"name":"地域ブランド認証商品｜武蔵村山市　公式ホームページ","url":"https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-11": {"name":"蜜柑（みかん）｜武蔵村山市　公式ホームページ","url":"https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1005150.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b07 editorial itinerary — estimated timing and order, not a timetable","url":"https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}

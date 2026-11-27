@@ -34,6 +34,7 @@ export const b02OmeOrchardFruitRecord: JourneyRecord = {
   "location": {"ja":{"area":"青梅市","station":"","access":""},"en":{"area":"Ome","station":"","access":""},"zh-TW":{"area":"青梅市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "小作駅", "en": "Ozaku Station", "zh-TW": "小作站"}, "spotId": "b02-ome-orchard-fruit-berry-cottage", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b02-ome-orchard-fruit-berry-cottage",
@@ -144,6 +145,7 @@ export const b02OmeOrchardFruitRecord: JourneyRecord = {
     "location": {"ja":{"region":"青梅市","station":""},"en":{"region":"Ome","station":""},"zh-TW":{"region":"青梅市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Berry Cottage – access", "url": "https://www.berry-cottage.com/access.html", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-20": {"name":"JA東京アグリパーク — 生産者紹介｜かすみ直売センター","url":"https://agripark.tokyo/matching/search/producer.php?id=nishi_tokyo_kasumi_fsc","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-21": {"name":"JA Nishitokyo — Kasumi Farmers Market","url":"https://www.ja-nishitokyo.or.jp/archives/store_post/shop_kasumi","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-24": {"name":"青梅市観光協会 — ベリーコテージ","url":"https://www.omekanko.gr.jp/spot/19501/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},

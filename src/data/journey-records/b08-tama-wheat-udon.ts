@@ -45,6 +45,7 @@ export const b08TamaWheatUdonRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "聖ヶ丘センター", "en": "Hijirigaoka Center bus stop", "zh-TW": "聖丘中心公車站"}, "spotId": "b08-tama-wheat-udon-ponpoko", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b08-tama-wheat-udon-ponpoko",
@@ -148,6 +149,7 @@ export const b08TamaWheatUdonRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Tokyo Grown Tama Udon Ponpoko access", "url": "https://tokyogrown.jp/node/571661", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-5": {"name":"メニュー一覧","url":"https://tamaudonponpoko.nomaki.jp/menu.htm","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-8": {"name":"多摩市の特産品など","url":"https://www.city.tama.lg.jp/kanko/1015690/1016140/1006512.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b08 editorial itinerary — timing and order are estimates","url":"https://tamaudonponpoko.nomaki.jp/menu.htm","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}

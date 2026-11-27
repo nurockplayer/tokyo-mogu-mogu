@@ -180,6 +180,7 @@ export const b05HigashimurayamaLocalSweetsRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "久米川駅", "en": "Kumegawa Station", "zh-TW": "久米川站"}, "spotId": "b05-higashimurayama-local-sweets-chamois", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b05-higashimurayama-local-sweets-madonna",
@@ -917,6 +918,7 @@ export const b05HigashimurayamaLocalSweetsRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Higashimurayama Chamber of Commerce Satohachi guide", "url": "https://www.shoukoukai.or.jp/satohachi/pdf/satohachi_2019.pdf", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-0": {
       "name": "東村山ブランド里に八国 | 里に八国とは？",
       "url": "https://www.shoukoukai.or.jp/satohachi/about/",

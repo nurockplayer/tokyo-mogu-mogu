@@ -24,6 +24,7 @@ export const b10OkutamaEggsRecord: JourneyRecord = {
   "location": {"ja": {"area": "奥多摩町", "station": "", "access": ""}, "en": {"area": "Okutama", "station": "", "access": ""}, "zh-TW": {"area": "奧多摩町", "station": "", "access": ""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "白丸駅", "en": "Shiromaru Station", "zh-TW": "白丸站"}, "spotId": "b10-okutama-eggs-shiromaru", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b10-okutama-eggs-shiromaru",
@@ -84,6 +85,7 @@ export const b10OkutamaEggsRecord: JourneyRecord = {
     "location": {"ja": {"region": "奥多摩町", "station": ""}, "en": {"region": "Okutama", "station": ""}, "zh-TW": {"region": "奧多摩町", "station": ""}}
   },
   "sources": {
+    "admission-access": {"name": "Ome Tourism Association – Shiromaru Tamago", "url": "https://www.omekanko.gr.jp/spot/%E3%81%97%E3%82%8D%E3%81%BE%E3%82%8B%E3%81%9F%E3%81%BE%E3%81%94/", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "s0": {"name": "奥多摩のショップリスト", "url": "https://www.okutama.gr.jp/site/shopping/", "sourceType": "official_web", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"},
     "editorial": {"name": "b10 editorial itinerary: estimated timing and order, not a timetable", "url": "https://www.okutama.gr.jp/site/shopping/", "sourceType": "manual", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"}
   },

@@ -34,6 +34,7 @@ export const b04KoganeiConfectioneryRecord: JourneyRecord = {
   "location": {"ja":{"area":"小金井市","station":"","access":""},"en":{"area":"Koganei","station":"","access":""},"zh-TW":{"area":"小金井市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "武蔵小金井駅", "en": "Musashi-Koganei Station", "zh-TW": "武藏小金井站"}, "spotId": "b04-koganei-confectionery-kameya", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b04-koganei-confectionery-sanyo",
@@ -179,6 +180,7 @@ export const b04KoganeiConfectioneryRecord: JourneyRecord = {
     "location": {"ja":{"region":"小金井市","station":""},"en":{"region":"Koganei","station":""},"zh-TW":{"region":"小金井市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Koganei Tourism Association – Kameya", "url": "https://koganei-kanko.jp/maron/archives/70408", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-1": {"name":"小金井市認定　江戸東京野菜使用店：小金井市公式WEBへようこそ","url":"https://www.city.koganei.lg.jp/kankobunka/kankobunka_oshirase/edoyasaishiyoten.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-9": {"name":"御菓子司 三陽｜心ときめく口福おもたせ｜小金井百店一首〜江戸東京こがねい浪漫〜","url":"https://koganei-s.or.jp/hyakuten-isshu/theme/nostalgia/sanyo/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-10": {"name":"地元産野菜使って　トマト大福　トマト羊かん（2013年9月16日 第1085号）","url":"https://www.nouminren.ne.jp/old/shinbun/201309/2013091609.htm","sourceType":"business","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},

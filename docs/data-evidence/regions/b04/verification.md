@@ -289,3 +289,43 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 ### b04-kodaira-wheat-udon
 
 - Arrival, half-day → b04-kodaira-wheat-udon-furusato: Hanakoganei Station. The park operator lists the walking approach from Hanakoganei Station. Confirm the udon programme separately. — https://kodaira-furusatomura.jp/detail/f00015.html
+
+## S1a publication admission round 3 (#441)
+
+Retrieved during this run: 2026-11-28 JST. Access and visitor observations retain `needs_confirmation`. Confirm service, onward access and visit availability before departure.
+
+### b04-hino-tokoji-daikon
+
+- Arrival, half-day → b04-hino-tokoji-daikon-minami: Manganji Station. The foundation's guide gives a walking approach from Manganji Station to Minami no Megumi. Confirm produce availability. — https://www.tokyo-aff.or.jp/uploaded/attachment/4110.pdf
+
+### b04-hino-farm-orchard
+
+- Arrival, half-day → b04-hino-farm-orchard-minami: Manganji Station. The foundation's guide gives a walking approach from Manganji Station to Minami no Megumi. — https://www.tokyo-aff.or.jp/uploaded/attachment/4110.pdf
+
+### b04-hino-toyoda-beer
+
+- Arrival, half-day → b04-hino-toyoda-beer-minami: Manganji Station. The foundation's guide gives a walking approach from Manganji Station to Minami no Megumi. Confirm beer availability. — https://www.tokyo-aff.or.jp/uploaded/attachment/4110.pdf
+
+### b04-koganei-confectionery
+
+- Arrival, half-day → b04-koganei-confectionery-kameya: Musashi-Koganei Station. The tourism association locates Kameya by Musashi-Koganei Station. — https://koganei-kanko.jp/maron/archives/70408
+
+### b04-koganei-craft-beer
+
+- Arrival, half-day → b04-koganei-craft-beer-beer-works: Musashi-Koganei Station. The operator gives the walking approach from Musashi-Koganei Station to the brewery. — https://www.jrccd.co.jp/chuolinebeerworks/
+
+### b04-kodaira-blueberry
+
+- Arrival, half-day → b04-kodaira-blueberry-blueberry-marker: Hana-Koganei Station. The association places the marker in the south rotary of Hana-Koganei Station. — https://kodaira-tourism.com/blueberry/
+
+### b04-kodaira-tokyo-gold
+
+- Arrival, half-day → b04-kodaira-tokyo-gold-nakamura: Showa Byoin Kita-iriguchi bus stop. The grower identifies the bus stop immediately outside the farm shop. Confirm fruit availability. — https://goldkiwi.tokyo/about
+
+### b04-kodaira-souvenir-sweets
+
+- Arrival, half-day → b04-kodaira-souvenir-sweets-etoile: Hitotsubashi-Gakuen Station. The shop listing gives a walking approach from Hitotsubashi-Gakuen Station's north exit. — https://www.kodaira-net.jp/etoile/
+
+### b04-koganei-kiwi
+
+- Arrival, half-day → b04-koganei-kiwi-motohashi: Musashi-Koganei Station. The farm gives walking directions from Musashi-Koganei Station North Exit. Confirm sales and seasonal access separately. — https://kajul.akibare.ne.jp/access

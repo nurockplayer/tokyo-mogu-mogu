@@ -50,6 +50,7 @@ export const b08HamuraRiceSakeRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "羽村駅", "en": "Hamura Station", "zh-TW": "羽村站"}, "spotId": "b08-hamura-rice-sake-negaramimae", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b08-hamura-rice-sake-negaramimae",
@@ -309,6 +310,7 @@ export const b08HamuraRiceSakeRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Hamura City – Negaramimae paddies", "url": "https://www.city.hamura.tokyo.jp/0000015860.html", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-23": {"name":"羽村市内唯一の水田で収穫した「羽村米」","url":"https://www.city.hamura.tokyo.jp/0000005260.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-24": {"name":"はむりん羽村米","url":"https://www.city.hamura.tokyo.jp/0000006547.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-25": {"name":"東京都立産業技術研究センターと共同開発した「はむら」発売","url":"https://www.tamajiman.co.jp/info/451","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},

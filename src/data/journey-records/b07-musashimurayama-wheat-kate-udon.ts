@@ -39,6 +39,7 @@ export const b07MusashimurayamaWheatKateUdonRecord: JourneyRecord = {
   "location": {"ja":{"area":"武蔵村山市","station":"","access":""},"en":{"area":"Musashimurayama","station":"","access":""},"zh-TW":{"area":"武藏村山市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "三ツ木", "en": "Mitsugi bus stop", "zh-TW": "三木公車站"}, "spotId": "b07-musashimurayama-wheat-kate-udon-mangetsu", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b07-musashimurayama-wheat-kate-udon-mangetsu",
@@ -236,6 +237,7 @@ export const b07MusashimurayamaWheatKateUdonRecord: JourneyRecord = {
     "location": {"ja":{"region":"武蔵村山市","station":""},"en":{"region":"Musashimurayama","station":""},"zh-TW":{"region":"武藏村山市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Another Tokyo Tama – Musashino udon visitor guide", "url": "https://at-tama.tokyo/theme_files/digitalstamprally.pdf", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-10": {"name":"地域ブランド認証商品｜武蔵村山市　公式ホームページ","url":"https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-12": {"name":"村山かてうどん｜武蔵村山市　公式ホームページ","url":"https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1005152.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b07 editorial itinerary — estimated timing and order, not a timetable","url":"https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}

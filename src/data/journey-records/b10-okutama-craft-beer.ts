@@ -24,6 +24,7 @@ export const b10OkutamaCraftBeerRecord: JourneyRecord = {
   "location": {"ja": {"area": "奥多摩町", "station": "", "access": ""}, "en": {"area": "Okutama", "station": "", "access": ""}, "zh-TW": {"area": "奧多摩町", "station": "", "access": ""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "奥多摩駅", "en": "Okutama Station", "zh-TW": "奧多摩站"}, "spotId": "b10-okutama-craft-beer-vertere", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b10-okutama-craft-beer-vertere",
@@ -84,6 +85,7 @@ export const b10OkutamaCraftBeerRecord: JourneyRecord = {
     "location": {"ja": {"region": "奥多摩町", "station": ""}, "en": {"region": "Okutama", "station": ""}, "zh-TW": {"region": "奧多摩町", "station": ""}}
   },
   "sources": {
+    "admission-access": {"name": "Okutama Tourism Association – Okutama Station shop map", "url": "https://www.okutama.gr.jp/site/map/pdf/hikawa-tenpo.pdf", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "s0": {"name": "VERTERE - Craft Beer Brewed in Okutama, Tokyo", "url": "https://verterebrew.com/", "sourceType": "official_web", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"},
     "editorial": {"name": "b10 editorial itinerary: estimated timing and order, not a timetable", "url": "https://verterebrew.com/", "sourceType": "manual", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"}
   },

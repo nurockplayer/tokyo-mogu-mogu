@@ -34,6 +34,7 @@ export const b02MitakaOsawaWasabiRecord: JourneyRecord = {
   "location": {"ja":{"area":"三鷹市","station":"","access":""},"en":{"area":"Mitaka","station":"","access":""},"zh-TW":{"area":"三鷹市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "野川公園入口", "en": "Nogawa Koen Iriguchi bus stop", "zh-TW": "野川公園入口公車站"}, "spotId": "b02-mitaka-osawa-wasabi-mikarino", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b02-mitaka-osawa-wasabi-mikarino",
@@ -97,6 +98,7 @@ export const b02MitakaOsawaWasabiRecord: JourneyRecord = {
     "location": {"ja":{"region":"三鷹市","station":""},"en":{"region":"Mitaka","station":""},"zh-TW":{"region":"三鷹市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Mitaka City – Osawa transit map", "url": "https://www.city.mitaka.lg.jp/c_service/112/attached/attach_112502_3.pdf", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-0": {"name":"JA東京中央会 — 三鷹大沢わさび","url":"https://www.tokyo-ja.or.jp/farm/edo/59.php","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-1": {"name":"三鷹市 — 広報みたか2026年4月5日9面","url":"https://www.city.mitaka.lg.jp/koho/2026/20260405/p9.htm","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b02 editorial itinerary — timing and order estimates, not a timetable","url":"https://www.city.mitaka.lg.jp/koho/2026/20260405/p9.htm","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}

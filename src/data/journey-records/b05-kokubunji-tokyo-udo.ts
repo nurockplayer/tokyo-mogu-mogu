@@ -108,6 +108,7 @@ export const b05KokubunjiTokyoUdoRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "国分寺駅", "en": "Kokubunji Station", "zh-TW": "國分寺站"}, "spotId": "b05-kokubunji-tokyo-udo-kosaka", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b05-kokubunji-tokyo-udo-kosaka",
@@ -305,6 +306,7 @@ export const b05KokubunjiTokyoUdoRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Mo:take harvest event account", "url": "https://motake.jp/magazine/harvest-cooking01/", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-26": {
       "name": "国分寺市の代表的な農畜産物や特産品は何ですか。｜国分寺市",
       "url": "https://www.city.kokubunji.tokyo.jp/faq/kurashi/1005239/1005297/1006217.html",
