@@ -61,6 +61,7 @@ export const b07HigashikurumeYanagikuboWheatRecord: JourneyRecord = {
   "location": {"ja":{"area":"東久留米市","station":"","access":""},"en":{"area":"Higashikurume","station":"","access":""},"zh-TW":{"area":"東久留米市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "東久留米駅", "en": "Higashi-Kurume Station", "zh-TW": "東久留米站"}, "spotId": "b07-higashikurume-yanagikubo-wheat-nozaki", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b07-higashikurume-yanagikubo-wheat-nozaki",
@@ -148,6 +149,7 @@ export const b07HigashikurumeYanagikuboWheatRecord: JourneyRecord = {
     "location": {"ja":{"region":"東久留米市","station":""},"en":{"region":"Higashikurume","station":""},"zh-TW":{"region":"東久留米市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Narayama Farm Hatake Terrace access", "url": "https://nonosachi.com/access", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-4": {"name":"アクセス – 奈良山園 NARAYAMA FARM","url":"https://nonosachi.com/access","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-6": {"name":"東久留米ブランド商品について｜東久留米市ホームページ","url":"https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/1008029/1006353.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-7": {"name":"特産品一覧（「東久留米大好きっ！」掲載品）｜東久留米市ホームページ","url":"https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/tokusan/1003816.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},

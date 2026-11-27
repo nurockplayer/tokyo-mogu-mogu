@@ -144,6 +144,7 @@ export const b05KunitachiFarmTableRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "谷保駅", "en": "Yaho Station", "zh-TW": "谷保站"}, "spotId": "b05-kunitachi-farm-table-satonoie", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b05-kunitachi-farm-table-satonoie",
@@ -611,6 +612,7 @@ export const b05KunitachiFarmTableRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Kunitachi City Shiroyama Satonoie access", "url": "https://www.city.kunitachi.tokyo.jp/soshiki/Dept06/Div06/Sec03/gyomu/0486/ie/1464591730071.html", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-36": {
       "name": "行ってみよう！直売所案内マップ | くにたちNAVI",
       "url": "https://kunimachi.jp/spot/chokubaijo/",

@@ -31,6 +31,7 @@ export const b02OmeCraftBeerRecord: JourneyRecord = {
   "location": {"ja":{"area":"青梅市","station":"","access":""},"en":{"area":"Ome","station":"","access":""},"zh-TW":{"area":"青梅市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "河辺駅", "en": "Kabe Station", "zh-TW": "河邊站"}, "spotId": "b02-ome-craft-beer-muto", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b02-ome-craft-beer-muto",
@@ -48,6 +49,7 @@ export const b02OmeCraftBeerRecord: JourneyRecord = {
   },
   "spots": {
     "b02-ome-craft-beer-muto": {
+      "visitorSourceId": "admission-access",
       "presentation": {
         "id": "b02-ome-craft-beer-muto",
         "regionId": "ome",
@@ -93,6 +95,7 @@ export const b02OmeCraftBeerRecord: JourneyRecord = {
     "location": {"ja":{"region":"青梅市","station":""},"en":{"region":"Ome","station":""},"zh-TW":{"region":"青梅市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Ōme Tourism Association Mutō Jisaku Saketen access", "url": "https://www.omekanko.gr.jp/spot/05501/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-33": {"name":"青梅商工会議所 — 武藤治作酒店 青梅初のクラフトビールを製造","url":"https://www.omecci.jp/member_activity/24997.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b02 editorial itinerary — timing and order estimates, not a timetable","url":"https://www.omecci.jp/member_activity/24997.html","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}
   },

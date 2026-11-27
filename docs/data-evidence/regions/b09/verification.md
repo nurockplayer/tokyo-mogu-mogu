@@ -357,3 +357,12 @@ Retrieved during this run: 2026-11-27 JST. The linked pages were opened and chec
 
 - Arrival, half-day → b09-mizuho-wheat-snacks-fresh-house: Hakonegasaki Station. The town’s walking directions from Hakonegasaki Station’s west exit explicitly pass the farm market. — https://www.town.mizuho.tokyo.jp/kirameki/006/p007058.html
 - Official destination, b09-mizuho-wheat-snacks-fresh-house: The town has a dedicated visitor listing for Fresh House. — https://www.town.mizuho.tokyo.jp/tyosei/019/003/p007765.html
+
+## S1a publication admission round 2 (#441)
+
+Retrieved during this run: 2026-11-27 JST. Access and visitor observations retain `needs_confirmation`. Check visit availability and transport before departure.
+
+### demo-tokyo-west-akiruno-produce
+
+- Arrival, half-day → akiruno-farmers-center: Higashi-Akiru Station. Akiruno City names JR Higashi-Akiru Station as the walking approach to the farmers center. — https://www.city.akiruno.tokyo.jp/0000003556.html
+- Arrival, full-day → akiruno-farmers-center: Higashi-Akiru Station. Akiruno City names JR Higashi-Akiru Station as the walking approach to the farmers center. — https://www.city.akiruno.tokyo.jp/0000003556.html

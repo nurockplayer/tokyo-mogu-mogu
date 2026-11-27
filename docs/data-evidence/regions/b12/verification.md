@@ -336,3 +336,19 @@ Retrieved during this run: 2026-11-27 JST. The linked pages were opened and chec
 - Arrival, half-day → b12-kozushima-bonito-ritual-shrine: Maehama (Kozushima) Port passenger terminal. The tourism association’s walking guide directs visitors to Mononamina Shrine from Kozushima Port. The Tokyo port guide identifies it as Maehama Port. Check the ferry operator for the day’s arrival port. — https://kozushima.com/tour/tourroute/542/
 - Official destination, b12-kozushima-bonito-ritual-shrine: The tourism association’s mapped itinerary has a named visitor stop for Mononamina Shrine. — https://kozushima.com/tour/tourroute/542/
 - Port identity and visitor terminal: Tokyo Metropolitan Government lists Kozushima Port as Maehama Port — https://www.islandaccess.metro.tokyo.lg.jp/stations/maehama_port/
+
+## S1a publication admission round 2 (#441)
+
+Retrieved during this run: 2026-11-27 JST. Access and visitor observations retain `needs_confirmation`. Check visit availability and transport before departure.
+
+### b12-mikurajima-forest-home-table
+
+- Arrival, half-day → b12-mikurajima-forest-home-table-fukumaru: Mikurajima Port. The Tokyo Islands public corporation identifies Mikurajima Port and includes Fukumaru Shoten in its village visitor guide and linked map. — https://www.tokyoislands-net.jp/islands/mikurajima/
+
+### b12-mikurajima-kabutsu
+
+- Arrival, half-day → b12-mikurajima-kabutsu-fukumaru: Mikurajima Port. The Tokyo Islands public corporation identifies Mikurajima Port and includes Fukumaru Shoten in its village visitor guide and linked map. — https://www.tokyoislands-net.jp/islands/mikurajima/
+
+### b12-mikurajima-island-gelato
+
+- Arrival, half-day → b12-mikurajima-island-gelato-fukumaru: Mikurajima Port. The Tokyo Islands public corporation identifies Mikurajima Port and includes Fukumaru Shoten in its village visitor guide and linked map. — https://www.tokyoislands-net.jp/islands/mikurajima/

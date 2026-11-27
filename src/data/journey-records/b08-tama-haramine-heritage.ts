@@ -48,6 +48,7 @@ export const b08TamaHaramineHeritageRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "桜ヶ丘4丁目", "en": "Sakuragaoka 4-chōme bus stop", "zh-TW": "櫻丘四丁目巴士站"}, "spotId": "b08-tama-haramine-heritage-haramine-park", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b08-tama-haramine-heritage-haramine-park",
@@ -151,6 +152,7 @@ export const b08TamaHaramineHeritageRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Tama City Haramine Park access", "url": "https://www.city.tama.lg.jp/map/kouen/1002506.html", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-7": {"name":"多摩市の農業・特産品開発","url":"https://www.city.tama.lg.jp/_res/projects/default_project/_page_/001/015/079/kaitei_03.pdf","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-10": {"name":"手作り多摩の味噌 原峰のかおり","url":"https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_119.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-11": {"name":"原峰のいずみ","url":"https://www.sangyo-rodo1.metro.tokyo.lg.jp/tourism/tokyogifts62/product/53/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},

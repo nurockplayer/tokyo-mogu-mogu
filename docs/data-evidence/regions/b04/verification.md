@@ -257,3 +257,27 @@ Municipality: hino. Theme: Hino stories in sweets and souvenirs.
 - PLACE: Shoseido Takahata Fudoson Shop — https://www.syoseido.co.jp/store/ — HTTP 200; Shoseido lists this outlet within Takahata Fudoson’s grounds.
 - PLACE: Hino Tourist Information Center — https://shinsenhino.com/%E6%97%A5%E9%87%8E%E5%B8%82%E8%A6%B3%E5%85%89%E6%A1%88%E5%86%85%E6%89%80 — HTTP 200; The tourism association describes its souvenir area and Hijikata Toshizo udon.
 - EDITORIAL: half-day order and 150 minutes are estimates, not source claims. Source-linked context: https://www.syoseido.co.jp/store/. Station/access are empty; no images. All new sources remain needs_confirmation.
+
+## S1a publication admission round 2 (#441)
+
+Retrieved during this run: 2026-11-27 JST. Access and visitor observations retain `needs_confirmation`. Check visit availability and transport before departure.
+
+### b04-koganei-shojin
+
+- Arrival, half-day → b04-koganei-shojin-sankoin: Musashi-Koganei Station. The temple gives a walking approach from Musashi-Koganei Station. — https://www.sankou-in.com/info_260604_01.html
+
+### b04-koganei-heritage-vegetables
+
+- Arrival, half-day → b04-koganei-heritage-vegetables-mu-chan: Musashi-Koganei Station. JA lists the Koganei market at Nakachō 4-16-22 and gives walking access from the south exit of Musashi-Koganei Station. — https://www.jatm.or.jp/magazine/pdf/kawasemi_09.pdf?dl=true
+
+### b04-koganei-rhubarb
+
+- Arrival, half-day → b04-koganei-rhubarb-mu-chan: Musashi-Koganei Station. JA lists the Koganei market at Nakachō 4-16-22 and gives walking access from the south exit of Musashi-Koganei Station. — https://www.jatm.or.jp/magazine/pdf/kawasemi_09.pdf?dl=true
+
+### b04-kodaira-farm-table
+
+- Arrival, half-day → b04-kodaira-farm-table-mu-chan: Ōme-kaidō Station. The city names Ōme-kaidō Station for the Kodaira farmers’ market. — https://www.city.kodaira.tokyo.jp/kurashi/001/001143.html
+
+### b04-kodaira-tokyo-udo
+
+- Arrival, half-day → b04-kodaira-tokyo-udo-mu-chan: Ōme-kaidō Station. The city names Ōme-kaidō Station for the Kodaira farmers’ market. — https://www.city.kodaira.tokyo.jp/kurashi/001/001143.html

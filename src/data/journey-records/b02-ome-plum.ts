@@ -31,6 +31,7 @@ export const b02OmePlumRecord: JourneyRecord = {
   "location": {"ja":{"area":"青梅市","station":"","access":""},"en":{"area":"Ome","station":"","access":""},"zh-TW":{"area":"青梅市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "日向和田駅", "en": "Hinatawada Station", "zh-TW": "日向和田站"}, "spotId": "b02-ome-plum-koubaien", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b02-ome-plum-koubaien",
@@ -86,6 +87,7 @@ export const b02OmePlumRecord: JourneyRecord = {
     "location": {"ja":{"region":"青梅市","station":""},"en":{"region":"Ome","station":""},"zh-TW":{"region":"青梅市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Ōtama Tourism Federation Kōbaien access", "url": "https://www.ohtama.or.jp/member/798.html", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-14": {"name":"西多摩地域広域行政圏協議会 — 梅 東京都青梅市","url":"https://www.nishitama-kouiki.jp/%E6%A2%85-%E6%9D%B1%E4%BA%AC%E9%83%BD%E9%9D%92%E6%A2%85%E5%B8%82/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-15": {"name":"青梅市 — 学校給食における青梅の銘菓","url":"https://www.city.ome.tokyo.jp/soshiki/57/119869.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-16": {"name":"Ome Tourism Association — Koubaien","url":"https://www.omekanko.gr.jp/spot/06601/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},

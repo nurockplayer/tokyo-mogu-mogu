@@ -366,3 +366,19 @@ Municipality: kunitachi. Theme: Kunitachi yakuzen curry and noodles.
 - https://kunitachi-shokokai.jp/item/murasakababagnacauda/ — HTTP 200; 2026-11-24 JST. Claims supported are listed per journey above; unused context pages are not record sources.
 - https://kunitachi-shokokai.jp/item/yakuzen-curry/ — HTTP 200; 2026-11-24 JST. Claims supported are listed per journey above; unused context pages are not record sources.
 - https://kunitachi-shokokai.jp/item/kunitachicurrynoodle/ — HTTP 200; 2026-11-24 JST. Claims supported are listed per journey above; unused context pages are not record sources.
+
+## S1a publication admission round 2 (#441)
+
+Retrieved during this run: 2026-11-27 JST. Access and visitor observations retain `needs_confirmation`. Check visit availability and transport before departure.
+
+### b05-kunitachi-farm-table
+
+- Arrival, half-day → b05-kunitachi-farm-table-satonoie: Yaho Station. The city names JR Yaho as one walking approach to Shiroyama Satonoie. — https://www.city.kunitachi.tokyo.jp/soshiki/Dept06/Div06/Sec03/gyomu/0486/ie/1464591730071.html
+
+### b05-kunitachi-yaho-rice
+
+- Arrival, half-day → b05-kunitachi-yaho-rice-satonoie: Yaho Station. The city names JR Yaho as one walking approach to Shiroyama Satonoie. — https://www.city.kunitachi.tokyo.jp/soshiki/Dept06/Div06/Sec03/gyomu/0486/ie/1464591730071.html
+
+### b05-higashimurayama-sake-lees
+
+- Arrival, half-day → b05-higashimurayama-sake-lees-toshimaya: Higashi-Murayama Station. Seibu Railway gives walking access to the brewery and its shop from Higashi-Murayama Station’s east exit. — https://www.seiburailway.jp/railways/fillute/experience/202510-01/

@@ -300,3 +300,12 @@ Retrieved during this run: 2026-11-27 JST. The linked pages were opened and chec
 
 - Arrival, half-day → b06-fussa-craft-beer-beer-goya: Haijima Station. The brewery’s directions name JR Haijima Station for access to its grounds. — https://www.tamajiman.co.jp/access/
 - Official destination, b06-fussa-craft-beer-beer-goya: The brewery’s visitor page identifies the Fussa no Beer Goya restaurant on the grounds. — https://www.tamajiman.co.jp/access/
+
+## S1a publication admission round 2 (#441)
+
+Retrieved during this run: 2026-11-27 JST. Access and visitor observations retain `needs_confirmation`. Check visit availability and transport before departure.
+
+### demo-tokyo-west-fussa-sake
+
+- Arrival, half-day → fussa-tamura-shuzo: Fussa Station. The brewery gives JR Fussa Station as the walking approach. — https://www.tamurashuzojo.com/page/kura
+- Arrival, full-day → fussa-tamura-shuzo: Fussa Station. The brewery gives JR Fussa Station as the walking approach. — https://www.tamurashuzojo.com/page/kura

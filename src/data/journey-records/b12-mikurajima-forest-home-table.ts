@@ -170,6 +170,7 @@ export const b12MikurajimaForestHomeTableRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "ferry-terminal", "name": {"ja": "御蔵島港", "en": "Mikurajima Port", "zh-TW": "御藏島港"}, "spotId": "b12-mikurajima-forest-home-table-fukumaru", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b12-mikurajima-forest-home-table-nishikawa",
@@ -424,6 +425,7 @@ export const b12MikurajimaForestHomeTableRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Tokyo Islands Mikurajima visitor guide", "url": "https://www.tokyoislands-net.jp/islands/mikurajima/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-9": {
       "name": "東京のくさや ｜地域資源紹介記事 ｜ 東京都　地域資源（TOKYOイチオシナビ）",
       "url": "https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_18.html",

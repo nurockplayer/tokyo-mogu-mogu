@@ -9,7 +9,7 @@ export const b01HachiojiNapolitanRecord: JourneyRecord = {
     "storyId": "b01-hachioji-napolitan",
     "routeId": "b01-hachioji-napolitan-route",
     "copy": {"ja":{"title":"八王子ナポリタンの玉ねぎをたどる","subtitle":"八王子ナポリタンの玉ねぎをたどる","description":"刻み玉ねぎと地元食材がつなぐ街のスパゲティ。","tags":["八王子市"],"storyTitle":"八王子ナポリタンの玉ねぎをたどる","intro":["刻み玉ねぎと地元食材がつなぐ街のスパゲティ。","掲載内容は未確認です。訪問前に出典情報をご確認ください。"]},"en":{"title":"The onion in Hachioji Napolitan","subtitle":"The onion in Hachioji Napolitan","description":"A local spaghetti style linked by chopped onion and Hachioji ingredients.","tags":["Hachioji"],"storyTitle":"The onion in Hachioji Napolitan","intro":["A local spaghetti style linked by chopped onion and Hachioji ingredients.","This information is unconfirmed. Check the source information before visiting."]},"zh-TW":{"title":"認識八王子拿坡里義大利麵的洋蔥","subtitle":"認識八王子拿坡里義大利麵的洋蔥","description":"以切碎洋蔥與八王子食材連結地方的義大利麵。","tags":["八王子市"],"storyTitle":"認識八王子拿坡里義大利麵的洋蔥","intro":["以切碎洋蔥與八王子食材連結地方的義大利麵。","刊載內容尚未確認。造訪前請查看出處資訊。"]}},
-    "chapters": {"ja":[{"number":"01.","title":"八王子ナポリタン","body":"市の食文化資料は八王子ナポリタンを新しい名物として紹介。八王子経済新聞は、刻み玉ねぎと八王子産食材を使うスタイルと説明しています。"}],"en":[{"number":"01.","title":"Hachioji Napolitan","body":"The municipal food-history survey introduces Hachioji Napolitan as a newer specialty. Hachioji Keizai Shimbun describes chopped onion and Hachioji-grown ingredients as its features."}],"zh-TW":[{"number":"01.","title":"八王子拿坡里義大利麵","body":"市府飲食文化資料介紹八王子拿坡里義大利麵為較新的名物；八王子經濟新聞說明其使用切碎洋蔥與八王子食材。"}]},
+    "chapters": {"ja":[{"number":"01.","title":"八王子ナポリタン","body":"市の食文化資料は八王子ナポリタンを新しい名物として紹介。市の紹介は、刻み玉ねぎと八王子産食材を使うスタイルと説明しています。"}],"en":[{"number":"01.","title":"Hachioji Napolitan","body":"The municipal food-history survey introduces Hachioji Napolitan as a newer specialty. The city’s introduction describes chopped onion and Hachioji-grown ingredients as its features."}],"zh-TW":[{"number":"01.","title":"八王子拿坡里義大利麵","body":"市府飲食文化資料介紹八王子拿坡里義大利麵為較新的名物；市府介紹說明其使用切碎洋蔥與八王子食材。"}]},
     "routeVariants": [
       {
         "id": "half-day",
@@ -24,6 +24,7 @@ export const b01HachiojiNapolitanRecord: JourneyRecord = {
   "location": {"ja":{"area":"八王子市","station":"","access":""},"en":{"area":"Hachioji","station":"","access":""},"zh-TW":{"area":"八王子市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "八王子駅", "en": "Hachiōji Station", "zh-TW": "八王子站"}, "spotId": "b01-hachioji-napolitan-rocco", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b01-hachioji-napolitan-rocco",
@@ -37,6 +38,7 @@ export const b01HachiojiNapolitanRecord: JourneyRecord = {
   },
   "spots": {
     "b01-hachioji-napolitan-rocco": {
+      "visitorSourceId": "admission-access",
       "presentation": {
         "id": "b01-hachioji-napolitan-rocco",
         "regionId": "hachioji",
@@ -81,6 +83,8 @@ export const b01HachiojiNapolitanRecord: JourneyRecord = {
     "location": {"ja":{"region":"八王子市","station":""},"en":{"region":"Hachioji","station":""},"zh-TW":{"region":"八王子市","station":""}}
   },
   "sources": {
+    "admission-story": {"name": "Hachioji City: Hachioji Napolitan and Kitchen Rocco", "url": "https://www.city.hachioji.tokyo.jp/shisei/003/005/cp-movie.html", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
+    "admission-access": {"name": "Kitchen Rocco official visitor page", "url": "https://kitchenrocco.owst.jp/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-7": {"name":"Hachioji Keizai Shimbun — 「八王子ナポリタン」をカプセルトイ化、期間限定販売　法政大生と協働","url":"https://hachioji.keizai.biz/index.php/headline/4352/","sourceType":"manual","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "source-28": {"name":"Hachioji City — 第3章 食をめぐる現状","url":"https://www.city.hachioji.tokyo.jp/kurashi/hoken/007/az003/p002723_d/fil/3-2.pdf","sourceType":"official_web","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b01 editorial itinerary — timing and order estimates, not a timetable","url":"https://hachioji.keizai.biz/index.php/headline/4352/","sourceType":"manual","retrievedAt":"2026-11-22","verificationStatus":"needs_confirmation"}
@@ -88,7 +92,7 @@ export const b01HachiojiNapolitanRecord: JourneyRecord = {
   "facts": {
     "journey.copy": {
       "sourceIds": [
-        "source-7",
+        "admission-story",
         "source-28"
       ],
       "origin": "editorial"
@@ -109,7 +113,7 @@ export const b01HachiojiNapolitanRecord: JourneyRecord = {
     },
     "story": {
       "sourceIds": [
-        "source-7",
+        "admission-story",
         "source-28"
       ],
       "origin": "editorial"
@@ -117,21 +121,21 @@ export const b01HachiojiNapolitanRecord: JourneyRecord = {
     "journey.chapters.ja.0": {
       "sourceIds": [
         "source-28",
-        "source-7"
+        "admission-story"
       ],
       "origin": "editorial"
     },
     "journey.chapters.en.0": {
       "sourceIds": [
         "source-28",
-        "source-7"
+        "admission-story"
       ],
       "origin": "editorial"
     },
     "journey.chapters.zh-TW.0": {
       "sourceIds": [
         "source-28",
-        "source-7"
+        "admission-story"
       ],
       "origin": "editorial"
     },
@@ -168,7 +172,7 @@ export const b01HachiojiNapolitanRecord: JourneyRecord = {
     },
     "story.groups.nearby.0": {
       "sourceIds": [
-        "source-7"
+        "admission-story"
       ],
       "origin": "editorial"
     },

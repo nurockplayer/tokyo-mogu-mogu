@@ -49,6 +49,7 @@ export const b02MitakaKiwiRecord: JourneyRecord = {
   "location": {"ja":{"area":"三鷹市","station":"","access":""},"en":{"area":"Mitaka","station":"","access":""},"zh-TW":{"area":"三鷹市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "三鷹農協前", "en": "Mitaka Nōkyō-mae bus stop", "zh-TW": "三鷹農協前巴士站"}, "spotId": "b02-mitaka-kiwi-ryokka", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b02-mitaka-kiwi-ryokka",
@@ -112,6 +113,7 @@ export const b02MitakaKiwiRecord: JourneyRecord = {
     "location": {"ja":{"region":"三鷹市","station":""},"en":{"region":"Mitaka","station":""},"zh-TW":{"region":"三鷹市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "JA Tokyo Musashi Mitaka Green Center access", "url": "https://www.jatm.or.jp/economy/mitaka.php", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-2": {"name":"三鷹市 — 三鷹特産キウイフルーツ直販のお知らせ","url":"https://www.city.mitaka.lg.jp/c_news/120/120968.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-3": {"name":"JA Tokyo Musashi — Mitaka Ryokka Center","url":"https://www.jatm.or.jp/economy/mitaka.php","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-4": {"name":"東京都地域資源 — 三鷹キウイワイン","url":"https://www.chiikishigen.metro.tokyo.lg.jp/introduction/details/introduction_104.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},

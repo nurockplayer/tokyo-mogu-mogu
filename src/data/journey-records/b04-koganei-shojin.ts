@@ -31,6 +31,7 @@ export const b04KoganeiShojinRecord: JourneyRecord = {
   "location": {"ja":{"area":"小金井市","station":"","access":""},"en":{"area":"Koganei","station":"","access":""},"zh-TW":{"area":"小金井市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "武蔵小金井駅", "en": "Musashi-Koganei Station", "zh-TW": "武藏小金井站"}, "spotId": "b04-koganei-shojin-sankoin", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b04-koganei-shojin-sankoin",
@@ -116,6 +117,7 @@ export const b04KoganeiShojinRecord: JourneyRecord = {
     "location": {"ja":{"region":"小金井市","station":""},"en":{"region":"Koganei","station":""},"zh-TW":{"region":"小金井市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Sankō-in access", "url": "https://www.sankou-in.com/info_260604_01.html", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "source-7": {"name":"江⼾東京な たてもの探訪｜特集コンテンツ｜小金井百店一首〜江戸東京こがねい浪漫〜","url":"https://koganei-s.or.jp/hyakuten-isshu/feature/tatemono/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b04 editorial itinerary — estimated timing and order, not a timetable","url":"https://koganei-s.or.jp/hyakuten-isshu/feature/tatemono/","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}
   },

@@ -287,3 +287,39 @@ Retrieved during this run: 2026-11-27 JST. The linked pages were opened and chec
 
 - Arrival, half-day → b10-hinohara-yuzu-yamabukiya: Miyanosawa bus stop. The village tourism association identifies Miyanosawa as the stop in front of the shop. — https://hinohara-kankou.jp/spot/yamabuki-ya/
 - Official destination, b10-hinohara-yuzu-yamabukiya: The village tourism association’s visitor page identifies Yamabukiya and gives its access directions. — https://hinohara-kankou.jp/spot/yamabuki-ya/
+
+## S1a publication admission round 2 (#441)
+
+Retrieved during this run: 2026-11-27 JST. Access and visitor observations retain `needs_confirmation`. Check visit availability and transport before departure.
+
+### b10-hinode-field-harvests
+
+- Arrival, half-day → b10-hinode-field-harvests-tourism-association: Hinode Orikaeshiba bus stop. The tourism association gives the Nishi Tokyo Bus stop at Hinode Orikaeshiba for its visitor office. — https://www.hinodekanko.jp/%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9-%E5%95%8F%E5%90%88%E3%81%9B/
+
+### b10-hinode-masakado-udon
+
+- Arrival, half-day → b10-hinode-masakado-udon-sakanaen: Sakanaen bus stop. The tourism association directs visitors to the Sakanaen stop for the facility. — https://www.hinodekanko.jp/%E8%A6%8B%E3%82%8B-%E9%81%8A%E3%81%B6-%E6%A5%BD%E3%81%97%E3%82%80/
+
+### b10-hinode-trout
+
+- Arrival, half-day → b10-hinode-trout-sakanaen: Sakanaen bus stop. The tourism association directs visitors to the Sakanaen stop for the facility. — https://www.hinodekanko.jp/%E8%A6%8B%E3%82%8B-%E9%81%8A%E3%81%B6-%E6%A5%BD%E3%81%97%E3%82%80/
+
+### b10-hinohara-tofu
+
+- Arrival, half-day → b10-hinohara-tofu-chitoseya: Hossawa Falls Entrance bus stop. The tourism association names the Hossawa Falls entrance stop for Chitoseya. — https://hinohara-kankou.jp/spot/chitoseya/
+
+### b10-hinohara-konnyaku
+
+- Arrival, half-day → b10-hinohara-konnyaku-inoue: Henbori bus stop. The tourism association lists the factory outlet and gives access from the Henbori bus stop. — https://hinohara-kankou.jp/spot/inoueshokuhin/
+
+### b10-hinohara-mushrooms
+
+- Arrival, half-day → b10-hinohara-mushrooms-kinoko: Fujikura bus stop. The tourism association gives Fujikura as the bus stop and describes a 60-minute walk from there. — https://hinohara-kankou.jp/spot/hinoharakinokocenter/
+
+### b10-hinohara-river-fish
+
+- Arrival, half-day → b10-hinohara-river-fish-banba: Banba bus stop. The tourism association names Banba bus stop for the farm shop. — https://hinohara-kankou.jp/spot/banbatokusanbutsucyokubaijo/
+
+### b10-hinohara-potatoes
+
+- Arrival, half-day → b10-hinohara-potatoes-factory: Natsuchi bus stop. The tourism association names Natsuchi as the access stop for Hinohara Factory. — https://hinohara-kankou.jp/spot/hinoharafactory/

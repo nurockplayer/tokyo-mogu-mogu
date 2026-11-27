@@ -321,3 +321,41 @@ Every URL below was requested during this run. Failed sources are omitted from s
 - https://meene.app/taka-1/dazai-logo-cookie/ — HTTP 200
 - https://meene.app/taka-1/kiwicookie/ — HTTP 200
 - https://meene.app/taka-1/kiwi-jam/ — HTTP 200
+
+## S1a publication admission round 2 (#441)
+
+Retrieved during this run: 2026-11-27 JST. Access and visitor observations retain `needs_confirmation`. Check visit availability and transport before departure.
+
+### b02-fuchu-chestnut-festival
+
+- Arrival, half-day → b02-fuchu-chestnut-festival-okunitama: Fuchū-Hommachi Station. The shrine names JR Fuchū-Hommachi as a walking approach. — https://www.ookunitamajinja.or.jp/access/
+
+### b02-mitaka-kiwi
+
+- Arrival, half-day → b02-mitaka-kiwi-ryokka: Mitaka Nōkyō-mae bus stop. The operator directs visitors to the Mitaka Nōkyō-mae stop for the Green Center. — https://www.jatm.or.jp/economy/mitaka.php
+
+### b02-ome-sawai-yuzu
+
+- Arrival, half-day → b02-ome-sawai-yuzu-burarido: Mitake Station. The tourism association gives JR Mitake Station as the walking approach to Buraridō. — https://www.omekanko.gr.jp/spot/12401/
+
+### b02-ome-plum
+
+- Arrival, half-day → b02-ome-plum-koubaien: Hinatawada Station. The federation gives JR Hinatawada Station as the walking approach to Kōbaien. — https://www.ohtama.or.jp/member/798.html
+
+### b02-ome-local-sweets
+
+- Arrival, half-day → b02-ome-local-sweets-hesomanju: Hinatawada Station. The association’s Heso Manjū Sōhonpo listing gives walking access from JR Hinatawada Station. — https://www.omekanko.gr.jp/wph8gq9w/wp-content/themes/omekanko/images/pdf/ome_pamphlet_ja_01.pdf
+
+### b02-ome-mitake-foods
+
+- Arrival, half-day → b02-ome-mitake-foods-takimoto: Takimoto Station. The official visitor information page locates the souvenir shop at the Mitake cable railway’s Takimoto Station. — https://www.tokyotouristinfo.com/detail/M0072
+
+### b02-ome-craft-beer
+
+- Arrival, half-day → b02-ome-craft-beer-muto: Kabe Station. The tourism association gives JR Kabe Station as the walking approach to Mutō Jisaku Saketen. — https://www.omekanko.gr.jp/spot/05501/
+- Official destination, b02-ome-craft-beer-muto: The association identifies the shop and its Kinooka address and gives visitor directions. — https://www.omekanko.gr.jp/spot/05501/
+
+### demo-ome-sake
+
+- Arrival, half-day → sawai-ozawa-shuzo: Sawai Station. JR East gives Sawai Station as the walking approach to Ozawa Shuzo. — https://www.jreast.co.jp/hachioji/ome-itsukaichi/spot/detail386847.html
+- Arrival, full-day → sawai-ozawa-shuzo: Sawai Station. JR East gives Sawai Station as the walking approach to Ozawa Shuzo. — https://www.jreast.co.jp/hachioji/ome-itsukaichi/spot/detail386847.html

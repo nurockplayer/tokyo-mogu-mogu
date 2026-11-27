@@ -24,6 +24,7 @@ export const b10HinodeMasakadoUdonRecord: JourneyRecord = {
   "location": {"ja": {"area": "日の出町", "station": "", "access": ""}, "en": {"area": "Hinode", "station": "", "access": ""}, "zh-TW": {"area": "日出町", "station": "", "access": ""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "さかな園", "en": "Sakanaen bus stop", "zh-TW": "魚園巴士站"}, "spotId": "b10-hinode-masakado-udon-sakanaen", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b10-hinode-masakado-udon-sakanaen",
@@ -84,6 +85,7 @@ export const b10HinodeMasakadoUdonRecord: JourneyRecord = {
     "location": {"ja": {"region": "日の出町", "station": ""}, "en": {"region": "Hinode", "station": ""}, "zh-TW": {"region": "日出町", "station": ""}}
   },
   "sources": {
+    "admission-access": {"name": "Hinode Tourism Association Sakanaen access", "url": "https://www.hinodekanko.jp/%E8%A6%8B%E3%82%8B-%E9%81%8A%E3%81%B6-%E6%A5%BD%E3%81%97%E3%82%80/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "s0": {"name": "さかな園", "url": "https://www.ohtama.or.jp/sightseeing/239.html", "sourceType": "official_web", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"},
     "editorial": {"name": "b10 editorial itinerary: estimated timing and order, not a timetable", "url": "https://www.ohtama.or.jp/sightseeing/239.html", "sourceType": "manual", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"}
   },

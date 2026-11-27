@@ -24,6 +24,7 @@ export const b10HinoharaRiverFishRecord: JourneyRecord = {
   "location": {"ja": {"area": "檜原村", "station": "", "access": ""}, "en": {"area": "Hinohara Village", "station": "", "access": ""}, "zh-TW": {"area": "檜原村", "station": "", "access": ""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "馬場", "en": "Banba bus stop", "zh-TW": "馬場巴士站"}, "spotId": "b10-hinohara-river-fish-banba", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b10-hinohara-river-fish-banba",
@@ -84,6 +85,7 @@ export const b10HinoharaRiverFishRecord: JourneyRecord = {
     "location": {"ja": {"region": "檜原村", "station": ""}, "en": {"region": "Hinohara Village", "station": ""}, "zh-TW": {"region": "檜原村", "station": ""}}
   },
   "sources": {
+    "admission-access": {"name": "Hinohara Village Tourism Association Banba access", "url": "https://hinohara-kankou.jp/spot/banbatokusanbutsucyokubaijo/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "s0": {"name": "ばんば特産物直売所", "url": "https://hinohara-kankou.jp/spot/banbatokusanbutsucyokubaijo/", "sourceType": "official_web", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"},
     "editorial": {"name": "b10 editorial itinerary: estimated timing and order, not a timetable", "url": "https://hinohara-kankou.jp/spot/banbatokusanbutsucyokubaijo/", "sourceType": "manual", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"}
   },

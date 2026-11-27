@@ -25,6 +25,7 @@ export const b10HinoharaPotatoesRecord: JourneyRecord = {
   "location": {"ja": {"area": "檜原村", "station": "", "access": ""}, "en": {"area": "Hinohara Village", "station": "", "access": ""}, "zh-TW": {"area": "檜原村", "station": "", "access": ""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "夏地", "en": "Natsuchi bus stop", "zh-TW": "夏地巴士站"}, "spotId": "b10-hinohara-potatoes-factory", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b10-hinohara-potatoes-factory",
@@ -128,6 +129,7 @@ export const b10HinoharaPotatoesRecord: JourneyRecord = {
     "location": {"ja": {"region": "檜原村", "station": ""}, "en": {"region": "Hinohara Village", "station": ""}, "zh-TW": {"region": "檜原村", "station": ""}}
   },
   "sources": {
+    "admission-access": {"name": "Hinohara Village Tourism Association Factory access", "url": "https://hinohara-kankou.jp/spot/hinoharafactory/", "sourceType": "official_web", "retrievedAt": "2026-11-27", "verificationStatus": "needs_confirmation"},
     "s0": {"name": "檜原村エコツーリズム", "url": "https://hinohara-kankou.jp/ecotourism/", "sourceType": "official_web", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"},
     "s1": {"name": "おいねのつる芋：江戸東京野菜について", "url": "https://www.tokyo-ja.or.jp/farm/edo/24.php", "sourceType": "official_web", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"},
     "s2": {"name": "ひのはらファクトリー", "url": "https://hinohara-kankou.jp/spot/hinoharafactory/", "sourceType": "official_web", "retrievedAt": "2026-11-24", "verificationStatus": "needs_confirmation"},

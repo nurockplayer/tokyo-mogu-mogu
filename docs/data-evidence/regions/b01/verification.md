@@ -398,3 +398,18 @@ Retrieved during this run: 2026-11-27 JST. The linked pages were opened and chec
 
 - Arrival, half-day → b01-tachikawa-tokyo-udo-minore-udo: Sunagawa Gosaro bus stop. The JA operator’s public transport directions name Sunagawa Gosaro for the Sunagawacho market. — https://ja-tokyomidori.or.jp/minore/access/index.html
 - Official destination, b01-tachikawa-tokyo-udo-minore-udo: The operator’s access page gives directions to the Minore Tachikawa farmers’ market. — https://ja-tokyomidori.or.jp/minore/access/index.html
+
+## S1a publication admission round 2 (#441)
+
+Retrieved during this run: 2026-11-27 JST. Access and visitor observations retain `needs_confirmation`. Check visit availability and transport before departure.
+
+### b01-hachioji-napolitan
+
+- Arrival, half-day → b01-hachioji-napolitan-rocco: Hachiōji Station. The restaurant names the south exit of JR Hachiōji Station for the walk to its Koyasumachi location. — https://kitchenrocco.owst.jp/
+- Official destination, b01-hachioji-napolitan-rocco: The restaurant gives its address, visitor directions and a menu link. — https://kitchenrocco.owst.jp/
+- Story claims: The city’s introduction describes the chopped-onion and Hachioji-ingredient style and identifies Kitchen Rocco in Koyasumachi. — https://www.city.hachioji.tokyo.jp/shisei/003/005/cp-movie.html
+
+### demo-tokyo-hachioji-ginger
+
+- Arrival, half-day → hachioji-takiyama-roadside-station: Michi-no-Eki Hachiōji Takiyama Iriguchi bus stop. Hachioji City names the roadside station entrance stop for the Takiyama roadside station. — https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/003/p006476.html
+- Arrival, full-day → hachioji-takiyama-roadside-station: Michi-no-Eki Hachiōji Takiyama Iriguchi bus stop. Hachioji City names the roadside station entrance stop for the Takiyama roadside station. — https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/003/p006476.html

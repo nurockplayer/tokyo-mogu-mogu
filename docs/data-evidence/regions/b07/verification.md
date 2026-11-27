@@ -310,3 +310,31 @@ Municipality: musashimurayama. Theme: Musashimurayama milk and vegetable foods.
 ## Runtime check
 
 Ego Lite checked all 15 new MOGU cards in ja, en and zh-TW at 375px, then opened each journey’s Story, Route and first Spot in all three locales: 135 surfaces rendered without missing-value placeholders. The Kiyose farm-table Story was visually inspected at 375px and its route-generation action opened the authored Route. No-photo and confirmation-pending copy were present. Automated full-suite and unchanged current-MVP smoke results are tracked in PR #421.
+
+## S1a publication admission round 2 (#441)
+
+Retrieved during this run: 2026-11-27 JST. Access and visitor observations retain `needs_confirmation`. Check visit availability and transport before departure.
+
+### b07-kiyose-rooftop-honey
+
+- Arrival, half-day → b07-kiyose-rooftop-honey-city-hall-shop: Kiyose City Hall bus stop. The city names the Kiyose City Hall stop for its city hall building. — https://mobile.city.kiyose.lg.jp/shisetsu/sisetu/1001180.html
+
+### b07-kiyose-dairy-cheese
+
+- Arrival, half-day → b07-kiyose-dairy-cheese-cheese-city-hall: Kiyose City Hall bus stop. The city names the Kiyose City Hall stop for its city hall building. — https://mobile.city.kiyose.lg.jp/shisetsu/sisetu/1001180.html
+
+### b07-higashikurume-farm-fruit
+
+- Arrival, half-day → b07-higashikurume-farm-fruit-hatake-terrace: Higashi-Kurume Station. The farm identifies its Hatake Terrace outlet inside Nozaki Shorin by Higashi-Kurume Station. — https://nonosachi.com/access
+
+### b07-higashikurume-yanagikubo-wheat
+
+- Arrival, half-day → b07-higashikurume-yanagikubo-wheat-nozaki: Higashi-Kurume Station. The farm’s visitor page locates the Nozaki Shorin bookstore by Higashi-Kurume Station. — https://nonosachi.com/access
+
+### b07-kiyose-farm-table
+
+- Arrival, half-day → b07-kiyose-farm-table-shinsenkan: Miyanodai Jūtaku bus stop. JA’s Tokyo Agri Park directory gives Miyanodai Jūtaku as the access stop for the farmers’ market. — https://agripark.tokyo/matching/guide/tokyo_mirai/kys_shinsenkan/
+
+### b07-musashimurayama-orchard-fruit
+
+- Arrival, half-day → b07-musashimurayama-orchard-fruit-kobayashi: Nakato bus stop. The farm’s access page directs bus passengers to Nakato. — https://kobayashifarm.tokyo/access/
