@@ -17,6 +17,8 @@ import { NotFoundPage } from './NotFoundPage';
 import { JourneyNavigationManager } from './JourneyNavigationManager';
 import { ReferenceApp } from '../features/netlify-parity/ReferenceApp';
 import { resolvePublishedJourneyLocation } from '../features/netlify-parity/journey-location';
+import { AuthProvider } from '../auth/AuthProvider';
+import { CollectionProvider } from '../store/collection';
 
 const HomePage = lazy(() => import('../pages/HomePage').then((m) => ({ default: m.HomePage })));
 const LandingPage = lazy(() =>
@@ -110,7 +112,8 @@ export function AppRouter() {
   if (referencePath) return <ReferenceApp journeyLocation={journeyLocation} />;
 
   return (
-    <>
+    <CollectionProvider>
+    <AuthProvider>
       <JourneyNavigationManager />
       <Routes>
       {/* Guided conversation + journey content (Issues #217 / #252). */}
@@ -145,6 +148,7 @@ export function AppRouter() {
         <Route path="*" element={<NotFoundPage />} />
       </Route>
       </Routes>
-    </>
+    </AuthProvider>
+    </CollectionProvider>
   );
 }

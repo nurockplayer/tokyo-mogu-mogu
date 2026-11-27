@@ -8,20 +8,30 @@ import {
   type SpotPresentation,
 } from '../content';
 
-const favoritesLabels: Record<Locale, { journeyHeading: string; spotHeading: string; empty: string; emptyDetail: string }> = {
-  ja: { journeyHeading: '保存した食旅・ルート', spotHeading: '保存したスポット', empty: 'お気に入りはまだありません。', emptyDetail: '食旅カードやスポットのしおりから追加できます。' },
-  en: { journeyHeading: 'Saved journeys and routes', spotHeading: 'Saved spots', empty: 'No favorites yet.', emptyDetail: 'Use the bookmark on a journey card or spot to add one.' },
-  'zh-TW': { journeyHeading: '已儲存的美食之旅與路線', spotHeading: '已儲存的景點', empty: '目前還沒有收藏。', emptyDetail: '可使用美食之旅卡片或景點上的書籤新增。' },
+const favoritesLabels = {
+  ja: { journeyHeading: '保存した食旅・ルート', spotHeading: '保存したスポット', empty: 'お気に入りはまだありません。',
+    emptyDetail: 'ルートやスポットから追加できます。', unavailable: '現在ご覧いただけません', removeJourney: '食旅の保存を解除', removeSpot: 'スポットの保存を解除' },
+  en: { journeyHeading: 'Saved journeys and routes', spotHeading: 'Saved spots', empty: 'No favorites yet.',
+    emptyDetail: 'Save a route or spot to find it here.', unavailable: 'Currently unavailable', removeJourney: 'Remove saved journey', removeSpot: 'Remove saved spot' },
+  'zh-TW': { journeyHeading: '已儲存的美食之旅與路線', spotHeading: '已儲存的景點', empty: '目前還沒有收藏。',
+    emptyDetail: '可從路線或景點頁面加入收藏。', unavailable: '目前無法瀏覽', removeJourney: '移除已儲存的美食之旅', removeSpot: '移除已儲存的景點' },
 };
+
+interface SavedItem<T> {
+  id: string;
+  content?: T;
+}
 
 export interface FavoritesScreenProps {
   active: boolean;
   copy: ReferenceCopy;
   locale: Locale;
-  savedJourneys: JourneyPresentation[];
-  savedSpots: SpotPresentation[];
+  savedJourneys: SavedItem<JourneyPresentation>[];
+  savedSpots: SavedItem<SpotPresentation>[];
   onOpenJourney: (journey: JourneyPresentation) => void;
-  onOpenSpot: (spot: SpotPresentation) => void;
+  onOpenSpot: (id: string) => void;
+  onRemoveJourney: (id: string) => void;
+  onRemoveSpot: (id: string) => void;
   onNavigate: (path: string) => void;
 }
 
@@ -33,6 +43,8 @@ export function FavoritesScreen({
   savedSpots,
   onOpenJourney,
   onOpenSpot,
+  onRemoveJourney,
+  onRemoveSpot,
   onNavigate,
 }: FavoritesScreenProps) {
   const labels = favoritesLabels[locale];
@@ -58,64 +70,46 @@ export function FavoritesScreen({
             {savedJourneys.length > 0 ? (
               <section className="favorite-group">
                 <h2>{labels.journeyHeading}</h2>
-                {savedJourneys.map((journey) => {
-                  const localized = journey.copy[locale];
-                  return (
-                    <article
-                      className="trip-card"
-                      data-journey-id={journey.id}
-                      key={journey.id}
-                      onClick={() => onOpenJourney(journey)}
-                      onKeyDown={(event) => {
-                        if (event.key === 'Enter' || event.key === ' ') {
-                          event.preventDefault();
-                          onOpenJourney(journey);
-                        }
-                      }}
-                      role="button"
-                      tabIndex={active ? 0 : -1}
-                    >
-                      <div className="ph">
-                        <PresentationMedia assetId={journey.imageAssetId} locale={locale} />
-                      </div>
-                      <div className="tx">
-                        <b>{localized.title}</b>
-                        <p>{localized.subtitle}</p>
-                      </div>
-                    </article>
-                  );
-                })}
+                {savedJourneys.map(({ id, content: journey }) => (
+                  <article className="trip-card" data-journey-id={id} key={id}>
+                    {journey ? (
+                      <button className="trip-card-open" type="button" onClick={() => onOpenJourney(journey)}>
+                        <div className="ph">
+                          <PresentationMedia assetId={journey.imageAssetId} locale={locale} />
+                        </div>
+                        <div className="tx">
+                          <b>{journey.copy[locale].title}</b>
+                          <p>{journey.copy[locale].subtitle}</p>
+                        </div>
+                      </button>
+                    ) : <p className="tx">{labels.unavailable}</p>}
+                    <button className="favorite-remove" type="button" onClick={() => onRemoveJourney(id)}>
+                      {labels.removeJourney}
+                    </button>
+                  </article>
+                ))}
               </section>
             ) : null}
             {savedSpots.length > 0 ? (
               <section className="favorite-group">
                 <h2>{labels.spotHeading}</h2>
-                {savedSpots.map((spot) => {
-                  const localized = spot.copy[locale];
-                  return (
-                    <article
-                      className="my-route"
-                      data-spot-id={spot.id}
-                      key={spot.id}
-                      onClick={() => onOpenSpot(spot)}
-                      onKeyDown={(event) => {
-                        if (event.key === 'Enter' || event.key === ' ') {
-                          event.preventDefault();
-                          onOpenSpot(spot);
-                        }
-                      }}
-                      role="button"
-                      tabIndex={active ? 0 : -1}
-                    >
-                      <PresentationMedia assetId={spot.imageAssetId} locale={locale} />
-                      <div className="tx">
-                        <b>{localized.name}</b>
-                        <p>{localized.lead}</p>
-                      </div>
-                      <span className="arw" aria-hidden="true">›</span>
-                    </article>
-                  );
-                })}
+                {savedSpots.map(({ id, content: spot }) => (
+                  <article data-spot-id={id} key={id}>
+                    {spot ? (
+                      <button className="my-route" type="button" onClick={() => onOpenSpot(id)}>
+                        <PresentationMedia assetId={spot.imageAssetId} locale={locale} />
+                        <div className="tx">
+                          <b>{spot.copy[locale].name}</b>
+                          <p>{spot.copy[locale].lead}</p>
+                        </div>
+                        <span className="arw" aria-hidden="true">›</span>
+                      </button>
+                    ) : <p className="my-route">{labels.unavailable}</p>}
+                    <button className="favorite-remove" type="button" onClick={() => onRemoveSpot(id)}>
+                      {labels.removeSpot}
+                    </button>
+                  </article>
+                ))}
               </section>
             ) : null}
           </>

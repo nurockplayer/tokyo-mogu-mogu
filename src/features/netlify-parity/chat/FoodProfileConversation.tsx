@@ -27,7 +27,7 @@ interface FoodProfileConversationProps {
   mode?: 'onboarding' | 'edit';
   initialName?: string;
   preferences?: ReactNode;
-  onProfileSaved?: (name: string, profile: FoodProfile) => void;
+  onProfileCompleted?: (name: string, profile: FoodProfile) => void;
   onRecommend: () => void;
   onSkipProfile: () => void;
   onBrowse: () => void;
@@ -401,13 +401,13 @@ export function FoodProfileConversation({
   mode = 'onboarding',
   initialName = '',
   preferences,
-  onProfileSaved,
+  onProfileCompleted,
   onRecommend,
   onSkipProfile,
   onBrowse,
   onFinishEdit,
 }: FoodProfileConversationProps) {
-  const { state, dispatch } = useFoodProfileConversation({ active, mode, initialName, onProfileSaved });
+  const { state, dispatch } = useFoodProfileConversation({ active, mode, initialName, onProfileCompleted });
   const [nameValue, setNameValue] = useState('');
   const [nameInvalid, setNameInvalid] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -519,12 +519,6 @@ export function FoodProfileConversation({
             return (
               <BotRow key={entry.id}>
                 {copy.profile.summaryThanks}
-                <br />
-                {locale === 'ja'
-                  ? `あなたの食のプロフィールを${state.isEditing ? copy.profile.summaryUpdated : copy.profile.summaryRegistered}しました。`
-                  : state.isEditing
-                    ? copy.profile.summaryUpdated
-                    : copy.profile.summaryRegistered}
                 <div className="profile-box">
                   {copy.profile.summaryTitle}
                   <br />

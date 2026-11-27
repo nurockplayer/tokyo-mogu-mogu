@@ -15,12 +15,11 @@ export const emptyDiscoveryFilters: DiscoveryFilters = {
   area: '', arrival: '', minutes: null, cultures: [], alcohol: '',
 };
 
-const preferencesKey = 'tmm:discoveryPreferences:v1';
-const tripFiltersKey = 'tmm:discoveryTripFilters:v1';
+export const DISCOVERY_PREFERENCES_KEY = 'tmm:discoveryPreferences:v1';
 
-function loadStoredFilters(key: string): DiscoveryFilters | null {
+export function loadDiscoveryFilters(): DiscoveryFilters {
   try {
-    const value = JSON.parse(localStorage.getItem(key) ?? 'null');
+    const value = JSON.parse(localStorage.getItem(DISCOVERY_PREFERENCES_KEY) ?? 'null');
     if (value && typeof value.area === 'string' && typeof value.arrival === 'string' &&
       (value.minutes === null || (Number.isInteger(value.minutes) && value.minutes > 0)) &&
       Array.isArray(value.cultures) && value.cultures.every((id: unknown) => typeof id === 'string') &&
@@ -30,32 +29,16 @@ function loadStoredFilters(key: string): DiscoveryFilters | null {
   } catch {
     // The same accountless storage boundary as the existing profile.
   }
-  return null;
+  return emptyDiscoveryFilters;
 }
 
-function saveStoredFilters(key: string, filters: DiscoveryFilters | null): void {
+export function saveDiscoveryFilters(filters: DiscoveryFilters): boolean {
   try {
-    if (filters === null) localStorage.removeItem(key);
-    else localStorage.setItem(key, JSON.stringify(filters));
+    localStorage.setItem(DISCOVERY_PREFERENCES_KEY, JSON.stringify(filters));
+    return true;
   } catch {
-    // The current tab still uses the in-memory filters.
+    return false;
   }
-}
-
-export function loadDiscoveryFilters(): DiscoveryFilters {
-  return loadStoredFilters(preferencesKey) ?? emptyDiscoveryFilters;
-}
-
-export function saveDiscoveryFilters(filters: DiscoveryFilters): void {
-  saveStoredFilters(preferencesKey, filters);
-}
-
-export function loadTripFilters(): DiscoveryFilters | null {
-  return loadStoredFilters(tripFiltersKey);
-}
-
-export function saveTripFilters(filters: DiscoveryFilters | null): void {
-  saveStoredFilters(tripFiltersKey, filters);
 }
 
 interface DiscoveryEntry {

@@ -1,7 +1,5 @@
 import { useEffect, useReducer, useRef } from 'react';
 import type { FoodProfile } from '../../../lib/food-profile';
-import { saveFoodProfile } from '../../../lib/food-profile-storage';
-import { saveNickname } from '../../../lib/nickname';
 import {
   createEditFoodProfileState,
   createFoodProfileState,
@@ -13,21 +11,21 @@ interface UseFoodProfileConversationOptions {
   active?: boolean;
   mode?: 'onboarding' | 'edit';
   initialName?: string;
-  onProfileSaved?: (name: string, profile: FoodProfile) => void;
+  onProfileCompleted?: (name: string, profile: FoodProfile) => void;
 }
 
 export function useFoodProfileConversation({
   active = true,
   mode = 'onboarding',
   initialName = '',
-  onProfileSaved,
+  onProfileCompleted,
 }: UseFoodProfileConversationOptions = {}) {
   const [state, dispatch] = useReducer(
     foodProfileReducer,
     undefined,
     () => (mode === 'edit' ? createEditFoodProfileState(initialName) : createFoodProfileState()),
   );
-  const savedRef = useRef(false);
+  const completedRef = useRef(false);
 
   useEffect(() => {
     if (!active || !state.pending) return;
@@ -38,13 +36,10 @@ export function useFoodProfileConversation({
 
   useEffect(() => {
     const summaryVisible = state.entries.some((entry) => entry.kind === 'summary');
-    if (!summaryVisible || savedRef.current) return;
-    const profile = foodProfileToDurableProfile(state);
-    saveFoodProfile(profile);
-    if (state.name) saveNickname(state.name);
-    savedRef.current = true;
-    onProfileSaved?.(state.name, profile);
-  }, [onProfileSaved, state]);
+    if (!summaryVisible || completedRef.current) return;
+    completedRef.current = true;
+    onProfileCompleted?.(state.name, foodProfileToDurableProfile(state));
+  }, [onProfileCompleted, state]);
 
   return { state, dispatch };
 }
