@@ -194,22 +194,30 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
       : locale === 'ja' ? 'スポットをお気に入りに保存しました！' : locale === 'zh-TW' ? '已將景點儲存至收藏！' : 'Spot saved to favorites!');
   };
 
-  const shareCurrentRoute = async () => {
+  const shareCurrentRoute = async (variant: JourneyPresentation['routeVariants'][number]) => {
     const localized = routeJourney.copy[locale];
+    const url = new URL('/route', window.location.origin);
+    url.searchParams.set('candidateId', routeJourney.id);
+    url.searchParams.set('variant', variant.id);
     const shareData = {
       title: 'TOKYO MOGU MOGU',
       text: `「${localized.title}」 ${copy.app.tagline}`,
-      url: window.location.origin,
+      url: url.href,
     };
     try {
-      if (navigator.share) await navigator.share(shareData);
-      else if (navigator.clipboard) {
-        await navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
+      if (navigator.share) {
+        await navigator.share(shareData);
+        return;
+      }
+      if (navigator.clipboard) {
+        await navigator.clipboard.writeText(shareData.url);
         setToast(locale === 'ja' ? 'リンクをコピーしました！' : locale === 'zh-TW' ? '已複製連結！' : 'Link copied!');
+        return;
       }
     } catch {
-      // Native share cancellation is intentionally silent, matching the reference.
+      return shareData.url;
     }
+    return shareData.url;
   };
 
   const isSplash = pathname === '/';
@@ -327,6 +335,7 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
           journey={routeJourney}
           record={publicationRecord}
           key={routeJourney.id}
+          initialVariantId={journeyLocation.status === 'resolved' ? journeyLocation.variantId : undefined}
           saved={savedRouteIds.includes(routeJourney.routeId)}
           onBack={() => {
             navigate(
@@ -337,7 +346,7 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
                   : routeBack,
             );
           }}
-          onShare={() => void shareCurrentRoute()}
+          onShare={shareCurrentRoute}
           onRegenerate={() => setToast(locale === 'ja' ? 'ルートを再生成しました！' : locale === 'zh-TW' ? '已重新建立路線！' : 'Route regenerated!')}
           onOpenSpot={openSpot}
           onSaveRoute={persistCurrentRoute}

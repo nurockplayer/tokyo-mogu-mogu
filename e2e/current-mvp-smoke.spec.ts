@@ -26,6 +26,101 @@ const retrievalDate = /\d{4}-\d{2}-\d{2}(?: \/ \d{4}-\d{2}-\d{2})* \(JST\)/;
 const activeScreen = (page: Page, screen: string) =>
   page.locator(`[data-screen="${screen}"][data-screen-active="true"]`);
 
+test('S3-6 shares the selected itinerary with a clean browser at 375px', async ({ page, browser }, testInfo) => {
+  const sample = publication.find(({ record, defaultVariant, offeredVariants }) =>
+    defaultVariant?.id === 'half-day' && offeredVariants.some(({ id }) => id === 'full-day' &&
+      record.variants[id]?.steps.map(({ spotId }) => selectRouteStop(record, spotId)).join() !==
+      record.variants[defaultVariant.id]?.steps.map(({ spotId }) => selectRouteStop(record, spotId)).join()));
+  expect(sample, 'An admitted journey with distinct half-day and full-day itineraries').toBeDefined();
+  const { record } = sample!;
+  const routePath = `/route?candidateId=${record.journey.id}`;
+  await page.clock.setFixedTime(publicationDate);
+  await page.addInitScript(({ profile, savedRouteId }) => {
+    localStorage.setItem('tmm:nickname:v1', 'private-traveller');
+    localStorage.setItem('tmm:foodProfile:v1', JSON.stringify(profile));
+    localStorage.setItem('tmm:savedRoutes', JSON.stringify([{ routeId: savedRouteId, savedAt: profile.savedAt }]));
+    Object.defineProperty(navigator, 'share', {
+      value: async (payload: ShareData) => sessionStorage.setItem('captured-share', JSON.stringify(payload)),
+    });
+  }, {
+    profile: {
+      ...persistedFoodProfile,
+      dietary: ['allergy'],
+      dietarySelections: { allergy: ['egg'] },
+      hasNoRestrictions: false,
+    },
+    savedRouteId: record.journey.routeId,
+  });
+  await page.goto(`${routePath}&from=my`);
+  const senderRoute = activeScreen(page, 'route');
+  const stops = (route: ReturnType<typeof activeScreen>) => route.locator('[data-spot-id]').evaluateAll(
+    (elements) => elements.map((element) => element.getAttribute('data-spot-id')),
+  );
+  await expect(senderRoute.getByRole('button', { name: '半日', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  const halfDayStops = await stops(senderRoute);
+  const fullDay = senderRoute.getByRole('button', { name: '一日', exact: true });
+  await fullDay.click();
+  await expect(fullDay).toHaveAttribute('aria-pressed', 'true');
+  const sharedStops = await stops(senderRoute);
+  expect(sharedStops.length).toBeGreaterThan(0);
+  expect(sharedStops).not.toEqual(halfDayStops);
+  await senderRoute.getByRole('button', { name: 'ルートをシェア' }).click();
+  const payload = await page.evaluate(() => JSON.parse(sessionStorage.getItem('captured-share')!) as ShareData);
+  const expected = new URL(`${routePath}&variant=full-day`, page.url()).href;
+  expect(payload.url).toBe(expected);
+
+  const clean = await browser.newContext({ viewport: { width: 375, height: 812 }, locale: 'ja-JP' });
+  try {
+    expect(await clean.storageState()).toEqual({ cookies: [], origins: [] });
+    const recipient = await clean.newPage();
+    await recipient.clock.setFixedTime(publicationDate);
+    await recipient.goto(payload.url!);
+    const recipientRoute = activeScreen(recipient, 'route');
+    await expect(recipientRoute.getByRole('button', { name: '一日', exact: true })).toHaveAttribute('aria-pressed', 'true');
+    await expect(recipientRoute.locator('.ghead > span')).toHaveText(await senderRoute.locator('.ghead > span').innerText());
+    expect(await stops(recipientRoute)).toEqual(sharedStops);
+    await expectNoHorizontalOverflow(recipient);
+    await recipient.locator('.route-info').scrollIntoViewIfNeeded();
+    await recipient.screenshot({ path: testInfo.outputPath('s3-6-shared-itinerary-ja.png'), animations: 'disabled' });
+  } finally {
+    await clean.close();
+  }
+});
+
+test('S3-7 copies the selectable link after native share cancellation or failure at 375px', async ({ page, context }, testInfo) => {
+  const { record, defaultVariant } = admitted!;
+  const errors = ['AbortError', 'NotAllowedError'];
+  await page.clock.setFixedTime(publicationDate);
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  await page.addInitScript((names) => {
+    Object.defineProperty(navigator, 'share', {
+      value: async () => { throw new DOMException('Share did not complete', names.shift()); },
+    });
+  }, errors);
+  const routePath = `/route?candidateId=${record.journey.id}`;
+  await page.goto(routePath);
+  const route = activeScreen(page, 'route');
+  const dialog = route.getByRole('dialog', { name: 'ルートのリンクをコピー' });
+  const link = dialog.getByRole('textbox', { name: 'ルートのリンクをコピー' });
+  const expected = new URL(`${routePath}&variant=${defaultVariant!.id}`, page.url()).href;
+  for (const error of errors) {
+    await route.getByRole('button', { name: 'ルートをシェア' }).click();
+    await expect(link).toHaveValue(expected);
+    await expect(link).toBeFocused();
+    expect(await link.evaluate((field: HTMLTextAreaElement) =>
+      field.value.slice(field.selectionStart, field.selectionEnd))).toBe(expected);
+    await page.evaluate(() => navigator.clipboard.writeText(''));
+    await link.press('ControlOrMeta+c');
+    await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(expected);
+    await expectNoHorizontalOverflow(page);
+    if (error === 'AbortError') {
+      await page.screenshot({ path: testInfo.outputPath('s3-7-share-recovery-ja.png'), animations: 'disabled' });
+    }
+    await dialog.getByRole('button', { name: '閉じる' }).click();
+    await expect(dialog).toBeHidden();
+  }
+});
+
 const representativeJourneys = new Map<MunicipalityGroup, (typeof publication)[number]>();
 const sampledCultures = new Set<string>();
 for (const sample of publication) {
