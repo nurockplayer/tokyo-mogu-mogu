@@ -338,6 +338,8 @@ test('#443 applies two Food Profiles, explains empty results and clears filters'
   await next.click();
   await next.click();
   await next.click();
+  await expect(page).toHaveURL('/explore/result');
+  await page.reload();
 
   await expect(result.getByText('条件に合う食旅が見つかりませんでした。')).toBeVisible();
   await expect(result.locator('.empty')).toContainText('滞在エリア · 福生市');
@@ -346,6 +348,7 @@ test('#443 applies two Food Profiles, explains empty results and clears filters'
   await expectNoHorizontalOverflow(page);
   await screenshot('result-empty-ja');
   await result.getByRole('button', { name: '条件をクリア' }).click();
+  await page.reload();
   await expect(firstReason).toContainText('公開中の食旅');
   expect((await ids()).some((id) => firstIds.includes(id))).toBe(true);
 });

@@ -15,11 +15,12 @@ export const emptyDiscoveryFilters: DiscoveryFilters = {
   area: '', arrival: '', minutes: null, cultures: [], alcohol: '',
 };
 
-const storageKey = 'tmm:discoveryPreferences:v1';
+const preferencesKey = 'tmm:discoveryPreferences:v1';
+const tripFiltersKey = 'tmm:discoveryTripFilters:v1';
 
-export function loadDiscoveryFilters(): DiscoveryFilters {
+function loadStoredFilters(key: string): DiscoveryFilters | null {
   try {
-    const value = JSON.parse(localStorage.getItem(storageKey) ?? 'null');
+    const value = JSON.parse(localStorage.getItem(key) ?? 'null');
     if (value && typeof value.area === 'string' && typeof value.arrival === 'string' &&
       (value.minutes === null || (Number.isInteger(value.minutes) && value.minutes > 0)) &&
       Array.isArray(value.cultures) && value.cultures.every((id: unknown) => typeof id === 'string') &&
@@ -29,15 +30,32 @@ export function loadDiscoveryFilters(): DiscoveryFilters {
   } catch {
     // The same accountless storage boundary as the existing profile.
   }
-  return emptyDiscoveryFilters;
+  return null;
+}
+
+function saveStoredFilters(key: string, filters: DiscoveryFilters | null): void {
+  try {
+    if (filters === null) localStorage.removeItem(key);
+    else localStorage.setItem(key, JSON.stringify(filters));
+  } catch {
+    // The current tab still uses the in-memory filters.
+  }
+}
+
+export function loadDiscoveryFilters(): DiscoveryFilters {
+  return loadStoredFilters(preferencesKey) ?? emptyDiscoveryFilters;
 }
 
 export function saveDiscoveryFilters(filters: DiscoveryFilters): void {
-  try {
-    localStorage.setItem(storageKey, JSON.stringify(filters));
-  } catch {
-    // The current tab still uses the profile preferences.
-  }
+  saveStoredFilters(preferencesKey, filters);
+}
+
+export function loadTripFilters(): DiscoveryFilters | null {
+  return loadStoredFilters(tripFiltersKey);
+}
+
+export function saveTripFilters(filters: DiscoveryFilters | null): void {
+  saveStoredFilters(tripFiltersKey, filters);
 }
 
 interface DiscoveryEntry {

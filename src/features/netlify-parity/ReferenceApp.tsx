@@ -20,7 +20,9 @@ import {
   discoveryOptions,
   emptyDiscoveryFilters,
   loadDiscoveryFilters,
+  loadTripFilters,
   saveDiscoveryFilters,
+  saveTripFilters,
   type DiscoveryFilters,
 } from './discovery';
 import { DiscoveryFields } from './exploration/DiscoveryFields';
@@ -82,7 +84,7 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
   const [nickname, setNickname] = useState(() => loadNickname() ?? '');
   const [foodProfile, setFoodProfile] = useState(loadFoodProfile);
   const [preferences, setPreferences] = useState(loadDiscoveryFilters);
-  const [tripFilters, setTripFilters] = useState<DiscoveryFilters | null>(null);
+  const [tripFilters, setTripFilters] = useState(loadTripFilters);
   const [explorationStep, setExplorationStep] = useState(0);
   const catalog = useMemo(() =>
     ['/food-profile', '/food-profile/edit', '/explore', '/explore/result'].includes(pathname)
@@ -159,6 +161,11 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
   const updatePreferences = (value: DiscoveryFilters) => {
     setPreferences(value);
     saveDiscoveryFilters(value);
+  };
+
+  const updateTripFilters = (value: DiscoveryFilters | null) => {
+    setTripFilters(value);
+    saveTripFilters(value);
   };
 
   const openExploration = () => {
@@ -267,7 +274,7 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
           nickname={nickname}
           onNavigate={navigate}
           onStartExploration={() => {
-            setTripFilters(null);
+            updateTripFilters(null);
             openExploration();
           }}
         />
@@ -281,7 +288,10 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
           onChange={setTripFilters}
           onStep={setExplorationStep}
           onBackFromFirst={() => navigate(-1)}
-          onComplete={() => navigate('/explore/result')}
+          onComplete={() => {
+            saveTripFilters(tripFilters);
+            navigate('/explore/result');
+          }}
         />
         <ResultScreen
           active={isResult}
@@ -292,7 +302,7 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
           filters={filters}
           foodProfile={foodProfile}
           onRepeatSearch={openExploration}
-          onClear={() => setTripFilters(emptyDiscoveryFilters)}
+          onClear={() => updateTripFilters(emptyDiscoveryFilters)}
           onBrowse={() => navigate('/mogu')}
           onOpenJourney={openJourney}
         />
