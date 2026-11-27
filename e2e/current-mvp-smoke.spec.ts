@@ -1,17 +1,30 @@
 import { expect, test, type Page } from '@playwright/test';
+import { checkJourneyAdmission, resolveJourneyVisitorSource } from '../src/data/journey-admission';
+import { JOURNEY_RECORDS } from '../src/data/journey-records';
 
 const publicationDate = new Date('2026-11-27T13:00:00Z');
-const admittedId = 'b01-hachioji-farm-table';
-const excludedId = 'b01-hachioji-passion-fruit';
-const primarySpotId = `${admittedId}-takiyama`;
-const officialDestination = 'https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/003/p006476.html';
+const publication = JOURNEY_RECORDS.map((record) => ({
+  record,
+  ...checkJourneyAdmission(record, publicationDate),
+}));
+const admitted = publication.find(({ admitted }) => admitted);
+const excluded = publication.find(({ admitted }) => !admitted)?.record;
+const retrievalDate = /\d{4}-\d{2}-\d{2}(?: \/ \d{4}-\d{2}-\d{2})* \(JST\)/;
 
-for (const [locale, viewRoute, arrival, estimate, unavailable, backToMogu] of [
-  ['ja', 'この食旅のルートを見る', '道の駅八王子滝山入口', '約90分（編集目安）', 'この食旅は現在ご覧いただけません', 'モグモグるに戻る'],
-  ['en', 'View this route', 'Michi-no-Eki Hachioji Takiyama Iriguchi bus stop', 'About 90 min (editorial estimate)', 'This food journey is currently unavailable', 'Back to MOGU'],
-  ['zh-TW', '查看這趟美食之旅的路線', '道之驛八王子瀧山入口巴士站', '90', '目前無法瀏覽這趟美食之旅', '返回 MOGU'],
-]) {
-  test(`#442 walks the admitted journey and hides excluded links in ${locale}`, async ({ page, context }, testInfo) => {
+for (const [locale, viewRoute, unavailable, backToMogu] of [
+  ['ja', 'この食旅のルートを見る', 'この食旅は現在ご覧いただけません', 'モグモグるに戻る'],
+  ['en', 'View this route', 'This food journey is currently unavailable', 'Back to MOGU'],
+  ['zh-TW', '查看這趟美食之旅的路線', '目前無法瀏覽這趟美食之旅', '返回 MOGU'],
+] as const) {
+  test(`#442 walks the admitted journey in ${locale}`, async ({ page, context }, testInfo) => {
+    expect(admitted, 'The publication snapshot must contain an admitted journey').toBeDefined();
+    const { record, defaultVariant } = admitted!;
+    const { id: admittedId, storyId } = record.journey;
+    const primarySpotId = defaultVariant!.primarySpotId!;
+    const variant = record.variants[defaultVariant!.id]!;
+    const arrival = variant.arrival!;
+    const visitorSource = resolveJourneyVisitorSource(record, primarySpotId, publicationDate)!;
+    const officialDestination = visitorSource.url;
     await page.clock.setFixedTime(publicationDate);
     await page.addInitScript((value) => localStorage.setItem('tmm:locale', value), locale);
     const active = (screen: string) => page.locator(`[data-screen="${screen}"][data-screen-active="true"]`);
@@ -23,23 +36,22 @@ for (const [locale, viewRoute, arrival, estimate, unavailable, backToMogu] of [
     const mogu = active('mogu');
     const card = mogu.locator(`[data-journey-id="${admittedId}"]`);
     await expect(card).toBeVisible();
-    await expect(card).toContainText('2026-11-22');
-    await expect(mogu.locator(`[data-journey-id="${excludedId}"]`)).toHaveCount(0);
+    await expect(card).toContainText(retrievalDate);
     await screenshot('mogu-ja');
     await card.click();
 
     const story = active('story');
-    await expect(page).toHaveURL(`/story/${admittedId}`);
-    await expect(story.locator('.page-card').first()).toContainText('2026-11-22');
+    await expect(page).toHaveURL(`/story/${storyId}`);
+    await expect(story.locator('.page-card').first()).toContainText(retrievalDate);
     await screenshot('story-ja');
     await story.getByRole('button', { name: viewRoute }).click();
     await expect(story.locator('[data-route-loading][data-loading="true"]')).toHaveCount(0);
 
     const route = active('route');
     await expect(page).toHaveURL(`/route?candidateId=${admittedId}`);
-    await expect(route.locator('.route-info')).toContainText(arrival);
-    await expect(route.locator('.route-info')).toContainText('2026-11-27');
-    await expect(route.locator('.route-stats')).toContainText(estimate);
+    await expect(route.locator('.route-info')).toContainText(arrival.name[locale]);
+    await expect(route.locator('.route-info')).toContainText(record.sources[arrival.sourceId].retrievedAt!);
+    await expect(route.locator('.route-stats')).toContainText(variant.stats[locale].time);
     await expect(route.locator('.regen')).toHaveCount(0);
     await route.locator('.route-info').scrollIntoViewIfNeeded();
     await screenshot('route-ja');
@@ -49,8 +61,8 @@ for (const [locale, viewRoute, arrival, estimate, unavailable, backToMogu] of [
     const guide = spot.locator('.guide-box');
     const handoff = guide.getByRole('link');
     await expect(page).toHaveURL(`/spot/${primarySpotId}?candidateId=${admittedId}`);
-    await expect(spot.locator('.info-sec')).toContainText('2026-11-22');
-    await expect(guide).toContainText('2026-11-27');
+    await expect(spot.locator('.info-sec')).toContainText(retrievalDate);
+    await expect(guide).toContainText(visitorSource.retrievedAt);
     await expect(handoff).toHaveAttribute('href', officialDestination);
     await expect(handoff).toHaveAttribute('rel', 'noopener noreferrer');
     await expect(spot).not.toContainText(/予約が完了|アレルギーでも安心|booking confirmed|allergy.safe|預約成功|過敏者可安心/i);
@@ -63,9 +75,21 @@ for (const [locale, viewRoute, arrival, estimate, unavailable, backToMogu] of [
     const popup = await popupPromise;
     await expect(popup).toHaveURL(officialDestination);
     await popup.close();
+  });
 
-    const unavailableScreen = active('journey-unavailable');
-    for (const path of [`/story/${excludedId}`, `/route?routeId=${excludedId}-route`, `/spot/${excludedId}-fureai`]) {
+  test(`#442 hides excluded journeys and their direct links in ${locale}`, async ({ page }, testInfo) => {
+    test.skip(!excluded, 'The publication snapshot has no excluded journey records');
+    const { id, storyId, routeId, routeVariants } = excluded!.journey;
+    const { spotId } = routeVariants[0].steps[0];
+    await page.clock.setFixedTime(publicationDate);
+    await page.addInitScript((value) => localStorage.setItem('tmm:locale', value), locale);
+    await page.goto('/mogu');
+    const mogu = page.locator('[data-screen="mogu"][data-screen-active="true"]');
+    await expect(mogu).toBeVisible();
+    await expect(mogu.locator(`[data-journey-id="${id}"]`)).toHaveCount(0);
+
+    const unavailableScreen = page.locator('[data-screen="journey-unavailable"][data-screen-active="true"]');
+    for (const path of [`/story/${storyId}`, `/route?routeId=${routeId}`, `/spot/${spotId}?candidateId=${id}`]) {
       await page.goto(path);
       await expect(unavailableScreen.getByRole('heading', { name: unavailable })).toBeVisible();
       await expect(unavailableScreen.locator('header').getByRole('button')).toBeVisible();
@@ -77,7 +101,9 @@ for (const [locale, viewRoute, arrival, estimate, unavailable, backToMogu] of [
       elements.every((element) => element.scrollWidth <= element.clientWidth),
     );
     expect(textFits).toBe(true);
-    await screenshot('unavailable-ja');
+    if (locale === 'ja') {
+      await page.screenshot({ path: testInfo.outputPath('unavailable-ja.png'), animations: 'disabled' });
+    }
     await page.getByRole('link', { name: backToMogu }).click();
     await expect(page).toHaveURL('/mogu');
   });
