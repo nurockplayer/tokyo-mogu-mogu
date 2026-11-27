@@ -26,6 +26,7 @@ export const b13OgasawaraIslandSeafoodRecord: JourneyRecord = {
   "location": {"ja":{"area":"小笠原村","station":"","access":""},"en":{"area":"Ogasawara Village","station":"","access":""},"zh-TW":{"area":"小笠原村","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "ferry-terminal", "name": {"ja": "二見港船客待合所", "en": "Futami Port passenger terminal", "zh-TW": "二見港旅客候船室"}, "spotId": "b13-ogasawara-island-seafood-sushi", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b13-ogasawara-island-seafood-sushi",
@@ -93,6 +94,7 @@ export const b13OgasawaraIslandSeafoodRecord: JourneyRecord = {
     "location": {"ja":{"region":"小笠原村","station":""},"en":{"region":"Ogasawara Village","station":""},"zh-TW":{"region":"小笠原村","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Ogasawara Village Tourism Association Chichijima dining guide", "url": "https://www.ogasawaramura.com/eat/", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-31": {
       "name": "郷土料理と特産品 - 小笠原村観光協会",
       "url": "https://www.ogasawaramura.com/about/food/",

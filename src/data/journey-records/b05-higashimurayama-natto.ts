@@ -123,6 +123,7 @@ export const b05HigashimurayamaNattoRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "青葉小学校", "en": "Aoba Shogakko bus stop", "zh-TW": "青葉小學公車站"}, "spotId": "b05-higashimurayama-natto-hoya", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b05-higashimurayama-natto-hoya",
@@ -320,6 +321,7 @@ export const b05HigashimurayamaNattoRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Hoya Natto factory shop access", "url": "https://www.hoya-nattou.com/shop.html", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-13": {
       "name": "東村山ブランド里に八国 | 認定商品取扱い店一覧",
       "url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_17/",

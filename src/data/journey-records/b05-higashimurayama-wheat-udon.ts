@@ -126,6 +126,7 @@ export const b05HigashimurayamaWheatUdonRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "東村山駅", "en": "Higashi-Murayama Station", "zh-TW": "東村山站"}, "spotId": "b05-higashimurayama-wheat-udon-noguchi", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b05-higashimurayama-wheat-udon-kojimaya",
@@ -458,6 +459,7 @@ export const b05HigashimurayamaWheatUdonRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Higashimurayama Chamber of Commerce Noguchi Seimen listing", "url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_05/", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-1": {
       "name": "東村山ブランド里に八国 | 認定商品取扱い店一覧",
       "url": "https://www.shoukoukai.or.jp/satohachi/shops/shop_01/",

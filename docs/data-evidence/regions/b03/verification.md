@@ -506,3 +506,7 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 ### b03-machida-egg-pudding
 
 - Arrival, half-day → b03-machida-egg-pudding-kato: Mizu-no-Kuchi bus stop. The Tokyo agricultural directory gives a walking approach from Mizu-no-Kuchi bus stop to the farm shop. — https://tokyogrown.jp/node/571886
+
+### b03-chofu-vegetables
+
+- Arrival, half-day → b03-chofu-vegetables-umains: Shibasaki Station. The Tokyo agricultural directory gives walking access from Shibasaki Station to the farm shop. Confirm stock separately. — https://tokyogrown.jp/node/571906

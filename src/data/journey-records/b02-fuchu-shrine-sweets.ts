@@ -31,6 +31,7 @@ export const b02FuchuShrineSweetsRecord: JourneyRecord = {
   "location": {"ja":{"area":"府中市","station":"","access":""},"en":{"area":"Fuchu","station":"","access":""},"zh-TW":{"area":"府中市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "府中駅", "en": "Fuchu Station", "zh-TW": "府中站"}, "spotId": "b02-fuchu-shrine-sweets-aokiya", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b02-fuchu-shrine-sweets-aokiya",
@@ -94,6 +95,7 @@ export const b02FuchuShrineSweetsRecord: JourneyRecord = {
     "location": {"ja":{"region":"府中市","station":""},"en":{"region":"Fuchu","station":""},"zh-TW":{"region":"府中市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Aokiya flagship shop listing", "url": "https://job-gear.net/aokiyasaiyo2/AE1007902056/MDkyujin_d.htm?from=top", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-50": {"name":"青木屋 — 青木屋ものがたり","url":"https://aokiya.net/history/","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-51": {"name":"Foris — Aokiya shop guide","url":"https://mitten-foris.jp/shop/index.jsp?bf=1&fmt=6&shopid=2102","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b02 editorial itinerary — timing and order estimates, not a timetable","url":"https://aokiya.net/history/","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}

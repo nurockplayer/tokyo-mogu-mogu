@@ -469,3 +469,7 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 ### b01-musashino-mead
 
 - Arrival, half-day → b01-musashino-mead-miuraya: Kichijoji Station. The retailer identifies Kichijoji Station's north exit for the Coppice branch. Confirm current stock. — https://miuraya.co.jp/shop/
+
+### b01-hachioji-asakawa-ayu
+
+- Arrival, half-day → b01-hachioji-asakawa-ayu-asakawa: Hachioji Station. The city describes a walk from JR Hachioji Station North Exit to the public riverbank downstream of Asakawa Ohashi. Confirm riverbank conditions locally. — https://www.city.hachioji.tokyo.jp/shisetsu/109/p023781.html

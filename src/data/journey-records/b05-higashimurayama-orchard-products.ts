@@ -147,6 +147,7 @@ export const b05HigashimurayamaOrchardProductsRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "東村山駅", "en": "Higashi-Murayama Station", "zh-TW": "東村山站"}, "spotId": "b05-higashimurayama-orchard-products-shimizuya", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b05-higashimurayama-orchard-products-kinko-en",
@@ -749,6 +750,7 @@ export const b05HigashimurayamaOrchardProductsRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Tokyo Grown Shimizuya listing", "url": "https://tokyogrown.jp/node/597277", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-2": {
       "name": "東村山市の特産品 – 東村山市商工会",
       "url": "https://shoukoukai.or.jp/city_info/specialty_goods/",

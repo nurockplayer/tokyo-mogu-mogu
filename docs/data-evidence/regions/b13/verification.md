@@ -421,3 +421,7 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 ### b13-hachijo-island-shochu
 
 - Arrival, half-day → b13-hachijo-island-shochu-shuzo: Sokodo Port. The association gives a road approach from Sokodo Port and lists tours by reservation. Confirm the operating ferry port and onward transport. — https://www.hachijo.gr.jp/goods/hachijojimasyuzo_shochu-brewing/
+
+### b13-ogasawara-island-seafood
+
+- Arrival, half-day → b13-ogasawara-island-seafood-sushi: Futami Port passenger terminal. The association locates the Omura dining area around Futami Port and lists Shimazushi there. Confirm sailing and restaurant hours separately. — https://www.ogasawaramura.com/eat/

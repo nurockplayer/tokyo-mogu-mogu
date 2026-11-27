@@ -416,3 +416,7 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 ### b02-fuchu-kouzuru-sake
 
 - Arrival, half-day → b02-fuchu-kouzuru-sake-noguchi: Fuchu Station. The visitor guide identifies the shop and its walking approach from Fuchu Station. — https://mitte-x-img.istsw.jp/fuchu-kankou/file/guidejap.pdf
+
+### b02-fuchu-shrine-sweets
+
+- Arrival, half-day → b02-fuchu-shrine-sweets-aokiya: Fuchu Station. Aokiya lists walking access from Keio Fuchu Station to its Fuchu flagship. Confirm retail hours separately. — https://job-gear.net/aokiyasaiyo2/AE1007902056/MDkyujin_d.htm?from=top

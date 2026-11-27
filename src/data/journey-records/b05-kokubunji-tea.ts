@@ -108,6 +108,7 @@ export const b05KokubunjiTeaRecord: JourneyRecord = {
   },
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "恋ヶ窪駅", "en": "Koigakubo Station", "zh-TW": "戀窪站"}, "spotId": "b05-kokubunji-tea-matsumoto", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b05-kokubunji-tea-matsumoto",
@@ -305,6 +306,7 @@ export const b05KokubunjiTeaRecord: JourneyRecord = {
     }
   },
   "sources": {
+    "admission-access": {"name": "Kokubunji Society of Commerce and Industry Cha Matsumoto listing", "url": "https://soh.sci-kokubunji.jp/chaMATSUMOTO", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-30": {
       "name": "松本園製茶工場｜国分寺茶って？｜国分寺に銘茶あり",
       "url": "https://www.kokubunji-cha.com/koganei",
