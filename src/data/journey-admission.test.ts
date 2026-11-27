@@ -84,6 +84,21 @@ describe('journey publication admission', () => {
     expect(checkJourneyAdmission(record, expired)).toMatchObject({ admitted: false, offeredVariants: [] });
   });
 
+  it('keeps a variant with an official primary destination when an optional stop has no destination', () => {
+    const record = candidate();
+    const sideVisit = { spotId: 'side-visit' };
+    const { presentation, detail } = record.spots.museum;
+    record.spots[sideVisit.spotId] = { presentation: { ...presentation, id: sideVisit.spotId }, detail };
+    record.journey.routeVariants[0].steps.unshift(sideVisit);
+    record.variants['half-day']!.steps.unshift({ ...sideVisit, description: localized('Explore') });
+
+    expect(resolveJourneyVisitorSource(record, sideVisit.spotId, now)).toBeUndefined();
+    expect(checkJourneyAdmission(record, now)).toMatchObject({
+      admitted: true,
+      defaultVariant: { id: 'half-day', primarySpotId: 'museum' },
+    });
+  });
+
   it('requires evidence for every localized story claim, honoring more specific evidence', () => {
     const record = candidate();
     record.facts['journey.chapters.zh-TW.0.body'] = { origin: 'demo', sourceIds: ['operator'] };
