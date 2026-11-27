@@ -9,7 +9,10 @@ const publication = JOURNEY_RECORDS.map((record) => ({
   ...checkJourneyAdmission(record, publicationDate),
 }));
 const admitted = publication.find(({ admitted }) => admitted);
-const excluded = publication.find(({ admitted }) => !admitted)?.record;
+const missingArrival = publication.find(({ admitted, record, variants }) =>
+  !admitted && variants.some(({ id, failures }) =>
+    failures.includes('sourced arrival point') && !record.variants[id]?.arrival),
+);
 const retrievalDate = /\d{4}-\d{2}-\d{2}(?: \/ \d{4}-\d{2}-\d{2})* \(JST\)/;
 
 for (const [locale, viewRoute, unavailable, backToMogu] of [
@@ -78,9 +81,9 @@ for (const [locale, viewRoute, unavailable, backToMogu] of [
     await popup.close();
   });
 
-  test(`#442 hides excluded journeys and their direct links in ${locale}`, async ({ page }, testInfo) => {
-    test.skip(!excluded, 'The publication snapshot has no excluded journey records');
-    const { id, storyId, routeId, routeVariants } = excluded!.journey;
+  test(`S1-2 / S1b-3 hides a journey without a sourced arrival point in ${locale}`, async ({ page }, testInfo) => {
+    if (!missingArrival) throw new Error('Admission must exclude a record with no structured or sourced arrival point');
+    const { id, storyId, routeId, routeVariants } = missingArrival.record.journey;
     const { spotId } = routeVariants[0].steps[0];
     await page.clock.setFixedTime(publicationDate);
     await page.addInitScript((value) => localStorage.setItem('tmm:locale', value), locale);
@@ -96,14 +99,17 @@ for (const [locale, viewRoute, unavailable, backToMogu] of [
       await expect(unavailableScreen.locator('header').getByRole('button')).toBeVisible();
       await expect(unavailableScreen.getByRole('navigation')).toBeVisible();
       await expect(unavailableScreen.getByRole('link', { name: backToMogu })).toHaveAttribute('href', '/mogu');
+      if (locale === 'ja' && path === `/story/${storyId}`) {
+        await page.screenshot({ path: testInfo.outputPath('s1-2-unavailable-story-ja.png'), animations: 'disabled' });
+      }
     }
     await expectNoHorizontalOverflow(page);
     const textFits = await unavailableScreen.locator('h1, p').evaluateAll((elements) =>
       elements.every((element) => element.scrollWidth <= element.clientWidth),
     );
     expect(textFits).toBe(true);
-    if (locale === 'ja') {
-      await page.screenshot({ path: testInfo.outputPath('unavailable-ja.png'), animations: 'disabled' });
+    if (locale === 'zh-TW') {
+      await page.screenshot({ path: testInfo.outputPath('s1b-3-unavailable-spot-zh-TW.png'), animations: 'disabled' });
     }
     await page.getByRole('link', { name: backToMogu }).click();
     await expect(page).toHaveURL('/mogu');
