@@ -33,11 +33,12 @@ export function loadStoredLocale(): Locale {
   }
 }
 
-/** Persists the active locale; silently no-ops when storage is unavailable. */
-export function storeLocale(locale: Locale): void {
+/** Reports whether the active locale could be persisted. */
+export function storeLocale(locale: Locale): boolean {
   try {
     localStorage.setItem(LOCALE_STORAGE_KEY, locale);
+    return true;
   } catch {
-    // Storage unavailable — nothing to do (best-effort persistence).
+    return false;
   }
 }

@@ -8,7 +8,7 @@
  * demo reset (which calls `clearNickname`). Falling back to a generic greeting
  * when no nickname was entered is the caller's responsibility.
  */
-const NICKNAME_KEY = 'tmm:nickname:v1';
+export const NICKNAME_KEY = 'tmm:nickname:v1';
 const NICKNAME_MAX_LENGTH = 32;
 
 /** Loads the nickname, trimmed; null when unset / blank / unavailable. */
@@ -24,11 +24,12 @@ export function loadNickname(): string | null {
 }
 
 /** Persists the nickname (trimmed, length-capped). */
-export function saveNickname(name: string): void {
+export function saveNickname(name: string): boolean {
   try {
     localStorage.setItem(NICKNAME_KEY, name.trim().slice(0, NICKNAME_MAX_LENGTH));
+    return true;
   } catch {
-    // Storage unavailable — nothing to do.
+    return false;
   }
 }
 

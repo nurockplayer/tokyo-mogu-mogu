@@ -1,9 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useI18n } from '../../i18n';
-import { loadFoodProfile } from '../../lib/food-profile-storage';
-import { loadNickname } from '../../lib/nickname';
-import { loadSavedRoutes, saveRoute } from '../../lib/saved-routes';
+import { useI18n, type Locale } from '../../i18n';
+import type { FoodProfile } from '../../lib/food-profile';
+import { loadNickname, saveNickname } from '../../lib/nickname';
 import { FoodProfileConversation } from './chat/FoodProfileConversation';
 import { BottomNavigation } from './components/BottomNavigation';
 import {
@@ -20,9 +19,8 @@ import {
   discoveryOptions,
   emptyDiscoveryFilters,
   loadDiscoveryFilters,
-  loadTripFilters,
+  migrateLegacyFoodProfile,
   saveDiscoveryFilters,
-  saveTripFilters,
   type DiscoveryFilters,
 } from './discovery';
 import { DiscoveryFields } from './exploration/DiscoveryFields';
@@ -36,40 +34,20 @@ import { RouteScreen } from './screens/RouteScreen';
 import { SplashScreen } from './screens/SplashScreen';
 import { SpotScreen } from './screens/SpotScreen';
 import { StoryScreen } from './screens/StoryScreen';
-import type { CurrentJourneyLocationResolution } from './journey-location';
-import { journeyRecord, publishedJourneys } from './journey-publication';
+import { resolvePublishedJourneyLocation, type CurrentJourneyLocationResolution } from './journey-location';
+import { journeyRecord, publishedJourneys, publishJourney } from './journey-publication';
+import { loadLocalSaves, resetLocalData, writeLocalSaves, type SpotSave } from './local-saves';
 
-interface ReferenceFavorites {
-  journeyIds: string[];
-  spotIds: string[];
-}
+const storageCopy = {
+  ja: { saveFailed: '保存できませんでした。', removeFailed: '保存を解除できませんでした。', resetFailed: 'このブラウザのデータをリセットできませんでした。' },
+  en: { saveFailed: 'Could not save in this browser.', removeFailed: 'Could not remove the save.', resetFailed: 'Could not reset data in this browser.' },
+  'zh-TW': { saveFailed: '無法在此瀏覽器儲存。', removeFailed: '無法取消儲存。', resetFailed: '無法重設此瀏覽器的資料。' },
+};
 
-const REFERENCE_FAVORITES_KEY = 'tmm:figmaFavorites:v1';
-
-function loadReferenceFavorites(): ReferenceFavorites {
-  try {
-    const value: unknown = JSON.parse(localStorage.getItem(REFERENCE_FAVORITES_KEY) ?? '{}');
-    if (!value || typeof value !== 'object') return { journeyIds: [], spotIds: [] };
-    const record = value as Record<string, unknown>;
-    return {
-      journeyIds: Array.isArray(record.journeyIds)
-        ? record.journeyIds.filter((id): id is string => typeof id === 'string')
-        : [],
-      spotIds: Array.isArray(record.spotIds)
-        ? record.spotIds.filter((id): id is string => typeof id === 'string')
-        : [],
-    };
-  } catch {
-    return { journeyIds: [], spotIds: [] };
-  }
-}
-
-function saveReferenceFavorites(value: ReferenceFavorites) {
-  try {
-    localStorage.setItem(REFERENCE_FAVORITES_KEY, JSON.stringify(value));
-  } catch {
-    // Accountless demo persistence can safely degrade when storage is unavailable.
-  }
+function savedSpotLocation({ id, journeyId }: SpotSave) {
+  const pathname = `/spot/${encodeURIComponent(id)}`;
+  const search = journeyId ? `?candidateId=${encodeURIComponent(journeyId)}` : '';
+  return { pathname, search };
 }
 
 export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
@@ -82,9 +60,9 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
   const { locale, setLocale, t } = useI18n();
   const copy = referenceCopy(locale);
   const [nickname, setNickname] = useState(() => loadNickname() ?? '');
-  const [foodProfile, setFoodProfile] = useState(loadFoodProfile);
+  const [foodProfile, setFoodProfile] = useState<FoodProfile | null>(null);
   const [preferences, setPreferences] = useState(loadDiscoveryFilters);
-  const [tripFilters, setTripFilters] = useState(loadTripFilters);
+  const [tripFilters, setTripFilters] = useState<DiscoveryFilters | null>(null);
   const [explorationStep, setExplorationStep] = useState(0);
   const catalog = useMemo(() =>
     ['/food-profile', '/food-profile/edit', '/explore', '/explore/result'].includes(pathname)
@@ -99,8 +77,7 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
   const [storyBack, setStoryBack] = useState('/explore/result');
   const [routeBack, setRouteBack] = useState('/story/wasabi-okutama');
   const [spotBack, setSpotBack] = useState('/mogu');
-  const [savedRouteIds, setSavedRouteIds] = useState(() => loadSavedRoutes().map((entry) => entry.routeId));
-  const [favorites, setFavorites] = useState<ReferenceFavorites>(loadReferenceFavorites);
+  const [saves, setSaves] = useState(loadLocalSaves);
   const [toast, setToast] = useState('');
   const locationJourney = journeyLocation.status === 'resolved'
     ? journeyLocation.journey
@@ -112,19 +89,26 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
   const shownJourney = locationJourney ?? currentJourney;
   const routeJourney = locationJourney ?? currentJourney;
   const publicationRecord = locationJourney && journeyRecord(locationJourney.id);
-  const savedJourneys = useMemo(
-    () => currentJourneys.filter(
-      (journey) => savedRouteIds.includes(journey.routeId) || favorites.journeyIds.includes(journey.id),
-    ),
-    [favorites.journeyIds, savedRouteIds],
-  );
-  const savedSpots = useMemo(
-    () => Object.values(currentSpots).filter((spot) => favorites.spotIds.includes(spot.id)),
-    [favorites.spotIds],
-  );
+  const isFavorites = pathname === '/my-route';
+  const now = new Date();
+  const savedJourneys = isFavorites ? saves.journeys.map(({ id }) => {
+    const journey = currentJourneys.find((item) => item.id === id);
+    return { id, content: journey && publishJourney(journey, now) };
+  }) : [];
+  const savedSpots = isFavorites ? saves.spots.map((save) => {
+    const { pathname, search } = savedSpotLocation(save);
+    const resolved = resolvePublishedJourneyLocation(pathname, search, now);
+    const available = resolved.status === 'resolved' || resolved.status === 'default';
+    return { id: save.id, content: available ? resolved.spot : undefined };
+  }) : [];
+  const routeSaved = saves.journeys.some(({ id }) => id === routeJourney.id);
 
   useEffect(() => {
     document.documentElement.lang = locale;
+  }, [locale]);
+
+  useEffect(() => {
+    if (!migrateLegacyFoodProfile()) setToast(storageCopy[locale].saveFailed);
   }, [locale]);
 
   useEffect(() => {
@@ -160,12 +144,19 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
 
   const updatePreferences = (value: DiscoveryFilters) => {
     setPreferences(value);
-    saveDiscoveryFilters(value);
+    if (!saveDiscoveryFilters(value)) setToast(storageCopy[locale].saveFailed);
   };
 
-  const updateTripFilters = (value: DiscoveryFilters | null) => {
-    setTripFilters(value);
-    saveTripFilters(value);
+  const completeProfile = (name: string, profile: FoodProfile) => {
+    setFoodProfile(profile);
+    if (name && name !== nickname) {
+      setNickname(name);
+      if (!saveNickname(name)) setToast(storageCopy[locale].saveFailed);
+    }
+  };
+
+  const changeLocale = (value: Locale) => {
+    if (!setLocale(value)) setToast(storageCopy[value].saveFailed);
   };
 
   const openExploration = () => {
@@ -174,24 +165,47 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
   };
 
   const persistCurrentRoute = () => {
-    const next = saveRoute(routeJourney.routeId);
-    setSavedRouteIds(next.map((entry) => entry.routeId));
+    const latest = loadLocalSaves();
+    if (!latest.journeys.some(({ id }) => id === routeJourney.id)) {
+      latest.journeys.push({ id: routeJourney.id, routeId: routeJourney.routeId, savedAt: new Date().toISOString() });
+      if (!writeLocalSaves(latest)) {
+        setToast(storageCopy[locale].saveFailed);
+        return false;
+      }
+    }
+    setSaves(latest);
     setToast(locale === 'ja' ? 'マイルートに保存しました！' : locale === 'zh-TW' ? '已儲存到我的路線！' : 'Saved to My Routes!');
+    return true;
+  };
+
+  const removeSave = (group: 'journeys' | 'spots', id: string) => {
+    const latest = loadLocalSaves();
+    const next = { ...latest, [group]: latest[group].filter((item) => item.id !== id) };
+    if (!writeLocalSaves(next)) {
+      setToast(storageCopy[locale].removeFailed);
+      return false;
+    }
+    setSaves(next);
+    return true;
   };
 
   const toggleSpotFavorite = (spot: SpotPresentation) => {
-    const removing = favorites.spotIds.includes(spot.id);
-    const next = {
-      ...favorites,
-      spotIds: removing
-        ? favorites.spotIds.filter((id) => id !== spot.id)
-        : [...favorites.spotIds, spot.id],
-    };
-    setFavorites(next);
-    saveReferenceFavorites(next);
-    setToast(removing
-      ? locale === 'ja' ? 'スポットをお気に入りから削除しました' : locale === 'zh-TW' ? '已從收藏移除景點' : 'Spot removed from favorites'
-      : locale === 'ja' ? 'スポットをお気に入りに保存しました！' : locale === 'zh-TW' ? '已將景點儲存至收藏！' : 'Spot saved to favorites!');
+    if (saves.spots.some(({ id }) => id === spot.id)) {
+      if (removeSave('spots', spot.id)) {
+        setToast(locale === 'ja' ? 'スポットをお気に入りから削除しました' : locale === 'zh-TW' ? '已從收藏移除景點' : 'Spot removed from favorites');
+      }
+      return;
+    }
+    const latest = loadLocalSaves();
+    if (!latest.spots.some(({ id }) => id === spot.id)) {
+      latest.spots.push({ id: spot.id, journeyId: locationJourney?.id });
+      if (!writeLocalSaves(latest)) {
+        setToast(storageCopy[locale].saveFailed);
+        return;
+      }
+    }
+    setSaves(latest);
+    setToast(locale === 'ja' ? 'スポットをお気に入りに保存しました！' : locale === 'zh-TW' ? '已將景點儲存至收藏！' : 'Spot saved to favorites!');
   };
 
   const shareCurrentRoute = async (variant: JourneyPresentation['routeVariants'][number]) => {
@@ -230,7 +244,6 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
   const isRoute = !unavailableJourney && pathname === '/route';
   const isSpot = !unavailableJourney && pathname.startsWith('/spot/');
   const isMogu = pathname === '/mogu' || pathname === '/discover';
-  const isFavorites = pathname === '/my-route';
   const isMy = pathname === '/my';
   const isBadges = pathname === '/badges';
   const profilePreferences = (
@@ -250,10 +263,7 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
           copy={copy}
           locale={locale}
           preferences={isProfileOnboarding ? profilePreferences : null}
-          onProfileSaved={(name, profile) => {
-            setNickname(name);
-            setFoodProfile(profile);
-          }}
+          onProfileCompleted={completeProfile}
           onRecommend={() => navigate('/home')}
           onSkipProfile={() => navigate('/mogu')}
           onBrowse={() => navigate('/mogu')}
@@ -266,10 +276,7 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
           locale={locale}
           mode="edit"
           preferences={isProfileEdit ? profilePreferences : null}
-          onProfileSaved={(name, profile) => {
-            if (name) setNickname(name);
-            setFoodProfile(profile);
-          }}
+          onProfileCompleted={completeProfile}
           onRecommend={() => navigate('/home')}
           onSkipProfile={() => navigate('/my')}
           onBrowse={() => navigate('/mogu')}
@@ -282,7 +289,7 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
           nickname={nickname}
           onNavigate={navigate}
           onStartExploration={() => {
-            updateTripFilters(null);
+            setTripFilters(null);
             openExploration();
           }}
         />
@@ -296,10 +303,7 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
           onChange={setTripFilters}
           onStep={setExplorationStep}
           onBackFromFirst={() => navigate(-1)}
-          onComplete={() => {
-            saveTripFilters(tripFilters);
-            navigate('/explore/result');
-          }}
+          onComplete={() => navigate('/explore/result')}
         />
         <ResultScreen
           active={isResult}
@@ -310,7 +314,7 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
           filters={filters}
           foodProfile={foodProfile}
           onRepeatSearch={openExploration}
-          onClear={() => updateTripFilters(emptyDiscoveryFilters)}
+          onClear={() => setTripFilters(emptyDiscoveryFilters)}
           onBrowse={() => navigate('/mogu')}
           onOpenJourney={openJourney}
         />
@@ -336,7 +340,7 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
           record={publicationRecord}
           key={routeJourney.id}
           initialVariantId={journeyLocation.status === 'resolved' ? journeyLocation.variantId : undefined}
-          saved={savedRouteIds.includes(routeJourney.routeId)}
+          saved={routeSaved}
           onBack={() => {
             navigate(
               fromMy
@@ -351,8 +355,7 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
           onOpenSpot={openSpot}
           onSaveRoute={persistCurrentRoute}
           onViewSavedRoutes={() => {
-            persistCurrentRoute();
-            navigate('/my-route');
+            if (routeSaved || persistCurrentRoute()) navigate('/my-route');
           }}
         />
         <SpotScreen
@@ -362,9 +365,11 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
           spot={currentSpot}
           record={publicationRecord}
           foodProfile={foodProfile}
-          saved={favorites.spotIds.includes(currentSpot.id)}
+          saved={saves.spots.some(({ id }) => id === currentSpot.id)}
           onBack={() => navigate(
-            hasJourneyQuery && locationJourney
+            spotBack === '/my-route'
+              ? spotBack
+              : hasJourneyQuery && locationJourney
               ? `/route${location.search}`
               : spotBack === '/route' && locationJourney
                 ? `/route?candidateId=${encodeURIComponent(locationJourney.id)}`
@@ -388,7 +393,13 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
           savedJourneys={savedJourneys}
           savedSpots={savedSpots}
           onOpenJourney={openJourney}
-          onOpenSpot={openSpot}
+          onOpenSpot={(id) => {
+            const save = saves.spots.find((spot) => spot.id === id)!;
+            setSpotBack(pathname);
+            navigate(savedSpotLocation(save));
+          }}
+          onRemoveJourney={(id) => removeSave('journeys', id)}
+          onRemoveSpot={(id) => removeSave('spots', id)}
           onNavigate={navigate}
         />
         <MyScreen
@@ -400,7 +411,11 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
             setEditSessionId((sessionId) => sessionId + 1);
             navigate('/food-profile/edit');
           }}
-          onChangeLocale={setLocale}
+          onChangeLocale={changeLocale}
+          onReset={() => {
+            if (resetLocalData()) window.location.reload();
+            else setToast(storageCopy[locale].resetFailed);
+          }}
           onNavigate={navigate}
           onNotify={setToast}
         />

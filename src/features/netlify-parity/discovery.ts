@@ -1,5 +1,6 @@
 import type { JourneyRecord } from '../../data/journey-record';
 import { MUNICIPALITIES } from '../../data/municipalities';
+import { FOOD_PROFILE_KEY } from '../../lib/food-profile-storage';
 import type { LocalizedText } from './factual-presentation';
 import type { JourneyPresentation } from './content';
 
@@ -15,47 +16,56 @@ export const emptyDiscoveryFilters: DiscoveryFilters = {
   area: '', arrival: '', minutes: null, cultures: [], alcohol: '',
 };
 
-const preferencesKey = 'tmm:discoveryPreferences:v1';
-const tripFiltersKey = 'tmm:discoveryTripFilters:v1';
+export const DISCOVERY_PREFERENCES_KEY = 'tmm:discoveryPreferences:v1';
 
-function loadStoredFilters(key: string): DiscoveryFilters | null {
+function loadPreferenceFields(key: string): DiscoveryFilters | null {
   try {
-    const value = JSON.parse(localStorage.getItem(key) ?? 'null');
-    if (value && typeof value.area === 'string' && typeof value.arrival === 'string' &&
-      (value.minutes === null || (Number.isInteger(value.minutes) && value.minutes > 0)) &&
-      Array.isArray(value.cultures) && value.cultures.every((id: unknown) => typeof id === 'string') &&
-      ['', 'include', 'exclude'].includes(value.alcohol)) {
-      return value;
-    }
+    const value = JSON.parse(localStorage.getItem(key) ?? 'null') as Record<string, unknown> | null;
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
+    const { area, arrival, minutes, cultures, alcohol } = value;
+    return {
+      area: typeof area === 'string' ? area : '',
+      arrival: typeof arrival === 'string' ? arrival : '',
+      minutes: typeof minutes === 'number' && Number.isInteger(minutes) && minutes > 0 ? minutes : null,
+      cultures: Array.isArray(cultures) ? cultures.filter((id): id is string => typeof id === 'string') : [],
+      alcohol: alcohol === 'include' || alcohol === 'exclude' ? alcohol : '',
+    };
   } catch {
     // The same accountless storage boundary as the existing profile.
-  }
-  return null;
-}
-
-function saveStoredFilters(key: string, filters: DiscoveryFilters | null): void {
-  try {
-    if (filters === null) localStorage.removeItem(key);
-    else localStorage.setItem(key, JSON.stringify(filters));
-  } catch {
-    // The current tab still uses the in-memory filters.
+    return null;
   }
 }
 
 export function loadDiscoveryFilters(): DiscoveryFilters {
-  return loadStoredFilters(preferencesKey) ?? emptyDiscoveryFilters;
+  return loadPreferenceFields(DISCOVERY_PREFERENCES_KEY)
+    ?? loadPreferenceFields(FOOD_PROFILE_KEY)
+    ?? emptyDiscoveryFilters;
 }
 
-export function saveDiscoveryFilters(filters: DiscoveryFilters): void {
-  saveStoredFilters(preferencesKey, filters);
+export function saveDiscoveryFilters(filters: DiscoveryFilters): boolean {
+  try {
+    localStorage.setItem(DISCOVERY_PREFERENCES_KEY, JSON.stringify(filters));
+    return true;
+  } catch {
+    return false;
+  }
 }
 
-export function loadTripFilters(): DiscoveryFilters | null {
-  return loadStoredFilters(tripFiltersKey);
-}
+export function migrateLegacyFoodProfile(): boolean {
+  try {
+    if (localStorage.getItem(FOOD_PROFILE_KEY) === null) return true;
 
-export function saveTripFilters(filters: DiscoveryFilters | null): void {
-  saveStoredFilters(tripFiltersKey, filters);
+    if (!loadPreferenceFields(DISCOVERY_PREFERENCES_KEY)) {
+      const legacy = loadPreferenceFields(FOOD_PROFILE_KEY);
+      if (legacy && (legacy.area || legacy.arrival || legacy.minutes !== null || legacy.cultures.length || legacy.alcohol)
+        && !saveDiscoveryFilters(legacy)) return false;
+    }
+
+    localStorage.removeItem(FOOD_PROFILE_KEY);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 interface DiscoveryEntry {

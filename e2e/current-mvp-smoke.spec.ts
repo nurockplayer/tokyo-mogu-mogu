@@ -501,22 +501,31 @@ const persistedFoodProfile = {
 };
 
 test('#443 opens the Spot phrase card offline at 375px in each locale', async ({ page, context }, testInfo) => {
+  test.setTimeout(60_000);
   const { record, defaultVariant } = admitted!;
-  const path = `/spot/${defaultVariant!.primarySpotId}?candidateId=${record.journey.id}`;
+  const spotId = defaultVariant!.primarySpotId;
+  const path = `/spot/${spotId}?candidateId=${record.journey.id}`;
   await page.clock.setFixedTime(publicationDate);
-  await page.addInitScript((profile) => {
-    localStorage.setItem('tmm:foodProfile:v1', JSON.stringify(profile));
-  }, {
-    ...persistedFoodProfile,
-    dietary: ['allergy', 'religious'],
-    dietarySelections: { allergy: ['egg', 'wheat', 'custom:sesame', 'custom:Sumac'], religious: ['pork'] },
-    hasNoRestrictions: false,
-  });
+  await page.goto('/');
+  const profile = await reachProfilePreferences(page, 'phrase');
+  await profile.getByRole('button', { name: '自分で旅を探す' }).click();
+  await activeScreen(page, 'mogu').locator(`[data-journey-id="${record.journey.id}"]`).click();
+  await activeScreen(page, 'story').getByRole('button', { name: 'この食旅のルートを見る' }).click();
+  await activeScreen(page, 'route').locator(`[data-spot-id="${spotId}"]`).click();
+  await expect(page).toHaveURL(path);
 
-  for (const [locale, wheat] of [['ja', '小麦'], ['en', 'Wheat'], ['zh-TW', '小麥']] as const) {
-    await page.goto(path);
-    await page.evaluate((value) => localStorage.setItem('tmm:locale', value), locale);
-    await page.reload();
+  for (const [locale, wheat, myLabel, languageMenu, language] of [
+    ['ja', '小麦', '', '', ''],
+    ['en', 'Wheat', 'マイ', '言語設定', 'English'],
+    ['zh-TW', '小麥', 'My', 'Language', '繁體中文'],
+  ] as const) {
+    if (language) {
+      await activeScreen(page, 'spot').getByRole('button', { name: myLabel, exact: true }).click();
+      await activeScreen(page, 'my').getByRole('button', { name: languageMenu }).click();
+      await page.getByRole('dialog').getByRole('button', { name: language }).click();
+      await page.goBack();
+      await expect(page).toHaveURL(path);
+    }
     const card = page.locator('[data-screen="spot"][data-screen-active="true"] .spot-phrase');
     await context.setOffline(true);
     await card.getByText(strings[locale].spotPhraseOpen, { exact: true }).click();
@@ -535,6 +544,10 @@ test('#443 opens the Spot phrase card offline at 375px in each locale', async ({
     }
     await context.setOffline(false);
   }
+  await page.reload();
+  const reloadedPhrase = activeScreen(page, 'spot').locator('.spot-phrase');
+  await reloadedPhrase.getByText(strings['zh-TW'].spotPhraseOpen, { exact: true }).click();
+  await expect(reloadedPhrase.locator('[lang="ja"]')).not.toContainText('小麦');
 });
 
 async function seedPersistedProfile(page: Page): Promise<void> {
@@ -569,7 +582,7 @@ async function expectNoHorizontalOverflow(page: Page): Promise<void> {
     });
 }
 
-async function reachProfilePreferences(page: Page, allergy = false) {
+async function reachProfilePreferences(page: Page, answers: 'none' | 'egg' | 'phrase' = 'none') {
   const splash = page.locator('[data-screen="splash"][data-screen-active="true"]');
   await expect(splash).toBeVisible();
   await splash.click();
@@ -595,8 +608,18 @@ async function reachProfilePreferences(page: Page, allergy = false) {
   for (const [questionIndex, choice] of noRestrictionChoices.entries()) {
     const question = profile.locator(`[data-question-index="${questionIndex}"]`);
     await expect(question).toBeVisible();
-    const answer = allergy && questionIndex === 0 ? '🥚 卵' : choice;
-    await question.getByRole('button', { name: answer, exact: true }).click();
+    if (answers === 'phrase' && questionIndex === 0) {
+      await question.getByRole('button', { name: '🌾 小麦', exact: true }).click();
+      for (const ingredient of ['sesame', 'Sumac']) {
+        await question.getByRole('button', { name: '✏️ その他' }).click();
+        const other = question.getByRole('dialog');
+        await other.getByRole('textbox').fill(ingredient);
+        await other.getByRole('button', { name: '確定' }).click();
+      }
+    } else {
+      const answer = answers === 'egg' && questionIndex === 0 ? '🥚 卵' : choice;
+      await question.getByRole('button', { name: answer, exact: true }).click();
+    }
     await question.getByRole('button', { name: '送信', exact: true }).click();
     await expect(question).toHaveAttribute('data-frozen', 'true');
   }
@@ -652,13 +675,13 @@ test('#443 applies two Food Profiles, explains empty results and clears filters'
   const firstIds = await ids();
 
   await page.goto('/');
-  profile = await reachProfilePreferences(page, true);
+  profile = await reachProfilePreferences(page, 'egg');
   await expect(profile.getByLabel('滞在エリア')).toHaveValue('hachioji');
   await findJourneysFromProfile(page, profile);
   await expect(result.getByText('調理中の混入', { exact: false })).toBeVisible();
   expect(await ids()).toEqual(firstIds);
   await page.reload();
-  await expect(result.getByText('調理中の混入', { exact: false })).toBeVisible();
+  await expect(result.getByText('調理中の混入', { exact: false })).toHaveCount(0);
   expect(await ids()).toEqual(firstIds);
 
   await page.goto('/');
@@ -682,8 +705,6 @@ test('#443 applies two Food Profiles, explains empty results and clears filters'
   await next.click();
   await next.click();
   await expect(page).toHaveURL('/explore/result');
-  await page.reload();
-
   await expect(result.getByText('条件に合う食旅が見つかりませんでした。')).toBeVisible();
   await expect(result.locator('.empty')).toContainText('滞在エリア · 福生市');
   await expect(result.locator('.empty')).toContainText('現地で使える時間 · 15分以内');
@@ -691,7 +712,6 @@ test('#443 applies two Food Profiles, explains empty results and clears filters'
   await expectNoHorizontalOverflow(page);
   await screenshot('result-empty-ja');
   await result.getByRole('button', { name: '条件をクリア' }).click();
-  await page.reload();
   await expect(firstReason).toContainText('公開中の食旅');
   expect((await ids()).some((id) => firstIds.includes(id))).toBe(true);
 });
@@ -809,7 +829,7 @@ test.describe('Issue #316 Welcome entry routing', () => {
     ).toBeVisible();
   });
 
-  test('starts the Food Profile conversation with a persisted nickname and profile', async ({
+  test('starts the Food Profile conversation with a persisted nickname and a legacy Food Profile', async ({
     page,
   }) => {
     await seedPersistedProfile(page);
@@ -825,7 +845,7 @@ test.describe('Issue #316 Welcome entry routing', () => {
       .toBe('123');
     await expect
       .poll(() => page.evaluate(() => localStorage.getItem('tmm:foodProfile:v1')))
-      .not.toBeNull();
+      .toBeNull();
   });
 
   test('keeps direct Home navigation directly accessible', async ({ page }) => {
@@ -839,15 +859,17 @@ test.describe('Issue #316 Welcome entry routing', () => {
   });
 });
 
-test('completes the current 375px Japanese Golden Path and preserves saved state', async ({
+test('S3-1 reopens preferences, a journey and a Spot after reload on the Japanese Golden Path', async ({
   page,
-}) => {
+}, testInfo) => {
   test.setTimeout(45_000);
 
   await page.clock.setFixedTime(publicationDate);
   await page.goto('/');
   await expect(page.locator('.reference-app')).toHaveAttribute('data-locale', 'ja');
-  const result = await findJourneysFromProfile(page, await reachProfilePreferences(page));
+  const profile = await reachProfilePreferences(page);
+  await profile.getByLabel('滞在エリア').selectOption('hachioji');
+  const result = await findJourneysFromProfile(page, profile);
   await expectNoHorizontalOverflow(page);
 
   const firstCard = result.locator('[data-journey-id]').first();
@@ -888,9 +910,20 @@ test('completes the current 375px Japanese Golden Path and preserves saved state
 
   await expect(page).toHaveURL(/\/my-route$/);
   const favorites = page.locator('[data-screen="favorites"][data-screen-active="true"]');
-  await expect(favorites.locator(`[data-journey-id="${journeyId}"]`)).toBeVisible();
-  await expect(favorites.locator(`[data-spot-id="${spotId}"]`)).toBeVisible();
+  const journeySave = favorites.locator(`[data-journey-id="${journeyId}"] .trip-card-open`);
+  const spotSave = favorites.locator(`[data-spot-id="${spotId}"] .my-route`);
+  await expect(journeySave).toBeVisible();
+  await expect(spotSave).toBeVisible();
   await expectNoHorizontalOverflow(page);
+  await page.screenshot({ path: testInfo.outputPath('s3-1-reloaded-saves.png'), animations: 'disabled' });
+  await journeySave.click();
+  await expect(story).toBeVisible();
+  await page.goBack();
+  await spotSave.click();
+  await expect(page).toHaveURL(`/spot/${spotId}?candidateId=${journeyId}`);
+  await expect(spot).toBeVisible();
+  await spot.getByRole('button', { name: '戻る' }).click();
+  await expect(page).toHaveURL('/my-route');
   await favorites
     .getByRole('navigation', { name: 'Primary' })
     .getByRole('button', { name: 'マイ' })
@@ -910,7 +943,198 @@ test('completes the current 375px Japanese Golden Path and preserves saved state
     .getByRole('button', { name: '食旅を見つけ' })
     .click();
   await expect(page).toHaveURL(/\/home$/);
-  await expect(page.locator('[data-screen="home"][data-screen-active="true"]')).toBeVisible();
+  const home = activeScreen(page, 'home');
+  await expect(home.getByText('ナナさん')).toBeVisible();
+  await home.getByRole('button', { name: /Let's Go!/ }).click();
+  await expect(activeScreen(page, 'explore').getByLabel('滞在エリア')).toHaveValue('hachioji');
+  await page.screenshot({ path: testInfo.outputPath('s3-1-reloaded-preferences.png'), animations: 'disabled' });
+});
+
+test('S3-1 restores all ordinary Food Profile defaults after reload from legacy and current storage', async ({ page }, testInfo) => {
+  test.setTimeout(60_000);
+  const sample = publication.find(({ record, defaultVariant }) =>
+    record.municipalityId === 'hachioji' && defaultVariant &&
+      record.variants[defaultVariant.id]?.arrival?.name.ja === '八王子駅',
+  )!;
+  const { record, defaultVariant } = sample;
+  const arrival = record.variants[defaultVariant!.id]!.arrival!;
+  const defaults = {
+    area: 'hachioji', arrival: `${arrival.kind}:${arrival.name.ja}`,
+    minutes: 120, cultures: [record.journey.foodCultureId], alcohol: 'exclude',
+  };
+  const expectDefaults = async (profile: Awaited<ReturnType<typeof reachProfilePreferences>>, minutes: number, alcohol: string) => {
+    await expect(profile.getByLabel('滞在エリア')).toHaveValue(defaults.area);
+    await expect(profile.getByLabel('到着駅・停留所')).toHaveValue(defaults.arrival);
+    await expect(profile.getByLabel('現地で使える時間')).toHaveValue(String(minutes));
+    await expect(profile.getByRole('button', { name: `${record.routeName.ja} ×`, exact: true })).toBeVisible();
+    await expect(profile.getByLabel('お酒がテーマの食旅')).toHaveValue(alcohol);
+  };
+
+  await page.clock.setFixedTime(publicationDate);
+  await page.goto('/');
+  await page.evaluate((legacyProfile) => localStorage.setItem('tmm:foodProfile:v1', JSON.stringify(legacyProfile)), {
+    ...persistedFoodProfile, ...defaults, dietary: ['allergy', 'religious'], dietaryOther: 'test-only', hasNoRestrictions: false,
+  });
+  await page.reload();
+  const imported = await reachProfilePreferences(page);
+  await expectDefaults(imported, 120, 'exclude');
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('tmm:discoveryPreferences:v1')!))).toEqual(defaults);
+  expect(await page.evaluate(() => localStorage.getItem('tmm:foodProfile:v1'))).toBeNull();
+  await imported.getByLabel('お酒がテーマの食旅').scrollIntoViewIfNeeded();
+  await page.screenshot({ path: testInfo.outputPath('s3-1-legacy-profile.png'), animations: 'disabled' });
+
+  await imported.getByLabel('現地で使える時間').selectOption('90');
+  await imported.getByLabel('お酒がテーマの食旅').selectOption('include');
+  const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('tmm:discoveryPreferences:v1')!));
+  expect(stored).toEqual({ ...defaults, minutes: 90, alcohol: 'include' });
+  await page.goto('/');
+  await page.reload();
+  await expectDefaults(await reachProfilePreferences(page), 90, 'include');
+});
+
+async function saveAdmittedRouteAndSpot(page: Page) {
+  const { record, defaultVariant } = admitted!;
+  await page.clock.setFixedTime(publicationDate);
+  await page.goto(`/route?candidateId=${record.journey.id}`);
+  const route = activeScreen(page, 'route');
+  await route.getByRole('button', { name: 'マイルートに保存' }).click();
+  await route.locator(`[data-spot-id="${defaultVariant!.primarySpotId}"]`).click();
+  await activeScreen(page, 'spot').getByRole('button', { name: 'お気に入りに保存' }).click();
+}
+
+test('S3-2 removes journey and Spot saves independently', async ({ page }, testInfo) => {
+  await saveAdmittedRouteAndSpot(page);
+  await page.goto('/my-route');
+  const favorites = activeScreen(page, 'favorites');
+  const journey = favorites.locator(`[data-journey-id="${admitted!.record.journey.id}"]`);
+  const spot = favorites.locator(`[data-spot-id="${admitted!.defaultVariant!.primarySpotId}"]`);
+  await journey.getByRole('button', { name: '食旅の保存を解除' }).click();
+  await page.reload();
+  await expect(journey).toHaveCount(0);
+  await expect(spot.locator('.my-route')).toBeVisible();
+  await page.screenshot({ path: testInfo.outputPath('s3-2-spot-kept.png'), animations: 'disabled' });
+
+  await page.goto(`/route?candidateId=${admitted!.record.journey.id}`);
+  const route = activeScreen(page, 'route');
+  await route.getByRole('button', { name: 'マイルートに保存' }).click();
+  await route.getByRole('button', { name: 'マイルートを見る' }).click();
+  await spot.getByRole('button', { name: 'スポットの保存を解除' }).click();
+  await page.reload();
+  await expect(spot).toHaveCount(0);
+  await expect(journey.locator('.trip-card-open')).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+  await page.screenshot({ path: testInfo.outputPath('s3-2-journey-kept.png'), animations: 'disabled' });
+});
+
+test('S3-3 imports an admitted legacy route and marks an excluded save unavailable', async ({ page }, testInfo) => {
+  const journey = admitted!.record.journey;
+  const withdrawn = missingArrival!.record.journey;
+  await page.clock.setFixedTime(publicationDate);
+  await page.goto('/my-route');
+  await page.evaluate((entries) => localStorage.setItem('tmm:savedRoutes', JSON.stringify(entries)),
+    [journey, withdrawn].map(({ routeId }) => ({ routeId, savedAt: publicationDate.toISOString() })));
+  await page.reload();
+  const favorites = activeScreen(page, 'favorites');
+  const imported = favorites.locator(`[data-journey-id="${journey.id}"]`);
+  const unavailable = favorites.locator(`[data-journey-id="${withdrawn.id}"]`);
+  await expect(imported.locator('.trip-card-open')).toBeVisible();
+  await expect(unavailable).toContainText('現在ご覧いただけません');
+  await unavailable.getByText('現在ご覧いただけません').click();
+  await expect(page).toHaveURL('/my-route');
+  await expect(unavailable.getByRole('button')).toHaveCount(1);
+  await expectNoHorizontalOverflow(page);
+  await page.screenshot({ path: testInfo.outputPath('s3-3-legacy-and-unavailable.png'), animations: 'disabled' });
+
+  await imported.locator('.trip-card-open').click();
+  await expect(page).toHaveURL(`/story/${journey.storyId}`);
+  await activeScreen(page, 'story').getByRole('button', { name: 'この食旅のルートを見る' }).click();
+  await expect(activeScreen(page, 'route').getByRole('button', { name: '保存済み' })).toBeDisabled();
+  await page.goto('/my-route');
+  await unavailable.getByRole('button', { name: '食旅の保存を解除' }).click();
+  await page.reload();
+  await expect(unavailable).toHaveCount(0);
+  await expect(imported.locator('.trip-card-open')).toBeVisible();
+});
+
+test('S3-4 keeps browsing available and reports blocked save and reset', async ({ page }, testInfo) => {
+  const { record, defaultVariant } = admitted!;
+  await page.goto('/');
+  await page.evaluate(() => localStorage.setItem('tmm:nickname:v1', 'リセット確認'));
+  await page.clock.setFixedTime(publicationDate);
+  await page.addInitScript(() => {
+    for (const method of ['setItem', 'removeItem'] as const) {
+      const original = Storage.prototype[method];
+      Storage.prototype[method] = function (this: Storage, key: string, value?: string) {
+        if (this === localStorage) throw new DOMException('Local writes blocked', 'SecurityError');
+        original.call(this, key, value!);
+      };
+    }
+  });
+  await page.goto('/mogu');
+  const mogu = activeScreen(page, 'mogu');
+  await mogu.locator(`[data-journey-id="${record.journey.id}"]`).click();
+  await activeScreen(page, 'story').getByRole('button', { name: 'この食旅のルートを見る' }).click();
+  const route = activeScreen(page, 'route');
+  const saveRoute = route.getByRole('button', { name: 'マイルートに保存' });
+  await saveRoute.click();
+  const status = page.locator('.reference-toast');
+  await expect(status).toHaveText('保存できませんでした。');
+  await expect(saveRoute).toHaveAttribute('aria-pressed', 'false');
+  await page.screenshot({ path: testInfo.outputPath('s3-4-save-blocked.png'), animations: 'disabled' });
+
+  await route.locator(`[data-spot-id="${defaultVariant!.primarySpotId}"]`).click();
+  const spot = activeScreen(page, 'spot');
+  const saveSpot = spot.getByRole('button', { name: 'お気に入りに保存' });
+  await saveSpot.click();
+  await expect(status).toHaveText('保存できませんでした。');
+  await expect(saveSpot).toHaveAttribute('aria-pressed', 'false');
+  await spot.getByRole('button', { name: 'マイ', exact: true }).click();
+  const my = activeScreen(page, 'my');
+  page.once('dialog', (dialog) => dialog.accept());
+  await my.getByRole('button', { name: 'このブラウザのデータをリセット' }).click();
+  await expect(status).toHaveText('このブラウザのデータをリセットできませんでした。');
+  await expect(my.getByText('リセット確認')).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+  await page.screenshot({ path: testInfo.outputPath('s3-4-reset-blocked.png'), animations: 'disabled' });
+  await my.getByRole('button', { name: 'モグモグる' }).click();
+  await expect(mogu.locator(`[data-journey-id="${record.journey.id}"]`)).toBeVisible();
+  await page.goto('/my-route');
+  await expect(activeScreen(page, 'favorites').getByText('お気に入りはまだありません。')).toBeVisible();
+});
+
+test('S3-5 resets local data and reloads to defaults', async ({ page }, testInfo) => {
+  await saveAdmittedRouteAndSpot(page);
+  const legacyKeys = ['tmm:savedRoutes', 'tmm:moguRecent:v1', 'tmm:foodProfile:v1'];
+  await page.evaluate(({ routeId, legacyKeys, profile }) => {
+    localStorage.setItem(legacyKeys[0], JSON.stringify([{ routeId, savedAt: profile.savedAt }]));
+    localStorage.setItem(legacyKeys[1], '[]');
+    localStorage.setItem(legacyKeys[2], JSON.stringify(profile));
+    localStorage.setItem('tmm:nickname:v1', 'Reset sample');
+    localStorage.setItem('tmm:discoveryPreferences:v1', JSON.stringify({
+      area: 'hachioji', arrival: '', minutes: null, cultures: [], alcohol: '',
+    }));
+    localStorage.setItem('unrelated-key', 'keep');
+  }, { routeId: admitted!.record.journey.routeId, legacyKeys, profile: persistedFoodProfile });
+  await page.goto('/my');
+  const my = activeScreen(page, 'my');
+  await my.getByRole('button', { name: '言語設定' }).click();
+  await page.getByRole('dialog').getByRole('button', { name: 'English' }).click();
+  await page.reload();
+  await expect(my.getByText('Reset sample')).toBeVisible();
+  page.once('dialog', (dialog) => dialog.accept());
+  await my.getByRole('button', { name: 'Reset data in this browser' }).click();
+  await expect(page.locator('.reference-app')).toHaveAttribute('data-locale', 'ja');
+  await page.reload();
+  await expect(my.getByText('ナナミ')).toBeVisible();
+  expect(await page.evaluate((keys) => keys.map((key) => localStorage.getItem(key)), legacyKeys)).toEqual([null, null, null]);
+  expect(await page.evaluate(() => localStorage.getItem('unrelated-key'))).toBe('keep');
+  await my.getByRole('button', { name: 'マイルート' }).click();
+  await expect(activeScreen(page, 'favorites').getByText('お気に入りはまだありません。')).toBeVisible();
+  await page.screenshot({ path: testInfo.outputPath('s3-5-empty-after-reset.png'), animations: 'disabled' });
+  await page.goto('/explore');
+  await expect(activeScreen(page, 'explore').getByLabel('滞在エリア')).toHaveValue('');
+  await expectNoHorizontalOverflow(page);
+  await page.screenshot({ path: testInfo.outputPath('s3-5-defaults-after-reset.png'), animations: 'disabled' });
 });
 
 test('opens the standalone source-backed Yamashiroya Spot (#323)', async ({ page }) => {

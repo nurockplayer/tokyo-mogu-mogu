@@ -519,6 +519,8 @@ body:has(.reference-app) { min-height:0; }
 .reference-app [data-screen="journey-unavailable"] .guide-box { margin:0; border-radius:16px; }
 .reference-app [data-screen="journey-unavailable"] h1 { font-size:22px; line-height:1.5; }
 .reference-app .favorite-group + .favorite-group { margin-top:24px; }
+.reference-app .favorite-group .my-route { width:100%; text-align:left; }
+.reference-app .favorite-remove { color:var(--green); padding:6px 14px 12px; font-size:13.5px; text-decoration:underline; }
 .reference-app .simple-body h2 { color:var(--green); font-size:19px; margin-bottom:12px; }
 .reference-app .empty { text-align:center; color:var(--ink-soft); font-weight:400; font-size:13.5px; padding:40px 0; line-height:2; }
 .reference-app .empty img { width:70px; margin:0 auto 10px; opacity:.8; }

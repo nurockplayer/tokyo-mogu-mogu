@@ -23,7 +23,7 @@ export type { Locale, LocaleKey, StringBundles } from './resources';
 
 interface I18nContextValue {
   locale: Locale;
-  setLocale: (locale: Locale) => void;
+  setLocale: (locale: Locale) => boolean;
   t: (key: LocaleKey) => string;
 }
 
@@ -36,7 +36,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
   const setLocale = useCallback((next: Locale) => {
     setLocaleState(next);
-    storeLocale(next);
+    return storeLocale(next);
   }, []);
 
   const t = useCallback(

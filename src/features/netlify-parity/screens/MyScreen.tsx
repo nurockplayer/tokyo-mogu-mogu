@@ -21,7 +21,8 @@ interface MyLabels {
   language: string;
   otherSettings: string;
   help: string;
-  logout: string;
+  reset: string;
+  resetConfirm: string;
   languageDialog: string;
   close: string;
 }
@@ -31,20 +32,23 @@ const myLabels: Record<Locale, MyLabels> = {
     defaultNickname: 'ナナミ', editProfile: 'プロフィール編集', savedRoutes: 'マイルート',
     savedRoutesDescription: '保存したルートを\n確認できます', badges: '食のバッジ', badgesDescription: '食体験で集めた\nバッジをチェック',
     language: '言語設定', otherSettings: 'その他の設定', help: 'ヘルプ・お問合せ',
-    logout: 'ログアウト', languageDialog: '言語を選択', close: '閉じる',
+    reset: 'このブラウザのデータをリセット', resetConfirm: 'このブラウザの設定と保存した食旅・スポットを削除しますか？',
+    languageDialog: '言語を選択', close: '閉じる',
   },
   en: {
     defaultNickname: 'Nanami', editProfile: 'Edit profile', savedRoutes: 'Saved journeys',
     savedRoutesDescription: 'Revisit your saved\nfood journeys', badges: 'Food badges',
     badgesDescription: 'Collect memories from\nyour food journeys', language: 'Language',
-    otherSettings: 'Other settings', help: 'Help & contact', logout: 'Log out',
+    otherSettings: 'Other settings', help: 'Help & contact', reset: 'Reset data in this browser',
+    resetConfirm: 'Remove preferences and saved journeys and spots from this browser?',
     languageDialog: 'Choose a language', close: 'Close',
   },
   'zh-TW': {
     defaultNickname: 'Nanami', editProfile: '編輯個人資料', savedRoutes: '已儲存的行程',
     savedRoutesDescription: '再次瀏覽已儲存的\n美食旅程', badges: '美食徽章',
     badgesDescription: '收藏美食旅程的\n回憶', language: '語言設定', otherSettings: '其他設定',
-    help: '幫助與聯絡我們', logout: '登出', languageDialog: '選擇語言', close: '關閉',
+    help: '幫助與聯絡我們', reset: '重設此瀏覽器的資料', resetConfirm: '要移除此瀏覽器的偏好、已儲存的美食之旅和景點嗎？',
+    languageDialog: '選擇語言', close: '關閉',
   },
 };
 
@@ -61,6 +65,7 @@ export interface MyScreenProps {
   nickname: string;
   onEditProfile: () => void;
   onChangeLocale: (locale: Locale) => void;
+  onReset: () => void;
   onNavigate: (path: string) => void;
   onNotify: (message: string) => void;
 }
@@ -72,6 +77,7 @@ export function MyScreen({
   nickname,
   onEditProfile,
   onChangeLocale,
+  onReset,
   onNavigate,
   onNotify,
 }: MyScreenProps) {
@@ -178,8 +184,14 @@ export function MyScreen({
             </button>
           </div>
 
-          <button className="issue-296-logout" type="button" onClick={notifyUnavailable}>
-            {labels.logout}
+          <button
+            className="issue-296-logout"
+            type="button"
+            onClick={() => {
+              if (window.confirm(labels.resetConfirm)) onReset();
+            }}
+          >
+            {labels.reset}
           </button>
         </div>
       </div>

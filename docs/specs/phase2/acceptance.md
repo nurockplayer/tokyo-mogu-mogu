@@ -1,6 +1,6 @@
 # Phase 2 acceptance
 
-**19 / 37 passed**
+**26 / 37 passed**
 
 | ID | Stage / issue | Case | How to check | Status | Evidence link |
 | --- | --- | --- | --- | --- | --- |
@@ -30,17 +30,27 @@
 | S2-11 | S2 / #443 | When a primary stop is unavailable the Route offers its alternative (Astra advice, #404 c7219291392). | In the running product, open a journey whose primary stop is unavailable and inspect Route. | pass | [S2 browser evidence](#s2-browser-evidence) |
 | S2-12 | S2 / #443 | A reviewed ask-the-staff allergen/ingredients phrase card (ja/en/zh-TW + Japanese to show staff) is reachable from Spot. | In the running product, reach the reviewed phrase card from Spot in each locale and verify the Japanese staff phrase. | pass | [S2 browser evidence](#s2-browser-evidence) |
 | S2-13 | S2 / #443 | Live KiKi Figma inspected first. | Inspect the current connected KiKi Figma before editing the touched screens. | n/a | The Owner confirmed on 2026-11-28 JST that S2 reused current-main screens and had no new design. The local bridge listed no connected file. [Lead decision on #461](https://github.com/nurockplayer/tokyo-mogu-mogu/issues/461#issuecomment-7228185714) |
-| S3-1 | S3 / backlog S3 | Save preferences, a journey and a Spot, then reload and reopen them. | In the running product, save each item, reload, and reopen it in the same browser. | not yet | |
-| S3-2 | S3 / backlog S3 | Remove journey and Spot saves independently. | In the running product, remove each save separately and inspect the other. | not yet | |
-| S3-3 | S3 / backlog S3 | Import an approved legacy route on the same origin and show a withdrawn saved item as unavailable. | In the running product, import the approved route and open the withdrawn save. | not yet | |
-| S3-4 | S3 / backlog S3 | With writes blocked, retain browsing and show save/reset failure. | Block writes in the running product; browse and attempt save and reset. | not yet | |
-| S3-5 | S3 / backlog S3 | Reset successfully and reload to defaults. | In the running product, reset and reload. | not yet | |
+| S3-1 | S3 / backlog S3 | Save preferences, a journey and a Spot, then reload and reopen them. | In the running product, save each item, reload, and reopen it in the same browser. | pass | [Restored preference](evidence/s3/s3-1-reloaded-preferences.png) · [Legacy profile defaults](evidence/s3/s3-1-legacy-profile.png) · [Saved journey and Spot](evidence/s3/s3-1-reloaded-saves.png) |
+| S3-2 | S3 / backlog S3 | Remove journey and Spot saves independently. | In the running product, remove each save separately and inspect the other. | pass | [Spot kept](evidence/s3/s3-2-spot-kept.png) · [Journey kept](evidence/s3/s3-2-journey-kept.png) |
+| S3-3 | S3 / backlog S3 | Import an approved legacy route on the same origin and show a withdrawn saved item as unavailable. | In the running product, import the approved route and open the withdrawn save. | pass | [Legacy route and unavailable item](evidence/s3/s3-3-legacy-and-unavailable.png) |
+| S3-4 | S3 / backlog S3 | With writes blocked, retain browsing and show save/reset failure. | Block writes in the running product; browse and attempt save and reset. | pass | [Blocked save](evidence/s3/s3-4-save-blocked.png) · [Blocked reset](evidence/s3/s3-4-reset-blocked.png) |
+| S3-5 | S3 / backlog S3 | Reset successfully and reload to defaults. | In the running product, reset and reload. | pass | [Empty favorites](evidence/s3/s3-5-empty-after-reset.png) · [Default preferences](evidence/s3/s3-5-defaults-after-reset.png) |
 | S3-6 | S3 / backlog S3 | A share opens the same itinerary in a clean browser without traveller data in the URL. | Open a share link in a clean browser and inspect the URL and itinerary. | pass | Playwright matched the journey, half-day variant and ordered stops in a new empty context at 375px. The shared URL contained only the journey and variant IDs. [Shared itinerary](evidence/s3/s3-6-shared-itinerary-ja.png) |
 | S3-7 | S3 / backlog S3 | Cancel or fail a share and recover via a selectable link. | In the running product, cancel or fail sharing and use its selectable link. | pass | Playwright exercised both native share outcomes and copied the selected URL at 375px. [Share recovery](evidence/s3/s3-7-share-recovery-ja.png) |
 | S4-1 | S4 / backlog S4 | Lead completes representative admitted trips in every locale and checks blocked persistence, wrong IDs, missing actions, narrow/wide layout, keyboard, screen reader and reduced motion. | Exercise representative trips in the running release candidate across locales and listed conditions. | not yet | |
 | S4-2 | S4 / backlog S4 | Compare public contents to the admission report. | Run the admission check and compare its report with public contents. | not yet | |
 | S4-3 | S4 / backlog S4 | Demonstrate a data-only correction, urgent withdrawal and rollback without restoring withdrawn material. | Demonstrate the correction, withdrawal, and rollback using the release operating path. | not yet | |
 | S4-4 | S4 / backlog S4 | After promotion by the lead, check the catalog and an admitted deep link at the release URL. | After lead promotion, open the release URL's catalog and an admitted deep link. | not yet | |
+
+## S3 browser evidence
+
+The five S3 cases in [the smoke suite](../../../e2e/current-mvp-smoke.spec.ts) passed on 2026-11-28 at 07:03 JST in the running app at 375px. The legacy fixture uses the previous `tmm:savedRoutes` format with one admitted ID and one currently excluded ID. The excluded entry stays removable and offers no way to open its itinerary. The blocked-write case denies storage mutations while allowing reads.
+
+The follow-up smoke case **S3-1 restores all ordinary Food Profile defaults after reload from legacy and current storage** passed in the full Test run on 2026-11-28 at 07:31 JST. It checks area, station, time, food culture and alcohol in the app after both reloads.
+
+```sh
+tachi-run --image tachi-run-playwright --out test-results --out dist -- sh -ec 'pnpm exec playwright install chromium --only-shell && pnpm build && pnpm exec playwright test e2e/current-mvp-smoke.spec.ts --grep "S3-[1-5]|#443 opens the Spot phrase|#443 applies two Food Profiles"'
+```
 
 ## S2 browser evidence
 
