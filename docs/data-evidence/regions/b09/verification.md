@@ -394,3 +394,51 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 ### b09-mizuho-local-sweets
 
 - Arrival, half-day → b09-mizuho-local-sweets-maronshan: Hakonegasaki Station East Exit. The town maps Maronshan on the east side of Hakonegasaki Station. — https://www.town.mizuho.tokyo.jp/bunka/004/p010024_d/fil/BrandPanfuretto.pdf
+
+## S1a publication admission round 3 (#441)
+
+Retrieved during this run: 2026-11-28 JST. Access and visitor observations retain `needs_confirmation`. Confirm service, onward access and visit availability before departure.
+
+### b09-akiruno-noodles
+
+- Arrival, half-day → b09-akiruno-noodles-sumiya: Musashi-Itsukaichi Station. The association gives a walking approach to Sumiya's restaurant at the same address from JR Musashi-Itsukaichi Station. — https://www.akirunokanko.com/?p=355
+
+### b09-akiruno-beef
+
+- Arrival, half-day → b09-akiruno-beef-matsumura: Musashi-Itsukaichi Station. The market's profile locates Matsumura west of JR Musashi-Itsukaichi Station on Hinohara Kaido. — https://www.shijou.metro.tokyo.lg.jp/about/specialist/meat/16
+
+### b09-akiruno-wine
+
+- Arrival, half-day → b09-akiruno-wine-vineyard: Musashi-Masuko Station. The rail operator gives a walking approach to the winery from JR Musashi-Masuko Station. — https://www.jreast.co.jp/hachioji/ome-itsukaichi/spot/detail386821.html
+
+### b09-akiruno-soy-sauce
+
+- Arrival, half-day → b09-akiruno-soy-sauce-kondo: Musashi-Masuko Station. The producer gives a walking approach from JR Musashi-Masuko Station. — https://kondojozo.com/company/access/
+
+### b09-akiruno-konnyaku
+
+- Arrival, half-day → b09-akiruno-konnyaku-ichiho: Nutabata bus stop. The association identifies Nutabata bus stop for the restaurant at Otsu 2333, the same address it lists for Ichiho. Confirm service and sales. — https://www.akirunokanko.com/?p=377
+
+### b09-akiruno-local-sweets
+
+- Arrival, half-day → b09-akiruno-local-sweets-urayama: Musashi-Itsukaichi Station. The metropolitan guide locates Tokyo Urayama Base across the junction from JR Musashi-Itsukaichi Station. — https://tokyomokunavi.metro.tokyo.lg.jp/activities/activities02/
+
+### b09-nishitokyo-orchard-fruit
+
+- Arrival, half-day → b09-nishitokyo-orchard-fruit-kato: Hana Bus route 1 stop 12. The grower identifies Hana Bus stop 12 directly outside the farm on the route from Hoya Station. Confirm the picking season. — https://katofarm-hoya.com/access/
+
+### b09-nishitokyo-hoya-natto
+
+- Arrival, half-day → b09-nishitokyo-hoya-natto-tamahachi: Tanashi Station. The restaurant gives a walking approach from Tanashi Station. Confirm the current menu. — https://tama-hachi.net/
+
+### b09-nishitokyo-karinto
+
+- Arrival, half-day → b09-nishitokyo-karinto-tanashi: Tanashi Station. The producer locates its Tanashi shop by the north exit of Tanashi Station. — https://www.asahi-seika.co.jp/company.html
+
+### b09-nishitokyo-local-sweets
+
+- Arrival, half-day → b09-nishitokyo-local-sweets-ishii: Tanashi Station. The city catalogue locates Ishii Confectionery in Asta, a short walk from Tanashi Station. — https://www.city.nishitokyo.lg.jp/kurasi/sangyou/kakushujigyou/ippin/backnumber/ippin-h26-2.files/itten26.pdf
+
+### b09-mizuho-sayama-tea
+
+- Arrival, half-day → b09-mizuho-sayama-tea-nishimura: Nagaoka bus stop. The tea grower names the Nagaoka stop on the Tachikawa Bus loop and describes the walking approach. — https://knishimura.com/access/

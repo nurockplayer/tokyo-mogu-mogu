@@ -321,3 +321,31 @@ Retrieved during this run: 2026-11-27 JST. Access and visitor observations retai
 ### b06-komae-hops-beer
 
 - Arrival, half-day → b06-komae-hops-beer-kagoya-marche: Komae Station. The city identifies Kago-ya Marche as directly connected to Komae Station. — https://www.city.komae.tokyo.jp/index.cfm/47%2C139111%2C611%2C3699%2Chtml
+
+## S1a publication admission round 3 (#441)
+
+Retrieved during this run: 2026-11-28 JST. Access and visitor observations retain `needs_confirmation`. Confirm service, onward access and visit availability before departure.
+
+### b06-fussa-peanuts
+
+- Arrival, half-day → b06-fussa-peanuts-ja-fussa: Fussa Station. The agricultural directory gives a walking approach from JR Fussa Station's west exit. Confirm peanut availability. — https://agripark.tokyo/matching/guide/nishitama/fussa_fs/
+
+### b06-fussa-ham-dog
+
+- Arrival, half-day → b06-fussa-ham-dog-stuben: Fussa Station. The operator locates its shop and the Stub'n Otama restaurant near Fussa Station. Confirm menu availability separately. — https://otama.co.jp/factory/
+
+### b06-komae-edamame-fields
+
+- Arrival, half-day → b06-komae-edamame-fields-kagoya: Komai bus stop. The local shop directory gives the walking approach from Komai bus stop to the Kagoya site. Confirm access and product availability before visiting. — https://komanavi.com/category/1/page3.html
+
+### b06-komae-local-sweets
+
+- Arrival, half-day → b06-komae-local-sweets-fugetsudo: Komae Station. The city guide identifies the walking approach to Fugetsudo from Komae Station. — https://www.city.komae.tokyo.jp/index.cfm/45%2C84592%2Cc%2Chtml/84592/wakuwaku_selection2.pdf
+
+### b06-komae-tama-ayu
+
+- Arrival, half-day → b06-komae-tama-ayu-riverside: Izumi-Tamagawa Station. The association gives a walking approach from Izumi-Tamagawa Station to the riverside by Tama Suidobashi. Check local river-use rules and conditions. — https://www.komae-kankou.jp/tamariya.html
+
+### b06-komae-coffee
+
+- Arrival, half-day → b06-komae-coffee-roastery: Komae Station. The roastery gives a walking approach from Komae Station's north exit. — https://www.kbase.jp/kbaseroasterylab

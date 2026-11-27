@@ -52,6 +52,7 @@ export const b07HigashikurumeLocalFoodRecord: JourneyRecord = {
   "location": {"ja":{"area":"東久留米市","station":"","access":""},"en":{"area":"Higashikurume","station":"","access":""},"zh-TW":{"area":"東久留米市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "station", "name": {"ja": "東久留米駅", "en": "Higashi-Kurume Station", "zh-TW": "東久留米站"}, "spotId": "b07-higashikurume-local-food-heihachi", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b07-higashikurume-local-food-heihachi",
@@ -228,6 +229,7 @@ export const b07HigashikurumeLocalFoodRecord: JourneyRecord = {
     "location": {"ja":{"region":"東久留米市","station":""},"en":{"region":"Higashikurume","station":""},"zh-TW":{"region":"東久留米市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Tokyo Grown – Tokyo food guide", "url": "https://assets.tokyogrown.jp/library/img/tokyoguide2020.pdf", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-6": {"name":"東久留米ブランド商品について｜東久留米市ホームページ","url":"https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/1008029/1006353.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-7": {"name":"特産品一覧（「東久留米大好きっ！」掲載品）｜東久留米市ホームページ","url":"https://www.city.higashikurume.lg.jp/shisei/profile/tokusan/tokusan/1003816.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {

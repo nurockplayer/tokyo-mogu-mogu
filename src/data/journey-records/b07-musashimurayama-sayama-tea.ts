@@ -49,6 +49,7 @@ export const b07MusashimurayamaSayamaTeaRecord: JourneyRecord = {
   "location": {"ja":{"area":"武蔵村山市","station":"","access":""},"en":{"area":"Musashimurayama","station":"","access":""},"zh-TW":{"area":"武藏村山市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "学園", "en": "Gakuen bus stop", "zh-TW": "學園公車站"}, "spotId": "b07-musashimurayama-sayama-tea-morino-komugi", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b07-musashimurayama-sayama-tea-moriyaen",
@@ -257,6 +258,7 @@ export const b07MusashimurayamaSayamaTeaRecord: JourneyRecord = {
     "location": {"ja":{"region":"武蔵村山市","station":""},"en":{"region":"Musashimurayama","station":""},"zh-TW":{"region":"武藏村山市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Higashiyamato Tourism Bureau – Mori no Komugi", "url": "https://go-to-higashiyamato.tokyo/introduce/%E3%82%82%E3%82%8A%E3%81%AE%E3%81%93%E3%82%80%E3%81%8E/", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-10": {"name":"地域ブランド認証商品｜武蔵村山市　公式ホームページ","url":"https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "source-14": {"name":"東京狭山茶｜武蔵村山市　公式ホームページ","url":"https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1022409/1005144.html","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b07 editorial itinerary — estimated timing and order, not a timetable","url":"https://www.city.musashimurayama.lg.jp/kankou/tokusanbutsu/1001609.html","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}

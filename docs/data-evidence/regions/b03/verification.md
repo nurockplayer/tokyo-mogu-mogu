@@ -502,3 +502,7 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 
 - Arrival, half-day → b03-chofu-tama-ayu-weir: Nakanoshima Station. The city marks the approach from JR Nakanoshima Station to the riverside near the weir on the Kawasaki bank. — https://www.city.kawasaki.jp/530/cmsfiles/contents/0000065/65389/sansakumap%28tama-takatsu%29.pdf
 - Official destination, b03-chofu-tama-ayu-weir: The municipal walking map identifies the weir as the first destination on the public route. Observe from the riverside and check any access restrictions before visiting. — https://www.city.kawasaki.jp/530/cmsfiles/contents/0000065/65389/sansakumap%28tama-takatsu%29.pdf
+
+### b03-machida-egg-pudding
+
+- Arrival, half-day → b03-machida-egg-pudding-kato: Mizu-no-Kuchi bus stop. The Tokyo agricultural directory gives a walking approach from Mizu-no-Kuchi bus stop to the farm shop. — https://tokyogrown.jp/node/571886
