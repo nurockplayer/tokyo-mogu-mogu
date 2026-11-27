@@ -446,3 +446,11 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 ### b05-kunitachi-style-sweets
 
 - Arrival, half-day → b05-kunitachi-style-sweets-marronnier: Yaho Station. The confectioner gives walking directions from JR Yaho Station to its Yaho Factory Shop. Confirm product availability separately. — https://www.marronnier.co.jp/shop
+
+### b05-higashimurayama-yuba
+
+- Arrival, half-day → b05-higashimurayama-yuba-musashino-an: Kumegawa Station. The chamber gives road access from Kumegawa Station to the Musashino-an shop. Allow for an onward vehicle trip and confirm shop hours. — https://www.shoukoukai.or.jp/satohachi/shops/shop_16/
+
+### b05-higashimurayama-eight-grains
+
+- Arrival, half-day → b05-higashimurayama-eight-grains-kimura: Musashi-Yamato Station. The chamber lists the shop at walking distance from Musashi-Yamato Station. Confirm availability of the grain blend separately. — https://www.shoukoukai.or.jp/brand/brandlogo/b_gazou/22kimura.pdf

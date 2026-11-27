@@ -510,3 +510,7 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 ### b03-chofu-vegetables
 
 - Arrival, half-day → b03-chofu-vegetables-umains: Shibasaki Station. The Tokyo agricultural directory gives walking access from Shibasaki Station to the farm shop. Confirm stock separately. — https://tokyogrown.jp/node/571906
+
+### b03-chofu-local-wagashi
+
+- Arrival, half-day → b03-chofu-local-wagashi-seifudo: Chofu Station. The shop listing linked by the station shopping association gives walking access from Chofu Station to Seifudo. Confirm business hours separately. — https://chofu.com/seifuu
