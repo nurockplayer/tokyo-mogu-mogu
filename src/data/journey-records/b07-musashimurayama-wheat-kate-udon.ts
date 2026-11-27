@@ -2,6 +2,7 @@ import type { JourneyRecord } from '../journey-record';
 
 export const b07MusashimurayamaWheatKateUdonRecord: JourneyRecord = {
   "municipalityId": "musashimurayama",
+  "alcoholThemed": false,
   "journey": {
     "id": "b07-musashimurayama-wheat-kate-udon",
     "regionId": "musashimurayama",

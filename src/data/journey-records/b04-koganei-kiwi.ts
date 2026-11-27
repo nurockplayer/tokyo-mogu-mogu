@@ -2,6 +2,7 @@ import type { JourneyRecord } from '../journey-record';
 
 export const b04KoganeiKiwiRecord: JourneyRecord = {
   "municipalityId": "koganei",
+  "alcoholThemed": false,
   "journey": {
     "id": "b04-koganei-kiwi",
     "regionId": "koganei",

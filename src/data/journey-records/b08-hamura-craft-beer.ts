@@ -2,6 +2,7 @@ import type { JourneyRecord } from '../journey-record';
 
 export const b08HamuraCraftBeerRecord: JourneyRecord = {
   "municipalityId": "hamura",
+  "alcoholThemed": true,
   "journey": {
     "id": "b08-hamura-craft-beer",
     "regionId": "hamura",

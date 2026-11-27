@@ -2,6 +2,7 @@ import type { JourneyRecord } from '../journey-record';
 
 export const b06FussaHamDogRecord: JourneyRecord = {
   "municipalityId": "fussa",
+  "alcoholThemed": false,
   "journey": {
     "id": "b06-fussa-ham-dog",
     "regionId": "fussa",

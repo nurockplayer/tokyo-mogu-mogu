@@ -23,6 +23,9 @@ The adapter supplies the existing MOGU, Story, Route and Spot presentation maps.
 
 - `municipalityId`: a stable registered municipality ID. This is geography;
   keep all journey, food-culture, story, route and Spot IDs independently stable.
+- `alcoholThemed`: editorial classification derived from the record's food
+  culture and story. Use `true` when an alcoholic drink is a subject and `false`
+  otherwise. The field describes the journey's content.
 - `journey`: IDs; localized `copy` (title, subtitle, description, tags,
   storyTitle, intro); localized numbered `chapters`; `routeVariants` with
   duration in minutes and ordered Spot IDs. Include `half-day`, the runtime's

@@ -45,7 +45,7 @@ interface DiscoveryEntry {
   arrival: { id: string; name: LocalizedText };
   minutes: number;
   culture: string;
-  alcoholThemed?: boolean;
+  alcoholThemed: boolean;
 }
 
 interface DiscoveryJourney extends DiscoveryEntry {
@@ -95,7 +95,7 @@ export function matchJourneys<T extends DiscoveryEntry>(catalog: readonly T[], f
       (filters.arrival && filters.arrival !== arrival.id) ||
       (filters.minutes !== null && minutes > filters.minutes) ||
       (filters.cultures.length && !cultures.length) ||
-      (filters.alcohol === 'exclude' && alcoholThemed !== false)
+      (filters.alcohol === 'exclude' && alcoholThemed)
     ) return [];
 
     return [{ ...entry, reason: { ...filters, cultures } }];

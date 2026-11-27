@@ -2,6 +2,7 @@ import type { JourneyRecord } from '../journey-record';
 
 export const b10HinodeMasakadoUdonRecord: JourneyRecord = {
   "municipalityId": "hinode",
+  "alcoholThemed": false,
   "journey": {
     "id": "b10-hinode-masakado-udon",
     "regionId": "hinode",

@@ -4,6 +4,7 @@ const walkingMapSource = {"name": "Kawasaki City – Nikaryo Waterway walking ma
 
 export const b03ChofuTamaAyuRecord: JourneyRecord = {
   "municipalityId": "chofu",
+  "alcoholThemed": false,
   "journey": {
     "id": "b03-chofu-tama-ayu",
     "regionId": "chofu",

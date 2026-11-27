@@ -2,6 +2,7 @@ import type { JourneyRecord } from '../journey-record';
 
 export const b12KozushimaPassionFruitRecord: JourneyRecord = {
   "municipalityId": "kozushima",
+  "alcoholThemed": false,
   "journey": {
     "id": "b12-kozushima-passion-fruit",
     "regionId": "kozushima",

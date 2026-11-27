@@ -2,6 +2,7 @@ import type { JourneyRecord } from '../journey-record';
 
 export const b06HigashiyamatoSayamaTeaRecord: JourneyRecord = {
   "municipalityId": "higashiyamato",
+  "alcoholThemed": false,
   "journey": {
     "id": "b06-higashiyamato-sayama-tea",
     "regionId": "higashiyamato",

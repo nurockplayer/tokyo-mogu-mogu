@@ -19,6 +19,7 @@ function candidate(): JourneyRecord {
   const stops = [{ spotId: 'museum' }];
   return {
     municipalityId: 'chofu',
+    alcoholThemed: false,
     journey: {
       id: 'journey', regionId: 'region', storyId: 'story', routeId: 'route', foodCultureId: 'culture',
       copy: localized(copy), chapters: localized([{ number: '01', title: 'Chapter', body: 'Claim' }]),

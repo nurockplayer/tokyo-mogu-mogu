@@ -2,6 +2,7 @@ import type { JourneyRecord } from '../journey-record';
 
 export const b05KunitachiFarmTableRecord: JourneyRecord = {
   "municipalityId": "kunitachi",
+  "alcoholThemed": false,
   "journey": {
     "id": "b05-kunitachi-farm-table",
     "regionId": "kunitachi",

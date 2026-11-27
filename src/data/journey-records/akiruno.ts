@@ -2,6 +2,7 @@ import type { JourneyRecord } from '../journey-record';
 
 export const akirunoJourneyRecord: JourneyRecord = {
   "municipalityId": "akiruno",
+  "alcoholThemed": false,
   "journey": {
     "id": "demo-tokyo-west-akiruno-produce",
     "regionId": "akiruno",
