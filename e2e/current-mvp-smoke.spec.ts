@@ -226,9 +226,6 @@ test('S2-7 reconciles MOGU and published links with the admission command', asyn
         }
       }
     }
-    await page.goto('/spot/okutama-tourism-office');
-    await page.locator('.s6-hero-back').click();
-    await expect(activeScreen(page, 'mogu')).toBeVisible();
   }
   console.log(`S2-7 checked ${admittedIds.length} admitted Stories and ${statuses.size - admittedIds.length} excluded journeys.`);
 });
@@ -271,6 +268,9 @@ test('S2-7 demo fixture deep links show Journey Unavailable', async ({ page }, t
         });
       }
     }
+    await page.goto('/spot/okutama-tourism-office');
+    await page.locator('.fab-back').click();
+    await expect(activeScreen(page, 'mogu')).toBeVisible();
   }
   console.log(`S2-7 checked ${paths.length - 2} demo deep links and both bare Story/Route paths in ja, en, and zh-TW.`);
 });

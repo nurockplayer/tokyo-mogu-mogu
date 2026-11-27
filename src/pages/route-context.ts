@@ -69,9 +69,7 @@ export function routeBackHref(search: string): string {
  * straight to Discover instead of inventing a Route hop.
  */
 export function spotBackHref(search: string): string {
-  const target = routeBackTarget(search);
-  if (target === 'discover') return '/discover';
-  if (target === 'home') return '/mogu';
+  if (routeBackTarget(search) === 'discover') return '/discover';
   return `/route${routeContextSearch(search)}`;
 }
 
