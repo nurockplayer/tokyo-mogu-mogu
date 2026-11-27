@@ -13,7 +13,7 @@
  * useI18n().t(); place/route content uses the records' {Ja,En} fields.
  */
 import { useMemo, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   Button,
   Card,
@@ -69,7 +69,6 @@ function formatTotalMinutes(total: number, locale: Locale): string {
 export function RoutePage() {
   const { locale, t } = useI18n();
   const location = useLocation();
-  const navigate = useNavigate();
   // The route comes from the URL context. An explicit `?routeId=` (a
   // saved-route reopen from My) is authoritative and never substituted — an
   // unknown/stale id resolves to itself so this screen shows its honest
@@ -79,12 +78,9 @@ export function RoutePage() {
   const routeId = useMemo(() => resolveRouteId(location.search), [location.search]);
   const route = useMemo(() => getRouteById(routeId ?? ''), [routeId]);
 
-  const [duration, setDuration] = useState<RouteDuration>(() => {
-    const requested = new URLSearchParams(location.search).get('variant');
-    return requested && route?.variants[requested as RouteDuration]
-      ? requested as RouteDuration
-      : route?.defaultDuration ?? 'half-day';
-  });
+  const [duration, setDuration] = useState<RouteDuration>(
+    route?.defaultDuration ?? 'half-day',
+  );
   const [saved, setSaved] = useState<boolean>(() => (routeId ? isRouteSaved(routeId) : false));
   const [toast, setToast] = useState<null | { message: string; saved: boolean }>(null);
 
@@ -139,9 +135,6 @@ export function RoutePage() {
   const handleToggle = (next: RouteDuration) => {
     if (next === duration) return;
     setDuration(next);
-    const params = new URLSearchParams(location.search);
-    params.set('variant', next);
-    navigate({ search: `?${params.toString()}` }, { replace: true });
   };
 
   const handleSave = () => {
