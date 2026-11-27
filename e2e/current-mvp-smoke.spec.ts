@@ -73,6 +73,13 @@ test('S3-6 shares the selected itinerary with a clean browser at 375px', async (
     await expect(recipientRoute.getByRole('button', { name: variantLabel, exact: true })).toHaveAttribute('aria-pressed', 'true');
     await expect(recipientRoute.locator('.ghead > span')).toHaveText(await senderRoute.locator('.ghead > span').innerText());
     expect(await stops(recipientRoute)).toEqual(sharedStops);
+    const returnVariantId = variantId === 'half-day' ? '1-day' : 'half-day';
+    const returnVariantLabel = returnVariantId === 'half-day' ? '半日' : '一日';
+    await recipientRoute.getByRole('button', { name: returnVariantLabel, exact: true }).click();
+    await recipientRoute.locator('[data-spot-id]').first().click();
+    await activeScreen(recipient, 'spot').getByRole('link', { name: 'ルートに戻る' }).click();
+    await expect(activeScreen(recipient, 'route').getByRole('button', { name: returnVariantLabel, exact: true }))
+      .toHaveAttribute('aria-pressed', 'true');
     await expectNoHorizontalOverflow(recipient);
     await recipient.locator('.route-info').scrollIntoViewIfNeeded();
     await recipient.screenshot({ path: testInfo.outputPath('s3-6-shared-itinerary-ja.png'), animations: 'disabled' });

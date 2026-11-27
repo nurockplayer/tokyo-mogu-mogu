@@ -33,6 +33,8 @@ export function routeContextSearch(search: string): string {
   if (routeId) params.set('routeId', routeId);
   const candidateId = source.get('candidateId');
   if (candidateId) params.set('candidateId', candidateId);
+  const variant = source.get('variant');
+  if (variant) params.set('variant', variant);
   return `?${params.toString()}`;
 }
 
