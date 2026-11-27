@@ -16,7 +16,7 @@ import { LoadingBoundary } from './LoadingBoundary';
 import { NotFoundPage } from './NotFoundPage';
 import { JourneyNavigationManager } from './JourneyNavigationManager';
 import { ReferenceApp } from '../features/netlify-parity/ReferenceApp';
-import { resolveCurrentJourneyLocation } from '../features/netlify-parity/journey-location';
+import { resolvePublishedJourneyLocation } from '../features/netlify-parity/journey-location';
 
 const HomePage = lazy(() => import('../pages/HomePage').then((m) => ({ default: m.HomePage })));
 const LandingPage = lazy(() =>
@@ -80,7 +80,7 @@ function withBoundary(element: ReactNode) {
 
 export function AppRouter() {
   const { pathname, search } = useLocation();
-  const journeyLocation = resolveCurrentJourneyLocation(pathname, search);
+  const journeyLocation = resolvePublishedJourneyLocation(pathname, search);
   const referenceJourneyQuery =
     journeyLocation.status === 'default' || journeyLocation.status === 'resolved';
   const journeyIdentityPath =
@@ -90,6 +90,9 @@ export function AppRouter() {
     pathname.startsWith('/story/') || pathname.startsWith('/spot/');
   if (journeyLocation.status === 'invalid' && journeyIdentityPath) {
     return <NotFoundPage />;
+  }
+  if (journeyLocation.status === 'unavailable' && journeyIdentityPath) {
+    return <NotFoundPage unavailableJourney />;
   }
   const referencePath =
     pathname === '/' ||

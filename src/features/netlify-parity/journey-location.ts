@@ -4,6 +4,7 @@ import {
   type JourneyPresentation,
   type SpotPresentation,
 } from './content';
+import { journeyRecord, publishJourney } from './journey-publication';
 
 interface JourneyLocationContext {
   isReferenceStoryPath: boolean;
@@ -17,6 +18,7 @@ export type CurrentJourneyLocationResolution = JourneyLocationContext & (
   | { status: 'resolved'; journey: JourneyPresentation }
   | { status: 'invalid' }
   | { status: 'not-current' }
+  | { status: 'unavailable' }
 );
 
 type JourneyConstraint = JourneyPresentation[];
@@ -113,4 +115,22 @@ export function resolveCurrentJourneyLocation(
     return { ...context, status: 'resolved', journey: spotDefault };
   }
   return { ...context, status: 'invalid' };
+}
+
+export function resolvePublishedJourneyLocation(pathname: string, search: string, now = new Date()): CurrentJourneyLocationResolution {
+  const location = resolveCurrentJourneyLocation(pathname, search);
+  const spotId = location.spot?.id;
+  if (location.status !== 'resolved' && !(location.status === 'default' && spotId)) return location;
+  const journey = location.status === 'resolved' ? location.journey : currentJourneys.find((candidate) =>
+    spotId && journeyRecord(candidate.id)?.spots[spotId],
+  );
+  const record = journey && journeyRecord(journey.id);
+  if (!journey || !record) return location;
+  const published = publishJourney(journey, now);
+  if (!published) return { ...location, status: 'unavailable' };
+  if (spotId && !published.routeVariants.some(({ steps }) => steps.some((step) => step.spotId === spotId)) &&
+    !Object.values(record.story.groups).some((group) => group.some((spot) => spot.spotId === spotId))) {
+    return { ...location, status: 'unavailable' };
+  }
+  return { ...location, status: 'resolved', journey: published };
 }

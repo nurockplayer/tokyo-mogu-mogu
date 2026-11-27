@@ -9,6 +9,7 @@ interface JourneyResultCardProps {
   journey: JourneyPresentation;
   locale: Locale;
   showMatch?: boolean;
+  sourceNote?: string;
   onOpen: (journey: JourneyPresentation) => void;
 }
 
@@ -18,6 +19,7 @@ export function JourneyResultCard({
   journey,
   locale,
   showMatch = true,
+  sourceNote,
   onOpen,
 }: JourneyResultCardProps) {
   const localized = journey.copy[locale];
@@ -61,6 +63,7 @@ export function JourneyResultCard({
         <h3>{localized.title}</h3>
         <h4>{localized.subtitle}</h4>
         <p>{localized.description}</p>
+        {sourceNote ? <p>{sourceNote}</p> : null}
         <div className="tags">
           {localized.tags.map((tag) => (
             <span key={tag}>{tag}</span>

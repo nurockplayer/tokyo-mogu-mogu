@@ -35,6 +35,7 @@ import { SpotScreen } from './screens/SpotScreen';
 import { StoryScreen } from './screens/StoryScreen';
 import { journeyToMoguRecent } from './screens/presentation';
 import type { CurrentJourneyLocationResolution } from './journey-location';
+import { journeyRecord } from './journey-publication';
 
 interface ReferenceFavorites {
   journeyIds: string[];
@@ -98,6 +99,7 @@ export function ReferenceApp({ journeyLocation }: { journeyLocation: CurrentJour
   const currentSpot = journeyLocation.spot ?? currentSpots['okutama-tourism-office'];
   const shownJourney = locationJourney ?? currentJourney;
   const routeJourney = locationJourney ?? currentJourney;
+  const publicationRecord = locationJourney && journeyRecord(locationJourney.id);
   const savedJourneys = useMemo(
     () => currentJourneys.filter(
       (journey) => savedRouteIds.includes(journey.routeId) || favorites.journeyIds.includes(journey.id),
@@ -302,6 +304,7 @@ export function ReferenceApp({ journeyLocation }: { journeyLocation: CurrentJour
           copy={copy}
           locale={locale}
           journey={shownJourney}
+          record={publicationRecord}
           onBack={() => navigate(storyBack)}
           onCreateRoute={(journey) => {
             setCurrentJourney(journey);
@@ -315,6 +318,8 @@ export function ReferenceApp({ journeyLocation }: { journeyLocation: CurrentJour
           copy={copy}
           locale={locale}
           journey={routeJourney}
+          record={publicationRecord}
+          key={routeJourney.id}
           saved={savedRouteIds.includes(routeJourney.routeId)}
           onBack={() => {
             navigate(
@@ -339,6 +344,7 @@ export function ReferenceApp({ journeyLocation }: { journeyLocation: CurrentJour
           copy={copy}
           locale={locale}
           spot={currentSpot}
+          record={publicationRecord}
           saved={favorites.spotIds.includes(currentSpot.id)}
           onBack={() => navigate(
             hasJourneyQuery && locationJourney
