@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Locale } from '../../../i18n';
+import type { JourneyRecord } from '../../../data/journey-record';
+import { factRetrievalNote, retrievalNote } from '../journey-publication';
 import {
   currentSpots,
   referenceAssets,
@@ -61,6 +63,7 @@ export interface RouteScreenProps {
   copy: ReferenceCopy;
   locale: Locale;
   journey: JourneyPresentation;
+  record?: JourneyRecord;
   saved?: boolean;
   completedMissionSpotIds?: readonly string[];
   onBack: () => void;
@@ -76,6 +79,7 @@ export function RouteScreen({
   copy,
   locale,
   journey,
+  record,
   saved = false,
   completedMissionSpotIds = [],
   onBack,
@@ -101,6 +105,13 @@ export function RouteScreen({
     throw new Error(`Missing Route presentation for journey variant: ${routeKey}`);
   }
   const stats = localizedStats[locale];
+  const arrival = record?.variants[variant.id]?.arrival;
+  const arrivalNote = arrival && record && retrievalNote(locale, [record.sources[arrival.sourceId]]);
+  const routeNote = record && factRetrievalNote(record, locale,
+    `journey.routeVariants.${record.journey.routeVariants.findIndex(({ id }) => id === variant.id)}.durationMinutes`,
+    `variants.${variant.id}.stats.${locale}`,
+    `variants.${variant.id}.guidance.${locale}`,
+  );
 
   useEffect(() => {
     if (active && !wasActiveRef.current) setVariantId('half-day');
@@ -180,14 +191,17 @@ export function RouteScreen({
         <div className="route-info">
           <div className="tx">
             <PinIcon /> {localizedRegion[locale]}
-            {stats.access || stats.station ? <><br /><TrainIcon /> {stats.access ? <em>{stats.access}</em> : <><em>{stats.station}</em> {labels.from} <em>{stats.minutes}</em></>}</> : null}
+            {arrival ? <><br /><TrainIcon /> <em>{arrival.name[locale]}</em></>
+              : stats.access || stats.station ? <><br /><TrainIcon /> {stats.access ? <em>{stats.access}</em> : <><em>{stats.station}</em> {labels.from} <em>{stats.minutes}</em></>}</> : null}
+            {arrivalNote ? <small className="route-caution">{arrivalNote}</small> : null}
             {stats.caution ? <small className="route-caution">{stats.caution}</small> : null}
+            {routeNote ? <small className="route-caution">{stats.time} · {routeNote}</small> : null}
           </div>
-          <button className="regen" disabled={regenerating} onClick={startRegeneration} type="button">
+          {!record && <button className="regen" disabled={regenerating} onClick={startRegeneration} type="button">
             {labels.regenerate[0]}
             <br />
             {labels.regenerate[1]}
-          </button>
+          </button>}
         </div>
 
         <div className="tl">
@@ -196,6 +210,9 @@ export function RouteScreen({
             const spot = currentSpots[step.spotId];
             if (!spot) throw new Error(`Missing current Spot presentation: ${routeKey} / ${step.spotId}`);
             const stepText = steps.find((candidate) => candidate.spotId === step.spotId);
+            const stepNote = record && factRetrievalNote(record, locale,
+              `variants.${variant.id}.steps.${index}`, `spots.${spot.id}.presentation`,
+            );
             const isStart = index === 0;
             const mission = missionSpotIds.has(step.spotId);
             const missionDone = completedMissionSpotIds.includes(step.spotId);
@@ -236,6 +253,7 @@ export function RouteScreen({
                   </article>
                 </div>
                 {stepText?.note ? <div className="tl-note">{stepText.note[locale]}</div> : null}
+                {stepNote ? <div className="tl-note">{stepNote}</div> : null}
               </div>
             );
           })}

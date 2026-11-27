@@ -6,10 +6,12 @@
 import { Link } from 'react-router-dom';
 import { useI18n } from '../i18n';
 
-export function NotFoundPage({ hardNavigation = false }: { hardNavigation?: boolean } = {}) {
-  const { t } = useI18n();
+export function NotFoundPage({ hardNavigation = false }: {
+  hardNavigation?: boolean;
+} = {}) {
+  const { locale, t } = useI18n();
   return (
-    <section className="page">
+    <section className="page" lang={locale}>
       <h1 className="page-title">{t('notFoundTitle')}</h1>
       <p className="page-sub">{t('notFoundBody')}</p>
       {hardNavigation ? (

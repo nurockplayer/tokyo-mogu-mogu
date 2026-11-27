@@ -1,11 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { checkJourneyAdmission } from './journey-admission';
+import { checkJourneyAdmission, resolveJourneyVisitorSource } from './journey-admission';
 import type { JourneyRecord } from './journey-record';
 import type { DataSource } from './model';
 
 function localized<T>(value: T) {
   return { ja: value, en: value, 'zh-TW': value };
 }
+
+const now = new Date('2026-11-27T00:00:00Z');
 
 function candidate(): JourneyRecord {
   const source: DataSource = {
@@ -53,28 +55,67 @@ function candidate(): JourneyRecord {
 
 describe('journey publication admission', () => {
   it('admits dated official evidence while stakeholder confirmation is pending', () => {
-    expect(checkJourneyAdmission(candidate())).toEqual({
-      admitted: true, storyFailures: [], variants: [{ id: 'half-day', failures: [], primarySpotId: 'museum' }],
+    const passing = { id: 'half-day', failures: [], primarySpotId: 'museum' };
+    expect(checkJourneyAdmission(candidate(), now)).toEqual({
+      admitted: true, storyFailures: [], variants: [passing], defaultVariant: passing, offeredVariants: [passing],
+    });
+  });
+
+  it('defaults to the passing full-day variant when half-day fails and never offers a failing variant', () => {
+    const record = candidate();
+    record.journey.routeVariants.push({ ...record.journey.routeVariants[0], id: 'full-day' });
+    record.variants['full-day'] = record.variants['half-day'];
+    record.variants['half-day'] = { ...record.variants['full-day']!, arrival: undefined };
+    expect(checkJourneyAdmission(record, now)).toMatchObject({
+      admitted: true,
+      defaultVariant: { id: 'full-day' },
+      offeredVariants: [{ id: 'full-day', primarySpotId: 'museum' }],
+    });
+    delete record.variants['full-day']!.arrival;
+    expect(checkJourneyAdmission(record, now)).toMatchObject({ admitted: false, offeredVariants: [] });
+  });
+
+  it('expires a visitor destination on its JST recheck date and excludes a variant without another action', () => {
+    const record = candidate();
+    expect(resolveJourneyVisitorSource(record, 'museum', new Date('2026-12-23T14:59:59Z')))
+      .toMatchObject({ verificationStatus: 'needs_confirmation' });
+    const expired = new Date('2026-12-23T15:00:00Z');
+    expect(resolveJourneyVisitorSource(record, 'museum', expired)).toBeUndefined();
+    expect(checkJourneyAdmission(record, expired)).toMatchObject({ admitted: false, offeredVariants: [] });
+  });
+
+  it('keeps a variant with an official primary destination when an optional stop has no destination', () => {
+    const record = candidate();
+    const sideVisit = { spotId: 'side-visit' };
+    const { presentation, detail } = record.spots.museum;
+    record.spots[sideVisit.spotId] = { presentation: { ...presentation, id: sideVisit.spotId }, detail };
+    record.journey.routeVariants[0].steps.unshift(sideVisit);
+    record.variants['half-day']!.steps.unshift({ ...sideVisit, description: localized('Explore') });
+
+    expect(resolveJourneyVisitorSource(record, sideVisit.spotId, now)).toBeUndefined();
+    expect(checkJourneyAdmission(record, now)).toMatchObject({
+      admitted: true,
+      defaultVariant: { id: 'half-day', primarySpotId: 'museum' },
     });
   });
 
   it('requires evidence for every localized story claim, honoring more specific evidence', () => {
     const record = candidate();
     record.facts['journey.chapters.zh-TW.0.body'] = { origin: 'demo', sourceIds: ['operator'] };
-    expect(checkJourneyAdmission(record)).toMatchObject({ admitted: false, storyFailures: ['sourced story claims'] });
+    expect(checkJourneyAdmission(record, now)).toMatchObject({ admitted: false, storyFailures: ['sourced story claims'] });
   });
 
   it('requires a calendar retrieval date for story evidence rather than a legacy verification date', () => {
     const record = candidate();
     record.sources.operator.lastVerified = '2026-11-24';
     record.sources.operator.retrievedAt = '2026-11-31';
-    expect(checkJourneyAdmission(record)).toMatchObject({ admitted: false, storyFailures: ['dated story retrieval'] });
+    expect(checkJourneyAdmission(record, now)).toMatchObject({ admitted: false, storyFailures: ['dated story retrieval'] });
   });
 
   it('requires a dated official transit arrival serving a stop on the variant', () => {
     const record = candidate();
     record.variants['half-day']!.arrival!.spotId = 'other-museum';
-    expect(checkJourneyAdmission(record)).toMatchObject({
+    expect(checkJourneyAdmission(record, now)).toMatchObject({
       admitted: false, variants: [{ failures: ['sourced arrival point'] }],
     });
   });
@@ -83,7 +124,7 @@ describe('journey publication admission', () => {
     'excludes an invalid or untraced primary destination (%s)', (url) => {
       const record = candidate();
       record.spots.museum.officialSource!.url = url;
-      expect(checkJourneyAdmission(record)).toMatchObject({
+      expect(checkJourneyAdmission(record, now)).toMatchObject({
         admitted: false, variants: [{ failures: ['official destination for primary Spot'] }],
       });
     },
@@ -95,7 +136,7 @@ describe('journey publication admission', () => {
     record.spots.museum.visitorSourceId = 'operator';
     record.variants['half-day']!.steps[0].spotId = 'unresolvable';
     record.journey.routeVariants[0].durationMinutes = 0;
-    expect(checkJourneyAdmission(record)).toMatchObject({
+    expect(checkJourneyAdmission(record, now)).toMatchObject({
       admitted: false, variants: [{ primarySpotId: 'museum', failures: [
         'sourced on-site estimate', 'localized route with resolvable ordered stops',
       ] }],

@@ -1,5 +1,102 @@
 import { expect, test, type Page } from '@playwright/test';
 
+const publicationDate = new Date('2026-11-27T13:00:00Z');
+const admittedId = 'b01-hachioji-farm-table';
+const excludedId = 'b01-hachioji-passion-fruit';
+const primarySpotId = `${admittedId}-takiyama`;
+const officialDestination = 'https://www.city.hachioji.tokyo.jp/kurashi/sangyo/004/003/p006476.html';
+
+for (const [locale, viewRoute, arrival, estimate, unavailable, backToMogu] of [
+  ['ja', 'この食旅のルートを見る', '道の駅八王子滝山入口', '約90分（編集目安）', 'この食旅は現在ご覧いただけません', 'モグモグるに戻る'],
+  ['en', 'View this route', 'Michi-no-Eki Hachioji Takiyama Iriguchi bus stop', 'About 90 min (editorial estimate)', 'This food journey is currently unavailable', 'Back to MOGU'],
+  ['zh-TW', '查看這趟美食之旅的路線', '道之驛八王子瀧山入口巴士站', '90', '目前無法瀏覽這趟美食之旅', '返回 MOGU'],
+]) {
+  test(`#442 walks the admitted journey and hides excluded links in ${locale}`, async ({ page, context }, testInfo) => {
+    await page.clock.setFixedTime(publicationDate);
+    await page.addInitScript((value) => localStorage.setItem('tmm:locale', value), locale);
+    const active = (screen: string) => page.locator(`[data-screen="${screen}"][data-screen-active="true"]`);
+    const screenshot = async (name: string) => {
+      if (locale === 'ja') await page.screenshot({ path: testInfo.outputPath(`${name}.png`), animations: 'disabled' });
+    };
+
+    await page.goto('/mogu');
+    const mogu = active('mogu');
+    const card = mogu.locator(`[data-journey-id="${admittedId}"]`);
+    await expect(card).toBeVisible();
+    await expect(card).toContainText('2026-11-22');
+    await expect(mogu.locator(`[data-journey-id="${excludedId}"]`)).toHaveCount(0);
+    await screenshot('mogu-ja');
+    await card.click();
+
+    const story = active('story');
+    await expect(page).toHaveURL(`/story/${admittedId}`);
+    await expect(story.locator('.page-card').first()).toContainText('2026-11-22');
+    await screenshot('story-ja');
+    await story.getByRole('button', { name: viewRoute }).click();
+    await expect(story.locator('[data-route-loading][data-loading="true"]')).toHaveCount(0);
+
+    const route = active('route');
+    await expect(page).toHaveURL(`/route?candidateId=${admittedId}`);
+    await expect(route.locator('.route-info')).toContainText(arrival);
+    await expect(route.locator('.route-info')).toContainText('2026-11-27');
+    await expect(route.locator('.route-stats')).toContainText(estimate);
+    await expect(route.locator('.regen')).toHaveCount(0);
+    await route.locator('.route-info').scrollIntoViewIfNeeded();
+    await screenshot('route-ja');
+    await route.locator(`[data-spot-id="${primarySpotId}"]`).click();
+
+    const spot = active('spot');
+    const guide = spot.locator('.guide-box');
+    const handoff = guide.getByRole('link');
+    await expect(page).toHaveURL(`/spot/${primarySpotId}?candidateId=${admittedId}`);
+    await expect(spot.locator('.info-sec')).toContainText('2026-11-22');
+    await expect(guide).toContainText('2026-11-27');
+    await expect(handoff).toHaveAttribute('href', officialDestination);
+    await expect(handoff).toHaveAttribute('rel', 'noopener noreferrer');
+    await expect(spot).not.toContainText(/予約が完了|アレルギーでも安心|booking confirmed|allergy.safe|預約成功|過敏者可安心/i);
+    await expectNoHorizontalOverflow(page);
+    await guide.scrollIntoViewIfNeeded();
+    await screenshot('spot-ja');
+    await context.route(officialDestination, (request) => request.fulfill({ body: 'Official visitor information' }));
+    const popupPromise = page.waitForEvent('popup');
+    await handoff.click();
+    const popup = await popupPromise;
+    await expect(popup).toHaveURL(officialDestination);
+    await popup.close();
+
+    const unavailableScreen = active('journey-unavailable');
+    for (const path of [`/story/${excludedId}`, `/route?routeId=${excludedId}-route`, `/spot/${excludedId}-fureai`]) {
+      await page.goto(path);
+      await expect(unavailableScreen.getByRole('heading', { name: unavailable })).toBeVisible();
+      await expect(unavailableScreen.locator('header').getByRole('button')).toBeVisible();
+      await expect(unavailableScreen.getByRole('navigation')).toBeVisible();
+      await expect(unavailableScreen.getByRole('link', { name: backToMogu })).toHaveAttribute('href', '/mogu');
+    }
+    await expectNoHorizontalOverflow(page);
+    const textFits = await unavailableScreen.locator('h1, p').evaluateAll((elements) =>
+      elements.every((element) => element.scrollWidth <= element.clientWidth),
+    );
+    expect(textFits).toBe(true);
+    await screenshot('unavailable-ja');
+    await page.getByRole('link', { name: backToMogu }).click();
+    await expect(page).toHaveURL('/mogu');
+  });
+}
+
+test('#442 gives an expired optional Spot guidance and a way back', async ({ page }) => {
+  await page.clock.setFixedTime(new Date('2026-12-21T15:00:00Z'));
+  const journeyId = 'b01-hachioji-takao-soba';
+  await page.goto(`/spot/${journeyId}-takahashiya?candidateId=${journeyId}`);
+  const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
+  const guide = spot.locator('.guide-box');
+  await expect(guide).toContainText('現在利用できる公式の訪問案内リンクはありません');
+  await expect(guide.getByRole('link')).toHaveCount(0);
+  await expect(guide.getByRole('button')).toHaveCount(0);
+  await spot.getByRole('button', { name: '戻る' }).click();
+  await expect(page).toHaveURL(`/route?candidateId=${journeyId}`);
+  await expect(page.locator('[data-screen="route"][data-screen-active="true"]')).toBeVisible();
+});
+
 test('opens canonical Spot information safely with the keyboard', async ({ page, context }) => {
   const destinations = [
     ['okutama-tourism-office', 'https://www.okutama.gr.jp/site/'],

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useReducer, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useI18n } from '../../i18n';
 import type { FoodProfile } from '../../lib/food-profile';
 import { loadFoodProfile } from '../../lib/food-profile-storage';
@@ -8,6 +8,7 @@ import { recordMoguRecent } from '../../lib/mogu-recent';
 import { loadSavedRoutes, saveRoute } from '../../lib/saved-routes';
 import { saveExplorationAnswers } from '../../pages/s0s3/exploration-session';
 import { FoodProfileConversation } from './chat/FoodProfileConversation';
+import { BottomNavigation } from './components/BottomNavigation';
 import {
   currentJourneys,
   currentSpots,
@@ -35,6 +36,7 @@ import { SpotScreen } from './screens/SpotScreen';
 import { StoryScreen } from './screens/StoryScreen';
 import { journeyToMoguRecent } from './screens/presentation';
 import type { CurrentJourneyLocationResolution } from './journey-location';
+import { journeyRecord } from './journey-publication';
 
 interface ReferenceFavorites {
   journeyIds: string[];
@@ -69,10 +71,13 @@ function saveReferenceFavorites(value: ReferenceFavorites) {
   }
 }
 
-export function ReferenceApp({ journeyLocation }: { journeyLocation: CurrentJourneyLocationResolution }) {
+export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
+  journeyLocation: CurrentJourneyLocationResolution;
+  unavailableJourney?: boolean;
+}) {
   const location = useLocation();
   const navigate = useNavigate();
-  const { locale, setLocale } = useI18n();
+  const { locale, setLocale, t } = useI18n();
   const copy = referenceCopy(locale);
   const [nickname, setNickname] = useState(() => loadNickname() ?? '');
   const [foodProfile, setFoodProfile] = useState<FoodProfile | null>(() => loadFoodProfile());
@@ -98,6 +103,7 @@ export function ReferenceApp({ journeyLocation }: { journeyLocation: CurrentJour
   const currentSpot = journeyLocation.spot ?? currentSpots['okutama-tourism-office'];
   const shownJourney = locationJourney ?? currentJourney;
   const routeJourney = locationJourney ?? currentJourney;
+  const publicationRecord = locationJourney && journeyRecord(locationJourney.id);
   const savedJourneys = useMemo(
     () => currentJourneys.filter(
       (journey) => savedRouteIds.includes(journey.routeId) || favorites.journeyIds.includes(journey.id),
@@ -218,10 +224,10 @@ export function ReferenceApp({ journeyLocation }: { journeyLocation: CurrentJour
   const isProfileEdit = pathname === '/food-profile/edit';
   const isHome = pathname === '/home';
   const isExplore = pathname === '/explore';
-  const isResult = pathname === '/explore/result';
-  const isStory = pathname === '/story' || pathname.startsWith('/story/');
-  const isRoute = pathname === '/route';
-  const isSpot = pathname.startsWith('/spot/');
+  const isResult = !unavailableJourney && pathname === '/explore/result';
+  const isStory = !unavailableJourney && (pathname === '/story' || pathname.startsWith('/story/'));
+  const isRoute = !unavailableJourney && pathname === '/route';
+  const isSpot = !unavailableJourney && pathname.startsWith('/spot/');
   const isMogu = pathname === '/mogu' || pathname === '/discover';
   const isFavorites = pathname === '/my-route';
   const isMy = pathname === '/my';
@@ -302,6 +308,7 @@ export function ReferenceApp({ journeyLocation }: { journeyLocation: CurrentJour
           copy={copy}
           locale={locale}
           journey={shownJourney}
+          record={publicationRecord}
           onBack={() => navigate(storyBack)}
           onCreateRoute={(journey) => {
             setCurrentJourney(journey);
@@ -315,6 +322,8 @@ export function ReferenceApp({ journeyLocation }: { journeyLocation: CurrentJour
           copy={copy}
           locale={locale}
           journey={routeJourney}
+          record={publicationRecord}
+          key={routeJourney.id}
           saved={savedRouteIds.includes(routeJourney.routeId)}
           onBack={() => {
             navigate(
@@ -339,6 +348,7 @@ export function ReferenceApp({ journeyLocation }: { journeyLocation: CurrentJour
           copy={copy}
           locale={locale}
           spot={currentSpot}
+          record={publicationRecord}
           saved={favorites.spotIds.includes(currentSpot.id)}
           onBack={() => navigate(
             hasJourneyQuery && locationJourney
@@ -382,6 +392,23 @@ export function ReferenceApp({ journeyLocation }: { journeyLocation: CurrentJour
           onNotify={setToast}
         />
         <BadgesScreen active={isBadges} locale={locale} onBack={() => navigate('/my')} />
+
+        {unavailableJourney ? (
+          <section className="reference-screen on" data-screen="journey-unavailable" data-screen-active="true">
+            <header className="ghead">
+              <button className="back" onClick={() => navigate('/mogu')} type="button" aria-label={copy.actions.back}>‹</button>
+              <span>{copy.mogu.title}</span>
+            </header>
+            <div className="scroll simple-body">
+              <div className="guide-box">
+                <h1>{t('journeyUnavailableTitle')}</h1>
+                <p>{t('journeyUnavailableBody')}</p>
+                <Link to="/mogu" className="book">{t('journeyUnavailableBack')}</Link>
+              </div>
+            </div>
+            <BottomNavigation active="mogu" copy={copy.nav} onNavigate={navigate} />
+          </section>
+        ) : null}
 
         {toast ? <div className="reference-toast" role="status">{toast}</div> : null}
       </div>

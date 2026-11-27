@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import type { Locale } from '../../../i18n';
 import { getPlaceById, getSpotDetail } from '../../../data';
 import { resolveSpotOfficialLink } from '../../../data/spot-official-link';
+import { resolveJourneyVisitorSource } from '../../../data/journey-admission';
+import type { JourneyRecord } from '../../../data/journey-record';
+import { factRetrievalNote, retrievalNote } from '../journey-publication';
 import { BottomNavigation } from '../components/BottomNavigation';
 import { PresentationMedia } from '../components/PresentationMedia';
 import { referenceAssets, type ReferenceCopy, type SpotPresentation } from '../content';
@@ -19,6 +22,12 @@ const cautionHeading: Record<Locale, string> = {
   'zh-TW': '注意事項',
 };
 
+const visitorGuide: Record<Locale, { title: string; guidance: string; unavailable: string; action: string }> = {
+  ja: { title: '公式の訪問案内', guidance: '訪問前に最新のアクセス情報をご確認ください。', unavailable: '現在利用できる公式の訪問案内リンクはありません。訪問前に施設の最新情報をご確認ください。', action: '公式の訪問案内を開く' },
+  en: { title: 'Official visitor information', guidance: 'Check current access information before visiting.', unavailable: 'An official visitor information link is currently unavailable. Check with the venue before visiting.', action: 'Open official visitor information' },
+  'zh-TW': { title: '官方參訪資訊', guidance: '造訪前請確認最新交通資訊。', unavailable: '目前沒有可用的官方參訪資訊連結。造訪前請向景點確認最新資訊。', action: '開啟官方參訪資訊' },
+};
+
 function SpotInformationIcon({ icon }: { icon: ReferenceSpotDetail['information'][number]['icon'] }) {
   if (icon === 'clock') return <ClockIcon />;
   if (icon === 'train') return <TrainIcon />;
@@ -30,6 +39,7 @@ export interface SpotScreenProps {
   copy: ReferenceCopy;
   locale: Locale;
   spot: SpotPresentation;
+  record?: JourneyRecord;
   saved?: boolean;
   onBack: () => void;
   onOpenGuide?: (spot: SpotPresentation) => void;
@@ -42,6 +52,7 @@ export function SpotScreen({
   copy,
   locale,
   spot,
+  record,
   saved = false,
   onBack,
   onOpenGuide,
@@ -54,7 +65,11 @@ export function SpotScreen({
   const [photoIndex, setPhotoIndex] = useState(0);
   const localized = spot.copy[locale];
   const referenceDetail = referenceSpotDetails[spot.id];
-  const officialLink = resolveSpotOfficialLink(getPlaceById(spot.id) ?? spot.id, getSpotDetail(spot.id));
+  const visitorSource = record && resolveJourneyVisitorSource(record, spot.id);
+  const officialLink = !record && resolveSpotOfficialLink(getPlaceById(spot.id) ?? spot.id, getSpotDetail(spot.id));
+  const factNote = record && factRetrievalNote(record, locale, `spots.${spot.id}`);
+  const visitorNote = visitorSource && retrievalNote(locale, [visitorSource]);
+  const visitor = visitorGuide[locale];
   const displayTags = referenceDetail?.tags.map((tag) => ({ color: tag.color, label: tag.label[locale] }))
     ?? localized.tags.map((label, index) => ({ color: tagColors[index % tagColors.length], label }));
   const information = referenceDetail?.information.map((row) => ({
@@ -152,9 +167,21 @@ export function SpotScreen({
               <span>{row.value}</span>
             </div>
           ))}
+          {factNote ? <div className="info-row"><span className="ic"><InformationIcon /></span><span>{factNote}</span></div> : null}
         </section>
 
-        {guide ? (
+        {record ? (
+          <section className="guide-box">
+            <h2>{visitor.title}</h2>
+            <p>{visitorSource ? visitor.guidance : visitor.unavailable}</p>
+            {visitorNote ? <p>{visitorNote}</p> : null}
+            {visitorSource ? (
+              <a className="book" href={visitorSource.url} target="_blank" rel="noopener noreferrer">
+                {visitor.action}
+              </a>
+            ) : null}
+          </section>
+        ) : guide ? (
           <section className="guide-box">
             <h2>{guide.title}</h2>
             <p style={{ whiteSpace: 'pre-line' }}>{guide.body}</p>

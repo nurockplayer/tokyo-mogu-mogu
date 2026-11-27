@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Locale } from '../../../i18n';
+import type { JourneyRecord } from '../../../data/journey-record';
+import { factRetrievalNote } from '../journey-publication';
 import {
   currentSpots,
   referenceAssets,
@@ -28,16 +30,22 @@ const loadingLabel: Record<Locale, [string, string]> = {
   'zh-TW': ['正在建立最適合你的', '觀光路線！'],
 };
 
+const viewRouteLabel: Record<Locale, string> = {
+  ja: 'この食旅のルートを見る', en: 'View this route', 'zh-TW': '查看這趟美食之旅的路線',
+};
+
 function StorySpotCard({
   active,
   locale,
   reference,
+  sourceNote,
   spot,
   onOpenSpot,
 }: {
   active: boolean;
   locale: Locale;
   reference: StorySpotReference;
+  sourceNote?: string;
   spot: SpotPresentation;
   onOpenSpot: (spot: SpotPresentation) => void;
 }) {
@@ -66,6 +74,7 @@ function StorySpotCard({
       </div>
       <b>{localized.name}</b>
       <p>{reference.description?.[locale] ?? localized.lead}</p>
+      {sourceNote ? <div className="note">{sourceNote}</div> : null}
       {reference.note ? <div className="note">{reference.note[locale]}</div> : null}
     </article>
   );
@@ -76,6 +85,7 @@ export interface StoryScreenProps {
   copy: ReferenceCopy;
   locale: Locale;
   journey: JourneyPresentation;
+  record?: JourneyRecord;
   guideMode?: boolean;
   onBack: () => void;
   onCreateRoute: (journey: JourneyPresentation) => void;
@@ -87,6 +97,7 @@ export function StoryScreen({
   copy,
   locale,
   journey,
+  record,
   guideMode = true,
   onBack,
   onCreateRoute,
@@ -102,6 +113,8 @@ export function StoryScreen({
   }
   const location = localizedLocation[locale];
   const point = chapterPoint[journey.id]?.[locale];
+  const sourced = (...paths: string[]) => record && factRetrievalNote(record, locale, ...paths);
+  const introNote = sourced(`journey.copy.${locale}`, `story.location.${locale}`);
 
   useEffect(
     () => () => {
@@ -118,6 +131,10 @@ export function StoryScreen({
   }, [active]);
 
   const startRouteGeneration = () => {
+    if (record) {
+      onCreateRoute(journey);
+      return;
+    }
     if (loading) return;
     setLoading(true);
     timerRef.current = window.setTimeout(() => {
@@ -149,21 +166,24 @@ export function StoryScreen({
           ))}
           <div className="loc-box">
             <PinIcon /> {location.region}
-            <br />
-            <TrainIcon /> {location.station}
+            {location.station && <><br /><TrainIcon /> {location.station}</>}
           </div>
+          {introNote ? <p>{introNote}</p> : null}
         </div>
 
         <section className="story-sec">
           <h2>{localized.storyTitle}</h2>
           <div className="hscroll">
-            {journey.chapters[locale].map((chapter, index) => (
-              <article className="page-card" key={`${chapter.number}-${chapter.title}`}>
+            {journey.chapters[locale].map((chapter, index) => {
+              const chapterNote = sourced(`journey.chapters.${locale}.${index}`);
+              const pointNote = index === 0 && point && sourced(`story.point.${locale}`);
+              return <article className="page-card" key={`${chapter.number}-${chapter.title}`}>
                 <h3>
                   <em>{chapter.number}</em>
                   {chapter.title}
                 </h3>
                 <p>{chapter.body}</p>
+                {chapterNote ? <p>{chapterNote}</p> : null}
                 {index === 0 && point ? (
                   <div className="mogu-point">
                     <div className="pt">
@@ -172,17 +192,18 @@ export function StoryScreen({
                     </div>
                     <b>{point.title}</b>
                     <p>{point.body}</p>
+                    {pointNote ? <p>{pointNote}</p> : null}
                   </div>
                 ) : null}
-              </article>
-            ))}
+              </article>;
+            })}
           </div>
         </section>
 
         <section className="story-sec">
           <h2>{copy.story.nearbyTitle}</h2>
           <div className="hscroll">
-            {groups.nearby.map((reference) => {
+            {groups.nearby.map((reference, index) => {
               const spot = currentSpots[reference.spotId];
               return spot ? (
                 <StorySpotCard
@@ -191,6 +212,7 @@ export function StoryScreen({
                   locale={locale}
                   onOpenSpot={onOpenSpot}
                   reference={reference}
+                  sourceNote={sourced(`story.groups.nearby.${index}`, `spots.${spot.id}.presentation`)}
                   spot={spot}
                 />
               ) : null;
@@ -201,7 +223,7 @@ export function StoryScreen({
         <section className="story-sec">
           <h2>{copy.story.natureTitle}</h2>
           <div className="hscroll">
-            {groups.nature.map((reference) => {
+            {groups.nature.map((reference, index) => {
               const spot = currentSpots[reference.spotId];
               return spot ? (
                 <StorySpotCard
@@ -210,6 +232,7 @@ export function StoryScreen({
                   locale={locale}
                   onOpenSpot={onOpenSpot}
                   reference={reference}
+                  sourceNote={sourced(`story.groups.nature.${index}`, `spots.${spot.id}.presentation`)}
                   spot={spot}
                 />
               ) : null;
@@ -224,7 +247,7 @@ export function StoryScreen({
             onClick={startRouteGeneration}
             type="button"
           >
-            {routeActionLabel[locale]}
+            {record ? viewRouteLabel[locale] : routeActionLabel[locale]}
           </button>
         </div>
       </div>

@@ -270,13 +270,25 @@ describe('municipalities and data-driven journey presentation (#412)', () => {
   });
 
   it('publishes a new record through the real MOGU default list in every locale, with Story, Route and Spot data', async () => {
+    const candidate = structuredClone(synthetic);
+    candidate.variants['half-day']!.arrival = {
+      kind: 'station', name: text, spotId: 'synthetic-spot', sourceId: 'official',
+    };
+    candidate.journey.routeVariants.push({ ...candidate.journey.routeVariants[0], id: 'full-day' });
+    candidate.variants['full-day'] = synthetic.variants['half-day'];
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date(`${source.retrievedAt}T12:00:00+09:00`));
     vi.resetModules();
-    vi.doMock('./journey-records', () => ({ JOURNEY_RECORDS: [...JOURNEY_RECORDS, synthetic] }));
+    vi.doMock('./journey-records', () => ({ JOURNEY_RECORDS: [...JOURNEY_RECORDS, candidate] }));
     try {
       const p = await import('../features/netlify-parity/factual-presentation');
       const { MoguScreen } = await import('../features/netlify-parity/screens/MoguScreen');
       const { referenceCopy } = await import('../features/netlify-parity/content');
       const { SpotScreen } = await import('../features/netlify-parity/screens/SpotScreen');
+      const { resolvePublishedJourneyLocation } = await import('../features/netlify-parity/journey-location');
+      expect(resolvePublishedJourneyLocation('/route', '?routeId=synthetic-route')).toMatchObject({
+        status: 'resolved', journey: { routeVariants: [{ id: 'half-day' }] },
+      });
       expect(p.currentJourneys.at(-1)?.id).toBe(synthetic.journey.id);
       expect(p.resultJourneys.map(({ id }) => id)).toEqual(['demo-okutama-wasabi', 'demo-okutama-yamame']);
       for (const locale of locales) {
@@ -302,6 +314,7 @@ describe('municipalities and data-driven journey presentation (#412)', () => {
       expect(p.currentSpots['synthetic-spot'].copy).toEqual(synthetic.spots['synthetic-spot'].presentation.copy);
       expect(p.referenceSpotDetails['synthetic-spot']!.tags.at(-1)?.tagId).toBe('confirmation-pending');
     } finally {
+      vi.useRealTimers();
       vi.doUnmock('./journey-records');
       vi.resetModules();
     }
