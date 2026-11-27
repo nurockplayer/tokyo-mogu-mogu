@@ -64,11 +64,19 @@ for (const [locale, viewRoute, arrival, estimate, unavailable, backToMogu] of [
     await expect(popup).toHaveURL(officialDestination);
     await popup.close();
 
+    const unavailableScreen = active('journey-unavailable');
     for (const path of [`/story/${excludedId}`, `/route?routeId=${excludedId}-route`, `/spot/${excludedId}-fureai`]) {
       await page.goto(path);
-      await expect(page.getByRole('heading', { name: unavailable })).toBeVisible();
-      await expect(page.getByRole('link', { name: backToMogu })).toHaveAttribute('href', '/mogu');
+      await expect(unavailableScreen.getByRole('heading', { name: unavailable })).toBeVisible();
+      await expect(unavailableScreen.locator('header').getByRole('button')).toBeVisible();
+      await expect(unavailableScreen.getByRole('navigation')).toBeVisible();
+      await expect(unavailableScreen.getByRole('link', { name: backToMogu })).toHaveAttribute('href', '/mogu');
     }
+    await expectNoHorizontalOverflow(page);
+    const textFits = await unavailableScreen.locator('h1, p').evaluateAll((elements) =>
+      elements.every((element) => element.scrollWidth <= element.clientWidth),
+    );
+    expect(textFits).toBe(true);
     await screenshot('unavailable-ja');
     await page.getByRole('link', { name: backToMogu }).click();
     await expect(page).toHaveURL('/mogu');

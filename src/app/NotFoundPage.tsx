@@ -6,18 +6,15 @@
 import { Link } from 'react-router-dom';
 import { useI18n } from '../i18n';
 
-export function NotFoundPage({ hardNavigation = false, unavailableJourney = false }: {
+export function NotFoundPage({ hardNavigation = false }: {
   hardNavigation?: boolean;
-  unavailableJourney?: boolean;
 } = {}) {
   const { locale, t } = useI18n();
   return (
     <section className="page" lang={locale}>
-      <h1 className="page-title">{t(unavailableJourney ? 'journeyUnavailableTitle' : 'notFoundTitle')}</h1>
-      <p className="page-sub">{t(unavailableJourney ? 'journeyUnavailableBody' : 'notFoundBody')}</p>
-      {unavailableJourney ? (
-        <Link to="/mogu" className="btn btn-secondary">{t('journeyUnavailableBack')}</Link>
-      ) : hardNavigation ? (
+      <h1 className="page-title">{t('notFoundTitle')}</h1>
+      <p className="page-sub">{t('notFoundBody')}</p>
+      {hardNavigation ? (
         <a href="/" className="btn btn-secondary">{t('navHome')}</a>
       ) : (
         <Link to="/" className="btn btn-secondary">{t('navHome')}</Link>

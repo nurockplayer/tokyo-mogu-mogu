@@ -508,6 +508,8 @@ body:has(.reference-app) { min-height:0; }
 
 /* ============ simple pages ============ */
 .reference-app .simple-body { flex:1; overflow-y:auto; padding:20px 16px; min-height:0; }
+.reference-app [data-screen="journey-unavailable"] .guide-box { margin:0; border-radius:16px; }
+.reference-app [data-screen="journey-unavailable"] h1 { font-size:22px; line-height:1.5; }
 .reference-app .favorite-group + .favorite-group { margin-top:24px; }
 .reference-app .simple-body h2 { color:var(--green); font-size:19px; margin-bottom:12px; }
 .reference-app .empty { text-align:center; color:var(--ink-soft); font-weight:400; font-size:13.5px; padding:40px 0; line-height:2; }

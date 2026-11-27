@@ -92,7 +92,7 @@ export function AppRouter() {
     return <NotFoundPage />;
   }
   if (journeyLocation.status === 'unavailable' && journeyIdentityPath) {
-    return <NotFoundPage unavailableJourney />;
+    return <ReferenceApp journeyLocation={journeyLocation} unavailableJourney />;
   }
   const referencePath =
     pathname === '/' ||
