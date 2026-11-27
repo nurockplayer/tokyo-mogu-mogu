@@ -1,6 +1,6 @@
 # Phase 2 acceptance
 
-**16 / 37 passed**
+**18 / 37 passed**
 
 | ID | Stage / issue | Case | How to check | Status | Evidence link |
 | --- | --- | --- | --- | --- | --- |
@@ -22,14 +22,14 @@
 | S2-3 | S2 / backlog S2 | A short time limit or incompatible choices yields an empty state. Clear restores broader discovery. | In the running product, create an empty result, then select Clear. | pass | [S2 browser evidence](#s2-browser-evidence) |
 | S2-4 | S2 / backlog S2 | Changing dietary answers alone changes only “ask the venue” guidance. | In the running product, change dietary answers and compare journeys and guidance. | not yet | The smoke case asserts unchanged journey IDs and ask-the-venue guidance, but does not capture that changed-dietary Result state in a screenshot. |
 | S2-5 | S2 / backlog S2 | Skip opens MOGU. | In the running product, skip Food Profile and confirm MOGU opens. | pass | [S2 browser evidence](#s2-browser-evidence) |
-| S2-6 | S2 / backlog S2 | In all three locales, open representative trips from distinct areas and cultures, see an arrival point and reach a supported official access or visitor link. | In the running product, open representative trips in ja, en, and zh-TW and follow the official link. | not yet | Current locale smoke follows one admitted trip; it does not demonstrate representative trips from distinct areas and cultures. |
-| S2-7 | S2 / backlog S2 | Compare browse and deep links with the report and confirm failed records and demo fixtures remain hidden. | Run the admission check; compare its report with running-product browse and direct links. | not yet | The S1 exclusion smoke checks browse and deep links, but does not compare them with the admission report or check demo fixtures. |
+| S2-6 | S2 / backlog S2 | In all three locales, open representative trips from distinct areas and cultures, see an arrival point and reach a supported official access or visitor link. | In the running product, open representative trips in ja, en, and zh-TW and follow the official link. | pass | [S2 browser evidence](#s2-browser-evidence) |
+| S2-7 | S2 / backlog S2 | Compare browse and deep links with the report and confirm failed records and demo fixtures remain hidden. | Run the admission check; compare its report with running-product browse and direct links. | not yet | Both Okutama demo fixtures are absent from MOGU, but their Story, Route, and journey-specific Spot links still open. The demo test records the reachable URLs as an expected failure. [S2 browser evidence](#s2-browser-evidence) |
 | S2-8 | S2 / #443 | Two different profiles return different journeys with reasons; an impossible combination shows an empty state naming the active filters with Clear. | In the running product, try two profiles and an impossible combination. | pass | [S2 browser evidence](#s2-browser-evidence) |
 | S2-9 | S2 / #443 | No match %, ranking, 'best', or 'open now' wording; fixed demo results and simulated generation are gone from this flow. | Exercise the running Result flow and inspect its visible copy and behavior. | not yet | The profile smoke verifies result reasons and the empty state, but does not assert the prohibited wording or absence of fixed demo/simulated results. |
-| S2-10 | S2 / #443 | Adding a journey needs data changes only. | Add a journey using data changes only and check it in the running catalog. | not yet | No current smoke case adds a journey through data changes only and verifies it in the running catalog. |
+| S2-10 | S2 / #443 | Adding a journey needs data changes only. | Add a journey using data changes only and check it in the running catalog. | pass | [S2 browser evidence](#s2-browser-evidence) |
 | S2-11 | S2 / #443 | When a primary stop is unavailable the Route offers its alternative (Astra advice, #404 c7219291392). | In the running product, open a journey whose primary stop is unavailable and inspect Route. | pass | [S2 browser evidence](#s2-browser-evidence) |
 | S2-12 | S2 / #443 | A reviewed ask-the-staff allergen/ingredients phrase card (ja/en/zh-TW + Japanese to show staff) is reachable from Spot. | In the running product, reach the reviewed phrase card from Spot in each locale and verify the Japanese staff phrase. | pass | [S2 browser evidence](#s2-browser-evidence) |
-| S2-13 | S2 / #443 | Live KiKi Figma inspected first. | Inspect the current connected KiKi Figma before editing the touched screens. | not yet | No live Figma inspection was performed during this acceptance run. |
+| S2-13 | S2 / #443 | Live KiKi Figma inspected first. | Inspect the current connected KiKi Figma before editing the touched screens. | n/a | The Owner confirmed on 2026-11-28 JST that S2 reused current-main screens and had no new design. The local bridge listed no connected file. [Lead decision on #461](https://github.com/nurockplayer/tokyo-mogu-mogu/issues/461#issuecomment-7228185714) |
 | S3-1 | S3 / backlog S3 | Save preferences, a journey and a Spot, then reload and reopen them. | In the running product, save each item, reload, and reopen it in the same browser. | not yet | |
 | S3-2 | S3 / backlog S3 | Remove journey and Spot saves independently. | In the running product, remove each save separately and inspect the other. | not yet | |
 | S3-3 | S3 / backlog S3 | Import an approved legacy route on the same origin and show a withdrawn saved item as unavailable. | In the running product, import the approved route and open the withdrawn save. | not yet | |
@@ -44,22 +44,25 @@
 
 ## S2 browser evidence
 
-The full validation command passed on 2026-11-28 05:35 JST. Playwright reported `29 passed (2.7m)`.
+The earlier S2 run passed on 2026-11-28 05:35 JST with `29 passed (2.7m)`. The S2-6 and S2-10 browser checks and the S2-7 demo-link observation below were captured on 2026-11-28 at 06:19 JST.
 
 ```sh
-tachi-run --image tachi-run-playwright --out test-results -- sh -ec 'pnpm exec playwright install chromium --only-shell && pnpm typecheck && pnpm lint && pnpm test && pnpm build && pnpm exec playwright test e2e/current-mvp-smoke.spec.ts'
+tachi-run --image tachi-run-playwright --out test-results -- sh -ec 'pnpm exec playwright install chromium --only-shell && pnpm typecheck && pnpm lint && pnpm test && pnpm data:journey-admission && pnpm build && pnpm exec playwright test e2e/current-mvp-smoke.spec.ts'
 ```
 
 | Rows | Committed test | Screenshots |
 | --- | --- | --- |
 | S2-1, S2-3, S2-8 | `#443 applies two Food Profiles, explains empty results and clears filters` | [Food Profile](evidence/s2/s2-profile-ja.png), [first result](evidence/s2/s2-result-profile-one-ja.png), [second result](evidence/s2/s2-result-profile-two-ja.png), [empty result](evidence/s2/s2-result-empty-ja.png) |
 | S2-5 | `#443 skips Food Profile to browse the admitted catalog` | [MOGU after skip](evidence/s2/s2-skip-mogu-ja.png) |
+| S2-6 | `S2-6 follows representative admitted trips in <locale>` checks one trip per municipality group with a distinct food culture, in each locale. It follows the exact sourced URL in a popup with the destination response stubbed. | Tama cities [arrival in ja](evidence/s2/s2-arrival-tama-cities-ja.png) and [official link](evidence/s2/s2-official-tama-cities-ja.png), Nishitama [arrival in en](evidence/s2/s2-arrival-nishitama-en.png) and [official link](evidence/s2/s2-official-nishitama-en.png), islands [arrival in zh-TW](evidence/s2/s2-arrival-islands-zh-TW.png) and [official link](evidence/s2/s2-official-islands-zh-TW.png). See [all locale captures](evidence/s2/). |
+| S2-7 | `S2-7 reconciles MOGU and published links with the admission command` passed on 2026-11-28 at 06:22 JST. The 251 admitted records matched MOGU and all 251 Stories opened. Direct links for all three excluded records showed Journey Unavailable. `S2-7 demo fixture deep links should show Journey Unavailable` recorded 21 reachable URLs across the two demo fixtures. | [MOGU catalog](evidence/s2/s2-admission-browse-ja.png), [excluded Story](evidence/s2/s2-admission-excluded-ja.png), reachable [wasabi demo](evidence/s2/s2-reachable-demo-okutama-wasabi-ja.png) and [yamame demo](evidence/s2/s2-reachable-demo-okutama-yamame-ja.png). |
+| S2-10 | `S2-10 adding a data record alone adds a MOGU card` confirms the test card is absent from the regular build and appears when a single record is added to the data index in a separate build. | [Test-only MOGU card](evidence/s2/s2-data-only-browse-ja.png) |
 | S2-11 | `#443 offers a sourced Route alternative or explains that none is offered` | [Route alternative](evidence/s2/s2-route-alternative-ja.png) |
 | S2-12 | `#443 opens the Spot phrase card offline at 375px in each locale` | [Japanese](evidence/s2/s2-phrase-ja.png), [Traditional Chinese](evidence/s2/s2-phrase-zh-TW.png); the case also checks English and the Japanese staff phrase. |
 
 ## S1 browser evidence
 
-`S1-2 / S1b-3 hides a journey without a sourced arrival point in <locale>` in [e2e/current-mvp-smoke.spec.ts](../../../e2e/current-mvp-smoke.spec.ts#L84) passed in ja, en, and zh-TW. Playwright reported `28 passed (2.3m)` on 2026-11-28 at 04:37 JST. The command exports screenshots to `test-results`.
+`S1-2 / S1b-3 hides a journey without a sourced arrival point in <locale>` in [e2e/current-mvp-smoke.spec.ts](../../../e2e/current-mvp-smoke.spec.ts#L145) passed in ja, en, and zh-TW. Playwright reported `28 passed (2.3m)` on 2026-11-28 at 04:37 JST. The command exports screenshots to `test-results`.
 
 ```sh
 tachi-run --image tachi-run-playwright --out test-results -- sh -ec 'pnpm exec playwright install chromium --only-shell && pnpm typecheck && pnpm lint && pnpm test && pnpm build && pnpm exec playwright test e2e/current-mvp-smoke.spec.ts'

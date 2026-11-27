@@ -1,6 +1,14 @@
 import { expect, test, type Page } from '@playwright/test';
+import { execFileSync } from 'node:child_process';
+import { mkdtemp, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { build, createServer, preview } from 'vite';
 import { checkJourneyAdmission, resolveJourneyVisitorSource } from '../src/data/journey-admission';
+import { selectRouteStop } from '../src/data/journey-record';
 import { JOURNEY_RECORDS } from '../src/data/journey-records';
+import { MUNICIPALITIES, type MunicipalityGroup } from '../src/data/municipalities';
+import type { JourneyPresentation } from '../src/features/netlify-parity/content';
 import { spotPhraseStaffNotice, strings } from '../src/i18n/resources';
 
 const publicationDate = new Date('2026-11-27T13:00:00Z');
@@ -14,6 +22,20 @@ const missingArrival = publication.find(({ admitted, record, variants }) =>
     failures.includes('sourced arrival point') && !record.variants[id]?.arrival),
 );
 const retrievalDate = /\d{4}-\d{2}-\d{2}(?: \/ \d{4}-\d{2}-\d{2})* \(JST\)/;
+
+const activeScreen = (page: Page, screen: string) =>
+  page.locator(`[data-screen="${screen}"][data-screen-active="true"]`);
+
+const representativeJourneys = new Map<MunicipalityGroup, (typeof publication)[number]>();
+const sampledCultures = new Set<string>();
+for (const sample of publication) {
+  if (!sample.admitted) continue;
+  const { municipalityId, journey } = sample.record;
+  const group = MUNICIPALITIES.find(({ id }) => id === municipalityId)!.group;
+  if (representativeJourneys.has(group) || sampledCultures.has(journey.foodCultureId)) continue;
+  representativeJourneys.set(group, sample);
+  sampledCultures.add(journey.foodCultureId);
+}
 
 for (const [locale, viewRoute, unavailable, backToMogu] of [
   ['ja', 'この食旅のルートを見る', 'この食旅は現在ご覧いただけません', 'モグモグるに戻る'],
@@ -81,6 +103,45 @@ for (const [locale, viewRoute, unavailable, backToMogu] of [
     await popup.close();
   });
 
+  test(`S2-6 follows representative admitted trips in ${locale}`, async ({ page, context }, testInfo) => {
+    expect([...representativeJourneys.keys()].sort()).toEqual(
+      [...new Set(MUNICIPALITIES.map(({ group }) => group))].sort(),
+    );
+    await page.clock.setFixedTime(publicationDate);
+    await page.addInitScript((value) => localStorage.setItem('tmm:locale', value), locale);
+    for (const [group, { record, defaultVariant }] of representativeJourneys) {
+      await test.step(`${group} / ${record.journey.foodCultureId}`, async () => {
+        const { id, storyId } = record.journey;
+        const arrival = record.variants[defaultVariant!.id]!.arrival!;
+        const spotId = defaultVariant!.primarySpotId!;
+        const source = resolveJourneyVisitorSource(record, spotId, publicationDate)!;
+        await page.goto('/mogu');
+        await expect(page.locator('.reference-app')).toHaveAttribute('data-locale', locale);
+        await activeScreen(page, 'mogu').locator(`[data-journey-id="${id}"]`).click();
+        await expect(page).toHaveURL(`/story/${storyId}`);
+        await activeScreen(page, 'story').getByRole('button', { name: viewRoute }).click();
+        const route = activeScreen(page, 'route');
+        await expect(page).toHaveURL(`/route?candidateId=${id}`);
+        const routeInfo = route.locator('.route-info');
+        await expect(routeInfo).toContainText(arrival.name[locale]);
+        await routeInfo.scrollIntoViewIfNeeded();
+        await page.screenshot({ path: testInfo.outputPath(`s2-arrival-${group}-${locale}.png`) });
+        await route.locator(`[data-spot-id="${spotId}"]`).click();
+        await expect(page).toHaveURL(`/spot/${spotId}?candidateId=${id}`);
+        const link = activeScreen(page, 'spot').locator('.guide-box').getByRole('link');
+        await expect(link).toHaveAttribute('href', source.url);
+        await link.scrollIntoViewIfNeeded();
+        await page.screenshot({ path: testInfo.outputPath(`s2-official-${group}-${locale}.png`) });
+        await context.route(source.url, (request) => request.fulfill({ body: 'Official visitor information' }));
+        const popupPromise = page.waitForEvent('popup');
+        await link.click();
+        const popup = await popupPromise;
+        await expect(popup).toHaveURL(source.url);
+        await popup.close();
+      });
+    }
+  });
+
   test(`S1-2 / S1b-3 hides a journey without a sourced arrival point in ${locale}`, async ({ page }, testInfo) => {
     if (!missingArrival) throw new Error('Admission must exclude a record with no structured or sourced arrival point');
     const { id, storyId, routeId, routeVariants } = missingArrival.record.journey;
@@ -115,6 +176,144 @@ for (const [locale, viewRoute, unavailable, backToMogu] of [
     await expect(page).toHaveURL('/mogu');
   });
 }
+
+function journeyDeepLinks(journey: JourneyPresentation, record?: (typeof JOURNEY_RECORDS)[number]) {
+  const spots = new Set(journey.routeVariants.flatMap(({ steps }) =>
+    steps.flatMap(({ spotId }) => [spotId, selectRouteStop(record, spotId) ?? spotId])));
+  return [
+    { screen: 'story', path: `/story/${journey.storyId}` },
+    { screen: 'route', path: `/route?routeId=${journey.routeId}` },
+    { screen: 'route', path: `/route?candidateId=${journey.id}` },
+    ...[...spots].map((id) => ({ screen: 'spot', path: `/spot/${id}?candidateId=${journey.id}` })),
+  ];
+}
+
+test('S2-7 reconciles MOGU and published links with the admission command', async ({ page }, testInfo) => {
+  test.setTimeout(180_000);
+  const now = new Date();
+  const report = execFileSync('pnpm', ['data:journey-admission'], { encoding: 'utf8' });
+  const statuses = new Map(Array.from(report.matchAll(/^(\S+) (admitted|excluded)(?: — .*)?$/gm),
+    ([, id, status]) => [id, status]));
+  expect([...statuses.keys()].sort()).toEqual(JOURNEY_RECORDS.map(({ journey }) => journey.id).sort());
+  const admittedIds = [...statuses].filter(([, status]) => status === 'admitted').map(([id]) => id);
+  await page.clock.setFixedTime(now);
+  await page.goto('/mogu');
+  const cards = activeScreen(page, 'mogu').locator('[data-journey-id]');
+  await expect.poll(() => cards.evaluateAll((items) =>
+    items.map((card) => card.getAttribute('data-journey-id')).sort())).toEqual(admittedIds.sort());
+  await page.screenshot({ path: testInfo.outputPath('s2-admission-browse-ja.png') });
+  await page.route('**/*', (route) =>
+    ['image', 'font'].includes(route.request().resourceType()) ? route.abort() : route.continue());
+  let capturedExclusion = false;
+  for (const record of JOURNEY_RECORDS) {
+    const { journey } = record;
+    if (statuses.get(journey.id) === 'admitted') {
+      // Exercise the actual browser router without reloading the bundle for each admitted record.
+      await page.evaluate((path) => {
+        window.history.pushState(null, '', path);
+        window.dispatchEvent(new PopStateEvent('popstate'));
+      }, `/story/${journey.storyId}`);
+      await expect(activeScreen(page, 'story').getByRole('heading', { level: 1 }),
+        journey.id).toHaveText(journey.copy.ja.title);
+    } else {
+      for (const { path } of journeyDeepLinks(journey, record)) {
+        await page.goto(path, { waitUntil: 'domcontentloaded' });
+        await expect(activeScreen(page, 'journey-unavailable').getByRole('heading'), path)
+          .toHaveText(strings.ja.journeyUnavailableTitle);
+        if (!capturedExclusion) {
+          await page.screenshot({ path: testInfo.outputPath('s2-admission-excluded-ja.png') });
+          capturedExclusion = true;
+        }
+      }
+    }
+  }
+  console.log(`S2-7 checked ${admittedIds.length} admitted Stories and ${statuses.size - admittedIds.length} excluded journeys.`);
+});
+
+test('S2-7 demo fixture deep links should show Journey Unavailable', async ({ page }, testInfo) => {
+  const loader = await createServer({
+    configFile: false,
+    server: { middlewareMode: true, watch: null, ws: false },
+  });
+  let demoJourneys: JourneyPresentation[];
+  try {
+    ({ demoJourneys } = await loader.ssrLoadModule('/src/features/netlify-parity/factual-presentation.ts'));
+  } finally {
+    await loader.close();
+  }
+  const reachable: string[] = [];
+  const unavailable = activeScreen(page, 'journey-unavailable');
+  await page.goto('/mogu');
+  const browse = activeScreen(page, 'mogu');
+  await expect(browse).toBeVisible();
+  for (const demo of demoJourneys) {
+    await expect(browse.locator(`[data-journey-id="${demo.id}"]`)).toHaveCount(0);
+  }
+  for (const demo of demoJourneys) {
+    for (const { path, screen } of journeyDeepLinks(demo)) {
+      await page.goto(path);
+      const target = activeScreen(page, screen);
+      await expect(unavailable.or(target), path).toBeVisible();
+      if (await target.isVisible()) {
+        reachable.push(path);
+        if (screen === 'story') {
+          await page.screenshot({ path: testInfo.outputPath(`s2-reachable-${demo.id}-ja.png`) });
+        }
+      }
+    }
+  }
+  await testInfo.attach('reachable demo deep links', { body: JSON.stringify(reachable), contentType: 'application/json' });
+  console.log(`S2-7 reachable demo deep links: ${reachable.join(', ')}`);
+  test.fail(true, 'The legacy demo journey deep links remain public on current main.');
+  expect(reachable).toEqual([]);
+});
+
+test('S2-10 adding a data record alone adds a MOGU card', async ({ page }, testInfo) => {
+  test.setTimeout(120_000);
+  const original = admitted!.record;
+  const id = 's2-data-only-test-journey';
+  const title = 'S2 data-only test journey';
+  const fixture = {
+    ...original,
+    journey: {
+      ...original.journey,
+      id, storyId: id, routeId: id,
+      copy: { ...original.journey.copy, ja: { ...original.journey.copy.ja, title } },
+    },
+  };
+  await page.clock.setFixedTime(publicationDate);
+  const card = activeScreen(page, 'mogu').locator(`[data-journey-id="${id}"]`);
+  await page.goto('/mogu');
+  await expect(activeScreen(page, 'mogu').locator('[data-journey-id]').first()).toBeVisible();
+  await expect(card).toHaveCount(0);
+
+  const outDir = await mkdtemp(join(tmpdir(), 'tmm-s2-data-'));
+  try {
+    await build({
+      logLevel: 'warn',
+      build: { outDir },
+      plugins: [{
+        name: 's2-test-journey-record',
+        transform(source, moduleId) {
+          if (moduleId.endsWith('/src/data/journey-records/index.ts')) {
+            return `${source}\nJOURNEY_RECORDS.push(${JSON.stringify(fixture)});`;
+          }
+        },
+      }],
+    });
+    const server = await preview({ build: { outDir }, preview: { host: '127.0.0.1', port: 0 } });
+    try {
+      await page.goto(new URL('/mogu', server.resolvedUrls.local[0]).href);
+      await expect(card).toContainText(title);
+      await card.scrollIntoViewIfNeeded();
+      await page.screenshot({ path: testInfo.outputPath('s2-data-only-browse-ja.png') });
+    } finally {
+      await server.close();
+    }
+  } finally {
+    await rm(outDir, { recursive: true });
+  }
+});
 
 test('#442 gives an expired optional Spot guidance and a way back', async ({ page }) => {
   await page.clock.setFixedTime(new Date('2026-12-21T15:00:00Z'));
