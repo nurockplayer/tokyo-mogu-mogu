@@ -420,3 +420,11 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 ### b02-fuchu-shrine-sweets
 
 - Arrival, half-day → b02-fuchu-shrine-sweets-aokiya: Fuchu Station. Aokiya lists walking access from Keio Fuchu Station to its Fuchu flagship. Confirm retail hours separately. — https://job-gear.net/aokiyasaiyo2/AE1007902056/MDkyujin_d.htm?from=top
+
+## S1a publication admission round 4 (#441)
+
+Retrieved during this run: 2026-11-28 JST. Visitor evidence remains `needs_confirmation`; confirm current tour availability and transport before visiting.
+
+### demo-ome-sake
+
+- Official visitor destination, sawai-ozawa-shuzo: Ozawa Shuzo’s official page presents its brewery tour and visitor reservation information. — https://www.sawanoi-sake.com/service/kengaku/

@@ -353,3 +353,11 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 ### b06-komae-honey
 
 - Arrival, half-day → b06-komae-honey-ogawa: Izumi-Tamagawa Station. The city map shows how to approach Ikata 3-chome from Izumi-Tamagawa Station. The tourism association identifies Ogawa Farm's honey sales address in that neighborhood at https://www.komae-kankou.jp/eat/komaehachimitsu.html. Check sale dates and stock before visiting. — https://www.city.komae.tokyo.jp/index.cfm/41%2C130817%2Cc%2Chtml/130817/20240122-112144.pdf
+
+## S1a publication admission round 4 (#441)
+
+Retrieved during this run: 2026-11-28 JST. Visitor evidence remains `needs_confirmation`; confirm current visitor services and transport before visiting.
+
+### demo-tokyo-west-fussa-sake
+
+- Official visitor destination, fussa-kurumiru: Fussa City identifies Kurumiru Fussa as its tourist information center and describes visitor information, local products, guided tours and access from Fussa Station. — https://www.city.fussa.tokyo.jp/map/shiyakusho/1001605.html

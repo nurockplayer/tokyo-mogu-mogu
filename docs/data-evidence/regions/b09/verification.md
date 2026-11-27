@@ -462,3 +462,11 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 ### b09-mizuho-konnyaku
 
 - Arrival, half-day → b09-mizuho-konnyaku-shokusai: Hakonegasaki Station. The guide maps Mizuho Shokusai Kobo's Takane visitor address and Hakonegasaki Station. Allow for an onward trip from the station and confirm the shop and product availability. — https://www.gotokyo.org/book/wp-content/uploads/2025/10/2510_mizuhobrand_JP_low.pdf
+
+## S1a publication admission round 4 (#441)
+
+Retrieved during this run: 2026-11-28 JST. Visitor evidence remains `needs_confirmation`; confirm seasonal stock, operating details and transport before visiting.
+
+### demo-tokyo-west-akiruno-produce
+
+- Official visitor destination, akiruno-farmers-center: Akiruno City’s facility page identifies the produce market, its visitor services and access from Higashi-Akiru Station. — https://www.city.akiruno.tokyo.jp/0000003556.html

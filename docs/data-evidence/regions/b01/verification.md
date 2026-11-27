@@ -473,3 +473,11 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 ### b01-hachioji-asakawa-ayu
 
 - Arrival, half-day → b01-hachioji-asakawa-ayu-asakawa: Hachioji Station. The city describes a walk from JR Hachioji Station North Exit to the public riverbank downstream of Asakawa Ohashi. Confirm riverbank conditions locally. — https://www.city.hachioji.tokyo.jp/shisetsu/109/p023781.html
+
+## S1a publication admission round 4 (#441)
+
+Retrieved during this run: 2026-11-28 JST. Visitor evidence remains `needs_confirmation`; confirm seasonal stock, operating details and transport before visiting.
+
+### demo-tokyo-hachioji-ginger
+
+- Official visitor destination, hachioji-takiyama-roadside-station: The operator’s site presents the roadside station, visitor facilities and access guidance. — https://www.michinoeki-hachioji.net/
