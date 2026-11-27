@@ -26,6 +26,7 @@ export const b13AogashimaAochuRecord: JourneyRecord = {
   "location": {"ja":{"area":"青ヶ島村","station":"","access":""},"en":{"area":"Aogashima Village","station":"","access":""},"zh-TW":{"area":"青島村","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "ferry-terminal", "name": {"ja": "三宝港船客待合所", "en": "Sanbo Port passenger terminal", "zh-TW": "三寶港旅客候船室"}, "spotId": "b13-aogashima-aochu-fern", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b13-aogashima-aochu-fern",
@@ -93,6 +94,7 @@ export const b13AogashimaAochuRecord: JourneyRecord = {
     "location": {"ja":{"region":"青ヶ島村","station":""},"en":{"region":"Aogashima Village","station":""},"zh-TW":{"region":"青島村","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Tokyo Grown Aogashima fern habitat access", "url": "https://tokyogrown.jp/node/572164", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-25": {
       "name": "特産品 -特産品のご紹介- | 青ヶ島村ホームページ",
       "url": "https://www.vill.aogashima.tokyo.jp/tourism/sp_product.html",

@@ -425,3 +425,11 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 ### b13-ogasawara-island-seafood
 
 - Arrival, half-day → b13-ogasawara-island-seafood-sushi: Futami Port passenger terminal. The association locates the Omura dining area around Futami Port and lists Shimazushi there. Confirm sailing and restaurant hours separately. — https://www.ogasawaramura.com/eat/
+
+### b13-aogashima-aochu
+
+- Arrival, half-day → b13-aogashima-aochu-fern: Sanbo Port passenger terminal. The Tokyo agricultural directory describes walking access from Sanbo Port to the fern habitat. Confirm the sailing and the condition of the local walking route before setting out. — https://tokyogrown.jp/node/572164
+
+### b13-aogashima-geothermal-food
+
+- Arrival, half-day → b13-aogashima-geothermal-food-oven: Sanbo Port passenger terminal. The Tokyo agricultural directory gives road access from Sanbo Port to the caldera and locates the geothermal oven within it. Confirm ferry service, road conditions, onward transport and oven availability before visiting. — https://tokyogrown.jp/node/572180

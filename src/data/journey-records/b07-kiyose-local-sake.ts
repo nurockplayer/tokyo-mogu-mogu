@@ -31,6 +31,7 @@ export const b07KiyoseLocalSakeRecord: JourneyRecord = {
   "location": {"ja":{"area":"清瀬市","station":"","access":""},"en":{"area":"Kiyose","station":"","access":""},"zh-TW":{"area":"清瀨市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "台田団地", "en": "Daida Danchi bus stop", "zh-TW": "台田團地公車站"}, "spotId": "b07-kiyose-local-sake-kasuya", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b07-kiyose-local-sake-kasuya",
@@ -116,6 +117,7 @@ export const b07KiyoseLocalSakeRecord: JourneyRecord = {
     "location": {"ja":{"region":"清瀬市","station":""},"en":{"region":"Kiyose","station":""},"zh-TW":{"region":"清瀨市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Kiyose City Shitajuku neighborhood access", "url": "https://www.city.kiyose.lg.jp/shisetsu/bousaisisetu/hinanjo/1001450.html", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-21": {"name":"お土産・地域産品｜清瀬市観光協会公式サイト｜その先の、感動へ。","url":"https://www.kiyosekanko.tokyo/information/souvenir/tourism","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b07 editorial itinerary — estimated timing and order, not a timetable","url":"https://www.kiyosekanko.tokyo/information/souvenir/tourism","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}
   },

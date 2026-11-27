@@ -31,6 +31,7 @@ export const b07KiyoseOrchardFruitRecord: JourneyRecord = {
   "location": {"ja":{"area":"清瀬市","station":"","access":""},"en":{"area":"Kiyose","station":"","access":""},"zh-TW":{"area":"清瀨市","station":"","access":""}},
   "variants": {
     "half-day": {
+      "arrival": {"kind": "bus-stop", "name": {"ja": "旭が丘二丁目", "en": "Asahigaoka 2-chome bus stop", "zh-TW": "旭丘二丁目公車站"}, "spotId": "b07-kiyose-orchard-fruit-kaneshinen", "sourceId": "admission-access"},
       "steps": [
         {
           "spotId": "b07-kiyose-orchard-fruit-kaneshinen",
@@ -172,6 +173,7 @@ export const b07KiyoseOrchardFruitRecord: JourneyRecord = {
     "location": {"ja":{"region":"清瀬市","station":""},"en":{"region":"Kiyose","station":""},"zh-TW":{"region":"清瀨市","station":""}}
   },
   "sources": {
+    "admission-access": {"name": "Kiyose City walking and farm-stand map", "url": "https://www.city.kiyose.lg.jp/_res/projects/default_project/_page_/001/004/763/chokubaimap202102.pdf", "sourceType": "official_web", "retrievedAt": "2026-11-28", "verificationStatus": "needs_confirmation"},
     "source-22": {"name":"農作物直売所 マップ＆検索｜清瀬市観光協会公式サイト｜その先の、感動へ。","url":"https://www.kiyosekanko.tokyo/useful/agri","sourceType":"official_web","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"},
     "editorial": {"name":"b07 editorial itinerary — estimated timing and order, not a timetable","url":"https://www.kiyosekanko.tokyo/useful/agri","sourceType":"manual","retrievedAt":"2026-11-24","verificationStatus":"needs_confirmation"}
   },

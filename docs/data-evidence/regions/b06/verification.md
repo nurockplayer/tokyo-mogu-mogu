@@ -349,3 +349,7 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 ### b06-komae-coffee
 
 - Arrival, half-day → b06-komae-coffee-roastery: Komae Station. The roastery gives a walking approach from Komae Station's north exit. — https://www.kbase.jp/kbaseroasterylab
+
+### b06-komae-honey
+
+- Arrival, half-day → b06-komae-honey-ogawa: Izumi-Tamagawa Station. The city map shows how to approach Ikata 3-chome from Izumi-Tamagawa Station. The tourism association identifies Ogawa Farm's honey sales address in that neighborhood at https://www.komae-kankou.jp/eat/komaehachimitsu.html. Check sale dates and stock before visiting. — https://www.city.komae.tokyo.jp/index.cfm/41%2C130817%2Cc%2Chtml/130817/20240122-112144.pdf

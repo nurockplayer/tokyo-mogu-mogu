@@ -458,3 +458,7 @@ Retrieved during this run: 2026-11-28 JST. Access and visitor observations retai
 ### b09-mizuho-pickles
 
 - Arrival, half-day → b09-mizuho-pickles-kondo-foods: Hakonegasaki Station. The town's brand map plots Kondo Foods relative to Hakonegasaki Station. The operator describes direct sales at https://kondo-foods.co.jp/real/. Confirm direct-sale hours separately. — https://www.town.mizuho.tokyo.jp/town/003/p004128_d/fil/p-1.pdf
+
+### b09-mizuho-konnyaku
+
+- Arrival, half-day → b09-mizuho-konnyaku-shokusai: Hakonegasaki Station. The guide maps Mizuho Shokusai Kobo's Takane visitor address and Hakonegasaki Station. Allow for an onward trip from the station and confirm the shop and product availability. — https://www.gotokyo.org/book/wp-content/uploads/2025/10/2510_mizuhobrand_JP_low.pdf
