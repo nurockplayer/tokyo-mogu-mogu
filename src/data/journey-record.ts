@@ -1,4 +1,4 @@
-import type { Locale } from '../i18n';
+import type { Locale } from '../i18n/resources';
 import type { JourneyPresentation, ReferenceAssetId, SpotPresentation } from '../features/netlify-parity/content';
 import type {
   LocalizedText, ReferenceSpotDetail, ResultLocation, RouteStats, RouteStepText,

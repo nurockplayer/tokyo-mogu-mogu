@@ -1,4 +1,4 @@
-import type { Locale } from '../../i18n';
+import type { Locale } from '../../i18n/resources';
 import type { VerificationStatus } from '../../data/model';
 
 export { referenceAssetFiles, type ReferenceAssetId } from './reference-asset-files';
