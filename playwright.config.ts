@@ -9,6 +9,8 @@ import { defineConfig } from '@playwright/test';
 
 const previewPort = process.env.PLAYWRIGHT_PORT ?? '4173';
 const previewUrl = `http://127.0.0.1:${previewPort}`;
+const demoPort = Number(previewPort) + 1;
+const demoUrl = `http://127.0.0.1:${demoPort}`;
 
 export default defineConfig({
   testDir: './e2e',
@@ -24,11 +26,16 @@ export default defineConfig({
     locale: 'ja-JP',
     trace: 'retain-on-failure',
   },
-  webServer: {
+  webServer: [{
     command:
       `node scripts/assert-preview-port-free.mjs ${previewPort} && pnpm preview --host 127.0.0.1 --port ${previewPort} --strictPort`,
     url: previewUrl,
     reuseExistingServer: false,
     timeout: 30_000,
-  },
+  }, {
+    command: `node scripts/assert-preview-port-free.mjs ${demoPort} && pnpm build:data-review && pnpm preview --outDir dist-data-review --host 127.0.0.1 --port ${demoPort} --strictPort`,
+    url: demoUrl,
+    reuseExistingServer: false,
+    timeout: 60_000,
+  }],
 });

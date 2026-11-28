@@ -7,9 +7,7 @@ import { FoodProfileConversation } from './chat/FoodProfileConversation';
 import { BottomNavigation } from './components/BottomNavigation';
 import {
   currentJourneys,
-  currentSpots,
   referenceCopy,
-  resultJourneys,
   type JourneyPresentation,
   type SpotPresentation,
 } from './content';
@@ -72,7 +70,7 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
   );
   const options = useMemo(() => discoveryOptions(catalog), [catalog]);
   const filters = tripFilters ?? preferences;
-  const [currentJourney, setCurrentJourney] = useState<JourneyPresentation>(() => resultJourneys[0]);
+  const [currentJourney, setCurrentJourney] = useState<JourneyPresentation>();
   const [editSessionId, setEditSessionId] = useState(0);
   const [storyBack, setStoryBack] = useState('/explore/result');
   const [routeBack, setRouteBack] = useState('/mogu');
@@ -83,11 +81,8 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
     ? journeyLocation.journey
     : undefined;
   const { hasJourneyQuery, fromMy } = journeyLocation;
-  // Inactive screens stay mounted for the current transition model; this value
-  // is never used to resolve a valid /spot/:id path.
-  const currentSpot = journeyLocation.spot ?? currentSpots['okutama-tourism-office'];
+  const currentSpot = journeyLocation.spot;
   const shownJourney = locationJourney ?? currentJourney;
-  const routeJourney = locationJourney ?? currentJourney;
   const publicationRecord = locationJourney && journeyRecord(locationJourney.id);
   const isFavorites = pathname === '/my-route';
   const now = new Date();
@@ -101,7 +96,7 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
     const available = resolved.status === 'resolved' || resolved.status === 'default';
     return { id: save.id, content: available ? resolved.spot : undefined };
   }) : [];
-  const routeSaved = saves.journeys.some(({ id }) => id === routeJourney.id);
+  const routeSaved = saves.journeys.some(({ id }) => id === shownJourney?.id);
 
   useEffect(() => {
     document.documentElement.lang = locale;
@@ -112,10 +107,10 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
   }, [locale]);
 
   useEffect(() => {
-    if (locationJourney && locationJourney.id !== currentJourney.id) {
+    if (locationJourney && locationJourney.id !== currentJourney?.id) {
       setCurrentJourney(locationJourney);
     }
-  }, [currentJourney.id, locationJourney]);
+  }, [currentJourney?.id, locationJourney]);
 
   useEffect(() => {
     const activeScroll = document.querySelector<HTMLElement>('.reference-screen[data-screen-active="true"] .scroll');
@@ -136,8 +131,8 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
 
   const openSpot = (spot: SpotPresentation) => {
     setSpotBack(`${location.pathname}${location.search}`);
-    const routeIdentity = location.pathname === '/route'
-      ? location.search || `?candidateId=${encodeURIComponent(routeJourney.id)}`
+    const routeIdentity = location.pathname === '/route' && shownJourney
+      ? location.search || `?candidateId=${encodeURIComponent(shownJourney.id)}`
       : '';
     navigate(`/spot/${spot.id}${routeIdentity}`);
   };
@@ -164,7 +159,7 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
     navigate('/explore');
   };
 
-  const persistCurrentRoute = () => {
+  const persistCurrentRoute = (routeJourney: JourneyPresentation) => {
     const latest = loadLocalSaves();
     if (!latest.journeys.some(({ id }) => id === routeJourney.id)) {
       latest.journeys.push({ id: routeJourney.id, routeId: routeJourney.routeId, savedAt: new Date().toISOString() });
@@ -208,7 +203,7 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
     setToast(locale === 'ja' ? 'スポットをお気に入りに保存しました！' : locale === 'zh-TW' ? '已將景點儲存至收藏！' : 'Spot saved to favorites!');
   };
 
-  const shareCurrentRoute = async (variant: JourneyPresentation['routeVariants'][number]) => {
+  const shareCurrentRoute = async (routeJourney: JourneyPresentation, variant: JourneyPresentation['routeVariants'][number]) => {
     const localized = routeJourney.copy[locale];
     const url = new URL('/route', window.location.origin);
     url.searchParams.set('candidateId', routeJourney.id);
@@ -318,7 +313,7 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
           onBrowse={() => navigate('/mogu')}
           onOpenJourney={openJourney}
         />
-        <StoryScreen
+        {shownJourney && <StoryScreen
           active={isStory}
           copy={copy}
           locale={locale}
@@ -331,14 +326,14 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
             navigate(`/route?candidateId=${encodeURIComponent(journey.id)}`);
           }}
           onOpenSpot={openSpot}
-        />
-        <RouteScreen
+        />}
+        {shownJourney && <RouteScreen
           active={isRoute}
           copy={copy}
           locale={locale}
-          journey={routeJourney}
+          journey={shownJourney}
           record={publicationRecord}
-          key={routeJourney.id}
+          key={shownJourney.id}
           initialVariantId={journeyLocation.status === 'resolved' ? journeyLocation.variantId : undefined}
           saved={routeSaved}
           onBack={() => {
@@ -350,15 +345,15 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
                   : routeBack,
             );
           }}
-          onShare={shareCurrentRoute}
+          onShare={(variant) => shareCurrentRoute(shownJourney, variant)}
           onRegenerate={() => setToast(locale === 'ja' ? 'ルートを再生成しました！' : locale === 'zh-TW' ? '已重新建立路線！' : 'Route regenerated!')}
           onOpenSpot={openSpot}
-          onSaveRoute={persistCurrentRoute}
+          onSaveRoute={() => persistCurrentRoute(shownJourney)}
           onViewSavedRoutes={() => {
-            if (routeSaved || persistCurrentRoute()) navigate('/my-route');
+            if (routeSaved || persistCurrentRoute(shownJourney)) navigate('/my-route');
           }}
-        />
-        <SpotScreen
+        />}
+        {currentSpot && <SpotScreen
           active={isSpot}
           copy={copy}
           locale={locale}
@@ -378,7 +373,7 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
           onOpenGuide={() => setToast(locale === 'ja' ? 'このスポットの公式最新情報リンクは現在用意されていません。' : locale === 'zh-TW' ? '目前尚未提供此景點的官方最新資訊連結。' : 'An official current-information link is not available for this spot yet.')}
           onToggleSaved={toggleSpotFavorite}
           onNavigate={navigate}
-        />
+        />}
         <MoguScreen
           active={isMogu}
           copy={copy}

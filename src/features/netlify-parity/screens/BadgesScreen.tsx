@@ -62,9 +62,12 @@ const badgeLabels: Record<Locale, {
   },
 };
 
+const showDemoBadges = import.meta.env.DEV || import.meta.env.MODE === 'data-review';
 const badgePages = [
-  { kind: 'wasabi', status: 'earned', artwork: earnedBadge },
-  { kind: 'yamame', status: 'unearned', artwork: yamameBadge },
+  ...(showDemoBadges ? [
+    { kind: 'wasabi', status: 'earned', artwork: earnedBadge },
+    { kind: 'yamame', status: 'unearned', artwork: yamameBadge },
+  ] as const : []),
   { kind: 'edo-tokyo-vegetables', status: 'unearned', artwork: edoTokyoVegetablesBadge },
   { kind: 'empty', status: 'empty' },
 ] as const;
@@ -78,7 +81,7 @@ interface BadgesScreenProps {
 }
 
 export function BadgesScreen({ active, locale, onBack }: BadgesScreenProps) {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(showDemoBadges ? 1 : badgePages.length);
   const labels = badgeLabels[locale];
   const currentBadge = badgePages[page - 1];
 
@@ -97,16 +100,16 @@ export function BadgesScreen({ active, locale, onBack }: BadgesScreenProps) {
       aria-hidden={!active}
     >
       <div className="issue-360-badge-preload" aria-hidden="true">
-        <img src={yamameBadge} alt="" />
+        {showDemoBadges && <img src={yamameBadge} alt="" />}
         <img src={edoTokyoVegetablesBadge} alt="" />
         <img src={emptyBadge} alt="" />
       </div>
       <Issue296Header title={labels.title} backLabel={labels.back} onBack={onBack} />
       <div className="issue-296-badge-body scroll">
         <p className="issue-296-badge-intro">{labels.intro}</p>
-        <div className="issue-296-badge-count" aria-label={`1 ${labels.countLabel}`}>
+        <div className="issue-296-badge-count" aria-label={`${showDemoBadges ? 1 : 0} ${labels.countLabel}`}>
           <img src={countStamp} alt="" />
-          <p><strong>1</strong><span>{locale === 'ja' ? '枚' : ''}</span></p>
+          <p><strong>{showDemoBadges ? 1 : 0}</strong><span>{locale === 'ja' ? '枚' : ''}</span></p>
           <small>{labels.countLabel}</small>
         </div>
 
@@ -124,7 +127,7 @@ export function BadgesScreen({ active, locale, onBack }: BadgesScreenProps) {
             />
           ))}
 
-          {page === 1 ? (
+          {showDemoBadges && page === 1 ? (
             <>
               <img
                 className="issue-296-earned-stamp"

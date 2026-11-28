@@ -6,6 +6,7 @@ import { createServer } from 'vite';
 import { JOURNEY_RECORDS } from '../src/data/journey-records';
 import type { JourneyRecord } from '../src/data/journey-record';
 import { MUNICIPALITIES } from '../src/data/municipalities';
+import { shellAssetIds } from '../src/features/netlify-parity/reference-asset-files';
 import type { JourneyPresentation, ReferenceAssetId } from '../src/features/netlify-parity/content';
 
 function files(dir: string): string[] {
@@ -126,12 +127,7 @@ const copyPattern = markerPattern(deniedText);
 const quotedCopyPattern = markerPattern(deniedText, true);
 
 // Shell illustrations and branding are independent of journey admission.
-const shell: ReferenceAssetId[] = [
-  'welcomeCta', 'homeHero', 'logoFull', 'logoFace', 'forkIllustration', 'eatIllustration',
-  'makeIllustration', 'buyIllustration', 'makerIllustration', 'originIllustration', 'learnIllustration',
-  'explorationBackground', 'favicon', 'appleTouchIcon', 'openGraphImage',
-];
-const approvedAssets = new Set(shell);
+const approvedAssets = new Set<ReferenceAssetId>(shellAssetIds);
 for (const record of admitted) {
   const referenced = new Set(strings([record.journey, record.spots, record.story]));
   for (const [id, rights] of Object.entries(record.mediaRights ?? {})) {

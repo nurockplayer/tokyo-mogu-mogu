@@ -104,7 +104,7 @@ export function resolveCurrentJourneyLocation(
   }
 
   if (hasUnknownQueryIdentity) {
-    return { ...context, status: constraints.length > 0 ? 'invalid' : 'not-current' };
+    return { ...context, status: (import.meta.env.DEV || import.meta.env.MODE === 'data-review') && constraints.length > 0 ? 'invalid' : 'not-current' };
   }
   if (constraints.length === 0) return { ...context, status: 'default' };
 
@@ -135,7 +135,8 @@ export function resolvePublishedJourneyLocation(pathname: string, search: string
   const published = publishJourney(journey, now);
   if (!published || !record) {
     // A standalone canonical Spot can also appear on an unpublished journey.
-    if (spotId && !location.hasJourneyQuery && getPlaceById(spotId)) {
+    if ((import.meta.env.DEV || import.meta.env.MODE === 'data-review') &&
+      spotId && !location.hasJourneyQuery && getPlaceById(spotId)) {
       return { ...location, status: 'default' };
     }
     return { ...location, status: 'unavailable' };

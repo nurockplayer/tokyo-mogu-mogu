@@ -1,3 +1,4 @@
+import { demoJourneys, demoSpots, resultJourneys } from './factual-presentation';
 import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
@@ -9,9 +10,6 @@ import { strings } from '../../i18n/resources';
 import {
   currentJourneys,
   currentSpots,
-  demoJourneys,
-  demoSpots,
-  resultJourneys,
   referenceAssetFiles,
   referenceCopy,
 } from './content';

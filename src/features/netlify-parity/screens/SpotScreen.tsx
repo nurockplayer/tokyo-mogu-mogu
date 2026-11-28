@@ -71,7 +71,8 @@ export function SpotScreen({
   const localized = spot.copy[locale];
   const referenceDetail = referenceSpotDetails[spot.id];
   const visitorSource = record && resolveJourneyVisitorSource(record, spot.id);
-  const officialLink = !record && resolveSpotOfficialLink(getPlaceById(spot.id) ?? spot.id, getSpotDetail(spot.id));
+  const officialLink = (import.meta.env.DEV || import.meta.env.MODE === 'data-review') && !record
+    && resolveSpotOfficialLink(getPlaceById(spot.id) ?? spot.id, getSpotDetail(spot.id));
   const factNote = record && factRetrievalNote(record, locale, `spots.${spot.id}`);
   const visitorNote = visitorSource && retrievalNote(locale, [visitorSource]);
   const visitor = visitorGuide[locale];
