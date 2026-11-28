@@ -1,3 +1,5 @@
+import './s4-1-walkthrough';
+
 import { expect, test, type BrowserContext, type Page } from '@playwright/test';
 import { execFile, execFileSync } from 'node:child_process';
 import { appendFile, copyFile, mkdtemp, rename, rm, symlink, writeFile } from 'node:fs/promises';
