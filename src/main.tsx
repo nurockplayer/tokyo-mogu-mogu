@@ -1,7 +1,9 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
-import { AppProviders, AppRouter, NotFoundPage } from './app';
+import { AppProviders } from './app/AppProviders';
+import { AppRouter } from './app/AppRouter';
+import { NotFoundPage } from './app/NotFoundPage';
 import { decodeJourneyPathIdentity } from './features/netlify-parity/journey-location';
 import './styles.css';
 import './ui/tokens.css';

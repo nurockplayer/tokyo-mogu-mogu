@@ -7,7 +7,7 @@ import { JOURNEY_RECORDS } from '../../data/journey-records';
  * verification-ledger adapter. Keep it free of React, assets, DOM state,
  * filesystem/process APIs, and generator code.
  */
-import type { Locale } from '../../i18n';
+import type { Locale } from '../../i18n/resources';
 import { PLACES } from '../../data/seed-places';
 import { OKUTAMA_STATION_ACCESS } from '../../data/seed-routes';
 import type {

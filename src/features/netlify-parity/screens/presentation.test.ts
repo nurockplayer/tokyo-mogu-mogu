@@ -1,6 +1,6 @@
 import { afterAll, beforeEach, describe, expect, it } from 'vitest';
 import { strings, type LocaleKey } from '../../../i18n/resources';
-import { demoJourneys } from '../content';
+import { demoJourneys } from '../factual-presentation';
 import {
   createDefaultExplorationAnswers,
   type MatchTagKey,

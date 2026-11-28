@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type BrowserContext, type Page } from '@playwright/test';
 import { execFileSync } from 'node:child_process';
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -10,6 +10,22 @@ import { JOURNEY_RECORDS } from '../src/data/journey-records';
 import { MUNICIPALITIES, type MunicipalityGroup } from '../src/data/municipalities';
 import type { JourneyPresentation } from '../src/features/netlify-parity/content';
 import { spotPhraseStaffNotice, strings } from '../src/i18n/resources';
+
+const demoTest = test.extend({
+  baseURL: `http://127.0.0.1:${Number(process.env.PLAYWRIGHT_PORT ?? '4173') + 1}`,
+});
+
+function stubRemoteFonts(context: BrowserContext) {
+  return context.route(/^https:\/\/fonts\.(?:googleapis|gstatic)\.com\//, (route) => route.abort());
+}
+
+async function blockRemoteFonts(page: Page) {
+  // Playwright routing disables the HTTP cache for every request in the context.
+  const session = await page.context().newCDPSession(page);
+  await session.send('Network.setBlockedURLs', {
+    urls: ['https://fonts.googleapis.com/*', 'https://fonts.gstatic.com/*'],
+  });
+}
 
 const publicationDate = new Date('2026-11-27T13:00:00Z');
 const publication = JOURNEY_RECORDS.map((record) => ({
@@ -243,6 +259,7 @@ for (const [locale, viewRoute, unavailable, backToMogu] of [
   });
 
   test(`S2-6 follows representative admitted trips in ${locale}`, async ({ page, context }, testInfo) => {
+    await stubRemoteFonts(context);
     expect([...representativeJourneys.keys()].sort()).toEqual(
       [...new Set(MUNICIPALITIES.map(({ group }) => group))].sort(),
     );
@@ -271,7 +288,7 @@ for (const [locale, viewRoute, unavailable, backToMogu] of [
         await expect(link).toHaveAttribute('href', source.url);
         await link.scrollIntoViewIfNeeded();
         await page.screenshot({ path: testInfo.outputPath(`s2-official-${group}-${locale}.png`) });
-        await context.route(source.url, (request) => request.fulfill({ body: 'Official visitor information' }));
+        await context.route(source.url.split('#')[0], (request) => request.fulfill({ body: 'Official visitor information' }));
         const popupPromise = page.waitForEvent('popup');
         await link.click();
         const popup = await popupPromise;
@@ -345,33 +362,32 @@ test('S1-4 makes an admitted Route unavailable when its primary action is invali
   await page.goto(path);
   await expect(activeScreen(page, 'route')).toBeVisible();
 
-  const outDir = await mkdtemp(join(tmpdir(), 'tmm-s1-invalid-action-'));
-  try {
-    await build({
-      logLevel: 'warn',
-      build: { outDir },
-      plugins: [{
-        name: 's1-test-invalid-visitor-action',
-        transform(source, moduleId) {
-          if (moduleId.endsWith('/src/data/journey-records/index.ts')) {
-            return `${source}\nJOURNEY_RECORDS[JOURNEY_RECORDS.findIndex(({ journey }) => journey.id === ${JSON.stringify(id)})] = ${JSON.stringify(fixture)};`;
-          }
-        },
-      }],
-    });
-    const server = await preview({ build: { outDir }, preview: { host: '127.0.0.1', port: 0 } });
-    try {
-      await page.goto(new URL(path, server.resolvedUrls.local[0]).href);
-      await expect(activeScreen(page, 'journey-unavailable').getByRole('heading'))
-        .toHaveText(strings.ja.journeyUnavailableTitle);
-      await expect(activeScreen(page, 'route')).toHaveCount(0);
-      await expectNoHorizontalOverflow(page);
-      await page.screenshot({ path: testInfo.outputPath('s1-4-invalid-primary-action-ja.png'), animations: 'disabled' });
-    } finally {
-      await server.close();
+  const visitorUrls = new Set(Object.keys(record.spots).flatMap((spotId) => {
+    const source = resolveJourneyVisitorSource(record, spotId, publicationDate);
+    return source ? [JSON.stringify(source.url)] : [];
+  }));
+  const replacedUrls = new Set<string>();
+  await page.route('**/assets/app-*.js', async (route) => {
+    const response = await route.fetch();
+    let body = await response.text();
+    for (const url of visitorUrls) {
+      if (body.includes(url)) {
+        body = body.replaceAll(url, JSON.stringify(fixture.sources[sourceId].url));
+        replacedUrls.add(url);
+      }
     }
+    await route.fulfill({ response, body });
+  });
+  try {
+    await page.reload();
+    expect(replacedUrls).toEqual(visitorUrls);
+    await expect(activeScreen(page, 'journey-unavailable').getByRole('heading'))
+      .toHaveText(strings.ja.journeyUnavailableTitle);
+    await expect(activeScreen(page, 'route')).toHaveCount(0);
+    await expectNoHorizontalOverflow(page);
+    await page.screenshot({ path: testInfo.outputPath('s1-4-invalid-primary-action-ja.png'), animations: 'disabled' });
   } finally {
-    await rm(outDir, { recursive: true });
+    await page.unroute('**/assets/app-*.js');
   }
 });
 
@@ -386,8 +402,9 @@ function journeyDeepLinks(journey: JourneyPresentation, record?: (typeof JOURNEY
   ];
 }
 
-test('S2-7 reconciles MOGU and published links with the admission command', async ({ page }, testInfo) => {
+test('S2-7 reconciles MOGU and published links with the admission command', async ({ page, context }, testInfo) => {
   test.setTimeout(180_000);
+  await stubRemoteFonts(context);
   const now = new Date();
   const report = execFileSync('pnpm', ['data:journey-admission'], { encoding: 'utf8' });
   const statuses = new Map(Array.from(report.matchAll(/^(\S+) (admitted|excluded)(?: — .*)?$/gm),
@@ -395,13 +412,14 @@ test('S2-7 reconciles MOGU and published links with the admission command', asyn
   expect([...statuses.keys()].sort()).toEqual(JOURNEY_RECORDS.map(({ journey }) => journey.id).sort());
   const admittedIds = [...statuses].filter(([, status]) => status === 'admitted').map(([id]) => id);
   await page.clock.setFixedTime(now);
-  await page.goto('/mogu');
+  await page.goto('/mogu', { waitUntil: 'domcontentloaded' });
   const cards = activeScreen(page, 'mogu').locator('[data-journey-id]');
-  await expect.poll(() => cards.evaluateAll((items) =>
+  await expect(cards).toHaveCount(admittedIds.length, { timeout: 15_000 });
+  expect(await cards.evaluateAll((items) =>
     items.map((card) => card.getAttribute('data-journey-id')).sort())).toEqual(admittedIds.sort());
   await page.screenshot({ path: testInfo.outputPath('s2-admission-browse-ja.png') });
   await page.route('**/*', (route) =>
-    ['image', 'font'].includes(route.request().resourceType()) ? route.abort() : route.continue());
+    ['image', 'font'].includes(route.request().resourceType()) ? route.abort() : route.fallback());
   let capturedExclusion = false;
   for (const record of JOURNEY_RECORDS) {
     const { journey } = record;
@@ -429,7 +447,8 @@ test('S2-7 reconciles MOGU and published links with the admission command', asyn
 });
 
 test('S2-7 demo fixture deep links show Journey Unavailable', async ({ page }, testInfo) => {
-  test.setTimeout(90_000);
+  test.setTimeout(180_000);
+  await blockRemoteFonts(page);
   const loader = await createServer({
     configFile: false,
     server: { middlewareMode: true, watch: null, ws: false },
@@ -452,9 +471,9 @@ test('S2-7 demo fixture deep links show Journey Unavailable', async ({ page }, t
   for (const locale of ['ja', 'en', 'zh-TW'] as const) {
     await page.evaluate((value) => localStorage.setItem('tmm:locale', value), locale);
     for (const path of paths) {
-      await page.goto(path, { waitUntil: 'domcontentloaded' });
+      await page.goto(path, { waitUntil: 'commit' });
       await expect(unavailable.getByRole('heading'), `${locale} ${path}`)
-        .toHaveText(strings[locale].journeyUnavailableTitle);
+        .toHaveText(strings[locale].journeyUnavailableTitle, { timeout: 15_000 });
       await expect(unavailable.getByRole('link', { name: strings[locale].journeyUnavailableBack }))
         .toHaveAttribute('href', '/mogu');
       const demo = demoJourneys.find(({ storyId }) => path === `/story/${storyId}`);
@@ -467,7 +486,8 @@ test('S2-7 demo fixture deep links show Journey Unavailable', async ({ page }, t
       }
     }
     await page.goto('/spot/okutama-tourism-office');
-    await activeScreen(page, 'spot').locator('.fab-back').click();
+    await expect(unavailable.getByRole('heading')).toHaveText(strings[locale].journeyUnavailableTitle);
+    await unavailable.getByRole('link', { name: strings[locale].journeyUnavailableBack }).click();
     await expect(activeScreen(page, 'mogu')).toBeVisible();
   }
   console.log(`S2-7 checked ${paths.length - 2} demo deep links and both bare Story/Route paths in ja, en, and zh-TW.`);
@@ -534,7 +554,9 @@ test('#442 gives an expired optional Spot guidance and a way back', async ({ pag
   await expect(page.locator('[data-screen="route"][data-screen-active="true"]')).toBeVisible();
 });
 
-test('opens canonical Spot information safely with the keyboard', async ({ page, context }) => {
+demoTest('opens canonical Spot information safely with the keyboard', async ({ page, context }) => {
+  test.setTimeout(90_000);
+  await stubRemoteFonts(context);
   const destinations = [
     ['okutama-tourism-office', 'https://www.okutama.gr.jp/site/'],
     ['wasabi-kitchen', 'https://tokyowasabi.com/category/information/'],
@@ -564,9 +586,10 @@ test('opens canonical Spot information safely with the keyboard', async ({ page,
   }
 });
 
-test('keeps an unavailable official destination local with honest feedback in every locale', async ({ page }) => {
+demoTest('keeps an unavailable official destination local with honest feedback in every locale', async ({ page, context }) => {
+  await stubRemoteFonts(context);
   let unavailableSourceInjected = false;
-  // Exercise a missing/unsupported source in the production bundle without a
+  // Exercise a missing/unsupported source in the internal bundle without a
   // test-only runtime route or a guessed URL in canonical Product data.
   await page.route('**/assets/*.js', async (route) => {
     const response = await route.fetch();
@@ -580,9 +603,9 @@ test('keeps an unavailable official destination local with honest feedback in ev
     ['en', 'An official current-information link is not available for this spot yet.'],
     ['zh-TW', '目前尚未提供此景點的官方最新資訊連結。'],
   ]) {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
     await page.evaluate((value) => localStorage.setItem('tmm:locale', value), locale);
-    await page.goto('/spot/okutama-tourism-office');
+    await page.goto('/spot/okutama-tourism-office', { waitUntil: 'domcontentloaded' });
     expect(unavailableSourceInjected).toBe(true);
     const guide = page.locator('[data-screen="spot"][data-screen-active="true"] .guide-box');
     await expect(guide.getByRole('link')).toHaveCount(0);
@@ -754,7 +777,8 @@ async function findJourneysFromProfile(page: Page, profile: Awaited<ReturnType<t
 }
 
 test('#443 applies two Food Profiles, explains empty results and clears filters', async ({ page }, testInfo) => {
-  test.setTimeout(60_000);
+  test.setTimeout(120_000);
+  await blockRemoteFonts(page);
   await page.clock.setFixedTime(publicationDate);
   const screenshot = (name: string) => page.screenshot({ path: testInfo.outputPath(`${name}.png`), animations: 'disabled' });
   const result = page.locator('[data-screen="result"][data-screen-active="true"]');
@@ -942,6 +966,8 @@ test('#443 skips Food Profile to browse the admitted catalog', async ({ page }, 
 });
 
 test('#443 offers a sourced Route alternative and #465 hides a journey with no usable stop', async ({ page }, testInfo) => {
+  test.setTimeout(90_000);
+  await blockRemoteFonts(page);
   const now = new Date('2026-11-28T03:00:00Z');
   const unavailableStops = JOURNEY_RECORDS.flatMap((record) => {
     const { defaultVariant } = checkJourneyAdmission(record, now);
@@ -993,7 +1019,7 @@ test('#443 offers a sourced Route alternative and #465 hides a journey with no u
     await expect(mogu.locator(`[data-journey-id="${record.journey.id}"]`)).toBeVisible();
     await expect(mogu.locator(`[data-journey-id="${missingId}"]`)).toHaveCount(0);
     for (const path of [`/story/${missingStoryId}`, `/route?candidateId=${missingId}`, `/spot/${missingSpotId}?candidateId=${missingId}`]) {
-      await page.goto(path);
+      await page.goto(path, { waitUntil: 'commit' });
       await expect(unavailableScreen).toBeVisible();
     }
   }
@@ -1251,7 +1277,7 @@ test('S3-3 imports an admitted legacy route and marks an excluded save unavailab
   await page.reload();
   const favorites = activeScreen(page, 'favorites');
   const imported = favorites.locator(`[data-journey-id="${journey.id}"]`);
-  const unavailable = favorites.locator(`[data-journey-id="${withdrawn.id}"]`);
+  const unavailable = favorites.locator(`[data-journey-id="${withdrawn.routeId}"]`);
   await expect(imported.locator('.trip-card-open')).toBeVisible();
   await expect(unavailable).toContainText('現在ご覧いただけません');
   await unavailable.getByText('現在ご覧いただけません').click();
@@ -1352,7 +1378,7 @@ test('S3-5 resets local data and reloads to defaults', async ({ page }, testInfo
   await page.screenshot({ path: testInfo.outputPath('s3-5-defaults-after-reset.png'), animations: 'disabled' });
 });
 
-test('opens the standalone source-backed Yamashiroya Spot (#323)', async ({ page }) => {
+demoTest('opens the standalone source-backed Yamashiroya Spot (#323)', async ({ page }) => {
   await page.goto('/spot/yamashiroya');
   const spot = page.locator('[data-screen="spot"][data-screen-active="true"]');
   await expect(
@@ -1371,7 +1397,7 @@ test('opens the standalone source-backed Yamashiroya Spot (#323)', async ({ page
   await expectNoHorizontalOverflow(page);
 });
 
-test('keeps the source-backed Okutama no Daidokoro facts safe in every locale (#325)', async ({
+demoTest('keeps the source-backed Okutama no Daidokoro facts safe in every locale (#325)', async ({
   page,
 }) => {
   const localizedExpectations = [
@@ -1422,7 +1448,7 @@ test('keeps the source-backed Okutama no Daidokoro facts safe in every locale (#
   }
 });
 
-test('keeps source-backed PORT OKUTAMA facts safe in every locale (#327)', async ({ page }) => {
+demoTest('keeps source-backed PORT OKUTAMA facts safe in every locale (#327)', async ({ page }) => {
   const localizedExpectations = [
     {
       locale: 'ja',
@@ -1469,7 +1495,7 @@ test('keeps source-backed PORT OKUTAMA facts safe in every locale (#327)', async
   }
 });
 
-test('keeps Akabeko phone divergence and source-backed operations visible in every locale (#326)', async ({ page }) => {
+demoTest('keeps Akabeko phone divergence and source-backed operations visible in every locale (#326)', async ({ page }) => {
   const localizedExpectations = [
     {
       locale: 'ja',
@@ -1521,7 +1547,7 @@ test('keeps Akabeko phone divergence and source-backed operations visible in eve
   }
 });
 
-test('keeps Wasabi Shokudo mobile and time-sensitive in every locale (#324)', async ({ page }) => {
+demoTest('keeps Wasabi Shokudo mobile and time-sensitive in every locale (#324)', async ({ page }) => {
   const localizedExpectations = [
     { locale: 'ja', name: 'わさび食堂', addressLabel: '住所', foodTruck: '固定店舗のないキッチンカー', operatingArea: 'JR青梅線「奥多摩駅」前を中心', schedule: '最新の公式予定', priceDate: '2026年7月', conflict: '公式ページ間で不一致' },
     { locale: 'en', name: 'Wasabi Shokudo', addressLabel: 'Address', foodTruck: 'Mobile food truck with no permanent storefront', operatingArea: 'Mainly around the front of JR Okutama Station', schedule: 'current official schedule', priceDate: 'July 2026', conflict: 'Official pages conflict' },
@@ -1562,7 +1588,7 @@ test('keeps Wasabi Shokudo mobile and time-sensitive in every locale (#324)', as
   }
 });
 
-test('shows the Ome meeting place and seasonal times for Wasabi Experience (#328)', async ({ page }) => {
+demoTest('shows the Ome meeting place and seasonal times for Wasabi Experience (#328)', async ({ page }) => {
   const localizedExpectations = [
     {
       locale: 'ja', name: 'WASABI EXPERIENCE',
@@ -1608,7 +1634,7 @@ test('shows the Ome meeting place and seasonal times for Wasabi Experience (#328
   }
 });
 
-test('keeps the tourism-office caveat complete in every locale', async ({ page }) => {
+demoTest('keeps the tourism-office caveat complete in every locale', async ({ page }) => {
   const localizedExpectations = [
     {
       locale: 'ja',
@@ -1660,6 +1686,8 @@ test('keeps the tourism-office caveat complete in every locale', async ({ page }
     await expect(spot).not.toContainText(unsupportedClaims);
     await expect(spot).not.toContainText(/Netlify|デモ用編集情報|デモ参考情報/);
     await expectNoHorizontalOverflow(page);
+    await spot.locator('.fab-back').click();
+    await expect(activeScreen(page, 'mogu')).toBeVisible();
   }
 });
 

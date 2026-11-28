@@ -70,10 +70,13 @@ async function runGuard(port?: string): Promise<{ code: number; stderr: string }
 describe('playwright preview-server guard (#188)', () => {
   it('never reuses an existing preview server and runs the port-free guard first', async () => {
     const cfg = (await import('../../playwright.config.ts')).default;
-    const webServer = cfg.webServer;
-    expect(webServer.reuseExistingServer).toBe(false);
-    expect(webServer.command).toContain('assert-preview-port-free.mjs 4173');
-    expect(webServer.command).toContain('--strictPort');
+    const webServers = Array.isArray(cfg.webServer) ? cfg.webServer : [cfg.webServer];
+    expect(webServers.map(({ url }) => new URL(url).port)).toEqual(['4173', '4174']);
+    for (const { command, reuseExistingServer, url } of webServers) {
+      expect(reuseExistingServer).toBe(false);
+      expect(command).toMatch(new RegExp(`^node scripts/assert-preview-port-free\\.mjs ${new URL(url).port} && `));
+      expect(command).toContain('--strictPort');
+    }
   });
 
   it('exits 1 with a recovery hint when the port is already in use', async () => {

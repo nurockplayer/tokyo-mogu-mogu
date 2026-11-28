@@ -76,8 +76,8 @@ Slack サマリーは現在の Board projection から都度生成します。We
 ## ローカル確認
 
 ```sh
-pnpm build
-pnpm preview
+pnpm build:data-review
+pnpm preview --outDir dist-data-review
 ```
 
 `http://127.0.0.1:4173/data-review/` を開きます。Board の focused browser smoke は次で実行します。
