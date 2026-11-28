@@ -18,7 +18,7 @@ export default defineConfig({
   },
   webServer: {
     command:
-      `node scripts/assert-preview-port-free.mjs ${previewPort} && pnpm preview --host 127.0.0.1 --port ${previewPort} --strictPort`,
+      `node scripts/assert-preview-port-free.mjs ${previewPort} && pnpm preview --outDir dist-data-review --host 127.0.0.1 --port ${previewPort} --strictPort`,
     url: previewUrl,
     reuseExistingServer: false,
     timeout: 30_000,

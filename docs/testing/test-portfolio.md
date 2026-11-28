@@ -84,8 +84,8 @@ exact factual copy is introduced. Case counts remain 3 for #374 and 56 across
 all nine focused suites (89 browser cases total); the 84-file/899-case Vitest
 inventory is unchanged.
 
-Build once before running direct browser commands because they reuse the
-production bundle:
+Build once before running the direct smoke and regression commands. The
+data-review command builds its own internal bundle in `dist-data-review/`.
 
 ```sh
 pnpm build

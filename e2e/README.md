@@ -59,6 +59,7 @@ pnpm test:data-review
 ```
 
 `pnpm test:e2e` builds and runs the canonical smoke through the root
-`playwright.config.ts`. The direct smoke,
-regression, and data-review commands use the existing production bundle and
-therefore require `pnpm build` first.
+`playwright.config.ts`. The direct smoke
+and regression commands use the existing production bundle and require
+`pnpm build` first. `pnpm test:data-review` builds its own internal bundle in
+`dist-data-review/`.

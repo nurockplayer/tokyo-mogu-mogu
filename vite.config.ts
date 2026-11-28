@@ -3,13 +3,14 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [react()],
   build: {
+    outDir: mode === 'data-review' ? 'dist-data-review' : 'dist',
     rollupOptions: {
       input: {
         app: 'index.html',
-        dataReview: 'data-review/index.html',
+        ...(mode === 'data-review' ? { dataReview: 'data-review/index.html' } : {}),
       },
     },
   },
@@ -20,4 +21,4 @@ export default defineConfig({
     // E2E specs in e2e/ (run by `pnpm test:e2e`, Issue #120).
     exclude: ['e2e/**', '**/node_modules/**', '**/dist/**'],
   },
-});
+}));
