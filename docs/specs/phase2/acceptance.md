@@ -1,7 +1,6 @@
 # Phase 2 acceptance
 
 **33 / 37 passed**
-**31 / 37 passed**
 
 | ID | Stage / issue | Case | How to check | Status | Evidence link |
 | --- | --- | --- | --- | --- | --- |
@@ -40,7 +39,7 @@
 | S3-7 | S3 / backlog S3 | Cancel or fail a share and recover via a selectable link. | In the running product, cancel or fail sharing and use its selectable link. | pass | Playwright exercised both native share outcomes and copied the selected URL at 375px. [Share recovery](evidence/s3/s3-7-share-recovery-ja.png) |
 | S4-1 | S4 / backlog S4 | Lead completes representative admitted trips in every locale and checks blocked persistence, wrong IDs, missing actions, narrow/wide layout, keyboard, screen reader and reduced motion. | Exercise representative trips in the running release candidate across locales and listed conditions. | not yet | |
 | S4-2 | S4 / backlog S4 | Compare public contents to the admission report. | Build the public bundle and run `pnpm data:release-artifact`. | pass | The checker found all 251 admitted journeys and no excluded or demo content in 25 public files. All 42 hosted smoke cases passed. [Artifact and coverage report](release-artifact-report.md) |
-| S4-3 | S4 / backlog S4 | Demonstrate a data-only correction, urgent withdrawal and rollback without restoring withdrawn material. | Demonstrate the correction, withdrawal, and rollback using the release operating path. | pass | The 375px rehearsal showed the corrected arrival, hid the withdrawn journey in MOGU, and showed unavailable links and a retained save. The rollback restored the prior arrival and kept the journey withdrawn. [Runbook and screenshots](withdrawal-runbook.md#rehearse-locally-at-375px) |
+| S4-3 | S4 / backlog S4 | Demonstrate a data-only correction, urgent withdrawal and rollback without restoring withdrawn material. | Demonstrate the correction, withdrawal, and rollback using the release operating path. | pass | At 375px, a fresh worktree at the named prior revision restored the original arrival label and kept the withdrawn journey out of MOGU and its links unavailable. Both admission reports listed the withdrawal. The unavailable save stayed removed after reload. [Runbook and screenshots](withdrawal-runbook.md#rehearse-locally-at-375px) |
 | S4-4 | S4 / backlog S4 | After promotion by the lead, check the catalog and an admitted deep link at the release URL. | After lead promotion, open the release URL's catalog and an admitted deep link. | not yet | |
 
 ## S3 browser evidence

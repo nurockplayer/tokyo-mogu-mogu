@@ -12,10 +12,13 @@ Work on a candidate branch. Keep a reference to the previous accepted source rev
 tachi-run --image tachi-run-playwright --out test-results -- sh -ec 'pnpm exec playwright install chromium --only-shell && pnpm build:bundle && pnpm exec playwright test e2e/current-mvp-smoke.spec.ts -g S4-3'
 ```
 
-The previous release state for this rehearsal is merged revision `8b09eff134ace8dc58227a3ab0c5a189a80bf37e`. Playwright fetches that revision into a temporary repository and prepares a candidate with the current admission gate and registry. It changes one Route's arrival label and withdraws a second journey after saving it in the browser. For rollback it checks out the named revision in a fresh worktree and copies the gate and active registry from the withdrawal candidate. Both admission reports are written to `test-results` and must list the journey as withdrawn. The browser reuses one origin to check the prior arrival label, MOGU, Story, both Route URL forms, Spot links, and the retained save. It then removes the unavailable save and reloads Favorites.
+The previous release state for this rehearsal is merged revision `8b09eff134ace8dc58227a3ab0c5a189a80bf37e`. Playwright fetches that revision into a temporary repository and prepares a candidate with the current admission gate and registry. It changes one Route's arrival label and withdraws a second journey after saving it in the browser. For rollback it checks out the named revision in a fresh worktree and copies the gate and active registry from the withdrawal candidate. The browser reuses one origin to check the prior arrival label, MOGU, Story, both Route URL forms, Spot links, and the retained save. It then removes the unavailable save and reloads Favorites.
+
+The 375px Japanese rehearsal passed on 2026-11-28 at 11:10 JST. Both `s4-3-withdrawal-admission.txt` and `s4-3-rollback-admission.txt` under `test-results` reported `b01-hachioji-passion-fruit excluded — withdrawn`.
 
 - [Corrected arrival](evidence/s4/s4-3-correction-ja.png)
 - [MOGU after withdrawal](evidence/s4/s4-3-withdrawal-mogu-ja.png)
 - [Withdrawn link](evidence/s4/s4-3-withdrawal-link-ja.png)
 - [Existing save after withdrawal](evidence/s4/s4-3-withdrawal-save-ja.png)
 - [Original arrival after rollback](evidence/s4/s4-3-rollback-ja.png)
+- [Favorites after removing the save and reloading](evidence/s4/s4-3-rollback-save-removed-ja.png)
