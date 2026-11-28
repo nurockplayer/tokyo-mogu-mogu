@@ -216,6 +216,8 @@ body:has(.reference-app) { min-height:0; }
 }
 .reference-app .profile-name-sentence span { flex:none; color:var(--green); font-size:16px; font-weight:700; padding:0 18px 0 2px; }
 .reference-app .profile-input-card > .btn { width:100%; min-height:55px; border-radius:10px; font-weight:700; }
+.reference-app .bubble:has(> .profile-box),
+.reference-app .profile-final-prompt { color:#3C4826; }
 .reference-app .profile-box { background:rgba(255,255,255,.16); border-radius:12px; padding:12px; margin-top:12px; font-size:13.5px; line-height:1.9; }
 
 /* ============ home ============ */
@@ -249,6 +251,7 @@ body:has(.reference-app) { min-height:0; }
 .reference-app .tabbar button svg { width:24px; height:24px; stroke:#CEE3A8; fill:none; stroke-width:3; }
 .reference-app .tabbar button.on { color:#667A48; }
 .reference-app .tabbar button.on svg { stroke:#667A48; }
+.reference-app [data-screen="spot"] .tabbar button:not(.on) > span { color:#6F7A5B; }
 
 /* ============ wizard ============ */
 .reference-screen[data-screen="explore"],
@@ -328,7 +331,7 @@ body:has(.reference-app) { min-height:0; }
 .reference-app .res-sub { display:flex; justify-content:space-between; align-items:center; padding:0 16px; margin-bottom:12px; gap:10px; min-width:0; }
 .reference-app .res-sub b { color:var(--green); font-size:15px; font-weight:500; }
 .reference-app .res-sub button { background:#9BB35C; color:#222222; border-radius:99px; font-size:12.5px; font-weight:700; padding:9px 14px; }
-.reference-app .res-card { background:#fff; border-radius:18px; overflow:hidden; box-shadow:var(--shadow); margin:0 14px 20px; cursor:pointer; }
+.reference-app .res-card { position:relative; background:#fff; border-radius:18px; overflow:hidden; box-shadow:var(--shadow); margin:0 14px 20px; cursor:pointer; }
 .reference-app .res-card .ph { position:relative; }
 .reference-app .res-card .ph img { width:100%; height:220px; object-fit:cover; }
 .reference-app .res-card .ph > .presentation-media-empty { width:100%; height:220px; }
@@ -341,6 +344,8 @@ body:has(.reference-app) { min-height:0; }
 .reference-app .res-card .acc { font-size:13px; font-weight:400; margin-top:2px; }
 .reference-app .res-card .acc em { color:var(--orange-text); font-style:normal; }
 .reference-app .res-card h3 { font-size:22px; margin-top:8px; }
+.reference-app .res-card h3 button { display:inline; font:inherit; text-align:inherit; }
+.reference-app .res-card h3 button::after { content:""; position:absolute; inset:0; }
 .reference-app .res-card h4 { font-size:16px; font-weight:500; margin-top:2px; }
 .reference-app .res-card p { color:#A6A392; font-size:14px; line-height:1.8; margin-top:8px; }
 .reference-app .tags { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
@@ -362,6 +367,7 @@ body:has(.reference-app) { min-height:0; }
 .reference-app .story-sec > h2 { font-size:22px; font-weight:700; padding:0 18px; margin-bottom:14px; }
 .reference-app .hscroll { display:flex; gap:14px; overflow-x:auto; padding:2px 18px 8px; scroll-snap-type:x mandatory; scrollbar-width:none; }
 .reference-app .hscroll::-webkit-scrollbar { display:none; }
+.reference-app .hscroll[tabindex="0"]:focus-visible { outline:3px solid #173F8A; outline-offset:-3px; }
 .reference-app .page-card { flex:none; width:82%; scroll-snap-align:center; background:#FFFDF6; border:1.5px solid #E7B98A; border-radius:16px; padding:18px; }
 .reference-app .page-card h3 { font-size:19px; color:var(--ink); }
 .reference-app .page-card h3 em { color:var(--orange-text); font-style:normal; }
@@ -466,7 +472,9 @@ body:has(.reference-app) { min-height:0; }
 .reference-app .thumbs img.active { outline:3px solid var(--green-mid); outline-offset:-3px; }
 .reference-app .spot-main { background:#fff; padding:2px 18px 20px; border-radius:0 0 18px 18px; }
 .reference-app .spot-main h1 { font-size:23px; }
-.reference-app .spot-main .lead { color:var(--ink-soft); font-size:13.5px; font-weight:400; margin-top:4px; }
+.reference-app [data-screen="result"] .res-card p,
+.reference-app .spot-main .lead { color:#797669; }
+.reference-app .spot-main .lead { font-size:13.5px; font-weight:400; margin-top:4px; }
 .reference-app .spot-tags { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
 .reference-app .spot-tags span { color:#fff; font-size:12.5px; font-weight:500; border-radius:99px; padding:6px 14px; }
 .reference-app .spot-main .desc { font-size:14px; line-height:2; margin-top:14px; }

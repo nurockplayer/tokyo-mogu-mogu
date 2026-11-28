@@ -173,7 +173,7 @@ export function StoryScreen({
 
         <section className="story-sec">
           <h2>{localized.storyTitle}</h2>
-          <div className="hscroll">
+          <div className="hscroll" role="region" aria-label={localized.storyTitle} tabIndex={active ? 0 : -1}>
             {journey.chapters[locale].map((chapter, index) => {
               const chapterNote = sourced(`journey.chapters.${locale}.${index}`);
               const pointNote = index === 0 && point && sourced(`story.point.${locale}`);

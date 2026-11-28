@@ -548,7 +548,7 @@ export function FoodProfileConversation({
             }
             return (
               <Fragment key={entry.id}>
-                <BotRow>{copy.profile.finalPrompt}</BotRow>
+                <BotRow><span className="profile-final-prompt">{copy.profile.finalPrompt}</span></BotRow>
                 <div className="choice-card">
                   {preferences}
                   <button className="btn orange glow" onClick={onRecommend} type="button">

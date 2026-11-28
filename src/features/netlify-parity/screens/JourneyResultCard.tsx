@@ -32,16 +32,6 @@ export function JourneyResultCard({
     <article
       className="res-card"
       data-journey-id={journey.id}
-      onClick={open}
-      onKeyDown={(event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          open();
-        }
-      }}
-      role="button"
-      tabIndex={active ? 0 : -1}
-      aria-label={`${copy.actions.openStory}: ${localized.title}`}
     >
       <div className="ph">
         <PresentationMedia assetId={journey.imageAssetId} locale={locale} />
@@ -51,7 +41,16 @@ export function JourneyResultCard({
         <div className="acc">
           <em>{location.station}</em> {location.access}
         </div>
-        <h3>{localized.title}</h3>
+        <h3>
+          <button
+            type="button"
+            tabIndex={active ? 0 : -1}
+            aria-label={`${copy.actions.openStory}: ${localized.title}`}
+            onClick={open}
+          >
+            {localized.title}
+          </button>
+        </h3>
         <h4>{localized.subtitle}</h4>
         {reason ? <p data-match-reason>{reason}</p> : null}
         <p>{localized.description}</p>

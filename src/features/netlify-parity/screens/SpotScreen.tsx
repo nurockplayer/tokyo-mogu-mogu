@@ -18,6 +18,11 @@ import {
 import { BackIcon, BookmarkIcon, ClockIcon, InformationIcon, TrainIcon } from './screenIcons';
 
 const tagColors = ['#8FAE5C', '#F0A24C', '#5D9BEF', '#F2879B', '#5E7239'];
+const tagForeground: Partial<Record<string, string>> = {
+  '#8FAE5C': '#333E21',
+  '#F0A24C': '#5E3F1E',
+  '#5D9BEF': '#1E324E',
+};
 
 const cautionHeading: Record<Locale, string> = {
   ja: 'ご注意',
@@ -152,7 +157,7 @@ export function SpotScreen({
           <div className="lead">{localized.lead}</div>
           <div className="spot-tags">
             {displayTags.map((tag) => (
-              <span key={tag.label} style={{ background: tag.color }}>
+              <span key={tag.label} style={{ background: tag.color, color: tagForeground[tag.color] }}>
                 {tag.label}
               </span>
             ))}

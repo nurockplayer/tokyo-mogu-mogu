@@ -1,3 +1,5 @@
+import './s4-1-walkthrough';
+
 import { expect, test, type BrowserContext, type Page } from '@playwright/test';
 import { execFile, execFileSync } from 'node:child_process';
 import { appendFile, copyFile, mkdtemp, rename, rm, symlink, writeFile } from 'node:fs/promises';
@@ -747,26 +749,27 @@ demoTest('opens canonical Spot information safely with the keyboard', async ({ p
   }
 });
 
-demoTest('keeps an unavailable official destination local with honest feedback in every locale', async ({ page, context }) => {
-  await stubRemoteFonts(context);
-  let unavailableSourceInjected = false;
-  // Exercise a missing/unsupported source in the internal bundle without a
-  // test-only runtime route or a guessed URL in canonical Product data.
-  await page.route('**/assets/*.js', async (route) => {
-    const response = await route.fetch();
-    const body = await response.text();
-    const source = 'https://www.okutama.gr.jp/site/';
-    unavailableSourceInjected ||= body.includes(source);
-    await route.fulfill({ response, body: body.replaceAll(source, 'unsupported:') });
-  });
-  for (const [locale, feedback] of [
-    ['ja', 'このスポットの公式最新情報リンクは現在用意されていません。'],
-    ['en', 'An official current-information link is not available for this spot yet.'],
-    ['zh-TW', '目前尚未提供此景點的官方最新資訊連結。'],
-  ]) {
-    await page.goto('/', { waitUntil: 'domcontentloaded' });
-    await page.evaluate((value) => localStorage.setItem('tmm:locale', value), locale);
+for (const [locale, feedback] of [
+  ['ja', 'このスポットの公式最新情報リンクは現在用意されていません。'],
+  ['en', 'An official current-information link is not available for this spot yet.'],
+  ['zh-TW', '目前尚未提供此景點的官方最新資訊連結。'],
+]) {
+  demoTest(`keeps an unavailable official destination local with honest feedback in ${locale}`, async ({ page, context }) => {
+    await page.addInitScript((value) => localStorage.setItem('tmm:locale', value), locale);
+    await stubRemoteFonts(context);
+    let unavailableSourceInjected = false;
+    // Exercise a missing/unsupported source in the internal bundle without a
+    // test-only runtime route or a guessed URL in canonical Product data.
+    await page.route('**/assets/*.js', async (route) => {
+      const response = await route.fetch();
+      const body = await response.text();
+      const source = 'https://www.okutama.gr.jp/site/';
+      unavailableSourceInjected ||= body.includes(source);
+      await route.fulfill({ response, body: body.replaceAll(source, 'unsupported:') });
+    });
+
     await page.goto('/spot/okutama-tourism-office', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('html')).toHaveAttribute('lang', locale);
     expect(unavailableSourceInjected).toBe(true);
     const guide = page.locator('[data-screen="spot"][data-screen-active="true"] .guide-box');
     await expect(guide.getByRole('link')).toHaveCount(0);
@@ -778,8 +781,8 @@ demoTest('keeps an unavailable official destination local with honest feedback i
     await expect(page).toHaveURL(/\/spot\/okutama-tourism-office$/);
     expect(page.context().pages()).toHaveLength(1);
     await expectNoHorizontalOverflow(page);
-  }
-});
+  });
+}
 
 const persistedFoodProfile = {
   dietary: [],
