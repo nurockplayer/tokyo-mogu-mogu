@@ -32,6 +32,10 @@ function publicCatalog(): Plugin {
       if (id.endsWith('/src/data/journey-records/index.ts')) {
         return `export const JOURNEY_RECORDS = ${JSON.stringify(records)};`;
       }
+      if (id.endsWith('/src/data/journey-withdrawals.ts')) {
+        // The build-time catalog above has already applied the private registry.
+        return 'export const journeyWithdrawals = {};';
+      }
       if (id.endsWith('/src/features/netlify-parity/factual-presentation.ts')) {
         return "export * from './public-factual-presentation';";
       }

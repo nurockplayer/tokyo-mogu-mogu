@@ -417,9 +417,9 @@ const releaseTest = test.extend<Record<never, never>, { rehearsal: string }>({
 
 releaseTest('S4-3 corrects, withdraws and rolls back on the same browser origin', async ({ page, rehearsal }, testInfo) => {
   test.setTimeout(240_000);
-  const previousRelease = '8b09eff134ace8dc58227a3ab0c5a189a80bf37e';
-  const gate = 'src/data/journey-admission.ts';
+  const previousRelease = '7fab3deac861cf0e976cd54c7acaa971c7e95df1';
   const registry = 'src/data/journey-withdrawals.ts';
+  const withdrawalFiles = ['src/data/journey-admission.ts', registry, 'vite.config.ts'];
   const run = promisify(execFile);
   const { record, defaultVariant } = admitted!;
   const variant = record.variants[defaultVariant!.id]!;
@@ -440,8 +440,12 @@ releaseTest('S4-3 corrects, withdraws and rolls back on the same browser origin'
   type Open = (path: string) => Promise<unknown>;
   let port = 0;
 
-  async function withCandidate(source: string, check: (open: Open) => Promise<void>) {
+  async function withCandidate(source: string, stage: 'correction' | 'withdrawal' | 'rollback', check: (open: Open) => Promise<void>) {
     await run('pnpm', ['build:bundle', '--logLevel', 'warn'], { cwd: source });
+    if (stage !== 'correction') {
+      const { stdout } = await run('pnpm', ['data:release-artifact'], { cwd: source });
+      await writeFile(testInfo.outputPath(`s4-3-${stage}-artifact.txt`), stdout);
+    }
     const server = await preview({ root: source, configFile: false, preview: { host: '127.0.0.1', port, strictPort: true } });
     try {
       const origin = new URL(server.resolvedUrls.local[0]);
@@ -488,12 +492,11 @@ releaseTest('S4-3 corrects, withdraws and rolls back on the same browser origin'
   await run('git', ['fetch', '--quiet', '--depth=1', '--no-tags', 'https://github.com/nurockplayer/tokyo-mogu-mogu.git', previousRelease], { cwd: candidate });
   await run('git', ['checkout', '--quiet', '--detach', previousRelease], { cwd: candidate });
   await run('pnpm', ['install', '--frozen-lockfile'], { cwd: candidate });
-  await copyFile(gate, join(candidate, gate));
-  await copyFile(registry, join(candidate, registry));
+  for (const file of withdrawalFiles) await copyFile(file, join(candidate, file));
   await appendFile(join(candidate, 'src/data/journey-records/index.ts'),
     `\nJOURNEY_RECORDS.find(({ journey }) => journey.id === ${JSON.stringify(record.journey.id)})!.variants[${JSON.stringify(defaultVariant!.id)}]!.arrival!.name = ${JSON.stringify(correctedName)};\n`);
 
-  await withCandidate(candidate, async (open) => {
+  await withCandidate(candidate, 'correction', async (open) => {
     await open(correctedRoute);
     await expect(arrivalName).toHaveText(correctedName.ja);
     await arrivalName.scrollIntoViewIfNeeded();
@@ -514,18 +517,17 @@ releaseTest('S4-3 corrects, withdraws and rolls back on the same browser origin'
     [withdrawn.id]: { recordedAt: '2026-11-27 22:00 JST', reason: 'S4-3 rehearsal' },
   })});\n`);
   await checkAdmissionReport(candidate, 'withdrawal');
-  await withCandidate(candidate, async (open) => {
+  await withCandidate(candidate, 'withdrawal', async (open) => {
     await open(correctedRoute);
     await expect(arrivalName).toHaveText(correctedName.ja);
     await checkWithdrawal(open, true);
   });
 
   await run('git', ['worktree', 'add', '--quiet', '--detach', rollback, previousRelease], { cwd: candidate });
-  await copyFile(join(candidate, gate), join(rollback, gate));
-  await copyFile(join(candidate, registry), join(rollback, registry));
+  for (const file of withdrawalFiles) await copyFile(join(candidate, file), join(rollback, file));
   await symlink(join(candidate, 'node_modules'), join(rollback, 'node_modules'), 'dir');
   await checkAdmissionReport(rollback, 'rollback');
-  await withCandidate(rollback, async (open) => {
+  await withCandidate(rollback, 'rollback', async (open) => {
     await open(correctedRoute);
     await expect(arrivalName).toHaveText(arrival.name.ja);
     await arrivalName.scrollIntoViewIfNeeded();
