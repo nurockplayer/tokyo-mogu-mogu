@@ -362,33 +362,32 @@ test('S1-4 makes an admitted Route unavailable when its primary action is invali
   await page.goto(path);
   await expect(activeScreen(page, 'route')).toBeVisible();
 
-  const outDir = await mkdtemp(join(tmpdir(), 'tmm-s1-invalid-action-'));
-  try {
-    await build({
-      logLevel: 'warn',
-      build: { outDir },
-      plugins: [{
-        name: 's1-test-invalid-visitor-action',
-        transform(_source, moduleId) {
-          if (moduleId.endsWith('/src/data/journey-records/index.ts')) {
-            return `export const JOURNEY_RECORDS = [${JSON.stringify(fixture)}];`;
-          }
-        },
-      }],
-    });
-    const server = await preview({ build: { outDir }, preview: { host: '127.0.0.1', port: 0 } });
-    try {
-      await page.goto(new URL(path, server.resolvedUrls.local[0]).href);
-      await expect(activeScreen(page, 'journey-unavailable').getByRole('heading'))
-        .toHaveText(strings.ja.journeyUnavailableTitle);
-      await expect(activeScreen(page, 'route')).toHaveCount(0);
-      await expectNoHorizontalOverflow(page);
-      await page.screenshot({ path: testInfo.outputPath('s1-4-invalid-primary-action-ja.png'), animations: 'disabled' });
-    } finally {
-      await server.close();
+  const visitorUrls = new Set(Object.keys(record.spots).flatMap((spotId) => {
+    const source = resolveJourneyVisitorSource(record, spotId, publicationDate);
+    return source ? [JSON.stringify(source.url)] : [];
+  }));
+  const replacedUrls = new Set<string>();
+  await page.route('**/assets/app-*.js', async (route) => {
+    const response = await route.fetch();
+    let body = await response.text();
+    for (const url of visitorUrls) {
+      if (body.includes(url)) {
+        body = body.replaceAll(url, JSON.stringify(fixture.sources[sourceId].url));
+        replacedUrls.add(url);
+      }
     }
+    await route.fulfill({ response, body });
+  });
+  try {
+    await page.reload();
+    expect(replacedUrls).toEqual(visitorUrls);
+    await expect(activeScreen(page, 'journey-unavailable').getByRole('heading'))
+      .toHaveText(strings.ja.journeyUnavailableTitle);
+    await expect(activeScreen(page, 'route')).toHaveCount(0);
+    await expectNoHorizontalOverflow(page);
+    await page.screenshot({ path: testInfo.outputPath('s1-4-invalid-primary-action-ja.png'), animations: 'disabled' });
   } finally {
-    await rm(outDir, { recursive: true });
+    await page.unroute('**/assets/app-*.js');
   }
 });
 
