@@ -96,7 +96,8 @@ export function ResultScreen({
           />
         ))}
       </div>
-      <div className="progress result-progress" aria-label="5 / 5">
+      <div className="progress result-progress" role="progressbar" aria-label={copy.exploration.title}
+        aria-valuemin={0} aria-valuemax={5} aria-valuenow={5}>
         <div className="rail">
           {[0, 1, 2, 3, 4].map((index) => <i className="dot" key={index} />)}
         </div>

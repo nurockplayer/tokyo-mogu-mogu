@@ -173,13 +173,18 @@ test.describe('S4-1 built candidate', () => {
         await expect(reason).toContainText(municipality.names[locale]);
         await expect(reason).toContainText(String(deadline));
         await capture('result', result, reason);
-        await activate(page, card);
+        const openStory = card.getByRole('button', { name: journey.copy[locale].title });
+        await activate(page, openStory);
 
         await expect(page).toHaveURL(`/story/${journey.storyId}`);
         const story = screen(page, 'story');
         const viewRouteName = { ja: 'この食旅のルートを見る', en: 'View this route', 'zh-TW': '查看這趟美食之旅的路線' };
         const viewRoute = story.getByRole('button', { name: viewRouteName[locale] });
         await capture('story', story, story.locator('.page-card').first());
+        const chapters = story.getByRole('region', { name: journey.copy[locale].storyTitle });
+        await tabTo(page, chapters);
+        await page.keyboard.press('ArrowRight');
+        await expect.poll(() => chapters.evaluate((element) => element.scrollLeft)).toBeGreaterThan(0);
         await activate(page, viewRoute);
 
         await expect(page).toHaveURL(`/route?candidateId=${journey.id}`);
@@ -265,5 +270,10 @@ test.describe('S4-1 built candidate', () => {
     await capture('missing-action');
     await spot.getByRole('button', { name: '戻る' }).click();
     await expect(page).toHaveURL(optionalRoute);
+    await writeFile(info.outputPath('s4-1-recovery.json'), JSON.stringify({
+      route: `/route?candidateId=${id}`,
+      wrongSpot: `/spot/s4-1-nonexistent-spot?candidateId=${id}`,
+      optionalSpot: `/spot/${optional.optionalSpotId}?candidateId=${optional.record.journey.id}`,
+    }, null, 2));
   });
 });
