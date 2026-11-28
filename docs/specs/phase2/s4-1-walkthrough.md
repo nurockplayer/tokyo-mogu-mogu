@@ -1,6 +1,6 @@
 # S4-1 release candidate walkthrough
 
-Lead sign-off is pending in [acceptance.md](acceptance.md). Screenshots were captured on the built Vite preview in the 2026-11-28 14:43 JST run. Start a current built preview with `pnpm build && pnpm preview`. The S4-1 Playwright cases run through `e2e/current-mvp-smoke.spec.ts` and choose the trips from `pnpm data:journey-admission --json`.
+Lead sign-off is pending in [acceptance.md](acceptance.md). Screenshots were captured on the built Vite preview in the 2026-11-28 18:23 JST run. Start a current built preview with `pnpm build && pnpm preview`. The S4-1 Playwright cases run through `e2e/current-mvp-smoke.spec.ts` and choose the trips from `pnpm data:journey-admission --json`.
 
 ## Lead checklist
 
@@ -22,13 +22,16 @@ Start at `/food-profile`. Choose the locale, complete Food Profile, set the area
 - [ ] Open `/route?candidateId=s4-1-nonexistent-journey` and `/spot/s4-1-nonexistent-spot?candidateId=demo-ome-sake`. Check the unavailable message and return to MOGU from each. [Wrong journey](evidence/s4/s4-1-wrong-journey.png) · [Wrong Spot](evidence/s4/s4-1-wrong-spot.png)
 - [ ] Open `/spot/sawanoien-garden?candidateId=demo-ome-sake`. Check that it shows guidance without a dead action and returns to its route. [Missing optional action](evidence/s4/s4-1-missing-action.png)
 
-## Defects to verify
+## Automated evidence
 
-The second run cleared the Result accessible-name and progress violations and the Story keyboard-scroll violation. All six runs reached their official handoff. Axe still reported serious `color-contrast` violations at both widths. To reproduce, follow a sample above on the built preview and scan these surfaces.
+All six locale and viewport walkthroughs passed with keyboard input, reduced motion, no horizontal overflow, and zero serious or critical axe findings. The recovery test passed for blocked writes, wrong IDs and the missing optional action.
 
-| Surface | Reproduction |
-| --- | --- |
-| Food Profile | Answer the four questions and scan the summary bubble and its summary box (`.profile-box`). |
-| Result | Apply the sample's area and time. Scan the sample card's match reason, description and source retrieval note (`.res-card .tx p`). |
-| Spot content | Open the sample's primary Spot and scan the introductory text and colored tags (`.lead` and `.spot-tags`). |
-| Spot dock | On the same Spot, scan the inactive Explore, Favorites and My labels. |
+Result now exposes a named button and progress bar. Story chapters can receive focus and scroll with the arrow keys. The Food Profile summary and final prompt, Result descriptions and source notes, and Spot lead, tags and inactive dock labels use revised foreground colors.
+
+| Contrast comparison at 375px | Before | After |
+| --- | --- | --- |
+| Food Profile | [Before](evidence/s4/s4-1-ja-375-profile-before.png) | [After](evidence/s4/s4-1-ja-375-profile.png) |
+| Result | [Before](evidence/s4/s4-1-ja-375-result-before.png) | [After](evidence/s4/s4-1-ja-375-result.png) |
+| Spot | [Before](evidence/s4/s4-1-ja-375-spot-before.png) | [After](evidence/s4/s4-1-ja-375-spot.png) |
+
+- [ ] Compare the contrast-only foreground changes against live KiKi Figma when the bridge is available.
