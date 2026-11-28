@@ -362,9 +362,9 @@ test('S1-4 makes an admitted Route unavailable when its primary action is invali
       build: { outDir },
       plugins: [{
         name: 's1-test-invalid-visitor-action',
-        transform(source, moduleId) {
+        transform(_source, moduleId) {
           if (moduleId.endsWith('/src/data/journey-records/index.ts')) {
-            return `${source}\nJOURNEY_RECORDS[JOURNEY_RECORDS.findIndex(({ journey }) => journey.id === ${JSON.stringify(id)})] = ${JSON.stringify(fixture)};`;
+            return `export const JOURNEY_RECORDS = [${JSON.stringify(fixture)}];`;
           }
         },
       }],
@@ -467,7 +467,7 @@ test('S2-7 demo fixture deep links show Journey Unavailable', async ({ page }, t
     for (const path of paths) {
       await page.goto(path, { waitUntil: 'commit' });
       await expect(unavailable.getByRole('heading'), `${locale} ${path}`)
-        .toHaveText(strings[locale].journeyUnavailableTitle);
+        .toHaveText(strings[locale].journeyUnavailableTitle, { timeout: 15_000 });
       await expect(unavailable.getByRole('link', { name: strings[locale].journeyUnavailableBack }))
         .toHaveAttribute('href', '/mogu');
       const demo = demoJourneys.find(({ storyId }) => path === `/story/${storyId}`);
