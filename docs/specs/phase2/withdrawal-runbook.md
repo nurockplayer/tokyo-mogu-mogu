@@ -13,3 +13,11 @@ tachi-run --image tachi-run-playwright --out test-results -- sh -ec 'pnpm exec p
 ```
 
 The smoke case uses two admitted records at a fixed evidence date. Temporary build overrides change the first Route's arrival label, then withdraw the second journey after saving it in the app. The rollback build restores the arrival label and reuses the active withdrawal. The same browser origin retains the save across all three builds. Playwright checks MOGU, the Story URL, both Route URL forms, the journey's Spot links, and Favorites after withdrawal and rollback.
+
+The 375px Japanese run passed on 2026-11-28 at 09:14 JST.
+
+- [Corrected arrival](evidence/s4/s4-3-correction-ja.png)
+- [MOGU after withdrawal](evidence/s4/s4-3-withdrawal-mogu-ja.png)
+- [Withdrawn link](evidence/s4/s4-3-withdrawal-link-ja.png)
+- [Existing save after withdrawal](evidence/s4/s4-3-withdrawal-save-ja.png)
+- [Original arrival after rollback](evidence/s4/s4-3-rollback-ja.png)
