@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type BrowserContext, type Page } from '@playwright/test';
 import { execFileSync } from 'node:child_process';
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -15,7 +15,11 @@ const demoTest = test.extend({
   baseURL: `http://127.0.0.1:${Number(process.env.PLAYWRIGHT_PORT ?? '4173') + 1}`,
 });
 
-async function stubRemoteFonts(page: Page) {
+function stubRemoteFonts(context: BrowserContext) {
+  return context.route(/^https:\/\/fonts\.(?:googleapis|gstatic)\.com\//, (route) => route.abort());
+}
+
+async function blockRemoteFonts(page: Page) {
   // Playwright routing disables the HTTP cache for every request in the context.
   const session = await page.context().newCDPSession(page);
   await session.send('Network.setBlockedURLs', {
@@ -247,8 +251,8 @@ for (const [locale, viewRoute, unavailable, backToMogu] of [
     }
   });
 
-  test(`S2-6 follows representative admitted trips in ${locale}`, async ({ page }, testInfo) => {
-    await stubRemoteFonts(page);
+  test(`S2-6 follows representative admitted trips in ${locale}`, async ({ page, context }, testInfo) => {
+    await stubRemoteFonts(context);
     expect([...representativeJourneys.keys()].sort()).toEqual(
       [...new Set(MUNICIPALITIES.map(({ group }) => group))].sort(),
     );
@@ -392,9 +396,9 @@ function journeyDeepLinks(journey: JourneyPresentation, record?: (typeof JOURNEY
   ];
 }
 
-test('S2-7 reconciles MOGU and published links with the admission command', async ({ page }, testInfo) => {
+test('S2-7 reconciles MOGU and published links with the admission command', async ({ page, context }, testInfo) => {
   test.setTimeout(180_000);
-  await stubRemoteFonts(page);
+  await stubRemoteFonts(context);
   const now = new Date();
   const report = execFileSync('pnpm', ['data:journey-admission'], { encoding: 'utf8' });
   const statuses = new Map(Array.from(report.matchAll(/^(\S+) (admitted|excluded)(?: — .*)?$/gm),
@@ -438,7 +442,7 @@ test('S2-7 reconciles MOGU and published links with the admission command', asyn
 
 test('S2-7 demo fixture deep links show Journey Unavailable', async ({ page }, testInfo) => {
   test.setTimeout(180_000);
-  await stubRemoteFonts(page);
+  await blockRemoteFonts(page);
   const loader = await createServer({
     configFile: false,
     server: { middlewareMode: true, watch: null, ws: false },
@@ -545,6 +549,8 @@ test('#442 gives an expired optional Spot guidance and a way back', async ({ pag
 });
 
 demoTest('opens canonical Spot information safely with the keyboard', async ({ page, context }) => {
+  test.setTimeout(90_000);
+  await stubRemoteFonts(context);
   const destinations = [
     ['okutama-tourism-office', 'https://www.okutama.gr.jp/site/'],
     ['wasabi-kitchen', 'https://tokyowasabi.com/category/information/'],
@@ -574,8 +580,8 @@ demoTest('opens canonical Spot information safely with the keyboard', async ({ p
   }
 });
 
-demoTest('keeps an unavailable official destination local with honest feedback in every locale', async ({ page }) => {
-  await stubRemoteFonts(page);
+demoTest('keeps an unavailable official destination local with honest feedback in every locale', async ({ page, context }) => {
+  await stubRemoteFonts(context);
   let unavailableSourceInjected = false;
   // Exercise a missing/unsupported source in the internal bundle without a
   // test-only runtime route or a guessed URL in canonical Product data.
@@ -765,7 +771,8 @@ async function findJourneysFromProfile(page: Page, profile: Awaited<ReturnType<t
 }
 
 test('#443 applies two Food Profiles, explains empty results and clears filters', async ({ page }, testInfo) => {
-  test.setTimeout(60_000);
+  test.setTimeout(120_000);
+  await blockRemoteFonts(page);
   await page.clock.setFixedTime(publicationDate);
   const screenshot = (name: string) => page.screenshot({ path: testInfo.outputPath(`${name}.png`), animations: 'disabled' });
   const result = page.locator('[data-screen="result"][data-screen-active="true"]');
@@ -954,7 +961,7 @@ test('#443 skips Food Profile to browse the admitted catalog', async ({ page }, 
 
 test('#443 offers a sourced Route alternative and #465 hides a journey with no usable stop', async ({ page }, testInfo) => {
   test.setTimeout(90_000);
-  await stubRemoteFonts(page);
+  await blockRemoteFonts(page);
   const now = new Date('2026-11-28T03:00:00Z');
   const unavailableStops = JOURNEY_RECORDS.flatMap((record) => {
     const { defaultVariant } = checkJourneyAdmission(record, now);
