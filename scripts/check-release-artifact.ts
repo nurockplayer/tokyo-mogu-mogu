@@ -58,7 +58,7 @@ function hash(content: Buffer | string) {
 }
 
 function svgHash(svg: string) {
-  return hash(svg.trim().replace(/\s+/g, ' ').replace(/"/g, "'"));
+  return hash(normalize(svg).trim().replace(/\s+/g, ' ').replace(/>\s+</g, '><').replace(/"/g, "'"));
 }
 
 const dist = resolve(process.argv[2] ?? 'dist');
@@ -114,12 +114,16 @@ const deniedIds = new Set([
 ].filter((id) => !admittedAliases.has(id) && !admittedSpots.has(id)));
 const deniedText = new Set(strings([excluded, demoJourneys, demoSpots, demoData])
   .map(normalize).filter((value) => value.length >= 12 && /\s|\P{ASCII}/u.test(value) && !shared.has(value)));
-function markerPattern(markers: Set<string>) {
+function markerPattern(markers: Set<string>, quoted = false) {
   const alternatives = [...markers].sort((a, b) => b.length - a.length).map(escapeRegex);
-  return new RegExp(`(?<![\\p{L}\\p{N}_-])(?:${alternatives.join('|') || '(?!)'})(?![\\p{L}\\p{N}_-])`, 'gu');
+  const pattern = alternatives.join('|') || '(?!)';
+  return quoted
+    ? new RegExp(`(["'\`])(?:${pattern})\\1`, 'gu')
+    : new RegExp(`(?<![\\p{L}\\p{N}_-])(?:${pattern})(?![\\p{L}\\p{N}_-])`, 'gu');
 }
 const identityPattern = markerPattern(deniedIds);
 const copyPattern = markerPattern(deniedText);
+const quotedCopyPattern = markerPattern(deniedText, true);
 
 // Shell illustrations and branding are independent of journey admission.
 const shell: ReferenceAssetId[] = [
@@ -137,6 +141,7 @@ for (const record of admitted) {
 const images = /\.(?:png|jpe?g|webp|svg|gif|avif|ico)$/i;
 const imageSources = [
   ...[...approvedAssets].map((id) => resolve('src/features/netlify-parity', referenceAssetFiles[id])),
+  ...files('node_modules/leaflet/dist/images').filter((path) => images.test(path)),
   ...files('src/assets/figma-296').filter((path) => images.test(path) && !/badge-(?:earned|store-card)\.png$/.test(path)),
   ...files('src/assets/figma-360').filter((path) => images.test(path) && !path.endsWith('/badge-yamame.png')),
   ...files('src/assets/figma').filter((path) => images.test(path) && !/(?:result-|story-hero)/.test(path)),
@@ -146,6 +151,7 @@ const approvedSvg = new Set(imageSources.filter((path) => path.endsWith('.svg'))
   .map((path) => svgHash(readFileSync(path, 'utf8'))));
 
 const found = new Set<string>();
+const leakedIds = new Set<string>();
 const findings = new Map<string, string[]>();
 function flag(kind: string, path: string, detail = '') {
   const entries = findings.get(kind) ?? [];
@@ -168,20 +174,29 @@ for (const file of artifactFiles) {
   const body = normalize(raw);
   const contents = normalize(path) + '\n' + body;
   const ids = [...new Set(contents.match(identityPattern) ?? [])];
-  const copy = [...new Set(contents.match(copyPattern) ?? [])];
+  for (const id of ids) leakedIds.add(id);
+  const quoted = /\.(?:[cm]?js|json)$/i.test(path);
+  const copy = [...new Set(quoted
+    ? (body.match(quotedCopyPattern) ?? []).map((value) => value.slice(1, -1))
+    : contents.match(copyPattern) ?? [])];
   if (ids.length) flag('Excluded or demo identities', path, ids.slice(0, 8).join(', '));
   if (copy.length) flag('Excluded or demo text', path, `${copy.length} strings, e.g. ${JSON.stringify(copy[0].slice(0, 100))}`);
   if (!textual) continue;
   for (const [, token] of body.matchAll(/["'`]([a-z0-9-]+)["'`]/g)) {
     if (admittedIds.has(token)) found.add(token);
   }
-  for (const [, route, id] of (path + '\n' + body).matchAll(/\/(story|spot)\/([a-z0-9-]+)/g)) {
+  const links = path.endsWith('.xml') ? body.replace(/(<loc>\s*)https?:\/\/[^/]+/g, '$1') : body;
+  for (const [, route, id] of (`/${path}\n${links}`).matchAll(/(?:^|[\s"'`>])\/(story|spot)\/([a-z0-9-]+)/g)) {
     if (!(route === 'story' ? admittedStories : admittedSpots).has(id)) {
       flag('Alias outside admission', path, `/${route}/${id}`);
     }
   }
-  for (const [, id] of body.matchAll(/[?&](?:candidateId|routeId|resultId)=([a-z0-9-]+)/g)) {
-    if (!admittedAliases.has(id)) flag('Alias outside admission', path, id);
+  for (const [, query] of links.matchAll(/(?:^|[\s"'`>])\/(?:route|story|spot)(?:\/[a-z0-9-]+)?\?([^\s"'`<>,)]+)/g)) {
+    for (const key of ['candidateId', 'routeId', 'resultId']) {
+      for (const id of new URLSearchParams(query).getAll(key)) {
+        if (!admittedAliases.has(id)) flag('Alias outside admission', path, id);
+      }
+    }
   }
   for (const [, key, id] of body.matchAll(/\b(storyId|routeId|foodCultureId|spotId)["']?\s*:\s*["']([a-z0-9-]+)["']/g)) {
     if (!(key === 'spotId' ? admittedSpots : admittedAliases).has(id)) {
@@ -192,7 +207,7 @@ for (const file of artifactFiles) {
     if (!approvedImages.has(hash(Buffer.from(base64, 'base64')))) flag('Unapproved inline image', path);
   }
   for (const [, , svg] of raw.matchAll(/(["'`])data:image\/svg\+xml,([^\n]*?)\1/g)) {
-    if (!approvedSvg.has(svgHash(normalize(svg)))) flag('Unapproved inline SVG', path);
+    if (!approvedSvg.has(svgHash(svg))) flag('Unapproved inline SVG', path);
   }
 }
 for (const id of admittedIds) {
@@ -214,6 +229,8 @@ function coverage(key: (record: JourneyRecord) => string) {
 const municipalities = coverage(({ municipalityId }) => municipalityId);
 const cultures = coverage(({ journey }) => journey.foodCultureId);
 console.log(`Admission: ${admitted.length}/${JOURNEY_RECORDS.length}; IDs found in artifact: ${found.size}.`);
+const excludedIds = [...excluded.map(({ journey }) => journey.id), ...demoJourneys.map(({ id }) => id)];
+console.log(`Excluded journey IDs found: ${excludedIds.filter((id) => leakedIds.has(id)).join(', ') || 'none'}.`);
 console.log('Municipality coverage (admitted/reviewed):');
 console.log(MUNICIPALITIES.map(({ id }) => {
   const count = municipalities.get(id);
