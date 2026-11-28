@@ -1,4 +1,4 @@
-import { expect, test, type BrowserContext, type Page } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 import { execFileSync } from 'node:child_process';
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -15,8 +15,12 @@ const demoTest = test.extend({
   baseURL: `http://127.0.0.1:${Number(process.env.PLAYWRIGHT_PORT ?? '4173') + 1}`,
 });
 
-function stubRemoteFonts(context: BrowserContext) {
-  return context.route(/^https:\/\/fonts\.(?:googleapis|gstatic)\.com\//, (route) => route.abort());
+async function stubRemoteFonts(page: Page) {
+  // Playwright routing disables the HTTP cache for every request in the context.
+  const session = await page.context().newCDPSession(page);
+  await session.send('Network.setBlockedURLs', {
+    urls: ['https://fonts.googleapis.com/*', 'https://fonts.gstatic.com/*'],
+  });
 }
 
 const publicationDate = new Date('2026-11-27T13:00:00Z');
@@ -243,8 +247,8 @@ for (const [locale, viewRoute, unavailable, backToMogu] of [
     }
   });
 
-  test(`S2-6 follows representative admitted trips in ${locale}`, async ({ page, context }, testInfo) => {
-    await stubRemoteFonts(context);
+  test(`S2-6 follows representative admitted trips in ${locale}`, async ({ page }, testInfo) => {
+    await stubRemoteFonts(page);
     expect([...representativeJourneys.keys()].sort()).toEqual(
       [...new Set(MUNICIPALITIES.map(({ group }) => group))].sort(),
     );
@@ -388,9 +392,9 @@ function journeyDeepLinks(journey: JourneyPresentation, record?: (typeof JOURNEY
   ];
 }
 
-test('S2-7 reconciles MOGU and published links with the admission command', async ({ page, context }, testInfo) => {
+test('S2-7 reconciles MOGU and published links with the admission command', async ({ page }, testInfo) => {
   test.setTimeout(180_000);
-  await stubRemoteFonts(context);
+  await stubRemoteFonts(page);
   const now = new Date();
   const report = execFileSync('pnpm', ['data:journey-admission'], { encoding: 'utf8' });
   const statuses = new Map(Array.from(report.matchAll(/^(\S+) (admitted|excluded)(?: — .*)?$/gm),
@@ -432,9 +436,9 @@ test('S2-7 reconciles MOGU and published links with the admission command', asyn
   console.log(`S2-7 checked ${admittedIds.length} admitted Stories and ${statuses.size - admittedIds.length} excluded journeys.`);
 });
 
-test('S2-7 demo fixture deep links show Journey Unavailable', async ({ page, context }, testInfo) => {
+test('S2-7 demo fixture deep links show Journey Unavailable', async ({ page }, testInfo) => {
   test.setTimeout(180_000);
-  await stubRemoteFonts(context);
+  await stubRemoteFonts(page);
   const loader = await createServer({
     configFile: false,
     server: { middlewareMode: true, watch: null, ws: false },
@@ -457,7 +461,7 @@ test('S2-7 demo fixture deep links show Journey Unavailable', async ({ page, con
   for (const locale of ['ja', 'en', 'zh-TW'] as const) {
     await page.evaluate((value) => localStorage.setItem('tmm:locale', value), locale);
     for (const path of paths) {
-      await page.goto(path, { waitUntil: 'domcontentloaded' });
+      await page.goto(path, { waitUntil: 'commit' });
       await expect(unavailable.getByRole('heading'), `${locale} ${path}`)
         .toHaveText(strings[locale].journeyUnavailableTitle);
       await expect(unavailable.getByRole('link', { name: strings[locale].journeyUnavailableBack }))
@@ -570,8 +574,8 @@ demoTest('opens canonical Spot information safely with the keyboard', async ({ p
   }
 });
 
-demoTest('keeps an unavailable official destination local with honest feedback in every locale', async ({ page, context }) => {
-  await stubRemoteFonts(context);
+demoTest('keeps an unavailable official destination local with honest feedback in every locale', async ({ page }) => {
+  await stubRemoteFonts(page);
   let unavailableSourceInjected = false;
   // Exercise a missing/unsupported source in the internal bundle without a
   // test-only runtime route or a guessed URL in canonical Product data.
@@ -949,6 +953,8 @@ test('#443 skips Food Profile to browse the admitted catalog', async ({ page }, 
 });
 
 test('#443 offers a sourced Route alternative and #465 hides a journey with no usable stop', async ({ page }, testInfo) => {
+  test.setTimeout(90_000);
+  await stubRemoteFonts(page);
   const now = new Date('2026-11-28T03:00:00Z');
   const unavailableStops = JOURNEY_RECORDS.flatMap((record) => {
     const { defaultVariant } = checkJourneyAdmission(record, now);
@@ -1000,7 +1006,7 @@ test('#443 offers a sourced Route alternative and #465 hides a journey with no u
     await expect(mogu.locator(`[data-journey-id="${record.journey.id}"]`)).toBeVisible();
     await expect(mogu.locator(`[data-journey-id="${missingId}"]`)).toHaveCount(0);
     for (const path of [`/story/${missingStoryId}`, `/route?candidateId=${missingId}`, `/spot/${missingSpotId}?candidateId=${missingId}`]) {
-      await page.goto(path);
+      await page.goto(path, { waitUntil: 'commit' });
       await expect(unavailableScreen).toBeVisible();
     }
   }
