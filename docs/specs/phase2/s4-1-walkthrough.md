@@ -22,6 +22,14 @@ Start at `/food-profile`. Choose the locale, complete Food Profile, set the area
 - [ ] Open `/route?candidateId=s4-1-nonexistent-journey` and `/spot/s4-1-nonexistent-spot?candidateId=demo-ome-sake`. Check the unavailable message and return to MOGU from each. [Wrong journey](evidence/s4/s4-1-wrong-journey.png) · [Wrong Spot](evidence/s4/s4-1-wrong-spot.png)
 - [ ] Open `/spot/sawanoien-garden?candidateId=demo-ome-sake`. Check that it shows guidance without a dead action and returns to its route. [Missing optional action](evidence/s4/s4-1-missing-action.png)
 
+## VoiceOver attempt
+
+On 2026-11-28 at 20:38 JST, the build from `f62eddc` was running in a private Brave window on macOS 27.2.1. System output was muted. Accessibility settings confirmed VoiceOver was on after the app-targeted Command-F5 left it off. VoiceOver Utility showed that the caption panel was enabled.
+
+At `/food-profile` in Japanese, Tab focused 「はじめる！」. Computer Use sent `sky.press_key({app: 'com.brave.Browser', key: 'ctrl+alt+space'})`. The Start button retained focus and the nickname dialog did not open. The [Brave capture](evidence/s4/s4-1-voiceover-blocked.png) shows the page at that step. The separate caption window was unavailable through the app capture. `sky.get_app_state({app: 'com.apple.VoiceOver'})` returned `Computer Use server error -10005: timeoutReached`. The display capture command `/usr/sbin/screencapture -x -m /tmp/s4-1-voiceover-display.png` exited 1 with `could not create image from display`.
+
+VoiceOver wording and active voices remain unverified for ja, en and zh-TW. Rerun all three trips above in a macOS session that can send VoiceOver commands and capture the caption panel. The attempted control sequence did not establish a product defect.
+
 ## Automated evidence
 
 All six locale and viewport walkthroughs passed with keyboard input, reduced motion, no horizontal overflow, and zero serious or critical axe findings. The recovery test passed for blocked writes, wrong IDs and the missing optional action.
