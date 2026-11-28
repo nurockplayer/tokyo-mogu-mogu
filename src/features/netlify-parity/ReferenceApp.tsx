@@ -334,7 +334,7 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
           journey={shownJourney}
           record={publicationRecord}
           key={shownJourney.id}
-          initialVariantId={journeyLocation.status === 'resolved' ? journeyLocation.variantId : undefined}
+          variantId={journeyLocation.status === 'resolved' ? journeyLocation.variantId : undefined}
           saved={routeSaved}
           onBack={() => {
             navigate(
@@ -346,6 +346,11 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
             );
           }}
           onShare={(variant) => shareCurrentRoute(shownJourney, variant)}
+          onSelectVariant={(variantId) => {
+            const params = new URLSearchParams(location.search);
+            params.set('variant', variantId);
+            navigate({ search: `?${params.toString()}` }, { replace: true });
+          }}
           onRegenerate={() => setToast(locale === 'ja' ? 'ルートを再生成しました！' : locale === 'zh-TW' ? '已重新建立路線！' : 'Route regenerated!')}
           onOpenSpot={openSpot}
           onSaveRoute={() => persistCurrentRoute(shownJourney)}

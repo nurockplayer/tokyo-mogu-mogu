@@ -76,11 +76,12 @@ export interface RouteScreenProps {
   locale: Locale;
   journey: JourneyPresentation;
   record?: JourneyRecord;
-  initialVariantId?: RouteVariantId;
+  variantId?: RouteVariantId;
   saved?: boolean;
   completedMissionSpotIds?: readonly string[];
   onBack: () => void;
   onShare: (variant: RouteVariant) => Promise<string | undefined>;
+  onSelectVariant: (variantId: RouteVariantId) => void;
   onRegenerate?: (journey: JourneyPresentation, variant: RouteVariant) => void;
   onOpenSpot: (spot: SpotPresentation) => void;
   onSaveRoute: (journey: JourneyPresentation) => void;
@@ -93,17 +94,17 @@ export function RouteScreen({
   locale,
   journey,
   record,
-  initialVariantId = 'half-day',
+  variantId = 'half-day',
   saved = false,
   completedMissionSpotIds = [],
   onBack,
   onShare,
+  onSelectVariant,
   onRegenerate,
   onOpenSpot,
   onSaveRoute,
   onViewSavedRoutes,
 }: RouteScreenProps) {
-  const [variantId, setVariantId] = useState(initialVariantId);
   const [shareLink, setShareLink] = useState<string>();
   const shareDialogRef = useRef<HTMLDialogElement>(null);
   const [regenerating, setRegenerating] = useState(false);
@@ -136,10 +137,6 @@ export function RouteScreen({
     `variants.${variant.id}.stats.${locale}`,
     `variants.${variant.id}.guidance.${locale}`,
   );
-
-  useEffect(() => {
-    if (active) setVariantId(initialVariantId);
-  }, [active, initialVariantId]);
 
   useEffect(() => {
     if (active && shareLink) shareDialogRef.current!.showModal();
@@ -200,7 +197,7 @@ export function RouteScreen({
           <button
             className={candidate.id === variant.id ? 'on' : undefined}
             key={candidate.id}
-            onClick={() => setVariantId(candidate.id)}
+            onClick={() => onSelectVariant(candidate.id)}
             type="button"
             aria-pressed={candidate.id === variant.id}
           >
