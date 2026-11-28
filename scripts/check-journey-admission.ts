@@ -13,8 +13,6 @@ if (process.argv.includes('--json')) {
 
 let admittedCount = 0;
 for (const { id, admitted, storyFailures, variants } of decisions) {
-for (const record of JOURNEY_RECORDS) {
-  const { admitted, storyFailures, variants } = checkJourneyAdmission(record);
   if (admitted) admittedCount++;
   const reasons = [
     ...storyFailures,
