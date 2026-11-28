@@ -1,6 +1,7 @@
 # Phase 2 acceptance
 
 **33 / 37 passed**
+**31 / 37 passed**
 
 | ID | Stage / issue | Case | How to check | Status | Evidence link |
 | --- | --- | --- | --- | --- | --- |
