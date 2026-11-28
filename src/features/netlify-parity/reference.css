@@ -216,6 +216,7 @@ body:has(.reference-app) { min-height:0; }
 }
 .reference-app .profile-name-sentence span { flex:none; color:var(--green); font-size:16px; font-weight:700; padding:0 18px 0 2px; }
 .reference-app .profile-input-card > .btn { width:100%; min-height:55px; border-radius:10px; font-weight:700; }
+.reference-app .bubble:has(> .profile-box) { color:#3C4826; }
 .reference-app .profile-box { background:rgba(255,255,255,.16); border-radius:12px; padding:12px; margin-top:12px; font-size:13.5px; line-height:1.9; }
 
 /* ============ home ============ */
@@ -249,6 +250,7 @@ body:has(.reference-app) { min-height:0; }
 .reference-app .tabbar button svg { width:24px; height:24px; stroke:#CEE3A8; fill:none; stroke-width:3; }
 .reference-app .tabbar button.on { color:#667A48; }
 .reference-app .tabbar button.on svg { stroke:#667A48; }
+.reference-app [data-screen="spot"] .tabbar button:not(.on) > span { color:#6F7A5B; }
 
 /* ============ wizard ============ */
 .reference-screen[data-screen="explore"],
@@ -469,7 +471,9 @@ body:has(.reference-app) { min-height:0; }
 .reference-app .thumbs img.active { outline:3px solid var(--green-mid); outline-offset:-3px; }
 .reference-app .spot-main { background:#fff; padding:2px 18px 20px; border-radius:0 0 18px 18px; }
 .reference-app .spot-main h1 { font-size:23px; }
-.reference-app .spot-main .lead { color:var(--ink-soft); font-size:13.5px; font-weight:400; margin-top:4px; }
+.reference-app [data-screen="result"] .res-card p,
+.reference-app .spot-main .lead { color:#797669; }
+.reference-app .spot-main .lead { font-size:13.5px; font-weight:400; margin-top:4px; }
 .reference-app .spot-tags { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
 .reference-app .spot-tags span { color:#fff; font-size:12.5px; font-weight:500; border-radius:99px; padding:6px 14px; }
 .reference-app .spot-main .desc { font-size:14px; line-height:2; margin-top:14px; }
