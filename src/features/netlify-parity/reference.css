@@ -216,7 +216,8 @@ body:has(.reference-app) { min-height:0; }
 }
 .reference-app .profile-name-sentence span { flex:none; color:var(--green); font-size:16px; font-weight:700; padding:0 18px 0 2px; }
 .reference-app .profile-input-card > .btn { width:100%; min-height:55px; border-radius:10px; font-weight:700; }
-.reference-app .bubble:has(> .profile-box) { color:#3C4826; }
+.reference-app .bubble:has(> .profile-box),
+.reference-app .profile-final-prompt { color:#3C4826; }
 .reference-app .profile-box { background:rgba(255,255,255,.16); border-radius:12px; padding:12px; margin-top:12px; font-size:13.5px; line-height:1.9; }
 
 /* ============ home ============ */
