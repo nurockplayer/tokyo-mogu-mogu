@@ -13,8 +13,11 @@ if (process.argv.includes('--json')) {
 
 let admittedCount = 0;
 for (const { id, admitted, storyFailures, variants } of decisions) {
+for (const record of JOURNEY_RECORDS) {
+  const { admitted, withdrawn, storyFailures, variants } = checkJourneyAdmission(record);
   if (admitted) admittedCount++;
   const reasons = [
+    ...(withdrawn ? ['withdrawn'] : []),
     ...storyFailures,
     ...variants.filter(({ failures }) => failures.length).map(({ id, failures }) => `${id}: ${failures.join(', ')}`),
     ...(variants.length ? [] : ['missing route variant']),

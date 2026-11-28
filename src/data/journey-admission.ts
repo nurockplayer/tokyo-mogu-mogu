@@ -1,4 +1,5 @@
 import { findFact, selectRouteStop, type JourneyRecord } from './journey-record';
+import { journeyWithdrawals } from './journey-withdrawals';
 import type { DataSource } from './model';
 
 const locales = ['ja', 'en', 'zh-TW'] as const;
@@ -51,6 +52,7 @@ export function resolveJourneyVisitorSource(record: JourneyRecord, spotId: strin
 }
 
 export function checkJourneyAdmission(record: JourneyRecord, now = new Date()) {
+  const withdrawn = Object.hasOwn(journeyWithdrawals, record.journey.id);
   const storyFailures = new Set<string>();
   function checkClaim(path: string, value: string) {
     const sources = factSources(record, path);
@@ -120,7 +122,7 @@ export function checkJourneyAdmission(record: JourneyRecord, now = new Date()) {
     return { id: variant.id, failures, primarySpotId };
   });
 
-  const offeredVariants = storyFailures.size === 0 ? variants.filter(({ failures }) => failures.length === 0) : [];
+  const offeredVariants = !withdrawn && storyFailures.size === 0 ? variants.filter(({ failures }) => failures.length === 0) : [];
   const defaultVariant = offeredVariants.find(({ id }) => id === 'half-day') ?? offeredVariants[0];
-  return { admitted: defaultVariant !== undefined, defaultVariant, offeredVariants, storyFailures: [...storyFailures], variants };
+  return { admitted: defaultVariant !== undefined, withdrawn, defaultVariant, offeredVariants, storyFailures: [...storyFailures], variants };
 }

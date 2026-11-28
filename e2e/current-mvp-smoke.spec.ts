@@ -391,7 +391,7 @@ test('S1-4 makes an admitted Route unavailable when its primary action is invali
   }
 });
 
-function journeyDeepLinks(journey: JourneyPresentation, record?: (typeof JOURNEY_RECORDS)[number]) {
+function journeyDeepLinks(journey: Pick<JourneyPresentation, 'id' | 'routeId' | 'storyId' | 'routeVariants'>, record?: (typeof JOURNEY_RECORDS)[number]) {
   const spots = new Set(journey.routeVariants.flatMap(({ steps }) =>
     steps.flatMap(({ spotId }) => [spotId, selectRouteStop(record, spotId) ?? spotId])));
   return [
@@ -401,6 +401,122 @@ function journeyDeepLinks(journey: JourneyPresentation, record?: (typeof JOURNEY
     ...[...spots].map((id) => `/spot/${id}?candidateId=${journey.id}`),
   ];
 }
+
+test('S4-3 corrects, withdraws and rolls back on the same browser origin', async ({ page }, testInfo) => {
+  test.setTimeout(120_000);
+  const { record, defaultVariant } = admitted!;
+  const variant = record.variants[defaultVariant!.id]!;
+  const arrival = variant.arrival!;
+  const correctedName = {
+    ja: `${arrival.name.ja}（演練用）`,
+    en: `${arrival.name.en} (rehearsal)`,
+    'zh-TW': `${arrival.name['zh-TW']}（演練用）`,
+  };
+  const correction = {
+    ...record,
+    variants: {
+      ...record.variants,
+      [defaultVariant!.id]: {
+        ...variant,
+        arrival: { ...arrival, name: correctedName },
+      },
+    },
+  };
+  const withdrawal = publication.find((candidate) => candidate.admitted && candidate.record !== record)!;
+  const withdrawn = withdrawal.record.journey;
+  const correctedRoute = `/route?candidateId=${record.journey.id}`;
+  const withdrawnRoute = `/route?candidateId=${withdrawn.id}`;
+  const card = (screen: string, id: string) => activeScreen(page, screen).locator(`[data-journey-id="${id}"]`);
+  const saved = card('favorites', withdrawn.id);
+  const arrivalName = activeScreen(page, 'route').locator('.route-info em');
+  const capture = (name: string) => page.screenshot({ path: testInfo.outputPath(`s4-3-${name}-ja.png`), animations: 'disabled' });
+  type Open = (path: string) => Promise<unknown>;
+  let port = 0;
+
+  async function withCandidate(stage: 'correction' | 'withdrawal' | 'rollback', check: (open: Open) => Promise<void>) {
+    const outDir = await mkdtemp(join(tmpdir(), `tmm-s4-${stage}-`));
+    try {
+      await build({
+        logLevel: 'warn',
+        build: { outDir },
+        plugins: [{
+          name: 's4-test-candidate-data',
+          transform(source, moduleId) {
+            if (stage !== 'rollback' && moduleId.endsWith('/src/data/journey-records/index.ts')) {
+              return `${source}\nJOURNEY_RECORDS[JOURNEY_RECORDS.findIndex(({ journey }) => journey.id === ${JSON.stringify(record.journey.id)})] = ${JSON.stringify(correction)};`;
+            }
+            if (stage !== 'correction' && moduleId.endsWith('/src/data/journey-withdrawals.ts')) {
+              return `export const journeyWithdrawals = ${JSON.stringify({
+                [withdrawn.id]: { recordedAt: '2026-11-27 22:00 JST', reason: 'S4-3 rehearsal' },
+              })};`;
+            }
+          },
+        }],
+      });
+      const server = await preview({ build: { outDir }, preview: { host: '127.0.0.1', port, strictPort: true } });
+      try {
+        const origin = new URL(server.resolvedUrls.local[0]);
+        port = Number(origin.port);
+        await check((path) => page.goto(new URL(path, origin).href));
+      } finally {
+        await server.close();
+      }
+    } finally {
+      await rm(outDir, { recursive: true });
+    }
+  }
+
+  async function checkWithdrawal(open: Open, screenshots: boolean) {
+    await open('/mogu');
+    await expect(card('mogu', record.journey.id)).toBeVisible();
+    await expect(card('mogu', withdrawn.id)).toHaveCount(0);
+    if (screenshots) await capture('withdrawal-mogu');
+    const paths = journeyDeepLinks(withdrawn, withdrawal.record);
+    for (const path of paths) {
+      await open(path);
+      await expect(activeScreen(page, 'journey-unavailable').getByRole('heading'), path)
+        .toHaveText(strings.ja.journeyUnavailableTitle);
+      if (screenshots && path === paths[0]) await capture('withdrawal-link');
+    }
+    await open('/my-route');
+    await expect(saved).toContainText('現在ご覧いただけません');
+    await expect(saved.getByRole('button')).toHaveText('食旅の保存を解除');
+    if (screenshots) await capture('withdrawal-save');
+  }
+
+  await page.clock.setFixedTime(publicationDate);
+  await page.goto(correctedRoute);
+  await expect(arrivalName).toHaveText(arrival.name.ja);
+
+  await withCandidate('correction', async (open) => {
+    await open(correctedRoute);
+    await expect(arrivalName).toHaveText(correctedName.ja);
+    await arrivalName.scrollIntoViewIfNeeded();
+    await capture('correction');
+    await open('/mogu');
+    await expect(card('mogu', withdrawn.id)).toBeVisible();
+    await open(`/story/${withdrawn.storyId}`);
+    await expect(activeScreen(page, 'story')).toBeVisible();
+    await open(`/spot/${withdrawal.defaultVariant!.primarySpotId}?candidateId=${withdrawn.id}`);
+    await expect(activeScreen(page, 'spot')).toBeVisible();
+    await open(withdrawnRoute);
+    await activeScreen(page, 'route').getByRole('button', { name: 'マイルートに保存' }).click();
+    await open('/my-route');
+    await expect(saved.locator('.trip-card-open')).toBeVisible();
+  });
+  await withCandidate('withdrawal', async (open) => {
+    await open(correctedRoute);
+    await expect(arrivalName).toHaveText(correctedName.ja);
+    await checkWithdrawal(open, true);
+  });
+  await withCandidate('rollback', async (open) => {
+    await open(correctedRoute);
+    await expect(arrivalName).toHaveText(arrival.name.ja);
+    await arrivalName.scrollIntoViewIfNeeded();
+    await capture('rollback');
+    await checkWithdrawal(open, false);
+  });
+});
 
 test('S2-7 reconciles MOGU and published links with the admission command', async ({ page, context }, testInfo) => {
   test.setTimeout(180_000);
