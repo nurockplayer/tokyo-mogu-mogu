@@ -403,7 +403,19 @@ function journeyDeepLinks(journey: Pick<JourneyPresentation, 'id' | 'routeId' | 
   ];
 }
 
-test('S4-3 corrects, withdraws and rolls back on the same browser origin', async ({ page }, testInfo) => {
+// Give the release builds a fresh worker after smoke cases that build in process.
+const releaseTest = test.extend<Record<never, never>, { rehearsal: string }>({
+  rehearsal: [async ({ browserName }, use) => {
+    const directory = await mkdtemp(join(tmpdir(), `tmm-s4-${browserName}-`));
+    try {
+      await use(directory);
+    } finally {
+      await rm(directory, { recursive: true });
+    }
+  }, { scope: 'worker' }],
+});
+
+releaseTest('S4-3 corrects, withdraws and rolls back on the same browser origin', async ({ page, rehearsal }, testInfo) => {
   test.setTimeout(240_000);
   const previousRelease = '8b09eff134ace8dc58227a3ab0c5a189a80bf37e';
   const gate = 'src/data/journey-admission.ts';
@@ -469,66 +481,61 @@ test('S4-3 corrects, withdraws and rolls back on the same browser origin', async
   await page.goto(correctedRoute);
   await expect(arrivalName).toHaveText(arrival.name.ja);
 
-  const rehearsal = await mkdtemp(join(tmpdir(), 'tmm-s4-'));
   const candidate = join(rehearsal, 'candidate');
   const rollback = join(rehearsal, 'rollback');
-  try {
-    // Fetch the named release even in runners that copy the source without .git.
-    await run('git', ['init', '--quiet', candidate]);
-    await run('git', ['fetch', '--quiet', '--depth=1', '--no-tags', 'https://github.com/nurockplayer/tokyo-mogu-mogu.git', previousRelease], { cwd: candidate });
-    await run('git', ['checkout', '--quiet', '--detach', previousRelease], { cwd: candidate });
-    await run('pnpm', ['install', '--frozen-lockfile'], { cwd: candidate });
-    await copyFile(gate, join(candidate, gate));
-    await copyFile(registry, join(candidate, registry));
-    await appendFile(join(candidate, 'src/data/journey-records/index.ts'),
-      `\nJOURNEY_RECORDS.find(({ journey }) => journey.id === ${JSON.stringify(record.journey.id)})!.variants[${JSON.stringify(defaultVariant!.id)}]!.arrival!.name = ${JSON.stringify(correctedName)};\n`);
+  // Fetch the named release even in runners that copy the source without .git.
+  await run('git', ['init', '--quiet', candidate]);
+  await run('git', ['fetch', '--quiet', '--depth=1', '--no-tags', 'https://github.com/nurockplayer/tokyo-mogu-mogu.git', previousRelease], { cwd: candidate });
+  await run('git', ['checkout', '--quiet', '--detach', previousRelease], { cwd: candidate });
+  await run('pnpm', ['install', '--frozen-lockfile'], { cwd: candidate });
+  await copyFile(gate, join(candidate, gate));
+  await copyFile(registry, join(candidate, registry));
+  await appendFile(join(candidate, 'src/data/journey-records/index.ts'),
+    `\nJOURNEY_RECORDS.find(({ journey }) => journey.id === ${JSON.stringify(record.journey.id)})!.variants[${JSON.stringify(defaultVariant!.id)}]!.arrival!.name = ${JSON.stringify(correctedName)};\n`);
 
-    await withCandidate(candidate, async (open) => {
-      await open(correctedRoute);
-      await expect(arrivalName).toHaveText(correctedName.ja);
-      await arrivalName.scrollIntoViewIfNeeded();
-      await capture('correction');
-      await open('/mogu');
-      await expect(card('mogu', withdrawn.id)).toBeVisible();
-      await open(`/story/${withdrawn.storyId}`);
-      await expect(activeScreen(page, 'story')).toBeVisible();
-      await open(`/spot/${withdrawal.defaultVariant!.primarySpotId}?candidateId=${withdrawn.id}`);
-      await expect(activeScreen(page, 'spot')).toBeVisible();
-      await open(withdrawnRoute);
-      await activeScreen(page, 'route').getByRole('button', { name: 'マイルートに保存' }).click();
-      await open('/my-route');
-      await expect(saved.locator('.trip-card-open')).toBeVisible();
-    });
+  await withCandidate(candidate, async (open) => {
+    await open(correctedRoute);
+    await expect(arrivalName).toHaveText(correctedName.ja);
+    await arrivalName.scrollIntoViewIfNeeded();
+    await capture('correction');
+    await open('/mogu');
+    await expect(card('mogu', withdrawn.id)).toBeVisible();
+    await open(`/story/${withdrawn.storyId}`);
+    await expect(activeScreen(page, 'story')).toBeVisible();
+    await open(`/spot/${withdrawal.defaultVariant!.primarySpotId}?candidateId=${withdrawn.id}`);
+    await expect(activeScreen(page, 'spot')).toBeVisible();
+    await open(withdrawnRoute);
+    await activeScreen(page, 'route').getByRole('button', { name: 'マイルートに保存' }).click();
+    await open('/my-route');
+    await expect(saved.locator('.trip-card-open')).toBeVisible();
+  });
 
-    await appendFile(join(candidate, registry), `\nObject.assign(journeyWithdrawals, ${JSON.stringify({
-      [withdrawn.id]: { recordedAt: '2026-11-27 22:00 JST', reason: 'S4-3 rehearsal' },
-    })});\n`);
-    await checkAdmissionReport(candidate, 'withdrawal');
-    await withCandidate(candidate, async (open) => {
-      await open(correctedRoute);
-      await expect(arrivalName).toHaveText(correctedName.ja);
-      await checkWithdrawal(open, true);
-    });
+  await appendFile(join(candidate, registry), `\nObject.assign(journeyWithdrawals, ${JSON.stringify({
+    [withdrawn.id]: { recordedAt: '2026-11-27 22:00 JST', reason: 'S4-3 rehearsal' },
+  })});\n`);
+  await checkAdmissionReport(candidate, 'withdrawal');
+  await withCandidate(candidate, async (open) => {
+    await open(correctedRoute);
+    await expect(arrivalName).toHaveText(correctedName.ja);
+    await checkWithdrawal(open, true);
+  });
 
-    await run('git', ['worktree', 'add', '--quiet', '--detach', rollback, previousRelease], { cwd: candidate });
-    await copyFile(join(candidate, gate), join(rollback, gate));
-    await copyFile(join(candidate, registry), join(rollback, registry));
-    await symlink(join(candidate, 'node_modules'), join(rollback, 'node_modules'), 'dir');
-    await checkAdmissionReport(rollback, 'rollback');
-    await withCandidate(rollback, async (open) => {
-      await open(correctedRoute);
-      await expect(arrivalName).toHaveText(arrival.name.ja);
-      await arrivalName.scrollIntoViewIfNeeded();
-      await capture('rollback');
-      await checkWithdrawal(open, false);
-      await saved.getByRole('button', { name: '食旅の保存を解除' }).click();
-      await page.reload();
-      await expect(saved).toHaveCount(0);
-      await capture('rollback-save-removed');
-    });
-  } finally {
-    await rm(rehearsal, { recursive: true });
-  }
+  await run('git', ['worktree', 'add', '--quiet', '--detach', rollback, previousRelease], { cwd: candidate });
+  await copyFile(join(candidate, gate), join(rollback, gate));
+  await copyFile(join(candidate, registry), join(rollback, registry));
+  await symlink(join(candidate, 'node_modules'), join(rollback, 'node_modules'), 'dir');
+  await checkAdmissionReport(rollback, 'rollback');
+  await withCandidate(rollback, async (open) => {
+    await open(correctedRoute);
+    await expect(arrivalName).toHaveText(arrival.name.ja);
+    await arrivalName.scrollIntoViewIfNeeded();
+    await capture('rollback');
+    await checkWithdrawal(open, false);
+    await saved.getByRole('button', { name: '食旅の保存を解除' }).click();
+    await page.reload();
+    await expect(saved).toHaveCount(0);
+    await capture('rollback-save-removed');
+  });
 });
 
 test('S2-7 reconciles MOGU and published links with the admission command', async ({ page, context }, testInfo) => {
