@@ -582,29 +582,29 @@ test('S2-7 reconciles MOGU and published links with the admission command', asyn
   console.log(`S2-7 checked ${admittedIds.length} admitted Stories and ${statuses.size - admittedIds.length} excluded journeys.`);
 });
 
-test('S2-7 demo fixture deep links show Journey Unavailable', async ({ page }, testInfo) => {
-  test.setTimeout(180_000);
-  await blockRemoteFonts(page);
-  const loader = await createServer({
-    configFile: false,
-    server: { middlewareMode: true, watch: null, ws: false },
-  });
-  let demoJourneys: JourneyPresentation[];
-  try {
-    ({ demoJourneys } = await loader.ssrLoadModule('/src/features/netlify-parity/factual-presentation.ts'));
-  } finally {
-    await loader.close();
-  }
-  const unavailable = activeScreen(page, 'journey-unavailable');
-  await page.goto('/mogu');
-  const browse = activeScreen(page, 'mogu');
-  await expect(browse).toBeVisible();
-  for (const demo of demoJourneys) {
-    await expect(browse.locator(`[data-journey-id="${demo.id}"]`)).toHaveCount(0);
-  }
+for (const locale of ['ja', 'en', 'zh-TW'] as const) {
+  test(`S2-7 demo fixture deep links show Journey Unavailable in ${locale}`, async ({ page }, testInfo) => {
+    test.setTimeout(180_000);
+    await blockRemoteFonts(page);
+    const loader = await createServer({
+      configFile: false,
+      server: { middlewareMode: true, watch: null, ws: false },
+    });
+    let demoJourneys: JourneyPresentation[];
+    try {
+      ({ demoJourneys } = await loader.ssrLoadModule('/src/features/netlify-parity/factual-presentation.ts'));
+    } finally {
+      await loader.close();
+    }
+    const unavailable = activeScreen(page, 'journey-unavailable');
+    await page.goto('/mogu');
+    const browse = activeScreen(page, 'mogu');
+    await expect(browse).toBeVisible();
+    for (const demo of demoJourneys) {
+      await expect(browse.locator(`[data-journey-id="${demo.id}"]`)).toHaveCount(0);
+    }
 
-  const paths = ['/story', '/route', ...demoJourneys.flatMap((demo) => journeyDeepLinks(demo))];
-  for (const locale of ['ja', 'en', 'zh-TW'] as const) {
+    const paths = ['/story', '/route', ...demoJourneys.flatMap((demo) => journeyDeepLinks(demo))];
     await page.evaluate((value) => localStorage.setItem('tmm:locale', value), locale);
     for (const path of paths) {
       await page.goto(path, { waitUntil: 'commit' });
@@ -625,9 +625,8 @@ test('S2-7 demo fixture deep links show Journey Unavailable', async ({ page }, t
     await expect(unavailable.getByRole('heading')).toHaveText(strings[locale].journeyUnavailableTitle);
     await unavailable.getByRole('link', { name: strings[locale].journeyUnavailableBack }).click();
     await expect(activeScreen(page, 'mogu')).toBeVisible();
-  }
-  console.log(`S2-7 checked ${paths.length - 2} demo deep links and both bare Story/Route paths in ja, en, and zh-TW.`);
-});
+  });
+}
 
 test('S2-10 adding a data record alone adds a MOGU card', async ({ page }, testInfo) => {
   test.setTimeout(120_000);
