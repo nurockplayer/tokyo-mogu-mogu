@@ -113,7 +113,7 @@ const deniedIds = new Set([
   ...demoJourneys.flatMap(identities), ...Object.keys(demoSpots),
 ].filter((id) => !admittedAliases.has(id) && !admittedSpots.has(id)));
 const deniedText = new Set(strings([excluded, demoJourneys, demoSpots, demoData])
-  .map(normalize).filter((value) => value.length >= 12 && /\s|[^\x00-\x7f]/.test(value) && !shared.has(value)));
+  .map(normalize).filter((value) => value.length >= 12 && /\s|\P{ASCII}/u.test(value) && !shared.has(value)));
 function markerPattern(markers: Set<string>) {
   const alternatives = [...markers].sort((a, b) => b.length - a.length).map(escapeRegex);
   return new RegExp(`(?<![\\p{L}\\p{N}_-])(?:${alternatives.join('|') || '(?!)'})(?![\\p{L}\\p{N}_-])`, 'gu');
