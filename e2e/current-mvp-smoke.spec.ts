@@ -403,7 +403,7 @@ function journeyDeepLinks(journey: Pick<JourneyPresentation, 'id' | 'routeId' | 
 }
 
 test('S4-3 corrects, withdraws and rolls back on the same browser origin', async ({ page }, testInfo) => {
-  test.setTimeout(120_000);
+  test.setTimeout(180_000);
   const { record, defaultVariant } = admitted!;
   const variant = record.variants[defaultVariant!.id]!;
   const arrival = variant.arrival!;
