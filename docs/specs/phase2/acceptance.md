@@ -1,6 +1,6 @@
 # Phase 2 acceptance
 
-**31 / 37 passed**
+**32 / 37 passed**
 
 | ID | Stage / issue | Case | How to check | Status | Evidence link |
 | --- | --- | --- | --- | --- | --- |
@@ -38,7 +38,7 @@
 | S3-6 | S3 / backlog S3 | A share opens the same itinerary in a clean browser without traveller data in the URL. | Open a share link in a clean browser and inspect the URL and itinerary. | pass | Playwright matched the journey, half-day variant and ordered stops in a new empty context at 375px. The shared URL contained only the journey and variant IDs. [Shared itinerary](evidence/s3/s3-6-shared-itinerary-ja.png) |
 | S3-7 | S3 / backlog S3 | Cancel or fail a share and recover via a selectable link. | In the running product, cancel or fail sharing and use its selectable link. | pass | Playwright exercised both native share outcomes and copied the selected URL at 375px. [Share recovery](evidence/s3/s3-7-share-recovery-ja.png) |
 | S4-1 | S4 / backlog S4 | Lead completes representative admitted trips in every locale and checks blocked persistence, wrong IDs, missing actions, narrow/wide layout, keyboard, screen reader and reduced motion. | Exercise representative trips in the running release candidate across locales and listed conditions. | not yet | |
-| S4-2 | S4 / backlog S4 | Compare public contents to the admission report. | Build the public bundle and run `pnpm data:release-artifact`. | not yet | [Artifact and coverage report](release-artifact-report.md). The app bundle still contains excluded Stage C records and both Okutama demo fixtures, including copy and media. |
+| S4-2 | S4 / backlog S4 | Compare public contents to the admission report. | Build the public bundle and run `pnpm data:release-artifact`. | pass | The checker found all 251 admitted journeys and no excluded or demo content in 25 public files. All 42 hosted smoke cases passed. [Artifact and coverage report](release-artifact-report.md) |
 | S4-3 | S4 / backlog S4 | Demonstrate a data-only correction, urgent withdrawal and rollback without restoring withdrawn material. | Demonstrate the correction, withdrawal, and rollback using the release operating path. | not yet | |
 | S4-4 | S4 / backlog S4 | After promotion by the lead, check the catalog and an admitted deep link at the release URL. | After lead promotion, open the release URL's catalog and an admitted deep link. | not yet | |
 

@@ -1,16 +1,14 @@
 # S4-2 public release artifact
 
-**Not yet.** The public Vite build checked on 2026-11-28 at 09:26 JST contained all **251 admitted journey IDs** out of 254 reviewed Stage C records. It also shipped excluded and demo content. The checker exited 1 after inspecting 124 files.
+**Pass.** On 2026-11-28 JST at commit `23ae0ea`, the checker exited 0 after inspecting all 25 files in `dist/`. It found all **251 admitted journey IDs** out of 254 reviewed Stage C records and reported no excluded journey IDs. All 42 hosted smoke cases passed on the same commit. [Hosted smoke results](https://github.com/nurockplayer/tokyo-mogu-mogu/actions/runs/46095208738/job/140825517323)
 
 | Evidence in `dist/` | Finding |
 | --- | --- |
-| `assets/app-*.js` | Excluded Stage C records `b02-ome-konnyaku`, `b13-ogasawara-rum`, and `b13-ogasawara-craft-beer`. The same bundle includes both Okutama demo journeys, their route and Spot identities, and localized fixture copy such as “奥多摩わさびは、どんな味？”. |
-| Lazy JS and images | Okutama fixture identities appear in Story, Route and Spot chunks. The fieldwork chunk includes Okutama-tourism-office photo captions. Emitted fixture images include `akabeko_yamame-*.jpg`, `annaijo-*.jpg`, and the sample earned badge. |
-| Editorial review | The Data Review Board now builds to `dist-data-review/`. Its HTML entry is present there and absent from `dist/`. |
-| Route fallback | The public Route back fallback now points to MOGU. The previous fallback was a literal demo Story URL. |
-| Static data and sitemap | This build emitted no standalone JSON catalog or sitemap. The excluded data was embedded in executable JS. |
+| Catalog and aliases | The build uses the admitted catalog. The checker found zero excluded or demo identities, copy, or aliases. |
+| Media and data files | Every emitted image matched admitted media with rights evidence or a known UI asset. The build emitted no standalone JSON catalog or sitemap. |
+| Editorial review | The internal Data Review Board and demo preview build separately to `dist-data-review/`. |
 
-Publication filtering currently runs after the browser downloads the catalog. The app also imports demo data and media through its public presentation and legacy routes. Clearing the remaining leak requires separating the admitted build inputs from those dependencies and resolving the standalone demo Spot behavior covered by S2-7.
+The local focused smoke run lost the S1-4 worker to `SIGKILL` and the S2-10 browser page crashed. The hosted smoke run passed both cases.
 
 ## D5 coverage
 
