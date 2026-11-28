@@ -30,6 +30,8 @@ At `/food-profile` in Japanese, Tab focused 「はじめる！」. Computer Use 
 
 VoiceOver wording and active voices remain unverified for ja, en and zh-TW. Rerun all three trips above in a macOS session that can send VoiceOver commands and capture the caption panel. The attempted control sequence did not establish a product defect.
 
+The follow-up at 20:47 JST on 2026-11-28 loaded the same page in an agent-owned Ego Lite space. After the candidate gained focus, `sky.press_key({app: 'com.citrolabs.ego.lite', key: 'Tab'})` returned `The user changed '/Applications/ego lite.app'. Re-query the latest state with \`get_app_state\` before sending more actions.` Keyboard input stopped there. The native Screenshot UI was tried separately. `sky.get_app_state({app: 'com.apple.screenshot.launcher', disableDiff: true})` returned `Computer Use server error -10005: timeoutReached`. These Computer Use calls return tool errors without process exit codes. VoiceOver Utility's Panels and Menus tab confirmed the caption preference was on, but exposed no live announcements.
+
 ## Automated evidence
 
 All six locale and viewport walkthroughs passed with keyboard input, reduced motion, no horizontal overflow, and zero serious or critical axe findings. The recovery test passed for blocked writes, wrong IDs and the missing optional action.
