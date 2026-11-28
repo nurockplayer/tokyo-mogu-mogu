@@ -1,4 +1,5 @@
 import { findFact, selectRouteStop, type JourneyRecord } from './journey-record';
+import { journeyWithdrawals } from './journey-withdrawals';
 import type { DataSource } from './model';
 
 const locales = ['ja', 'en', 'zh-TW'] as const;
@@ -52,6 +53,7 @@ export function resolveJourneyVisitorSource(record: JourneyRecord, spotId: strin
 
 export function checkJourneyAdmission(record: JourneyRecord, now = new Date()) {
   const storyFailures = new Set<string>();
+  if (Object.hasOwn(journeyWithdrawals, record.journey.id)) storyFailures.add('withdrawn');
   function checkClaim(path: string, value: string) {
     const sources = factSources(record, path);
     if (!value.trim() || sources.length === 0 || sources.some((source) =>

@@ -1,8 +1,9 @@
 import { expect, test, type BrowserContext, type Page } from '@playwright/test';
-import { execFileSync } from 'node:child_process';
-import { mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { execFile, execFileSync } from 'node:child_process';
+import { appendFile, copyFile, mkdtemp, rename, rm, symlink, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { promisify } from 'node:util';
 import { build, createServer, preview } from 'vite';
 import { checkJourneyAdmission, resolveJourneyVisitorSource } from '../src/data/journey-admission';
 import { selectRouteStop } from '../src/data/journey-record';
@@ -391,7 +392,7 @@ test('S1-4 makes an admitted Route unavailable when its primary action is invali
   }
 });
 
-function journeyDeepLinks(journey: JourneyPresentation, record?: (typeof JOURNEY_RECORDS)[number]) {
+function journeyDeepLinks(journey: Pick<JourneyPresentation, 'id' | 'routeId' | 'storyId' | 'routeVariants'>, record?: (typeof JOURNEY_RECORDS)[number]) {
   const spots = new Set(journey.routeVariants.flatMap(({ steps }) =>
     steps.flatMap(({ spotId }) => [spotId, selectRouteStop(record, spotId) ?? spotId])));
   return [
@@ -401,6 +402,167 @@ function journeyDeepLinks(journey: JourneyPresentation, record?: (typeof JOURNEY
     ...[...spots].map((id) => `/spot/${id}?candidateId=${journey.id}`),
   ];
 }
+
+// Give the release builds a fresh worker after smoke cases that build in process.
+const releaseTest = test.extend<Record<never, never>, { rehearsal: string }>({
+  rehearsal: [async ({ browserName }, use) => {
+    const directory = await mkdtemp(join(tmpdir(), `tmm-s4-${browserName}-`));
+    try {
+      await use(directory);
+    } finally {
+      await rm(directory, { recursive: true });
+    }
+  }, { scope: 'worker' }],
+});
+
+releaseTest('S4-3 corrects, withdraws and rolls back on the same browser origin', async ({ playwright, rehearsal }, testInfo) => {
+  test.setTimeout(240_000);
+  const previousRelease = '7fab3deac861cf0e976cd54c7acaa971c7e95df1';
+  const registry = 'src/data/journey-withdrawals.ts';
+  const withdrawalFiles = ['src/data/journey-admission.ts', registry, 'vite.config.ts'];
+  const run = promisify(execFile);
+  const { record, defaultVariant } = admitted!;
+  const variant = record.variants[defaultVariant!.id]!;
+  const arrival = variant.arrival!;
+  const correctedName = {
+    ja: `${arrival.name.ja}（演練用）`,
+    en: `${arrival.name.en} (rehearsal)`,
+    'zh-TW': `${arrival.name['zh-TW']}（演練用）`,
+  };
+  const withdrawal = publication.find((candidate) => candidate.admitted && candidate.record !== record)!;
+  const withdrawn = withdrawal.record.journey;
+  const correctedRoute = `/route?candidateId=${record.journey.id}`;
+  const withdrawnRoute = `/route?candidateId=${withdrawn.id}`;
+
+  async function buildCandidate(source: string, stage: 'correction' | 'withdrawal' | 'rollback') {
+    await run('pnpm', ['build:bundle', '--logLevel', 'warn'], { cwd: source });
+    if (stage !== 'correction') {
+      const { stdout } = await run('pnpm', ['data:release-artifact'], { cwd: source });
+      await writeFile(testInfo.outputPath(`s4-3-${stage}-artifact.txt`), stdout);
+    }
+  }
+
+  async function checkAdmissionReport(source: string, stage: 'withdrawal' | 'rollback') {
+    const { stdout } = await run('pnpm', ['data:journey-admission'], { cwd: source });
+    await writeFile(testInfo.outputPath(`s4-3-${stage}-admission.txt`), stdout);
+    const entry = stdout.split('\n').find((line) => line.startsWith(`${withdrawn.id} `));
+    expect(entry, stage).toContain(`${withdrawn.id} excluded — withdrawn`);
+  }
+
+  const candidate = join(rehearsal, 'candidate');
+  const rollback = join(rehearsal, 'rollback');
+  // Fetch the named release even in runners that copy the source without .git.
+  await run('git', ['init', '--quiet', candidate]);
+  await run('git', ['fetch', '--quiet', '--depth=1', '--no-tags', 'https://github.com/nurockplayer/tokyo-mogu-mogu.git', previousRelease], { cwd: candidate });
+  await run('git', ['checkout', '--quiet', '--detach', previousRelease], { cwd: candidate });
+  await run('pnpm', ['install', '--frozen-lockfile'], { cwd: candidate });
+  for (const file of withdrawalFiles) await copyFile(file, join(candidate, file));
+  await appendFile(join(candidate, 'src/data/journey-records/index.ts'),
+    `\nJOURNEY_RECORDS.find(({ journey }) => journey.id === ${JSON.stringify(record.journey.id)})!.variants[${JSON.stringify(defaultVariant!.id)}]!.arrival!.name = ${JSON.stringify(correctedName)};\n`);
+
+  // Prepare the artifacts before launching Chromium on the memory-limited runner.
+  await buildCandidate(candidate, 'correction');
+  await rename(join(candidate, 'dist'), join(candidate, 'dist-correction'));
+
+  await appendFile(join(candidate, registry), `\nObject.assign(journeyWithdrawals, ${JSON.stringify({
+    [withdrawn.id]: { recordedAt: '2026-11-27 22:00 JST', reason: 'S4-3 rehearsal' },
+  })});\n`);
+  await checkAdmissionReport(candidate, 'withdrawal');
+  await buildCandidate(candidate, 'withdrawal');
+
+  await run('git', ['worktree', 'add', '--quiet', '--detach', rollback, previousRelease], { cwd: candidate });
+  for (const file of withdrawalFiles) await copyFile(join(candidate, file), join(rollback, file));
+  await symlink(join(candidate, 'node_modules'), join(rollback, 'node_modules'), 'dir');
+  await checkAdmissionReport(rollback, 'rollback');
+  await buildCandidate(rollback, 'rollback');
+
+  const { baseURL, locale, viewport, launchOptions } = testInfo.project.use;
+  const browser = await playwright.chromium.launch(launchOptions);
+  try {
+    const page = await browser.newPage({ baseURL, locale, viewport });
+    const card = (screen: string, id: string) => activeScreen(page, screen).locator(`[data-journey-id="${id}"]`);
+    const saved = card('favorites', withdrawn.id);
+    const arrivalName = activeScreen(page, 'route').locator('.route-info em');
+    const capture = (name: string) => page.screenshot({ path: testInfo.outputPath(`s4-3-${name}-ja.png`), animations: 'disabled' });
+    type Open = (path: string) => Promise<unknown>;
+    let port = 0;
+
+    async function withCandidate(source: string, outDir: string, check: (open: Open) => Promise<void>) {
+      const server = await preview({
+        root: source,
+        configFile: false,
+        build: { outDir },
+        preview: { host: '127.0.0.1', port, strictPort: true },
+      });
+      try {
+        const origin = new URL(server.resolvedUrls.local[0]);
+        port = Number(origin.port);
+        await check((path) => page.goto(new URL(path, origin).href));
+      } finally {
+        await server.close();
+      }
+    }
+
+    async function checkWithdrawal(open: Open, screenshots: boolean) {
+      await open('/mogu');
+      await expect(card('mogu', record.journey.id)).toBeVisible();
+      await expect(card('mogu', withdrawn.id)).toHaveCount(0);
+      if (screenshots) await capture('withdrawal-mogu');
+      const paths = journeyDeepLinks(withdrawn, withdrawal.record);
+      for (const path of paths) {
+        await open(path);
+        await expect(activeScreen(page, 'journey-unavailable').getByRole('heading'), path)
+          .toHaveText(strings.ja.journeyUnavailableTitle);
+        if (screenshots && path === paths[0]) await capture('withdrawal-link');
+      }
+      await open('/my-route');
+      await expect(saved).toContainText('現在ご覧いただけません');
+      await expect(saved.getByRole('button')).toHaveText('食旅の保存を解除');
+      if (screenshots) await capture('withdrawal-save');
+    }
+
+    await page.clock.setFixedTime(publicationDate);
+    await page.goto(correctedRoute);
+    await expect(arrivalName).toHaveText(arrival.name.ja);
+
+    await withCandidate(candidate, 'dist-correction', async (open) => {
+      await open(correctedRoute);
+      await expect(arrivalName).toHaveText(correctedName.ja);
+      await arrivalName.scrollIntoViewIfNeeded();
+      await capture('correction');
+      await open('/mogu');
+      await expect(card('mogu', withdrawn.id)).toBeVisible();
+      await open(`/story/${withdrawn.storyId}`);
+      await expect(activeScreen(page, 'story')).toBeVisible();
+      await open(`/spot/${withdrawal.defaultVariant!.primarySpotId}?candidateId=${withdrawn.id}`);
+      await expect(activeScreen(page, 'spot')).toBeVisible();
+      await open(withdrawnRoute);
+      await activeScreen(page, 'route').getByRole('button', { name: 'マイルートに保存' }).click();
+      await open('/my-route');
+      await expect(saved.locator('.trip-card-open')).toBeVisible();
+    });
+
+    await withCandidate(candidate, 'dist', async (open) => {
+      await open(correctedRoute);
+      await expect(arrivalName).toHaveText(correctedName.ja);
+      await checkWithdrawal(open, true);
+    });
+
+    await withCandidate(rollback, 'dist', async (open) => {
+      await open(correctedRoute);
+      await expect(arrivalName).toHaveText(arrival.name.ja);
+      await arrivalName.scrollIntoViewIfNeeded();
+      await capture('rollback');
+      await checkWithdrawal(open, false);
+      await saved.getByRole('button', { name: '食旅の保存を解除' }).click();
+      await page.reload();
+      await expect(saved).toHaveCount(0);
+      await capture('rollback-save-removed');
+    });
+  } finally {
+    await browser.close();
+  }
+});
 
 test('S2-7 reconciles MOGU and published links with the admission command', async ({ page, context }, testInfo) => {
   test.setTimeout(180_000);
@@ -446,29 +608,29 @@ test('S2-7 reconciles MOGU and published links with the admission command', asyn
   console.log(`S2-7 checked ${admittedIds.length} admitted Stories and ${statuses.size - admittedIds.length} excluded journeys.`);
 });
 
-test('S2-7 demo fixture deep links show Journey Unavailable', async ({ page }, testInfo) => {
-  test.setTimeout(180_000);
-  await blockRemoteFonts(page);
-  const loader = await createServer({
-    configFile: false,
-    server: { middlewareMode: true, watch: null, ws: false },
-  });
-  let demoJourneys: JourneyPresentation[];
-  try {
-    ({ demoJourneys } = await loader.ssrLoadModule('/src/features/netlify-parity/factual-presentation.ts'));
-  } finally {
-    await loader.close();
-  }
-  const unavailable = activeScreen(page, 'journey-unavailable');
-  await page.goto('/mogu');
-  const browse = activeScreen(page, 'mogu');
-  await expect(browse).toBeVisible();
-  for (const demo of demoJourneys) {
-    await expect(browse.locator(`[data-journey-id="${demo.id}"]`)).toHaveCount(0);
-  }
+for (const locale of ['ja', 'en', 'zh-TW'] as const) {
+  test(`S2-7 demo fixture deep links show Journey Unavailable in ${locale}`, async ({ page }, testInfo) => {
+    test.setTimeout(180_000);
+    await blockRemoteFonts(page);
+    const loader = await createServer({
+      configFile: false,
+      server: { middlewareMode: true, watch: null, ws: false },
+    });
+    let demoJourneys: JourneyPresentation[];
+    try {
+      ({ demoJourneys } = await loader.ssrLoadModule('/src/features/netlify-parity/factual-presentation.ts'));
+    } finally {
+      await loader.close();
+    }
+    const unavailable = activeScreen(page, 'journey-unavailable');
+    await page.goto('/mogu');
+    const browse = activeScreen(page, 'mogu');
+    await expect(browse).toBeVisible();
+    for (const demo of demoJourneys) {
+      await expect(browse.locator(`[data-journey-id="${demo.id}"]`)).toHaveCount(0);
+    }
 
-  const paths = ['/story', '/route', ...demoJourneys.flatMap((demo) => journeyDeepLinks(demo))];
-  for (const locale of ['ja', 'en', 'zh-TW'] as const) {
+    const paths = ['/story', '/route', ...demoJourneys.flatMap((demo) => journeyDeepLinks(demo))];
     await page.evaluate((value) => localStorage.setItem('tmm:locale', value), locale);
     for (const path of paths) {
       await page.goto(path, { waitUntil: 'commit' });
@@ -489,9 +651,8 @@ test('S2-7 demo fixture deep links show Journey Unavailable', async ({ page }, t
     await expect(unavailable.getByRole('heading')).toHaveText(strings[locale].journeyUnavailableTitle);
     await unavailable.getByRole('link', { name: strings[locale].journeyUnavailableBack }).click();
     await expect(activeScreen(page, 'mogu')).toBeVisible();
-  }
-  console.log(`S2-7 checked ${paths.length - 2} demo deep links and both bare Story/Route paths in ja, en, and zh-TW.`);
-});
+  });
+}
 
 test('S2-10 adding a data record alone adds a MOGU card', async ({ page }, testInfo) => {
   test.setTimeout(120_000);
