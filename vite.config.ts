@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react';
 import { checkJourneyAdmission } from './src/data/journey-admission';
 import { JOURNEY_RECORDS } from './src/data/journey-records';
 import { referenceAssetFiles, shellAssetIds, type ReferenceAssetId } from './src/features/netlify-parity/reference-asset-files';
+import { strings } from './src/i18n/resources';
 
 function publicCatalog(): Plugin {
   const now = new Date();
@@ -17,12 +18,17 @@ function publicCatalog(): Plugin {
       }
     }
   }
+  const publicStrings = Object.fromEntries(Object.entries(strings).map(([locale, copy]) => [
+    locale,
+    Object.fromEntries(Object.entries(copy).filter(([key]) =>
+      /^(?:journeyUnavailable|spotPhrase|notFound)/.test(key) || key === 'navHome' || key === 'loading')),
+  ]));
 
   return {
     name: 'public-catalog',
     apply: 'build',
     enforce: 'pre',
-    transform(_source, id) {
+    transform(source, id) {
       if (id.endsWith('/src/data/journey-records/index.ts')) {
         return `export const JOURNEY_RECORDS = ${JSON.stringify(records)};`;
       }
@@ -32,6 +38,9 @@ function publicCatalog(): Plugin {
       if (id.endsWith('/src/features/netlify-parity/reference-assets.ts')) {
         const imports = [...assets].map((key) => `import ${key} from ${JSON.stringify(referenceAssetFiles[key])};`);
         return `${imports.join('\n')}\nexport const referenceAssets = { ${[...assets].join(', ')} };`;
+      }
+      if (id.endsWith('/src/i18n/resources.ts')) {
+        return `${source.slice(0, source.indexOf('export const strings ='))}export const strings = ${JSON.stringify(publicStrings)};`;
       }
     },
   };
