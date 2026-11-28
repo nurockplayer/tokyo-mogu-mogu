@@ -81,6 +81,8 @@ test('S3-6 shares the selected itinerary with a clean browser at 375px', async (
     await recipientRoute.locator('[data-spot-id]').first().click();
     await activeScreen(recipient, 'spot').getByRole('button', { name: '戻る', exact: true }).click();
     await expect(halfDay).toHaveAttribute('aria-pressed', 'true');
+    await recipient.reload();
+    await expect(halfDay).toHaveAttribute('aria-pressed', 'true');
     const unavailableVariant = new URL(expected);
     unavailableVariant.searchParams.set('variant', 'unavailable-variant');
     await recipient.goto(unavailableVariant.href);
