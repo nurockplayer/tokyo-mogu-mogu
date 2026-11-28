@@ -1,16 +1,14 @@
 import { useState } from 'react';
 import countStamp from '../../../assets/figma-296/badge-count-stamp.svg';
-import earnedBadge from '../../../assets/figma-296/badge-earned.png';
 import emptyBadge from '../../../assets/figma-296/badge-empty.png';
 import nextButton from '../../../assets/figma-296/badge-next.svg';
 import previousButton from '../../../assets/figma-296/badge-prev.svg';
-import storeCard from '../../../assets/figma-296/badge-store-card.png';
 import binderGreen from '../../../assets/figma-296/binder-green.svg';
 import binderPage from '../../../assets/figma-296/binder-page.svg';
 import binderRing from '../../../assets/figma-296/binder-ring.svg';
 import binderShadow from '../../../assets/figma-296/binder-shadow.svg';
 import edoTokyoVegetablesBadge from '../../../assets/figma-360/badge-edo-tokyo-vegetables.png';
-import yamameBadge from '../../../assets/figma-360/badge-yamame.png';
+import { earnedBadge, storeCard, yamameBadge } from './demo-badge-assets';
 import type { Locale } from '../../../i18n';
 import { Issue296Header } from '../components/Issue296Header';
 

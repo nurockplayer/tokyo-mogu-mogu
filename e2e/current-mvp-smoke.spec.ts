@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type BrowserContext, type Page } from '@playwright/test';
 import { execFileSync } from 'node:child_process';
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -14,6 +14,10 @@ import { spotPhraseStaffNotice, strings } from '../src/i18n/resources';
 const demoTest = test.extend({
   baseURL: `http://127.0.0.1:${Number(process.env.PLAYWRIGHT_PORT ?? '4173') + 1}`,
 });
+
+function stubRemoteFonts(context: BrowserContext) {
+  return context.route(/^https:\/\/fonts\.(?:googleapis|gstatic)\.com\//, (route) => route.abort());
+}
 
 const publicationDate = new Date('2026-11-27T13:00:00Z');
 const publication = JOURNEY_RECORDS.map((record) => ({
@@ -240,6 +244,7 @@ for (const [locale, viewRoute, unavailable, backToMogu] of [
   });
 
   test(`S2-6 follows representative admitted trips in ${locale}`, async ({ page, context }, testInfo) => {
+    await stubRemoteFonts(context);
     expect([...representativeJourneys.keys()].sort()).toEqual(
       [...new Set(MUNICIPALITIES.map(({ group }) => group))].sort(),
     );
@@ -268,7 +273,7 @@ for (const [locale, viewRoute, unavailable, backToMogu] of [
         await expect(link).toHaveAttribute('href', source.url);
         await link.scrollIntoViewIfNeeded();
         await page.screenshot({ path: testInfo.outputPath(`s2-official-${group}-${locale}.png`) });
-        await context.route(source.url, (request) => request.fulfill({ body: 'Official visitor information' }));
+        await context.route(source.url.split('#')[0], (request) => request.fulfill({ body: 'Official visitor information' }));
         const popupPromise = page.waitForEvent('popup');
         await link.click();
         const popup = await popupPromise;
@@ -383,8 +388,9 @@ function journeyDeepLinks(journey: JourneyPresentation, record?: (typeof JOURNEY
   ];
 }
 
-test('S2-7 reconciles MOGU and published links with the admission command', async ({ page }, testInfo) => {
+test('S2-7 reconciles MOGU and published links with the admission command', async ({ page, context }, testInfo) => {
   test.setTimeout(180_000);
+  await stubRemoteFonts(context);
   const now = new Date();
   const report = execFileSync('pnpm', ['data:journey-admission'], { encoding: 'utf8' });
   const statuses = new Map(Array.from(report.matchAll(/^(\S+) (admitted|excluded)(?: — .*)?$/gm),
@@ -392,13 +398,14 @@ test('S2-7 reconciles MOGU and published links with the admission command', asyn
   expect([...statuses.keys()].sort()).toEqual(JOURNEY_RECORDS.map(({ journey }) => journey.id).sort());
   const admittedIds = [...statuses].filter(([, status]) => status === 'admitted').map(([id]) => id);
   await page.clock.setFixedTime(now);
-  await page.goto('/mogu');
+  await page.goto('/mogu', { waitUntil: 'domcontentloaded' });
   const cards = activeScreen(page, 'mogu').locator('[data-journey-id]');
-  await expect.poll(() => cards.evaluateAll((items) =>
+  await expect(cards).toHaveCount(admittedIds.length, { timeout: 15_000 });
+  expect(await cards.evaluateAll((items) =>
     items.map((card) => card.getAttribute('data-journey-id')).sort())).toEqual(admittedIds.sort());
   await page.screenshot({ path: testInfo.outputPath('s2-admission-browse-ja.png') });
   await page.route('**/*', (route) =>
-    ['image', 'font'].includes(route.request().resourceType()) ? route.abort() : route.continue());
+    ['image', 'font'].includes(route.request().resourceType()) ? route.abort() : route.fallback());
   let capturedExclusion = false;
   for (const record of JOURNEY_RECORDS) {
     const { journey } = record;
@@ -425,8 +432,9 @@ test('S2-7 reconciles MOGU and published links with the admission command', asyn
   console.log(`S2-7 checked ${admittedIds.length} admitted Stories and ${statuses.size - admittedIds.length} excluded journeys.`);
 });
 
-test('S2-7 demo fixture deep links show Journey Unavailable', async ({ page }, testInfo) => {
-  test.setTimeout(90_000);
+test('S2-7 demo fixture deep links show Journey Unavailable', async ({ page, context }, testInfo) => {
+  test.setTimeout(180_000);
+  await stubRemoteFonts(context);
   const loader = await createServer({
     configFile: false,
     server: { middlewareMode: true, watch: null, ws: false },
@@ -562,7 +570,8 @@ demoTest('opens canonical Spot information safely with the keyboard', async ({ p
   }
 });
 
-demoTest('keeps an unavailable official destination local with honest feedback in every locale', async ({ page }) => {
+demoTest('keeps an unavailable official destination local with honest feedback in every locale', async ({ page, context }) => {
+  await stubRemoteFonts(context);
   let unavailableSourceInjected = false;
   // Exercise a missing/unsupported source in the internal bundle without a
   // test-only runtime route or a guessed URL in canonical Product data.
@@ -578,9 +587,9 @@ demoTest('keeps an unavailable official destination local with honest feedback i
     ['en', 'An official current-information link is not available for this spot yet.'],
     ['zh-TW', '目前尚未提供此景點的官方最新資訊連結。'],
   ]) {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
     await page.evaluate((value) => localStorage.setItem('tmm:locale', value), locale);
-    await page.goto('/spot/okutama-tourism-office');
+    await page.goto('/spot/okutama-tourism-office', { waitUntil: 'domcontentloaded' });
     expect(unavailableSourceInjected).toBe(true);
     const guide = page.locator('[data-screen="spot"][data-screen-active="true"] .guide-box');
     await expect(guide.getByRole('link')).toHaveCount(0);

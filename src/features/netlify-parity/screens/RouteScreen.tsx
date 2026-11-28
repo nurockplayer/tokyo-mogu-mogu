@@ -56,13 +56,13 @@ const shareLabels: Record<Locale, { link: string; close: string }> = {
   'zh-TW': { link: '複製路線連結', close: '關閉' },
 };
 
-const missionSpotIds = new Set([
+const missionSpotIds = import.meta.env.DEV || import.meta.env.MODE === 'data-review' ? new Set([
   'akabeko',
   'yamashiroya',
   'wasabi-kitchen',
   'hikawa-valley',
   'wasabi-experience',
-]);
+]) : undefined;
 
 const routeGenerationLabel: Record<Locale, [string, string]> = {
   ja: ['あなたにぴったりの', '観光ルートを生成中！'],
@@ -266,7 +266,7 @@ export function RouteScreen({
               factRetrievalNote(record, locale, `spots.${step.spotId}.unavailable`);
             const isStart = position === 0;
             const openSpot = selectedId ? () => onOpenSpot(spot) : undefined;
-            const mission = selectedId && missionSpotIds.has(selectedId);
+            const mission = selectedId && missionSpotIds?.has(selectedId);
             const missionDone = completedMissionSpotIds.includes(spot.id);
             return (
               <div className="tl-step" key={`${step.spotId}-${index}`}>

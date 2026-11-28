@@ -42,6 +42,9 @@ function publicCatalog(): Plugin {
       if (id.endsWith('/src/i18n/resources.ts')) {
         return `${source.slice(0, source.indexOf('export const strings ='))}export const strings = ${JSON.stringify(publicStrings)};`;
       }
+      if (id.endsWith('/src/features/netlify-parity/screens/demo-badge-assets.ts')) {
+        return "export const earnedBadge = '', storeCard = '', yamameBadge = '';";
+      }
     },
   };
 }
