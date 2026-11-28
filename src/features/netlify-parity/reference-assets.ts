@@ -89,4 +89,3 @@ export const referenceAssets: Record<ReferenceAssetId, string> = {
   appleTouchIcon,
   openGraphImage,
 };
-
