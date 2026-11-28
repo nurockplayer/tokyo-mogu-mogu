@@ -1,6 +1,6 @@
 import { expect, test, type BrowserContext, type Page } from '@playwright/test';
 import { execFile, execFileSync } from 'node:child_process';
-import { appendFile, copyFile, mkdtemp, rm, symlink, writeFile } from 'node:fs/promises';
+import { appendFile, copyFile, mkdtemp, rename, rm, symlink, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { promisify } from 'node:util';
@@ -415,7 +415,7 @@ const releaseTest = test.extend<Record<never, never>, { rehearsal: string }>({
   }, { scope: 'worker' }],
 });
 
-releaseTest('S4-3 corrects, withdraws and rolls back on the same browser origin', async ({ page, rehearsal }, testInfo) => {
+releaseTest('S4-3 corrects, withdraws and rolls back on the same browser origin', async ({ playwright, rehearsal }, testInfo) => {
   test.setTimeout(240_000);
   const previousRelease = '7fab3deac861cf0e976cd54c7acaa971c7e95df1';
   const registry = 'src/data/journey-withdrawals.ts';
@@ -433,26 +433,12 @@ releaseTest('S4-3 corrects, withdraws and rolls back on the same browser origin'
   const withdrawn = withdrawal.record.journey;
   const correctedRoute = `/route?candidateId=${record.journey.id}`;
   const withdrawnRoute = `/route?candidateId=${withdrawn.id}`;
-  const card = (screen: string, id: string) => activeScreen(page, screen).locator(`[data-journey-id="${id}"]`);
-  const saved = card('favorites', withdrawn.id);
-  const arrivalName = activeScreen(page, 'route').locator('.route-info em');
-  const capture = (name: string) => page.screenshot({ path: testInfo.outputPath(`s4-3-${name}-ja.png`), animations: 'disabled' });
-  type Open = (path: string) => Promise<unknown>;
-  let port = 0;
 
-  async function withCandidate(source: string, stage: 'correction' | 'withdrawal' | 'rollback', check: (open: Open) => Promise<void>) {
+  async function buildCandidate(source: string, stage: 'correction' | 'withdrawal' | 'rollback') {
     await run('pnpm', ['build:bundle', '--logLevel', 'warn'], { cwd: source });
     if (stage !== 'correction') {
       const { stdout } = await run('pnpm', ['data:release-artifact'], { cwd: source });
       await writeFile(testInfo.outputPath(`s4-3-${stage}-artifact.txt`), stdout);
-    }
-    const server = await preview({ root: source, configFile: false, preview: { host: '127.0.0.1', port, strictPort: true } });
-    try {
-      const origin = new URL(server.resolvedUrls.local[0]);
-      port = Number(origin.port);
-      await check((path) => page.goto(new URL(path, origin).href));
-    } finally {
-      await server.close();
     }
   }
 
@@ -462,28 +448,6 @@ releaseTest('S4-3 corrects, withdraws and rolls back on the same browser origin'
     const entry = stdout.split('\n').find((line) => line.startsWith(`${withdrawn.id} `));
     expect(entry, stage).toContain(`${withdrawn.id} excluded — withdrawn`);
   }
-
-  async function checkWithdrawal(open: Open, screenshots: boolean) {
-    await open('/mogu');
-    await expect(card('mogu', record.journey.id)).toBeVisible();
-    await expect(card('mogu', withdrawn.id)).toHaveCount(0);
-    if (screenshots) await capture('withdrawal-mogu');
-    const paths = journeyDeepLinks(withdrawn, withdrawal.record);
-    for (const path of paths) {
-      await open(path);
-      await expect(activeScreen(page, 'journey-unavailable').getByRole('heading'), path)
-        .toHaveText(strings.ja.journeyUnavailableTitle);
-      if (screenshots && path === paths[0]) await capture('withdrawal-link');
-    }
-    await open('/my-route');
-    await expect(saved).toContainText('現在ご覧いただけません');
-    await expect(saved.getByRole('button')).toHaveText('食旅の保存を解除');
-    if (screenshots) await capture('withdrawal-save');
-  }
-
-  await page.clock.setFixedTime(publicationDate);
-  await page.goto(correctedRoute);
-  await expect(arrivalName).toHaveText(arrival.name.ja);
 
   const candidate = join(rehearsal, 'candidate');
   const rollback = join(rehearsal, 'rollback');
@@ -496,48 +460,108 @@ releaseTest('S4-3 corrects, withdraws and rolls back on the same browser origin'
   await appendFile(join(candidate, 'src/data/journey-records/index.ts'),
     `\nJOURNEY_RECORDS.find(({ journey }) => journey.id === ${JSON.stringify(record.journey.id)})!.variants[${JSON.stringify(defaultVariant!.id)}]!.arrival!.name = ${JSON.stringify(correctedName)};\n`);
 
-  await withCandidate(candidate, 'correction', async (open) => {
-    await open(correctedRoute);
-    await expect(arrivalName).toHaveText(correctedName.ja);
-    await arrivalName.scrollIntoViewIfNeeded();
-    await capture('correction');
-    await open('/mogu');
-    await expect(card('mogu', withdrawn.id)).toBeVisible();
-    await open(`/story/${withdrawn.storyId}`);
-    await expect(activeScreen(page, 'story')).toBeVisible();
-    await open(`/spot/${withdrawal.defaultVariant!.primarySpotId}?candidateId=${withdrawn.id}`);
-    await expect(activeScreen(page, 'spot')).toBeVisible();
-    await open(withdrawnRoute);
-    await activeScreen(page, 'route').getByRole('button', { name: 'マイルートに保存' }).click();
-    await open('/my-route');
-    await expect(saved.locator('.trip-card-open')).toBeVisible();
-  });
+  // Prepare the artifacts before launching Chromium on the memory-limited runner.
+  await buildCandidate(candidate, 'correction');
+  await rename(join(candidate, 'dist'), join(candidate, 'dist-correction'));
 
   await appendFile(join(candidate, registry), `\nObject.assign(journeyWithdrawals, ${JSON.stringify({
     [withdrawn.id]: { recordedAt: '2026-11-27 22:00 JST', reason: 'S4-3 rehearsal' },
   })});\n`);
   await checkAdmissionReport(candidate, 'withdrawal');
-  await withCandidate(candidate, 'withdrawal', async (open) => {
-    await open(correctedRoute);
-    await expect(arrivalName).toHaveText(correctedName.ja);
-    await checkWithdrawal(open, true);
-  });
+  await buildCandidate(candidate, 'withdrawal');
 
   await run('git', ['worktree', 'add', '--quiet', '--detach', rollback, previousRelease], { cwd: candidate });
   for (const file of withdrawalFiles) await copyFile(join(candidate, file), join(rollback, file));
   await symlink(join(candidate, 'node_modules'), join(rollback, 'node_modules'), 'dir');
   await checkAdmissionReport(rollback, 'rollback');
-  await withCandidate(rollback, 'rollback', async (open) => {
-    await open(correctedRoute);
+  await buildCandidate(rollback, 'rollback');
+
+  const { baseURL, locale, viewport, launchOptions } = testInfo.project.use;
+  const browser = await playwright.chromium.launch(launchOptions);
+  try {
+    const page = await browser.newPage({ baseURL, locale, viewport });
+    const card = (screen: string, id: string) => activeScreen(page, screen).locator(`[data-journey-id="${id}"]`);
+    const saved = card('favorites', withdrawn.id);
+    const arrivalName = activeScreen(page, 'route').locator('.route-info em');
+    const capture = (name: string) => page.screenshot({ path: testInfo.outputPath(`s4-3-${name}-ja.png`), animations: 'disabled' });
+    type Open = (path: string) => Promise<unknown>;
+    let port = 0;
+
+    async function withCandidate(source: string, outDir: string, check: (open: Open) => Promise<void>) {
+      const server = await preview({
+        root: source,
+        configFile: false,
+        build: { outDir },
+        preview: { host: '127.0.0.1', port, strictPort: true },
+      });
+      try {
+        const origin = new URL(server.resolvedUrls.local[0]);
+        port = Number(origin.port);
+        await check((path) => page.goto(new URL(path, origin).href));
+      } finally {
+        await server.close();
+      }
+    }
+
+    async function checkWithdrawal(open: Open, screenshots: boolean) {
+      await open('/mogu');
+      await expect(card('mogu', record.journey.id)).toBeVisible();
+      await expect(card('mogu', withdrawn.id)).toHaveCount(0);
+      if (screenshots) await capture('withdrawal-mogu');
+      const paths = journeyDeepLinks(withdrawn, withdrawal.record);
+      for (const path of paths) {
+        await open(path);
+        await expect(activeScreen(page, 'journey-unavailable').getByRole('heading'), path)
+          .toHaveText(strings.ja.journeyUnavailableTitle);
+        if (screenshots && path === paths[0]) await capture('withdrawal-link');
+      }
+      await open('/my-route');
+      await expect(saved).toContainText('現在ご覧いただけません');
+      await expect(saved.getByRole('button')).toHaveText('食旅の保存を解除');
+      if (screenshots) await capture('withdrawal-save');
+    }
+
+    await page.clock.setFixedTime(publicationDate);
+    await page.goto(correctedRoute);
     await expect(arrivalName).toHaveText(arrival.name.ja);
-    await arrivalName.scrollIntoViewIfNeeded();
-    await capture('rollback');
-    await checkWithdrawal(open, false);
-    await saved.getByRole('button', { name: '食旅の保存を解除' }).click();
-    await page.reload();
-    await expect(saved).toHaveCount(0);
-    await capture('rollback-save-removed');
-  });
+
+    await withCandidate(candidate, 'dist-correction', async (open) => {
+      await open(correctedRoute);
+      await expect(arrivalName).toHaveText(correctedName.ja);
+      await arrivalName.scrollIntoViewIfNeeded();
+      await capture('correction');
+      await open('/mogu');
+      await expect(card('mogu', withdrawn.id)).toBeVisible();
+      await open(`/story/${withdrawn.storyId}`);
+      await expect(activeScreen(page, 'story')).toBeVisible();
+      await open(`/spot/${withdrawal.defaultVariant!.primarySpotId}?candidateId=${withdrawn.id}`);
+      await expect(activeScreen(page, 'spot')).toBeVisible();
+      await open(withdrawnRoute);
+      await activeScreen(page, 'route').getByRole('button', { name: 'マイルートに保存' }).click();
+      await open('/my-route');
+      await expect(saved.locator('.trip-card-open')).toBeVisible();
+    });
+
+    await withCandidate(candidate, 'dist', async (open) => {
+      await open(correctedRoute);
+      await expect(arrivalName).toHaveText(correctedName.ja);
+      await checkWithdrawal(open, true);
+    });
+
+    await withCandidate(rollback, 'dist', async (open) => {
+      await open(correctedRoute);
+      await expect(arrivalName).toHaveText(arrival.name.ja);
+      await arrivalName.scrollIntoViewIfNeeded();
+      await capture('rollback');
+      await checkWithdrawal(open, false);
+      await saved.getByRole('button', { name: '食旅の保存を解除' }).click();
+      await page.reload();
+      await expect(saved).toHaveCount(0);
+      await capture('rollback-save-removed');
+    });
+  } finally {
+    await browser.close();
+  }
 });
 
 test('S2-7 reconciles MOGU and published links with the admission command', async ({ page, context }, testInfo) => {
