@@ -75,7 +75,7 @@ export function ReferenceApp({ journeyLocation, unavailableJourney = false }: {
   const [currentJourney, setCurrentJourney] = useState<JourneyPresentation>(() => resultJourneys[0]);
   const [editSessionId, setEditSessionId] = useState(0);
   const [storyBack, setStoryBack] = useState('/explore/result');
-  const [routeBack, setRouteBack] = useState('/story/wasabi-okutama');
+  const [routeBack, setRouteBack] = useState('/mogu');
   const [spotBack, setSpotBack] = useState('/mogu');
   const [saves, setSaves] = useState(loadLocalSaves);
   const [toast, setToast] = useState('');

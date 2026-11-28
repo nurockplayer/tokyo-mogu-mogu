@@ -194,6 +194,7 @@ for (const file of artifactFiles) {
   for (const [, query] of links.matchAll(/(?:^|[\s"'`>])\/(?:route|story|spot)(?:\/[a-z0-9-]+)?\?([^\s"'`<>,)]+)/g)) {
     for (const key of ['candidateId', 'routeId', 'resultId']) {
       for (const id of new URLSearchParams(query).getAll(key)) {
+        if (/\.[cm]?js$/i.test(path) && id.includes('${')) continue;
         if (!admittedAliases.has(id)) flag('Alias outside admission', path, id);
       }
     }
